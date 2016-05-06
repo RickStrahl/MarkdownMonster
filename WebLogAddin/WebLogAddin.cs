@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using FontAwesome.WPF;
 using HtmlAgilityPack;
 using JoeBlogs;
+using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using Westwind.Utilities;
 
@@ -17,6 +18,9 @@ namespace WebLogAddin
     public class WebLogAddin :  MarkdownMonsterAddin, IMarkdownMonsterAddin
     {
         private Post ActivePost { get; set; }
+
+
+
         private bool IsNewPost { get; set; }
 
         public override void OnApplicationStart()
@@ -34,41 +38,77 @@ namespace WebLogAddin
             this.MenuItems.Add(menuItem);
         }
 
-        
         public void WebLogAddin_Execute(object sender)
         {
             var editor = Model.ActiveEditor;
-            if (editor == null)
-                return;
-
             var doc = editor.MarkdownDocument;
 
-            string markdown = editor.GetMarkdown();
+            SendPost(editor,doc);
+        }
 
 
+        public void SendPost(MarkdownDocumentEditor editor, MarkdownDocument doc)
+        {
             ActivePost = new Post()
             {
-                DateCreated = DateTime.Now                                 
+                DateCreated = DateTime.Now
             };
 
+            // start by retrieving the current Markdown from the editor
+            string markdown = editor.GetMarkdown();
 
-            var wrapper = new MetaWeblogWrapper(WeblogApp.Configuration.WeblogApiUrl,
-                WeblogApp.Configuration.WeblogUsername,
-                WeblogApp.Configuration.WeblogPassword);
-
-            // Retrieve Meta data from post
+            // Retrieve Meta data from post and clean up the raw markdown
+            // so we render without the config data
             markdown = GetPostConfigFromMarkdown(markdown);
             doc.RenderHtml(markdown);
             string html = doc.RenderHtml(markdown);
-            ActivePost.Body = SendImages(html,doc.Filename,wrapper);
-            
+
+            // THIS STUFF WILL HAVE TO COME FROM A UI LATER
+            string WebLogName = "Rick Strahl's Weblog";
+
+            var config = WeblogApp.Configuration;
+
+            string url = config.PostsFolder;
+
+            WeblogInfo weblogInfo;
+            if (!config.WebLogs.TryGetValue(WebLogName, out weblogInfo))
+            {
+                MessageBox.Show("Invalid Weblog configuration selected.", "Weblog Posting Failed");
+                return;
+            }
+
+            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                weblogInfo.Username,
+                weblogInfo.Password);
+
+
+            ActivePost.Body = SendImages(html, doc.Filename, wrapper);
+
             if (ActivePost.PostID > 0)
                 wrapper.EditPost(ActivePost, true);
             else
+            {
                 ActivePost.PostID = wrapper.NewPost(ActivePost, true);
-            
-            MessageBox.Show("WebLogAddin Fired and ready to publish this post to your Web log","Markdown Monster",MessageBoxButton.OK,MessageBoxImage.Information);
+                
+                // retrieve the raw editor markdown
+                markdown = editor.GetMarkdown();
+
+                // Update the Post Id into the Markdown
+                if (!markdown.Contains("</postid>"))
+                {
+                    markdown = markdown.Replace("</categories>",
+                        "</categories>\r\n" +
+                        "<postid>" + ActivePost.PostID + "</postid>\r\n");
+                    editor.SetMarkdown(markdown);
+                }
+            }
+            if (!string.IsNullOrEmpty(weblogInfo.PreviewUrl))
+            {
+                url = weblogInfo.PreviewUrl.Replace("{0}", ActivePost.PostID.ToString());
+                ShellUtils.GoUrl(url);
+            }
         }
+    
 
 
         /// <summary>
@@ -146,7 +186,7 @@ namespace WebLogAddin
             string abstact = StringUtils.ExtractString(config, "\n<abstract>", "\n</abstract>").Trim();
             string keywords = StringUtils.ExtractString(config, "\n<keywords>", "\n</keywords>").Trim();
             string categories = StringUtils.ExtractString(config, "\n<keywords>", "\n</keywords>").Trim();
-            string postid = StringUtils.ExtractString(config, "\n<postid>", "\n</postid>").Trim();
+            string postid = StringUtils.ExtractString(config, "\n<postid>", "</postid>").Trim();
 
             ActivePost.Title = title;
             ActivePost.PostID = StringUtils.ParseInt(postid, 0);            

@@ -41,33 +41,24 @@ namespace MarkdownMonster.AddIns
             }
         }
 
-        public void RaiseOnApplicationStart()
-        {
-            foreach (var addin in AddIns)                
-                addin?.OnApplicationStart();
-        }
 
-        public void RaiseOnApplicationShutdown()
-        {
-            foreach (var addin in AddIns)
-                addin?.OnApplicationShutdown();
-        }
 
         private void LoadAddinClasses(string assemblyFile)
         {
 
             Assembly asm = null;
+            Type[] types = null;
             try
             {
                 asm = Assembly.LoadFile(assemblyFile);
+                types = asm.GetTypes();
             }
-            catch
+            catch(Exception ex)
             {
-                // skip over native dlls
+                MessageBox.Show("Unable to load add-in assembly: " + Path.GetFileNameWithoutExtension(assemblyFile));
                 return;
             }
-
-            var types = asm.GetTypes();
+            
             foreach (var type in types)
             {
                 var typeList = type.FindInterfaces(AddinInterfaceFilter, typeof(IMarkdownMonsterAddin));
@@ -144,5 +135,18 @@ namespace MarkdownMonster.AddIns
                 }
             }
         }
+
+        public void RaiseOnApplicationStart()
+        {
+            foreach (var addin in AddIns)
+                addin?.OnApplicationStart();
+        }
+
+        public void RaiseOnApplicationShutdown()
+        {
+            foreach (var addin in AddIns)
+                addin?.OnApplicationShutdown();
+        }
+        
     }
 }
