@@ -1,0 +1,23 @@
+﻿<controls:MetroWindow x:Name="AboutWindow" x:Class="MarkdownMonster.Windows.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Icon="../Assets/MarkdownMonster_Icon_256.png"                     
+        Title="Markdown Monster" 
+        WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
+        WindowStartupLocation="CenterOwner" 
+        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False" 
+                      Background="Black"
+        Width="603.57" Height="508.154">
+    <Canvas Margin="0,0,0,-7" >
+        <Image  Name="SplashImage" Source="../Assets/MarkdownMonster.png" Width="600" Height="441" Canvas.Left="0" Canvas.Top="0"  />
+        <Label x:Name="VersionLabel" Content="Version 1.0" Canvas.Right="10" Canvas.Top="382" FontSize="14" HorizontalAlignment="Right" Foreground="WhiteSmoke"/>
+        <Image Source="../Assets/WestwindText.png" Height="25" Canvas.Left="465" Canvas.Top="435" MouseDown="WestWindIcon_Click" Cursor="Hand" Width="125"/>
+        <Label x:Name="BroughtByLabel" Content="brought to you by:" Canvas.Right="10" Canvas.Top="408" FontSize="12" HorizontalAlignment="Right" Foreground="WhiteSmoke"/>
+    </Canvas>
+</controls:MetroWindow>

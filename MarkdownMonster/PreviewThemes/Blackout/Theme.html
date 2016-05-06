@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0016)http://localhost -->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Mighty Markdown Preview</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link href="{$themePath}..\scripts\bootstrap\css\bootstrap.css" rel="stylesheet" />
+    <link href="{$themePath}Theme.css" rel="stylesheet" />
+<body>
+    <div id="MainContent" >
+        {$markdownHtml}
+    </div>
+    <script src="{$themePath}..\scripts\jquery.min.js"></script>
+    <link href="{$themePath}..\scripts\highlightjs/styles/twilight.css" rel="stylesheet" />
+    <script src="{$themePath}..\scripts\highlightjs/highlight.pack.js"></script>
+<script>
+    
+    $('pre code').each(function (i, block) {
+        hljs.highlightBlock(block);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+﻿<controls:MetroWindow x:Class="MarkdownMonster.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"
+        TitlebarHeight="35"
+        Name="MainApplicationWindow"                      
+        Title="Markdown Monster" TitleCaps="False"         
+        Icon="Assets\MarkdownMonster_Icon_256.png"    
+        GlowBrush="Black"                              
+        ResizeMode="CanResizeWithGrip"
+        Height="720" Width="1000" WindowTransitionsEnabled="False">
+    
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button>
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="Gear" Height="16" Margin="0,6,0,0"/>
+                    <TextBlock Margin="5,4,0,0">settings</TextBlock>
+                </StackPanel>
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
+    <Window.Resources>
+        <ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
+            <MenuItem Header="_Close document" Click="ButtonCloseTab_Click"/>
+            <MenuItem Name="MenuCloseAllButThisTab" Header="Close _All but this document" Click="ButtonCloseAllTabs_Click"/>
+            <Separator/>
+            <MenuItem Name="ContextOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer" />
+            <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
+        </ContextMenu>
+        <ContextMenu x:Key="ContextMenuRecentFiles">
+            <MenuItem Header="Recent Files go here..."/>
+        </ContextMenu>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Menu x:Name="MainMenu" Grid.Row="0" Height="30" 
+              Margin="0"               
+              HorizontalAlignment="Stretch">
+            <MenuItem Header="_File">
+                <MenuItem Name="ButtonNewFile" Header="_New" Click="Button_Handler" InputGestureText="Ctrl-N"/>
+                <MenuItem Name="ButtonOpenFile" Header="_Open" Click="Button_Handler" InputGestureText="Ctrl-O"/>
+                <MenuItem Name="ButtonRecentFiles" Header="Recent documents">
+                    <MenuItem Header="c:\temp\test.md"/>
+                    <MenuItem Header="c:\temp\test2.md"/>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding SaveCommand}" 
+                          InputGestureText="Ctrl+S"/>
+                <MenuItem Name="ButtonSaveAsFile" Header="Save _As" Command="{Binding SaveAsCommand}" 
+                          InputGestureText="Ctrl+Shift+s"/>
+
+                <Separator/>
+                <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <Separator />
+                <MenuItem Header="Paste Markdown from Html" IsEnabled="false" />
+                <MenuItem Header="Copy Markdown from Html" IsEnabled="false" />
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Name="MenuAddins" Header="Add-ins" />
+                <Separator/>
+                <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Name="ButtonHtmlPreview" 
+                          Header="Html _Preview"
+                          IsCheckable="True" 
+                          InputGestureText="Alt-V-P"
+                          IsChecked="{Binding IsPreviewBrowserVisible}"
+                          Command="{Binding PreviewBrowserCommand}" />
+                <MenuItem Header="View in Web _Browser" 
+                          Click="ButtonViewInBrowser_Click" 
+                          InputGestureText="Alt-V-B"/>
+                <Separator />
+                <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   />
+                <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"/>
+                <Separator/>
+                <MenuItem Name="MenuOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer" />
+                <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="Markdown Monster Web Site"  IsEnabled="False"/>
+                <MenuItem Header="Github" IsEnabled="False"/>
+                <MenuItem Header="Report a bug" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="Register Copy" IsEnabled="False"/>
+                <Separator  />
+                <MenuItem Name="ButtonAbout" Header="_About" Click="Button_Handler"/>
+            </MenuItem>
+        </Menu>
+
+        <StackPanel Grid.Row="1">
+            <ToolBarPanel>
+                <ToolBarPanel.Resources>
+                    <Style x:Key="ToolbarIconRectangleStyle" TargetType="Rectangle">
+                        <Style.Setters>
+                            <Setter Property="Height" Value="16" />
+                            <Setter Property="Width" Value="16" />
+                        </Style.Setters>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToolBarPanel.Resources>
+
+
+                <StackPanel Orientation="Horizontal">
+                    <ToolBar>
+
+                        <Button Name="ToolButtonOpenFile" Margin="7,0,0,0" Click="Button_Handler" ToolTip="Open Markdown file (ctrl-o)"                                
+                                fa:Awesome.Content="FolderOpen"
+                                 Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                />
+                        <Button Name="ToolbarButtonRecentFiles" Margin="0,0" Click="Button_Handler" ToolTip="Recent Markdown files"
+                                        fa:Awesome.Content="CaretDown"
+                                        Height="22" Width="14" 
+                                        TextElement.FontSize="11"
+                                        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                                 >
+                            <i:Interaction.Behaviors>
+                                <local:DropDownButtonBehavior   />
+                            </i:Interaction.Behaviors>
+                            <!--<Button.ContextMenu>
+                                <ContextMenu Name="ButtonDropDownRecentFiles" IsEnabled="True" >
+                                </ContextMenu>
+                            </Button.ContextMenu>-->
+                        </Button>
+
+                        <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding SaveCommand}" ToolTip="Save active document (ctrl-s)"                                
+                                fa:Awesome.Content="CheckCircleOutline"
+                                 Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                />
+                    </ToolBar>
+
+
+
+                    <ToolBar FontWeight="Light" >
+                        <Button Name="ButtonBold" Margin="7,0"  ToolTip="Bold (ctrl-b)"                                   
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="bold"                                
+                                fa:Awesome.Content="Bold"
+                                Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+
+                        <Button Name ="ButtonItalic" Margin="7,0" ToolTip="Italic (ctrl-i)" 
+                                
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="italic"
+                                fa:Awesome.Content="Italic" 
+                                Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+                        <Separator />
+                        <Button Name="ButtonQuote" Margin="7,0" ToolTip="Quote text"
+                                Command="{Binding ToolbarInsertMarkdownCommand }"  
+                                CommandParameter="quote"
+                                fa:Awesome.Content="QuoteLeft"
+                                Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                                />
+
+                        <Button Name ="ButtonList" Margin="7,0" ToolTip="Ordered List (ctrl-l)"
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="list"
+                                fa:Awesome.Content="ListUl"                                
+                                 Height="22" Width="22"
+                                TextElement.FontSize="16"                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                                />
+
+                        <Button Name ="ButtonNumberList" Margin="7,0" ToolTip="Ordered List (ctrl-l)"
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="numberlist"
+                                fa:Awesome.Content="ListOl"
+                                 Height="22" Width="22"
+                                TextElement.FontSize="16"                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                                />
+
+                        <Separator />
+
+
+                        <Button Name ="ButtonLink" Margin="7,0"
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="href" 
+                                fa:Awesome.Content="Link"
+                                 Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                />
+                        <Button Name ="ButtonImage" Margin="7,0"
+                                Tag="image"
+                                fa:Awesome.Content="Image"
+                                 Height="22" Width="25"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                />
+
+                        <Button Name ="ButtonCode" Margin="7,0"                                
+                                CommandParameter="code"
+                                fa:Awesome.Content="Code"
+                                Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                />
+                    </ToolBar>
+                    <ToolBar>
+
+                        <ToggleButton Margin="7,0"                                       
+                                 fa:Awesome.Content="Check"
+                                 Height="22" Width="22"
+                                 IsChecked="{Binding Configuration.EditorEnableSpellcheck}"
+                                 ToolTip="enable/disable spell-checking"
+                                 Click="ButtonSpellCheck_Click"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                      />
+
+
+
+                        <ToggleButton Name="ToolButtonPreview"  Margin="7,0" 
+                                      IsChecked="{Binding IsPreviewBrowserVisible}"
+                                      Command="{Binding PreviewBrowserCommand}"
+                                      ToolTip="open/hide the HTML Preview Pane"
+                                 fa:Awesome.Content="Globe"
+                                 Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
+                                      />
+
+                    </ToolBar>
+                    <ToolBar Name="ToolbarAddIns" Visibility="Hidden">
+
+                    </ToolBar>
+                </StackPanel>
+            </ToolBarPanel>
+        </StackPanel>
+
+        <Grid Name="ContentGrid" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="0" />
+                <ColumnDefinition Width="0" />
+            </Grid.ColumnDefinitions>
+
+            <controls:MetroTabControl Grid.Column="0"                    
+                         x:Name="TabControl"                                                               
+                         VerticalAlignment="Stretch"
+                         HorizontalAlignment="Stretch" 
+                         FontSize="10" Margin="0" 
+                         controls:TabControlHelper.IsUnderlined="True"                          
+                         SelectionChanged="TabControl_SelectionChanged"
+                         TabItemClosingEvent="TabControl_TabItemClosing"                                                                                                    
+                         />
+
+            <GridSplitter Grid.Column="1"                          
+                          Width="72"                          
+                          HorizontalAlignment="Center"                          
+                          BorderThickness="0"
+                          VerticalAlignment="Stretch">
+                <GridSplitter.Template>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Grid Background="Transparent">
+                            <Image Source="Assets/vsizegrip.png" Height="30" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </GridSplitter.Template>
+            </GridSplitter>
+
+            <WebBrowser Grid.Column="2" Name="PreviewBrowser"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            </WebBrowser>
+        </Grid>
+
+
+        <StatusBar  Grid.Row ="3" Height="30" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="150" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem>
+                <TextBlock Width="400" Name="StatusText" HorizontalAlignment="Left">Ready</TextBlock>
+            </StatusBarItem>
+            <Separator Grid.Column="1" />
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Width="300" Name="StatusFile" HorizontalAlignment="Right" 
+                           Text="{Binding ActiveDocument.Filename,Mode=OneWay}">
+                </TextBlock>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3">
+                <ComboBox  HorizontalAlignment="Right"  Width="130" ToolTip="Editor themes"
+                           SelectedItem="{Binding Configuration.EditorTheme}"
+                           IsSynchronizedWithCurrentItem="True" 
+                           ItemsSource="{Binding EditorThemeNames}"
+                           Background="Transparent" BorderBrush="Transparent" SelectionChanged="EditorTheme_SelectionChanged" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="4">
+                <ComboBox  HorizontalAlignment="Right"  Width="130" ToolTip="Preview rendering theme"
+                           SelectedItem="{Binding Configuration.RenderTheme}"
+                           IsSynchronizedWithCurrentItem="True" 
+                           ItemsSource="{Binding RenderThemeNames}"
+                           Background="Transparent" BorderBrush="Transparent" SelectionChanged="RenderTheme_SelectionChanged" />
+
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</controls:MetroWindow>

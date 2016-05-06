@@ -1,0 +1,80 @@
+html, body {
+    font-family:'Segoe UI', Geneva,sans-serif;
+    font-size: 15px;
+    height: 100%;    
+    line-height: 1.35em;
+    padding: 5px 20px 5px 10px !important;
+    margin: 0;
+    scrollbar-track-color: Whitesmoke;
+    scrollbar-arrow-color: silver;   
+    scrollbar-base-color: #ddd;
+    scrollbar-face-color: #ddd;
+} 
+
+h1,h2,h3,h4,h5,h6, .byline,.content-title {
+  color: #535353;
+  font-weight: bold;  
+}
+h1 {
+    font-size: 1.8em
+}
+h2 {
+    font-size: 1.5em
+}
+h3 {
+    font-size: 1.3em
+}
+h4 {
+    font-size: 1.1em
+}
+h5, h6 { 
+    font-size: 1em;
+}
+pre {
+    font-family: menlo,consolas,monospace;
+    font-weight: normal;    
+    font-size: 1em;
+    margin: 7px 0;
+    padding: 0;
+    border: 1px solid silver;
+    border-radius: 5px;
+    overflow-x: auto;    
+    max-width: 98%;
+}
+img {
+	max-width: 100%;
+}
+blockquote {
+    font-size: 1em;
+    background: #fcfcfc;
+    color: #777;
+}
+blockquote h3, blockquote h4, blockquote h5 {
+    margin-top: 5px;
+}
+hr{
+    margin: 12px 0;    
+}
+/* hidden display, but still part of document flow */
+.hidden {
+    display: none;
+}
+.hidden-nowidth {
+    width: 0;    
+}
+.visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px; 
+}
+
+@media(min-width: 970px){
+    html,body{
+        font-size: 1.1em;
+    }
+}

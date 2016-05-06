@@ -1,0 +1,93 @@
+/*
+
+Twilight style from Rick Strahl <http://weblog.west-wind.com/>
+based on dark.css by Vladimir Epifanov 
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #252525;
+  color: #E2E2E2;
+  font-weight: normal;  
+  font-size: 1.15em !important;  
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-tag {
+  color: #CDA869;
+}
+
+.hljs-template-tag {
+  color: #dcdcdc;
+}
+
+.hljs-number {
+  color: #CF6A4C;
+}
+
+.hljs-attr {
+  color: cornsilk;
+}
+
+.hljs-variable,
+.hljs-template-variable
+{
+  color: #efdcbc;
+}
+
+.hljs-literal {
+  color: #CF6A4C;
+}
+
+.hljs-subst {
+  color: #8f8f8f;
+}
+
+.hljs-title,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-section,
+.hljs-type {  
+  color:#CDA869;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: #dca3a3;
+}
+
+.hljs-string {
+   color: #8F9D6A;
+}
+
+.hljs-deletion,
+.hljs-builtin-name {
+  color: #cc9393;
+}
+
+.hljs-comment {
+   font-style: italic;
+   color: #888;
+}
+
+.hljs-addition,
+.hljs-quote,
+.hljs-meta {
+  color: #7f9f7f;
+}
+
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}

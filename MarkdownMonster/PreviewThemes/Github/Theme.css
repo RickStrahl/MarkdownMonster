@@ -1,0 +1,96 @@
+html, body {
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 16px;
+    line-height: 1.5;
+
+    height: 100%;    
+    padding: 5px 20px 5px 10px !important;
+    margin: 0;
+    scrollbar-track-color: Whitesmoke;
+    scrollbar-arrow-color: silver;   
+    scrollbar-base-color: #ddd;
+    scrollbar-face-color: #ddd;
+    -ms-overflow-style: -ms-autohiding-scrollbar !important;
+} 
+
+h1,h2,h3,h4,h5,h6, .byline,.content-title {
+  color: #333;
+  font-weight: bold;
+}
+h1 {
+    font-size: 1.9em;
+    padding-bottom: 0.3em;
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+    font-size: 1.75em;
+    border-bottom: 1px solid #eee;
+}
+h3 {
+    font-size: 1.3em;
+}
+h4 {
+    font-size: 1.1em;
+}
+h5, h6 { 
+    font-size: 1em;
+}
+pre {
+    font-family: menlo,consolas,monospace;
+    font-weight: normal;    
+    font-size: 1em;
+    margin: 7px 0;
+    padding: 0;
+    max-width: 98%;
+    border: none;
+    overflow: auto;
+    line-height: 1.45;        
+    border-radius: 3px;
+}
+code {
+    color: #333;
+}
+.hljs {
+    background: #eee !important;
+    padding: 16px !important;
+    
+}
+img {
+	max-width: 100%;
+}
+blockquote {
+    font-size: 1em;
+    background: #fcfcfc;
+    color: #777;
+}
+blockquote h3, blockquote h4, blockquote h5 {
+    margin-top: 5px;
+}
+hr{
+    margin: 12px 0;    
+}
+/* hidden display, but still part of document flow */
+.hidden {
+    display: none;
+}
+.hidden-nowidth {
+    width: 0;    
+}
+.visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px; 
+}
+
+@media(min-width: 970px){
+    html,body{
+        font-size: 1.1em;
+    }
+}

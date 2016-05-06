@@ -1,0 +1,71 @@
+html, body {
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+			padding: 0;
+			margin: 0;
+             scrollbar-track-color: #535353;
+             scrollbar-arrow-color: silver;
+             scrollbar-base-color: #888;
+             -ms-overflow-style: -ms-autohiding-scrollbar;
+		}
+
+#Editor {
+	height: 100%; 
+	width: 100%;	
+
+}		
+
+.ace_editor, .ace_editor * {
+    font-family: "Consolas", "Courier New", monospace;   
+    font-weight: normal;
+    letter-spacing: 0 !important;
+    background: transparent;           
+}
+.ace_content {
+    padding-top: 0 !important;
+    padding-left: 0;                        
+}    
+.ace_cursor { 
+    width: 2 !important;
+    height: 1em !important;
+}
+.ace_text-input {
+	margin: 0 !important;
+}
+pre{
+	margin: 0;
+	padding: 0;
+	border-radius: 0;
+}
+pre.no-container {
+  padding: 0 !important; 
+  margin: 0 !important;   
+}
+pre>code {
+  border-radius: 5px;  
+  font-size: 1.1em;  
+}
+#spellfixes {    
+    position: absolute;
+    width: auto;      
+    height: auto;
+    border: 1px solid silver;
+    background: white;
+    top: 200px;
+    left: 10px;    
+    z-index: 1000;
+    overflow-y: auto;
+}
+#spellfixes>div {
+    font-size: 0.8em;
+    min-width: 100px;
+    padding: 6px;
+    border-bottom: 1px solid silver;
+    font-family: sans-serif;
+    cursor: pointer;
+}
+#spellfixes>div:hover {
+    background: steelblue;
+    color: white;
+}

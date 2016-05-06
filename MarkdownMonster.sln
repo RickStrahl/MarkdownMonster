@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster", "MarkdownMonster\MarkdownMonster.csproj", "{CB4EAB0E-1796-476E-83A0-20DA826E1C02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D99D7B57-1FA8-43F4-99D5-DA37D316F960}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnagItAddin", "SnagItAddin\SnagItAddin.csproj", "{3827411C-B50A-4696-9BD3-B7A71F25801A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebLogAddin", "WebLogAddin\WebLogAddin.csproj", "{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3827411C-B50A-4696-9BD3-B7A71F25801A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3827411C-B50A-4696-9BD3-B7A71F25801A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3827411C-B50A-4696-9BD3-B7A71F25801A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3827411C-B50A-4696-9BD3-B7A71F25801A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
