@@ -19,8 +19,6 @@ namespace WebLogAddin
     {
         private Post ActivePost { get; set; }
 
-
-
         private bool IsNewPost { get; set; }
 
         public override void OnApplicationStart()
@@ -66,9 +64,7 @@ namespace WebLogAddin
             // THIS STUFF WILL HAVE TO COME FROM A UI LATER
             string WebLogName = "Rick Strahl's Weblog";
 
-            var config = WeblogApp.Configuration;
-
-            string url = config.PostsFolder;
+            var config = WeblogApp.Configuration;            
 
             WeblogInfo weblogInfo;
             if (!config.WebLogs.TryGetValue(WebLogName, out weblogInfo))
@@ -104,7 +100,7 @@ namespace WebLogAddin
             }
             if (!string.IsNullOrEmpty(weblogInfo.PreviewUrl))
             {
-                url = weblogInfo.PreviewUrl.Replace("{0}", ActivePost.PostID.ToString());
+                var url = weblogInfo.PreviewUrl.Replace("{0}", ActivePost.PostID.ToString());
                 ShellUtils.GoUrl(url);
             }
         }
@@ -159,12 +155,11 @@ namespace WebLogAddin
         /// Strips the Markdown Meta data from the message and populates
         /// the post structure with the meta data values.
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="post"></param>
+        /// <param name="markdown"></param>        
         /// <returns></returns>
         private string GetPostConfigFromMarkdown(string markdown)
         {
-            string config = StringUtils.ExtractString(markdown, "<!-- Post Configuration -->", "!@#!-1", true, true);
+            string config = StringUtils.ExtractString(markdown, "<!-- Post Configuration -->", "!@#!-1", true,true);
             if (string.IsNullOrEmpty(config))
                 return markdown;
 
