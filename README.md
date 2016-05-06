@@ -6,6 +6,14 @@
 
 ![](Art/MarkdownMonster.png)
 
+
+<a href="http://markdownmonster.west-wind.com/" 
+   class="btn btn-lg btn-primary" style="margin: 20px 0; font-size: 16pt;">
+<svg style="width:25px;height:25px;" viewBox="0 0 25 25">
+    <path fill="#ffffff" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+</svg>  Download</a>
+
+
 Markdown is everywhere these days, and having a dedicated Markdown editor that lets you easily create your markdown text with a light touch of help can make editing of content much more enjoyable and productive.
 
 Monster provides you with many features that make your Markdown editing process more productive:
