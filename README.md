@@ -24,7 +24,7 @@ Markdown Monster provides many useful features:
 * Addins provided: SnagIt Screen Capture and Blog Publisher
 
 Here's what Markdown Monster looks like (Running the Dark Theme):
-![Markdown Monster Screen Shot](screenshot.png)
+![Markdown Monster Screen Shot](ScreenShot.png)
 
 Focus is on the editor and the preview is collapsible. The toolbar and a number of common control hotkeys provide gentle UI support for embedding Markdown expressions into your content.
 
