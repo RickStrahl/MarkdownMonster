@@ -28,6 +28,9 @@ namespace MarkdownMonster
 
             AddinManager.Current.LoadAddins();
             AddinManager.Current.RaiseOnApplicationStart();
+            
         }
+
+     
     }
 }

@@ -141,12 +141,8 @@
                                         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                  >
                             <i:Interaction.Behaviors>
-                                <local:DropDownButtonBehavior   />
+                                <local:DropDownButtonBehavior />
                             </i:Interaction.Behaviors>
-                            <!--<Button.ContextMenu>
-                                <ContextMenu Name="ButtonDropDownRecentFiles" IsEnabled="True" >
-                                </ContextMenu>
-                            </Button.ContextMenu>-->
                         </Button>
 
                         <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding SaveCommand}" ToolTip="Save active document (ctrl-s)"                                

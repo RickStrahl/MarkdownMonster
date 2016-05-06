@@ -52,7 +52,7 @@ namespace SnagItAddin
             if (relPath.StartsWith(".."))
                 relPath = capturedFile;
 
-            string replaceText = "![](\"" +  relPath + "\");";
+            string replaceText = "![](" +  relPath + ");";
             
             this.SetSelection(replaceText);
         }

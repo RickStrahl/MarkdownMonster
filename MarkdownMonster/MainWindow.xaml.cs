@@ -56,6 +56,9 @@ namespace MarkdownMonster
                 dynamic dom = PreviewBrowser.Document;                
 
                 dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
+
+                if (File.Exists(editor.MarkdownDocument.HtmlRenderFilename))
+                    File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
             };
 
             // Override some of the theme defaults (dark header specifically)
@@ -137,7 +140,10 @@ namespace MarkdownMonster
             // Command Line Loading of a single file
             var args = Environment.GetCommandLineArgs();
             if (args.Length > 1 && File.Exists(args[1]))
+            {
                 OpenTab(mdFile: args[1]);
+                mmApp.Configuration.AddRecentFile(args[1]);
+            }
 
             if (mmApp.Configuration.IsPreviewVisible)
             {
@@ -465,9 +471,7 @@ namespace MarkdownMonster
                     PreviewBrowser.Source.ToString() == editor.MarkdownDocument.HtmlRenderFilename)
                     PreviewBrowser.Refresh(true);
                 else
-                {
-
-
+                {                    
                     PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
                 }
             }

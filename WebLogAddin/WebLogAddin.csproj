@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\MarkdownMonster\bin\Debug\AddIns\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -32,29 +32,53 @@
   <ItemGroup>
     <Reference Include="FontAwesome.WPF">
       <HintPath>..\packages\FontAwesome.WPF.4.5.0.8\lib\net40\FontAwesome.WPF.dll</HintPath>
+      <Private>False</Private>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Westwind.Utilities, Version=2.67.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Utilities.2.67.1\lib\net45\Westwind.Utilities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="WebLogAddin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebLogAddinConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Test\JoeBlogs\JoeBlogs\JoeBlogs.csproj">
+      <Project>{340c4ec4-b02e-42a9-a8fe-2871ed8315e0}</Project>
+      <Name>JoeBlogs</Name>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\MarkdownMonster\MarkdownMonster.csproj">
       <Project>{cb4eab0e-1796-476e-83a0-20da826e1c02}</Project>
       <Name>MarkdownMonster</Name>
+      <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy   "$(TargetPath)"   "$(SolutionDir)\MarkdownMonster\bin\$(ConfigurationName)\Addins\$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

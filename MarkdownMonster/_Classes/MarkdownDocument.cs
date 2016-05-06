@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
+using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
@@ -31,7 +32,7 @@ namespace MarkdownMonster
             }
         }
 
-        public int LastBrowserScrollPosition { get; set; }
+        public int LastBrowserScrollPosition { get; set; }        
 
         public MarkdownStyles MarkdownStyle = MarkdownStyles.GitHub;
 
@@ -156,9 +157,8 @@ namespace MarkdownMonster
         {
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
-
+            
             var parser = MarkdownParser.GetParser(MarkdownStyle);
-
             return parser.Parse(markdown);
         }
 

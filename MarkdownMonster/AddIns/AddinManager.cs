@@ -56,7 +56,17 @@ namespace MarkdownMonster.AddIns
         private void LoadAddinClasses(string assemblyFile)
         {
 
-            var asm = Assembly.LoadFile(assemblyFile);
+            Assembly asm = null;
+            try
+            {
+                asm = Assembly.LoadFile(assemblyFile);
+            }
+            catch
+            {
+                // skip over native dlls
+                return;
+            }
+
             var types = asm.GetTypes();
             foreach (var type in types)
             {
