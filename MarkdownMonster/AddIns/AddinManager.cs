@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -33,32 +34,43 @@ namespace MarkdownMonster.AddIns
             string addinPath = Path.Combine(Environment.CurrentDirectory, "AddIns");
             if (!Directory.Exists(addinPath))
                 return;
+
+            var assemblyFiles = Directory.GetFiles(Environment.CurrentDirectory, "*.dll");
+            var files = Directory.GetFiles(addinPath, "*.dll");
+           
             
-            var files = Directory.GetFiles(addinPath,"*.dll");
             foreach (var file in files)
             {
-                LoadAddinClasses(file);
+                // don't allow assemblies the main app loads to load
+                string fname = Path.GetFileName(file).ToLower();
+                bool isLoaded = assemblyFiles.Any(f => fname == Path.GetFileName(f).ToLower());
+
+
+                if (!isLoaded)
+                    LoadAddinClasses(file);
+                else
+                    Debug.WriteLine(fname);
             }
         }
-
-
-
+        
         private void LoadAddinClasses(string assemblyFile)
         {
 
             Assembly asm = null;
             Type[] types = null;
+
             try
             {
                 asm = Assembly.LoadFile(assemblyFile);
                 types = asm.GetTypes();
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Unable to load add-in assembly: " + Path.GetFileNameWithoutExtension(assemblyFile));
                 return;
             }
-            
+
             foreach (var type in types)
             {
                 var typeList = type.FindInterfaces(AddinInterfaceFilter, typeof(IMarkdownMonsterAddin));

@@ -4,12 +4,15 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
+using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
@@ -692,6 +695,50 @@ namespace MarkdownMonster
             PreviewMarkdown(showInBrowser: true);
         }
 
+        public void ShowStatus(string message = null, int milliSeconds = 0)
+        {
+            if (message == null)
+                message = "Ready";
+
+            StatusText.Text = message;
+
+            if (milliSeconds > 0)
+            {
+                var t = new Timer(new TimerCallback((object win) =>
+                {
+                    var window = win as MainWindow;                    
+                    window.Dispatcher.Invoke(() => {  window.ShowStatus(null, 0); } );
+                }),this,milliSeconds,Timeout.Infinite);
+            }
+        }
+
+        /// <summary>
+        /// Status the statusbar icon on the left bottom to some indicator
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="color"></param>
+        /// <param name="spin"></param>
+        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
+        {
+            StatusIcon.Icon = icon;
+            StatusIcon.Foreground = new SolidColorBrush(color);            
+            if (spin)
+                StatusIcon.SpinDuration = 30;                
+            
+            StatusIcon.Spin = spin;
+        }
+
+        /// <summary>
+        /// Resets the Status bar icon on the left to its default green circle
+        /// </summary>
+        public void SetStatusIcon()
+        {
+            StatusIcon.Icon = FontAwesomeIcon.Circle;
+            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
+            StatusIcon.Spin = false;
+            StatusIcon.SpinDuration = 0;
+            StatusIcon.StopSpin();
+        }
         #endregion
     }
 

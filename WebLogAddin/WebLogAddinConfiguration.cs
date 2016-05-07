@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using MarkdownMonster;
+using WebLogAddin.Annotations;
 using Westwind.Utilities.Configuration;
 
 namespace WebLogAddin
@@ -21,10 +24,23 @@ namespace WebLogAddin
         }
     }
 
-    public class WeblogAddinConfiguration : AppConfiguration
+    public class WeblogAddinConfiguration : AppConfiguration, INotifyPropertyChanged
     {
 
         public Dictionary<string,WeblogInfo> WebLogs { get; set; }
+
+
+        public string LastWeblogAccessed
+        {
+            get { return _lastWeblogAccessed; }
+            set
+            {
+                if (value == _lastWeblogAccessed) return;
+                _lastWeblogAccessed = value;
+                OnPropertyChanged(nameof(LastWeblogAccessed));
+            }
+        }
+
 
         public string PostsFolder
         {
@@ -51,6 +67,7 @@ namespace WebLogAddin
             }
         }
         private string _postsFolder;
+        private string _lastWeblogAccessed;
 
         public WeblogAddinConfiguration()
         {
@@ -79,7 +96,15 @@ namespace WebLogAddin
             }
 
             return provider;
-        }     
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     public class WeblogInfo
