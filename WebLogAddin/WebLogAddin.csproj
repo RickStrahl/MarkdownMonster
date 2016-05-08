@@ -46,7 +46,6 @@
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -72,6 +71,8 @@
   <ItemGroup>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="WeblogAddinModel.cs" />
+    <Compile Include="WeblogInfo.cs" />
+    <Compile Include="WeblogPostMetadata.cs" />
     <Compile Include="WebLogStart.xaml.cs">
       <DependentUpon>WebLogStart.xaml</DependentUpon>
     </Compile>

@@ -103,10 +103,9 @@ namespace MarkdownMonster
         private string _RenderTheme;
 
         
-
         public bool RememberOpenFiles { get; set; }
 
-
+        
         public List<string> RecentDocuments
         {
             get { return _RecentDocuments; }

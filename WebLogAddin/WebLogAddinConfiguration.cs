@@ -7,10 +7,10 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using MarkdownMonster;
-using WebLogAddin.Annotations;
+using WeblogAddin.Annotations;
 using Westwind.Utilities.Configuration;
 
-namespace WebLogAddin
+namespace WeblogAddin
 {
     internal class WeblogApp
     {
@@ -40,6 +40,7 @@ namespace WebLogAddin
                 OnPropertyChanged(nameof(LastWeblogAccessed));
             }
         }
+        private string _lastWeblogAccessed;
 
 
         public string PostsFolder
@@ -67,7 +68,22 @@ namespace WebLogAddin
             }
         }
         private string _postsFolder;
-        private string _lastWeblogAccessed;
+
+
+        /// <summary>
+        /// When true renders links to open externally.
+        /// </summary>
+        public bool RenderLinksOpenExternal
+        {
+            get { return _RenderLinksOpenExternal; }
+            set
+            {
+                if (value == _RenderLinksOpenExternal) return;
+                _RenderLinksOpenExternal = value;
+                OnPropertyChanged(nameof(RenderLinksOpenExternal));
+            }
+        }
+        private bool _RenderLinksOpenExternal = true;
 
         public WeblogAddinConfiguration()
         {
@@ -105,19 +121,5 @@ namespace WebLogAddin
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
-
-    public class WeblogInfo
-    {
-        public string Name { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string ApiUrl { get; set; }
-
-        /// <summary>
-        /// Url used to preview the post. The postId can be embedded into 
-        /// the value by using {0}.
-        /// </summary>
-        public string PreviewUrl { get; set; }
     }
 }

@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using MarkdownMonster;
-using WebLogAddin.Annotations;
+using WeblogAddin.Annotations;
 
-namespace WebLogAddin
+namespace WeblogAddin
 {
     public class WeblogAddinModel : INotifyPropertyChanged
     {
@@ -52,6 +52,18 @@ namespace WebLogAddin
             }
         }
 
+
+        public WeblogInfo ActiveWeblogInfo
+        {
+            get { return _activeWeblogInfo; }
+            set
+            {
+                if (value == _activeWeblogInfo) return;
+                _activeWeblogInfo = value;
+                OnPropertyChanged(nameof(ActiveWeblogInfo));
+            }
+        }
+        private WeblogInfo _activeWeblogInfo;
 
         public WeblogAddinConfiguration Configuration
         {

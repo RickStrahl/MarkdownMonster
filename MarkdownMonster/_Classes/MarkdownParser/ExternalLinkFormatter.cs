@@ -9,9 +9,9 @@ using CommonMark.Syntax;
 namespace MarkdownMonster
 {
 
-    public class CustomMarkdownHtmlFormatter : CommonMark.Formatters.HtmlFormatter
+    public class ExternalLinkFormatter : CommonMark.Formatters.HtmlFormatter
     {
-        public CustomMarkdownHtmlFormatter(System.IO.TextWriter target, CommonMarkSettings settings)
+        public ExternalLinkFormatter(System.IO.TextWriter target, CommonMarkSettings settings)
             : base(target, settings)
         {
         }

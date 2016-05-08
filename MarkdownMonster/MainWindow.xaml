@@ -15,15 +15,35 @@
         GlowBrush="Black"                              
         ResizeMode="CanResizeWithGrip"
         Height="720" Width="1000" WindowTransitionsEnabled="False">
-    
+    <controls:MetroWindow.LeftWindowCommands>
+        <controls:WindowCommands>
+         
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>
+
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Button>
-                <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Gear" Height="16" Margin="0,6,0,0"/>
-                    <TextBlock Margin="5,4,0,0">settings</TextBlock>
-                </StackPanel>
-            </Button>
+            <StackPanel Orientation="Horizontal">
+                    <ToggleButton Margin="7,0"                                       
+                                 fa:Awesome.Content="Check"                                  
+                                 Height="22" Width="22"
+                                 IsChecked="{Binding Configuration.EditorEnableSpellcheck}"
+                                 ToolTip="enable/disable spell-checking"
+                                 Click="ButtonSpellCheck_Click"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                      />
+
+                <ToggleButton Name="ToolButtonPreview"  Margin="7,0" 
+                                      IsChecked="{Binding IsPreviewBrowserVisible}"
+                                      Command="{Binding PreviewBrowserCommand}"                                  
+                                      ToolTip="open/hide the HTML Preview Pane"
+                                 fa:Awesome.Content="Globe"
+                                 Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
+                                      />
+            </StackPanel>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
 
@@ -227,31 +247,7 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
                     </ToolBar>
-                    <ToolBar>
-
-                        <ToggleButton Margin="7,0"                                       
-                                 fa:Awesome.Content="Check"
-                                 Height="22" Width="22"
-                                 IsChecked="{Binding Configuration.EditorEnableSpellcheck}"
-                                 ToolTip="enable/disable spell-checking"
-                                 Click="ButtonSpellCheck_Click"
-                                TextElement.FontSize="16"
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                      />
-
-
-
-                        <ToggleButton Name="ToolButtonPreview"  Margin="7,0" 
-                                      IsChecked="{Binding IsPreviewBrowserVisible}"
-                                      Command="{Binding PreviewBrowserCommand}"
-                                      ToolTip="open/hide the HTML Preview Pane"
-                                 fa:Awesome.Content="Globe"
-                                 Height="22" Width="22"
-                                TextElement.FontSize="16"
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
-                                      />
-
-                    </ToolBar>
+           
                     <ToolBar Name="ToolbarAddIns" Visibility="Hidden">
 
                     </ToolBar>

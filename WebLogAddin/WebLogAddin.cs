@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,10 +11,9 @@ using HtmlAgilityPack;
 using JoeBlogs;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
-using WebLogAddin.Annotations;
 using Westwind.Utilities;
 
-namespace WebLogAddin
+namespace WeblogAddin
 {
     public class WebLogAddin :  MarkdownMonsterAddin, IMarkdownMonsterAddin
     {
@@ -48,7 +45,11 @@ namespace WebLogAddin
             form.Show();                       
         }
 
-
+        /// <summary>
+        /// High level method that sends posts to the Weblog
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool SendPost()
         {
             var editor = Model.ActiveEditor;
@@ -67,7 +68,7 @@ namespace WebLogAddin
             // so we render without the config data
             var meta  = GetPostConfigFromMarkdown(markdown);
            
-            string html = doc.RenderHtml(meta.MarkdownBody);
+            string html = doc.RenderHtml(meta.MarkdownBody,WeblogApp.Configuration.RenderLinksOpenExternal);
             
             var config = WeblogApp.Configuration;            
 
@@ -87,20 +88,23 @@ namespace WebLogAddin
 
             if (ActivePost.PostID > 0)
                 wrapper.EditPost(ActivePost, true);
-            else
-            {
+            else            
                 ActivePost.PostID = wrapper.NewPost(ActivePost, true);
-                
-                // retrieve the raw editor markdown
-                markdown = editor.GetMarkdown();
 
-                // Update the Post Id into the Markdown
-                if (!markdown.Contains("</postid>"))
-                {
-                    markdown = AddPostId(markdown, ActivePost.PostID);
-                    editor.SetMarkdown(markdown);
-                }
-            }
+            meta.PostId = ActivePost.PostID.ToString();
+
+            // retrieve the raw editor markdown
+            markdown = editor.GetMarkdown();
+            meta.RawMarkdownBody = markdown;
+
+            // add the meta configuration to it
+            markdown = SetConfigInMarkdown(meta);
+            
+            // write it back out to editor
+            editor.SetMarkdown(markdown);
+            
+
+            // preview post
             if (!string.IsNullOrEmpty(weblogInfo.PreviewUrl))
             {
                 var url = weblogInfo.PreviewUrl.Replace("{0}", ActivePost.PostID.ToString());
@@ -145,7 +149,7 @@ $@"# {meta.Title}
 
 
 <!-- Post Configuration -->
----
+<!--
 ```xml
 <abstract>
 </abstract>
@@ -157,6 +161,7 @@ $@"# {meta.Title}
 {meta.WeblogName}
 </weblog>
 ```
+-->
 <!-- End Post Configuration -->
 ";            
         }
@@ -276,10 +281,9 @@ $@"# {meta.Title}
         public string SetConfigInMarkdown(WeblogPostMetadata meta)
         {
             string markdown = meta.RawMarkdownBody;
-
-            string origConfig = StringUtils.ExtractString(markdown, " <!-- Post Configuration -->", "!@#!-1", true, true);
+            string origConfig = StringUtils.ExtractString(markdown, "<!-- Post Configuration -->", "<!-- End Post Configuration -->", false, false, true);
             string newConfig = $@"<!-- Post Configuration -->
----
+<!--
 ```xml
 <abstract>
 {meta.Abstract}
@@ -287,6 +291,7 @@ $@"# {meta.Title}
 <categories>
 {meta.Categories}
 </categories>
+<postid>{meta.PostId}</postid>
 <keywords>
 {meta.Keywords}
 </keywords>
@@ -294,6 +299,7 @@ $@"# {meta.Title}
 {meta.WeblogName}
 </weblog>
 ```
+-->
 <!-- End Post Configuration -->
 ";
 
@@ -308,59 +314,6 @@ $@"# {meta.Title}
             meta.MarkdownBody = meta.RawMarkdownBody.Replace(newConfig, "");
 
             return markdown;
-        }
-    }
-
-    public class WeblogPostMetadata : INotifyPropertyChanged
-    {
-        private string _title;
-        private string _abstract;
-        public string PostId { get; set; }
-
-        public string Title
-        {
-            get { return _title; }
-            set
-            {
-                if (value == _title) return;
-                _title = value;
-                OnPropertyChanged(nameof(Title));
-            }
-        }
-
-        /// <summary>
-        /// This should hold the sanitized markdown text
-        /// stripped of the config data.
-        /// </summary>
-        public string MarkdownBody { get; set; }
-
-        /// <summary>
-        /// This should hold the raw markdown text retrieved
-        /// from the editor which will contain the meta post data
-        /// </summary>
-        public string RawMarkdownBody { get; set; }
-
-        public string Abstract
-        {
-            get { return _abstract; }
-            set
-            {
-                if (value == _abstract) return;
-                _abstract = value;
-                OnPropertyChanged(nameof(Abstract));
-            }
-        }
-
-        public string Keywords { get; set; }
-        public string Categories { get; set; }
-
-        public string WeblogName { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 

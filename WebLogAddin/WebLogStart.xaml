@@ -1,11 +1,11 @@
 ﻿<controls:MetroWindow 
-        x:Class="WebLogAddin.WebLogStart"
+        x:Class="WeblogAddin.WebLogStart"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarkdownMonster;assembly=MarkdownMonster"
-        xmlns:weblog="clr-namespace:WebLogAddin"
+        xmlns:weblog="clr-namespace:WeblogAddin"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"        
@@ -14,26 +14,9 @@
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner" 
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="600" Height="600" MinHeight="600" MinWidth="600">
+        Width="800" Height="600" MinHeight="600" MinWidth="600">
 
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
-            -->
-    <!--<RowDefinition Height="25"/>-->
-    <!--
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>-->
 
-    <!--<ToolBarPanel Grid.Row="0">
-            <ToolBar>
-                <Button Name="ButtonPostBlog" Content="Post to Weblog" Click="ButtonPostBlog_Click"></Button>
-                <Button Name="ButtonNewPost" Content="New Blog Post" Click="ButtonNewPost_Click"/>
-            </ToolBar>
-        </ToolBarPanel>-->
     <controls:MetroTabControl
             x:Name="TabControl"                                                               
                          VerticalAlignment="Stretch"
@@ -49,7 +32,7 @@
                 <TextBox Text="{Binding ActivePostMetadata.Title}" FontSize="15" />
 
                 <Label Margin="0,10,0,0">Abstract:</Label>
-                <TextBox AcceptsReturn="False" Height="100"
+                <TextBox TextWrapping="Wrap" Height="100"
                 	Text="{Binding ActivePostMetadata.Abstract}"  FontSize="15" />
 
                 <Label Margin="0,10,0,0">Categories:</Label>
@@ -58,8 +41,15 @@
                 <Label Margin="0,10,0,0">Keywords:</Label>
                 <TextBox Text="{Binding ActivePostMetadata.Keywords}"  FontSize="15"/>
 
+                <Label Margin="0,10,0,0">Web Site to post to:</Label>
+                <ComboBox  ToolTip="Weblog selection"
+                           SelectedItem="{Binding ActivePostMetadata.WeblogName}"
+                           IsSynchronizedWithCurrentItem="True" 
+                           ItemsSource="{Binding WeblogNames}"
+                           />
 
-                <Button Margin="0,30" Height="40" FontSize="15" Width="200" HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
+
+                <Button Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome Icon="Upload" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                         <TextBlock Margin="10,0,0,0" FontSize="14">Post to Weblog</TextBlock>
@@ -84,25 +74,60 @@
                            ItemsSource="{Binding WeblogNames}"
                            />
 
-                <Button Margin="0,30" Height="40" FontSize="15" Width="200" HorizontalAlignment="Left" 
+                <Button Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" 
                         Click="ButtonNewPost_Click" >
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                         <TextBlock Margin="10,0,0,0" FontSize="14">Create new Post</TextBlock>
                     </StackPanel>
                 </Button>
-                
+
             </StackPanel>
         </controls:MetroTabItem>
         <controls:MetroTabItem Header="Download Blog Post " Margin="0,0,5,0" controls:ControlsHelper.HeaderFontSize="16">
 
         </controls:MetroTabItem>
 
-        
+        <controls:MetroTabItem Header="Web Logs " Margin="0,0,5,0" controls:ControlsHelper.HeaderFontSize="16">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
+                <ComboBox  ToolTip="Weblog selection"
+                           SelectedItem="{Binding Configuration.LastWeblogAccessed}"
+                           IsSynchronizedWithCurrentItem="True" 
+                           ItemsSource="{Binding WeblogNames}"
+                           />
+                <Separator Margin="0,20"/>
+
+                <Label Margin="0,10,0,0">Name:</Label>
+                <TextBox 
+                	Text="{Binding ActiveWeblogInfo.Name}"  FontSize="15" />
+
+                <Label Margin="0,10,0,0">ApiUrl:</Label>
+
+                <ComboBox Name="ComboWeblogType" ToolTip="Weblog selection"
+                           SelectedItem="{Binding Configuration.Type}"
+                           IsSynchronizedWithCurrentItem="True" 
+                           ItemsSource="{Binding WeblogNames}"
+                           />
+
+                <Label Margin="0,10,0,0">ApiUrl:</Label>
+                <TextBox 
+                	Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15" />
+
+                <Label Margin="0,10,0,0">Username:</Label>
+                <TextBox 
+                	Text="{Binding ActiveWeblogInfo.Username}"  FontSize="15" />
+
+                <Button Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" 
+                        Click="ButtonNewPost_Click" >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                        <TextBlock Margin="10,0,0,0" FontSize="14">Save Weblog</TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </controls:MetroTabItem>
+
+
 
     </controls:MetroTabControl>
-    <!--<StackPanel Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-        </StackPanel>
-    </Grid>-->
 </controls:MetroWindow>

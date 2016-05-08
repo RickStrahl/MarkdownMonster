@@ -147,24 +147,25 @@ namespace MarkdownMonster
             if (File.Exists(HtmlRenderFilename))
                 File.Delete(HtmlRenderFilename);
         }
-        
+
         /// <summary>
         /// Renders markdown of the current document text into HTML
         /// </summary>
-        /// <param name="markdown"></param>
+        /// <param name="markdown">markdown to render</param>
+        /// <param name="renderLinksExternal">Determines whether links have a target='top' attribute</param>
         /// <returns></returns>
-        public string RenderHtml(string markdown = null)
+        public string RenderHtml(string markdown = null, bool renderLinksExternal = false)
         {
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
             
-            var parser = MarkdownParser.GetParser(MarkdownStyle);
+            var parser = MarkdownParser.GetParser(MarkdownStyle,renderLinksExternal);            
             return parser.Parse(markdown);
         }
 
-        public string RenderHtmlToFile(string markdown = null, string filename = null)
+        public string RenderHtmlToFile(string markdown = null, string filename = null, bool renderLinksExternal = false)
         {
-            string markdownHtml = RenderHtml(markdown);
+            string markdownHtml = RenderHtml(markdown,renderLinksExternal);
 
             if (string.IsNullOrEmpty(filename))
                 filename = HtmlRenderFilename;

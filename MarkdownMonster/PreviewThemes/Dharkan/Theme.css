@@ -1,4 +1,9 @@
 html, body {
+     color: #3e433e;    
+    font-family:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;        
+    font-size:15px;
+    -webkit-font-smoothing: antialiased;
+
     font-size: 15px;
     height: 100%;    
     line-height: 1.35em;
@@ -17,19 +22,54 @@ h1,h2,h3,h4,h5,h6, .byline,.content-title {
   font-family: Trebuchet, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
 }
 h1 {
-    font-size: 1.8em
+    font-size: 1.8em;
+    padding-bottom:10px;
+    margin-bottom: 15px;
+    color: steelblue;
+    border-bottom: 1px solid #eee;
 }
 h2 {
-    font-size: 1.5em
+    font-size: 1.5em;
+    color: steelblue;
 }
 h3 {
-    font-size: 1.3em
+    font-size: 1.3em;
+    color: steelblue;
 }
 h4 {
-    font-size: 1.1em
+    font-size: 1.1em;
 }
 h5, h6 { 
     font-size: 1em;
+}
+p {
+	margin: 10px 0 10px 0;
+}
+a {
+    font-weight: bold;
+}
+img {
+	max-width: 100%;
+}
+blockquote {
+    background: #f5f5f5;
+    font-size: 1.1em;
+    padding: 10px;
+    margin: 30px 10px;
+    border-left: 6px #ddd solid;
+}
+
+blockquote h3, blockquote h4, blockquote h5 {
+    margin-top: 5px;
+}
+hr {
+    margin: 12px 0;    
+}
+code {
+    color: #555;
+    padding: 2px 5px;
+    font-weight: bold;
+    background: #eee;
 }
 pre {
     font-family: menlo,consolas,monospace;
@@ -42,20 +82,9 @@ pre {
     overflow-x: auto;    
     max-width: 98%;
 }
-img {
-	max-width: 100%;
-}
-blockquote {
-    font-size: 1em;
-    background: #fcfcfc;
-    color: #777;
-}
-blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 5px;
-}
-hr{
-    margin: 12px 0;    
-}
+
+
+
 /* hidden display, but still part of document flow */
 .hidden {
     display: none;

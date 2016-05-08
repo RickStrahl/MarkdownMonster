@@ -110,12 +110,12 @@
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_Classes\mmApp.cs" />
-    <Compile Include="_Classes\ApplicationConfiguration.cs" />
-    <Compile Include="_Classes\CustomMarkdownHtmlFormatter.cs" />
+    <Compile Include="_Classes\Configuration\mmApp.cs" />
+    <Compile Include="_Classes\Configuration\ApplicationConfiguration.cs" />
+    <Compile Include="_Classes\MarkdownParser\ExternalLinkFormatter.cs" />
     <Compile Include="_Classes\MarkdownDocument.cs" />
     <Compile Include="_Classes\MarkdownDocumentEditor.cs" />
-    <Compile Include="_Classes\MarkdownParser.cs" />
+    <Compile Include="_Classes\MarkdownParser\MarkdownParser.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

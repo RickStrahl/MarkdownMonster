@@ -7,6 +7,9 @@
  *          http://www.west-wind.com/
  * 
  * Created:  03/15/2007
+ * 
+ *           Snagit COM Documentation:
+ *           http://download.techsmith.com/snagit/docs/comserver/enu/snagitcom.pdf
  **************************************************************  
 */
 
@@ -45,40 +48,41 @@ namespace SnagItAddin
         /// </summary>
         public string CapturePath
         {
-            get { return _CapturePath; }
-            set { _CapturePath = value; }
+            get { return _capturePath; }
+            set { _capturePath = value; }
         }
-        private string _CapturePath = Path.GetTempPath();
+        private string _capturePath = Path.GetTempPath();
 
 
         /// <summary>
         /// Determines how the SnagIt Capture captures window content.
-        /// </summary>
+        /// </summary>Capture
         public CaptureModes CaptureMode
         {
-            get { return _CaptureMode; }
-            set { _CaptureMode = value; }
+            get { return _captureMode; }
+            set { _captureMode = value; }
         }
-        private CaptureModes _CaptureMode = CaptureModes.Window;
+        private CaptureModes _captureMode = CaptureModes.Object;
 
         /// <summary>
         /// The file that receives the SnagIt Capture
         /// </summary>
         public string OutputCaptureFile
         {
-            get { return _OutputCaptureFile; }            
+            get { return _outputCaptureFile; }            
+            set { _outputCaptureFile = value; }
         }
-        private string _OutputCaptureFile = "";
+        private string _outputCaptureFile = "capture_file.png";
 
         /// <summary>
         /// The file format for the captured image file.
         /// </summary>
         public CaptureFormats OutputFileCaptureFormat
         {
-            get { return _OutputFileCaptureFormat; }
-            set { _OutputFileCaptureFormat = value; }
+            get { return _outputFileCaptureFormat; }
+            set { _outputFileCaptureFormat = value; }
         }
-        private CaptureFormats _OutputFileCaptureFormat = CaptureFormats.png;
+        private CaptureFormats _outputFileCaptureFormat = CaptureFormats.png;
 
 
         /// <summary>
@@ -108,10 +112,10 @@ namespace SnagItAddin
         /// </summary>
         public bool ShowPreviewWindow
         {
-            get { return _ShowPreviewWindow; }
-            set { _ShowPreviewWindow = value; }
+            get { return _showPreviewWindow; }
+            set { _showPreviewWindow = value; }
         }
-        private bool _ShowPreviewWindow = true;
+        private bool _showPreviewWindow = true;
 
 
         /// <summary>
@@ -119,10 +123,10 @@ namespace SnagItAddin
         /// </summary>
         public int DelayInSeconds
         {
-            get { return _DelayInSeconds; }
-            set { _DelayInSeconds = value; }
+            get { return _delayInSeconds; }
+            set { _delayInSeconds = value; }
         }
-        private int _DelayInSeconds = 0;
+        private int _delayInSeconds = 0;
 
         /// <summary>
         /// The ActiveForm which is minimized if assigned
@@ -130,11 +134,11 @@ namespace SnagItAddin
         [XmlIgnore]
         public Window ActiveForm
         {
-            get { return _ActiveForm; }
-            set { _ActiveForm = value; }
+            get { return _activeForm; }
+            set { _activeForm = value; }
         }
         [NonSerialized]
-        private Window _ActiveForm = null;
+        private Window _activeForm = null;
 
 
         /// <summary>
@@ -142,10 +146,10 @@ namespace SnagItAddin
         /// </summary>
         public bool DeleteImageFromDisk
         {
-            get { return _DeleteImageFromDisk; }
-            set { _DeleteImageFromDisk = value; }
+            get { return _deleteImageFromDisk; }
+            set { _deleteImageFromDisk = value; }
         }
-        private bool _DeleteImageFromDisk = false;
+        private bool _deleteImageFromDisk = false;
 
 
         /// <summary>
@@ -161,7 +165,7 @@ namespace SnagItAddin
                 try
                 {
                     Type loT = Type.GetTypeFromProgID(SNAGIT_PROGID);
-                    this._SnagItCom = Activator.CreateInstance(loT);
+                    _SnagItCom = Activator.CreateInstance(loT);
                 }
                 catch
                 {
@@ -180,16 +184,16 @@ namespace SnagItAddin
         /// <returns></returns>
         public string CaptureImageToFile()
         {
-            WindowState OldState = this.ActiveForm.WindowState;
-            if (this.ActiveForm != null)
-                this.ActiveForm.WindowState =  WindowState.Minimized;
 
+            var OldState = WindowState.Minimized;
+            if (ActiveForm != null)
+            {
+                OldState = ActiveForm.WindowState;
+                ActiveForm.WindowState = WindowState.Minimized;
+            }
 
-      
-            
             dynamic snagIt = SnagItCom;
-
-            /// *** Capture first access to check if SnagIt is installed
+            
             try
             {
                 snagIt.OutputImageFile.Directory =  CapturePath;
@@ -202,84 +206,86 @@ namespace SnagItAddin
 
 
             snagIt.EnablePreviewWindow = ShowPreviewWindow;
-            snagIt.OutputImageFile.Filename = "captured_image.png";
-            //ReflectionUtils.SetPropertyCom(this.SnagItCom,"EnablePreviewWindow",this.ShowPreviewWindow);
-            //ReflectionUtils.SetPropertyExCom(this.SnagItCom,"OutputImageFile.Filename", "captured_Image.png");
-
-            ReflectionUtils.SetPropertyExCom(this.SnagItCom, "Input", this.CaptureMode);
-
-
-            ReflectionUtils.SetPropertyExCom(this.SnagItCom, "OutputImageFile.FileType", (int)this.OutputFileCaptureFormat);           
-
-            // Removed in SnagIt 11
-            //ReflectionUtils.SetPropertyExCom(this.SnagItCom,"Filters.ColorConversion.ColorDepth",this.ColorDepth);
-
-            ReflectionUtils.SetPropertyExCom(this.SnagItCom, "OutputImageFile.ColorDepth", this.ColorDepth);
-
-            ReflectionUtils.SetPropertyExCom(this.SnagItCom, "IncludeCursor", this.IncludeCursor);
+            snagIt.OutputImageFile.Filename = OutputCaptureFile;
+            snagIt.Input = CaptureMode;
+            snagIt.OutputImageFile.FileType = (int) OutputFileCaptureFormat;
+            snagIt.OutputImageFile.ColorDepth = ColorDepth;
+            snagIt.IncludeCursor = IncludeCursor;
             
-            if (this.DelayInSeconds > 0)
+            if (DelayInSeconds > 0)
             {
-                ReflectionUtils.SetPropertyExCom(this.SnagItCom, "DelayOptions.EnableDelayedCapture", true);
-                ReflectionUtils.SetPropertyExCom(this.SnagItCom, "DelayOptions.DelaySeconds", this.DelayInSeconds);
+                snagIt.DelayOptions.EnableDelayedCapture = true;
+                snagIt.DelayOptions.DelaySeconds = DelayInSeconds;
             }
 
 
+            if (ActiveForm != null)
+            {
+                // *** Need to delay a little here so that the form has properly minimized first
+                // *** especially under Vista/Win7
+                for (int i = 0; i < 20; i++)
+                    Thread.Sleep(5);             
+            }
 
-            // *** Need to delay a little here so that the form has properly minimized first
-            // *** especially under Vista/Win7
-            for (int i = 0; i < 20; i++)
-            {                
-                Thread.Sleep(5);                
-            }            
-
-            ReflectionUtils.CallMethodCom(this.SnagItCom, "Capture");
+            snagIt.Capture();
 
             try
             {
                 bool TimedOut = true;
                 while (true)
                 {
-                    if ((bool)ReflectionUtils.GetPropertyCom(this.SnagItCom, "IsCaptureDone"))
+                    if ((bool) snagIt.IsCaptureDone)
                     {
                         TimedOut = false;
                         break;
                     }
-
                     Thread.Sleep(100);                    
                 }
             }
+
             // *** No catch let it throw
             finally
             {
-                this._OutputCaptureFile = ReflectionUtils.GetPropertyCom(this.SnagItCom, "LastFileWritten") as string;
+                _outputCaptureFile = snagIt.LastFileWritten;
 
-                if (this.ActiveForm != null)
+                if (ActiveForm != null)
                 {
                     // Reactivate Live Writer
-                    this.ActiveForm.WindowState = OldState;
+                    ActiveForm.WindowState = OldState;
                     
                     // Make sure it pops on top of SnagIt Editors
-                    this.ActiveForm.Topmost = true;                    
+                    ActiveForm.Topmost = true;                    
                     Thread.Sleep(5);
-                    this.ActiveForm.Topmost = false;
+                    ActiveForm.Topmost = false;
                 }
 
-                Marshal.ReleaseComObject(this.SnagItCom);
+                Marshal.ReleaseComObject(SnagItCom);
             }
 
 
-            // *** If deleting the file we'll fire on a new thread and then delay by 
-            // *** a few seconds until Writer has picked up the image.
-            if ((this.DeleteImageFromDisk))
+            // If deleting the file we'll fire on a new thread and then delay by 
+            // a few seconds until Writer has picked up the image.
+            if ((DeleteImageFromDisk))
             {
-                Thread thread = new Thread( new ParameterizedThreadStart(DeleteImage));
-                thread.Start(this.OutputCaptureFile);                
+                var timer = new Timer(new TimerCallback(
+                    (imgFile) =>
+                    {
+                        var image = imgFile as string;
+                        if (image == null)
+                            return;
+                        try
+                        {
+                            File.Delete(image);
+                        }
+                        catch { }
+                    }), _outputCaptureFile, 10000, Timeout.Infinite);               
             }
-
             
-            return this.OutputCaptureFile;
+            return OutputCaptureFile;
         }
+        
+
+        public object ImageCaptureFilename { get; set; }
 
         /// <summary>
         /// Saves the current settings of this object to the registry
@@ -313,10 +319,9 @@ namespace SnagItAddin
         /// <returns></returns>
         public static SnagItAutomation Create()
         {
-
             return new SnagItAutomation()
             {
-                 CaptureMode = CaptureModes.Window,
+                 CaptureMode = CaptureModes.Object,
                  DelayInSeconds = 4,
                  IncludeCursor = true,
                  ColorDepth = 24,
@@ -325,96 +330,30 @@ namespace SnagItAddin
                  OutputFileCaptureFormat = CaptureFormats.png
             };
 
-            byte[] Buffer = null;
-
-
-            RegistryKey SubKey = Registry.CurrentUser.OpenSubKey(REGISTRY_STORAGE_SUBKEY);
-            if (SubKey != null)
-                Buffer = SubKey.GetValue("ConfigData",null,RegistryValueOptions.None) as byte[];
-
-
-            if (Buffer == null)
-                return new SnagItAutomation();
-
-            // Force Assembly resolving code to fire so we can load the assembly
-            // from deserialization to avoid type load error
-            AppDomain.CurrentDomain.AssemblyResolve +=
-                new ResolveEventHandler(CurrentDomain_AssemblyResolve);
-
-            SnagItAutomation SnagIt = SerializationUtils.DeSerializeObject(Buffer,typeof(SnagItAutomation)) as SnagItAutomation;
-
-            // *** Unhook the event handler for the rest of the application
-            AppDomain.CurrentDomain.AssemblyResolve -= new ResolveEventHandler(CurrentDomain_AssemblyResolve);
-
-            if (SnagIt == null)
-                return new SnagItAutomation();
-
-            return SnagIt;
         }
 
-        /// <summary>
-        /// Handle custom loading of the current assembly if the assmebly won't
-        /// resolve with the name.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            try
-            {
-                // simply load by name which fails occasionally inside of Live Writer
-                Assembly assembly = System.Reflection.Assembly.Load(args.Name);
-                if (assembly != null)
-                    return assembly;
-            }
-            catch { ;}
-
-            // otherwise default to this assembly which is all we care
-            // about for this component anyway
-            return Assembly.GetExecutingAssembly();            
-        }
-
-        /// <summary>
-        /// Deletes an image file
-        /// </summary>
-        /// <param name="FileName"></param>
-        static void DeleteImage(object FileName)
-        {
-            // *** wait a few seconds then delete Image
-            //     LiveWriter creates its own copies of images
-            //     that are linked from the file system
-            //     so the originals are not required
-            Thread.Sleep(10000);
-
-            try
-            {
-                File.Delete(FileName as string);
-            }
-            catch { ; }
-        }
 
         public string ErrorMessage { get; set; }
 
         protected void SetError()
         {
-            this.SetError("CLEAR");
+            SetError("CLEAR");
         }
 
         protected void SetError(string message)
         {
             if (message == null || message == "CLEAR")
             {
-                this.ErrorMessage = string.Empty;
+                ErrorMessage = string.Empty;
                 return;
             }
-            this.ErrorMessage += message;
+            ErrorMessage += message;
         }
 
         protected void SetError(Exception ex, bool checkInner = false)
         {
             if (ex == null)
-                this.ErrorMessage = string.Empty;
+                ErrorMessage = string.Empty;
 
             Exception e = ex;
             if (checkInner)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Media;
@@ -7,7 +8,7 @@ using MahApps.Metro.Controls;
 using MarkdownMonster;
 using Westwind.Utilities;
 
-namespace WebLogAddin
+namespace WeblogAddin
 {
     /// <summary>
     /// Interaction logic for About.xaml
@@ -33,6 +34,9 @@ namespace WebLogAddin
 
             DataContext = Model;
 
+            // Code bindings
+            ComboWeblogType.ItemsSource = Enum.GetValues(typeof(WeblogTypes)).Cast<WeblogTypes>();
+
             Loaded += WebLogStart_Loaded;
             Closing += WebLogStart_Closing;
         }
@@ -56,10 +60,11 @@ namespace WebLogAddin
 
         #region Button Handlers
         private void ButtonPostBlog_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            
+        {            
             // Update the Markdown document first
-            Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
+            string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
+            Model.AppModel.ActiveEditor.SetMarkdown(markdown);
+
 
             WeblogApp.Configuration.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
 
@@ -72,7 +77,7 @@ namespace WebLogAddin
                 // Then send the post - it will re-read the new values
                 if (Model.Addin.SendPost())
                     this.Close();
-
+                
                 Thread.Sleep(4000);
             }
             finally
@@ -109,6 +114,8 @@ namespace WebLogAddin
             });
             File.WriteAllText(outputFile, newPostMarkdown);
             Model.AppModel.Window.OpenTab(outputFile);
+
+            mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
 
             this.Close();
         }
