@@ -36,7 +36,7 @@ namespace WeblogAddin
 
         public void WebLogAddin_Execute(object sender)
         {
-            var form = new WebLogStart()
+            var form = new WebLogForm()
             {
                 Owner = Model.Window
             };

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Windows;
 using System.Windows.Media;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
@@ -13,14 +14,14 @@ namespace WeblogAddin
     /// <summary>
     /// Interaction logic for About.xaml
     /// </summary>
-    public partial class WebLogStart : MetroWindow
+    public partial class WebLogForm : MetroWindow
     {
         public WeblogAddinModel Model { get; set;  }
 
 
         #region Startup and Shutdown
 
-        public WebLogStart()
+        public WebLogForm()
         {
             Model = new WeblogAddinModel();
             
@@ -87,6 +88,13 @@ namespace WeblogAddin
             }
         }
 
+        private void ButtonSaveMeta_Click(object sender, RoutedEventArgs e)
+        {
+            // Update the Markdown document first
+            string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
+            Model.AppModel.ActiveEditor.SetMarkdown(markdown);            
+        }
+
         private void ButtonNewPost_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             string title = Model.NewTitle;
@@ -119,6 +127,10 @@ namespace WeblogAddin
 
             this.Close();
         }
+
+        
         #endregion
+
+
     }
 }

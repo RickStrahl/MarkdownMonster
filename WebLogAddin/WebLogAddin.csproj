@@ -73,8 +73,8 @@
     <Compile Include="WeblogAddinModel.cs" />
     <Compile Include="WeblogInfo.cs" />
     <Compile Include="WeblogPostMetadata.cs" />
-    <Compile Include="WebLogStart.xaml.cs">
-      <DependentUpon>WebLogStart.xaml</DependentUpon>
+    <Compile Include="WebLogForm.xaml.cs">
+      <DependentUpon>WebLogForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="JoeBlogs\classes\Author.cs" />
     <Compile Include="JoeBlogs\classes\Category.cs" />
@@ -146,7 +146,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="WebLogStart.xaml">
+    <Page Include="WebLogForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

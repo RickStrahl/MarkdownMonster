@@ -1,5 +1,5 @@
 ﻿<controls:MetroWindow 
-        x:Class="WeblogAddin.WebLogStart"
+        x:Class="WeblogAddin.WebLogForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -49,13 +49,21 @@
                            />
 
 
-                <Button Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
-                    <StackPanel Orientation="Horizontal">
-                        <fa:FontAwesome Icon="Upload" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                        <TextBlock Margin="10,0,0,0" FontSize="14">Post to Weblog</TextBlock>
-                    </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Upload" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                            <TextBlock Margin="10,0,0,0" FontSize="14">Post to Weblog</TextBlock>
+                        </StackPanel>
+                    </Button>
 
-                </Button>
+                    <Button Margin="10,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" Click="ButtonSaveMeta_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                            <TextBlock Margin="10,0,0,0" FontSize="14">Save Metadata</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
             </StackPanel>
         </controls:MetroTabItem>
 
