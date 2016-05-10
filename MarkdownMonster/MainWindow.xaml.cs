@@ -266,20 +266,19 @@ namespace MarkdownMonster
                 e.Cancel = true;
                 return;
             }
+            e.Cancel = false;
             
         }
 
         private bool CloseAllTabs()
         {
-            for (int i = TabControl.Items.Count - 1; i > -1; i--)
+            for (int i = TabControl.Items.Count - 1; i > -1 ; i--)
             {
                 var tab = TabControl.Items[i] as TabItem;
                 if (tab != null)
                 {
                     if (!CloseTab(tab))
                         return false;
-
-                    TabControl.Items.Remove(tab);
                 }
             }
             return true;
@@ -297,6 +296,7 @@ namespace MarkdownMonster
                 return false;
 
             var editor = GetActiveMarkdownEditor();
+            bool returnValue = true;
 
             var doc = editor.MarkdownDocument;
             if (doc.IsDirty)
@@ -306,21 +306,28 @@ namespace MarkdownMonster
                                           "Do you want to save changes?",
                                           "Save Document",
                     MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
-                if (res == MessageBoxResult.No)
-                    return true; // close
                 if (res == MessageBoxResult.Cancel)
+                {
                     return false; // don't close
-
-                if (doc.Filename == "untitled")
-                    Model.SaveAsCommand.Execute(ButtonSaveAsFile);
+                }
+                else if (res == MessageBoxResult.No)
+                {
+                    // close but don't save 
+                }
                 else
-                    SaveFile();
+                {
+                    if (doc.Filename == "untitled")
+                        Model.SaveAsCommand.Execute(ButtonSaveAsFile);
+                    else
+                        SaveFile();
+
+                    returnValue = true;
+                }
             }
 
             tab.Tag = null;
             editor = null;
             TabControl.Items.Remove(tab);
-
 
             if (TabControl.Items.Count == 0)
             {

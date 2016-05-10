@@ -50,11 +50,10 @@ namespace MarkdownMonster.Windows
             }
         }
 
+
         public string MarkdownFile { get; set; }
 
         
-
-
         public PasteImage()
         {
             InitializeComponent();
@@ -63,7 +62,6 @@ namespace MarkdownMonster.Windows
             mmApp.SetThemeWindowOverride(this);
 
             Loaded += PasteHref_Loaded;
-
         }
 
         private void PasteHref_Loaded(object sender, RoutedEventArgs e)
