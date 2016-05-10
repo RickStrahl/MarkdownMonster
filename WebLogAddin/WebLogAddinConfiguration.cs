@@ -27,7 +27,13 @@ namespace WeblogAddin
     public class WeblogAddinConfiguration : AppConfiguration, INotifyPropertyChanged
     {
 
-        public Dictionary<string,WeblogInfo> WebLogs { get; set; }
+
+        public WeblogAddinConfiguration()
+        {
+            Weblogs = new Dictionary<string, WeblogInfo>();
+        }
+
+        public Dictionary<string,WeblogInfo> Weblogs { get; set; }
 
 
         public string LastWeblogAccessed
@@ -85,18 +91,6 @@ namespace WeblogAddin
         }
         private bool _RenderLinksOpenExternal = true;
 
-        public WeblogAddinConfiguration()
-        {
-            WebLogs = new Dictionary<string, WeblogInfo>();
-            WebLogs.Add("New Blog",
-                new WeblogInfo()
-                {
-                    ApiUrl = "http://mysite.com/metaweblogapi/",
-                    Username = "username",
-                    Password = "Password",
-                    Name = "Test WebLog"
-                });
-        }
         
         protected override IConfigurationProvider OnCreateDefaultProvider(string sectionName, object configData)
         {

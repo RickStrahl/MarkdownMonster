@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
+using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
 using Westwind.Utilities;
@@ -22,21 +23,23 @@ namespace WeblogAddin
         #region Startup and Shutdown
 
         public WebLogForm()
-        {
-            Model = new WeblogAddinModel();
-            
-            Model.ActivePostMetadata = new WeblogPostMetadata();
+        {            
+            Model = new WeblogAddinModel()
+            {
+                ActivePostMetadata = new WeblogPostMetadata(),
+                Configuration = WeblogApp.Configuration,
+                Window = this
+            };
+
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
 
-            Model.Configuration = WeblogApp.Configuration;
-            
             InitializeComponent();
             //mmApp.SetThemeWindowOverride(this);         
 
             DataContext = Model;
 
             // Code bindings
-            ComboWeblogType.ItemsSource = Enum.GetValues(typeof(WeblogTypes)).Cast<WeblogTypes>();
+            ComboWeblogType.ItemsSource = Enum.GetValues(typeof(WeblogTypes)).Cast<WeblogTypes>();            
 
             Loaded += WebLogStart_Loaded;
             Closing += WebLogStart_Closing;
@@ -60,31 +63,37 @@ namespace WeblogAddin
         #endregion
 
         #region Button Handlers
-        private void ButtonPostBlog_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void ButtonPostBlog_Click(object sender, System.Windows.RoutedEventArgs e)
         {            
             // Update the Markdown document first
             string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
             Model.AppModel.ActiveEditor.SetMarkdown(markdown);
-
-
+            
             WeblogApp.Configuration.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
 
             var window = Model.AppModel.Window;
 
-            window.ShowStatus("Uploading Blog post...");
-            window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Upload, Colors.Orange, true);
+            ShowStatus("Uploading Blog post...");
+            SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Upload, Colors.Orange, true);                
+            
             try
-            {                
-                // Then send the post - it will re-read the new values
-                if (Model.Addin.SendPost())
-                    this.Close();
-                
-                Thread.Sleep(4000);
+            {
+                await Dispatcher.InvokeAsync(()=>
+                {
+                    Thread.Sleep(2000);
+                    // Then send the post - it will re-read the new values
+                    if (Model.Addin.SendPost()) { 
+                        
+                        this.Close();
+                    }
+                    else
+                        window.ShowStatus("Failed to upload blog post.", 5000);
+                },System.Windows.Threading.DispatcherPriority.Background);                
             }
             finally
             {
-                window.ShowStatus("Blog post uploaded successfully.",5000);
-                window.SetStatusIcon();
+                window.ShowStatus("Blog post uploaded successfully.", 5000);
+                SetStatusIcon();
             }
         }
 
@@ -128,7 +137,54 @@ namespace WeblogAddin
             this.Close();
         }
 
-        
+        #endregion
+
+        #region StatusBar
+
+        public void ShowStatus(string message = null, int milliSeconds = 0)
+        {
+            if (message == null)
+                message = "Ready";
+
+            StatusText.Text = message;
+
+            if (milliSeconds > 0)
+            {
+                var t = new Timer(new TimerCallback((object win) =>
+                {
+                    var window = win as MainWindow;
+                    window.Dispatcher.Invoke(() => { window.ShowStatus(null, 0); });
+                }), this, milliSeconds, Timeout.Infinite);
+            }
+        }
+
+        /// <summary>
+        /// Status the statusbar icon on the left bottom to some indicator
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="color"></param>
+        /// <param name="spin"></param>
+        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
+        {
+            StatusIcon.Icon = icon;
+            StatusIcon.Foreground = new SolidColorBrush(color);
+            if (spin)
+                StatusIcon.SpinDuration = 30;
+
+            StatusIcon.Spin = spin;
+        }
+
+        /// <summary>
+        /// Resets the Status bar icon on the left to its default green circle
+        /// </summary>
+        public void SetStatusIcon()
+        {
+            StatusIcon.Icon = FontAwesomeIcon.Circle;
+            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
+            StatusIcon.Spin = false;
+            StatusIcon.SpinDuration = 0;
+            StatusIcon.StopSpin();
+        }
         #endregion
 
 

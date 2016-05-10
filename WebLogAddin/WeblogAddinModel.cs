@@ -19,6 +19,16 @@ namespace WeblogAddin
     
         private string _newTitle;
 
+        public WeblogAddinModel()
+        {
+            ActiveWeblogInfo = new WeblogInfo()
+            {
+                Name = "New Weblog",
+                Type = WeblogTypes.MetaWeblogApi
+            };
+
+        }
+
         public AppModel AppModel
         {
             get { return _appModel; }
@@ -29,6 +39,8 @@ namespace WeblogAddin
                 OnPropertyChanged(nameof(AppModel));
             }
         }
+
+
 
         public WebLogAddin Addin
         {
@@ -88,6 +100,10 @@ namespace WeblogAddin
             }
         }
 
+        public string Name { get; set; } = "TESTTTSDTS";
+
+        public WebLogForm Window { get; set; }
+
 
         public List<string> WeblogNames
         {
@@ -106,9 +122,8 @@ namespace WeblogAddin
         
         public void LoadWebLognames()
         {
-            WeblogNames = Configuration.WebLogs.Select(wl => wl.Value.Name).ToList();            
+            WeblogNames = Configuration.Weblogs.Select(wl => wl.Value.Name).ToList();            
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
 

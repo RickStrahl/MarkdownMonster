@@ -1,10 +1,9 @@
 html, body {
      color: #3e433e;    
     font-family:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;        
-    font-size:15px;
+    font-size: 16px;
     -webkit-font-smoothing: antialiased;
-
-    font-size: 15px;
+    
     height: 100%;    
     line-height: 1.35em;
     padding: 5px 20px 5px 10px !important;

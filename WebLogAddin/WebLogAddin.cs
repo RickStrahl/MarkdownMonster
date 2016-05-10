@@ -74,7 +74,7 @@ namespace WeblogAddin
 
             WeblogInfo weblogInfo;
 
-            if (string.IsNullOrEmpty(meta.WeblogName) || !config.WebLogs.TryGetValue(meta.WeblogName, out weblogInfo))
+            if (string.IsNullOrEmpty(meta.WeblogName) || !config.Weblogs.TryGetValue(meta.WeblogName, out weblogInfo))
             {
                 MessageBox.Show("Invalid Weblog configuration selected.", "Weblog Posting Failed");
                 return false;

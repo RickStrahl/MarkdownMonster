@@ -166,10 +166,6 @@ namespace MarkdownMonster
             });            
         }
 
-        private void MainWindow_Closing(object sender, CancelEventArgs e)
-        {
-            SaveSettings();
-        }
 
         void RestoreSettings()
         {
@@ -259,6 +255,80 @@ namespace MarkdownMonster
                 }
             }
             config.Write();
+        }
+
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            SaveSettings();
+
+            if (!CloseAllTabs())
+            {
+                e.Cancel = true;
+                return;
+            }
+            
+        }
+
+        private bool CloseAllTabs()
+        {
+            for (int i = TabControl.Items.Count - 1; i > -1; i--)
+            {
+                var tab = TabControl.Items[i] as TabItem;
+                if (tab != null)
+                {
+                    if (!CloseTab(tab))
+                        return false;
+
+                    TabControl.Items.Remove(tab);
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Closes a tab and ask for confirmation if the tab doc 
+        /// is dirty.
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns>true if tab can close, false if it should stay open</returns>
+        public bool CloseTab(TabItem tab)
+        {
+            if (tab == null)
+                return false;
+
+            var editor = GetActiveMarkdownEditor();
+
+            var doc = editor.MarkdownDocument;
+            if (doc.IsDirty)
+            {
+                var res = MessageBox.Show("This document has changed:\r\n" +
+                                           doc.Filename + "\r\n\r\n" +
+                                          "Do you want to save changes?",
+                                          "Save Document",
+                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+                if (res == MessageBoxResult.No)
+                    return true; // close
+                if (res == MessageBoxResult.Cancel)
+                    return false; // don't close
+
+                if (doc.Filename == "untitled")
+                    Model.SaveAsCommand.Execute(ButtonSaveAsFile);
+                else
+                    SaveFile();
+            }
+
+            tab.Tag = null;
+            editor = null;
+            TabControl.Items.Remove(tab);
+
+
+            if (TabControl.Items.Count == 0)
+            {
+                PreviewBrowser.Visibility = Visibility.Hidden;
+                PreviewBrowser.Navigate("about:blank");
+            }
+
+            return true; // close
         }
         #endregion
 
@@ -357,53 +427,7 @@ namespace MarkdownMonster
         }
 
 
-        /// <summary>
-        /// Closes a tab and ask for confirmation if the tab doc 
-        /// is dirty.
-        /// 
-        /// NOTE: Doesn't actually remove the tab - since the tab 
-        /// control automatically handles that process.
-        /// </summary>
-        /// <param name="tab"></param>
-        /// <returns>true if tab can close, false if it should stay open</returns>
-        public bool CloseTab(TabItem tab)
-        {
-            if (tab == null)
-                return false; 
-
-            var editor = GetActiveMarkdownEditor();
-            var doc = editor.MarkdownDocument;
-            if (doc.IsDirty)
-            {
-                var res = MessageBox.Show("This document has changed:\r\n" +
-                                           doc.Filename + "\r\n\r\n" +
-                                          "Do you want to save changes?", 
-                                          "Save Document",
-                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question,MessageBoxResult.Cancel);
-                if (res == MessageBoxResult.No)
-                    return true; // close
-                if (res == MessageBoxResult.Cancel)
-                    return false; // don't close
-
-                if (doc.Filename == "untitled")
-                    Model.SaveAsCommand.Execute(ButtonSaveAsFile);
-                else
-                    SaveFile();
-            }
-
-            tab.Tag = null;
-            editor = null;
-            TabControl.Items.Remove(tab);
-
-
-            if (TabControl.Items.Count == 0)
-            {
-                PreviewBrowser.Visibility = Visibility.Hidden;
-                PreviewBrowser.Navigate("about:blank");
-            }
-
-            return true; // close
-        }
+  
 
         public void ShowPreviewBrowser(bool hide = false)
         {
