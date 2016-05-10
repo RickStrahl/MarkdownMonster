@@ -31,6 +31,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(HtmlRenderFilename));
             }
         }
+        private string _filename;
 
         public int LastBrowserScrollPosition { get; set; }        
 
@@ -65,7 +66,20 @@ namespace MarkdownMonster
             }
         }
         private bool _IsDirty;
-        private string _filename;
+        
+
+
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set
+            {
+                if (value == _isActive) return;
+                _isActive = value;
+                OnPropertyChanged(nameof(IsActive));
+            }
+        }
+        private bool _isActive = false;
 
         /// <summary>
         /// This is the filename used when rendering this document to HTML

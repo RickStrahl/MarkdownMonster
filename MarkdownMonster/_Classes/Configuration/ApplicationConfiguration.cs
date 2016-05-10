@@ -10,6 +10,10 @@ using Westwind.Utilities.Configuration;
 
 namespace MarkdownMonster
 {
+
+    /// <summary>
+    /// Application level configuration for Markdown Monster
+    /// </summary>
     public class ApplicationConfiguration : AppConfiguration, 
                                             INotifyPropertyChanged
     {
@@ -108,15 +112,15 @@ namespace MarkdownMonster
         
         public List<string> RecentDocuments
         {
-            get { return _RecentDocuments; }
+            get { return _recentDocuments; }
             set
             {
-                if (value == _RecentDocuments) return;
-                _RecentDocuments = value;
+                if (value == _recentDocuments) return;
+                _recentDocuments = value;
                 OnPropertyChanged(nameof(RecentDocuments));
             }
         }
-        private List<string> _RecentDocuments = new List<string>();
+        private List<string> _recentDocuments = new List<string>();
 
         public string LastFolder { get; set; }
 

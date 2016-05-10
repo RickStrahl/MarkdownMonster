@@ -181,12 +181,23 @@ namespace MarkdownMonster
 
             if (mmApp.Configuration.RememberOpenFiles)
             {
+                var selectedDoc = conf.OpenDocuments.FirstOrDefault(dc => dc.IsActive);
+                MetroTabItem selectedTab = null;
+
                 // since docs are inserted at the beginning we need to go in reverse
                 foreach (var doc in conf.OpenDocuments.Reverse<MarkdownDocument>())
                 {
                     if (File.Exists(doc.Filename))
-                        OpenTab(doc.Filename);
+                    {
+                        var tab = OpenTab(doc.Filename);
+
+                        if (selectedDoc != null && selectedDoc.Filename == doc.Filename)                        
+                            selectedTab = tab;                        
+                    }
                 }
+
+                if (selectedTab != null)
+                    TabControl.SelectedItem = selectedTab;
             }
 
             Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;
@@ -337,11 +348,11 @@ namespace MarkdownMonster
         }
         #endregion
 
-        #region Worker Functions
-        public void OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown")
+        #region Worker Functs
+        public MetroTabItem OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown")
         {
             if (mdFile != null && mdFile!= "untitled" && !File.Exists(mdFile))
-                return;
+                return null;
 
             var tab = new MetroTabItem();
 
@@ -429,6 +440,8 @@ namespace MarkdownMonster
 
             if (showPreviewIfActive && PreviewBrowser.Width > 5)
                 Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
+
+            return tab;
         }
 
 
@@ -688,6 +701,11 @@ namespace MarkdownMonster
             Title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*","") + "   -  Markdown Monster";
 
             Model.ActiveDocument = editor.MarkdownDocument;
+
+            foreach (var doc in Model.OpenDocuments)
+                doc.IsActive = false;
+
+            Model.ActiveDocument.IsActive = true;
         }
 
         private void MainWindow_Drop(object sender, DragEventArgs e)
