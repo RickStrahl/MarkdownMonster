@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using MarkdownMonster;
+using MarkdownMonster.Windows;
 using Newtonsoft.Json;
 using NHunspell;
 using Westwind.Utilities;
@@ -148,7 +149,6 @@ namespace MarkdownMonster
                     editor.RestyleEditor();
                 }
             }
-
         }
 
 
@@ -161,10 +161,7 @@ namespace MarkdownMonster
         public void ProcessEditorUpdateCommand(string action)
         {
             string html = AceEditor.getselection(false);
-
-            if (string.IsNullOrEmpty(html))
-                return;
-
+            
             string newhtml = MarkupMarkdown(action, html);
 
             if (!string.IsNullOrEmpty(newhtml) && newhtml != html)
@@ -186,7 +183,12 @@ namespace MarkdownMonster
         /// <returns></returns>
         public string MarkupMarkdown(string action, string input, string style = null)
         {
+            
             action = action.ToLower();
+
+            if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image", "code" }))
+                return null;
+
             string html = input;
 
             if (action == "bold")
@@ -240,12 +242,59 @@ namespace MarkdownMonster
                 }
                 html = sb.ToString();
             }
-            
+            else if (action == "href")
+            {                
+                var form = new PasteHref();
+                form.Owner = Window;
+                form.LinkText = input;
 
+                // check for links in input or on clipboard
+                string link = input;
+                if (string.IsNullOrEmpty(link))
+                    link = Clipboard.GetText();
+
+                if (!(input.StartsWith("http:") || input.StartsWith("https:") || input.StartsWith("mailto:") || input.StartsWith("ftp:")))                
+                    link = string.Empty;
+                
+                form.Link = link;
+
+                bool? res = form.ShowDialog();
+                if (res != null && res.Value)
+                    html = $"[{form.LinkText}]({form.Link})";
+            }
+            else if (action == "image")
+            {
+                var form = new PasteImage();
+                form.Owner = Window;
+                form.ImageText = input;
+                form.MarkdownFile = MarkdownDocument.Filename;
+                
+
+                // check for links in input or on clipboard
+                string link = input;
+                if (string.IsNullOrEmpty(link))
+                    link = Clipboard.GetText();
+
+                if (!(input.StartsWith("http:") || input.StartsWith("https:") || input.StartsWith("mailto:") || input.StartsWith("ftp:")))
+                    link = string.Empty;
+
+                if (input.Contains(".png") || input.Contains(".jpg") || input.Contains(".gif"))
+                    link = input;
+
+                form.Image = link;
+
+                bool? res = form.ShowDialog();
+                if (res != null && res.Value)
+                {
+                    var image = form.Image;
+                    html = $"![{form.ImageText}]({form.Image})";
+                }
+            }
+            
             return html;
         }
 
-
+        
 
         #region Callback functions from the Html Editor
 

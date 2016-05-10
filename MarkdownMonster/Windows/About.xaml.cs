@@ -11,9 +11,7 @@ namespace MarkdownMonster.Windows
     public partial class About : MetroWindow
     {
         public About()
-        {
-            //mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
-
+        {           
             InitializeComponent();
             
             mmApp.SetThemeWindowOverride(this);

@@ -1,0 +1,41 @@
+﻿<controls:MetroWindow x:Name="PastHref" x:Class="MarkdownMonster.Windows.PasteHref"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Icon="../Assets/MarkdownMonster_Icon_256.png"                     
+        Title="Embed Link"
+        WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
+        WindowStartupLocation="CenterOwner"         
+        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
+        Width="603.57" Height="288.154">
+    <StackPanel Margin="30">
+        <Label>Link Text:</Label>
+        <TextBox Name="TextLinkText" Text="{Binding LinkText}" FontSize="15" />
+
+        
+        <Label Margin="0,10,0,0">Link:</Label>
+        <TextBox  Name="TextLink"  Text="{Binding Link}"  FontSize="15" />
+
+        
+        <StackPanel Orientation="Horizontal">
+            <Button Name="ButtonOk" Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="Upload" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                    <TextBlock Margin="10,0,0,0" FontSize="14">Paste Link</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button Name="ButtonCancel" Margin="10,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="Remove" FontFamily="FontAwesome"  FontSize="20"/>
+                    <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</controls:MetroWindow>

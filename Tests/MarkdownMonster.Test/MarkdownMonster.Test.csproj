@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}</ProjectGuid>
+    <ProjectGuid>{A3FCE345-F767-487F-86BF-DFA78B4BC218}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WeblogAddin.Test</RootNamespace>
-    <AssemblyName>WeblogAddin.Test</AssemblyName>
+    <RootNamespace>MarkdownMonster.Test</RootNamespace>
+    <AssemblyName>MarkdownMonster.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -54,21 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="WeblogAddinTests.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj">
-      <Project>{cb4eab0e-1796-476e-83a0-20da826e1c02}</Project>
-      <Name>MarkdownMonster</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WebLogAddin\WebLogAddin.csproj">
-      <Project>{a9fdc380-dab2-4e40-b5d1-563b5023aafc}</Project>
-      <Name>WebLogAddin</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

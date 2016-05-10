@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnagItAddIn.Test", "Tests\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeblogAddin.Test", "Test\WeblogAddin.Test\WeblogAddin.Test.csproj", "{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster.Test", "Tests\MarkdownMonster.Test\MarkdownMonster.Test.csproj", "{A3FCE345-F767-487F-86BF-DFA78B4BC218}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,16 @@ Global
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.SandBox|Any CPU.ActiveCfg = Release|Any CPU
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.SandBox|Any CPU.Build.0 = Release|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Deploy|Any CPU.Build.0 = Debug|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.net40|Any CPU.ActiveCfg = Release|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.net40|Any CPU.Build.0 = Release|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.SandBox|Any CPU.ActiveCfg = Release|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.SandBox|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,5 +95,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7EDA8CFE-B576-480B-804E-63DC372CF41D} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
 	EndGlobalSection
 EndGlobal

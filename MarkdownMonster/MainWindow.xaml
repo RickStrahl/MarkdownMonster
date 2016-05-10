@@ -222,6 +222,30 @@
 
                         <Separator />
 
+                        <Button Name ="ButtonH1" Margin="5,0" ToolTip="H1 Text"
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="h1" Content="H1" FontWeight="Bold"                                
+                                />
+
+                        <Button Name ="ButtonH2" Margin="5,0" ToolTip="H2 Text"
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="h2" Content="H2" FontWeight="Bold"                                
+                                />
+
+                        <Button Name ="ButtonH3" Margin="5,0" ToolTip="H2 Text"
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="h3" Content="H3" FontWeight="Bold"                                
+                                />
+                        <Button Name ="ButtonH4" Margin="5,0" ToolTip="H4 Text"
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="h4" Content="H4" FontWeight="Bold"                                
+                                />
+                        <Button Name ="ButtonH5" Margin="5,0" ToolTip="H5 Text"
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="h5" Content="H5" FontWeight="Bold"                                
+                                />
+                        <Separator />
+
 
                         <Button Name ="ButtonLink" Margin="7,0"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
@@ -231,8 +255,9 @@
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
-                        <Button Name ="ButtonImage" Margin="7,0"
-                                Tag="image"
+                        <Button Name ="ButtonImage" Margin="7,0"                                
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="image" 
                                 fa:Awesome.Content="Image"
                                  Height="22" Width="25"
                                 TextElement.FontSize="16"

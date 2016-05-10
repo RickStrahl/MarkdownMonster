@@ -9,10 +9,8 @@ $pwd = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
 
 if(!$pwd) {Exit;}
 
-cls
-
-curl.exe -T ".\builds\CurrentRelease\HelpBuilderSetup.exe"  "ftp://west-wind.com/Westwind_sysroot/Ftp/Files/" -u ${uid}:${pwd}
-curl.exe -T ".\builds\CurrentRelease\HelpBuilderSetup.zip"  "ftp://west-wind.com/Westwind_sysroot/Ftp/Files/" -u ${uid}:${pwd}
-curl.exe -T ".\builds\CurrentRelease\wwHelp500.xml"  "ftp://west-wind.com/Westwind_sysroot/Ftp/Files/" -u ${uid}:${pwd}
+curl.exe -T ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"  "ftp://west-wind.com/Westwind_sysroot/Ftp/Files/" -u ${uid}:${pwd}
+curl.exe -T ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip"  "ftp://west-wind.com/Westwind_sysroot/Ftp/Files/" -u ${uid}:${pwd}
+curl.exe -T ".\Builds\CurrentRelease\MarkdownMonster_Version.xml"  "ftp://west-wind.com/Westwind_sysroot/Ftp/Files/" -u ${uid}:${pwd}
 
 pause

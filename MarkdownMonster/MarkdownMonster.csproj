@@ -107,8 +107,15 @@
     <Compile Include="AppModel.cs" />
     <Compile Include="Controls\CommandBase.cs" />
     <Compile Include="DropdownButtonBehavior.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PasteImage.xaml.cs">
+      <DependentUpon>PasteImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PasteHref.xaml.cs">
+      <DependentUpon>PasteHref.xaml</DependentUpon>
     </Compile>
     <Compile Include="_Classes\Configuration\mmApp.cs" />
     <Compile Include="_Classes\Configuration\ApplicationConfiguration.cs" />
@@ -129,6 +136,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PasteImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PasteHref.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
