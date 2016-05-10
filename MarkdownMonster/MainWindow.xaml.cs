@@ -266,8 +266,7 @@ namespace MarkdownMonster
                 e.Cancel = true;
                 return;
             }
-            e.Cancel = false;
-            
+            e.Cancel = false;            
         }
 
         private bool CloseAllTabs()
@@ -301,8 +300,7 @@ namespace MarkdownMonster
             var doc = editor.MarkdownDocument;
             if (doc.IsDirty)
             {
-                var res = MessageBox.Show("This document has changed:\r\n" +
-                                           doc.Filename + "\r\n\r\n" +
+                var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n"  +
                                           "Do you want to save changes?",
                                           "Save Document",
                     MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
