@@ -149,6 +149,8 @@ namespace MarkdownMonster
             }
         }
 
+        internal string FileWatcherOpenFilePath;
+
         public ApplicationConfiguration()
         {
             WindowPosition = new WindowPosition();
@@ -156,6 +158,9 @@ namespace MarkdownMonster
 
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             CommonFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"West Wind Markdown Monster");
+            FileWatcherOpenFilePath =  Path.Combine(
+                  Path.GetTempPath(),
+                 "__openfile.txt");
 
             ApplicationTheme = Themes.Dark;
             RenderTheme = "blackout";

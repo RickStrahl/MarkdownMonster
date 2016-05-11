@@ -65,8 +65,17 @@ namespace MarkdownMonster
             };
 
             // Override some of the theme defaults (dark header specifically)
-            mmApp.SetThemeWindowOverride(this);        
+            mmApp.SetThemeWindowOverride(this);
+
+            // Add a FileWatcher to watch for multi-instance files to open
+            var openFileWatcher = new FileSystemWatcher(
+                Path.GetDirectoryName(mmApp.Configuration.FileWatcherOpenFilePath),
+                Path.GetFileName(mmApp.Configuration.FileWatcherOpenFilePath));
+            openFileWatcher.Changed += openFileWatcher_Changed;
+            openFileWatcher.Created += openFileWatcher_Changed;
+            openFileWatcher.EnableRaisingEvents = true;
         }
+
 
 
         /// <summary>
@@ -90,43 +99,6 @@ namespace MarkdownMonster
             }
         }
 
-        /// <summary>
-        /// Keep WebBrowser Preview control from firing script errors. We need this
-        /// because we may be previewing HTML content that includes script content
-        /// that might not work because of local file restrictions or missing 
-        /// resources that can't load from the Web.
-        /// 
-        /// Ugh... Keep Web Browser control from showing error dialog - silent operation.
-        /// this is ugly, but it works.
-        /// </summary>
-        /// <param name="browser"></param>
-        /// <param name="silent"></param>
-        static void NoScriptErrors(WebBrowser browser, bool silent)
-        {
-            if (browser == null)
-                return;
-            
-            // get an IWebBrowser2 from the document
-            IOleServiceProvider sp = browser.Document as IOleServiceProvider;
-            if (sp != null)
-            {
-                Guid IID_IWebBrowserApp = new Guid("0002DF05-0000-0000-C000-000000000046");
-                Guid IID_IWebBrowser2 = new Guid("D30C1661-CDAF-11d0-8A3E-00C04FC9E26E");
-
-                dynamic webBrowser;
-                sp.QueryService(ref IID_IWebBrowserApp, ref IID_IWebBrowser2, out webBrowser);
-                if (webBrowser != null)
-                    webBrowser.Silent = silent;                   
-            }
-        }
-
-
-        [ComImport, Guid("6D5140C1-7436-11CE-8034-00AA006009FA"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        private interface IOleServiceProvider
-        {
-            [PreserveSig]
-            int QueryService([In] ref Guid guidService, [In] ref Guid riid, [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
-        }
 
 
 
@@ -280,75 +252,6 @@ namespace MarkdownMonster
             e.Cancel = false;            
         }
 
-        private bool CloseAllTabs()
-        {
-            for (int i = TabControl.Items.Count - 1; i > -1 ; i--)
-            {
-                var tab = TabControl.Items[i] as TabItem;
-                if (tab != null)
-                {
-                    if (!CloseTab(tab))
-                        return false;
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Closes a tab and ask for confirmation if the tab doc 
-        /// is dirty.
-        /// </summary>
-        /// <param name="tab"></param>
-        /// <returns>true if tab can close, false if it should stay open</returns>
-        public bool CloseTab(TabItem tab)
-        {
-            if (tab == null)
-                return false;
-
-            var editor = GetActiveMarkdownEditor();
-            bool returnValue = true;
-
-            var doc = editor.MarkdownDocument;
-            if (doc.IsDirty)
-            {
-                var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n"  +
-                                          "Do you want to save changes?",
-                                          "Save Document",
-                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
-                if (res == MessageBoxResult.Cancel)
-                {
-                    return false; // don't close
-                }
-                else if (res == MessageBoxResult.No)
-                {
-                    // close but don't save 
-                }
-                else
-                {
-                    if (doc.Filename == "untitled")
-                        Model.SaveAsCommand.Execute(ButtonSaveAsFile);
-                    else
-                        SaveFile();
-
-                    returnValue = true;
-                }
-            }
-
-            tab.Tag = null;
-            editor = null;
-            TabControl.Items.Remove(tab);
-
-            if (TabControl.Items.Count == 0)
-            {
-                PreviewBrowser.Visibility = Visibility.Hidden;
-                PreviewBrowser.Navigate("about:blank");
-            }
-
-            return true; // close
-        }
-        #endregion
-
-        #region Worker Functs
         public MetroTabItem OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown")
         {
             if (mdFile != null && mdFile!= "untitled" && !File.Exists(mdFile))
@@ -369,8 +272,6 @@ namespace MarkdownMonster
                 AllowDrop = false,
                 Visibility = Visibility.Hidden
             };
-            
-            
 
             tab.Content = wb;
             TabControl.SelectedItem = tab;
@@ -441,11 +342,79 @@ namespace MarkdownMonster
             if (showPreviewIfActive && PreviewBrowser.Width > 5)
                 Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
 
+            TabControl.SelectedItem = tab;
             return tab;
         }
 
+        private bool CloseAllTabs()
+        {
+            for (int i = TabControl.Items.Count - 1; i > -1 ; i--)
+            {
+                var tab = TabControl.Items[i] as TabItem;
+                if (tab != null)
+                {
+                    if (!CloseTab(tab))
+                        return false;
+                }
+            }
+            return true;
+        }
 
-  
+        /// <summary>
+        /// Closes a tab and ask for confirmation if the tab doc 
+        /// is dirty.
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns>true if tab can close, false if it should stay open</returns>
+        public bool CloseTab(TabItem tab)
+        {
+            if (tab == null)
+                return false;
+
+            var editor = GetActiveMarkdownEditor();
+            bool returnValue = true;
+
+            var doc = editor.MarkdownDocument;
+            if (doc.IsDirty)
+            {
+                var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n"  +
+                                          "Do you want to save changes?",
+                                          "Save Document",
+                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+                if (res == MessageBoxResult.Cancel)
+                {
+                    return false; // don't close
+                }
+                else if (res == MessageBoxResult.No)
+                {
+                    // close but don't save 
+                }
+                else
+                {
+                    if (doc.Filename == "untitled")
+                        Model.SaveAsCommand.Execute(ButtonSaveAsFile);
+                    else
+                        SaveFile();
+
+                    returnValue = true;
+                }
+            }
+
+            tab.Tag = null;
+            editor = null;
+            TabControl.Items.Remove(tab);
+
+            if (TabControl.Items.Count == 0)
+            {
+                PreviewBrowser.Visibility = Visibility.Hidden;
+                PreviewBrowser.Navigate("about:blank");
+            }
+
+            return true; // close
+        }
+        #endregion
+
+        #region Worker Functs
 
         public void ShowPreviewBrowser(bool hide = false)
         {
@@ -742,6 +711,55 @@ namespace MarkdownMonster
             PreviewMarkdown(showInBrowser: true);
         }
 
+
+        /// <summary>
+        /// Event fired with __openfile.txt with a filename is created. Reads file
+        /// and if it finds a filename opens it in a new tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openFileWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                string fileToOpen = null;
+
+                // due to timing we may have to try a few times before the
+                // file is ready to be read.
+                for (int i = 0; i < 40; i++)
+                {
+                    try
+                    {
+                        if (File.Exists(mmApp.Configuration.FileWatcherOpenFilePath))
+                        {
+                            fileToOpen = File.ReadAllText(mmApp.Configuration.FileWatcherOpenFilePath);
+                            File.Delete(mmApp.Configuration.FileWatcherOpenFilePath);
+                        }
+                        break;
+                    }
+                    catch(Exception ex)
+                    {
+                        Thread.Sleep(30);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(fileToOpen))
+                    this.OpenTab(fileToOpen.Trim());
+
+                this.Topmost = true;
+                if (WindowState == WindowState.Minimized)
+                    WindowState = WindowState.Normal;
+
+                this.Activate();
+                Dispatcher.BeginInvoke(new Action(() => { this.Topmost = false; }));
+            
+             });
+        }
+
+        #endregion
+
+        #region StatusBar Display
+
         public void ShowStatus(string message = null, int milliSeconds = 0)
         {
             if (message == null)
@@ -785,6 +803,46 @@ namespace MarkdownMonster
             StatusIcon.Spin = false;
             StatusIcon.SpinDuration = 0;
             StatusIcon.StopSpin();
+        }
+        #endregion
+
+        #region Preview Browser No Script Errors
+        /// <summary>
+        /// Keep WebBrowser Preview control from firing script errors. We need this
+        /// because we may be previewing HTML content that includes script content
+        /// that might not work because of local file restrictions or missing 
+        /// resources that can't load from the Web.
+        /// 
+        /// Ugh... Keep Web Browser control from showing error dialog - silent operation.
+        /// this is ugly, but it works.
+        /// </summary>
+        /// <param name="browser"></param>
+        /// <param name="silent"></param>
+        static void NoScriptErrors(WebBrowser browser, bool silent)
+        {
+            if (browser == null)
+                return;
+
+            // get an IWebBrowser2 from the document
+            IOleServiceProvider sp = browser.Document as IOleServiceProvider;
+            if (sp != null)
+            {
+                Guid IID_IWebBrowserApp = new Guid("0002DF05-0000-0000-C000-000000000046");
+                Guid IID_IWebBrowser2 = new Guid("D30C1661-CDAF-11d0-8A3E-00C04FC9E26E");
+
+                dynamic webBrowser;
+                sp.QueryService(ref IID_IWebBrowserApp, ref IID_IWebBrowser2, out webBrowser);
+                if (webBrowser != null)
+                    webBrowser.Silent = silent;
+            }
+        }
+
+
+        [ComImport, Guid("6D5140C1-7436-11CE-8034-00AA006009FA"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        private interface IOleServiceProvider
+        {
+            [PreserveSig]
+            int QueryService([In] ref Guid guidService, [In] ref Guid riid, [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
         }
         #endregion
     }
