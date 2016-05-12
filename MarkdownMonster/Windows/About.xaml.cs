@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using MahApps.Metro.Controls;
 using Westwind.Utilities;
@@ -17,8 +18,8 @@ namespace MarkdownMonster.Windows
             mmApp.SetThemeWindowOverride(this);
             
             string bitNess = Environment.Is64BitProcess ? "64 bit" : "32 bit";
-            Version v = Assembly.GetExecutingAssembly().GetName().Version;
-            VersionLabel.Content = "Version " + v.Major + "." + v.Minor + " " + bitNess;
+            var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+            VersionLabel.Content = "Version " + v.FileMajorPart + "." + v.FileMinorPart + " ♠ " + bitNess;
         }
 
         private void WestWindIcon_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
