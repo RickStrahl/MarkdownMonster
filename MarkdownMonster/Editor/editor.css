@@ -12,7 +12,8 @@ html, body {
 
 #Editor {
 	height: 100%; 
-	width: 100%;	
+	width: 100%;
+    -webkit-overflow-scrolling: touch;
 
 }		
 
