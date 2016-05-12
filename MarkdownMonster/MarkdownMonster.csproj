@@ -212,9 +212,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\vsizegrip.png" />
