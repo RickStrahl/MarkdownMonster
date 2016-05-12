@@ -60,11 +60,13 @@ var te = window.textEditor = {
             "alt-k": null,
             "ctrl-n": null,
             "ctrl-o": function() { te.specialkey("ctrl-o"); },
-            "ctrl-s": function () { te.specialkey("ctrl-s"); },                        
+            "ctrl-s": function() { te.specialkey("ctrl-s"); },
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
             "ctrl-i": function() { te.specialkey("ctrl-i"); },
             "ctrl-l": function() { te.specialkey("ctrl-l"); },
-            "ctrl-k": function() { te.specialkey("ctrl-k"); }
+            "ctrl-k": function() { te.specialkey("ctrl-k"); },
+            "ctrl-shift-down": function () { te.specialkey("ctrl-shift-down"); },
+            "ctrl-shift-up": function() { te.specialkey("ctrl-shift-up"); }
         });
         
         editor.renderer.setPadding(15);

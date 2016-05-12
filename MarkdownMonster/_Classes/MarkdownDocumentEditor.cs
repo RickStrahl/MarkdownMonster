@@ -339,7 +339,24 @@ namespace MarkdownMonster
             if (key == "ctrl-k")
             {
                 Window.Model.ToolbarInsertMarkdownCommand.Execute("href");
-            }            
+            }
+            if (key == "ctrl-shift-down")
+            {
+                if (Window.PreviewBrowser.IsVisible)
+                {
+                    dynamic dom = Window.PreviewBrowser.Document;
+                    dom.documentElement.scrollTop += 150;
+                }                
+            }
+            if (key == "ctrl-shift-up")
+            {
+                if (Window.PreviewBrowser.IsVisible)
+                {
+                    dynamic dom = Window.PreviewBrowser.Document;
+                    dom.documentElement.scrollTop -= 150;
+                }
+            }
+
         }
 
        static Hunspell GetSpellChecker(string language = "EN_US", bool reload = false)
@@ -391,7 +408,6 @@ namespace MarkdownMonster
             }
             catch{ }
         }
-
 #endregion
 
     }
