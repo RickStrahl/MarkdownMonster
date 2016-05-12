@@ -6,7 +6,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -29,6 +28,8 @@ namespace MarkdownMonster
         public AppModel Model { get; set; }
 
         private string FileName;
+
+        private FileSystemWatcher openFileWatcher;
 
         public ApplicationConfiguration Configuration { get; set; }
 
@@ -57,23 +58,30 @@ namespace MarkdownMonster
             {                
                 var editor = GetActiveMarkdownEditor();
                 dynamic dom = PreviewBrowser.Document;                
-
                 dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
 
                 if (File.Exists(editor.MarkdownDocument.HtmlRenderFilename))
                     File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
             };
 
+
+            if (mmApp.Configuration.UseSingleWindow)
+            {
+                // Add a FileWatcher to watch for multi-instance files to open
+                openFileWatcher = new FileSystemWatcher(
+                    Path.GetDirectoryName(mmApp.Configuration.FileWatcherOpenFilePath),
+                    Path.GetFileName(mmApp.Configuration.FileWatcherOpenFilePath))
+                {
+                    NotifyFilter = NotifyFilters.LastWrite,
+                    EnableRaisingEvents = true
+                };
+                openFileWatcher.Changed += openFileWatcher_Changed;
+                openFileWatcher.Created += openFileWatcher_Changed;
+            }
+
+
             // Override some of the theme defaults (dark header specifically)
             mmApp.SetThemeWindowOverride(this);
-
-            // Add a FileWatcher to watch for multi-instance files to open
-            var openFileWatcher = new FileSystemWatcher(
-                Path.GetDirectoryName(mmApp.Configuration.FileWatcherOpenFilePath),
-                Path.GetFileName(mmApp.Configuration.FileWatcherOpenFilePath));
-            openFileWatcher.Changed += openFileWatcher_Changed;
-            openFileWatcher.Created += openFileWatcher_Changed;
-            openFileWatcher.EnableRaisingEvents = true;
         }
 
 
@@ -492,7 +500,7 @@ namespace MarkdownMonster
         }
 
         private DateTime invoked = DateTime.MinValue;
-
+        
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false)
         {
             if (!mmApp.Configuration.IsPreviewVisible)
@@ -720,40 +728,50 @@ namespace MarkdownMonster
         /// <param name="e"></param>
         private void openFileWatcher_Changed(object sender, FileSystemEventArgs e)
         {
+            string filesToOpen = null;
+
+            // due to timing we may have to try a few times before the
+            // file is ready to be read.
+            for (int i = 0; i < 100; i++)
+            {
+                try
+                {
+                    if (File.Exists(mmApp.Configuration.FileWatcherOpenFilePath))
+                    {
+                        filesToOpen = File.ReadAllText(mmApp.Configuration.FileWatcherOpenFilePath);
+                        File.Delete(mmApp.Configuration.FileWatcherOpenFilePath);
+                        filesToOpen = filesToOpen.TrimEnd();
+                    }                   
+                    break;
+                }
+                catch
+                {
+                    Thread.Sleep(10);
+                }
+            }
+
             Dispatcher.Invoke(() =>
             {
-                string fileToOpen = null;
 
-                // due to timing we may have to try a few times before the
-                // file is ready to be read.
-                for (int i = 0; i < 40; i++)
+                if (!string.IsNullOrEmpty(filesToOpen))
                 {
-                    try
+                    foreach (var file in StringUtils.GetLines(filesToOpen))
                     {
-                        if (File.Exists(mmApp.Configuration.FileWatcherOpenFilePath))
-                        {
-                            fileToOpen = File.ReadAllText(mmApp.Configuration.FileWatcherOpenFilePath);
-                            File.Delete(mmApp.Configuration.FileWatcherOpenFilePath);
-                        }
-                        break;
-                    }
-                    catch(Exception ex)
-                    {
-                        Thread.Sleep(30);
+                        MessageBox.Show(file);
+                        this.OpenTab(file.Trim());
                     }
                 }
-
-                if (!string.IsNullOrEmpty(fileToOpen))
-                    this.OpenTab(fileToOpen.Trim());
-
+                    
                 this.Topmost = true;
+
                 if (WindowState == WindowState.Minimized)
                     WindowState = WindowState.Normal;
 
                 this.Activate();
+
+                // restor out of band
                 Dispatcher.BeginInvoke(new Action(() => { this.Topmost = false; }));
-            
-             });
+            });
         }
 
         #endregion

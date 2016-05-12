@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,7 +22,7 @@ namespace MarkdownMonster
     public partial class App : System.Windows.Application
     {
         public static Mutex Mutex;
-        string fileToOpen = null;
+        string filesToOpen = null;
 
         public App()
         {
@@ -41,30 +42,40 @@ namespace MarkdownMonster
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            bool isOnlyInstance = false;
-            Mutex = new Mutex(true, @"MarkdownMonster", out isOnlyInstance);
-            if (!isOnlyInstance)
+            if (mmApp.Configuration.UseSingleWindow)
             {
-                fileToOpen = " ";
-                var args = Environment.GetCommandLineArgs();
-                if (args != null && args.Length > 1)
-                    fileToOpen = args[1];
-  
-                File.WriteAllText(mmApp.Configuration.FileWatcherOpenFilePath, fileToOpen);
-          
-                Mutex.Dispose();
+                bool isOnlyInstance = false;
+                Mutex = new Mutex(true, @"MarkdownMonster", out isOnlyInstance);
+                if (!isOnlyInstance)
+                {
+                    filesToOpen = " ";
+                    var args = Environment.GetCommandLineArgs();
+                    if (args != null && args.Length > 1)
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 1; i < args.Length; i++)
+                        {
+                            sb.AppendLine(args[i]);
+                        } 
+                        filesToOpen = sb.ToString();
+                    }
 
-                Environment.Exit(0);
-                       
-                // This blows up when writing files and file watcher watching
-                // No idea why - Environment.Exit() works with no issue
-                //ShutdownMode = ShutdownMode.OnMainWindowClose;
-                //App.Current.Shutdown();
+                    File.WriteAllText(mmApp.Configuration.FileWatcherOpenFilePath, filesToOpen);
 
-                return;
+                    Mutex.Dispose();
+                    mmApp.Configuration = null;
+
+                    Environment.Exit(0);
+
+
+                    // This blows up when writing files and file watcher watching
+                    // No idea why - Environment.Exit() works with no issue
+                    //ShutdownMode = ShutdownMode.OnMainWindowClose;
+                    //App.Current.Shutdown();
+
+                    return;
+                }
             }
-            //else
-            //    StartupUri =  new Uri("MainWindow.xaml", UriKind.Relative);
 
             var dir = Assembly.GetExecutingAssembly().Location;
             Directory.SetCurrentDirectory(Path.GetDirectoryName(dir));            

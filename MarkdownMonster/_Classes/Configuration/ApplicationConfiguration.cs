@@ -45,8 +45,21 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(EditorTheme));
             }
         }
-    
-        
+
+
+        public string RenderTheme
+        {
+            get { return _RenderTheme; }
+            set
+            {
+                if (value == _RenderTheme) return;
+                _RenderTheme = value;
+                OnPropertyChanged(nameof(RenderTheme));
+            }
+        }
+        private string _RenderTheme;
+
+
         public bool EditorWrapText
         {
             get { return _EditorWrapText; }
@@ -92,36 +105,12 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(EditorDictionary));
             }
         }
-
-
-        public string RenderTheme
-        {
-            get { return _RenderTheme; }
-            set
-            {
-                if (value == _RenderTheme) return;
-                _RenderTheme = value;
-                OnPropertyChanged(nameof(RenderTheme));
-            }
-        }
-        private string _RenderTheme;
-
-        
+      
         public bool RememberOpenFiles { get; set; }
 
-        
-        public List<string> RecentDocuments
-        {
-            get { return _recentDocuments; }
-            set
-            {
-                if (value == _recentDocuments) return;
-                _recentDocuments = value;
-                OnPropertyChanged(nameof(RecentDocuments));
-            }
-        }
-        private List<string> _recentDocuments = new List<string>();
+        public bool UseSingleWindow { get; set; }
 
+        
         public string LastFolder { get; set; }
 
         public string LastImageFolder { get; set; }
@@ -134,6 +123,18 @@ namespace MarkdownMonster
         public string OpenCommandLine { get; set; }
 
         public List<MarkdownDocument> OpenDocuments { get; set; }
+
+        public List<string> RecentDocuments
+        {
+            get { return _recentDocuments; }
+            set
+            {
+                if (value == _recentDocuments) return;
+                _recentDocuments = value;
+                OnPropertyChanged(nameof(RecentDocuments));
+            }
+        }
+        private List<string> _recentDocuments = new List<string>();
 
         public WindowPosition WindowPosition { get; set; }
 
@@ -160,7 +161,7 @@ namespace MarkdownMonster
             CommonFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"West Wind Markdown Monster");
             FileWatcherOpenFilePath =  Path.Combine(
                   Path.GetTempPath(),
-                 "__openfile.txt");
+                 "__mm_openfile.txt");
 
             ApplicationTheme = Themes.Dark;
             RenderTheme = "blackout";
@@ -174,6 +175,8 @@ namespace MarkdownMonster
 
             OpenCommandLine = "cmd.exe";
             OpenFolderCommand = "explorer.exe";
+
+            UseSingleWindow = true;
         }
 
         public void AddRecentFile(string filename)
