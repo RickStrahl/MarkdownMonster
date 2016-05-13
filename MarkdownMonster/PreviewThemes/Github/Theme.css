@@ -48,14 +48,18 @@ pre {
     overflow: auto;
     line-height: 1.45;        
     border-radius: 3px;
+    white-space:  pre;
+    word-break: normal;
+    word-wrap: normal;    
 }
 code {
     color: #333;
+    background: #eee;
+    white-space: pre;    
 }
 .hljs {
     background: #eee !important;
-    padding: 16px !important;
-    
+    padding: 16px !important;  
 }
 img {
 	max-width: 100%;

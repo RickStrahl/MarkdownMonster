@@ -20,9 +20,7 @@ a {
     font-weight: bold;
     color: steelblue;
 }
-code {
-    color: #222;
-}
+
 blockquote {
     background: #666666 !important;
     color: #fcfcfc !important;    
@@ -33,7 +31,24 @@ blockquote {
     }
 }
 pre {
-    padding: 0 !important;
+    font-family: menlo,consolas,monospace;
+    font-weight: normal;    
+    font-size: 1em;
+    margin: 7px 0;
+    padding: 0;
+    border: 1px solid silver;
+    border-radius: 5px;
+    overflow-x: auto;    
+    max-width: 98%;
+    white-space:  pre;
+    word-break: normal;
+    word-wrap: normal;    
+}
+pre code {
+    white-space: pre;    
+}
+code {
+    color: #222;
 }
     
 

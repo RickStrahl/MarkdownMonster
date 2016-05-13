@@ -80,11 +80,13 @@ pre {
     border-radius: 5px;
     overflow-x: auto;    
     max-width: 98%;
+    white-space:  pre;
+    word-break: normal;
+    word-wrap: normal;    
 }
-pre code {    
-    white-space: pre !important;
+pre code {
+    white-space: pre;    
 }
-
 
 
 /* hidden display, but still part of document flow */
