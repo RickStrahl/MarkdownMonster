@@ -16,12 +16,14 @@ namespace MarkdownMonster
     /// </summary>
     public partial class App : System.Windows.Application
     {
-        public Mutex Mutex;
-        string filesToOpen = null;
+        public Mutex Mutex;        
 
         public App()
         {
-            
+         
+            SplashScreen splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
+            splashScreen.Show(true);
+
             if (mmApp.Configuration.UseSingleWindow)
             {
                 bool isOnlyInstance = false;
@@ -39,28 +41,20 @@ namespace MarkdownMonster
                         }
                         filesToOpen = sb.ToString();
                     }
-
-                    //File.WriteAllText(mmApp.Configuration.FileWatcherOpenFilePath, filesToOpen);
-
                     var manager = new NamedPipeManager("MarkdownMonster");
                     manager.Write(filesToOpen);
 
-                    Mutex.Dispose();
-                    mmApp.Configuration = null;
+                    splashScreen.Close(TimeSpan.MinValue);
 
-                    GC.SuppressFinalize(manager);
-
+                    // this exits the application                    
                     Environment.Exit(0);
-                }            
+                }
             }
-
-            SplashScreen splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
-            splashScreen.Show(true);
 
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
         }
-
+        
 
         /// TODO: Handle global errors
         /// <summary>
