@@ -3,8 +3,10 @@ using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -29,7 +31,9 @@ namespace MarkdownMonster
 
         private string FileName;
 
-        private FileSystemWatcher openFileWatcher;
+        //private FileSystemWatcher openFileWatcher;
+
+        private NamedPipeManager PipeManager { get; set; }
 
         public ApplicationConfiguration Configuration { get; set; }
 
@@ -68,22 +72,25 @@ namespace MarkdownMonster
             if (mmApp.Configuration.UseSingleWindow)
             {
                 // Add a FileWatcher to watch for multi-instance files to open
-                openFileWatcher = new FileSystemWatcher(
-                    Path.GetDirectoryName(mmApp.Configuration.FileWatcherOpenFilePath),
-                    Path.GetFileName(mmApp.Configuration.FileWatcherOpenFilePath))
-                {
-                    NotifyFilter = NotifyFilters.LastWrite,
-                    EnableRaisingEvents = true
-                };
-                openFileWatcher.Changed += openFileWatcher_Changed;
-                openFileWatcher.Created += openFileWatcher_Changed;
+                //openFileWatcher = new FileSystemWatcher(
+                //    Path.GetDirectoryName(mmApp.Configuration.FileWatcherOpenFilePath),
+                //    Path.GetFileName(mmApp.Configuration.FileWatcherOpenFilePath))
+                //{
+                //    NotifyFilter = NotifyFilters.LastWrite,
+                //    EnableRaisingEvents = true
+                //};
+                //openFileWatcher.Changed += openFileWatcher_Changed;
+                //openFileWatcher.Created += openFileWatcher_Changed;
+
+                PipeManager = new NamedPipeManager("MarkdownMonster");
+                PipeManager.StartServer();
+                PipeManager.ReceiveString += HandleNamedPipe_OpenRequest;                
             }
 
 
             // Override some of the theme defaults (dark header specifically)
             mmApp.SetThemeWindowOverride(this);
         }
-
 
 
         /// <summary>
@@ -147,6 +154,20 @@ namespace MarkdownMonster
         }
 
 
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {            
+            SaveSettings();
+            
+            if (!CloseAllTabs())
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            e.Cancel = false;
+            PipeManager?.StopServer();            
+        }
+        
         void RestoreSettings()
         {
             var conf = mmApp.Configuration;
@@ -247,19 +268,9 @@ namespace MarkdownMonster
             }
             config.Write();
         }
+        #endregion
 
-        private void MainWindow_Closing(object sender, CancelEventArgs e)
-        {
-            SaveSettings();
-
-            if (!CloseAllTabs())
-            {
-                e.Cancel = true;
-                return;
-            }
-            e.Cancel = false;            
-        }
-
+        #region Tab Handling
         public MetroTabItem OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown")
         {
             if (mdFile != null && mdFile!= "untitled" && !File.Exists(mdFile))
@@ -420,6 +431,30 @@ namespace MarkdownMonster
 
             return true; // close
         }
+        
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+            var editor = GetActiveMarkdownEditor();
+            if (editor == null)
+                return;
+
+            if (mmApp.Configuration.IsPreviewVisible)
+                PreviewMarkdown();
+            
+
+            Title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*","") + "   -  Markdown Monster";
+
+            Model.ActiveDocument = editor.MarkdownDocument;
+
+
+
+            foreach (var doc in Model.OpenDocuments)
+                doc.IsActive = false;
+
+            Model.ActiveDocument.IsActive = true;
+        }
         #endregion
 
         #region Worker Functs
@@ -466,36 +501,55 @@ namespace MarkdownMonster
             if (editor == null)
                 return;
 
+            var doc = editor.MarkdownDocument;
+            var ext = Path.GetExtension(editor.MarkdownDocument.Filename).ToLower().Replace(".","");
+            
+
             int lastPos = 0;
             dynamic dom = null;
 
-            PreviewBrowser.Visibility = Visibility.Visible;
-
-            if (keepScrollPosition)
+            if (string.IsNullOrEmpty(ext) || ext == "md")
             {
-                dom = PreviewBrowser.Document;
-                editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
-            }
-            else
-                editor.MarkdownDocument.LastBrowserScrollPosition = 0;
-            
-            editor.MarkdownDocument.RenderHtmlToFile();
+                if(PreviewBrowser.Visibility != Visibility.Visible)
+                    ContentGrid.ColumnDefinitions[2].Width = new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);                       
 
-            if (showInBrowser)
-            {
-                ShellUtils.GoUrl(editor.MarkdownDocument.HtmlRenderFilename);
-            }
-            else
-            {                
-                PreviewBrowser.Cursor = Cursors.None;
-                PreviewBrowser.ForceCursor = true;
-                if (keepScrollPosition &&
-                    PreviewBrowser.Source.ToString() == editor.MarkdownDocument.HtmlRenderFilename)
-                    PreviewBrowser.Refresh(true);
-                else
-                {                    
-                    PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
+                PreviewBrowser.Visibility = Visibility.Visible;
+                
+                
+                if (keepScrollPosition)
+                {
+                    dom = PreviewBrowser.Document;
+                    editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
                 }
+                else
+                    editor.MarkdownDocument.LastBrowserScrollPosition = 0;
+
+                editor.MarkdownDocument.RenderHtmlToFile();
+
+                if (showInBrowser)
+                {
+                    ShellUtils.GoUrl(editor.MarkdownDocument.HtmlRenderFilename);
+                }
+                else
+                {
+                    PreviewBrowser.Cursor = Cursors.None;
+                    PreviewBrowser.ForceCursor = true;
+                    if (keepScrollPosition &&
+                        PreviewBrowser.Source.ToString() == editor.MarkdownDocument.HtmlRenderFilename)
+                        PreviewBrowser.Refresh(true);
+                    else
+                    {
+                        PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
+                    }
+                }
+            }
+            else
+            {
+                PreviewBrowser.Visibility = Visibility.Hidden;
+                if (ContentGrid.ColumnDefinitions[2].Width.Value > 100)
+                    mmApp.Configuration.WindowPosition.SplitterPosition = Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
+
+                ContentGrid.ColumnDefinitions[2].Width = new GridLength(0);
             }
         }
 
@@ -667,24 +721,6 @@ namespace MarkdownMonster
 
         #region Miscelleaneous Events
 
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (mmApp.Configuration.IsPreviewVisible)
-                PreviewMarkdown();
-
-            var editor = GetActiveMarkdownEditor();
-            if (editor == null)
-                return;
-            Title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*","") + "   -  Markdown Monster";
-
-            Model.ActiveDocument = editor.MarkdownDocument;
-
-            foreach (var doc in Model.OpenDocuments)
-                doc.IsActive = false;
-
-            Model.ActiveDocument.IsActive = true;
-        }
-
         private void MainWindow_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -720,48 +756,23 @@ namespace MarkdownMonster
         }
 
 
-        /// <summary>
-        /// Event fired with __openfile.txt with a filename is created. Reads file
-        /// and if it finds a filename opens it in a new tab
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void openFileWatcher_Changed(object sender, FileSystemEventArgs e)
+        public void HandleNamedPipe_OpenRequest(string filesToOpen)
         {
-            string filesToOpen = null;
-
-            // due to timing we may have to try a few times before the
-            // file is ready to be read.
-            for (int i = 0; i < 100; i++)
-            {
-                try
-                {
-                    if (File.Exists(mmApp.Configuration.FileWatcherOpenFilePath))
-                    {
-                        filesToOpen = File.ReadAllText(mmApp.Configuration.FileWatcherOpenFilePath);
-                        File.Delete(mmApp.Configuration.FileWatcherOpenFilePath);
-                        filesToOpen = filesToOpen.TrimEnd();
-                    }                   
-                    break;
-                }
-                catch
-                {
-                    Thread.Sleep(10);
-                }
-            }
-
+            
             Dispatcher.Invoke(() =>
             {
-
                 if (!string.IsNullOrEmpty(filesToOpen))
                 {
+                    TabItem lastTab = null;
                     foreach (var file in StringUtils.GetLines(filesToOpen))
-                    {
-                        MessageBox.Show(file);
-                        this.OpenTab(file.Trim());
+                    {                        
+                        if (!string.IsNullOrEmpty(file))
+                            lastTab = this.OpenTab(file.Trim());
                     }
+                    if (lastTab != null)
+                        Dispatcher.InvokeAsync(() => TabControl.SelectedItem = lastTab);                                            
                 }
-                    
+
                 this.Topmost = true;
 
                 if (WindowState == WindowState.Minimized)
@@ -773,6 +784,60 @@ namespace MarkdownMonster
                 Dispatcher.BeginInvoke(new Action(() => { this.Topmost = false; }));
             });
         }
+
+        /// <summary>
+        /// Event fired with __openfile.txt with a filename is created. Reads file
+        /// and if it finds a filename opens it in a new tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //private void openFileWatcher_Changed(object sender, FileSystemEventArgs e)
+        //{
+        //    string filesToOpen = null;
+
+        //    // due to timing we may have to try a few times before the
+        //    // file is ready to be read.
+        //    for (int i = 0; i < 100; i++)
+        //    {
+        //        try
+        //        {
+        //            if (File.Exists(mmApp.Configuration.FileWatcherOpenFilePath))
+        //            {
+        //                filesToOpen = File.ReadAllText(mmApp.Configuration.FileWatcherOpenFilePath);
+        //                File.Delete(mmApp.Configuration.FileWatcherOpenFilePath);
+        //                filesToOpen = filesToOpen.TrimEnd();
+        //            }                   
+        //            break;
+        //        }
+        //        catch
+        //        {
+        //            Thread.Sleep(10);
+        //        }
+        //    }
+
+        //    Dispatcher.Invoke(() =>
+        //    {
+
+        //        if (!string.IsNullOrEmpty(filesToOpen))
+        //        {
+        //            foreach (var file in StringUtils.GetLines(filesToOpen))
+        //            {
+        //                MessageBox.Show(file);
+        //                this.OpenTab(file.Trim());
+        //            }
+        //        }
+                    
+        //        this.Topmost = true;
+
+        //        if (WindowState == WindowState.Minimized)
+        //            WindowState = WindowState.Normal;
+
+        //        this.Activate();
+
+        //        // restor out of band
+        //        Dispatcher.BeginInvoke(new Action(() => { this.Topmost = false; }));
+        //    });
+        //}
 
         #endregion
 

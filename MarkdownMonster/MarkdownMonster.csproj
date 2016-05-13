@@ -57,6 +57,10 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonMark">
       <HintPath>..\packages\CommonMark.NET.0.12.0\lib\net45\CommonMark.dll</HintPath>
@@ -107,6 +111,8 @@
     <Compile Include="AppModel.cs" />
     <Compile Include="Controls\CommandBase.cs" />
     <Compile Include="DropdownButtonBehavior.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="_Classes\NamedPipeManager.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
@@ -218,7 +224,7 @@
     <Resource Include="Assets\vsizegrip.png" />
     <Resource Include="Assets\MarkdownMonster_Icon.png" />
     <Resource Include="Assets\MarkdownMonster_Icon_256.png" />
-    <SplashScreen Include="Assets\MarkdownMonsterSplash.png" />
+    <Resource Include="Assets\MarkdownMonsterSplash.png" />
     <Resource Include="Assets\MarkdownMonster.ico" />
     <Resource Include="Assets\MarkdownMonster.png" />
     <Content Include="Editor\editor.css">

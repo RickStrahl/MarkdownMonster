@@ -298,7 +298,7 @@
                          />
 
             <GridSplitter Grid.Column="1"                          
-                          Width="72"                          
+                          Width="12"                          
                           HorizontalAlignment="Center"                          
                           BorderThickness="0"
                           VerticalAlignment="Stretch">
