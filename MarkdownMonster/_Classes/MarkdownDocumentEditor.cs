@@ -186,7 +186,7 @@ namespace MarkdownMonster
             
             action = action.ToLower();
 
-            if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image", "code" }))
+            if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image" }))
                 return null;
 
             string html = input;
@@ -290,7 +290,22 @@ namespace MarkdownMonster
                     html = $"![{form.ImageText}]({form.Image})";
                 }
             }
-            
+            else if (action == "code")
+            {
+                var form = new PasteCode();
+                form.Owner = Window;
+                form.Code = input;
+                form.CodeLanguage = "csharp";
+
+                bool? res = form.ShowDialog();
+                if (res != null && res.Value)
+                {
+                    html = "```" + form.CodeLanguage + "\r\n" +
+                           form.Code.Trim() + "\r\n" +
+                           "```\r\n";
+                }
+            }
+
             return html;
         }
 
@@ -339,6 +354,10 @@ namespace MarkdownMonster
             if (key == "ctrl-k")
             {
                 Window.Model.ToolbarInsertMarkdownCommand.Execute("href");
+            }
+            if (key == "alt-c")
+            {
+                Window.Model.ToolbarInsertMarkdownCommand.Execute("code");
             }
             if (key == "ctrl-shift-down")
             {

@@ -1,29 +1,39 @@
 html, body {
     height: 100%;
     width: 100%;
-    
+       
+    line-height: 1.35em;
+    padding: 5px 20px 5px 10px !important;
+    margin: 0;
+
     font-family: 'Segoe UI',Geneva,sans-serif;
-    font-size: 15px;    
-    line-height: 1.35em;        
+    font-size: 17px;    
+    line-height: 1.45em;        
     
     color: #eee;
-    background: #303030;        
+    background: #303030;       
+    
     scrollbar-track-color: #535353;
     scrollbar-arrow-color: silver;
     scrollbar-face-color: #555;
-    -ms-overflow-style: -ms-autohiding-scrollbar !important;
-
-    padding: 5px 5px 5px 10px !important;
-    margin: 0;
+    -ms-overflow-style: -ms-autohiding-scrollbar !important;    
 } 
 a {
     font-weight: bold;
-    color: steelblue;
+    color: #80a3c1;
+    text-decoration: none;
 }
-
+a:hover {
+    text-decoration: underline;
+}
 blockquote {
     background: #666666 !important;
-    color: #fcfcfc !important;    
+    color: #fcfcfc !important;   
+    
+    font-size: 1.1em;
+    padding: 10px;
+    margin: 30px 10px;
+    border-left: 6px #ddd solid; 
 }
 @media(min-width: 970px){
     html,body{
@@ -48,13 +58,18 @@ pre code {
     white-space: pre;    
 }
 code {
-    color: #222;
+    color: #eee;
+    background: #555;
+    
+    padding: 2px 5px;
+    font-weight: bold;
+    border-radius: 2px;
 }
     
-
 h1,h2,h3,h4,h5,h6, .byline,.content-title {
   color: #888;
   font-weight: bold;  
+  font-family: Trebuchet, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
 }
 h1 {
     font-size: 1.8em
@@ -74,7 +89,7 @@ h5, h6 {
 pre {
     font-family: menlo,consolas,monospace;
     font-weight: normal;    
-    font-size: 1em;
+    font-size: 0.875em;
     margin: 7px 0;
     padding: 0;
     border: 1px solid silver;
@@ -86,9 +101,13 @@ img {
 	max-width: 100%;
 }
 blockquote {
-    font-size: 1em;
-    background: #fcfcfc;
-    color: #777;
+    background: #777;
+    color: #EEE;
+    
+    font-size: 1.1em;
+    padding: 10px;
+    margin: 30px 10px;
+    border-left: 6px #ddd solid;
 }
 blockquote h3, blockquote h4, blockquote h5 {
     margin-top: 5px;
