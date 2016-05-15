@@ -53,6 +53,8 @@ pre>code {
     height: auto;
     border: 1px solid silver;
     background: white;
+    min-width: 150px;
+    padding-left: 10px;
     top: 200px;
     left: 10px;    
     z-index: 1000;
@@ -62,7 +64,7 @@ pre>code {
     font-size: 0.8em;
     min-width: 100px;
     padding: 6px;
-    border-bottom: 1px solid silver;
+    border-bottom: 1px solid #d7d7d7;
     font-family: sans-serif;
     cursor: pointer;
 }

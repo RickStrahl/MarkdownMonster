@@ -638,6 +638,22 @@ namespace MarkdownMonster
             else if (button == ButtonExit)
             {
                 Close();
+            }            
+            else if (button == MenuOpenConfigFolder)
+            {
+                ShellUtils.GoUrl(mmApp.Configuration.CommonFolder);
+            }
+            else if (button == MenuOpenPreviewFolder)
+            {                
+                ShellUtils.GoUrl( Path.Combine(Environment.CurrentDirectory,"PreviewThemes",mmApp.Configuration.RenderTheme));
+            }
+            else if (button == MenuMarkdownMonsterSite)
+            {
+                ShellUtils.GoUrl("http://markdownmonster.west-wind.com");
+            }
+            else if (button == MenuBugReport)
+            {
+                ShellUtils.GoUrl("https://github.com/RickStrahl/MarkdownMonster/issues");
             }
             else if (button == ButtonAbout)
             {
@@ -645,14 +661,6 @@ namespace MarkdownMonster
                 about.Owner = this;
                 about.Show();
             }
-            else if (button == ButtonMarkdownMonsterSite)
-            {
-                ShellUtils.GoUrl("http://markdownmonster.west-wind.com");
-            }
-            else if (button == ButtonBugReport)
-            {
-                ShellUtils.GoUrl("https://github.com/RickStrahl/MarkdownMonster/issues");
-            }            
         }
 
 

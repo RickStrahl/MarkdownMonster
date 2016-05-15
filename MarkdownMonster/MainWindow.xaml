@@ -98,6 +98,9 @@
             <MenuItem Header="_Tools">
                 <MenuItem Name="MenuAddins" Header="Add-ins" />
                 <Separator/>
+                <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler"/>
+                <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>
+                <Separator/>
                 <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
             </MenuItem>
             <MenuItem Header="_View">
@@ -118,8 +121,8 @@
                 <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Name="ButtonMarkdownMonsterSite" Header="Markdown Monster Web Site"  IsEnabled="False" Click="Button_Handler"/>
-                <MenuItem Name="ButtonBugReport" Header="Report a bug" IsEnabled="False" Click="Button_Handler"/>
+                <MenuItem Name="MenuMarkdownMonsterSite" Header="Markdown Monster Web Site"   Click="Button_Handler"/>
+                <MenuItem Name="MenuBugReport" Header="Report a Bug or make a Suggestion" Click="Button_Handler"/>
                 <Separator />
                 <MenuItem Header="Register Copy" IsEnabled="False"/>
                 <Separator  />

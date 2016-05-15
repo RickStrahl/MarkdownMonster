@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DAF26FA7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnagItAddIn.Test", "Tests\SnagItAddIn.Test\SnagItAddIn.Test.csproj", "{7EDA8CFE-B576-480B-804E-63DC372CF41D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeblogAddin.Test", "Test\WeblogAddin.Test\WeblogAddin.Test.csproj", "{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeblogAddin.Test", "Tests\WeblogAddin.Test\WeblogAddin.Test.csproj", "{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster.Test", "Tests\MarkdownMonster.Test\MarkdownMonster.Test.csproj", "{A3FCE345-F767-487F-86BF-DFA78B4BC218}"
 EndProject

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>MarkdownMonster</id>
+        <version>0.15</version>
+        <title>Markdown Monster</title>
+        <authors>Rick Strahl, West Wind Technologies</authors>
+        <owners>West Wind Technologies</owners>
+        <licenseUrl>http://markdownmonster.west-wind.com/download.aspx</licenseUrl>
+        <projectUrl>http://markdownmonster.west-wind.com</projectUrl>
+        <iconUrl>http://markdownmonster.west-wind.com/images/MarkdownMonster_icon_128.png</iconUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>Markdown Monster is an easy to use and extensible Markdown editor</description>
+        <summary>
+An easy to use Markdown editor with syntax colored editing of  Markdown, inline spell checking, live preview and a few gentle toolbar elpers to facilitate embedding content into your markdown. The goal of the editor is to let you work, not get in your way.
+
+One of the key features is the extensibility model that allows you to create .NET based plug-ins that can interact with the UI and the document via simple extensibility interface. Add-ins shipped include SnagIt screen captures, and MetaWebLog API publishing.
+        </summary>
+        <releaseNotes></releaseNotes>
+        <copyright>West Wind Technologies, 2016</copyright>
+        <tags>markdown editor text weblog blog</tags>
+    </metadata>
+    <files>
+        <file src="tools\chocolateyInstall.ps1" target="tools\chocolateyInstall.ps1" />
+    </files>
+</package>
