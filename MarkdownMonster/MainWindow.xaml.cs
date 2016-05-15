@@ -158,14 +158,25 @@ namespace MarkdownMonster
         {            
             SaveSettings();
             
+
             if (!CloseAllTabs())
             {
                 e.Cancel = true;
                 return;
             }
 
-            e.Cancel = false;
-            PipeManager?.StopServer();            
+            PipeManager?.StopServer();
+
+            if (!UnlockKey.IsRegistered())
+            {
+                this.Hide();
+
+                var rd = new RegisterDialog();
+                rd.Owner = this;
+                rd.ShowDialog();
+            }
+
+            e.Cancel = false;            
         }
         
         void RestoreSettings()
@@ -444,7 +455,8 @@ namespace MarkdownMonster
                 PreviewMarkdown();
             
 
-            Title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*","") + "   -  Markdown Monster";
+            Title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*","") + "   -  Markdown Monster" + 
+                (UnlockKey.Unlocked ? "" : " (unregistered)");
 
             Model.ActiveDocument = editor.MarkdownDocument;
 
@@ -654,6 +666,12 @@ namespace MarkdownMonster
             else if (button == MenuBugReport)
             {
                 ShellUtils.GoUrl("https://github.com/RickStrahl/MarkdownMonster/issues");
+            }
+            else if (button == MenuRegister)
+            {
+                Window rf = new RegistrationForm();
+                rf.Owner = this;
+                rf.ShowDialog();
             }
             else if (button == ButtonAbout)
             {

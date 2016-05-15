@@ -115,6 +115,12 @@
     <Compile Include="Windows\PasteCode.xaml.cs">
       <DependentUpon>PasteCode.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\RegisterDialog.xaml.cs">
+      <DependentUpon>RegisterDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\RegistrationForm.xaml.cs">
+      <DependentUpon>RegistrationForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_Classes\NamedPipeManager.cs" />
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
@@ -131,6 +137,7 @@
     <Compile Include="_Classes\MarkdownDocument.cs" />
     <Compile Include="_Classes\MarkdownDocumentEditor.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParser.cs" />
+    <Compile Include="_Classes\UnlockKey.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -156,6 +163,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PasteHref.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\RegisterDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\RegistrationForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

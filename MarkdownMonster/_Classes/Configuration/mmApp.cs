@@ -6,10 +6,12 @@ using MahApps.Metro.Controls;
 
 namespace MarkdownMonster
 {
-    public static class mmApp
+    public class mmApp
     {
         public static ApplicationConfiguration Configuration { get; set;  }
-        
+
+        public static string ApplicationName { get; set; } = "Markdown Monster";
+
 
         static mmApp()
         {
@@ -70,6 +72,11 @@ namespace MarkdownMonster
                 }
             }
         }
+
+
+        internal static string EncryptionMachineKey { get; } = "42331333#1Ae@rTo*dOO-002" + Environment.MachineName;
+        internal static string ProKey { get; } = "Kupua_100";
+        
     }
 
     public enum Themes

@@ -1,0 +1,28 @@
+﻿<Window x:Class="MarkdownMonster.Windows.RegisterDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster.Windows"
+        mc:Ignorable="d"
+        FontSize="16"
+        WindowStyle="None" Background="Black" Foreground="WhiteSmoke"
+        Title="Markdown Monster Registration" Height="356" Width="700" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize">
+    <StackPanel Orientation="Horizontal">
+        <Image Source="../Assets/MarkdownMonster.png" Margin="0,30" Width="300" VerticalAlignment="Top" />
+        <StackPanel Width="375">
+            <TextBlock Margin="15,35,0,0" Foreground="Cornsilk">You've been using the Free version of</TextBlock>
+            <TextBlock FontSize="30" FontWeight="Bold" Margin="15,14,0,14"><Run Text="Markdown Monster"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Margin="15,3,0,0" Foreground="Cornsilk" HorizontalAlignment="Stretch" >
+                <Run  Text="If you're using this editor commercially, or you find that you're using it frequently, please purchase a registered version of Markdown Monster."/><LineBreak/><LineBreak/><Run Text="Thank you for playing fair."/></TextBlock>
+
+            <TextBlock FontSize="36" FontWeight="Bold" Margin="5,34" TextDecorations="Underline" Foreground="SteelBlue" TextAlignment="Center"
+                        MouseDown="Register_Click" 
+                        
+                        >Register</TextBlock>
+        </StackPanel>
+        <TextBlock Text="x" FontFamily="Arial Black"  MouseDown="Exit_Click"  KeyDown="Exit_KeyDown"           
+                   FontWeight="Bold" Padding="5,10" />
+        
+    </StackPanel>
+</Window>
