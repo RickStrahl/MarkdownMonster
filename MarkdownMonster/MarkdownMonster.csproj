@@ -112,8 +112,10 @@
     <Compile Include="Controls\CommandBase.cs" />
     <Compile Include="DropdownButtonBehavior.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Windows\PasteCode.xaml.cs">
+      <DependentUpon>PasteCode.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_Classes\NamedPipeManager.cs" />
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -144,6 +146,10 @@
     <Page Include="Windows\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PasteCode.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PasteImage.xaml">
       <Generator>MSBuild:Compile</Generator>

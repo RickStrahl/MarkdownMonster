@@ -17,11 +17,14 @@ namespace SnagItAddin
         {
             base.OnApplicationStart();
 
+            // Add a menu item
             var menuItem = new AddInMenuItem()
-            {
-                 Caption = "SnagIt Screen Capture",
-                EditorCommand = "snagit",     
-                FontawesomeIcon= FontAwesomeIcon.Camera
+            {                
+                Caption = "SnagIt Screen Capture",
+                FontawesomeIcon= FontAwesomeIcon.Camera,
+
+                // a unique command id that is tied to the menuitem
+                EditorCommand = "snagit",
             };
             menuItem.Execute = new Action<object>(SnagitMenu_Execute);
 
@@ -30,7 +33,6 @@ namespace SnagItAddin
 
         public void SnagitMenu_Execute(object sender)
         {
-
             SnagItAutomation SnagIt = SnagItAutomation.Create();
             SnagIt.ActiveForm = Model.Window;
             var editor = Model.Window.GetActiveMarkdownEditor();
@@ -52,8 +54,10 @@ namespace SnagItAddin
             if (relPath.StartsWith(".."))
                 relPath = capturedFile;
 
-            string replaceText = "![](" +  relPath + ");";
+            string replaceText = "![](" +  relPath + ")";
             
+            
+            // Push the new text into the Editor's Selection
             this.SetSelection(replaceText);
         }
         

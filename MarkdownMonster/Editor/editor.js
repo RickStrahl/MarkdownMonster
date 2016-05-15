@@ -54,11 +54,11 @@ var te = window.textEditor = {
 
         session.setNewLineMode("windows");
 
-        // disable keys in editor so we can handle them here
-        // Alt-k - HREF dialog
+        // disable certain hot keys in editor so we can handle them here        
         editor.commands.bindKeys({
-            "alt-k": null,
-            "ctrl-n": null,
+            //"alt-k": null,
+            "ctrl-n": null, // let WPF
+            "alt-c":  function() { te.specialkey("alt-c"); },
             "ctrl-o": function() { te.specialkey("ctrl-o"); },
             "ctrl-s": function() { te.specialkey("ctrl-s"); },
             "ctrl-b": function() { te.specialkey("ctrl-b"); },

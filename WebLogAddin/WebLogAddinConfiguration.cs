@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using MarkdownMonster;
-using WeblogAddin.Annotations;
+
 using Westwind.Utilities.Configuration;
 
 namespace WeblogAddin
@@ -110,7 +110,7 @@ namespace WeblogAddin
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
+        
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

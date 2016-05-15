@@ -7,5 +7,3 @@ robocopy ${source}\bin\Release ${target} /MIR
 del ${target}\*.vshost.*
 del ${target}\*.pdb
 del ${target}\*.xml
-deletefiles ${target}\.vs\*.* -r -f
-rd ${target}\.vs

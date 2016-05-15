@@ -118,9 +118,8 @@
                 <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Header="Markdown Monster Web Site"  IsEnabled="False"/>
-                <MenuItem Header="Github" IsEnabled="False"/>
-                <MenuItem Header="Report a bug" IsEnabled="False"/>
+                <MenuItem Name="ButtonMarkdownMonsterSite" Header="Markdown Monster Web Site"  IsEnabled="False" Click="Button_Handler"/>
+                <MenuItem Name="ButtonBugReport" Header="Report a bug" IsEnabled="False" Click="Button_Handler"/>
                 <Separator />
                 <MenuItem Header="Register Copy" IsEnabled="False"/>
                 <Separator  />
@@ -264,7 +263,8 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
-                        <Button Name ="ButtonCode" Margin="7,0"                                
+                        <Button Name ="ButtonCode" Margin="7,0"      
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="code"
                                 fa:Awesome.Content="Code"
                                 Height="22" Width="22"

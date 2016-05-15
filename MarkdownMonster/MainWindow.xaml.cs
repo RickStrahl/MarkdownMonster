@@ -645,6 +645,14 @@ namespace MarkdownMonster
                 about.Owner = this;
                 about.Show();
             }
+            else if (button == ButtonMarkdownMonsterSite)
+            {
+                ShellUtils.GoUrl("http://markdownmonster.west-wind.com");
+            }
+            else if (button == ButtonBugReport)
+            {
+                ShellUtils.GoUrl("https://github.com/RickStrahl/MarkdownMonster/issues");
+            }            
         }
 
 
