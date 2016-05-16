@@ -382,10 +382,23 @@ namespace MarkdownMonster
         {
             if (reload || _spellChecker == null)
             {
-                string aff = Path.Combine(Environment.CurrentDirectory,"Editor\\" + language + ".aff");
+                string dictFolder = Path.Combine(Environment.CurrentDirectory,"Editor\\");
+
+                string aff = dictFolder + language + ".aff";
                 string dic = Path.ChangeExtension(aff,"dic");
 
                 _spellChecker = new Hunspell(aff, dic);
+
+                // Custom Dictionary if any
+                string custFile = Path.Combine(mmApp.Configuration.CommonFolder,language + "_custom.txt");
+                if (File.Exists(custFile))
+                {
+                    var lines = File.ReadAllLines(custFile);
+                    foreach (var line in lines)
+                    {
+                        _spellChecker.Add(line);
+                    }
+                }
             }
 
             return _spellChecker;
@@ -406,6 +419,13 @@ namespace MarkdownMonster
 
             return JsonConvert.SerializeObject(sugg);            
         }
+
+        public void AddWordToDictionary(string word, string lang = "EN_US")
+        {
+            File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\",  lang + "_custom.txt"),word  + "\n");
+            _spellChecker.Add(word);            
+        }
+
     
 
         /// <summary>

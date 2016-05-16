@@ -168,7 +168,7 @@ namespace MarkdownMonster
                  "__mm_openfile.txt");
 
             ApplicationTheme = Themes.Dark;
-            RenderTheme = "blackout";
+            RenderTheme = "dharkan";
             RememberOpenFiles = true;
 
             EditorTheme = "twilight";

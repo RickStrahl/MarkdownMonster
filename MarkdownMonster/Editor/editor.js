@@ -119,7 +119,7 @@ var te = window.textEditor = {
                         e.keyCode == 190 ||
                         e.keyCode == 188 ||
                         e.keyCode == 191 ||
-                        e.keyCode == 49 | e.keyCode == 222)
+                        e.keyCode == 49 || e.keyCode == 222)
                         te.fox.textbox.PreviewMarkdownCallback();
 
 
@@ -289,7 +289,7 @@ var te = window.textEditor = {
         return words;
     },
     addWordSpelling: function (word) {        
-        te.fox.textbox.addwordspelling(word, editorSettings.dictionary);
+        te.fox.textbox.AddWordToDictionary(word, editorSettings.dictionary);
     },
     onblur: function () {
         fox.textbox.lostfocus();

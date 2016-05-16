@@ -33,7 +33,20 @@ namespace WeblogAddin
             Weblogs = new Dictionary<string, WeblogInfo>();
         }
 
-        public Dictionary<string,WeblogInfo> Weblogs { get; set; }
+
+
+        public Dictionary<string,WeblogInfo> Weblogs
+        {
+            get { return _weblogs; }
+            set
+            {
+                if (value == _weblogs) return;
+                _weblogs = value;
+                OnPropertyChanged(nameof(Weblogs));
+            }
+        }
+        private Dictionary<string,WeblogInfo> _weblogs;
+        
 
 
         public string LastWeblogAccessed
