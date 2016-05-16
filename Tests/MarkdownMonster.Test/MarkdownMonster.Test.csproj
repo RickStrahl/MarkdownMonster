@@ -64,9 +64,6 @@
     <Compile Include="ApplicationUpdaterTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GenericTest1.GenericTest">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

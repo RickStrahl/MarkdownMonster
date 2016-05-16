@@ -187,6 +187,12 @@ namespace WeblogAddin
         }
         #endregion
 
+        private void ComboWebLogName_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TextWeblogPassword.Password))
+                Model.ActiveWeblogInfo.Password = TextWeblogPassword.Password;
 
+
+        }
     }
 }
