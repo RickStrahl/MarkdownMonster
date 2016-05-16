@@ -124,6 +124,7 @@
                 <MenuItem Name="MenuMarkdownMonsterSite" Header="Markdown Monster Web Site"   Click="Button_Handler"/>
                 <MenuItem Name="MenuBugReport" Header="Report a Bug or make a Suggestion" Click="Button_Handler"/>
                 <Separator />
+                <MenuItem Name="MenuCheckNewVersion" Header="Check for New Version" Click="Button_Handler"/>
                 <MenuItem Name="MenuRegister" Header="Register Copy" Click="Button_Handler"/>
                 <Separator  />
                 <MenuItem Name="ButtonAbout" Header="_About" Click="Button_Handler"/>

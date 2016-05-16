@@ -155,19 +155,28 @@ namespace MarkdownMonster
 
 
         private void MainWindow_Closing(object sender, CancelEventArgs e)
-        {            
-            SaveSettings();
+        {
+            this.Hide();
+
+            bool isNewVersion = CheckForNewVersion(false, false);
+            mmApp.Configuration.ApplicationUpdates.AccessCount++;
             
+
+            SaveSettings();
 
             if (!CloseAllTabs())
             {
+                this.Show();
                 e.Cancel = true;
                 return;
             }
 
             PipeManager?.StopServer();
+            App.Mutex.Dispose();            
 
-            if (!UnlockKey.IsRegistered())
+            if (!isNewVersion &&  
+                mmApp.Configuration.ApplicationUpdates.AccessCount % 3 == 0 &&
+                !UnlockKey.IsRegistered())
             {
                 this.Hide();
 
@@ -176,7 +185,9 @@ namespace MarkdownMonster
                 rd.ShowDialog();
             }
 
-            e.Cancel = false;            
+            
+
+           e.Cancel = false;            
         }
         
         void RestoreSettings()
@@ -607,8 +618,49 @@ namespace MarkdownMonster
             return tab?.Tag as MarkdownDocumentEditor;
         }
 
+        bool CheckForNewVersion(bool force, bool closeForm = true)
+        {
+            var updater = new ApplicationUpdater(typeof(MainWindow));
+            bool isNewVersion = updater.IsNewVersionAvailable(!force);
+            if (isNewVersion)
+            {
+                var res = MessageBox.Show(updater.VersionInfo.Detail + "\r\n\r\n" +
+                                          "Do you want to download and install this version?",
+                    updater.VersionInfo.Title,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information);
+                
+                if (res == MessageBoxResult.Yes)
+                {
+                    updater.DownloadProgressChanged += (sender,e) =>
+                    {
+                        DoEvents();
+                        ShowStatus("Downloading Update: " + 
+                                (e.BytesReceived / 1000).ToString("n0") + "kb  of  " +
+                                (e.TotalBytesToReceive / 1000).ToString("n0") + "kb");                        
+                    };
+                    ShowStatus("Downloading Update...");
+                    DoEvents();
+                    updater.Download();
+
+                    updater.ExecuteDownloadedFile();
+                    ShowStatus("Download completed.");
+
+                    if (closeForm)
+                        Close();
+                }
+            }
+            mmApp.Configuration.ApplicationUpdates.LastUpdateCheck = DateTime.UtcNow.Date;
+
+            return isNewVersion;
+        }
+        public static void DoEvents()
+        {
+            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new EmptyDelegate(delegate { }));
+        }
+        private delegate void EmptyDelegate();
         #endregion
-   
+
 
 
         #region Button Handlers
@@ -666,6 +718,12 @@ namespace MarkdownMonster
             else if (button == MenuBugReport)
             {
                 ShellUtils.GoUrl("https://github.com/RickStrahl/MarkdownMonster/issues");
+            }
+            else if (button == MenuCheckNewVersion)
+            {
+                if (!CheckForNewVersion(true))
+                    MessageBox.Show("Your version of Markdown Monster is up to date.",
+                        mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else if (button == MenuRegister)
             {
@@ -818,61 +876,6 @@ namespace MarkdownMonster
                 Dispatcher.BeginInvoke(new Action(() => { this.Topmost = false; }));
             });
         }
-
-        /// <summary>
-        /// Event fired with __openfile.txt with a filename is created. Reads file
-        /// and if it finds a filename opens it in a new tab
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void openFileWatcher_Changed(object sender, FileSystemEventArgs e)
-        //{
-        //    string filesToOpen = null;
-
-        //    // due to timing we may have to try a few times before the
-        //    // file is ready to be read.
-        //    for (int i = 0; i < 100; i++)
-        //    {
-        //        try
-        //        {
-        //            if (File.Exists(mmApp.Configuration.FileWatcherOpenFilePath))
-        //            {
-        //                filesToOpen = File.ReadAllText(mmApp.Configuration.FileWatcherOpenFilePath);
-        //                File.Delete(mmApp.Configuration.FileWatcherOpenFilePath);
-        //                filesToOpen = filesToOpen.TrimEnd();
-        //            }                   
-        //            break;
-        //        }
-        //        catch
-        //        {
-        //            Thread.Sleep(10);
-        //        }
-        //    }
-
-        //    Dispatcher.Invoke(() =>
-        //    {
-
-        //        if (!string.IsNullOrEmpty(filesToOpen))
-        //        {
-        //            foreach (var file in StringUtils.GetLines(filesToOpen))
-        //            {
-        //                MessageBox.Show(file);
-        //                this.OpenTab(file.Trim());
-        //            }
-        //        }
-                    
-        //        this.Topmost = true;
-
-        //        if (WindowState == WindowState.Minimized)
-        //            WindowState = WindowState.Normal;
-
-        //        this.Activate();
-
-        //        // restor out of band
-        //        Dispatcher.BeginInvoke(new Action(() => { this.Topmost = false; }));
-        //    });
-        //}
-
         #endregion
 
         #region StatusBar Display
@@ -886,11 +889,11 @@ namespace MarkdownMonster
 
             if (milliSeconds > 0)
             {
-                var t = new Timer(new TimerCallback((object win) =>
+                var t = new Timer((object win) =>
                 {
                     var window = win as MainWindow;                    
                     window.Dispatcher.Invoke(() => {  window.ShowStatus(null, 0); } );
-                }),this,milliSeconds,Timeout.Infinite);
+                },this,milliSeconds,Timeout.Infinite);
             }
         }
 

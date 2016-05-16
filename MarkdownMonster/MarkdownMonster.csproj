@@ -121,6 +121,7 @@
     <Compile Include="Windows\RegistrationForm.xaml.cs">
       <DependentUpon>RegistrationForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="_Classes\Infrastructure\ApplicationUpdater.cs" />
     <Compile Include="_Classes\NamedPipeManager.cs" />
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>

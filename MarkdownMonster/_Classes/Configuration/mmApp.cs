@@ -76,7 +76,8 @@ namespace MarkdownMonster
 
         internal static string EncryptionMachineKey { get; } = "42331333#1Ae@rTo*dOO-002" + Environment.MachineName;
         internal static string ProKey { get; } = "Kupua_100";
-        
+        public static string InstallerDownloadUrl { get; internal set; }
+        public static string UpdateCheckUrl { get; internal set; }
     }
 
     public enum Themes

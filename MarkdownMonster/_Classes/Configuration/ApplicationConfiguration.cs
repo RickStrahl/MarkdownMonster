@@ -136,6 +136,8 @@ namespace MarkdownMonster
         }
         private List<string> _recentDocuments = new List<string>();
 
+        public ApplicationUpdates ApplicationUpdates { get; set; }
+
         public WindowPosition WindowPosition { get; set; }
 
 
@@ -155,6 +157,8 @@ namespace MarkdownMonster
         public ApplicationConfiguration()
         {
             WindowPosition = new WindowPosition();
+            ApplicationUpdates = new ApplicationUpdates();
+
             OpenDocuments = new List<MarkdownDocument>();
 
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -216,6 +220,41 @@ namespace MarkdownMonster
     {
         Common,
         GitHub
+    }
+
+    public class ApplicationUpdates
+    {
+        /// <summary>
+        /// Url where installer is downloaded from
+        /// </summary>
+        [JsonIgnore]
+        public string InstallerDownloadUrl { get; }
+
+        /// <summary>
+        /// Url to check version info from
+        /// </summary>
+        [JsonIgnore]
+        public string UpdateCheckUrl { get; }
+
+
+        /// <summary>
+        /// Last date and time when an update check was performed
+        /// </summary>
+        public DateTime LastUpdateCheck { get; set; }
+
+        /// <summary>
+        /// Frequency for update checks in days. Done on shutdown
+        /// </summary>
+        public int  UpdateFrequency { get; set; }
+
+        public int AccessCount { get; set; }
+
+        public ApplicationUpdates()
+        {
+            InstallerDownloadUrl = "http://west-wind.com/files/MarkdownMonsterSetup.exe";
+            UpdateCheckUrl = "http://west-wind.com/files/MarkdownMonster_version.xml";
+            UpdateFrequency = 7;
+        }
     }
 
     public class WindowPosition

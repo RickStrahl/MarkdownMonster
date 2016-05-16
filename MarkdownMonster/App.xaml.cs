@@ -18,7 +18,7 @@ namespace MarkdownMonster
     /// </summary>
     public partial class App : System.Windows.Application
     {
-        public Mutex Mutex;        
+        public static Mutex Mutex;        
 
         public App()
         {
@@ -56,7 +56,11 @@ namespace MarkdownMonster
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
         }
-        
+
+        public static string InstallerDownloadUrl { get; internal set; }
+        public static string UserDataPath { get; internal set; }
+        public static string VersionCheckUrl { get; internal set; }
+
 
         /// TODO: Handle global errors
         /// <summary>
