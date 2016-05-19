@@ -531,7 +531,7 @@ namespace MarkdownMonster
             int lastPos = 0;
             dynamic dom = null;
 
-            if (string.IsNullOrEmpty(ext) || ext == "md")
+            if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
             {
                 if(PreviewBrowser.Visibility != Visibility.Visible)
                     ContentGrid.ColumnDefinitions[2].Width = new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);                       
@@ -547,7 +547,13 @@ namespace MarkdownMonster
                 else
                     editor.MarkdownDocument.LastBrowserScrollPosition = 0;
 
-                editor.MarkdownDocument.RenderHtmlToFile();
+
+                if (ext == "html" || ext == "htm")
+                {
+                    File.WriteAllText(editor.MarkdownDocument.HtmlRenderFilename, editor.MarkdownDocument.CurrentText);
+                }
+                else
+                    editor.MarkdownDocument.RenderHtmlToFile();
 
                 if (showInBrowser)
                 {
@@ -676,7 +682,15 @@ namespace MarkdownMonster
                 var fd = new OpenFileDialog
                 {
                     DefaultExt = ".md",
-                    Filter = "Markdown files (*.md)|*.md|All Files (*.*)|*.*",
+                    Filter = "Markdown files (*.md)|*.md|" +
+                             "Html files (*.htm,*.html)|*.htm;*.html|" +
+                             "Javascript files (*.js)|*.js|" +
+                             "Json files (*.json)|*.json|" +
+                             "Css files (*.css)|*.css|" + 
+                             "Xml files (*.xml,*.config)|*.xml;*.config|" +
+                             "C# files (*.cs)|*.cs|" +
+                             "Foxpro files (*.prg)|*.prg|" +
+                             "All files (*.*)|*.*",
                     CheckFileExists = true,
                     RestoreDirectory = true,
                     Multiselect = true,
@@ -791,6 +805,11 @@ namespace MarkdownMonster
             }
         }
 
+        private void ButtonViewInBrowser_Click(object sender, RoutedEventArgs e)
+        {
+            PreviewMarkdown(showInBrowser: true);
+        }
+
         private void Button_CommandWindow(object sender, RoutedEventArgs e)
         {
             var editor = GetActiveMarkdownEditor();
@@ -826,11 +845,6 @@ namespace MarkdownMonster
             }
         }
 
-        private void RenderTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            PreviewMarkdownAsync();
-        }
-
         private void EditorTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             foreach (TabItem tab in TabControl.Items)
@@ -842,9 +856,9 @@ namespace MarkdownMonster
             PreviewMarkdownAsync();
         }
 
-        private void ButtonViewInBrowser_Click(object sender, RoutedEventArgs e)
+        private void RenderTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            PreviewMarkdown(showInBrowser: true);
+            PreviewMarkdownAsync();
         }
 
 

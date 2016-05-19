@@ -30,6 +30,8 @@ namespace MarkdownMonster
         public dynamic AceEditor { get; set; }
         public string EditorSyntax { get; set; }
 
+
+        #region Loading And Initialization
         public MarkdownDocumentEditor(WebBrowser browser)
         {
             WebBrowser = browser;
@@ -67,6 +69,10 @@ namespace MarkdownMonster
             }
             SetMarkdown();            
         }
+
+        #endregion
+
+        #region Markdown Access and Manipulation
 
         public void FindSyntaxFromFileType(string filename)
         {
@@ -148,28 +154,6 @@ namespace MarkdownMonster
                     var editor = tab.Tag as MarkdownDocumentEditor;
                     editor.RestyleEditor();
                 }
-            }
-        }
-
-
-        /// <summary>
-        /// Takes a command  like bold,italic,href etc., reads the
-        /// text from editor selection, transforms it and pastes
-        /// it back into the document.
-        /// </summary>
-        /// <param name="action"></param>
-        public void ProcessEditorUpdateCommand(string action)
-        {
-            string html = AceEditor.getselection(false);
-            
-            string newhtml = MarkupMarkdown(action, html);
-
-            if (!string.IsNullOrEmpty(newhtml) && newhtml != html)
-            {
-                AceEditor.setselection(newhtml);
-                AceEditor.setfocus(true);
-                MarkdownDocument.CurrentText = GetMarkdown();
-                Window.PreviewMarkdown(this, true);
             }
         }
 
@@ -309,7 +293,29 @@ namespace MarkdownMonster
             return html;
         }
 
-        
+
+        /// <summary>
+        /// Takes a command  like bold,italic,href etc., reads the
+        /// text from editor selection, transforms it and pastes
+        /// it back into the document.
+        /// </summary>
+        /// <param name="action"></param>
+        public void ProcessEditorUpdateCommand(string action)
+        {
+            string html = AceEditor.getselection(false);
+            
+            string newhtml = MarkupMarkdown(action, html);
+
+            if (!string.IsNullOrEmpty(newhtml) && newhtml != html)
+            {
+                AceEditor.setselection(newhtml);
+                AceEditor.setfocus(true);
+                MarkdownDocument.CurrentText = GetMarkdown();
+                Window.PreviewMarkdown(this, true);
+            }
+        }
+
+        #endregion
 
         #region Callback functions from the Html Editor
 
@@ -378,7 +384,29 @@ namespace MarkdownMonster
 
         }
 
-       static Hunspell GetSpellChecker(string language = "EN_US", bool reload = false)
+        /// <summary>
+        /// Restyles the current editor with configuration settings
+        /// </summary>
+        public void RestyleEditor()
+        {
+            try
+            {
+                AceEditor.settheme(mmApp.Configuration.EditorTheme,
+                    mmApp.Configuration.EditorFontSize,
+                    mmApp.Configuration.EditorWrapText);
+
+                if (this.EditorSyntax == "markdown" || this.EditorSyntax == "text")
+                    AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck, mmApp.Configuration.EditorDictionary);
+                else
+                    // always disable for non-markdown text
+                    AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
+            }
+            catch { }
+        }
+        #endregion
+
+        #region SpellChecking interactions
+        static Hunspell GetSpellChecker(string language = "EN_US", bool reload = false)
         {
             if (reload || _spellChecker == null)
             {
@@ -425,29 +453,8 @@ namespace MarkdownMonster
             File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\",  lang + "_custom.txt"),word  + "\n");
             _spellChecker.Add(word);            
         }
+        #endregion
 
-    
-
-        /// <summary>
-        /// Restyles the current editor with configuration settings
-        /// </summary>
-        public void RestyleEditor()
-        {
-            try
-            {
-                AceEditor.settheme(mmApp.Configuration.EditorTheme,
-                    mmApp.Configuration.EditorFontSize,
-                    mmApp.Configuration.EditorWrapText);
-
-                if (this.EditorSyntax == "markdown" || this.EditorSyntax == "text")
-                    AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck,mmApp.Configuration.EditorDictionary);
-                else
-                    // always disable for non-markdown text
-                    AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
-            }
-            catch{ }
-        }
-#endregion
 
     }
 

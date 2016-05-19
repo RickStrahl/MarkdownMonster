@@ -7,17 +7,21 @@
 Markdown Monster provides many useful features:
 
 * Syntax highlighted Markdown editing
-* Live preview using local HTML templates
+* Live Markdown HTML preview using local HTML templates
 * Gentle toolbar support for Markdown newbies and complex tasks
 * Easily customizable preview templates
 * Inline, as-you type spell checking
 * Customizable editor and preview Themes
 * Syntax colored code snippet support
-* Capture screen images (native or using SnagIt)
+* Capture screen images (using SnagIt currently)
 * Weblog Publishing plug-in (MetaWebLogAPI only at the moment)
 * Extensible: .NET Add-in model lets you plug in custom features
 * Addins provided: SnagIt Screen Capture and Blog Publisher
 
+There also a number of non-Markdown related features:
+
+* Also provides highlighted editing Html, CSS, Javascript, JSON, C# and FoxPro files
+* Live Preview of HTML documents
 
 ### Get it from:
 * **[Markdown Monster Site (under construction)](http://markdownmonster.west-wind.com)**
@@ -39,9 +43,6 @@ Here's what Markdown Monster looks like (Running the Dark Theme):
 
 ### Extensibility
 Markdown Monster's core implementations is all about the editor and additional features are meant to be implemented as add-ins to provide additional features. It includes an add-in model that allows adding of new functionality that hooks into the menu system and has access to the editor's content. It's easy to create a plug  in that has a toolbar option that can read the Markdown text or selected text and fix up the current content. Or you can write entire sub-applications like the WebLog add-in for example, that take the Markdown content and do something with it externally.
-
-
-
 
 
 ## Acknowledgements
