@@ -341,10 +341,11 @@ namespace MarkdownMonster
                 };
                 editor.MarkdownDocument = doc;
 
+                
                 var headerBinding = new Binding
                 {
                     Source = doc,
-                    Path = new PropertyPath("FilenameWithIndicator"),
+                    Path = new PropertyPath("FilenameWithIndicatorNoAccellerator"),                    
                     Mode = BindingMode.OneWay
                 };
                 BindingOperations.SetBinding(tab, MetroTabItem.HeaderProperty, headerBinding);
@@ -456,8 +457,7 @@ namespace MarkdownMonster
         
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
+        {            
             var editor = GetActiveMarkdownEditor();
             if (editor == null)
                 return;
@@ -466,7 +466,8 @@ namespace MarkdownMonster
                 PreviewMarkdown();
             
 
-            Title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*","") + "   -  Markdown Monster" + 
+            Title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*","") + 
+                "  - Markdown Monster" + 
                 (UnlockKey.Unlocked ? "" : " (unregistered)");
 
             Model.ActiveDocument = editor.MarkdownDocument;
@@ -478,9 +479,30 @@ namespace MarkdownMonster
 
             Model.ActiveDocument.IsActive = true;
         }
+
+        private void TabControl_TabItemClosing(object sender, BaseMetroTabControl.TabItemClosingEventArgs e)
+        {
+            var tab = e.ClosingTabItem as TabItem;
+            if (tab == null)
+                return;
+
+            e.Cancel = !CloseTab(tab);
+        }
+
         #endregion
 
-        #region Worker Functs
+        #region Worker Functions
+
+        public void SaveFile()
+        {
+            var tab = TabControl.SelectedItem as TabItem;
+            if (tab == null)
+                return;
+
+            var md = tab.Content;
+            var editor = tab.Tag as MarkdownDocumentEditor;
+            editor.SaveDocument();            
+        }
 
         public void ShowPreviewBrowser(bool hide = false)
         {
@@ -500,17 +522,6 @@ namespace MarkdownMonster
                 ContentGrid.ColumnDefinitions[1].Width = new GridLength(0);
                 ContentGrid.ColumnDefinitions[2].Width = new GridLength(0);
             }
-        }
-
-        public void SaveFile()
-        {
-            var tab = TabControl.SelectedItem as TabItem;
-            if (tab == null)
-                return;
-
-            var md = tab.Content;
-            var editor = tab.Tag as MarkdownDocumentEditor;
-            editor.SaveDocument();            
         }
 
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false)
@@ -600,13 +611,6 @@ namespace MarkdownMonster
                     new Action(() => { 
                         try
                         {
-                            if (editor == null)
-                                editor = GetActiveMarkdownEditor();
-
-                            if (editor == null)
-                                return;
-
-                            editor.MarkdownDocument.RenderHtmlToFile();
                             PreviewMarkdown(editor, keepScrollPosition);
                         }
                         catch { }                    
@@ -751,16 +755,6 @@ namespace MarkdownMonster
                 about.Owner = this;
                 about.Show();
             }
-        }
-
-
-        private void TabControl_TabItemClosing(object sender, BaseMetroTabControl.TabItemClosingEventArgs e)
-        {
-            var tab = e.ClosingTabItem as TabItem;
-            if (tab == null)
-                return;
-
-            e.Cancel = !CloseTab(tab);
         }
 
 

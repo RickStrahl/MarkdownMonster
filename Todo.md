@@ -2,10 +2,10 @@
 
 ### Immediate
 
-* Add registration check and registration form
-* Embed code dialog
-* Settings Screen
+* Settings Screend
+* Download WebLog posts
+* Choose another Tabs solution (Dragablz perhaps)
+* Save to HTML option
 
 ### General
-
 * Add Import from Html

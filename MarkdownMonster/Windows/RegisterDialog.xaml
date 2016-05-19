@@ -14,12 +14,30 @@
             <TextBlock Margin="15,35,0,0" Foreground="Cornsilk">You've been using the Free version of</TextBlock>
             <TextBlock FontSize="30" FontWeight="Bold" Margin="15,14,0,14"><Run Text="Markdown Monster"/></TextBlock>
             <TextBlock TextWrapping="Wrap" Margin="15,3,0,0" Foreground="Cornsilk" HorizontalAlignment="Stretch" >
-                <Run  Text="If you're using this editor commercially, or you find that you're using it frequently, please purchase a registered version of Markdown Monster."/><LineBreak/><LineBreak/><Run Text="Thank you for playing fair."/></TextBlock>
+                <Run  Text="If you're using this editor commercially, or you find that you're using it frequently, please purchase a registered version of Markdown Monster."/><LineBreak/><LineBreak/><Run Text="Thank you for playing fair."/>
+            </TextBlock>
 
-            <TextBlock FontSize="36" FontWeight="Bold" Margin="5,34" TextDecorations="Underline" Foreground="SteelBlue" TextAlignment="Center"
-                        MouseDown="Register_Click" 
-                        
-                        >Register</TextBlock>
+            <Button Margin="30" Content="Register" Cursor="Hand" FontSize="36" FontWeight="Bold" IsDefault="True"
+                    HorizontalAlignment="Center" Click="Register_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock TextDecorations="Underline">
+                            <ContentPresenter />
+                        </TextBlock>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Foreground" Value="Steelblue" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Foreground" Value="Firebrick" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+     
         </StackPanel>
         <TextBlock Text="x" FontFamily="Arial Black"  MouseDown="Exit_Click"  KeyDown="Exit_KeyDown"           
                    FontWeight="Bold" Padding="5,10" />

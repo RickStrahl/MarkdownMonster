@@ -30,7 +30,7 @@ namespace MarkdownMonster.Windows
             this.Close();
         }
 
-        private void Register_Click(object sender, MouseButtonEventArgs e)
+        private void Register_Click(object sender, RoutedEventArgs routedEventArgs)
         {
             ShellUtils.GoUrl("http://store.west-wind.com/product/MARKDOWN_MONSTER");
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -28,6 +29,7 @@ namespace MarkdownMonster
                 _filename = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(FilenameWithIndicator));
+                OnPropertyChanged(nameof(FilenameWithIndicatorNoAccellerator));
                 OnPropertyChanged(nameof(HtmlRenderFilename));
             }
         }
@@ -41,7 +43,15 @@ namespace MarkdownMonster
         {
             get
             {
-                return Path.GetFileName(Filename)  + (IsDirty ? "*" : "");
+                return Path.GetFileName(Filename) + (IsDirty ? "*" : "");                
+            }
+        }
+
+        public string FilenameWithIndicatorNoAccellerator
+        {
+            get
+            {
+                return Path.GetFileName(Filename).Replace("_","__") + (IsDirty ? "*" : "");
             }
         }
 
@@ -62,6 +72,7 @@ namespace MarkdownMonster
                     IsDirtyChanged?.Invoke(value);
                     OnPropertyChanged(nameof(IsDirty));
                     OnPropertyChanged(nameof(FilenameWithIndicator));
+                    OnPropertyChanged(nameof(FilenameWithIndicatorNoAccellerator));
                 }
             }
         }
