@@ -1,7 +1,16 @@
+using Westwind.Utilities;
+
 namespace WeblogAddin
 {
     public class WeblogInfo
     {
+        public WeblogInfo()
+        {
+            Id = DataUtils.GenerateUniqueId(8);
+        }
+
+        public string Id { get; set; }
+
         public string Name { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -13,7 +22,7 @@ namespace WeblogAddin
         /// Url used to preview the post. The postId can be embedded into 
         /// the value by using {0}.
         /// </summary>
-        public string PreviewUrl { get; set; }
+        public string PreviewUrl { get; set; }        
     }
 
     public enum WeblogTypes

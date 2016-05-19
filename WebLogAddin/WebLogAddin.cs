@@ -50,11 +50,10 @@ namespace WeblogAddin
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool SendPost()
+        public bool SendPost(WeblogTypes type = WeblogTypes.MetaWeblogApi)
         {
             var editor = Model.ActiveEditor;
             var doc = editor.MarkdownDocument;
-
 
             ActivePost = new Post()
             {
@@ -66,30 +65,45 @@ namespace WeblogAddin
 
             // Retrieve Meta data from post and clean up the raw markdown
             // so we render without the config data
-            var meta  = GetPostConfigFromMarkdown(markdown);
-           
-            string html = doc.RenderHtml(meta.MarkdownBody,WeblogApp.Configuration.RenderLinksOpenExternal);
-            
-            var config = WeblogApp.Configuration;            
+            var meta = GetPostConfigFromMarkdown(markdown);
 
-            WeblogInfo weblogInfo;
+            string html = doc.RenderHtml(meta.MarkdownBody, WeblogApp.Configuration.RenderLinksOpenExternal);
 
-            if (string.IsNullOrEmpty(meta.WeblogName) || !config.Weblogs.TryGetValue(meta.WeblogName, out weblogInfo))
+            var config = WeblogApp.Configuration;
+
+            var kv = config.Weblogs.FirstOrDefault(kvl => kvl.Value.Name == meta.WeblogName);
+            if (kv.Equals(default(KeyValuePair<string, WeblogInfo>)))
             {
-                MessageBox.Show("Invalid Weblog configuration selected.", "Weblog Posting Failed");
+                MessageBox.Show("Invalid Weblog configuration selected.", "Weblog Posting Failed", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
+            WeblogInfo weblogInfo = kv.Value;
 
-            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
-                weblogInfo.Username,
-                weblogInfo.Password);
+            MetaWeblogWrapper wrapper;
+
+            if (type == WeblogTypes.MetaWeblogApi)
+                wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                    weblogInfo.Username,
+                    weblogInfo.Password) as MetaWeblogWrapper;
+            else
+                wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
+                    weblogInfo.Username,
+                    weblogInfo.Password) as MetaWeblogWrapper;
 
             ActivePost.Body = SendImages(html, doc.Filename, wrapper);
 
-            if (ActivePost.PostID > 0)
-                wrapper.EditPost(ActivePost, true);
-            else            
-                ActivePost.PostID = wrapper.NewPost(ActivePost, true);
+            try
+            {
+                if (ActivePost.PostID > 0)
+                    wrapper.EditPost(ActivePost, true);
+                else
+                    ActivePost.PostID = wrapper.NewPost(ActivePost, true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error sending post to Weblog: " + ex.Message,mmApp.ApplicationName,MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                return false;
+            }
 
             meta.PostId = ActivePost.PostID.ToString();
 
@@ -99,10 +113,9 @@ namespace WeblogAddin
 
             // add the meta configuration to it
             markdown = SetConfigInMarkdown(meta);
-            
+
             // write it back out to editor
             editor.SetMarkdown(markdown);
-            
 
             // preview post
             if (!string.IsNullOrEmpty(weblogInfo.PreviewUrl))

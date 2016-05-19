@@ -12,7 +12,7 @@ using Westwind.Utilities.Configuration;
 
 namespace WeblogAddin
 {
-    internal class WeblogApp
+    public class WeblogApp
     {
         public static WeblogAddinConfiguration Configuration;
 

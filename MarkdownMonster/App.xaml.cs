@@ -21,8 +21,7 @@ namespace MarkdownMonster
         public static Mutex Mutex;        
 
         public App()
-        {
-         
+        {         
             SplashScreen splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
             splashScreen.Show(true);
 

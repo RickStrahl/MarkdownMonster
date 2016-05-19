@@ -112,6 +112,7 @@
     <Compile Include="Controls\CommandBase.cs" />
     <Compile Include="DropdownButtonBehavior.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Windows\PasteCode.xaml.cs">
       <DependentUpon>PasteCode.xaml</DependentUpon>
     </Compile>

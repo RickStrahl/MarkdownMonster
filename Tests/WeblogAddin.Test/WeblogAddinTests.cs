@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using JoeBlogs;
+using MarkdownMonster;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using WeblogAddin;
@@ -8,6 +11,9 @@ namespace WeblogAddin.Test
     [TestClass]
     public class WeblogAddinTests
     {
+        private const string ConstWeblogName = "Rick Strahl's Weblog (local)";
+        private const string ConstWordPressWeblogName = "Rick's Wordpress Weblog";
+
         [TestMethod]
         public void SetConfigInMarkdown()
         {
@@ -27,6 +33,8 @@ namespace WeblogAddin.Test
             Assert.IsTrue(markdown.Contains("<postid>2</postid>"), "Post Id wasn't added");
         }
 
+
+
         [TestMethod]
         public void GetPostConfigFromMarkdown()
         {
@@ -41,6 +49,95 @@ namespace WeblogAddin.Test
             Assert.IsTrue(meta.Abstract == "Abstract");
             Assert.IsTrue(meta.Keywords == "Keywords");
             Assert.IsTrue(meta.WeblogName == "WebLogName");
+        }
+
+        
+
+        [TestMethod]
+        public void RawPostMetaWeblogTest()
+        {
+            
+            var rawPost = new Post()
+            {
+                Body = "<b>Markdown Text</b>",                 
+                DateCreated = DateTime.UtcNow,
+                mt_keywords = "Test,NewPost",
+                CustomFields = new CustomField[]
+                {
+                    new CustomField()
+                    {
+                        ID = Guid.NewGuid().ToString(),
+                        Key = "mt_Markdown",
+                        Value = "**Markdown Text**"
+                    }
+                },
+                PostID = 0,
+                Title = "Testing a post"
+            };
+
+            WeblogInfo weblogInfo = WeblogApp.Configuration.Weblogs[ConstWeblogName];
+
+            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                weblogInfo.Username,
+                weblogInfo.Password);
+
+             rawPost.PostID = wrapper.NewPost(rawPost, true);            
+        }
+
+        [TestMethod]
+        
+        public void RawPostWordPressTest()
+        {
+
+            var rawPost = new Post()
+            {
+                Body = "<b>Markdown Text</b>",
+                DateCreated = DateTime.UtcNow,
+                mt_keywords = "Test,NewPost",
+                CustomFields = new CustomField[]
+                {
+                    new CustomField()
+                    {
+                        ID = Guid.NewGuid().ToString(),
+                        Key = "mt_Markdown",
+                        Value = "**Markdown Text**"
+                    }
+                },
+                PostID = 0,
+                Title = "Testing a post"
+            };
+
+            WeblogInfo weblogInfo = WeblogApp.Configuration.Weblogs[ConstWordPressWeblogName];
+
+            var wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
+                weblogInfo.Username,
+                weblogInfo.Password);
+
+            rawPost.PostID = wrapper.NewPost(rawPost, true);
+        }
+
+        [TestMethod]
+        public void GetCategories()
+        {
+            WeblogInfo weblogInfo = WeblogApp.Configuration.Weblogs[ConstWeblogName];
+
+            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                weblogInfo.Username,
+                weblogInfo.Password);
+
+            var categoryStrings = new List<string>();
+
+            var categories = wrapper.GetCategories();
+            foreach (var cat in categories)
+            {
+                categoryStrings.Add(cat.Description);
+            }
+
+            Assert.IsTrue(categoryStrings.Count > 0);
+
+            foreach(string cat in categoryStrings)
+                Console.WriteLine(cat);
+
         }
 
 

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using FontAwesome.WPF;
@@ -64,7 +65,11 @@ namespace WeblogAddin
 
         #region Button Handlers
         private async void ButtonPostBlog_Click(object sender, System.Windows.RoutedEventArgs e)
-        {            
+        {
+            ShowStatus("Uploading Blog post...");
+            SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Upload, Colors.Orange, true);
+
+
             // Update the Markdown document first
             string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
             Model.AppModel.ActiveEditor.SetMarkdown(markdown);
@@ -72,26 +77,23 @@ namespace WeblogAddin
             WeblogApp.Configuration.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
 
             var window = Model.AppModel.Window;
-
-            ShowStatus("Uploading Blog post...");
-            SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Upload, Colors.Orange, true);                
             
             try
             {
-                await Dispatcher.InvokeAsync(()=>
+                await Dispatcher.InvokeAsync(() =>
                 {
-                    Thread.Sleep(2000);
                     // Then send the post - it will re-read the new values
-                    if (Model.Addin.SendPost()) { 
-                        
+                    if (Model.Addin.SendPost())
+                    {
                         this.Close();
                     }
                     else
                         window.ShowStatus("Failed to upload blog post.", 5000);
-                },System.Windows.Threading.DispatcherPriority.Background);                
+                }, System.Windows.Threading.DispatcherPriority.Background);                
             }
             finally
             {
+                ShowStatus();
                 window.ShowStatus("Blog post uploaded successfully.", 5000);
                 SetStatusIcon();
             }
@@ -193,6 +195,27 @@ namespace WeblogAddin
                 Model.ActiveWeblogInfo.Password = TextWeblogPassword.Password;
 
 
+        }
+
+        private void Button_NewWeblog(object sender, RoutedEventArgs e)
+        {
+            Model.ActiveWeblogInfo = new WeblogInfo()
+            {                 
+                 Name = "New Weblog"
+            };
+            Model.Configuration.Weblogs.Add(Model.ActiveWeblogInfo.Id,Model.ActiveWeblogInfo);
+        }
+
+        private void Button_DeleteWeblog(object sender, RoutedEventArgs e)
+        {
+            if (Model.ActiveWeblogInfo != null)
+            {
+                var id = Model.ActiveWeblogInfo.Id;
+                if (Model.Configuration.Weblogs.Count > 1)
+                    Model.ActiveWeblogInfo = Model.Configuration.Weblogs.FirstOrDefault().Value;
+
+                Model.Configuration.Weblogs.Remove(id);
+            }
         }
     }
 }
