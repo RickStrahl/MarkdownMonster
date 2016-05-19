@@ -19,7 +19,7 @@
 
         
         <Label Margin="0,10,0,0">Link:</Label>
-        <TextBox  Name="TextLink"  Text="{Binding Link}"  FontSize="15" />
+        <TextBox  Name="TextLink"  Text="{Binding Link}"  FontSize="15"  TextWrapping="NoWrap"/>
 
         
         <StackPanel Orientation="Horizontal">
