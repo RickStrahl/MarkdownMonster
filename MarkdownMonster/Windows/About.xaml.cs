@@ -19,12 +19,22 @@ namespace MarkdownMonster.Windows
             
             string bitNess = Environment.Is64BitProcess ? "64 bit" : "32 bit";
             var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-            VersionLabel.Content = "Version " + v.FileMajorPart + "." + v.FileMinorPart + " ♠ " + bitNess;
+            VersionLabel.Content = "Version " + v.FileMajorPart + "." + v.FileMinorPart + " • " + bitNess;
+
+            if (UnlockKey.IsRegistered())
+            {
+                PanelFreeNotice.Visibility = System.Windows.Visibility.Hidden;
+            }
         }
 
         private void WestWindIcon_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ShellUtils.GoUrl("http://weblog.west-wind.com");
+        }
+
+        private void Register_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ShellUtils.GoUrl("https://store.west-wind.com/product/markdown_monster");
         }
     }
 }

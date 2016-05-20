@@ -203,7 +203,7 @@ namespace MarkdownMonster
             html = html.Replace("{$markdownHtml}",markdownHtml);
 
             File.WriteAllText(filename, html);
-            return html;
+                return html;
         }
 
 

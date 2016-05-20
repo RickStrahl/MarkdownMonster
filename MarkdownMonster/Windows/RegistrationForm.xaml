@@ -26,27 +26,11 @@
             </TextBlock>
             <PasswordBox Name="TextRegKey" Margin="15,5,20,0" ></PasswordBox>
             <TextBlock Margin="15,7,0,0" Name="LabelIsRegistered" FontSize="12" Foreground="Red">This copy is not registered</TextBlock>
-           
 
-            <Button Margin="30" Content="Register" Cursor="Hand" FontSize="36" FontWeight="Bold" IsDefault="True"
-                    HorizontalAlignment="Center" Click="Register_Click">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <TextBlock TextDecorations="Underline">
-                <ContentPresenter />
-                        </TextBlock>
-                    </ControlTemplate>
-                </Button.Template>
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Foreground" Value="Steelblue" />
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Foreground" Value="Firebrick" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
+
+            <Button Margin="30" Content="Register" FontSize="36" FontWeight="Bold" IsDefault="True"
+                    HorizontalAlignment="Center"  Click="Register_Click"
+                    Style="{DynamicResource LinkButtonStyle}">
             </Button>
         </StackPanel>
         <TextBlock Grid.Column="2" Text="x" FontFamily="Arial Black"  MouseDown="Exit_Click"

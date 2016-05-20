@@ -41,10 +41,11 @@ namespace MarkdownMonster
                 // you can then use the current theme and custom accent instead set a new theme
                 Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
 
-                // now set the Green accent and dark theme
+                // now set the highlight accent and dark theme
                 ThemeManager.ChangeAppStyle(Application.Current,
                     ThemeManager.GetAccent("Blue"),
-                    ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1                                
+                    ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1      
+                                
             }
 
             if (window != null)
@@ -60,6 +61,10 @@ namespace MarkdownMonster
                 {
                     window.WindowTitleBrush = (SolidColorBrush) (new BrushConverter().ConvertFrom("#333333"));
                     window.NonActiveWindowTitleBrush = (Brush) window.FindResource("WhiteBrush");
+
+                    var brush = App.Current.Resources["MenuSeparatorBorderBrush"] as SolidColorBrush;
+                    App.Current.Resources["MenuSeparatorBorderBrush"] = (SolidColorBrush) new BrushConverter().ConvertFrom("#333333");
+                    brush = App.Current.Resources["MenuSeparatorBorderBrush"] as SolidColorBrush;
                 }
             }
             else

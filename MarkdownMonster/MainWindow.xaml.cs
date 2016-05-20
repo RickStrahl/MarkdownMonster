@@ -50,7 +50,6 @@ namespace MarkdownMonster
             Drop += MainWindow_Drop;
             AllowDrop = true;
 
-            
             KeyUp += MainWindow_KeyUp;
 
             PreviewBrowser.Navigated += (sender, e) =>
@@ -71,23 +70,13 @@ namespace MarkdownMonster
 
             if (mmApp.Configuration.UseSingleWindow)
             {
-                // Add a FileWatcher to watch for multi-instance files to open
-                //openFileWatcher = new FileSystemWatcher(
-                //    Path.GetDirectoryName(mmApp.Configuration.FileWatcherOpenFilePath),
-                //    Path.GetFileName(mmApp.Configuration.FileWatcherOpenFilePath))
-                //{
-                //    NotifyFilter = NotifyFilters.LastWrite,
-                //    EnableRaisingEvents = true
-                //};
-                //openFileWatcher.Changed += openFileWatcher_Changed;
-                //openFileWatcher.Created += openFileWatcher_Changed;
-
+                // Listen for other instances launching and pick up
+                // forwarded command line arguments
                 PipeManager = new NamedPipeManager("MarkdownMonster");
                 PipeManager.StartServer();
                 PipeManager.ReceiveString += HandleNamedPipe_OpenRequest;                
             }
-
-
+            
             // Override some of the theme defaults (dark header specifically)
             mmApp.SetThemeWindowOverride(this);
         }

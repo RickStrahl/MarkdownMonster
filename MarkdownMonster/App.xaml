@@ -12,14 +12,16 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+
+                <ResourceDictionary Source="Styles/Buttons.xaml"/>
+
                 <!-- Mah Accent and AppTheme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-                <!-- Mah Icon Resources -->
-                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro.Resources;component/Resources/icons.baml" />-->
+                <!-- Mah Icon Resources -->                
+                
             </ResourceDictionary.MergedDictionaries>
-
-            
+                        
         </ResourceDictionary>
     </Application.Resources>
 </Application>

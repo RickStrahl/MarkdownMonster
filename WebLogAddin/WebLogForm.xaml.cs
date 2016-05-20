@@ -48,9 +48,13 @@ namespace WeblogAddin
 
         private void WebLogStart_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            Model.LoadWebLognames();
+            //Model.LoadWebLognames();
 
-            var markdown = Model.AppModel.ActiveEditor.GetMarkdown();
+            var editor = Model.AppModel.ActiveEditor;
+            if (editor == null)
+                return;
+
+            var markdown = editor.GetMarkdown();
             Model.ActivePostMetadata = Model.Addin.GetPostConfigFromMarkdown(markdown);
         }
 
