@@ -14,13 +14,25 @@
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="603.57" Height="288.154">
     <StackPanel Margin="30">
+
         <Label>Link Text:</Label>
-        <TextBox Name="TextLinkText" Text="{Binding LinkText}" FontSize="15" />
+        <TextBox Name="TextLinkText" Grid.Column="0"  Text="{Binding LinkText}"  
+                     HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  FontSize="15" 
+                     ToolTip="Set the link text for the link."/>
 
-        
         <Label Margin="0,10,0,0">Link:</Label>
-        <TextBox  Name="TextLink"  Text="{Binding Link}"  FontSize="15"  TextWrapping="NoWrap"/>
-
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox  Name="TextLink"  Text="{Binding Link}" TextWrapping="NoWrap"
+                      HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  FontSize="15" 
+                     ToolTip="Set the link text for the link." />
+            <Button Grid.Column="1"  Height="25" Width="25" Click="SelectLocalLinkFile_Click">...</Button>
+        </Grid>
+        
         
         <StackPanel Orientation="Horizontal">
             <Button Name="ButtonOk" Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >

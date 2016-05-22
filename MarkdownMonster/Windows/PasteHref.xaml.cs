@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using Microsoft.Win32;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
@@ -71,6 +73,8 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        public string MarkdownFile { get; set; }
+
 
         public PasteHref()
         {
@@ -101,8 +105,10 @@ namespace MarkdownMonster.Windows
             if (string.IsNullOrEmpty(LinkText) && !string.IsNullOrEmpty(Link))
                 LinkText = Link;
 
-
-            this.TextLink.Focus();
+            if (string.IsNullOrEmpty(LinkText))
+                this.TextLinkText.Focus();
+            else
+                this.TextLink.Focus();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -123,6 +129,43 @@ namespace MarkdownMonster.Windows
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void SelectLocalLinkFile_Click(object sender, RoutedEventArgs e)
+        {
+            var fd = new OpenFileDialog
+            {
+                DefaultExt = ".html",
+                Filter = "Linkable Files (*.htm,*.html,*.md,*.pdf;*.zip)|*.html;*.htm;*.md;*.pdf;*.zip|All Files (*.*)|*.*",
+                CheckFileExists = true,
+                RestoreDirectory = true,
+                Multiselect = false,
+                Title = "Embed a local relative link"
+            };
+
+            if (!string.IsNullOrEmpty(MarkdownFile))
+                fd.InitialDirectory = System.IO.Path.GetDirectoryName(MarkdownFile);
+            else
+                fd.InitialDirectory = mmApp.Configuration.LastFolder;
+
+            var res = fd.ShowDialog();
+            if (res == null || !res.Value)
+                return;
+
+            Link = fd.FileName;
+
+            // Normalize the path relative to the Markdown file
+            if (!string.IsNullOrEmpty(MarkdownFile))
+            {
+                string mdPath = System.IO.Path.GetDirectoryName(MarkdownFile);
+                string relPath = FileUtils.GetRelativePath(fd.FileName, mdPath);
+
+                // not relative
+                if (!relPath.StartsWith("..\\"))
+                    Link = relPath;
+            }
+            mmApp.Configuration.LastFolder = System.IO.Path.GetDirectoryName(fd.FileName);
+            TextLink.Focus();
         }
     }
 }
