@@ -16,7 +16,7 @@ namespace MarkdownMonster
         static mmApp()
         {
             Configuration = new ApplicationConfiguration();
-            Configuration.Initialize();
+            Configuration.Initialize();            
         }
 
         public static void SetTheme(Themes theme = Themes.Default,MetroWindow window = null)
@@ -80,7 +80,7 @@ namespace MarkdownMonster
 
 
         internal static string EncryptionMachineKey { get; } = "42331333#1Ae@rTo*dOO-002" + Environment.MachineName;
-        internal static string ProKey { get; } = "Kupua_100";
+        internal static string Signature { get; } = "S3VwdWFfMTAw";
         public static string InstallerDownloadUrl { get; internal set; }
         public static string UpdateCheckUrl { get; internal set; }
     }

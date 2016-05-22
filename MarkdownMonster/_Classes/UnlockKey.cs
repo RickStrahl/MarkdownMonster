@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.NetworkInformation;
+using System.Text;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -16,7 +17,7 @@ namespace MarkdownMonster
         static UnlockKey()
         {
             RegisterFile = mmApp.Configuration.CommonFolder + "Registered.key";
-            ProKey = mmApp.ProKey;
+            ProKey = Encoding.UTF8.GetString(Convert.FromBase64String(mmApp.Signature));
         }
 
         /// <summary>

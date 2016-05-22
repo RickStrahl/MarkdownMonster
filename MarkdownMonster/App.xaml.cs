@@ -18,7 +18,7 @@ namespace MarkdownMonster
     /// </summary>
     public partial class App : System.Windows.Application
     {
-        public static Mutex Mutex;        
+        public static Mutex Mutex { get; set; }        
 
         public App()
         {         
@@ -52,8 +52,8 @@ namespace MarkdownMonster
                 }
             }
 
-            AppDomain currentDomain = AppDomain.CurrentDomain;
-            currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
+            //AppDomain currentDomain = AppDomain.CurrentDomain;
+            //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
         }
 
         public static string InstallerDownloadUrl { get; internal set; }
@@ -83,7 +83,6 @@ namespace MarkdownMonster
 
             AddinManager.Current.LoadAddins();
             AddinManager.Current.RaiseOnApplicationStart();            
-        }
-        
+        }        
     }
 }

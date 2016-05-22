@@ -51,6 +51,7 @@ namespace MarkdownMonster
             FindSyntaxFromFileType(MarkdownDocument.Filename);
         }
 
+
         private void OnDocumentCompleted(object sender, NavigationEventArgs e)
         {
             if (AceEditor == null)
@@ -170,7 +171,7 @@ namespace MarkdownMonster
             
             action = action.ToLower();
 
-            if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image" }))
+            if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image", "href" }))
                 return null;
 
             string html = input;
@@ -227,10 +228,13 @@ namespace MarkdownMonster
                 html = sb.ToString();
             }
             else if (action == "href")
-            {                
-                var form = new PasteHref();
-                form.Owner = Window;
-                form.LinkText = input;
+            {
+                var form = new PasteHref()
+                {
+                    Owner = Window,
+                    LinkText = input,
+                    MarkdownFile = MarkdownDocument.Filename
+                };
 
                 // check for links in input or on clipboard
                 string link = input;
@@ -238,8 +242,7 @@ namespace MarkdownMonster
                     link = Clipboard.GetText();
 
                 if (!(input.StartsWith("http:") || input.StartsWith("https:") || input.StartsWith("mailto:") || input.StartsWith("ftp:")))                
-                    link = string.Empty;
-                
+                    link = string.Empty;                
                 form.Link = link;
 
                 bool? res = form.ShowDialog();
@@ -248,11 +251,13 @@ namespace MarkdownMonster
             }
             else if (action == "image")
             {
-                var form = new PasteImage();
-                form.Owner = Window;
-                form.ImageText = input;
-                form.MarkdownFile = MarkdownDocument.Filename;
-                
+                var form = new PasteImage
+                {
+                    Owner = Window,
+                    ImageText = input,
+                    MarkdownFile = MarkdownDocument.Filename
+                };
+
 
                 // check for links in input or on clipboard
                 string link = input;

@@ -44,33 +44,15 @@ namespace MarkdownMonster
             Model = new AppModel(this);
             DataContext = Model;
 
-            Loaded += OnLoaded;
-            Closing += MainWindow_Closing;
+            InitializePreviewBrowser();
 
+            
+            Loaded += OnLoaded;           
+            //Closing += MainWindow_Closing;
             Drop += MainWindow_Drop;
-            AllowDrop = true;
-
+            AllowDrop = true;           
             KeyUp += MainWindow_KeyUp;
-
-            PreviewBrowser.Navigated += (sender, e) =>
-            {
-                // No Script Errors
-                NoScriptErrors(PreviewBrowser, true);
-            };
-            PreviewBrowser.LoadCompleted += (sender, e) =>
-            {
-                if (e.Uri.ToString().Contains("about:blank"))
-                    return;
-
-                var editor = GetActiveMarkdownEditor();
-                dynamic dom = PreviewBrowser.Document;                
-                dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
-
-                if (File.Exists(editor.MarkdownDocument.HtmlRenderFilename))
-                    File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
-            };
-            PreviewBrowser.Navigate("about:blank");
-
+                        
             // Singleton App startup - server code that listens for other instances
             if (mmApp.Configuration.UseSingleWindow)
             {
@@ -84,6 +66,8 @@ namespace MarkdownMonster
             // Override some of the theme defaults (dark header specifically)
             mmApp.SetThemeWindowOverride(this);
         }
+
+
 
 
         /// <summary>
@@ -146,15 +130,15 @@ namespace MarkdownMonster
             });            
         }
 
-
-        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
+            base.OnClosing(e);
+            
             this.Hide();
 
             bool isNewVersion = CheckForNewVersion(false, false);
             mmApp.Configuration.ApplicationUpdates.AccessCount++;
             
-
             SaveSettings();
 
             if (!CloseAllTabs())
@@ -164,8 +148,13 @@ namespace MarkdownMonster
                 return;
             }
 
-            PipeManager?.StopServer();
-            App.Mutex.Dispose();            
+            if (mmApp.Configuration.UseSingleWindow)
+            {
+                PipeManager?.StopServer();
+
+                if (App.Mutex != null)
+                    App.Mutex.Dispose();
+            }
 
             if (!isNewVersion &&  
                 mmApp.Configuration.ApplicationUpdates.AccessCount % 3 == 0 &&
@@ -283,6 +272,7 @@ namespace MarkdownMonster
             }
             config.Write();
         }
+
         #endregion
 
         #region Tab Handling
@@ -933,7 +923,30 @@ namespace MarkdownMonster
         }
         #endregion
 
-        #region Preview Browser No Script Errors
+        #region Preview Browser Operation
+
+        private void InitializePreviewBrowser()
+        {
+            PreviewBrowser.Navigated += (sender, e) =>
+            {
+                // No Script Errors
+                NoScriptErrors(PreviewBrowser, true);
+            };
+            PreviewBrowser.LoadCompleted += (sender, e) =>
+            {
+                if (e.Uri.ToString().Contains("about:blank"))
+                    return;
+
+                var editor = GetActiveMarkdownEditor();
+                dynamic dom = PreviewBrowser.Document;
+                dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
+
+                if (File.Exists(editor.MarkdownDocument.HtmlRenderFilename))
+                    File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
+            };
+            PreviewBrowser.Navigate("about:blank");
+        }
+
         /// <summary>
         /// Keep WebBrowser Preview control from firing script errors. We need this
         /// because we may be previewing HTML content that includes script content
