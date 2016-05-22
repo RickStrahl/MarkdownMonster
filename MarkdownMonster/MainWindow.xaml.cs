@@ -58,7 +58,10 @@ namespace MarkdownMonster
                 NoScriptErrors(PreviewBrowser, true);
             };
             PreviewBrowser.LoadCompleted += (sender, e) =>
-            {                
+            {
+                if (e.Uri.ToString().Contains("about:blank"))
+                    return;
+
                 var editor = GetActiveMarkdownEditor();
                 dynamic dom = PreviewBrowser.Document;                
                 dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
@@ -66,8 +69,9 @@ namespace MarkdownMonster
                 if (File.Exists(editor.MarkdownDocument.HtmlRenderFilename))
                     File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
             };
+            PreviewBrowser.Navigate("about:blank");
 
-
+            // Singleton App startup - server code that listens for other instances
             if (mmApp.Configuration.UseSingleWindow)
             {
                 // Listen for other instances launching and pick up
@@ -201,7 +205,7 @@ namespace MarkdownMonster
                 {
                     if (File.Exists(doc.Filename))
                     {
-                        var tab = OpenTab(doc.Filename);
+                        var tab = OpenTab(doc.Filename,selectTab: false);
 
                         if (selectedDoc != null && selectedDoc.Filename == doc.Filename)                        
                             selectedTab = tab;                        
@@ -282,7 +286,7 @@ namespace MarkdownMonster
         #endregion
 
         #region Tab Handling
-        public MetroTabItem OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown")
+        public MetroTabItem OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown", bool selectTab = true)
         {
             if (mdFile != null && mdFile!= "untitled" && !File.Exists(mdFile))
                 return null;
@@ -295,6 +299,7 @@ namespace MarkdownMonster
             tab.Padding = new Thickness(2, 0, 7, 2);
             tab.Background = this.Background;
             tab.ContextMenu = this.Resources["TabItemContextMenu"] as ContextMenu;
+            
             ControlsHelper.SetHeaderFontSize(tab, 13F);
 
             var wb = new WebBrowser
@@ -303,10 +308,8 @@ namespace MarkdownMonster
                 Visibility = Visibility.Hidden
             };
 
-            tab.Content = wb;
-            TabControl.SelectedItem = tab;
-
-
+            tab.Content = wb;            
+            
             if (editor == null)
             {
                 dynamic dom = wb.Document;
@@ -364,16 +367,21 @@ namespace MarkdownMonster
             }
             Model.OpenDocuments.Add(editor.MarkdownDocument);
             Model.ActiveDocument = editor.MarkdownDocument;
-
+            
             if (existingTab != null)
                 TabControl.Items.Remove(existingTab);
+
+            tab.IsSelected = false;
             TabControl.Items.Insert(0, tab);
-            
 
-            if (showPreviewIfActive && PreviewBrowser.Width > 5)
-                Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
+            if (selectTab)
+            {
+                TabControl.SelectedItem = tab;
 
-            TabControl.SelectedItem = tab;
+                if (showPreviewIfActive && PreviewBrowser.Width > 5)
+                    PreviewMarkdown(); //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
+            }
+
             return tab;
         }
 
@@ -461,8 +469,6 @@ namespace MarkdownMonster
 
             Model.ActiveDocument = editor.MarkdownDocument;
 
-
-
             foreach (var doc in Model.OpenDocuments)
                 doc.IsActive = false;
 
@@ -493,23 +499,35 @@ namespace MarkdownMonster
             editor.SaveDocument();            
         }
 
+
+        /// <summary>
+        /// Shows or hides the preview browser
+        /// </summary>
+        /// <param name="hide"></param>
         public void ShowPreviewBrowser(bool hide = false)
         {
             if (!hide)
             {
                 PreviewBrowser.Visibility = Visibility.Visible;
-                var editor = GetActiveMarkdownEditor();
-                if (editor != null)
-                    PreviewMarkdown(editor);
+                //var editor = GetActiveMarkdownEditor();
+                //if (editor != null)
+                //    PreviewMarkdown(editor);
+
+                var splitterPos = mmApp.Configuration.WindowPosition.SplitterPosition;
+                if (splitterPos < 50)
+                    splitterPos = (int) (Width/2) - 40;
 
                 ContentGrid.ColumnDefinitions[1].Width = new GridLength(12);
                 ContentGrid.ColumnDefinitions[2].Width = new GridLength(Width / 2 - 40);
             }
             else
             {
-                PreviewBrowser.Navigate("about:blank");
+                if (ContentGrid.ColumnDefinitions[2].Width.Value > 100)
+                    mmApp.Configuration.WindowPosition.SplitterPosition = Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
+                
                 ContentGrid.ColumnDefinitions[1].Width = new GridLength(0);
                 ContentGrid.ColumnDefinitions[2].Width = new GridLength(0);
+                PreviewBrowser.Navigate("about:blank");                
             }
         }
 
@@ -533,11 +551,7 @@ namespace MarkdownMonster
 
             if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
             {
-                if(PreviewBrowser.Visibility != Visibility.Visible)
-                    ContentGrid.ColumnDefinitions[2].Width = new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);                       
-
-                PreviewBrowser.Visibility = Visibility.Visible;
-                
+                this.ShowPreviewBrowser();
                 
                 if (keepScrollPosition)
                 {
@@ -568,17 +582,13 @@ namespace MarkdownMonster
                         PreviewBrowser.Refresh(true);
                     else
                     {
-                        PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
+                        PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);                        
                     }
                 }
             }
             else
             {
-                PreviewBrowser.Visibility = Visibility.Hidden;
-                if (ContentGrid.ColumnDefinitions[2].Width.Value > 100)
-                    mmApp.Configuration.WindowPosition.SplitterPosition = Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
-
-                ContentGrid.ColumnDefinitions[2].Width = new GridLength(0);
+                ShowPreviewBrowser(true);
             }
         }
 
