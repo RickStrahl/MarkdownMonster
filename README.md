@@ -37,7 +37,6 @@ Markdown Monster is a Markdown editor for Windows, that provides basic editing f
 
 But the key feature and the reason I built this tool is that it is **extensible**, so that you and I can plug additional functionality into it. Personally I needed couple of features - built-in screen captures and an easy way to post text to my Blog - and Markdown Monster makes that possible via an add-in model that allows extending the base functionality with custom functionality via a .NET based add-in model. The SnagIt Screen Capture and WebLog publishing add-ins are included in this base release to demonstrate how the plug-in model works and integrates
 
-
 Here's what Markdown Monster looks like (Running the Dark Theme):
 ![Markdown Monster Screen Shot](ScreenShot.png)
 
