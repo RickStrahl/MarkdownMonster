@@ -334,7 +334,7 @@ window.ondrop = function (event) {
     event.stopPropagation();
 
     setTimeout(function() {
-        alert("To open dropped files, please drop them onto the header area of the window.");
+        alert("To open dropped files in Markdown Monster, please drop files onto the header area of the window.");
     },50);
 }
  window.ondragover = function(event) {

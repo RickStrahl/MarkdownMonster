@@ -130,7 +130,12 @@ namespace MarkdownMonster
             return MarkdownDocument.CurrentText;
         }
 
-
+        /// <summary>
+        /// Saves the active document to file.
+        /// 
+        /// If there's no active filename a file save dialog
+        /// is popped up. 
+        /// </summary>
         public void SaveDocument()
         {
             if (MarkdownDocument == null || AceEditor == null)
@@ -139,7 +144,6 @@ namespace MarkdownMonster
             GetMarkdown();
             MarkdownDocument.Save();
             AceEditor.isDirty = false;
-
 
             // reload settings if we were editing the app config file.
             var justfile = Path.GetFileName(MarkdownDocument.Filename).ToLower();
@@ -167,8 +171,7 @@ namespace MarkdownMonster
         /// <param name="style"></param>
         /// <returns></returns>
         public string MarkupMarkdown(string action, string input, string style = null)
-        {
-            
+        {            
             action = action.ToLower();
 
             if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image", "href" }))
@@ -300,6 +303,51 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// Pastes text into the editor at the current 
+        /// insertion/selection point. Replaces any 
+        /// selected text.
+        /// </summary>
+        /// <param name="text"></param>
+        public void SetSelection(string text)
+        {
+            if (AceEditor == null)
+                return;
+
+            AceEditor.setselection(text);                        
+            MarkdownDocument.CurrentText = GetMarkdown();
+        }
+
+
+        /// <summary>
+        /// Gets the current selection of the editor
+        /// </summary>
+        /// <returns></returns>
+        public string GetSelection()
+        {            
+            return AceEditor?.getselection(false);            
+        }
+
+        /// <summary>
+        /// Focuses the Markdown editor in the Window
+        /// </summary>
+        public void SetEditorFocus()
+        {            
+            AceEditor?.setfocus(true);
+        }
+
+
+        /// <summary>
+        /// Renders Markdown as HTML
+        /// </summary>
+        /// <param name="markdown">Markdown text to turn into HTML</param>
+        /// <param name="renderLinksExternal">If true creates all links with target='top'</param>
+        /// <returns></returns>
+        public string RenderMarkdown(string markdown, bool renderLinksExternal = false)
+        {
+            return this.MarkdownDocument.RenderHtml(markdown, renderLinksExternal);
+        }
+
+        /// <summary>
         /// Takes a command  like bold,italic,href etc., reads the
         /// text from editor selection, transforms it and pastes
         /// it back into the document.
@@ -307,19 +355,20 @@ namespace MarkdownMonster
         /// <param name="action"></param>
         public void ProcessEditorUpdateCommand(string action)
         {
+            if (AceEditor == null)
+                return;
+
             string html = AceEditor.getselection(false);
             
             string newhtml = MarkupMarkdown(action, html);
 
             if (!string.IsNullOrEmpty(newhtml) && newhtml != html)
             {
-                AceEditor.setselection(newhtml);
-                AceEditor.setfocus(true);
-                MarkdownDocument.CurrentText = GetMarkdown();
+                SetSelection(newhtml);
+                AceEditor.setfocus(true);                
                 Window.PreviewMarkdown(this, true);
             }
         }
-
         #endregion
 
         #region Callback functions from the Html Editor

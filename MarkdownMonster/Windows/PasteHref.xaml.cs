@@ -90,14 +90,14 @@ namespace MarkdownMonster.Windows
 
         private void PasteHref_Loaded(object sender, RoutedEventArgs e)
         {
-                        if (string.IsNullOrEmpty(Link))
+            if (string.IsNullOrEmpty(Link))
             {
                 if (LinkText != null && LinkText.Contains("://") && !LinkText.Contains("\n"))
                     Link = LinkText;
                 else
                 {
                     string clipText = Clipboard.GetText();
-                    if (clipText != null && clipText.Contains("://") && !LinkText.Contains("\n"))
+                    if (clipText != null && clipText.Contains("://") && !clipText.Contains("\n"))
                         Link = clipText;
                 }
             }

@@ -91,14 +91,13 @@
                 <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
             </MenuItem>
             <MenuItem Header="_Edit">
-                <Separator />
-                <MenuItem Header="Paste Markdown from Html" IsEnabled="false" />
-                <MenuItem Header="Copy Markdown from Html" IsEnabled="false" />
+                <MenuItem Header="Paste Html as Markdown" IsEnabled="{Binding IsEditorActive}" Click="Button_PasteMarkdownFromHtml" ToolTip="Pastes HTML from your clipboard as Markdown text"/>
+                <MenuItem Header="Copy Markdown Selection as Html" IsEnabled="{Binding IsEditorActive}" Click="Button_CopyMarkdownAsHtml" ToolTip="Copies the selected markdown from the editor as HTML to the clipboard"/>
             </MenuItem>
-            <MenuItem Header="_Tools">
+            <MenuItem Header="_Tools"> 
                 <MenuItem Name="MenuAddins" Header="Add-ins" />
                 <Separator/>
-                <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler"/>
+                <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler" />
                 <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>
                 <Separator/>
                 <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
@@ -109,16 +108,18 @@
                           IsCheckable="True" 
                           InputGestureText="Alt-V-P"
                           IsChecked="{Binding IsPreviewBrowserVisible}"
-                          Command="{Binding PreviewBrowserCommand}" />
+                          Command="{Binding PreviewBrowserCommand}"
+                           IsEnabled="{Binding IsEditorActive}"/>
                 <MenuItem Header="View in Web _Browser" 
                           Click="ButtonViewInBrowser_Click" 
-                          InputGestureText="Alt-V-B"/>
+                          InputGestureText="Alt-V-B"
+                          IsEnabled="{Binding IsEditorActive}" />
                 <Separator />
-                <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   />
-                <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"/>
+                <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
                 <Separator/>
-                <MenuItem Name="MenuOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer" />
-                <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
+                <MenuItem Name="MenuOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer"  IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow"  IsEnabled="{Binding IsEditorActive}" />
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Name="MenuMarkdownMonsterSite" Header="Markdown Monster Web Site"   Click="Button_Handler"/>

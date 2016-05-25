@@ -172,7 +172,7 @@ namespace MarkdownMonster
             if (File.Exists(HtmlRenderFilename))
                 File.Delete(HtmlRenderFilename);
         }
-
+        
         /// <summary>
         /// Renders markdown of the current document text into HTML
         /// </summary>

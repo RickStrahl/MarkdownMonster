@@ -6,6 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster", "MarkdownMonster\MarkdownMonster.csproj", "{CB4EAB0E-1796-476E-83A0-20DA826E1C02}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D99D7B57-1FA8-43F4-99D5-DA37D316F960}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Todo.md = Todo.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnagItAddin", "SnagItAddin\SnagItAddin.csproj", "{3827411C-B50A-4696-9BD3-B7A71F25801A}"
 EndProject

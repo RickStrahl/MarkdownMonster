@@ -110,8 +110,11 @@
     <Compile Include="AddIns\MarkdownMonsterAddin.cs" />
     <Compile Include="AppModel.cs" />
     <Compile Include="Controls\CommandBase.cs" />
-    <Compile Include="DropdownButtonBehavior.cs" />
+    <Compile Include="Controls\DropdownButtonBehavior.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Windows\BrowserDialog.xaml.cs">
+      <DependentUpon>BrowserDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PasteCode.xaml.cs">
       <DependentUpon>PasteCode.xaml</DependentUpon>
     </Compile>
@@ -121,6 +124,7 @@
     <Compile Include="Windows\RegistrationForm.xaml.cs">
       <DependentUpon>RegistrationForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="_Classes\Utilities\WindowUtilities.cs" />
     <Compile Include="_Classes\Infrastructure\ApplicationUpdater.cs" />
     <Compile Include="_Classes\NamedPipeManager.cs" />
     <Compile Include="Windows\About.xaml.cs">
@@ -139,6 +143,7 @@
     <Compile Include="_Classes\MarkdownDocumentEditor.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParser.cs" />
     <Compile Include="_Classes\UnlockKey.cs" />
+    <Compile Include="_Classes\Utilities\MarkdownUtilities.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -156,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\BrowserDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

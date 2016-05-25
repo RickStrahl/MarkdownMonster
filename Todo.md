@@ -8,6 +8,5 @@
 * Save to HTML option
 
 ### General
-* Add Import from Html
-* Format HTML document from Toolbar
+
 

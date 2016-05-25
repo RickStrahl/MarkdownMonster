@@ -34,6 +34,17 @@ namespace MarkdownMonster
             }
         }
 
+        public bool IsEditorActive
+        {
+            get
+            {
+                if (ActiveDocument != null)
+                    return true;
+
+                return false;
+            }            
+        }
+
         public string MarkdownEditAction
         {
             get { return _markdownEditAction; }
@@ -49,15 +60,23 @@ namespace MarkdownMonster
         {
             get { return _activeDocument; }
             set
-            {
-                if (Equals(value, _activeDocument)) return;
+            {                
+                if (value == _activeDocument)
+                    return;
+
                 _activeDocument = value;
-                _activeDocument.PropertyChanged += (a, b) =>
+
+                if (_activeDocument != null)
                 {
-                    if (b.PropertyName == nameof(_activeDocument.IsDirty))
-                        SaveCommand.InvalidateCanExecute();
-                };
+                    _activeDocument.PropertyChanged += (a, b) =>
+                    {
+                        if (b.PropertyName == nameof(_activeDocument.IsDirty))
+                            SaveCommand.InvalidateCanExecute();
+                    };
+                }
                 OnPropertyChanged(nameof(ActiveDocument));
+                OnPropertyChanged(nameof(ActiveEditor));
+                OnPropertyChanged(nameof(IsEditorActive));
 
                 SaveCommand.InvalidateCanExecute();
             }
@@ -73,7 +92,7 @@ namespace MarkdownMonster
         {
             get
             {
-                var editor = Window.GetActiveMarkdownEditor();
+                var editor = Window.GetActiveMarkdownEditor();              
                 return editor;
             }
         }

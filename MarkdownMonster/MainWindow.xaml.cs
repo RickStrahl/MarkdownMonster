@@ -47,8 +47,7 @@ namespace MarkdownMonster
             InitializePreviewBrowser();
 
             
-            Loaded += OnLoaded;           
-            //Closing += MainWindow_Closing;
+            Loaded += OnLoaded;                       
             Drop += MainWindow_Drop;
             AllowDrop = true;           
             KeyUp += MainWindow_KeyUp;
@@ -65,37 +64,12 @@ namespace MarkdownMonster
             
             // Override some of the theme defaults (dark header specifically)
             mmApp.SetThemeWindowOverride(this);
-        }
-
-
-
-
-        /// <summary>
-        /// Key handler used to intercept special menu hotkeys fired from
-        /// editor.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainWindow_KeyUp(object sender, KeyEventArgs e)
-        {
-            bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-            if (e.Key == Key.N && isControlKey)
-            {
-                e.Handled = true;                
-                Button_Handler(ButtonNewFile, null);
-            }
-            else if (e.Key == Key.O && isControlKey)
-            {
-                e.Handled = false;
-                Button_Handler(ButtonOpenFile, null);                
-            }
-        }
-
+        }              
 
 
 
         #region Opening and Closing
-
+        
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             RestoreSettings();
@@ -437,6 +411,7 @@ namespace MarkdownMonster
             {
                 PreviewBrowser.Visibility = Visibility.Hidden;
                 PreviewBrowser.Navigate("about:blank");
+                Model.ActiveDocument = null;
             }
 
             return true; // close
@@ -457,11 +432,12 @@ namespace MarkdownMonster
                 "  - Markdown Monster" + 
                 (UnlockKey.Unlocked ? "" : " (unregistered)");
 
-            Model.ActiveDocument = editor.MarkdownDocument;
+            //Model.ActiveDocument = editor.MarkdownDocument;
 
             foreach (var doc in Model.OpenDocuments)
                 doc.IsActive = false;
 
+            Model.ActiveDocument = editor.MarkdownDocument;
             Model.ActiveDocument.IsActive = true;
         }
 
@@ -633,13 +609,14 @@ namespace MarkdownMonster
                 {
                     updater.DownloadProgressChanged += (sender,e) =>
                     {
-                        DoEvents();
+                        WindowUtilities.DoEvents();
                         ShowStatus("Downloading Update: " + 
                                 (e.BytesReceived / 1000).ToString("n0") + "kb  of  " +
                                 (e.TotalBytesToReceive / 1000).ToString("n0") + "kb");                        
                     };
                     ShowStatus("Downloading Update...");
-                    DoEvents();
+
+                    WindowUtilities.DoEvents();
                     updater.Download();
 
                     updater.ExecuteDownloadedFile();
@@ -653,11 +630,7 @@ namespace MarkdownMonster
 
             return isNewVersion;
         }
-        public static void DoEvents()
-        {
-            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new EmptyDelegate(delegate { }));
-        }
-        private delegate void EmptyDelegate();
+       
         #endregion
 
 
@@ -811,10 +784,70 @@ namespace MarkdownMonster
             Process.Start("explorer.exe","/select,\"" +  editor.MarkdownDocument.Filename + "\"");            
         }
 
+        private void Button_PasteMarkdownFromHtml(object sender, RoutedEventArgs e)
+        {
+            var editor = GetActiveMarkdownEditor();
+            if (editor == null)
+                return;
+
+            var html = Clipboard.GetText();
+            if (string.IsNullOrEmpty(html))
+                return;
+
+            var markdown = MarkdownUtilities.HtmlToMarkdown(html);
+            editor.SetSelection(markdown);
+            editor.SetEditorFocus();
+            editor.Window.PreviewMarkdownAsync();            
+        }
+
+        private void Button_CopyMarkdownAsHtml(object sender, RoutedEventArgs e)
+        {
+            var editor = GetActiveMarkdownEditor();
+            if (editor == null)
+                return;
+
+            var markdown = editor.GetSelection();
+            var html = editor.RenderMarkdown(markdown);
+
+            if (!string.IsNullOrEmpty(html))
+            {
+                Clipboard.SetText(html);
+                ShowStatus("Html has been pasted to the clipboard.", 4000);                
+            }
+            editor.SetEditorFocus();
+            editor.Window.PreviewMarkdownAsync();
+        }
         #endregion
 
         #region Miscelleaneous Events
 
+        /// <summary>
+        /// Key handler used to intercept special menu hotkeys fired from
+        /// editor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+            if (e.Key == Key.N && isControlKey)
+            {
+                e.Handled = true;
+                Button_Handler(ButtonNewFile, null);
+            }
+            else if (e.Key == Key.O && isControlKey)
+            {
+                e.Handled = false;
+                Button_Handler(ButtonOpenFile, null);
+            }
+        }
+
+        /// <summary>
+        /// Handle drag and drop of file. Note only works when dropped on the
+        /// window - doesn't not work when dropped on the editor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -892,6 +925,7 @@ namespace MarkdownMonster
                     window.Dispatcher.Invoke(() => {  window.ShowStatus(null, 0); } );
                 },this,milliSeconds,Timeout.Infinite);
             }
+            WindowUtilities.DoEvents();
         }
 
         /// <summary>
@@ -945,6 +979,8 @@ namespace MarkdownMonster
                     File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
             };
             PreviewBrowser.Navigate("about:blank");
+
+
         }
 
         /// <summary>
@@ -985,6 +1021,8 @@ namespace MarkdownMonster
             int QueryService([In] ref Guid guidService, [In] ref Guid riid, [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
         }
         #endregion
+
+        
     }
 
 }
