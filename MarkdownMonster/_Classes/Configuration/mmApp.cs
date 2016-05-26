@@ -24,29 +24,28 @@ namespace MarkdownMonster
             if (theme == Themes.Default)
                 theme = mmApp.Configuration.ApplicationTheme;
 
-            if (theme == Themes.Light)
-            {
-                // get the current app style (theme and accent) from the application
-                // you can then use the current theme and custom accent instead set a new theme
-                Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
+            //if (theme == Themes.Light)
+            //{
+            //    // get the current app style (theme and accent) from the application
+            //    // you can then use the current theme and custom accent instead set a new theme
+            //    Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
 
-                // now set the Green accent and dark theme
-                ThemeManager.ChangeAppStyle(Application.Current,
-                    ThemeManager.GetAccent("Blue"),
-                    ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1                
-            }
-            else
-            {
-                // get the current app style (theme and accent) from the application
-                // you can then use the current theme and custom accent instead set a new theme
-                Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
+            //    // now set the Green accent and dark theme
+            //    ThemeManager.ChangeAppStyle(Application.Current,
+            //        ThemeManager.GetAccent("Steel"),
+            //        ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1                
+            //}
+            //else
+            //{
+            //    // get the current app style (theme and accent) from the application
+            //    // you can then use the current theme and custom accent instead set a new theme
+            //    Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
 
-                // now set the highlight accent and dark theme
-                ThemeManager.ChangeAppStyle(Application.Current,
-                    ThemeManager.GetAccent("Blue"),
-                    ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1      
-                                
-            }
+            //    // now set the highlight accent and dark theme
+            //    ThemeManager.ChangeAppStyle(Application.Current,
+            //        ThemeManager.GetAccent("Blue"),
+            //        ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1      
+            //}
 
             if (window != null)
                 SetThemeWindowOverride(window);            

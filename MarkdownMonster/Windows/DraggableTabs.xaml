@@ -10,22 +10,18 @@
         Title="DraggableTabs" Height="300" Width="300">
     <Grid>
         <dragablz:TabablzControl Margin="0,5,0,0" FontSize="13" Background="#222"
-                                 BorderThickness="0" ShowDefaultCloseButton="True" ShowDefaultAddButton="True" 
+                                 BorderThickness="0" ShowDefaultCloseButton="True" 
+                                 ShowDefaultAddButton="False"                                  
                                  >
             
             
             <!--<dragablz:TabablzControl.InterTabController>
                 <dragablz:InterTabController />
             </dragablz:TabablzControl.InterTabController>-->
-            <controls:MetroTabItem IsSelected="True" Content="Hello World " Header="Hello World">
-                
-            </controls:MetroTabItem>
-            <TabItem Header="Active">
-               
-                <TabItem.Content>
-                    <TextBlock>We Have Tearable Tabs!</TextBlock>
-                </TabItem.Content>
-            </TabItem>
+            <controls:MetroTabItem IsSelected="True"  Header="Hello World" Content="Placement" />
+
+            <TabItem Header="Active" Content="Go to it"/>
+            
         </dragablz:TabablzControl>
     </Grid>
 </controls:MetroWindow>

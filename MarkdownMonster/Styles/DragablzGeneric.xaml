@@ -187,7 +187,7 @@
 
     <Color x:Key="CloseCommandHighlightColor">#e04343</Color>
 
-    <!-- these tab styles are as close as possible to the default .net styles, so the tab will fit straight in to an unstyled app -->
+    <!-- RAS: Adjusted styles for MahApps -->
     <LinearGradientBrush x:Key="TabItem.Selected.Background" EndPoint="0,1" StartPoint="0,0">
         <GradientStop Color="#444" Offset="0.0"/>
         <GradientStop Color="#222" Offset="0.4"/>
@@ -1076,12 +1076,13 @@
         </Setter>
     </Style>
 
+    <!-- RAS: Customize colors her and added padding -->
     <Style x:Key="TrapezoidDragableTabItemStyle"  TargetType="{x:Type local:DragablzItem}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Foreground" Value="{StaticResource TabItem.Static.Foreground}"/>
         <Setter Property="Background" Value="{StaticResource TabItem.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{StaticResource TabItem.Static.Border}"/>
-        <Setter Property="Margin" Value="0 0 0 0"/>
+        <Setter Property="Margin" Value="0 6 0 0"/>
         <Setter Property="Padding" Value="5,1,10,3" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
@@ -1092,14 +1093,15 @@
                         <local:Trapezoid x:Name="Trapezoid" 
                                          BorderBrush="{TemplateBinding BorderBrush}" 
                                          Background="{TemplateBinding Background}"                                          
-                                         PenThickness="2"
+                                         PenThickness="2" 
                                          Margin="0 0 0 0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ContentPresenter Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                                <ContentPresenter Content="{TemplateBinding ContentControl.Content}" 
+                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"                                                  
                                                   Margin="{TemplateBinding Control.Padding}"
                                                   x:Name="contentPresenter" />
                                 <Thumb Grid.Column="0" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" 
@@ -1128,6 +1130,8 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Foreground" Value="{StaticResource TabItem.Selected.Foreground}" TargetName="Trapezoid"/>
                             <Setter Property="Background" Value="{StaticResource TabItem.Selected.Background}" TargetName="Trapezoid"/>
+                            <Setter Property="Padding" Value="5,2,10,8"/>
+                            <Setter Property="Margin" Value="0 0 0 0"/>
                             <Setter Property="LongBasePenBrush" Value="{StaticResource TabItem.Selected.Background}" TargetName="Trapezoid"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

@@ -8,6 +8,7 @@
         xmlns:weblog="clr-namespace:WeblogAddin"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"        
         Title="Markdown Monster Weblog Addin" 
         TitleCaps="False"   
@@ -22,12 +23,17 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
-        <controls:MetroTabControl
+        <!--<controls:MetroTabControl
             x:Name="TabControl"                                                               
                          VerticalAlignment="Stretch"
                          HorizontalAlignment="Stretch" 
                          Margin="0,10,0,0"
-                         controls:TabControlHelper.IsUnderlined="True">
+                         controls:TabControlHelper.IsUnderlined="True">-->
+
+        <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" FontSize="13" Background="#222"
+                                 BorderThickness="0" ShowDefaultCloseButton="True" 
+                                 ShowDefaultAddButton="False"                                  
+                                 >
 
             <controls:MetroTabItem Header="Post to Weblog " Margin="0,0,5,0" FontSize="16" 
                                    controls:ControlsHelper.HeaderFontSize="16">
@@ -109,7 +115,7 @@
             <!--<controls:MetroTabItem Header="Download Blog Post " Margin="0,0,5,0" controls:ControlsHelper.HeaderFontSize="16">
             </controls:MetroTabItem>-->
 
-            
+
             <controls:MetroTabItem Header="Web Logs " Margin="0,0,5,0" controls:ControlsHelper.HeaderFontSize="16">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,35">
                     <Grid>
@@ -118,7 +124,7 @@
                             <ColumnDefinition  Width="70"/>
                             <ColumnDefinition  Width="70"/>
                         </Grid.ColumnDefinitions>
-                    <ComboBox  Name="ComboWebLogName" ToolTip="Weblog selection" 
+                        <ComboBox  Name="ComboWebLogName" ToolTip="Weblog selection" 
                            DisplayMemberPath="Value.Name"       
                            SelectedValuePath="Value"
                            SelectedValue="{Binding ActiveWeblogInfo}"
@@ -163,7 +169,7 @@
                 </StackPanel>
             </controls:MetroTabItem>
 
-        </controls:MetroTabControl>
+        </dragablz:TabablzControl>
 
         <StatusBar  Grid.Row ="3" Height="32" Margin="0,0,0,0" 
                     Background="{Binding Window.Background}"

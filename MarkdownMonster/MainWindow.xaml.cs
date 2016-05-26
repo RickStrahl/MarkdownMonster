@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -13,6 +14,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Dragablz;
+using Dragablz.Core;
+using Dragablz.Dockablz;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
@@ -46,6 +50,7 @@ namespace MarkdownMonster
 
             InitializePreviewBrowser();
 
+            TabControl.ClosingItemCallback = TabControlDragablz_TabItemClosing;            
             
             Loaded += OnLoaded;                       
             Drop += MainWindow_Drop;
@@ -64,9 +69,9 @@ namespace MarkdownMonster
             
             // Override some of the theme defaults (dark header specifically)
             mmApp.SetThemeWindowOverride(this);
-        }              
+        }
 
-
+   
 
         #region Opening and Closing
         
@@ -237,7 +242,20 @@ namespace MarkdownMonster
 
             if (mmApp.Configuration.RememberOpenFiles)
             {
+                // The list can be reordered in the UI and 
+                // order won't reflect the Item Indexes - reorder here by position
+                List<TabItem> tabList = new List<TabItem>();
                 foreach (TabItem tab in TabControl.Items)
+                    tabList.Add(tab);                
+
+                //var x = tabList[1].PointToScreen(new Point(0d, 0d)).X;
+
+                //// Order positionally
+                //var sortedList =
+                //    tabList.OrderBy(ti => ti.PointToScreen(new Point(0d, 0d)).X).ToList() ;
+
+                mmApp.Configuration.OpenDocuments.Clear();
+                foreach (var tab in tabList)
                 {
                     var doc = tab.Tag as MarkdownDocumentEditor;
                     if (doc != null)
@@ -250,6 +268,8 @@ namespace MarkdownMonster
         #endregion
 
         #region Tab Handling
+
+        
         public MetroTabItem OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown", bool selectTab = true)
         {
             if (mdFile != null && mdFile!= "untitled" && !File.Exists(mdFile))
@@ -263,6 +283,7 @@ namespace MarkdownMonster
             tab.Padding = new Thickness(2, 0, 7, 2);
             tab.Background = this.Background;
             tab.ContextMenu = this.Resources["TabItemContextMenu"] as ContextMenu;
+
             
             ControlsHelper.SetHeaderFontSize(tab, 13F);
 
@@ -296,7 +317,6 @@ namespace MarkdownMonster
                         CommandManager.InvalidateRequerySuggested();
                 };
                 editor.MarkdownDocument = doc;
-
                 
                 var headerBinding = new Binding
                 {
@@ -306,7 +326,7 @@ namespace MarkdownMonster
                 };
                 BindingOperations.SetBinding(tab, MetroTabItem.HeaderProperty, headerBinding);
 
-                tab.ToolTip = doc.Filename;
+                tab.ToolTip = doc.Filename;                
             }
 
             var filename = Path.GetFileName(editor.MarkdownDocument.Filename);
@@ -349,11 +369,12 @@ namespace MarkdownMonster
             return tab;
         }
 
+
         private bool CloseAllTabs()
-        {
+        {            
             for (int i = TabControl.Items.Count - 1; i > -1 ; i--)
-            {
-                var tab = TabControl.Items[i] as TabItem;
+            {                
+                var tab = TabControl.Items[i] as TabItem;                
                 if (tab != null)
                 {
                     if (!CloseTab(tab))
@@ -383,7 +404,7 @@ namespace MarkdownMonster
                 var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n"  +
                                           "Do you want to save changes?",
                                           "Save Document",
-                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+                                           MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
                 if (res == MessageBoxResult.Cancel)
                 {
                     return false; // don't close
@@ -431,9 +452,7 @@ namespace MarkdownMonster
             Title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*","") + 
                 "  - Markdown Monster" + 
                 (UnlockKey.Unlocked ? "" : " (unregistered)");
-
-            //Model.ActiveDocument = editor.MarkdownDocument;
-
+            
             foreach (var doc in Model.OpenDocuments)
                 doc.IsActive = false;
 
@@ -441,15 +460,26 @@ namespace MarkdownMonster
             Model.ActiveDocument.IsActive = true;
         }
 
-        private void TabControl_TabItemClosing(object sender, BaseMetroTabControl.TabItemClosingEventArgs e)
-        {
-            var tab = e.ClosingTabItem as TabItem;
+        //[Obsolete("This is old the code from the MetroTabControl")]
+        //private void TabControl_TabItemClosing(object sender, BaseMetroTabControl.TabItemClosingEventArgs e)
+        //{
+        //    var tab = e.ClosingTabItem as TabItem;
+        //    if (tab == null)
+        //        return;
+
+        //    e.Cancel = !CloseTab(tab);
+        //}
+
+        
+        private void TabControlDragablz_TabItemClosing(ItemActionCallbackArgs<TabablzControl> e)
+        {            
+            var tab = TabControl.SelectedItem as TabItem;
             if (tab == null)
                 return;
 
-            e.Cancel = !CloseTab(tab);
+            if (!CloseTab(tab))
+                e.Cancel();            
         }
-
         #endregion
 
         #region Worker Functions
@@ -632,9 +662,7 @@ namespace MarkdownMonster
         }
        
         #endregion
-
-
-
+        
         #region Button Handlers
 
         public void Button_Handler(object sender, RoutedEventArgs e)
@@ -1022,11 +1050,7 @@ namespace MarkdownMonster
         }
         #endregion
 
-        private void Button_Test(object sender, RoutedEventArgs e)
-        {
-            var form = new DraggableTabs();
-            form.Show();
-        }
+        
     }
 
 }

@@ -24,6 +24,7 @@ namespace MarkdownMonster
         private string _editorDictionary;
 
 
+        [JsonIgnore]
         public Themes ApplicationTheme
         {
             get { return _applicationTheme; }
