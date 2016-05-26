@@ -9,16 +9,17 @@
         mc:Ignorable="d"
         Title="DraggableTabs" Height="300" Width="300">
     <Grid>
-        <dragablz:TabablzControl Margin="8" FontSize="13" 
-                                 BorderBrush="black" Background="#222"                                 
-                                 BorderThickness="0" Foreground="#EEE" >
+        <dragablz:TabablzControl Margin="0,5,0,0" FontSize="13" Background="#222"
+                                 BorderThickness="0" ShowDefaultCloseButton="True" ShowDefaultAddButton="True" 
+                                 >
+            
             
             <!--<dragablz:TabablzControl.InterTabController>
                 <dragablz:InterTabController />
             </dragablz:TabablzControl.InterTabController>-->
-            <TabItem IsSelected="True" Content="Hello World " Header="Hello World">
+            <controls:MetroTabItem IsSelected="True" Content="Hello World " Header="Hello World">
                 
-            </TabItem>
+            </controls:MetroTabItem>
             <TabItem Header="Active">
                
                 <TabItem.Content>
