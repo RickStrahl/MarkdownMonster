@@ -132,6 +132,7 @@
             </MenuItem>
         </Menu>
 
+        
         <StackPanel Grid.Row="1">
             <ToolBarPanel>
                 <ToolBarPanel.Resources>
@@ -272,6 +273,14 @@
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="code"
                                 fa:Awesome.Content="Code"
+                                Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                />
+
+
+                        <Button Name ="ButtonTest" Margin="7,0"      
+                                Content="Tabs" Click="Button_Test"
                                 Height="22" Width="22"
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 

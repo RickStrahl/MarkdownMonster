@@ -1,0 +1,31 @@
+﻿<controls:MetroWindow x:Class="MarkdownMonster.Windows.DraggableTabs"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster.Windows"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        mc:Ignorable="d"
+        Title="DraggableTabs" Height="300" Width="300">
+    <Grid>
+        <dragablz:TabablzControl Margin="8" FontSize="13" 
+                                 BorderBrush="black" Background="#222"                                 
+                                 BorderThickness="0" Foreground="#EEE" >
+            
+            <!--<dragablz:TabablzControl.InterTabController>
+                <dragablz:InterTabController />
+            </dragablz:TabablzControl.InterTabController>-->
+            <TabItem IsSelected="True" Content="Hello World " Header="Hello World">
+                
+            </TabItem>
+            <TabItem Header="Active">
+               
+                <TabItem.Content>
+                    <TextBlock>We Have Tearable Tabs!</TextBlock>
+                </TabItem.Content>
+            </TabItem>
+        </dragablz:TabablzControl>
+    </Grid>
+</controls:MetroWindow>
+

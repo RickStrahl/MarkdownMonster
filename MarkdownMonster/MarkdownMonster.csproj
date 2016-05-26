@@ -65,6 +65,10 @@
     <Reference Include="CommonMark">
       <HintPath>..\packages\CommonMark.NET.0.12.0\lib\net45\CommonMark.dll</HintPath>
     </Reference>
+    <Reference Include="Dragablz, Version=0.0.3.160, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.160\lib\net45\Dragablz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FontAwesome.WPF">
       <HintPath>..\packages\FontAwesome.WPF.4.5.0.8\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
@@ -115,6 +119,9 @@
     <Compile Include="Windows\BrowserDialog.xaml.cs">
       <DependentUpon>BrowserDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\DraggableTabs.xaml.cs">
+      <DependentUpon>DraggableTabs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PasteCode.xaml.cs">
       <DependentUpon>PasteCode.xaml</DependentUpon>
     </Compile>
@@ -160,11 +167,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\DragablzGeneric.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\DragablzMahApps.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\BrowserDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\DraggableTabs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

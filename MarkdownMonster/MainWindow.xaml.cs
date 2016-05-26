@@ -1022,7 +1022,11 @@ namespace MarkdownMonster
         }
         #endregion
 
-        
+        private void Button_Test(object sender, RoutedEventArgs e)
+        {
+            var form = new DraggableTabs();
+            form.Show();
+        }
     }
 
 }
