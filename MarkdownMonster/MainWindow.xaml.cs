@@ -473,7 +473,7 @@ namespace MarkdownMonster
         
         private void TabControlDragablz_TabItemClosing(ItemActionCallbackArgs<TabablzControl> e)
         {            
-            var tab = TabControl.SelectedItem as TabItem;
+            var tab =  e.DragablzItem.DataContext as TabItem;
             if (tab == null)
                 return;
 
