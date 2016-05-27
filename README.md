@@ -51,7 +51,10 @@ This application heavily leans several third party libraries without which this 
 Ace Editor is a power HTML based editor platform that makes it easy to plug syntax highlighted software style editing possible in a browser. Markdown Monster uses Ace Editor for the main Markdown editing experience inside of a Web browser control that interacts with the WPF application.
 
 * **[MahApps.Metro](http://mahapps.com/)**  
-This library provides the Metro style window and theming support for the overall application shell.
+This library provides the Metro style window and theming support of the top level application shell.
+
+* **[Dragablz](https://dragablz.net/)**  
+This library provides the tab control support for the editor allowing for nicely styled tab reordering and overflow. Although not used in Markdown Monster the library also supports tab tear off tabs and layout docking.
 
 * **[CommonMark.NET](https://github.com/Knagis/CommonMark.NET)**  
 This is the markdonwn parser used to render markdown in the preview editor. CommonMark.NET is fast and easy to work with and has an excellent extensibility interface.

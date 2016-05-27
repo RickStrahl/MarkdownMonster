@@ -150,43 +150,6 @@ namespace MarkdownMonster
 
            e.Cancel = false;            
         }
-        
-        void RestoreSettings()
-        {
-            var conf = mmApp.Configuration;
-
-            if (conf.WindowPosition.Width != 0)
-            {
-                Left = conf.WindowPosition.Left;
-                Top = conf.WindowPosition.Top;
-                Width = conf.WindowPosition.Width;
-                Height = conf.WindowPosition.Height;
-            }
-
-            if (mmApp.Configuration.RememberOpenFiles)
-            {
-                var selectedDoc = conf.OpenDocuments.FirstOrDefault(dc => dc.IsActive);
-                MetroTabItem selectedTab = null;
-
-                // since docs are inserted at the beginning we need to go in reverse
-                foreach (var doc in conf.OpenDocuments.Reverse<MarkdownDocument>())
-                {
-                    if (File.Exists(doc.Filename))
-                    {
-                        var tab = OpenTab(doc.Filename,selectTab: false);
-
-                        if (selectedDoc != null && selectedDoc.Filename == doc.Filename)                        
-                            selectedTab = tab;                        
-                    }
-                }
-
-                if (selectedTab != null)
-                    TabControl.SelectedItem = selectedTab;
-            }
-
-            Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;
-            Model.PreviewBrowserCommand.Execute(null);
-        }
 
         /// <summary>
         /// Creates the Recent Items Context list
@@ -224,6 +187,43 @@ namespace MarkdownMonster
             }
         }
 
+        void RestoreSettings()
+        {
+            var conf = mmApp.Configuration;
+
+            if (conf.WindowPosition.Width != 0)
+            {
+                Left = conf.WindowPosition.Left;
+                Top = conf.WindowPosition.Top;
+                Width = conf.WindowPosition.Width;
+                Height = conf.WindowPosition.Height;
+            }
+
+            if (mmApp.Configuration.RememberOpenFiles)
+            {
+                var selectedDoc = conf.OpenDocuments.FirstOrDefault(dc => dc.IsActive);
+                MetroTabItem selectedTab = null;
+
+                // since docs are inserted at the beginning we need to go in reverse
+                foreach (var doc in conf.OpenDocuments.Reverse<MarkdownDocument>())
+                {
+                    if (File.Exists(doc.Filename))
+                    {
+                        var tab = OpenTab(doc.Filename,selectTab: false);
+
+                        if (selectedDoc != null && selectedDoc.Filename == doc.Filename)                        
+                            selectedTab = tab;                        
+                    }
+                }
+
+                if (selectedTab != null)
+                    TabControl.SelectedItem = selectedTab;
+            }
+
+            Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;
+            Model.PreviewBrowserCommand.Execute(null);
+        }
+
         void SaveSettings()
         {
             var config = mmApp.Configuration;
@@ -241,22 +241,12 @@ namespace MarkdownMonster
             config.OpenDocuments.Clear();
 
             if (mmApp.Configuration.RememberOpenFiles)
-            {
-                // The list can be reordered in the UI and 
-                // order won't reflect the Item Indexes - reorder here by position
-                List<TabItem> tabList = new List<TabItem>();
-                foreach (TabItem tab in TabControl.Items)
-                    tabList.Add(tab);                
-
-                //var x = tabList[1].PointToScreen(new Point(0d, 0d)).X;
-
-                //// Order positionally
-                //var sortedList =
-                //    tabList.OrderBy(ti => ti.PointToScreen(new Point(0d, 0d)).X).ToList() ;
-
+            {                
                 mmApp.Configuration.OpenDocuments.Clear();
-                foreach (var tab in tabList)
+
+                foreach (var item in TabControl.GetOrderedHeaders())
                 {
+                    var tab = item.Content as TabItem;
                     var doc = tab.Tag as MarkdownDocumentEditor;
                     if (doc != null)
                         config.OpenDocuments.Add(doc.MarkdownDocument);
