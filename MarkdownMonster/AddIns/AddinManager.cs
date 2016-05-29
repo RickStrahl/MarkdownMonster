@@ -134,10 +134,10 @@ namespace MarkdownMonster.AddIns
                             return;
 
                         menuItem.Execute?.Invoke(mitem);
-                    };
+                    };                    
                     addin.Model.Window.MenuAddins.Items.Add(mitem);
                     
-                    // if an icon is provide also add to toolbar
+                    // if an icon is provided also add to toolbar
                     if (menuItem.FontawesomeIcon != FontAwesomeIcon.None)
                     {
                         var hasConfigMenu = menuItem.ExecuteConfiguration != null;
@@ -153,15 +153,15 @@ namespace MarkdownMonster.AddIns
                             Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
                         };
 
-
-                        titem.Click += (sender, e) =>
+                        if (menuItem.Execute != null)
                         {
-                            if (menuItem.CanExecute != null &&
-                                !menuItem.CanExecute.Invoke(titem))
-                                return;
-
-                            menuItem.Execute?.Invoke(titem);
-                        };
+                            if (menuItem.CanExecute == null)
+                                titem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(titem));
+                            else
+                                titem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(titem),
+                                                                (s,c) => menuItem.CanExecute.Invoke(titem)) ;                            
+                        }
+                                                 
 
                         addin.Model.Window.ToolbarAddIns.Visibility = System.Windows.Visibility.Visible;
                         addin.Model.Window.ToolbarAddIns.Items.Add(titem);
@@ -182,11 +182,14 @@ namespace MarkdownMonster.AddIns
                                     Width = 8,                                                                                                            
                                     Margin = new Thickness(0, 0, 0, 0),                                    
                                 }
-                            };                            
-                            tcitem.Click += (sender, e) =>
-                            {
-                                menuItem.ExecuteConfiguration?.Invoke(sender);
                             };
+
+                            if (menuItem.CanExecute == null)
+                                tcitem.Command = new CommandBase((sender, c) => menuItem.ExecuteConfiguration.Invoke(sender));
+                            else
+                                tcitem.Command = new CommandBase((sender, c) => menuItem.ExecuteConfiguration.Invoke(sender),
+                                                                 (s, c) => menuItem.CanExecute.Invoke(titem));
+
                             addin.Model.Window.ToolbarAddIns.Items.Add(tcitem);
                         }
                     }
