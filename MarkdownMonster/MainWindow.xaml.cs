@@ -140,14 +140,11 @@ namespace MarkdownMonster
                 !UnlockKey.IsRegistered())
             {
                 this.Hide();
-
                 var rd = new RegisterDialog();
                 rd.Owner = this;
                 rd.ShowDialog();
             }
-
             
-
            e.Cancel = false;            
         }
 
@@ -274,9 +271,7 @@ namespace MarkdownMonster
                 return null;
 
             var tab = new TabItem();
-
-
-                                  
+                      
             tab.Margin = new Thickness(0, 0, 3, 0);
             tab.Padding = new Thickness(2, 0, 7, 2);
             tab.Background = this.Background;
@@ -324,8 +319,7 @@ namespace MarkdownMonster
                 };
                 BindingOperations.SetBinding(tab, TabItem.HeaderProperty, headerBinding);
 
-                tab.ToolTip = doc.Filename;
-                
+                tab.ToolTip = doc.Filename;                
             }
 
             
@@ -355,9 +349,9 @@ namespace MarkdownMonster
             if (existingTab != null)
                 TabControl.Items.Remove(existingTab);
 
-            tab.IsSelected = false;
+            tab.IsSelected = false;            
             TabControl.Items.Insert(0, tab);
-
+            
             if (selectTab)
             {
                 TabControl.SelectedItem = tab;
@@ -427,9 +421,7 @@ namespace MarkdownMonster
             tab.Tag = null;
             editor = null;
             TabControl.Items.Remove(tab);
-
             
-
             if (TabControl.Items.Count == 0)
             {
                 PreviewBrowser.Visibility = Visibility.Hidden;

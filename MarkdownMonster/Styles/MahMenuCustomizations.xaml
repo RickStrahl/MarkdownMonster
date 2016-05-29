@@ -12,7 +12,7 @@
     <SolidColorBrush x:Key="SubmenuItemBackgroundHighlighted" Color="#444" />
     <SolidColorBrush x:Key="MenuDisabledForeground"  Color="#656565" />
     <SolidColorBrush x:Key="BackgroundSelected" Color="#007ACC" />
-    <SolidColorBrush x:Key="Foreground" Color="#DDD" />
+    <SolidColorBrush x:Key="Foreground" Color="#EEE" />
    
     <!-- this has no effect even if brining in context menu below -->
     <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="#444" />
