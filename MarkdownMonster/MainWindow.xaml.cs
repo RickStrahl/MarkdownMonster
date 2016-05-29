@@ -88,7 +88,7 @@ namespace MarkdownMonster
             if (args.Length > 1 && File.Exists(args[1]))
             {
                 OpenTab(mdFile: args[1]);
-                mmApp.Configuration.AddRecentFile(args[1]);
+                AddRecentFile(args[1]);                
             }
 
             if (mmApp.Configuration.IsPreviewVisible)
@@ -151,15 +151,20 @@ namespace MarkdownMonster
            e.Cancel = false;            
         }
 
+        void AddRecentFile(string file)
+        {
+            mmApp.Configuration.AddRecentFile(file);
+            RecentDocumentsContextList();
+        }
+
         /// <summary>
         /// Creates the Recent Items Context list
         /// </summary>        
         private void RecentDocumentsContextList()
-        {
+        {            
             var context = Resources["ContextMenuRecentFiles"] as ContextMenu;
             if (context == null)
                 return;
-
 
             context.Items.Clear();
             foreach (string file in mmApp.Configuration.RecentDocuments)
@@ -169,11 +174,14 @@ namespace MarkdownMonster
                     Header = file,                    
                 };
 
-                mi.Click += (object s, RoutedEventArgs ev) => OpenTab(file);
+                mi.Click += (object s, RoutedEventArgs ev) =>
+                {
+                    OpenTab(file);
+                    AddRecentFile(file);
+                };
                 context.Items.Add(mi);
             }
             ToolbarButtonRecentFiles.ContextMenu = context;
-
 
             ButtonRecentFiles.Items.Clear();
             foreach (string file in mmApp.Configuration.RecentDocuments)
@@ -452,6 +460,9 @@ namespace MarkdownMonster
 
             Model.ActiveDocument = editor.MarkdownDocument;
             Model.ActiveDocument.IsActive = true;
+
+            AddRecentFile(Model.ActiveDocument?.Filename);
+            
         }
 
         //[Obsolete("This is old the code from the MetroTabControl")]
@@ -694,8 +705,7 @@ namespace MarkdownMonster
                
                 OpenTab(fd.FileName);
 
-                mmApp.Configuration.AddRecentFile(fd.FileName);
-                RecentDocumentsContextList();
+                AddRecentFile(fd.FileName);                
             }
             else if (button == ButtonNewFile)
             {

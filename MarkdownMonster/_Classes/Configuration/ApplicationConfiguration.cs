@@ -186,12 +186,17 @@ namespace MarkdownMonster
 
         public void AddRecentFile(string filename)
         {
+            if (string.IsNullOrEmpty(filename))
+                return;
+
             if (RecentDocuments.Contains(filename))
                 RecentDocuments.Remove(filename);
+
             RecentDocuments.Insert(0,filename);
+            OnPropertyChanged(nameof(RecentDocuments));
 
             if (RecentDocuments.Count > 12)
-                RecentDocuments = RecentDocuments.Take(10).ToList();            
+                RecentDocuments = RecentDocuments.Take(12).ToList();            
         }
 
         protected override IConfigurationProvider OnCreateDefaultProvider(string sectionName, object configData)
