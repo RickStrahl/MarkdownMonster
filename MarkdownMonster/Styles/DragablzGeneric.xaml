@@ -356,11 +356,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Background">
+        <!-- RAS: Removed background from Tab Close Button -->
+        <!--<Setter Property="Background">
             <Setter.Value>
                 <SolidColorBrush Color="{x:Static SystemColors.ActiveBorderColor}" />
             </Setter.Value>
-        </Setter>
+        </Setter>-->
         <Setter Property="Width" Value="12" />
         <Setter Property="Height" Value="12" />
         <Setter Property="Margin" Value="4 0 2 0" />
