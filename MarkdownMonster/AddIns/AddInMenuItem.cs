@@ -22,6 +22,12 @@ namespace MarkdownMonster.AddIns
         public Action<object> Execute { get; set; }
 
         /// <summary>
+        /// Event implementation fired when the 'Configure' option is activated
+        /// Use this to display the configuration API
+        /// </summary>
+        public Action<object> ExecuteConfiguration { get; set; }
+
+        /// <summary>
         /// Check activation that passes the button or menu item
         /// that is clicked.
         /// </summary>

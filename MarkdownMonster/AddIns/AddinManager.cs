@@ -4,19 +4,27 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using FontAwesome.WPF;
 
 namespace MarkdownMonster.AddIns
 {
+    /// <summary>
+    /// This class manages loading of addins and 
+    /// raising various application events passed
+    /// to all addins that they can respond to
+    /// </summary>
     public class AddinManager
     {
+        /// <summary>
+        /// Singleton to get access to Addin Manager
+        /// </summary>
         public static AddinManager Current { get; set; }
 
+        /// <summary>
+        /// The full list of add ins registered
+        /// </summary>
         public List<IMarkdownMonsterAddin> AddIns;
         
         static AddinManager()
@@ -29,30 +37,39 @@ namespace MarkdownMonster.AddIns
             AddIns = new List<IMarkdownMonsterAddin>();
         }
 
+        /// <summary>
+        /// Loads add-ins into the application from the add-ins folder
+        /// </summary>
         public void LoadAddins()
         {
             string addinPath = Path.Combine(Environment.CurrentDirectory, "AddIns");
             if (!Directory.Exists(addinPath))
                 return;
 
+            // we need to make sure already loaded dependencies are not loaded again
+            // when probing for add-ins
             var assemblyFiles = Directory.GetFiles(Environment.CurrentDirectory, "*.dll");
+
             var files = Directory.GetFiles(addinPath, "*.dll");
            
-            
             foreach (var file in files)
             {
                 // don't allow assemblies the main app loads to load
                 string fname = Path.GetFileName(file).ToLower();
                 bool isLoaded = assemblyFiles.Any(f => fname == Path.GetFileName(f).ToLower());
 
-
                 if (!isLoaded)
+                {                    
                     LoadAddinClasses(file);
-                else
-                    Debug.WriteLine(fname);
+                    Trace.WriteLine("Loaded add-ins from: " + file);
+                }
             }
         }
         
+        /// <summary>
+        /// Load all add in classes in an assembly
+        /// </summary>
+        /// <param name="assemblyFile"></param>
         private void LoadAddinClasses(string assemblyFile)
         {
 
@@ -82,6 +99,7 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+
         private static bool AddinInterfaceFilter(Type typeObj, Object criteriaObj)
         {
             if (typeObj.ToString() == criteriaObj.ToString())
@@ -91,6 +109,10 @@ namespace MarkdownMonster.AddIns
         }
 
 
+        /// <summary>
+        /// Loads the add-in menu and toolbar buttons
+        /// </summary>
+        /// <param name="window"></param>
         public void InitializeAddinsUi(MainWindow window)
         {
             foreach (var addin in AddIns)
@@ -113,13 +135,13 @@ namespace MarkdownMonster.AddIns
 
                         menuItem.Execute?.Invoke(mitem);
                     };
-
                     addin.Model.Window.MenuAddins.Items.Add(mitem);
-
-
+                    
                     // if an icon is provide also add to toolbar
                     if (menuItem.FontawesomeIcon != FontAwesomeIcon.None)
                     {
+                        var hasConfigMenu = menuItem.ExecuteConfiguration != null;
+
                         var titem = new Button();
                         titem.Content = new Image()
                         {
@@ -128,7 +150,7 @@ namespace MarkdownMonster.AddIns
                             ToolTip = menuItem.Caption,
                             Height = 16,
                             Width = 16,
-                            Margin = new Thickness(5, 0, 5, 0)
+                            Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
                         };
 
 
@@ -143,6 +165,30 @@ namespace MarkdownMonster.AddIns
 
                         addin.Model.Window.ToolbarAddIns.Visibility = System.Windows.Visibility.Visible;
                         addin.Model.Window.ToolbarAddIns.Items.Add(titem);
+
+                        // Add configuration dropdown if configured
+                        if (hasConfigMenu)
+                        {
+                            var tcitem = new Button
+                            {
+                                FontSize = 10F,                                
+                                Content = new Image()
+                                {
+                                    Source =
+                                        ImageAwesome.CreateImageSource(FontAwesomeIcon.CaretDown,
+                                            addin.Model.Window.Foreground),
+                                    ToolTip = menuItem.Caption + " Configuration",
+                                    Height = 16,
+                                    Width = 8,                                                                                                            
+                                    Margin = new Thickness(0, 0, 0, 0),                                    
+                                }
+                            };                            
+                            tcitem.Click += (sender, e) =>
+                            {
+                                menuItem.ExecuteConfiguration?.Invoke(sender);
+                            };
+                            addin.Model.Window.ToolbarAddIns.Items.Add(tcitem);
+                        }
                     }
                 }
             }

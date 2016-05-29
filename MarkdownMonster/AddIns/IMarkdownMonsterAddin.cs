@@ -5,8 +5,8 @@ namespace MarkdownMonster.AddIns
     public interface IMarkdownMonsterAddin
     {
         List<AddInMenuItem> MenuItems { get; set; }
+
         AppModel Model { get; set; }
-        
         
         void OnAfterOpenFile();
         void OnAfterSaveFile();
