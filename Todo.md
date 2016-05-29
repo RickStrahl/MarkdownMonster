@@ -12,5 +12,6 @@
 * Recent Items are not reliably storing all files
 
 ### Consideration
+* Drag and Drop Web Images into the editor
 
 

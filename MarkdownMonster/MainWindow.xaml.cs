@@ -202,7 +202,7 @@ namespace MarkdownMonster
             if (mmApp.Configuration.RememberOpenFiles)
             {
                 var selectedDoc = conf.OpenDocuments.FirstOrDefault(dc => dc.IsActive);
-                MetroTabItem selectedTab = null;
+                TabItem selectedTab = null;
 
                 // since docs are inserted at the beginning we need to go in reverse
                 foreach (var doc in conf.OpenDocuments.Reverse<MarkdownDocument>())
@@ -260,15 +260,15 @@ namespace MarkdownMonster
         #region Tab Handling
 
         
-        public MetroTabItem OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown", bool selectTab = true)
+        public TabItem OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown", bool selectTab = true)
         {
             if (mdFile != null && mdFile!= "untitled" && !File.Exists(mdFile))
                 return null;
 
-            var tab = new MetroTabItem();
+            var tab = new TabItem();
 
-            tab.CloseButtonEnabled = true;
-            tab.CloseTabCommand = Model.TabItemClosedCmd;                        
+
+                                  
             tab.Margin = new Thickness(0, 0, 3, 0);
             tab.Padding = new Thickness(2, 0, 7, 2);
             tab.Background = this.Background;
@@ -314,11 +314,13 @@ namespace MarkdownMonster
                     Path = new PropertyPath("FilenameWithIndicatorNoAccellerator"),                    
                     Mode = BindingMode.OneWay
                 };
-                BindingOperations.SetBinding(tab, MetroTabItem.HeaderProperty, headerBinding);
+                BindingOperations.SetBinding(tab, TabItem.HeaderProperty, headerBinding);
 
-                tab.ToolTip = doc.Filename;                
+                tab.ToolTip = doc.Filename;
+                
             }
 
+            
             var filename = Path.GetFileName(editor.MarkdownDocument.Filename);
             tab.Tag = editor;
 
@@ -417,6 +419,8 @@ namespace MarkdownMonster
             tab.Tag = null;
             editor = null;
             TabControl.Items.Remove(tab);
+
+            
 
             if (TabControl.Items.Count == 0)
             {

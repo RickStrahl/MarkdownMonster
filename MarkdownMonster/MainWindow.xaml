@@ -79,8 +79,6 @@
                 <MenuItem Name="ButtonNewFile" Header="_New" Click="Button_Handler" InputGestureText="Ctrl-N"/>
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Click="Button_Handler" InputGestureText="Ctrl-O"/>
                 <MenuItem Name="ButtonRecentFiles" Header="Recent documents">
-                    <MenuItem Header="c:\temp\test.md"/>
-                    <MenuItem Header="c:\temp\test2.md"/>
                 </MenuItem>
                 <Separator/>
                 <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding SaveCommand}" 
