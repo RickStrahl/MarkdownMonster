@@ -71,7 +71,7 @@
       <Project>{cb4eab0e-1796-476e-83a0-20da826e1c02}</Project>
       <Name>MarkdownMonster</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SnagItAddin\ScreenCaptureAddin.csproj">
+    <ProjectReference Include="..\..\AddIns\ScreenCaptureAddin\ScreenCaptureAddin.csproj">
       <Project>{3827411c-b50a-4696-9bd3-b7a71f25801a}</Project>
       <Name>ScreenCaptureAddin</Name>
     </ProjectReference>

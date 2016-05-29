@@ -162,7 +162,6 @@ namespace MarkdownMonster.AddIns
                                                                 (s,c) => menuItem.CanExecute.Invoke(titem)) ;                            
                         }
                                                  
-
                         addin.Model.Window.ToolbarAddIns.Visibility = System.Windows.Visibility.Visible;
                         addin.Model.Window.ToolbarAddIns.Items.Add(titem);
 

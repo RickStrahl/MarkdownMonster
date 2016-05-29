@@ -66,7 +66,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MarkdownMonster\MarkdownMonster.csproj">
+    <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj">
       <Project>{CB4EAB0E-1796-476E-83A0-20DA826E1C02}</Project>
       <Name>MarkdownMonster</Name>
     </ProjectReference>

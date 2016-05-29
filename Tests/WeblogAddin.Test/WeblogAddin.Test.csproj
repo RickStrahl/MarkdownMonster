@@ -68,7 +68,7 @@
       <Project>{cb4eab0e-1796-476e-83a0-20da826e1c02}</Project>
       <Name>MarkdownMonster</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\WebLogAddin\WebLogAddin.csproj">
+    <ProjectReference Include="..\..\AddIns\WebLogAddin\WebLogAddin.csproj">
       <Project>{a9fdc380-dab2-4e40-b5d1-563b5023aafc}</Project>
       <Name>WebLogAddin</Name>
     </ProjectReference>
