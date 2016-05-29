@@ -31,11 +31,11 @@
                          controls:TabControlHelper.IsUnderlined="True">-->
 
         <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" FontSize="13" Background="#222"
-                                 BorderThickness="0" ShowDefaultCloseButton="True" 
+                                 BorderThickness="0" ShowDefaultCloseButton="False"  
                                  ShowDefaultAddButton="False"                                  
                                  >
 
-            <controls:MetroTabItem Header="Post to Weblog " Margin="0,0,5,0" FontSize="16" 
+            <controls:MetroTabItem Header="Post to Weblog " Margin="0,0,5,0" FontSize="16" CloseButtonEnabled="False"
                                    controls:ControlsHelper.HeaderFontSize="16">
 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
@@ -84,7 +84,7 @@
 
 
 
-            <controls:MetroTabItem Header="New Blog Entry " Margin="0,0,5,0" FontSize="16" 
+            <controls:MetroTabItem Header="New Blog Entry " Margin="0,0,5,0" FontSize="16" CloseButtonEnabled="False"
                                    controls:ControlsHelper.HeaderFontSize="16">
 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
@@ -116,7 +116,7 @@
             </controls:MetroTabItem>-->
 
 
-            <controls:MetroTabItem Header="Web Logs " Margin="0,0,5,0" controls:ControlsHelper.HeaderFontSize="16">
+            <controls:MetroTabItem Header="Web Logs " Margin="0,0,5,0" controls:ControlsHelper.HeaderFontSize="16" CloseButtonEnabled="False">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,35">
                     <Grid>
                         <Grid.ColumnDefinitions>

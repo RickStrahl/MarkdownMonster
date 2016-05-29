@@ -60,8 +60,7 @@ namespace MarkdownMonster.AddIns
 
                 if (!isLoaded)
                 {                    
-                    LoadAddinClasses(file);
-                    Trace.WriteLine("Loaded add-ins from: " + file);
+                    LoadAddinClasses(file);                    
                 }
             }
         }
@@ -72,7 +71,6 @@ namespace MarkdownMonster.AddIns
         /// <param name="assemblyFile"></param>
         private void LoadAddinClasses(string assemblyFile)
         {
-
             Assembly asm = null;
             Type[] types = null;
 
