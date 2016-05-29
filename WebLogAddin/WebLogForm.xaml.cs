@@ -34,8 +34,7 @@ namespace WeblogAddin
 
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
 
-            InitializeComponent();
-            //mmApp.SetThemeWindowOverride(this);         
+            InitializeComponent();            
 
             DataContext = Model;
 

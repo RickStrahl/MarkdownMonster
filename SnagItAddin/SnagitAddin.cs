@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Controls;
 using FontAwesome.WPF;
-using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using Westwind.Utilities;
 
 namespace SnagItAddin
 {
+
     public class SnagitAddin : MarkdownMonsterAddin
     {
         public override void OnApplicationStart()
@@ -29,6 +25,7 @@ namespace SnagItAddin
             };
             menuItem.Execute = new Action<object>(SnagitMenu_Execute);
             menuItem.ExecuteConfiguration = new Action<object>(SnagitConfigurationMenu_Execute);
+            menuItem.CanExecute = new Func<object,bool>(SnagitConfigurationMenu_CanExecute);
             
             this.MenuItems.Add(menuItem);
         }
@@ -36,6 +33,20 @@ namespace SnagItAddin
         public void SnagitMenu_Execute(object sender)
         {
             var config = ScreenCaptureConfiguration.Current;
+
+            if (config.AlwaysShowCaptureOptions)
+            {
+                var form = new ScreenCaptureConfigurationForm()
+                {
+                    Owner = Model.Window,
+                    IsPreCaptureMode = true
+                };
+
+                var result = form.ShowDialog();
+                if (result == null || !result.Value)
+                    return;
+            }
+
 
             SnagItAutomation SnagIt = SnagItAutomation.Create();
 
@@ -46,10 +57,7 @@ namespace SnagItAddin
             if (!string.IsNullOrEmpty(SnagIt.CapturePath))
                 SnagIt.CapturePath = Path.GetDirectoryName(SnagIt.CapturePath);
 
-            //SnagItConfigurationForm ConfigForm = new SnagItConfigurationForm(SnagIt);
-            //if (ConfigForm.ShowDialog() == DialogResult.Cancel)
-            //    return DialogResult.Cancel;
-
+                    
             string capturedFile = SnagIt.CaptureImageToFile();
             if (string.IsNullOrEmpty(capturedFile) || !File.Exists(capturedFile))
                 return;
@@ -68,9 +76,24 @@ namespace SnagItAddin
 
         public void SnagitConfigurationMenu_Execute(object sender)
         {
-            MessageBox.Show("Configuration not implemented yet.");
+            var configForm = new ScreenCaptureConfigurationForm()
+            {
+                Owner = this.Model.Window
+            };            
+            configForm.Show();
         }
 
+        public bool SnagitConfigurationMenu_CanExecute(object sender)
+        {            
+            if (!SnagItAutomation.IsInstalled)
+            {
+                var button = sender as Button;
+                button.ToolTip = "SnagIt isn't installed. Currently only SnagIt based captures are supported.";
+                button.IsEnabled = false;    
+                return false;
+            }
 
+            return true;
+        }
     }
 }

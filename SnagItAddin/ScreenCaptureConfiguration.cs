@@ -94,11 +94,24 @@ namespace SnagItAddin
                 OnPropertyChanged(nameof(ShowPreviewWindow));
             }
         }
+
+        public bool AlwaysShowCaptureOptions
+        {
+            get { return _alwaysShowCaptureOptions; }
+            set
+            {
+                if (value == _alwaysShowCaptureOptions) return;
+                _alwaysShowCaptureOptions = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool _showPreviewWindow;
         private bool _includeCursor;
         private int _outputFormat;
         private int _colorDepth;
         private CaptureModes _captureMode;
+        private bool _alwaysShowCaptureOptions;
 
         #region IPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

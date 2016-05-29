@@ -40,7 +40,6 @@ namespace SnagItAddin
     [Serializable]
     public class SnagItAutomation
     {
-        public static string REGISTRY_STORAGE_SUBKEY = "Software\\Windows Live Writer\\SnagItScreenCapture";
         public static string SNAGIT_PROGID = "SnagIt.ImageCapture";
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace SnagItAddin
             get { return _captureMode; }
             set { _captureMode = value; }
         }
-        private CaptureModes _captureMode = CaptureModes.Object;
+        private CaptureModes _captureMode = CaptureModes.AllInOne;
 
         /// <summary>
         /// The file that receives the SnagIt Capture
@@ -176,7 +175,15 @@ namespace SnagItAddin
             }            
         }
         private object _SnagItCom = null;
- 
+
+        public static bool IsInstalled
+        {
+            get
+            {
+                Type loT = Type.GetTypeFromProgID(SNAGIT_PROGID);
+                return !(loT == null);            
+            }
+        }
 
         /// <summary>
         /// Captures an image to file
@@ -367,6 +374,7 @@ namespace SnagItAddin
         FreeHand = 12,
         Clipboard = 7,
         Menu = 9,
-        ScrollableArea = 18
+        ScrollableArea = 18,
+        AllInOne = 25
     }
 }

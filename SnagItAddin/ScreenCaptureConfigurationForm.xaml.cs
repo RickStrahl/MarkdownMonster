@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
@@ -17,39 +18,66 @@ namespace SnagItAddin
     /// Interaction logic for About.xaml
     /// </summary>
     public partial class ScreenCaptureConfigurationForm : MetroWindow
-    {
-        //public SnageblogAddinModel Model { get; set;  }
+    {        
+        public ScreenCaptureModel Model;
 
+        public bool IsPreCaptureMode = false;
 
         #region Startup and Shutdown
 
         public ScreenCaptureConfigurationForm()
-        {            
+        {
+            Model = new ScreenCaptureModel()
+            {                
+                Configuration = ScreenCaptureConfiguration.Current,                                               
+            };
+
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
 
             InitializeComponent();
 
-            //mmApp.SetThemeWindowOverride(this);         
 
-            //DataContext = Model;
-
+            DataContext = Model;
             
-            Loaded += SnagItConfiguration_Loaded;
-            Closing += SnagItConfiguration_Closing;
+            Loaded += ScreenCaptureConfiguration_Loaded;
+            Closing += ScreenCaptureConfiguration_Closing;
         }
 
-        private void SnagItConfiguration_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        
+        private void ScreenCaptureConfiguration_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
 
+            if (IsPreCaptureMode)
+            {
+                SubmitButtonText.Text = "Capture";
+                Title = "Markdown Monster SnagIt Screen Capture";
+            }
         }
 
 
-        private void SnagItConfiguration_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ScreenCaptureConfiguration_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // save settings
-            //WeblogApp.Configuration.Write();
+            ScreenCaptureConfiguration.Current.Write();
+        }
+        #endregion
+
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsPreCaptureMode)
+                DialogResult = true;
+
+            ScreenCaptureConfiguration.Current.Write();
+            Close();
+
         }
 
-        #endregion
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {            
+            if(IsPreCaptureMode)
+                DialogResult = false;
+
+            Close();
+        }
     }
 }
