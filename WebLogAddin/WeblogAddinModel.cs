@@ -25,7 +25,6 @@ namespace WeblogAddin
                 Name = "New Weblog",
                 Type = WeblogTypes.MetaWeblogApi
             };
-
         }
 
         public AppModel AppModel
@@ -86,7 +85,7 @@ namespace WeblogAddin
                 OnPropertyChanged(nameof(Configuration));
             }
         }
-        private WeblogAddinConfiguration _Configuration = WeblogApp.Configuration;
+        private WeblogAddinConfiguration _Configuration = WeblogAddinConfiguration.Current;
 
         public string NewTitle
         {

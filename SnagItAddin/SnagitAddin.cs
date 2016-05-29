@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using FontAwesome.WPF;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
@@ -11,7 +12,7 @@ using Westwind.Utilities;
 
 namespace SnagItAddin
 {
-    public class SnagitAddin : MarkdownMonsterAddin, IMarkdownMonsterAddin
+    public class SnagitAddin : MarkdownMonsterAddin
     {
         public override void OnApplicationStart()
         {
@@ -27,14 +28,18 @@ namespace SnagItAddin
                 EditorCommand = "snagit",
             };
             menuItem.Execute = new Action<object>(SnagitMenu_Execute);
-
+            menuItem.ExecuteConfiguration = new Action<object>(SnagitConfigurationMenu_Execute);
+            
             this.MenuItems.Add(menuItem);
         }
 
         public void SnagitMenu_Execute(object sender)
         {
+            var config = ScreenCaptureConfiguration.Current;
+
             SnagItAutomation SnagIt = SnagItAutomation.Create();
-            SnagIt.ActiveForm = Model.Window;
+
+            
             var editor = Model.Window.GetActiveMarkdownEditor();
 
             SnagIt.CapturePath = editor?.MarkdownDocument.Filename;
@@ -60,8 +65,12 @@ namespace SnagItAddin
             // Push the new text into the Editor's Selection
             this.SetSelection(replaceText);
         }
-        
-            
-        
+
+        public void SnagitConfigurationMenu_Execute(object sender)
+        {
+            MessageBox.Show("Configuration not implemented yet.");
+        }
+
+
     }
 }

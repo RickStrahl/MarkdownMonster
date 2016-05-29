@@ -36,6 +36,7 @@ namespace WeblogAddin
 
         public void WebLogAddin_Execute(object sender)
         {
+            
             var form = new WebLogForm()
             {
                 Owner = Model.Window
@@ -53,6 +54,9 @@ namespace WeblogAddin
         public bool SendPost(WeblogTypes type = WeblogTypes.MetaWeblogApi)
         {
             var editor = Model.ActiveEditor;
+            if (editor == null)
+                return false;
+
             var doc = editor.MarkdownDocument;
 
             ActivePost = new Post()
@@ -67,9 +71,9 @@ namespace WeblogAddin
             // so we render without the config data
             var meta = GetPostConfigFromMarkdown(markdown);
 
-            string html = doc.RenderHtml(meta.MarkdownBody, WeblogApp.Configuration.RenderLinksOpenExternal);
+            string html = doc.RenderHtml(meta.MarkdownBody, WeblogAddinConfiguration.Current.RenderLinksOpenExternal);
 
-            var config = WeblogApp.Configuration;
+            var config = WeblogAddinConfiguration.Current;
 
             var kv = config.Weblogs.FirstOrDefault(kvl => kvl.Value.Name == meta.WeblogName);
             if (kv.Equals(default(KeyValuePair<string, WeblogInfo>)))

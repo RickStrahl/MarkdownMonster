@@ -293,23 +293,7 @@ namespace SnagItAddin
         /// <returns></returns>
         public bool SaveSettings()
         {
-            SnagItAutomation Snag = this;
-
-            byte[] Buffer = null;
-
-            if (!SerializationUtils.SerializeObject(Snag,out Buffer))
-                return false;
-
-            RegistryKey SubKey = Registry.CurrentUser.OpenSubKey(REGISTRY_STORAGE_SUBKEY,true);
-            if (SubKey == null)
-                SubKey = Registry.CurrentUser.CreateSubKey(REGISTRY_STORAGE_SUBKEY);
-            if (SubKey == null)
-                return false;
-
-            SubKey.SetValue("ConfigData", Buffer, RegistryValueKind.Binary);
-            SubKey.Close();
-
-            return true;
+            return ScreenCaptureConfiguration.Current.Write();
         }
 
         /// <summary>
@@ -319,17 +303,18 @@ namespace SnagItAddin
         /// <returns></returns>
         public static SnagItAutomation Create()
         {
+            var config = ScreenCaptureConfiguration.Current;
+
             return new SnagItAutomation()
             {
-                 CaptureMode = CaptureModes.Object,
-                 DelayInSeconds = 4,
-                 IncludeCursor = true,
-                 ColorDepth = 24,
+                 CaptureMode = config.CaptureMode,
+                 DelayInSeconds = config.CaptureDelaySeconds,
+                 IncludeCursor = config.IncludeCursor,
+                 ColorDepth = config.ColorDepth,
                  DeleteImageFromDisk = false,
                  ShowPreviewWindow = true,
                  OutputFileCaptureFormat = CaptureFormats.png
             };
-
         }
 
 

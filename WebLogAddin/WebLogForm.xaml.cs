@@ -28,7 +28,7 @@ namespace WeblogAddin
             Model = new WeblogAddinModel()
             {
                 ActivePostMetadata = new WeblogPostMetadata(),
-                Configuration = WeblogApp.Configuration,
+                Configuration = WeblogAddinConfiguration.Current,
                 Window = this
             };
 
@@ -62,7 +62,7 @@ namespace WeblogAddin
         private void WebLogStart_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // save settings
-            WeblogApp.Configuration.Write();
+            WeblogAddinConfiguration.Current.Write();
         }
 
         #endregion
@@ -78,7 +78,7 @@ namespace WeblogAddin
             string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
             Model.AppModel.ActiveEditor.SetMarkdown(markdown);
             
-            WeblogApp.Configuration.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
+            WeblogAddinConfiguration.Current.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
 
             var window = Model.AppModel.Window;
             
@@ -124,7 +124,7 @@ namespace WeblogAddin
             foreach (char c in invalids)
                 filename = title.Replace(c, '-');
 
-            var folder = Path.Combine(WeblogApp.Configuration.PostsFolder, filename);
+            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder, filename);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             var outputFile = Path.Combine(folder, filename + ".md");

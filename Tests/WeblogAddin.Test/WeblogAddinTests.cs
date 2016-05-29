@@ -75,7 +75,7 @@ namespace WeblogAddin.Test
                 Title = "Testing a post"
             };
 
-            WeblogInfo weblogInfo = WeblogApp.Configuration.Weblogs[ConstWeblogName];
+            WeblogInfo weblogInfo = WeblogAddinConfiguration.Current.Weblogs[ConstWeblogName];
 
             var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                 weblogInfo.Username,
@@ -88,7 +88,6 @@ namespace WeblogAddin.Test
         
         public void RawPostWordPressTest()
         {
-
             var rawPost = new Post()
             {
                 Body = "<b>Markdown Text</b>",
@@ -107,7 +106,7 @@ namespace WeblogAddin.Test
                 Title = "Testing a post"
             };
 
-            WeblogInfo weblogInfo = WeblogApp.Configuration.Weblogs[ConstWordPressWeblogName];
+            WeblogInfo weblogInfo = WeblogAddinConfiguration.Current.Weblogs[ConstWordPressWeblogName];
 
             var wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
                 weblogInfo.Username,
@@ -119,7 +118,7 @@ namespace WeblogAddin.Test
         [TestMethod]
         public void GetCategories()
         {
-            WeblogInfo weblogInfo = WeblogApp.Configuration.Weblogs[ConstWeblogName];
+            WeblogInfo weblogInfo = WeblogAddinConfiguration.Current.Weblogs[ConstWeblogName];
 
             var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                 weblogInfo.Username,

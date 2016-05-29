@@ -12,21 +12,27 @@ using Westwind.Utilities.Configuration;
 
 namespace WeblogAddin
 {
-    public class WeblogApp
-    {
-        public static WeblogAddinConfiguration Configuration;
+    //public class xWeblogApp
+    //{
+    //    public static WeblogAddinConfiguration Current;
 
 
-        static WeblogApp()
-        {
-            Configuration = new WeblogAddinConfiguration();
-            Configuration.Initialize();
-        }
-    }
+    //    static WeblogApp()
+    //    {
+    //        Current = new WeblogAddinConfiguration();
+    //        Current.Initialize();
+    //    }
+    //}
 
     public class WeblogAddinConfiguration : AppConfiguration, INotifyPropertyChanged
     {
+        public static WeblogAddinConfiguration Current;
 
+        static WeblogAddinConfiguration()
+        {
+            Current = new WeblogAddinConfiguration();
+            Current.Initialize();
+        }
 
         public WeblogAddinConfiguration()
         {
