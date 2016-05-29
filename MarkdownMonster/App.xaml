@@ -16,7 +16,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
 
                 <ResourceDictionary Source="Styles/Buttons.xaml"/>
-                <!--<ResourceDictionary Source="Styles/MahMenuCustomizations.xaml"/>-->
+                <ResourceDictionary Source="Styles/MahMenuCustomizations.xaml"/>
 
                 <!-- Mah Accent and AppTheme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
