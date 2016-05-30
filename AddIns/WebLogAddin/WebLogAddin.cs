@@ -127,6 +127,16 @@ namespace WeblogAddin
 
             ActivePost.Body = SendImages(html, doc.Filename, wrapper);
 
+            ActivePost.CustomFields = new CustomField[1]
+            {
+                new CustomField()
+                {
+                    ID = "mt_markdown",
+                    Key = "mt_markdown",
+                    Value = meta.MarkdownBody
+                }
+            };
+
             try
             {
                 if (ActivePost.PostID > 0)
