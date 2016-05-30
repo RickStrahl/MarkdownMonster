@@ -31,22 +31,40 @@ Markdown Monster provides many useful features:
 * **[Markdown Monster Site (under construction)](http://markdownmonster.west-wind.com)**
 * **[Download Markdown Monster Installer](http://markdownmonster.west-wind.com/download.aspx)**
 
-> #### Alpha Notice
-> This tool is still under construction and in pre-release stage. Most of the editing and document management features are implemented, but there are a still a few rough edges. The WebLog plugin only works with MetaWebLog API and it's lacking blog administration (you can edit the config file manually for now to set up a blog).*
+Here's what Markdown Monster looks like:
 
-### Why another Markdown Editor?
-Markdown is everywhere these days, and it's becoming a favorite for many developers, writers and documentation experts to create content in this format. Having an editor that gets out of your way, yet provides a few helpful features and lets you add custom features that make your content creation sessions more productive are important.
-
-Markdown Monster is a Markdown editor for Windows, that provides basic editing functionality. It works, nothing revolutionary here. You get a responsive text editor that's got you covered with Markdown syntax highlighting, so it it's easy to navigate your Markdown text, an optional collapsible live preview, so you can see what your output looks like, in-line spellchecking and a handful of optimized menu options that help you embed and link content into your markdown. 
-
-But the key feature and the reason I built this tool is that it is **extensible**, so that you and I can plug additional functionality into it. Personally I needed couple of features - built-in screen captures and an easy way to post text to my Blog - and Markdown Monster makes that possible via an add-in model that allows extending the base functionality with custom functionality via a .NET based add-in model. The SnagIt Screen Capture and WebLog publishing add-ins are included in this base release to demonstrate how the plug-in model works and integrates
-
-Here's what Markdown Monster looks like (Running the Dark Theme):
 ![Markdown Monster Screen Shot](ScreenShot.png)
 
-### Extensibility
-Markdown Monster's core implementations is all about the editor and additional features are meant to be implemented as add-ins to provide additional features. It includes an add-in model that allows adding of new functionality that hooks into the menu system and has access to the editor's content. It's easy to create a plug  in that has a toolbar option that can read the Markdown text or selected text and fix up the current content. Or you can write entire sub-applications like the WebLog add-in for example, that take the Markdown content and do something with it externally.
+> #### Alpha Notice
+> This tool is still under construction and in pre-release stage. Most of the editing and document management features are implemented, but there are a still a few rough edges*
 
+### Why another Markdown Editor?
+Markdown is everywhere these days, and it's becoming a favorite for many developers, writers and documentation experts to create content in this format. Personally I use Markdown for my Blog, my MessageBoard, of course on GitHub and in a number of applications. Having an editor that gets out of your way, yet provides a few helpful features **and lets you add custom features** that make your content creation sessions more productive are important.
+
+Markdown Monster is a Markdown editor for Windows, that provides basic editing functionality. It works, nothing revolutionary here. You get a responsive text editor that's got you covered with Markdown syntax highlighting, so it it's easy to navigate your Markdown text, an optional collapsible live preview, so you can see what your output looks like, in-line spellchecking and a handful of optimized menu options that help you embed and link content into your markdown.
+
+### Customizable
+Most features are optional and can be turned on and off. Want to work distraction free and see no preview or spell checking hints? You can turn things off. Want a different editor or preview theme, just switch it to one of the many editor themes and preview themes. 
+
+The editor is HTML and JavaScript based, so you can also apply any custom styling and even hook up custom JavaScript code if you want to get fancy beyond the basic configurability.
+
+### Extensibility with Add-ins
+But the key feature and the main reason I built this tool is that it is **extensible**, so that you and I can plug additional functionality into it. Markdown Monster includes an add-in model that lets you add buttons to the UI, interact with the active document and get notifications of various events like when documents are opened and closed etc.
+
+The Add-in interface is still in flux, so no documentation except for the provided sample add-ins.
+
+### Provided Add-ins
+Personally I needed couple of features - and I've added two add-ins for these features both for practical use as well as examples of what you can do with plug-ins:
+
+* **SnagIt Screen Capture Addin**  
+This plug-in use Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which i **highly** recommend!). Simply click the capture button (camera icon) and the main app minimizes and SnagIt pops up to let you select the object to capture. You can preview and edit your captures, and when finished the image is linked into content.
+
+* **WebLog Addin**  
+Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the blog tool, setting up your blog (MetaWebLog or WordPress) and the add-in handles publishing your text and attached images to your blog. Currently you can't only write (not read) but managing and loading existing posts is one feature on the list.
+
+I can think of a few others - a quick way to commit to Git and Push would be useful for documentation solutions so you can easily persist changes to say a GitHub repository. Embedding all sorts of content like reference links, amazon links etc. etc.
+
+Or maybe you have custom applications that use Markdown text and provide an API that allows you to post the Markdown (or HTML) to the server. It's easy to build a custom add-in that lets you take either the Markdown text or rendered HTML and push it to a custom REST interface in your custom application.
 
 ## Acknowledgements
 This application heavily leans several third party libraries without which this tool would not have been possible. Many thanks for the producers of these libraries:
