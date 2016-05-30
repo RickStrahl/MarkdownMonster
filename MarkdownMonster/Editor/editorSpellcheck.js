@@ -240,7 +240,8 @@ var sc = window.spellcheck = {
                 $item.data("range", matched.range);
                 $list.append($item);
             }           
-            $item = $("<div style='text-align:right'>+ add</div>");
+            $item = $("<div class='separator'></div>" +
+                      "<div style='text-align:right'>+ add</div>");
             $list.append($item);
 
             // No good way to close via other events so add a button to close
