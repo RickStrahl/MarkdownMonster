@@ -82,8 +82,8 @@ namespace SnagItAddin
 
 
             SnagItAutomation SnagIt = SnagItAutomation.Create();
+            SnagIt.ActiveForm = Model.Window;
 
-            
             var editor = Model.Window.GetActiveMarkdownEditor();
 
             SnagIt.CapturePath = editor?.MarkdownDocument.Filename;
