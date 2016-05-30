@@ -136,7 +136,7 @@ namespace MarkdownMonster
             }
 
             if (!isNewVersion &&  
-                mmApp.Configuration.ApplicationUpdates.AccessCount % 3 == 0 &&
+                mmApp.Configuration.ApplicationUpdates.AccessCount % 5 == 0 &&
                 !UnlockKey.IsRegistered())
             {
                 this.Hide();

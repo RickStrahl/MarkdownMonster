@@ -7,17 +7,15 @@
         mc:Ignorable="d"
         FontSize="16"
         WindowStyle="None" Background="Black" Foreground="WhiteSmoke"
-        Title="Markdown Monster Registration" Height="356" Width="700" 
+        Title="Markdown Monster Registration" Height="356" Width="659.246" 
         Icon="..\Assets\MarkdownMonster_Icon_256.png"  
         WindowStartupLocation="CenterOwner" ShowInTaskbar="True" ResizeMode="NoResize">
     <StackPanel Orientation="Horizontal">
         <Image Source="../Assets/MarkdownMonster.png" Margin="0,30" Width="300" VerticalAlignment="Top" />
-        <StackPanel Width="375">
+        <StackPanel Width="330">
             <TextBlock Margin="15,35,0,0" Foreground="Cornsilk">You've been using the Free version of</TextBlock>
             <TextBlock FontSize="30" FontWeight="Bold" Margin="15,14,0,14"><Run Text="Markdown Monster"/></TextBlock>
-            <TextBlock TextWrapping="Wrap" Margin="15,3,0,0" Foreground="Cornsilk" HorizontalAlignment="Stretch" >
-                <Run  Text="If you're using this editor commercially, or you find that you're using it frequently, please purchase a reasonably priced license for Markdown Monster."/><LineBreak/><LineBreak/><Run Text="Thank you for playing fair."/>
-            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Margin="15,3,32,0" Foreground="Cornsilk" HorizontalAlignment="Stretch" ><Run Text="Markdown Monster can be evaluated for free, but a license is required for continued use. "/><LineBreak/><Run/><LineBreak/><Run Text="Thanks for playing fair."/></TextBlock>
 
             <Button Margin="30" Content="Register your copy" FontSize="30" FontWeight="Bold" IsDefault="True"
                     HorizontalAlignment="Center" Click="Register_Click"
@@ -26,7 +24,7 @@
      
         </StackPanel>
         <TextBlock Text="x" FontFamily="Arial Black"  MouseDown="Exit_Click"       
-                   FontWeight="Bold" Padding="5,10" />
+                   FontWeight="Bold" Padding="5,10" Width="19" />
         
     </StackPanel>
 </Window>
