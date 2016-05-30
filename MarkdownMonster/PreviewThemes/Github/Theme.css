@@ -78,20 +78,15 @@ img {
 blockquote {
     background: #f8f8f8;
     font-size: 1.1em;
-    padding: 0 15px;
-    margin-top: 15px;
-
+    padding: 5px 10px 5px 15px;
     margin: 30px 10px;
-    
-    padding: 0 15px;
-    color: #777;
-    border-left: 4px solid #ddd;
+    border-left: 7px #ddd solid;
 }
 
 blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 15px
+    margin-top: 8px;
 }
-hr{
+hr {
     margin: 12px 0;    
 }
 /* hidden display, but still part of document flow */

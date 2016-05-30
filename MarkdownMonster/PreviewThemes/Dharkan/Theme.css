@@ -5,7 +5,7 @@ html, body {
     -webkit-font-smoothing: antialiased;
     
     height: 100%;    
-    line-height: 1.35em;
+    line-height: 1.45em;
     padding: 5px 20px 5px 10px !important;
     margin: 0;
     scrollbar-track-color: Whitesmoke;
@@ -51,7 +51,7 @@ img {
 	max-width: 100%;
 }
 blockquote {
-    background: #f5f5f5;
+    background: #f8f8f8;
     font-size: 1.1em;
     padding: 10px;
     margin: 30px 10px;
@@ -59,7 +59,7 @@ blockquote {
 }
 
 blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 5px;
+    margin-top: 8px;
 }
 hr {
     margin: 12px 0;    
