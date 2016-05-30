@@ -82,9 +82,11 @@ This library provides the tab control support for the editor allowing for nicely
 This is the markdonwn parser used to render markdown in the preview editor. CommonMark.NET is fast and easy to work with and has an excellent extensibility interface.
 
 ## License
-Markdown Monster is open source, but it is a licensed product that may require a paid for license.
+Although we provide the source in the open, Markdown Monster is licensed software.
 
-**Personal use and use for evaluation is free**. All other uses require [a reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER). Markdown Monster is licensed per user and you are free to use multiple copies on multiple machines as long as only licensed users are running the software. Thanks for playing fair.
+Markdown Monster can  be downloaded and evaluated for free, but a [reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER) must be purchased for continued use. Licenses are per-user, rather than per-machine, so you use Markdown Monster on as many computers you wish with your license. 
+
+Thanks for playing fair.
 
 ## Warranty Disclaimer: No Warranty!
 IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE 
