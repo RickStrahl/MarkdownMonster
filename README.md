@@ -25,7 +25,8 @@ Markdown Monster provides many useful features:
 
 #### Non Markdown Features
 * HTML file editing with live preview
-* Also edit: JSON, XML, CSS, JavaScript, FoxPro, CSharp and more
+* Many other file formats can also be edited:  
+JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
 
 ### Get it from:
 * **[Markdown Monster Site (under construction)](http://markdownmonster.west-wind.com)**
@@ -84,7 +85,7 @@ This is the markdonwn parser used to render markdown in the preview editor. Comm
 ## License
 Although we provide the source in the open, Markdown Monster is licensed software.
 
-Markdown Monster can  be downloaded and evaluated for free, but a [reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER) must be purchased for continued use. Licenses are per-user, rather than per-machine, so you use Markdown Monster on as many computers you wish with your license. 
+Markdown Monster can  be downloaded and evaluated for free, but a [reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER) must be purchased for continued use. Licenses are per user, rather than per machine, so you can use Markdown Monster on as many computers you wish with your license. 
 
 Thanks for playing fair.
 
@@ -96,3 +97,5 @@ BUT NOT LIMITED TO, LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUS
 BY YOU OR LOSSES SUSTAINED BY THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH 
 ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE POSSIBILITY 
 OF SUCH DAMAGES.
+
+&copy; Rick Strahl, West Wind Technologies, 2016

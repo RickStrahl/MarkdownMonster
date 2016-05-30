@@ -66,7 +66,9 @@ var te = window.textEditor = {
             "ctrl-l": function() { te.specialkey("ctrl-l"); },
             "ctrl-k": function() { te.specialkey("ctrl-k"); },
             "ctrl-shift-down": function () { te.specialkey("ctrl-shift-down"); },
-            "ctrl-shift-up": function() { te.specialkey("ctrl-shift-up"); }
+            "ctrl-shift-up": function () { te.specialkey("ctrl-shift-up"); },
+            "ctrl-shift-c": function () { te.specialkey("ctrl-shift-c"); },
+            "ctrl-shift-v": function () { te.specialkey("ctrl-shift-v"); }
         });
         
         editor.renderer.setPadding(15);

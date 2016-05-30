@@ -86,18 +86,31 @@
                 <MenuItem Name="ButtonSaveAsFile" Header="Save _As" Command="{Binding SaveAsCommand}" 
                           InputGestureText="Ctrl+Shift+s"/>
 
+                <Separator />
+                <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
                 <Separator/>
                 <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
             </MenuItem>
             <MenuItem Header="_Edit">
-                <MenuItem Header="Paste Html as Markdown" IsEnabled="{Binding IsEditorActive}" Click="Button_PasteMarkdownFromHtml" ToolTip="Pastes HTML from your clipboard as Markdown text"/>
-                <MenuItem Header="Copy Markdown Selection as Html" IsEnabled="{Binding IsEditorActive}" Click="Button_CopyMarkdownAsHtml" ToolTip="Copies the selected markdown from the editor as HTML to the clipboard"/>
+                <MenuItem Header="Paste Html as Markdown" IsEnabled="{Binding IsEditorActive}" 
+                          Click="Button_PasteMarkdownFromHtml" 
+                          ToolTip="Pastes HTML from your clipboard as Markdown text" 
+                          InputGestureText="ctrl-shift-v"                          
+                          />
+                <MenuItem Header="Copy Markdown Selection as Html" IsEnabled="{Binding IsEditorActive}"
+                          Click="Button_CopyMarkdownAsHtml" 
+                          ToolTip="Copies the selected markdown from the editor as HTML to the clipboard"
+                          InputGestureText="ctrl-shift-c" />
             </MenuItem>
             <MenuItem Header="_Tools"> 
                 <MenuItem Name="MenuAddins" Header="Add-ins" />
                 <Separator/>
                 <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler" />
                 <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>
+                <Separator/>
+                <MenuItem Name="MenuOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer"  IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow"  IsEnabled="{Binding IsEditorActive}" />
                 <Separator/>
                 <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
             </MenuItem>
@@ -113,12 +126,15 @@
                           Click="ButtonViewInBrowser_Click" 
                           InputGestureText="Alt-V-B"
                           IsEnabled="{Binding IsEditorActive}" />
-                <Separator />
-                <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   IsEnabled="{Binding IsEditorActive}" />
-                <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
                 <Separator/>
-                <MenuItem Name="MenuOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer"  IsEnabled="{Binding IsEditorActive}" />
-                <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow"  IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="ButtonScrollBrowserUp" 
+                          Header="Scroll Preview Browser Up"                         
+                          InputGestureText="Ctrl-Shift-Up" Click="Button_Handler"
+                          IsEnabled="{Binding IsPreviewBrowserVisible}" />
+                <MenuItem Name="ButtonScrollBrowserDown" 
+                          Header="Scroll Preview Browser Down"                         
+                          InputGestureText="Ctrl-Shift-Down" Click="Button_Handler"
+                          IsEnabled="{Binding IsPreviewBrowserVisible}" />
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Name="MenuMarkdownMonsterSite" Header="Markdown Monster Web Site"   Click="Button_Handler"/>

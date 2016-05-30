@@ -419,6 +419,14 @@ namespace MarkdownMonster
             {
                 Window.Model.ToolbarInsertMarkdownCommand.Execute("code");
             }
+            if (key == "ctrl-shift-v")
+            {
+                Window.Button_PasteMarkdownFromHtml(WebBrowser, null);
+            }
+            if (key == "ctrl-shift-c")
+            {
+                Window.Button_CopyMarkdownAsHtml(WebBrowser, null);
+            }
             if (key == "ctrl-shift-down")
             {
                 if (Window.PreviewBrowser.IsVisible)

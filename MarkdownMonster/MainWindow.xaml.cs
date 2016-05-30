@@ -748,6 +748,20 @@ namespace MarkdownMonster
                 about.Owner = this;
                 about.Show();
             }
+            else if (button == ButtonScrollBrowserDown)
+            {
+                var editor = GetActiveMarkdownEditor();
+                if (editor == null)
+                    return;
+                editor.SpecialKey("ctrl-shift-down");
+            }
+            else if (button == ButtonScrollBrowserUp)
+            {
+                var editor = GetActiveMarkdownEditor();
+                if (editor == null)
+                    return;
+                editor.SpecialKey("ctrl-shift-d");
+            }
         }
 
 
@@ -815,13 +829,21 @@ namespace MarkdownMonster
             Process.Start("explorer.exe","/select,\"" +  editor.MarkdownDocument.Filename + "\"");            
         }
 
-        private void Button_PasteMarkdownFromHtml(object sender, RoutedEventArgs e)
+        internal void Button_PasteMarkdownFromHtml(object sender, RoutedEventArgs e)
         {
             var editor = GetActiveMarkdownEditor();
             if (editor == null)
                 return;
 
-            var html = Clipboard.GetText();
+            string html = null;
+            if( Clipboard.ContainsText(TextDataFormat.Html))
+                html = Clipboard.GetText(TextDataFormat.Html);
+
+            if (!string.IsNullOrEmpty(html))
+                html=StringUtils.ExtractString(html, "<!--StartFragment-->", "<!--EndFragment-->");
+            else
+                html = Clipboard.GetText();
+
             if (string.IsNullOrEmpty(html))
                 return;
 
@@ -831,7 +853,7 @@ namespace MarkdownMonster
             editor.Window.PreviewMarkdownAsync();            
         }
 
-        private void Button_CopyMarkdownAsHtml(object sender, RoutedEventArgs e)
+        internal void Button_CopyMarkdownAsHtml(object sender, RoutedEventArgs e)
         {
             var editor = GetActiveMarkdownEditor();
             if (editor == null)
