@@ -7,21 +7,25 @@
 Markdown Monster provides many useful features:
 
 * Syntax highlighted Markdown editing
-* Live Markdown HTML preview using local HTML templates
+* Live Markdown HTML preview 
+* Local easily, customizable HTML templates for preview
 * Gentle toolbar support for Markdown newbies and complex tasks
 * Easily customizable preview templates
 * Inline, as-you type spell checking
 * Customizable editor and preview Themes
-* Syntax colored code snippet support
-* Capture screen images (using SnagIt currently)
-* Weblog Publishing plug-in (MetaWebLogAPI only at the moment)
-* Extensible: .NET Add-in model lets you plug in custom features
-* Addins provided: SnagIt Screen Capture and Blog Publisher
+* Syntax colored code snippet preview support
+* Paste HTML as Markdown
+* Copy Markdown Section as Html
 
-There also a number of non-Markdown related features:
+#### Extensibility
+* Extensible: .NET Add-in model lets you extend with custom features
+* Two useful plugins are provided
+* Capture screen images ([SnagIt](http://techsmith.com/snagit) only currently)
+* Weblog publishing plug-in (MetaWebLog and Wordpress)
 
-* Also provides highlighted editing Html, CSS, Javascript, JSON, C# and FoxPro files
-* Live Preview of HTML documents
+#### Non Markdown Features
+* HTML file editing with live preview
+* Also edit: JSON, XML, CSS, JavaScript, FoxPro, CSharp and more
 
 ### Get it from:
 * **[Markdown Monster Site (under construction)](http://markdownmonster.west-wind.com)**
@@ -60,6 +64,15 @@ This library provides the tab control support for the editor allowing for nicely
 This is the markdonwn parser used to render markdown in the preview editor. CommonMark.NET is fast and easy to work with and has an excellent extensibility interface.
 
 ## License
-Markdown Monster is open source, but it is a licensed product that may require a paid license.
+Markdown Monster is open source, but it is a licensed product that may require a paid for license.
 
-**Personal use and use in small businesses with less than 5 employees is free**. All other uses require [a reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER). Markdown Monster is licensed per user and you are free to use multiple copies on multiple machines as long as only licensed users are running the software. Thanks for playing fair.
+**Personal use and use for evaluation is free**. All other uses require [a reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER). Markdown Monster is licensed per user and you are free to use multiple copies on multiple machines as long as only licensed users are running the software. Thanks for playing fair.
+
+## Warranty Disclaimer: No Warranty!
+IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE 
+THIS PROGRAM AND DOCUMENTATION, BE LIABLE FOR ANY COMMERCIAL, SPECIAL, INCIDENTAL, OR 
+CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM INCLUDING, 
+BUT NOT LIMITED TO, LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED 
+BY YOU OR LOSSES SUSTAINED BY THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH 
+ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGES.

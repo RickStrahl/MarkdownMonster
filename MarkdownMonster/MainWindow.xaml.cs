@@ -349,8 +349,15 @@ namespace MarkdownMonster
             if (existingTab != null)
                 TabControl.Items.Remove(existingTab);
 
-            tab.IsSelected = false;            
+            tab.IsSelected = false;
+
             TabControl.Items.Insert(0, tab);
+
+            // Get Tabablz control to insert at the top of the head
+            //if (TabControl.Items.Count > 0)
+            //    TabablzControl.AddItem(tab, TabControl.Items[0] as TabItem, AddLocationHint.First);
+            //else
+            //    TabControl.AddToSource(tab);
             
             if (selectTab)
             {
