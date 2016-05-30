@@ -246,14 +246,13 @@ namespace MarkdownMonster
                 if (tab == null)
                     return;
 
-                var editor = tab.Tag as MarkdownDocumentEditor;
+               var editor = tab.Tag as MarkdownDocumentEditor;
 
                 Configuration.IsPreviewVisible = IsPreviewBrowserVisible;
 
-
-                // show or hide preview browser
                 Window.ShowPreviewBrowser(!IsPreviewBrowserVisible);
-
+                if (IsPreviewBrowserVisible)
+                    Window.PreviewMarkdown(editor);
 
             }, null);
 
