@@ -912,12 +912,12 @@ namespace MarkdownMonster
         private void MainWindow_KeyUp(object sender, KeyEventArgs e)
         {
             bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-            if (e.Key == Key.N && isControlKey)
-            {
-                e.Handled = true;
-                Button_Handler(ButtonNewFile, null);
-            }
-            else if (e.Key == Key.O && isControlKey)
+            //if (e.Key == Key.N && isControlKey)
+            //{
+            //    e.Handled = true;
+            //    Button_Handler(ButtonNewFile, null);
+            //}
+            if (e.Key == Key.O && isControlKey)
             {
                 e.Handled = false;
                 Button_Handler(ButtonOpenFile, null);
