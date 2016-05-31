@@ -14,7 +14,7 @@ namespace JoeBlogs
         public string userid;
         public string description;
         public string title;
-        public string postid;
+        public int postid;
         public string link;
         public string permaLink;
         public string[] categories;

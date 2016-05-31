@@ -49,12 +49,13 @@ namespace JoeBlogs
 
         public virtual Post GetPost(string postID)
         {
-            return Map.To.Post(_wrapper.GetPost(postID, Username, Password));
+            var post = _wrapper.GetPost(postID, Username, Password);
+            return Map.To.Post(post);
         }
 
-        public virtual XmlRpcPost GetPostRaw(string postID)
+        public virtual XmlRpcPost GetPostRaw(int postID)
         {
-            return _wrapper.GetPost(postID, Username, Password);
+            return _wrapper.GetPost(postID.ToString(), Username, Password);
         }
 
         /// <summary> 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JoeBlogs;
 using MarkdownMonster;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,8 +12,14 @@ namespace WeblogAddin.Test
     [TestClass]
     public class WeblogAddinTests
     {
-        private const string ConstWeblogName = "Rick Strahl's Weblog (local)";
+        private const string ConstWeblogName = "3uqgqcrh";
         private const string ConstWordPressWeblogName = "Rick's Wordpress Weblog";
+
+
+        public WeblogAddinTests()
+        {
+            
+        }
 
         [TestMethod]
         public void SetConfigInMarkdown()
@@ -138,6 +145,48 @@ namespace WeblogAddin.Test
                 Console.WriteLine(cat);
 
         }
+
+        [TestMethod]
+        public void GetRecentPosts()
+        {
+            WeblogInfo weblogInfo = WeblogAddinConfiguration.Current.Weblogs[ConstWeblogName];
+
+            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                weblogInfo.Username,
+                weblogInfo.Password);
+
+            var posts = wrapper.GetRecentPosts(2).ToList();
+
+            Assert.IsTrue(posts.Count == 2);
+
+            foreach (var post in posts)
+                Console.WriteLine(post.Title + "  " + post.DateCreated);
+        }
+
+        [TestMethod]
+        public void GetRecentPost()
+        {
+            WeblogInfo weblogInfo = WeblogAddinConfiguration.Current.Weblogs[ConstWeblogName];
+
+            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                weblogInfo.Username,
+                weblogInfo.Password);
+
+            var posts = wrapper.GetRecentPosts(2).ToList();
+
+            Assert.IsTrue(posts.Count == 2);
+
+            var postId = posts[0].PostID;
+
+            var post = wrapper.GetPost(postId.ToString());
+
+            Assert.IsNotNull(post);
+            Console.WriteLine(post.Title);
+
+            // markdown
+            Console.WriteLine(post.CustomFields?[0].Value);
+        }
+
 
 
         string MarkdownWithoutPostId = @"### Summary

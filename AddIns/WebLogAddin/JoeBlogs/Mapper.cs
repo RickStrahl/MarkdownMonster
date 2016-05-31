@@ -305,7 +305,7 @@ namespace JoeBlogs
                     Body = input.description,
                     Categories = input.categories,
                     DateCreated = input.dateCreated,
-                    Tags = input.mt_keywords.Split(','),
+                    Tags = input.mt_keywords?.Split(','),
                     Title = input.title,
                     Permalink = input.permaLink,
                     PostType = input.post_type,
