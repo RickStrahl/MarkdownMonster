@@ -3,6 +3,11 @@
 
 ![](Art/MarkdownMonster.png)
 
+### Links
+* **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
+* **[Download Markdown Monster Installer](http://markdownmonster.west-wind.com/download.aspx)**
+* **[Extending Markdown Monster with Addins](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
+
 ### Features
 Markdown Monster provides many useful features:
 
@@ -28,17 +33,12 @@ Markdown Monster provides many useful features:
 * Many other file formats can also be edited:  
 JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
 
-### Get it from:
-* **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
-* **[Download Markdown Monster Installer](http://markdownmonster.west-wind.com/download.aspx)**
-* **[Extending Markdown Monster with Addins](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)
-
 Here's what Markdown Monster looks like:
 
 ![Markdown Monster Screen Shot](ScreenShot.png)
 
-> #### Alpha Notice
-> This tool is still under construction and in pre-release stage. Most of the editing and document management features are implemented, but there are a still a few rough edges
+> #### Beta Notice
+> This tool is still under construction and in pre-release stage. Most of the editing and document management features are implemented, but there are a still a few rough edges.
 
 ### Why another Markdown Editor?
 Markdown is everywhere these days, and it's becoming a favorite for many developers, writers and documentation experts to create content in this format. Personally I use Markdown for my Blog, my MessageBoard, of course on GitHub and in a number of applications. Having an editor that gets out of your way, yet provides a few helpful features **and lets you add custom features** that make your content creation sessions more productive are important.
