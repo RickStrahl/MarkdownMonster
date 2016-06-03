@@ -41,29 +41,24 @@ using Westwind.Utilities;
 namespace SnagItAddin
 {
 
-    public class SnagitAddin : MarkdownMonsterAddin
+    public class ScreenCaptureAddin : MarkdownMonsterAddin
     {
         public override void OnApplicationStart()
         {
             base.OnApplicationStart();
 
-            // Add a menu item
-            var menuItem = new AddInMenuItem()
+            Id = "screencapture";
+            
+            // create menu item and use OnExecute/OnExecuteConfiguration/OnCanExecute handlers            
+            var menuItem = new AddInMenuItem(this)
             {                
                 Caption = "SnagIt Screen Capture",
-                FontawesomeIcon= FontAwesomeIcon.Camera,
-
-                // a unique command id that is tied to the menuitem
-                EditorCommand = "snagit",
-            };
-            menuItem.Execute = new Action<object>(SnagitMenu_Execute);
-            menuItem.ExecuteConfiguration = new Action<object>(SnagitConfigurationMenu_Execute);
-            menuItem.CanExecute = new Func<object,bool>(SnagitConfigurationMenu_CanExecute);
-            
+                FontawesomeIcon= FontAwesomeIcon.Camera            
+            };            
             this.MenuItems.Add(menuItem);
         }
 
-        public void SnagitMenu_Execute(object sender)
+        public override void OnExecute(object sender)
         {
             var config = ScreenCaptureConfiguration.Current;
 
@@ -101,13 +96,12 @@ namespace SnagItAddin
                 relPath = capturedFile;
 
             string replaceText = "![](" +  relPath + ")";
-            
-            
+                        
             // Push the new text into the Editor's Selection
-            this.SetSelection(replaceText);
+            SetSelection(replaceText);
         }
 
-        public void SnagitConfigurationMenu_Execute(object sender)
+        public override void OnExecuteConfiguration(object sender)
         {
             var configForm = new ScreenCaptureConfigurationForm()
             {
@@ -116,7 +110,7 @@ namespace SnagItAddin
             configForm.Show();
         }
 
-        public bool SnagitConfigurationMenu_CanExecute(object sender)
+        public override bool OnCanExecute(object sender)
         {            
             if (!SnagItAutomation.IsInstalled)
             {

@@ -41,8 +41,19 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
+
+    /// <summary>
+    /// Wrapper around the CommonMark.NET parser that provides a cached
+    /// instance of the Markdown parser. Hooks up custom processing.
+    /// </summary>
     public class MarkdownParser
     {
+        /// <summary>
+        /// Retrieves a cached instance of the markdown parser
+        /// </summary>
+        /// <param name="markdownStyle"></param>
+        /// <param name="RenderLinksAsExternal"></param>
+        /// <returns></returns>
         public static MarkdownParser GetParser(MarkdownStyles markdownStyle, bool RenderLinksAsExternal = false)
         {
             if (RenderLinksAsExternal)
@@ -57,6 +68,11 @@ namespace MarkdownMonster
             return new MarkdownParser();
         }
 
+        /// <summary>
+        /// Parses the actual markdown down to html
+        /// </summary>
+        /// <param name="markdown"></param>
+        /// <returns></returns>
         public string Parse(string markdown)
         {
             var html = CommonMark.CommonMarkConverter.Convert(markdown);
@@ -64,7 +80,13 @@ namespace MarkdownMonster
             return html;
         }
 
-        public string ParseFontAwesomeIcons(string html)
+        /// <summary>
+        /// Post processing routine that post-processes the HTML and 
+        /// replaces @icon- with fontawesome icons
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        protected string ParseFontAwesomeIcons(string html)
         {
             while (true)
             {

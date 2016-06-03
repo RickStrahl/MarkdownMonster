@@ -50,7 +50,8 @@ namespace MarkdownMonster
     public class MarkdownDocument : INotifyPropertyChanged
     {
         /// <summary>
-        ///  Name of the Markdown file
+        /// Name of the Markdown file. If this is a new file the file is 
+        /// named 'untitled'
         /// </summary>
         public string Filename
         {
@@ -59,18 +60,29 @@ namespace MarkdownMonster
             {
                 if (value == _filename) return;
                 _filename = value;
-                OnPropertyChanged();
+                OnPropertyChanged();                
                 OnPropertyChanged(nameof(FilenameWithIndicator));
-                OnPropertyChanged(nameof(FilenameWithIndicatorNoAccellerator));
                 OnPropertyChanged(nameof(HtmlRenderFilename));
             }
         }
         private string _filename;
 
+        /// <summary>
+        /// Holds the last preview window browser scroll position so it can be restored
+        /// when refreshing the preview window.
+        /// </summary>
         public int LastBrowserScrollPosition { get; set; }        
 
+
+        /// <summary>
+        /// Markdown style used on this document. Not used at the moment
+        /// </summary>
         public MarkdownStyles MarkdownStyle = MarkdownStyles.GitHub;
 
+        /// <summary>
+        /// Returns the filename with a dirty indicator (*) if the
+        /// document has changed
+        /// </summary>
         public string FilenameWithIndicator
         {
             get
@@ -78,15 +90,6 @@ namespace MarkdownMonster
                 return Path.GetFileName(Filename) + (IsDirty ? "*" : "");                
             }
         }
-
-        public string FilenameWithIndicatorNoAccellerator
-        {
-            get
-            {
-                return Path.GetFileName(Filename).Replace("_","__") + (IsDirty ? "*" : "");
-            }
-        }
-
 
         /// <summary>
         /// Determines whether the active document has changes
@@ -103,15 +106,16 @@ namespace MarkdownMonster
                     _IsDirty = value;
                     IsDirtyChanged?.Invoke(value);
                     OnPropertyChanged(nameof(IsDirty));
-                    OnPropertyChanged(nameof(FilenameWithIndicator));
-                    OnPropertyChanged(nameof(FilenameWithIndicatorNoAccellerator));
+                    OnPropertyChanged(nameof(FilenameWithIndicator));                    
                 }
             }
         }
         private bool _IsDirty;
         
 
-
+        /// <summary>
+        /// Determines whether the document is the active document
+        /// </summary>
         public bool IsActive
         {
             get { return _isActive; }
@@ -250,6 +254,14 @@ namespace MarkdownMonster
         ~MarkdownDocument()
         {
             this.Close();
+        }
+
+        public override string ToString()
+        {
+            if (string.IsNullOrEmpty(this.Filename))
+                return "No document loaded";
+
+            return Path.GetFileName(Filename);
         }
     }
 }

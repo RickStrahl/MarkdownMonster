@@ -296,7 +296,8 @@ namespace MarkdownMonster
         
         public TabItem OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown", bool selectTab = true)
         {
-            if (mdFile != null && mdFile!= "untitled" && !File.Exists(mdFile))
+            if (mdFile != null && mdFile!= "untitled" && (!File.Exists(mdFile) ||
+                                  !AddinManager.Current.RaiseOnBeforeOpenDocument(mdFile)))
                 return null;
 
             var tab = new TabItem();
@@ -343,7 +344,7 @@ namespace MarkdownMonster
                 var headerBinding = new Binding
                 {
                     Source = doc,
-                    Path = new PropertyPath("FilenameWithIndicatorNoAccellerator"),                    
+                    Path = new PropertyPath("FilenameWithIndicator"),                    
                     Mode = BindingMode.OneWay
                 };
                 BindingOperations.SetBinding(tab, TabItem.HeaderProperty, headerBinding);
@@ -396,6 +397,8 @@ namespace MarkdownMonster
                     PreviewMarkdown(); //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
             }
 
+            AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
+
             return tab;
         }
 
@@ -429,6 +432,8 @@ namespace MarkdownMonster
             bool returnValue = true;
 
             var doc = editor.MarkdownDocument;
+
+
             if (doc.IsDirty)
             {
                 var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n"  +
@@ -444,18 +449,15 @@ namespace MarkdownMonster
                     // close but don't save 
                 }
                 else
-                {
+                {                    
                     if (doc.Filename == "untitled")
                         Model.SaveAsCommand.Execute(ButtonSaveAsFile);
-                    else
-                        SaveFile();
-
-                    returnValue = true;
+                    else if (!SaveFile())
+                        returnValue = false;
                 }
             }
 
-            tab.Tag = null;
-            editor = null;
+            tab.Tag = null;            
             TabControl.Items.Remove(tab);
             
             if (TabControl.Items.Count == 0)
@@ -465,7 +467,7 @@ namespace MarkdownMonster
                 Model.ActiveDocument = null;
             }
 
-            return true; // close
+            return returnValue; // close
         }
         
 
@@ -490,7 +492,8 @@ namespace MarkdownMonster
             Model.ActiveDocument.IsActive = true;
 
             AddRecentFile(Model.ActiveDocument?.Filename);
-            
+
+            AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
         }
 
         //[Obsolete("This is old the code from the MetroTabControl")]
@@ -517,15 +520,19 @@ namespace MarkdownMonster
 
         #region Worker Functions
 
-        public void SaveFile()
+        public bool SaveFile()
         {
             var tab = TabControl.SelectedItem as TabItem;
             if (tab == null)
-                return;
+                return false;
 
             var md = tab.Content;
             var editor = tab.Tag as MarkdownDocumentEditor;
-            editor.SaveDocument();            
+            var doc = editor?.MarkdownDocument;
+            if (doc == null)
+                return false;
+                                            
+            return editor.SaveDocument();            
         }
 
 

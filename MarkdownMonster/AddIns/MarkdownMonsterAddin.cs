@@ -2,11 +2,26 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.AddIns
 {
+    /// <summary>
+    /// Addin Base class that exposes core functionality to the addin
+    /// </summary>
     public abstract class MarkdownMonsterAddin : IMarkdownMonsterAddin
     {
+        /// <summary>
+        /// Optional Id for this addin - use a recognizable Id
+        /// </summary>
+        public string Id { get; set; } = StringUtils.NewStringId();
+
+        /// <summary>
+        /// The application model which gives you access to Markdown Monster.
+        /// Includes access to Configuration and the Main Window
+        /// </summary>
         public AppModel Model { get; set; }
 
         /// <summary>
@@ -15,10 +30,38 @@ namespace MarkdownMonster.AddIns
         /// when clicked.        
         /// </summary>
         public List<AddInMenuItem> MenuItems { get; set;  }  = new List<AddInMenuItem>();
-
-
-
+        
+        
         #region Event Handlers
+        
+
+        /// <summary>
+        /// Called when the Menu or Toolbar button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        public virtual void OnExecute(object sender)
+        {
+            
+        }
+
+        /// <summary>
+        /// Called when the configuration Toolbar drop down button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        public virtual void OnExecuteConfiguration(object sender)
+        {
+
+        }
+
+        /// <summary>
+        /// Called to determine whether the menu option should be enabled and execute
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <returns></returns>
+        public virtual bool OnCanExecute(object sender)
+        {
+            return true;   
+        }
 
         /// <summary>
         /// Called when the application starts and after the AddinManager
@@ -31,37 +74,62 @@ namespace MarkdownMonster.AddIns
           
         }
 
+        /// <summary>
+        /// Called just before the application is shut down
+        /// </summary>
         public virtual void OnApplicationShutdown()
         {
             
         }
 
         /// <summary>
-        /// 
+        /// Called before a document is opened. Return false to 
+        /// keep the document from being opened
         /// </summary>
         /// <returns></returns>
-        public virtual bool OnBeforeOpenFile()
+        public virtual bool OnBeforeOpenDocument(string filename)
         {
             return true;
         }
 
-        public virtual void  OnAfterOpenFile()
+        /// <summary>
+        /// Called after a new document has been opened. If this is a new
+        /// document the filename will be 'untitled'
+        /// </summary>
+        /// <param name="doc"></param>
+        public virtual void  OnAfterOpenDocument(MarkdownDocument doc)
         {            
         }
 
-        public virtual bool OnBeforeSaveFile()
+        /// <summary>
+        /// Called before the document is saved. Return false to 
+        /// disallow saving the document
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public virtual bool OnBeforeSaveDocument(MarkdownDocument doc)
         {
             return true;
         }
 
-        public virtual void OnAfterSaveFile()
+        /// <summary>
+        /// Called after the document has been saved.
+        /// </summary>
+        /// <param name="doc"></param>
+        public virtual void OnAfterSaveDocument(MarkdownDocument doc)
         {
             
         }
 
-        public virtual void OnDocumentActivated()
-        {
-                        
+
+        /// <summary>
+        /// Called whenever a new document is activated in the editor 
+        /// (when tabs change). Note on startup if multiple documents
+        /// are open this method is called for each document.
+        /// </summary>
+        /// <param name="doc"></param>
+        public virtual void OnDocumentActivated(MarkdownDocument doc)
+        {                                    
         }
         #endregion
 
@@ -72,7 +140,7 @@ namespace MarkdownMonster.AddIns
         /// a number of methods for getting access to the editor document
         /// </summary>
         /// <returns></returns>
-        protected internal MarkdownDocumentEditor GetMarkdownEditor()
+        protected MarkdownDocumentEditor GetMarkdownEditor()
         {
             return Model.Window.GetActiveMarkdownEditor();
         }
@@ -96,7 +164,7 @@ namespace MarkdownMonster.AddIns
         /// Returns the active live markdown text from the editor
         /// </summary>
         /// <returns></returns>
-        protected internal string GetMarkdown()
+        protected string GetMarkdown()
         {
             var editor = this.Model.Window.GetActiveMarkdownEditor();
             return editor?.GetMarkdown();
@@ -107,7 +175,7 @@ namespace MarkdownMonster.AddIns
         /// Sets all the text in the markdown editor
         /// </summary>
         /// <param name="markdownText"></param>
-        protected internal void SetMarkdown(string markdownText)
+        protected void SetMarkdown(string markdownText)
         {
             var editor = this.Model.Window.GetActiveMarkdownEditor();
             editor?.SetMarkdown(markdownText);
@@ -118,18 +186,17 @@ namespace MarkdownMonster.AddIns
         /// Gets the active selection from the editor
         /// </summary>
         /// <returns></returns>
-        protected internal string GetSelection()
+        protected string GetSelection()
         {
             var editor = this.Model.Window.GetActiveMarkdownEditor();
             return editor?.AceEditor.getselection(false);
         }
-
-
+        
         /// <summary>
         /// Sets the active selection from the editor
         /// </summary>
         /// <param name="text"></param>
-        protected internal void SetSelection(string text)
+        protected void SetSelection(string text)
         {
             var editor = this.Model.Window.GetActiveMarkdownEditor();
             if (editor == null)
@@ -143,16 +210,86 @@ namespace MarkdownMonster.AddIns
             Model.Window.PreviewMarkdown(editor, true);            
         }
 
+
+        /// <summary>
+        /// Brings the editor to focus
+        /// </summary>
+        protected void SetEditorFocus()
+        {
+            Model.ActiveEditor.SetEditorFocus();
+        }
+
+
         /// <summary>
         /// Executes a predefined edit command (bold,italic,href etc.) 
         /// against the editor.
         /// </summary>
-        /// <param name="cmd"></param>
-        protected internal void ExecuteEditCommand(string action)
+        /// <param name="action">Name of the Editor action to perform</param>
+        protected void ExecuteEditCommand(string action)
         {
             var editor = this.Model.Window.GetActiveMarkdownEditor();
             editor?.ProcessEditorUpdateCommand(action);
         }
+
+
+        /// <summary>
+        /// Opens a tab with a given filename and selects it
+        /// </summary>
+        /// <param name="filename">File to open</param>
+        protected void OpenTab(string filename)
+        {
+            Model.Window.OpenTab(filename);
+        }
+
+
+        /// <summary>
+        /// Closes a specific tab that you pass. You can look at
+        /// the tab collection via Model.Window.TabControl.
+        /// </summary>
+        /// <param name="tab"></param>
+        protected void CloseTab(TabItem tab)
+        {
+            Model.Window.CloseTab(tab);
+        }
+
+
+        /// <summary>
+        /// Refreshes the Preview WebBrowser
+        /// </summary>
+        protected void UpdatePreview()
+        {            
+            Model.Window.PreviewMarkdownAsync();
+        }
+
+
+        /// <summary>
+        /// Shows a Status Message on the Status bar
+        /// </summary>
+        /// <param name="message">Message to display</param>
+        /// <param name="timeoutMs">optional timeout in milliseconds</param>
+        protected void ShowStatus(string message, int timeoutMs = 0)
+        {            
+            Model.Window.ShowStatus(message, timeoutMs);            
+        }
+
+
+        /// <summary>
+        /// Lets you modify the status icon and color on the status bar.
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="color"></param>
+        /// <param name="spin"></param>
+        protected void SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon icon, Color color,bool spin = false)
+        {
+            Model.Window.SetStatusIcon(icon, color,spin);
+            
+            
+        }
         #endregion
+
+        public override string ToString()
+        {
+            return Id ?? "No Addin Id specified";
+        }
     }   
 }

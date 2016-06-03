@@ -24,6 +24,9 @@ namespace MarkdownMonster
         private string _editorDictionary;
 
 
+        /// <summary>
+        /// The name of the application
+        /// </summary>
         [JsonIgnore]
         public Themes ApplicationTheme
         {
@@ -36,6 +39,11 @@ namespace MarkdownMonster
             }
         }
 
+
+        /// <summary>
+        /// The theme used for the editor. Can be any of AceEditor themes
+        /// twilight, visualstudio, github, monokai etc.
+        /// </summary>
         public string EditorTheme
         {
             get { return _editorTheme; }
@@ -47,7 +55,11 @@ namespace MarkdownMonster
             }
         }
 
-
+        /// <summary>
+        /// Themes used to render the Preview. Preview themes are
+        /// located in the .\PreviewThemes folder and you can add
+        /// custom themes to this folder.
+        /// </summary>
         public string RenderTheme
         {
             get { return _RenderTheme; }
@@ -61,6 +73,10 @@ namespace MarkdownMonster
         private string _RenderTheme;
 
 
+        /// <summary>
+        /// Determines whether the editor wraps text or extends lines
+        /// out. Default is false.
+        /// </summary>
         public bool EditorWrapText
         {
             get { return _EditorWrapText; }
@@ -73,6 +89,10 @@ namespace MarkdownMonster
         }
         private bool _EditorWrapText;
 
+
+        /// <summary>
+        /// Font size for the editor.
+        /// </summary>
         public int EditorFontSize
         {
             get { return _EditorFontSize; }
@@ -85,6 +105,11 @@ namespace MarkdownMonster
         }
         private int _EditorFontSize;
 
+
+        /// <summary>
+        /// Determines if spell checking is used. This value maps to the
+        /// spell check button in the window header.
+        /// </summary>
         public bool EditorEnableSpellcheck
         {
             get { return _editorEnableSpellcheck; }
@@ -96,6 +121,13 @@ namespace MarkdownMonster
             }
         }
 
+
+        /// <summary>
+        /// Dictionary used by the editor. Defaults to 'en_US'.
+        /// Others shipped: de_DE, es_ES, fr_FR
+        /// Any OpenOffice style dictionary can be used by copying into
+        /// the .\Editor folder providing .dic and .aff files.
+        /// </summary>
         public string EditorDictionary
         {
             get { return _editorDictionary; }
@@ -107,24 +139,58 @@ namespace MarkdownMonster
             }
         }
       
+
+        /// <summary>
+        /// If true re-opens files that were open when last closed.
+        /// </summary>
         public bool RememberOpenFiles { get; set; }
 
+
+        /// <summary>
+        /// Determines whether Markdown Monster runs as a Singleton application.
+        /// If true only a single instance runs and parameters are forwarded to
+        /// open in the single instance.
+        /// </summary>
         public bool UseSingleWindow { get; set; }
 
-        
+        /// <summary>
+        /// Last folder used when opening a document
+        /// </summary>
         public string LastFolder { get; set; }
 
+        /// <summary>
+        /// Last location where an image was opened.
+        /// </summary>
         public string LastImageFolder { get; set; }
 
+
+        /// <summary>
+        /// Common folder where configuration files are stored.
+        /// </summary>
         [JsonIgnore]
         public string CommonFolder { get; set;  }
 
+
+        /// <summary>
+        /// Command Processing for OpenFolder
+        /// </summary>
         public string OpenFolderCommand { get; set;  }
 
+        /// <summary>
+        /// Command Processing for open command window
+        /// </summary>
         public string OpenCommandLine { get; set; }
 
+        /// <summary>
+        /// A collection of the open Markdown documents.
+        /// </summary>
         public List<MarkdownDocument> OpenDocuments { get; set; }
 
+
+        /// <summary>
+        /// List of recently opened files. Files opened and selected are
+        /// added to the beginning of the list.
+        /// </summary>
         public List<string> RecentDocuments
         {
             get { return _recentDocuments; }
@@ -137,11 +203,20 @@ namespace MarkdownMonster
         }
         private List<string> _recentDocuments = new List<string>();
 
+        /// <summary>
+        /// Configuration object that olds info about how applications are updated
+        /// </summary>
         public ApplicationUpdates ApplicationUpdates { get; set; }
 
+        /// <summary>
+        /// Hold last window position
+        /// </summary>
         public WindowPosition WindowPosition { get; set; }
 
 
+        /// <summary>
+        /// Determines whether the preview browser is visible
+        /// </summary>
         public bool IsPreviewVisible
         {
             get { return _isPreviewVisible; }
@@ -153,7 +228,7 @@ namespace MarkdownMonster
             }
         }
 
-        internal string FileWatcherOpenFilePath;
+        //internal string FileWatcherOpenFilePath;
 
         public ApplicationConfiguration()
         {
@@ -164,9 +239,9 @@ namespace MarkdownMonster
 
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             CommonFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"West Wind Markdown Monster");
-            FileWatcherOpenFilePath =  Path.Combine(
-                  Path.GetTempPath(),
-                 "__mm_openfile.txt");
+            //FileWatcherOpenFilePath =  Path.Combine(
+            //      Path.GetTempPath(),
+            //     "__mm_openfile.txt");
 
             ApplicationTheme = Themes.Dark;
             RenderTheme = "dharkan";

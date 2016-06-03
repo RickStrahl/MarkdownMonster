@@ -12,6 +12,13 @@ using Microsoft.Win32;
 
 namespace MarkdownMonster
 {
+    /// <summary>
+    /// Global App model for the application. Holds references to 
+    /// top level components like the Window, configuration and more
+    /// as well as includes a number of helper functions.
+    /// 
+    /// Available to Addins as `this.Model`.
+    /// </summary>
     public class AppModel : INotifyPropertyChanged
     {
         private string _activeDocumentTitle;
@@ -19,10 +26,20 @@ namespace MarkdownMonster
         private List<MarkdownDocument> _openDocuments;
         private string _markdownEditAction;
 
+
+        /// <summary>
+        /// An instance of the main application WPF form
+        /// </summary>
         public MainWindow Window { set; get; }
 
+        /// <summary>
+        /// The application's main configuration object
+        /// </summary>
         public ApplicationConfiguration Configuration { get; set; }
 
+        /// <summary>
+        /// Determines whether the preview browser is visible or not
+        /// </summary>
         public bool IsPreviewBrowserVisible
         {
             get { return Configuration.IsPreviewVisible; }
@@ -34,6 +51,10 @@ namespace MarkdownMonster
             }
         }
 
+
+        /// <summary>
+        /// Determines if there's a document loaded 
+        /// </summary>
         public bool IsEditorActive
         {
             get
@@ -45,6 +66,9 @@ namespace MarkdownMonster
             }            
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string MarkdownEditAction
         {
             get { return _markdownEditAction; }
@@ -56,6 +80,10 @@ namespace MarkdownMonster
             }
         }
 
+
+        /// <summary>
+        /// Returns the MarkdownDocument instance of the active editor
+        /// </summary>
         public MarkdownDocument ActiveDocument
         {
             get { return _activeDocument; }
@@ -97,6 +125,10 @@ namespace MarkdownMonster
             }
         }
 
+
+        /// <summary>
+        /// Gives a list of all the open documents as Markdown document instances
+        /// </summary>
         public List<MarkdownDocument> OpenDocuments
         {
             get { return _openDocuments; }
@@ -109,6 +141,10 @@ namespace MarkdownMonster
         }
 
 
+        /// <summary>
+        /// A list of RenderThemes as retrieved based on the folder structure of hte
+        /// Preview folder.
+        /// </summary>
         public List<string> RenderThemeNames
         {
             get
@@ -132,6 +168,9 @@ namespace MarkdownMonster
         }
         private readonly List<string> _renderThemeNames = new List<string>();
 
+        /// <summary>
+        /// A list of Ace Editor themes retrieved from the Editor script folder
+        /// </summary>
         public List<string> EditorThemeNames
         {
             get

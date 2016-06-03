@@ -6,19 +6,46 @@ using MahApps.Metro.Controls;
 
 namespace MarkdownMonster
 {
+
+    /// <summary>
+    /// Application class for Markdown Monster that provides
+    /// a global static placeholder for configuration and some
+    /// utility functions
+    /// </summary>
     public class mmApp
     {
+
+        /// <summary>
+        /// Holds a static instance of the application's configuration settings
+        /// </summary>
         public static ApplicationConfiguration Configuration { get; set;  }
 
+
+        /// <summary>
+        /// The full name of the application displayed on toolbar and dialogs
+        /// </summary>
         public static string ApplicationName { get; set; } = "Markdown Monster";
 
 
+        /// <summary>
+        /// Static constructor to initialize configuration
+        /// </summary>
         static mmApp()
         {
             Configuration = new ApplicationConfiguration();
             Configuration.Initialize();            
         }
 
+
+        /// <summary>
+        /// Sets the light or dark theme for a form. Call before
+        /// InitializeComponents().
+        /// 
+        /// We only support the dark theme now so this no longer relevant
+        /// but left in place in case we decide to support other themes.
+        /// </summary>
+        /// <param name="theme"></param>
+        /// <param name="window"></param>
         public static void SetTheme(Themes theme = Themes.Default,MetroWindow window = null)
         {
             if (theme == Themes.Default)
@@ -52,6 +79,10 @@ namespace MarkdownMonster
 
         }
 
+        /// <summary>
+        /// Overrides specific theme colors in the window header
+        /// </summary>
+        /// <param name="window"></param>
         public static void SetThemeWindowOverride(MetroWindow window)
         {
             if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
@@ -80,10 +111,22 @@ namespace MarkdownMonster
 
         internal static string EncryptionMachineKey { get; } = "42331333#1Ae@rTo*dOO-002" + Environment.MachineName;
         internal static string Signature { get; } = "S3VwdWFfMTAw";
+
+        /// <summary>
+        /// The URL where new versions are downloaded from
+        /// </summary>
         public static string InstallerDownloadUrl { get; internal set; }
+
+        /// <summary>
+        /// Url that is used to check for new version information
+        /// </summary>
         public static string UpdateCheckUrl { get; internal set; }
     }
 
+
+    /// <summary>
+    /// Supported themes (not used any more)
+    /// </summary>
     public enum Themes
     {
         Dark,

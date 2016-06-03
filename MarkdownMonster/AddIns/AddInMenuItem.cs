@@ -5,6 +5,16 @@ namespace MarkdownMonster.AddIns
 {
     public class AddInMenuItem
     {
+        public AddInMenuItem(MarkdownMonsterAddin addin = null)
+        {
+            if (addin != null)
+            {
+                Execute = addin.OnExecute;
+                ExecuteConfiguration = addin.OnExecuteConfiguration;
+                CanExecute = addin.OnCanExecute;
+            }
+        }
+
         public string Caption { get; set; }
 
         /// <summary>
@@ -31,12 +41,6 @@ namespace MarkdownMonster.AddIns
         /// Check activation that passes the button or menu item
         /// that is clicked.
         /// </summary>
-        public Func<object, bool>  CanExecute { get; set;  }
-
-        /// <summary>
-        /// Editor command that can be excuted (bold,italic,image etc.) 
-        /// plus your own (or other) extended commands
-        /// </summary>
-        public string EditorCommand { get; set; }
+        public Func<object, bool>  CanExecute { get; set;  }        
     }
 }

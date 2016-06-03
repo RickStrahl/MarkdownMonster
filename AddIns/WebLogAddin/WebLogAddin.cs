@@ -54,18 +54,22 @@ namespace WeblogAddin
         {
             base.OnApplicationStart();
 
-            var menuItem = new AddInMenuItem()
+            Id = "weblog";
+
+            // Create addin and automatically hook menu events
+            var menuItem = new AddInMenuItem(this)
             {
-                Caption = "Weblog Publishing",
-                EditorCommand = "weblog",
+                Caption = "Weblog Publishing",                
                 FontawesomeIcon = FontAwesomeIcon.Wordpress
             };
-            menuItem.Execute = new Action<object>(WebLogAddin_Execute);
+
+            // Don't need a configuration dropdown
+            menuItem.ExecuteConfiguration = null;
 
             this.MenuItems.Add(menuItem);
         }
 
-        public void WebLogAddin_Execute(object sender)
+        public override void OnExecute(object sender)
         {
             
             var form = new WebLogForm()
@@ -76,6 +80,8 @@ namespace WeblogAddin
             form.Model.Addin = this;                       
             form.Show();                       
         }
+
+
 
         /// <summary>
         /// High level method that sends posts to the Weblog

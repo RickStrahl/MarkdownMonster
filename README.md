@@ -19,7 +19,7 @@ Markdown Monster provides many useful features:
 
 #### Extensibility
 * Extensible: .NET Add-in model lets you extend with custom features
-* Two useful plugins are provided
+* Two useful plugins are provided:
 * Capture screen images ([SnagIt](http://techsmith.com/snagit) only currently)
 * Weblog publishing plug-in (MetaWebLog and Wordpress)
 
@@ -29,8 +29,9 @@ Markdown Monster provides many useful features:
 JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
 
 ### Get it from:
-* **[Markdown Monster Site (under construction)](http://markdownmonster.west-wind.com)**
+* **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
 * **[Download Markdown Monster Installer](http://markdownmonster.west-wind.com/download.aspx)**
+* **[Extending Markdown Monster with Addins](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)
 
 Here's what Markdown Monster looks like:
 

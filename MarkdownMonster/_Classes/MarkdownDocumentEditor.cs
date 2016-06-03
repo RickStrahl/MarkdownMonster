@@ -42,6 +42,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using MarkdownMonster;
+using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Newtonsoft.Json;
 using NHunspell;
@@ -168,13 +169,19 @@ namespace MarkdownMonster
         /// If there's no active filename a file save dialog
         /// is popped up. 
         /// </summary>
-        public void SaveDocument()
+        public bool SaveDocument()
         {
-            if (MarkdownDocument == null || AceEditor == null)
-                return;
-
+            if (MarkdownDocument == null || AceEditor == null || 
+               !AddinManager.Current.RaiseOnBeforeSaveDocument(MarkdownDocument))
+                return false;
+            
             GetMarkdown();
-            MarkdownDocument.Save();
+
+            if (!MarkdownDocument.Save())
+                return false;
+
+            AddinManager.Current.RaiseOnAfterSaveDocument(MarkdownDocument);
+
             AceEditor.isDirty = false;
 
             // reload settings if we were editing the app config file.
@@ -192,6 +199,8 @@ namespace MarkdownMonster
                     editor.RestyleEditor();
                 }
             }
+
+            return true;
         }
 
         /// <summary>

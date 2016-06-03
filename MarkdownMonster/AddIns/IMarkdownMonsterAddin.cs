@@ -1,19 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MarkdownMonster.AddIns
 {
+    /// <summary>
+    /// Marker interface
+    /// </summary>
     public interface IMarkdownMonsterAddin
     {
-        List<AddInMenuItem> MenuItems { get; set; }
-
-        AppModel Model { get; set; }
-        
-        void OnAfterOpenFile();
-        void OnAfterSaveFile();
-        void OnApplicationShutdown();
-        void OnApplicationStart();
-        bool OnBeforeOpenFile();
-        bool OnBeforeSaveFile();
-        void OnDocumentActivated();
     }
 }

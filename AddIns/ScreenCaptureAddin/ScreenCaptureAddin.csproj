@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ScreenCaptureConfiguration.cs" />
-    <Compile Include="SnagitAddin.cs" />
+    <Compile Include="ScreenCaptureAddin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenCaptureModel.cs" />
     <Compile Include="Snagit\SnagItAutomation.cs" />

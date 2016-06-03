@@ -25,7 +25,7 @@ namespace MarkdownMonster.AddIns
         /// <summary>
         /// The full list of add ins registered
         /// </summary>
-        public List<IMarkdownMonsterAddin> AddIns;
+        public List<MarkdownMonsterAddin> AddIns;
         
         static AddinManager()
         {
@@ -34,7 +34,7 @@ namespace MarkdownMonster.AddIns
 
         public AddinManager()
         {
-            AddIns = new List<IMarkdownMonsterAddin>();
+            AddIns = new List<MarkdownMonsterAddin>();
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace MarkdownMonster.AddIns
                 var typeList = type.FindInterfaces(AddinInterfaceFilter, typeof(IMarkdownMonsterAddin));
                 if (typeList.Length > 0)
                 {
-                    var ai = Activator.CreateInstance(type) as IMarkdownMonsterAddin;
+                    var ai = Activator.CreateInstance(type) as MarkdownMonsterAddin;
                     this.AddIns.Add(ai);
                 }
             }
@@ -205,6 +205,61 @@ namespace MarkdownMonster.AddIns
             foreach (var addin in AddIns)
                 addin?.OnApplicationShutdown();
         }
+
+        public bool RaiseOnBeforeOpenDocument(string filename)
+        {
+            foreach (var addin in AddIns)
+            {
+                if (addin == null)
+                    continue;
+
+                if (!addin.OnBeforeOpenDocument(filename))
+                    return false;
+            }
+
+            return true;
+        }
+
         
+        public void RaiseOnAfterOpenDocument(MarkdownDocument doc)
+        {
+            foreach (var addin in AddIns)
+            {
+                addin?.OnAfterOpenDocument(doc);
+            }
+        }
+
+        public bool RaiseOnBeforeSaveDocument(MarkdownDocument doc)
+        {
+            foreach (var addin in AddIns)
+            {
+                if (addin == null)
+                    continue;
+
+                if (!addin.OnBeforeSaveDocument(doc))
+                    return false;
+            }
+
+            return true;
+        }
+
+
+        public void RaiseOnAfterSaveDocument(MarkdownDocument doc)
+        {
+            foreach (var addin in AddIns)
+            {
+                addin?.OnAfterSaveDocument(doc);
+            }
+        }
+
+        public void RaiseOnDocumentActivated(MarkdownDocument doc)
+        {
+            foreach (var addin in AddIns)
+            {
+                addin?.OnDocumentActivated(doc);
+            }
+        }
+
+
     }
 }
