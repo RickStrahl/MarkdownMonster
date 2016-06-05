@@ -121,9 +121,6 @@
     <Compile Include="Windows\BrowserDialog.xaml.cs">
       <DependentUpon>BrowserDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\DraggableTabs.xaml.cs">
-      <DependentUpon>DraggableTabs.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\PasteCode.xaml.cs">
       <DependentUpon>PasteCode.xaml</DependentUpon>
     </Compile>
@@ -182,10 +179,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\BrowserDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\DraggableTabs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
