@@ -800,8 +800,19 @@ namespace MarkdownMonster
             }
             else if (button == MenuDocumentation)
                 ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs");
-            else if(button == MenuCreateAddinDocumentation)
+            else if (button == MenuCreateAddinDocumentation)
                 ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm");
+            else if (button == MenuShowErrorLog)
+            {
+                string logFile = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonsterErrors.txt");
+                if (File.Exists(logFile))
+                    ShellUtils.GoUrl(logFile);
+                else
+                    MessageBox.Show("There are no errors in your log file.",
+                        mmApp.ApplicationName, 
+                        MessageBoxButton.OK, 
+                        MessageBoxImage.Information);
+            }
         }
 
 

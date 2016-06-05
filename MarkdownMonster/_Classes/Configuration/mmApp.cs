@@ -4,6 +4,7 @@ using System.Windows.Media;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using Westwind.Utilities;
+using System.IO;
 
 namespace MarkdownMonster
 {
@@ -58,7 +59,7 @@ namespace MarkdownMonster
         {
             var text = msg +
                        "\r\n\r\n---------------------------\r\n\r\n";
-            StringUtils.LogString(msg, Configuration.CommonFolder + "MarkdownMonsterErrors.log");
+            StringUtils.LogString(msg, Path.Combine( Configuration.CommonFolder,"MarkdownMonsterErrors.txt"));
         }
 
         /// <summary>

@@ -85,6 +85,31 @@ namespace MarkdownMonster
 
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
+
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            
+            Exception ex = e.Exception;
+            mmApp.Log(ex);
+
+            var msg = string.Format("Yikes! Something went wrong...\r\n\r\n{0}\r\n\r\n" +
+                "The error has been recorded and written to a log file and you can\r\n" +
+                "review the details or report the error via Help | Show Error Log\r\n\r\n" +
+                "Do you want to continue?", ex.Message);
+
+            var res = MessageBox.Show(msg, mmApp.ApplicationName + " Error",
+                                                MessageBoxButton.YesNo,
+                                                MessageBoxImage.Error);
+            if (res.HasFlag(MessageBoxResult.No))
+                this.Shutdown(0);
+            else
+                e.Handled = true;
+
+
         }
 
         public static string InstallerDownloadUrl { get; internal set; }
@@ -100,10 +125,19 @@ namespace MarkdownMonster
         /// <param name="args"></param>
         static void GlobalErrorHandler(object sender, UnhandledExceptionEventArgs args)
         {
-            Exception e = (Exception)args.ExceptionObject;
-            MessageBox.Show("Global Error: "  + e.Message);
-            Console.WriteLine("MyHandler caught : " + e.Message);
-            Console.WriteLine("Runtime terminating: {0}", args.IsTerminating);
+            Exception ex = (Exception)args.ExceptionObject;            
+            mmApp.Log(ex);
+
+            var msg = string.Format("Yikes! Something went wrong...\r\n\r\n{0}\r\n\r\n" +
+                "The error has been recorded and written to a log file and you can\r\n" +
+                "review the details or report the error via Help | Show Error Log\r\n\r\n" +
+                "Do you want to continue?", ex.Message);
+
+            var res = MessageBox.Show(msg, mmApp.ApplicationName + " Error",
+                                                MessageBoxButton.YesNo, 
+                                                MessageBoxImage.Error);
+            if (res.HasFlag(MessageBoxResult.No))
+                Environment.Exit(0);            
         }
         
         protected override void OnStartup(StartupEventArgs e)
@@ -115,5 +149,7 @@ namespace MarkdownMonster
             AddinManager.Current.LoadAddins();
             AddinManager.Current.RaiseOnApplicationStart();            
         }        
+
+        
     }
 }
