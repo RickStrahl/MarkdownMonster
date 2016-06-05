@@ -720,7 +720,7 @@ namespace MarkdownMonster
                              "Html files (*.htm,*.html)|*.htm;*.html|" +
                              "Javascript files (*.js)|*.js|" +
                              "Json files (*.json)|*.json|" +
-                             "Css files (*.css)|*.css|" + 
+                             "Css files (*.css)|*.css|" +
                              "Xml files (*.xml,*.config)|*.xml;*.config|" +
                              "C# files (*.cs)|*.cs|" +
                              "Foxpro files (*.prg)|*.prg|" +
@@ -737,10 +737,10 @@ namespace MarkdownMonster
                 var res = fd.ShowDialog();
                 if (res == null || !res.Value)
                     return;
-               
+
                 OpenTab(fd.FileName);
 
-                AddRecentFile(fd.FileName);                
+                AddRecentFile(fd.FileName);
             }
             else if (button == ButtonNewFile)
             {
@@ -749,14 +749,14 @@ namespace MarkdownMonster
             else if (button == ButtonExit)
             {
                 Close();
-            }            
+            }
             else if (button == MenuOpenConfigFolder)
             {
                 ShellUtils.GoUrl(mmApp.Configuration.CommonFolder);
             }
             else if (button == MenuOpenPreviewFolder)
-            {                
-                ShellUtils.GoUrl( Path.Combine(Environment.CurrentDirectory,"PreviewThemes",mmApp.Configuration.RenderTheme));
+            {
+                ShellUtils.GoUrl(Path.Combine(Environment.CurrentDirectory, "PreviewThemes", mmApp.Configuration.RenderTheme));
             }
             else if (button == MenuMarkdownMonsterSite)
             {
@@ -798,6 +798,10 @@ namespace MarkdownMonster
                     return;
                 editor.SpecialKey("ctrl-shift-d");
             }
+            else if (button == MenuDocumentation)
+                ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs");
+            else if(button == MenuCreateAddinDocumentation)
+                ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm");
         }
 
 

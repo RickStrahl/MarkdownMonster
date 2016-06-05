@@ -137,6 +137,9 @@
                           IsEnabled="{Binding IsPreviewBrowserVisible}" />
             </MenuItem>
             <MenuItem Header="_Help">
+                <MenuItem Name="MenuDocumentation" Header="Documentation"   Click="Button_Handler"/>
+                <MenuItem Name="MenuCreateAddinDocumentation" Header="Documentation for creating Addins"   Click="Button_Handler"/>
+                <Separator />
                 <MenuItem Name="MenuMarkdownMonsterSite" Header="Markdown Monster Web Site"   Click="Button_Handler"/>
                 <MenuItem Name="MenuBugReport" Header="Report a Bug or make a Suggestion" Click="Button_Handler"/>
                 <Separator />
