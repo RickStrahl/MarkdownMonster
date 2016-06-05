@@ -101,9 +101,40 @@ namespace MarkdownMonster.Windows
                 string mdPath = System.IO.Path.GetDirectoryName(this.MarkdownFile);
                 string relPath = FileUtils.GetRelativePath(fd.FileName, mdPath);
 
-                // not relative
+                
                 if (!relPath.StartsWith("..\\"))
                     Image = relPath;
+                else
+                {
+                    // not relative 
+                    var mbres = MessageBox.Show(
+                        "The image you are linking, is not in a relative path.\r\n" +
+                        "Do you want to copy it to a local path?",
+                        "Non-relative Image",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
+
+                    if (mbres.HasFlag(MessageBoxResult.Yes))
+                    {
+                        string newImageFileName = System.IO.Path.Combine(mdPath, System.IO.Path.GetFileName(fd.FileName));
+                        var sd = new SaveFileDialog
+                        {
+                            Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                            FilterIndex = 1,
+                            FileName = newImageFileName,
+                            CheckFileExists = false,
+                            OverwritePrompt = true,
+                            CheckPathExists = true,
+                            RestoreDirectory = true
+                        };
+                        var result = sd.ShowDialog();
+                        if (result != null && result.Value)
+                        {
+                            System.IO.File.Copy(fd.FileName, sd.FileName);
+                            Image = FileUtils.GetRelativePath(sd.FileName, mdPath);
+                        }
+                    }
+                }
             }
             mmApp.Configuration.LastImageFolder = System.IO.Path.GetDirectoryName(fd.FileName);
             TextImageText.Focus();
