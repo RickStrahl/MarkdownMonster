@@ -110,34 +110,14 @@ namespace WeblogAddin
         }
 
         private void ButtonNewPost_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
+        {            
             string title = Model.NewTitle;
-            string weblogName = Model.Configuration.LastWeblogAccessed;
-
             if (string.IsNullOrEmpty(title))
                 return;
+            string weblogName = Model.Configuration.LastWeblogAccessed;
 
-            // strip path of invalid characters
-            var invalids = Path.GetInvalidFileNameChars();
-            string filename = null;
-            foreach (char c in invalids)
-                filename = title.Replace(c, '-');
+            Model.Addin.CreateNewPostOnDisk(title, weblogName);
 
-            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder, filename);
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-            var outputFile = Path.Combine(folder, filename + ".md");
-
-            // Create the new post by creating a file with title preset
-            string newPostMarkdown = Model.Addin.NewWeblogPost(new WeblogPostMetadata()
-            {
-                Title = title,
-                WeblogName = weblogName
-            });
-            File.WriteAllText(outputFile, newPostMarkdown);
-            Model.AppModel.Window.OpenTab(outputFile);
-
-            mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
 
             this.Close();
         }

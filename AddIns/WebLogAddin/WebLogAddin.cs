@@ -43,6 +43,7 @@ using JoeBlogs;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using Westwind.Utilities;
+using File = System.IO.File;
 
 namespace WeblogAddin
 {
@@ -178,6 +179,7 @@ namespace WeblogAddin
             return true;
         }
 
+
         /// <summary>
         /// Adds a post id to Weblog configuration in a weblog post document.
         /// Only works if [categories] key exists.
@@ -227,7 +229,7 @@ $@"# {meta.Title}
 ```
 -->
 <!-- End Post Configuration -->
-";            
+";                        
         }
 
 
@@ -378,6 +380,33 @@ $@"# {meta.Title}
             meta.MarkdownBody = meta.RawMarkdownBody.Replace(newConfig, "");
 
             return markdown;
+        }
+
+        public void CreateNewPostOnDisk(string title, string weblogName)
+        {
+
+            // strip path of invalid characters
+            var invalids = Path.GetInvalidFileNameChars();
+            string filename = null;
+            foreach (char c in invalids)
+                filename = title.Replace(c, '-');
+
+            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), filename);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            var outputFile = Path.Combine(folder, filename + ".md");
+
+            // Create the new post by creating a file with title preset
+            string newPostMarkdown = NewWeblogPost(new WeblogPostMetadata()
+            {
+                Title = title,
+                WeblogName = weblogName
+            });
+            File.WriteAllText(outputFile, newPostMarkdown);
+            Model.Window.OpenTab(outputFile);
+
+            mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
+
         }
     }
 
