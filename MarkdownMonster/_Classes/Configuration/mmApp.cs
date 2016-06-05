@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
+using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
@@ -36,6 +37,29 @@ namespace MarkdownMonster
             Configuration.Initialize();            
         }
 
+
+        /// <summary>
+        /// Logs exceptions in the applications
+        /// </summary>
+        /// <param name="ex"></param>
+        public static void Log(Exception ex)
+        {
+            ex = ex.GetBaseException();
+
+            var msg = ex.Message + "\r\n---\r\n" + ex.Source + "\r\n" + ex.StackTrace + "\r\n";
+            Log(msg);
+        }
+
+        /// <summary>
+        /// Logs messages to the log file
+        /// </summary>
+        /// <param name="msg"></param>
+        public static void Log(string msg)
+        {
+            var text = msg +
+                       "\r\n\r\n---------------------------\r\n\r\n";
+            StringUtils.LogString(msg, Configuration.CommonFolder + "MarkdownMonsterErrors.log");
+        }
 
         /// <summary>
         /// Sets the light or dark theme for a form. Call before

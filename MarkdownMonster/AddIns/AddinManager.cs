@@ -197,13 +197,33 @@ namespace MarkdownMonster.AddIns
         public void RaiseOnApplicationStart()
         {
             foreach (var addin in AddIns)
-                addin?.OnApplicationStart();
+            {
+                try
+                {
+                    addin?.OnApplicationStart();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log( addin.Id + "::AddIn::OnApplicationStart Error: " + ex.GetBaseException().Message);
+                }
+            }
         }
 
         public void RaiseOnApplicationShutdown()
         {
             foreach (var addin in AddIns)
-                addin?.OnApplicationShutdown();
+            {
+                try
+                {
+                    addin?.OnApplicationShutdown();
+                }
+                catch (Exception ex)
+                {
+
+                    mmApp.Log(addin.Id + "::AddIn::OnApplicationShutdown Error: " + ex.GetBaseException().Message);
+                }
+                
+            }
         }
 
         public bool RaiseOnBeforeOpenDocument(string filename)
@@ -212,9 +232,16 @@ namespace MarkdownMonster.AddIns
             {
                 if (addin == null)
                     continue;
+                try
+                {
+                    if (!addin.OnBeforeOpenDocument(filename))
+                        return false;
+                }
+                catch (Exception ex)
+                {
 
-                if (!addin.OnBeforeOpenDocument(filename))
-                    return false;
+                    mmApp.Log(addin.Id + "::AddIn::OnBeforeOpenDocument Error: " + ex.GetBaseException().Message);
+                }
             }
 
             return true;
@@ -225,7 +252,14 @@ namespace MarkdownMonster.AddIns
         {
             foreach (var addin in AddIns)
             {
-                addin?.OnAfterOpenDocument(doc);
+                try
+                {
+                   addin?.OnAfterOpenDocument(doc);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::nAfterOpenDocument Error: " + ex.GetBaseException().Message);
+                }
             }
         }
 
@@ -235,9 +269,15 @@ namespace MarkdownMonster.AddIns
             {
                 if (addin == null)
                     continue;
-
-                if (!addin.OnBeforeSaveDocument(doc))
-                    return false;
+                try
+                {
+                    if (!addin.OnBeforeSaveDocument(doc))
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::OnBeforeSaveDocument Error: " + ex.GetBaseException().Message);
+                }
             }
 
             return true;
@@ -248,7 +288,14 @@ namespace MarkdownMonster.AddIns
         {
             foreach (var addin in AddIns)
             {
-                addin?.OnAfterSaveDocument(doc);
+                try
+                {
+                    addin?.OnAfterSaveDocument(doc);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::OnAfterSaveDocument Error: " + ex.GetBaseException().Message);
+                }
             }
         }
 
@@ -256,7 +303,14 @@ namespace MarkdownMonster.AddIns
         {
             foreach (var addin in AddIns)
             {
-                addin?.OnDocumentActivated(doc);
+                try
+                {
+                    addin?.OnDocumentActivated(doc);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::OnDocumentActivated Error: " + ex.GetBaseException().Message);
+                }
             }
         }
 
