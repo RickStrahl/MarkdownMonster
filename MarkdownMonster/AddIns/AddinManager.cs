@@ -125,14 +125,12 @@ namespace MarkdownMonster.AddIns
                         Header = menuItem.Caption
                         
                     };
-                    mitem.Click += (sender, e) =>
-                    {
-                        if (menuItem.CanExecute != null &&
-                            !menuItem.CanExecute.Invoke(mitem))
-                            return;
-
-                        menuItem.Execute?.Invoke(mitem);
-                    };                    
+                    if (menuItem.CanExecute == null)
+                        mitem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(mitem));
+                    else
+                        mitem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(mitem),
+                                                        (s, c) => menuItem.CanExecute.Invoke(mitem));                                            
+                                 
                     addin.Model.Window.MenuAddins.Items.Add(mitem);
                     
                     // if an icon is provided also add to toolbar

@@ -114,7 +114,7 @@ namespace SnagItAddin
         {            
             if (!SnagItAutomation.IsInstalled)
             {
-                var button = sender as Button;
+                var button = sender as Control;                
                 button.ToolTip = "SnagIt isn't installed. Currently only SnagIt based captures are supported.";
                 button.IsEnabled = false;    
                 return false;
