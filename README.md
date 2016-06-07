@@ -66,7 +66,7 @@ This plug-in use Techsmith's popular and super versatile [SnagIt](http://techsmi
 * **WebLog Addin**  
 Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the blog tool, setting up your blog (MetaWebLog or WordPress) and the add-in handles publishing your text and attached images to your blog. Currently you can't only write (not read) but managing and loading existing posts is one feature on the list.
 
-![Weblog Publishing Addin](WebLogPublishingAddIn.png)
+![Weblog Publishing Addin](WebLogPublishingAddin.png)
 
 I can think of a few others - a quick way to commit to Git and Push would be useful for documentation solutions so you can easily persist changes to say a GitHub repository. Embedding all sorts of content like reference links, amazon links etc. etc.
 
