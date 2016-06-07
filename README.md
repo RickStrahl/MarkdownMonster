@@ -6,7 +6,7 @@
 ### Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
 * **[Download Markdown Monster Installer](http://markdownmonster.west-wind.com/download.aspx)**
-* **[Extending Markdown Monster with Addins](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
+* **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
 
 ### Features
 Markdown Monster provides many useful features:
@@ -61,8 +61,12 @@ Personally I needed couple of features - and I've added two add-ins for these fe
 * **SnagIt Screen Capture Addin**  
 This plug-in use Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which i **highly** recommend!). Simply click the capture button (camera icon) and the main app minimizes and SnagIt pops up to let you select the object to capture. You can preview and edit your captures, and when finished the image is linked into content.
 
+![SnagIt Screen Capture Add-in](SnagItCaptureAddin.png)
+
 * **WebLog Addin**  
 Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the blog tool, setting up your blog (MetaWebLog or WordPress) and the add-in handles publishing your text and attached images to your blog. Currently you can't only write (not read) but managing and loading existing posts is one feature on the list.
+
+![Weblog Publishing Addin](WebLogPublishingAddIn.png)
 
 I can think of a few others - a quick way to commit to Git and Push would be useful for documentation solutions so you can easily persist changes to say a GitHub repository. Embedding all sorts of content like reference links, amazon links etc. etc.
 
