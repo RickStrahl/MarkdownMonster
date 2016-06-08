@@ -64,11 +64,11 @@ var te = window.textEditor = {
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
             "ctrl-i": function() { te.specialkey("ctrl-i"); },
             "ctrl-l": function() { te.specialkey("ctrl-l"); },
-            "ctrl-k": function() { te.specialkey("ctrl-k"); },
+            "ctrl-k": function () { te.specialkey("ctrl-k"); },            
             "ctrl-shift-down": function () { te.specialkey("ctrl-shift-down"); },
             "ctrl-shift-up": function () { te.specialkey("ctrl-shift-up"); },
             "ctrl-shift-c": function () { te.specialkey("ctrl-shift-c"); },
-            "ctrl-shift-v": function () { te.specialkey("ctrl-shift-v"); }
+            "ctrl-shift-v": function () { te.specialkey("ctrl-shift-v"); }            
         });
         
         editor.renderer.setPadding(15);
@@ -84,23 +84,24 @@ var te = window.textEditor = {
         });
 
 
-        var keyHandler = debounce(keyHandler, 340);
-
-        $("pre[lang]")        
-            .on("keydown",
-            function keyDownHandler(e) {
+        var keydownHandler = debounce(function keyDownHandler(e) {
                 if (!te.fox)
-                    return;
+                    return;          
+            
+                if (e.ctrlKey) 
+                    te.fox.textbox.PreviewMarkdownCallback();
 
                 if (!te.isDirty) {
-                    var keycode = e.keyCode;
+                    // any printable character
+                    var keycode = e.keyCode;           
+
                     var valid =
                         (e.keycode > 47 && keycode < 58) || // number keys
                             keycode == 32 ||
                             keycode == 13 || // spacebar & return key(s) (if you want to allow carriage returns)
                             (keycode > 64 && keycode < 91) || // letter keys
-                            (keycode > 95 && keycode < 112) || // numpad keys
-                            (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
+                            (keycode > 95 && keycode < 112) || // numpad keys  
+                            (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
                             (keycode > 218 && keycode < 223); // [\]' (in order)
                     // backspace, tab -> handle in key up
 
@@ -109,30 +110,33 @@ var te = window.textEditor = {
                         te.fox.textbox.setDirty(true);
                     }
                 }
-            });
-        $("pre[lang]")
-            .on("keyup",
-                function keyUpHandler(e) {
-                    if (!te.fox)
-                        return;
+            },
+            340);
+        $("pre[lang]").on("keydown", keydownHandler);
+            
 
-                    // CR , . ? ! '
-                    if (e.keyCode == 13 ||
-                        e.keyCode == 190 ||
-                        e.keyCode == 188 ||
-                        e.keyCode == 191 ||
-                        e.keyCode == 49 || e.keyCode == 222)
-                        te.fox.textbox.PreviewMarkdownCallback();
+        var keyupHandler = debounce(function keyUpHandler(e) {            
+            if (!te.fox)
+                return;
 
-
-                    // handle tab/backspace in keyup - not working in keydown
-                    if (!te.isDirty) {
-                        if (e.keyCode == 8 || e.keyCode == 9) {
-                            te.isDirty = true;
-                            te.fox.textbox.setDirty(true);
-                        }
-                    }
-                });
+            var keycode = e.keyCode;                        
+            if (keycode == 13 ||   // cr
+                keycode == 8 ||    // backspace
+                keycode == 46 ||   // del                                
+                (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
+                keycode == 222)   // single quote
+                      te.fox.textbox.PreviewMarkdownCallback();
+            
+            // handle tab/backspace in keyup - not working in keydown
+            if (!te.isDirty) {
+                if (keycode == 8 || e.keycode == 9) {
+                    te.isDirty = true;
+                    te.fox.textbox.setDirty(true);
+                }
+            }
+        }, 340);
+        $("pre[lang]").on("keyup", keyupHandler);
+                
 
         return editor;
     },
