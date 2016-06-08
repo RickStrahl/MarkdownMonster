@@ -428,7 +428,10 @@ namespace MarkdownMonster
             if (tab == null)
                 return false;
 
-            var editor = GetActiveMarkdownEditor();
+            var editor = tab.Tag as MarkdownDocumentEditor;
+            if (editor == null)
+                return false;
+
             bool returnValue = true;
 
             var doc = editor.MarkdownDocument;
