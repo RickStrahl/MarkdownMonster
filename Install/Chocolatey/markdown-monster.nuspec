@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
-    <metadata>
-        <id>MarkdownMonster</id>
-        <version>0.15</version>
-        <title>Markdown Monster</title>
-        <authors>Rick Strahl, West Wind Technologies</authors>
-        <owners>West Wind Technologies</owners>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>markdown-monster</id>
+    <version>0.28</version>
+    <title>Markdown Monster</title>
+    <authors>Rick Strahl, West Wind Technologies</authors>
+    <owners>West Wind Technologies</owners>
         <licenseUrl>http://markdownmonster.west-wind.com/download.aspx</licenseUrl>
         <projectUrl>http://markdownmonster.west-wind.com</projectUrl>
         <iconUrl>http://markdownmonster.west-wind.com/images/MarkdownMonster_icon_128.png</iconUrl>
@@ -19,8 +20,11 @@ One of the key features is the extensibility model that allows you to create .NE
         <releaseNotes></releaseNotes>
         <copyright>West Wind Technologies, 2016</copyright>
         <tags>markdown editor text weblog blog</tags>
-    </metadata>
-    <files>
-        <file src="tools\chocolateyInstall.ps1" target="tools\chocolateyInstall.ps1" />
-    </files>
+        <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
+        <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
+        <projectSourceUrl>https://github.com/rickstrahl/MarkdownMonster</projectSourceUrl>    
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
 </package>

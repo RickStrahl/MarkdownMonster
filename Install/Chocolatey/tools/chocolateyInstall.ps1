@@ -1,7 +1,8 @@
-﻿$packageName = 'MarkdownMonster'
-$fileType = 'exe'
-$url = 'http://west-wind.com/files/MarkdownMonsterSetup.exe'
-$silentArgs = '/q'
-$validExitCodes = @(0)
+﻿$packageName= 'markdown-monster' 
 
-Install-ChocolateyPackage "$packageName" "$fileType" "$silentArgs" "$url"  -validExitCodes $validExitCodes
+$toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+$fileLocation = Join-Path $toolsDir 'MarkdownMonsterSetup.exe'
+$fileType = 'exe'
+$silentArgs = '/q'
+
+Install-ChocolateyPackage $packageName $fileType $silentArgs $fileLocation
