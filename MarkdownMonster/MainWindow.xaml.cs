@@ -436,6 +436,8 @@ namespace MarkdownMonster
 
             var doc = editor.MarkdownDocument;
 
+            if (!string.IsNullOrEmpty(doc.HtmlRenderFilename) && File.Exists(doc.HtmlRenderFilename))
+                File.Delete(doc.HtmlRenderFilename);
 
             if (doc.IsDirty)
             {
@@ -1082,8 +1084,8 @@ namespace MarkdownMonster
                 dynamic dom = PreviewBrowser.Document;
                 dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
 
-                if (File.Exists(editor.MarkdownDocument.HtmlRenderFilename))
-                    File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
+                //if (File.Exists(editor.MarkdownDocument.HtmlRenderFilename))
+                //    File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
             };
             PreviewBrowser.Navigate("about:blank");
 

@@ -144,7 +144,8 @@ var te = window.textEditor = {
         te.configureAceEditor(null, null);
     },
     status: function status(msg) {
-        alert(msg);
+        //alert(msg);
+        status(msg);
     },
     getvalue: function(ignored) {
         var text = te.editor.getSession().getValue();

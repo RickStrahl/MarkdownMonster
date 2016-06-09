@@ -70,6 +70,12 @@ namespace MarkdownMonster
             WebBrowser = browser;
         }
 
+
+        /// <summary>
+        /// Loads a new document into the active editor using 
+        /// MarkdownDocument instance.
+        /// </summary>
+        /// <param name="mdDoc"></param>
         public void LoadDocument(MarkdownDocument mdDoc = null)
         {            
             if (mdDoc != null)
@@ -108,6 +114,11 @@ namespace MarkdownMonster
 
         #region Markdown Access and Manipulation
 
+        /// <summary>
+        /// Looks up and sets the EditorSyntax based on a file name
+        /// So .cs file gets csharp, .xml get xml etc.        
+        /// </summary>
+        /// <param name="filename"></param>
         public void FindSyntaxFromFileType(string filename)
         {
             if (string.IsNullOrEmpty(filename))
@@ -164,7 +175,8 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Saves the active document to file.
+        /// Saves the active document to file using the filename
+        /// defined on the MarkdownDocument.
         /// 
         /// If there's no active filename a file save dialog
         /// is popped up. 
@@ -414,18 +426,32 @@ namespace MarkdownMonster
 
         #region Callback functions from the Html Editor
 
+
+        /// <summary>
+        /// Sets the Markdown Document as having changes
+        /// </summary>
+        /// <param name="value"></param>
         public void SetDirty(bool value)
         {            
             MarkdownDocument.IsDirty = value;                                         
         }
 
+        /// <summary>
+        /// Callback handler callable from JavaScript editor
+        /// </summary>
         public void PreviewMarkdownCallback()
         {
             GetMarkdown();                        
             Window.PreviewMarkdownAsync(null,true);
         }
 
-
+        /// <summary>
+        /// Performs the special key operation that is tied
+        /// to the key in the application.
+        /// 
+        /// ctrl-s,ctrl-n, ctrl-o, cltr-i,ctrl-b,ctrl-l,ctrl-k,alt-c,ctrl-shift-v,ctrl-shift-c,ctlr-shift-down,ctrl-shift-up
+        /// </summary>
+        /// <param name="key"></param>
         public void SpecialKey(string key)
         {
             if (key == "ctrl-s")
@@ -489,6 +515,8 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Restyles the current editor with configuration settings
+        /// from the mmApp.Configuration object (or Model.Configuration
+        /// from an addin).
         /// </summary>
         public void RestyleEditor()
         {
@@ -536,12 +564,27 @@ namespace MarkdownMonster
         }
         private static Hunspell _spellChecker = null;
 
+        /// <summary>
+        /// Check spelling of an individual word
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="language"></param>
+        /// <param name="reload"></param>
+        /// <returns></returns>
         public bool CheckSpelling(string text,string language = "EN_US",bool reload = false)
         {
             var hun = GetSpellChecker(language, reload);
             return hun.Spell(text);
         }
 
+
+        /// <summary>
+        /// Returns spelling suggestions for an individual word
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="language"></param>
+        /// <param name="reload"></param>
+        /// <returns></returns>
         public string GetSuggestions(string text, string language = "EN_US", bool reload = false)
         {
             var hun = GetSpellChecker(language, reload); 
@@ -551,6 +594,11 @@ namespace MarkdownMonster
             return JsonConvert.SerializeObject(sugg);            
         }
 
+        /// <summary>
+        /// Adds a new word to add-on the dictionary for a given locale
+        /// </summary>
+        /// <param name="word"></param>
+        /// <param name="lang"></param>
         public void AddWordToDictionary(string word, string lang = "EN_US")
         {
             File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\",  lang + "_custom.txt"),word  + "\n");
