@@ -19,10 +19,10 @@ One of the key features is the extensibility model that allows you to create .NE
         </summary>
         <releaseNotes></releaseNotes>
         <copyright>West Wind Technologies, 2016</copyright>
-        <tags>markdown editor text weblog blog</tags>
+        <tags>markdown editor text weblog blog admin</tags>
         <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
         <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
-        <projectSourceUrl>https://github.com/rickstrahl/MarkdownMonster</projectSourceUrl>    
+        <packageSourceUrl>https://github.com/rickstrahl/MarkdownMonster</packageSourceUrl>     
   </metadata>
   <files>
     <file src="tools\**" target="tools" />
