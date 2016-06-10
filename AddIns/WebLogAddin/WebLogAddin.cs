@@ -116,7 +116,9 @@ namespace WeblogAddin
             var kv = config.Weblogs.FirstOrDefault(kvl => kvl.Value.Name == meta.WeblogName);
             if (kv.Equals(default(KeyValuePair<string, WeblogInfo>)))
             {
-                MessageBox.Show("Invalid Weblog configuration selected.", "Weblog Posting Failed", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("Invalid Weblog configuration selected.",
+                                "Weblog Posting Failed",
+                                MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
             WeblogInfo weblogInfo = kv.Value;
@@ -133,7 +135,11 @@ namespace WeblogAddin
                     weblogInfo.Username,
                     weblogInfo.Password) as MetaWeblogWrapper;
 
-            ActivePost.Body = SendImages(html, doc.Filename, wrapper);
+            string body  = SendImages(html, doc.Filename, wrapper);
+            if (body == null)
+                return false;
+
+            ActivePost.Body = body;
 
             ActivePost.CustomFields = new CustomField[1]
             {
@@ -154,7 +160,12 @@ namespace WeblogAddin
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error sending post to Weblog: " + ex.Message,mmApp.ApplicationName,MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                MessageBox.Show("Error sending post to Weblog: " + ex.Message,
+                    mmApp.ApplicationName,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Exclamation);
+
+                mmApp.Log(ex);
                 return false;
             }
 
@@ -250,36 +261,47 @@ $@"# {meta.Title}
 
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
-
-            // send up normalized path images as separate media items
-            var images = doc.DocumentNode.SelectNodes("//img");
-            if (images != null)
+            try
             {
-                foreach (HtmlNode img in images)
+                // send up normalized path images as separate media items
+                var images = doc.DocumentNode.SelectNodes("//img");
+                if (images != null)
                 {
-                    string imgFile = img.Attributes["src"]?.Value as string;
-                    if (imgFile == null)
-                        continue;
-
-                    if (!imgFile.StartsWith("http"))
+                    foreach (HtmlNode img in images)
                     {
-                        imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
-                        if (System.IO.File.Exists(imgFile))
+                        string imgFile = img.Attributes["src"]?.Value as string;
+                        if (imgFile == null)
+                            continue;
+
+                        if (!imgFile.StartsWith("http"))
                         {
-                            var media = new MediaObject()
-                            {                                
-                                Type = "application/image",
-                                Bits = System.IO.File.ReadAllBytes(imgFile),
-                                Name = baseName + "/" + Path.GetFileName(imgFile)
-                            };
-                            var mediaResult = wrapper.NewMediaObject(media);
-                            img.Attributes["src"].Value = mediaResult.URL;
-                            ;
+                            imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
+                            if (System.IO.File.Exists(imgFile))
+                            {
+                                var media = new MediaObject()
+                                {
+                                    Type = "application/image",
+                                    Bits = System.IO.File.ReadAllBytes(imgFile),
+                                    Name = baseName + "/" + Path.GetFileName(imgFile)
+                                };
+                                var mediaResult = wrapper.NewMediaObject(media);
+                                img.Attributes["src"].Value = mediaResult.URL;
+                                ;
+                            }
                         }
                     }
+
+                    html = doc.DocumentNode.OuterHtml;
                 }
-                
-                html = doc.DocumentNode.OuterHtml;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error posting images to Weblog: " + ex.Message,
+                   mmApp.ApplicationName,
+                   MessageBoxButton.OK,
+                   MessageBoxImage.Exclamation);
+                mmApp.Log(ex);
+                return null;
             }
 
             return html;
