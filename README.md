@@ -5,9 +5,12 @@
 
 ### Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
-* **[Download Markdown Monster Installer](http://markdownmonster.west-wind.com/download.aspx)**
+* **[Download Installer](http://markdownmonster.west-wind.com/download.aspx)**
 * **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)** (coming soon)  
+* **[Bug Reports & Feature Requests](./issues/)**
+* **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
+
 
 ### Features
 Markdown Monster provides many useful features:
