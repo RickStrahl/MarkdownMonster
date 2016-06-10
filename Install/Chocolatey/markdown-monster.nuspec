@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
@@ -22,7 +22,7 @@ One of the key features is the extensibility model that allows you to create .NE
         <tags>markdown editor text weblog blog admin</tags>
         <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
         <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
-        <packageSourceUrl>https://github.com/rickstrahl/MarkdownMonster</packageSourceUrl>     
+        <packageSourceUrl>https://github.com/rickstrahl/MarkdownMonster</packageSourceUrl>    
   </metadata>
   <files>
     <file src="tools\**" target="tools" />
