@@ -123,6 +123,9 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="paket.references" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
@@ -206,4 +209,5 @@
       </ItemGroup>
     </When>
   </Choose>
+  <Import Project="..\..\.paket\paket.targets" />
 </Project>

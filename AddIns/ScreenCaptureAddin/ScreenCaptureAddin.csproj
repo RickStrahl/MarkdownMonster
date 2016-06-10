@@ -69,6 +69,9 @@
   <ItemGroup>
     <Resource Include="SnagItIcon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="paket.references" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy   "$(TargetPath)"   "$(SolutionDir)\MarkdownMonster\bin\$(ConfigurationName)\Addins\$(TargetFileName)"</PostBuildEvent>
@@ -121,4 +124,5 @@
       </ItemGroup>
     </When>
   </Choose>
+  <Import Project="..\..\.paket\paket.targets" />
 </Project>
