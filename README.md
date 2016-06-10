@@ -42,19 +42,19 @@ Here's what Markdown Monster looks like:
 > This tool is still under construction and in pre-release stage. Most of the editing and document management features are implemented, but there are a still a few rough edges.
 
 ### Why another Markdown Editor?
-Markdown is everywhere these days, and it's becoming a favorite for many developers, writers and documentation experts to create content in this format. Personally I use Markdown for my Blog, my MessageBoard, of course on GitHub and in a number of applications. Having an editor that gets out of your way, yet provides a few helpful features **and lets you add custom features** that make your content creation sessions more productive are important.
+Markdown is everywhere these days, and it's becoming a favorite for many developers, writers and documentation experts to create content in this format. Personally I use Markdown for my Blog, my MessageBoard, of course on GitHub and in a number of applications that deal with formatted text. Having an editor that gets out of your way, yet provides a few helpful features **and lets you add custom features** that make your content creation sessions more productive are important.
 
-Markdown Monster is a Markdown editor for Windows, that provides basic editing functionality. It works, nothing revolutionary here. You get a responsive text editor that's got you covered with Markdown syntax highlighting, so it it's easy to navigate your Markdown text, an optional collapsible live preview, so you can see what your output looks like, in-line spellchecking and a handful of optimized menu options that help you embed and link content into your markdown.
+Markdown Monster is a Markdown editor for Windows, that provides basic editing functionality. It works, nothing revolutionary here. You get a responsive text editor that's got you covered with Markdown syntax highlighting, an collapsible live preview, so you can see what your output looks like, inline spellchecking and a handful of optimized menu options that help you embed and link content into your markdown.
 
 ### Customizable
-Most features are optional and can be turned on and off. Want to work distraction free and see no preview or spell checking hints? You can turn things off. Want a different editor or preview theme, just switch it to one of the many editor themes and preview themes. 
+Most features are optional and can be turned on and off. Want to work distraction free and see no preview or spell checking hints? You can turn things off. Want a different editor or preview theme, just switch it to one of the many editor themes and preview themes available. 
 
-The editor is HTML and JavaScript based, so you can also apply any custom styling and even hook up custom JavaScript code if you want to get fancy beyond the basic configurability.
+The editor is HTML and JavaScript based, so you can also apply any custom styling and even hook up custom JavaScript code if you want to get fancy beyond the basic configurability. The preview themes are easy to modify HTML templates, so if you need to create a custom format so it matches an application's style it's quite easy to create a custom Preview theme.
 
-### Extensibility with Add-ins
-But the key feature and the main reason I built this tool is that it is **extensible**, so that you and I can plug additional functionality into it. Markdown Monster includes an add-in model that lets you add buttons to the UI, interact with the active document and get notifications of various events like when documents are opened and closed etc.
+### Extensibility with .NET Add-ins
+But the **key feature** and the main reason I built this tool is that it is **extensible**, so that you and I can plug additional functionality into it. Markdown Monster includes an add-in model that lets you add buttons to the UI, interact with the active document and the entire UI and get notifications of various events like  documents opening and closing etc..
 
-The Add-in interface is still in flux, so no documentation except for the provided sample add-ins.
+The Add-in interface is still in flux, but you can find out more in the [online documention](http://markdownmonster.west-wind.com/docs/_4ne0rl1zf.htm). If you have ideas or suggestions  on how to make the Add-in system better, please use the Issue system to provide feedback. Otherwise for general discussion you can [post a message on our message board](http://support.west-wind.com?forum=Markdown+Monster).
 
 ### Provided Add-ins
 Personally I needed couple of features - and I've added two add-ins for these features both for practical use as well as examples of what you can do with plug-ins:

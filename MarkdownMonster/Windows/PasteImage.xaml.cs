@@ -122,6 +122,7 @@ namespace MarkdownMonster.Windows
                             Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
                             FilterIndex = 1,
                             FileName = newImageFileName,
+                            InitialDirectory = mdPath,
                             CheckFileExists = false,
                             OverwritePrompt = true,
                             CheckPathExists = true,
