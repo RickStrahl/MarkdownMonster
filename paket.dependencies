@@ -10,3 +10,4 @@ nuget FontAwesome.WPF 4.5.0.8
 nuget HtmlAgilityPack 1.4.9
 nuget MahApps.Metro 1.2.4
 nuget NHunspell 1.2.5554.16953
+nuget xmlrpcnet 3.0.0.266

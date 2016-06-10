@@ -1,0 +1,14 @@
+FRAMEWORK: >= NET45
+NUGET
+  remote: https://www.nuget.org/api/v2
+  specs:
+    CommonMark.NET (0.12)
+    Dragablz (0.0.3.162)
+    FontAwesome.WPF (4.5.0.8)
+    HtmlAgilityPack (1.4.9)
+    JetBrains.DotMemoryUnit (2.2.20160412.92019)
+    MahApps.Metro (1.2.4)
+    Newtonsoft.Json (8.0.3)
+    NHunspell (1.2.5554.16953)
+    Westwind.Utilities (2.67.2)
+    xmlrpcnet (3.0.0.266)
