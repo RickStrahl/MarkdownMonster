@@ -6,9 +6,7 @@ namespace JoeBlogs
     /// </summary> 
     public class UserBlog
     {
-        private int _userBlogID;
-
-        public int BlogID { get { return _userBlogID; } }
+        public object BlogID { get; }
 
         public bool IsAdmin { get; set; }
         public string URL { get; set; }

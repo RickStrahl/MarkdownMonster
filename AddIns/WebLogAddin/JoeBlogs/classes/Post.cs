@@ -10,7 +10,7 @@ namespace JoeBlogs
                 .Now;
         }
 
-        public int PostID { get; set; }
+        public object PostID { get; set; }
 
         public DateTime DateCreated { get; set; }
         public string Body { get; set; }

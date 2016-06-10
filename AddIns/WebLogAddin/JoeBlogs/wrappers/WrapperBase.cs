@@ -25,15 +25,15 @@ namespace JoeBlogs
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
         /// <param name="blogID">The blog ID.</param>
-        public BaseWrapper(string url, string username, string password, int blogID)
+        public BaseWrapper(string url, string username, string password, object blogId)
         {
             Url = url;
             Username = username;
             Password = password;
 
-            BlogID = blogID;
+            BlogID = blogId;
 
-            if (BlogID == 0)
+            if (BlogID == null)
             {
                 try { BlogID = GetUserBlogs().First().BlogID; }
                 catch { BlogID = 1; }
@@ -50,7 +50,7 @@ namespace JoeBlogs
         /// Gets or sets the blog ID.
         /// </summary>
         /// <value>The blog ID.</value>
-        protected int BlogID { get; set; }
+        protected object BlogID { get; set; }
 
         /// <summary>
         /// Gets or sets the username.

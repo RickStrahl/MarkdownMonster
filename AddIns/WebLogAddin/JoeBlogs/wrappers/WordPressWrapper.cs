@@ -34,8 +34,8 @@ namespace JoeBlogs
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
         /// <param name="blogID">The blog ID.</param>
-        public WordPressWrapper(string url, string username, string password, int blogID)
-            : base(url, username, password, blogID)
+        public WordPressWrapper(string url, string username, string password, object blogId)
+            : base(url, username, password, blogId)
         {
             _wrapper = (IWordPressXmlRpc)XmlRpcProxyGen.Create(typeof(IWordPressXmlRpc));
             _wrapper.Url = url;

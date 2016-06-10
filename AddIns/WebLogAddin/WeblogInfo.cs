@@ -7,6 +7,7 @@ namespace WeblogAddin
         public WeblogInfo()
         {
             Id = DataUtils.GenerateUniqueId(8);
+            BlogId = "1";
         }
 
         public string Id { get; set; }
@@ -15,6 +16,8 @@ namespace WeblogAddin
         public string Username { get; set; }
         public string Password { get; set; }
         public string ApiUrl { get; set; }
+
+        public object BlogId { get; set; }
 
         public WeblogTypes Type { get; set; } = WeblogTypes.MetaWeblogApi;
 

@@ -25,7 +25,7 @@ namespace JoeBlogs.XmlRpcInterfaces
         /// <param name="password">The password.</param>
         /// <returns></returns>
         [XmlRpcMethod("metaWeblog.getCategories")]
-        XmlRpcCategory[] GetCategories(int blogId, string username, string password);
+        XmlRpcCategory[] GetCategories(object blogId, string username, string password);
 
         /// <summary>
         /// Gets the recent posts.
@@ -36,7 +36,7 @@ namespace JoeBlogs.XmlRpcInterfaces
         /// <param name="numberOfPosts">The number of posts.</param>
         /// <returns></returns>
         [XmlRpcMethod("metaWeblog.getRecentPosts")]
-        XmlRpcRecentPost[] GetRecentPosts(int blogId, string username, string password, int numberOfPosts);
+        XmlRpcRecentPost[] GetRecentPosts(object blogId, string username, string password, int numberOfPosts);
 
         /// <summary>
         /// Gets the user info.
@@ -57,7 +57,7 @@ namespace JoeBlogs.XmlRpcInterfaces
         /// <param name="mediaObject">The media object.</param>
         /// <returns></returns>
         [XmlRpcMethod("metaWeblog.newMediaObject")]
-        XmlRpcMediaObjectInfo NewMediaObject(int blogId, string username, string password, XmlRpcMediaObject mediaObject);
+        XmlRpcMediaObjectInfo NewMediaObject(object blogId, string username, string password, XmlRpcMediaObject mediaObject);
 
         /// <summary>
         /// News the post.
@@ -69,7 +69,7 @@ namespace JoeBlogs.XmlRpcInterfaces
         /// <param name="publish">if set to <c>true</c> [publish].</param>
         /// <returns></returns>
         [XmlRpcMethod("metaWeblog.newPost")]
-        string NewPost(int blogId, string username, string password, XmlRpcPost content, bool publish);
+        string NewPost(object blogId, string username, string password, XmlRpcPost content, bool publish);
 
 
         [XmlRpcMethod("metaWeblog.editPost")]

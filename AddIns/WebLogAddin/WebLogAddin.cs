@@ -126,7 +126,8 @@ namespace WeblogAddin
             if (type == WeblogTypes.MetaWeblogApi)
                 wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                     weblogInfo.Username,
-                    weblogInfo.Password) as MetaWeblogWrapper;
+                    weblogInfo.Password,
+                    weblogInfo.BlogId) as MetaWeblogWrapper;
             else
                 wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
                     weblogInfo.Username,
@@ -146,7 +147,7 @@ namespace WeblogAddin
 
             try
             {
-                if (ActivePost.PostID > 0)
+                if (ActivePost.PostID != null)
                     wrapper.EditPost(ActivePost, true);
                 else
                     ActivePost.PostID = wrapper.NewPost(ActivePost, true);
@@ -266,7 +267,7 @@ $@"# {meta.Title}
                         if (System.IO.File.Exists(imgFile))
                         {
                             var media = new MediaObject()
-                            {
+                            {                                
                                 Type = "application/image",
                                 Bits = System.IO.File.ReadAllBytes(imgFile),
                                 Name = baseName + "/" + Path.GetFileName(imgFile)
@@ -329,8 +330,7 @@ $@"# {meta.Title}
             meta.PostId = StringUtils.ExtractString(config, "\n<postid>", "</postid>").Trim();
             meta.WeblogName = StringUtils.ExtractString(config, "\n<weblog>", "</weblog>").Trim();
 
-            ActivePost.Title = meta.Title;
-            ActivePost.PostID = StringUtils.ParseInt(meta.PostId, 0);            
+            ActivePost.Title = meta.Title;            
             ActivePost.Categories = meta.Categories.Split(new [] { ','},StringSplitOptions.RemoveEmptyEntries);
 
             ActivePost.mt_excerpt = meta.Abstract;

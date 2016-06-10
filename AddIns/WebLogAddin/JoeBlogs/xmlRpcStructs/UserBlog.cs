@@ -11,7 +11,7 @@ namespace JoeBlogs
 	{
 		public bool isAdmin;
 		public string url;
-		public int blogId;
+		public object blogId;
 		public string blogName;
 		public string xmlrpc;
 	}

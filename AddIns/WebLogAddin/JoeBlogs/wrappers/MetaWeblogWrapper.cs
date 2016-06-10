@@ -14,14 +14,14 @@ namespace JoeBlogs
         protected IMetaWeblogXmlRpc _wrapper;
 
         public MetaWeblogWrapper(string url, string username, string password)
-            : this(url, username, password, 0)
+            : this(url, username, password, "1")
         {
             _wrapper = (IMetaWeblogXmlRpc)XmlRpcProxyGen.Create(typeof(IMetaWeblogXmlRpc));
             _wrapper.Url = Url;
         }
 
-        public MetaWeblogWrapper(string url, string username, string password, int blogID)
-            : base(url, username, password, blogID)
+        public MetaWeblogWrapper(string url, string username, string password, object blogId)
+            : base(url, username, password, blogId)
         {
             _wrapper = (IMetaWeblogXmlRpc)XmlRpcProxyGen.Create(typeof(IMetaWeblogXmlRpc));
             _wrapper.Url = Url;
