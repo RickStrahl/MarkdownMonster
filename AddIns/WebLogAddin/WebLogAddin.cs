@@ -39,7 +39,7 @@ using System.Linq;
 using System.Windows;
 using FontAwesome.WPF;
 using HtmlAgilityPack;
-using JoeBlogs;
+using WebLogAddin.MetaWebLogApi;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using Westwind.Utilities;
