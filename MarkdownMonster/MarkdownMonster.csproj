@@ -111,10 +111,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddIns\AddinManager.cs" />
-    <Compile Include="AddIns\AddInMenuItem.cs" />
-    <Compile Include="AddIns\IMarkdownMonsterAddin.cs" />
-    <Compile Include="AddIns\MarkdownMonsterAddin.cs" />
+    <Compile Include="AddInInterfaces\AddinManager.cs" />
+    <Compile Include="AddInInterfaces\AddInMenuItem.cs" />
+    <Compile Include="AddInInterfaces\IMarkdownMonsterAddin.cs" />
+    <Compile Include="AddInInterfaces\MarkdownMonsterAddin.cs" />
+    <None Include="Addins\_Addins">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="AppModel.cs" />
     <Compile Include="Controls\CommandBase.cs" />
     <Compile Include="Controls\DropdownButtonBehavior.cs" />
