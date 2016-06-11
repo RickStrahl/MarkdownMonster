@@ -13,11 +13,12 @@
         Title="Markdown Monster Weblog Addin" 
         TitleCaps="False"   
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
-        WindowStartupLocation="CenterOwner" 
+        WindowStartupLocation="CenterOwner" FontSize="15"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="800" Height="625" MinHeight="650" MinWidth="600">
-
+        Width="800" Height="660" MinHeight="660" MinWidth="600">
+    
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
@@ -30,30 +31,52 @@
                          Margin="0,10,0,0"
                          controls:TabControlHelper.IsUnderlined="True">-->
 
-        <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" FontSize="13" Background="#222"
+        <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" FontSize="14" Background="#222"
                                  BorderThickness="0" ShowDefaultCloseButton="False"  
                                  ShowDefaultAddButton="False"                                  
                                  >
+            <dragablz:TabablzControl.Resources>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Padding" Value="5,3,5,5" />
+                </Style>
+                <Style  x:Key="HeaderStyle" TargetType="{x:Type TextBox}">
+                    <Setter Property="FontSize" Value="17" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="Foreground" Value="SteelBlue" />
+                    <Setter Property="Padding" Value="5,4,5,6" />
+                </Style>
+            </dragablz:TabablzControl.Resources>
 
-            <controls:MetroTabItem Header="Post to Weblog " Margin="0,0,5,0" FontSize="16" CloseButtonEnabled="False"
+            <controls:MetroTabItem Header="Post to Weblog " Margin="0,0,5,0" CloseButtonEnabled="False"                                   
                                    controls:ControlsHelper.HeaderFontSize="16">
 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
                     <Label>Title:</Label>
-                    <TextBox Text="{Binding ActivePostMetadata.Title}" FontSize="15" />
+                    <TextBox Text="{Binding ActivePostMetadata.Title}"  Style="{StaticResource HeaderStyle}" />
 
                     <Label Margin="0,10,0,0">Abstract:</Label>
                     <TextBox TextWrapping="Wrap" Height="100"
-                	Text="{Binding ActivePostMetadata.Abstract}"  FontSize="15" />
+                	Text="{Binding ActivePostMetadata.Abstract}"   />
 
                     <Label Margin="0,10,0,0">Categories:</Label>
-                    <TextBox   Text="{Binding ActivePostMetadata.Categories}"  FontSize="15" />
+                    <TextBox   Text="{Binding ActivePostMetadata.Categories}"  />
 
                     <Label Margin="0,10,0,0">Keywords:</Label>
-                    <TextBox Text="{Binding ActivePostMetadata.Keywords}"  FontSize="15"/>
+                    <TextBox Text="{Binding ActivePostMetadata.Keywords}"  />
 
-                    <Label Margin="0,10,0,0">Web Site to post to:</Label>
-                    <ComboBox  ToolTip="Weblog selection"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="65"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Label Margin="0,10,0,0">Web Site to post to:</Label>
+                        <ComboBox  Grid.Row="1" ToolTip="Weblog selection"
                            DisplayMemberPath="Value.Name"
                            SelectedValuePath="Value.Name"
                            SelectedValue="{Binding ActivePostMetadata.WeblogName}"
@@ -61,22 +84,26 @@
                            ItemsSource="{Binding Configuration.Weblogs}" 
                            />
 
+                        <Label Grid.Row="0"  Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Right">Post Id:</Label>
+                        <TextBox Grid.Row="1"  Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
+                    </Grid>
 
                     <StackPanel Orientation="Horizontal">
-                        <Button Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
+                        <Button  Grid.Column="0" Margin="0,30" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Upload" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Post to Weblog</TextBlock>
                             </StackPanel>
                         </Button>
 
-                        <Button Margin="10,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" Click="ButtonSaveMeta_Click" >
+                        <Button Grid.Column="1" Margin="10,30" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonSaveMeta_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Save Metadata</TextBlock>
                             </StackPanel>
                         </Button>
                     </StackPanel>
+                    
                 </StackPanel>
             </controls:MetroTabItem>
 
@@ -84,12 +111,13 @@
 
 
 
-            <controls:MetroTabItem Header="New Blog Entry " Margin="0,0,5,0" FontSize="16" CloseButtonEnabled="False"
+            <controls:MetroTabItem Header="New Blog Entry " Margin="0,0,5,0" 
+                                   FontSize="16" CloseButtonEnabled="False"                                  
                                    controls:ControlsHelper.HeaderFontSize="16">
 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
                     <Label>Title:</Label>
-                    <TextBox Text="{Binding NewTitle}" FontSize="15" />
+                    <TextBox Text="{Binding NewTitle}" Style="{StaticResource HeaderStyle}"/>
 
                     <Label Margin="0,10,0,0">WebLog to post to:</Label>
                     <ComboBox  ToolTip="Weblog selection"
@@ -100,7 +128,7 @@
                            ItemsSource="{Binding Configuration.Weblogs}"
                            />
 
-                    <Button Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" 
+                    <Button Margin="0,30" Height="40" Width="175" HorizontalAlignment="Left" 
                         Click="ButtonNewPost_Click" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
@@ -116,7 +144,9 @@
             </controls:MetroTabItem>-->
 
 
-            <controls:MetroTabItem Header="Web Logs " Margin="0,0,5,0" controls:ControlsHelper.HeaderFontSize="16" CloseButtonEnabled="False">
+            <controls:MetroTabItem Header="Web Logs " Margin="0,0,5,0" 
+                                   FontSize="16"
+                                   controls:ControlsHelper.HeaderFontSize="16" CloseButtonEnabled="False">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,35">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -149,7 +179,7 @@
                         <Label  Grid.Row="0" Grid.Column="0">Name:</Label>
                         <Label  Grid.Row="0" Grid.Column="1">Blog Id:</Label>
 
-                        <TextBox Grid.Column="0" Grid.Row="1"  Text="{Binding ActiveWeblogInfo.Name}"  FontSize="15" />
+                        <TextBox Grid.Column="0" Grid.Row="1"  Text="{Binding ActiveWeblogInfo.Name}"  FontSize="15" Style="{StaticResource HeaderStyle}" />
                         <TextBox  Grid.Column="1" Grid.Row="1" Text="{Binding ActiveWeblogInfo.BlogId}"  FontSize="15"  Margin="10,0,0,0"/>
                     </Grid>
                     <Label Margin="0,10,0,0">Blog type:</Label>

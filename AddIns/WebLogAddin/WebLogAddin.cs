@@ -135,11 +135,13 @@ namespace WeblogAddin
                     weblogInfo.Username,
                     weblogInfo.Password) as MetaWeblogWrapper;
 
+            
             string body  = SendImages(html, doc.Filename, wrapper);
             if (body == null)
                 return false;
 
             ActivePost.Body = body;
+            ActivePost.PostID = meta.PostId;
 
             ActivePost.CustomFields = new CustomField[1]
             {
