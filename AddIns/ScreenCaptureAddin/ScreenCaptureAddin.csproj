@@ -33,24 +33,27 @@
   <ItemGroup>
     <Reference Include="FontAwesome.WPF">
       <HintPath>..\MarkdownMonster\bin\Release\FontAwesome.WPF.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MarkdownMonster\bin\Release\MahApps.Metro.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
-    <Reference Include="Westwind.Utilities, Version=2.67.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Westwind.Utilities.2.67.1\lib\net45\Westwind.Utilities.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Westwind.Utilities, Version=2.68.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Westwind.Utilities.2.68\lib\net45\Westwind.Utilities.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -69,6 +72,7 @@
     <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj">
       <Project>{CB4EAB0E-1796-476E-83A0-20DA826E1C02}</Project>
       <Name>MarkdownMonster</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -78,10 +82,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Resource Include="SnagItIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SnagItIcon.png" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
