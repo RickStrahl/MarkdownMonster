@@ -58,7 +58,8 @@ namespace MarkdownMonster
         public DateTime LastCheck { get; set; }
 
 
-
+        public string ErrorMessage { get; set; }
+        
         /// <summary>
         /// Overload that requires a semantic versioning number
         /// as a string (0.56 or 9.44.44321)
@@ -123,9 +124,7 @@ namespace MarkdownMonster
             if (!executeImmediately)
                 return true;
 
-            ExecuteDownloadedFile();
-
-            return true;
+            return ExecuteDownloadedFile();
         }
 
 
@@ -183,8 +182,10 @@ namespace MarkdownMonster
                 // In order to get events we have to run this async and wait
                 client.DownloadFile(DownloadUrl, DownloadStoragePath);
             }
-            catch
+            catch(Exception ex)
             {
+                ErrorMessage = ex.Message;
+                mmApp.Log("Update Download failed",ex);
                 return false;
             }
 
@@ -223,12 +224,24 @@ namespace MarkdownMonster
         /// <summary>
         /// Executes the downloaded file in the download folder
         /// </summary>
-        public void ExecuteDownloadedFile()
+        public bool ExecuteDownloadedFile()
         {
-            var proc = new Process();
-            Process.Start(DownloadStoragePath);
+            try
+            {
+                var proc = new Process();
+                Process.Start(DownloadStoragePath);
+            }
+            catch (Exception ex)
+            {
+                this.ErrorMessage = ex.Message;
+                mmApp.Log("Update Installer Execution Error", ex);
+                return false;
+            }
+
+            return true;
         }
 
+        
 
         /// <summary>
         /// Creates a string 

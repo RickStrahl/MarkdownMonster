@@ -679,23 +679,33 @@ namespace MarkdownMonster
                     updater.VersionInfo.Title,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Information);
-                
+
                 if (res == MessageBoxResult.Yes)
                 {
-                    updater.DownloadProgressChanged += (sender,e) =>
+                    updater.DownloadProgressChanged += (sender, e) =>
                     {
                         WindowUtilities.DoEvents();
-                        ShowStatus("Downloading Update: " + 
-                                (e.BytesReceived / 1000).ToString("n0") + "kb  of  " +
-                                (e.TotalBytesToReceive / 1000).ToString("n0") + "kb");                        
+                        ShowStatus("Downloading Update: " +
+                                   (e.BytesReceived/1000).ToString("n0") + "kb  of  " +
+                                   (e.TotalBytesToReceive/1000).ToString("n0") + "kb");
                     };
                     ShowStatus("Downloading Update...");
 
                     WindowUtilities.DoEvents();
-                    updater.Download();
+                    if (!updater.Download() || !updater.ExecuteDownloadedFile())
+                    {
+                        MessageBox.Show("Failed to download the update file. Please install the update " +
+                                        "manually from http://markdownmonster.west-wind.com/.\r\n\r\n" +
+                                        updater.ErrorMessage,
+                            "Update Failed",
+                            MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        ShellUtils.GoUrl("http://markdownmonster.west-wind.com/download.aspx");
 
-                    updater.ExecuteDownloadedFile();
-                    ShowStatus("Download completed.");
+                        ShowStatus("Update failed...", 4000);
+                        return false;
+                    }
+                    
+                    ShowStatus("Update download completed...");
 
                     if (closeForm)
                         Close();

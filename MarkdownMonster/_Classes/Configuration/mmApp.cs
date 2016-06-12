@@ -55,11 +55,22 @@ namespace MarkdownMonster
         /// Logs messages to the log file
         /// </summary>
         /// <param name="msg"></param>
-        public static void Log(string msg)
+        public static void Log(string msg, Exception ex = null)
         {
+            string exMsg = string.Empty;
+            if (ex != null)
+            {
+                ex = ex.GetBaseException();
+                exMsg = "\r\n" + ex.Message +
+                        "\r\n---\r\n" + ex.Source +
+                        "\r\n" + ex.StackTrace;
+            }
+
             var text = msg +
+                       exMsg +
                        "\r\n\r\n---------------------------\r\n\r\n";
-            StringUtils.LogString(msg, Path.Combine( Configuration.CommonFolder,"MarkdownMonsterErrors.txt"));
+            StringUtils.LogString(msg, Path.Combine( Configuration.CommonFolder ,                               
+                "MarkdownMonsterErrors.txt"));
         }
 
         /// <summary>
