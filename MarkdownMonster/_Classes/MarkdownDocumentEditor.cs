@@ -153,10 +153,13 @@ namespace MarkdownMonster
         /// <param name="markdown"></param>
         public void SetMarkdown(string markdown = null)
         {
-            if (string.IsNullOrEmpty(markdown) && MarkdownDocument != null)
-                markdown = MarkdownDocument.CurrentText;
-
-
+            if (MarkdownDocument != null)
+            {
+                if (string.IsNullOrEmpty(markdown))
+                    markdown = MarkdownDocument.CurrentText;
+                else if (markdown != MarkdownDocument.CurrentText)
+                     SetDirty(true);                
+            }
             if (AceEditor != null)
                 AceEditor.setvalue(markdown);
         }

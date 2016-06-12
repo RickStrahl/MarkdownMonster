@@ -153,9 +153,10 @@ namespace WeblogAddin
                 }
             };
 
+            bool isNewPost = IsNewPost(ActivePost.PostID);
             try
             {
-                if (ActivePost.PostID != null)
+                if (!isNewPost)
                     wrapper.EditPost(ActivePost, true);
                 else
                     ActivePost.PostID = wrapper.NewPost(ActivePost, true);
@@ -193,6 +194,27 @@ namespace WeblogAddin
             return true;
         }
 
+
+        /// <summary>
+        /// determines whether post is a new post based on
+        /// a postId of various types
+        /// </summary>
+        /// <param name="postId">Integer or String or null</param>
+        /// <returns></returns>
+        bool IsNewPost(object postId)
+        {
+            if (postId == null)
+                return true;
+
+            if (postId is string)
+                return string.IsNullOrEmpty((string) postId);
+
+            if (postId is int && (int)postId < 1)
+                return true;
+
+            return false;
+
+        }
 
         /// <summary>
         /// Adds a post id to Weblog configuration in a weblog post document.
@@ -390,8 +412,7 @@ $@"# {meta.Title}
 </weblog>
 ```
 -->
-<!-- End Post Configuration -->
-";
+<!-- End Post Configuration -->";
 
             if (string.IsNullOrEmpty(origConfig))
             {
