@@ -1,6 +1,8 @@
 # Markdown Monster
 ### An extensible Markdown Editor for Windows
 
+[![Join the chat at https://gitter.im/RickStrahl/MarkdownMonster](https://badges.gitter.im/RickStrahl/MarkdownMonster.svg)](https://gitter.im/RickStrahl/MarkdownMonster?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![](Art/MarkdownMonster.png)
 
 ### Links
