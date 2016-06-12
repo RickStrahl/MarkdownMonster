@@ -3,12 +3,12 @@ html, body {
     color: #eee;
     background: #303030;       
     font-family: 'Segoe UI',Geneva,sans-serif;
-    font-size: 17px;    
+    font-size: 18px;    
     
     height: 100%;    
        
     line-height: 1.45em;
-    padding: 5px 20px 5px 10px !important;
+    padding: 5px 20px 5px 17px !important;
     margin: 0;
 
     scrollbar-track-color: #535353;
@@ -133,6 +133,6 @@ hr{
 
 @media(min-width: 970px){
     html,body{
-        font-size: 1.1em;
+        font-size: 1.08em;
     }
 }

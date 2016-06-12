@@ -4,14 +4,16 @@
 <head>
     <meta charset="utf-8" />    
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link href="{$themePath}..\scripts\bootstrap\css\bootstrap.css" rel="stylesheet"/>
-    <link href="{$themePath}..\scripts\fontawesome\css\font-awesome.min.css" rel="stylesheet" />
-    <link href="{$themePath}Theme.css" rel="stylesheet" />    
+    <link href="{$themePath}..\scripts\bootstrap\css\bootstrap.min.css" rel="stylesheet"/>
+    <link href="{$themePath}..\scripts\fontawesome\css\font-awesome.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+    <link href="{$themePath}Theme.css" rel="stylesheet"/>
+    
 </head>
 <body>
-    <div id="MainContent" >
-        {$markdownHtml}
-    </div>
+<div id="MainContent">
+    {$markdownHtml}
+</div>    
     <script src="{$themePath}..\scripts\jquery.min.js"></script>
     <link href="{$themePath}..\scripts\highlightjs/styles/monokai-sublime.css" rel="stylesheet" />
     <script src="{$themePath}..\scripts\highlightjs/highlight.pack.js"></script>

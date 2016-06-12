@@ -5,7 +5,7 @@ html, body {
     -webkit-font-smoothing: antialiased;
     
     height: 100%;    
-    line-height: 1.45em;
+    line-height: 1.5em;
     padding: 5px 20px 5px 10px !important;
     margin: 0;
     scrollbar-track-color: Whitesmoke;
@@ -24,7 +24,7 @@ h1 {
     font-size: 1.8em;
     padding-bottom:10px;
     margin-bottom: 15px;
-    color: steelblue;
+    color: #555teelblue;
     border-bottom: 1px solid #eee;
 }
 h2 {
@@ -109,6 +109,6 @@ pre code {
 
 @media(min-width: 970px){
     html,body{
-        font-size: 1.1em;
+        font-size: 1.0em;
     }
 }

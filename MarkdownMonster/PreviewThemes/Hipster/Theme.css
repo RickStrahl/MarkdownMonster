@@ -1,14 +1,14 @@
 html, body {
-    font-family:'Segoe UI', Geneva,sans-serif;
-    font-size: 15px;
+    font-family:'Open Sans',Arial, sans-serif;
+    font-size: 16px;
     height: 100%;    
-    line-height: 1.35em;
-    padding: 5px 20px 5px 10px !important;
+    line-height: 1.55em;
+    padding: 5px 20px 5px 15px !important;
     margin: 0;
     scrollbar-track-color: Whitesmoke;
     scrollbar-arrow-color: silver;   
     scrollbar-base-color: #ddd;
-    scrollbar-face-color: #ddd;
+    scrollbar-face-color: #ddd;  
 } 
 
 h1,h2,h3,h4,h5,h6, .byline,.content-title {
@@ -29,6 +29,12 @@ h4 {
 }
 h5, h6 { 
     font-size: 1em;
+}
+code {
+    color: firebrick;
+    padding: 2px 5px;
+    font-weight: bold;
+    background: #eee;    
 }
 pre {
     font-family: menlo,consolas,monospace;
