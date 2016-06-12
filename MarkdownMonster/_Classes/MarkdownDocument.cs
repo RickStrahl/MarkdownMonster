@@ -232,9 +232,26 @@ namespace MarkdownMonster
                 filename = HtmlRenderFilename;
 
             var themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\" + 
-                mmApp.Configuration.RenderTheme + "\\");
-            var themeHtml = File.ReadAllText(themePath + "theme.html");
+                mmApp.Configuration.RenderTheme);
 
+            if (!Directory.Exists(themePath))
+            {
+                mmApp.Configuration.RenderTheme = "Dharkan";
+                themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\Dharkan");
+            }
+
+            string themeHtml = null;
+            try
+            {
+                themeHtml = File.ReadAllText(themePath + "\\theme.html");
+                themePath = themePath + "\\";
+            }
+            catch (FileNotFoundException ex)
+            {
+                // reset to default
+                mmApp.Configuration.RenderTheme = "Dharkan";
+                themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
+            }
             var html = themeHtml.Replace("{$themePath}", themePath);
             html = html.Replace("{$markdownHtml}",markdownHtml);
 

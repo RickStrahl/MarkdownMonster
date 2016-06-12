@@ -550,14 +550,7 @@ namespace MarkdownMonster
             if (!hide)
             {
                 PreviewBrowser.Visibility = Visibility.Visible;
-                //var editor = GetActiveMarkdownEditor();
-                //if (editor != null)
-                //    PreviewMarkdown(editor);
-
-                var splitterPos = mmApp.Configuration.WindowPosition.SplitterPosition;
-                if (splitterPos < 50)
-                    splitterPos = (int) (Width/2) - 40;
-
+               
                 ContentGrid.ColumnDefinitions[1].Width = new GridLength(12);
                 ContentGrid.ColumnDefinitions[2].Width = new GridLength(Width / 2 - 40);
             }
