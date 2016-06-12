@@ -10,7 +10,7 @@
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)** (coming soon)  
 * **[Bug Reports & Feature Requests](./issues/)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
-
+* [![Gitter](https://badges.gitter.im/RickStrahl/MarkdownMonster.svg)](https://gitter.im/RickStrahl/MarkdownMonster/General?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
 ### Features
 Markdown Monster provides many useful features:
@@ -27,10 +27,11 @@ Markdown Monster provides many useful features:
 * Copy Markdown Section as Html
 
 #### Extensibility
-* Extensible: .NET Add-in model lets you extend with custom features
+* Create Addins with .NET
+* Addins can access Markdown document and General UI
 * Two useful plugins are provided:
 * Capture screen images ([SnagIt](http://techsmith.com/snagit) only currently)
-* Weblog publishing plug-in (MetaWebLog and Wordpress)
+* Weblog publishing addin (MetaWebLog and Wordpress)
 
 #### Non Markdown Features
 * HTML file editing with live preview
