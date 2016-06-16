@@ -3,7 +3,7 @@
 ### Immediate
 * Settings Screen
 * Download WebLog posts
-* Save to HTML option
+* Fix jumpy Preview (inject HTML instead of full page refresh)
 
 ### Bugs
 

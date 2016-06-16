@@ -10,6 +10,7 @@
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)** (coming soon)  
 * **[Bug Reports & Feature Requests](./issues/)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
+* **[Change Log](changelog.md)**
 * [![Gitter](https://badges.gitter.im/RickStrahl/MarkdownMonster.svg)](https://gitter.im/RickStrahl/MarkdownMonster/General?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
 ### Features
@@ -93,7 +94,7 @@ This library provides the tab control support for the editor allowing for nicely
 This is the markdonwn parser used to render markdown in the preview editor. CommonMark.NET is fast and easy to work with and has an excellent extensibility interface.
 
 ## License
-Although we provide the source in the open, Markdown Monster is licensed software.
+Although we provide the source in the open, Markdown Monster is licensed software &copy; West Wind Technologies, 2016.
 
 Markdown Monster can  be downloaded and evaluated for free, but a [reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER) must be purchased for continued use. Licenses are per user, rather than per machine, so you can use Markdown Monster on as many computers you wish with your license. 
 

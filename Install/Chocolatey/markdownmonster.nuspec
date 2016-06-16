@@ -2,8 +2,8 @@
 <!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
-    <id>markdown-monster</id>
-    <version>0.28</version>
+    <id>markdownmonster</id>
+    <version>0.32</version>
     <title>Markdown Monster</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
     <owners>West Wind Technologies</owners>
@@ -13,9 +13,9 @@
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>Markdown Monster is an easy to use and extensible Markdown editor</description>
         <summary>
-An easy to use Markdown editor with syntax colored editing of  Markdown, inline spell checking, live preview and a few gentle toolbar elpers to facilitate embedding content into your markdown. The goal of the editor is to let you work, not get in your way.
+An easy to use Markdown editor with syntax colored editing of  Markdown, inline spell checking, live preview and a few gentle toolbar helpers to facilitate embedding content into your markdown. The goal of the editor is to let you create content, not get in your way.
 
-One of the key features is the extensibility model that allows you to create .NET based plug-ins that can interact with the UI and the document via simple extensibility interface. Add-ins shipped include SnagIt screen captures, and MetaWebLog API publishing.
+One of the key features is the extensibility model that allows you to create .NET based add-ins that can interact with the UI and the document via simple extensibility interface. Add-ins shipped include SnagIt screen captures, and MetaWebLog API publishing.
         </summary>
         <releaseNotes></releaseNotes>
         <copyright>West Wind Technologies, 2016</copyright>

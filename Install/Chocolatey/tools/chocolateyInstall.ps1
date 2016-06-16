@@ -1,4 +1,4 @@
-﻿$packageName= 'markdown-monster' 
+﻿$packageName= 'markdownmonster' 
 
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 $fileLocation = Join-Path $toolsDir 'MarkdownMonsterSetup.exe'
