@@ -2,7 +2,7 @@
 <!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
-    <id>markdownmonster</id>
+    <id>MarkdownMonster</id>
     <version>0.32</version>
     <title>Markdown Monster</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
@@ -17,7 +17,7 @@ An easy to use Markdown editor with syntax colored editing of  Markdown, inline 
 
 One of the key features is the extensibility model that allows you to create .NET based add-ins that can interact with the UI and the document via simple extensibility interface. Add-ins shipped include SnagIt screen captures, and MetaWebLog API publishing.
         </summary>
-        <releaseNotes></releaseNotes>
+        <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>
         <copyright>West Wind Technologies, 2016</copyright>
         <tags>markdown editor text weblog blog admin</tags>
         <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>

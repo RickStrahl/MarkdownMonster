@@ -1,6 +1,6 @@
 ﻿$ErrorActionPreference = 'Stop'; 
 
-$packageName = 'markdown-monster'
+$packageName = 'markdownmonster'
 $softwareName = 'West Wind Markdown Monster'
 $installerType = 'EXE' 
 
