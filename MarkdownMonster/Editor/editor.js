@@ -87,60 +87,56 @@ var te = window.textEditor = {
             //wrapBehavioursEnabled: editorSettings.wrapText
         });
 
-
-        var keydownHandler = debounce(function keyDownHandler(e) {
-                if (!te.fox)
-                    return;          
-            
-                if (e.ctrlKey) 
-                    te.fox.textbox.PreviewMarkdownCallback();
-
-                if (!te.isDirty) {
-                    // any printable character
-                    var keycode = e.keyCode;           
-
-                    var valid =
-                        (e.keycode > 47 && keycode < 58) || // number keys
-                            keycode == 32 ||
-                            keycode == 13 || // spacebar & return key(s) (if you want to allow carriage returns)
-                            (keycode > 64 && keycode < 91) || // letter keys
-                            (keycode > 95 && keycode < 112) || // numpad keys  
-                            (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
-                            (keycode > 218 && keycode < 223); // [\]' (in order)
-                    // backspace, tab -> handle in key up
-
-                    if (valid) {
-                        te.isDirty = true;
-                        te.fox.textbox.setDirty(true);
-                    }
-                }
-            },
-            340);
-        $("pre[lang]").on("keydown", keydownHandler);
-            
-
-        var keyupHandler = debounce(function keyUpHandler(e) {            
-            if (!te.fox)
-                return;
-
-            var keycode = e.keyCode;                        
-            if (keycode == 13 ||   // cr
-                keycode == 8 ||    // backspace
-                keycode == 46 ||   // del                                
-                (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
-                keycode == 222)   // single quote
-                      te.fox.textbox.PreviewMarkdownCallback();
-            
-            // handle tab/backspace in keyup - not working in keydown
+        var keydownHandler = function keyDownHandler(e) {
             if (!te.isDirty) {
-                if (keycode == 8 || e.keycode == 9) {
+                if (!te.fox)
+                    return;
+
+                // any printable character
+                var keycode = e.keyCode;
+
+                var valid =
+                    (e.keycode > 47 && keycode < 58) || // number keys
+                        keycode == 32 ||
+                        keycode == 13 || // spacebar & return key(s) 
+                        (keycode > 64 && keycode < 91) || // letter keys
+                        (keycode > 95 && keycode < 112) || // numpad keys  
+                        (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
+                        (keycode > 218 && keycode < 223); // [\]' (in order)
+                // backspace, tab -> handled in key up
+
+                if (valid) {
                     te.isDirty = true;
                     te.fox.textbox.setDirty(true);
                 }
             }
-        }, 340);
+        };          
+        $("pre[lang]").on("keydown", keydownHandler);
+
+
+        var keyupHandler = debounce(function keyUpHandler(e) {
+            if (!te.fox)
+                return;
+
+            var keycode = e.keyCode;                        
+            //if (keycode == 13 ||   // cr
+            //    keycode == 8 ||    // backspace
+            //    keycode == 46 ||   // del                                
+            //    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
+            //    keycode == 222)   // single quote
+            //          te.fox.textbox.PreviewMarkdownCallback();
+            
+            // handle tab/backspace in keyup - not working in keydown
+            if (!te.isDirty) {                
+                if (keycode == 8 || keycode == 9 || keycode == 46) {
+                    te.isDirty = true;                    
+                    te.fox.textbox.setDirty(true);
+                }
+            }
+
+            te.fox.textbox.PreviewMarkdownCallback();
+        }, 1000);
         $("pre[lang]").on("keyup", keyupHandler);
-                
 
         return editor;
     },
@@ -162,10 +158,9 @@ var te = window.textEditor = {
         te.editor.setValue(text, pos);
         te.editor.getSession().setUndoManager(new ace.UndoManager())
 
-        setTimeout(function() {
-                te.editor.resize(true); //force a redraw
-            },
-            30);
+        setTimeout(function () {
+            te.editor.resize(true);  //force a redraw
+        }, 30);
     },
     refresh: function(ignored) {
         te.editor.resize(true); //force a redraw
