@@ -226,13 +226,13 @@ namespace MarkdownMonster
 
         public string RenderHtmlToFile(string markdown = null, string filename = null, bool renderLinksExternal = false)
         {
-            string markdownHtml = RenderHtml(markdown,renderLinksExternal);
+            string markdownHtml = RenderHtml(markdown, renderLinksExternal);
 
             if (string.IsNullOrEmpty(filename))
                 filename = HtmlRenderFilename;
 
-            var themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\" + 
-                mmApp.Configuration.RenderTheme);
+            var themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\" +
+                                                                       mmApp.Configuration.RenderTheme);
 
             if (!Directory.Exists(themePath))
             {
@@ -253,10 +253,10 @@ namespace MarkdownMonster
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
             var html = themeHtml.Replace("{$themePath}", themePath);
-            html = html.Replace("{$markdownHtml}",markdownHtml);
+            html = html.Replace("{$markdownHtml}", markdownHtml);
 
             File.WriteAllText(filename, html);
-                return html;
+            return html;
         }
 
 

@@ -582,26 +582,26 @@ namespace MarkdownMonster
 
             int lastPos = 0;
             dynamic dom = null;
+            string renderedHtml = null;
 
             if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
             {
-                this.ShowPreviewBrowser();
+                ShowPreviewBrowser();
                 
-                if (keepScrollPosition)
-                {
-                    dom = PreviewBrowser.Document;
-                    editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
-                }
-                else
-                    editor.MarkdownDocument.LastBrowserScrollPosition = 0;
-
+                //if (keepScrollPosition)
+                //{
+                //    dom = PreviewBrowser.Document;
+                //    //editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
+                //}
+                //else
+                //    editor.MarkdownDocument.LastBrowserScrollPosition = 0;
 
                 if (ext == "html" || ext == "htm")
                 {
                     File.WriteAllText(editor.MarkdownDocument.HtmlRenderFilename, editor.MarkdownDocument.CurrentText);
                 }
                 else
-                    editor.MarkdownDocument.RenderHtmlToFile();
+                    renderedHtml = editor.MarkdownDocument.RenderHtmlToFile();
 
                 if (showInBrowser)
                 {
@@ -612,11 +612,22 @@ namespace MarkdownMonster
                     PreviewBrowser.Cursor = Cursors.None;
                     PreviewBrowser.ForceCursor = true;
                     if (keepScrollPosition &&
-                        PreviewBrowser.Source.ToString() == editor.MarkdownDocument.HtmlRenderFilename)
-                        PreviewBrowser.Refresh(true);
+                        PreviewBrowser.Source.ToString() == "file:///" + editor.MarkdownDocument.HtmlRenderFilename.Replace('\\','/'))
+                   {
+                       dom = PreviewBrowser.Document;
+                       var content = dom.getElementById("MainContent");
+                       renderedHtml = StringUtils.ExtractString(renderedHtml, 
+                                                                "<!-- Markdown Monster Content -->",
+                                                               "<!-- End Markdown Monster Content -->");
+                       if (content == null || string.IsNullOrEmpty(renderedHtml))
+                            PreviewBrowser.Refresh(true);
+                        else
+                            // much more efficient and non-jumpy
+                            content.innerHtml = renderedHtml;
+                    }
                     else
                     {
-                        PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);                        
+                        PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
                     }
                 }
             }

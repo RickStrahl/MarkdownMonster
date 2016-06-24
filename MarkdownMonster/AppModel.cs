@@ -250,11 +250,16 @@ namespace MarkdownMonster
                 if (tab == null)
                     return;
                 var doc = tab.Tag as MarkdownDocumentEditor;
+                if (doc == null)
+                    return;
+
+                var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
 
                 SaveFileDialog sd = new SaveFileDialog
                 {
                     Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*",
                     FilterIndex = 1,
+                    InitialDirectory=folder,
                     FileName = doc.MarkdownDocument.Filename,
                     CheckFileExists = false,
                     OverwritePrompt = false,
