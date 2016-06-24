@@ -1,8 +1,14 @@
 # Markdown Monster Change Log
 
+### 0.33
+
+* **Update preview display management**  
+Updated the preview display so it's less jumpy by using a less aggressive refresh in the browser. This leaves the scroll position intact and doesn't force reload of images which can be slow. Preview display should be much smoother than previously.
+
+
 ### 0.32
 * **Update preview refresh**  
-Keyboard refresh now waits for keyboard to be idle for 1 sec after typing before refreshing. This is a single check which is much more efficient and should result in less jitter and faster keyboard entry.
+Keyboard refresh now waits for keyboard to be idle for 1 second after typing before refreshing. This is a single check which is much more efficient and should result in less jitter and faster keyboard entry.
 
 ### 0.31
 * **Fixes to MetaWebLog API Blog Publishing**  

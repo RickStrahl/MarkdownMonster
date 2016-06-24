@@ -25,6 +25,7 @@ namespace WeblogAddin
                 Name = "New Weblog",
                 Type = WeblogTypes.MetaWeblogApi
             };
+            NumberOfPostsToRetrieve = 30;
         }
 
         public AppModel AppModel
@@ -98,6 +99,17 @@ namespace WeblogAddin
             }
         }
 
+        public int NumberOfPostsToRetrieve
+        {
+            get { return _numberOfPostsToRetrieve; }
+            set
+            {
+                if (value == _numberOfPostsToRetrieve) return;
+                _numberOfPostsToRetrieve = value;
+                OnPropertyChanged(nameof(NumberOfPostsToRetrieve));
+            }
+        }
+
         public string Name { get; set; } = "TESTTTSDTS";
 
         public WebLogForm Window { get; set; }
@@ -117,7 +129,8 @@ namespace WeblogAddin
             }
         }    
         private List<string> _WeblogNames = new List<string>();
-        
+        private int _numberOfPostsToRetrieve;
+
         public void LoadWebLognames()
         {
             WeblogNames = Configuration.Weblogs.Select(wl => wl.Value.Name).ToList();            

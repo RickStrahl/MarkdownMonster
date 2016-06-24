@@ -9,6 +9,7 @@ using System.Windows.Media;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
+using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
 
 namespace WeblogAddin
@@ -199,6 +200,27 @@ namespace WeblogAddin
 
                 Model.Configuration.Weblogs.Remove(id);
             }
+        }
+
+        private void ButtonDownloadPosts_Click(object sender, RoutedEventArgs e)
+        {
+            WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
+            
+            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                weblogInfo.Username,
+                weblogInfo.Password);
+
+
+            var posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
+            for (int i = 0; i < posts.Count; i++)
+            {
+                var post = posts[i];
+                post.mt_excerpt = StringUtils.TextAbstract(post.mt_excerpt, 220);
+
+            }
+
+            ListViewPosts.ItemsSource = posts;            
+
         }
     }
 }
