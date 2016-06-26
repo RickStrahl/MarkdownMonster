@@ -247,7 +247,7 @@ namespace WeblogAddin
             
             return
 $@"# {meta.Title}
-
+{meta.MarkdownBody}
 
 
 <!-- Post Configuration -->
@@ -452,6 +452,55 @@ $@"# {meta.Title}
 
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
 
+        }
+
+        public void CreateDownloadedPostOnDisk(Post post, string weblogName)
+        {
+            // strip path of invalid characters
+            var invalids = Path.GetInvalidFileNameChars();
+            string filename = null;
+            foreach (char c in invalids)
+                filename = post.Title.Replace(c, '-');
+
+            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,"Downloaded Posts",filename + " - " + weblogName);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            var outputFile = Path.Combine(folder, filename + ".md");
+
+           
+            string body = post.Body;
+            if (post.CustomFields != null)
+            {
+                var cf = post.CustomFields.FirstOrDefault(custf => custf.ID == "mt_markdown");
+                if (cf != null)
+                    body = cf.Value;
+            }
+            else
+            {
+                body = MarkdownUtilities.HtmlToMarkdown(body);
+            }
+
+
+            string categories = null;
+            if (post.Categories != null && post.Categories.Length > 0)
+                categories = string.Join(",", post.Categories);
+
+
+            // Create the new post by creating a file with title preset
+            string newPostMarkdown = NewWeblogPost(new WeblogPostMetadata()
+            {
+                Title = post.Title,
+                MarkdownBody = body,
+                Categories = categories,
+                Keywords = post.mt_keywords,
+                Abstract = post.mt_excerpt,
+                PostId = post.PostID.ToString(),                
+                WeblogName = weblogName
+            });
+            File.WriteAllText(outputFile, newPostMarkdown);
+            Model.Window.OpenTab(outputFile);
+
+            mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
         }
     }
 

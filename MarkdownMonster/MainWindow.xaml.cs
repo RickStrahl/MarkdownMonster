@@ -131,7 +131,7 @@ namespace MarkdownMonster
             Left = 300000;
 
             // force controls to realign - required because of WebBrowser control weirdness            
-            this.Dispatcher.InvokeAsync(() =>
+            Dispatcher.InvokeAsync(() =>
             {
                 TabControl.InvalidateVisual();
                 Left = left;

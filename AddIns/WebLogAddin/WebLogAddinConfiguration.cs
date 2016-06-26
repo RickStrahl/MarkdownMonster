@@ -111,9 +111,9 @@ namespace WeblogAddin
                         Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                         "DropBox");
                     if (!Directory.Exists(basePath))
-                        basePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                        basePath = mmApp.Configuration.CommonFolder;
 
-                    basePath = basePath + "\\Markdown Monster Weblog Posts";
+                    basePath = Path.Combine(basePath, "Markdown Monster Weblog Posts");
                     if (!Directory.Exists(basePath))
                         Directory.CreateDirectory(basePath);
                     _postsFolder = basePath;

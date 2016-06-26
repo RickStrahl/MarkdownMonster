@@ -153,9 +153,10 @@
                            SelectedValuePath="Value.Name"
                            SelectedValue="{Binding ActivePostMetadata.WeblogName}"
                            IsSynchronizedWithCurrentItem="True" 
+                           
                            ItemsSource="{Binding Configuration.Weblogs}" 
                            />
-                        <TextBox Grid.Column="1" Name="TextNumberOfPosts" Text="30" Margin="6,0,0,0" />
+                        <TextBox Grid.Column="1" Name="TextNumberOfPosts" Text="{Binding NumberOfPostsToRetrieve}" Margin="6,0,0,0" />
                     </Grid>
                     <Button Margin="0,10" Height="40" Width="175" HorizontalAlignment="Left" 
                         Click="ButtonDownloadPosts_Click" >
@@ -165,7 +166,7 @@
                         </StackPanel>
                     </Button>
                     
-                    <ListView Name="ListViewPosts" Height="400">
+                    <ListView Name="ListViewPosts" Height="400" MouseDoubleClick="ListViewPosts_MouseDoubleClick" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -177,9 +178,12 @@
                                         <RowDefinition />
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Title}" FontWeight="Bold" Foreground="LightSteelBlue"  FontSize="16" />
+                                    <TextBlock Grid.Row="0" Grid.Column="0" 
+                                               Padding="10,0,0,0"
+                                               Text="{Binding Title}" FontWeight="Bold" Foreground="LightSteelBlue"  FontSize="16" />
                                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DateCreated,StringFormat={}{MMM dd, yyyy}}" HorizontalAlignment="Right" FontStyle="Italic"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding mt_excerpt}" TextWrapping="WrapWithOverflow" Margin="0,0,0,10" FontSize="12"
+                                    <TextBlock Padding="10,0,0,0"
+                                               Grid.Row="1" Grid.Column="0" Text="{Binding mt_excerpt}" TextWrapping="WrapWithOverflow" Margin="0,0,0,10" FontSize="12"
                                                HorizontalAlignment="Left" Width="500">
                                         
                                     </TextBlock>

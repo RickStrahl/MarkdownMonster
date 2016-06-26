@@ -9,6 +9,7 @@ using System.Windows.Media;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
+using MarkdownMonster.Windows;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
 
@@ -111,16 +112,16 @@ namespace WeblogAddin
         }
 
         private void ButtonNewPost_Click(object sender, System.Windows.RoutedEventArgs e)
-        {            
+        {
+         
             string title = Model.NewTitle;
             if (string.IsNullOrEmpty(title))
                 return;
             string weblogName = Model.Configuration.LastWeblogAccessed;
 
-            Model.Addin.CreateNewPostOnDisk(title, weblogName);
+            Model.Addin.CreateNewPostOnDisk(title, weblogName);                    
 
-
-            this.Close();
+            Close();
         }
 
         #endregion
@@ -139,6 +140,9 @@ namespace WeblogAddin
                 var t = new Timer(new TimerCallback((object win) =>
                 {
                     var window = win as MainWindow;
+                    if (window == null)
+                        return;
+
                     window.Dispatcher.Invoke(() => { window.ShowStatus(null, 0); });
                 }), this, milliSeconds, Timeout.Infinite);
             }
@@ -202,25 +206,63 @@ namespace WeblogAddin
             }
         }
 
-        private void ButtonDownloadPosts_Click(object sender, RoutedEventArgs e)
+        private async void ButtonDownloadPosts_Click(object sender, RoutedEventArgs e)
         {
+            //bool result = await Task.Run(() =>
+            //{
+                WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
+
+                var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                    weblogInfo.Username,
+                    weblogInfo.Password);
+
+                Dispatcher.Invoke(() =>
+                {
+                    SetStatusIcon(FontAwesomeIcon.Download, Colors.Orange); 
+                    ShowStatus("Downloading last " + Model.NumberOfPostsToRetrieve + " posts...");                    
+                });
+
+                WindowUtilities.DoEvents();
+
+
+                var posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
+                for (int i = 0; i < posts.Count; i++)
+                {
+                    var post = posts[i];
+                    post.mt_excerpt = StringUtils.TextAbstract(post.mt_excerpt, 220);
+                }
+
+                WindowUtilities.DoEvents();
+
+
+                Dispatcher.Invoke(() =>
+                {
+                    ShowStatus(posts.Count + " posts downloaded.",5000);
+                    SetStatusIcon();
+                    ListViewPosts.ItemsSource = posts;
+                });
+
+            //    return false;
+            //});            
+        }
+
+        
+        private void ListViewPosts_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var item = ListViewPosts.SelectedItem as Post;
+            if (item == null)
+                return;
+
+            string postId = item.PostID.ToString();
             WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
-            
+
             var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                 weblogInfo.Username,
                 weblogInfo.Password);
 
+            var post = wrapper.GetPost(postId);
 
-            var posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
-            for (int i = 0; i < posts.Count; i++)
-            {
-                var post = posts[i];
-                post.mt_excerpt = StringUtils.TextAbstract(post.mt_excerpt, 220);
-
-            }
-
-            ListViewPosts.ItemsSource = posts;            
-
+            Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);
         }
     }
 }
