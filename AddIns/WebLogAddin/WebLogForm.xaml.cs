@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
@@ -123,6 +124,39 @@ namespace WeblogAddin
 
             Close();
         }
+
+
+        private void ListViewPosts_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            CreateDownloadedPost();
+        }
+        private void ListViewPosts_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                CreateDownloadedPost();
+        }
+        
+        private void CreateDownloadedPost()
+        {
+
+            var item = ListViewPosts.SelectedItem as Post;
+            if (item == null)
+                return;
+
+            string postId = item.PostID.ToString();
+            WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
+
+            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                weblogInfo.Username,
+                weblogInfo.Password);
+
+            var post = wrapper.GetPost(postId);
+
+            Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);
+
+            Close();        
+        }
+
 
         #endregion
 
@@ -246,23 +280,6 @@ namespace WeblogAddin
             //});            
         }
 
-        
-        private void ListViewPosts_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            var item = ListViewPosts.SelectedItem as Post;
-            if (item == null)
-                return;
 
-            string postId = item.PostID.ToString();
-            WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
-
-            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
-                weblogInfo.Username,
-                weblogInfo.Password);
-
-            var post = wrapper.GetPost(postId);
-
-            Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);
-        }
     }
 }

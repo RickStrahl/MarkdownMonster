@@ -25,7 +25,7 @@ namespace WeblogAddin
                 Name = "New Weblog",
                 Type = WeblogTypes.MetaWeblogApi
             };
-            NumberOfPostsToRetrieve = 30;
+            NumberOfPostsToRetrieve = 20;
         }
 
         public AppModel AppModel
@@ -88,6 +88,10 @@ namespace WeblogAddin
         }
         private WeblogAddinConfiguration _Configuration = WeblogAddinConfiguration.Current;
 
+
+        /// <summary>
+        /// New title for a new blog post
+        /// </summary>
         public string NewTitle
         {
             get { return _newTitle; }
@@ -99,6 +103,10 @@ namespace WeblogAddin
             }
         }
 
+
+        /// <summary>
+        /// Number of posts to retrieve for the Get Web Log posts
+        /// </summary>
         public int NumberOfPostsToRetrieve
         {
             get { return _numberOfPostsToRetrieve; }
@@ -110,7 +118,7 @@ namespace WeblogAddin
             }
         }
 
-        public string Name { get; set; } = "TESTTTSDTS";
+
 
         public WebLogForm Window { get; set; }
 

@@ -247,17 +247,20 @@ namespace WeblogAddin
             
             return
 $@"# {meta.Title}
-{meta.MarkdownBody}
 
+{meta.MarkdownBody}
 
 <!-- Post Configuration -->
 <!--
 ```xml
 <abstract>
+{meta.Abstract}
 </abstract>
 <categories>
+{meta.Categories}
 </categories>
 <keywords>
+{meta.Keywords}
 </keywords>
 <weblog>
 {meta.WeblogName}
@@ -476,9 +479,7 @@ $@"# {meta.Title}
                     body = cf.Value;
             }
             else
-            {
                 body = MarkdownUtilities.HtmlToMarkdown(body);
-            }
 
 
             string categories = null;

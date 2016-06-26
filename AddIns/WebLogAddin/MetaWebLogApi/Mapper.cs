@@ -282,6 +282,8 @@ namespace WebLogAddin.MetaWebLogApi
                     Tags = input.mt_keywords.Split(','),
                     Title = input.title,
                     Permalink = input.permaLink,
+                    mt_excerpt = input.mt_excerpt,
+                    mt_keywords = input.mt_keywords,
                     PostType = input.post_type,
                     CustomFields = input.custom_fields == null ? null : input.custom_fields.Select(cf => new CustomField()
                     {
