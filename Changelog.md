@@ -3,13 +3,13 @@
 ### 0.33
 
 * **Update preview display management**  
-Updated the preview display so it's less jumpy by using a less aggressive refresh in the browser and refreshing content instead of the entire document. This leaves the scroll position intact and doesn't force reload of images which can be slow. Preview display should be much smoother than previously, have no more 'working' cursors.
+Updated the preview display so it's less jumpy by using a less aggressive refresh with a fixed timeout and injecting content instead of refreshing the entire document. This leaves the scroll position intact and doesn't force reload of images which can be slow. Preview display should be much smoother, no jumping and work with annoying wait cursors.
 
 * **Tooltip for Filename on Tab**
 Thanks to an update in [Dragablz](https://github.com/ButchersBoy/Dragablz), tooltips showing the file name in the tab headers are now working again.
 
-* **Download Blog Posts (Preview)**  
-The Weblog Add-in can now download blog posts for editing. If the server supports an `mt_markdown` CustomField that value is used. This value is also posted to the server with posts. Otherwise MM will try to convert the post HTML to markdown for editing.
+* **Download Blog Posts (Experimental Preview)**  
+The Weblog Add-in can now download blog posts for editing. If the server supports an `mt_markdown` *CustomField* that value is used for editing. If not then the HTML is converted as best as possible into Markdown for editing.
 
 ### 0.32
 * **Update preview refresh**  

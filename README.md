@@ -23,9 +23,9 @@ Markdown Monster provides many useful features:
 * Easily customizable preview templates
 * Inline, as-you type spell checking
 * Customizable editor and preview Themes
-* Syntax colored code snippet preview support
+* Syntax colored code snippet preview support (hilight.js)
 * Paste HTML as Markdown
-* Copy Markdown Section as Html
+* Copy Markdown Selection as Html
 
 #### Extensibility
 * Create Addins with .NET
@@ -59,10 +59,10 @@ The editor is HTML and JavaScript based, so you can also apply any custom stylin
 ### Extensibility with .NET Add-ins
 But the **key feature** and the main reason I built this tool is that it is **extensible**, so that you and I can plug additional functionality into it. Markdown Monster includes an add-in model that lets you add buttons to the UI, interact with the active document and the entire UI and get notifications of various events like  documents opening and closing etc..
 
-The Add-in interface is still in flux, but you can find out more in the [online documention](http://markdownmonster.west-wind.com/docs/_4ne0rl1zf.htm). If you have ideas or suggestions  on how to make the Add-in system better, please use the Issue system to provide feedback. Otherwise for general discussion you can [post a message on our message board](http://support.west-wind.com?forum=Markdown+Monster).
+The Add-in interface is still in flux, but you can find out more in the [online documention](http://markdownmonster.west-wind.com/docs/_4ne0rl1zf.htm). If you have ideas or suggestions  on how to make the Add-in system better, please use the Issue system to [provide feedback in GitHub Issues](https://github.com/RickStrahl/MarkdownMonster/issues). Otherwise for general discussion you can [post a message on our message board](http://support.west-wind.com?forum=Markdown+Monster).
 
 ### Provided Add-ins
-Personally I needed couple of features - and I've added two add-ins for these features both for practical use as well as examples of what you can do with plug-ins:
+There are two very common use cases for Markdown that cries out for add-ins: Screen captures and Blog publishing, and Markdown Monster provides a a couple of add-ins that provide these features as part of the base install:
 
 * **SnagIt Screen Capture Addin**  
 This plug-in use Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which i **highly** recommend!). Simply click the capture button (camera icon) and the main app minimizes and SnagIt pops up to let you select the object to capture. You can preview and edit your captures, and when finished the image is linked into content.
@@ -70,11 +70,11 @@ This plug-in use Techsmith's popular and super versatile [SnagIt](http://techsmi
 ![SnagIt Screen Capture Add-in](SnagItCaptureAddin.png)
 
 * **WebLog Addin**  
-Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the blog tool, setting up your blog (MetaWebLog or WordPress) and the add-in handles publishing your text and attached images to your blog. Currently you can't only write (not read) but managing and loading existing posts is one feature on the list.
+Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the blog tool, setting up your blog (MetaWebLog or WordPress) and the add-in handles publishing your text and attached images to your blog. You can also download blog posts from your blog and edit them as Markdown (with some conversion limitations).
 
 ![Weblog Publishing Addin](WebLogPublishingAddin.png)
 
-I can think of a few others - a quick way to commit to Git and Push would be useful for documentation solutions so you can easily persist changes to say a GitHub repository. Embedding all sorts of content like reference links, amazon links etc. etc.
+I can think of a few others - a quick way to commit to Git and Push would be useful for documentation solutions so you can easily persist changes to a GitHub repository. Embedding all sorts of content like reference links, adsense links, amazon product links, a new post template engine etc. etc.
 
 Or maybe you have custom applications that use Markdown text and provide an API that allows you to post the Markdown (or HTML) to the server. It's easy to build a custom add-in that lets you take either the Markdown text or rendered HTML and push it to a custom REST interface in your custom application.
 

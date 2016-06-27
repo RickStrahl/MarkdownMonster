@@ -587,14 +587,14 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
             {
                 ShowPreviewBrowser();
-                
-                //if (keepScrollPosition)
-                //{
-                //    dom = PreviewBrowser.Document;
-                //    //editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
-                //}
-                //else
-                //    editor.MarkdownDocument.LastBrowserScrollPosition = 0;
+
+                if (keepScrollPosition)
+                {
+                    dom = PreviewBrowser.Document;
+                    editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
+                }
+                else
+                    editor.MarkdownDocument.LastBrowserScrollPosition = 0;
 
                 if (ext == "html" || ext == "htm")
                 {
@@ -611,30 +611,47 @@ namespace MarkdownMonster
                 {
                     PreviewBrowser.Cursor = Cursors.None;
                     PreviewBrowser.ForceCursor = true;
-                    if (keepScrollPosition &&
-                        PreviewBrowser.Source.ToString() == "file:///" + editor.MarkdownDocument.HtmlRenderFilename.Replace('\\','/'))
-                   {
-                       dom = PreviewBrowser.Document;
-                       var content = dom.getElementById("MainContent");
-                       renderedHtml = StringUtils.ExtractString(renderedHtml, 
-                                                                "<!-- Markdown Monster Content -->",
-                                                               "<!-- End Markdown Monster Content -->");
-                       if (content == null || string.IsNullOrEmpty(renderedHtml))
-                            PreviewBrowser.Refresh(true);
-                        else
-                            // much more efficient and non-jumpy
-                            content.innerHtml = renderedHtml;
-                    }
-                    else
+                    if (keepScrollPosition)
                     {
-                        PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
+                        string browserUrl = PreviewBrowser.Source.ToString().ToLower();
+                        string documentFile = "file:///" + editor.MarkdownDocument.HtmlRenderFilename.Replace('\\', '/').ToLower();
+                        if (browserUrl == documentFile)
+                        {
+                            dom = PreviewBrowser.Document;
+                            //var content = dom.getElementById("MainContent");
+                                                        
+
+                            renderedHtml = StringUtils.ExtractString(renderedHtml,
+                                "<!-- Markdown Monster Content -->",
+                                "<!-- End Markdown Monster Content -->");
+
+                            if (string.IsNullOrEmpty(renderedHtml))
+                                PreviewBrowser.Refresh(true);
+                            else
+                            {
+                                try
+                                {
+                                    // much more efficient and non-jumpy and no wait cursor
+                                    var window = dom.parentWindow;
+                                    window.updateDocumentContent(renderedHtml);
+                                    //content.innerHtml = renderedHtml;
+                                }
+                                catch
+                                {
+                                    PreviewBrowser.Refresh(true);
+                                }
+                            }
+
+                            return;
+                        }
                     }
+
+                    PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
+                    return;
                 }
             }
-            else
-            {
-                ShowPreviewBrowser(true);
-            }
+
+            ShowPreviewBrowser(true);
         }
 
         private DateTime invoked = DateTime.MinValue;

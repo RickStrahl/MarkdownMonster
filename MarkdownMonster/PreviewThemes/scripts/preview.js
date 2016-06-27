@@ -1,6 +1,6 @@
-﻿$("pre code").each(function (i, block) {
-    hljs.highlightBlock(block);
-});
+﻿highlightCode();
+
+
 $(document).on("contextmenu", function () {
     // inside of WebBrowser control don't show context menu
     return navigator.userAgent.indexOf("Trident") > -1 ? false : true;
@@ -15,7 +15,20 @@ window.ondrop = function (event) {
         alert("To open dropped files in Markdown Monster, please drop files onto the header area of the window.");
     }, 50);
 }
+
 window.ondragover = function (event) {
     event.preventDefault();
     return false;
+}
+
+function highlightCode() {
+    $("pre code")
+        .each(function (i, block) {
+            hljs.highlightBlock(block);
+        });
+}
+
+function updateDocumentContent(html) {
+    $("#MainContent").html(html);
+    highlightCode();
 }
