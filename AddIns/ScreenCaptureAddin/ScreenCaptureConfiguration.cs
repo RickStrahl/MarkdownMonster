@@ -13,13 +13,14 @@ namespace SnagItAddin
 
         static ScreenCaptureConfiguration()
         {
-            Current = new SnagItAddin.ScreenCaptureConfiguration();            
+            Current = new ScreenCaptureConfiguration();
+            Current.Initialize();
         }
 
 
         public ScreenCaptureConfiguration()
         {
-            CaptureMode = CaptureModes.Object;
+            CaptureMode = CaptureModes.AllInOne;
             ColorDepth = 24;
             OutputFormat = 4;
             IncludeCursor = true;

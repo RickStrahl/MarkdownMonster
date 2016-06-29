@@ -34,9 +34,9 @@ namespace SnagItAddin
                 {
                     _captureModeList = new Dictionary<CaptureModes, string>();
                     _captureModeList.Add(CaptureModes.AllInOne, "All in One");
-                    _captureModeList.Add(CaptureModes.Object, "Windows Object");
-                    _captureModeList.Add(CaptureModes.Window, "Window");                    
+                    _captureModeList.Add(CaptureModes.Window, "Window");
                     _captureModeList.Add(CaptureModes.Desktop, "Desktop");
+                    _captureModeList.Add(CaptureModes.Object, "Windows Object (toolbars, buttons, icons)");
                     _captureModeList.Add(CaptureModes.ScrollableArea, "Scrollable Area or Window");
                     _captureModeList.Add(CaptureModes.Region, "Region");
                     _captureModeList.Add(CaptureModes.FreeHand, "Free Hand Selection");

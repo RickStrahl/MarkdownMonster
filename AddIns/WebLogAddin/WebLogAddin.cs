@@ -67,7 +67,7 @@ namespace WeblogAddin
             // Don't need a configuration dropdown
             menuItem.ExecuteConfiguration = null;
 
-            this.MenuItems.Add(menuItem);
+            MenuItems.Add(menuItem);
         }
 
         public override void OnExecute(object sender)

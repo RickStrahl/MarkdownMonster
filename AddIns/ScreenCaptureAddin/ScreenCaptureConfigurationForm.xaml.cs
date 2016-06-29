@@ -67,9 +67,10 @@ namespace SnagItAddin
             if (IsPreCaptureMode)
                 DialogResult = true;
 
-            ScreenCaptureConfiguration.Current.Write();
+            if (!ScreenCaptureConfiguration.Current.Write())
+                mmApp.Log("Failed to save Screen Capture " + ScreenCaptureConfiguration.Current.ErrorMessage + "\r\n" + 
+                    JsonSerializationUtils.Serialize(ScreenCaptureConfiguration.Current));
             Close();
-
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
