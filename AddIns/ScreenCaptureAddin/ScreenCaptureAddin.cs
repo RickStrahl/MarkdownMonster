@@ -74,8 +74,7 @@ namespace SnagItAddin
                 if (result == null || !result.Value)
                     return;
             }
-
-
+            
             SnagItAutomation SnagIt = SnagItAutomation.Create();
             SnagIt.ActiveForm = Model.Window;
 

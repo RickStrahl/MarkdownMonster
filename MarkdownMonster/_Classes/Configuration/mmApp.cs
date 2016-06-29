@@ -50,9 +50,9 @@ namespace MarkdownMonster
         public static void Log(Exception ex)
         {
             ex = ex.GetBaseException();
+            var msg = ex.Message;
 
-            var msg = ex.Message + "\r\n---\r\n" + ex.Source + "\r\n" + ex.StackTrace + "\r\n";
-            Log(msg);
+            Log(ex.Message,ex);
         }
 
         /// <summary>
@@ -94,12 +94,12 @@ namespace MarkdownMonster
             };
             
             new TaskFactory().StartNew(
-                async () =>
+                () =>
                 {
                     var bg = bug as BugReport;
                     try
                     {
-                        var temp = await HttpUtils.JsonRequestAsync<BugReport>(new HttpRequestSettings()
+                        var temp = HttpUtils.JsonRequest<BugReport>(new HttpRequestSettings()
                         {
                             Url = mmApp.Configuration.BugReportUrl,
                             HttpVerb = "POST",
@@ -108,7 +108,8 @@ namespace MarkdownMonster
                     }
                     catch (Exception ex2)
                     {
-                        Log("Unable to report bug",ex2);
+                        // don't log with exception otherwise we get an endless loop
+                        Log("Unable to report bug: " + ex2.Message);
                     }
                 });            
         }
