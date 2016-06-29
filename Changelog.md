@@ -1,6 +1,6 @@
 # Markdown Monster Change Log
 
-### 0.33
+### 0.36
 
 * **Update preview display management**  
 Updated the preview display so it's less jumpy by using a less aggressive refresh with a fixed timeout and injecting content instead of refreshing the entire document. This leaves the scroll position intact and doesn't force reload of images which can be slow. Preview display should be much smoother, no jumping and work with annoying wait cursors.
@@ -10,6 +10,9 @@ Thanks to an update in [Dragablz](https://github.com/ButchersBoy/Dragablz), tool
 
 * **Download Blog Posts (Experimental Preview)**  
 The Weblog Add-in can now download blog posts for editing. If the server supports an `mt_markdown` *CustomField* that value is used for editing. If not then the HTML is converted as best as possible into Markdown for editing.
+
+* **Fix: SnagIt Options not Saving**  
+Fixed bug that caused SnagIt Addin options to not save reliably and resetting. Save now properly persists the configuration data into the `SnagitConfiguration.json` file in the `%appdata%` folder.
 
 ### 0.32
 * **Update preview refresh**  

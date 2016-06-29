@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster", "MarkdownMonster\MarkdownMonster.csproj", "{CB4EAB0E-1796-476E-83A0-20DA826E1C02}"
 EndProject
@@ -25,6 +25,27 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster.Test", "Tests\MarkdownMonster.Test\MarkdownMonster.Test.csproj", "{A3FCE345-F767-487F-86BF-DFA78B4BC218}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddIns", "AddIns", "{4F5BF002-399D-4830-BA4E-23EE97D97956}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MarkdownMonsterWeb", "MarkdownMonsterWeb\", "{6AB5E445-9660-454B-BF02-506000EED978}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_1863"
+		Debug.AspNetCompiler.PhysicalPath = "MarkdownMonsterWeb\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_1863\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_1863"
+		Release.AspNetCompiler.PhysicalPath = "MarkdownMonsterWeb\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_1863\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "1863"
+		SlnRelativePath = "MarkdownMonsterWeb\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +116,16 @@ Global
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.SandBox|Any CPU.ActiveCfg = Release|Any CPU
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.SandBox|Any CPU.Build.0 = Release|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.Deploy|Any CPU.Build.0 = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.net40|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.net40|Any CPU.Build.0 = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.SandBox|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.SandBox|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,5 +136,6 @@ Global
 		{7EDA8CFE-B576-480B-804E-63DC372CF41D} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
+		{6AB5E445-9660-454B-BF02-506000EED978} = {D99D7B57-1FA8-43F4-99D5-DA37D316F960}
 	EndGlobalSection
 EndGlobal
