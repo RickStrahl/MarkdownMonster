@@ -154,6 +154,11 @@ namespace MarkdownMonster
         public bool UseSingleWindow { get; set; }
 
         /// <summary>
+        /// Determines whether errors are reported anonymously
+        /// </summary>
+        public bool ReportErrors { get; set; }
+
+        /// <summary>
         /// Last folder used when opening a document
         /// </summary>
         public string LastFolder { get; set; }
@@ -170,6 +175,8 @@ namespace MarkdownMonster
         [JsonIgnore]
         public string CommonFolder { get; set;  }
 
+        [JsonIgnore]
+        public string BugReportUrl { get; set; }
 
         /// <summary>
         /// Command Processing for OpenFolder
@@ -239,9 +246,9 @@ namespace MarkdownMonster
 
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             CommonFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"West Wind Markdown Monster");
-            //FileWatcherOpenFilePath =  Path.Combine(
-            //      Path.GetTempPath(),
-            //     "__mm_openfile.txt");
+
+            BugReportUrl = "https://markdownmonster.west-wind.com/bugreport.ashx?method=ReportBug";
+            //BugReportUrl = "http://localhost/MarkdownMonster/bugreport.ashx?method=ReportBug";
 
             ApplicationTheme = Themes.Dark;
             RenderTheme = "dharkan";
@@ -257,6 +264,7 @@ namespace MarkdownMonster
             OpenFolderCommand = "explorer.exe";
 
             UseSingleWindow = true;
+            ReportErrors = true;
         }
 
         public void AddRecentFile(string filename)
@@ -328,13 +336,14 @@ namespace MarkdownMonster
         /// </summary>
         public int  UpdateFrequency { get; set; }
 
-        public int AccessCount { get; set; }
+        public int AccessCount { get; set; }        
 
         public ApplicationUpdates()
         {
             InstallerDownloadUrl = "http://west-wind.com/files/MarkdownMonsterSetup.exe";
             UpdateCheckUrl = "http://west-wind.com/files/MarkdownMonster_version.xml";
             UpdateFrequency = 7;
+
         }
     }
 

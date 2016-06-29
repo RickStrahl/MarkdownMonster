@@ -5,6 +5,10 @@ using MahApps.Metro;
 using MahApps.Metro.Controls;
 using Westwind.Utilities;
 using System.IO;
+using System.Reflection;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MarkdownMonster
 {
@@ -64,14 +68,51 @@ namespace MarkdownMonster
                 exMsg = "\r\n" + ex.Message +
                         "\r\n---\r\n" + ex.Source +
                         "\r\n" + ex.StackTrace;
+
+                SendBugReport(ex);
             }
 
             var text = msg +
                        exMsg +
                        "\r\n\r\n---------------------------\r\n\r\n";
-            StringUtils.LogString(msg, Path.Combine( Configuration.CommonFolder ,                               
+            StringUtils.LogString(text, Path.Combine( Configuration.CommonFolder ,                               
                 "MarkdownMonsterErrors.txt"));
         }
+
+        
+        public static void SendBugReport(Exception ex)
+        {
+            var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+
+            var bug = new BugReport()
+            {
+                TimeStamp = DateTime.UtcNow,
+                Message = ex.Message,                
+                Product = "Markdown Monster",
+                Version = v.FileMajorPart + "." + v.FileMinorPart,
+                StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()               
+            };
+            
+            new TaskFactory().StartNew(
+                async () =>
+                {
+                    var bg = bug as BugReport;
+                    try
+                    {
+                        var temp = await HttpUtils.JsonRequestAsync<BugReport>(new HttpRequestSettings()
+                        {
+                            Url = mmApp.Configuration.BugReportUrl,
+                            HttpVerb = "POST",
+                            Content = bg
+                        });
+                    }
+                    catch (Exception ex2)
+                    {
+                        Log("Unable to report bug",ex2);
+                    }
+                });            
+        }
+        
 
         /// <summary>
         /// Sets the light or dark theme for a form. Call before
@@ -170,4 +211,13 @@ namespace MarkdownMonster
         Default
     }
 
+
+    public class BugReport
+    {
+        public DateTime TimeStamp { get; set; }
+        public string Message { get; set; }
+        public string Product { get; set; }
+        public string Version { get; set; }
+        public string StackTrace { get; set; }
+    }
 }

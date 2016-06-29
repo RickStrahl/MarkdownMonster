@@ -1,11 +1,22 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MarkdownMonster.Test
 {
     [TestClass]
     public class ApplicationUpdaterTest  {
+
+        [TestMethod]
+        public void BugReportTest()
+        {
+            var ex = new ApplicationException("Error generated");
+            mmApp.SendBugReport(ex);
+
+            // wait to allow thread to finish
+            Thread.Sleep(2000);
+        }
 
         [TestMethod]
         public void CheckVersionFrequencyTest()
