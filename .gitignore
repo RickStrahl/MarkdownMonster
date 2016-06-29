@@ -50,3 +50,4 @@ Output-Build.txt
 __README.htm
 __Todo.htm
 MarkdownMonsterWeb/website.publishproj
+MarkdownMonsterWeb/App_Data/PublishProfiles/Markdown Monster Web Site.pubxml

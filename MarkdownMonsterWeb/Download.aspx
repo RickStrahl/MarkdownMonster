@@ -78,12 +78,12 @@
                                                                         
                     </div>
                     <div class=" col-sm-7">
-                        <a class="btn btn-lg btn-info" onclick="window.location.href='http://west-wind.com/files/MarkdownMonsterSetup.exe'">
+                        <a class="btn btn-lg btn-info" href="javascript:window.location.href='http://west-wind.com/files/MarkdownMonsterSetup.exe'">
                             <i class="fa fa-download fa-" style="font-size: 150%;"></i> &nbsp; 
-                            Download Installer
+                            Download Markdown Monster
                         </a>
                         
-                        <div class="small" style="margin-top: 10px">download <a href="javascript:{}" onclick="window.location.href='http://west-wind.com/files/MarkdownMonsterSetup.zip'">Zip file</a></div>
+                        <div class="small" style="margin-top: 10px">download <a href="javascript:window.location.href='http://west-wind.com/files/MarkdownMonsterSetup.zip'">Zip file</a></div>
                         <div style="margin-top: 15px;">
                             <div class="fa fa-info-circle" style="font-size: 280%; color: steelblue; float: left;"></div>
                             <div style="margin-left: 50px;">

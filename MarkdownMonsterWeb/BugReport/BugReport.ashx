@@ -16,14 +16,12 @@ public class BugReportService : CallbackHandler
     static BugReportService()
     {
         JSONSerializer.DefaultJsonParserType = SupportedJsonParserTypes.JsonNet;
-        BugReportFilePath = HttpContext.Current.Server.MapPath("~/bugreports.txt");
+        BugReportFilePath = HttpContext.Current.Server.MapPath("~/bugreport/bugreports.txt");
     }
 
     public BugReportService()
     {
         FirstAccess = false;
-
-
     }
 
     [CallbackMethod(RouteUrl = "bugreport")]

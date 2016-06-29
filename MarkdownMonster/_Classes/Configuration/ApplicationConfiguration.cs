@@ -247,7 +247,7 @@ namespace MarkdownMonster
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             CommonFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"West Wind Markdown Monster");
 
-            BugReportUrl = "https://markdownmonster.west-wind.com/bugreport.ashx?method=ReportBug";
+            BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost/MarkdownMonster/bugreport.ashx?method=ReportBug";
 
             ApplicationTheme = Themes.Dark;
