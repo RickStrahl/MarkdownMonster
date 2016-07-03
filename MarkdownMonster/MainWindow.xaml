@@ -360,7 +360,6 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="4"  />
-                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
@@ -374,12 +373,8 @@
                 <TextBlock Width="375" Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
             </StatusBarItem>
             <Separator Grid.Column="2" />
+       
             <StatusBarItem Grid.Column="3">
-                <TextBlock  Name="StatusFile" HorizontalAlignment="Right" 
-                           Text="{Binding ActiveDocument.Filename,Mode=OneWay}">
-                </TextBlock>
-            </StatusBarItem>
-            <StatusBarItem Grid.Column="4">
                 <ComboBox  HorizontalAlignment="Right"  Width="145" ToolTip="Editor themes"
                            SelectedItem="{Binding Configuration.EditorTheme}"
                            IsSynchronizedWithCurrentItem="True" 
@@ -387,7 +382,7 @@
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="5">
+            <StatusBarItem Grid.Column="4">
                 <ComboBox  HorizontalAlignment="Right"  Width="145" ToolTip="Preview rendering theme"
                            SelectedItem="{Binding Configuration.RenderTheme}" 
                            IsSynchronizedWithCurrentItem="True" 

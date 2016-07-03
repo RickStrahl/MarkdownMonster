@@ -2,9 +2,7 @@
 
 ### Immediate
 * Download WebLog posts (in preview)
-* Add Inactive Switch to Blog Posts
 * Refresh files if changed on disk
-* Remove Filename in Status (tab tooltips show name)
 * Add cursor position to status bar
 
 ### Bugs
@@ -16,7 +14,6 @@
 * PngOut on Png Images captured with SnagIt or Inserted
 * Page Templates (add-in?)
 * Multiple configurations for blog posts (use post/blogid subitems?)
-
 
 
 
