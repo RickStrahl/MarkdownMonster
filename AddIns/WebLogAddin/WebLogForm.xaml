@@ -73,6 +73,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
 
                         <Label Margin="0,10,0,0">Web Site to post to:</Label>
@@ -86,6 +87,10 @@
 
                         <Label Grid.Row="0"  Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Right">Post Id:</Label>
                         <TextBox Grid.Row="1"  Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
+                        <CheckBox Name="PublishAsDraftCheckbox" Grid.Row="2" Grid.Column="0" Margin="0,5,0,0" 
+                                  Content="Publish as Draft"  IsChecked="{Binding IsPostDraft}"
+                                  
+                                 />
                     </Grid>
 
                     <StackPanel Orientation="Horizontal">

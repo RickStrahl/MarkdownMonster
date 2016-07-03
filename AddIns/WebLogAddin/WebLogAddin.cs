@@ -51,6 +51,7 @@ namespace WeblogAddin
     {
         private Post ActivePost { get; set; } = new Post();
 
+
         public override void OnApplicationStart()
         {
             base.OnApplicationStart();
@@ -89,7 +90,7 @@ namespace WeblogAddin
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool SendPost(WeblogTypes type = WeblogTypes.MetaWeblogApi)
+        public bool SendPost(WeblogTypes type = WeblogTypes.MetaWeblogApi, bool sendAsDraft = false)
         {
             var editor = Model.ActiveEditor;
             if (editor == null)
@@ -157,9 +158,9 @@ namespace WeblogAddin
             try
             {
                 if (!isNewPost)
-                    wrapper.EditPost(ActivePost, true);
+                    wrapper.EditPost(ActivePost,sendAsDraft);
                 else
-                    ActivePost.PostID = wrapper.NewPost(ActivePost, true);
+                    ActivePost.PostID = wrapper.NewPost(ActivePost, sendAsDraft);
             }
             catch (Exception ex)
             {
