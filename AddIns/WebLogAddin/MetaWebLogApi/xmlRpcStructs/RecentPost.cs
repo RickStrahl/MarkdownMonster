@@ -14,7 +14,7 @@ namespace WebLogAddin.MetaWebLogApi
         public string userid;
         public string description;
         public string title;
-        public int postid;
+        public object postid;
         public string link;
         public string permaLink;
         public string[] categories;
