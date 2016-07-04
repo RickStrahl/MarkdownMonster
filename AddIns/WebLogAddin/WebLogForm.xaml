@@ -146,11 +146,18 @@
 
 
             <controls:MetroTabItem Header="Download Blog Post " Margin="0,0,5,0" controls:ControlsHelper.HeaderFontSize="16">
-                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
-                    <Label Foreground="#626262" FontSize="45" FontWeight="Bold" Margin="0,0,0,3">Experimental</Label>
-                    
-                    <Label>Select Blog</Label>
-                    <Grid>
+                <Grid Margin="40,15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Foreground="#626262" FontSize="45" FontWeight="Bold" Margin="0,0,0,3">Experimental</Label>
+
+                    <Label Grid.Row="1">Select Blog</Label>
+                    <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition  Width="*"/>
                             <ColumnDefinition  Width="100"/>
@@ -165,40 +172,47 @@
                            />
                         <TextBox Grid.Column="1" Name="TextNumberOfPosts" Text="{Binding NumberOfPostsToRetrieve}" TextAlignment="Right" Margin="6,0,0,0" />
                     </Grid>
-                    <Button Margin="0,10" Height="40" Width="175" HorizontalAlignment="Left" 
+                    <Button Grid.Row="3" Margin="0,10" Height="40" Width="175" HorizontalAlignment="Left" 
                         Click="ButtonDownloadPosts_Click" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Download" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                             <TextBlock Margin="10,0,0,0" FontSize="14">Download Posts</TextBlock>
                         </StackPanel>
                     </Button>
-                    
-                    <ListView Name="ListViewPosts" Height="400" MouseDoubleClick="ListViewPosts_MouseDoubleClick" KeyDown="ListViewPosts_KeyDown">
+
+                    <ListView Grid.Row="4" Name="ListViewPosts" 
+                              MouseDoubleClick="ListViewPosts_MouseDoubleClick" 
+                              KeyDown="ListViewPosts_KeyDown">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Grid.Column="0" 
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="200" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
                                                Padding="10,0,0,0"
                                                Text="{Binding Title}" FontWeight="Bold" Foreground="LightSteelBlue"  FontSize="16" />
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DateCreated,StringFormat={}{MMM dd, yyyy}}" HorizontalAlignment="Right" FontStyle="Italic"/>
-                                    <TextBlock Padding="10,0,0,0"
-                                               Grid.Row="1" Grid.Column="0" Text="{Binding mt_excerpt}" TextWrapping="WrapWithOverflow" Margin="0,0,0,10" FontSize="12"
-                                               HorizontalAlignment="Left" Width="500">
-                                        
-                                    </TextBlock>
+                                        <TextBlock Grid.Column="1" Text="{Binding DateCreated,StringFormat='{}{0:MMM dd, yyyy}'}" 
+                                                   FontStyle="Italic"/>
+                                    </Grid>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Padding="10,0,0,0"
+                                               Text="{Binding mt_excerpt}" 
+                                               Width="500"
+                                               TextWrapping="WrapWithOverflow"
+                                               HorizontalAlignment="Left"
+                                               Margin="0,0,0,10" FontSize="12"/>
+
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </StackPanel>
+                </Grid>
             </controls:MetroTabItem>
             
 

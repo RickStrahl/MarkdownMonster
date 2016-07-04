@@ -175,34 +175,79 @@
             <a name="Licensing"></a>
         <div class="panel panel-default">
             
-            <div class="panel-heading">
-                    <h5 class="panel-title">Licensing</h5>
+            <a name="License"></a>
+            <div class="panel-heading">                    
+
+            <h5 class="panel-title">Licensing</h5>
             </div>
             <div class="panel-body">
                 <p>
-                    Although we provide the <a href="https://github.com/RickStrahl/MarkdownMonster">source in the open</a>, 
+                    Although we provide the <a href="https://github.com/RickStrahl/MarkdownMonster">source in the open</a>,
                     Markdown Monster is licensed software.
                 </p>
+
+
                 <p>
-                    Markdown Monster can be downloaded and evaluated for free, but <a href="https://store.west-wind.com/product/markdown_monster">a reasonably 
-                    priced license</a> must be purchased for continued use. Licenses are per-user, 
-                    rather than per-machine, so you can use Markdown Monster on as many computers 
-                    you wish with your license.
+                    Markdown Monster can be downloaded and evaluated for free, but <a href="https://store.west-wind.com/product/markdown_monster">
+                    a reasonably priced license</a> must be purchased for continued use. Licenses are per-user, 
+                    rather than per-machine, so a licensed user can use Markdown Monster on as many 
+                    computers as desired.
                 </p>
                 <p>
                     Thanks for playing fair.
-                 </p>
+                </p>
                 <p>
-                    
+
                     <a href="https://store.west-wind.com/product/markdown_monster" class="btn btn-lg btn-primary">
                         <i class="fa  fa-credit-card"></i>
                         Purchase
                     </a>
                 </p>
-                  
-                 <h3>Warranty Disclaimer: No Warranty!</h3>
-                <p>IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THIS PROGRAM AND DOCUMENTATION, BE LIABLE FOR ANY COMMERCIAL, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM INCLUDING, BUT NOT LIMITED TO, LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR LOSSES SUSTAINED BY THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
                 
+                <hr />
+
+                <p>                    
+                    <h4>License</h4>                        
+                    Markdown Monster can be downloaded and evaluated for free, but a license must be purchased for continued
+                    use. Licenses are per user, rather than per machine, so a licensed user can use Markdown Monster on as many computers
+                    as needed. An organizational license is also available to use Markdown Monster for an unlimited number of installations 
+                    within a single organization. Each individual user requires a separate license, unless an organizational license 
+                    is used in which case the license is limited to members of licensed organization.                  
+                </p>
+                
+                <p>
+                    Licenses are valid for the major version for which it was purchased such as v1.0 to v1.99.                    
+                </p>
+
+                <p>
+                    <h4>No Warranty</h4>
+                    You expressly acknowledge and agree that use of the licensed application is at your sole risk and that
+                    the entire risk as to satisfactory quality, performance, accuracy and effort is with you. To the maximum
+                    extent permitted by applicable law, the license application and any services performed or provided by
+                    the licensed application ("services") are provided "as is" and "as available," with all faults and without
+                    warranty of any kind, and application provider hereby disclaims all warranties and conditions with respect
+                    to the licensed application and any services, either express, implied or statutory, including, but not
+                    limited to, the implied warranties and/or conditions of merchantability, of satisfactory quality, of
+                    fitness for a particular purpose, of accuracy, of quiet enjoyment, and non-infringement of third party
+                    rights. Application provider does not warrant against interference with your enjoyment of the licensed
+                    application, that the functions contained in, or services performed or provided by, the licensed application
+                    will meet your requirements, that the operation of the licensed application or services will be uninterrupted
+                    or error-free, or that effects in the licensed application or services will be corrected. No oral or
+                    written information or advice given by application provider or its authorized representative shall create
+                    a warranty. Should the licensed application or services prove defective, you assume the entire cost
+                    of all necessary servicing, repair or correction.                     
+                </p>
+
+                <p>
+                    <h4>LIMITATION OF LIABILITY</h4>
+                    IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THIS PROGRAM AND DOCUMENTATION, BE LIABLE
+                    FOR ANY COMMERCIAL, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY
+                    TO USE THE PROGRAM INCLUDING, BUT NOT LIMITED TO, LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR
+                    LOSSES SUSTAINED BY YOU OR LOSSES SUSTAINED BY THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE
+                    WITH ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES
+                </p>
+                
+
 
             </div>
             
@@ -227,9 +272,9 @@
     <script>
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
+                (i[r].q = i[r].q || []).push(arguments);
             }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
         ga('create', 'UA-9492219-10', 'west-wind.com');
