@@ -6,6 +6,7 @@
 * Add cursor position to status bar
 
 ### Bugs
+* <s>Untitled shouldn't show up in Recent List</s>
 
 ### Consideration
 * Drag and Drop Web Images into the editor
@@ -14,8 +15,6 @@
 * PngOut on Png Images captured with SnagIt or Inserted
 * Page Templates (add-in?)
 * Multiple configurations for blog posts (use post/blogid subitems?)
-
-
 
 ### Notes
 

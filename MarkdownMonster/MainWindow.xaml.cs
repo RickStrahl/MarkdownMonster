@@ -32,6 +32,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -193,8 +194,16 @@ namespace MarkdownMonster
                 return;
 
             context.Items.Clear();
+            ButtonRecentFiles.Items.Clear();
+
+            List<string> badFiles = new List<string>();
             foreach (string file in mmApp.Configuration.RecentDocuments)
             {
+                if (!File.Exists(file))
+                {
+                    badFiles.Add(file);
+                    continue;
+                }
                 var mi = new MenuItem()
                 {
                     Header = file,                    
@@ -206,19 +215,18 @@ namespace MarkdownMonster
                     AddRecentFile(file);
                 };
                 context.Items.Add(mi);
-            }
-            ToolbarButtonRecentFiles.ContextMenu = context;
 
-            ButtonRecentFiles.Items.Clear();
-            foreach (string file in mmApp.Configuration.RecentDocuments)
-            {
-                var mi = new MenuItem()
+                var mi2 = new MenuItem()
                 {
                     Header = file,
                 };
-                mi.Click += (object s, RoutedEventArgs ev) => OpenTab(file);
-                ButtonRecentFiles.Items.Add(mi);
+                mi2.Click += (object s, RoutedEventArgs ev) => OpenTab(file);
+                ButtonRecentFiles.Items.Add(mi2);
             }
+            ToolbarButtonRecentFiles.ContextMenu = context;
+
+            foreach (var file in badFiles)
+                mmApp.Configuration.RecentDocuments.Remove(file);
         }
 
         void RestoreSettings()

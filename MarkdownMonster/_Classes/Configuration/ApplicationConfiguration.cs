@@ -269,7 +269,7 @@ namespace MarkdownMonster
 
         public void AddRecentFile(string filename)
         {
-            if (string.IsNullOrEmpty(filename))
+            if (string.IsNullOrEmpty(filename) || filename.ToLower() == "untitled")
                 return;
 
             if (RecentDocuments.Contains(filename))
