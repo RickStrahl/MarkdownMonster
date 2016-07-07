@@ -1,9 +1,12 @@
 # Markdown Monster Change Log
 
-### 0.36
+### 0.37
 
 * **Update preview display management**  
 Updated the preview display so it's less jumpy by using a less aggressive refresh with a fixed timeout and injecting content instead of refreshing the entire document. This leaves the scroll position intact and doesn't force reload of images which can be slow. Preview display should be much smoother, no jumping and work with annoying wait cursors.
+
+* **Add Markdown Monster to the System Path**   
+Markdown Monster is now added to the System Path when installed which makes it easy to launch it from the Command Window or Powershell with `MarkdownMonster` or simple `mm`.
 
 * **Tooltip for Filename on Tab**
 Thanks to an update in [Dragablz](https://github.com/ButchersBoy/Dragablz), tooltips showing the file name in the tab headers are now working again.
@@ -11,10 +14,19 @@ Thanks to an update in [Dragablz](https://github.com/ButchersBoy/Dragablz), tool
 * **Download Blog Posts (Experimental Preview)**  
 The Weblog Add-in can now download blog posts for editing. If the server supports an `mt_markdown` *CustomField* that value is used for editing. If not then the HTML is converted as best as possible into Markdown for editing.
 
+### 0.35
+
+* **Update preview refresh**  
+Add additional preview update logic to improve re-rendering of the previewer.
+
 * **Fix: SnagIt Options not Saving**  
 Fixed bug that caused SnagIt Addin options to not save reliably and resetting. Save now properly persists the configuration data into the `SnagitConfiguration.json` file in the `%appdata%` folder.
 
+* **Remote Error Logging**  
+Fatal errors are now optionally logged to the Markdown Monster Web site. The information logged is the same information written to the local error log. Remote error logging can be disabled via configuration setting but is enabled by default.
+
 ### 0.32
+
 * **Update preview refresh**  
 Keyboard refresh now waits for keyboard to be idle for 1 second after typing before refreshing. This is a single check which is much more efficient and should result in less jitter and faster keyboard entry.
 

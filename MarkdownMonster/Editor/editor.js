@@ -138,6 +138,27 @@ var te = window.textEditor = {
         }, 1000);
         $("pre[lang]").on("keyup", keyupHandler);
 
+	// window.addEventListener("paste",function () {
+	//    alert('paste');
+	//    debugger;
+	//    var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+	//    alert(JSON.stringify(items)); // will give you the mime types
+
+	//    for (index in items) {
+	//        var item = items[index];
+	//        if (item.kind === 'file') {
+
+	//            var blob = item.getAsFile();
+	//            var reader = new FileReader();
+	//            reader.onload = function (event) {
+	//                alert(event.target.result)
+
+	//            }; // data url!
+	//            reader.readAsDataURL(blob);
+	//        }
+	//    }
+	// });
+
         return editor;
     },
     initializeeditor: function() {

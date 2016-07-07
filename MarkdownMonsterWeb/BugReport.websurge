@@ -1,13 +1,30 @@
-POST http://localhost:38903/bugreport.ashx?method=ReportBug HTTP/1.1
+POST https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug HTTP/1.1
 Accept-Encoding: gzip,deflate
 Accept: application/json
 Content-type: application/json
+Websurge-Request-Name: Bugreport
 
 {
    Version: 0.35,
    Product: "Markdown Monster",
    Message: "An error occurred",
    "StackTrace": "StackTrace goes here"
+}
+
+------------------------------------------------------------------
+
+POST https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=Telemetry HTTP/1.1
+Accept-Encoding: gzip,deflate
+Accept: application/json
+Content-type: application/json
+Websurge-Request-Name: Telemetry
+
+{
+   Version: 0.35,
+   Registered: true,
+   Operation: "test",
+   Data: "data",
+   Access: 42
 }
 
 ------------------------------------------------------------------
@@ -24,7 +41,7 @@ Content-type: application/json
   "ReplaceCookieValue": null,
   "ReplaceAuthorization": null,
   "ReplaceQueryStringValuePairs": null,
-  "ReplaceDomain": null,
+  "ReplaceDomain": "",
   "Username": null,
   "Password": "",
   "RandomizeRequests": false,

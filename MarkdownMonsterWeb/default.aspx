@@ -303,6 +303,7 @@
                                             <pre style="font-size: 10pt; font-family: Consolas, monospace; color: whitesmoke; background: #535353">c:\> choco install MarkdownMonster</pre>
                                         </div>
                                     </div>
+                                 
 
 
                                     <b>Requirements
@@ -313,7 +314,16 @@
                                             <li>.NET Framework 4.5 or later</li>
                                         </ul>
                                     </p>
+                                    
+                                      <div style="margin-top: 15px">                                        
+                                       <a style="font-size: 1.4em" href="http://twitter.com/MarkdownMonstr"><i class="fa fa-twitter"></i>
+                                           Follow us on Twitter
+                                       </a>
+                                    </div>
+
                                 </div>
+                                   
+                                   
                             </div>
                         </div>
 

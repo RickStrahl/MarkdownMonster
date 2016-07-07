@@ -113,7 +113,37 @@ namespace MarkdownMonster
                     }
                 });            
         }
-        
+
+        public static void SendTelemetry(string operation, string data = null)
+        {
+            var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+            string version = v.FileMajorPart + "." + v.FileMinorPart;
+            
+            var t = new Telemetry
+            {
+                Version = version,
+                Registered = UnlockKey.IsRegistered(),
+                Access = mmApp.Configuration.ApplicationUpdates.AccessCount,
+                Operation = operation,
+                Data = data
+            };
+
+            try
+            {
+                HttpUtils.JsonRequest<string>(new HttpRequestSettings()
+                {
+                    Url = mmApp.Configuration.TelemetryUrl,
+                    HttpVerb = "POST",
+                    Content = t,
+                    Timeout = 300
+                });
+            }
+            catch (Exception ex2)
+            {
+                // don't log with exception otherwise we get an endless loop
+                Log("Unable to send telemetry: " + ex2.Message);
+            }
+        }
 
         /// <summary>
         /// Sets the light or dark theme for a form. Call before
@@ -175,15 +205,15 @@ namespace MarkdownMonster
                     brush = App.Current.Resources["MenuSeparatorBorderBrush"] as SolidColorBrush;
                 }
             }
-            else
-            {
-                if (window != null)
-                {
-                    // Need to fix this to show the accent color when switching
-                    //window.WindowTitleBrush = (Brush)window.FindResource("WhiteBrush");
-                    //window.NonActiveWindowTitleBrush = (Brush)window.FindResource("WhiteBrush");
-                }
-            }
+            //else
+            //{
+            //    if (window != null)
+            //    {
+            //        // Need to fix this to show the accent color when switching
+            //        //window.WindowTitleBrush = (Brush)window.FindResource("WhiteBrush");
+            //        //window.NonActiveWindowTitleBrush = (Brush)window.FindResource("WhiteBrush");
+            //    }
+            //}
         }
 
 
@@ -220,5 +250,14 @@ namespace MarkdownMonster
         public string Product { get; set; }
         public string Version { get; set; }
         public string StackTrace { get; set; }
+    }
+
+    public class Telemetry
+    {
+        public string Version { get; set; }
+        public bool Registered { get; set; }
+        public string Operation { get; set; }
+        public string Data { get; set; }
+        public int Access { get; set; }
     }
 }

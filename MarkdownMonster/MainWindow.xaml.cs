@@ -143,7 +143,7 @@ namespace MarkdownMonster
         {
             base.OnClosing(e);
             
-            this.Hide();
+            Hide();
 
             bool isNewVersion = CheckForNewVersion(false, false);
             mmApp.Configuration.ApplicationUpdates.AccessCount++;
@@ -152,7 +152,7 @@ namespace MarkdownMonster
 
             if (!CloseAllTabs())
             {
-                this.Show();
+                Show();
                 e.Cancel = true;
                 return;
             }
@@ -169,11 +169,13 @@ namespace MarkdownMonster
                 mmApp.Configuration.ApplicationUpdates.AccessCount % 5 == 0 &&
                 !UnlockKey.IsRegistered())
             {
-                this.Hide();
+                Hide();
                 var rd = new RegisterDialog();
                 rd.Owner = this;
                 rd.ShowDialog();
             }
+
+            mmApp.SendTelemetry("shutdown");
             
            e.Cancel = false;            
         }
@@ -312,8 +314,8 @@ namespace MarkdownMonster
                       
             tab.Margin = new Thickness(0, 0, 3, 0);
             tab.Padding = new Thickness(2, 0, 7, 2);
-            tab.Background = this.Background;
-            tab.ContextMenu = this.Resources["TabItemContextMenu"] as ContextMenu;
+            tab.Background = Background;
+            tab.ContextMenu = Resources["TabItemContextMenu"] as ContextMenu;
 
             
             ControlsHelper.SetHeaderFontSize(tab, 13F);
@@ -355,7 +357,7 @@ namespace MarkdownMonster
                     Path = new PropertyPath("FilenameWithIndicator"),                    
                     Mode = BindingMode.OneWay
                 };
-                BindingOperations.SetBinding(tab, TabItem.HeaderProperty, headerBinding);
+                BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
 
                 tab.ToolTip = doc.Filename;                
             }
@@ -875,7 +877,7 @@ namespace MarkdownMonster
             MarkdownDocumentEditor editor = null;
             var menuItem = sender as MenuItem;
             if (menuItem != null && menuItem.Name == "MenuCloseAllButThisTab")
-                 editor = this.GetActiveMarkdownEditor();
+                 editor = GetActiveMarkdownEditor();
 
             for (int i = TabControl.Items.Count-1; i > -1; i--)
             {
@@ -1037,21 +1039,21 @@ namespace MarkdownMonster
                     foreach (var file in StringUtils.GetLines(filesToOpen))
                     {                        
                         if (!string.IsNullOrEmpty(file))
-                            lastTab = this.OpenTab(file.Trim());
+                            lastTab = OpenTab(file.Trim());
                     }
                     if (lastTab != null)
                         Dispatcher.InvokeAsync(() => TabControl.SelectedItem = lastTab);                                            
                 }
 
-                this.Topmost = true;
+                Topmost = true;
 
                 if (WindowState == WindowState.Minimized)
                     WindowState = WindowState.Normal;
 
-                this.Activate();
+                Activate();
 
                 // restor out of band
-                Dispatcher.BeginInvoke(new Action(() => { this.Topmost = false; }));
+                Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }));
             });
         }
         #endregion

@@ -178,6 +178,9 @@ namespace MarkdownMonster
         [JsonIgnore]
         public string BugReportUrl { get; set; }
 
+        [JsonIgnore]
+        public string TelemetryUrl { get; set; }
+
         /// <summary>
         /// Command Processing for OpenFolder
         /// </summary>
@@ -249,6 +252,7 @@ namespace MarkdownMonster
 
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost/MarkdownMonster/bugreport.ashx?method=ReportBug";
+            TelemetryUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=Telemetry";
 
             ApplicationTheme = Themes.Dark;
             RenderTheme = "dharkan";

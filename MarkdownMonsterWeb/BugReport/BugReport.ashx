@@ -12,11 +12,13 @@ public class BugReportService : CallbackHandler
 {
     public static bool FirstAccess;
     static string BugReportFilePath;
+    static string TelemetryFilePath;
 
     static BugReportService()
     {
         JSONSerializer.DefaultJsonParserType = SupportedJsonParserTypes.JsonNet;
         BugReportFilePath = HttpContext.Current.Server.MapPath("~/bugreport/bugreports.txt");
+        TelemetryFilePath = HttpContext.Current.Server.MapPath("~/bugreport/telemetry.txt");
     }
 
     public BugReportService()
@@ -31,23 +33,42 @@ public class BugReportService : CallbackHandler
 {bug.Product} v{bug.Version}
 {bug.StackTrace}
 ";
+        bug.TimeStamp = DateTime.Now;
 
         StringUtils.LogString(msg, BugReportFilePath);
 
         return bug;
     }
 
+    [CallbackMethod(RouteUrl = "Telemetry")]
+    public string Telemetry(Telemetry telemetry)
+    {
+        StringUtils.LogString( telemetry.Version + " - " +
+                               telemetry.Operation + " - " +
+                               (telemetry.Registered ? "YES" : "no") + " - " +
+                               telemetry.Access + " - " +
+                               Context.Request.ServerVariables["REMOTE_ADDR"]   + " - " +
+                               telemetry.Data,
+                               TelemetryFilePath);
+
+        return "ok";
+    }
+
     [CallbackMethod()]
     public bool TruncateFile()
     {
+        var filename = BugReportFilePath;
+        if (!string.IsNullOrEmpty(Context.Request.QueryString["telemetry"]))
+            filename = TelemetryFilePath;
+
         long cutoff = 100000;
-        var fi = new FileInfo(BugReportFilePath);
+        var fi = new FileInfo(filename);
         if (fi.Length < cutoff)
             return true;
 
         using (MemoryStream ms = new MemoryStream((int)cutoff))
         {
-            using (FileStream s = new FileStream(BugReportFilePath, FileMode.Open, FileAccess.ReadWrite))
+            using (FileStream s = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite))
             {
                 s.Seek(cutoff, SeekOrigin.End);
                 s.CopyTo(ms);
@@ -69,4 +90,13 @@ public class Bug
     public string Product { get; set; }
     public string Version { get; set; }
     public string StackTrace { get; set; }
+}
+
+public class Telemetry
+{
+    public string Version { get; set; }
+    public bool Registered { get; set; }
+    public string Operation { get; set;  }
+    public string Data { get; set; }
+    public int Access { get; set; }
 }
