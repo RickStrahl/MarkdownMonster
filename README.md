@@ -8,7 +8,7 @@
 * **[Download Installer](http://markdownmonster.west-wind.com/download.aspx)**
 * **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)** (coming soon)  
-* **[Bug Reports & Feature Requests](./issues/)**
+* **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[Change Log](Changelog.md)**
 * [![Gitter](https://badges.gitter.im/RickStrahl/MarkdownMonster.svg)](https://gitter.im/RickStrahl/MarkdownMonster/General?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
