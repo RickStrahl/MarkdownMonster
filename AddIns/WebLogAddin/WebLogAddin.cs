@@ -254,6 +254,7 @@ $@"# {meta.Title}
 <!-- Post Configuration -->
 <!--
 ```xml
+<blogpost>
 <abstract>
 {meta.Abstract}
 </abstract>
@@ -263,9 +264,13 @@ $@"# {meta.Title}
 <keywords>
 {meta.Keywords}
 </keywords>
+<weblogs>
+<postid></postid>
 <weblog>
 {meta.WeblogName}
 </weblog>
+</weblogs>
+</blogpost>
 ```
 -->
 <!-- End Post Configuration -->
@@ -401,19 +406,23 @@ $@"# {meta.Title}
             string newConfig = $@"<!-- Post Configuration -->
 <!--
 ```xml
+<blogpost>
 <abstract>
 {meta.Abstract}
 </abstract>
 <categories>
 {meta.Categories}
 </categories>
-<postid>{meta.PostId}</postid>
 <keywords>
 {meta.Keywords}
 </keywords>
+<weblogs>
+<postid>{meta.PostId}</postid>
 <weblog>
 {meta.WeblogName}
 </weblog>
+</weblogs>
+</blogpost>
 ```
 -->
 <!-- End Post Configuration -->";
@@ -434,11 +443,7 @@ $@"# {meta.Title}
         public void CreateNewPostOnDisk(string title, string weblogName)
         {
 
-            // strip path of invalid characters
-            var invalids = Path.GetInvalidFileNameChars();
-            string filename = null;
-            foreach (char c in invalids)
-                filename = title.Replace(c, '-');
+            string filename = SafeFilename(title);
 
             var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), filename);
             if (!Directory.Exists(folder))
@@ -465,15 +470,11 @@ $@"# {meta.Title}
 
         public void CreateDownloadedPostOnDisk(Post post, string weblogName)
         {
-            // strip path of invalid characters
-            var invalids = Path.GetInvalidFileNameChars();
-            string filename = null;
-            foreach (char c in invalids)
-                filename = post.Title.Replace(c, '-');
+            string filename = SafeFilename(post.Title + " - " + weblogName);
 
             var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,
                 "Downloaded Posts",
-                SafeFilename(filename + " - " + weblogName));
+                filename);
 
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
@@ -512,5 +513,4 @@ $@"# {meta.Title}
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
         }
     }
-
 }
