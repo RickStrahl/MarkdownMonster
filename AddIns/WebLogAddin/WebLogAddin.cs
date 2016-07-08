@@ -458,6 +458,11 @@ $@"# {meta.Title}
 
         }
 
+        private static string SafeFilename(string fileName,string replace = "")
+        {
+            return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), replace));
+        }
+
         public void CreateDownloadedPostOnDisk(Post post, string weblogName)
         {
             // strip path of invalid characters
@@ -466,12 +471,14 @@ $@"# {meta.Title}
             foreach (char c in invalids)
                 filename = post.Title.Replace(c, '-');
 
-            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,"Downloaded Posts",filename + " - " + weblogName);
+            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,
+                "Downloaded Posts",
+                SafeFilename(filename + " - " + weblogName));
+
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             var outputFile = Path.Combine(folder, filename + ".md");
-
-           
+            
             string body = post.Body;
             if (post.CustomFields != null)
             {

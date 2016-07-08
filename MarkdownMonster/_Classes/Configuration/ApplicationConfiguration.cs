@@ -347,7 +347,6 @@ namespace MarkdownMonster
             InstallerDownloadUrl = "http://west-wind.com/files/MarkdownMonsterSetup.exe";
             UpdateCheckUrl = "http://west-wind.com/files/MarkdownMonster_version.xml";
             UpdateFrequency = 7;
-
         }
     }
 
