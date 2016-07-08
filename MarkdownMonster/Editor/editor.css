@@ -33,6 +33,15 @@ html, body {
 .ace_text-input {
 	margin: 0 !important;
 }
+.ace_strong {
+    font-weight: bold;
+}
+.ace_emphasis {
+    font-style: italic;
+}
+.ace_heading {
+    font-weight: bold;
+}
 pre{
 	margin: 0;
 	padding: 0;
