@@ -638,7 +638,7 @@ project Flags=0x20 {
 			str Value: Default="Markdown Monster";
 		}
 		var ProductVersion: Flags=0x204, Type=0, Description="Product version" {
-			str Value: Default="0.37";
+			str Value: Default="0.38";
 		}
 		var ProfileFolder: Flags=0x244, Type=1, Description="Current User profile base folder" {
 			str Value: Default="<$syspath(7)=$shpath(40)=%USERPROFILE=_LocProfileFolder>";

@@ -243,6 +243,8 @@ namespace MarkdownMonster
                 html = "<small>" + input + "</small>";
             else if (action == "underline")
                 html = "<u>" + input + "</u>";
+            else if (action == "strikethrough")
+                html = "<s>" + input + "</s>";
             else if (action == "h1")
                 html = "# " + input;
             else if (action == "h2")

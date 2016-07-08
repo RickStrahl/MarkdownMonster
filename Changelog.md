@@ -1,5 +1,13 @@
 # Markdown Monster Change Log
 
+### 0.38
+
+* **Add Strikeout to the toolbar**  
+Allow setting text to strike out mode where a line is going through text, which is frequently used with ToDo lists to indicate completed or no longer relevant content.
+
+* **Minor Editor Theme tweaking**  
+Minor tweaks to add additional hints like bold and italic to the markdown syntax highlighting for headings, bold and italic text.
+
 ### 0.37
 
 * **Update preview display management**  

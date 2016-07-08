@@ -7,7 +7,7 @@
 
 ### Bugs
 * <s>Untitled shouldn't show up in Recent List</s>
-* Fix invalid Filename chars for new and downloaded Blog posts
+* <s>Fix invalid Filename chars for new and downloaded Blog posts</s>
 
 ### Consideration
 * Drag and Drop Web Images into the editor

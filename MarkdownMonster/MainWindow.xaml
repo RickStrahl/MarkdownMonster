@@ -209,15 +209,24 @@
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
-                        <Button Name ="ButtonItalic" Margin="7,0" ToolTip="Italic (ctrl-i)" 
-                                
+                        <Button Name ="ButtonItalic" Margin="7,0" ToolTip="Itali (ctrl-i)" 
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="italic"
                                 fa:Awesome.Content="Italic" 
                                 Height="22" Width="22"
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+
+                        <Button Name ="ButtonStrikeThrough" Margin="7,0" ToolTip="Strikethrough" 
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="strikethrough"
+                                fa:Awesome.Content="Strikethrough" 
+                                Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+
                         <Separator />
+
                         <Button Name="ButtonQuote" Margin="7,0" ToolTip="Quote text"
                                 Command="{Binding ToolbarInsertMarkdownCommand }"  
                                 CommandParameter="quote"
