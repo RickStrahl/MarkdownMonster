@@ -243,6 +243,7 @@ namespace WeblogAddin
                 };
             }
 
+
             if (string.IsNullOrEmpty(meta.WeblogName))
                 meta.WeblogName = "Name of registered blog to post to";
             
@@ -265,7 +266,7 @@ $@"# {meta.Title}
 {meta.Keywords}
 </keywords>
 <weblogs>
-<postid></postid>
+<postid>{meta.PostId}</postid>
 <weblog>
 {meta.WeblogName}
 </weblog>
@@ -306,7 +307,7 @@ $@"# {meta.Title}
                         if (imgFile == null)
                             continue;
 
-                        if (!imgFile.StartsWith("http"))
+                        if (!imgFile.StartsWith("http://") && !imgFile.StartsWith("https://"))
                         {
                             imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
                             if (System.IO.File.Exists(imgFile))

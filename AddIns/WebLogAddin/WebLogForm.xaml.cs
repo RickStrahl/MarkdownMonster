@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -150,7 +151,16 @@ namespace WeblogAddin
                 weblogInfo.Username,
                 weblogInfo.Password);
 
-            var post = wrapper.GetPost(postId);
+            Post post = null;
+            try
+            {
+                post = wrapper.GetPost(postId);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);
+                return;
+            }
 
             Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);
 
@@ -258,9 +268,19 @@ namespace WeblogAddin
 
                 WindowUtilities.DoEvents();
 
+            List<Post> posts = null;
+            try
+            {
+                posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to download posts:\r\n\r\n" + ex.Message);
+                return;
+            }
 
-                var posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
-                for (int i = 0; i < posts.Count; i++)
+
+            for (int i = 0; i < posts.Count; i++)
                 {
                     var post = posts[i];
                     post.mt_excerpt = StringUtils.TextAbstract(post.mt_excerpt, 220);
