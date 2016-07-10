@@ -24,6 +24,7 @@
 Potential format:
 
 ```xml
+<blogpost>
 <abstract>
 
 </abstract>
@@ -33,15 +34,16 @@ Potential format:
 <keywords>
 
 </keywords>
-<weblog>
-Rick Strahl's Weblog
-</weblog>
-<blogs>
-    <blog>
-        <weblog></weblog>
+
+<webblogs>
+    <webblog>
+        <weblog>
+        Rick Strahl's Weblog
+        </weblog>
         <postId></postId>
-    </blog>
-</blogs>   
+    </webblog>
+</weblogs>  
+</blogpost>
 ```
 
 or 

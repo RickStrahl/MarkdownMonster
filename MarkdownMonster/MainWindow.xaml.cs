@@ -846,6 +846,8 @@ namespace MarkdownMonster
             }
             else if (button == MenuDocumentation)
                 ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs");
+            else if(button == MenuMarkdownBasics)
+                ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4ne1eu2cq.htm");
             else if (button == MenuCreateAddinDocumentation)
                 ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm");
             else if (button == MenuShowErrorLog)
