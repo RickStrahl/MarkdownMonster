@@ -10,77 +10,11 @@
 * <s>Fix invalid Filename chars for new and downloaded Blog posts</s>
 
 ### Consideration
-* Drag and Drop Web Images into the editor
-* Copy Image from Clipboard into editor and save to disk?
+* Drag and Drop Web Images into the editor (Not possible due to IE Bugs?)
+* Copy Image from Clipboard into editor and save to disk? (See above)
 * Git Commit/Push Addin
 * PngOut on Png Images captured with SnagIt or Inserted
 * Page Templates (add-in?)
 * Multiple configurations for blog posts (use post/blogid subitems?)
 
 ### Notes
-
-#### Multiple Blog Configurations per post
-
-Potential format:
-
-```xml
-<blogpost>
-<abstract>
-
-</abstract>
-<categories>
-
-</categories>
-<keywords>
-
-</keywords>
-
-<webblogs>
-    <webblog>
-        <weblog>
-        Rick Strahl's Weblog
-        </weblog>
-        <postId></postId>
-    </webblog>
-</weblogs>  
-</blogpost>
-```
-
-or 
-
-```xml
-<blog>
-    <weblog>
-    Rick Strahl's Weblog
-    </weblog>
-    <postId>
-    221
-    </postId>
-    <abstract>
-    
-    </abstract>
-    <categories>
-    
-    </categories>
-    <keywords>
-    
-    </keywords>
-</blog>
-<blog>
-    <weblog>
-    Rick Strahl's Weblog (local)
-    </weblog>
-    <postId>
-    2333
-    </postId>
-    <abstract>
-    
-    </abstract>
-    <categories>
-    
-    </categories>
-    <keywords>
-    
-    </keywords>
-</blog>
-```
