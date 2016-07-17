@@ -158,9 +158,9 @@ namespace WeblogAddin
             try
             {
                 if (!isNewPost)
-                    wrapper.EditPost(ActivePost,sendAsDraft);
+                    wrapper.EditPost(ActivePost,!sendAsDraft);
                 else
-                    ActivePost.PostID = wrapper.NewPost(ActivePost, sendAsDraft);
+                    ActivePost.PostID = wrapper.NewPost(ActivePost, !sendAsDraft);
             }
             catch (Exception ex)
             {
