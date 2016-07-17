@@ -145,8 +145,12 @@ namespace MarkdownMonster
             string xml = null;
             try
             {
-                var client = new WebClient();
-                xml = client.DownloadString(VersionCheckUrl);
+                xml = HttpUtils.HttpRequestString(new HttpRequestSettings
+                {
+                    Url = VersionCheckUrl,
+                    Timeout = 5,
+                    HttpVerb = "GET"
+                });
             }
             catch
             {
@@ -185,7 +189,7 @@ namespace MarkdownMonster
             catch(Exception ex)
             {
                 ErrorMessage = ex.Message;
-                mmApp.Log("Update Download failed",ex);
+                mmApp.Log("Warning: Unable to download update.",ex);
                 return false;
             }
 
