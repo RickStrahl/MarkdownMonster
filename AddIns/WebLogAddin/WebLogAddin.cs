@@ -486,7 +486,12 @@ $@"# {meta.Title}
             {
                 var cf = post.CustomFields.FirstOrDefault(custf => custf.ID == "mt_markdown");
                 if (cf != null)
+                {
                     body = cf.Value;
+
+                    
+
+                }
             }
             else
                 body = MarkdownUtilities.HtmlToMarkdown(body);

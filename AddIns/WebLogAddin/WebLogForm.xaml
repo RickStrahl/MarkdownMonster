@@ -68,7 +68,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="65"/>
+                            <ColumnDefinition Width="75"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -180,38 +180,46 @@
                         </StackPanel>
                     </Button>
 
-                    <ListView Grid.Row="4" Name="ListViewPosts" 
+                    <ListBox Grid.Row="4" Name="ListViewPosts" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               MouseDoubleClick="ListViewPosts_MouseDoubleClick" 
-                              KeyDown="ListViewPosts_KeyDown">
-                        <ListView.ItemTemplate>
+                              KeyDown="ListViewPosts_KeyDown" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
+                                <Grid HorizontalAlignment="Stretch" Background="#10FFFFFF">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="200" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0"
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                            Padding="10,3,10,0"
+                                            TextTrimming="WordEllipsis"
+                                            Text="{Binding Title}" 
+                                            FontWeight="Bold" Foreground="LightSteelBlue"  FontSize="16" />
+                                    <TextBlock Grid.Column="1" Text="{Binding DateCreated,StringFormat='{}{0:MMM dd, yyyy}'}" 
+                                                FontStyle="Italic" HorizontalAlignment="Right" Margin="0,0,7,0" />
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                                Padding="10,0,0,0"
-                                               Text="{Binding Title}" FontWeight="Bold" Foreground="LightSteelBlue"  FontSize="16" />
-                                        <TextBlock Grid.Column="1" Text="{Binding DateCreated,StringFormat='{}{0:MMM dd, yyyy}'}" 
-                                                   FontStyle="Italic"/>
-                                    </Grid>
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Padding="10,0,0,0"
                                                Text="{Binding mt_excerpt}" 
-                                               Width="500"
+                                               
                                                TextWrapping="WrapWithOverflow"
                                                HorizontalAlignment="Left"
                                                Margin="0,0,0,10" FontSize="12"/>
 
                                 </Grid>
                             </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Grid>
             </controls:MetroTabItem>
             
