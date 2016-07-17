@@ -7,7 +7,7 @@
 <html>
 <head>
     <title>Markdown Monster</title>
-    <meta name="description" content="West Wind Markdown Monster: An easy to use and extensible Markdown editor for Windows. Easily edit Markdown documents, convert HTML to markdown and publish Markdown to your Weblog." />
+    <meta name="description" content="Markdown Monster is an easy to use and extensible Markdown editor for Windows. Easily edit Markdown documents, convert HTML to markdown and publish Markdown to your Weblog." />
     <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Writing,Documentation,Publishing" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
