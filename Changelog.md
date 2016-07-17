@@ -9,7 +9,7 @@ Allow setting text to strike out mode where a line is going through text, which 
 Minor tweaks to add additional hints like bold and italic to the markdown syntax highlighting for headings, bold and italic text.
 
 * **Bug Fixes**  
-Fix various file related download errors for Weblog Posts. Fix menu rendering bug. 
+Fix various file related download errors for Weblog Posts. Fix menu rendering bug. Fix Draft Status flag on Post uploads. 
 
 * **Markdown Basics Link**  
 Link to Markdown Basics from Help menu to provide a basic introduction to Markdown in the online help file.

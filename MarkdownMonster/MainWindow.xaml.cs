@@ -723,6 +723,7 @@ namespace MarkdownMonster
                     ShowStatus("Downloading Update...");
 
                     WindowUtilities.DoEvents();
+
                     if (!updater.Download() || !updater.ExecuteDownloadedFile())
                     {
                         MessageBox.Show("Failed to download the update file. Please install the update " +
@@ -1030,9 +1031,8 @@ namespace MarkdownMonster
         }
 
 
-        public void HandleNamedPipe_OpenRequest(string filesToOpen)
+        private void HandleNamedPipe_OpenRequest(string filesToOpen)
         {
-            
             Dispatcher.Invoke(() =>
             {
                 if (!string.IsNullOrEmpty(filesToOpen))
@@ -1054,7 +1054,7 @@ namespace MarkdownMonster
 
                 Activate();
 
-                // restor out of band
+                // restore out of band
                 Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }));
             });
         }
