@@ -127,6 +127,97 @@ namespace WeblogAddin
         }
 
 
+        private void ComboWebLogName_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TextWeblogPassword.Password))
+                Model.ActiveWeblogInfo.Password = TextWeblogPassword.Password;
+
+
+        }
+
+        private void Button_DeleteWeblog(object sender, RoutedEventArgs e)
+        {
+            if (Model.ActiveWeblogInfo != null)
+            {
+                var id = Model.ActiveWeblogInfo.Id;
+                if (Model.Configuration.Weblogs.Count > 1)
+                    Model.ActiveWeblogInfo = Model.Configuration.Weblogs.FirstOrDefault().Value;
+
+                Model.Configuration.Weblogs.Remove(id);
+            }
+        }
+
+        private void Button_NewWeblog(object sender, RoutedEventArgs e)
+        {
+            Model.ActiveWeblogInfo = new WeblogInfo()
+            {                 
+                Name = "New Weblog"
+            };
+            Model.Configuration.Weblogs.Add(Model.ActiveWeblogInfo.Id,Model.ActiveWeblogInfo);
+        }
+
+        private async void Button_DownloadPosts_Click(object sender, RoutedEventArgs e)
+        {
+           
+            WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
+
+            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                weblogInfo.Username,
+                weblogInfo.Password);
+
+            Dispatcher.Invoke(() =>
+            {
+                Model.PostList = new List<Post>();
+                SetStatusIcon(FontAwesomeIcon.Download, Colors.Orange,true); 
+                ShowStatus("Downloading last " + Model.NumberOfPostsToRetrieve + " posts...");                    
+            });
+
+            WindowUtilities.DoEvents();
+
+            List<Post> posts = null;
+            try
+            {
+                bool result = await Task.Run(() =>
+                {
+                    posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
+                    return false;
+                });
+            }
+            catch (XmlRpcException ex)
+            {
+                string message = ex.Message;
+                if (message == "Not Found")
+                    message = "Invalid Blog API Url:\r\n" + weblogInfo.ApiUrl;
+                MessageBox.Show("Unable to download posts:\r\n" + message,mmApp.ApplicationName,
+                    MessageBoxButton.OK,MessageBoxImage.Warning);
+                return;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Unable to download posts:\r\n" + ex.Message,mmApp.ApplicationName,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+
+            for (int i = 0; i < posts.Count; i++)
+            {
+                var post = posts[i];
+                post.mt_excerpt = StringUtils.TextAbstract(post.mt_excerpt, 220);
+            }
+
+            WindowUtilities.DoEvents();
+
+            Dispatcher.Invoke(() =>
+            {
+                ShowStatus(posts.Count + " posts downloaded.",5000);
+                SetStatusIcon();
+                Model.PostList = posts;
+            });
+
+                       
+        }
+
         private void ListViewPosts_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             CreateDownloadedPost();
@@ -136,37 +227,6 @@ namespace WeblogAddin
             if (e.Key == Key.Enter)
                 CreateDownloadedPost();
         }
-        
-        private void CreateDownloadedPost()
-        {
-
-            var item = ListViewPosts.SelectedItem as Post;
-            if (item == null)
-                return;
-
-            string postId = item.PostID.ToString();
-            WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
-
-            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
-                weblogInfo.Username,
-                weblogInfo.Password);
-
-            Post post = null;
-            try
-            {
-                post = wrapper.GetPost(postId);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);
-                return;
-            }
-
-            Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);
-
-            Close();        
-        }
-
 
         #endregion
 
@@ -220,97 +280,34 @@ namespace WeblogAddin
         }
         #endregion
 
-        private void ComboWebLogName_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void CreateDownloadedPost()
         {
-            if (!string.IsNullOrEmpty(TextWeblogPassword.Password))
-                Model.ActiveWeblogInfo.Password = TextWeblogPassword.Password;
 
+            var item = ListViewPosts.SelectedItem as Post;
+            if (item == null)
+                return;
 
-        }
+            string postId = item.PostID.ToString();
+            WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
 
-        private void Button_NewWeblog(object sender, RoutedEventArgs e)
-        {
-            Model.ActiveWeblogInfo = new WeblogInfo()
-            {                 
-                 Name = "New Weblog"
-            };
-            Model.Configuration.Weblogs.Add(Model.ActiveWeblogInfo.Id,Model.ActiveWeblogInfo);
-        }
+            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                weblogInfo.Username,
+                weblogInfo.Password);
 
-        private void Button_DeleteWeblog(object sender, RoutedEventArgs e)
-        {
-            if (Model.ActiveWeblogInfo != null)
-            {
-                var id = Model.ActiveWeblogInfo.Id;
-                if (Model.Configuration.Weblogs.Count > 1)
-                    Model.ActiveWeblogInfo = Model.Configuration.Weblogs.FirstOrDefault().Value;
-
-                Model.Configuration.Weblogs.Remove(id);
-            }
-        }
-
-        private async void ButtonDownloadPosts_Click(object sender, RoutedEventArgs e)
-        {
-           
-                WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
-
-                var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
-                    weblogInfo.Username,
-                    weblogInfo.Password);
-
-                Dispatcher.Invoke(() =>
-                {
-                    Model.PostList = new List<Post>();
-                    SetStatusIcon(FontAwesomeIcon.Download, Colors.Orange,true); 
-                    ShowStatus("Downloading last " + Model.NumberOfPostsToRetrieve + " posts...");                    
-                });
-
-                WindowUtilities.DoEvents();
-
-            List<Post> posts = null;
+            Post post = null;
             try
             {
-                bool result = await Task.Run(() =>
-                {
-                    posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
-                    return false;
-                });
+                post = wrapper.GetPost(postId);
             }
-            catch (XmlRpcException ex)
+            catch (Exception ex)
             {
-                string message = ex.Message;
-                if (message == "Not Found")
-                    message = "Invalid Blog API Url:\r\n" + weblogInfo.ApiUrl;
-                MessageBox.Show("Unable to download posts:\r\n" + message,mmApp.ApplicationName,
-                    MessageBoxButton.OK,MessageBoxImage.Warning);
-                return;
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Unable to download posts:\r\n" + ex.Message,mmApp.ApplicationName,
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);
                 return;
             }
 
+            Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);
 
-            for (int i = 0; i < posts.Count; i++)
-                {
-                    var post = posts[i];
-                    post.mt_excerpt = StringUtils.TextAbstract(post.mt_excerpt, 220);
-                }
-
-                WindowUtilities.DoEvents();
-
-                Dispatcher.Invoke(() =>
-                {
-                    ShowStatus(posts.Count + " posts downloaded.",5000);
-                    SetStatusIcon();
-                    Model.PostList = posts;
-                });
-
-                       
+            Close();        
         }
-
-
     }
 }

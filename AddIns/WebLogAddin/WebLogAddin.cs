@@ -36,6 +36,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using FontAwesome.WPF;
 using HtmlAgilityPack;
@@ -469,6 +470,8 @@ $@"# {meta.Title}
             return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), replace));
         }
 
+        #region Downloaded Post Handling
+
         public void CreateDownloadedPostOnDisk(Post post, string weblogName)
         {
             string filename = SafeFilename(post.Title + " - " + weblogName);
@@ -480,7 +483,9 @@ $@"# {meta.Title}
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             var outputFile = Path.Combine(folder, filename + ".md");
-            
+
+
+            bool isMarkdown = false;
             string body = post.Body;
             if (post.CustomFields != null)
             {
@@ -488,9 +493,7 @@ $@"# {meta.Title}
                 if (cf != null)
                 {
                     body = cf.Value;
-
-                    
-
+                    isMarkdown = true;
                 }
             }
             else
@@ -510,13 +513,60 @@ $@"# {meta.Title}
                 Categories = categories,
                 Keywords = post.mt_keywords,
                 Abstract = post.mt_excerpt,
-                PostId = post.PostID.ToString(),                
+                PostId = post.PostID.ToString(),
                 WeblogName = weblogName
             });
             File.WriteAllText(outputFile, newPostMarkdown);
-            Model.Window.OpenTab(outputFile);
-
+            
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
+
+            if (isMarkdown)
+            {
+                string html = post.Body;
+                string path = mmApp.Configuration.LastFolder;
+
+                ShowStatus("Downloading post images...");
+                
+                SaveImages(html, path);
+                ShowStatus("Post download complete.", 5000);
+
+                //new Action<string,string>(SaveImages).BeginInvoke(html,path,null, null);
+            }
+
+            Model.Window.OpenTab(outputFile);
         }
+
+        private void SaveImages(string htmlText, string basePath)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(htmlText);
+            try
+            {
+                // send up normalized path images as separate media items
+                var images = doc.DocumentNode.SelectNodes("//img");
+                if (images != null)
+                {
+                    foreach (HtmlNode img in images)
+                    {
+                        string imgFile = img.Attributes["src"]?.Value;
+                        if (imgFile == null)
+                            continue;
+
+                        if (imgFile.StartsWith("http://") || imgFile.StartsWith("https://"))
+                        {
+                            string imageDownloadPath = Path.Combine(basePath, Path.GetFileName(imgFile));
+                  
+                            var http = new HttpUtilsWebClient();
+                            http.DownloadFile(imgFile, imageDownloadPath);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        #endregion
     }
 }

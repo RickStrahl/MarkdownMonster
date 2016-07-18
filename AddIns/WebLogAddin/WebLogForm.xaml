@@ -173,7 +173,7 @@
                         <TextBox Grid.Column="1" Name="TextNumberOfPosts" Text="{Binding NumberOfPostsToRetrieve}" TextAlignment="Right" Margin="6,0,0,0" />
                     </Grid>
                     <Button Grid.Row="3" Margin="0,10" Height="40" Width="175" HorizontalAlignment="Left" 
-                        Click="ButtonDownloadPosts_Click" >
+                        Click="Button_DownloadPosts_Click" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Download" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                             <TextBlock Margin="10,0,0,0" FontSize="14">Download Posts</TextBlock>
