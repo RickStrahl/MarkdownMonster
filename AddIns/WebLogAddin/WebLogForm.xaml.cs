@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using CookComputing.XmlRpc;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
@@ -273,11 +274,21 @@ namespace WeblogAddin
                 {
                     posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
                     return false;
-                }); 
+                });
             }
-            catch (Exception ex)
+            catch (XmlRpcException ex)
             {
-                MessageBox.Show("Unable to download posts:\r\n\r\n" + ex.Message);
+                string message = ex.Message;
+                if (message == "Not Found")
+                    message = "Invalid Blog API Url:\r\n" + weblogInfo.ApiUrl;
+                MessageBox.Show("Unable to download posts:\r\n" + message,mmApp.ApplicationName,
+                    MessageBoxButton.OK,MessageBoxImage.Warning);
+                return;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Unable to download posts:\r\n" + ex.Message,mmApp.ApplicationName,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -289,7 +300,6 @@ namespace WeblogAddin
                 }
 
                 WindowUtilities.DoEvents();
-
 
                 Dispatcher.Invoke(() =>
                 {
