@@ -525,9 +525,9 @@ $@"# {meta.Title}
                 string html = post.Body;
                 string path = mmApp.Configuration.LastFolder;
 
+                // do this synchronously so images show up :-<
                 ShowStatus("Downloading post images...");
-                
-                SaveImages(html, path);
+                SaveMarkdownImages(html, path);
                 ShowStatus("Post download complete.", 5000);
 
                 //new Action<string,string>(SaveImages).BeginInvoke(html,path,null, null);
@@ -536,12 +536,13 @@ $@"# {meta.Title}
             Model.Window.OpenTab(outputFile);
         }
 
-        private void SaveImages(string htmlText, string basePath)
+        private void SaveMarkdownImages(string htmlText, string basePath)
         {
-            var doc = new HtmlDocument();
-            doc.LoadHtml(htmlText);
             try
             {
+                var doc = new HtmlDocument();
+                doc.LoadHtml(htmlText);
+
                 // send up normalized path images as separate media items
                 var images = doc.DocumentNode.SelectNodes("//img");
                 if (images != null)
@@ -555,14 +556,19 @@ $@"# {meta.Title}
                         if (imgFile.StartsWith("http://") || imgFile.StartsWith("https://"))
                         {
                             string imageDownloadPath = Path.Combine(basePath, Path.GetFileName(imgFile));
-                  
-                            var http = new HttpUtilsWebClient();
-                            http.DownloadFile(imgFile, imageDownloadPath);
+
+                            try
+                            {
+                                var http = new HttpUtilsWebClient();
+                                http.DownloadFile(imgFile, imageDownloadPath);
+                            }
+                            catch // just continue on errorrs
+                            { }
                         }
                     }
                 }
             }
-            catch
+            catch // catch so thread doesn't crash
             {
             }
         }
