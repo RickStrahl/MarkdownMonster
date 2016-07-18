@@ -91,11 +91,10 @@ namespace WeblogAddin
                 {
                     // Then send the post - it will re-read the new values
                     if (Model.Addin.SendPost())
-                    {
-                        this.Close();
-                    }
+                        Close();
                     else
                         window.ShowStatus("Failed to upload blog post.", 5000);
+
                 }, System.Windows.Threading.DispatcherPriority.Background);                
             }
             finally
@@ -204,7 +203,6 @@ namespace WeblogAddin
             StatusIcon.Foreground = new SolidColorBrush(color);
             if (spin)
                 StatusIcon.SpinDuration = 30;
-
             StatusIcon.Spin = spin;
         }
 
@@ -252,8 +250,7 @@ namespace WeblogAddin
 
         private async void ButtonDownloadPosts_Click(object sender, RoutedEventArgs e)
         {
-            //bool result = await Task.Run(() =>
-            //{
+           
                 WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
 
                 var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
@@ -262,7 +259,8 @@ namespace WeblogAddin
 
                 Dispatcher.Invoke(() =>
                 {
-                    SetStatusIcon(FontAwesomeIcon.Download, Colors.Orange); 
+                    Model.PostList = new List<Post>();
+                    SetStatusIcon(FontAwesomeIcon.Download, Colors.Orange,true); 
                     ShowStatus("Downloading last " + Model.NumberOfPostsToRetrieve + " posts...");                    
                 });
 
@@ -271,7 +269,11 @@ namespace WeblogAddin
             List<Post> posts = null;
             try
             {
-                posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
+                bool result = await Task.Run(() =>
+                {
+                    posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
+                    return false;
+                }); 
             }
             catch (Exception ex)
             {
@@ -293,11 +295,10 @@ namespace WeblogAddin
                 {
                     ShowStatus(posts.Count + " posts downloaded.",5000);
                     SetStatusIcon();
-                    ListViewPosts.ItemsSource = posts;
+                    Model.PostList = posts;
                 });
 
-            //    return false;
-            //});            
+                       
         }
 
 

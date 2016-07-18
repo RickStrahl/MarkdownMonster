@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using MarkdownMonster;
+using WebLogAddin.MetaWebLogApi;
 
 namespace WeblogAddin
 {
@@ -131,6 +132,18 @@ namespace WeblogAddin
                 OnPropertyChanged(nameof(NumberOfPostsToRetrieve));
             }
         }
+
+        public List<Post> PostList
+        {
+            get { return _postList; }
+            set
+            {
+                if (value == _postList) return;
+                _postList = value;
+                OnPropertyChanged(nameof(PostList));
+            }
+        }
+        private List<Post> _postList = new List<Post>();
 
 
 
