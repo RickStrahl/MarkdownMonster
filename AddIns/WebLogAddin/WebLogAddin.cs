@@ -467,17 +467,19 @@ $@"# {meta.Title}
 
         private static string SafeFilename(string fileName,string replace = "")
         {
-            return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), replace));
+            string filename = Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), replace));
+
+            return filename;
         }
 
         #region Downloaded Post Handling
 
         public void CreateDownloadedPostOnDisk(Post post, string weblogName)
         {
-            string filename = SafeFilename(post.Title + " - " + weblogName);
+            string filename = SafeFilename(post.Title);
 
             var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,
-                "Downloaded Posts",
+                "Downloaded",weblogName,
                 filename);
 
             if (!Directory.Exists(folder))
