@@ -5,7 +5,7 @@
 * Add cursor position to status bar
 
 ### Bugs
-* Fix **Path Name Too Long** errors when downloading or creating posts
+* <s>Fix **Path Name Too Long** errors when downloading or creating posts</s>
 
 ### Consideration
 * Support arbitrary MetaWeblog API attributes in MetaData
