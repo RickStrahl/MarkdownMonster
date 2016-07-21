@@ -1,5 +1,5 @@
 # Markdown Monster
-### An extensible Markdown Editor for Windows
+### An extensible Markdown Editor and Weblog Publisher for Windows
 
 ![](Art/MarkdownMonster.png)
 
@@ -16,16 +16,24 @@
 ### Features
 Markdown Monster provides many useful features:
 
+#### Markdown Editor
 * Syntax highlighted Markdown editing
 * Live Markdown HTML preview 
 * Local easily, customizable HTML templates for preview
 * Gentle toolbar support for Markdown newbies and complex tasks
 * Easily customizable preview templates
 * Inline, as-you type spell checking
-* Customizable editor and preview Themes
+* Customizable editor and preview themes
 * Syntax colored code snippet preview support (hilight.js)
 * Paste HTML as Markdown
 * Copy Markdown Selection as Html
+
+#### Weblog Publisher
+* Create or edit Weblog posts using Markdown
+* Easily embed images and screen shots
+* Publish your posts to your blog (MetaWebLog,Wordpress)
+* Download and edit existing posts
+* Publish to multiple blogs
 
 #### Extensibility
 * Create Addins with .NET
@@ -74,7 +82,7 @@ Writing long blog posts is one thing I do a lot of and this is one of the reason
 
 ![Weblog Publishing Addin](WebLogPublishingAddin.png)
 
-I can think of a few others - a quick way to commit to Git and Push would be useful for documentation solutions so you can easily persist changes to a GitHub repository. Embedding all sorts of content like reference links, adsense links, amazon product links, a new post template engine etc. etc.
+I can think of a few others - a quick way to commit to Git and Push would be useful for documentation solutions so you can easily persist changes to a GitHub repository. Embedding all sorts of content like reference links, AdSense links, amazon product links, a new post template engine etc. etc.
 
 Or maybe you have custom applications that use Markdown text and provide an API that allows you to post the Markdown (or HTML) to the server. It's easy to build a custom add-in that lets you take either the Markdown text or rendered HTML and push it to a custom REST interface in your custom application.
 
@@ -91,7 +99,7 @@ This library provides the Metro style window and theming support of the top leve
 This library provides the tab control support for the editor allowing for nicely styled tab reordering and overflow. Although not used in Markdown Monster the library also supports tab tear off tabs and layout docking.
 
 * **[CommonMark.NET](https://github.com/Knagis/CommonMark.NET)**  
-This is the markdonwn parser used to render markdown in the preview editor. CommonMark.NET is fast and easy to work with and has an excellent extensibility interface.
+This is the markdown parser used to render markdown in the preview editor. CommonMark.NET is fast and easy to work with and has an excellent extensibility interface.
 
 ## License
 Although we provide the source in the open, Markdown Monster is licensed software &copy; West Wind Technologies, 2016.

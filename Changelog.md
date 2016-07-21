@@ -1,5 +1,12 @@
 # Markdown Monster Change Log
 
+### 0.40
+* **Markdown Post Download now downloads Images**  
+When you download Weblog posts that include images the images are downloaded locally into the post folder, so they display properly. Note Markdown can be 'published' and retrieved using the special `mt_markdown` custom variable in MetaWebLog API, which is sent and received.
+
+* **Fix Blog List dialog Sizing**  
+The blog download tab in the blog Add-in now properly displays the message list downloaded from the server. Downloads are much faster and entries can be filtered.
+
 ### 0.39
 
 * **Add Strikeout to the toolbar**  

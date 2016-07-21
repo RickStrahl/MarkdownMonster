@@ -7,8 +7,8 @@
 <html>
 <head>
     <title>Markdown Monster</title>
-    <meta name="description" content="Markdown Monster is an easy to use and extensible Markdown editor for Windows. Easily edit Markdown documents, convert HTML to markdown and publish Markdown to your Weblog." />
-    <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Writing,Documentation,Publishing" />
+    <meta name="description" content="Markdown Monster is an easy to use and extensible Markdown Editor and Weblog Publisher for Windows. Easily edit Markdown documents, convert HTML to markdown and publish Markdown to your Weblog." />
+    <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Publish,Writing,Documentation" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
@@ -75,7 +75,7 @@
                     </div>
 
                     <div class="top-bullet-box">
-                        <h4 style="color: #ffd281;">Extensible Markdown Editing for Windows</h4>
+                        <h4 style="color: #ffd281;">Extensible Markdown Editing and Weblog Publishing for Windows</h4>
                         <div class="row">
                             <div class="col-md-6">
                                 <div style="padding: 5px 20px; font-size: 1.3em">
