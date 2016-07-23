@@ -1,5 +1,12 @@
 # Markdown Monster Change Log
 
+### 0.41
+* **Modify Preview File Lifetime**  
+The preview file (__YourFile.htm) is now deleted shortly after rendering to avoid the file showing up in GIT checkins.
+
+* **Reduce memory Footprint**  
+Added logic to reduce memory footprint after initial load by resetting the working set. Memory usage is high in general due to the WebBrowser controls that are used for rendering the editor and preview browser, but footprint reduces nicely when the application is deactivated.
+
 ### 0.40
 * **Markdown Post Download now downloads Images**  
 When you download Weblog posts that include images the images are downloaded locally into the post folder, so they display properly. Note Markdown can be 'published' and retrieved using the special `mt_markdown` custom variable in MetaWebLog API, which is sent and received.
