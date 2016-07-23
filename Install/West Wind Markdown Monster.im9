@@ -2761,6 +2761,10 @@ project Flags=0x20 {
 			}
 			assembly System.Windows.Interactivity_4.5.0.0_31bf3856ad364e35_M_C7BF9A94B0A88F60: Flags=0x0, Platforms=0x7FFFFFFF, Packaging=0, Languages="0=", State0=3, State1=3, ExtraSize=0, AssemblyType=2, Manifest=System.Windows.Interactivity.dll_D495B44B5B292E85, AIType=win32, AIName=System.Windows.Interactivity, AIVersion="4.5.0.0", AIPublicKey="31bf3856ad364e35", AIProcessor=MSIL {
 			}
+			component Added_20160722221322: Flags=0x0, Platforms=0x7FFFFFFF, Packaging=0, Languages="0=", State0=3, State1=3, ExtraSize=0 {
+				str DisplayName: Flags=0x40000, Default=Added_20160722221322;
+				str Description: Flags=0x40000;
+			}
 		}
 	}
 	files TARGETDIR: Flags=0x0, Traits=0x6F07, InstallAction=0, RemoveAction=0 {
@@ -4539,6 +4543,9 @@ project Flags=0x20 {
 			str Name: Default=Windows;
 			folder FontsFolder: Flags=0x0, Traits=0x80000000, InstallAction=0, RemoveAction=0 {
 				str Name: Default=Fonts;
+				file FontAwesome.otf_0AD449E03DF61837: Flags=0x1, Component=Added_20160722221322, Path=FontAwesome.otf, Attributes=0x0, ExtraName="FontAwesome (OpenType)", InstallAction=4, RemoveAction=1, Registration=4, RegOrder=50, Packaging=0 {
+					str Name: Default=FontAwesome.otf;
+				}
 			}
 			folder GlobalAssemblyCache: Flags=0x0, Traits=0x266F82, InstallAction=0, RemoveAction=0 {
 				str Name: Flags=0x50000, PhraseID=Folder.GAC, Default="assembly (GAC)" {
