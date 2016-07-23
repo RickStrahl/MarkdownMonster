@@ -39,6 +39,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -136,7 +137,16 @@ namespace MarkdownMonster
             {
                 TabControl.InvalidateVisual();
                 Left = left;
+
+                mmApp.SetWorkingSet(10000000, 5000000);
+
             });            
+        }
+
+        protected override void OnDeactivated(EventArgs e)
+        {
+            base.OnDeactivated(e);
+            mmApp.SetWorkingSet(10000000, 5000000);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -577,6 +587,7 @@ namespace MarkdownMonster
 
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false)
         {
+            // only render if the preview is actually visible and rendering in Preview Browser
             if (!Model.IsPreviewBrowserVisible && !showInBrowser)
                 return;
 
@@ -587,17 +598,15 @@ namespace MarkdownMonster
                 return;
 
             var doc = editor.MarkdownDocument;
-            var ext = Path.GetExtension(editor.MarkdownDocument.Filename).ToLower().Replace(".","");
-            
+            var ext = Path.GetExtension(doc.Filename).ToLower().Replace(".","");
 
-            int lastPos = 0;
-            dynamic dom = null;
             string renderedHtml = null;
 
             if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
             {
                 ShowPreviewBrowser();
 
+                dynamic dom = null;
                 if (keepScrollPosition)
                 {
                     dom = PreviewBrowser.Document;
@@ -608,7 +617,7 @@ namespace MarkdownMonster
 
                 if (ext == "html" || ext == "htm")
                 {
-                    File.WriteAllText(editor.MarkdownDocument.HtmlRenderFilename, editor.MarkdownDocument.CurrentText);
+                    editor.MarkdownDocument.WriteFile(editor.MarkdownDocument.HtmlRenderFilename, editor.MarkdownDocument.CurrentText);
                 }
                 else
                     renderedHtml = editor.MarkdownDocument.RenderHtmlToFile();
@@ -636,15 +645,15 @@ namespace MarkdownMonster
                                 "<!-- End Markdown Monster Content -->");
 
                             if (string.IsNullOrEmpty(renderedHtml))
-                                PreviewBrowser.Refresh(true);
+                                PreviewMarkdown(editor, false, false); // fully reload document
                             else
                             {
                                 try
                                 {
+                                    // explicitly update the document with JavaScript code
                                     // much more efficient and non-jumpy and no wait cursor
                                     var window = dom.parentWindow;
                                     window.updateDocumentContent(renderedHtml);
-                                    //content.innerHtml = renderedHtml;
                                 }
                                 catch
                                 {
@@ -1127,8 +1136,16 @@ namespace MarkdownMonster
                 dynamic dom = PreviewBrowser.Document;
                 dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
 
-                //if (File.Exists(editor.MarkdownDocument.HtmlRenderFilename))
-                //    File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
+                new Timer((editr) =>
+                {
+                    try
+                    {
+                        if (File.Exists(editor.MarkdownDocument.HtmlRenderFilename))
+                            File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
+                    }
+                    catch
+                    { }
+                }, null, 2000, Timeout.Infinite);
             };
             PreviewBrowser.Navigate("about:blank");
 

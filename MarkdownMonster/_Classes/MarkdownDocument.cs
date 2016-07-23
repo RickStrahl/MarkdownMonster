@@ -36,6 +36,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using Newtonsoft.Json;
 using Westwind.Utilities;
 
@@ -149,6 +150,7 @@ namespace MarkdownMonster
                     path = Path.GetDirectoryName(Filename);
                     file = "__" + Path.ChangeExtension(Path.GetFileName(Filename), "htm");                    
                 }
+
                 return Path.Combine(path, file);
             }
         }
@@ -255,8 +257,19 @@ namespace MarkdownMonster
             var html = themeHtml.Replace("{$themePath}", themePath);
             html = html.Replace("{$markdownHtml}", markdownHtml);
 
-            File.WriteAllText(filename, html);
+            WriteFile(filename, html);
+
             return html;
+        }
+
+        /// <summary>
+        /// Output routWrites the file with a hidden attribute
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="html"></param>
+        public void WriteFile(string filename, string html)
+        {
+            File.WriteAllText(filename, html,Encoding.UTF8);
         }
 
 

@@ -79,7 +79,18 @@ namespace MarkdownMonster
                 "MarkdownMonsterErrors.txt"));
         }
 
-        
+        public static void SetWorkingSet(int lnMaxSize, int lnMinSize)
+        {
+            try
+            {
+                Process loProcess = Process.GetCurrentProcess();
+                loProcess.MaxWorkingSet = (IntPtr)lnMaxSize;
+                loProcess.MinWorkingSet = (IntPtr)lnMinSize;
+            }
+            catch {}
+        }
+
+
         public static void SendBugReport(Exception ex)
         {
             var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
