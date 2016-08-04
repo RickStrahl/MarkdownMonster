@@ -89,10 +89,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="ScreenCapture.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ScreenCapture.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy   "$(TargetPath)"   "$(SolutionDir)\MarkdownMonster\bin\$(ConfigurationName)\Addins\$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>copy   "$(TargetPath)"   "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\$(TargetFileName)"
+copy   "$(TargetDir)ScreenCapture.exe"   "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\ScreenCapture.exe"
+copy   "$(TargetDir)ScreenCapture.exe.config"   "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\ScreenCapture.exe.config"
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

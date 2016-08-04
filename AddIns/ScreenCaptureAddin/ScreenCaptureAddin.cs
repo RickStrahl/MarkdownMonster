@@ -32,9 +32,13 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using FontAwesome.WPF;
+using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using Westwind.Utilities;
 
@@ -60,6 +64,22 @@ namespace SnagItAddin
 
         public override void OnExecute(object sender)
         {
+            if (Model.ActiveDocument == null)
+            {
+                MessageBox.Show("Can't capture a screen - there's no open document to capture to.",
+                    mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (SnagItAutomation.IsInstalled  && ScreenCaptureConfiguration.Current.UseSnagItForImageCapture)
+                ExecuteSnagitCapture();
+            else
+                ExecuteExternalFormCapture();
+
+        }
+
+        private void ExecuteSnagitCapture()
+        {
             var config = ScreenCaptureConfiguration.Current;
 
             if (config.AlwaysShowCaptureOptions)
@@ -74,7 +94,7 @@ namespace SnagItAddin
                 if (result == null || !result.Value)
                     return;
             }
-            
+
             SnagItAutomation SnagIt = SnagItAutomation.Create();
             SnagIt.ActiveForm = Model.Window;
 
@@ -84,7 +104,7 @@ namespace SnagItAddin
             if (!string.IsNullOrEmpty(SnagIt.CapturePath))
                 SnagIt.CapturePath = Path.GetDirectoryName(SnagIt.CapturePath);
 
-                    
+
             string capturedFile = SnagIt.CaptureImageToFile();
             if (string.IsNullOrEmpty(capturedFile) || !File.Exists(capturedFile))
                 return;
@@ -94,8 +114,72 @@ namespace SnagItAddin
             if (relPath.StartsWith(".."))
                 relPath = capturedFile;
 
-            string replaceText = "![](" +  relPath + ")";
-                        
+            if (relPath.Contains(":\\"))
+                relPath = "file:///" + relPath.Replace("\\", "/");
+
+            string replaceText = "![](" + relPath + ")";
+
+            // Push the new text into the Editor's Selection
+            SetSelection(replaceText);
+        }
+
+        private void ExecuteExternalFormCapture()
+        {
+            string captureFile = "";
+
+            // Result file holds filename in temp folder
+            string resultFilePath = Path.Combine(Path.GetTempPath(), "ScreenCapture.result");
+            string imageFolder = null;
+
+            imageFolder = Path.GetDirectoryName(Model.ActiveDocument.Filename);
+                       
+           
+            var helper = new WindowInteropHelper((Window) Model.Window);
+            var handle = helper.Handle;
+
+            if (File.Exists(resultFilePath))
+                File.Delete(resultFilePath);
+
+            string args = $@"""{imageFolder}"" {handle} {Model.Window.Left} {Model.Window.Top}";
+
+            try
+            {
+                var process = Process.Start(new ProcessStartInfo()
+                {
+                    FileName = Path.Combine(Environment.CurrentDirectory, "Addins", "ScreenCapture.exe"),
+                    Arguments = args
+                });
+                process.WaitForExit();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to capture screen shot.\r\n" + ex.Message, mmApp.ApplicationName,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!File.Exists(resultFilePath))
+                return;
+
+            // read the location for the captured image so we can embed a link to it
+            string capturedFile = File.ReadAllText(resultFilePath);
+
+            if (string.IsNullOrEmpty(capturedFile) ||  capturedFile.StartsWith("Cancelled") ||
+                !File.Exists(capturedFile))
+                return;
+
+            capturedFile = FileUtils.GetRelativePath(capturedFile, imageFolder);
+            string relPath = capturedFile.Replace("\\", "/");
+            if (relPath.StartsWith(".."))
+                relPath = capturedFile;
+
+            if (relPath.Contains(":\\")) // full path
+                relPath = "file:///" + relPath.Replace("\\", "/");
+        
+
+            string replaceText = "![](" + relPath + ")";
+
             // Push the new text into the Editor's Selection
             SetSelection(replaceText);
         }
@@ -111,13 +195,13 @@ namespace SnagItAddin
 
         public override bool OnCanExecute(object sender)
         {            
-            if (!SnagItAutomation.IsInstalled)
-            {
-                var button = sender as Control;                
-                button.ToolTip = "SnagIt isn't installed. Currently only SnagIt based captures are supported.";
-                button.IsEnabled = false;    
-                return false;
-            }
+            //if (!SnagItAutomation.IsInstalled)
+            //{
+            //    var button = sender as Control;                
+            //    button.ToolTip = "SnagIt isn't installed. Currently only SnagIt based captures are supported.";
+            //    button.IsEnabled = false;    
+            //    return false;
+            //}
 
             return true;
         }

@@ -3,9 +3,11 @@
 ### Immediate
 * Refresh files if changed on disk
 * Add cursor position to status bar
+* Add non-SnagIt Screen Capture form used in Help Builder
 
 ### Bugs
 * <s>Fix **Path Name Too Long** errors when downloading or creating posts</s>
+* Default font size on scaled displays is way too small. Need a way to initially detect DPI setting
 
 ### Consideration
 * Support arbitrary MetaWeblog API attributes in MetaData

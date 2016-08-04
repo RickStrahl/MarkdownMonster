@@ -798,7 +798,7 @@ namespace MarkdownMonster
 
                 AddRecentFile(fd.FileName);
             }
-            else if (button == ButtonNewFile)
+            else if (button == ButtonNewFile || button == ToolButtonNewFile)
             {
                 OpenTab("untitled");
             }

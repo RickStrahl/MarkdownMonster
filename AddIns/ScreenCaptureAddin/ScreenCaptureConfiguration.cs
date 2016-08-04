@@ -20,13 +20,36 @@ namespace SnagItAddin
 
         public ScreenCaptureConfiguration()
         {
+            // The following settings only apply if snagit is installed
+            // External capture ignores all of these
+            UseSnagItForImageCapture = true;
             CaptureMode = CaptureModes.AllInOne;
             ColorDepth = 24;
             OutputFormat = 4;
             IncludeCursor = true;
             CaptureDelaySeconds = 4;
             ShowPreviewWindow = true;
+            
         }
+
+
+        /// <summary>
+        /// If true and SnagIt is installed uses SnagIt for Image
+        /// capture. Otherwise External Form capture is used.
+        /// Default is true
+        /// </summary>
+        public bool UseSnagItForImageCapture
+        {
+            get { return _useSnagItForImageCapture; }
+            set
+            {
+                if (value == _useSnagItForImageCapture) return;
+                _useSnagItForImageCapture = value;
+                OnPropertyChanged(nameof(UseSnagItForImageCapture));
+            }
+        }
+        private bool _useSnagItForImageCapture;
+
 
         public CaptureModes CaptureMode
         {

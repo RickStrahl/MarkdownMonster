@@ -34,6 +34,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -146,10 +147,10 @@ namespace MarkdownMonster
             Directory.SetCurrentDirectory(Path.GetDirectoryName(dir));            
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
 
+
             AddinManager.Current.LoadAddins();
             AddinManager.Current.RaiseOnApplicationStart();            
-        }        
+        }
 
-        
     }
 }

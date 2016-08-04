@@ -1,5 +1,12 @@
 # Markdown Monster Change Log
 
+### 0.42
+* **Add non-SnagIt Window Capture**  
+If you don't have the excellent SnagIt tool installed you can now do rudimentary screen captures directly into your document using an external form that captures desktop windows/objects. MM will detect if SnagIt is installed and automatically choose the right capture mode.
+
+* **New Button on the Toolbar**  
+There's now a new document button on the toolbar menu.
+
 ### 0.41
 * **Modify Preview File Lifetime**  
 The preview file (__YourFile.htm) is now deleted shortly after rendering to avoid the file showing up in GIT checkins.

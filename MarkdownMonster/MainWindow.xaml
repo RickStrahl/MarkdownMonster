@@ -191,6 +191,14 @@
                             </i:Interaction.Behaviors>
                         </Button>
 
+
+                        <Button Name="ToolButtonNewFile" Margin="7,0,0,0" Click="Button_Handler" ToolTip="New file (ctrl-n)"                                
+                                fa:Awesome.Content="PlusCircle"
+                                 Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                />
+
                         <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding SaveCommand}" ToolTip="Save active document (ctrl-s)"                                
                                 fa:Awesome.Content="CheckCircleOutline"
                                  Height="22" Width="22"

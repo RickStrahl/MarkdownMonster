@@ -238,6 +238,8 @@ namespace MarkdownMonster
             }
         }
 
+
+
         //internal string FileWatcherOpenFilePath;
 
         public ApplicationConfiguration()
@@ -259,7 +261,7 @@ namespace MarkdownMonster
             RememberOpenFiles = true;
 
             EditorTheme = "twilight";
-            EditorFontSize = 19;
+            EditorFontSize = 20;
             EditorWrapText = true;
             EditorEnableSpellcheck = true;
             EditorDictionary = "EN_US";
