@@ -3,7 +3,7 @@ html, body {
     color: #eee;
     background: #303030;       
     font-family: 'Segoe UI',Geneva,sans-serif;
-    font-size: 18px;    
+    font-size: 19px;    
     
     height: 100%;    
        
@@ -133,6 +133,6 @@ hr{
 
 @media(min-width: 970px){
     html,body{
-        font-size: 1.08em;
+        font-size: 1.07em;
     }
 }

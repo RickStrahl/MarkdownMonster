@@ -1,6 +1,6 @@
 html, body {
     font-family:'Open Sans',Arial, sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     height: 100%;    
     line-height: 1.55em;
     padding: 5px 20px 5px 15px !important;
@@ -81,6 +81,6 @@ hr{
 
 @media(min-width: 970px){
     html,body{
-        font-size: 1.1em;
+        font-size: 1.08em;
     }
 }

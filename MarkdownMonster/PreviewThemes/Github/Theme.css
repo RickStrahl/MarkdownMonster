@@ -1,6 +1,6 @@
 html, body {
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.5;
     color: #333;    
 
@@ -109,6 +109,6 @@ hr {
 
 @media(min-width: 970px){
     html,body{
-        font-size: 1.07em;
+        font-size: 1.09em;
     }
 }

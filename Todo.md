@@ -3,7 +3,7 @@
 ### Immediate
 * Refresh files if changed on disk
 * Add cursor position to status bar
-* Add non-SnagIt Screen Capture form used in Help Builder
+* <s>Add non-SnagIt Screen Capture form used in Help Builder</s>
 
 ### Bugs
 * <s>Fix **Path Name Too Long** errors when downloading or creating posts</s>

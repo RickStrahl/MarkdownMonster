@@ -1,7 +1,7 @@
 html, body {
     color: #3e433e;    
     font-family:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;        
-    font-size: 16px;
+    font-size: 18px;
     -webkit-font-smoothing: antialiased;
     
     height: 100%;    
@@ -24,7 +24,7 @@ h1 {
     font-size: 1.8em;
     padding-bottom:10px;
     margin-bottom: 15px;
-    color: #555teelblue;
+    color: steelblue;
     border-bottom: 1px solid #eee;
 }
 h2 {
@@ -109,6 +109,6 @@ pre code {
 
 @media(min-width: 970px){
     html,body{
-        font-size: 1.08em;
+        font-size: 1.09em;
     }
 }

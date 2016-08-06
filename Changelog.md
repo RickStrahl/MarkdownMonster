@@ -1,5 +1,9 @@
 # Markdown Monster Change Log
 
+### 0.43
+* **Preview Themes Updates**
+Change preview theme to use slightly larger font-sizes by default in order to allow for better default settings when running on scaled displays. Still looking for better workaround to handle browser control scaling issues.
+
 ### 0.42
 * **Add non-SnagIt Window Capture**  
 If you don't have the excellent SnagIt tool installed you can now do rudimentary screen captures directly into your document using an external form that captures desktop windows/objects. MM will detect if SnagIt is installed and automatically choose the right capture mode.
