@@ -3,6 +3,7 @@
 ### Immediate
 * Refresh files if changed on disk
 * Add cursor position to status bar
+* Scroll font-resizing reflected in configuration
 * <s>Add non-SnagIt Screen Capture form used in Help Builder</s>
 
 ### Bugs

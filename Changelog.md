@@ -1,7 +1,10 @@
 # Markdown Monster Change Log
 
 ### 0.43
-* **Preview Themes Updates**
+* **Font Resizing via Ctrl-Scroll or Ctrl+/-**  
+Font resizing via Ctrl-Scrollwheel or Ctrl-+/- now captures any font size changes and applies them to all open windows. The value now also updates the global default font size.
+
+* **Preview Themes Updates**  
 Change preview theme to use slightly larger font-sizes by default in order to allow for better default settings when running on scaled displays. Still looking for better workaround to handle browser control scaling issues.
 
 ### 0.42

@@ -34,6 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -95,10 +96,9 @@ namespace MarkdownMonster
         {
             if (AceEditor == null)
             {
+                // Get the JavaScript Ace Editor Instance
                 dynamic doc = WebBrowser.Document;
                 var window = doc.parentWindow;
-
-                object t = this as object;
                 AceEditor = window.initializeinterop("", this);
                                
                if (EditorSyntax != "markdown")
@@ -356,8 +356,6 @@ namespace MarkdownMonster
                 }
             }
 
-
-
             return html;
         }
 
@@ -377,6 +375,26 @@ namespace MarkdownMonster
             MarkdownDocument.CurrentText = GetMarkdown();
         }
 
+
+        public int GetFontSize()
+        {
+            if (AceEditor == null)
+                return 0;
+
+            object fontsize = AceEditor.getfontsize(false);
+            if (fontsize == null || !(fontsize is double || fontsize is int) )
+                return 0;
+
+            // If we have a fontsize, force the zoom level to 100% 
+            // The font-size has been adjusted to reflect the zoom percentage
+            var wb = (dynamic)WebBrowser.GetType().GetField("_axIWebBrowser2",
+                      BindingFlags.Instance | BindingFlags.NonPublic)
+                      .GetValue(WebBrowser);
+            int zoomLevel = 100; // Between 10 and 1000
+            wb.ExecWB(63, 2, zoomLevel, ref zoomLevel);   // OLECMDID_OPTICAL_ZOOM (63) - don't prompt (2)
+            
+            return Convert.ToInt32(fontsize);
+        }
 
         /// <summary>
         /// Gets the current selection of the editor
@@ -540,6 +558,16 @@ namespace MarkdownMonster
                     AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
             }
             catch { }
+        }
+
+        public void ResizeWindow()
+        {
+            int fontsize = GetFontSize();
+            if (fontsize > 5)
+            {
+                mmApp.Configuration.EditorFontSize = fontsize;
+                RestyleEditor();
+            }
         }
         #endregion
 

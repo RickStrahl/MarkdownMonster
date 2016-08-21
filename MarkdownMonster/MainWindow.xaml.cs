@@ -469,7 +469,7 @@ namespace MarkdownMonster
                 {
                     return false; // don't close
                 }
-                else if (res == MessageBoxResult.No)
+                if (res == MessageBoxResult.No)
                 {
                     // close but don't save 
                 }
@@ -519,6 +519,8 @@ namespace MarkdownMonster
             AddRecentFile(Model.ActiveDocument?.Filename);
 
             AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
+
+            Model.ActiveEditor.RestyleEditor();
         }
 
         //[Obsolete("This is old the code from the MetroTabControl")]

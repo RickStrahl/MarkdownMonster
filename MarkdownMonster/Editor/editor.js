@@ -177,7 +177,7 @@ var te = window.textEditor = {
             pos = -1; // first line
         //if (pos == -2)  
         te.editor.setValue(text, pos);
-        te.editor.getSession().setUndoManager(new ace.UndoManager())
+        te.editor.getSession().setUndoManager(new ace.UndoManager());
 
         setTimeout(function () {
             te.editor.resize(true);  //force a redraw
@@ -196,6 +196,11 @@ var te = window.textEditor = {
             te.editor.setOption('fontFamily', fontFace);
         if (weight)
             te.editor.setOption('fontWeight', weight);
+    },
+    getfontsize: function () {
+        var zoom = screen.deviceXDPI / screen.logicalXDPI;
+        var fontsize = te.editor.getFontSize() * zoom;
+        return fontsize;
     },
     setselection: function (text) {    
         var range = te.editor.getSelectionRange();
@@ -354,6 +359,11 @@ window.onerror = function windowError(message, filename, lineno, colno, error) {
     // don't let errors trigger browser window
     return true;
 }
+
+window.onresize = debounce(function() {
+        te.fox.textbox.resizeWindow();
+    },
+    200);
 
 window.ondrop = function (event) {
     // don't allow dropping here - we can't get full file info
