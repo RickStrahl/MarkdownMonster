@@ -48,7 +48,7 @@ var sc = window.spellcheck = {
         }
 
 
-        if (te.fox) //te.dic && te.aff) {  
+        if (te.mm) //te.dic && te.aff) {  
         {
             //dictionary = new Typo(lang, te.aff, te.dic);
             // use .net type checking

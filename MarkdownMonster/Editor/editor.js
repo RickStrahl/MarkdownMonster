@@ -4,7 +4,7 @@
 // NOTE: All method and property names have to be LOWER CASE!
 //       in order for FoxPro to be able to access them here.
 var te = window.textEditor = {
-    fox: null, // FoxPro COM object
+    mm: null, // FoxPro COM object
     editor: null, // Ace Editor instance
     settings: editorSettings,
     lastError: null,
@@ -89,7 +89,7 @@ var te = window.textEditor = {
 
         var keydownHandler = function keyDownHandler(e) {
             if (!te.isDirty) {
-                if (!te.fox)
+                if (!te.mm)
                     return;
 
                 // any printable character
@@ -107,7 +107,7 @@ var te = window.textEditor = {
 
                 if (valid) {
                     te.isDirty = true;
-                    te.fox.textbox.setDirty(true);
+                    te.mm.textbox.setDirty(true);
                 }
             }
         };          
@@ -115,7 +115,7 @@ var te = window.textEditor = {
 
 
         var keyupHandler = debounce(function keyUpHandler(e) {
-            if (!te.fox)
+            if (!te.mm)
                 return;
 
             var keycode = e.keyCode;                        
@@ -124,17 +124,17 @@ var te = window.textEditor = {
             //    keycode == 46 ||   // del                                
             //    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
             //    keycode == 222)   // single quote
-            //          te.fox.textbox.PreviewMarkdownCallback();
+            //          te.mm.textbox.PreviewMarkdownCallback();
             
             // handle tab/backspace in keyup - not working in keydown
             if (!te.isDirty) {                
                 if (keycode == 8 || keycode == 9 || keycode == 46) {
                     te.isDirty = true;                    
-                    te.fox.textbox.setDirty(true);
+                    te.mm.textbox.setDirty(true);
                 }
             }
 
-            te.fox.textbox.PreviewMarkdownCallback();
+            te.mm.textbox.PreviewMarkdownCallback();
             te.updateDocumentStats();
         }, 1000);
         $("pre[lang]").on("keyup", keyupHandler);
@@ -188,7 +188,7 @@ var te = window.textEditor = {
         te.editor.resize(true); //force a redraw
     },
     specialkey: function(key)   {
-        te.fox.textbox.SpecialKey(key);
+        te.mm.textbox.SpecialKey(key);
     },
     setfont: function (size, fontFace, weight) {
         if (size)
@@ -287,8 +287,7 @@ var te = window.textEditor = {
 
         var regex = /\s+/gi;
         var wordCount = text.replace(regex, ' ').split(' ').length;
-        //var lines = te.editor.getSession().lines.length;
-        var lines = 0;
+        var lines = te.editor.getSession().getDocument().getAllLines().length;
 
         return {
             wordCount: wordCount,
@@ -296,7 +295,7 @@ var te = window.textEditor = {
         }
     },
     updateDocumentStats: function() {
-        te.fox.textbox.updateDocumentStats(te.getDocumentStats());
+        te.mm.textbox.updateDocumentStats(te.getDocumentStats());
     },
     enablespellchecking: function (disable, dictionary) {
         if (dictionary)
@@ -323,7 +322,7 @@ var te = window.textEditor = {
         }
 
         // use COM object        
-        return te.fox.textbox.CheckSpelling(word,editorSettings.dictionary,false);
+        return te.mm.textbox.CheckSpelling(word,editorSettings.dictionary,false);
     },
     suggestSpelling: function (word, maxCount) {
         if (!editorSettings.enableSpellChecking)
@@ -334,7 +333,7 @@ var te = window.textEditor = {
             return spellcheck.dictionary.suggest(word);
         
         // use COM object
-        var words = te.fox.textbox.GetSuggestions(word, editorSettings.dictionary, false);       
+        var words = te.mm.textbox.GetSuggestions(word, editorSettings.dictionary, false);       
         if (!words)
             return [];
 
@@ -345,10 +344,10 @@ var te = window.textEditor = {
         return words;
     },
     addWordSpelling: function (word) {        
-        te.fox.textbox.AddWordToDictionary(word, editorSettings.dictionary);
+        te.mm.textbox.AddWordToDictionary(word, editorSettings.dictionary);
     },
     onblur: function () {
-        fox.textbox.lostfocus();
+        te.mm.textbox.lostfocus();
     }
 }
 
@@ -385,7 +384,7 @@ window.onerror = function windowError(message, filename, lineno, colno, error) {
 }
 
 window.onresize = debounce(function() {
-        te.fox.textbox.resizeWindow();
+        te.mm.textbox.resizeWindow();
     },
     200);
 
@@ -410,9 +409,9 @@ window.ondrop = function (event) {
 // calls into this component
 function initializeinterop(helpBuilderForm, textbox) {
 
-    te.fox = {};
-    te.fox.helpBuilderForm = helpBuilderForm;    
-    te.fox.textbox = textbox;
+    te.mm = {};
+    te.mm.helpBuilderForm = helpBuilderForm;    
+    te.mm.textbox = textbox;
 
     return window.textEditor;
 }
