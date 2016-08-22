@@ -230,7 +230,7 @@ namespace MarkdownMonster
         {            
             action = action.ToLower();
 
-            if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image", "href" }))
+            if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image", "href", "code" }))
                 return null;
 
             string html = input;
