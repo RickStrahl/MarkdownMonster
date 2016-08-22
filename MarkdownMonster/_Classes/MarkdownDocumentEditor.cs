@@ -471,6 +471,24 @@ namespace MarkdownMonster
         }
 
         /// <summary>
+        /// Callback to force updating of the status bar document stats
+        /// </summary>
+        /// <param name="stats"></param>
+        public void UpdateDocumentStats(dynamic stats)
+        {
+            if (stats == null)
+            {
+                Window.StatusStats.Text = "";
+                return;
+            }
+
+            int words = Convert.ToInt32(stats.wordCount);
+            int lines = Convert.ToInt32(stats.lines);
+
+            Window.StatusStats.Text = $"{words} words, {lines} lines";
+        }
+
+        /// <summary>
         /// Performs the special key operation that is tied
         /// to the key in the application.
         /// 

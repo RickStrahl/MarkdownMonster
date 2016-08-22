@@ -135,6 +135,7 @@ var te = window.textEditor = {
             }
 
             te.fox.textbox.PreviewMarkdownCallback();
+            te.updateDocumentStats();
         }, 1000);
         $("pre[lang]").on("keyup", keyupHandler);
 
@@ -273,15 +274,29 @@ var te = window.textEditor = {
         var session = te.editor.getSession();
         session.setUseWrapMode(wrapText);
         session.setOption("indentedSoftWrap", true);
+
+        te.updateDocumentStats();
     },
-    getDocumentStats: function() {
+    getDocumentStats: function () {
+        var text = te.getvalue();
+
+        // strip off blog post meta data at end of document
+        var pos = text.indexOf("\n<!-- Post Configuration -->");
+        if (pos > 0)
+            text = text.substr(0, pos - 1);
+
         var regex = /\s+/gi;
-        var wordCount = te.getvalue().replace(regex, ' ').split(' ').length;
+        var wordCount = text.replace(regex, ' ').split(' ').length;
+        //var lines = te.editor.getSession().lines.length;
+        var lines = 0;
 
         return {
             wordCount: wordCount,
-            lines: 0
+            lines:lines
         }
+    },
+    updateDocumentStats: function() {
+        te.fox.textbox.updateDocumentStats(te.getDocumentStats());
     },
     enablespellchecking: function (disable, dictionary) {
         if (dictionary)

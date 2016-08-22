@@ -1,5 +1,12 @@
 # Markdown Monster Change Log
 
+### 0.44
+* **Add Document Stats to Statusbar**  
+Add Line and Word count to the status bar to give basic document stats.
+
+* **Fix Preview Pane Resize**  
+Fix the preview pane resizing routine to ensure that the preview window size is preserved when the preview is updated.
+
 ### 0.43
 * **Font Resizing via Ctrl-Scroll or Ctrl+/-**  
 Font resizing via Ctrl-Scrollwheel or Ctrl-+/- now captures any font size changes and applies them to all open windows. The value now also updates the global default font size.
