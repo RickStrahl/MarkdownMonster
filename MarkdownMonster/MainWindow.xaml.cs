@@ -567,14 +567,15 @@ namespace MarkdownMonster
         /// Shows or hides the preview browser
         /// </summary>
         /// <param name="hide"></param>
-        public void ShowPreviewBrowser(bool hide = false)
+        public void ShowPreviewBrowser(bool hide = false, bool refresh = false)
         {
             if (!hide)
             {
                 PreviewBrowser.Visibility = Visibility.Visible;
                
                 ContentGrid.ColumnDefinitions[1].Width = new GridLength(12);
-                ContentGrid.ColumnDefinitions[2].Width = new GridLength(Width / 2 - 40);
+                if (!refresh)
+                    ContentGrid.ColumnDefinitions[2].Width = new GridLength(Width / 2 - 40);
             }
             else
             {
@@ -606,7 +607,7 @@ namespace MarkdownMonster
 
             if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
             {
-                ShowPreviewBrowser();
+                
 
                 dynamic dom = null;
                 if (keepScrollPosition)
@@ -615,7 +616,10 @@ namespace MarkdownMonster
                     editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
                 }
                 else
+                {
+                    ShowPreviewBrowser(false, false);
                     editor.MarkdownDocument.LastBrowserScrollPosition = 0;
+                }
 
                 if (ext == "html" || ext == "htm")
                 {
@@ -672,7 +676,7 @@ namespace MarkdownMonster
                 }
             }
 
-            ShowPreviewBrowser(true);
+            ShowPreviewBrowser(true,keepScrollPosition);
         }
 
         private DateTime invoked = DateTime.MinValue;

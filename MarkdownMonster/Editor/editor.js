@@ -274,6 +274,15 @@ var te = window.textEditor = {
         session.setUseWrapMode(wrapText);
         session.setOption("indentedSoftWrap", true);
     },
+    getDocumentStats: function() {
+        var regex = /\s+/gi;
+        var wordCount = te.getvalue().replace(regex, ' ').split(' ').length;
+
+        return {
+            wordCount: wordCount,
+            lines: 0
+        }
+    },
     enablespellchecking: function (disable, dictionary) {
         if (dictionary)
             editorSettings.dictionary = dictionary;

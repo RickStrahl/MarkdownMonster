@@ -551,7 +551,7 @@ namespace MarkdownMonster
                     mmApp.Configuration.EditorFontSize,
                     mmApp.Configuration.EditorWrapText);
 
-                if (this.EditorSyntax == "markdown" || this.EditorSyntax == "text")
+                if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
                     AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck, mmApp.Configuration.EditorDictionary);
                 else
                     // always disable for non-markdown text
