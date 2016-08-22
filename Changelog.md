@@ -5,7 +5,7 @@
 Add Line and Word count to the status bar to give basic document stats.
 
 * **Fix Preview Pane Resize**  
-Fix the preview pane resizing routine to ensure that the preview window size is preserved when the preview is updated.
+Fix the preview pane resizing routine to ensure that the preview window size is preserved when the preview is updated, also when Monster is shutdown and restarted.
 
 ### 0.43
 * **Font Resizing via Ctrl-Scroll or Ctrl+/-**  

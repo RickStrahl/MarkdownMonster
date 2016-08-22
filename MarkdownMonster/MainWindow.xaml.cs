@@ -575,7 +575,7 @@ namespace MarkdownMonster
                
                 ContentGrid.ColumnDefinitions[1].Width = new GridLength(12);
                 if (!refresh)
-                    ContentGrid.ColumnDefinitions[2].Width = new GridLength(Width / 2 - 40);
+                    ContentGrid.ColumnDefinitions[2].Width = new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
             }
             else
             {

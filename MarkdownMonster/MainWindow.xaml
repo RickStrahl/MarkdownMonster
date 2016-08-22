@@ -378,7 +378,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="4"  />
-                            <ColumnDefinition Width="120"  />
+                            <ColumnDefinition Width="150"  />
                             <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
@@ -393,7 +393,7 @@
             </StatusBarItem>
             <Separator Grid.Column="2" />
             <StatusBarItem Grid.Column="3">
-                <TextBlock Width="100" Name="StatusStats" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock  Name="StatusStats" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
             </StatusBarItem>
             <StatusBarItem Grid.Column="4">
                 <ComboBox  HorizontalAlignment="Right"  Width="145" ToolTip="Editor themes"

@@ -485,7 +485,7 @@ namespace MarkdownMonster
             int words = Convert.ToInt32(stats.wordCount);
             int lines = Convert.ToInt32(stats.lines);
 
-            Window.StatusStats.Text = $"{words} words, {lines} lines";
+            Window.StatusStats.Text = $"{words:n0} words, {lines:n0} lines";
         }
 
         /// <summary>
