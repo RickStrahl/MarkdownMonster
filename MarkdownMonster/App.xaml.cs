@@ -89,6 +89,7 @@ namespace MarkdownMonster
 
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 
+            mmApp.Started = DateTime.UtcNow;
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

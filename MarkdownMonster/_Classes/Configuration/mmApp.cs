@@ -32,6 +32,8 @@ namespace MarkdownMonster
         /// </summary>
         public static string ApplicationName { get; set; } = "Markdown Monster";
 
+        public static DateTime Started { get; set;  }
+
 
         /// <summary>
         /// Static constructor to initialize configuration
@@ -136,6 +138,7 @@ namespace MarkdownMonster
                 Registered = UnlockKey.IsRegistered(),
                 Access = mmApp.Configuration.ApplicationUpdates.AccessCount,
                 Operation = operation,
+                Time = Convert.ToInt32((DateTime.UtcNow - Started).TotalSeconds),
                 Data = data
             };
 
@@ -270,5 +273,6 @@ namespace MarkdownMonster
         public string Operation { get; set; }
         public string Data { get; set; }
         public int Access { get; set; }
+        public int Time { get; set; }
     }
 }

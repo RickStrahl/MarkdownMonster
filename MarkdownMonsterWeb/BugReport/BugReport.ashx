@@ -46,8 +46,9 @@ public class BugReportService : CallbackHandler
         StringUtils.LogString( telemetry.Version + " - " +
                                telemetry.Operation + " - " +
                                (telemetry.Registered ? "YES" : "no") + " - " +
-                               telemetry.Access + " - " +
-                               Context.Request.ServerVariables["REMOTE_ADDR"]   + " - " +
+                               telemetry.Access + " - " +                               
+                               Context.Request.ServerVariables["REMOTE_ADDR"]   + " - " +                               
+                               telemetry.Time.ToString("n") + "s -" +
                                telemetry.Data,
                                TelemetryFilePath);
 
@@ -98,5 +99,6 @@ public class Telemetry
     public bool Registered { get; set; }
     public string Operation { get; set;  }
     public string Data { get; set; }
+    public int Time { get; set; }
     public int Access { get; set; }
 }
