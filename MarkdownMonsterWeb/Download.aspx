@@ -67,7 +67,7 @@
                         <p><b style="font-family: 'Arial Black'; font-size: 15pt">Markdown Monster</b></p>
                         <dl>                            
                             <dt>Version:</dt>
-                            <dd>v<%= Version %> beta</dd>
+                            <dd>v<%= Version %> rc2</dd>
                                 
                             <dt>Released:</dt>
                             <dd><%= ReleaseDate %></dd>

@@ -37,6 +37,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 using Westwind.Utilities;
 
@@ -269,7 +270,24 @@ namespace MarkdownMonster
         /// <param name="html"></param>
         public void WriteFile(string filename, string html)
         {
-            File.WriteAllText(filename, html,Encoding.UTF8);
+            int written = 0;
+            while (written < 4)
+            {
+                try
+                {
+                    File.WriteAllText(filename, html, Encoding.UTF8);
+                    written = 10;
+                }
+                catch(Exception ex)
+                {
+                    // wait wind retry 3 times
+                    Thread.Sleep(150);
+                    written++;
+                    if (written == 4)
+                        throw new ApplicationException("Unable to write output file:  " + filename + "\r\n" + ex.Message);
+                }
+            }            
+
         }
 
 

@@ -65,7 +65,7 @@
                             </a>--%>
                            
                             <br />
-                            <small style="font-size: 8pt;"><i>version <%= Version %> Beta - <%= ReleaseDate%></i></small>
+                            <small style="font-size: 8pt;"><i>version <%= Version %> rc2 - <%= ReleaseDate%></i></small>
                         </div>
                         
                         
