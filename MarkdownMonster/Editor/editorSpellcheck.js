@@ -11,6 +11,7 @@
 var sc = window.spellcheck = {
     interval: null,
     firstpass: true,
+    spellCheck: function() {},
     dictionary: null, // Typo instance
     markers: [],
     excludedWords: ",div,span,td,th,tr,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,",
@@ -28,6 +29,7 @@ var sc = window.spellcheck = {
     },
     enable: function () {
         editorSettings.enableSpellChecking = true;
+        sc.spellCheck = spellCheck;
         
         // You also need to load in typo.js and jquery.js
         // You should configure these classes.                        
@@ -96,8 +98,9 @@ var sc = window.spellcheck = {
         $("#spellfixes") // handle the click on the selected item
             .on("click", "div", clickSuggestion);
 
-        return;
+        var counter = 0;
 
+        return;
 
         function enableSpellcheck() {
             te.editor.session.on('change', function(e) {
@@ -105,7 +108,7 @@ var sc = window.spellcheck = {
                     contents_modified = true;
                 }
             });
-            sc.interval = setInterval(spellCheck, 1500);
+            sc.interval = setInterval(spellCheck, 1800);
         }
 
         // Check the spelling of a line, and return [start, end]-pairs for misspelled words.
@@ -135,6 +138,7 @@ var sc = window.spellcheck = {
         }
 
 
+        
         // Spell check the Ace editor contents.
         function spellCheck() {
             if (!editorSettings.enableSpellChecking)
@@ -155,6 +159,7 @@ var sc = window.spellcheck = {
                 var Range = ace.require('ace/range').Range;
                 var lines = session.getDocument().getAllLines();
                 var lineCount = 0;
+
                 for (var line in lines) {
                     // Clear the gutter.
                     //session.removeGutterDecoration(i, "misspelled");

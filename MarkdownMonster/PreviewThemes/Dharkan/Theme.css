@@ -1,7 +1,7 @@
 html, body {
     color: #3e433e;    
-    font-family:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;        
-    font-size: 18px;
+    font-family:  "Helvetica Neue", Helvetica, "Segoe UI", Helvetica, Arial, sans-serif;        
+    font-size: 16px;
     -webkit-font-smoothing: antialiased;
     
     height: 100%;    
@@ -17,22 +17,22 @@ html, body {
 
 h1,h2,h3,h4,h5,h6, .byline,.content-title {
   color: #535353;
-  font-weight: bold;
+  font-weight: 600;
   font-family: Trebuchet, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
 }
 h1 {
-    font-size: 1.8em;
+    font-size: 1.5em;
     padding-bottom:10px;
     margin-bottom: 15px;
     color: steelblue;
     border-bottom: 1px solid #eee;
 }
 h2 {
-    font-size: 1.5em;
+    font-size: 1.35em;
     color: steelblue;
 }
 h3 {
-    font-size: 1.3em;
+    font-size: 1.2em;
     color: steelblue;
 }
 h4 {

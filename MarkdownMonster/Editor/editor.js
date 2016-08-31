@@ -118,24 +118,28 @@ var te = window.textEditor = {
             if (!te.mm)
                 return;
 
-            var keycode = e.keyCode;                        
+            var keycode = e.keyCode;
             //if (keycode == 13 ||   // cr
             //    keycode == 8 ||    // backspace
             //    keycode == 46 ||   // del                                
             //    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
             //    keycode == 222)   // single quote
             //          te.mm.textbox.PreviewMarkdownCallback();
-            
+
             // handle tab/backspace in keyup - not working in keydown
-            if (!te.isDirty) {                
+            if (!te.isDirty) {
                 if (keycode == 8 || keycode == 9 || keycode == 46) {
-                    te.isDirty = true;                    
+                    te.isDirty = true;
                     te.mm.textbox.setDirty(true);
                 }
             }
-
             te.mm.textbox.PreviewMarkdownCallback();
             te.updateDocumentStats();
+
+            //if (te.isspellcheckingenabled) {
+            //        sc.spellCheck();                    
+            //}
+
         }, 1000);
         $("pre[lang]").on("keyup", keyupHandler);
 
@@ -285,10 +289,10 @@ var te = window.textEditor = {
         if (pos > 0)
             text = text.substr(0, pos - 1);
 
-        var regex = /\s+/gi;
-        var wordCount = text.replace(regex, ' ').split(' ').length;
-        var lines = te.editor.getSession().getDocument().getAllLines().length;
-
+        var regExWords = /\s+/gi;
+        var wordCount = text.replace(regExWords, ' ').split(' ').length;                
+        var lines = text.split('\n').length;
+        
         return {
             wordCount: wordCount,
             lines:lines

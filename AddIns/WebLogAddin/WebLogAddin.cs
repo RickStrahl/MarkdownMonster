@@ -311,12 +311,12 @@ $@"# {meta.Title}
                         if (!imgFile.StartsWith("http://") && !imgFile.StartsWith("https://"))
                         {
                             imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
-                            if (System.IO.File.Exists(imgFile))
+                            if (File.Exists(imgFile))
                             {
                                 var media = new MediaObject()
                                 {
                                     Type = "application/image",
-                                    Bits = System.IO.File.ReadAllBytes(imgFile),
+                                    Bits = File.ReadAllBytes(imgFile),
                                     Name = baseName + "/" + Path.GetFileName(imgFile)
                                 };
                                 var mediaResult = wrapper.NewMediaObject(media);
@@ -467,7 +467,9 @@ $@"# {meta.Title}
 
         private static string SafeFilename(string fileName,string replace = "")
         {
-            string filename = Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), replace));
+            string filename = Path.GetInvalidFileNameChars()
+                                  .Aggregate(fileName, 
+                                             (current, c) => current.Replace(c.ToString(), replace));
 
             return filename;
         }
