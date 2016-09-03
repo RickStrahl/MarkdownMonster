@@ -1,5 +1,12 @@
 # Markdown Monster Change Log
 
+### 0.45
+* **Updated Preview Themes**  
+Preview themes have been tweaked for better default sizing on scaled displays.
+
+* **Miscellaneous UI and Performance Fixes**  
+Fixed timing issue in the preview editor. Changed spellchecking frequency to reduce overhead for larger documents.
+
 ### 0.44
 * **Add Document Stats to Statusbar**  
 Add Line and Word count to the status bar to give basic document stats.

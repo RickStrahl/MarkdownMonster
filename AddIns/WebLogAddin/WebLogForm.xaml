@@ -154,7 +154,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Foreground="#626262" FontSize="45" FontWeight="Bold" Margin="0,0,0,3">Experimental</Label>
+                    <!--<Label Grid.Row="0" Foreground="#626262" FontSize="45" FontWeight="Bold" Margin="0,0,0,3">Experimental</Label>-->
 
                     <Label Grid.Row="1">Select Blog</Label>
                     <Grid Grid.Row="2">

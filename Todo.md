@@ -7,6 +7,7 @@
 * <s>Add non-SnagIt Screen Capture form used in Help Builder</s>
 
 ### Bugs
+* HTML Preview sometime collapses to 0 width and won't reopen (after non-md/html file opening)
 * <s>Fix **Path Name Too Long** errors when downloading or creating posts</s>
 * <s>Default font size on scaled displays is way too small. Need a way to initially detect DPI setting</s>
 
