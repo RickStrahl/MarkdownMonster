@@ -1,5 +1,5 @@
 # Markdown Monster
-### An extensible Markdown Editor and Weblog Publisher for Windows
+### An extensible Markdown Editor, Viewer and Weblog Publisher for Windows
 
 ![](Art/MarkdownMonster.png)
 
@@ -80,7 +80,10 @@ This plug-in use Techsmith's popular and super versatile [SnagIt](http://techsmi
 * **WebLog Addin**  
 Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the blog tool, setting up your blog (MetaWebLog or WordPress) and the add-in handles publishing your text and attached images to your blog. You can also download blog posts from your blog and edit them as Markdown (with some conversion limitations).
 
-![Weblog Publishing Addin](WebLogPublishingAddin.png)
+![Weblog Publishing Addin](WebLogPublishingAddin.png)  
+![Weblog Publishing Addin](WebLogPublishingAddin_download.png)  
+  
+
 
 I can think of a few others - a quick way to commit to Git and Push would be useful for documentation solutions so you can easily persist changes to a GitHub repository. Embedding all sorts of content like reference links, AdSense links, amazon product links, a new post template engine etc. etc.
 
@@ -96,15 +99,15 @@ Ace Editor is a power HTML based editor platform that makes it easy to plug synt
 This library provides the Metro style window and theming support of the top level application shell.
 
 * **[Dragablz](https://dragablz.net/)**  
-This library provides the tab control support for the editor allowing for nicely styled tab reordering and overflow. Although not used in Markdown Monster the library also supports tab tear off tabs and layout docking.
+This library provides the tab control support for the editor allowing for nicely styled tab reordering and overflow. The library also supports tab tear off tabs and layout docking altough this feature is not used in Markdown Monster.
 
 * **[CommonMark.NET](https://github.com/Knagis/CommonMark.NET)**  
-This is the markdown parser used to render markdown in the preview editor. CommonMark.NET is fast and easy to work with and has an excellent extensibility interface.
+The markdown parser used to render markdown in the preview editor. CommonMark.NET is fast and easy to work with and has an excellent extensibility interface.
 
 ## License
 Although we provide the source in the open, Markdown Monster is licensed software &copy; West Wind Technologies, 2016.
 
-Markdown Monster can  be downloaded and evaluated for free, but a [reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER) must be purchased for continued use. Licenses are per user, rather than per machine, so you can use Markdown Monster on as many computers you wish with your license. 
+Markdown Monster can  be downloaded and evaluated for free, but a [reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER) must be purchased for continued use. Licenses are **per user**, rather than per machine, so an individual user can use Markdown Monster on as many computers they wish with their license. 
 
 Thanks for playing fair.
 
