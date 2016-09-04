@@ -88,7 +88,7 @@ namespace MarkdownMonster
                 WebBrowser.Navigate(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm"));
             }
             SetMarkdown();
-            FindSyntaxFromFileType(MarkdownDocument.Filename);
+            FindSyntaxFromFileType(MarkdownDocument.Filename);            
         }
 
 
@@ -553,7 +553,17 @@ namespace MarkdownMonster
                     dom.documentElement.scrollTop -= 150;
                 }
             }
-
+            // zooming
+            if (key == "ctrl-=")
+            {
+                mmApp.Configuration.EditorFontSize++;
+                RestyleEditor();
+            }
+            if (key == "ctrl--")
+            {
+                mmApp.Configuration.EditorFontSize--;
+                RestyleEditor();
+            }
         }
 
         /// <summary>
@@ -580,11 +590,13 @@ namespace MarkdownMonster
 
         public void ResizeWindow()
         {
+            return;
+            // This code fails spectactularily on Mac in Parallels
             int fontsize = GetFontSize();
             if (fontsize > 5)
             {
                 mmApp.Configuration.EditorFontSize = fontsize;
-                RestyleEditor();
+                //RestyleEditor();
             }
         }
         #endregion

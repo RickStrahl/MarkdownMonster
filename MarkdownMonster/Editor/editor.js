@@ -61,14 +61,19 @@ var te = window.textEditor = {
                 // do nothing but:
                 // keep ctrl-n browser behavior from happening
                 // and let WPF handle the key
-            }, 
-            "alt-c":  function() { te.specialkey("alt-c"); },
+            },
+            "alt-c": function() { te.specialkey("alt-c"); },
             "ctrl-o": function() { te.specialkey("ctrl-o"); },
             "ctrl-s": function() { te.specialkey("ctrl-s"); },
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
             "ctrl-i": function() { te.specialkey("ctrl-i"); },
             "ctrl-l": function() { te.specialkey("ctrl-l"); },
-            "ctrl-k": function () { te.specialkey("ctrl-k"); },            
+            "ctrl-k": function() { te.specialkey("ctrl-k"); },
+
+            // take over Zoom keys and manually zoom
+            "ctrl--": function () { te.specialkey("ctrl--"); return null; },
+            "ctrl-=": function () { te.specialkey("ctrl-="); return null; },
+
             "ctrl-shift-down": function () { te.specialkey("ctrl-shift-down"); },
             "ctrl-shift-up": function () { te.specialkey("ctrl-shift-up"); },
             "ctrl-shift-c": function () { te.specialkey("ctrl-shift-c"); },
@@ -202,7 +207,7 @@ var te = window.textEditor = {
         if (weight)
             te.editor.setOption('fontWeight', weight);
     },
-    getfontsize: function () {
+    getfontsize: function () {        
         var zoom = screen.deviceXDPI / screen.logicalXDPI;
         var fontsize = te.editor.getFontSize() * zoom;
         return fontsize;
@@ -405,6 +410,19 @@ window.ondrop = function (event) {
  	event.preventDefault();
  	return false;
  }
+ window.onmousewheel = function (e) {     
+    if (e.ctrlKey) {
+        e.cancelBubble = true;
+        e.returnValue = false;
+
+        if (e.wheelDelta > 0)
+            te.specialkey("ctrl-=");
+        if (e.wheelDelta < 0)
+            te.specialkey("ctrl--");
+
+        return false;
+    }
+}
 
 
 // This function is global and called by the parent
