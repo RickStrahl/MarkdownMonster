@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using System.Xml.Serialization;
 using System.Reflection;
 using System.Windows;
+using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
 namespace SnagItAddin
@@ -231,7 +232,10 @@ namespace SnagItAddin
                 // *** Need to delay a little here so that the form has properly minimized first
                 // *** especially under Vista/Win7
                 for (int i = 0; i < 20; i++)
-                    Thread.Sleep(5);             
+                {
+                    WindowUtilities.DoEvents();
+                    Thread.Sleep(5);
+                }
             }
 
             snagIt.Capture();
@@ -246,6 +250,7 @@ namespace SnagItAddin
                         TimedOut = false;
                         break;
                     }
+                    WindowUtilities.DoEvents();
                     Thread.Sleep(100);                    
                 }
             }
