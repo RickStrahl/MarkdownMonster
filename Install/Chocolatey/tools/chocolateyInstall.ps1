@@ -5,4 +5,4 @@ $fileLocation = Join-Path $toolsDir 'MarkdownMonsterSetup.exe'
 $fileType = 'exe'
 $silentArgs = '/q2'
 
-Install-ChocolateyPackage $packageName $fileType $silentArgs $fileLocation
+Install-ChocolateyInstallPackage $packageName $fileType $silentArgs $fileLocation
