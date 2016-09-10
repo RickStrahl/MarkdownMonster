@@ -1,5 +1,12 @@
 # Markdown Monster Change Log
 
+### 0.47
+* **Add Save As Html Menu Option**  
+You can now directly save markdown documents as rendered HTML. This is addition to the original feature that allows selected Markdown text to be copied as HTML to the clipboard.
+
+* **Fix Editor Scaling on High DPI Displays**  
+Added custom trapping of browser events for zooming the editor font size via scroll wheel and Ctrl-+ and Ctrl--. These operation now intercept the browser's native behavior and increment the configuration font-size instead providing a smoother and more consistent resizing setup
+
 ### 0.45
 * **Updated Preview Themes**  
 Preview themes have been tweaked for better default sizing on scaled displays.
