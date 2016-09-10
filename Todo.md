@@ -3,6 +3,7 @@
 ### Immediate
 * Refresh files if changed on disk
 * Add cursor position to status bar
+* Save As option should allow *Save to html* (in addition to copy to HTML in edit options)
 * <s>Scroll font-resizing reflected in configuration</s>
 * <s>Add non-SnagIt Screen Capture form used in Help Builder</s>
 
@@ -10,6 +11,8 @@
 * HTML Preview sometime collapses to 0 width and won't reopen (after non-md/html file opening)
 * <s>Fix **Path Name Too Long** errors when downloading or creating posts</s>
 * <s>Default font size on scaled displays is way too small. Need a way to initially detect DPI setting</s>
+
+
 
 ### Consideration
 * Support arbitrary MetaWeblog API attributes in MetaData

@@ -83,8 +83,10 @@
                 <Separator/>
                 <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding SaveCommand}" 
                           InputGestureText="Ctrl+S"/>
-                <MenuItem Name="ButtonSaveAsFile" Header="Save _As" Command="{Binding SaveAsCommand}" 
+                <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding SaveAsCommand}" 
                           InputGestureText="Ctrl+Shift+s"/>
+                <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" 
+                          />
 
                 <Separator />
                 <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   IsEnabled="{Binding IsEditorActive}" />

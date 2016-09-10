@@ -126,8 +126,12 @@ namespace MarkdownMonster
 
             EditorSyntax = "markdown";
 
+            if (filename.ToLower() == "untitled")
+                return;
+
             var ext = Path.GetExtension(MarkdownDocument.Filename).ToLower().Replace(".", "");
-            if (ext == "json")
+            if (ext == "md") { }                
+            else if (ext == "json")
                 EditorSyntax = "json";
             else if (ext == "html" || ext == "htm")
                 EditorSyntax = "html";
@@ -144,6 +148,10 @@ namespace MarkdownMonster
                 EditorSyntax = "css";
             else if (ext == "prg")
                 EditorSyntax = "foxpro";
+            else if (ext == "txt")
+                EditorSyntax = "text";
+            else
+                EditorSyntax = "";
             
         }
 

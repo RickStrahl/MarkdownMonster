@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -98,8 +99,8 @@ namespace MarkdownMonster
                 {
                     _activeDocument.PropertyChanged += (a, b) =>
                     {
-                        if (b.PropertyName == nameof(_activeDocument.IsDirty))
-                            SaveCommand.InvalidateCanExecute();
+                        if (b.PropertyName == nameof(_activeDocument.IsDirty))                        
+                            SaveCommand.InvalidateCanExecute();                        
                     };
                 }
                 OnPropertyChanged(nameof(ActiveDocument));
@@ -107,6 +108,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(IsEditorActive));
 
                 SaveCommand.InvalidateCanExecute();
+                SaveAsHtmlCommand.InvalidateCanExecute();
             }
         }
 
@@ -210,7 +212,10 @@ namespace MarkdownMonster
         public CommandBase PreviewBrowserCommand { get; set; }
 
         public CommandBase SaveCommand { get; set; }
+
         public CommandBase SaveAsCommand { get; set; }
+
+        public CommandBase SaveAsHtmlCommand { get; set; }
 
         public CommandBase ToolbarInsertMarkdownCommand { get; set; }
 
@@ -278,6 +283,50 @@ namespace MarkdownMonster
             }, (s, e) =>
             {
                 if (ActiveDocument == null)
+                    return false;
+
+                return true;
+            });
+
+            // SAVEASHTML COMMAND
+            SaveAsHtmlCommand = new CommandBase((s, e) =>
+            {
+                var tab = Window.TabControl?.SelectedItem as TabItem;
+                if (tab == null)
+                    return;
+                var doc = tab.Tag as MarkdownDocumentEditor;
+                if (doc == null)
+                    return;
+
+                var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
+
+                SaveFileDialog sd = new SaveFileDialog
+                {
+                    Filter = "Markdown files (*.html)|*.html|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    InitialDirectory = folder,
+                    FileName = Path.ChangeExtension(doc.MarkdownDocument.Filename,"html"),
+                    CheckFileExists = false,
+                    OverwritePrompt = false,
+                    CheckPathExists = true,
+                    RestoreDirectory = true
+                };
+
+                var result = sd.ShowDialog();
+                if (result != null && result.Value)
+                {                    
+                    var html = doc.RenderMarkdown(doc.GetMarkdown());
+                    File.WriteAllText(sd.FileName, html, Encoding.UTF8);                    
+                }
+
+                Window.PreviewMarkdown(doc, keepScrollPosition: true);
+            }, (s, e) =>
+            {
+                if (ActiveDocument == null || ActiveEditor == null)
+                    return false;
+                if (ActiveDocument.Filename == "untitled")
+                    return true;
+                if (ActiveEditor.EditorSyntax != "markdown")
                     return false;
 
                 return true;
