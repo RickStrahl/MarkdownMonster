@@ -178,6 +178,12 @@ var te = window.textEditor = {
         //alert(msg);
         status(msg);
     },
+    getscrolltop: function () {
+        return te.editor.getSession().getScrollTop();
+    },
+    setscrolltop: function(scrollTop) {
+        return te.editor.getSession().setScrollTop(scrollTop);
+    },
     getvalue: function(ignored) {
         var text = te.editor.getSession().getValue();
         return text.toString();
@@ -187,6 +193,7 @@ var te = window.textEditor = {
             pos = -1; // first line
         //if (pos == -2)  
         te.editor.setValue(text, pos);
+
         te.editor.getSession().setUndoManager(new ace.UndoManager());
 
         setTimeout(function () {
@@ -284,7 +291,7 @@ var te = window.textEditor = {
         session.setUseWrapMode(wrapText);
         session.setOption("indentedSoftWrap", true);
 
-        te.updateDocumentStats();
+        setTimeout(te.updateDocumentStats, 100);
     },
     getDocumentStats: function () {
         var text = te.getvalue();

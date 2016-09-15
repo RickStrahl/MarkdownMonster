@@ -134,8 +134,17 @@ h4 {
 }
 
 #ActionButtons .btn {
-    min-width: 180px;
+    width: 200px;
     margin: 0 5px;
+    border: lightgreen 2px solid;
+}
+@media(max-width: 768px) {
+    #ActionButtons .btn {
+        display: block;
+        margin-top: 5px;
+        margin:5px auto;
+        
+    }
 }
 
 #FeatureList .fa {
