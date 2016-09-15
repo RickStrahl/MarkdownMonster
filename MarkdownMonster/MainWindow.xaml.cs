@@ -56,7 +56,7 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
-  
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -81,13 +81,14 @@ namespace MarkdownMonster
 
             InitializePreviewBrowser();
 
-            TabControl.ClosingItemCallback = TabControlDragablz_TabItemClosing;            
-            
-            Loaded += OnLoaded;                       
+            TabControl.ClosingItemCallback = TabControlDragablz_TabItemClosing;
+
+            Loaded += OnLoaded;
             Drop += MainWindow_Drop;
-            AllowDrop = true;           
+            AllowDrop = true;
             KeyUp += MainWindow_KeyUp;
-                        
+            Activated += MainWindow_Activated;
+
             // Singleton App startup - server code that listens for other instances
             if (mmApp.Configuration.UseSingleWindow)
             {
@@ -95,18 +96,66 @@ namespace MarkdownMonster
                 // forwarded command line arguments
                 PipeManager = new NamedPipeManager("MarkdownMonster");
                 PipeManager.StartServer();
-                PipeManager.ReceiveString += HandleNamedPipe_OpenRequest;                
+                PipeManager.ReceiveString += HandleNamedPipe_OpenRequest;
             }
-            
+
+
+
             // Override some of the theme defaults (dark header specifically)
             mmApp.SetThemeWindowOverride(this);
         }
 
-   
+        private void MainWindow_Activated(object sender, EventArgs e)
+        {
 
-        #region Opening and Closing
-        
-        private void OnLoaded(object sender, RoutedEventArgs e)
+            // check for external file changes
+            for (int i = TabControl.Items.Count - 1; i > -1; i--)
+            {
+                var tab = TabControl.Items[i] as TabItem;
+
+                if (tab != null)
+                {
+                    var editor = tab.Tag as MarkdownDocumentEditor;
+                    if (editor == null)
+                        continue;
+                    var doc = editor.MarkdownDocument;
+                    if (doc == null)
+                        continue;
+
+                    if (doc.HasFileCrcChanged())
+                    {
+                        string filename = Path.GetFileName(doc.Filename);
+                        string template = filename + "\r\n\r\nThis file was changed by another program.\r\nDo you want reload it?";
+
+                        if (MessageBox.Show(template,
+                            "File change detected",
+                            MessageBoxButton.YesNo, 
+                            MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            dynamic pos = editor.AceEditor.getscrolltop(false);                            
+
+                            doc.Load(doc.Filename);
+                            editor.SetMarkdown(doc.CurrentText);
+
+                            editor.AceEditor.setscrolltop(pos);
+                        }
+                        else
+                            doc.UpdateCrc();
+                    }
+                }
+            }
+
+
+
+        }
+    
+
+
+
+    #region Opening and Closing
+
+            private
+            void OnLoaded(object sender, RoutedEventArgs e)
         {
             RestoreSettings();
             RecentDocumentsContextList();
@@ -325,8 +374,9 @@ namespace MarkdownMonster
             tab.Margin = new Thickness(0, 0, 3, 0);
             tab.Padding = new Thickness(2, 0, 7, 2);
             tab.Background = Background;
-            tab.ContextMenu = Resources["TabItemContextMenu"] as ContextMenu;
 
+            tab.ContextMenu = Resources["TabItemContextMenu"] as ContextMenu;
+            
             
             ControlsHelper.SetHeaderFontSize(tab, 13F);
 

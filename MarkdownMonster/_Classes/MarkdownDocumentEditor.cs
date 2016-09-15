@@ -159,7 +159,7 @@ namespace MarkdownMonster
         /// Sets the markdown text into the editor control
         /// </summary>
         /// <param name="markdown"></param>
-        public void SetMarkdown(string markdown = null)
+        public void SetMarkdown(string markdown = null, object position = null)
         {
             if (MarkdownDocument != null)
             {
@@ -169,7 +169,7 @@ namespace MarkdownMonster
                      SetDirty(true);                
             }
             if (AceEditor != null)
-                AceEditor.setvalue(markdown);
+                AceEditor.setvalue(markdown,position);
         }
 
         /// <summary>
@@ -599,13 +599,6 @@ namespace MarkdownMonster
         public void ResizeWindow()
         {
             return;
-            // This code fails spectactularily on Mac in Parallels
-            int fontsize = GetFontSize();
-            if (fontsize > 5)
-            {
-                mmApp.Configuration.EditorFontSize = fontsize;
-                //RestyleEditor();
-            }
         }
         #endregion
 

@@ -38,6 +38,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using MarkdownMonster._Classes.Utilities;
 using Newtonsoft.Json;
 using Westwind.Utilities;
 
@@ -68,6 +69,8 @@ namespace MarkdownMonster
             }
         }
         private string _filename;
+
+        public string FileCrc { get; set; }
 
         /// <summary>
         /// Holds the last preview window browser scroll position so it can be restored
@@ -181,6 +184,7 @@ namespace MarkdownMonster
             if (!File.Exists(filename))
                 return false;
 
+            UpdateCrc();
             CurrentText = File.ReadAllText(filename);
 
             return true;
@@ -196,10 +200,35 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(filename))
                 filename = Filename;
 
-            File.WriteAllText(filename, CurrentText);
+
+            File.WriteAllText(filename, CurrentText,Encoding.UTF8);
             IsDirty = false;
 
+            UpdateCrc(filename);            
+
             return true;
+        }
+
+        /// <summary>
+        /// Checks to see if the CRC has changed
+        /// </summary>
+        /// <returns></returns>
+        public bool HasFileCrcChanged()
+        {
+            if (string.IsNullOrEmpty(Filename) || !File.Exists(Filename) || string.IsNullOrEmpty(FileCrc))
+                return false;
+
+            var crcNow = ChecksumHelper.GetChecksumFromFile(Filename);
+            return crcNow != FileCrc;
+        }
+
+
+        public void UpdateCrc(string filename = null)
+        {
+            if (filename == null)
+                filename = Filename;
+
+            FileCrc = ChecksumHelper.GetChecksumFromFile(filename);
         }
 
         /// <summary>
@@ -274,7 +303,7 @@ namespace MarkdownMonster
             while (written < 4)
             {
                 try
-                {
+                {   
                     File.WriteAllText(filename, html, Encoding.UTF8);
                     written = 10;
                 }
@@ -311,5 +340,7 @@ namespace MarkdownMonster
 
             return Path.GetFileName(Filename);
         }
+
+        
     }
 }
