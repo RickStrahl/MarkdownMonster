@@ -13,7 +13,7 @@
     <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Writing,Documentation" />
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/application.min.css" rel="stylesheet" />
+    <link href="Css/application.css" rel="stylesheet" />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
     
     <style>

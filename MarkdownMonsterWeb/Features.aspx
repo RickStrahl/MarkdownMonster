@@ -12,7 +12,7 @@
     <meta name="keywords" content="Load,Testing,Web,Server,ASP.NET,Capture,Playback,Threads" />
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/application.min.css" rel="stylesheet" />
+    <link href="Css/application.css" rel="stylesheet" />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
 </head>
 <body>

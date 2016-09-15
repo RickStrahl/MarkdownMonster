@@ -14,7 +14,7 @@
     <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Writing,Documentation" />
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/application.min.css" rel="stylesheet" />
+    <link href="Css/application.css" rel="stylesheet" />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
     
     <style>
@@ -67,7 +67,7 @@
                         <p><b style="font-family: 'Arial Black'; font-size: 15pt">Markdown Monster</b></p>
                         <dl>                            
                             <dt>Version:</dt>
-                            <dd>v<%= Version %> rc2</dd>
+                            <dd>v<%= Version %></dd>
                                 
                             <dt>Released:</dt>
                             <dd><%= ReleaseDate %></dd>

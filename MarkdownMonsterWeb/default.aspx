@@ -12,7 +12,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Css/application.min.css" rel="stylesheet" />
+    <link href="Css/application.css" rel="stylesheet" />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
 
     <link rel="shortcut icon" href="favicon.ico" />
@@ -49,11 +49,12 @@
                         </style>
                          <div id="ActionButtons" style="width: 100%; margin: 20px auto 40px; text-align: center;">
                             
-                            <a href="download.aspx" class="btn btn-lg btn-success" style="background: #222" >
+                            <a href="download.aspx" class="btn btn-lg btn-success" style="background: #333; " >
                                 <i class="fa fa-download"></i>
                                 <b style="color: cornsilk">Free Download</b>
                             </a>
-                            <a href="http://github.com/rickstrahl/MarkdownMonster" class="btn btn-lg btn-success" style="background: #222" >
+                            <a href="http://github.com/rickstrahl/MarkdownMonster" class="btn btn-lg btn-success"
+                               style="background: #333;" >
                                 <i class="fa fa-github"></i>
                                 GitHub
                             </a>
@@ -65,7 +66,7 @@
                             </a>--%>
                            
                             <br />
-                            <small style="font-size: 8pt;"><i>version <%= Version %> rc2 - <%= ReleaseDate%></i></small>
+                            <small style="font-size: 8pt;"><i>version <%= Version %> - <%= ReleaseDate%></i></small>
                         </div>
                         
                         
@@ -75,7 +76,7 @@
                     </div>
 
                     <div class="top-bullet-box">
-                        <h4 style="color: #ffd281;">Extensible Markdown Editing and Weblog Publishing for Windows</h4>
+                        <h4 style="color: #ffd281;">Extensible Markdown Editing and Weblog Publishing</h4>
                         <div class="row">
                             <div class="col-md-6">
                                 <div style="padding: 5px 20px; font-size: 1.3em">
@@ -97,7 +98,7 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Screen Captures (with SnagIt)
+                                        Capture and embed Screen Shots
                                     </div>                                    
                                 </div>
                             </div>
@@ -118,11 +119,11 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Weblog Post Publishing
+                                        Weblog Publishing and Editing
                                     </div>                                    
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        .NET based Add-ins
+                                        Extensible with .NET Addins
                                     </div>
                                 </div>
                             </div>
@@ -145,31 +146,32 @@
 
                 <h2>Easy and Extensible Markdown Editing</h2>
                 <p>
-                    Markdown is everywhere these days, and many of us are using Markdown for all sorts
+                    Markdown is everywhere and many of us are using Markdown for all sorts
                     of different purposes. Wouldn't it be nice if you have an editor that can keep 
                     up with <strong>all</strong> of those scenarios?
                 </p>
                 <p>                    
-                    Markdown Monster provides 
-                    the editing features you&#39;d expect of a Markdown editor: 
-                    You get a responsive text editor that's got you covered with Markdown syntax highlighting, so it it's easy to navigate your Markdown text, an optional collapsible live preview, so you can see what your output looks like, in-line spellchecking and a handful of optimized menu options that help you embed and link content into your markdown. You can easily markup code snippets using many common syntax formats which is also reflected in the preview.<p>                    
-                    But we also wanted to build
-                    an editor that can be extended to meet the needs of those that are using Markdown in interesting ways to share information. Whether it&#39;s for writing blog content in Markdown or providing a custom front end to an online application that receives Markdown content via a REST API. The main reason for Markdown Monster is that it can be extended while accessing the entire Markdown document and UI which allow you to extend Markdown Monster with your custom functionality. Want to add a custom image capture? Embed images from a photo service? You can do that easily. Want to publish
-                    your Markdown output to your Weblog? You can do that (and we provide an addin for
-                    just that with the base installation). Using Markdown Monster's add-in interface 
-                    you you can integrate and access the editor to inject markdown text, control the UI
-                    or bring up an entirely separate interface (using .NET and WPF) to access the current 
-                    document and interact with it. The sky's the limit. Find out more about 
+                    Markdown Monster gives a responsive text editor that has you covered with Markdown syntax highlighting,
+                    and fast text entry, so it it's easy to navigate your Markdown text. A collapsable
+                    live preview lets you preview your markdown, or export your markdown to HTML. 
+                    Inline spell-checking and
+                    word counts keep your content streamlined and a handful of optional  toolbar and
+                    menu options help you embed and link images and links into your Markdown. Our preview
+                    can display syntax colored code snippets for most common coding languages and the
+                    preview can be easily customized with HTML and CSS to match your own sites
+                    and preferences. Finally, if you're a blogger you can easily take your Markdown and
+                    publish it straight to your blog from the editor.
+                 </p>
+                 <p>
+                    In addition to building an attractive and highly functional Markdown editor and viewer, we
+                    also wanted to make sure <b>the editor is extensible</b> so you can plug in custom features
+                    of your own. Markdown Monster's .NET based add-in API makes it easy to build
+                    extensions that let you hook into the UI, the editor behavior and the publishing
+                    process. We use this same add-in API to build some of Markdown Monster's internal features 
+                    like the Weblog Publisher and Screen Capture. The sky's the limit. Find out more about 
                     <a href="http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm" target="top">
-                        creating an addin with .NET</a>.
-                </p>
-                <p>
-                    The released version ships with a couple of useful addins that provide embeddable
-                    screen captures using the popular SnagIt tool from Techsmith, and a Weblog publishing 
-                    interface that lets you publish your Markdown content
-                    to Wordpress or MetaWebLogApi based blog engines.
-                </p>
-                
+                    creating an addin with .NET</a>.
+                </p>                
 
                 <div class="content" style="padding: 0 0 20px">
                     <%-- <h2>Ready to get started?</h2>
@@ -193,9 +195,27 @@
                                 <div class="carousel-caption">
                                 </div>
                             </div>
+                            
+                            <div class="item">
+                                <img src="Images/CodeSnippetInEditor.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
 
 							<div class="item">
                                 <img src="Images/WeblogPublishingAddin.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <img src="Images/WeblogPublishingAddin_Download.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <img src="Images/SnagItCaptureAddin.png" />
                                 <div class="carousel-caption">
                                 </div>
                             </div>
@@ -221,7 +241,7 @@
                                 </div>
                                 <div id="FeatureList" class="panel-body">
                                     <div><i class="fa fa-check-circle"></i>
-                                        Easy Markdown Editing
+                                        Easy and fast Markdown Editing
                                     </div>
                                     <div><i class="fa fa-check-circle"></i>
                                         Syntax colored Markdown text
@@ -243,11 +263,15 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Screen Captures with SnagIt
+                                        Screen Capture embedding 
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Html to Markdown Conversion
+                                        Import Html into Markdown
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-check-circle"></i>
+                                        Export Markdown to HTML
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
@@ -259,7 +283,7 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Weblog Publishing
+                                        Weblog Publishing and Editing
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
@@ -281,8 +305,7 @@
                                 <div class="panel-body">
                                     <p>
                                         You can simply download and install Markdown Monster from
-                                    our Web site. Unzip the distribution file and run
-                                    the installer.
+                                    our Web site.
                                     </p>
                                     <div style="margin: 10px;">
                                         <a href="download.aspx" style="display: block; margin-bottom: 15px;">
@@ -320,16 +343,9 @@
                                            Follow us on Twitter
                                        </a>
                                     </div>
-
                                 </div>
-                                   
-                                   
                             </div>
                         </div>
-
-
-
-
                     </div>
 
 
