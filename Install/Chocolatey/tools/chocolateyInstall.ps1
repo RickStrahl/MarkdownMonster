@@ -1,8 +1,7 @@
-﻿$packageName= 'markdownmonster' 
-
-$toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$fileLocation = Join-Path $toolsDir 'MarkdownMonsterSetup.exe'
+﻿$packageName = 'markdownmonster'
 $fileType = 'exe'
-$silentArgs = '/q2'
+$url = 'https://github.com/RickStrahl/MarkdownMonster/raw/master/Install/Builds/PreRelease/MarkdownMonsterSetup-0.48.exe'
+$silentArgs = '/q'
+$validExitCodes = @(0)
 
-Install-ChocolateyInstallPackage $packageName $fileType $silentArgs $fileLocation
+Install-ChocolateyPackage "$packageName" "$fileType" "$silentArgs" "$url"  -validExitCodes $validExitCodes
