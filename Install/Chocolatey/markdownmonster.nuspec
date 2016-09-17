@@ -19,8 +19,11 @@ Markdown Monster can be downloaded and evaluated for free and this package is fu
     <summary>Markdown Monster is an easy to use and extensible Markdown editor, viewer and Weblog publisher</summary>
     <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>
     <copyright>West Wind Technologies, 2016</copyright>
-    <tags>markdown editor text weblog blog trial</tags>
-    
+    <tags>markdown editor text weblog blog trial admin</tags>
+    <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
+    <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
+    <packageSourceUrl>https://github.com/rickstrahl/MarkdownMonster</packageSourceUrl>
+    <mailingListUrl>https://support.west-wind.com</mailingListUrl>
   </metadata>
     <files>
         <file src="tools\**" target="tools" />

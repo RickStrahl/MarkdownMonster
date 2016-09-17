@@ -1,4 +1,4 @@
-# Markdown Monster
+﻿# Markdown Monster
 ### An extensible Markdown Editor, Viewer and Weblog Publisher for Windows
 
 ![](Art/MarkdownMonster.png)
@@ -13,46 +13,57 @@
 * **[Change Log](Changelog.md)**
 * [![Gitter](https://badges.gitter.im/RickStrahl/MarkdownMonster.svg)](https://gitter.im/RickStrahl/MarkdownMonster/General?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
-### Features
-Markdown Monster provides many useful features:
-
-#### Markdown Editor
-* Syntax highlighted Markdown editing
-* Live Markdown HTML preview 
-* Local easily, customizable HTML templates for preview
-* Gentle toolbar support for Markdown newbies and complex tasks
-* Easily customizable preview templates
-* Inline, as-you type spell checking
-* Customizable editor and preview themes
-* Syntax colored code snippet preview support (hilight.js)
-* Paste HTML as Markdown
-* Copy Markdown Selection as Html
-
-#### Weblog Publisher
-* Create or edit Weblog posts using Markdown
-* Easily embed images and screen shots
-* Publish your posts to your blog (MetaWebLog,Wordpress)
-* Download and edit existing posts
-* Publish to multiple blogs
-
-#### Extensibility
-* Create Addins with .NET
-* Addins can access Markdown document and General UI
-* Two useful plugins are provided:
-* Capture screen images ([SnagIt](http://techsmith.com/snagit) only currently)
-* Weblog publishing addin (MetaWebLog and Wordpress)
-
-#### Non Markdown Features
-* HTML file editing with live preview
-* Many other file formats can also be edited:  
-JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
-
 Here's what Markdown Monster looks like:
 
 ![Markdown Monster Screen Shot](ScreenShot.png)
 
 > #### Release Candidate
 > This tool is currently in Release Candidate stage. We're getting close to release, but there a few small issues to take care of. Want to help? Please let us know of any issues you run into and report them in the [project issues here](https://github.com/RickStrahl/MarkdownMonster/issues) on GitHub.
+
+### Features
+Markdown Monster provides many useful features:
+
+#### Markdown Editor
+* Syntax highlighted Markdown editing
+* Live Markdown HTML preview 
+* Easily customizable, HTML preview templates
+* Gentle toolbar support for Markdown newbies
+* Inline spell checking
+* Customizable editor and editor themes
+* Support for many common file types
+* Edited HTML files preview HTML
+* Save Markdown output to HTML
+* Paste HTML text as Markdown
+* Copy Markdown editor selection as HTML
+
+#### Editing Features
+* Syntax colored Markdown text
+* Easily select and embed images
+* Easily capture screen shots and embed the images
+* Embed code snippets and see highlighted syntax coloring
+
+#### Weblog Publisher
+* Create or edit Weblog posts using Markdown
+* Publish your posts to your blog (MetaWebLog,Wordpress)
+* Download and edit existing posts
+* Very fast publish and download process
+* Publish to and remember multiple blogs
+* Optional Dropbox post storage
+
+#### Extensibility
+* Create Addins with .NET code
+* Simple interface, easy to implement
+* Access the UI, buttons, active document
+* Access document and application lifecycle events
+* Two useful plugins are provided:
+* Screen capture addin (SnagIt and custom tool)
+* Weblog publishing addin (MetaWebLog and Wordpress)
+
+#### Non Markdown Features
+* HTML file editing with live preview
+* Many other file formats can also be edited:  
+JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
+* Open document folder or console 
 
 ### Why another Markdown Editor?
 Markdown is everywhere these days, and it's becoming a favorite format for many developers, writers and documentation experts to create lots of different kinds of content in this format. Markdown is used in a lot of different places:
@@ -63,7 +74,7 @@ Markdown is everywhere these days, and it's becoming a favorite format for many 
 * Message Board message entry
 * Application text entry for formatted text
 
-Personally I use Markdown for my Webblog, my MessageBoard, of course on GitHub and in a number of applications that have freeform text fields that allow for formatted text - for example in our Webstore product descriptions are in Markdown. 
+Personally I use Markdown for my Weblog, my message board, of course on GitHub and in a number of applications that have free form text fields that allow for formatted text - for example in our Webstore product descriptions are in Markdown. 
 
 Having an editor that gets out of your way, yet provides a few helpful features **and lets you add custom features** that make your content creation sessions more productive are important. The ability to easily publish your Markdown to any MetaWebLog API endpoint is also useful as it allows you to easily publish to blogs or applications that allow for meta data uploads.
 
@@ -75,13 +86,13 @@ Most features are optional and can be turned on and off. Want to work distractio
 
 The editor and previewer are HTML and JavaScript based, so you can also apply any custom styling and even hook up custom JavaScript code if you want to get fancy beyond the basic configurability. The preview themes are easy to modify HTML and CSS templates, so if you need to create a custom format so it matches your application's style it's quite easy to create a custom Preview theme or simply reference an online style sheet.
 
-### Extensibility with .NET Add-ins
-But the **key feature** and the main reason I built this tool, is that it is **extensible**, so that you and I can plug additional functionality into it. Markdown Monster includes an add-in model that lets you add buttons to the UI, interact with the active document and the entire UI and get notifications of various application events like  documents opening and closing etc..
+### Extensible with .NET Add-ins
+But the **key feature** and the main reason I built this tool, is that it is **extensible**, so that you and I can plug additional functionality into it. Markdown Monster includes an add-in model that lets you add buttons to the UI, interact with the active document and the entire UI and attach to life cycle event to get notifications of various application events like  documents opening and closing, documents being saved and the application shutting down etc..
 
 The Add-in interface is still in flux, but you can find out more in the [online documention](http://markdownmonster.west-wind.com/docs/_4ne0rl1zf.htm). If you have ideas or suggestions  on how to make the Add-in system better, please use the Issue system to [provide feedback in GitHub Issues](https://github.com/RickStrahl/MarkdownMonster/issues). Otherwise for general discussion you can [post a message on our message board](http://support.west-wind.com?forum=Markdown+Monster).
 
 ### Provided Add-ins
-Markdown Monster uses the Add-in model internally to add base features to the base editor. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins to demonstrate and show off how the Add-in model works.
+Markdown Monster uses the Add-in model internally to add base features to the core editor. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate how the Add-in model works.
 
 * **Screen Capture Addin**  
 The Screen Capture add-in supports two separate capture modes: Using Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which i **highly** recommend!) or using an integrated less featured Screen Capture module that allows capturing for Windows desktop windows and objects. To capture, simply click the capture button (camera icon) and the main app minimizes and either SnagIt or the integrate screen capture tool pops up to let you select the object to capture. You can preview and edit your captures, and when finished the captured image is linked directly into content.
