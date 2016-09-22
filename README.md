@@ -82,7 +82,9 @@ Having an editor that gets out of your way, yet provides a few helpful features 
 Markdown Monster is a Markdown editor and Viewer for Windows that lets you create edit or simple preview Markdown text. It provides basic editing functionality with a few nice usability features for embedding links, code, images and screen shots. It works great, but nothing revolutionary here. You get a responsive text editor that's got you covered with Markdown syntax highlighting, an collapsible live preview, so you can see what your output looks like, inline spellchecking and a handful of optimized menu options that help you mark up your text and embed and link content into your Markdown document.
 
 ### Customizable
-Most features are optional and can be turned on and off. Want to work distraction free and see no preview or spell checking hints? You can turn them off. Want a different editor or preview theme, just switch it to one of the many editor themes and preview themes available that is more comfortable to the way you like to see things. 
+Most features are optional and can be turned on and off. Want to work distraction free and see no preview or spell checking hints? You can turn them off. 
+
+Want a different editor theme than the dark default or a preview theme that matches your blog or branding? You can easily switch to one of the many built-in editor themes, or for previews use either one of several built-in themes or create your own with a simple, plain HTML/CSS template. You can even link in your online styles.
 
 The editor and previewer are HTML and JavaScript based, so you can also apply any custom styling and even hook up custom JavaScript code if you want to get fancy beyond the basic configurability. The preview themes are easy to modify HTML and CSS templates, so if you need to create a custom format so it matches your application's style it's quite easy to create a custom Preview theme or simply reference an online style sheet.
 
