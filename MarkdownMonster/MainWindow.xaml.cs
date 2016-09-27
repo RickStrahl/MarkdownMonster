@@ -165,10 +165,26 @@ namespace MarkdownMonster
 
             // Command Line Loading of a single file
             var args = Environment.GetCommandLineArgs();
-            if (args.Length > 1 && File.Exists(args[1]))
+
+            bool first = true;
+            foreach(var fileArgs in args)
             {
-                OpenTab(mdFile: args[1]);
-                AddRecentFile(args[1]);                
+                if (first)
+                {
+                    first = false;
+                    continue;                    
+                }
+
+                var file = fileArgs;                                 
+                if (!File.Exists(file))
+                {
+                    file = FileUtils.GetRelativePath(file, App.initialStartDirectory);
+                    if (!File.Exists(file))
+                        continue;                    
+                }
+                
+                OpenTab(mdFile: file);
+                AddRecentFile(file);                
             }
 
             if (mmApp.Configuration.IsPreviewVisible)
