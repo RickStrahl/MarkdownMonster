@@ -50,7 +50,9 @@ namespace MarkdownMonster
     /// </summary>
     public partial class App : System.Windows.Application
     {
-        public static Mutex Mutex { get; set; }        
+        public static Mutex Mutex { get; set; }
+
+        public static string initialStartDirectory = Environment.CurrentDirectory;
 
         public App()
         {         
@@ -145,7 +147,9 @@ namespace MarkdownMonster
         protected override void OnStartup(StartupEventArgs e)
         {
             var dir = Assembly.GetExecutingAssembly().Location;
+            
             Directory.SetCurrentDirectory(Path.GetDirectoryName(dir));            
+
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
 
 

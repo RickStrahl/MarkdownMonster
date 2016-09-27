@@ -1,12 +1,10 @@
-# Markdown Monster ToDo List
+﻿# Markdown Monster ToDo List
 
 ### Immediate
 
 * Add cursor position to status bar
-* <s>Save As HTML menu option</s> options)
-* <s>Refresh files if changed on disk</s>
-* <s>Scroll font-resizing reflected in configuration</s>
-* <s>Add non-SnagIt Screen Capture form used in Help Builder</s>
+* Open from Html
+* Integrate non-SnagIt screen capture natively
 
 ### Bugs
 * <s>HTML Preview sometime collapses to 0 width and won't reopen (after non-md/html file opening)</s>
