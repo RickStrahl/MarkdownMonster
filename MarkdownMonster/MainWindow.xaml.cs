@@ -974,7 +974,7 @@ namespace MarkdownMonster
                 if (tab != null)
                 {
                     var ed = tab.Tag as MarkdownDocumentEditor;
-                    if (ed == null || ed == editor)
+                    if (ed == null || (editor != null && ed == editor) )
                         continue;
 
                     if (CloseTab(tab))
@@ -982,6 +982,8 @@ namespace MarkdownMonster
                 }
             }            
         }
+
+
 
         private void ButtonSpellCheck_Click(object sender, RoutedEventArgs e)
         {
@@ -1271,7 +1273,6 @@ namespace MarkdownMonster
         }
         #endregion
 
-        
     }
 
 }

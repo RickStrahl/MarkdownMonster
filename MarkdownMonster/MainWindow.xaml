@@ -50,8 +50,9 @@
 
     <Window.Resources>
         <ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
-            <MenuItem Header="_Close document" Click="ButtonCloseTab_Click"/>
-            <MenuItem Name="MenuCloseAllButThisTab" Header="Close _All but this document" Click="ButtonCloseAllTabs_Click"/>
+            <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"/>
+            <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Click="ButtonCloseAllTabs_Click"/>
+            <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document" Click="ButtonCloseAllTabs_Click"/>
             <Separator/>
             <MenuItem Name="ContextOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer" />
             <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
@@ -348,7 +349,8 @@
                 <dragablz:TabablzControl x:Name="TabControl" Margin="0,5,0,0" FontSize="13" Background="#222"
                                  BorderThickness="0" ShowDefaultCloseButton="True" 
                                  ShowDefaultAddButton="False" 
-                                 SelectionChanged="TabControl_SelectionChanged"                                                                         
+                                 SelectionChanged="TabControl_SelectionChanged"      
+                                 ContextMenu="{StaticResource TabItemContextMenu}"                                         
                                  />
 
 
