@@ -139,6 +139,7 @@
       <DependentUpon>RegistrationForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="_Classes\Utilities\CheckSumHelper.cs" />
+    <Compile Include="_Classes\Utilities\mmFileUtils.cs" />
     <Compile Include="_Classes\Utilities\WindowUtilities.cs" />
     <Compile Include="_Classes\Infrastructure\ApplicationUpdater.cs" />
     <Compile Include="_Classes\NamedPipeManager.cs" />

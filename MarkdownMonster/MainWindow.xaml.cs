@@ -163,7 +163,7 @@ namespace MarkdownMonster
 
             AddinManager.Current.InitializeAddinsUi(this);
 
-            // Command Line Loading of a single file
+            // Command Line Loading multiple files
             var args = Environment.GetCommandLineArgs();
 
             bool first = true;
@@ -178,8 +178,8 @@ namespace MarkdownMonster
                 var file = fileArgs;                                 
                 if (!File.Exists(file))
                 {
-                    file = FileUtils.GetRelativePath(file, App.initialStartDirectory);
-                    if (!File.Exists(file))
+                    file= mmFileUtils.FixupDocumentFilename(file);
+                    if (string.IsNullOrEmpty(file))
                         continue;                    
                 }
                 
@@ -488,7 +488,7 @@ namespace MarkdownMonster
             return tab;
         }
 
-
+        
         private bool CloseAllTabs()
         {            
             for (int i = TabControl.Items.Count - 1; i > -1 ; i--)
@@ -1120,14 +1120,17 @@ namespace MarkdownMonster
         private void HandleNamedPipe_OpenRequest(string filesToOpen)
         {
             Dispatcher.Invoke(() =>
-            {
+            {                
                 if (!string.IsNullOrEmpty(filesToOpen))
-                {
+                {                    
+                    var parms = StringUtils.GetLines(filesToOpen);
+
                     TabItem lastTab = null;
-                    foreach (var file in StringUtils.GetLines(filesToOpen))
-                    {                        
+                    foreach (var file in parms)
+                    {
                         if (!string.IsNullOrEmpty(file))
-                            lastTab = OpenTab(file.Trim());
+                           lastTab = OpenTab(file.Trim()); 
+                      
                     }
                     if (lastTab != null)
                         Dispatcher.InvokeAsync(() => TabControl.SelectedItem = lastTab);                                            

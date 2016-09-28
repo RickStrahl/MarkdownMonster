@@ -34,14 +34,11 @@
 using System;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows;
-using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
-using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
@@ -52,10 +49,12 @@ namespace MarkdownMonster
     {
         public static Mutex Mutex { get; set; }
 
-        public static string initialStartDirectory = Environment.CurrentDirectory;
+        public static string initialStartDirectory;
 
         public App()
-        {         
+        {
+            initialStartDirectory = Environment.CurrentDirectory;
+
             SplashScreen splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
             splashScreen.Show(true);
 
@@ -72,7 +71,20 @@ namespace MarkdownMonster
                         StringBuilder sb = new StringBuilder();
                         for (int i = 1; i < args.Length; i++)
                         {
-                            sb.AppendLine(args[i]);
+                            string file = args[i];
+
+                            // check if file exists and fully qualify to 
+                            // pass to named pipe
+                            if (!File.Exists(file))
+                            {
+                                file = Path.Combine(initialStartDirectory, file);
+                                if (!File.Exists(file))
+                                    file = null;                                
+                            }
+
+                            if (!string.IsNullOrEmpty(file))                                                            
+                                sb.AppendLine(Path.GetFullPath(file));
+                            
                         }
                         filesToOpen = sb.ToString();
                     }
