@@ -1,6 +1,9 @@
 ﻿# Markdown Monster Change Log
 
 ### 0.49
+* **Add Tab Context Menu**   
+Tab tab context menu now allows for: Close documents, Close all documents, Close all but this document, Open folder, and Open Terminal 
+
 * **Allow multiple files to be opened from Command Line**  
 You can now open multiple files simultaneously in the UI. Local non-fully-pathed files now also work properly from the command line.
 
