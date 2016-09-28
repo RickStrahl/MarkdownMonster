@@ -86,12 +86,8 @@
                           InputGestureText="Ctrl+S"/>
                 <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding SaveAsCommand}" 
                           InputGestureText="Ctrl+Shift+s"/>
-                <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" 
-                          />
+                <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" />
 
-                <Separator />
-                <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   IsEnabled="{Binding IsEditorActive}" />
-                <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
                 <Separator/>
                 <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
             </MenuItem>
@@ -138,6 +134,10 @@
                           Header="Scroll Preview Browser Down"                         
                           InputGestureText="Ctrl-Shift-Down" Click="Button_Handler"
                           IsEnabled="{Binding IsPreviewBrowserVisible}" />
+                <Separator />
+                <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
+               
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Name="MenuDocumentation" Header="Documentation"   Click="Button_Handler"/>
@@ -350,7 +350,10 @@
                                  BorderThickness="0" ShowDefaultCloseButton="True" 
                                  ShowDefaultAddButton="False" 
                                  SelectionChanged="TabControl_SelectionChanged"      
-                                 ContextMenu="{StaticResource TabItemContextMenu}"                                         
+                                 ContextMenu="{StaticResource TabItemContextMenu}"    
+                                 ContextMenuService.Placement="MousePoint"                                         
+                                 ContextMenuService.HorizontalOffset="80"
+                                 ContextMenuService.VerticalOffset="16"
                                  />
 
 
