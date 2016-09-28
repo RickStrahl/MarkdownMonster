@@ -1,4 +1,12 @@
-# Markdown Monster Change Log
+﻿# Markdown Monster Change Log
+
+### 0.49
+* **Allow multiple files to be opened from Command Line**  
+You can now open multiple files simultaneously in the UI. Local non-fully-pathed files now also work properly from the command line.
+
+* **Updated hunspell libraries**  
+The hunspell spell checking libraries unfortunately have been triggering virus warnings with a couple of virus scanners. hunspell is widely used and open source, so it is safe but unfortunately triggers the AV. Switched versions for binaries to see if this eases the AV triggers.
+
 
 ### 0.48
 * **Add Save As Html Menu Option**  
