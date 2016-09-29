@@ -178,7 +178,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <returns></returns>
         public bool Download()
-        {
+        {            
             try
             {
                 var client = new WebClient();                
@@ -237,7 +237,7 @@ namespace MarkdownMonster
             }
             catch (Exception ex)
             {
-                this.ErrorMessage = ex.Message;
+                ErrorMessage = ex.Message;
                 mmApp.Log("Update Installer Execution Error", ex);
                 return false;
             }
@@ -452,5 +452,4 @@ namespace MarkdownMonster
         SavedSearches,
         Videos
     }
-
 }

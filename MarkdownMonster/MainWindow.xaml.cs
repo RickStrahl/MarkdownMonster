@@ -875,6 +875,35 @@ namespace MarkdownMonster
 
                 AddRecentFile(fd.FileName);
             }
+            if (button == ButtonOpenFromHtml)
+            {
+                var fd = new OpenFileDialog
+                {
+                    DefaultExt = ".htm",
+                    Filter = "Html files (*.htm,*.html)|*.htm;*.html|" +
+                             "All files (*.*)|*.*",
+                    CheckFileExists = true,
+                    RestoreDirectory = true,
+                    Multiselect = true,
+                    Title = "Open Html as Markdown"
+                };
+
+                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
+                    fd.InitialDirectory = mmApp.Configuration.LastFolder;
+
+                var res = fd.ShowDialog();
+                if (res == null || !res.Value)
+                    return;
+
+                var html = File.ReadAllText(fd.FileName);
+
+                var markdown = MarkdownUtilities.HtmlToMarkdown(html);
+
+                OpenTab("untitled");
+
+                var editor = GetActiveMarkdownEditor();
+                editor.MarkdownDocument.CurrentText = markdown;
+            }
             else if (button == ButtonNewFile || button == ToolButtonNewFile)
             {
                 OpenTab("untitled");
