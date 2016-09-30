@@ -87,6 +87,7 @@
 
                         <Label Grid.Row="0"  Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Right">Post Id:</Label>
                         <TextBox Grid.Row="1"  Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
+                        
                         <CheckBox Name="PublishAsDraftCheckbox" Grid.Row="2" Grid.Column="0" Margin="0,5,0,0" 
                                   Content="Publish as Draft"  IsChecked="{Binding IsPostDraft}"
                                   
@@ -99,8 +100,9 @@
                                 <fa:FontAwesome Icon="Upload" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Post to Weblog</TextBlock>
                             </StackPanel>
-                        </Button>
-
+                       </Button>
+                         
+                        
                         <Button Grid.Column="1" Margin="10,30" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonSaveMeta_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
@@ -172,13 +174,29 @@
                            />
                         <TextBox Grid.Column="1" Name="TextNumberOfPosts" Text="{Binding NumberOfPostsToRetrieve}" TextAlignment="Right" Margin="6,0,0,0" />
                     </Grid>
-                    <Button Grid.Row="3" Margin="0,10" Height="40" Width="175" HorizontalAlignment="Left" 
+
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Button Margin="0,10" Height="40" Width="175" HorizontalAlignment="Left" 
                         Click="Button_DownloadPosts_Click" >
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Download" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                            <TextBlock Margin="10,0,0,0" FontSize="14">Download Posts</TextBlock>
-                        </StackPanel>
-                    </Button>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Download" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                                <TextBlock Margin="10,0,0,0" FontSize="14">Download Posts</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Label Grid.Column="1" Margin="20,0,0,0" Height="30" HorizontalAlignment="Right">Search:</Label>
+                        <TextBox Grid.Column="2" Margin="5,0,0,0"
+                                 Text="{Binding PostListSearch, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="30"/>
+                    </Grid>
 
                     <ListBox Grid.Row="4" Name="ListViewPosts" 
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"

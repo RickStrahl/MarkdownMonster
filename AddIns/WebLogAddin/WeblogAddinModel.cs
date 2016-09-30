@@ -133,9 +133,28 @@ namespace WeblogAddin
             }
         }
 
+        public string PostListSearch
+        {
+            get { return _postListSearch; }
+            set
+            {
+                _postListSearch = value;
+                OnPropertyChanged(nameof(PostListSearch));
+                OnPropertyChanged(nameof(PostList));
+            }
+        }
+
         public List<Post> PostList
         {
-            get { return _postList; }
+            get
+            {
+                if (string.IsNullOrEmpty(PostListSearch))
+                    return _postList;
+
+                string search = PostListSearch.Trim().ToLower();
+                return _postList.Where(p => p.Title.ToLower().Contains(search) ||
+                                            p.mt_excerpt.Contains(search) ).ToList();
+            }
             set
             {
                 if (value == _postList) return;
@@ -166,6 +185,7 @@ namespace WeblogAddin
         private List<string> _WeblogNames = new List<string>();
         private int _numberOfPostsToRetrieve;
         private bool _isPostDraft;
+        private string _postListSearch;
 
         public void LoadWebLognames()
         {
