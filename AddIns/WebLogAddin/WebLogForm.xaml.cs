@@ -60,6 +60,11 @@ namespace WeblogAddin
 
             var markdown = editor.GetMarkdown();
             Model.ActivePostMetadata = Model.Addin.GetPostConfigFromMarkdown(markdown);
+                
+            var lastBlog = WeblogAddinConfiguration.Current.LastWeblogAccessed;
+
+            if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))
+                Model.ActivePostMetadata.WeblogName = lastBlog;
         }
 
 
@@ -158,12 +163,14 @@ namespace WeblogAddin
 
         private async void Button_DownloadPosts_Click(object sender, RoutedEventArgs e)
         {
-           
             WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
 
             var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                 weblogInfo.Username,
                 weblogInfo.Password);
+
+
+            Model.Configuration.LastWeblogAccessed = weblogInfo.Name;
 
             Dispatcher.Invoke(() =>
             {

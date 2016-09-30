@@ -35,10 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using MarkdownMonster;
 
 using Westwind.Utilities.Configuration;
@@ -158,6 +155,26 @@ namespace WeblogAddin
             }
 
             return provider;
+        }
+
+        public override bool Write()
+        {
+            foreach (var blog in Weblogs.Values)
+            {
+                blog.Password = blog.EncryptPassword(blog.Password);
+            }
+
+            bool result = base.Write();
+
+
+            foreach (var blog in Weblogs.Values)
+            {
+                blog.Password = blog.DecryptPassword(blog.Password);
+            }
+            if (!result)
+                return false;
+            
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
