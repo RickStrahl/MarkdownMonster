@@ -204,7 +204,6 @@ namespace MarkdownMonster
                 Left = left;
 
                 mmApp.SetWorkingSet(10000000, 5000000);
-
             });            
         }
 
@@ -337,6 +336,8 @@ namespace MarkdownMonster
 
                 if (selectedTab != null)
                     TabControl.SelectedItem = selectedTab;
+                else
+                    TabControl.SelectedIndex = 0;
             }
 
             Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;
