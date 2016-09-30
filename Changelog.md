@@ -1,15 +1,22 @@
 ﻿# Markdown Monster Change Log
 
-### 0.49
-* **Add Tab Context Menu**   
-Tab tab context menu now allows for: Close documents, Close all documents, Close all but this document, Open folder, and Open Terminal 
+### 0.50
+
+* **Open from Html**  
+You can now open HTML documents and have them converted to Markdown - as best as possible. Please realize that not all HTML will cleanly convert to Markdown and nonconvertible HTML will simply end up as HTML (which is legal Markdown) in your new document.
+
+* **mm from Command Line to open Markdown Monster**  
+Added batch file to allow `mm readme.md` type syntax to open files from the command line. Both the `mm` and `markdownmonster` commands are globally on the path to allow access from anywhere on the command line.
 
 * **Allow multiple files to be opened from Command Line**  
-You can now open multiple files simultaneously in the UI. Local non-fully-pathed files now also work properly from the command line.
+You can now open multiple files simultaneously in the UI. Local non-fully-pathed files now also work properly from the command line. 
+
+### 0.49
+* **Add Tab Context Menu**   
+Tab tab context menu now allows for: Close documents, Close all documents, Close all but this document, Open folder, and Open Terminal options.
 
 * **Updated hunspell libraries**  
 The hunspell spell checking libraries unfortunately have been triggering virus warnings with a couple of virus scanners. hunspell is widely used and open source, so it is safe but unfortunately triggers the AV. Switched versions for binaries to see if this eases the AV triggers.
-
 
 ### 0.48
 * **Add Save As Html Menu Option**  
