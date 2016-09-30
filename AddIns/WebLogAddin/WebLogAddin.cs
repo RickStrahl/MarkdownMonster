@@ -354,7 +354,8 @@ $@"# {meta.Title}
             var meta = new WeblogPostMetadata()
             {
                 RawMarkdownBody = markdown,
-                MarkdownBody = markdown
+                MarkdownBody = markdown,
+                WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed
             };
 
 
@@ -385,7 +386,9 @@ $@"# {meta.Title}
             meta.Keywords = StringUtils.ExtractString(config, "\n<keywords>", "\n</keywords>").Trim();
             meta.Categories = StringUtils.ExtractString(config, "\n<categories>", "\n</categories>").Trim();
             meta.PostId = StringUtils.ExtractString(config, "\n<postid>", "</postid>").Trim();
-            meta.WeblogName = StringUtils.ExtractString(config, "\n<weblog>", "</weblog>").Trim();
+            string weblogName = StringUtils.ExtractString(config, "\n<weblog>", "</weblog>").Trim();
+            if (!string.IsNullOrEmpty(weblogName))
+                meta.WeblogName = weblogName;
 
             ActivePost.Title = meta.Title;            
             ActivePost.Categories = meta.Categories.Split(new [] { ','},StringSplitOptions.RemoveEmptyEntries);
