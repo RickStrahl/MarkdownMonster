@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>MarkdownMonster</id>
-    <version>0.48</version>
+    <version>0.49</version>
     <title>Markdown Monster</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
     <owners>West Wind Technologies</owners>
-    <licenseUrl>http://markdownmonster.west-wind.com/download.aspx</licenseUrl>
+    <licenseUrl>http://markdownmonster.west-wind.com/download.aspx#Licensing</licenseUrl>
     <projectUrl>http://markdownmonster.west-wind.com</projectUrl>    
     <iconUrl>http://markdownmonster.west-wind.com/images/MarkdownMonster_icon_128.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>    
