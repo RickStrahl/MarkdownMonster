@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Westwind.Utilities;
+using Westwind.Utilities.InternetTools;
 
 namespace MarkdownMonster
 {
@@ -181,10 +182,14 @@ namespace MarkdownMonster
         {            
             try
             {
-                var client = new WebClient();                
-                client.DownloadProgressChanged += client_DownloadProgressChanged;
-                // In order to get events we have to run this async and wait
-                client.DownloadFile(DownloadUrl, DownloadStoragePath);
+                var http = new HttpClient();
+                if (!http.DownloadFile(DownloadUrl, 35665, DownloadStoragePath))
+                    mmApp.Log("Warning: Couldn't download update file. " + http.ErrorMessage);
+                
+                //var client = new WebClient();                
+                //client.DownloadProgressChanged += client_DownloadProgressChanged;
+                //// In order to get events we have to run this async and wait
+                //client.DownloadFile(DownloadUrl, DownloadStoragePath);
             }
             catch(Exception ex)
             {
@@ -197,18 +202,18 @@ namespace MarkdownMonster
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public async Task<bool> DownloadAsync()
-        {
-            var client = new WebClient();
-            client.DownloadProgressChanged += client_DownloadProgressChanged;
-            await client.DownloadFileTaskAsync(DownloadUrl, DownloadStoragePath);
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <returns></returns>
+        //public async Task<bool> DownloadAsync()
+        //{
+        //    var client = new WebClient();
+        //    client.DownloadProgressChanged += client_DownloadProgressChanged;
+        //    await client.DownloadFileTaskAsync(DownloadUrl, DownloadStoragePath);
 
-            return true;
-        }
+        //    return true;
+        //}
 
         /// <summary>
         /// Event you can use to get download progress information

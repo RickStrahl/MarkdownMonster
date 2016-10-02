@@ -238,7 +238,9 @@
 
             <controls:MetroTabItem Header="Web Logs " Margin="0,0,5,0" 
                                    FontSize="16"
-                                   controls:ControlsHelper.HeaderFontSize="16" CloseButtonEnabled="False">
+                                   controls:ControlsHelper.HeaderFontSize="16"
+                                   CloseButtonEnabled="False">
+                
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,35">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -250,7 +252,8 @@
                            DisplayMemberPath="Value.Name"       
                            SelectedValuePath="Value"
                            SelectedValue="{Binding ActiveWeblogInfo}"
-                           IsSynchronizedWithCurrentItem="True"  SelectionChanged="ComboWebLogName_SelectionChanged"                               
+                           IsSynchronizedWithCurrentItem="True"  
+                           SelectionChanged="ComboWebLogName_SelectionChanged"                               
                            ItemsSource="{Binding Configuration.Weblogs}" 
                            />
                         <Button Grid.Column="1" Margin="5,0,0,0" Click="Button_NewWeblog">New</Button>

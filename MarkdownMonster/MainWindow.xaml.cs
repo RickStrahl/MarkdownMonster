@@ -853,11 +853,16 @@ namespace MarkdownMonster
                     Filter = "Markdown files (*.md)|*.md|" +
                              "Html files (*.htm,*.html)|*.htm;*.html|" +
                              "Javascript files (*.js)|*.js|" +
+                             "Typescript files (*.ts)|*.ts|" +
                              "Json files (*.json)|*.json|" +
                              "Css files (*.css)|*.css|" +
                              "Xml files (*.xml,*.config)|*.xml;*.config|" +
                              "C# files (*.cs)|*.cs|" +
+                             "C# Razor files (*.cshtml)|*.cshtml|" +
                              "Foxpro files (*.prg)|*.prg|" +
+                             "Powershell files (*.ps1)|*.ps1|" +
+                             "Php files (*.php)|*.php|" +
+                             "Python files (*.py)|*.py|" +
                              "All files (*.*)|*.*",
                     CheckFileExists = true,
                     RestoreDirectory = true,

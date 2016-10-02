@@ -140,6 +140,8 @@ namespace MarkdownMonster
                 EditorSyntax = "xml";
             else if (ext == "js")
                 EditorSyntax = "javascript";
+            else if (ext == "ts")
+                EditorSyntax = "typescript";
             else if (ext == "cs")
                 EditorSyntax = "csharp";
             else if (ext == "cshtml")
@@ -150,6 +152,12 @@ namespace MarkdownMonster
                 EditorSyntax = "foxpro";
             else if (ext == "txt")
                 EditorSyntax = "text";
+            else if (ext == "php")
+                EditorSyntax = "php";
+            else if (ext == "py")
+                EditorSyntax = "python";
+            else if (ext == "ps1")
+                EditorSyntax = "powershell";
             else
                 EditorSyntax = "";
             
