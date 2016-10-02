@@ -303,7 +303,7 @@ project Flags=0x20 {
 			str Value: Default="C:\\projects2010\\MarkdownMonster\\Install\\Builds\\CurrentRelease\\MarkdownMonsterSetup.exe";
 		}
 		var BuildTime: Flags=0x5, Type=0, Description="Build time as HHMMSS" {
-			str Value: Default=160046;
+			str Value: Default=174218;
 		}
 		var BuildType: Flags=0x5, Type=0, Description="Build type: always TSU" {
 			str Value: Default=TSU;
@@ -601,7 +601,7 @@ project Flags=0x20 {
 			str Value: Default="<MSOfficeDir14=MSOfficeDir12=MSOfficeDir11=MSOfficeDir10=MSOfficeDir9=MSOfficeDir8=!<ProgramFilesFolder>\\Microsoft Office\\Office>";
 		}
 		var PackageCode: Flags=0x205, Type=0, Description="Distribution package GUID" {
-			str Value: Default="{B83CE91D-D84B-400A-99B4-34BDB94B2EF2}";
+			str Value: Default="{6013C9C3-3DDD-4777-9EC9-D12B61640E2C}";
 		}
 		var PersonalFolder: Flags=0x244, Type=1, Description="Current User Documents folder" {
 			str Value: Default="<$shpath(5)=@<ShellFoldersCU>\\Personal=_LocPersonalFolder>";
@@ -757,7 +757,7 @@ project Flags=0x20 {
 			str Value: Default="<$sysval(4)>";
 		}
 		var SessionID: Flags=0x204, Type=0, Description="Pseudo-random 8-character session identifier" {
-			str Value: Default=CBBC0A2B;
+			str Value: Default="47D6A9FF";
 		}
 		var ShellFoldersCU: Flags=0x20C, Type=2, Description="Current User Shell folders registry key" {
 			str Value: Default="<HKCU>\\<WinCurVer>\\Explorer\\Shell Folders";
@@ -2801,14 +2801,7 @@ project Flags=0x20 {
 			}
 		}
 	}
-	components {
-		component Product: Flags=0x50, Platforms=0x7FFFFFFF, Packaging=0, Languages="0=", State0=4, State1=4, ExtraSize=0, FolderAlias="<PRIMARYFOLDER>" {
-			str DisplayName: Flags=0x40000, Default="<ProductName>";
-			str Description: Flags=0x50000, PhraseID=Text.ProductOption, Default="This installs <ProductName>" {
-				xlat ID=1033 {"This installs <ProductName>"}
-			}
-		}
-	}
+	components;
 	files TARGETDIR: Flags=0x0, Traits=0x6F07, InstallAction=0, RemoveAction=0 {
 		str Name: Flags=0x50000, PhraseID=Folder.TargetSystem, Default="Target System" {
 			xlat ID=1033 {"Target System"}
@@ -3160,1049 +3153,698 @@ project Flags=0x20 {
 				file Dragablz.dll_33B1EF3D75C62AEE: Flags=0x0, Path="Distribution\\Dragablz.dll", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=1000, Packaging=0 {
 					str Name: Default=Dragablz.dll;
 				}
-				folder Editor_2C27D579B8AE7223: Flags=0x0, Traits=0x80000000, InstallAction=0, RemoveAction=1 {
+				folder Editor_7C10944AFE0F0727: Flags=0x0, Traits=0x80000000, InstallAction=0, RemoveAction=1 {
 					str Name: Default=Editor;
-					file de_DE.aff_FFA79A86714817CD: Flags=0x0, Path="Distribution\\Editor\\de_DE.aff", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file de_DE.aff_D612A4A6E1660227: Flags=0x0, Path="Distribution\\Editor\\de_DE.aff", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=de_DE.aff;
 					}
-					file de_DE.dic_4471B4A890D33343: Flags=0x0, Path="Distribution\\Editor\\de_DE.dic", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file de_DE.dic_7D820A2F9D56A112: Flags=0x0, Path="Distribution\\Editor\\de_DE.dic", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=de_DE.dic;
 					}
-					file editor.css_936CAD941BDD9BEF: Flags=0x0, Path="Distribution\\Editor\\editor.css", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file editor.css_31F5DE2C032BD5DF: Flags=0x0, Path="Distribution\\Editor\\editor.css", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=editor.css;
 					}
-					file editor.htm_B995320F81FDA60C: Flags=0x0, Path="Distribution\\Editor\\editor.htm", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file editor.htm_A014D3E908E50B22: Flags=0x0, Path="Distribution\\Editor\\editor.htm", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=editor.htm;
 					}
-					file editor.js_6FC561892ED39BE6: Flags=0x0, Path="Distribution\\Editor\\editor.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file editor.js_1D5F49485BD52D11: Flags=0x0, Path="Distribution\\Editor\\editor.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=editor.js;
 					}
-					file editorSettings.js_0C775F975335399C: Flags=0x0, Path="Distribution\\Editor\\editorSettings.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file editorSettings.js_D0CCA26DE7D7F383: Flags=0x0, Path="Distribution\\Editor\\editorSettings.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=editorSettings.js;
 					}
-					file editorSpellcheck.js_E565E5CECA1BD1DB: Flags=0x0, Path="Distribution\\Editor\\editorSpellcheck.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file editorSpellcheck.js_9655155417DA2B28: Flags=0x0, Path="Distribution\\Editor\\editorSpellcheck.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=editorSpellcheck.js;
 					}
-					file en_US.aff_C10CB48A7743BBFE: Flags=0x0, Path="Distribution\\Editor\\en_US.aff", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file en_US.aff_B27DF6A5466B9D20: Flags=0x0, Path="Distribution\\Editor\\en_US.aff", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=en_US.aff;
 					}
-					file en_US.dic_B9D158BF7704EEF6: Flags=0x0, Path="Distribution\\Editor\\en_US.dic", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file en_US.dic_9E295C80F336E615: Flags=0x0, Path="Distribution\\Editor\\en_US.dic", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=en_US.dic;
 					}
-					file es_ES.aff_6C88F03EC4DE46AF: Flags=0x0, Path="Distribution\\Editor\\es_ES.aff", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file es_ES.aff_14CD1EDFF7EADE2B: Flags=0x0, Path="Distribution\\Editor\\es_ES.aff", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=es_ES.aff;
 					}
-					file es_ES.dic_1A0617990E624300: Flags=0x0, Path="Distribution\\Editor\\es_ES.dic", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file es_ES.dic_F92F0045F4C064BB: Flags=0x0, Path="Distribution\\Editor\\es_ES.dic", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=es_ES.dic;
 					}
-					file fr_fr.aff_A8D213DFC754350D: Flags=0x0, Path="Distribution\\Editor\\fr_fr.aff", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file fr_fr.aff_31D7E25D9655ACEB: Flags=0x0, Path="Distribution\\Editor\\fr_fr.aff", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=fr_fr.aff;
 					}
-					file fr_fr.dic_06B3B3EBCDC8D8E7: Flags=0x0, Path="Distribution\\Editor\\fr_fr.dic", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file fr_fr.dic_F76A696414D816E2: Flags=0x0, Path="Distribution\\Editor\\fr_fr.dic", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=fr_fr.dic;
 					}
-					file htmltomarkdown.htm_A7031F599F6B0802: Flags=0x0, Path="Distribution\\Editor\\htmltomarkdown.htm", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+					file htmltomarkdown.htm_865FDD4E8F02A49B: Flags=0x0, Path="Distribution\\Editor\\htmltomarkdown.htm", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 						str Name: Default=htmltomarkdown.htm;
 					}
-					folder scripts_30F8D0B9427F59D5: Flags=0x0, Traits=0x80000000, InstallAction=1, RemoveAction=1 {
+					folder scripts_36576F513584D4B2: Flags=0x0, Traits=0x80000000, InstallAction=1, RemoveAction=1 {
 						str Name: Default=scripts;
-						folder Ace_35984380F1623A1A: Flags=0x0, Traits=0x80000000, InstallAction=1, RemoveAction=1 {
+						folder Ace_8AB3EAA73F6F59A1: Flags=0x0, Traits=0x80000000, InstallAction=1, RemoveAction=1 {
 							str Name: Default=Ace;
-							file ace.js_4B49C9D1BF1CEAD7: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ace.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ace.js_27B6F7E51DA2B478: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ace.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default=ace.js;
 							}
-							file ext_beautify.js_13E97A5DAAAB1D7D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-beautify.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_beautify.js_340D8B4792A1D2D4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-beautify.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-beautify.js";
 							}
-							file ext_chromevox.js_E92C5E130BE5E4AC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-chromevox.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_chromevox.js_07CC15F2C039F3D0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-chromevox.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-chromevox.js";
 							}
-							file ext_elastic_tabstops_lite.js_E0E6D2208AEE78D2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-elastic_tabstops_lite.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_elastic_tabstops_lite.js_F4472688E9B2D428: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-elastic_tabstops_lite.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-elastic_tabstops_lite.js";
 							}
-							file ext_emmet.js_E3E8A6007AB77741: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-emmet.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_emmet.js_2F5F572435038178: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-emmet.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-emmet.js";
 							}
-							file ext_error_marker.js_0F54837D6DB7C067: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-error_marker.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_error_marker.js_9A1E924651CEC26D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-error_marker.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-error_marker.js";
 							}
-							file ext_keybinding_menu.js_A6A3994757C91407: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-keybinding_menu.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_keybinding_menu.js_4847077F0A8980C6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-keybinding_menu.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-keybinding_menu.js";
 							}
-							file ext_language_tools.js_73E80E89A6E17D98: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-language_tools.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_language_tools.js_184B171ABED3B081: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-language_tools.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-language_tools.js";
 							}
-							file ext_linking.js_378E27C693A7E1A1: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-linking.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_linking.js_839DE046403849BF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-linking.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-linking.js";
 							}
-							file ext_modelist.js_B8D0ABE6BF32C09F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-modelist.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_modelist.js_084E3BA0ABE1F143: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-modelist.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-modelist.js";
 							}
-							file ext_old_ie.js_8CB1698B16FCE408: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-old_ie.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_old_ie.js_0B4398FFCC3E5017: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-old_ie.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-old_ie.js";
 							}
-							file ext_searchbox.js_35FCFC51102BF496: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-searchbox.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_searchbox.js_4FB02EF89A2AB0C6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-searchbox.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-searchbox.js";
 							}
-							file ext_settings_menu.js_D403B3A84C369D49: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-settings_menu.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_settings_menu.js_E859FB36E4583AA9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-settings_menu.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-settings_menu.js";
 							}
-							file ext_spellcheck.js_B56F9B04427021ED: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-spellcheck.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_spellcheck.js_BECA7A2FD6173BD3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-spellcheck.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-spellcheck.js";
 							}
-							file ext_split.js_1A6ABBDF199861F1: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-split.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_split.js_E29BE20F9A14EB89: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-split.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-split.js";
 							}
-							file ext_static_highlight.js_39C7F37557E71318: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-static_highlight.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_static_highlight.js_51711819FB7DDF24: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-static_highlight.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-static_highlight.js";
 							}
-							file ext_statusbar.js_0492037AED9876C8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-statusbar.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_statusbar.js_EACCFD5F9B0DD39F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-statusbar.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-statusbar.js";
 							}
-							file ext_textarea.js_1248BD96DE113B2C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-textarea.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_textarea.js_49F197E3CB5820A0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-textarea.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-textarea.js";
 							}
-							file ext_themelist.js_DBB6CBD1766296DE: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-themelist.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_themelist.js_8A3933ADD3647B6B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-themelist.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-themelist.js";
 							}
-							file ext_whitespace.js_BF66C9843248FF27: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-whitespace.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file ext_whitespace.js_FBA974C88530DA0A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\ext-whitespace.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="ext-whitespace.js";
 							}
-							file keybinding_emacs.js_D6186F5B55E69A54: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\keybinding-emacs.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file keybinding_emacs.js_42430F1FD5F8495F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\keybinding-emacs.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="keybinding-emacs.js";
 							}
-							file keybinding_vim.js_50AF11C1F267432B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\keybinding-vim.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file keybinding_vim.js_1D2C1F708C5E5E60: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\keybinding-vim.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="keybinding-vim.js";
 							}
-							file mode_abap.js_A518905943DA04BD: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-abap.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-abap.js";
-							}
-							file mode_abc.js_6C4F65A62325F12A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-abc.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-abc.js";
-							}
-							file mode_actionscript.js_755FB24F261F235C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-actionscript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-actionscript.js";
-							}
-							file mode_ada.js_0FB1EAE34809FC80: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-ada.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-ada.js";
-							}
-							file mode_apache_conf.js_4360223C4F23B25D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-apache_conf.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-apache_conf.js";
-							}
-							file mode_applescript.js_A0189B06D13F084F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-applescript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-applescript.js";
-							}
-							file mode_asciidoc.js_A58511649603D78C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-asciidoc.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-asciidoc.js";
-							}
-							file mode_assembly_x86.js_86C782690B6E9FAA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-assembly_x86.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-assembly_x86.js";
-							}
-							file mode_autohotkey.js_2F324B52555B5D88: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-autohotkey.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-autohotkey.js";
-							}
-							file mode_batchfile.js_675E2462EB591CB9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-batchfile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-batchfile.js";
-							}
-							file mode_c9search.js_C0009F7DC2A90987: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-c9search.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-c9search.js";
-							}
-							file mode_c_cpp.js_528CEC7204C565F2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-c_cpp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_c_cpp.js_858B220337A9462A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-c_cpp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-c_cpp.js";
 							}
-							file mode_cirru.js_94CF3BE8E1AF21D7: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-cirru.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-cirru.js";
-							}
-							file mode_clojure.js_AB2C6F4286440E9E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-clojure.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-clojure.js";
-							}
-							file mode_cobol.js_24884182E6142143: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-cobol.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-cobol.js";
-							}
-							file mode_coffee.js_7525D94DFD5B157E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-coffee.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-coffee.js";
-							}
-							file mode_coldfusion.js_785B9997A981620B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-coldfusion.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-coldfusion.js";
-							}
-							file mode_csharp.js_F32EDE9ED18ABA59: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-csharp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_csharp.js_F210EA429BE8B658: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-csharp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-csharp.js";
 							}
-							file mode_css.js_F4CA7FA07133218F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-css.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_css.js_C2C141575DCA8487: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-css.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-css.js";
 							}
-							file mode_curly.js_9EE595F953EA804C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-curly.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_curly.js_BB652F51CB61FAD2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-curly.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-curly.js";
 							}
-							file mode_d.js_74E7AED6A2105AE6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-d.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_d.js_E5ACE907131E9B0F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-d.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-d.js";
 							}
-							file mode_dart.js_DBCD733F4F750A4C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-dart.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-dart.js";
-							}
-							file mode_diff.js_FFAED593D56E6E8E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-diff.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-diff.js";
-							}
-							file mode_django.js_74B1F5147CA32475: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-django.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-django.js";
-							}
-							file mode_dockerfile.js_817B9517D3F1A94F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-dockerfile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-dockerfile.js";
-							}
-							file mode_dot.js_ABF8276EF214173E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-dot.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-dot.js";
-							}
-							file mode_eiffel.js_90E6C81668A2778A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-eiffel.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-eiffel.js";
-							}
-							file mode_ejs.js_B223A584A5800842: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-ejs.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-ejs.js";
-							}
-							file mode_elixir.js_8513AFE013064F9C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-elixir.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-elixir.js";
-							}
-							file mode_elm.js_1E959B20563F09FA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-elm.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-elm.js";
-							}
-							file mode_erlang.js_0B4DCD3ADA9CB27A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-erlang.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-erlang.js";
-							}
-							file mode_forth.js_336C21FDD08DCDBA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-forth.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-forth.js";
-							}
-							file mode_foxpro.js_D71BD28600402C6C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-foxpro.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_foxpro.js_3717211970F9EBA4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-foxpro.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-foxpro.js";
 							}
-							file mode_ftl.js_ED6A76E448155EAE: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-ftl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-ftl.js";
-							}
-							file mode_gcode.js_1005183B6E6BD045: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-gcode.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-gcode.js";
-							}
-							file mode_gherkin.js_E7341BDB8BB4C726: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-gherkin.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-gherkin.js";
-							}
-							file mode_gitignore.js_5B7D1F2060311C1B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-gitignore.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-gitignore.js";
-							}
-							file mode_glsl.js_72856975C18918E9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-glsl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-glsl.js";
-							}
-							file mode_gobstones.js_634F208F053B2D6F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-gobstones.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-gobstones.js";
-							}
-							file mode_golang.js_29C3ECB77A396F18: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-golang.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-golang.js";
-							}
-							file mode_groovy.js_0C5FECA4D862A55D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-groovy.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-groovy.js";
-							}
-							file mode_haml.js_5F5BD5BE3E238658: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-haml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-haml.js";
-							}
-							file mode_handlebars.js_1F3811631231C8EF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-handlebars.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-handlebars.js";
-							}
-							file mode_haskell.js_85650F0B27472E2B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-haskell.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-haskell.js";
-							}
-							file mode_haxe.js_21367659704A8F16: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-haxe.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-haxe.js";
-							}
-							file mode_helpbuilder.js_D8C7F90104CDDF72: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-helpbuilder.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-helpbuilder.js";
-							}
-							file mode_html.js_0E48D31C8EB56A07: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-html.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_html.js_2278EFB169FE75D8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-html.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-html.js";
 							}
-							file mode_html_elixir.js_41AC008557B7EA50: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-html_elixir.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-html_elixir.js";
-							}
-							file mode_html_ruby.js_B0ACA17DD762FEBA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-html_ruby.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-html_ruby.js";
-							}
-							file mode_ini.js_983A1F9DB32538A8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-ini.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-ini.js";
-							}
-							file mode_io.js_4F772992A83346C5: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-io.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-io.js";
-							}
-							file mode_jack.js_8097BFB195A0BD2B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-jack.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_jack.js_03F071840DCF984B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-jack.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-jack.js";
 							}
-							file mode_jade.js_1D2FE8F36FB27A1C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-jade.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-jade.js";
-							}
-							file mode_java.js_57915BFBFE53AE1B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-java.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-java.js";
-							}
-							file mode_javascript.js_3A1FB0AB0B7D78DE: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-javascript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_javascript.js_3947209D46789AFA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-javascript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-javascript.js";
 							}
-							file mode_json.js_5CFCE821511764B3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-json.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_json.js_834A3370A1B861D8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-json.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-json.js";
 							}
-							file mode_jsoniq.js_836276919D89BB58: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-jsoniq.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-jsoniq.js";
-							}
-							file mode_jsp.js_3DC5E504AE87EA1A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-jsp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-jsp.js";
-							}
-							file mode_jsx.js_2A092B9D926E79D4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-jsx.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-jsx.js";
-							}
-							file mode_julia.js_9CD4BFAA2D9763C2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-julia.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-julia.js";
-							}
-							file mode_latex.js_C04C8ED3792B6302: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-latex.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-latex.js";
-							}
-							file mode_lean.js_E47D69993E974136: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-lean.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-lean.js";
-							}
-							file mode_less.js_07FE65B5E989455F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-less.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-less.js";
-							}
-							file mode_liquid.js_92EE547973E9C532: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-liquid.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-liquid.js";
-							}
-							file mode_lisp.js_C749998CE9902531: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-lisp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-lisp.js";
-							}
-							file mode_live_script.js_52F556813A6AF0B3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-live_script.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-live_script.js";
-							}
-							file mode_livescript.js_B613FA3E14CEBC5A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-livescript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-livescript.js";
-							}
-							file mode_logiql.js_28BBA864DA3C6ACC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-logiql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-logiql.js";
-							}
-							file mode_lsl.js_4A62B338A7B20F6D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-lsl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-lsl.js";
-							}
-							file mode_lua.js_C0F6B393EFA6EF9F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-lua.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-lua.js";
-							}
-							file mode_luapage.js_2B1F6DA6CF8919FE: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-luapage.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-luapage.js";
-							}
-							file mode_lucene.js_6A1C2E3C5C573F42: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-lucene.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-lucene.js";
-							}
-							file mode_makefile.js_F42F314C18245297: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-makefile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-makefile.js";
-							}
-							file mode_markdown.js_B3F96D6501A7F8F8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-markdown.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_markdown.js_0BE90691F31BC3C4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-markdown.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-markdown.js";
 							}
-							file mode_mask.js_C65666E5D87C1B51: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-mask.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-mask.js";
-							}
-							file mode_matlab.js_A5503E0E31C825CB: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-matlab.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-matlab.js";
-							}
-							file mode_maze.js_406E6B211B3F7B19: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-maze.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-maze.js";
-							}
-							file mode_mel.js_410C78B907E60929: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-mel.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-mel.js";
-							}
-							file mode_mips_assembler.js_CE56E9A5489C055B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-mips_assembler.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-mips_assembler.js";
-							}
-							file mode_mipsassembler.js_C0A26A07FF89FB0E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-mipsassembler.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-mipsassembler.js";
-							}
-							file mode_mushcode.js_99AF514A192E14FF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-mushcode.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-mushcode.js";
-							}
-							file mode_mysql.js_DEFB7A0ED50B2CCD: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-mysql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-mysql.js";
-							}
-							file mode_nix.js_BCB5D31FAFA73F84: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-nix.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-nix.js";
-							}
-							file mode_nsis.js_95879205AC582ED0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-nsis.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-nsis.js";
-							}
-							file mode_objectivec.js_708C226A093C7CA9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-objectivec.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-objectivec.js";
-							}
-							file mode_ocaml.js_5B4B631199CC5D2A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-ocaml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-ocaml.js";
-							}
-							file mode_pascal.js_3018457375EA0E7C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-pascal.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-pascal.js";
-							}
-							file mode_perl.js_BA6C2A475BBA4A63: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-perl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-perl.js";
-							}
-							file mode_pgsql.js_334E45EEE3BA9C68: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-pgsql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-pgsql.js";
-							}
-							file mode_php.js_14E70AEC25C7F07F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-php.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-php.js";
-							}
-							file mode_plain_text.js_1CABEEE2D1DF12C1: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-plain_text.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_plain_text.js_161D21D2D6FE7B43: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-plain_text.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-plain_text.js";
 							}
-							file mode_powershell.js_29E6D0D494842CA9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-powershell.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-powershell.js";
-							}
-							file mode_praat.js_D0F4921D0B32DE8A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-praat.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-praat.js";
-							}
-							file mode_prolog.js_803A55A0749F4589: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-prolog.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-prolog.js";
-							}
-							file mode_properties.js_64605B49179EE233: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-properties.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-properties.js";
-							}
-							file mode_protobuf.js_564DF0291FFA37F5: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-protobuf.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-protobuf.js";
-							}
-							file mode_python.js_4101748E683D95A8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-python.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-python.js";
-							}
-							file mode_r.js_7C14520025406042: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-r.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-r.js";
-							}
-							file mode_razor.js_D439F7284AD0673A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-razor.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-razor.js";
-							}
-							file mode_rdoc.js_8B4CF89140772E51: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-rdoc.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-rdoc.js";
-							}
-							file mode_rhtml.js_6994E8ACD2F89A00: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-rhtml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-rhtml.js";
-							}
-							file mode_rst.js_151C7665558D10C0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-rst.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-rst.js";
-							}
-							file mode_ruby.js_3B983657E090111D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-ruby.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-ruby.js";
-							}
-							file mode_rust.js_FDECAEB5BA94D597: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-rust.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-rust.js";
-							}
-							file mode_sass.js_A578B2724AC49BAA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-sass.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-sass.js";
-							}
-							file mode_scad.js_4872956A595E7F4B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-scad.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-scad.js";
-							}
-							file mode_scala.js_ECAB83046E21E6BF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-scala.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-scala.js";
-							}
-							file mode_scheme.js_55014FDD53B79B27: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-scheme.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-scheme.js";
-							}
-							file mode_scss.js_B228A5C2B3173C46: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-scss.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-scss.js";
-							}
-							file mode_sh.js_893EE753E1514EAF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-sh.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-sh.js";
-							}
-							file mode_sjs.js_5EDD815254497190: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-sjs.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-sjs.js";
-							}
-							file mode_smarty.js_160B57307541ED3F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-smarty.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_smarty.js_D8DB0DF5378FF6CF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-smarty.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-smarty.js";
 							}
-							file mode_snippets.js_CBFCE740E93B04FE: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-snippets.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_snippets.js_F76517212CF2E1EA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-snippets.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-snippets.js";
 							}
-							file mode_soy_template.js_D9EFDFC59C18A676: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-soy_template.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-soy_template.js";
-							}
-							file mode_space.js_9FE8308AD65F4CDD: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-space.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_space.js_9014CA9FA49B8683: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-space.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-space.js";
 							}
-							file mode_sql.js_05107F755D6A92AF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-sql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-sql.js";
-							}
-							file mode_sqlserver.js_66E472F599739E8B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-sqlserver.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-sqlserver.js";
-							}
-							file mode_stylus.js_03C611D69BBBC1A9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-stylus.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-stylus.js";
-							}
-							file mode_svg.js_FA650DD73B764DB2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-svg.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-svg.js";
-							}
-							file mode_tcl.js_BE171FF506987F13: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-tcl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-tcl.js";
-							}
-							file mode_tex.js_A856FEC9E0767460: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-tex.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-tex.js";
-							}
-							file mode_text.js_A4A2C8E108B9201C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-text.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-text.js";
-							}
-							file mode_textile.js_95F93F8AE620B36E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-textile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-textile.js";
-							}
-							file mode_toml.js_5F6D3FEA307F5496: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-toml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-toml.js";
-							}
-							file mode_twig.js_CC697A82AF708899: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-twig.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-twig.js";
-							}
-							file mode_typescript.js_A0AB9DABCBAA7D87: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-typescript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_typescript.js_24591B84657D686E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-typescript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-typescript.js";
 							}
-							file mode_vala.js_E1BFF4249D766D81: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-vala.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-vala.js";
-							}
-							file mode_vbscript.js_663DD8841AA1E700: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-vbscript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-vbscript.js";
-							}
-							file mode_velocity.js_3D728EEBBB9C7137: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-velocity.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-velocity.js";
-							}
-							file mode_verilog.js_E9C2905509D6A5E6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-verilog.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-verilog.js";
-							}
-							file mode_vhdl.js_5213B5867031B74F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-vhdl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-vhdl.js";
-							}
-							file mode_xml.js_8CE009139D463B9E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-xml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file mode_xml.js_64009B1B86EA28AA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-xml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="mode-xml.js";
 							}
-							file mode_xquery.js_6EEEF063B89862A2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-xquery.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-xquery.js";
-							}
-							file mode_yaml.js_153B32CFF39B6599: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\mode-yaml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
-								str Name: Default="mode-yaml.js";
-							}
-							folder snippets_7C5E6BB35B27E46E: Flags=0x0, Traits=0x80000000, InstallAction=1, RemoveAction=1 {
+							folder snippets_A2FB6AA1C2F112D6: Flags=0x0, Traits=0x80000000, InstallAction=1, RemoveAction=1 {
 								str Name: Default=snippets;
-								file abap.js_DB1287C8B4D53FE0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\abap.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file abap.js_F6EFE4A517F1FBC4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\abap.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=abap.js;
 								}
-								file abc.js_1A2090E57659C6A9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\abc.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file abc.js_494270ACFDA83687: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\abc.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=abc.js;
 								}
-								file actionscript.js_507B6AF32738B049: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\actionscript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file actionscript.js_42CB18CCE9291FE4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\actionscript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=actionscript.js;
 								}
-								file ada.js_BC770169FAE772E4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ada.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file ada.js_EA575BC4F2C2B0AA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ada.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=ada.js;
 								}
-								file apache_conf.js_F16039E50F0CCFB8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\apache_conf.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file apache_conf.js_7329FF898E59037A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\apache_conf.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=apache_conf.js;
 								}
-								file applescript.js_E7ED01B1AF2817CF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\applescript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file applescript.js_150761DE5A3F98A5: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\applescript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=applescript.js;
 								}
-								file asciidoc.js_568529687B1E1385: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\asciidoc.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file asciidoc.js_49464B5BF5C41B60: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\asciidoc.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=asciidoc.js;
 								}
-								file assembly_x86.js_0711CE75D7775627: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\assembly_x86.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file assembly_x86.js_BD8277374F4446C3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\assembly_x86.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=assembly_x86.js;
 								}
-								file autohotkey.js_E4A633A24A823B44: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\autohotkey.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file autohotkey.js_A49E8F3C68C69E93: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\autohotkey.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=autohotkey.js;
 								}
-								file batchfile.js_42EBBD141A4A6FA4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\batchfile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file batchfile.js_C9B916BCF309205E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\batchfile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=batchfile.js;
 								}
-								file c9search.js_637C4DC598581EC2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\c9search.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file c9search.js_ED337AD19CC5897D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\c9search.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=c9search.js;
 								}
-								file c_cpp.js_10A73B12A611C91E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\c_cpp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file c_cpp.js_974E2F9F399F61F7: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\c_cpp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=c_cpp.js;
 								}
-								file cirru.js_90E66884FECB9B02: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\cirru.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file cirru.js_EB7B7F2A2CC30B4B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\cirru.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=cirru.js;
 								}
-								file clojure.js_70148D0CE7E30BAD: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\clojure.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file clojure.js_CA55F83884D32830: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\clojure.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=clojure.js;
 								}
-								file cobol.js_115EC9498A918BBA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\cobol.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file cobol.js_652A3564D17300B2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\cobol.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=cobol.js;
 								}
-								file coffee.js_159FD8E9E49BF932: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\coffee.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file coffee.js_9E6624765CFEFB10: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\coffee.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=coffee.js;
 								}
-								file coldfusion.js_567F1374A0D73048: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\coldfusion.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file coldfusion.js_4E00C182AD262F49: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\coldfusion.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=coldfusion.js;
 								}
-								file csharp.js_1AB6C58CE6C9D519: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\csharp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file csharp.js_48156B236AB85A62: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\csharp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=csharp.js;
 								}
-								file css.js_B33E93417CDB1DF2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\css.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file css.js_27F37F7C85E2686B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\css.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=css.js;
 								}
-								file curly.js_1B58CE950D5FCAE0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\curly.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file curly.js_5CD62F16C9191BFD: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\curly.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=curly.js;
 								}
-								file d.js_F26798D87B463422: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\d.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file d.js_C6644C09EC8244D1: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\d.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=d.js;
 								}
-								file dart.js_CF62ECC8A9C7608E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\dart.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file dart.js_C1517C29D469F77B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\dart.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=dart.js;
 								}
-								file diff.js_0393749C18C20606: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\diff.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file diff.js_9A69538E0069468C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\diff.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=diff.js;
 								}
-								file django.js_A5FCD892A35C28EF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\django.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file django.js_E88D23C2AF6524AE: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\django.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=django.js;
 								}
-								file dockerfile.js_4BCA38F5EFEBCB21: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\dockerfile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file dockerfile.js_7F03A46835773DAC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\dockerfile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=dockerfile.js;
 								}
-								file dot.js_D06C938EF7CA8FFA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\dot.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file dot.js_40103C4874AC56D0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\dot.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=dot.js;
 								}
-								file eiffel.js_DE99579E294EC446: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\eiffel.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file eiffel.js_D8990A604D83DC91: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\eiffel.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=eiffel.js;
 								}
-								file ejs.js_11F2A5EA176EFB9D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ejs.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file ejs.js_F43241D79505B7ED: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ejs.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=ejs.js;
 								}
-								file elixir.js_C0BB84339834FEAF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\elixir.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file elixir.js_D6A9E1C47E3E7283: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\elixir.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=elixir.js;
 								}
-								file elm.js_77E9075880CFFBBA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\elm.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file elm.js_D32E8E9EA2105F2F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\elm.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=elm.js;
 								}
-								file erlang.js_AB3AEE5C9656C894: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\erlang.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file erlang.js_CFA67BE92CB6E50E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\erlang.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=erlang.js;
 								}
-								file forth.js_8358413D1F3D9099: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\forth.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file forth.js_8ADD6DA0231DC69F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\forth.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=forth.js;
 								}
-								file ftl.js_9C79CC7A67198445: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ftl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file ftl.js_F9B49E250F62EF71: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ftl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=ftl.js;
 								}
-								file gcode.js_0227C45681EC2CF1: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\gcode.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file gcode.js_DF39B5D44D99149C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\gcode.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=gcode.js;
 								}
-								file gherkin.js_1810CD5CB6D496CC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\gherkin.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file gherkin.js_91E5FB74F2F6E171: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\gherkin.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=gherkin.js;
 								}
-								file gitignore.js_AB4DF94714218155: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\gitignore.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file gitignore.js_B22A81D3EB83AF7C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\gitignore.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=gitignore.js;
 								}
-								file glsl.js_CCFB1181FEF8728B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\glsl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file glsl.js_C4B98C5FBD4EE9AC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\glsl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=glsl.js;
 								}
-								file gobstones.js_96C262CE5655E3E9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\gobstones.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file gobstones.js_F530E7F895F0EAAE: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\gobstones.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=gobstones.js;
 								}
-								file golang.js_C9F909F19BD3910D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\golang.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file golang.js_89759A7F9566D9F4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\golang.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=golang.js;
 								}
-								file groovy.js_E8B9855FE0D45A5C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\groovy.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file groovy.js_36D0F845FF10AFEA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\groovy.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=groovy.js;
 								}
-								file haml.js_4A9DDE92FB8410EF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\haml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file haml.js_B044D0DC11A8886E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\haml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=haml.js;
 								}
-								file handlebars.js_3E2081B95539DFF4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\handlebars.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file handlebars.js_D09622651B0C8754: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\handlebars.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=handlebars.js;
 								}
-								file haskell.js_CB054BC948CD37B7: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\haskell.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file haskell.js_99C5A5447C7DA243: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\haskell.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=haskell.js;
 								}
-								file haxe.js_F5F734200F0C14DC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\haxe.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file haxe.js_F8C92DF8C4EBDEB6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\haxe.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=haxe.js;
 								}
-								file html.js_F9C74D7118AEA8B0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\html.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file html.js_142646D6B31E1A52: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\html.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=html.js;
 								}
-								file html_completions.js_4E855E51022D1025: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\html_completions.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file html_completions.js_127CC24DC25C556C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\html_completions.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=html_completions.js;
 								}
-								file html_elixir.js_5996328591BC78AB: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\html_elixir.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file html_elixir.js_D94E4B0B55028E99: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\html_elixir.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=html_elixir.js;
 								}
-								file html_ruby.js_DD99ACDFD4962C77: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\html_ruby.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file html_ruby.js_39FA9170DB5B2221: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\html_ruby.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=html_ruby.js;
 								}
-								file ini.js_104FB3C17511530A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ini.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file ini.js_2EA3C89A09A09C67: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ini.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=ini.js;
 								}
-								file io.js_8D48B17C5C70BCF0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\io.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file io.js_2C354444D638A4F5: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\io.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=io.js;
 								}
-								file jack.js_52ABC1592E5E1185: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\jack.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file jack.js_0BC54B5122A8DE9F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\jack.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=jack.js;
 								}
-								file jade.js_1999607F824610BF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\jade.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file jade.js_4542F1E05E35BCC9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\jade.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=jade.js;
 								}
-								file java.js_3DD49D13E1908B13: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\java.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file java.js_50D20A7AFAD4B3BF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\java.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=java.js;
 								}
-								file javascript.js_70E1D8BD1400E1B4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\javascript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file javascript.js_BB67BBEC78159A41: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\javascript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=javascript.js;
 								}
-								file json.js_74144E7765C7B168: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\json.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file json.js_EAB69FCC93471331: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\json.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=json.js;
 								}
-								file jsoniq.js_26F2F5026FF67DF0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\jsoniq.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file jsoniq.js_A5BAE7C90CA0A48E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\jsoniq.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=jsoniq.js;
 								}
-								file jsp.js_D095C362828D0663: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\jsp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file jsp.js_837098C688C74075: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\jsp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=jsp.js;
 								}
-								file jsx.js_643AC970BA8B3113: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\jsx.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file jsx.js_2738E2B916754A26: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\jsx.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=jsx.js;
 								}
-								file julia.js_B1E3912D034F8C9B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\julia.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file julia.js_7E29C03143E3E1D1: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\julia.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=julia.js;
 								}
-								file latex.js_8511C4004AA2EA49: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\latex.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file latex.js_68C5F28EAF2A3489: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\latex.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=latex.js;
 								}
-								file lean.js_934F2EE396B5AA93: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\lean.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file lean.js_18D4E13953205A83: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\lean.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=lean.js;
 								}
-								file less.js_531DA21202482898: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\less.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file less.js_1A6E07265467ECB1: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\less.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=less.js;
 								}
-								file liquid.js_CF10D77B597C3519: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\liquid.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file liquid.js_427342FECE047E7E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\liquid.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=liquid.js;
 								}
-								file lisp.js_56A144C9CC2EE0DA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\lisp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file lisp.js_BEB4C81801A06684: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\lisp.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=lisp.js;
 								}
-								file live_script.js_1583718935115001: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\live_script.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file live_script.js_A4FCBF22F68D5FF4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\live_script.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=live_script.js;
 								}
-								file livescript.js_37E1A71EFCA7301A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\livescript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file livescript.js_898E2ABF5A70521F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\livescript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=livescript.js;
 								}
-								file logiql.js_08F382D21A8615AA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\logiql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file logiql.js_D3B3A2B7BBA9ECA4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\logiql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=logiql.js;
 								}
-								file lsl.js_099EB652BE4BC807: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\lsl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file lsl.js_7C8771A3DF6951EB: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\lsl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=lsl.js;
 								}
-								file lua.js_40F213472402E6F2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\lua.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file lua.js_76395DBB44600288: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\lua.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=lua.js;
 								}
-								file luapage.js_27B544715B6C49D4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\luapage.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file luapage.js_C11F427B8490C0EA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\luapage.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=luapage.js;
 								}
-								file lucene.js_050F248543F45104: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\lucene.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file lucene.js_253414E6656A40CC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\lucene.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=lucene.js;
 								}
-								file makefile.js_13898CFFBCD17D09: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\makefile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file makefile.js_1035E92D547FA388: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\makefile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=makefile.js;
 								}
-								file markdown.js_F000AD688E72AD0A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\markdown.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file markdown.js_019D95979FD54017: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\markdown.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=markdown.js;
 								}
-								file mask.js_0C2CD1E75F0DB178: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mask.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file mask.js_6B8A47A87CCA3C50: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mask.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=mask.js;
 								}
-								file matlab.js_751D74C19C5D6771: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\matlab.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file matlab.js_9D38B6449D8F2B58: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\matlab.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=matlab.js;
 								}
-								file maze.js_FD813CA9AE430AB7: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\maze.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file maze.js_54C7CAEC185B58CC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\maze.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=maze.js;
 								}
-								file mel.js_5DC0232C6E404E48: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mel.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file mel.js_2C6A98BAC18213D3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mel.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=mel.js;
 								}
-								file mips_assembler.js_2F1FD252A0A9D905: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mips_assembler.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file mips_assembler.js_7DAAF07717097091: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mips_assembler.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=mips_assembler.js;
 								}
-								file mipsassembler.js_D9B04F2132448A84: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mipsassembler.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file mipsassembler.js_2B81A9D9B34DD1DF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mipsassembler.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=mipsassembler.js;
 								}
-								file mushcode.js_35CE6B381A662EE7: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mushcode.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file mushcode.js_48437D658E43C8ED: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mushcode.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=mushcode.js;
 								}
-								file mysql.js_121D804673DBEB23: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mysql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file mysql.js_0AF3C0CF5AA98984: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\mysql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=mysql.js;
 								}
-								file nix.js_276DAFA121A41CFF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\nix.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file nix.js_3BFA256E6C7C2C99: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\nix.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=nix.js;
 								}
-								file nsis.js_B8E5E6476C8579E5: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\nsis.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file nsis.js_D00B87BAAF899ABB: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\nsis.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=nsis.js;
 								}
-								file objectivec.js_CF0C8ADD8993C5C9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\objectivec.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file objectivec.js_89BDD7ECB8E301E4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\objectivec.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=objectivec.js;
 								}
-								file ocaml.js_D12FE982E6B58124: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ocaml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file ocaml.js_75C25D2B4493BC9D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ocaml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=ocaml.js;
 								}
-								file pascal.js_C6C0E2F98A63EC00: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\pascal.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file pascal.js_74BC4E64915FB734: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\pascal.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=pascal.js;
 								}
-								file perl.js_F598E9383A03E2B5: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\perl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file perl.js_77B0F664560AEC59: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\perl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=perl.js;
 								}
-								file pgsql.js_F2F0C494D3AAF9AE: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\pgsql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file pgsql.js_8D819BC56BFAC5F3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\pgsql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=pgsql.js;
 								}
-								file php.js_201FABB70E29780C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\php.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file php.js_CFA595A3481DDE1B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\php.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=php.js;
 								}
-								file plain_text.js_FFA0233C73E44A6C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\plain_text.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file plain_text.js_4CBDCB2A1D956CCA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\plain_text.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=plain_text.js;
 								}
-								file powershell.js_3507D99C1326BCB3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\powershell.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file powershell.js_C7671E25712B3DCC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\powershell.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=powershell.js;
 								}
-								file praat.js_3FE4FA8DFD84EBE5: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\praat.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file praat.js_B501CEB3ECD9C4B1: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\praat.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=praat.js;
 								}
-								file prolog.js_C57766D89C7E4977: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\prolog.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file prolog.js_B6FCE9924ECAB629: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\prolog.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=prolog.js;
 								}
-								file properties.js_5D9C93533CEFF217: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\properties.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file properties.js_DED1D43AE0A2E5E6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\properties.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=properties.js;
 								}
-								file protobuf.js_4FCBA2753514CD21: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\protobuf.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file protobuf.js_567D17026357F7A8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\protobuf.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=protobuf.js;
 								}
-								file python.js_AE542344075167FB: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\python.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file python.js_7073A34BEC2E2074: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\python.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=python.js;
 								}
-								file r.js_D329E69EB016BFB3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\r.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file r.js_C9555C42ECD4986C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\r.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=r.js;
 								}
-								file razor.js_58F40AC3B5DE89B9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\razor.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file razor.js_689E57363B71B211: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\razor.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=razor.js;
 								}
-								file rdoc.js_86E06C5D98A96194: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\rdoc.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file rdoc.js_A409DFF061250560: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\rdoc.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=rdoc.js;
 								}
-								file rhtml.js_B1EDDDAF4DC3E54B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\rhtml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file rhtml.js_11526DA8C73C2D15: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\rhtml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=rhtml.js;
 								}
-								file rst.js_23D5AAB00D777E8B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\rst.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file rst.js_57F19F551AB50D16: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\rst.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=rst.js;
 								}
-								file ruby.js_9CC8026A5F3CA425: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ruby.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file ruby.js_067EAF9617426B9C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\ruby.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=ruby.js;
 								}
-								file rust.js_733B5406CCC29E87: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\rust.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file rust.js_D1A3FF51CC89654B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\rust.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=rust.js;
 								}
-								file sass.js_693FB90FB8B2AA59: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\sass.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file sass.js_59EACBDD606042C8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\sass.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=sass.js;
 								}
-								file scad.js_CC50B136959DC953: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\scad.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file scad.js_C7B58B7F45D9655D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\scad.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=scad.js;
 								}
-								file scala.js_D21C6D126E6A0917: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\scala.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file scala.js_9B53B5510E7A6CA8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\scala.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=scala.js;
 								}
-								file scheme.js_E096355B6BFB3011: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\scheme.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file scheme.js_B53933DCA57B32B6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\scheme.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=scheme.js;
 								}
-								file scss.js_0B78E589927274AD: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\scss.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file scss.js_0D28432A6C5FF518: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\scss.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=scss.js;
 								}
-								file sh.js_A22492AEBB29ECA3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\sh.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file sh.js_3F27F1546ED20C7C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\sh.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=sh.js;
 								}
-								file sjs.js_BD883889B2F76EE8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\sjs.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file sjs.js_B1E63521E7F8D985: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\sjs.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=sjs.js;
 								}
-								file smarty.js_267A0649E4F33907: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\smarty.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file smarty.js_BCE8726129B160E8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\smarty.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=smarty.js;
 								}
-								file snippets.js_FA7B26C0C547AADE: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\snippets.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file snippets.js_8618EE93CC949697: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\snippets.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=snippets.js;
 								}
-								file soy_template.js_C15E026960483F45: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\soy_template.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file soy_template.js_F616CB0A3670B7FA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\soy_template.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=soy_template.js;
 								}
-								file space.js_9142560D411C6FAE: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\space.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file space.js_403D2C2642D1F328: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\space.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=space.js;
 								}
-								file sql.js_DC60842318289444: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\sql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file sql.js_F4CB1DECA6DA8773: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\sql.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=sql.js;
 								}
-								file sqlserver.js_D39AA4354B3B2F42: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\sqlserver.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file sqlserver.js_616D61F17B0792D9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\sqlserver.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=sqlserver.js;
 								}
-								file stylus.js_3E249AB4862CBA45: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\stylus.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file stylus.js_DECE3012C064C8C9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\stylus.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=stylus.js;
 								}
-								file svg.js_9D9816900812BD37: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\svg.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file svg.js_1B021A62BBC02CDB: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\svg.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=svg.js;
 								}
-								file swift.js_AA39470BE2366389: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\swift.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file swift.js_349F05F8B2ABA975: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\swift.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=swift.js;
 								}
-								file swig.js_BB194CE9D4D01A97: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\swig.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file swig.js_332ECCC7BEA33D09: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\swig.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=swig.js;
 								}
-								file tcl.js_6562BB9A47F0597B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\tcl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file tcl.js_52333D69971C65C0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\tcl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=tcl.js;
 								}
-								file tex.js_25342BBB28304EB6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\tex.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file tex.js_59A47D7E8481804F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\tex.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=tex.js;
 								}
-								file text.js_FBC1294E8ECB3FAD: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\text.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file text.js_CFBC1F5AAEBF0CB7: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\text.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=text.js;
 								}
-								file textile.js_CE4D29BFCE384E9E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\textile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file textile.js_78A5679A624C1BB9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\textile.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=textile.js;
 								}
-								file toml.js_5859BD3EBFD1D20F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\toml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file toml.js_82A4D2F341A378DA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\toml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=toml.js;
 								}
-								file twig.js_1C657704B954B4FF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\twig.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file twig.js_34B4CCDBC71DE24C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\twig.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=twig.js;
 								}
-								file typescript.js_5299C5C1F4E94CE1: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\typescript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file typescript.js_E44AD3C85EC6C698: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\typescript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=typescript.js;
 								}
-								file vala.js_7E4CDCE60C96CA91: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\vala.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file vala.js_9E9E3C05BB85BC82: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\vala.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=vala.js;
 								}
-								file vbscript.js_D49FA0027E49C78C: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\vbscript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file vbscript.js_576CBB9AFB657B1E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\vbscript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=vbscript.js;
 								}
-								file velocity.js_4B1BF13A7D14023D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\velocity.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file velocity.js_9FA7257AC4983670: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\velocity.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=velocity.js;
 								}
-								file verilog.js_5870A626EDE69F0F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\verilog.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file verilog.js_F8A1E0A6FCE8BCA2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\verilog.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=verilog.js;
 								}
-								file vhdl.js_B6BC1780450906A0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\vhdl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file vhdl.js_23AD0F3D9162B1E2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\vhdl.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=vhdl.js;
 								}
-								file wollok.js_924381B2E35C394B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\wollok.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file wollok.js_065C0D596E12846D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\wollok.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=wollok.js;
 								}
-								file xml.js_F369E499C81C7634: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\xml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file xml.js_7FC533CB113DD86A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\xml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=xml.js;
 								}
-								file xquery.js_1EB056940E1AB4F6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\xquery.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file xquery.js_68200B8BB1632524: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\xquery.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=xquery.js;
 								}
-								file yaml.js_21C6436FBE1390BA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\yaml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+								file yaml.js_1088969BAD2D2501: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\snippets\\yaml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 									str Name: Default=yaml.js;
 								}
 							}
-							file theme_ambiance.js_0298AF20DC8414F2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-ambiance.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_ambiance.js_776A9DE4138AA16B: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-ambiance.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-ambiance.js";
 							}
-							file theme_chaos.js_B0EF672637EE68F6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-chaos.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_chaos.js_F4D7A7A4DEDC8F70: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-chaos.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-chaos.js";
 							}
-							file theme_chrome.js_86F7DB8ABC69F5F0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-chrome.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_chrome.js_803EA389F00445E0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-chrome.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-chrome.js";
 							}
-							file theme_clouds.js_A6469F739F11931D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-clouds.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_clouds.js_F2122D8F5DBD0A8D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-clouds.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-clouds.js";
 							}
-							file theme_clouds_midnight.js_57BFB43DBFB57C86: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-clouds_midnight.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_clouds_midnight.js_04F741EE080A7A12: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-clouds_midnight.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-clouds_midnight.js";
 							}
-							file theme_cobalt.js_8C0665E370F33E5A: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-cobalt.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_cobalt.js_4C57A47A741C14E8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-cobalt.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-cobalt.js";
 							}
-							file theme_dawn.js_60AC37BE40A8C2AF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-dawn.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_dawn.js_F52210E4B9C49D4D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-dawn.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-dawn.js";
 							}
-							file theme_eclipse.js_7AE32600FDBE124D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-eclipse.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_eclipse.js_1C014C3E92ADA68E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-eclipse.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-eclipse.js";
 							}
-							file theme_github.js_38554CF5CF1120AD: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-github.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_github.js_3D3B9F35588A2319: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-github.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-github.js";
 							}
-							file theme_idle_fingers.js_550C47E4CF79046F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-idle_fingers.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_idle_fingers.js_13DB650B6561EA29: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-idle_fingers.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-idle_fingers.js";
 							}
-							file theme_katzenmilch.js_BB298BBC052EE3BC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-katzenmilch.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_katzenmilch.js_B80F0F5DFDBCF06E: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-katzenmilch.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-katzenmilch.js";
 							}
-							file theme_kuroir.js_45EFB2A99BC2ABB5: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-kuroir.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_kuroir.js_F17C7911EA48F3FA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-kuroir.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-kuroir.js";
 							}
-							file theme_merbivore.js_9E4990A17837D631: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-merbivore.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_merbivore.js_E142420B60C0398F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-merbivore.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-merbivore.js";
 							}
-							file theme_merbivore_soft.js_61DD194B10579FCF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-merbivore_soft.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_merbivore_soft.js_81EA2F7AA78A0806: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-merbivore_soft.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-merbivore_soft.js";
 							}
-							file theme_mono_industrial.js_6C0536DF8025C4C9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-mono_industrial.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_mono_industrial.js_632F86902484D7C8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-mono_industrial.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-mono_industrial.js";
 							}
-							file theme_monokai.js_BF04A8C819D133F7: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-monokai.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_monokai.js_1BDBCAA7DF6061E5: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-monokai.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-monokai.js";
 							}
-							file theme_solarized_dark.js_335DB2C9AFD13AD2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-solarized_dark.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_solarized_dark.js_A906F44B8BF42516: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-solarized_dark.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-solarized_dark.js";
 							}
-							file theme_solarized_light.js_B9A6E51EB6A9A0DF: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-solarized_light.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_solarized_light.js_0FC8D6EEEC6382A6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-solarized_light.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-solarized_light.js";
 							}
-							file theme_terminal.js_E1301647CE25F106: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-terminal.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_terminal.js_D2E1A890309953B6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-terminal.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-terminal.js";
 							}
-							file theme_textmate.js_A44354AE4E777D5F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-textmate.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_textmate.js_162852CF1B13C44D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-textmate.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-textmate.js";
 							}
-							file theme_tomorrow.js_D51012C47222EEDB: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-tomorrow.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_tomorrow.js_FF3E5558216E4EB4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-tomorrow.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-tomorrow.js";
 							}
-							file theme_tomorrow_night.js_105782EC307E77F6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-tomorrow_night.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_tomorrow_night.js_D216562B320190D9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-tomorrow_night.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-tomorrow_night.js";
 							}
-							file theme_tomorrow_night_blue.js_4144B22E8709A3F9: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-tomorrow_night_blue.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_tomorrow_night_blue.js_F9C5B377362C6613: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-tomorrow_night_blue.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-tomorrow_night_blue.js";
 							}
-							file theme_twilight.js_FC85901F202CA7A2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-twilight.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_twilight.js_3CB7A2FEEC3C0054: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-twilight.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-twilight.js";
 							}
-							file theme_vibrant_ink.js_1D71C9E152E352EA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-vibrant_ink.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_vibrant_ink.js_04463133EBE239D4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-vibrant_ink.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-vibrant_ink.js";
 							}
-							file theme_visualstudio.js_29B75F15BD07AB23: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-visualstudio.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_visualstudio.js_FDB8D82D830340E4: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-visualstudio.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-visualstudio.js";
 							}
-							file theme_xcode.js_FB85CBA4756FEFB6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-xcode.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file theme_xcode.js_D6F1A6C283F139A3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\theme-xcode.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="theme-xcode.js";
 							}
-							file worker_coffee.js_DC939135226C07CA: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-coffee.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file worker_coffee.js_A6068D1856CEC045: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-coffee.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="worker-coffee.js";
 							}
-							file worker_css.js_833FB1E239AAFF9D: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-css.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file worker_css.js_A55E07237C31CA22: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-css.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="worker-css.js";
 							}
-							file worker_html.js_A499CF3C4FB0BAD2: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-html.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file worker_html.js_915D0D6367F85ECC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-html.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="worker-html.js";
 							}
-							file worker_javascript.js_978C08A33F918AA0: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-javascript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file worker_javascript.js_7DF7E082F0752ED3: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-javascript.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="worker-javascript.js";
 							}
-							file worker_json.js_DAF3878282F368A1: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-json.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file worker_json.js_2433AA21186F09BC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-json.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="worker-json.js";
 							}
-							file worker_lua.js_E4A502F313516C42: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-lua.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file worker_lua.js_B6E6329D48DBF3C8: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-lua.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="worker-lua.js";
 							}
-							file worker_php.js_81FAE04D8ABB514F: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-php.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file worker_php.js_2EDA283274319229: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-php.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="worker-php.js";
 							}
-							file worker_xml.js_28F7DE8009693188: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-xml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file worker_xml.js_658057D57098DBD6: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-xml.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="worker-xml.js";
 							}
-							file worker_xquery.js_8E2F5839CDF08DAC: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-xquery.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+							file worker_xquery.js_BE5CB507164C1D60: Flags=0x0, Path="Distribution\\Editor\\scripts\\Ace\\worker-xquery.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 								str Name: Default="worker-xquery.js";
 							}
 						}
-						file jquery.min.js_6CE4CE626E9D9D60: Flags=0x0, Path="Distribution\\Editor\\scripts\\jquery.min.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+						file jquery.min.js_4B156632CFB3ED96: Flags=0x0, Path="Distribution\\Editor\\scripts\\jquery.min.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 							str Name: Default=jquery.min.js;
 						}
-						file to_markdown.js_0ADBA80C815E22FC: Flags=0x0, Path="Distribution\\Editor\\scripts\\to-markdown.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+						file to_markdown.js_5E6DC825F677E875: Flags=0x0, Path="Distribution\\Editor\\scripts\\to-markdown.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 							str Name: Default="to-markdown.js";
 						}
-						file typo.js_664171B3A8D2DE1F: Flags=0x0, Path="Distribution\\Editor\\scripts\\typo.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
+						file typo.js_C8859E31285B8CD7: Flags=0x0, Path="Distribution\\Editor\\scripts\\typo.js", Attributes=0x0, InstallAction=4, RemoveAction=2, Registration=0, RegOrder=0, Packaging=0 {
 							str Name: Default=typo.js;
 						}
 					}

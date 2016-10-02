@@ -17,6 +17,9 @@ Add search box to Download Posts form to search the list of posts to select a do
 * **Encrypt Stored Weblog Passwords**  
 Passwords that are stored with a Weblog configuration are now encrypted when saved to disk in the Weblog configuration file. You can also edit the config file and store a plain text password which is converted to an encrypted one when saved.
 
+* **Switch to Inno Installer due to AV Issues**  
+We've been using InstallMate, but due to some weird combination of binaries MarkdownMonster and InstallMate were flagging several AV solutions. Rebuilt install with InnoSetup and reduced AV flags to one false positive.
+
 ### 0.49
 * **Add Tab Context Menu**   
 Tab tab context menu now allows for: Close documents, Close all documents, Close all but this document, Open folder, and Open Terminal options.
