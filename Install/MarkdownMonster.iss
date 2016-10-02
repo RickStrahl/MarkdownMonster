@@ -19,25 +19,33 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
+ArchitecturesInstallIn64BitMode=x64
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=C:\projects2010\MarkdownMonster\Install\license.txt
-OutputDir=C:\projects2010\MarkdownMonster\Install\Builds\CurrentRelease
+LicenseFile=.\license.txt
+OutputDir=.\Builds\CurrentRelease
 OutputBaseFilename=MarkdownMonsterSetup
-SetupIconFile=
+SetupIconFile=..\MarkdownMonster\Assets\MarkdownMonster.ico
 Compression=lzma
 SolidCompression=yes
+ChangesAssociations=yes
+; 55x58
+WizardSmallImageFile=WizIcon.bmp
+; 164 x 314
+WizardImageFile=WizBanner.bmp
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 
 [Files]
-Source: "C:\projects2010\MarkdownMonster\Install\Distribution\MarkdownMonster.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\projects2010\MarkdownMonster\Install\Distribution\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\Distribution\MarkdownMonster.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\Distribution\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
+Source: "FontAwesome.otf"; DestDir: "{fonts}"; Flags: onlyifdoesntexist uninsneveruninstall  
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -46,3 +54,9 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
+[Registry]
+Root: HKCR; Subkey: ".md";                             ValueData: "{#MyAppName}";          Flags: uninsdeletevalue; ValueType: string;  ValueName: ""
+Root: HKCR; Subkey: "{#MyAppName}";                    ValueData: "Program {#MyAppName}";  Flags: uninsdeletekey;   ValueType: string;  ValueName: ""
+Root: HKCR; Subkey: "{#MyAppName}\DefaultIcon";        ValueData: "{app}\{#MyAppExeName},0";               ValueType: string;  ValueName: ""
+Root: HKCR; Subkey: "{#MyAppName}\shell\open\command"; ValueData: """{app}\{#MyAppExeName}"" ""%1""";  ValueType: string;  ValueName: ""
+Root: HKCU; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"; ValueType: dword; ValueName: "MarkdownMonster.exe"; ValueData: "11001"; Flags: createvalueifdoesntexist

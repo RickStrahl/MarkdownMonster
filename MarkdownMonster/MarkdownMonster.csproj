@@ -236,9 +236,12 @@
     <Content Include="Editor\scripts\Ace\mode-markdown.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Editor\scripts\Ace\mode-php.js" />
     <Content Include="Editor\scripts\Ace\mode-plain_text.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Editor\scripts\Ace\mode-powershell.js" />
+    <Content Include="Editor\scripts\Ace\mode-python.js" />
     <Content Include="Editor\scripts\Ace\mode-razor.js" />
     <Content Include="Editor\scripts\Ace\mode-smarty.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
