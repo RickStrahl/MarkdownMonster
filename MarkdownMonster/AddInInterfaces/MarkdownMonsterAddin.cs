@@ -112,6 +112,33 @@ namespace MarkdownMonster.AddIns
             return true;
         }
 
+
+        /// <summary>
+        /// An optional command string that is fired into addins         
+        /// 
+        /// You can override this method to capture commands that are not
+        /// already handled by the editor.        
+        /// </summary>
+        /// <param name="command"></param>
+        public virtual void OnNotifyAddin(string command, object parameter)
+        {
+            
+        }
+
+
+        /// <summary>
+        /// Optional editor command handler that can intercept editor commands 
+        /// like bold/italic that are fired if not handled previously by
+        /// the default handlers.
+        /// 
+        /// Allows adding custom handlers
+        /// </summary>
+        /// <param name="command"></param>
+        public virtual string OnEditorCommand(string command, string input)
+        {
+            return null;
+        }
+
         /// <summary>
         /// Called after the document has been saved.
         /// </summary>

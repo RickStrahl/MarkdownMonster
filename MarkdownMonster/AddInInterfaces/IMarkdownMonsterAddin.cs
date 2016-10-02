@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MarkdownMonster.AddIns
 {
     /// <summary>
-    /// Marker interface
+    /// Marker interface only - subclass from MarkdownMonsterAddin base class
     /// </summary>
     public interface IMarkdownMonsterAddin
     {
