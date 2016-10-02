@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>0.49</Version>
-   <ReleaseDate>September 28th, 2016</ReleaseDate>
-   <Title>West Wind Markdown Monster 0.48 now available</Title>
-   <Detail>This update brigns back the tab context menu for document management and opening the document's folder or folder terminal. This update also fixes various file opening issues when opening files from the command line using *markdownmonster [filename]* or simply *mm [filename]*.
+   <Version>0.50</Version>
+   <ReleaseDate>October 3rd, 2016</ReleaseDate>
+   <Title>West Wind Markdown Monster 0.50 now available</Title>
+   <Detail>This update brings back the tab context menu for document management and opening the document's folder or folder terminal. This update also fixes various file opening issues when opening files from the command line using *markdownmonster [filename]* or simply *mm [filename]*. Password for blog access are now encrypted and you can search downloaded blog headers for specific entries. Command line operation has been improved and you can now use `mm readme.md` to open files more easily in Markdown Monster.
 
 For more detailed release info please see:
 https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md

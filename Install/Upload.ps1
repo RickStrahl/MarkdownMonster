@@ -1,4 +1,4 @@
-# param([string]$uid = "rstrahl", [string]$pwd = "")
+# param([string]$uid = "uid", [string]$pwd = "")
 
 Set-ExecutionPolicy Bypass -Scope CurrentUser
 

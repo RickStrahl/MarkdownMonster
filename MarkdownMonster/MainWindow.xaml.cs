@@ -914,6 +914,10 @@ namespace MarkdownMonster
             {
                 OpenTab("untitled");
             }
+            else if (button == ButtonNewWeblogPost)
+            {
+                AddinManager.Current.RaiseOnNotifyAddin("newweblogpost", null);
+            }
             else if (button == ButtonExit)
             {
                 Close();

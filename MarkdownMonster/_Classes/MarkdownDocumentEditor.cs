@@ -371,7 +371,14 @@ namespace MarkdownMonster
                            "```\r\n";
                 }
             }
-
+            else
+            {
+                // allow addins to handle custom actions
+                string addinAction = AddinManager.Current.RaiseOnEditorCommand(action, input);
+                if (!string.IsNullOrEmpty(addinAction))
+                    html = addinAction;
+            }
+            
             return html;
         }
 

@@ -312,6 +312,40 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+        public void RaiseOnNotifyAddin(string command, object parameter)
+        {
+            foreach (var addin in AddIns)
+            {
+                try
+                {
+                    addin?.OnNotifyAddin(command, parameter);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::OnNotifyAddin Error: " + ex.GetBaseException().Message);
+                }
+            }
+        }
+
+        public string RaiseOnEditorCommand(string action, string input)
+        {
+            foreach (var addin in AddIns)
+            {
+                try
+                {
+                    string html = addin?.OnEditorCommand(action, input);
+                    if (string.IsNullOrEmpty(html))
+                        return html;
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::OnDocumentActivated Error: " + ex.GetBaseException().Message);
+                }
+            }
+
+            return null;
+        }
+
 
     }
 }

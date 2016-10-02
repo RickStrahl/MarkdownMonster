@@ -84,7 +84,21 @@ namespace WeblogAddin
             form.Show();                       
         }
 
-
+        
+        public override void OnNotifyAddin(string command, object parameter)
+        {
+            if (command == "newweblogpost")
+            {
+                var form = new WebLogForm()
+                {
+                    Owner = Model.Window
+                };
+                form.Model.AppModel = Model;
+                form.Model.Addin = this;
+                form.Show();
+                form.TabControl.SelectedIndex = 1;
+            }            
+        }
 
         /// <summary>
         /// High level method that sends posts to the Weblog

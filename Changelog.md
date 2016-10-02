@@ -17,8 +17,11 @@ Add search box to Download Posts form to search the list of posts to select a do
 * **Encrypt Stored Weblog Passwords**  
 Passwords that are stored with a Weblog configuration are now encrypted when saved to disk in the Weblog configuration file. You can also edit the config file and store a plain text password which is converted to an encrypted one when saved.
 
+* **New Weblog Post option on menu**  
+In order to drive more attention to the Weblog features, we've added a *New Weblog Post* menu option to the main menu. The option takes you to the New Weblog Post page that lets you specify title and blog to post to (can be changed later).
+
 * **Switch to Inno Installer due to AV Issues**  
-We've been using InstallMate, but due to some weird combination of binaries MarkdownMonster and InstallMate were flagging several AV solutions. Rebuilt install with InnoSetup and reduced AV flags to one false positive.
+We've been using InstallMate for our installer, but due to some weird combination of binaries MarkdownMonster and InstallMate in combination were flagging several AV solutions. Rebuilt install with InnoSetup and reduced AV flags to one false positive.
 
 ### 0.49
 * **Add Tab Context Menu**   

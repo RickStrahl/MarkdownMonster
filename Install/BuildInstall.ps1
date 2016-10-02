@@ -1,8 +1,10 @@
 
 & "$PSScriptRoot\CopyFiles.ps1"
 
-"Running Inno Setup"
+# Installmate setup
 # & "C:\Program Files\InstallMate 9\BinX64\tin.exe" /build:all "West Wind Markdown Monster.im9" | Out-null
+
+"Running Inno Setup..."
 & "C:\Program Files (x86)\Inno Setup 5\iscc.exe" "MarkdownMonster.iss" 
 
 "Zipping up setup file..."
