@@ -14,8 +14,8 @@ You can now open multiple files simultaneously in the UI. Local non-fully-pathed
 * **Search Downloaded Post List**  
 Add search box to Download Posts form to search the list of posts to select a download from. Since blog APIs don't allow for searching through the API you have to download post titles and abstracts first and then search the list.
 
-* **Encrypt Stored Passwords**  
-Passwords that are stored with a Weblog configuration are now encrypted when saved to disk in the Weblog configuration file.
+* **Encrypt Stored Weblog Passwords**  
+Passwords that are stored with a Weblog configuration are now encrypted when saved to disk in the Weblog configuration file. You can also edit the config file and store a plain text password which is converted to an encrypted one when saved.
 
 ### 0.49
 * **Add Tab Context Menu**   

@@ -20,7 +20,8 @@ namespace WeblogAddin
 
         public string Password
         {
-            get;set;
+            get { return _password; }
+            set { _password = EncryptPassword(value); }
         }
 
         public string ApiUrl { get; set; }
@@ -37,6 +38,7 @@ namespace WeblogAddin
 
         string pb = Encoding.Default.GetString( new byte[] {  44, 33, 29,233, 255, 78, 33, 89, 88, 235, 121, 187});
         private string postFix = "*~~*";
+        private string _password;
 
         public string EncryptPassword(string password)
         {

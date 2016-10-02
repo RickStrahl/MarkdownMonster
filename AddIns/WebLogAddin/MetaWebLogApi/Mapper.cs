@@ -303,7 +303,7 @@ namespace WebLogAddin.MetaWebLogApi
             {
                 return new Post
                 {
-                    PostID = Convert.ToInt32(input.postid),
+                    PostID = input.postid,
                     Body = input.description,
                     Categories = input.categories,
                     DateCreated = input.dateCreated,
@@ -325,6 +325,7 @@ namespace WebLogAddin.MetaWebLogApi
                         Terms = t.terms
                     }).ToArray()
                 };
+                
             }
 
             internal static Page Page(XmlRpcPage input)
