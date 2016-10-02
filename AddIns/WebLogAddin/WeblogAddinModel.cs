@@ -177,7 +177,7 @@ namespace WeblogAddin
             }
             set
             {
-                if (value == _WeblogNames) return;
+                //if (value == _WeblogNames) return;
                 _WeblogNames = value;
                 OnPropertyChanged(nameof(WeblogNames));
             }

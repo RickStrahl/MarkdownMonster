@@ -164,7 +164,7 @@ namespace WeblogAddin
             {                 
                 Name = "New Weblog"
             };
-            Model.Configuration.Weblogs.Add(Model.ActiveWeblogInfo.Id,Model.ActiveWeblogInfo);
+            Model.Configuration.Weblogs.Add(Model.ActiveWeblogInfo.Id,Model.ActiveWeblogInfo);            
         }
 
         private async void Button_DownloadPosts_Click(object sender, RoutedEventArgs e)
