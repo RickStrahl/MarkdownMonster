@@ -130,12 +130,12 @@ namespace WeblogAddin
             if (type == WeblogTypes.MetaWeblogApi)
                 wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                     weblogInfo.Username,
-                    weblogInfo.Password,
-                    weblogInfo.BlogId) as MetaWeblogWrapper;
+                    weblogInfo.DecryptPassword(weblogInfo.Password),
+                    weblogInfo.BlogId);
             else
                 wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
                     weblogInfo.Username,
-                    weblogInfo.Password) as MetaWeblogWrapper;
+                    weblogInfo.DecryptPassword(weblogInfo.Password));
 
             
             string body  = SendImages(html, doc.Filename, wrapper);

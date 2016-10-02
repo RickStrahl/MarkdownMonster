@@ -132,12 +132,18 @@ namespace WeblogAddin
         }
 
 
-        private void ComboWebLogName_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void TextWeblogPassword_LostFocus(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(TextWeblogPassword.Password))
+            {
                 Model.ActiveWeblogInfo.Password = TextWeblogPassword.Password;
+                TextWeblogPassword.Password = string.Empty;
+            }
+        }
 
-
+        private void ComboWebLogName_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {            
+            TextWeblogPassword.Password = "";            
         }
 
         private void Button_DeleteWeblog(object sender, RoutedEventArgs e)
@@ -167,7 +173,7 @@ namespace WeblogAddin
 
             var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                 weblogInfo.Username,
-                weblogInfo.Password);
+                weblogInfo.DecryptPassword(weblogInfo.Password));
 
 
             Model.Configuration.LastWeblogAccessed = weblogInfo.Name;
@@ -299,7 +305,7 @@ namespace WeblogAddin
 
             var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                 weblogInfo.Username,
-                weblogInfo.Password);
+                weblogInfo.DecryptPassword(weblogInfo.Password) );
 
             Post post = null;
             try
@@ -316,5 +322,6 @@ namespace WeblogAddin
 
             Close();        
         }
+
     }
 }

@@ -296,7 +296,7 @@
                 	Text="{Binding ActiveWeblogInfo.Username}"  FontSize="15" />
 
                     <Label Margin="0,10,0,0">Password: (only set if you need to change)</Label>
-                    <PasswordBox  Name="TextWeblogPassword"  FontSize="15" />
+                    <PasswordBox  Name="TextWeblogPassword" FontSize="15" LostFocus="TextWeblogPassword_LostFocus" />
 
                     <!--<Button Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" 
                         Click="ButtonNewPost_Click" >

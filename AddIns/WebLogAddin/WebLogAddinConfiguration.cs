@@ -157,25 +157,25 @@ namespace WeblogAddin
             return provider;
         }
 
-        public override bool Write()
-        {
-            foreach (var blog in Weblogs.Values)
-            {
-                blog.Password = blog.EncryptPassword(blog.Password);
-            }
+        //public override bool Write()
+        //{
+        //    foreach (var blog in Weblogs.Values)
+        //    {
+        //        blog.Password = blog.EncryptPassword(blog.Password);
+        //    }
 
-            bool result = base.Write();
+        //    bool result = base.Write();
 
 
-            foreach (var blog in Weblogs.Values)
-            {
-                blog.Password = blog.DecryptPassword(blog.Password);
-            }
-            if (!result)
-                return false;
+        //    foreach (var blog in Weblogs.Values)
+        //    {
+        //        blog.Password = blog.DecryptPassword(blog.Password);
+        //    }
+        //    if (!result)
+        //        return false;
             
-            return true;
-        }
+        //    return true;
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 
