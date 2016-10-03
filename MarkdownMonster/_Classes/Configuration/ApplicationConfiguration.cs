@@ -158,6 +158,19 @@ namespace MarkdownMonster
         /// </summary>
         public bool ReportErrors { get; set; }
 
+
+        [JsonIgnore]
+        public string BugReportUrl { get; set; }
+
+        [JsonIgnore]
+        public string TelemetryUrl { get; set; }
+
+
+        /// <summary>
+        /// Flag to determine whether telemetry is sent
+        /// </summary>
+        public bool SendTelemetry { get; set; }
+
         /// <summary>
         /// Last folder used when opening a document
         /// </summary>
@@ -175,11 +188,6 @@ namespace MarkdownMonster
         [JsonIgnore]
         public string CommonFolder { get; set;  }
 
-        [JsonIgnore]
-        public string BugReportUrl { get; set; }
-
-        [JsonIgnore]
-        public string TelemetryUrl { get; set; }
 
         /// <summary>
         /// Command Processing for OpenFolder
@@ -255,6 +263,7 @@ namespace MarkdownMonster
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost/MarkdownMonster/bugreport.ashx?method=ReportBug";
             TelemetryUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=Telemetry";
+            SendTelemetry = true;
 
             ApplicationTheme = Themes.Dark;
             RenderTheme = "dharkan";
@@ -271,6 +280,8 @@ namespace MarkdownMonster
 
             UseSingleWindow = true;
             ReportErrors = true;
+
+            
         }
 
         public void AddRecentFile(string filename)

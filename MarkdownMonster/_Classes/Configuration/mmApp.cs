@@ -129,6 +129,9 @@ namespace MarkdownMonster
 
         public static void SendTelemetry(string operation, string data = null)
         {
+            if (!Configuration.SendTelemetry)
+                return;
+
             var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
             string version = v.FileMajorPart + "." + v.FileMinorPart;
             
