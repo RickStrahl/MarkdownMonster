@@ -88,6 +88,7 @@ namespace MarkdownMonster
                 WebBrowser.Navigate(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm"));
             }
             SetMarkdown();
+
             FindSyntaxFromFileType(MarkdownDocument.Filename);            
         }
 
