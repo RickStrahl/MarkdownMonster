@@ -12,7 +12,7 @@
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="603.57" Height="288.154">
+        Width="603.57" Height="306.403">
     <StackPanel Margin="30">
 
         <Label>Link Text:</Label>
@@ -32,17 +32,18 @@
                      ToolTip="Set the link text for the link." />
             <Button Grid.Column="1"  Height="25" Width="25" Click="SelectLocalLinkFile_Click">...</Button>
         </Grid>
-        
-        
-        <StackPanel Orientation="Horizontal">
-            <Button Name="ButtonOk" Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
+
+        <CheckBox Name="TextExternalLink" IsChecked="{Binding IsExternal}" Margin="0,12,0,0">Open link in new window</CheckBox>
+
+         <StackPanel Orientation="Horizontal">
+            <Button Name="ButtonOk" Margin="0,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Upload" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                     <TextBlock Margin="10,0,0,0" FontSize="14">Paste Link</TextBlock>
                 </StackPanel>
             </Button>
 
-            <Button Name="ButtonCancel" Margin="10,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
+            <Button Name="ButtonCancel" Margin="10,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Remove" FontFamily="FontAwesome"  FontSize="20"/>
                     <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>

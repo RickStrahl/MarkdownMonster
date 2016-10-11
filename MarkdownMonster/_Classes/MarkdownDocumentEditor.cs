@@ -325,7 +325,12 @@ namespace MarkdownMonster
 
                 bool? res = form.ShowDialog();
                 if (res != null && res.Value)
-                    html = $"[{form.LinkText}]({form.Link})";
+                {
+                    if (form.IsExternal)
+                        html = $"<a href=\"{form.Link}\" target=\"top\">{form.LinkText}</a>";
+                    else
+                        html = $"[{form.LinkText}]({form.Link})";
+                }
             }
             else if (action == "image")
             {
