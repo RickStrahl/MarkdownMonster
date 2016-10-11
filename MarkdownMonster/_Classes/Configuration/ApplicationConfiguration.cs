@@ -154,6 +154,11 @@ namespace MarkdownMonster
         public bool UseSingleWindow { get; set; }
 
         /// <summary>
+        /// Use new Markdown Parser
+        /// </summary>
+        public MarkdownParsers MarkdownParser { get; set; }
+
+        /// <summary>
         /// Determines whether errors are reported anonymously
         /// </summary>
         public bool ReportErrors { get; set; }
@@ -246,6 +251,7 @@ namespace MarkdownMonster
             }
         }
 
+        
 
 
         //internal string FileWatcherOpenFilePath;
