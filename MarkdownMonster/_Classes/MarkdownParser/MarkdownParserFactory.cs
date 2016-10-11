@@ -1,7 +1,4 @@
-﻿using CommonMark;
-using Microsoft.DocAsCode.MarkdownLite;
-
-namespace MarkdownMonster
+﻿namespace MarkdownMonster
 {
     /// <summary>
     /// Retrieves an instance of a markdown parser
@@ -17,14 +14,12 @@ namespace MarkdownMonster
         /// <returns></returns>
         public static IMarkdownParser GetParser(MarkdownStyles markdownStyle, bool RenderLinksAsExternal = false)
         {
-            if (mmApp.Configuration.MarkdownParser == MarkdownParsers.MarkdownLite)
-                return new MarkdownParserMarkdownLite();
             if (mmApp.Configuration.MarkdownParser == MarkdownParsers.Markdig)
                 return new MarkdownParserMarkdig();
 
             if (RenderLinksAsExternal)
             {
-                CommonMarkSettings.Default.OutputDelegate =
+                CommonMark.CommonMarkSettings.Default.OutputDelegate =
                     (doc, output, settings) => new ExternalLinkFormatter(output, settings).WriteDocument(doc);
             }
             return new MarkdownParserCommonMarkNet();
@@ -34,8 +29,7 @@ namespace MarkdownMonster
 
     public enum MarkdownParsers
     {
-        CommonMarkNet,
-        MarkdownLite,
+        CommonMarkNet,        
         Markdig
     }
 }

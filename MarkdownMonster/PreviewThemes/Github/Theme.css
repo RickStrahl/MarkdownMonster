@@ -47,9 +47,8 @@ a {
 a:hover {
     text-decoration: underline;
 }
-
 pre {
-    font-family: menlo,consolas,monospace;
+    font-family: Consolas, monospace;
     font-weight: normal;    
     font-size: 1em;
     margin: 7px 0;
@@ -61,9 +60,10 @@ pre {
     border-radius: 3px;
     white-space:  pre;
     word-break: normal;
-    word-wrap: normal;    
+    word-wrap: normal;        
 }
 code {
+	font-family: Consolas, monospace;
     color: #333;
     background: #eee;
     white-space: pre;    
@@ -72,6 +72,28 @@ code {
     background: #eee !important;
     padding: 16px !important;  
 }
+table {
+    width: 100%;
+    overflow: auto;
+    display: block;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 15px 0;
+    border-color: gray;
+}
+td, th {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+    display: table-cell;
+    vertical-align: inherit;
+}
+th {
+    font-weight: bold;
+}
+tbody>tr:nth-child(even) {
+    background: #eee;
+}
+
 img {
 	max-width: 100%;
 }

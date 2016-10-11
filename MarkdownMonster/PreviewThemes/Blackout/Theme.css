@@ -18,7 +18,7 @@ html, body {
 } 
 a {
     font-weight: bold;
-    color: #80a3c1;
+    color: lightsteelblue;
     text-decoration: none;
 }
 a:hover {
@@ -38,6 +38,14 @@ blockquote {
         font-size: 1.1em;
     }
 }
+code {
+    font-family: menlo,consolas,monospace;
+    color: #eee;
+    background: #555;    
+    padding: 2px 5px;
+    font-weight: bold;
+    border-radius: 2px;
+}
 pre {
     font-family: menlo,consolas,monospace;
     font-weight: normal;    
@@ -55,15 +63,29 @@ pre {
 pre code {
     white-space: pre;    
 }
-code {
-    color: #eee;
-    background: #555;
-    
-    padding: 2px 5px;
-    font-weight: bold;
-    border-radius: 2px;
+
+table {
+    width: 100%;
+    overflow: auto;
+    display: block;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 15px 0;
+    border-color: gray;
 }
-    
+td, th {
+    border: 1px solid #555;
+    padding: 6px 13px;
+    display: table-cell;
+    vertical-align: inherit;
+}
+th {
+    font-weight: bold;
+}
+tbody>tr:nth-child(even) {
+    background: #444;
+}
+
 h1,h2,h3,h4,h5,h6, .byline,.content-title {
   color: #888;
   font-weight: bold;  
