@@ -33,75 +33,32 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommonMark;
-using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
-
     /// <summary>
     /// Wrapper around the CommonMark.NET parser that provides a cached
     /// instance of the Markdown parser. Hooks up custom processing.
     /// </summary>
-    public class MarkdownParser
-    {
-        /// <summary>
-        /// Retrieves a cached instance of the markdown parser
-        /// </summary>
-        /// <param name="markdownStyle"></param>
-        /// <param name="RenderLinksAsExternal"></param>
-        /// <returns></returns>
-        public static MarkdownParser GetParser(MarkdownStyles markdownStyle, bool RenderLinksAsExternal = false)
-        {
-            if (RenderLinksAsExternal)
-            {
-                CommonMarkSettings.Default.OutputDelegate =
-                    (doc, output, settings) => new ExternalLinkFormatter(output, settings).WriteDocument(doc);
-            }
-
-            if (markdownStyle == MarkdownStyles.GitHub)
-                return new GithubMarkdownParser();
-            
-            return new MarkdownParser();
-        }
-
+    public class  MarkdownParserCommonMarkNet : MarkdownParserBase
+    {        
         /// <summary>
         /// Parses the actual markdown down to html
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>
-        public string Parse(string markdown)
+        public override string Parse(string markdown)
         {
-            var html = CommonMark.CommonMarkConverter.Convert(markdown);
-            html = ParseFontAwesomeIcons( html);
+            var html = CommonMarkConverter.Convert(markdown);
+            html = ParseFontAwesomeIcons(html);
+            html = ParseStrikeout(html);
             return html;
         }
 
-        /// <summary>
-        /// Post processing routine that post-processes the HTML and 
-        /// replaces @icon- with fontawesome icons
-        /// </summary>
-        /// <param name="html"></param>
-        /// <returns></returns>
-        protected string ParseFontAwesomeIcons(string html)
-        {
-            while (true)
-            {
-                string iconBlock = StringUtils.ExtractString(html, "@icon-", " ", false, false, true);
-                if (string.IsNullOrEmpty(iconBlock))
-                    break;
 
-                string icon = iconBlock.Replace("@icon-", "").Trim();
-                html = html.Replace(iconBlock, "<i class=\"fa fa-" + icon + "\"></i> ");                
-            }
-            return html;
-        }
     }
 
-    public class GithubMarkdownParser : MarkdownParser
-    {        
-    }
 }

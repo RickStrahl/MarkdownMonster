@@ -252,7 +252,7 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
             
-            var parser = MarkdownParser.GetParser(MarkdownStyle,renderLinksExternal);            
+            var parser = MarkdownParserFactory.GetParser(MarkdownStyle,renderLinksExternal);            
             return parser.Parse(markdown);
         }
 
