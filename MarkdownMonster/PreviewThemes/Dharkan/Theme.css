@@ -97,6 +97,29 @@ pre {
 pre code {
     white-space: pre;    
 }
+table {
+    width: 100%;
+    overflow: auto;
+    display: block;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 15px 0;
+    border-color: gray;
+}
+td, th {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+    display: table-cell;
+    vertical-align: inherit;
+}
+th {
+    font-weight: bold;
+    color: white; 
+    background: #555;
+}
+tbody>tr:nth-child(even) {
+    background: #eee;
+}
 
 
 /* hidden display, but still part of document flow */

@@ -30,6 +30,9 @@ h4 {
 h5, h6 { 
     font-size: 1em;
 }
+a {
+    font-weight: bold;
+}
 code {
     color: firebrick;
     padding: 2px 5px;
@@ -46,6 +49,30 @@ pre {
     border-radius: 5px;
     overflow-x: auto;    
     max-width: 98%;
+}
+
+table {
+    width: 100%;
+    overflow: auto;
+    display: block;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 15px 0;
+    border-color: gray;
+}
+td, th {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+    display: table-cell;
+    vertical-align: inherit;
+}
+th {
+    font-weight: bold;
+    color: white; 
+    background: #555;
+}
+tbody>tr:nth-child(even) {
+    background: #eee;
 }
 img {
 	max-width: 100%;

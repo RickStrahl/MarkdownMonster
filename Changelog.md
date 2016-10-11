@@ -4,12 +4,10 @@
 <i><small>not released yet</small></i>
 
 * **New Markdown Parser**  
-Added switchable Markdown Parsers. You can use the `MarkdownParser` configuration switch and set it to `CommonMarkNet`, `MarkdownLite` or `MarkDig`. The latter two support richer subsets of the Markdown spec and can provide **Github flavored Markdown** including support for ~~strikeout~~ parsing and table rendering support.
+Added switchable Markdown Parsers. You can use the `MarkdownParser` configuration switch and set it to `CommonMarkNet` or `MarkDig`. The latter (the default now) supports richer subset of **Github flavored Markdown** including support for ~~strikeout~~ parsing and table rendering support.
 
 * **Open in new Window option from Paste Link Dialog**  
 The Paste Link menu option and dialog can now paste links that open in a new window. When using this option the link is created as an HTML link.
-
-
 
 ### Version 0.51
 <i><small>Oct. 10th, 2016</small></i>

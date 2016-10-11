@@ -23,7 +23,6 @@ namespace MarkdownMonster
         private bool _editorEnableSpellcheck;
         private string _editorDictionary;
 
-
         /// <summary>
         /// The name of the application
         /// </summary>
@@ -287,7 +286,7 @@ namespace MarkdownMonster
             UseSingleWindow = true;
             ReportErrors = true;
 
-            
+            MarkdownParser = MarkdownParsers.CommonMarkNet;
         }
 
         public void AddRecentFile(string filename)

@@ -31,15 +31,7 @@
 */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using CommonMark;
 using Markdig;
-using Microsoft.DocAsCode.MarkdownLite;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -63,7 +55,7 @@ namespace MarkdownMonster
                     //.UseCitations()
                     //.UseEmphasisExtras()
                     //.Build();
-                    .UseDiagrams()
+                    //.UseDiagrams()
                 .UseAdvancedExtensions()
                 .Build();                
             }
