@@ -41,6 +41,16 @@ h4 {
 h5, h6 { 
     font-size: 1em;
 }
+table {
+    margin: 20px 0;    
+}
+th, td {
+    padding: 5px 9px;
+    border-bottom: 1px solid #eee;
+}
+th {
+    background: #eee    
+}
 p {
 	margin: 10px 0 10px 0;
 }

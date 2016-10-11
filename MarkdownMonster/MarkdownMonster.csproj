@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MarkdownMonster</RootNamespace>
     <AssemblyName>MarkdownMonster</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -88,6 +88,14 @@
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="Markdig, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Markdig.0.9.0\lib\net40\Markdig.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.DocAsCode.MarkdownLite, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.DocAsCode.MarkdownLite.2.6.0\lib\net452\Microsoft.DocAsCode.MarkdownLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -97,6 +105,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.2.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -145,6 +157,11 @@
     <Compile Include="Windows\RegistrationForm.xaml.cs">
       <DependentUpon>RegistrationForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="_Classes\MarkdownParser\IMarkdownParser.cs" />
+    <Compile Include="_Classes\MarkdownParser\MarkdownParserBase.cs" />
+    <Compile Include="_Classes\MarkdownParser\MarkdownParserFactory.cs" />
+    <Compile Include="_Classes\MarkdownParser\MarkdownParserMarkDig.cs" />
+    <Compile Include="_Classes\MarkdownParser\MarkdownParserMarkdownLite.cs" />
     <Compile Include="_Classes\Utilities\CheckSumHelper.cs" />
     <Compile Include="_Classes\Utilities\mmFileUtils.cs" />
     <Compile Include="_Classes\Utilities\WindowUtilities.cs" />
@@ -164,7 +181,7 @@
     <Compile Include="_Classes\MarkdownParser\ExternalLinkFormatter.cs" />
     <Compile Include="_Classes\MarkdownDocument.cs" />
     <Compile Include="_Classes\MarkdownDocumentEditor.cs" />
-    <Compile Include="_Classes\MarkdownParser\MarkdownParser.cs" />
+    <Compile Include="_Classes\MarkdownParser\MarkdownParserCommonMarkNet.cs" />
     <Compile Include="_Classes\UnlockKey.cs" />
     <Compile Include="_Classes\Utilities\MarkdownUtilities.cs" />
     <Page Include="MainWindow.xaml">
@@ -284,18 +301,6 @@
     <None Include="Hunspellx86.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="PreviewThemes\Scripts\bootstrap\fonts\glyphicons-halflings-regular.eot">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\bootstrap\fonts\glyphicons-halflings-regular.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\bootstrap\fonts\glyphicons-halflings-regular.woff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\bootstrap\fonts\glyphicons-halflings-regular.woff2">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="PreviewThemes\Scripts\fontawesome\fonts\fontawesome-webfont.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -348,9 +353,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap.min.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\bootstrap\fonts\glyphicons-halflings-regular.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PreviewThemes\Scripts\bootstrap\js\bootstrap.js">

@@ -1,6 +1,32 @@
 ﻿# Markdown Monster Change Log
 
+### Version 0.52
+<i><small>not released yet</small></i>
+
+* **New Markdown Parser**  
+Added switchable Markdown Parsers. You can use the `MarkdownParser` configuration switch and set it to `CommonMarkNet`, `MarkdownLite` or `MarkDig`. The latter two support richer subsets of the Markdown spec and can provide **Github flavored Markdown** including support for ~~strikeout~~ parsing and table rendering support.
+
+* **Open in new Window option from Paste Link Dialog**  
+The Paste Link menu option and dialog can now paste links that open in a new window. When using this option the link is created as an HTML link.
+
+
+
+### Version 0.51
+<i><small>Oct. 10th, 2016</small></i>
+
+* **Code Signed Exe's and Installer**  
+The WebSurge installer file and main binary EXEs are now code-signed for verfication purposes.
+
+* **Byte Size Display on Response Pane**  
+The result Response pane now shows the byte size of the actual request. The actual size may differ from the Content-Length if the content is encoded, or if the content is chunked and there is no Content-Length sent from the server.
+
+* **File Exports are not auto-opened**  
+Due to the large file size of exported reports exported test results are no longer opened, but simply shown in Explorer and highlighted. You can choose to open the files from Explorer.
+
+
+
 ### 0.50
+<i><small>Sept. 28th, 2016</small></i>
 
 * **Open from Html**  
 You can now open HTML documents and have them converted to Markdown - as best as possible. Please realize that not all HTML will cleanly convert to Markdown and nonconvertible HTML will simply end up as HTML (which is legal Markdown) in your new document.

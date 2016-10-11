@@ -148,7 +148,7 @@ namespace MarkdownMonster
             {
                 xml = HttpUtils.HttpRequestString(new HttpRequestSettings
                 {
-                    Url = VersionCheckUrl,
+                    Url = VersionCheckUrl, 
                     Timeout = 5,
                     HttpVerb = "GET"
                 });
