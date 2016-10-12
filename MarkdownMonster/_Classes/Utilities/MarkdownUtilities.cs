@@ -23,6 +23,15 @@ namespace MarkdownMonster
         /// <returns></returns>
         public static string HtmlToMarkdown(string html)
         {
+            if (string.IsNullOrEmpty(html))
+                return "";
+#if false
+            var config = new ReverseMarkdown.Config(githubFlavored: true);            
+            var converter = new ReverseMarkdown.Converter(config);            
+            string markdown = converter.Convert(html);
+            return markdown ?? html;
+#else
+            // Old code that uses JavaScript in a WebBrowser Control
             string markdown = null;
             string htmlFile = Path.Combine(Environment.CurrentDirectory, "Editor\\htmltomarkdown.htm");
 
@@ -58,6 +67,7 @@ namespace MarkdownMonster
             form = null;
 
             return markdown ?? html;
+#endif
         }
     }
 }
