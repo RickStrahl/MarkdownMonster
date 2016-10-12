@@ -1,7 +1,10 @@
-﻿# Markdown Monster Change Log
+﻿<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_32.png" 
+     style="float: left; padding-right: 8px" />
+
+# Markdown Monster Change Log
 
 ### Version 0.52
-<i><small>not released yet</small></i>
+<i><small>Oct. 12th, 2016</small></i>
 
 * **New Markdown Parser**  
 Added switchable Markdown Parsers. You can use the `MarkdownParser` configuration switch and set it to `CommonMarkNet` or `MarkDig`. The latter (the default now) supports richer subset of **Github flavored Markdown** including support for ~~strikeout~~ parsing and table rendering support.
@@ -13,15 +16,7 @@ The Paste Link menu option and dialog can now paste links that open in a new win
 <i><small>Oct. 10th, 2016</small></i>
 
 * **Code Signed Exe's and Installer**  
-The WebSurge installer file and main binary EXEs are now code-signed for verfication purposes.
-
-* **Byte Size Display on Response Pane**  
-The result Response pane now shows the byte size of the actual request. The actual size may differ from the Content-Length if the content is encoded, or if the content is chunked and there is no Content-Length sent from the server.
-
-* **File Exports are not auto-opened**  
-Due to the large file size of exported reports exported test results are no longer opened, but simply shown in Explorer and highlighted. You can choose to open the files from Explorer.
-
-
+The Markdown Monster installer file and main binary EXE are now code-signed to verify original compilation source from West Wind Technologies.
 
 ### 0.50
 <i><small>Sept. 28th, 2016</small></i>
@@ -45,7 +40,7 @@ Passwords that are stored with a Weblog configuration are now encrypted when sav
 In order to drive more attention to the Weblog features, we've added a *New Weblog Post* menu option to the main menu. The option takes you to the New Weblog Post page that lets you specify title and blog to post to (can be changed later).
 
 * **Switch to Inno Installer due to AV Issues**  
-We've been using InstallMate for our installer, but due to some weird combination of binaries MarkdownMonster and InstallMate in combination were flagging several AV solutions. Rebuilt install with InnoSetup and reduced AV flags to one false positive.
+We've been using InstallMate for our installer, but due to some weird combination of binaries MarkdownMonster and InstallMate in combination were flagging several AV solutions. Rebuilt install with InnoSetup to get clean AV bill (based on VirusTotal results).
 
 ### 0.49
 * **Add Tab Context Menu**   

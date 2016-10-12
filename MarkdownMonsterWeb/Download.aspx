@@ -67,19 +67,21 @@
                         <p><b style="font-family: 'Arial Black'; font-size: 15pt">Markdown Monster</b></p>
                         <dl>                            
                             <dt>Version:</dt>
-                            <dd>v<%= Version %></dd>
+                            <dd>v<%= Version %> 
+                                <a style="font-size: 0.8em;padding-left: 15px" 
+                                   href="https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md">what's new?</a></dd>
                                 
                             <dt>Released:</dt>
                             <dd><%= ReleaseDate %></dd>
 
                             <dt>File size:</dt>
-                            <dd>3.8 Mb</dd>
+                            <dd>4.5 mb</dd>
                        </dl> 
                                                                         
                     </div>
                     <div class=" col-sm-7">
                         <a class="btn btn-lg btn-info" href="https://west-wind.com/files/MarkdownMonsterSetup.exe">
-                            <i class="fa fa-download fa-" style="font-size: 150%;"></i> &nbsp; 
+                            <i class="fa fa-download fa-" style="font-size: 0.8em; padding-left: 10px;"></i> &nbsp; 
                             Download Markdown Monster
                         </a>
                         
