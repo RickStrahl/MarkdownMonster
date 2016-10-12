@@ -1,6 +1,7 @@
-﻿<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_32.png" 
-     align="left" style="margin-right: 8px" /> 
+﻿<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" 
+     align="left" style="margin-right: 10px;"/> 
 # Markdown Monster Change Log
+
 
 ### Version 0.52
 <i><small>Oct. 12th, 2016</small></i>
