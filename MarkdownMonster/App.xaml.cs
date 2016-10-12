@@ -128,7 +128,7 @@ namespace MarkdownMonster
 
         }
 
-        public static string InstallerDownloadUrl { get; internal set; }
+        
         public static string UserDataPath { get; internal set; }
         public static string VersionCheckUrl { get; internal set; }
 

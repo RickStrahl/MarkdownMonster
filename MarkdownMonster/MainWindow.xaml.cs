@@ -220,8 +220,8 @@ namespace MarkdownMonster
             Hide();
 
             bool isNewVersion = CheckForNewVersion(false, false);
-            mmApp.Configuration.ApplicationUpdates.AccessCount++;
-            
+
+            mmApp.Configuration.ApplicationUpdates.AccessCount++;            
             SaveSettings();
 
             if (!CloseAllTabs())
@@ -251,7 +251,7 @@ namespace MarkdownMonster
 
             mmApp.SendTelemetry("shutdown");
             
-           e.Cancel = false;            
+            e.Cancel = false;            
         }
 
         void AddRecentFile(string file)
@@ -801,31 +801,7 @@ namespace MarkdownMonster
 
                 if (res == MessageBoxResult.Yes)
                 {
-                    updater.DownloadProgressChanged += (sender, e) =>
-                    {
-                        WindowUtilities.DoEvents();
-                        ShowStatus("Downloading Update: " +
-                                   (e.BytesReceived/1000).ToString("n0") + "kb  of  " +
-                                   (e.TotalBytesToReceive/1000).ToString("n0") + "kb");
-                    };
-                    ShowStatus("Downloading Update...");
-
-                    WindowUtilities.DoEvents();
-
-                    if (!updater.Download() || !updater.ExecuteDownloadedFile())
-                    {
-                        MessageBox.Show("Failed to download the update file. Please install the update " +
-                                        "manually from http://markdownmonster.west-wind.com/.\r\n\r\n" +
-                                        updater.ErrorMessage,
-                            "Update Failed",
-                            MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        ShellUtils.GoUrl("http://markdownmonster.west-wind.com/download.aspx");
-
-                        ShowStatus("Update failed...", 4000);
-                        return false;
-                    }
-                    
-                    ShowStatus("Update download completed...");
+                    ShellUtils.GoUrl(mmApp.InstallerDownloadUrl);
 
                     if (closeForm)
                         Close();
