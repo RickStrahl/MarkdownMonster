@@ -12,7 +12,7 @@ Added switchable Markdown Parsers. You can use the `MarkdownParser` configuratio
 The Paste Link menu option and dialog can now paste links that open in a new window. When using this option the link is created as an HTML link.
 
 ### Version 0.51
-<i><small>Oct. 10th, 2016</small></i>
+<i><small>Oct. 3th, 2016</small></i>
 
 * **Code Signed Exe's and Installer**  
 The Markdown Monster installer file and main binary EXE are now code-signed to verify original compilation source from West Wind Technologies.
