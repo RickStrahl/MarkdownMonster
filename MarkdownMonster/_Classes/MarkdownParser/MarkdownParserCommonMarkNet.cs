@@ -52,6 +52,10 @@ namespace MarkdownMonster
         /// <returns></returns>
         public override string Parse(string markdown)
         {
+
+            if (string.IsNullOrEmpty(""))
+                return string.Empty;
+
             var html = CommonMarkConverter.Convert(markdown);
             html = ParseFontAwesomeIcons(html);
             html = ParseStrikeout(html);

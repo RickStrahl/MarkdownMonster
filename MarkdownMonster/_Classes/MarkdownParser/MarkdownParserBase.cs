@@ -28,6 +28,9 @@ namespace MarkdownMonster
         /// <returns></returns>
         protected string ParseFontAwesomeIcons(string html)
         {
+            if (html == null)
+                return null;
+
             while (true)
             {
                 string iconBlock = StringUtils.ExtractString(html, "@icon-", " ", false, false, true);
@@ -48,6 +51,9 @@ namespace MarkdownMonster
         /// <returns></returns>
         protected string ParseStrikeout(string html)
         {
+            if (html == null)
+                return null;
+
             var matches = strikeOutRegex.Matches(html);
             foreach (Match match in matches)
             {
