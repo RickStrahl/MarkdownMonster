@@ -10,7 +10,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"        
-        Title="Markdown Monster Weblog Addin" 
+        Title="Markdown Monster Weblog Publishing" 
         TitleCaps="False"   
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner" FontSize="15"

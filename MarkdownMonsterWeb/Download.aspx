@@ -292,14 +292,13 @@
     static string Version
     {
         get
-        {
-            
-            if (_version != null)
+        {            
+            if (_version != null && DateTime.UtcNow.Subtract(_lastAccess).TotalMinutes < 10)
                 return _version;
 
             // set default dates for fallback here
             _version = "0.79";
-            ReleaseDate = "April 4th, 2015";
+            ReleaseDate = "November 4th, 2016";
 
             try
             {
@@ -327,5 +326,6 @@
         }
     }
     private static string _version;
+    private static DateTime _lastAccess = DateTime.UtcNow;
     public static string ReleaseDate;
 </script>
