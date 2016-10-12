@@ -339,7 +339,7 @@ namespace MarkdownMonster
                 if (tab == null)
                     return;
 
-               var editor = tab.Tag as MarkdownDocumentEditor;
+                var editor = tab.Tag as MarkdownDocumentEditor;
 
                 Configuration.IsPreviewVisible = IsPreviewBrowserVisible;
 
