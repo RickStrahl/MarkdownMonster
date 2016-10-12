@@ -703,6 +703,7 @@ namespace MarkdownMonster
                 if (showInBrowser)
                 {
                     ShellUtils.GoUrl(editor.MarkdownDocument.HtmlRenderFilename);
+                    return;
                 }
                 else
                 {
