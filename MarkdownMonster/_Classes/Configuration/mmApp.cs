@@ -152,7 +152,7 @@ namespace MarkdownMonster
                     Url = mmApp.Configuration.TelemetryUrl,
                     HttpVerb = "POST",
                     Content = t,
-                    Timeout = 300
+                    Timeout = 1000
                 });
             }
             catch (Exception ex2)
@@ -240,7 +240,8 @@ namespace MarkdownMonster
         /// <summary>
         /// The URL where new versions are downloaded from
         /// </summary>
-        public static string InstallerDownloadUrl { get; internal set; }
+        public static string InstallerDownloadUrl { get; internal set; } =
+            "https://markdownmonster.west-wind.com/download.aspx";
 
         /// <summary>
         /// Url that is used to check for new version information
