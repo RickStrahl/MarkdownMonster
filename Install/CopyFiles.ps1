@@ -6,7 +6,6 @@ $target="$PSScriptRoot\Distribution"
 
 robocopy ${source}\bin\Release ${target} /MIR
 copy ${cur}\mm.bat ${target}\mm.bat
-pause
 del ${target}\*.vshost.*
 del ${target}\*.pdb
 del ${target}\*.xml

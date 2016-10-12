@@ -4,4 +4,4 @@ $url = 'https://github.com/RickStrahl/MarkdownMonster/raw/master/Install/Builds/
 $silentArgs = '/SILENT'
 $validExitCodes = @(0)
 
-Install-ChocolateyPackage "$packageName" "$fileType" "$silentArgs" "$url"  -validExitCodes  $validExitCodes  -checksum "422DE6578B0D8272913D327A0F08D1EC6C970D62E5B2C4F10D4CEFF255B53461" -checksumType "sha256"
+Install-ChocolateyPackage "$packageName" "$fileType" "$silentArgs" "$url"  -validExitCodes  $validExitCodes  -checksum "E4C9E80BA0EABDD02D595B07F0824B48261F59FB6A2BF8AD2E114756502B568C" -checksumType "sha256"
