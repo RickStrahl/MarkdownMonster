@@ -10,7 +10,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"        
-        Title="Markdown Monster Screen Capture Configuration" 
+        Title="Markdown Monster SnagIt Capture Configuration" 
         TitleCaps="False"   
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" 
