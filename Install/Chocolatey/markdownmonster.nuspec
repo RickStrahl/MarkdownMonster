@@ -10,11 +10,13 @@
     <projectUrl>http://markdownmonster.west-wind.com</projectUrl>    
     <iconUrl>http://markdownmonster.west-wind.com/images/MarkdownMonster_icon_128.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>    
-    <description>Markdown Monster is an easy to use and attractive Markdown Editor and Viewer as well as a Weblog Publishing tool. The editor sports syntax colored editing of  Markdown, inline spell checking, live preview, embedding of screen captures along with a few gentle toolbar helpers to facilitate embedding content into your markdown. The goal of the editor is to let you create content, not get in your way.
+    <description>Markdown Monster is an easy to use and attractive Markdown Editor and Viewer as well as a Weblog Publishing tool. The editor sports syntax colored editing of Markdown text, inline spell checking, live HTML preview, embedding of images, links and built-in support for screen captures along with a few gentle toolbar helpers to facilitate embedding content into your markdown. The editor's goal is to let you focus on your content creation and not get in your way of your creativity. 
+
+You can publish your Markdown directly to your Weblog that supports WordPress or MetaWebLog endpoints. You can manage multiple blogs and even download existing posts as Markdown.
 
 Markdown Monster can also be extended using an easy, .NET based plug-in model. Although Markdown Monster is licensed software, the source code is available on GitHub.
 
-Markdown Monster can be downloaded and evaluated for free and this package is fully functional, but a reasonably priced [license](http://store.west-wind.com/product/markdown_monster) must be purchased for continued use. Thanks for playing fair.
+Markdown Monster can be downloaded and evaluated for free and this package is fully functional, but a reasonably priced [license](http://store.west-wind.com/product/markdown_monster) must be purchased for continued use.
     </description>
     <summary>Markdown Monster is an easy to use and extensible Markdown editor, viewer and Weblog publisher</summary>
     <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>
