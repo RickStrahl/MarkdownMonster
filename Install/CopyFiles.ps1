@@ -1,10 +1,12 @@
 Set-ExecutionPolicy Bypass -Scope CurrentUser
 
+$cur="$PSScriptRoot"
 $source="$PSScriptRoot\..\MarkdownMonster"
 $target="$PSScriptRoot\Distribution"
 
 robocopy ${source}\bin\Release ${target} /MIR
-copy ${source}\..\mm.bat ${target}\mm.bat
+copy ${cur}\mm.bat ${target}\mm.bat
+pause
 del ${target}\*.vshost.*
 del ${target}\*.pdb
 del ${target}\*.xml
