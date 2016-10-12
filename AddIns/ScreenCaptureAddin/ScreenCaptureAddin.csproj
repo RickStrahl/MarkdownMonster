@@ -88,6 +88,7 @@
     <Resource Include="SnagItIcon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="ScreenCapture.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
