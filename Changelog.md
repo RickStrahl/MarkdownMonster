@@ -1,5 +1,5 @@
 ﻿<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_32.png" 
-     style="float: left; padding-right: 8px" />
+     align="left" style="margin-right: 8px" />
 
 # Markdown Monster Change Log
 
