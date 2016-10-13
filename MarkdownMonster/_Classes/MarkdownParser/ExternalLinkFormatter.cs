@@ -1,4 +1,4 @@
-﻿
+﻿#if false
 #region License
 /*
  **************************************************************
@@ -82,3 +82,4 @@ namespace MarkdownMonster
         }
     }
 }
+#endif

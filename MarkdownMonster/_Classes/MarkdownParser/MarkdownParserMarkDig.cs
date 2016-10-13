@@ -69,7 +69,7 @@ namespace MarkdownMonster
         public string Parse(string markdown)
         {
             if (string.IsNullOrEmpty(markdown))
-                return "";
+                return string.Empty;
 
             var html = Markdown.ToHtml(markdown, Pipeline);
             html = ParseFontAwesomeIcons(html);            

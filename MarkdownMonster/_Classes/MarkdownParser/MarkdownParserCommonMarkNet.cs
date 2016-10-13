@@ -1,4 +1,5 @@
-﻿#region License
+﻿#if false
+#region License
 /*
  **************************************************************
  *  Author: Rick Strahl 
@@ -53,7 +54,7 @@ namespace MarkdownMonster
         public override string Parse(string markdown)
         {
 
-            if (string.IsNullOrEmpty(""))
+            if (string.IsNullOrEmpty(markdown))
                 return string.Empty;
 
             var html = CommonMarkConverter.Convert(markdown);
@@ -66,3 +67,4 @@ namespace MarkdownMonster
     }
 
 }
+#endif
