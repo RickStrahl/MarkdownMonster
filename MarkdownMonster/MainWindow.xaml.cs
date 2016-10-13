@@ -187,6 +187,14 @@ namespace MarkdownMonster
                 AddRecentFile(file);                
             }
 
+
+            if (mmApp.Configuration.FirstRun)
+            {
+                if (TabControl.Items.Count == 0)
+                    OpenTab(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"));
+                mmApp.Configuration.FirstRun = false;
+            }
+            
             if (mmApp.Configuration.IsPreviewVisible)
             {
                 ButtonHtmlPreview.IsChecked = true;

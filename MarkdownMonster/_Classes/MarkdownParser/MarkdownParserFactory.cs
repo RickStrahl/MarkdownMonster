@@ -14,22 +14,10 @@
         /// <returns></returns>
         public static IMarkdownParser GetParser(MarkdownStyles markdownStyle, bool RenderLinksAsExternal = false)
         {
-            if (mmApp.Configuration.MarkdownParser == MarkdownParsers.Markdig)
-                return new MarkdownParserMarkdig();
-
-            if (RenderLinksAsExternal)
-            {
-                CommonMark.CommonMarkSettings.Default.OutputDelegate =
-                    (doc, output, settings) => new ExternalLinkFormatter(output, settings).WriteDocument(doc);
-            }
-            return new MarkdownParserCommonMarkNet();
+            return new MarkdownParserMarkdig();
         }
 
     }
 
-    public enum MarkdownParsers
-    {
-        CommonMarkNet,        
-        Markdig
-    }
+    
 }

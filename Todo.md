@@ -5,6 +5,8 @@
 * Add cursor position to status bar
 * Integrate non-SnagIt screen capture natively
 * <s>Open from Html</s>
+* Multiple tabs of same filename: Add folder name (*readme.md - WebSurge*)
+* Weblog New Blog - Add option to set filename
 
 ### Bugs
 * <s>HTML Preview sometime collapses to 0 width and won't reopen (after non-md/html file opening)</s>

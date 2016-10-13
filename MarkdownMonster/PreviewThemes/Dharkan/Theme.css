@@ -21,18 +21,18 @@ h1,h2,h3,h4,h5,h6, .byline,.content-title {
   font-family: Trebuchet, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
 }
 h1 {
-    font-size: 1.5em;
+    font-size: 1.7em;
     padding-bottom:10px;
     margin-bottom: 15px;
     color: steelblue;
     border-bottom: 1px solid #eee;
 }
 h2 {
-    font-size: 1.35em;
+    font-size: 1.5em;
     color: steelblue;
 }
 h3 {
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: steelblue;
 }
 h4 {

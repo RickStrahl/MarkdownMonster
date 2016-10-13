@@ -459,15 +459,15 @@ $@"# {meta.Title}
             return markdown;
         }
 
-        public void CreateNewPostOnDisk(string title, string weblogName)
+        public void CreateNewPostOnDisk(string title, string postFilename, string weblogName)
         {
+            string filename = SafeFilename(postFilename);
+            string titleFilename = SafeFilename(title);
 
-            string filename = SafeFilename(title);
-
-            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), filename);
+            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), titleFilename);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
-            var outputFile = Path.Combine(folder, filename + ".md");
+            var outputFile = Path.Combine(folder, filename);
 
             // Create the new post by creating a file with title preset
             string newPostMarkdown = NewWeblogPost(new WeblogPostMetadata()
@@ -482,7 +482,7 @@ $@"# {meta.Title}
 
         }
 
-        private static string SafeFilename(string fileName,string replace = "")
+        public string SafeFilename(string fileName,string replace = "")
         {
             string filename = Path.GetInvalidFileNameChars()
                                   .Aggregate(fileName, 
@@ -503,7 +503,7 @@ $@"# {meta.Title}
 
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
-            var outputFile = Path.Combine(folder, filename + ".md");
+            var outputFile = Path.Combine(folder, StringUtils.ToCamelCase(filename) + ".md");
 
 
             bool isMarkdown = false;

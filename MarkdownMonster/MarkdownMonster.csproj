@@ -70,10 +70,6 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonMark, Version=0.1.0.0, Culture=neutral, PublicKeyToken=001ef8810438905d, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonMark.NET.0.14.0\lib\net45\CommonMark.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Dragablz, Version=0.0.3.171, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dragablz.0.0.3.171\lib\net45\Dragablz.dll</HintPath>
       <Private>True</Private>
@@ -172,6 +168,9 @@
     <Compile Include="_Classes\MarkdownParser\MarkdownParserCommonMarkNet.cs" />
     <Compile Include="_Classes\UnlockKey.cs" />
     <Compile Include="_Classes\Utilities\MarkdownUtilities.cs" />
+    <None Include="SampleMarkdown.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

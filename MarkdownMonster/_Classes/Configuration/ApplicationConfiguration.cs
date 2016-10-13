@@ -152,10 +152,6 @@ namespace MarkdownMonster
         /// </summary>
         public bool UseSingleWindow { get; set; }
 
-        /// <summary>
-        /// Use new Markdown Parser
-        /// </summary>
-        public MarkdownParsers MarkdownParser { get; set; }
 
         /// <summary>
         /// Determines whether errors are reported anonymously
@@ -247,10 +243,10 @@ namespace MarkdownMonster
                 if (value == _isPreviewVisible) return;
                 _isPreviewVisible = value;
                 OnPropertyChanged(nameof(IsPreviewVisible));
-            }
+            } 
         }
 
-        
+        public bool FirstRun { get; set; }
 
 
         //internal string FileWatcherOpenFilePath;
@@ -263,7 +259,7 @@ namespace MarkdownMonster
             OpenDocuments = new List<MarkdownDocument>();
 
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            CommonFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"West Wind Markdown Monster");
+            CommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"West Wind Markdown Monster");
 
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost/MarkdownMonster/bugreport.ashx?method=ReportBug";
@@ -271,11 +267,9 @@ namespace MarkdownMonster
             SendTelemetry = true;
 
             ApplicationTheme = Themes.Dark;
-            RenderTheme = "dharkan";
-            RememberOpenFiles = true;
-
+            RenderTheme = "Dharkan";
             EditorTheme = "twilight";
-            EditorFontSize = 20;
+            EditorFontSize = 19;
             EditorWrapText = true;
             EditorEnableSpellcheck = true;
             EditorDictionary = "EN_US";
@@ -283,10 +277,12 @@ namespace MarkdownMonster
             OpenCommandLine = "cmd.exe";
             OpenFolderCommand = "explorer.exe";
 
+            RememberOpenFiles = true;
             UseSingleWindow = true;
-            ReportErrors = true;
+            ReportErrors = true;            
+            IsPreviewVisible = true;
 
-            MarkdownParser = MarkdownParsers.CommonMarkNet;
+            FirstRun = true;
         }
 
         public void AddRecentFile(string filename)

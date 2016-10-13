@@ -126,7 +126,7 @@ namespace WeblogAddin
                 return;
             string weblogName = Model.Configuration.LastWeblogAccessed;
 
-            Model.Addin.CreateNewPostOnDisk(title, weblogName);                    
+            Model.Addin.CreateNewPostOnDisk(Model.NewTitle, Model.NewFilename, weblogName);                    
 
             Close();
         }

@@ -124,7 +124,10 @@
 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
                     <Label>Title:</Label>
-                    <TextBox Text="{Binding NewTitle}" Style="{StaticResource HeaderStyle}"/>
+                    <TextBox Text="{Binding NewTitle, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource HeaderStyle}"    />
+
+                    <Label Margin="0,10,0,0">Filename:</Label>
+                    <TextBox Text="{Binding NewFilename}" />
 
                     <Label Margin="0,10,0,0">WebLog to post to:</Label>
                     <ComboBox  ToolTip="Weblog selection"
@@ -135,6 +138,7 @@
                            ItemsSource="{Binding Configuration.Weblogs}"
                            />
 
+                    
                     <Button Margin="0,30" Height="36" Width="175" HorizontalAlignment="Left" 
                         Click="ButtonNewPost_Click" >
                         <StackPanel Orientation="Horizontal">

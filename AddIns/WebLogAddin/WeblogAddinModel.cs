@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MarkdownMonster;
 using WebLogAddin.MetaWebLogApi;
+using Westwind.Utilities;
 
 namespace WeblogAddin
 {
@@ -101,8 +103,24 @@ namespace WeblogAddin
             set
             {
                 if (value == _newTitle) return;
-                _newTitle = value;
+                _newTitle = value;                
                 OnPropertyChanged(nameof(NewTitle));
+                NewFilename = Addin.SafeFilename(StringUtils.ToCamelCase(value)) + ".md";                
+            }
+        }
+
+
+        /// <summary>
+        /// Filename for new Blog Entry
+        /// </summary>
+        public string NewFilename
+        {
+            get { return _newFilename; }
+            set
+            {
+                if (value == _newFilename) return;
+                _newFilename = value;
+                OnPropertyChanged(nameof(NewFilename));
             }
         }
 
@@ -186,6 +204,7 @@ namespace WeblogAddin
         private int _numberOfPostsToRetrieve;
         private bool _isPostDraft;
         private string _postListSearch;
+        private string _newFilename;
 
         public void LoadWebLognames()
         {

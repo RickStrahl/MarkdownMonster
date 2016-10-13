@@ -1,6 +1,6 @@
 
 #define MyAppName "Markdown Monster"
-#define MyAppVersion "0.52"
+#define MyAppVersion "0.53"
 #define MyAppPublisher "West Wind Technologies"
 #define MyAppURL "https://markdownmonster.west-wind.com"
 #define MyAppExeName "MarkdownMonster.exe"
