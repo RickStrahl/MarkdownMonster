@@ -191,7 +191,9 @@ namespace MarkdownMonster
                     OpenTab(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"));
                 mmApp.Configuration.FirstRun = false;
             }
-            
+
+            BindTabHeaders();
+
             if (mmApp.Configuration.IsPreviewVisible)
             {
                 ButtonHtmlPreview.IsChecked = true;
@@ -292,7 +294,7 @@ namespace MarkdownMonster
 
                 mi.Click += (object s, RoutedEventArgs ev) =>
                 {
-                    OpenTab(file);
+                    OpenTab(file,rebindTabHeaders:true);
                     AddRecentFile(file);
                 };
                 context.Items.Add(mi);
@@ -301,7 +303,7 @@ namespace MarkdownMonster
                 {
                     Header = file,
                 };
-                mi2.Click += (object s, RoutedEventArgs ev) => OpenTab(file);
+                mi2.Click += (object s, RoutedEventArgs ev) => OpenTab(file,rebindTabHeaders:true);
                 ButtonRecentFiles.Items.Add(mi2);
             }
             ToolbarButtonRecentFiles.ContextMenu = context;
@@ -384,8 +386,28 @@ namespace MarkdownMonster
 
         #region Tab Handling
 
-        
-        public TabItem OpenTab(string mdFile = null, MarkdownDocumentEditor editor = null, bool showPreviewIfActive = false, string syntax = "markdown", bool selectTab = true)
+        /// <summary>
+        /// Opens a tab by a filename
+        /// </summary>
+        /// <param name="mdFile"></param>
+        /// <param name="editor"></param>
+        /// <param name="showPreviewIfActive"></param>
+        /// <param name="syntax"></param>
+        /// <param name="selectTab"></param>
+        /// <param name="rebindTabHeaders">
+        /// Rebinds the headers which should be done whenever a new Tab is
+        /// manually opened and added but not when opening in batch.
+        /// 
+        /// Checks to see if multiple tabs have the same filename open and
+        /// if so displays partial path.
+        /// </param>
+        /// <returns></returns>
+        public TabItem OpenTab(string mdFile = null, 
+                               MarkdownDocumentEditor editor = null,
+                               bool showPreviewIfActive = false, 
+                               string syntax = "markdown", 
+                               bool selectTab = true, 
+                               bool rebindTabHeaders = false)
         {
             if (mdFile != null && mdFile!= "untitled" && (!File.Exists(mdFile) ||
                                   !AddinManager.Current.RaiseOnBeforeOpenDocument(mdFile)))
@@ -431,7 +453,7 @@ namespace MarkdownMonster
                         CommandManager.InvalidateRequerySuggested();
                 };
                 editor.MarkdownDocument = doc;
-
+                
                 SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
                 
                 tab.ToolTip = doc.Filename;                
@@ -460,22 +482,6 @@ namespace MarkdownMonster
                 }
             }
 
-            // tab with same name? - Add folder name
-            bool dupeTabFiles = false;
-            foreach (TabItem tb in TabControl.Items)
-            {
-                var leditor = tb.Tag as MarkdownDocumentEditor;
-                var doc = leditor.MarkdownDocument;
-
-                if (filename.ToLower() == Path.GetFileName(doc.Filename).ToLower() )
-                {
-                    SetTabHeaderBinding(tb, doc, "FilenamePathWithIndicator");
-                    dupeTabFiles = true;
-                }
-            }
-            if (dupeTabFiles)
-                SetTabHeaderBinding(tab, editor.MarkdownDocument, "FilenamePathWithIndicator");
-
             Model.OpenDocuments.Add(editor.MarkdownDocument);
             Model.ActiveDocument = editor.MarkdownDocument;
             
@@ -502,15 +508,49 @@ namespace MarkdownMonster
 
             AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
 
+            if (rebindTabHeaders)
+                BindTabHeaders();
+
             return tab;
         }
 
+        /// <summary>
+        /// Binds all Tab Headers
+        /// </summary>        
+        void BindTabHeaders()
+        {
+            var tabList = new List<TabItem>();
+            foreach (TabItem tb in TabControl.Items)
+                tabList.Add(tb);
+
+            var tabItems = tabList
+                .Select(tb => Path.GetFileName(((MarkdownDocumentEditor) tb.Tag).MarkdownDocument.Filename.ToLower()))
+                    .GroupBy(fn => fn)
+                    .Select(tbCol => new {
+                        Filename = tbCol.Key,
+                        Count = tbCol.Count()
+                    });
+
+            foreach (TabItem tb in TabControl.Items)
+            {
+                var doc = ((MarkdownDocumentEditor) tb.Tag).MarkdownDocument;
+
+                if (tabItems.Where(
+                    ti =>
+                        ti.Filename == Path.GetFileName(doc.Filename.ToLower()) &&
+                        ti.Count > 1).Any())
+
+                    SetTabHeaderBinding(tb, doc, "FilenamePathWithIndicator");
+                else
+                    SetTabHeaderBinding(tb, doc, "FilenameWithIndicator");
+            }
+        }
 
         /// <summary>
         /// Binds the tab header to an expression
         /// </summary>
-        /// <param name="tab"></param>
-        /// <param name="doc"></param>
+        /// <param name="tab"></param>   
+        /// <param name="bindingSource"></param>     
         /// <param name="propertyPath"></param>
         private void SetTabHeaderBinding(TabItem tab, object bindingSource, string propertyPath = "FilenameWithIndicator")
         {
@@ -523,14 +563,18 @@ namespace MarkdownMonster
             BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
         }
 
-        private bool CloseAllTabs()
+        private bool CloseAllTabs(TabItem allExcept = null)
         {            
             for (int i = TabControl.Items.Count - 1; i > -1 ; i--)
             {                
                 var tab = TabControl.Items[i] as TabItem;                
+
                 if (tab != null)
                 {
-                    if (!CloseTab(tab))
+                    if (allExcept != null && tab == allExcept)
+                        continue;
+
+                    if (!CloseTab(tab,rebindTabHeaders:false))
                         return false;
                 }
             }
@@ -542,8 +586,12 @@ namespace MarkdownMonster
         /// is dirty.
         /// </summary>
         /// <param name="tab"></param>
+        /// <param name="rebindTabHeaders">
+        /// When true tab headers are rebound to handle duplicate filenames
+        /// with path additions.
+        /// </param>
         /// <returns>true if tab can close, false if it should stay open</returns>
-        public bool CloseTab(TabItem tab)
+        public bool CloseTab(TabItem tab, bool rebindTabHeaders = true)
         {
             if (tab == null)
                 return false;
@@ -591,6 +639,9 @@ namespace MarkdownMonster
                 PreviewBrowser.Navigate("about:blank");
                 Model.ActiveDocument = null;
             }
+
+            if (rebindTabHeaders)
+                BindTabHeaders();
 
             return returnValue; // close
         }
@@ -887,7 +938,7 @@ namespace MarkdownMonster
                 if (res == null || !res.Value)
                     return;
 
-                OpenTab(fd.FileName);
+                OpenTab(fd.FileName, rebindTabHeaders: true);                
 
                 AddRecentFile(fd.FileName);
             }
@@ -1012,24 +1063,14 @@ namespace MarkdownMonster
 
         private void ButtonCloseAllTabs_Click(object sender, RoutedEventArgs e)
         {
-            MarkdownDocumentEditor editor = null;
+            TabItem except = null;
+
             var menuItem = sender as MenuItem;
             if (menuItem != null && menuItem.Name == "MenuCloseAllButThisTab")
-                 editor = GetActiveMarkdownEditor();
+                except = TabControl.SelectedItem as TabItem;
 
-            for (int i = TabControl.Items.Count-1; i > -1; i--)
-            {
-                var tab = TabControl.Items[i] as TabItem;
-                if (tab != null)
-                {
-                    var ed = tab.Tag as MarkdownDocumentEditor;
-                    if (ed == null || (editor != null && ed == editor) )
-                        continue;
-
-                    if (CloseTab(tab))
-                        TabControl.Items.Remove(tab);
-                }
-            }            
+            CloseAllTabs(except);
+            BindTabHeaders();
         }
 
 
@@ -1146,7 +1187,7 @@ namespace MarkdownMonster
                 foreach (var file in files)
                 {
                     if (File.Exists(file))
-                        OpenTab(file);
+                        OpenTab(file,rebindTabHeaders:true);
                 }
             }
         }
@@ -1180,11 +1221,11 @@ namespace MarkdownMonster
                     foreach (var file in parms)
                     {
                         if (!string.IsNullOrEmpty(file))
-                           lastTab = OpenTab(file.Trim()); 
-                      
+                           lastTab = OpenTab(file.Trim());                       
                     }
                     if (lastTab != null)
-                        Dispatcher.InvokeAsync(() => TabControl.SelectedItem = lastTab);                                            
+                        Dispatcher.InvokeAsync(() => TabControl.SelectedItem = lastTab);
+                    BindTabHeaders();
                 }
 
                 Topmost = true;

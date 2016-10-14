@@ -77,7 +77,7 @@ namespace MarkdownMonster
         /// Overload that requires a semantic versioning number
         /// as a string (0.56 or 9.44.44321)
         /// </summary>
-        /// <param name="currentVersion"></param>
+        /// <param name="version"></param>
         public ApplicationUpdater(Version version)
         {
             CurrentVersion = GetVersionStringFromVersion(version);

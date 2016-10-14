@@ -242,12 +242,10 @@ namespace SnagItAddin
 
             try
             {
-                bool TimedOut = true;
                 while (true)
                 {
                     if ((bool) snagIt.IsCaptureDone)
                     {
-                        TimedOut = false;
                         break;
                     }
                     WindowUtilities.DoEvents();

@@ -298,7 +298,7 @@ namespace WebLogAddin.MetaWebLogApi
         public virtual bool EditPost(string postID, Post content, bool publish)
         {
             return true;
-            return _wrapper.EditPost(postID, Username, Password, Map.From.Post(content), publish);            
+            //return _wrapper.EditPost(postID, Username, Password, Map.From.Post(content), publish);            
         }
 
         /// <summary>

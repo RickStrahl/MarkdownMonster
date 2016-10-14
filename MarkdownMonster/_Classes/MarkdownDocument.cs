@@ -31,7 +31,6 @@
 */
 #endregion
 using System;
-using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -40,7 +39,6 @@ using System.Text;
 using System.Threading;
 using MarkdownMonster._Classes.Utilities;
 using Newtonsoft.Json;
-using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
@@ -295,7 +293,7 @@ namespace MarkdownMonster
                 themeHtml = File.ReadAllText(themePath + "\\theme.html");
                 themePath = themePath + "\\";
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
                 // reset to default
                 mmApp.Configuration.RenderTheme = "Dharkan";
