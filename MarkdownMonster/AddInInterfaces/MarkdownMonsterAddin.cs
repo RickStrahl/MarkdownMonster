@@ -265,7 +265,7 @@ namespace MarkdownMonster.AddIns
         /// <param name="filename">File to open</param>
         protected void OpenTab(string filename)
         {
-            Model.Window.OpenTab(filename);
+            Model.Window.OpenTab(filename);                        
         }
 
 

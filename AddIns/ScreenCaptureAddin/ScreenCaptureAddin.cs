@@ -125,8 +125,6 @@ namespace SnagItAddin
 
         private void ExecuteExternalFormCapture()
         {
-            string captureFile = "";
-
             // Result file holds filename in temp folder
             string resultFilePath = Path.Combine(Path.GetTempPath(), "ScreenCapture.result");
             string imageFolder = null;

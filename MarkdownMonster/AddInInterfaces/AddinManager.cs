@@ -80,7 +80,7 @@ namespace MarkdownMonster.AddIns
                 types = asm.GetTypes();
 
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Unable to load add-in assembly: " + Path.GetFileNameWithoutExtension(assemblyFile));
                 return;

@@ -14,8 +14,7 @@ namespace MarkdownMonster._Classes.Utilities
         /// <summary>
         /// Creates an SHA256 checksum of a file
         /// </summary>
-        /// <param name="file"></param>
-        /// <param name="mode">SHA256,MD5</param>
+        /// <param name="file"></param>        
         /// <returns></returns>
         public static string GetChecksumFromFile(string file)
         {
