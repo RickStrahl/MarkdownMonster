@@ -2,11 +2,20 @@
 
 # Markdown Monster Change Log
 
-### Version 0.52
-<i><small>Oct. 12th, 2016</small></i>
+### Version 0.54
+<i><small>not released yet</small></i>
+
+* **Show Path for Multiple Files with Same Name**  
+When multiple files with the same name are open, those files now show the last segment of the the path in addition to the file filename to allow differentiating the files.
+
+* **Change Updater to use manual Download**  
+To avoid security issues and AV triggering we've removed the auto-update feature that's built-in and instead direct updates to the download page for manual download and update install.
+
+### Version 0.53
+<i><small>Oct. 14th, 2016</small></i>
 
 * **New Markdown Parser**  
-Added switchable Markdown Parsers. You can use the `MarkdownParser` configuration switch and set it to `CommonMarkNet` or `MarkDig`. The latter (the default now) supports richer subset of **Github flavored Markdown** including support for ~~strikeout~~ parsing and table rendering support.
+Switched Markdown parsing to the [MarkDig parser](https://github.com/lunet-io/markdig). This parser supports richer subset of **Github flavored Markdown** including support for ~~strikeout~~ parsing and table rendering support (pipe tables).
 
 * **Open in new Window option from Paste Link Dialog**  
 The Paste Link menu option and dialog can now paste links that open in a new window. When using this option the link is created as an HTML link.
