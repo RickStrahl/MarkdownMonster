@@ -19,7 +19,7 @@ namespace MarkdownMonster.Windows
     /// </summary>
     public partial class BrowserDialog : Window
     {
-        public bool IsLoaded { get; set; }
+        public new bool IsLoaded { get; set; }
 
         public BrowserDialog(string url = null)
         {
