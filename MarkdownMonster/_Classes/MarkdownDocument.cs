@@ -97,6 +97,23 @@ namespace MarkdownMonster
         }
 
         /// <summary>
+        /// Returns a filename plus path and a change indicator
+        /// Used when multiple tabs with the same file are open
+        /// </summary>
+        public string FilenamePathWithIndicator
+        {
+            get
+            {
+                if (Filename == "untitled")
+                    return FilenameWithIndicator;
+
+                string path = Path.GetFileName(Path.GetDirectoryName(Filename));
+
+                return Path.GetFileName(Filename) + "  –  " + path  + (IsDirty ? "*" : ""); 
+            }
+        }
+
+        /// <summary>
         /// Determines whether the active document has changes
         /// that have not been saved yet
         /// </summary>

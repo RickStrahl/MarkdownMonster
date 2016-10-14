@@ -125,14 +125,15 @@ namespace MarkdownMonster
                     if (doc.HasFileCrcChanged())
                     {
                         string filename = Path.GetFileName(doc.Filename);
-                        string template = filename + "\r\n\r\nThis file was changed by another program.\r\nDo you want reload it?";
+                        string template = filename +
+                                          "\r\n\r\nThis file was changed by another program.\r\nDo you want reload it?";
 
                         if (MessageBox.Show(template,
-                            "File change detected",
-                            MessageBoxButton.YesNo, 
-                            MessageBoxImage.Question) == MessageBoxResult.Yes)
+                                "File change detected",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
-                            dynamic pos = editor.AceEditor.getscrolltop(false);                            
+                            dynamic pos = editor.AceEditor.getscrolltop(false);
 
                             doc.Load(doc.Filename);
                             editor.SetMarkdown(doc.CurrentText);
@@ -144,15 +145,11 @@ namespace MarkdownMonster
                     }
                 }
             }
-
-
-
         }
-    
 
 
 
-    #region Opening and Closing
+        #region Opening and Closing
 
             private
             void OnLoaded(object sender, RoutedEventArgs e)
@@ -402,7 +399,6 @@ namespace MarkdownMonster
 
             tab.ContextMenu = Resources["TabItemContextMenu"] as ContextMenu;
             
-            
             ControlsHelper.SetHeaderFontSize(tab, 13F);
 
             var wb = new WebBrowser
@@ -435,15 +431,9 @@ namespace MarkdownMonster
                         CommandManager.InvalidateRequerySuggested();
                 };
                 editor.MarkdownDocument = doc;
-                
-                var headerBinding = new Binding
-                {
-                    Source = doc,
-                    Path = new PropertyPath("FilenameWithIndicator"),                    
-                    Mode = BindingMode.OneWay
-                };
-                BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
 
+                SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
+                
                 tab.ToolTip = doc.Filename;                
             }
 
@@ -451,10 +441,11 @@ namespace MarkdownMonster
             var filename = Path.GetFileName(editor.MarkdownDocument.Filename);
             tab.Tag = editor;
 
-            Title = filename ;
+            Title = filename;
 
             editor.LoadDocument();
             
+            // is the tab already open?
             TabItem existingTab = null;
             if (filename != "untitled")
             {
@@ -468,6 +459,23 @@ namespace MarkdownMonster
                     }
                 }
             }
+
+            // tab with same name? - Add folder name
+            bool dupeTabFiles = false;
+            foreach (TabItem tb in TabControl.Items)
+            {
+                var leditor = tb.Tag as MarkdownDocumentEditor;
+                var doc = leditor.MarkdownDocument;
+
+                if (filename.ToLower() == Path.GetFileName(doc.Filename).ToLower() )
+                {
+                    SetTabHeaderBinding(tb, doc, "FilenamePathWithIndicator");
+                    dupeTabFiles = true;
+                }
+            }
+            if (dupeTabFiles)
+                SetTabHeaderBinding(tab, editor.MarkdownDocument, "FilenamePathWithIndicator");
+
             Model.OpenDocuments.Add(editor.MarkdownDocument);
             Model.ActiveDocument = editor.MarkdownDocument;
             
@@ -497,7 +505,24 @@ namespace MarkdownMonster
             return tab;
         }
 
-        
+
+        /// <summary>
+        /// Binds the tab header to an expression
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <param name="doc"></param>
+        /// <param name="propertyPath"></param>
+        private void SetTabHeaderBinding(TabItem tab, object bindingSource, string propertyPath = "FilenameWithIndicator")
+        {
+            var headerBinding = new Binding
+            {
+                Source = bindingSource,
+                Path = new PropertyPath(propertyPath),
+                Mode = BindingMode.OneWay
+            };
+            BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
+        }
+
         private bool CloseAllTabs()
         {            
             for (int i = TabControl.Items.Count - 1; i > -1 ; i--)
