@@ -188,7 +188,11 @@ namespace MarkdownMonster
             if (mmApp.Configuration.FirstRun)
             {
                 if (TabControl.Items.Count == 0)
-                    OpenTab(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"));
+                {
+                    string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
+                    File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"),tempFile);                    
+                    OpenTab(tempFile);
+                }
                 mmApp.Configuration.FirstRun = false;
             }
 
@@ -709,8 +713,14 @@ namespace MarkdownMonster
             var doc = editor?.MarkdownDocument;
             if (doc == null)
                 return false;
-                                            
-            return editor.SaveDocument();            
+
+            if (editor.SaveDocument())
+            {
+                MessageBox.Show("Unable to save document most likely due to missing permissions.", mmApp.ApplicationName);
+                return false;
+            }
+
+            return true;
         }
 
 

@@ -124,8 +124,6 @@ namespace MarkdownMonster
                 this.Shutdown(0);
             else
                 e.Handled = true;
-
-
         }
 
         

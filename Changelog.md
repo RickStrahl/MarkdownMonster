@@ -3,13 +3,16 @@
 # Markdown Monster Change Log
 
 ### Version 0.54
-<i><small>not released yet</small></i>
+<i><small>October 16th, 2016</small></i>
 
 * **Show Path for Multiple Files with Same Name**  
 When multiple files with the same name are open, those files now show the last segment of the the path in addition to the file filename to allow differentiating the files.
 
 * **Change Updater to use manual Download**  
-To avoid security issues and AV triggering we've removed the auto-update feature that's built-in and instead direct updates to the download page for manual download and update install.
+To avoid security issues and AV triggering we've removed the auto-update feature that's built-in and instead direct updates to the download page for manual download and update install when new versions are available during update check or for explicit version checks.
+
+* **Added MarkdownSample.md Page**  
+When Markdown Monster starts now we display a sample page that displays markdown features.
 
 ### Version 0.53
 <i><small>Oct. 14th, 2016</small></i>

@@ -276,7 +276,9 @@ namespace MarkdownMonster
                 if (result != null && result.Value)
                 {
                     doc.MarkdownDocument.Filename = sd.FileName;
-                    doc.SaveDocument();
+                    if (!doc.SaveDocument())
+                        MessageBox.Show("Unable to save document, most likely due to permissions.",
+                                        mmApp.ApplicationName);
                 }
 
                 Window.PreviewMarkdown(doc, keepScrollPosition: true);
@@ -315,7 +317,7 @@ namespace MarkdownMonster
                 var result = sd.ShowDialog();
                 if (result != null && result.Value)
                 {                    
-                    var html = doc.RenderMarkdown(doc.GetMarkdown());
+                    var html = doc.RenderMarkdown(doc.GetMarkdown());                    
                     File.WriteAllText(sd.FileName, html, Encoding.UTF8);                    
                 }
 
