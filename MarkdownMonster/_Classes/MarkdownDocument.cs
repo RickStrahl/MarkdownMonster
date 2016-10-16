@@ -215,13 +215,18 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(filename))
                 filename = Filename;
 
+            try
+            {
+                File.WriteAllText(filename, CurrentText, Encoding.UTF8);
+                IsDirty = false;
 
-            File.WriteAllText(filename, CurrentText,Encoding.UTF8);
-            IsDirty = false;
+                UpdateCrc(filename);
 
-            UpdateCrc(filename);            
-
-            return true;
+                return true;
+            }
+            catch {  }
+            
+            return false;
         }
 
         /// <summary>
