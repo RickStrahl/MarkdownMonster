@@ -119,7 +119,8 @@ namespace MarkdownMonster
 
             var res = MessageBox.Show(msg, mmApp.ApplicationName + " Error",
                                                 MessageBoxButton.YesNo,
-                                                MessageBoxImage.Error);
+                                                MessageBoxImage.Error,MessageBoxResult.OK, 
+                                                MessageBoxOptions.DefaultDesktopOnly);
             if (res.HasFlag(MessageBoxResult.No))
                 this.Shutdown(0);
             else
