@@ -235,8 +235,10 @@ namespace MarkdownMonster
 
                 if (doc.MarkdownDocument.Filename == "untitled")
                     SaveAsCommand.Execute(tab);
-                else
-                    doc.SaveDocument();
+                else if (!doc.SaveDocument())
+                {
+                    SaveAsCommand.Execute(tab);
+                }
 
                 Window.PreviewMarkdown(doc, keepScrollPosition: true);
 
@@ -277,8 +279,12 @@ namespace MarkdownMonster
                 {
                     doc.MarkdownDocument.Filename = sd.FileName;
                     if (!doc.SaveDocument())
-                        MessageBox.Show("Unable to save document, most likely due to permissions.",
-                                        mmApp.ApplicationName);
+                    {
+                        MessageBox.Show(Window, $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. Make sure you have the required permissions, or choose another location to save the file.",
+                            "Unable to save Document");
+                        SaveAsCommand.Execute(tab);
+                        return;
+                    }
                 }
 
                 Window.PreviewMarkdown(doc, keepScrollPosition: true);
