@@ -3,13 +3,16 @@
 # Markdown Monster Change Log
 
 ### Version 0.55
-<i><small>not released yet</small></i>
+<i><small>October 18th, 2016</small></i>
 
 * **Render HTML to Temp Folder**   
 Changed all HTML output rendering to render to the Windows User %temp% folder rather than into the same folder as as the Markdown file. Rendered file uses `<base>` tag to point back at the original file folder in order to find relative images and other resources. This also avoids a host of potential file permissions issues where you may not be able to save a preview file.
 
 * **Bug Fix: Handle File Permissions Issues**  
 Opening and saving files in folder in which the user doesn't have permissions previously crashed. Read and write permissions errors are now trapped and provide more meaningful error information.
+
+* **Better Save Failure Handling**  
+Save failures due to permissions or locked files now direct you to the Save as... file dialog.
 
 ### Version 0.54
 <i><small>October 15th, 2016</small></i>
