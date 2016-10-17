@@ -280,8 +280,8 @@ namespace MarkdownMonster
                     doc.MarkdownDocument.Filename = sd.FileName;
                     if (!doc.SaveDocument())
                     {
-                        MessageBox.Show(Window, $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. Make sure you have the required permissions, or choose another location to save the file.",
-                            "Unable to save Document");
+                        MessageBox.Show(Window, $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
+                            "Unable to save Document",MessageBoxButton.OK,MessageBoxImage.Warning);
                         SaveAsCommand.Execute(tab);
                         return;
                     }
@@ -317,14 +317,21 @@ namespace MarkdownMonster
                     CheckFileExists = false,
                     OverwritePrompt = false,
                     CheckPathExists = true,
-                    RestoreDirectory = true
+                    RestoreDirectory = true                    
                 };
 
                 var result = sd.ShowDialog();
                 if (result != null && result.Value)
                 {                    
-                    var html = doc.RenderMarkdown(doc.GetMarkdown());                    
-                    File.WriteAllText(sd.FileName, html, Encoding.UTF8);                    
+                    var html = doc.RenderMarkdown(doc.GetMarkdown());
+
+                    if (!doc.MarkdownDocument.WriteFile(sd.FileName, html))
+                    {
+                        MessageBox.Show(Window, $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
+                            "Unable to save Document", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        SaveAsHtmlCommand.Execute(null);
+                        return;
+                    }
                 }
 
                 Window.PreviewMarkdown(doc, keepScrollPosition: true);
