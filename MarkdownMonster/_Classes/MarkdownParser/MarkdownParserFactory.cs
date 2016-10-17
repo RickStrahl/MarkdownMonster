@@ -12,8 +12,8 @@
         /// <param name="markdownStyle"></param>
         /// <param name="RenderLinksAsExternal"></param>
         /// <returns></returns>
-        public static IMarkdownParser GetParser(MarkdownStyles markdownStyle, bool RenderLinksAsExternal = false)
-        {
+        public static IMarkdownParser GetParser(bool RenderLinksAsExternal = false)
+        {            
             return new MarkdownParserMarkdig();
         }
 

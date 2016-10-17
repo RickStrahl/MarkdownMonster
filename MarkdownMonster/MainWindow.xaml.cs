@@ -180,17 +180,17 @@ namespace MarkdownMonster
                         continue;                    
                 }
                 
-                OpenTab(mdFile: file);
+                OpenTab(mdFile: file, batchOpen: true);
                 AddRecentFile(file);                
             }
 
 
             if (mmApp.Configuration.FirstRun)
             {
-                if (TabControl.Items.Count == 0)
-                {
+              if (TabControl.Items.Count == 0)
+              {
                     string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
-                    File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"),tempFile);                    
+                    File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"),tempFile,true);            
                     OpenTab(tempFile);
                 }
                 mmApp.Configuration.FirstRun = false;
@@ -338,7 +338,9 @@ namespace MarkdownMonster
                 {
                     if (File.Exists(doc.Filename))
                     {
-                        var tab = OpenTab(doc.Filename,selectTab: false);
+                        var tab = OpenTab(doc.Filename,selectTab: false, batchOpen: true);
+                        if (tab == null)
+                            continue;
 
                         if (selectedDoc != null && selectedDoc.Filename == doc.Filename)                        
                             selectedTab = tab;                        
@@ -411,7 +413,8 @@ namespace MarkdownMonster
                                bool showPreviewIfActive = false, 
                                string syntax = "markdown", 
                                bool selectTab = true, 
-                               bool rebindTabHeaders = false)
+                               bool rebindTabHeaders = false,
+                               bool batchOpen = false)
         {
             if (mdFile != null && mdFile!= "untitled" && (!File.Exists(mdFile) ||
                                   !AddinManager.Current.RaiseOnBeforeOpenDocument(mdFile)))
@@ -446,10 +449,23 @@ namespace MarkdownMonster
 
                 var doc = new MarkdownDocument
                 {
-                    Filename = mdFile ?? @"c:\temp\readme.md"
+                    Filename = mdFile ?? @"untitled"
                 };
-                if (FileName != "untitled") 
-                    doc.Load();
+                if (doc.Filename != "untitled")
+                {
+                    if (!File.Exists(doc.Filename))
+                        return null;
+
+                    if (!doc.Load())
+                    {
+                        if (!batchOpen)
+                            MessageBox.Show(
+                                $"Unable to load {doc.Filename}.\r\n\r\nMost likely you don't have access to the file.",
+                                "File Open Error - " + mmApp.ApplicationName);
+
+                        return null;
+                    }
+                }
 
                 doc.PropertyChanged += (sender, e) =>
                 {                    
@@ -772,9 +788,7 @@ namespace MarkdownMonster
             string renderedHtml = null;
 
             if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
-            {
-                
-
+            {                
                 dynamic dom = null;
                 if (keepScrollPosition)
                 {
@@ -789,10 +803,23 @@ namespace MarkdownMonster
 
                 if (ext == "html" || ext == "htm")
                 {
-                    editor.MarkdownDocument.WriteFile(editor.MarkdownDocument.HtmlRenderFilename, editor.MarkdownDocument.CurrentText);
+                    if (!editor.MarkdownDocument.WriteFile(editor.MarkdownDocument.HtmlRenderFilename,
+                        editor.MarkdownDocument.CurrentText))
+                        // need a way to clear browser window
+                        return;
                 }
                 else
+                {
                     renderedHtml = editor.MarkdownDocument.RenderHtmlToFile();
+                    if (renderedHtml == null)
+                    {
+                        SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
+                        ShowStatus($"Access denied: {Path.GetFileName(editor.MarkdownDocument.Filename)}", 5000);                        
+                        // need a way to clear browser window
+
+                        return;
+                    }
+                }
 
                 if (showInBrowser)
                 {
@@ -1256,7 +1283,10 @@ namespace MarkdownMonster
         public void ShowStatus(string message = null, int milliSeconds = 0)
         {
             if (message == null)
+            {
                 message = "Ready";
+                SetStatusIcon();
+            }
 
             StatusText.Text = message;
 
@@ -1316,18 +1346,7 @@ namespace MarkdownMonster
 
                 var editor = GetActiveMarkdownEditor();
                 dynamic dom = PreviewBrowser.Document;
-                dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
-
-                new Timer((editr) =>
-                {
-                    try
-                    {
-                        if (File.Exists(editor.MarkdownDocument.HtmlRenderFilename))
-                            File.Delete(editor.MarkdownDocument.HtmlRenderFilename);
-                    }
-                    catch
-                    { }
-                }, null, 2000, Timeout.Infinite);
+                dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;           
             };
             PreviewBrowser.Navigate("about:blank");
 

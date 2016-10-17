@@ -80,12 +80,14 @@ namespace MarkdownMonster
         /// <summary>
         /// Markdown style used on this document. Not used at the moment
         /// </summary>
-        public MarkdownStyles MarkdownStyle = MarkdownStyles.GitHub;
+        //public MarkdownStyles MarkdownStyle = MarkdownStyles.GitHub;
+
 
         /// <summary>
         /// Returns the filename with a dirty indicator (*) if the
         /// document has changed
         /// </summary>
+        [JsonIgnore]
         public string FilenameWithIndicator
         {
             get
@@ -94,10 +96,12 @@ namespace MarkdownMonster
             }
         }
 
+
         /// <summary>
         /// Returns a filename plus path and a change indicator
         /// Used when multiple tabs with the same file are open
         /// </summary>
+        [JsonIgnore]
         public string FilenamePathWithIndicator
         {
             get
@@ -166,8 +170,8 @@ namespace MarkdownMonster
                 }
                 else
                 {
-                    path = Path.GetDirectoryName(Filename);
-                    file = "__" + Path.ChangeExtension(Path.GetFileName(Filename), "htm");                    
+                    path = Path.GetTempPath();  //Path.GetDirectoryName(Filename);
+                    file = "_MarkdownMonster_Preview.html";                              
                 }
 
                 return Path.Combine(path, file);
@@ -200,11 +204,18 @@ namespace MarkdownMonster
                 return false;
 
             UpdateCrc();
-            CurrentText = File.ReadAllText(filename);
+            try
+            {
+                CurrentText = File.ReadAllText(filename);
+            }
+            catch
+            {
+                return false;
+            }
 
             return true;
         }
-        
+
         /// <summary>
         /// Saves the CurrentText into the specified filename
         /// </summary>
@@ -262,7 +273,7 @@ namespace MarkdownMonster
         }
         
         /// <summary>
-        /// Renders markdown of the current document text into HTML
+        /// Renders markdown of the current document text into raw HTML
         /// </summary>
         /// <param name="markdown">markdown to render</param>
         /// <param name="renderLinksExternal">Determines whether links have a target='top' attribute</param>
@@ -272,24 +283,35 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
             
-            var parser = MarkdownParserFactory.GetParser(MarkdownStyle,renderLinksExternal);            
+            var parser = MarkdownParserFactory.GetParser(renderLinksExternal);            
             return parser.Parse(markdown);
         }
 
-        public string RenderHtmlToFile(string markdown = null, string filename = null, bool renderLinksExternal = false)
+        /// <summary>
+        /// Renders the HTML to a file with a related template
+        /// </summary>
+        /// <param name="markdown"></param>
+        /// <param name="filename"></param>
+        /// <param name="renderLinksExternal"></param>
+        /// <returns></returns>
+        public string RenderHtmlToFile(string markdown = null, string filename = null, bool renderLinksExternal = false, string theme = null)
         {
             string markdownHtml = RenderHtml(markdown, renderLinksExternal);
 
             if (string.IsNullOrEmpty(filename))
                 filename = HtmlRenderFilename;
 
-            var themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\" +
-                                                                       mmApp.Configuration.RenderTheme);
+            if (string.IsNullOrEmpty(theme))
+                theme = mmApp.Configuration.RenderTheme;
+
+            var themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\" + theme);
+            var docPath = Path.GetDirectoryName(Filename) + "\\";
 
             if (!Directory.Exists(themePath))
             {
                 mmApp.Configuration.RenderTheme = "Dharkan";
                 themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\Dharkan");
+                theme = "Dharkan";
             }
 
             string themeHtml = null;
@@ -304,10 +326,12 @@ namespace MarkdownMonster
                 mmApp.Configuration.RenderTheme = "Dharkan";
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
-            var html = themeHtml.Replace("{$themePath}", themePath);
-            html = html.Replace("{$markdownHtml}", markdownHtml);
+            var html = themeHtml.Replace("{$themePath}", themePath)
+                                .Replace("{$docPath}", docPath)
+                                .Replace("{$markdownHtml}", markdownHtml);
 
-            WriteFile(filename, html);
+            if (!WriteFile(filename, html))
+                return null;
 
             return html;
         }
@@ -317,26 +341,33 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="html"></param>
-        public void WriteFile(string filename, string html)
+        public bool WriteFile(string filename, string html)
         {
+            if (string.IsNullOrEmpty(filename))
+                filename = Filename;
+
             int written = 0;
-            while (written < 4)
+            while (written < 4) // try 4 times
             {
                 try
-                {   
+                {
                     File.WriteAllText(filename, html, Encoding.UTF8);
                     written = 10;
-                }
+                }              
                 catch(Exception ex)
                 {
                     // wait wind retry 3 times
                     Thread.Sleep(150);
                     written++;
                     if (written == 4)
+                    {
+                        mmApp.Log("Warning: Unable to write output file: " + filename + "\r\n" + ex.Message);
+                        return false;
                         throw new ApplicationException("Unable to write output file:  " + filename + "\r\n" + ex.Message);
+                    }
                 }
-            }            
-
+            }
+            return true;
         }
 
 

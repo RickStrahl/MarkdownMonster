@@ -62,8 +62,9 @@ var te = window.textEditor = {
                 // keep ctrl-n browser behavior from happening
                 // and let WPF handle the key
             },
+            "f5": function() {},
             "alt-c": function() { te.specialkey("alt-c"); },
-            "ctrl-o": function() { te.specialkey("ctrl-o"); },
+            "ctrl-o": function () { te.specialkey("ctrl-o"); },
             "ctrl-s": function() { te.specialkey("ctrl-s"); },
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
             "ctrl-i": function() { te.specialkey("ctrl-i"); },

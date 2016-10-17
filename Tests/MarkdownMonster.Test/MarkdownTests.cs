@@ -11,7 +11,7 @@ namespace MarkdownMonster.Test
         {
             string markdown = "This is ~~strike out text~~ and this is ~~too~~. This ~~ is text \r\n that continues~~.";
 
-            var parser = MarkdownMonster.MarkdownParserFactory.GetParser(MarkdownStyles.Common,true);
+            var parser = MarkdownMonster.MarkdownParserFactory.GetParser(true);
             string html = parser.Parse(markdown);
 
             Console.WriteLine(html);

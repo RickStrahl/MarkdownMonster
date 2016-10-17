@@ -129,8 +129,8 @@ hr {
     width: 1px; 
 }
 
-@media(min-width: 970px){
+@media(min-width: 1080px){
     html,body{
-        font-size: 1.09em;
+        font-size: 1.08em;
     }
 }

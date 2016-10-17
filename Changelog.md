@@ -2,8 +2,17 @@
 
 # Markdown Monster Change Log
 
+### Version 0.55
+<i><small>not released yet</small></i>
+
+* **Render HTML to Temp Folder**   
+Changed all HTML output rendering to render to the Windows User %temp% folder rather than into the same folder as as the Markdown file. Rendered file uses `<base>` tag to point back at the original file folder in order to find relative images and other resources. This also avoids a host of potential file permissions issues where you may not be able to save a preview file.
+
+* **Bug Fix: Handle File Permissions Issues**  
+Opening and saving files in folder in which the user doesn't have permissions previously crashed. Read and write permissions errors are now trapped and provide more meaningful error information.
+
 ### Version 0.54
-<i><small>October 16th, 2016</small></i>
+<i><small>October 15th, 2016</small></i>
 
 * **Show Path for Multiple Files with Same Name**  
 When multiple files with the same name are open, those files now show the last segment of the the path in addition to the file filename to allow differentiating the files.
@@ -15,7 +24,7 @@ To avoid security issues and AV triggering we've removed the auto-update feature
 When Markdown Monster starts now we display a sample page that displays markdown features.
 
 ### Version 0.53
-<i><small>Oct. 14th, 2016</small></i>
+<i><small>Oct. 11th, 2016</small></i>
 
 * **New Markdown Parser**  
 Switched Markdown parsing to the [MarkDig parser](https://github.com/lunet-io/markdig). This parser supports richer subset of **Github flavored Markdown** including support for ~~strikeout~~ parsing and table rendering support (pipe tables).
