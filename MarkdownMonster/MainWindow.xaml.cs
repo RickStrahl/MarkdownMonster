@@ -461,7 +461,7 @@ namespace MarkdownMonster
                         if (!batchOpen)
                             MessageBox.Show(
                                 $"Unable to load {doc.Filename}.\r\n\r\nMost likely you don't have access to the file.",
-                                "File Open Error - " + mmApp.ApplicationName);
+                                "File Open Error - " + mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Warning);
 
                         return null;
                     }
