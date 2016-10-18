@@ -730,7 +730,7 @@ namespace MarkdownMonster
             if (doc == null)
                 return false;
 
-            if (editor.SaveDocument())
+            if (!editor.SaveDocument())
             {
                 MessageBox.Show("Unable to save document most likely due to missing permissions.", mmApp.ApplicationName);
                 return false;

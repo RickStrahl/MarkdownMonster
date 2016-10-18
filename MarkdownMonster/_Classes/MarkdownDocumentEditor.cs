@@ -159,6 +159,8 @@ namespace MarkdownMonster
                 EditorSyntax = "python";
             else if (ext == "ps1")
                 EditorSyntax = "powershell";
+            else if (ext == "sql")
+                EditorSyntax = "sqlserver";
             else
                 EditorSyntax = "";
             

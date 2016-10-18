@@ -20,7 +20,7 @@ var sc = window.spellcheck = {
             te.editor.session.removeMarker(sc.markers[i]);
         }
         sc.markers_present = [];
-    },
+    },    
     disable: function() {
         if (sc.interval)
             clearInterval(sc.interval);
@@ -36,7 +36,6 @@ var sc = window.spellcheck = {
         var dicData, affData;
         var misspelledDict = [];
         var interval = null;
-
 
         var contents_modified = true;
         var currently_spellchecking = false;
@@ -55,7 +54,7 @@ var sc = window.spellcheck = {
             //dictionary = new Typo(lang, te.aff, te.dic);
             // use .net type checking
             enableSpellcheck();
-            spellCheck();
+            //spellCheck();
         } else {
             var lang = editorSettings.dictionary;
             var dicPath = lang + ".dic";
@@ -72,8 +71,7 @@ var sc = window.spellcheck = {
                 }).done(function() {
                     // editorSettings.dictionary holds language: "en_US" or "de_DE"
                     sc.dictionary = new Typo(lang, affData, dicData);
-                    enableSpellcheck();
-                    spellCheck();
+                    enableSpellcheck();              
                 });
             });
         }
@@ -98,17 +96,40 @@ var sc = window.spellcheck = {
         $("#spellfixes") // handle the click on the selected item
             .on("click", "div", clickSuggestion);
 
-        var counter = 0;
+        //var counter = 0;
+        var interval = 2000;
 
         return;
 
+
         function enableSpellcheck() {
-            te.editor.session.on('change', function(e) {
-                if (!contents_modified) {
-                    contents_modified = true;
-                }
-            });
-            sc.interval = setInterval(spellCheck, 1800);
+            spellCheck(true);
+
+            // detect changes to content - don't spell check if nothing's changed
+            te.editor.session.on('change',
+                function(e) {
+                    if (!contents_modified)
+                        contents_modified = true;
+                });
+
+            sc.interval = setInterval(function() {
+                    spellCheck();
+
+                    if (te.curStats.wordCount > 2000 && interval < 5000) {
+                        interval = 5000;
+                        clearInterval(sc.interval);
+                        setTimeout(enableSpellcheck, 5000);
+                    } else if (te.curStats.wordCount > 4000 && interval < 10000) {
+                        interval = 10000;
+                        clearInterval(sc.interval);
+                        setTimeout(enableSpellcheck, 10000);
+                    } else if (te.curStats.wordCount <= 2000 && interval > 2000) {
+                        interval = 2000;
+                        clearInterval(sc.interval);
+                        setTimeout(enableSpellcheck, 2000);
+                    }
+                },
+                interval);
         }
 
         // Check the spelling of a line, and return [start, end]-pairs for misspelled words.
@@ -136,20 +157,16 @@ var sc = window.spellcheck = {
             }
             return bads;
         }
-
-
         
         // Spell check the Ace editor contents.
-        function spellCheck() {
+        function spellCheck(force) {            
             if (!editorSettings.enableSpellChecking)
                 return;
-
-            if (currently_spellchecking) {
+            if (currently_spellchecking) 
+                return;            
+            if (!force && !te.isDirty) //contents_modified) 
                 return;
-            }
-            if (!contents_modified) {
-                return;
-            }
+            
             currently_spellchecking = true;
             var session = te.editor.getSession();
 
@@ -157,7 +174,10 @@ var sc = window.spellcheck = {
 
             try {
                 var Range = ace.require('ace/range').Range;
+
                 var lines = session.getDocument().getAllLines();
+
+                
                 var lineCount = 0;
 
                 for (var line in lines) {
@@ -188,9 +208,7 @@ var sc = window.spellcheck = {
                         }
                     }.bind(this,line, lineCount >= lines.length), 40);
                 }
-            } finally {
-                //currently_spellchecking = false;
-                //contents_modified = false;
+            } finally {            
             }
         }
 

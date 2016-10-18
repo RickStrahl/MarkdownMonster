@@ -11,7 +11,8 @@ var te = window.textEditor = {
     dic: null,
     aff: null,
     isDirty: false,
-    initialize: function() {
+    initialize: function () {
+        
         // attach ace to formatted code controls if they are loaded and visible
         var $el = $("pre[lang]");
         try {
@@ -48,6 +49,8 @@ var te = window.textEditor = {
         // allow editor to soft wrap text
         session.setUseWrapMode(editorSettings.wrapText);
         session.setOption("indentedSoftWrap", false);
+
+        
 
         editor.renderer.setShowGutter(editorSettings.showLineNumbers);
         session.setTabSize(editorSettings.tabSpaces);
@@ -86,13 +89,14 @@ var te = window.textEditor = {
 
         //te.editor.getSession().setMode("ace/mode/markdown" + lang);   
 
-        // fill entire view
+        
         te.editor.setOptions({
+            // fill entire view
             maxLines: 0,
             minLines: 0
-            //wrapBehavioursEnabled: editorSettings.wrapText
+            //wrapBehavioursEnabled: editorSettings.wrapText                       
         });
-
+        
         var keydownHandler = function keyDownHandler(e) {
             if (!te.isDirty) {
                 if (!te.mm)
@@ -113,7 +117,7 @@ var te = window.textEditor = {
 
                 if (valid) {
                     te.isDirty = true;
-                    te.mm.textbox.setDirty(true);
+                    te.mm.textbox.setDirty(true);                    
                 }
             }
         };          
@@ -140,14 +144,15 @@ var te = window.textEditor = {
                 }
             }
             te.mm.textbox.PreviewMarkdownCallback();
-            te.updateDocumentStats();
+            te.updateDocumentStats();            
 
-            //if (te.isspellcheckingenabled) {
-            //        sc.spellCheck();                    
-            //}
+            //if (te.isspellcheckingenabled)
+            //    sc.spellCheck();
 
-        }, 1000);
+        }, 1500);
         $("pre[lang]").on("keyup", keyupHandler);
+
+        
 
 	// window.addEventListener("paste",function () {
 	//    alert('paste');
@@ -294,6 +299,7 @@ var te = window.textEditor = {
 
         setTimeout(te.updateDocumentStats, 100);
     },
+    curStats: { wordCount: 0, lines: 0 },
     getDocumentStats: function () {
         var text = te.getvalue();
 
@@ -306,10 +312,12 @@ var te = window.textEditor = {
         var wordCount = text.replace(regExWords, ' ').split(' ').length;                
         var lines = text.split('\n').length;
         
-        return {
+        te.curStats = {
             wordCount: wordCount,
             lines:lines
         }
+
+        return te.curStats;
     },
     updateDocumentStats: function() {
         te.mm.textbox.updateDocumentStats(te.getDocumentStats());
