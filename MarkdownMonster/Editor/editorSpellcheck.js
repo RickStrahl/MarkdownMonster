@@ -35,7 +35,7 @@ var sc = window.spellcheck = {
         // You should configure these classes.                        
         var dicData, affData;
         var misspelledDict = [];
-        var interval = null;
+        var interval = 1800;
 
         var contents_modified = true;
         var currently_spellchecking = false;
@@ -44,10 +44,9 @@ var sc = window.spellcheck = {
 
         if (sc.firstpass) {
             // Make red underline for gutter and words.
-            $("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</style>" +
-              "<style type='text/css'>.misspelled { border-bottom: 1px dashed red; margin-bottom: -1px; }</style>").appendTo("head");
+            $("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }\r\n" +
+              ".misspelled { border-bottom: 1px dashed red; margin-bottom: -1px; }</style>").appendTo("head");
         }
-
 
         if (te.mm) //te.dic && te.aff) {  
         {
@@ -95,10 +94,7 @@ var sc = window.spellcheck = {
         });
         $("#spellfixes") // handle the click on the selected item
             .on("click", "div", clickSuggestion);
-
-        //var counter = 0;
-        var interval = 2000;
-
+        
         return;
 
 
@@ -112,24 +108,7 @@ var sc = window.spellcheck = {
                         contents_modified = true;
                 });
 
-            sc.interval = setInterval(function() {
-                    spellCheck();
-
-                    if (te.curStats.wordCount > 2000 && interval < 5000) {
-                        interval = 5000;
-                        clearInterval(sc.interval);
-                        setTimeout(enableSpellcheck, 5000);
-                    } else if (te.curStats.wordCount > 4000 && interval < 10000) {
-                        interval = 10000;
-                        clearInterval(sc.interval);
-                        setTimeout(enableSpellcheck, 10000);
-                    } else if (te.curStats.wordCount <= 2000 && interval > 2000) {
-                        interval = 2000;
-                        clearInterval(sc.interval);
-                        setTimeout(enableSpellcheck, 2000);
-                    }
-                },
-                interval);
+            sc.interval = setInterval(spellCheck, interval);            
         }
 
         // Check the spelling of a line, and return [start, end]-pairs for misspelled words.
@@ -164,7 +143,7 @@ var sc = window.spellcheck = {
                 return;
             if (currently_spellchecking) 
                 return;            
-            if (!force && !te.isDirty) //contents_modified) 
+            if (!force && !contents_modified) 
                 return;
             
             currently_spellchecking = true;

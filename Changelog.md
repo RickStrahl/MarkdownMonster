@@ -2,8 +2,20 @@
 
 # Markdown Monster Change Log
 
+### Version 0.56
+<i><small>October 21th, 2016</small></i>
+
+* **Update Github Theme**  
+Updated Github theme to more closely match the Github formatting. Set Github as default theme.
+
+* **Rendering Bug Fixes**  
+Fix rendering and preview issues with the new file location in the temp folder. Errors are more gracefully handled.
+
+* **Open As HTML Update**  
+Modified the opening behavior of HTML documents when opened as markdown. Documents should now render immediately and show up as **untitled** rather than with the same name as the `.html` file with a `.md` extension.
+
 ### Version 0.55
-<i><small>October 18th, 2016</small></i>
+<i><small>October 17th, 2016</small></i>
 
 * **Render HTML to Temp Folder**   
 Changed all HTML output rendering to render to the Windows User %temp% folder rather than into the same folder as as the Markdown file. Rendered file uses `<base>` tag to point back at the original file folder in order to find relative images and other resources. This also avoids a host of potential file permissions issues where you may not be able to save a preview file.

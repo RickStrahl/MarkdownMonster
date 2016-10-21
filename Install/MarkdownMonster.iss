@@ -1,9 +1,10 @@
 
 #define MyAppName "Markdown Monster"
-#define MyAppVersion "0.55"
+#define MyAppVersion "0.56"
 #define MyAppPublisher "West Wind Technologies"
 #define MyAppURL "https://markdownmonster.west-wind.com"
 #define MyAppExeName "MarkdownMonster.exe"
+#define MySetupImageIco "..\MarkdownMonster\Assets\MarkdownMonster.ico"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -23,7 +24,8 @@ DisableProgramGroupPage=yes
 LicenseFile=.\license.txt
 OutputDir=.\Builds\CurrentRelease
 OutputBaseFilename=MarkdownMonsterSetup
-SetupIconFile=..\MarkdownMonster\Assets\MarkdownMonster.ico
+SetupIconFile={#MySetupImageIco}
+UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma
 SolidCompression=yes
 ChangesAssociations=yes

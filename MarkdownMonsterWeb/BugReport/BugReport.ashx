@@ -46,8 +46,8 @@ public class BugReportService : CallbackHandler
         StringUtils.LogString( telemetry.Version + " - " +
                                telemetry.Operation + " - " +
                                (telemetry.Registered ? "YES" : "no") + " - " +
-                               telemetry.Access + " - " +                               
-                               Context.Request.ServerVariables["REMOTE_ADDR"]   + " - " +                               
+                               telemetry.Access + " - " +
+                               Context.Request.ServerVariables["REMOTE_ADDR"]   + " - " +
                                telemetry.Time.ToString("n0") + "s -" +
                                telemetry.Data,
                                TelemetryFilePath);
@@ -71,11 +71,14 @@ public class BugReportService : CallbackHandler
         {
             using (FileStream s = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite))
             {
-                s.Seek(cutoff, SeekOrigin.End);
+                long loc = s.Seek(cutoff * -1, SeekOrigin.End);
                 s.CopyTo(ms);
-                s.SetLength(cutoff);
-                s.Position = 0;
+                s.SetLength(0);
+                s.Flush();
+
+                ms.Position = 0;                
                 ms.CopyTo(s);
+                s.Flush();
             }
         }
 

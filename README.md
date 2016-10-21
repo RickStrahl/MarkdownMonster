@@ -118,14 +118,17 @@ This application heavily leans several third party libraries without which this 
 * **[Ace Editor](https://ace.c9.io)**  
 Ace Editor is a power HTML based editor platform that makes it easy to plug syntax highlighted software style editing possible in a browser. Markdown Monster uses Ace Editor for the main Markdown editing experience inside of a Web browser control that interacts with the WPF application.
 
+* **[MarkDig Markdown Parser](https://github.com/lunet-io/markdig)**  
+This extensible Markdown parser library is used for the rendering Markdown to HTML in Markdown Monster. The library is fast and supports a number of useful extensions like Github Flavored Markdown, table support, auto-linking and various add-on protocols. The feature set is extensible via a plug-in pipeline. 
+
 * **[MahApps.Metro](http://mahapps.com/)**  
 This library provides the Metro style window and theming support of the top level application shell.
 
 * **[Dragablz](https://dragablz.net/)**  
 This library provides the tab control support for the editor allowing for nicely styled tab reordering and overflow. The library also supports tab tear off tabs and layout docking altough this feature is not used in Markdown Monster.
 
-* **[CommonMark.NET](https://github.com/Knagis/CommonMark.NET)**  
-The markdown parser used to render markdown in the preview editor. CommonMark.NET is fast and easy to work with and has an excellent extensibility interface.
+* **[nHunspell Spell Checking](http://www.crawler-lib.net/nhunspell)**  
+Spell checking is handled via the hunspell library and the .NET wrapper in nhunspell. This library checks for mispellings and provides lookups for misspelled words. Word parsing is done in JavaScript and the spell checking is done in .NET by piping word lists to .NET to check which is drastically faster than doing the spell checking in the browser using JavaScript.
 
 ## License
 Although we provide the source in the open, Markdown Monster is licensed software &copy; West Wind Technologies, 2016.

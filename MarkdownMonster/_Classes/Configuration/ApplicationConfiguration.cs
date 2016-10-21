@@ -248,7 +248,6 @@ namespace MarkdownMonster
 
         public bool FirstRun { get; set; }
 
-
         //internal string FileWatcherOpenFilePath;
 
         public ApplicationConfiguration()
@@ -267,7 +266,7 @@ namespace MarkdownMonster
             SendTelemetry = true;
 
             ApplicationTheme = Themes.Dark;
-            RenderTheme = "Dharkan";
+            RenderTheme = "Github";
             EditorTheme = "twilight";
             EditorFontSize = 19;
             EditorWrapText = true;
