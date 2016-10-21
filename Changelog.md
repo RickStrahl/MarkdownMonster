@@ -11,8 +11,8 @@ Updated Github theme to more closely match the Github formatting. Set Github as 
 * **Rendering Bug Fixes**  
 Fix rendering and preview issues with the new file location in the temp folder. Errors are more gracefully handled.
 
-* **Open As HTML Update**  
-Modified the opening behavior of HTML documents when opened as markdown. Documents should now render immediately and show up as **untitled** rather than with the same name as the `.html` file with a `.md` extension.
+* **Open From HTML Update**  
+Modified the opening behavior of HTML documents when opened as markdown. Documents now render immediately and show up as **untitled**, rather than with the same name as the `.html` file with a `.md` extension.
 
 ### Version 0.55
 <i><small>October 17th, 2016</small></i>
@@ -24,7 +24,7 @@ Changed all HTML output rendering to render to the Windows User %temp% folder ra
 Opening and saving files in folder in which the user doesn't have permissions previously crashed. Read and write permissions errors are now trapped and provide more meaningful error information.
 
 * **Better Save Failure Handling**  
-Save failures due to permissions or locked files now direct you to the Save as... file dialog.
+Save failures due to permissions or locked files now direct you to the Save as... file dialog rather than... failing.
 
 ### Version 0.54
 <i><small>October 15th, 2016</small></i>
