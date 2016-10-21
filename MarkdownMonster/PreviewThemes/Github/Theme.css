@@ -1,11 +1,11 @@
 html, body {
     font-family:  "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.5;
     color: #333;    
 
     height: 100%;    
-    padding: 5px 20px 5px 10px !important;
+    padding: 10px !important;
     margin: 0;
     scrollbar-track-color: Whitesmoke;
     scrollbar-arrow-color: silver;   
@@ -22,7 +22,7 @@ h1,h2,h3,h4,h5,h6, .byline,.content-title {
 }
 h1 {
     padding-bottom: 0.3em;
-    font-size: 1.8em;
+    font-size: 2em;
     line-height: 1.2;
     border-bottom: 1px solid #eee;
     margin-bottom: 16px;   
@@ -41,8 +41,9 @@ h4 {
 h5, h6 { 
     font-size: 1em;
 }
-a {
+a,a:visited {
     text-decoration: none;
+    color: steelblue;
 }
 a:hover {
     text-decoration: underline;
@@ -129,8 +130,16 @@ hr {
     width: 1px; 
 }
 
+#MainContent {
+	margin: 0 auto;
+	padding: 10px 40px;
+	max-width: 888px;
+	border: 1px solid #eee;
+}
+
+
 @media(min-width: 1080px){
     html,body{
-        font-size: 1.08em;
+    
     }
 }

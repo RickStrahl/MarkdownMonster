@@ -431,10 +431,10 @@ namespace MarkdownMonster
             ControlsHelper.SetHeaderFontSize(tab, 13F);
 
             var wb = new WebBrowser
-            {
-                AllowDrop = false,
+            {                
                 Visibility = Visibility.Hidden
             };
+            
 
             tab.Content = wb;            
             
@@ -1004,9 +1004,9 @@ namespace MarkdownMonster
                 var markdown = MarkdownUtilities.HtmlToMarkdown(html);
 
                 OpenTab("untitled");
-
                 var editor = GetActiveMarkdownEditor();
                 editor.MarkdownDocument.CurrentText = markdown;
+                PreviewMarkdown();
             }
             else if (button == ButtonNewFile || button == ToolButtonNewFile)
             {

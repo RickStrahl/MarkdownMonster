@@ -31,24 +31,19 @@
 */
 #endregion
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Newtonsoft.Json;
 using NHunspell;
 using Westwind.Utilities;
-using Timer = System.Threading.Timer;
 
 namespace MarkdownMonster
 {
@@ -68,7 +63,7 @@ namespace MarkdownMonster
         #region Loading And Initialization
         public MarkdownDocumentEditor(WebBrowser browser)
         {
-            WebBrowser = browser;
+            WebBrowser = browser;            
         }
 
 
@@ -491,6 +486,38 @@ namespace MarkdownMonster
         {            
             MarkdownDocument.IsDirty = value;                                         
         }
+
+
+        /// <summary>
+        /// Displays a message box
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
+        /// <param name="icon"></param>
+        /// <param name="buttons"></param>
+        /// <returns></returns>
+        public string ShowMessage(string text, string title, string icon = "Information", string buttons = "Ok")
+        {
+            var image = MessageBoxImage.Information;
+            Enum.TryParse<MessageBoxImage>(icon, out image);
+
+            var btn = MessageBoxButton.OK;
+            Enum.TryParse<MessageBoxButton>(buttons, out btn);
+
+            var res = MessageBox.Show(text, title, btn, image);
+            return res.ToString();
+        }
+
+        /// <summary>
+        /// Allows the client to show status messages
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="timeoutms"></param>
+        public void ShowStatus(string text, int timeoutms = 0)
+        {
+            Window.ShowStatus(text, timeoutms);
+        }
+        
 
         /// <summary>
         /// Callback handler callable from JavaScript editor

@@ -11,6 +11,7 @@ var te = window.textEditor = {
     dic: null,
     aff: null,
     isDirty: false,
+    mousePos: { column: 0, row: 0 },
     initialize: function () {
         
         // attach ace to formatted code controls if they are loaded and visible
@@ -152,35 +153,22 @@ var te = window.textEditor = {
         }, 1500);
         $("pre[lang]").on("keyup", keyupHandler);
 
+
+        
+        // always have mouse position available when drop or paste
+        te.editor.on("mousemove",function (e) {
+            te.mousePos = e.getDocumentPosition();            
+        });
         
 
-	// window.addEventListener("paste",function () {
-	//    alert('paste');
-	//    debugger;
-	//    var items = (event.clipboardData || event.originalEvent.clipboardData).items;
-	//    alert(JSON.stringify(items)); // will give you the mime types
 
-	//    for (index in items) {
-	//        var item = items[index];
-	//        if (item.kind === 'file') {
-
-	//            var blob = item.getAsFile();
-	//            var reader = new FileReader();
-	//            reader.onload = function (event) {
-	//                alert(event.target.result)
-
-	//            }; // data url!
-	//            reader.readAsDataURL(blob);
-	//        }
-	//    }
-	// });
 
         return editor;
     },
     initializeeditor: function() {
         te.configureAceEditor(null, null);
     },
-    status: function status(msg) {
+    status: function(msg) {
         //alert(msg);
         status(msg);
     },
@@ -413,19 +401,58 @@ window.onresize = debounce(function() {
     },
     200);
 
+// prevent window from loading image/file
 window.ondrop = function (event) {
     // don't allow dropping here - we can't get full file info
     event.preventDefault();
     event.stopPropagation();
 
-    setTimeout(function() {
-        alert("To open dropped files in Markdown Monster, please drop files onto the header area of the window.");
+    setTimeout(function () {
+        te.mm.textbox.ShowMessage("To open dropped files in Markdown Monster, please drop files onto the header area of the window.","Invalid Drop Operation","Warning","Ok");
     },50);
 }
- window.ondragover = function(event) {
- 	event.preventDefault();
- 	return false;
- }
+
+//window.ondrop =
+//    function (e) {
+//        e.preventDefault();
+//        e.stopPropagation();
+        
+//        debugger;
+
+//        var dt = e.dataTransfer;
+//        var files = dt.files;
+
+//        var file = files[0];
+//        console.log(file);
+
+//        var reader = new FileReader();
+//        reader.onload = function(e) {
+//            var res = e.target.result;
+//            var pos = $.extend({}, te.mousePos);
+//            console.log(pos);
+//            var sel = te.editor.getSelection();
+//            var range = sel.getRange();
+//            range.setStart(pos);
+//            range.setEnd(pos);
+//            sel.setSelectionRange(range);
+
+//            setTimeout(function() {
+//                    te.setselection(res);
+//                },
+//                20);
+//        }
+//        try {
+//            bin = reader.readAsDataURL(file); //ReadAsArrayBuffer(file);
+//        } catch (ex) {
+//            alert(ex.message);
+//        }
+//    };
+window.ondragover =
+    function(e) {
+        e.preventDefault();
+        return false;
+    };
+
  window.onmousewheel = function (e) {     
     if (e.ctrlKey) {
         e.cancelBubble = true;
