@@ -108,23 +108,13 @@ namespace MarkdownMonster
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            
-            Exception ex = e.Exception;
-            mmApp.Log(ex);
 
-            var msg = string.Format("Yikes! Something went wrong...\r\n\r\n{0}\r\n\r\n" +
-                "The error has been recorded and written to a log file and you can\r\n" +
-                "review the details or report the error via Help | Show Error Log\r\n\r\n" +
-                "Do you want to continue?", ex.Message);
-
-            var res = MessageBox.Show(msg, mmApp.ApplicationName + " Error",
-                                                MessageBoxButton.YesNo,
-                                                MessageBoxImage.Error,MessageBoxResult.OK, 
-                                                MessageBoxOptions.DefaultDesktopOnly);
-            if (res.HasFlag(MessageBoxResult.No))
-                this.Shutdown(0);
+            if (!mmApp.HandleApplicationException(e.Exception as Exception))
+                Shutdown(0);
             else
-                e.Handled = true;
+                e.Handled = true; 
+
+            return;            
         }
 
         
@@ -139,19 +129,8 @@ namespace MarkdownMonster
         /// <param name="sender"></param>
         /// <param name="args"></param>
         static void GlobalErrorHandler(object sender, UnhandledExceptionEventArgs args)
-        {
-            Exception ex = (Exception)args.ExceptionObject;            
-            mmApp.Log(ex);
-
-            var msg = string.Format("Yikes! Something went wrong...\r\n\r\n{0}\r\n\r\n" +
-                "The error has been recorded and written to a log file and you can\r\n" +
-                "review the details or report the error via Help | Show Error Log\r\n\r\n" +
-                "Do you want to continue?", ex.Message);
-
-            var res = MessageBox.Show(msg, mmApp.ApplicationName + " Error",
-                                                MessageBoxButton.YesNo, 
-                                                MessageBoxImage.Error);
-            if (res.HasFlag(MessageBoxResult.No))
+        {            
+            if (!mmApp.HandleApplicationException(args.ExceptionObject as Exception))
                 Environment.Exit(0);            
         }
         

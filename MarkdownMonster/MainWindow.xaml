@@ -129,6 +129,8 @@
                           InputGestureText="Alt-V-B"
                           IsEnabled="{Binding IsEditorActive}" />
                 <Separator/>
+                <MenuItem Name="ButtonRefreshBrowser" Header="Refresh Preview Browser"  
+                          Click="Button_Handler"  IsEnabled="{Binding IsPreviewBrowserVisible}" InputGestureText="Ctrl-Shift"/>
                 <MenuItem Name="ButtonScrollBrowserUp" 
                           Header="Scroll Preview Browser Up"                         
                           InputGestureText="Ctrl-Shift-Up" Click="Button_Handler"
@@ -137,10 +139,12 @@
                           Header="Scroll Preview Browser Down"                         
                           InputGestureText="Ctrl-Shift-Down" Click="Button_Handler"
                           IsEnabled="{Binding IsPreviewBrowserVisible}" />
+                
                 <Separator />
                 <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   IsEnabled="{Binding IsEditorActive}" />
                 <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
-               
+                
+
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Name="MenuDocumentation" Header="Documentation"   Click="Button_Handler"/>
@@ -296,7 +300,7 @@
                         <Separator />
 
 
-                        <Button Name ="ButtonLink" Margin="7,0"
+                        <Button Name ="ButtonLink" Margin="7,0" ToolTip="Insert link (ctrl-k)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="href" 
                                 fa:Awesome.Content="Link"
@@ -304,7 +308,7 @@
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
-                        <Button Name ="ButtonImage" Margin="7,0"                                
+                        <Button Name ="ButtonImage" Margin="7,0"  ToolTip="Insert image"                              
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="image" 
                                 fa:Awesome.Content="Image"
@@ -313,7 +317,7 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
-                        <Button Name ="ButtonCode" Margin="7,0"      
+                        <Button Name ="ButtonCode" Margin="7,0"      ToolTip="Format selected text as code (alt-c)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="code"
                                 fa:Awesome.Content="Code"

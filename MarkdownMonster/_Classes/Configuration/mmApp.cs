@@ -93,6 +93,35 @@ namespace MarkdownMonster
         }
 
 
+        /// <summary>
+        /// Handles an Application level exception by logging the error
+        /// to log, and displaying an error message to the user.
+        /// Also sends the error to server if enabled.
+        /// 
+        /// Returns true if application should continue, false to exit.        
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <returns></returns>
+        public static bool HandleApplicationException(Exception ex)
+        {            
+            mmApp.Log(ex);
+
+            var msg = string.Format("Yikes! Something went wrong...\r\n\r\n{0}\r\n\r\n" +
+                "The error has been recorded and written to a log file and you can\r\n" +
+                "review the details or report the error via Help | Show Error Log\r\n\r\n" +
+                "Do you want to continue?", ex.Message);
+
+            var res = MessageBox.Show(msg, mmApp.ApplicationName + " Error",
+                                                MessageBoxButton.YesNo,
+                                                MessageBoxImage.Error);
+            mmApp.SendBugReport(ex);
+
+            if (res.HasFlag(MessageBoxResult.No))
+                return false;
+            return true;
+        }
+
+
         public static void SendBugReport(Exception ex)
         {
             var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
@@ -116,7 +145,8 @@ namespace MarkdownMonster
                         {
                             Url = mmApp.Configuration.BugReportUrl,
                             HttpVerb = "POST",
-                            Content = bg
+                            Content = bg,
+                            Timeout = 3000
                         });
                     }
                     catch (Exception ex2)

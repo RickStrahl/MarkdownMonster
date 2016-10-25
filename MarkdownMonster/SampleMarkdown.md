@@ -5,7 +5,7 @@ Thanks for checking out Markdown Monster. We hope it'll be to be your go-to tool
 
 If you run into any problems or issues, **please** let us know so we can address and fix them right away. You can report issues on GitHub:
 
-[Markdown Monster Bug Reports and Feature Requests](https://github.com/RickStrahl/MarkdownMonster/issues)
+* <a href="https://github.com/RickStrahl/MarkdownMonster/issues" target="top">Markdown Monster Bug Reports and Feature Requests</a>
 
 # Markdown Features
 This topic is meant to give you a very basic overview of how Markdown works, showing some of the most frequently used operations.

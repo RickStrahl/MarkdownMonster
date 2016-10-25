@@ -18,6 +18,18 @@
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <meta content="Images/MarkdownMonster_Icon_128.png" itemprop="image">
+    
+    <style>
+        #ActionButtons {
+            width: 100%;
+            margin: 20px auto 40px;
+            text-align: center;
+        }
+            #ActionButtons a {
+                background: #333;
+                background: linear-gradient(to bottom, #393939, #222);
+            }
+    </style>
 </head>
 <body>
     <div class="banner">
@@ -29,7 +41,7 @@
         </span>
         <div id="TopMenu" class="right">
             <a href="./" class="active">Home</a>
-            <%--<a href="https://youtu.be/O5J8mDfVZH8">Video</a>--%>
+            <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE">Video</a>
             <%--<a href="features.aspx">Features</a>--%>
             <a href="download.aspx">Download</a>
             <a href="http://store.west-wind.com/product/markdown_monster">Buy</a>
@@ -45,19 +57,23 @@
                     <div style="width: 100%;margin: 0 4%;">
                         <img src="Images/MarkdownMonsterMonsterBigger.png" alt="Markdown Monster"  />
                         
-                        <style>
-                        </style>
-                         <div id="ActionButtons" style="width: 100%; margin: 20px auto 40px; text-align: center;">
-                            
-                            <a href="download.aspx" class="btn btn-lg btn-success" style="background: #333; " >
+                        
+                         <div id="ActionButtons" >                            
+                            <a href="download.aspx" class="btn btn-lg btn-success"  >
                                 <i class="fa fa-download"></i>
                                 <b style="color: cornsilk">Free Download</b>
                             </a>
-                            <a href="http://github.com/rickstrahl/MarkdownMonster" class="btn btn-lg btn-success"
-                               style="background: #333;" >
+                            <a href="http://github.com/rickstrahl/MarkdownMonster" class="btn btn-lg btn-success">
                                 <i class="fa fa-github"></i>
                                 GitHub
                             </a>
+                            <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE" class="btn btn-lg btn-success"
+                               >
+                                <i class="fa fa-youtube"></i>
+                                Video
+                            </a>
+                           
+                             
                             
                             <%-- <a href="http://chocolatey.org/WestwindMarkdownMonster" class="btn btn-lg btn-success" style="background: #222" >
                                 <i class="fa  fa-cloud-download"></i>
@@ -190,6 +206,7 @@
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
                             
+                        
                             <div class="item active">
                                 <img src="Images/screenshot.png" />
                                 <div class="carousel-caption">

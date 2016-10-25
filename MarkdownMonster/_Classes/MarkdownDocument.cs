@@ -77,10 +77,10 @@ namespace MarkdownMonster
         public int LastBrowserScrollPosition { get; set; }        
 
 
-        /// <summary>
-        /// Markdown style used on this document. Not used at the moment
-        /// </summary>
-        //public MarkdownStyles MarkdownStyle = MarkdownStyles.GitHub;
+        ///// <summary>
+        ///// Markdown style used on this document. Not used at the moment
+        ///// </summary>
+        ////public MarkdownStyles MarkdownStyle = MarkdownStyles.GitHub;
 
 
         /// <summary>

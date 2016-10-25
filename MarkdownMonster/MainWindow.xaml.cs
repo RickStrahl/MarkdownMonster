@@ -64,7 +64,7 @@ namespace MarkdownMonster
     {
         public AppModel Model { get; set; }
 
-        private string FileName;
+        //private string FileName;
 
         //private FileSystemWatcher openFileWatcher;
 
@@ -883,20 +883,21 @@ namespace MarkdownMonster
             var current = DateTime.UtcNow;
                     
             // prevent multiple stacked refreshes
-            if (invoked == DateTime.MinValue || current.Subtract(invoked).TotalMilliseconds > 4000)
+            if (invoked == DateTime.MinValue) // || current.Subtract(invoked).TotalMilliseconds > 4000)
             {
                 invoked = current;
                 
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
-                    new Action(() => { 
+                    new Action(() => {
                         try
                         {
                             PreviewMarkdown(editor, keepScrollPosition);
                         }
-                        catch { }                    
-                    }));
-
-                invoked = DateTime.MinValue;
+                        finally
+                        {
+                            invoked = DateTime.MinValue;
+                        }                    
+                    }));                
             }
         }
 
@@ -1067,6 +1068,14 @@ namespace MarkdownMonster
                 if (editor == null)
                     return;
                 editor.SpecialKey("ctrl-shift-d");
+            }
+            else if (button == ButtonRefreshBrowser)
+            {
+                var editor = GetActiveMarkdownEditor();
+                if (editor == null)
+                    return;
+
+                this.PreviewMarkdownAsync();
             }
             else if (button == MenuDocumentation)
                 ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs");
