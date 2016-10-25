@@ -119,7 +119,12 @@ var te = window.textEditor = {
                 if (valid) {
                     te.isDirty = true;
                     te.mm.textbox.setDirty(true);                    
-                }
+                }                
+            }
+
+            if (e.ctrlKey && e.shiftKey) {                
+                te.mm.textbox.PreviewMarkdownCallback();
+                te.updateDocumentStats();                
             }
         };          
         $("pre[lang]").on("keydown", keydownHandler);
@@ -304,7 +309,6 @@ var te = window.textEditor = {
             wordCount: wordCount,
             lines:lines
         }
-
         return te.curStats;
     },
     updateDocumentStats: function() {
