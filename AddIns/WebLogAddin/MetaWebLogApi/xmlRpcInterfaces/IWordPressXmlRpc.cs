@@ -90,7 +90,7 @@ namespace WebLogAddin.MetaWebLogApi.XmlRpcInterfaces
         XmlRpcAuthor[] GetAuthors(object blogId, string username, string password);
 
         [XmlRpcMethod("wp.getCategories")]
-        XmlRpcCategory[] GetCategories(object blogId, string username, string password);
+        new XmlRpcCategory[]  GetCategories(object blogId, string username, string password);
 
         [XmlRpcMethod("wp.newCategory")]
         int NewCategory(object blogId, string username, string password, XmlRpcCategoryNew category);
