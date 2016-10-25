@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using MahApps.Metro.Controls;
@@ -99,8 +100,7 @@ namespace MarkdownMonster.Windows
             if (!string.IsNullOrEmpty(MarkdownFile) && MarkdownFile != "untitled")
             {
                 string mdPath = System.IO.Path.GetDirectoryName(MarkdownFile);
-                
-                string relPath = mdPath;
+                string relPath = fd.FileName;
                 try
                 {
                     relPath = FileUtils.GetRelativePath(fd.FileName, mdPath);
@@ -123,7 +123,7 @@ namespace MarkdownMonster.Windows
                         MessageBoxButton.YesNo,
                         MessageBoxImage.Question);
 
-                    if (mbres.HasFlag(MessageBoxResult.Yes))
+                    if (mbres.Equals(MessageBoxResult.Yes))
                     {
                         string newImageFileName = System.IO.Path.Combine(mdPath, System.IO.Path.GetFileName(fd.FileName));
                         var sd = new SaveFileDialog
@@ -140,8 +140,25 @@ namespace MarkdownMonster.Windows
                         var result = sd.ShowDialog();
                         if (result != null && result.Value)
                         {
-                            System.IO.File.Copy(fd.FileName, sd.FileName);
-                            Image = FileUtils.GetRelativePath(sd.FileName, mdPath);
+                            try
+                            {
+                                File.Copy(fd.FileName, sd.FileName,true);
+                            }
+                            catch(Exception ex)
+                            {
+                                MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message,mmApp.ApplicationName);
+                                return;
+                            }
+                            try
+                            {
+                                relPath = FileUtils.GetRelativePath(sd.FileName, mdPath);
+                            }
+                            catch (Exception ex)
+                            {
+                                mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {mdPath}", ex);
+                            }
+                            if (!relPath.StartsWith("..\\"))
+                                Image = relPath;
                         }
                     }
                 }

@@ -9,7 +9,8 @@
 * <s>Weblog New Blog - Add option to set filename</s>
 
 ### Bugs
-
+* <s>**Paste Image Dialog Relative Path Resolution**</s>  
+<s>There are issues with relative path resolution when saving images and copying them near the .md file. GetRelativePath() throws funky errors - investigate.</s>
 
 ### Consideration
 * Check out ReverseMarkdown C# source - needs adjustments (lists, spacing)

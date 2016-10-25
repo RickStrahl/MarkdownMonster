@@ -1083,6 +1083,8 @@ namespace MarkdownMonster
                 ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4ne1eu2cq.htm");
             else if (button == MenuCreateAddinDocumentation)
                 ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm");
+            else if (button == MenuShowSampleDocument)
+                OpenTab(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"));
             else if (button == MenuShowErrorLog)
             {
                 string logFile = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonsterErrors.txt");
@@ -1090,8 +1092,8 @@ namespace MarkdownMonster
                     ShellUtils.GoUrl(logFile);
                 else
                     MessageBox.Show("There are no errors in your log file.",
-                        mmApp.ApplicationName, 
-                        MessageBoxButton.OK, 
+                        mmApp.ApplicationName,
+                        MessageBoxButton.OK,
                         MessageBoxImage.Information);
             }
         }
