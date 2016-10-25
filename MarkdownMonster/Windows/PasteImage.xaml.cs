@@ -96,11 +96,10 @@ namespace MarkdownMonster.Windows
             Image = fd.FileName;
             
             // Normalize the path relative to the Markdown file
-            if (!string.IsNullOrEmpty(MarkdownFile))
+            if (!string.IsNullOrEmpty(MarkdownFile) && MarkdownFile != "untitled")
             {
                 string mdPath = System.IO.Path.GetDirectoryName(MarkdownFile);
-
-
+                
                 string relPath = mdPath;
                 try
                 {
@@ -147,6 +146,10 @@ namespace MarkdownMonster.Windows
                     }
                 }
             }
+
+            if (Image.Contains(":\\"))
+                Image = "file:///" + Image;
+
             mmApp.Configuration.LastImageFolder = System.IO.Path.GetDirectoryName(fd.FileName);
             TextImageText.Focus();
         }
