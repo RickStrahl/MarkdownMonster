@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>0.56</Version>
-   <ReleaseDate>October 21st, 2016</ReleaseDate>
-   <Title>West Wind Markdown Monster 0.56 now available</Title>
+   <Version>0.57</Version>
+   <ReleaseDate>October 25th, 2016</ReleaseDate>
+   <Title>West Wind Markdown Monster 0.57 now available</Title>
    <Detail>
 This update adds a new Markdown Parser that better supports Github Flavored Markdown. There are also new options for creating links that open in a new window. 
 
