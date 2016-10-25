@@ -2,6 +2,12 @@
 
 # Markdown Monster Change Log
 
+### Version 0.57
+<i><small>not released yet</small></i>
+
+* **Ctrl-Shift to force Preview Browser Refresh**  
+By default MM updates the preview browser to refresh after about a second and a half of keyboard idle time. If you need quicker refresh you can press `ctrl-shift` to force the browser to refresh immediately.
+
 ### Version 0.56
 <i><small>October 21th, 2016</small></i>
 

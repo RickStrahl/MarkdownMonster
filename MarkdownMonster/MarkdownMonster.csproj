@@ -168,7 +168,6 @@
     <Compile Include="_Classes\MarkdownParser\MarkdownParserCommonMarkNet.cs" />
     <Compile Include="_Classes\UnlockKey.cs" />
     <Compile Include="_Classes\Utilities\MarkdownUtilities.cs" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="SampleMarkdown.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

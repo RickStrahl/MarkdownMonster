@@ -22,7 +22,7 @@ namespace MarkdownMonster
     /// </summary>
     public class AppModel : INotifyPropertyChanged
     {
-        private string _activeDocumentTitle;
+        //private string _activeDocumentTitle;
         private MarkdownDocument _activeDocument;
         private List<MarkdownDocument> _openDocuments;
         private string _markdownEditAction;
