@@ -3,22 +3,26 @@
 # Markdown Monster Change Log
 
 ### Version 0.57
-<i><small>not released yet</small></i>
+<i><small>October 26th, 2016</small></i>
 
 * **Ctrl-Shift to force Preview Browser Refresh**  
 By default MM updates the preview browser to refresh after about a second and a half of keyboard idle time. If you need quicker refresh you can press `ctrl-shift` to force the browser to refresh immediately.
 
-### Version 0.56
-<i><small>October 21th, 2016</small></i>
-
 * **Update Github Theme**  
-Updated Github theme to more closely match the Github formatting. Set Github as default theme.
+Updated Github theme to more closely match the new Github formatting. Github is now also the default theme as that's what many of you will be using it for (Github Readme files).
+
+* **Open From HTML Update**  
+Modified the opening behavior of HTML documents when opened as markdown. Documents now render immediately and show up as **untitled**, rather than with the same name as the `.html` file with a `.md` extension.
+
+* **UI Cleanup**  
+Cleaned up a number of small UI issues with invalid captions, toolbars, mispelled labels etc. Also added a number of editor shortcut keys to the menus so they are more discoverable.
+
+* **Fix Image Relocation Save Errors**  
+Fixed bug where saving an image into the document folder was not properly fixing up the relative path.
 
 * **Rendering Bug Fixes**  
 Fix rendering and preview issues with the new file location in the temp folder. Errors are more gracefully handled.
 
-* **Open From HTML Update**  
-Modified the opening behavior of HTML documents when opened as markdown. Documents now render immediately and show up as **untitled**, rather than with the same name as the `.html` file with a `.md` extension.
 
 ### Version 0.55
 <i><small>October 17th, 2016</small></i>
