@@ -1055,6 +1055,22 @@ namespace MarkdownMonster
                 about.Owner = this;
                 about.Show();
             }
+            else if (button == Button_Find)
+            {
+                var editor = GetActiveMarkdownEditor();
+                if (editor == null)
+                    return;
+                editor.ExecEditorCommand("find");
+
+            }
+            else if (button == Button_Replace)
+            {
+                var editor = GetActiveMarkdownEditor();
+                if (editor == null)
+                    return;
+                editor.ExecEditorCommand("replace");
+
+            }
             else if (button == ButtonScrollBrowserDown)
             {
                 var editor = GetActiveMarkdownEditor();

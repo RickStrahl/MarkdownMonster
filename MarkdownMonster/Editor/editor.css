@@ -16,7 +16,7 @@ html, body {
 }		
 
 .ace_editor, .ace_editor * {
-    font-family: "Consolas", "Courier New", monospace;   
+    font-family:  Consolas,"Courier New", monospace; 
     font-weight: normal;
     letter-spacing: 0 !important;
     background: transparent;           
@@ -41,6 +41,67 @@ html, body {
 .ace_heading {
     font-weight: bold;
 }
+
+.ace_button {
+    color:#eee !important;    
+}
+.ace_searchbtn_close {
+    color: white !important;
+}
+.ace_searchbtn_close:hover {
+    background-color: brown !important;
+}
+.ace_searchbtn, .ace_replacebtn {
+    font-size: 0.7em;
+    font-family: 'Segoe UI'
+}
+.ace_search.right {
+    border-radius: 0px 0px 0px 5px;
+    border-right: 0 none;
+    right: 0;
+    padding: 10px;
+    background-color: #444;
+    border: 1px solid #222;
+    color: white;
+}
+.ace_search {
+    border-top: 0 none;
+    max-width: 325px;
+    overflow: hidden;
+    margin: 0;
+    padding: 4px;
+    padding-right: 6px;
+    padding-bottom: 0;
+    position: absolute;
+    top: 0px;
+    z-index: 99;
+    white-space: normal;    
+}
+.ace_search_field {
+    background-color: #333 !important;
+    color: white !important;
+    border-right: 1px solid #cbcbcb;
+    border: 0 none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    height: 22px !important;
+    outline: 0;
+    padding: 2px 7px 7px 8px !important;
+    width: 215px;
+    margin: 0;
+    font-family: 'Segoe UI';    
+}
+.ace_searchbtn.next, .ace_searchbtn.prev {
+    width: 29px !important;    
+}
+.ace_search_options>span:hover {
+    background: #777 !important;
+    border-radius: 2px;
+}
+
+
 pre{
 	margin: 0;
 	padding: 0;
