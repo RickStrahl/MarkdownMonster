@@ -2,11 +2,18 @@
 
 # Markdown Monster Change Log
 
+### Version 0.58
+<i><small>not released yes</small></i>
+
+* **Searchbox Improvements**  
+Updated search box styling to darker theme. Added menu buttons and shortcut notice to activate Find and Replace Functionality.
+
+
 ### Version 0.57
 <i><small>October 26th, 2016</small></i>
 
 * **Ctrl-Shift to force Preview Browser Refresh**  
-By default MM updates the preview browser to refresh after about a second and a half of keyboard idle time. If you need quicker refresh you can press `ctrl-shift` to force the browser to refresh immediately.
+By default MM updates the preview browser to refresh after about a second and a half of keyboard idle time. If you need quicker refresh you can now press `ctrl-shift` to force the browser to refresh immediately.
 
 * **Update Github Theme**  
 Updated Github theme to more closely match the new Github formatting. Github is now also the default theme as that's what many of you will be using it for (Github Readme files).

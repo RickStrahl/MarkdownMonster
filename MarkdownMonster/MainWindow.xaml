@@ -104,6 +104,19 @@
                           Click="Button_CopyMarkdownAsHtml" 
                           ToolTip="Copies the selected markdown from the editor as HTML to the clipboard"
                           InputGestureText="ctrl-shift-c" />
+                <Separator />
+                <MenuItem Header="Find in Document" 
+                          Name="Button_Find"
+                          IsEnabled="{Binding IsEditorActive}"                          
+                          ToolTip="Find text in the active document" 
+                          Click="Button_Handler"
+                          InputGestureText="ctrl-f" />
+                <MenuItem Header="Find and Replace in Document" 
+                          Name="Button_Replace"
+                          IsEnabled="{Binding IsEditorActive}"
+                          ToolTip="Find text in the active document" 
+                          Click="Button_Handler"
+                          InputGestureText="ctrl-h" />
             </MenuItem>
             <MenuItem Header="_Tools"> 
                 <MenuItem Name="MenuAddins" Header="Add-ins" />

@@ -292,6 +292,9 @@ var te = window.textEditor = {
 
         setTimeout(te.updateDocumentStats, 100);
     },
+    execcommand: function(cmd,parm1,parm2) {
+        te.editor.execCommand(cmd);
+    },
     curStats: { wordCount: 0, lines: 0 },
     getDocumentStats: function () {
         var text = te.getvalue();

@@ -624,6 +624,11 @@ namespace MarkdownMonster
             }
         }
 
+        public void ExecEditorCommand(string action, object parm = null)
+        {
+            AceEditor.execcommand(action, parm);
+        }
+
         /// <summary>
         /// Restyles the current editor with configuration settings
         /// from the mmApp.Configuration object (or Model.Configuration
