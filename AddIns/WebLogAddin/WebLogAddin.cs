@@ -63,7 +63,7 @@ namespace WeblogAddin
             var menuItem = new AddInMenuItem(this)
             {
                 Caption = "Weblog Publishing",                
-                FontawesomeIcon = FontAwesomeIcon.Wordpress
+                FontawesomeIcon = FontAwesomeIcon.Rss
             };
 
             // Don't need a configuration dropdown
