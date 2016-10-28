@@ -154,7 +154,7 @@ namespace WeblogAddin
                 if (Model.Configuration.Weblogs.Count > 1)
                     Model.ActiveWeblogInfo = Model.Configuration.Weblogs.FirstOrDefault().Value;
 
-                Model.Configuration.Weblogs.Remove(id);
+                Model.Configuration.Weblogs.Remove(id);                                
             }
         }
 
@@ -164,7 +164,10 @@ namespace WeblogAddin
             {                 
                 Name = "New Weblog"
             };
-            Model.Configuration.Weblogs.Add(Model.ActiveWeblogInfo.Id,Model.ActiveWeblogInfo);            
+            Model.Configuration.Weblogs.Add(Model.ActiveWeblogInfo.Id,Model.ActiveWeblogInfo);
+            Model.Configuration.OnPropertyChanged("Weblogs");
+
+            this.ComboWebLogName.SelectedValue = Model.Configuration.Weblogs[Model.ActiveWeblogInfo.Id];
         }
 
         private async void Button_DownloadPosts_Click(object sender, RoutedEventArgs e)

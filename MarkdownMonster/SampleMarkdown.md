@@ -44,12 +44,13 @@ This line should be following on the very next line.
 
 If you need additional image tags like targets or title attributes you can also embed HTML directly:
 
+---
+
 ```markdown
 Go the Help Builder sitest Wind site: 
-<a href="http://west-wind.com/" target="top">
-    Help Builder Site
-</a>.
+<a href="http://west-wind.com/" target="top">Help Builder Site</a>.
 ```
+---
 
 ### Images
 ![Help Builder Web Site](https://helpbuilder.west-wind.com/Images/wwhelp_128.png)
@@ -99,21 +100,6 @@ If you want to lines to break using soft returns use to spaces at the end of a l
 
 Now a nested list:
 
-```
-1. First, get these ingredients:
-
-  * carrots
-  * celery
-  * lentils
-
-2. Boil some water.
-
-3. Dump everything in the pot and follow 
-this algorithm:
-```
-
-You get this:
-
 ---
 1. First, get these ingredients:
 
@@ -149,20 +135,10 @@ More text here
 
 ---
 
-### Code Blocks
-You can also use triple back ticks plus an optional coding language to support for syntax highlighting:
+### Fenced Code Blocks
+You can also use triple back ticks plus an optional coding language to support for syntax highlighting.
 
-```markdown
-`` `csharp
-// this code will be syntax highlighted
-for(var i=0; i++; i < 10)
-{
-    Console.WriteLine(i);
-}
-`` `    
-```
-
-This will render:
+The following is C#:
 
 ```csharp
 // this code will be syntax highlighted
@@ -171,16 +147,11 @@ for(var i=0; i++; i < 10)
     Console.WriteLine(i);
 }
 ```    
+
 Many languages are supported: html, xml, javascript, css, csharp, foxpro, vbnet, sql, python, ruby, php and many more. Use the Code drop down list to get a list of available languages.
 
 You can also leave out the language to get no syntax coloring but the code box:
 
-```markdown
-`` `
-robocopy c:\temp\test d:\temp\test
-`` `
-```
-which renders:
 ```
 robocopy c:\temp\test d:\temp\test
 ```
@@ -188,12 +159,12 @@ robocopy c:\temp\test d:\temp\test
 ### Footnotes
 Footnotes can be embedded like this:
 
-
-Here is some text that includes a Footnote [^1] in the middle of its text.
+Here is some text that includes a Footnote [^1] in the middle of its text. And here's another footnote [^2]. The actual footnotes render on the very bottom of the page.
 
 [^1]: Source: [Markdown Monster Web Site](http://markdownmonster.west-wind.com)
+[^2]: Source: [Markdown Monster Web Site](http://markdownmonster.west-wind.com)
 
-### Tables
+### Pipe Tables
 Tables look like this:
 
 |size | material     | color       |
@@ -203,4 +174,4 @@ Tables look like this:
 |11   | glass        | transparent |
 
 
-and render on the very bottom of the page. You ca
+
