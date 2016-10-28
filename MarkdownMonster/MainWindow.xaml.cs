@@ -754,7 +754,7 @@ namespace MarkdownMonster
                 if (!refresh)
                 {
                     if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
-                        mmApp.Configuration.WindowPosition.SplitterPosition = 500;
+                        mmApp.Configuration.WindowPosition.SplitterPosition = 600;
                     ContentGrid.ColumnDefinitions[2].Width =
                         new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
                 }

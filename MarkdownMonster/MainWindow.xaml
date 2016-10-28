@@ -15,7 +15,7 @@
         Icon="Assets\MarkdownMonster_Icon_256.png"    
         GlowBrush="Black"                              
         ResizeMode="CanResizeWithGrip"
-        Height="720" Width="1000" WindowTransitionsEnabled="False">
+        Height="740" Width="1200" WindowTransitionsEnabled="False">
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
          
