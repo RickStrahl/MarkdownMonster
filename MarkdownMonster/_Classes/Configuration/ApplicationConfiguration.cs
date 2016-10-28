@@ -258,7 +258,7 @@ namespace MarkdownMonster
             OpenDocuments = new List<MarkdownDocument>();
 
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            CommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"West Wind Markdown Monster");
+            CommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Markdown Monster");
 
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost/MarkdownMonster/bugreport.ashx?method=ReportBug";
