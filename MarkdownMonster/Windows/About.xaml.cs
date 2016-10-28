@@ -19,7 +19,9 @@ namespace MarkdownMonster.Windows
             
             string bitNess = Environment.Is64BitProcess ? "64 bit" : "32 bit";
             var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-            VersionLabel.Content = "Version " + v.FileMajorPart + "." + v.FileMinorPart + " • " + bitNess;
+            VersionLabel.Content = "Version " + v.FileMajorPart + "." + v.FileMinorPart + 
+                (v.FileBuildPart > 0 ? "." + v.FileBuildPart : "") +
+                " • " + bitNess;
 
             if (UnlockKey.IsRegistered())
             {

@@ -7,6 +7,7 @@ using Westwind.Utilities;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -78,7 +79,7 @@ namespace MarkdownMonster
                        exMsg +
                        "\r\n\r\n---------------------------\r\n\r\n";
             StringUtils.LogString(text, Path.Combine( Configuration.CommonFolder ,                               
-                "MarkdownMonsterErrors.txt"));
+                "MarkdownMonsterErrors.txt"), Encoding.UTF8);
         }
 
         public static void SetWorkingSet(int lnMaxSize, int lnMinSize)
@@ -136,9 +137,8 @@ namespace MarkdownMonster
             };
             
             new TaskFactory().StartNew(
-                () =>
-                {
-                    var bg = bug as BugReport;
+                (bg) =>
+                {                    
                     try
                     {
                         var temp = HttpUtils.JsonRequest<BugReport>(new HttpRequestSettings()
@@ -154,7 +154,7 @@ namespace MarkdownMonster
                         // don't log with exception otherwise we get an endless loop
                         Log("Unable to report bug: " + ex2.Message);
                     }
-                });            
+                },bug);            
         }
 
         public static void SendTelemetry(string operation, string data = null)

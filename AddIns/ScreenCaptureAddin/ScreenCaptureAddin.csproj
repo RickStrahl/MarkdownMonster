@@ -54,9 +54,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
-    <Reference Include="Westwind.Utilities, Version=2.68.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Westwind.Utilities.2.68\lib\net45\Westwind.Utilities.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Westwind.Utilities, Version=2.69.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Westwind.Utilities.2.69\lib\net45\Westwind.Utilities.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
