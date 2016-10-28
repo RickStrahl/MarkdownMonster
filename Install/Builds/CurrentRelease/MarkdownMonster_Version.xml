@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
    <Version>0.57</Version>
-   <ReleaseDate>October 26th, 2016</ReleaseDate>
+   <ReleaseDate>October 27th, 2016</ReleaseDate>
    <Title>West Wind Markdown Monster 0.57 now available</Title>
    <Detail>
-This update adds a new Markdown Parser that better supports Github Flavored Markdown. There are also new options for creating links that open in a new window. 
+*** IMPORTANT:
+If you're upgrading from a pre 0.58 versions, the Configuration folder has changed from %AppData%\West Wind Markdown Monster to just %AppData%\Markdown Monster. If you have extensive configuration settings and Web log configurations, you'll want to move your configuration files from the old folder to the new!
+***
+
+This update adds a new Markdown Parser that better supports Github Flavored Markdown. There are also new options for creating links that open in a new window. Many small UI updates and fixes for consistency.
 
 The latest version of the installer and binaries are now code-signed for source verification from West Wind. 
    	
-This update brings back the tab context menu for document management and opening the document's folder or folder terminal. This update also fixes various file opening issues when opening files from the command line using *markdownmonster [filename]* or simply *mm [filename]*. Password for blog access are now encrypted and you can search downloaded blog headers for specific entries. Command line operation has been improved and you can now use `mm readme.md` to open files more easily in Markdown Monster.
+This update also brings back the tab context menu for document management and opening the document's folder or folder terminal. This update also fixes various file opening issues when opening files from the command line using *markdownmonster [filename]* or simply *mm [filename]*. Password for blog access are now encrypted and you can search downloaded blog headers for specific entries. Command line operation has been improved and you can now use `mm readme.md` to open files more easily in Markdown Monster.
 
 For more detailed release info please see:
 https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md
