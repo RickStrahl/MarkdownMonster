@@ -49,6 +49,7 @@ using System.Windows.Threading;
 using Dragablz;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
@@ -629,6 +630,7 @@ namespace MarkdownMonster
 
             if (doc.IsDirty)
             {
+
                 var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n"  +
                                           "Do you want to save changes?",
                                           "Save Document",
@@ -732,6 +734,9 @@ namespace MarkdownMonster
 
             if (!editor.SaveDocument())
             {
+                //var res = await this.ShowMessageOverlayAsync("Unable to save Document",
+                //    "Unable to save document most likely due to missing permissions.");
+
                 MessageBox.Show("Unable to save document most likely due to missing permissions.", mmApp.ApplicationName);
                 return false;
             }
@@ -938,14 +943,15 @@ namespace MarkdownMonster
         
         #region Button Handlers
 
-        public void Button_Handler(object sender, RoutedEventArgs e)
+        public async void Button_Handler(object sender, RoutedEventArgs e)
         {
+
             var button = sender;
             if (sender == null)
                 return;
 
             if (button == ButtonOpenFile || button == ToolButtonOpenFile)
-            {
+            {                
                 var fd = new OpenFileDialog
                 {
                     DefaultExt = ".md",
@@ -1355,6 +1361,22 @@ namespace MarkdownMonster
             StatusIcon.SpinDuration = 0;
             StatusIcon.StopSpin();
         }
+
+        /// <summary>
+        /// Helper routine to show a Metro Dialog. Note this dialog popup is fully async!
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="style"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        public async Task<MessageDialogResult> ShowMessageOverlayAsync(string title, string message, 
+            MessageDialogStyle style = MessageDialogStyle.Affirmative,
+            MetroDialogSettings settings = null )
+        {
+            return await this.ShowMessageAsync(title, message, style, settings);
+        }
+
         #endregion
 
         #region Preview Browser Operation
