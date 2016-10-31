@@ -65,7 +65,10 @@
     <Compile Include="ScreenCaptureConfiguration.cs" />
     <Compile Include="ScreenCaptureAddin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScreenCaptureModel.cs" />
+    <Compile Include="ScreenCaptureForm.xaml.cs">
+      <DependentUpon>ScreenCaptureForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScreenCaptureConfigurationModel.cs" />
     <Compile Include="SnagItAutomation.cs" />
     <Compile Include="ScreenCaptureConfigurationForm.xaml.cs">
       <DependentUpon>ScreenCaptureConfigurationForm.xaml</DependentUpon>
@@ -79,6 +82,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ScreenCaptureForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ScreenCaptureConfigurationForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
