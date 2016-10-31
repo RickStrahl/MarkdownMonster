@@ -11,6 +11,7 @@ using System.Windows.Media;
 using CookComputing.XmlRpc;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using WebLogAddin.MetaWebLogApi;
@@ -111,8 +112,8 @@ namespace WeblogAddin
             }
         }
 
-        private void ButtonSaveMeta_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ButtonSaveMeta_Click(object sender, RoutedEventArgs e)
+        {            
             // Update the Markdown document first
             string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
             Model.AppModel.ActiveEditor.SetMarkdown(markdown);            

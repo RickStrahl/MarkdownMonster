@@ -374,7 +374,7 @@
                                  ContextMenu="{StaticResource TabItemContextMenu}"    
                                  ContextMenuService.Placement="MousePoint"                                         
                                  ContextMenuService.HorizontalOffset="80"
-                                 ContextMenuService.VerticalOffset="16"
+                                 ContextMenuService.VerticalOffset="16"                                          
                                  />
 
 
