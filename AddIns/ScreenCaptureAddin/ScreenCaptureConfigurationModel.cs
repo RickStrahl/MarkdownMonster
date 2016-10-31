@@ -9,7 +9,7 @@ using SnagItAddin.Annotations;
 
 namespace SnagItAddin
 {
-    public class ScreenCaptureModel : INotifyPropertyChanged
+    public class ScreenCaptureConfigurationModel : INotifyPropertyChanged
     {
         
 

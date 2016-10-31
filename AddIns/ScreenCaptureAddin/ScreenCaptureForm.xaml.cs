@@ -17,7 +17,7 @@ namespace SnagItAddin
     /// <summary>
     /// Interaction logic for About.xaml
     /// </summary>
-    public partial class ScreenCaptureConfigurationForm : MetroWindow
+    public partial class ScreenCaptureForm : MetroWindow
     {        
         public ScreenCaptureConfigurationModel ConfigurationModel;
 
@@ -25,7 +25,7 @@ namespace SnagItAddin
 
         #region Startup and Shutdown
 
-        public ScreenCaptureConfigurationForm()
+        public ScreenCaptureForm()
         {
             ConfigurationModel = new ScreenCaptureConfigurationModel()
             {                

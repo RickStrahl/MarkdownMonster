@@ -1,5 +1,5 @@
 ﻿<controls:MetroWindow 
-        x:Class="SnagItAddin.ScreenCaptureConfigurationForm"
+        x:Class="SnagItAddin.ScreenCaptureForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,15 +10,15 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"        
-        Title="Markdown Monster Screen Capture Configuration" 
+        Title="Screen Capture" 
         TitleCaps="False"   
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" 
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"       
-        FontSize="16"
-        Width="584" Height="422.194">
+        FontSize="15"
+        Width="584" Height="366">
 
-    <Grid Margin="0,0,0,-19">
+    <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
             <ColumnDefinition Width="*"/>
@@ -55,14 +55,13 @@
             <CheckBox Margin="0,12,0,0" IsChecked="{Binding Configuration.IncludeCursor}">Include Cursor</CheckBox>
             <CheckBox  Margin="0,12,0,0"  IsChecked="{Binding Configuration.ShowPreviewWindow}">Show Preview Window</CheckBox>
             <CheckBox  Margin="0,12,0,0"  IsChecked="{Binding Configuration.AlwaysShowCaptureOptions}">Always show this Window when capturing</CheckBox>
-            <CheckBox  Margin="0,12,0,0"  IsChecked="{Binding Configuration.UseSnagItForImageCapture}">Use SnagIt when available</CheckBox>
-            <TextBlock FontSize="9.6" Margin="20,0,10,0"
-                       TextWrapping="Wrap" 
-                       Text="Note: Due to an acknowledged bug in SnagIt13, this version does not work reliably. 
-                       SnagIt12 and older work fine. Techsmith will fix in future update." />
+
 
             <StackPanel Orientation="Horizontal">
-                <Button Name="SubmitButton" Margin="0,20" Height="40" Width="155" HorizontalAlignment="Left" 
+                
+                
+            
+            <Button Name="SubmitButton" Margin="0,30" Height="40" Width="155" HorizontalAlignment="Left" 
                         Click="ButtonSave_Click" IsDefault="True" >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
