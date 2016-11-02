@@ -277,13 +277,11 @@ namespace MarkdownMonster
                         file.CopyTo(Path.Combine(CommonFolder, file.Name), true);
                         file.Delete();
                     }
-                    dir.Delete();
+                    dir.Delete(true);
                 }
             }
-            catch(Exception ex)
-            {
-                mmApp.Log(ex);
-            }
+            catch
+            { }
             // TODO: END REMOVE THIS AFTER A WHILE
 
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
