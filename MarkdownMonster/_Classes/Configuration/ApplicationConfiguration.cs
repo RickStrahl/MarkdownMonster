@@ -277,7 +277,7 @@ namespace MarkdownMonster
                         file.CopyTo(Path.Combine(CommonFolder, file.Name), true);
                         file.Delete();
                     }
-                    dir.Delete();
+                    dir.Delete(true);
                 }
             }
             catch(Exception ex)
