@@ -1,0 +1,21 @@
+﻿<Window 
+        x:Class="SnagItAddin.ScreenOverlayWpf"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="400"
+        Height="300"
+        WindowStyle="None"                
+        Topmost="True"            
+        ResizeMode="NoResize" 
+        AllowsTransparency="True"
+        Opacity="0.6"
+        BorderBrush="Orange"
+        BorderThickness="4"
+        >
+    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBox Name="TextSize" Foreground="#bbb" BorderThickness="0" Margin="12" FontWeight="Bold">
+            200x300
+        </TextBox>
+    </Viewbox>
+</Window>
+    

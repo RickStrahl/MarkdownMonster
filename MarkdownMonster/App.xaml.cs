@@ -101,8 +101,9 @@ namespace MarkdownMonster
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
 
+#if !DEBUG
             DispatcherUnhandledException += App_DispatcherUnhandledException;
-
+#endif
             mmApp.Started = DateTime.UtcNow;
         }
 
@@ -128,11 +129,11 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        static void GlobalErrorHandler(object sender, UnhandledExceptionEventArgs args)
-        {            
-            if (!mmApp.HandleApplicationException(args.ExceptionObject as Exception))
-                Environment.Exit(0);            
-        }
+        //static void GlobalErrorHandler(object sender, UnhandledExceptionEventArgs args)
+        //{            
+        //    if (!mmApp.HandleApplicationException(args.ExceptionObject as Exception))
+        //        Environment.Exit(0);            
+        //}
         
         protected override void OnStartup(StartupEventArgs e)
         {

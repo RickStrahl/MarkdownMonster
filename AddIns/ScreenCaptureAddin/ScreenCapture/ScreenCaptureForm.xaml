@@ -1,0 +1,168 @@
+﻿<controls:MetroWindow 
+        x:Class="SnagItAddin.ScreenCaptureForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster;assembly=MarkdownMonster"
+        xmlns:snagit="clr-namespace:SnagItAddin"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"        
+        Title="Markdown Monster Screen Capture" 
+        TitleCaps="False" ResizeMode="CanResizeWithGrip"
+        Icon="../MarkdownMonster_Icon_256.png"    
+        WindowStyle="SingleBorderWindow"         
+        WindowStartupLocation="CenterOwner"         
+        FontSize="15"
+        Foreground="#ffeeee"
+        Width="800" Height="1000">
+
+    <Grid Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <ToolBarPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ToolBar FontWeight="Normal" FontSize="14" Padding="0,8,0,5">
+
+                        <Button Name="ToolButtonSaveImage" Click="tbSave_Click" >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="CheckCircleOutline" 
+                                            
+                                            FontSize="15"
+                                            FontWeight="Normal" FontFamily="FontAwesome" 
+                                            Margin="5,2,5,0" />
+                                <TextBlock>Save</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        
+                        <Button Name="ToolButtonSaveAndEdit" Click="tbSaveAndEdit_Click" >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Image"                                             
+                                                FontSize="15"
+                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                <TextBlock>Save and Edit</TextBlock>
+                            </StackPanel>
+                        </Button>
+
+
+                        <Button Name="ToolButtonCancel" Click="tbCancel_Click" >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Remove"                                             
+                                            FontSize="15"
+                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                <TextBlock>Cancel</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        
+                        <Separator Margin="5,0" />
+
+                        <Button Name="ToolButtonCaptureDesktop" Click="tbCaptureDesktop_Click" ToolTip="Capture the active desktop window." >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Desktop"                                             
+                                            FontSize="15"                                                
+                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                <TextBlock>Capture Screen</TextBlock>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Name="ToolButtonPasteImage" Click="tbPasteImage_Click" ToolTip="Capture image from Clipboard." >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Paste"                                             
+                                            FontSize="15"                                                
+                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                <TextBlock>Paste from Clipboard</TextBlock>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Name="ToolButtonClearImage" Click="tbClearImage_Click" ToolTip="Clear the current captured image." >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Trash"                                             
+                                            FontSize="15"
+                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                <TextBlock>Clear Image</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </ToolBar>
+                </StackPanel>
+            </ToolBarPanel>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid  Background="#555" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Name="ButtonCapture" Margin="10,10,10,10" Grid.Column="0" 
+                       VerticalAlignment="Top" Padding="12,8"
+                       PreviewMouseLeftButtonDown="ButtonCapture_MouseDown" PreviewMouseLeftButtonUp="ButtonCapture_MouseUp"                        
+                    >
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" >
+                            <fa:FontAwesome Icon="Camera" 
+                                            Foreground="SteelBlue"
+                                            FontWeight="Normal" FontFamily="FontAwesome" FontSize="20" Margin="0,10,10,2"/>
+                            <TextBlock Margin="0,0,0,0" FontSize="26" FontWeight="Normal">Click and Drag</TextBlock>
+                        </StackPanel>
+                        <TextBlock FontSize="11" FontWeight="Normal"  Margin="33,0,0,0">release over window to capture</TextBlock>
+                    </StackPanel>
+                </Button>
+
+
+
+
+                <TextBlock Margin="10" TextWrapping="Wrap" Grid.Column="1" FontSize="12">
+                Click the button on the left, and hold the mouse button down while dragging the cursor over a window or control you want to capture. You'll see a highlight and when ready, release the mouse button to capture the area.
+                </TextBlock>
+                <!--<TextBlock Name="msg" Grid.Column="2" ></TextBlock>-->
+            </Grid>
+        </Grid>
+        
+        <Image Name="ImageCaptured" Grid.Row="2"  Margin="10,0"/>
+
+            <StatusBar  Grid.Row ="3" Height="30" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="12"
+                        Background="{Binding Window.Background}">
+                <StatusBar.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="4"  />
+                                <ColumnDefinition Width="150"  />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </StatusBar.ItemsPanel>
+                <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
+                    <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
+                </StatusBarItem>
+            <StatusBarItem Grid.Column="1">
+                <TextBlock Width="400" Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Width="400" Name="StatusImageSize" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
+            </StatusBarItem>
+
+        </StatusBar>
+
+        
+    </Grid>
+
+</controls:MetroWindow>
