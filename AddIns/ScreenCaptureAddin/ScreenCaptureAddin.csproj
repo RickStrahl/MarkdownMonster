@@ -45,6 +45,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -65,10 +66,14 @@
     <Compile Include="ScreenCaptureConfiguration.cs" />
     <Compile Include="ScreenCaptureAddin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScreenCaptureForm.xaml.cs">
+    <Compile Include="ScreenCapture\ScreenCaptureForm.xaml.cs">
       <DependentUpon>ScreenCaptureForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="ScreenCaptureConfigurationModel.cs" />
+    <Compile Include="ScreenCapture\ScreenCapture.cs" />
+    <Compile Include="ScreenCapture\ScreenOverlayWpf.xaml.cs">
+      <DependentUpon>ScreenOverlayWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SnagItAutomation.cs" />
     <Compile Include="ScreenCaptureConfigurationForm.xaml.cs">
       <DependentUpon>ScreenCaptureConfigurationForm.xaml</DependentUpon>
@@ -82,7 +87,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ScreenCaptureForm.xaml">
+    <Page Include="ScreenCapture\ScreenCaptureForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ScreenCapture\ScreenOverlayWpf.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -96,21 +105,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="ScreenCapture.exe.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ScreenCapture.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Resource Include="MarkdownMonster_Icon_256.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy   "$(TargetPath)"   "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\$(TargetFileName)"
-copy   "$(TargetDir)ScreenCapture.exe"   "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\ScreenCapture.exe"
-copy   "$(TargetDir)ScreenCapture.exe.config"   "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\ScreenCapture.exe.config"
-</PostBuildEvent>
+    <PostBuildEvent>copy   "$(TargetPath)"   "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

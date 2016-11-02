@@ -212,7 +212,7 @@ namespace SnagItAddin
                 return null;
             }
 
-
+            
             snagIt.EnablePreviewWindow = ShowPreviewWindow;
             snagIt.OutputImageFile.Filename = OutputCaptureFile;
             snagIt.Input = CaptureMode;

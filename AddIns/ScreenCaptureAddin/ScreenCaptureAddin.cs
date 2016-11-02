@@ -40,6 +40,7 @@ using System.Windows.Interop;
 using FontAwesome.WPF;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
 namespace SnagItAddin
@@ -74,7 +75,7 @@ namespace SnagItAddin
             if (SnagItAutomation.IsInstalled  && ScreenCaptureConfiguration.Current.UseSnagItForImageCapture)
                 ExecuteSnagitCapture();
             else
-                ExecuteExternalFormCapture();
+                ExecuteApplicationFormCapture();
 
         }
 
@@ -123,6 +124,50 @@ namespace SnagItAddin
             SetSelection(replaceText);
         }
 
+        private void ExecuteApplicationFormCapture()
+        {
+            string imageFolder = Path.GetDirectoryName(Model.ActiveDocument.Filename);
+
+            var form = new ScreenCaptureForm()
+            {
+                // hide the main window on captures                
+                SaveFolder = imageFolder,
+                Top = Model.Window.Top,
+                Left = Model.Window.Left + 80,
+                Height = ScreenCaptureConfiguration.Current.WindowHeight,
+                Width = ScreenCaptureConfiguration.Current.WindowWidth                
+            };
+
+            Model.Window.Hide();
+
+            form.ShowDialog();
+
+            Model.Window.Show();
+            Model.Window.Topmost = true;
+            WindowUtilities.DoEvents();
+            Model.Window.Topmost = false;
+
+            if (form.Cancelled)
+                return;
+            
+            string capturedFile = form.SavedImageFile;
+                
+            capturedFile = FileUtils.GetRelativePath(capturedFile, imageFolder);
+            string relPath = capturedFile.Replace("\\", "/");
+            if (relPath.StartsWith(".."))
+                relPath = capturedFile;
+
+            if (relPath.Contains(":\\")) // full path
+                relPath = "file:///" + relPath.Replace("\\", "/");
+
+            string replaceText = "![](" + relPath + ")";
+
+            // Push the new text into the Editor's Selection
+            SetSelection(replaceText);
+
+        }
+
+#if false
         private void ExecuteExternalFormCapture()
         {
             // Result file holds filename in temp folder
@@ -130,9 +175,9 @@ namespace SnagItAddin
             string imageFolder = null;
 
             imageFolder = Path.GetDirectoryName(Model.ActiveDocument.Filename);
-                       
-           
-            var helper = new WindowInteropHelper((Window) Model.Window);
+
+
+            var helper = new WindowInteropHelper((Window)Model.Window);
             var handle = helper.Handle;
 
             if (File.Exists(resultFilePath))
@@ -163,7 +208,7 @@ namespace SnagItAddin
             // read the location for the captured image so we can embed a link to it
             string capturedFile = File.ReadAllText(resultFilePath);
 
-            if (string.IsNullOrEmpty(capturedFile) ||  capturedFile.StartsWith("Cancelled") ||
+            if (string.IsNullOrEmpty(capturedFile) || capturedFile.StartsWith("Cancelled") ||
                 !File.Exists(capturedFile))
                 return;
 
@@ -174,13 +219,14 @@ namespace SnagItAddin
 
             if (relPath.Contains(":\\")) // full path
                 relPath = "file:///" + relPath.Replace("\\", "/");
-        
+
 
             string replaceText = "![](" + relPath + ")";
 
             // Push the new text into the Editor's Selection
             SetSelection(replaceText);
         }
+#endif
 
         public override void OnExecuteConfiguration(object sender)
         {

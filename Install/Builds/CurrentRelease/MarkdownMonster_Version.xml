@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>0.57</Version>
-   <ReleaseDate>October 27th, 2016</ReleaseDate>
-   <Title>West Wind Markdown Monster 0.57 now available</Title>
+   <Version>0.58</Version>
+   <ReleaseDate>November 1st, 2016</ReleaseDate>
+   <Title>West Wind Markdown Monster 0.58 now available</Title>
    <Detail>
-*** IMPORTANT:
-If you're upgrading from a pre 0.58 versions, the Configuration folder has changed from %AppData%\West Wind Markdown Monster to just %AppData%\Markdown Monster. If you have extensive configuration settings and Web log configurations, you'll want to move your configuration files from the old folder to the new!
-***
-
-This update adds a new Markdown Parser that better supports Github Flavored Markdown. There are also new options for creating links that open in a new window. Many small UI updates and fixes for consistency.
+This update adds a new built-in screen capture utility with many improvements for capturing screen shots. This is in addition to SnagIt support. The previous release added a new Markdown Parser that better supports Github Flavored Markdown. There are also new options for creating links that open in a new window. Many small UI updates and fixes for consistency.
 
 The latest version of the installer and binaries are now code-signed for source verification from West Wind. 
    	

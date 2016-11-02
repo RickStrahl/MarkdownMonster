@@ -7,7 +7,6 @@
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
 * **[Download Installer](http://markdownmonster.west-wind.com/download.aspx)**
 * **[Getting Started Video](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
-
 * **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)** (coming soon)  
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
@@ -102,6 +101,15 @@ Markdown Monster uses the Add-in model internally to add base features to the co
 The Screen Capture add-in supports two separate capture modes: Using Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which i **highly** recommend!) or using an integrated less featured Screen Capture module that allows capturing for Windows desktop windows and objects. To capture, simply click the capture button (camera icon) and the main app minimizes and either SnagIt or the integrate screen capture tool pops up to let you select the object to capture. You can preview and edit your captures, and when finished the captured image is linked directly into content.
 
 ![SnagIt Screen Capture Add-in](SnagItCaptureAddin.png)
+
+
+Here's the **SnagIt Screen Capture** in action:
+
+![](SnagItScreenCapture.gif)
+
+If you don't have SnagIt installed or you simply prefer a more light weight but less full featured solution, you can use the **built-in Screen Capture** that's a native part of Markdown Monster and doesn't require any external software:
+
+![](ClassicScreenCapture.gif)
 
 * **WebLog Addin**  
 Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the Weblog add-in. Click the Weblog button on the toolbar and set up your blog (MetaWebLog or WordPress), and then specify the Weblog specifics like title, abstract, tags and Web Site to publish to. You can also download existing blog posts from your blog and edit them as Markdown (with some conversion limitations) and then republish them.

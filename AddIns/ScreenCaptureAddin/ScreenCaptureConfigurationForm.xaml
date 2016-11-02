@@ -16,7 +16,7 @@
         WindowStartupLocation="CenterOwner" 
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"       
         FontSize="16"
-        Width="584" Height="422.194">
+        Width="584" Height="474.861">
 
     <Grid Margin="0,0,0,-19">
         <Grid.ColumnDefinitions>
@@ -34,9 +34,12 @@
                 DisplayMemberPath="Value"
                 SelectedValuePath="Key"
                 SelectedValue="{Binding Configuration.CaptureMode}"></ComboBox>
-            
-            
-            <Grid Margin="0,12,0,0">
+
+            <Label Margin="0,8,0,0">Image Editor Path</Label>
+            <TextBox Text="{Binding Configuration.ImageEditorPath}"></TextBox>
+
+
+            <Grid Margin="0,8,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -61,6 +64,7 @@
                        Text="Note: Due to an acknowledged bug in SnagIt13, this version does not work reliably. 
                        SnagIt12 and older work fine. Techsmith will fix in future update." />
 
+            
             <StackPanel Orientation="Horizontal">
                 <Button Name="SubmitButton" Margin="0,20" Height="40" Width="155" HorizontalAlignment="Left" 
                         Click="ButtonSave_Click" IsDefault="True" >
@@ -77,6 +81,8 @@
                     <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
                 </StackPanel>
             </Button>
+
+             
             </StackPanel>
 
         </StackPanel>
