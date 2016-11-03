@@ -16,6 +16,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using FontAwesome.WPF;
+using Gma.System.MouseKeyHook;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
@@ -109,12 +110,17 @@ namespace SnagItAddin
         }
 
         ScreenOverlayWpf Overlay = new ScreenOverlayWpf();
+        private ScreenOverlayDesktop Desktop;
+
+
         private IntPtr WindowHandle = IntPtr.Zero;
         Timer CaptureTimer = null;
 
         // Keep track of captured window that the mouse is over
         WindowInfo LastWindow = null;
         WindowInfo CurWindow = null;
+
+        private IKeyboardMouseEvents GlobalMouseHandler;
         #endregion
 
 
@@ -136,6 +142,7 @@ namespace SnagItAddin
         {
             CapturedBitmap = null;
             WindowHandle = new WindowInteropHelper(this).Handle;
+             Desktop =  new ScreenOverlayDesktop(this);            
         }
 
 
@@ -144,11 +151,7 @@ namespace SnagItAddin
             Overlay?.Close();
             CapturedBitmap?.Dispose();
             CaptureTimer?.Dispose();            
-        }
-
-        
-
-
+        }        
         #endregion
 
         #region Capture Operations
@@ -171,12 +174,21 @@ namespace SnagItAddin
         }
 
         private double SavedTop = 0;
-        private Bitmap _capturedBitmap;
+        private Bitmap _capturedBitmap;     
 
-
-        private void ButtonCapture_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ButtonCapture_Click(object sender, EventArgs e)            
         {
+            StartCapture();
+        }
 
+        private void ButtonCapture_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            StopCapture();
+        }
+
+
+        void StartCapture()
+        {
             Hide();
             ExternalWindow?.Hide();
 
@@ -185,19 +197,47 @@ namespace SnagItAddin
             // make sure windows actually hide before we wait
             WindowUtilities.DoEvents();
 
+            Debug.WriteLine("Waiting...");
+
+            if (ScreenCaptureConfiguration.Current.CaptureDelaySeconds > 0)
+            {
+                for (int i = 0; i < ScreenCaptureConfiguration.Current.CaptureDelaySeconds *100; i++)
+                {
+                    Thread.Sleep(10);
+                    WindowUtilities.DoEvents();
+                }
+            }
+
+            Debug.WriteLine("Wait Completed..");
+
             CaptureTimer = new Timer(Capture, null, 0, 100);
+
+            //Desktop.SetDesktop();
+            //Desktop.Show();
+
+            WindowUtilities.DoEvents();
+                            
             Overlay.Width = 0;
             Overlay.Height = 0;
             Overlay.Show();
 
-
+            GlobalMouseHandler = Hook.GlobalEvents();
+            GlobalMouseHandler.MouseDownExt += GlobalMouseHandlerMouseDownExt;
         }
 
+        private void GlobalMouseHandlerMouseDownExt(object sender, MouseEventExtArgs e)
+        {
+            Debug.WriteLine("Mouse Click handled");
+            this.Invoke(new Action(StopCapture));            
+        }
+        
 
-        private void ButtonCapture_MouseUp(object sender, MouseButtonEventArgs e)
-        {            
-            CaptureTimer.Dispose();
+        internal void StopCapture() {
+            GlobalMouseHandler.MouseDownExt -= GlobalMouseHandlerMouseDownExt;
+            GlobalMouseHandler.Dispose();
+            GlobalMouseHandler = null;
 
+            Desktop.Hide();
             Overlay.Hide();
 
             ButtonCapture.Cursor = Cursors.Arrow;
@@ -230,6 +270,7 @@ namespace SnagItAddin
         void Capture(object obj)
         {
             Point pt = GetMousePosition();
+            
             CurWindow = new WindowInfo(ScreenCapture.WindowFromPoint(new System.Drawing.Point((int)pt.X, (int)pt.Y)));
 
             this.Invoke(new Action(() =>
@@ -247,7 +288,7 @@ namespace SnagItAddin
                     }
                 }
 
-                LastWindow = CurWindow;
+                LastWindow = CurWindow;                
             }));
         }
 
@@ -383,10 +424,14 @@ namespace SnagItAddin
             CapturedBitmap?.Dispose();
             ImageCaptured.Source = null;
         }
-        
+
+
         #endregion
 
+        private void ButtonCapture_Click_1(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 
 }
