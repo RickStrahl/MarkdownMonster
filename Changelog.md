@@ -3,13 +3,13 @@
 # Markdown Monster Change Log
 
 ### Version 0.58
-<i><small>not released yet</small></i>
+<i><small>November 2nd, 2016</small></i>
 
 * **Updated built-in Screen Capture Utility**  
 Made  a number of changes to the built-in screen capture utility which makes it easier to capture Windows and areas of the screen. You can now also capture the active desktop and paste images from the clipboard into the capture utility.
 
 * **Searchbox Improvements**  
-Updated search box styling to darker theme. Added menu buttons and shortcut notice to activate Find and Replace Functionality.
+Updated search box styling to dark theme. Added menu buttons and shortcut notice to activate Find and Replace Functionality.
 
 
 ### Version 0.57
