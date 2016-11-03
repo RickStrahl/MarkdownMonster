@@ -30,7 +30,7 @@ public class BugReportService : CallbackHandler
     public Bug ReportBug(Bug bug)
     {
         string msg = $@"{bug.Message}    
-{bug.Product} v{bug.Version}
+{bug.Product} v{bug.Version} - {Context.Request.ServerVariables["REMOTE_ADDR"]}
 {bug.StackTrace}
 ";
         bug.TimeStamp = DateTime.Now;

@@ -124,17 +124,15 @@ namespace MarkdownMonster
 
 
         public static void SendBugReport(Exception ex)
-        {
-            var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-
+        {            
             var bug = new BugReport()
             {
                 TimeStamp = DateTime.UtcNow,
                 Message = ex.Message,                
                 Product = "Markdown Monster",
-                Version = v.FileMajorPart + "." + v.FileMinorPart,
+                Version = mmApp.GetVersion(),                
                 StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()               
-            };
+            };            
             
             new TaskFactory().StartNew(
                 (bg) =>
@@ -157,13 +155,19 @@ namespace MarkdownMonster
                 },bug);            
         }
 
+
+
+        /// <summary>
+        /// Sends usage information to server
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <param name="data"></param>
         public static void SendTelemetry(string operation, string data = null)
         {
             if (!Configuration.SendTelemetry)
                 return;
 
-            var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-            string version = v.FileMajorPart + "." + v.FileMinorPart;
+            string version = GetVersion();
             
             var t = new Telemetry
             {
@@ -190,6 +194,18 @@ namespace MarkdownMonster
                 // don't log with exception otherwise we get an endless loop
                 Log("Unable to send telemetry: " + ex2.Message);
             }
+        }
+
+
+        /// <summary>
+        /// Gets the Markdown Monster Version as a string
+        /// </summary>
+        /// <returns></returns>
+        public static string GetVersion()
+        {
+            var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+            return v.FileMajorPart + "." + v.FileMinorPart +
+                  (v.FileBuildPart > 0 ? "." + v.FileBuildPart : "");
         }
 
         /// <summary>

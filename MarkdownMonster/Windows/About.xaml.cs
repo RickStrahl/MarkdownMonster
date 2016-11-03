@@ -17,11 +17,8 @@ namespace MarkdownMonster.Windows
             
             mmApp.SetThemeWindowOverride(this);
             
-            string bitNess = Environment.Is64BitProcess ? "64 bit" : "32 bit";
-            var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-            VersionLabel.Content = "Version " + v.FileMajorPart + "." + v.FileMinorPart + 
-                (v.FileBuildPart > 0 ? "." + v.FileBuildPart : "") +
-                " • " + bitNess;
+            VersionLabel.Content = mmApp.GetVersion() + " • " +
+                                   (Environment.Is64BitProcess ? "64 bit" : "32 bit");
 
             if (UnlockKey.IsRegistered())
             {
