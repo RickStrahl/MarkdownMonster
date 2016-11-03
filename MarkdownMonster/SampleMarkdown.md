@@ -1,7 +1,9 @@
 ﻿<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right" style="height: 64px"/>
 
 # Welcome to Markdown Monster
-Thanks for checking out Markdown Monster. We hope it'll be to be your go-to tool for editing and viewing Markdown text, and perhaps even for your Weblog publishing needs. 
+Thanks for checking out Markdown Monster. We hope it'll be to be your go-to tool for editing and viewing Markdown text, and perhaps even for your Weblog publishing needs.
+
+* To create a new document press **Ctrl-n** or **click the +** in the toolbar.
 
 If you run into any problems or issues, **please** let us know so we can address and fix them right away. You can report issues on GitHub:
 

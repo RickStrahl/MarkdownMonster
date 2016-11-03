@@ -3,8 +3,9 @@
 ### Immediate
 
 * Add cursor position to status bar
-* Integrate non-SnagIt screen capture natively
-* Add ScreenCapture Configuration Editing
+* Paste Images from Clipboard and Save To Disk (forward to WPF)
+* <s>Integrate non-SnagIt screen capture natively</s>
+* <s>Add ScreenCapture Configuration Editing</s>
 * <s>Open from Html</s>
 * <s>Multiple tabs of same filename: Add folder name (*readme.md - WebSurge*)</s>
 * <s>Weblog New Blog - Add option to set filename</s>
