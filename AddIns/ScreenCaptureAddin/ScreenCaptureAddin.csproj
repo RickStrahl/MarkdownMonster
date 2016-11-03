@@ -35,6 +35,10 @@
       <HintPath>..\..\packages\FontAwesome.WPF.4.5.0.8\lib\net40\FontAwesome.WPF.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Gma.System.MouseKeyHook, Version=5.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MouseKeyHook.5.4.0\lib\net40\Gma.System.MouseKeyHook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.3.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.3.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -71,6 +75,9 @@
     </Compile>
     <Compile Include="ScreenCaptureConfigurationModel.cs" />
     <Compile Include="ScreenCapture\ScreenCapture.cs" />
+    <Compile Include="ScreenCapture\ScreenOverlayDesktop.xaml.cs">
+      <DependentUpon>ScreenOverlayDesktop.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScreenCapture\ScreenOverlayWpf.xaml.cs">
       <DependentUpon>ScreenOverlayWpf.xaml</DependentUpon>
     </Compile>
@@ -88,6 +95,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="ScreenCapture\ScreenCaptureForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ScreenCapture\ScreenOverlayDesktop.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -111,7 +122,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy   "$(TargetPath)"   "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)"   "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\$(TargetFileName)"
+copy "$(TargetDir)Gma.System.MouseKeyHook.dll"   "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\Gma.System.MouseKeyHook.dll"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

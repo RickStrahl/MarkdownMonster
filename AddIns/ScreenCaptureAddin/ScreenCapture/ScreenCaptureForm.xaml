@@ -109,7 +109,7 @@
 
                 <Button Name="ButtonCapture" Margin="10,10,10,10" Grid.Column="0" 
                        VerticalAlignment="Top" Padding="12,8"
-                       PreviewMouseLeftButtonDown="ButtonCapture_MouseDown" PreviewMouseLeftButtonUp="ButtonCapture_MouseUp"                        
+                        Click="ButtonCapture_Click"                        
                     >
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" >
