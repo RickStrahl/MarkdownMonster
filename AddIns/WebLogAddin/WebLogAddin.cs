@@ -390,7 +390,7 @@ $@"# {meta.Title}
             if (lines.Length > 0 && lines[0].Trim().StartsWith("# "))
             {
                 meta.MarkdownBody = meta.MarkdownBody.Replace(lines[0], "").Trim();
-                meta.Title = lines[0].Trim().Replace("# ", "");
+                meta.Title = lines[0].Trim().Substring(2);
             }
 
             
