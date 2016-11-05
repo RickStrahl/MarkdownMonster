@@ -130,9 +130,6 @@
     <Compile Include="AppModel.cs" />
     <Compile Include="Controls\CommandBase.cs" />
     <Compile Include="Controls\DropdownButtonBehavior.cs" />
-    <Compile Include="Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\BrowserDialog.xaml.cs">
       <DependentUpon>BrowserDialog.xaml</DependentUpon>
     </Compile>
@@ -195,10 +192,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\MahMenuCustomizations.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
