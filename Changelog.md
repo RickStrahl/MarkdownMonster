@@ -2,8 +2,14 @@
 
 # Markdown Monster Change Log
 
+### Version 1.0 
+<i><small>November 4th, 2016</small></i>
+
+* **RTM Release**  
+We're happy to announce that Markdown Monster has gone to RTM. There have been no changes only a few minor bug fixes since 0.58.
+
 ### Version 0.58
-<i><small>November 2nd, 2016</small></i>
+<i><small>November 1st, 2016</small></i>
 
 * **Updated built-in Screen Capture Utility**  
 Made  a number of changes to the built-in screen capture utility which makes it easier to capture Windows and areas of the screen. You can now also capture the active desktop and paste images from the clipboard into the capture utility.
