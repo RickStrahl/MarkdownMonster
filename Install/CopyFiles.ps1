@@ -4,6 +4,8 @@ $cur="$PSScriptRoot"
 $source="$PSScriptRoot\..\MarkdownMonster"
 $target="$PSScriptRoot\Distribution"
 
+remove-item -recurse -force ${target}
+
 robocopy ${source}\bin\Release ${target} /MIR
 copy ${cur}\mm.bat ${target}\mm.bat
 del ${target}\*.vshost.*

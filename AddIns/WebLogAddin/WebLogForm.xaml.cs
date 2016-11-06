@@ -307,19 +307,40 @@ namespace WeblogAddin
             string postId = item.PostID.ToString();
             WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
 
-            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
-                weblogInfo.Username,
-                weblogInfo.DecryptPassword(weblogInfo.Password) );
-
+            
             Post post = null;
-            try
+
+            if (weblogInfo.Type == WeblogTypes.MetaWeblogApi)
             {
-                post = wrapper.GetPost(postId);
+                var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+                    weblogInfo.Username,
+                    weblogInfo.DecryptPassword(weblogInfo.Password));
+
+                try
+                {
+                    post = wrapper.GetPost(postId);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);
+                    return;
+                }                
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);
-                return;
+                var wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
+                    weblogInfo.Username,
+                    weblogInfo.DecryptPassword(weblogInfo.Password));
+
+                try
+                {
+                    post = wrapper.GetPost(postId);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);
+                    return;
+                }               
             }
 
             Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);

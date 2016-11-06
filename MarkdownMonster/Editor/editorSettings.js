@@ -2,7 +2,7 @@ var editorSettings = {
   "dictionary": "EN_US",
   "enableSpellChecking": true,
   "fontSize": 19,
-  "isDebug": false,
+  "isDebug": true,
   "showLineNumbers": false,
   "showPrintMargin": false,
   "tabSpaces": 4,

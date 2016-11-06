@@ -517,8 +517,23 @@ $@"# {meta.Title}
                     isMarkdown = true;
                 }
             }
-            else
-                body = MarkdownUtilities.HtmlToMarkdown(body);
+            if (!isMarkdown)
+            {                
+                if (!string.IsNullOrEmpty(post.mt_text_more))
+                {
+                    // Wordpress ReadMore syntax - SERIOUSLY???
+                    if (string.IsNullOrEmpty(post.mt_excerpt))                    
+                        post.mt_excerpt = HtmlUtils.StripHtml(post.Body);                     
+                    
+                    body = MarkdownUtilities.HtmlToMarkdown(body) +
+                            "\n\n<!--more-->\n\n" +
+                            MarkdownUtilities.HtmlToMarkdown(post.mt_text_more);                    
+                }
+                else
+                    body = MarkdownUtilities.HtmlToMarkdown(body);
+
+            }
+                
 
 
             string categories = null;

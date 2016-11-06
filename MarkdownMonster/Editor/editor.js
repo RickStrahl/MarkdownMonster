@@ -68,7 +68,7 @@ var te = window.textEditor = {
             },
             "f5": function() {},
             "alt-c": function() { te.specialkey("alt-c"); },
-            "ctrl-o": function () { te.specialkey("ctrl-o"); },
+            "ctrl-o": function() { te.specialkey("ctrl-o"); },
             "ctrl-s": function() { te.specialkey("ctrl-s"); },
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
             "ctrl-i": function() { te.specialkey("ctrl-i"); },
@@ -76,14 +76,22 @@ var te = window.textEditor = {
             "ctrl-k": function() { te.specialkey("ctrl-k"); },
 
             // take over Zoom keys and manually zoom
-            "ctrl--": function () { te.specialkey("ctrl--"); return null; },
-            "ctrl-=": function () { te.specialkey("ctrl-="); return null; },
+            "ctrl--": function() {
+                te.specialkey("ctrl--");
+                return null;
+            },
+            "ctrl-=": function() {
+                te.specialkey("ctrl-=");
+                return null;
+            },
 
-            "ctrl-shift-down": function () { te.specialkey("ctrl-shift-down"); },
-            "ctrl-shift-up": function () { te.specialkey("ctrl-shift-up"); },
-            "ctrl-shift-c": function () { te.specialkey("ctrl-shift-c"); },
-            "ctrl-shift-v": function () { te.specialkey("ctrl-shift-v"); }            
-        });
+            "ctrl-shift-down": function() { te.specialkey("ctrl-shift-down"); },
+            "ctrl-shift-up": function() { te.specialkey("ctrl-shift-up"); },
+            "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
+            "ctrl-shift-v": function() { te.specialkey("ctrl-shift-v"); },
+            "ctrl-v": function() { te.mm.textbox.PasteOperation();  }
+        
+    });
         
         editor.renderer.setPadding(15);
         editor.renderer.setScrollMargin(5, 5, 0, 0); // top,bottom,left,right
@@ -158,14 +166,11 @@ var te = window.textEditor = {
         }, 1500);
         $("pre[lang]").on("keyup", keyupHandler);
 
-
         
         // always have mouse position available when drop or paste
         te.editor.on("mousemove",function (e) {
             te.mousePos = e.getDocumentPosition();            
         });
-        
-
 
 
         return editor;
@@ -472,7 +477,9 @@ window.ondragover =
 
         return false;
     }
-}
+ }
+
+
 
 
 // This function is global and called by the parent
