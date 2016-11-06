@@ -2,6 +2,12 @@
 
 # Markdown Monster Change Log
 
+### Version 1.01
+<i><small>not released yet</small></i>
+
+* **Paste Images from Clipboard**  
+You can now paste images from the clipboard into Markdown Monster. When an image is pasted a dialog prompts to save it to disk and if saved, is linked into the document.
+
 ### Version 1.0 
 <i><small>November 4th, 2016</small></i>
 
