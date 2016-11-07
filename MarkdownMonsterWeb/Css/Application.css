@@ -77,7 +77,12 @@ a {
 .background {
     background: #222222;
 }
-
+.hidable {
+    
+}
+.hidable-xs {
+    
+}
 #ContentContainer {
     margin: 0 auto !important;
     max-width: 1100px;     
@@ -107,6 +112,9 @@ h4 {
     }
     h4 {
         font-size: 1.3em;
+    }
+    .hidable {
+        display: none;
     }
 }
 
@@ -153,11 +161,15 @@ h4 {
 }
 
 @media (max-width: 580px) {
-    #TopMenu {
-        display: none;
+    #TopMenu { 
+        margin: 0;       
     }
+
     .banner a {
-        display: block;
         float: none;
+    }
+
+    .hidable-xs {
+        display: none !important;
     }
 }
