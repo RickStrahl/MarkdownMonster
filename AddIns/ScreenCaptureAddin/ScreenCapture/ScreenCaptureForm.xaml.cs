@@ -23,6 +23,7 @@ using MarkdownMonster.Windows;
 using ScreenCaptureAddin;
 using Westwind.Utilities;
 using Cursors = System.Windows.Input.Cursors;
+using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using Point = System.Windows.Point;
 using Timer = System.Threading.Timer;
 
@@ -222,21 +223,24 @@ namespace SnagItAddin
             Overlay.Show();
 
             GlobalMouseHandler = Hook.GlobalEvents();
-            GlobalMouseHandler.MouseDownExt += GlobalMouseHandlerMouseDownExt;
+            GlobalMouseHandler.MouseClick += GlobalMouseHandlerMouseDown;
         }
 
-        private void GlobalMouseHandlerMouseDownExt(object sender, MouseEventExtArgs e)
+        private void GlobalMouseHandlerMouseDown(object sender, MouseEventArgs e)
         {
-            Debug.WriteLine("Mouse Click handled");
-            this.Invoke(new Action(StopCapture));            
-        }
-        
-
-        internal void StopCapture() {
-            GlobalMouseHandler.MouseDownExt -= GlobalMouseHandlerMouseDownExt;
+            GlobalMouseHandler.MouseClick -= GlobalMouseHandlerMouseDown;
             GlobalMouseHandler.Dispose();
             GlobalMouseHandler = null;
 
+            Debug.WriteLine("Mouse Click handled");
+            //this.Invoke(new Action(StopCapture));
+
+            StopCapture();
+        }
+        
+
+        internal void StopCapture()
+        {
             Desktop.Hide();
             Overlay.Hide();
 
