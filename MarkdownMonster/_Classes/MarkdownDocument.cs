@@ -189,6 +189,9 @@ namespace MarkdownMonster
         [JsonIgnore]
         public string CurrentText { get; set; }
 
+        [JsonIgnore]
+        public string OriginalText { get; set; }
+
 
         /// <summary>
         /// Loads the markdown document into the CurrentText
@@ -207,6 +210,7 @@ namespace MarkdownMonster
             try
             {
                 CurrentText = File.ReadAllText(filename);
+                OriginalText = CurrentText;
             }
             catch
             {
@@ -230,9 +234,9 @@ namespace MarkdownMonster
             {
                 File.WriteAllText(filename, CurrentText, Encoding.UTF8);
                 IsDirty = false;
+                OriginalText = CurrentText;
 
                 UpdateCrc(filename);
-
                 return true;
             }
             catch {  }
