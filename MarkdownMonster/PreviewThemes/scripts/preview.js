@@ -51,11 +51,11 @@ function scrollToPragmaLine(lineno) {
 
         $('html, body').animate({
             scrollTop: $el.offset().top - 100
-        }, 200);
+        }, 300);
         
         $el.addClass("line-highlight");
-        setTimeout(function() { $el.removeClass("line-highlight"); },1000);
-    },20);
+        setTimeout(function() { $el.removeClass("line-highlight"); },1200);
+    },100);
 }
 
 function status(msg) {

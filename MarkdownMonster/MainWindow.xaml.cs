@@ -806,7 +806,7 @@ namespace MarkdownMonster
                 }
                 else
                 {
-                    renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: true);
+                    renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: !showInBrowser && mmApp.Configuration.SyncPreviewToEditor);
                     if (renderedHtml == null)
                     {
                         SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);

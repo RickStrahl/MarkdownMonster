@@ -72,6 +72,22 @@ namespace MarkdownMonster
         }
         private string _RenderTheme;
 
+        /// <summary>
+        /// Determines whether the preview attempts to sync to 
+        /// the editor when previewing HTML.
+        /// </summary>
+        public bool SyncPreviewToEditor
+        {
+            get { return _syncPreviewToEditor; }
+            set
+            {
+                if (value == _syncPreviewToEditor) return;
+                _syncPreviewToEditor = value;
+                OnPropertyChanged(nameof(SyncPreviewToEditor));
+            }
+        }
+        private bool _syncPreviewToEditor = true;
+
 
         /// <summary>
         /// Determines whether the editor wraps text or extends lines
@@ -248,6 +264,8 @@ namespace MarkdownMonster
         }
 
         public bool FirstRun { get; set; }
+
+ 
 
         //internal string FileWatcherOpenFilePath;
 
