@@ -493,9 +493,16 @@ namespace MarkdownMonster
         /// Sets the Markdown Document as having changes
         /// </summary>
         /// <param name="value"></param>
-        public void SetDirty(bool value)
-        {            
-            MarkdownDocument.IsDirty = value;                                         
+        public bool SetDirty(bool value)
+        {
+             GetMarkdown();
+
+            if (value && MarkdownDocument.CurrentText != MarkdownDocument.OriginalText)
+                MarkdownDocument.IsDirty = true;
+            else
+                MarkdownDocument.IsDirty = false;
+
+            return MarkdownDocument.IsDirty;
         }
 
 
