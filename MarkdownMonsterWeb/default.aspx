@@ -37,13 +37,13 @@
             <img src="Images/MarkdownMonster_Icon_32.png"
                 style="height: 28px;"
                 alt="Markdown Monster" />
-            <span>West Wind Markdown Monster</span>
+            <span class="hidable-xs">West Wind</span> <span>Markdown Monster</span>
         </span>
         <div id="TopMenu" class="right">
-            <a href="./" class="active">Home</a>
+            <a href="./" class="active hidable">Home</a>
             <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE">Video</a>
             <%--<a href="features.aspx">Features</a>--%>
-            <a href="download.aspx">Download</a>
+            <a href="download.aspx" class="hidable-xs">Download</a>
             <a href="http://store.west-wind.com/product/markdown_monster">Buy</a>
             <a href="docs/">Docs</a>
             <%--<a href="pricing.aspx">License</a>--%>

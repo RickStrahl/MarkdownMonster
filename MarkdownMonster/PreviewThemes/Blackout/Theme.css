@@ -152,6 +152,10 @@ hr{
     position: absolute;
     width: 1px; 
 }
+.line-highlight {
+    background: #ffd2d9 !important;
+    opacity: 0.90;
+}
 
 @media(min-width: 1080px){
     html,body{

@@ -806,7 +806,7 @@ namespace MarkdownMonster
                 }
                 else
                 {
-                    renderedHtml = editor.MarkdownDocument.RenderHtmlToFile();
+                    renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: true);
                     if (renderedHtml == null)
                     {
                         SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
@@ -850,6 +850,13 @@ namespace MarkdownMonster
                                     // much more efficient and non-jumpy and no wait cursor
                                     var window = dom.parentWindow;
                                     window.updateDocumentContent(renderedHtml);
+
+                                    int lineno = editor.GetLineNumber();
+
+
+
+                                    if (lineno > -1)
+                                        window.scrollToPragmaLine(lineno);     
                                 }
                                 catch
                                 {
