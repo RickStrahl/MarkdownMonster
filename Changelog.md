@@ -2,8 +2,11 @@
 
 # Markdown Monster Change Log
 
-### Version 1.01
-<i><small>not released yet</small></i>
+### Version 1.03
+<i><small>November 8th, 2016</small></i>
+
+* **Preview syncing to Editor**  
+The preview now syncs to the editor position by default. When you move or type in the editor the preview now scrolls to the active text and highlights the text. This behavior is controlled via the new `SyncPreviewToEditor` config setting.
 
 * **Paste Images from Clipboard**  
 You can now paste images from the clipboard into Markdown Monster. When an image is pasted a dialog prompts to save it to disk and if saved, is linked into the document.
