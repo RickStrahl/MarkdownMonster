@@ -34,8 +34,6 @@ function updateDocumentContent(html) {
 }
 
 function scrollToPragmaLine(lineno) {
-    status("lineno: " + lineno);
-
     if (lineno < 0) return;
 
     setTimeout(function () {
@@ -49,13 +47,11 @@ function scrollToPragmaLine(lineno) {
             }
         }
 
-        $('html, body').animate({
-            scrollTop: $el.offset().top - 100
-        }, 300);
+        $("html").scrollTop($el.offset().top - 100);
         
         $el.addClass("line-highlight");
         setTimeout(function() { $el.removeClass("line-highlight"); },1200);
-    },100);
+    },200);
 }
 
 function status(msg) {
