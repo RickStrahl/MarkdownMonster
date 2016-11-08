@@ -44,20 +44,27 @@ namespace MarkdownMonster
     public class  MarkdownParserMarkdig : IMarkdownParser
     {
         public static MarkdownPipeline Pipeline;
+        
 
-        public MarkdownParserMarkdig()
+        public MarkdownParserMarkdig(bool usePragmaLines = false, bool force = false)
         {
-            if (Pipeline == null)
+            if (force || Pipeline == null)
             {
-                Pipeline = new MarkdownPipelineBuilder()
-                    //.UsePipeTables()
-                    //.UseAutoLinks()
-                    //.UseCitations()
-                    //.UseEmphasisExtras()
-                    //.Build();
-                    //.UseDiagrams()
-                .UseAdvancedExtensions()
-                .Build();                
+                var builder = new MarkdownPipelineBuilder()
+                    .UsePipeTables()
+                    .UseAutoLinks()
+                    .UseCitations()
+                    .UseEmphasisExtras()
+                    .UseFooters()
+                    .UseFigures()
+                    .UseFootnotes()
+                    .UseGridTables();
+                    
+                if (usePragmaLines)
+                    builder = builder
+                        .UsePragmaLines();
+
+                Pipeline = builder.Build();         
             }
         }
 

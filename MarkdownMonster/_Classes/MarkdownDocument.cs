@@ -271,19 +271,20 @@ namespace MarkdownMonster
             if (File.Exists(HtmlRenderFilename))
                 File.Delete(HtmlRenderFilename);
         }
-        
+
         /// <summary>
         /// Renders markdown of the current document text into raw HTML
         /// </summary>
         /// <param name="markdown">markdown to render</param>
         /// <param name="renderLinksExternal">Determines whether links have a target='top' attribute</param>
+        /// <param name="usePragmaLines">renders line numbers into html output as ID tags for editor positioning</param>
         /// <returns></returns>
-        public string RenderHtml(string markdown = null, bool renderLinksExternal = false)
+        public string RenderHtml(string markdown = null, bool renderLinksExternal = false, bool usePragmaLines = false)
         {
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
             
-            var parser = MarkdownParserFactory.GetParser(renderLinksExternal);            
+            var parser = MarkdownParserFactory.GetParser(renderLinksAsExternal: renderLinksExternal, usePragmaLines: usePragmaLines, forceLoad: true);            
             return parser.Parse(markdown);
         }
 
@@ -294,9 +295,9 @@ namespace MarkdownMonster
         /// <param name="filename"></param>
         /// <param name="renderLinksExternal"></param>
         /// <returns></returns>
-        public string RenderHtmlToFile(string markdown = null, string filename = null, bool renderLinksExternal = false, string theme = null)
+        public string RenderHtmlToFile(string markdown = null, string filename = null, bool renderLinksExternal = false, string theme = null, bool usePragmaLines = false)
         {
-            string markdownHtml = RenderHtml(markdown, renderLinksExternal);
+            string markdownHtml = RenderHtml(markdown, renderLinksExternal, usePragmaLines);
 
             if (string.IsNullOrEmpty(filename))
                 filename = HtmlRenderFilename;

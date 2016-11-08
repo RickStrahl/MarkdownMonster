@@ -129,6 +129,9 @@ hr {
     position: absolute;
     width: 1px; 
 }
+.line-highlight {
+    background: #fed6d6 !important;
+}
 
 #MainContent {
 	margin: 0 auto;

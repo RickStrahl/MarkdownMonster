@@ -171,7 +171,9 @@ var te = window.textEditor = {
         te.editor.on("mousemove",function (e) {
             te.mousePos = e.getDocumentPosition();            
         });
-
+        te.editor.on("mouseup",function() {
+            te.mm.textbox.PreviewMarkdownCallback();
+        });
 
         return editor;
     },
@@ -253,6 +255,10 @@ var te = window.textEditor = {
     },
     getselection: function (ignored) {
         return te.editor.getSelectedText();
+    },
+    getLineNumber: function(ignored) {
+        var selectionRange = te.editor.getSelectionRange();
+        return selectionRange.start.row;
     },
     gotfocus: function (ignored) {
         te.setfocus();

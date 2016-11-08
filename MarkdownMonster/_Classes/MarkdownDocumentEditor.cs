@@ -434,6 +434,14 @@ namespace MarkdownMonster
             return AceEditor?.getselection(false);            
         }
 
+        public int GetLineNumber()
+        {
+            if (AceEditor == null)
+                return -1;
+
+            return AceEditor.getLineNumber(false);
+        }
+
         /// <summary>
         /// Focuses the Markdown editor in the Window
         /// </summary>
@@ -449,9 +457,9 @@ namespace MarkdownMonster
         /// <param name="markdown">Markdown text to turn into HTML</param>
         /// <param name="renderLinksExternal">If true creates all links with target='top'</param>
         /// <returns></returns>
-        public string RenderMarkdown(string markdown, bool renderLinksExternal = false)
+        public string RenderMarkdown(string markdown, bool renderLinksExternal = false, bool usePragmaLines = false)
         {
-            return this.MarkdownDocument.RenderHtml(markdown, renderLinksExternal);
+            return MarkdownDocument.RenderHtml(markdown, renderLinksExternal, usePragmaLines);
         }
 
         /// <summary>

@@ -26,7 +26,6 @@ Made  a number of changes to the built-in screen capture utility which makes it 
 * **Searchbox Improvements**  
 Updated search box styling to dark theme. Added menu buttons and shortcut notice to activate Find and Replace Functionality.
 
-
 ### Version 0.57
 <i><small>October 26th, 2016</small></i>
 
@@ -47,7 +46,6 @@ Fixed bug where saving an image into the document folder was not properly fixing
 
 * **Rendering Bug Fixes**  
 Fix rendering and preview issues with the new file location in the temp folder. Errors are more gracefully handled.
-
 
 ### Version 0.55
 <i><small>October 17th, 2016</small></i>
