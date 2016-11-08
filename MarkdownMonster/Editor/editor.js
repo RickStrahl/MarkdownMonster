@@ -173,7 +173,7 @@ var te = window.textEditor = {
         var updateDocument = debounce(function() {
             te.mm.textbox.PreviewMarkdownCallback();
             te.updateDocumentStats();
-        },1500);
+        },1000);
         $("pre[lang]").on("keyup", keyupHandler);
 
         
