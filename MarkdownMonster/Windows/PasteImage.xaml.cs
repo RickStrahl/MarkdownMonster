@@ -168,11 +168,10 @@ namespace MarkdownMonster.Windows
                 Image = "file:///" + Image;
 
             mmApp.Configuration.LastImageFolder = System.IO.Path.GetDirectoryName(fd.FileName);
-            TextImageText.Focus();
+            TextImageText.Focus();        
         }
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
-
         
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

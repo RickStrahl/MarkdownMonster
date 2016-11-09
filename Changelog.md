@@ -2,15 +2,32 @@
 
 # Markdown Monster Change Log
 
+### Version 1.03
+<i><small>November 8th, 2016</small></i>
+
+* **Preview syncing to Editor**  
+The preview now syncs to the editor position by default. When you move or type in the editor the preview now scrolls to the active text and highlights the text. This behavior is controlled via the new `SyncPreviewToEditor` config setting.
+
+* **Paste Images from Clipboard**  
+You can now paste images from the clipboard into Markdown Monster. When an image is pasted a dialog prompts to save it to disk and if saved, is linked into the document.
+
+* **Fix Wordpress Import**  
+Fix importing from Wordpress blogs where the **Read More** option is active (for abstracts).
+
+### Version 1.0 
+<i><small>November 4th, 2016</small></i>
+
+* **RTM Release**  
+We're happy to announce that Markdown Monster has gone to RTM. There have been no changes only a few minor bug fixes since 0.58.
+
 ### Version 0.58
-<i><small>November 2nd, 2016</small></i>
+<i><small>November 1st, 2016</small></i>
 
 * **Updated built-in Screen Capture Utility**  
 Made  a number of changes to the built-in screen capture utility which makes it easier to capture Windows and areas of the screen. You can now also capture the active desktop and paste images from the clipboard into the capture utility.
 
 * **Searchbox Improvements**  
 Updated search box styling to dark theme. Added menu buttons and shortcut notice to activate Find and Replace Functionality.
-
 
 ### Version 0.57
 <i><small>October 26th, 2016</small></i>
@@ -32,7 +49,6 @@ Fixed bug where saving an image into the document folder was not properly fixing
 
 * **Rendering Bug Fixes**  
 Fix rendering and preview issues with the new file location in the temp folder. Errors are more gracefully handled.
-
 
 ### Version 0.55
 <i><small>October 17th, 2016</small></i>

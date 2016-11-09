@@ -7,15 +7,6 @@
  * 
  * Created: 04/28/2016
  *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- * 
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * 
@@ -815,7 +806,7 @@ namespace MarkdownMonster
                 }
                 else
                 {
-                    renderedHtml = editor.MarkdownDocument.RenderHtmlToFile();
+                    renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: !showInBrowser && mmApp.Configuration.SyncPreviewToEditor);
                     if (renderedHtml == null)
                     {
                         SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
@@ -859,6 +850,13 @@ namespace MarkdownMonster
                                     // much more efficient and non-jumpy and no wait cursor
                                     var window = dom.parentWindow;
                                     window.updateDocumentContent(renderedHtml);
+
+                                    int lineno = editor.GetLineNumber();
+
+
+
+                                    if (lineno > -1)
+                                        window.scrollToPragmaLine(lineno);     
                                 }
                                 catch
                                 {

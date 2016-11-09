@@ -31,9 +31,11 @@ namespace WebLogAddin.MetaWebLogApi
         public string wp_author_display_name;
         public string post_status;
         public string post_type;
+        public string post_content;
 
         public XmlRpcCustomField[] custom_fields;
         public XmlRpcTerm[] terms;
+        
 
         public override string ToString()
         {

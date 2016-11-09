@@ -211,12 +211,14 @@ namespace WebLogAddin.MetaWebLogApi
                     categories = input.Categories,
                     dateCreated = input.DateCreated,
                     description = input.Body,
+                    mt_text_more = input.mt_text_more,                              
+                    post_content = input.post_content,
                     mt_keywords = input.Tags == null ? input.mt_keywords : String.Join(",", input.Tags),
                     postid = input.PostID,
                     title = input.Title,
                     permaLink = input.Permalink,
                     post_type = input.PostType,
-                    mt_excerpt = input.mt_excerpt,                                       
+                    mt_excerpt = input.mt_excerpt,                          
                     custom_fields = input.CustomFields == null ? null : input.CustomFields.Select(cf => new XmlRpcCustomField()
                     {
                         id = cf.ID,
@@ -277,6 +279,8 @@ namespace WebLogAddin.MetaWebLogApi
                 {
                     PostID = input.postid,
                     Body = input.description,
+                    mt_text_more = input.mt_text_more,
+                    post_content = input.post_content,                    
                     Categories = input.categories,
                     DateCreated = input.dateCreated,
                     Tags = input.mt_keywords.Split(','),

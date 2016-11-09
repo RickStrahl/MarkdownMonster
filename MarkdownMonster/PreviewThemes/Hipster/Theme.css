@@ -105,6 +105,9 @@ hr{
     position: absolute;
     width: 1px; 
 }
+.line-highlight {
+    background: #ffe1e1 !important;
+}
 
 @media(min-width: 1080px){
     html,body{

@@ -139,6 +139,9 @@ tbody>tr:nth-child(even) {
     position: absolute;
     width: 1px; 
 }
+.line-highlight {
+    background: #fbcfd5 !important;
+}
 
 @media(min-width: 1080px){
     html,body{

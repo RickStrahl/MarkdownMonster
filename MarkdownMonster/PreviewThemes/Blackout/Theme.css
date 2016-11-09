@@ -152,6 +152,9 @@ hr{
     position: absolute;
     width: 1px; 
 }
+.line-highlight {
+    background: steelblue !important;
+}
 
 @media(min-width: 1080px){
     html,body{
