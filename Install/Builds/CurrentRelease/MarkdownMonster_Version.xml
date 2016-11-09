@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>0.58</Version>
-   <ReleaseDate>November 1st, 2016</ReleaseDate>
-   <Title>West Wind Markdown Monster 0.58 now available</Title>
+   <Version>1.03</Version>
+   <ReleaseDate>November 8th, 2016</ReleaseDate>
+   <Title>West Wind Markdown Monster 1.03 now available</Title>
    <Detail>
-This update adds a new built-in screen capture utility with many improvements for capturing screen shots. This is in addition to SnagIt support. The previous release added a new Markdown Parser that better supports Github Flavored Markdown. There are also new options for creating links that open in a new window. Many small UI updates and fixes for consistency.
+Markdown Monster 1.0 RTM has arrived!
 
-The latest version of the installer and binaries are now code-signed for source verification from West Wind. 
-   	
-This update also brings back the tab context menu for document management and opening the document's folder or folder terminal. This update also fixes various file opening issues when opening files from the command line using *markdownmonster [filename]* or simply *mm [filename]*. Password for blog access are now encrypted and you can search downloaded blog headers for specific entries. Command line operation has been improved and you can now use `mm readme.md` to open files more easily in Markdown Monster.
+If you're upgrading from a version prior to 0.57, we recommend that you completely uninstall Markdown Monster and reinstall the new version to clear out files that are no longer used. Your existing configuration files will be updated. Registered users will have to re-apply their registration key in this version due to a change in the key format for the release version.
 
 For more detailed release info please see:
 https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md

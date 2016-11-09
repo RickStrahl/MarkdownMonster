@@ -32,3 +32,33 @@ function updateDocumentContent(html) {
     $("#MainContent").html(html);
     highlightCode();
 }
+
+function scrollToPragmaLine(lineno) {
+    if (lineno < 0) return;
+
+    setTimeout(function () {
+        var $el = $("#pragma-line-" + lineno);
+        if ($el.length < 1) {
+            for (var i = 0; i < 5; i++) {
+                lineno--;
+                $el = $("#pragma-line-" + lineno);
+                if ($el.length > 0)
+                    break;
+            }
+        }
+
+        $("html").scrollTop($el.offset().top - 100);
+        
+        $el.addClass("line-highlight");
+        setTimeout(function() { $el.removeClass("line-highlight"); },1200);
+    },200);
+}
+
+function status(msg) {
+    var $el = $("#statusmessage");
+    if ($el.length < 1)
+        $el = $("<div id='statusmessage' style='position: fixed;  left:0; right:0; bottom: 0; padding: 10px; background: #444; color: white;'></div>");
+
+    $(document.body).append($el);
+    $el.text(msg);
+}

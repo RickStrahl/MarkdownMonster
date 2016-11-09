@@ -31,6 +31,7 @@
 */
 #endregion
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -38,9 +39,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using NHunspell;
 using Westwind.Utilities;
@@ -431,6 +434,14 @@ namespace MarkdownMonster
             return AceEditor?.getselection(false);            
         }
 
+        public int GetLineNumber()
+        {
+            if (AceEditor == null)
+                return -1;
+
+            return AceEditor.getLineNumber(false);
+        }
+
         /// <summary>
         /// Focuses the Markdown editor in the Window
         /// </summary>
@@ -446,9 +457,9 @@ namespace MarkdownMonster
         /// <param name="markdown">Markdown text to turn into HTML</param>
         /// <param name="renderLinksExternal">If true creates all links with target='top'</param>
         /// <returns></returns>
-        public string RenderMarkdown(string markdown, bool renderLinksExternal = false)
+        public string RenderMarkdown(string markdown, bool renderLinksExternal = false, bool usePragmaLines = false)
         {
-            return this.MarkdownDocument.RenderHtml(markdown, renderLinksExternal);
+            return MarkdownDocument.RenderHtml(markdown, renderLinksExternal, usePragmaLines);
         }
 
         /// <summary>
@@ -482,9 +493,16 @@ namespace MarkdownMonster
         /// Sets the Markdown Document as having changes
         /// </summary>
         /// <param name="value"></param>
-        public void SetDirty(bool value)
-        {            
-            MarkdownDocument.IsDirty = value;                                         
+        public bool SetDirty(bool value)
+        {
+             GetMarkdown();
+
+            if (value && MarkdownDocument.CurrentText != MarkdownDocument.OriginalText)
+                MarkdownDocument.IsDirty = true;
+            else
+                MarkdownDocument.IsDirty = false;
+
+            return MarkdownDocument.IsDirty;
         }
 
 
@@ -621,6 +639,87 @@ namespace MarkdownMonster
             {
                 mmApp.Configuration.EditorFontSize--;
                 RestyleEditor();
+            }
+        }
+
+        /// <summary>
+        /// Handle pasting and handle images
+        /// </summary>
+        public void PasteOperation()
+        {
+            string imagePath = null;
+
+            if (Clipboard.ContainsImage())
+            {
+                var bmpSource = Clipboard.GetImage();
+                string initialFolder = null;
+                if (!string.IsNullOrEmpty(MarkdownDocument.Filename) && MarkdownDocument.Filename != "untitled")
+                    initialFolder = Path.GetDirectoryName(MarkdownDocument.Filename);
+
+                var sd = new SaveFileDialog
+                {
+                    Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                    FilterIndex = 1,
+                    Title = "Save Image from Clipboard as",                    
+                    InitialDirectory = initialFolder,
+                    CheckFileExists = false,
+                    OverwritePrompt = true,
+                    CheckPathExists = true,
+                    RestoreDirectory = true
+                };
+                var result = sd.ShowDialog();
+                if (result != null && result.Value)
+                {
+                    imagePath = sd.FileName;
+                    try
+                    {
+                        var ext = Path.GetExtension(imagePath)?.ToLower();                        
+                        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                        {
+
+                            BitmapEncoder encoder = null;
+                            if (ext == ".png")
+                                encoder = new PngBitmapEncoder();                            
+                            else if(ext == ".jpg" || ext == ".jpeg")
+                                encoder = new JpegBitmapEncoder();
+                            else if (ext == ".gif")
+                                encoder = new GifBitmapEncoder();
+
+                            encoder.Frames.Add(BitmapFrame.Create(bmpSource));
+                            encoder.Save(fileStream);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message, mmApp.ApplicationName);
+                        return;
+                    }
+
+                    string relPath = Path.GetDirectoryName(sd.FileName);
+                    if (initialFolder != null)
+                    {
+                        try
+                        {
+                            relPath = FileUtils.GetRelativePath(sd.FileName, initialFolder);
+                        }
+                        catch (Exception ex)
+                        {
+                            mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}", ex);
+                        }
+                        if (!relPath.StartsWith("..\\"))
+                            imagePath = relPath;
+                    }
+
+                    if (imagePath.Contains(":\\"))
+                        imagePath = "file:///" + imagePath;
+                    SetSelection($"![]({imagePath})");
+                    PreviewMarkdownCallback(); // force a preview refresh
+                }
+            }
+            else if (Clipboard.ContainsText())
+            {
+                // just paste as is at cursor or selection
+                SetSelection(Clipboard.GetText());
             }
         }
 

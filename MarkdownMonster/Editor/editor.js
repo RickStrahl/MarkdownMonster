@@ -68,7 +68,7 @@ var te = window.textEditor = {
             },
             "f5": function() {},
             "alt-c": function() { te.specialkey("alt-c"); },
-            "ctrl-o": function () { te.specialkey("ctrl-o"); },
+            "ctrl-o": function() { te.specialkey("ctrl-o"); },
             "ctrl-s": function() { te.specialkey("ctrl-s"); },
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
             "ctrl-i": function() { te.specialkey("ctrl-i"); },
@@ -76,14 +76,22 @@ var te = window.textEditor = {
             "ctrl-k": function() { te.specialkey("ctrl-k"); },
 
             // take over Zoom keys and manually zoom
-            "ctrl--": function () { te.specialkey("ctrl--"); return null; },
-            "ctrl-=": function () { te.specialkey("ctrl-="); return null; },
+            "ctrl--": function() {
+                te.specialkey("ctrl--");
+                return null;
+            },
+            "ctrl-=": function() {
+                te.specialkey("ctrl-=");
+                return null;
+            },
 
-            "ctrl-shift-down": function () { te.specialkey("ctrl-shift-down"); },
-            "ctrl-shift-up": function () { te.specialkey("ctrl-shift-up"); },
-            "ctrl-shift-c": function () { te.specialkey("ctrl-shift-c"); },
-            "ctrl-shift-v": function () { te.specialkey("ctrl-shift-v"); }            
-        });
+            "ctrl-shift-down": function() { te.specialkey("ctrl-shift-down"); },
+            "ctrl-shift-up": function() { te.specialkey("ctrl-shift-up"); },
+            "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
+            "ctrl-shift-v": function() { te.specialkey("ctrl-shift-v"); },
+            "ctrl-v": function() { te.mm.textbox.PasteOperation();  }
+        
+    });
         
         editor.renderer.setPadding(15);
         editor.renderer.setScrollMargin(5, 5, 0, 0); // top,bottom,left,right
@@ -97,14 +105,49 @@ var te = window.textEditor = {
             minLines: 0
             //wrapBehavioursEnabled: editorSettings.wrapText                       
         });
-        
-        var keydownHandler = function keyDownHandler(e) {
-            if (!te.isDirty) {
-                if (!te.mm)
-                    return;
 
-                // any printable character
+        var keydownHandler = function keyDownHandler(e) {
+            //if (!te.isDirty) {
+            //    if (!te.mm)
+            //        return;
+
+            //    // any printable character
+            //    var keycode = e.keyCode;
+
+            //    var valid =
+            //        (e.keycode > 47 && keycode < 58) || // number keys
+            //            keycode == 32 ||
+            //            keycode == 13 || // spacebar & return key(s) 
+            //            (keycode > 64 && keycode < 91) || // letter keys
+            //            (keycode > 95 && keycode < 112) || // numpad keys  
+            //            (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
+            //            (keycode > 218 && keycode < 223); // [\]' (in order)
+            //    // backspace, tab -> handled in key up
+
+            //    if (valid) {
+            //        te.isDirty = te.mm.textbox.setDirty(true);
+            //    }
+            //}
+            if (e.ctrlKey && e.shiftKey) {
+                te.mm.textbox.PreviewMarkdownCallback();
+                te.updateDocumentStats();
+            }
+        };
+        $("pre[lang]").on("keydown", keydownHandler);
+
+
+        var keyupHandler = function keyUpHandler(e) {
+            if (!te.mm)
+                return;
+
+            if (!te.isDirty) {
                 var keycode = e.keyCode;
+                //if (keycode == 13 ||   // cr
+                //    keycode == 8 ||    // backspace
+                //    keycode == 46 ||   // del                                
+                //    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
+                //    keycode == 222)   // single quote
+                //          te.mm.textbox.PreviewMarkdownCallback();
 
                 var valid =
                     (e.keycode > 47 && keycode < 58) || // number keys
@@ -113,60 +156,34 @@ var te = window.textEditor = {
                         (keycode > 64 && keycode < 91) || // letter keys
                         (keycode > 95 && keycode < 112) || // numpad keys  
                         (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
-                        (keycode > 218 && keycode < 223); // [\]' (in order)
+                        (keycode > 218 && keycode < 223) || // [\]' (in order)
+                        (keycode == 8 || keycode == 9 || keycode == 46);
                 // backspace, tab -> handled in key up
 
-                if (valid) {
-                    te.isDirty = true;
-                    te.mm.textbox.setDirty(true);                    
-                }                
+                if (valid)
+                    te.isDirty = te.mm.textbox.setDirty(true);
             }
-
-            if (e.ctrlKey && e.shiftKey) {                
-                te.mm.textbox.PreviewMarkdownCallback();
-                te.updateDocumentStats();                
-            }
-        };          
-        $("pre[lang]").on("keydown", keydownHandler);
-
-
-        var keyupHandler = debounce(function keyUpHandler(e) {
-            if (!te.mm)
-                return;
-
-            var keycode = e.keyCode;
-            //if (keycode == 13 ||   // cr
-            //    keycode == 8 ||    // backspace
-            //    keycode == 46 ||   // del                                
-            //    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
-            //    keycode == 222)   // single quote
-            //          te.mm.textbox.PreviewMarkdownCallback();
-
-            // handle tab/backspace in keyup - not working in keydown
-            if (!te.isDirty) {
-                if (keycode == 8 || keycode == 9 || keycode == 46) {
-                    te.isDirty = true;
-                    te.mm.textbox.setDirty(true);
-                }
-            }
-            te.mm.textbox.PreviewMarkdownCallback();
-            te.updateDocumentStats();            
+           
+            updateDocument();
 
             //if (te.isspellcheckingenabled)
             //    sc.spellCheck();
 
-        }, 1500);
+        }
+        var updateDocument = debounce(function() {
+            te.mm.textbox.PreviewMarkdownCallback();
+            te.updateDocumentStats();
+        },1000);
         $("pre[lang]").on("keyup", keyupHandler);
-
 
         
         // always have mouse position available when drop or paste
         te.editor.on("mousemove",function (e) {
             te.mousePos = e.getDocumentPosition();            
         });
-        
-
-
+        te.editor.on("mouseup",function() {
+            te.mm.textbox.PreviewMarkdownCallback();
+        });
 
         return editor;
     },
@@ -248,6 +265,10 @@ var te = window.textEditor = {
     },
     getselection: function (ignored) {
         return te.editor.getSelectedText();
+    },
+    getLineNumber: function(ignored) {
+        var selectionRange = te.editor.getSelectionRange();
+        return selectionRange.start.row;
     },
     gotfocus: function (ignored) {
         te.setfocus();
@@ -472,7 +493,9 @@ window.ondragover =
 
         return false;
     }
-}
+ }
+
+
 
 
 // This function is global and called by the parent

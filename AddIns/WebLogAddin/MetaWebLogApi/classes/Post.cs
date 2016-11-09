@@ -25,6 +25,9 @@ namespace WebLogAddin.MetaWebLogApi
         public string mt_excerpt { get; set; }
         public string mt_keywords { get; set; }
 
+        public string mt_text_more { get; set; }
+        public string post_content { get; set; }
+
         public override string ToString()
         {
             return this.Body;
