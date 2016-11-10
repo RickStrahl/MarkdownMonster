@@ -1,12 +1,10 @@
 html, body {
-    
     color: #eee;
     background: #303030;       
-    font-family: 'Segoe UI',Geneva,sans-serif;
-    font-size: 16px;    
-    
+    font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-shadow: 1px 1px 3px black;
+    font-size: 19px;    
     height: 100%;    
-       
     line-height: 1.45em;
     padding: 5px 20px 5px 17px !important;
     margin: 0;
@@ -32,11 +30,6 @@ blockquote {
     padding: 10px;
     margin: 30px 10px;
     border-left: 6px #ddd solid; 
-}
-@media(min-width: 970px){
-    html,body{
-        font-size: 1.1em;
-    }
 }
 code {
     font-family: menlo,consolas,monospace;
@@ -87,7 +80,7 @@ tbody>tr:nth-child(even) {
 }
 
 h1,h2,h3,h4,h5,h6, .byline,.content-title {
-  color: #888;
+  color: #999;
   font-weight: bold;  
   font-family: Trebuchet, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
 }
@@ -158,6 +151,6 @@ hr{
 
 @media(min-width: 1080px){
     html,body{
-        font-size: 1.08em;
+        font-size: 1.2em;
     }
 }
