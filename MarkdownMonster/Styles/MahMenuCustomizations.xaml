@@ -15,7 +15,7 @@
     <SolidColorBrush x:Key="Foreground" Color="#EEEEEE" />
    
     <!-- this has no effect even if brining in context menu below -->
-    <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="#EEEEEE" />
+    <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="#444" />
     
 
     <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator">
