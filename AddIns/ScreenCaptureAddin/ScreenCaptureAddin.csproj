@@ -78,6 +78,9 @@
     <Compile Include="ScreenCapture\ScreenOverlayDesktop.xaml.cs">
       <DependentUpon>ScreenOverlayDesktop.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ScreenCapture\ScreenOverlayCounter.xaml.cs">
+      <DependentUpon>ScreenOverlayCounter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScreenCapture\ScreenOverlayWpf.xaml.cs">
       <DependentUpon>ScreenOverlayWpf.xaml</DependentUpon>
     </Compile>
@@ -99,6 +102,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ScreenCapture\ScreenOverlayDesktop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ScreenCapture\ScreenOverlayCounter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

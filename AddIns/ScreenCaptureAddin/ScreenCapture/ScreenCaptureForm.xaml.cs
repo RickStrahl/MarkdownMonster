@@ -2,26 +2,16 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Forms;
-using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using FontAwesome.WPF;
 using Gma.System.MouseKeyHook;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using ScreenCaptureAddin;
-using Westwind.Utilities;
 using Cursors = System.Windows.Input.Cursors;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using Point = System.Windows.Point;
@@ -32,12 +22,13 @@ namespace SnagItAddin
     /// <summary>
     /// Interaction logic for About.xaml
     /// </summary>
-    public partial class ScreenCaptureForm : MetroWindow 
+    public partial class ScreenCaptureForm : MetroWindow
     {
-        
+
 
 
         #region Externally accessible capture interface
+
         public ScreenCaptureConfiguration Configuration { get; set; }
 
         /// <summary>
@@ -55,7 +46,7 @@ namespace SnagItAddin
         /// A Window that should be hidden when the capture
         /// is performed.
         /// </summary>
-        public Window ExternalWindow { get; set;  }
+        public Window ExternalWindow { get; set; }
 
         /// <summary>
         /// If set this window's handle is minimized
@@ -100,7 +91,7 @@ namespace SnagItAddin
         {
             get
             {
-                bool isBitmap =  CapturedBitmap != null;
+                bool isBitmap = CapturedBitmap != null;
                 if (ToolButtonSaveImage != null)
                 {
                     ToolButtonSaveImage.IsEnabled = isBitmap;
@@ -110,8 +101,10 @@ namespace SnagItAddin
             }
         }
 
-        ScreenOverlayWpf Overlay = new ScreenOverlayWpf();
-        private ScreenOverlayDesktop Desktop;
+        ScreenOverlayWpf Overlay;
+        ScreenOverlayDesktop Desktop;
+
+        bool IsMouseClickCapturing = false;
 
 
         private IntPtr WindowHandle = IntPtr.Zero;
@@ -122,28 +115,34 @@ namespace SnagItAddin
         WindowInfo CurWindow = null;
 
         private IKeyboardMouseEvents GlobalMouseHandler;
+
         #endregion
 
 
         #region Startup and Shutdown
 
         public ScreenCaptureForm()
-        {            
+        {
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
 
-            
+
             InitializeComponent();
+
 
             Loaded += ScreenCaptureForm_Loaded;
             Unloaded += ScreenCaptureForm_Unloaded;
-            
+
         }
 
         private void ScreenCaptureForm_Loaded(object sender, RoutedEventArgs e)
         {
+            GlobalMouseHandler = Hook.GlobalEvents();
+            GlobalMouseHandler.MouseClick += GlobalMouseHandlerMouseDown;
+            GlobalMouseHandler.KeyDown += GlobalKeyHandlerKeyDown;
+
             CapturedBitmap = null;
             WindowHandle = new WindowInteropHelper(this).Handle;
-             Desktop =  new ScreenOverlayDesktop(this);            
+
         }
 
 
@@ -151,8 +150,14 @@ namespace SnagItAddin
         {
             Overlay?.Close();
             CapturedBitmap?.Dispose();
-            CaptureTimer?.Dispose();            
-        }        
+            CaptureTimer?.Dispose();
+
+            GlobalMouseHandler.MouseClick -= GlobalMouseHandlerMouseDown;
+            GlobalMouseHandler.KeyDown -= GlobalKeyHandlerKeyDown;
+            GlobalMouseHandler.Dispose();
+            GlobalMouseHandler = null;
+        }
+
         #endregion
 
         #region Capture Operations
@@ -167,6 +172,7 @@ namespace SnagItAddin
             public Int32 X;
             public Int32 Y;
         };
+
         public static Point GetMousePosition()
         {
             Win32Point w32Mouse = new Win32Point();
@@ -175,16 +181,11 @@ namespace SnagItAddin
         }
 
         private double SavedTop = 0;
-        private Bitmap _capturedBitmap;     
+        private Bitmap _capturedBitmap;
 
-        private void ButtonCapture_Click(object sender, EventArgs e)            
+        private void ButtonCapture_Click(object sender, EventArgs e)
         {
             StartCapture();
-        }
-
-        private void ButtonCapture_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            StopCapture();
         }
 
 
@@ -197,92 +198,122 @@ namespace SnagItAddin
 
             // make sure windows actually hide before we wait
             WindowUtilities.DoEvents();
-
-            Debug.WriteLine("Waiting...");
+            
 
             if (ScreenCaptureConfiguration.Current.CaptureDelaySeconds > 0)
             {
-                for (int i = 0; i < ScreenCaptureConfiguration.Current.CaptureDelaySeconds *100; i++)
+                var counterForm = new ScreenOverlayCounter();
+
+                try
                 {
-                    Thread.Sleep(10);
-                    WindowUtilities.DoEvents();
+                    counterForm.Show();
+                    counterForm.Topmost = true;
+                    counterForm.SetWindowText("1");
+
+                    for (int i = 0; i < ScreenCaptureConfiguration.Current.CaptureDelaySeconds; i++)
+                    {
+                        counterForm.SetWindowText((i + 1).ToString());
+                        WindowUtilities.DoEvents();
+
+                        for (int j = 0; j < 100; j++)
+                        {
+                            Thread.Sleep(10);
+                            WindowUtilities.DoEvents();
+                        }
+                    }
+                }
+                finally
+                {
+                    counterForm.Close();
                 }
             }
 
-            Debug.WriteLine("Wait Completed..");
+            IsMouseClickCapturing = true;
 
-            CaptureTimer = new Timer(Capture, null, 0, 100);
-
-            //Desktop.SetDesktop();
-            //Desktop.Show();
+            Desktop = new ScreenOverlayDesktop(this);
+            Desktop.SetDesktop();
+            Desktop.Show();
 
             WindowUtilities.DoEvents();
-                            
+
+            Overlay = new ScreenOverlayWpf();
             Overlay.Width = 0;
             Overlay.Height = 0;
             Overlay.Show();
 
-            GlobalMouseHandler = Hook.GlobalEvents();
-            GlobalMouseHandler.MouseClick += GlobalMouseHandlerMouseDown;
+            CaptureTimer = new Timer(Capture, null, 0, 100);
+
+
         }
 
         private void GlobalMouseHandlerMouseDown(object sender, MouseEventArgs e)
         {
-            GlobalMouseHandler.MouseClick -= GlobalMouseHandlerMouseDown;
-            GlobalMouseHandler.Dispose();
-            GlobalMouseHandler = null;
-
-            Debug.WriteLine("Mouse Click handled");
-            //this.Invoke(new Action(StopCapture));
-
             StopCapture();
         }
-        
 
-        internal void StopCapture()
+
+        private void GlobalKeyHandlerKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            Desktop.Hide();
-            Overlay.Hide();
+            bool cancel = false;
+            if (e.KeyCode == Keys.Escape)
+                cancel = true;
+
+            StopCapture(cancel);
+        }
+
+        internal void StopCapture(bool cancelCapture = false)
+        {
+            if (!IsMouseClickCapturing)
+                return;
+
+            IsMouseClickCapturing = false;
+
+            // IMPORTANT! Must close other windows or else the
+            //            MouseHook will not release properly
+            Overlay?.Close();
+
 
             ButtonCapture.Cursor = Cursors.Arrow;
             if (LastWindow != null)
-            {                
+            {
                 CapturedBitmap = ScreenCapture.CaptureWindowBitmap(CurWindow.Handle);
                 ImageCaptured.Source = ScreenCapture.BitmapToBitmapSource(CapturedBitmap);
                 StatusText.Text = "Image capture from Screen: " + $"{CapturedBitmap.Width}x{CapturedBitmap.Height}";
             }
 
+            Desktop?.Close();
+
             if (ExternalWindow != null)
             {
                 ExternalWindow.Show();
-                ExternalWindow.Topmost = true;
-                WindowUtilities.DoEvents();
-                ExternalWindow.Topmost = false;
+                ExternalWindow.Activate();
             }
-            Topmost = true;
 
-            Show();
-            
-            Activate();
-            WindowUtilities.DoEvents();
-            Topmost = false;
+
+            if (cancelCapture)
+                CancelCapture();
+            else
+            {
+                Show();
+                Activate();
+            }
         }
 
-        
 
-        
+
+
         void Capture(object obj)
         {
             Point pt = GetMousePosition();
-            
-            CurWindow = new WindowInfo(ScreenCapture.WindowFromPoint(new System.Drawing.Point((int)pt.X, (int)pt.Y)));
+            CurWindow = new WindowInfo(ScreenCapture.WindowFromPoint(new System.Drawing.Point((int) pt.X, (int) pt.Y)));
 
-            this.Invoke(new Action(() =>
+
+            this.Invoke(() =>
             {
                 if (LastWindow == null || !CurWindow.Handle.Equals(LastWindow.Handle))
                 {
                     if (CurWindow.Handle != WindowHandle &&
-                        CurWindow.Handle != new IntPtr(65842))                    
+                        CurWindow.Handle != new IntPtr(65842) && Overlay != null)
                     {
                         Overlay.Left = CurWindow.Rect.X;
                         Overlay.Top = CurWindow.Rect.Y;
@@ -292,8 +323,8 @@ namespace SnagItAddin
                     }
                 }
 
-                LastWindow = CurWindow;                
-            }));
+                LastWindow = CurWindow;
+            });
         }
 
         private void Hide()
@@ -307,19 +338,24 @@ namespace SnagItAddin
             Top = SavedTop;
         }
 
-        #endregion
-
-        #region ButtonHandlers
-
-        private void tbCancel_Click(object sender, RoutedEventArgs e)
+        private void CancelCapture()
         {
-            if(!string.IsNullOrEmpty(ResultFilePath))
+            if (!string.IsNullOrEmpty(ResultFilePath))
                 File.WriteAllText(ResultFilePath, "Cancelled");
 
             Cancelled = true;
             Close();
 
             ExternalWindow?.Activate();
+        }
+
+    #endregion
+
+        #region ButtonHandlers
+
+        private void tbCancel_Click(object sender, RoutedEventArgs e)
+        {
+            CancelCapture();
         }
 
         private void tbSave_Click(object sender, RoutedEventArgs e)

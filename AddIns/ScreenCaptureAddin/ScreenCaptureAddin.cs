@@ -72,7 +72,9 @@ namespace SnagItAddin
                 return;
             }
 
-            if (SnagItAutomation.IsInstalled  && ScreenCaptureConfiguration.Current.UseSnagItForImageCapture)
+
+
+            if (SnagItAutomation.IsInstalled && ScreenCaptureConfiguration.Current.UseSnagItForImageCapture)
                 ExecuteSnagitCapture();
             else
                 ExecuteApplicationFormCapture();
@@ -135,23 +137,25 @@ namespace SnagItAddin
                 Top = Model.Window.Top,
                 Left = Model.Window.Left + 80,
                 Height = ScreenCaptureConfiguration.Current.WindowHeight,
-                Width = ScreenCaptureConfiguration.Current.WindowWidth                
+                Width = ScreenCaptureConfiguration.Current.WindowWidth
             };
 
             Model.Window.Hide();
-
+           
             form.ShowDialog();
 
             Model.Window.Show();
+            Model.Window.Activate();
+
             Model.Window.Topmost = true;
             WindowUtilities.DoEvents();
             Model.Window.Topmost = false;
 
             if (form.Cancelled)
                 return;
-            
+
             string capturedFile = form.SavedImageFile;
-                
+
             capturedFile = FileUtils.GetRelativePath(capturedFile, imageFolder);
             string relPath = capturedFile.Replace("\\", "/");
             if (relPath.StartsWith(".."))
