@@ -244,7 +244,10 @@ namespace MarkdownMonster
         /// <param name="style"></param>
         /// <returns></returns>
         public string MarkupMarkdown(string action, string input, string style = null)
-        {            
+        {
+            if (string.IsNullOrEmpty(action))
+                return input;
+
             action = action.ToLower();
 
             if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image", "href", "code" }))

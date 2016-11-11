@@ -33,7 +33,7 @@
                 <StackPanel Orientation="Horizontal">
                     <ToolBar FontWeight="Normal" FontSize="14" Padding="0,8,0,5">
 
-                        <Button Name="ToolButtonSaveImage" Click="tbSave_Click" >
+                        <Button Name="ToolButtonSaveImage" Click="tbSave_Click" IsDefault="True" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="CheckCircleOutline" 
                                             
@@ -54,7 +54,7 @@
                         </Button>
 
 
-                        <Button Name="ToolButtonCancel" Click="tbCancel_Click" >
+                        <Button Name="ToolButtonCancel" Click="tbCancel_Click" IsCancel="True">
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Remove"                                             
                                             FontSize="15"
@@ -116,9 +116,9 @@
                             <fa:FontAwesome Icon="Camera" 
                                             Foreground="SteelBlue"
                                             FontWeight="Normal" FontFamily="FontAwesome" FontSize="20" Margin="0,10,10,2"/>
-                            <TextBlock Margin="0,0,0,0" FontSize="26" FontWeight="Normal">Click and Drag</TextBlock>
+                            <TextBlock Margin="0,0,0,0" FontSize="26" FontWeight="Normal">Click to start</TextBlock>
                         </StackPanel>
-                        <TextBlock FontSize="11" FontWeight="Normal"  Margin="33,0,0,0">release over window to capture</TextBlock>
+                        <TextBlock FontSize="11" FontWeight="Normal"  Margin="33,0,0,0">click over window to capture</TextBlock>
                     </StackPanel>
                 </Button>
 
@@ -126,7 +126,7 @@
 
 
                 <TextBlock Margin="10" TextWrapping="Wrap" Grid.Column="1" FontSize="12">
-                Click the button on the left, and hold the mouse button down while dragging the cursor over a window or control you want to capture. You'll see a highlight and when ready, release the mouse button to capture the area.
+                Click the button on the left to start the capture. Hover over windows and click to select a window or control. You'll see a highight and when ready click to capture the selected area.
                 </TextBlock>
                 <!--<TextBlock Name="msg" Grid.Column="2" ></TextBlock>-->
             </Grid>
