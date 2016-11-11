@@ -200,7 +200,7 @@ namespace MarkdownMonster
         /// 
         /// If there's no active filename a file save dialog
         /// is popped up. 
-        /// </summary>
+        /// </summary>1
         public bool SaveDocument()
         {
             if (MarkdownDocument == null || AceEditor == null || 

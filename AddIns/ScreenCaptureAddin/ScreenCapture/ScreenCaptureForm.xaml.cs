@@ -196,10 +196,10 @@ namespace SnagItAddin
 
             StatusImageSize.Text = "";
 
-            // make sure windows actually hide before we wait
+            // make sure windows actually hides before we wait
             WindowUtilities.DoEvents();
             
-
+            // Display counter
             if (ScreenCaptureConfiguration.Current.CaptureDelaySeconds > 0)
             {
                 var counterForm = new ScreenOverlayCounter();
@@ -242,15 +242,12 @@ namespace SnagItAddin
             Overlay.Show();
 
             CaptureTimer = new Timer(Capture, null, 0, 100);
-
-
         }
 
         private void GlobalMouseHandlerMouseDown(object sender, MouseEventArgs e)
         {
             StopCapture();
         }
-
 
         private void GlobalKeyHandlerKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
