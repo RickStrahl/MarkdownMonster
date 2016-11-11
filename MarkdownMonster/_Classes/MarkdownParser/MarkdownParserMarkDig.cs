@@ -79,7 +79,21 @@ namespace MarkdownMonster
                 return string.Empty;
 
             var html = Markdown.ToHtml(markdown, Pipeline);
-            html = ParseFontAwesomeIcons(html);            
+            html = ParseFontAwesomeIcons(html);
+            html = ParseScript(html);            
+            return html;
+        }
+
+        /// <summary>
+        /// Parses out script tags that might not be encoded yet
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        protected string ParseScript(string html)
+        {
+            html = html.Replace("<script", "&lt;script");
+            html = html.Replace("</script", "&lt;/script");
+            html = html.Replace("javascript:", "javaScript:");
             return html;
         }
 

@@ -69,5 +69,13 @@ namespace MarkdownMonster
             return html;
         }
 
+        protected string ParseScript(string html)
+        {
+            html = html.Replace("<script", "&lt;script");
+            html = html.Replace("</script", "&lt;/script");
+            html = html.Replace("javascript:", "javaScript:");
+            return html;
+        }
+
     }
 }
