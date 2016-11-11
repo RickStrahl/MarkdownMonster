@@ -2,6 +2,18 @@
 
 # Markdown Monster Change Log
 
+### Version 1.05
+<i><small>November 12th, 2016</small></i>
+
+* **Updated UI for Screen Capture**  
+Updated the UI to capture screens with single clicks rather than drag and hold the mousepointer over a window. Simply move the mouse when in capture mode and the selected window/control will highlight.
+
+* **Delated Screen Captures**  
+If you specify a delay value for screen captures the native screen capture now respects it by displaying a count down counter in the lower right corner of the screen before the capture. This allows opening menus and other operations that normally would require mouse clicks. Screens are also pre-captured and displayed from an image. 
+
+* **Fix <script> tag Rendering**  
+`<script>` tag rendering previously caused serious slowdowns in rendering of the preview. Raw script tags - unlike other HTML tags (which are valid Markdown) - are now always encoded.
+
 ### Version 1.03
 <i><small>November 8th, 2016</small></i>
 

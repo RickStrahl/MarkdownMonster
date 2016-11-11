@@ -210,9 +210,9 @@ namespace SnagItAddin
                     counterForm.Topmost = true;
                     counterForm.SetWindowText("1");
 
-                    for (int i = 0; i < ScreenCaptureConfiguration.Current.CaptureDelaySeconds; i++)
+                    for (int i = ScreenCaptureConfiguration.Current.CaptureDelaySeconds; i > 0; i--)
                     {
-                        counterForm.SetWindowText((i + 1).ToString());
+                        counterForm.SetWindowText(i.ToString());
                         WindowUtilities.DoEvents();
 
                         for (int j = 0; j < 100; j++)
