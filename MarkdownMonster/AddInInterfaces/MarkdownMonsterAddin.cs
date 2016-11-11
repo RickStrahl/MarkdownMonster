@@ -229,7 +229,9 @@ namespace MarkdownMonster.AddIns
             if (editor == null)
                 return;
 
-            editor.AceEditor.setselection(text);
+            if (!string.IsNullOrEmpty(text))
+                editor.AceEditor.setselection(text);
+
             editor.WebBrowser.Focus();
             editor.AceEditor.setfocus(true);
 

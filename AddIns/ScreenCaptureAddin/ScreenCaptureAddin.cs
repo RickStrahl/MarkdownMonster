@@ -71,9 +71,7 @@ namespace SnagItAddin
                     mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
-
-
+            
             if (SnagItAutomation.IsInstalled && ScreenCaptureConfiguration.Current.UseSnagItForImageCapture)
                 ExecuteSnagitCapture();
             else
@@ -152,7 +150,10 @@ namespace SnagItAddin
             Model.Window.Topmost = false;
 
             if (form.Cancelled)
+            {
+                SetSelection("");
                 return;
+            }
 
             string capturedFile = form.SavedImageFile;
 
