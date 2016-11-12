@@ -12,6 +12,7 @@ using MahApps.Metro.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using ScreenCaptureAddin;
+using Westwind.Utilities;
 using Cursors = System.Windows.Input.Cursors;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using Point = System.Windows.Point;
@@ -24,9 +25,6 @@ namespace SnagItAddin
     /// </summary>
     public partial class ScreenCaptureForm : MetroWindow
     {
-
-
-
         #region Externally accessible capture interface
 
         public ScreenCaptureConfiguration Configuration { get; set; }
@@ -252,17 +250,16 @@ namespace SnagItAddin
         private void GlobalKeyHandlerKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             bool cancel = e.KeyCode == Keys.Escape;
-
             StopCapture(cancel);
         }
 
         internal void StopCapture(bool cancelCapture = false)
-        {
+        {            
             if (!IsMouseClickCapturing)
                 return;
-
+            
             IsMouseClickCapturing = false;
-
+            
             // IMPORTANT! Must close other windows or else the
             //            MouseHook will not release properly
             Overlay?.Close();
@@ -455,7 +452,8 @@ namespace SnagItAddin
             }
         }
 
-        private void tbClearImage_Click(object sender, RoutedEventArgs e)
+        private void 
+            tbClearImage_Click(object sender, RoutedEventArgs e)
         {
             CapturedBitmap?.Dispose();
             ImageCaptured.Source = null;

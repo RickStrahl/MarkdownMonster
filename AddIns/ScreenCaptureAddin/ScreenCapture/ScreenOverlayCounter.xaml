@@ -2,18 +2,20 @@
         x:Class="SnagItAddin.ScreenOverlayCounter"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Width="100"
-        Height="100"
+        Width="120"
+        Height="120"
         WindowStyle="None"                
         Topmost="True"
         
         Background="Black"
         ResizeMode="NoResize" 
         AllowsTransparency="True"
-        Opacity="0.5"
+        Opacity="0.75"
         >
     <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBox Name="TextSize" Foreground="#bbb" FontSize="250" Background="Black" BorderThickness="0" Margin="12" FontWeight="Bold">
+        <TextBox Name="TextSize" Foreground="#bbb" Background="Black" 
+                 FontWeight="Bold" 
+                 BorderThickness="0" >
             1
         </TextBox>
     </Viewbox>
