@@ -140,7 +140,7 @@ tbody>tr:nth-child(even) {
     width: 1px; 
 }
 .line-highlight {
-    background: #fbcfd5 !important;
+    background: #ffe9ec;
 }
 
 @media(min-width: 1080px){
