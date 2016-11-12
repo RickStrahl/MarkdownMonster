@@ -158,8 +158,17 @@ namespace MarkdownMonster.Windows
             if (!string.IsNullOrEmpty(MarkdownFile))
             {
                 string mdPath = System.IO.Path.GetDirectoryName(MarkdownFile);
-                string relPath = FileUtils.GetRelativePath(fd.FileName, mdPath);
 
+                string relPath = fd.FileName;
+                try
+                {
+                    relPath = FileUtils.GetRelativePath(fd.FileName, mdPath);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log($"Failed to get relative path.\r\nFile: {fd.FileName}, Path: {mdPath}", ex);
+                }
+                
                 // not relative
                 if (!relPath.StartsWith("..\\"))
                     Link = relPath;
