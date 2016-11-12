@@ -251,9 +251,7 @@ namespace SnagItAddin
 
         private void GlobalKeyHandlerKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            bool cancel = false;
-            if (e.KeyCode == Keys.Escape)
-                cancel = true;
+            bool cancel = e.KeyCode == Keys.Escape;
 
             StopCapture(cancel);
         }
@@ -310,7 +308,8 @@ namespace SnagItAddin
                 if (LastWindow == null || !CurWindow.Handle.Equals(LastWindow.Handle))
                 {
                     if (CurWindow.Handle != WindowHandle &&
-                        CurWindow.Handle != new IntPtr(65842) && Overlay != null)
+                        CurWindow.Rect.Width <= Screen.FromHandle(CurWindow.Handle).Bounds.Width && // don't capture dual window desktop
+                        Overlay != null)
                     {
                         Overlay.Left = CurWindow.Rect.X;
                         Overlay.Top = CurWindow.Rect.Y;

@@ -169,7 +169,6 @@ namespace SnagItAddin
 
             // Push the new text into the Editor's Selection
             SetSelection(replaceText);
-
         }
 
 #if false
