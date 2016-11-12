@@ -43,7 +43,7 @@ function scrollToPragmaLine(lineno) {
                 lineno--;
                 $el = $("#pragma-line-" + lineno);
                 if ($el.length > 0)
-                    break;
+                    return;
             }
         }
 
