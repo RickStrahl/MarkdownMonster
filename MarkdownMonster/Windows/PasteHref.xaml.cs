@@ -172,6 +172,11 @@ namespace MarkdownMonster.Windows
                 // not relative
                 if (!relPath.StartsWith("..\\"))
                     Link = relPath;
+
+                // is it a physical path?
+                if (Link.Contains(":\\"))
+                    Link = "file:///" + Link;
+
             }
             mmApp.Configuration.LastFolder = System.IO.Path.GetDirectoryName(fd.FileName);
             TextLink.Focus();

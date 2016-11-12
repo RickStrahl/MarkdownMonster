@@ -37,20 +37,23 @@ function scrollToPragmaLine(lineno) {
     if (lineno < 0) return;
 
     setTimeout(function () {
-        var $el = $("#pragma-line-" + lineno);
-        if ($el.length < 1) {
-            for (var i = 0; i < 5; i++) {
-                lineno--;
-                $el = $("#pragma-line-" + lineno);
-                if ($el.length > 0)
-                    return;
+        try {
+            var $el = $("#pragma-line-" + lineno);
+            if ($el.length < 1) {
+                for (var i = 0; i < 5; i++) {
+                    lineno--;
+                    $el = $("#pragma-line-" + lineno);
+                    if ($el.length > 0)
+                        return;
+                }
             }
-        }
 
-        $("html").scrollTop($el.offset().top - 100);
-        
-        $el.addClass("line-highlight");
-        setTimeout(function() { $el.removeClass("line-highlight"); },1200);
+            $("html").scrollTop($el.offset().top - 100);
+
+            $el.addClass("line-highlight");
+            setTimeout(function() { $el.removeClass("line-highlight"); }, 1200);
+        }
+        catch(ex) { alert(ex.message); }
     },200);
 }
 
