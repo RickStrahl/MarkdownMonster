@@ -53,15 +53,41 @@ function scrollToPragmaLine(lineno) {
             $el.addClass("line-highlight");
             setTimeout(function() { $el.removeClass("line-highlight"); }, 1200);
         }
-        catch(ex) { alert(ex.message); }
+        catch(ex) {  }
     },200);
 }
 
 function status(msg) {
     var $el = $("#statusmessage");
-    if ($el.length < 1)
-        $el = $("<div id='statusmessage' style='position: fixed;  left:0; right:0; bottom: 0; padding: 10px; background: #444; color: white;'></div>");
-
-    $(document.body).append($el);
+    if ($el.length < 1) {
+        $el = $("<div id='statusmessage' style='position: fixed; opacity: 0.8; left:0; right:0; bottom: 0; padding: 5px 10px; background: #444; color: white;'></div>");
+        $(document.body).append($el);
+    }
     $el.text(msg);
+    setTimeout(function() { $el.text(""); $el.fadeOut() }, 3000);
+}
+
+var isDebug = true;
+window.onerror = function windowError(message, filename, lineno, colno, error) {
+    if (!isDebug)
+        return true;
+    
+    var msg = "";
+    if (message)
+        msg = message;
+    //if (filename)
+    //    msg += ", " + filename;
+    if (lineno)
+        msg += " (" + lineno + "," + colno + ")";
+    if (error)
+        msg += error;
+
+    // show error messages in a little pop overwindow
+    if (isDebug)
+        status(msg);
+
+    console.log(msg);
+    
+    // don't let errors trigger browser window
+    return true;
 }

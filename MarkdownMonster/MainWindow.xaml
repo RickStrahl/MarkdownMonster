@@ -393,7 +393,8 @@
             </GridSplitter>
 
             <WebBrowser Grid.Column="2" Name="PreviewBrowser"
-                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  >
+                        VerticalAlignment="Stretch" 
+                        HorizontalAlignment="Stretch"  >
             </WebBrowser>
         </Grid>
 

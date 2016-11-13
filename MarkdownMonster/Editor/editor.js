@@ -268,6 +268,8 @@ var te = window.textEditor = {
     },
     getLineNumber: function(ignored) {
         var selectionRange = te.editor.getSelectionRange();
+        if (!selectionRange) {
+            status("no selection range...");    return -1;}
         return selectionRange.start.row;
     },
     gotfocus: function (ignored) {
@@ -522,7 +524,7 @@ function status(msg) {
             dt.getSeconds() + "." + dt.getMilliseconds() +
             ": " + msg);
         $el.show();
-        setTimeout(function() { $("#message").fadeOut() }, 10000);
+        setTimeout(function() { $("#message").fadeOut() }, 5000);
     }
 }
 
