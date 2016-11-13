@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
@@ -12,6 +14,7 @@ using MahApps.Metro.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using ScreenCaptureAddin;
+using SnagItAddin.Annotations;
 using Westwind.Utilities;
 using Cursors = System.Windows.Input.Cursors;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
@@ -23,7 +26,8 @@ namespace SnagItAddin
     /// <summary>
     /// Interaction logic for About.xaml
     /// </summary>
-    public partial class ScreenCaptureForm : MetroWindow
+    public partial class ScreenCaptureForm : MetroWindow, INotifyPropertyChanged
+
     {
         #region Externally accessible capture interface
 
@@ -70,6 +74,27 @@ namespace SnagItAddin
         /// </summary>
         public bool AutoClose { get; set; } = true;
 
+        public int CaptureDelaySeconds
+        {
+            get { return _captureDelaySeconds; }
+            set
+            {
+                if (value == _captureDelaySeconds) return;
+                _captureDelaySeconds = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IncludeCursor
+        {
+            get { return _includeCursor; }
+            set
+            {
+                if (value == _includeCursor) return;
+                _includeCursor = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -99,10 +124,11 @@ namespace SnagItAddin
             }
         }
 
-        ScreenOverlayWpf Overlay;
+        ScreenClickOverlay Overlay;
         ScreenOverlayDesktop Desktop;
 
         bool IsMouseClickCapturing = false;
+        bool IsPreviewCapturing = false;
 
 
         private IntPtr WindowHandle = IntPtr.Zero;
@@ -111,7 +137,7 @@ namespace SnagItAddin
         // Keep track of captured window that the mouse is over
         WindowInfo LastWindow = null;
         WindowInfo CurWindow = null;
-
+        
         private IKeyboardMouseEvents GlobalMouseHandler;
 
         #endregion
@@ -122,25 +148,27 @@ namespace SnagItAddin
         public ScreenCaptureForm()
         {
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
-
-
+            
             InitializeComponent();
-
-
+            
             Loaded += ScreenCaptureForm_Loaded;
             Unloaded += ScreenCaptureForm_Unloaded;
 
+            DataContext = this;
+            
         }
 
         private void ScreenCaptureForm_Loaded(object sender, RoutedEventArgs e)
         {
+            CaptureDelaySeconds = ScreenCaptureConfiguration.Current.CaptureDelaySeconds;
+            IncludeCursor = ScreenCaptureConfiguration.Current.IncludeCursor;
+
             GlobalMouseHandler = Hook.GlobalEvents();
             GlobalMouseHandler.MouseClick += GlobalMouseHandlerMouseDown;
             GlobalMouseHandler.KeyDown += GlobalKeyHandlerKeyDown;
 
             CapturedBitmap = null;
             WindowHandle = new WindowInteropHelper(this).Handle;
-
         }
 
 
@@ -154,6 +182,13 @@ namespace SnagItAddin
             GlobalMouseHandler.KeyDown -= GlobalKeyHandlerKeyDown;
             GlobalMouseHandler.Dispose();
             GlobalMouseHandler = null;
+
+            if (WindowState == WindowState.Normal)
+            {
+                ScreenCaptureConfiguration.Current.WindowHeight = Height;
+                ScreenCaptureConfiguration.Current.WindowWidth = Width;
+                ScreenCaptureConfiguration.Current.Write();
+            }
         }
 
         #endregion
@@ -179,7 +214,11 @@ namespace SnagItAddin
         }
 
         private double SavedTop = 0;
+
         private Bitmap _capturedBitmap;
+        private bool _includeCursor;
+        private int _captureDelaySeconds;
+
 
         private void ButtonCapture_Click(object sender, EventArgs e)
         {
@@ -196,10 +235,13 @@ namespace SnagItAddin
 
             // make sure windows actually hides before we wait
             WindowUtilities.DoEvents();
-            
+
             // Display counter
-            if (ScreenCaptureConfiguration.Current.CaptureDelaySeconds > 0)
+            if (CaptureDelaySeconds > 0)
             {
+                IsPreviewCapturing = true;
+                Cancelled = false;
+
                 var counterForm = new ScreenOverlayCounter();
 
                 try
@@ -208,7 +250,7 @@ namespace SnagItAddin
                     counterForm.Topmost = true;
                     counterForm.SetWindowText("1");
 
-                    for (int i = ScreenCaptureConfiguration.Current.CaptureDelaySeconds; i > 0; i--)
+                    for (int i = CaptureDelaySeconds; i > 0; i--)
                     {
                         counterForm.SetWindowText(i.ToString());
                         WindowUtilities.DoEvents();
@@ -218,54 +260,75 @@ namespace SnagItAddin
                             Thread.Sleep(10);
                             WindowUtilities.DoEvents();
                         }
+                        if (Cancelled)
+                        {
+                            CancelCapture();
+                            return;
+                        }
                     }
                 }
                 finally
                 {
                     counterForm.Close();
+                    IsPreviewCapturing = false;
+                    Cancelled = true;
                 }
             }
-
+            
             IsMouseClickCapturing = true;
-
+            
+            
             Desktop = new ScreenOverlayDesktop(this);
-            Desktop.SetDesktop();
+            Desktop.SetDesktop(IncludeCursor);
             Desktop.Show();
 
             WindowUtilities.DoEvents();
 
-            Overlay = new ScreenOverlayWpf();
-            Overlay.Width = 0;
-            Overlay.Height = 0;
+            Overlay = new ScreenClickOverlay
+            {
+                Width = 0,
+                Height = 0
+            };
             Overlay.Show();
 
+            LastWindow = null;
             CaptureTimer = new Timer(Capture, null, 0, 100);
         }
 
+        
+
         private void GlobalMouseHandlerMouseDown(object sender, MouseEventArgs e)
-        {
-            StopCapture();
+        {                        
+            if (IsMouseClickCapturing)
+                StopCapture();
         }
 
         private void GlobalKeyHandlerKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             bool cancel = e.KeyCode == Keys.Escape;
+            if (IsPreviewCapturing)
+            {                
+                Cancelled = cancel;
+                return;
+            }
+            
             StopCapture(cancel);
         }
 
         internal void StopCapture(bool cancelCapture = false)
-        {            
+        {
             if (!IsMouseClickCapturing)
                 return;
-            
+
             IsMouseClickCapturing = false;
-            
-            // IMPORTANT! Must close other windows or else the
-            //            MouseHook will not release properly
+
             Overlay?.Close();
+            WindowUtilities.DoEvents();
 
-
-            ButtonCapture.Cursor = Cursors.Arrow;
+            Desktop.Topmost = true;
+            Desktop.Activate();            
+            WindowUtilities.DoEvents();
+            
             if (LastWindow != null)
             {
                 CapturedBitmap = ScreenCapture.CaptureWindowBitmap(CurWindow.Handle);
@@ -273,6 +336,7 @@ namespace SnagItAddin
                 StatusText.Text = "Image capture from Screen: " + $"{CapturedBitmap.Width}x{CapturedBitmap.Height}";
             }
 
+            //Desktop.Topmost = false;
             Desktop?.Close();
 
             if (ExternalWindow != null)
@@ -299,13 +363,13 @@ namespace SnagItAddin
             Point pt = GetMousePosition();
             CurWindow = new WindowInfo(ScreenCapture.WindowFromPoint(new System.Drawing.Point((int) pt.X, (int) pt.Y)));
 
-
             this.Invoke(() =>
             {
                 if (LastWindow == null || !CurWindow.Handle.Equals(LastWindow.Handle))
                 {
                     if (CurWindow.Handle != WindowHandle &&
-                        CurWindow.Rect.Width <= Screen.FromHandle(CurWindow.Handle).Bounds.Width && // don't capture dual window desktop
+                        CurWindow.Rect.Width <= Screen.FromHandle(CurWindow.Handle).Bounds.Width &&
+                        // don't capture dual window desktop
                         Overlay != null)
                     {
                         Overlay.Left = CurWindow.Rect.X;
@@ -342,7 +406,7 @@ namespace SnagItAddin
             ExternalWindow?.Activate();
         }
 
-    #endregion
+        #endregion
 
         #region ButtonHandlers
 
@@ -375,7 +439,7 @@ namespace SnagItAddin
             SavedImageFile = sd.FileName;
             try
             {
-               
+
                 CapturedBitmap?.Save(SavedImageFile);
             }
             catch (Exception ex)
@@ -384,7 +448,7 @@ namespace SnagItAddin
                 StatusText.Text = "Error saving image: " + ex.Message;
                 return;
             }
-    
+
             if (!string.IsNullOrEmpty(ResultFilePath))
                 File.WriteAllText(ResultFilePath, SavedImageFile);
 
@@ -410,11 +474,11 @@ namespace SnagItAddin
                 var exe = ScreenCaptureConfiguration.Current.ImageEditorPath;
                 if (!File.Exists(exe))
                     exe = Path.Combine(Environment.SystemDirectory, "mspaint.exe");
-                var process = Process.Start(new ProcessStartInfo(exe, SavedImageFile));                
+                var process = Process.Start(new ProcessStartInfo(exe, SavedImageFile));
             }
-            
 
-    }
+
+        }
 
 
         private void tbCaptureDesktop_Click(object sender, RoutedEventArgs e)
@@ -431,7 +495,7 @@ namespace SnagItAddin
 
             CapturedBitmap?.Dispose();
             CapturedBitmap = new Bitmap(img);
-            
+
             StatusText.Text = $"Desktop captured Image: {CapturedBitmap.Width}x{CapturedBitmap.Height}";
             ExternalWindow?.Show();
 
@@ -452,7 +516,7 @@ namespace SnagItAddin
             }
         }
 
-        private void 
+        private void
             tbClearImage_Click(object sender, RoutedEventArgs e)
         {
             CapturedBitmap?.Dispose();
@@ -462,11 +526,13 @@ namespace SnagItAddin
 
         #endregion
 
-        private void ButtonCapture_Click_1(object sender, RoutedEventArgs e)
-        {
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
 }
 

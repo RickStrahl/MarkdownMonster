@@ -50,17 +50,21 @@ namespace SnagItAddin
             WindowsServices.SetWindowExTransparent(hwnd);
         }
 
-        public void SetDesktop()
+        public void SetDesktop(bool includeCursor = false)
         {
             var handle = ScreenCapture.GetDesktopWindow();
             Bitmap = ScreenCapture.CaptureWindowBitmap(handle);
+
+            if (includeCursor)
+            {
+                var MousePointerInfo = ScreenCapture.GetMousePointerInfo();
+                ScreenCapture.DrawMousePointer(MousePointerInfo, Bitmap);
+            }
 
             Left = 0;
             Top = 0;
             Width = Bitmap.Width;
             Height = Bitmap.Height;
-
-            Debug.WriteLine("Screen: " + Bitmap.Width + "x" + Bitmap.Height);
 
             DesktopImage.Source = ScreenCapture.BitmapToBitmapSource(Bitmap);
         }

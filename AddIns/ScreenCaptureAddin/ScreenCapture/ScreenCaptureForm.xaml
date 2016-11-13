@@ -12,13 +12,13 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"        
         Title="Markdown Monster Screen Capture" 
-        TitleCaps="False" ResizeMode="CanResizeWithGrip"
+        TitleCharacterCasing="Normal" ResizeMode="CanResizeWithGrip"
         Icon="../MarkdownMonster_Icon_256.png"    
         WindowStyle="SingleBorderWindow"         
-        WindowStartupLocation="CenterOwner"         
+        WindowStartupLocation="Manual"
         FontSize="15"
         Foreground="#ffeeee"
-        Width="800" Height="1000">
+        Width="1250" Height="1000">
 
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
@@ -91,6 +91,12 @@
                                 <TextBlock>Clear Image</TextBlock>
                             </StackPanel>
                         </Button>
+                        
+                        <Separator />
+                        
+                        <Label>Capture Delay:</Label>
+                        <TextBox x:Name="TextCaptureDelay" Text="{Binding CaptureDelaySeconds,UpdateSourceTrigger=PropertyChanged}" Width="30" BorderThickness="0" ></TextBox>
+                        <CheckBox x:Name="CheckBoxCaptureCursor"  IsChecked="{Binding IncludeCursor}" Content="Capture Cursor"></CheckBox>
                     </ToolBar>
                 </StackPanel>
             </ToolBarPanel>
@@ -131,10 +137,10 @@
                 <!--<TextBlock Name="msg" Grid.Column="2" ></TextBlock>-->
             </Grid>
         </Grid>
-        
+      
         <Image Name="ImageCaptured" Grid.Row="2"  Margin="10,0"/>
 
-            <StatusBar  Grid.Row ="3" Height="30" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="12"
+            <StatusBar  Grid.Row="3" Height="30" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="12"
                         Background="{Binding Window.Background}">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>

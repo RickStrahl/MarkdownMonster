@@ -133,8 +133,8 @@ namespace SnagItAddin
         public string ImageEditorPath { get; set; } =
             @"C:\Program Files\paint.net\PaintDotNet.exe";
 
-        public double WindowHeight { get; set; } = 640;
-        public double WindowWidth { get; set; } = 800;
+        public double WindowHeight { get; set; } = 730;
+        public double WindowWidth { get; set; } = 910;
         
 
         private bool _showPreviewWindow;

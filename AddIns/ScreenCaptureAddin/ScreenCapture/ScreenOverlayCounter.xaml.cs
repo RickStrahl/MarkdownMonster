@@ -1,19 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
-using System.Windows.Media;
-using FontAwesome.WPF;
-using MahApps.Metro.Controls;
-using MarkdownMonster;
-using Westwind.Utilities;
 
 namespace SnagItAddin
 {    
