@@ -95,7 +95,8 @@
                         <Separator />
                         
                         <Label>Capture Delay:</Label>
-                        <TextBox x:Name="TextCaptureDelay" Text="{Binding CaptureDelaySeconds,UpdateSourceTrigger=PropertyChanged}" Width="30" BorderThickness="0" ></TextBox>
+                        <TextBox x:Name="TextCaptureDelay" Text="{Binding CaptureDelaySeconds,UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,3,0,0"  Width="30" BorderThickness="0" ></TextBox>
                         <CheckBox x:Name="CheckBoxCaptureCursor"  IsChecked="{Binding IncludeCursor}" Content="Capture Cursor"></CheckBox>
                     </ToolBar>
                 </StackPanel>
