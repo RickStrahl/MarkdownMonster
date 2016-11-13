@@ -850,18 +850,20 @@ namespace MarkdownMonster
                                     // much more efficient and non-jumpy and no wait cursor
                                     var window = dom.parentWindow;
                                     window.updateDocumentContent(renderedHtml);
-
-                                    int lineno = editor.GetLineNumber();
-
-
-
-                                    if (lineno > -1)
-                                        window.scrollToPragmaLine(lineno);     
+                                    
+                                    try
+                                    {
+                                        int lineno = editor.GetLineNumber();                                        
+                                        if (lineno > -1)
+                                            window.scrollToPragmaLine(lineno);
+                                    }
+                                    catch {}                                        
                                 }
-                                catch
+                                catch(Exception ex)
                                 {
                                     PreviewBrowser.Refresh(true);
                                 }
+                                
                             }
 
                             return;
@@ -1381,11 +1383,13 @@ namespace MarkdownMonster
 
         private void InitializePreviewBrowser()
         {
-            PreviewBrowser.Navigated += (sender, e) =>
-            {
-                // No Script Errors
-                NoScriptErrors(PreviewBrowser, true);
-            };
+
+            // removed - handle at the document level
+            //PreviewBrowser.Navigated += (sender, e) =>
+            //{
+            //    // No Script Errors
+            //    NoScriptErrors(PreviewBrowser, true);
+            //};
             PreviewBrowser.LoadCompleted += (sender, e) =>
             {
                 if (e.Uri.ToString().Contains("about:blank"))
@@ -1396,8 +1400,6 @@ namespace MarkdownMonster
                 dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;           
             };
             PreviewBrowser.Navigate("about:blank");
-
-
         }
 
         /// <summary>
