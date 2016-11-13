@@ -19,10 +19,10 @@ namespace SnagItAddin
     /// <summary>
     /// Interaction logic for About.xaml
     /// </summary>
-    public partial class ScreenOverlayWpf: System.Windows.Window
+    public partial class ScreenClickOverlay: System.Windows.Window
     {
 
-        public ScreenOverlayWpf()
+        public ScreenClickOverlay()
         {
             InitializeComponent();
         }

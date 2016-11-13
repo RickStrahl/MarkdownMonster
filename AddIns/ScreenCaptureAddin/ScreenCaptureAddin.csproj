@@ -81,8 +81,8 @@
     <Compile Include="ScreenCapture\ScreenOverlayCounter.xaml.cs">
       <DependentUpon>ScreenOverlayCounter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ScreenCapture\ScreenOverlayWpf.xaml.cs">
-      <DependentUpon>ScreenOverlayWpf.xaml</DependentUpon>
+    <Compile Include="ScreenCapture\ScreenClickOverlay.xaml.cs">
+      <DependentUpon>ScreenClickOverlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="SnagItAutomation.cs" />
     <Compile Include="ScreenCaptureConfigurationForm.xaml.cs">
@@ -109,7 +109,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ScreenCapture\ScreenOverlayWpf.xaml">
+    <Page Include="ScreenCapture\ScreenClickOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
