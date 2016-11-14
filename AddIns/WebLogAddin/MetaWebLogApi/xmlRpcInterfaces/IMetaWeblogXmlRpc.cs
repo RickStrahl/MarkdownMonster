@@ -83,7 +83,7 @@ namespace WebLogAddin.MetaWebLogApi.XmlRpcInterfaces
         /// <param name="password">The password.</param>
         /// <returns></returns>
         [XmlRpcMethod("metaWeblog.getPost")]
-        XmlRpcPost GetPost(string postid, string username, string password);
+        XmlRpcPost GetPost(object postid, string username, string password);
 
         /// <summary>
         /// Gets the user blogs.

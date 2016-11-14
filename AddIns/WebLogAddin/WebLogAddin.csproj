@@ -112,7 +112,7 @@
     <Compile Include="MetaWebLogApi\wrappers\IWordPressWrapper.cs" />
     <Compile Include="MetaWebLogApi\wrappers\MetaWeblogWrapper.cs" />
     <Compile Include="MetaWebLogApi\wrappers\WordPressWrapper.cs" />
-    <Compile Include="MetaWebLogApi\wrappers\WrapperBase.cs" />
+    <Compile Include="MetaWebLogApi\wrappers\BaseWrapper.cs" />
     <Compile Include="MetaWebLogApi\xmlRpcInterfaces\IMetaWeblogXmlRpc.cs" />
     <Compile Include="MetaWebLogApi\xmlRpcInterfaces\IWordPressXmlRpc.cs" />
     <Compile Include="MetaWebLogApi\xmlRpcStructs\Author.cs" />

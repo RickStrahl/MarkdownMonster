@@ -97,7 +97,7 @@ namespace WeblogAddin
                 await Dispatcher.InvokeAsync(() =>
                 {
                     // Then send the post - it will re-read the new values
-                    if (Model.Addin.SendPost())
+                    if (Model.Addin.SendPost(sendAsDraft: Model.ActivePostMetadata.IsDraft))
                         Close();
                     else
                         window.ShowStatus("Failed to upload blog post.", 5000);
@@ -113,7 +113,7 @@ namespace WeblogAddin
         }
 
         private async void ButtonSaveMeta_Click(object sender, RoutedEventArgs e)
-        {            
+        {                        
             // Update the Markdown document first
             string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
             Model.AppModel.ActiveEditor.SetMarkdown(markdown);            

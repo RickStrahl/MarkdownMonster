@@ -124,18 +124,6 @@ namespace WeblogAddin
             }
         }
 
-        /// <summary>
-        /// Determines whether a post is published as a draft
-        /// </summary>
-        public bool IsPostDraft
-        {
-            get { return _isPostDraft; }
-            set
-            {   if (value == _isPostDraft) return;
-                _isPostDraft = value;
-                OnPropertyChanged(nameof(IsPostDraft));
-            }
-        }
 
         /// <summary>
         /// Number of posts to retrieve for the Get Web Log posts
@@ -201,8 +189,7 @@ namespace WeblogAddin
             }
         }    
         private List<string> _WeblogNames = new List<string>();
-        private int _numberOfPostsToRetrieve;
-        private bool _isPostDraft;
+        private int _numberOfPostsToRetrieve;        
         private string _postListSearch;
         private string _newFilename;
 

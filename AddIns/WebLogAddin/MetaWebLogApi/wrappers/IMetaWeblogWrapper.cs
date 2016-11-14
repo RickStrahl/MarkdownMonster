@@ -6,7 +6,7 @@ namespace WebLogAddin.MetaWebLogApi
     {
         bool DeletePost(int postid);        
         IEnumerable<Category> GetCategories();
-        Post GetPost(string postID);
+        Post GetPost(object postID);
         IEnumerable<Post> GetRecentPosts(int numberOfPosts);
         IEnumerable<UserBlog> GetUserBlogs();
         UserInfo GetUserInfo();
