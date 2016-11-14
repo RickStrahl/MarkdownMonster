@@ -259,10 +259,12 @@ namespace MarkdownMonster
         /// <returns></returns>
         private string GetVersionStringFromVersion(Version version)
         {
-            return version.Major + "." + version.Minor.ToString().PadLeft(2, '0');
+            var v = version;        
+            return v.Major + "." + v.Minor + (v.Build > 0 ? "." + v.Build : "");
         }
-
     }
+
+    
 
     /// <summary>
     /// Version info class used to 

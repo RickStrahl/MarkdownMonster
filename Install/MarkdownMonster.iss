@@ -1,6 +1,6 @@
 
 #define MyAppName "Markdown Monster"
-#define MyAppVersion "1.07"
+#define MyAppVersion GetFileVersion('.\Distribution\MarkdownMonster.exe')
 #define MyAppPublisher "West Wind Technologies"
 #define MyAppURL "https://markdownmonster.west-wind.com"
 #define MyAppExeName "MarkdownMonster.exe"
@@ -14,6 +14,7 @@ AppId={{E3476879-4D00-405A-B058-90D4AEAD7C4A}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppVerName={#MyAppName} {#MyAppVersion}
+VersionInfoVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
