@@ -15,7 +15,6 @@ namespace MarkdownMonster.Test
             string html = parser.Parse(markdown);
 
             Console.WriteLine(html);
-
         }
 
         [TestMethod]
