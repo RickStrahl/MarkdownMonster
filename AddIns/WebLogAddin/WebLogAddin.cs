@@ -105,8 +105,8 @@ namespace WeblogAddin
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool SendPost(WeblogTypes type = WeblogTypes.MetaWeblogApi, bool sendAsDraft = false)
-        {
+        public bool SendPost(WeblogTypes type = WeblogTypes.Unknown, bool sendAsDraft = false)
+        {            
             var editor = Model.ActiveEditor;
             if (editor == null)
                 return false;
@@ -139,6 +139,9 @@ namespace WeblogAddin
             }
             WeblogInfo weblogInfo = kv.Value;
 
+            if (type == WeblogTypes.Unknown)
+                type = weblogInfo.Type;
+
             MetaWeblogWrapper wrapper;
 
             if (type == WeblogTypes.MetaWeblogApi)
@@ -158,6 +161,7 @@ namespace WeblogAddin
 
             ActivePost.Body = body;
             ActivePost.PostID = meta.PostId;
+            
 
             ActivePost.CustomFields = new CustomField[1]
             {
@@ -205,6 +209,17 @@ namespace WeblogAddin
             {
                 var url = weblogInfo.PreviewUrl.Replace("{0}", ActivePost.PostID.ToString());
                 ShellUtils.GoUrl(url);
+            }
+            else
+            {
+                try
+                {
+                    var postRaw = wrapper.GetPostRaw(ActivePost.PostID);
+                    var link = postRaw.link;
+                    if (!string.IsNullOrEmpty(link))
+                        ShellUtils.GoUrl(link);
+                }
+                catch { }
             }
 
             return true;
@@ -400,9 +415,13 @@ $@"# {meta.Title}
             meta.Keywords = StringUtils.ExtractString(config, "\n<keywords>", "\n</keywords>").Trim();
             meta.Categories = StringUtils.ExtractString(config, "\n<categories>", "\n</categories>").Trim();
             meta.PostId = StringUtils.ExtractString(config, "\n<postid>", "</postid>").Trim();
+            string strIsDraft = StringUtils.ExtractString(config, "\n<isDraft>", "</isDraft>").Trim();
+            if (strIsDraft != null && strIsDraft == "True")
+                meta.IsDraft = true;
             string weblogName = StringUtils.ExtractString(config, "\n<weblog>", "</weblog>").Trim();
             if (!string.IsNullOrEmpty(weblogName))
                 meta.WeblogName = weblogName;
+
 
             ActivePost.Title = meta.Title;            
             ActivePost.Categories = meta.Categories.Split(new [] { ','},StringSplitOptions.RemoveEmptyEntries);
@@ -435,6 +454,7 @@ $@"# {meta.Title}
 <keywords>
 {meta.Keywords}
 </keywords>
+<isDraft>{meta.IsDraft}</isDraft>
 <weblogs>
 <postid>{meta.PostId}</postid>
 <weblog>

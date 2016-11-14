@@ -37,7 +37,7 @@ namespace WebLogAddin.MetaWebLogApi
         public virtual int NewPost(Post post, bool publish)
         {
             var content = Map.From.Post(post);
-            return Convert.ToInt32(_wrapper.NewPost(this.BlogID, Username, Password, content, publish));
+            return Convert.ToInt32(_wrapper.NewPost(BlogID, Username, Password, content, publish));
         }
         
 
@@ -47,15 +47,15 @@ namespace WebLogAddin.MetaWebLogApi
             return Convert.ToBoolean(_wrapper.EditPost(post.PostID.ToString(), Username, Password, content, publish));            
         }
 
-        public virtual Post GetPost(string postID)
+        public virtual Post GetPost(object postID)
         {
             var post = _wrapper.GetPost(postID, Username, Password);
             return Map.To.Post(post);
         }
 
-        public virtual XmlRpcPost GetPostRaw(int postID)
+        public virtual XmlRpcPost GetPostRaw(object postID)
         {
-            return _wrapper.GetPost(postID.ToString(), Username, Password);
+            return _wrapper.GetPost(postID, Username, Password);
         }
 
         /// <summary> 
@@ -63,7 +63,7 @@ namespace WebLogAddin.MetaWebLogApi
         /// </summary> 
         public virtual IEnumerable<Category> GetCategories()
         {
-            var result = _wrapper.GetCategories(this.BlogID, Username, Password);
+            var result = _wrapper.GetCategories(BlogID, Username, Password);
 
             foreach (var r in result)
                 yield return Map.To.Category(r);
@@ -76,7 +76,7 @@ namespace WebLogAddin.MetaWebLogApi
         /// <returns></returns>
         public virtual IEnumerable<Post> GetRecentPosts(int numberOfPosts)
         {
-            var result = _wrapper.GetRecentPosts(this.BlogID, Username, Password, numberOfPosts);
+            var result = _wrapper.GetRecentPosts(BlogID, Username, Password, numberOfPosts);
 
             foreach (var r in result)
                 yield return Map.To.Post(r);
@@ -120,7 +120,7 @@ namespace WebLogAddin.MetaWebLogApi
         public virtual MediaObjectInfo NewMediaObject(MediaObject mediaObject)
         {
             var xmlRpcMediaObject = Map.From.MediaObject(mediaObject);
-            var result = _wrapper.NewMediaObject(this.BlogID, Username, Password, xmlRpcMediaObject);
+            var result = _wrapper.NewMediaObject(BlogID, Username, Password, xmlRpcMediaObject);
 
             return Map.To.MediaObjectInfo(result);
         }

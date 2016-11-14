@@ -8,6 +8,7 @@ namespace WeblogAddin
     {
         private string _title;
         private string _abstract;
+        private bool _isDraft;
         public string PostId { get; set; }
 
         public string Title
@@ -49,6 +50,17 @@ namespace WeblogAddin
         public string Categories { get; set; }
 
         public string WeblogName { get; set; }
+
+        public bool IsDraft
+        {
+            get { return _isDraft; }
+            set
+            {
+                if (value == _isDraft) return;
+                _isDraft = value;
+                OnPropertyChanged(nameof(IsDraft));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
