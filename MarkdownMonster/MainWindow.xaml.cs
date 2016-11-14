@@ -435,8 +435,7 @@ namespace MarkdownMonster
             tab.Content = wb;            
             
             if (editor == null)
-            {
-                dynamic dom = wb.Document;
+            {                
                 editor = new MarkdownDocumentEditor(wb)
                 {
                     Window = this,
@@ -449,8 +448,8 @@ namespace MarkdownMonster
                 };
                 if (doc.Filename != "untitled")
                 {                                        
-                    doc.Filename = mmFileUtils.GetPhysicalPath(doc.Filename);                 
-
+                    doc.Filename = mmFileUtils.GetPhysicalPath(doc.Filename);
+                    
                     if (!doc.Load())
                     {
                         if (!batchOpen)
@@ -473,7 +472,6 @@ namespace MarkdownMonster
                 
                 tab.ToolTip = doc.Filename;                
             }
-
             
             var filename = Path.GetFileName(editor.MarkdownDocument.Filename);
             tab.Tag = editor;
