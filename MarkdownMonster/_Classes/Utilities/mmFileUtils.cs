@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -53,5 +54,58 @@ namespace MarkdownMonster
             return filename;
         }
 
+
+        /// <summary>
+        /// Extracts a string from between a pair of delimiters. Only the first 
+        /// instance is found.
+        /// </summary>
+        /// <param name="source">Input String to work on</param>
+        /// <param name="StartDelim">Beginning delimiter</param>
+        /// <param name="endDelim">ending delimiter</param>
+        /// <param name="CaseInsensitive">Determines whether the search for delimiters is case sensitive</param>
+        /// <returns>Extracted string or ""</returns>
+        public static string ExtractString(string source,
+                                           string beginDelim,
+                                           string endDelim,
+                                           bool caseSensitive = false,
+                                           bool allowMissingEndDelimiter = false,
+                                           bool returnDelimiters = false)
+        {
+            int at1, at2;
+
+            if (string.IsNullOrEmpty(source))
+                return string.Empty;
+
+            if (caseSensitive)
+            {
+                at1 = source.IndexOf(beginDelim);
+                if (at1 == -1)
+                    return string.Empty;
+
+                at2 = source.IndexOf(endDelim, at1 + beginDelim.Length);                
+            }
+            else
+            {
+                //string Lower = source.ToLower();
+                at1 = source.IndexOf(beginDelim, 0, source.Length, StringComparison.OrdinalIgnoreCase);
+                if (at1 == -1)
+                    return string.Empty;
+                
+                at2 = source.IndexOf(endDelim, at1 + beginDelim.Length, StringComparison.OrdinalIgnoreCase);                
+            }
+
+            if (allowMissingEndDelimiter && at2 < 0)
+                return source.Substring(at1 + beginDelim.Length);
+
+            if (at1 > -1 && at2 > 1)
+            {
+                if (!returnDelimiters)
+                    return source.Substring(at1 + beginDelim.Length, at2 - at1 - beginDelim.Length);
+
+                return source.Substring(at1, at2 - at1 + endDelim.Length);
+            }
+
+            return string.Empty;
+        }
     }
 }

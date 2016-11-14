@@ -286,6 +286,7 @@ $@"# {meta.Title}
 <!--
 ```xml
 <blogpost>
+<title>{meta.Title}</title>
 <abstract>
 {meta.Abstract}
 </abstract>
@@ -386,12 +387,31 @@ $@"# {meta.Title}
                 MarkdownBody = markdown,
                 WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed
             };
+            
+            // check for title in first line and remove it 
+            // since the body shouldn't render the title
+            var lines = StringUtils.GetLines(markdown);
+            if (lines.Length > 0 && lines[0].StartsWith("# "))
+            {
+                meta.MarkdownBody = meta.MarkdownBody.Replace(lines[0], "").Trim();
+                meta.Title = lines[0].Trim().Substring(2);
+            }
+            else if (lines.Length > 2 && lines[0] == "---" && meta.MarkdownBody.Contains("layout: post"))
+            {
+                var block = mmFileUtils.ExtractString(meta.MarkdownBody, "---", "---", returnDelimiters: true);
+                if (!string.IsNullOrEmpty(block))
+                {
+                    meta.Title = StringUtils.ExtractString(block, "title: ", "\n").Trim();
+                    meta.MarkdownBody = meta.MarkdownBody.Replace(block, "").Trim();
+                }
+            }
 
 
             string config = StringUtils.ExtractString(markdown,
                 "<!-- Post Configuration -->",
                 "<!-- End Post Configuration -->",
                 caseSensitive: false, allowMissingEndDelimiter: true, returnDelimiters: true);
+
             if (string.IsNullOrEmpty(config))
                 return meta;
 
@@ -399,18 +419,9 @@ $@"# {meta.Title}
             meta.MarkdownBody = meta.MarkdownBody.Replace(config, "");
 
 
-            // check for title in first line and remove it 
-            // since the body shouldn't render the title
-            var lines = StringUtils.GetLines(markdown);
-            if (lines.Length > 0 && lines[0].Trim().StartsWith("# "))
-            {
-                meta.MarkdownBody = meta.MarkdownBody.Replace(lines[0], "").Trim();
-                meta.Title = lines[0].Trim().Substring(2);
-            }
-
-            
+            string title = StringUtils.ExtractString(config, "\n<title>", "</title>").Trim();
             if (string.IsNullOrEmpty(meta.Title))
-                meta.Title = StringUtils.ExtractString(config, "\n<title>", "\n</title>").Trim();
+                meta.Title = title;
             meta.Abstract = StringUtils.ExtractString(config, "\n<abstract>", "\n</abstract>").Trim();
             meta.Keywords = StringUtils.ExtractString(config, "\n<keywords>", "\n</keywords>").Trim();
             meta.Categories = StringUtils.ExtractString(config, "\n<categories>", "\n</categories>").Trim();
@@ -445,6 +456,7 @@ $@"# {meta.Title}
 <!--
 ```xml
 <blogpost>
+<title>{meta.Title}</title>
 <abstract>
 {meta.Abstract}
 </abstract>
