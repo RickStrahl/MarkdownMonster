@@ -84,6 +84,9 @@ namespace SnagItAddin
                 OnPropertyChanged();
             }
         }
+        private int _captureDelaySeconds;
+
+
 
         public bool IncludeCursor
         {
@@ -95,6 +98,10 @@ namespace SnagItAddin
                 OnPropertyChanged();
             }
         }
+        private bool _includeCursor;
+
+        
+        
 
         #endregion
 
@@ -109,6 +116,8 @@ namespace SnagItAddin
                 bool b = this.IsBitmap;
             }
         }
+        private Bitmap _capturedBitmap;
+
 
         private bool IsBitmap
         {
@@ -193,12 +202,7 @@ namespace SnagItAddin
 
         #endregion
 
-        #region Capture Operations
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetCursorPos(ref Win32Point pt);
-
+        #region Capture Operations     
         [StructLayout(LayoutKind.Sequential)]
         internal struct Win32Point
         {
@@ -206,18 +210,20 @@ namespace SnagItAddin
             public Int32 Y;
         };
 
-        public static Point GetMousePosition()
+        
+        private double SavedTop;
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(ref Win32Point pt);
+
+        internal static Point GetMousePosition()
         {
             Win32Point w32Mouse = new Win32Point();
             GetCursorPos(ref w32Mouse);
             return new Point(w32Mouse.X, w32Mouse.Y);
         }
 
-        private double SavedTop = 0;
-
-        private Bitmap _capturedBitmap;
-        private bool _includeCursor;
-        private int _captureDelaySeconds;
 
 
         private void ButtonCapture_Click(object sender, EventArgs e)
