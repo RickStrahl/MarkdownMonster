@@ -11,7 +11,7 @@ namespace MarkdownMonster.Test
         {
             string markdown = "This is **bold** and this is ~~strike out text~~ and this is ~~too~~. This ~~ is text \r\n that continues~~.";
 
-            var parser = MarkdownMonster.MarkdownParserFactory.GetParser(true);
+            var parser = MarkdownParserFactory.GetParser(true);
             string html = parser.Parse(markdown);
 
             Console.WriteLine(html);
@@ -36,11 +36,28 @@ asdkljaslkdjalskdjasd
 
 <b>This is more text</b>";
 
-            var parser = MarkdownMonster.MarkdownParserFactory.GetParser(usePragmaLines: true );
+            var parser = MarkdownParserFactory.GetParser(usePragmaLines: true );
             string html = parser.Parse(markdown);
 
             Console.WriteLine(html);
 
+            Assert.IsTrue(html.Contains("pragma-line-13"));
+        }
+
+        [TestMethod]
+        public void FontAwesomeTest()
+        {
+            string markdown = @"
+this @icon-gear<span>Text</span>
+
+I can see that this is working @icon-warning";
+
+            var parser = MarkdownParserFactory.GetParser();
+            string html = parser.Parse(markdown);
+
+            Console.WriteLine(html);
+
+            Assert.IsTrue(html.Contains("fa-warning") && html.Contains("fa-gear"));
         }
     }
 }

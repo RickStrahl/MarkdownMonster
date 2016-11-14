@@ -31,6 +31,7 @@
 */
 #endregion
 
+using System.Text.RegularExpressions;
 using Markdig;
 using Westwind.Utilities;
 
@@ -97,6 +98,9 @@ namespace MarkdownMonster
             return html;
         }
 
+
+        public static Regex fontAwesomeIconRegEx = new Regex(@"@icon-.*?[\s|\.|\,|\<]");
+
         /// <summary>
         /// Post processing routine that post-processes the HTML and 
         /// replaces @icon- with fontawesome icons
@@ -105,18 +109,16 @@ namespace MarkdownMonster
         /// <returns></returns>
         protected string ParseFontAwesomeIcons(string html)
         {
-            while (true)
+            var matches = fontAwesomeIconRegEx.Matches(html);
+            foreach (Match match in matches)
             {
-                string iconBlock = StringUtils.ExtractString(html, "@icon-", " ", false, false, true);
-                if (string.IsNullOrEmpty(iconBlock))
-                    break;
-
-                string icon = iconBlock.Replace("@icon-", "").Trim();
-                html = html.Replace(iconBlock, "<i class=\"fa fa-" + icon + "\"></i> ");                
+                string iconblock = match.Value.Substring(0, match.Value.Length - 1);
+                string icon = iconblock.Replace("@icon-", "");
+                html = html.Replace(iconblock, "<i class=\"fa fa-" + icon + "\"></i> ");
             }
+
             return html;
         }
-        
     }
 
 }
