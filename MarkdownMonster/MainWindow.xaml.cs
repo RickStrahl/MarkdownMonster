@@ -29,6 +29,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -384,6 +385,9 @@ namespace MarkdownMonster
 
         #region Tab Handling
 
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        static extern uint GetLongPathName(string ShortPath, StringBuilder sb, int buffer);
+
         /// <summary>
         /// Opens a tab by a filename
         /// </summary>
@@ -444,14 +448,9 @@ namespace MarkdownMonster
                     Filename = mdFile ?? @"untitled"
                 };
                 if (doc.Filename != "untitled")
-                {
-                    var fi = new FileInfo(doc.Filename);
+                {                                        
+                    doc.Filename = mmFileUtils.GetPhysicalPath(doc.Filename);                 
 
-                    if (!fi.Exists)
-                        return null;
-
-                    doc.Filename = fi.FullName;
-                    
                     if (!doc.Load())
                     {
                         if (!batchOpen)
