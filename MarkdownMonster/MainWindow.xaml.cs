@@ -445,9 +445,13 @@ namespace MarkdownMonster
                 };
                 if (doc.Filename != "untitled")
                 {
-                    if (!File.Exists(doc.Filename))
+                    var fi = new FileInfo(doc.Filename);
+
+                    if (!fi.Exists)
                         return null;
 
+                    doc.Filename = fi.FullName;
+                    
                     if (!doc.Load())
                     {
                         if (!batchOpen)
@@ -1385,11 +1389,11 @@ namespace MarkdownMonster
         {
 
             // removed - handle at the document level
-            //PreviewBrowser.Navigated += (sender, e) =>
-            //{
-            //    // No Script Errors
-            //    NoScriptErrors(PreviewBrowser, true);
-            //};
+            PreviewBrowser.Navigated += (sender, e) =>
+            {
+                // No Script Errors
+                NoScriptErrors(PreviewBrowser, true);
+            };
             PreviewBrowser.LoadCompleted += (sender, e) =>
             {
                 if (e.Uri.ToString().Contains("about:blank"))
