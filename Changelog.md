@@ -2,6 +2,12 @@
 
 # Markdown Monster Change Log
 
+### Version 1.07
+<i><small>not released yet</small></i>
+
+* **Fix Draft Posting of Blog Posts**  
+Posting Weblog posts as drafts now works as expected. The draft setting is also persisted into the post meta data stored with a Weblog post so that subsequent reloads automatically reflect the setting until explicitly changed.
+
 ### Version 1.06
 <i><small>November 13th, 2016</small></i>
 
@@ -15,7 +21,7 @@ If you specify a delay value for screen captures the native screen capture now r
 You can now optionally capture the cursor when capturing the screen.
 
 * **Preview Sync fixes**  
-Fixed a number of issues related to the new preview sync feature that would occasionally cause the preview and editor to erratically switch focus and slow down when rendering content. Fixed `<script>` tag rendering to always encode unencoded script tags (which caused all sorts of havoc due to JS errors). Ignore scroll sync errors that previously forced a full page refresh. Fixed a few edge cases where a full preview re-render was triggered to still inject updated HTML.
+Fixed a number of issues related to the new preview sync feature that would occasionally cause the preview and editor to erratically switch focus and slow down when rendering content. Fixed `<script>` tag rendering to always encode un-encoded script tags (which caused all sorts of havoc due to JS errors). Ignore scroll sync errors that previously forced a full page refresh. Fixed a few edge cases where a full preview re-render was triggered to still inject updated HTML.
 
 ### Version 1.03
 <i><small>November 8th, 2016</small></i>

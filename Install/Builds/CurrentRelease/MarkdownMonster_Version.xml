@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>1.06</Version>
-   <ReleaseDate>November 12th, 2016</ReleaseDate>
+   <Version>1.07</Version>
+   <ReleaseDate>November 14th, 2016</ReleaseDate>
    <Title>West Wind Markdown Monster 1.06 now available</Title>
    <Detail>
 Version 1.06 adds improved native screen captures, editor to preview scroll syncing and image pasting from the clipboard.
