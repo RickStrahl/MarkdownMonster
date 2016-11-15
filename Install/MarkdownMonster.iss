@@ -1,10 +1,10 @@
-
 #define MyAppName "Markdown Monster"
 #define MyAppVersion GetFileVersion('.\Distribution\MarkdownMonster.exe')
 #define MyAppPublisher "West Wind Technologies"
 #define MyAppURL "https://markdownmonster.west-wind.com"
 #define MyAppExeName "MarkdownMonster.exe"
 #define MySetupImageIco "..\MarkdownMonster\Assets\MarkdownMonster.ico"
+#define MyAppCopyright "Copyright (C) 2016 West Wind Technologies"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -15,6 +15,7 @@ AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppVerName={#MyAppName} {#MyAppVersion}
 VersionInfoVersion={#MyAppVersion}
+AppCopyright={#MyAppCopyright}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
