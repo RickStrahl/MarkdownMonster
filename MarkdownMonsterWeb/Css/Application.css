@@ -18,6 +18,7 @@ a {
     background: #535353;
     color: #e1e1e1;
     border-bottom: solid 4px black;    
+    overflow: auto;
 }
     .banner.active {
         color: white;
@@ -66,6 +67,11 @@ a {
 #FeatureList>div {
     margin-bottom: 5px;    
 }
+.bullet-box-items {
+    padding: 5px 20px;
+    font-size: 1.3em;
+}
+
 .panel {
     min-height: 450px;
 }
@@ -99,6 +105,12 @@ a {
 }
 h4 {
     font-size: 1.5em;
+}
+.content {
+    padding: 0 6%;
+}
+.created-by {
+    margin-top: -5px;
 }
 @media (max-width: 768px) {
     #ContentContainer {
@@ -153,6 +165,9 @@ h4 {
         margin:5px auto;
         
     }
+    .hidable {
+        display: none !important;
+    }
 }
 
 #FeatureList .fa {
@@ -164,12 +179,28 @@ h4 {
     #TopMenu { 
         margin: 0;       
     }
+    .bullet-box-items {
+        font-size: 1.15em;
+        padding: 10px;
+    }
+    .content {
+        padding: 0 15px;
+    }
 
+    .created-by {
+        display: block;
+        float:none;
+        margin-top: 10px;  
+        margin-bottom: 0;     
+    }
     .banner a {
         float: none;
     }
 
     .hidable-xs {
         display: none !important;
+    }
+    .top-bullet-box {
+        padding: 5px 20px 15px 15px !important;
     }
 }
