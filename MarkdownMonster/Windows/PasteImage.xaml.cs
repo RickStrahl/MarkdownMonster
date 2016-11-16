@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using MahApps.Metro.Controls;
+using MarkdownMonster.AddIns;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
@@ -55,7 +56,7 @@ namespace MarkdownMonster.Windows
 
         private void PasteHref_Loaded(object sender, RoutedEventArgs e)
         {
-            this.TextImage.Focus();
+            TextImage.Focus();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -99,7 +100,14 @@ namespace MarkdownMonster.Windows
             // Normalize the path relative to the Markdown file
             if (!string.IsNullOrEmpty(MarkdownFile) && MarkdownFile != "untitled")
             {
-                string mdPath = System.IO.Path.GetDirectoryName(MarkdownFile);
+                Image = AddinManager.Current.RaiseOnSaveImage(fd.FileName);
+                if (!string.IsNullOrEmpty(Image))
+                {
+                    TextImageText.Focus();
+                    return;
+                }
+
+                string mdPath = Path.GetDirectoryName(MarkdownFile);
                 string relPath = fd.FileName;
                 try
                 {
@@ -167,7 +175,7 @@ namespace MarkdownMonster.Windows
             if (Image.Contains(":\\"))
                 Image = "file:///" + Image;
 
-            mmApp.Configuration.LastImageFolder = System.IO.Path.GetDirectoryName(fd.FileName);
+            mmApp.Configuration.LastImageFolder = Path.GetDirectoryName(fd.FileName);
             TextImageText.Focus();        
         }
         

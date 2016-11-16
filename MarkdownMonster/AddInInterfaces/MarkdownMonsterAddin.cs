@@ -148,7 +148,18 @@ namespace MarkdownMonster.AddIns
             
         }
 
-
+        /// <summary>
+        /// Called when an image is to be saved. By default MM saves images to
+        /// disk. You can hook this method with your add in to take over the image
+        /// save operation. Return true to indicate you handled the         
+        /// </summary>        
+        /// <param name="image">This parameter holds either a string filename or a Bitmap of the actual image to save</param>
+        /// <returns>A Url to link to the image or null to indicate default processing should continue</returns>
+        public virtual string OnSaveImage(object image)
+        {                                
+            return null;
+        }
+        
         /// <summary>
         /// Called whenever a new document is activated in the editor 
         /// (when tabs change). Note on startup if multiple documents
@@ -193,7 +204,7 @@ namespace MarkdownMonster.AddIns
         /// <returns></returns>
         protected string GetMarkdown()
         {
-            var editor = this.Model.Window.GetActiveMarkdownEditor();
+            var editor = Model.Window.GetActiveMarkdownEditor();
             return editor?.GetMarkdown();
         }
 

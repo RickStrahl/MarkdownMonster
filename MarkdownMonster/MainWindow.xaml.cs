@@ -385,8 +385,7 @@ namespace MarkdownMonster
 
         #region Tab Handling
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern uint GetLongPathName(string ShortPath, StringBuilder sb, int buffer);
+
 
         /// <summary>
         /// Opens a tab by a filename
@@ -708,6 +707,7 @@ namespace MarkdownMonster
             if (!CloseTab(tab))
                 e.Cancel();            
         }
+
         #endregion
 
         #region Worker Functions
