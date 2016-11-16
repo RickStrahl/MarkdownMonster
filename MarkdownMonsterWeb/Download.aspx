@@ -112,10 +112,10 @@
                         <div style="margin-top: 20px;">
                                                     
                         <a href="http://chocolatey.org/packages/MarkdownMonster" style="display:block" >
-                                        <img src="images/chocolatey.png" style="width: 170px; margin-top: 10px;" alt="Chocolatey" />                                        
+                                        <img src="images/chocolatey.png" style="width: 170px; margin-top: 10px;margin-bottom: 5px" alt="Chocolatey" />                                        
                                     </a>  
                           <p>
-                              You can also install directly from Chocolatey's package store:
+                              You can also install Markdown Monster from Chocolatey's package store:
 <%--                                    If you have <a href="https://chocolatey.org/">Chocolatey</a> installed you can also install West Wind WebSurge 
                                     directly from the <a href="https://chocolatey.org/packages/WestwindMarkdownMonster">package repository</a>:--%>
                                     
@@ -136,16 +136,16 @@
                         <div id="FeatureList" class="panel-body">
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft Windows Vista or 2008 and newer
+                                Microsoft Windows 10-7 or Windows 2016-2008R2
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                32 or 64 bit
+                                Internet Explorer 11 or 10
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft .NET 4.5 Runtime (<a href="http://smallestdotnet.com/">check</a>)
-                            </div>
+                                Microsoft .NET 4.5 Runtime <small>(<a href="http://smallestdotnet.com/">check</a>)</small>
+                            </div>                            
                         </div>
                     </div>
                 </div>

@@ -40,22 +40,42 @@
             <span class="hidable-xs">West Wind</span> <span>Markdown Monster</span>
         </span>
         <div id="TopMenu" class="right">
-            <a href="./" class="active hidable">Home</a>
-            <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE">Video</a>
+            <a href="./" class="active">
+                Home
+            </a>
+            <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE">                
+                Video
+            </a>
             <%--<a href="features.aspx">Features</a>--%>
-            <a href="download.aspx" class="hidable-xs">Download</a>
-            <a href="http://store.west-wind.com/product/markdown_monster">Buy</a>
-            <a href="docs/">Docs</a>
+            <a href="download.aspx" class="hidable-xs">                
+                Download
+            </a>
+            <a href="http://store.west-wind.com/product/markdown_monster">                
+                Buy
+            </a>                 
+            <a href="https://support.west-wind.com/Thread4NM0M17RC.wwt" class="hidable">                
+                Support
+            </a>
+            <a href="docs/">                
+                Docs
+            </a>
             <%--<a href="pricing.aspx">License</a>--%>
         </div>
     </div>
     
-    <div id="MainContainer" class="background">
-        <div id="ContentContainer" class="content">
+    <div id="MainContainer" class="background" >
+        
+       
+        <div id="ContentContainer">
             <header style="background-color: #535353; color: whitesmoke;">
-                <div style="background: black; padding: 0 0;">
+                               
+                
+                <div style="background: black; padding: 0 0;position: relative">
                     <div style="width: 100%;margin: 0 4%;">
                         <img src="Images/MarkdownMonsterMonsterBigger.png" alt="Markdown Monster"  />
+                          <a href="https://github.com/rickstrahl/MarkdownMonster">
+                     <img style="position: absolute; top:0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+                 </a>
                         
                         
                          <div id="ActionButtons" >                            
@@ -67,6 +87,7 @@
                                 <i class="fa fa-github"></i>
                                 GitHub
                             </a>
+                       
                             <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE" class="btn btn-lg btn-success"
                                >
                                 <i class="fa fa-youtube"></i>
@@ -95,51 +116,51 @@
                         <h4 style="color: #ffd281;">Extensible Markdown Editing and Weblog Publishing</h4>
                         <div class="row">
                             <div class="col-md-6">
-                                <div style="padding: 5px 20px; font-size: 1.3em">
+                                <div class="bullet-box-items">
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
                                         Syntax colored Markdown
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Live Preview
+                                        Live HTML preview
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Inline Spell Checking
+                                        Inline spell checking
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Easy image and link embedding
+                                        Image & link embedding
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Capture and embed Screen Shots
+                                        Capture &amp; embed screen shots
                                     </div>                                    
                                 </div>
                             </div>
                             <div class="col-md-6">
 
-                                <div style="padding: 5px 20px; font-size: 1.3em">
+                                <div class="bullet-box-items">
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Gentle Toolbar support
+                                        Gentle toolbar support
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        HTML to Markdown Conversion
+                                        HTML to Markdown conversion
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Editor and Preview Themes
+                                        Editor and preview themes
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Weblog Publishing and Editing
+                                        Weblog publishing and editing
                                     </div>                                    
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Extensible with .NET Addins
+                                        Extensible with .NET add-ins
                                     </div>
                                 </div>
                             </div>
@@ -152,11 +173,12 @@
             </header>
 
             
-            <div class="content" style="padding: 10px 40px 0; margin: 0">
-                <div class="right" style="margin-right: 15px; margin-top: -5px; margin-right: -20px;">
+            <div class="content" >
+                <div class="right created-by">
                     <div style="font-size: xx-small">created by:</div>
                     <a href="http://west-wind.com">
-                        <img src="/Images/wwToolbarLogo.png" style="float: right; height: 30px" alt="West Wind Technologies" />
+                        <img src="/Images/wwToolbarLogo.png" 
+                            style="height: 30px" alt="West Wind Technologies" />
                     </a>
                 </div>
 
@@ -249,7 +271,7 @@
                     </div>
                 </div>
 
-                <article class="content" style="padding: 10px 0;">
+                <div class="content" style="padding: 10px 0;">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="panel panel-default">
@@ -258,7 +280,7 @@
                                 </div>
                                 <div id="FeatureList" class="panel-body">
                                     <div><i class="fa fa-check-circle"></i>
-                                        Easy and fast Markdown Editing
+                                        Easy and fast Markdown editing
                                     </div>
                                     <div><i class="fa fa-check-circle"></i>
                                         Syntax colored Markdown text
@@ -272,15 +294,19 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Gentle Toolbar support
+                                        Gentle toolbar support
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i> 
                                         Easy image and link embedding
                                     </div>
                                     <div>
+                                        <i class="fa fa-check-circle"></i> 
+                                        Paste and save images
+                                    </div>
+                                    <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Screen Capture embedding 
+                                        Screen capture embedding 
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
@@ -288,19 +314,19 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Export Markdown to HTML
+                                        Export Markdown to Html
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Many Editor Themes
+                                        Many editor themes
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Easily customizable Preview Themes
+                                        Customizable preview themes
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Weblog Publishing and Editing
+                                        Weblog publishing and editing
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
@@ -321,7 +347,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <p>
-                                        You can simply download and install Markdown Monster from
+                                    You can simply download and install Markdown Monster from
                                     our Web site.
                                     </p>
                                     <div style="margin: 10px;">
@@ -337,7 +363,7 @@
                                         </p>
                                         <div style="margin: 10px;">
                                             <a href="http://chocolatey.org/packages/MarkdownMonster" style="display: block">
-                                                <img src="images/chocolatey.png" style="width: 170px;" alt="Chocolatey" />
+                                                <img src="images/chocolatey.png" style="width: 170px;margin-bottom: 5px;" alt="Chocolatey" />
                                             </a>
 
                                             <pre style="font-size: 10pt; font-family: Consolas, monospace; color: whitesmoke; background: #535353">c:\> choco install MarkdownMonster</pre>
@@ -352,10 +378,10 @@
                                         <ul>
                                             <li>Windows Vista or newer, 2008 or newer</li>
                                             <li>.NET Framework 4.5 or later</li>
+                                            <li>Internet Explorer 11 or 10</li>
                                         </ul>
-                                    </p>
-                                    
-                                      <div style="margin-top: 15px">                                        
+                                    </p>                                    
+                                    <div style="margin-top: 15px">                                        
                                        <a style="font-size: 1.4em" href="http://twitter.com/MarkdownMonstr"><i class="fa fa-twitter"></i>
                                            Follow us on Twitter
                                        </a>
@@ -367,7 +393,7 @@
 
 
 
-                </article>
+                </div>
             </div>
             <div class="clearfix"></div>
         </div>
