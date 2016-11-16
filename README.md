@@ -19,9 +19,6 @@ Here's what Markdown Monster looks like:
 
 ![Markdown Monster Screen Shot](ScreenShot.png)
 
-> #### Release Candidate
-> This tool is currently in Release Candidate stage. We're getting close to release, but there a few small issues to take care of. Want to help? Please let us know of any issues you run into and report them in the [project issues here](https://github.com/RickStrahl/MarkdownMonster/issues) on GitHub.
-
 ### Features
 Markdown Monster provides many useful features:
 
