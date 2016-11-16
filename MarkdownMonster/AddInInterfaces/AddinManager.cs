@@ -297,6 +297,25 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+        public string RaiseOnSaveImage(object image)
+        {
+            string url = null;
+
+            foreach (var addin in AddIns)
+            {
+                try
+                {
+                    url= addin?.OnSaveImage(image);                    
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::OnAfterSaveDocument Error: " + ex.GetBaseException().Message);
+                }
+            }
+
+            return url;
+        }
+
         public void RaiseOnDocumentActivated(MarkdownDocument doc)
         {
             foreach (var addin in AddIns)

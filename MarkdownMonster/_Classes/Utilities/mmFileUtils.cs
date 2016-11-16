@@ -27,9 +27,7 @@ namespace MarkdownMonster
 
             return null;
         }
-
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern uint GetLongPathName(string ShortPath, StringBuilder sb, int buffer);
+        
 
         /// <summary>
         /// This function returns the actual filename of a file
@@ -107,5 +105,17 @@ namespace MarkdownMonster
 
             return string.Empty;
         }
+
+
+        /// <summary>
+        /// API call that takes an input path and turns it into a long path
+        /// that matches the actual signature on disk
+        /// </summary>
+        /// <param name="ShortPath"></param>
+        /// <param name="sb"></param>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern uint GetLongPathName(string ShortPath, StringBuilder sb, int buffer);
     }
 }

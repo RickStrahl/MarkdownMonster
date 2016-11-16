@@ -650,11 +650,22 @@ namespace MarkdownMonster
         /// </summary>
         public void PasteOperation()
         {
-            string imagePath = null;
-
             if (Clipboard.ContainsImage())
             {
+                string imagePath = null;
+
                 var bmpSource = Clipboard.GetImage();
+                using (var bitMap = WindowUtilities.BitmapSourceToBitmap(bmpSource))
+                {
+                    imagePath = AddinManager.Current.RaiseOnSaveImage(bitMap);
+                }
+                if (!string.IsNullOrEmpty(imagePath))
+                {
+                    SetSelection($"![]({imagePath})");
+                    PreviewMarkdownCallback(); // force a preview refresh
+                    return;
+                }
+                
                 string initialFolder = null;
                 if (!string.IsNullOrEmpty(MarkdownDocument.Filename) && MarkdownDocument.Filename != "untitled")
                     initialFolder = Path.GetDirectoryName(MarkdownDocument.Filename);

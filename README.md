@@ -6,7 +6,8 @@
 ### Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
 * **[Download Installer](http://markdownmonster.west-wind.com/download.aspx)**
-* **[Getting Started Video](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
+* **[Install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)**
+* **[Video: Getting Started with Markdown Monster](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
 * **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)** (coming soon)  
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
