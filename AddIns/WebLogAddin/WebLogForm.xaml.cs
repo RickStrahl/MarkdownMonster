@@ -260,7 +260,7 @@ namespace WeblogAddin
             {
                 var t = new Timer(new TimerCallback((object win) =>
                 {
-                    var window = win as MainWindow;
+                    var window = win as WebLogForm;
                     if (window == null)
                         return;
 
