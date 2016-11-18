@@ -1,9 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls;
+using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using Microsoft.Win32;
 using Westwind.Utilities;
@@ -13,7 +18,7 @@ namespace MarkdownMonster.Windows
     /// <summary>
     /// Interaction logic for PasteHref.xaml
     /// </summary>
-    public partial class PasteImage : MetroWindow, INotifyPropertyChanged   
+    public partial class PasteImage : MetroWindow, INotifyPropertyChanged
     {
         private string _image;
         private string _imageText;
@@ -43,7 +48,7 @@ namespace MarkdownMonster.Windows
 
         public string MarkdownFile { get; set; }
 
-        
+
         public PasteImage()
         {
             InitializeComponent();
@@ -51,12 +56,51 @@ namespace MarkdownMonster.Windows
             DataContext = this;
             mmApp.SetThemeWindowOverride(this);
 
-            Loaded += PasteHref_Loaded;
+            Loaded += PasteImage_Loaded;
+            SizeChanged += PasteImage_SizeChanged;
         }
 
-        private void PasteHref_Loaded(object sender, RoutedEventArgs e)
+        private void PasteImage_Loaded(object sender, RoutedEventArgs e)
         {
             TextImage.Focus();
+            if (Clipboard.ContainsText())
+            {
+                string clip = Clipboard.GetText().ToLower();
+                if ((clip.StartsWith("http://") || clip.StartsWith("https://")) &&
+                    (clip.Contains(".png") || clip.Contains("jpg")))
+                {
+                    TextImage.Text = clip;
+                    SetImagePreview(clip);
+                }
+            }
+        }
+
+        private void PasteImage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var image = ImagePreview.Source as BitmapSource;
+            if (image == null)
+                return;
+
+            if (image.Width < Width - 20 && image.Height < PageGrid.RowDefinitions[1].ActualHeight)
+                ImagePreview.Stretch = Stretch.None;
+            else
+                ImagePreview.Stretch = Stretch.Uniform;
+        }
+
+        private void TextImage_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(TextImage.Text))
+            {
+                ImagePreview.Source = null;
+                return;
+            }
+                
+            string href = TextImage.Text.ToLower();
+            if (href.StartsWith("http://") || href.StartsWith("https://"))
+            {
+                SetImagePreview(href);                
+            }
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -96,7 +140,7 @@ namespace MarkdownMonster.Windows
                 return;
 
             Image = fd.FileName;
-            
+
             // Normalize the path relative to the Markdown file
             if (!string.IsNullOrEmpty(MarkdownFile) && MarkdownFile != "untitled")
             {
@@ -113,12 +157,12 @@ namespace MarkdownMonster.Windows
                 {
                     relPath = FileUtils.GetRelativePath(fd.FileName, mdPath);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    mmApp.Log($"Failed to get relative path.\r\nFile: {fd.FileName}, Path: {mdPath}",ex);
+                    mmApp.Log($"Failed to get relative path.\r\nFile: {fd.FileName}, Path: {mdPath}", ex);
                 }
-                
-                
+
+
                 if (!relPath.StartsWith("..\\"))
                     Image = relPath;
                 else
@@ -150,11 +194,12 @@ namespace MarkdownMonster.Windows
                         {
                             try
                             {
-                                File.Copy(fd.FileName, sd.FileName,true);
+                                File.Copy(fd.FileName, sd.FileName, true);
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
-                                MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message,mmApp.ApplicationName);
+                                MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message,
+                                    mmApp.ApplicationName);
                                 return;
                             }
                             try
@@ -175,15 +220,40 @@ namespace MarkdownMonster.Windows
             if (Image.Contains(":\\"))
                 Image = "file:///" + Image;
 
+            SetImagePreview("file:///" + fd.FileName);            
+
             mmApp.Configuration.LastImageFolder = Path.GetDirectoryName(fd.FileName);
-            TextImageText.Focus();        
+            TextImageText.Focus();
         }
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+
+        private void SetImagePreview(string url)
+        {
+            try
+            {
+                ImagePreview.Source = BitmapFrame.Create(new Uri(url));
+                if (Height < 400)
+                {
+                    Top -= 300;
+                    Left -= 100;                    
+                    Width = 800;
+                    Height = 800;
+                }
+
+                WindowUtilities.DoEvents();
+                PasteImage_SizeChanged(this, null);
+            }
+            catch
+            {
+            }
         }
     }
 }
