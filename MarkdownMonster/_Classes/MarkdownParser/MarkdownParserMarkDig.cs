@@ -42,7 +42,7 @@ namespace MarkdownMonster
     /// Wrapper around the CommonMark.NET parser that provides a cached
     /// instance of the Markdown parser. Hooks up custom processing.
     /// </summary>
-    public class  MarkdownParserMarkdig : IMarkdownParser
+    public class  MarkdownParserMarkdig : MarkdownParserBase
     {
         public static MarkdownPipeline Pipeline;
         
@@ -74,49 +74,17 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>
-        public string Parse(string markdown)
+        public override string Parse(string markdown)
         {
             if (string.IsNullOrEmpty(markdown))
                 return string.Empty;
 
+            markdown = StripFrontMatter(markdown);
+
             var html = Markdown.ToHtml(markdown, Pipeline);
+            
             html = ParseFontAwesomeIcons(html);
             html = ParseScript(html);            
-            return html;
-        }
-
-        /// <summary>
-        /// Parses out script tags that might not be encoded yet
-        /// </summary>
-        /// <param name="html"></param>
-        /// <returns></returns>
-        protected string ParseScript(string html)
-        {
-            html = html.Replace("<script", "&lt;script");
-            html = html.Replace("</script", "&lt;/script");
-            html = html.Replace("javascript:", "javaScript:");
-            return html;
-        }
-
-
-        public static Regex fontAwesomeIconRegEx = new Regex(@"@icon-.*?[\s|\.|\,|\<]");
-
-        /// <summary>
-        /// Post processing routine that post-processes the HTML and 
-        /// replaces @icon- with fontawesome icons
-        /// </summary>
-        /// <param name="html"></param>
-        /// <returns></returns>
-        protected string ParseFontAwesomeIcons(string html)
-        {
-            var matches = fontAwesomeIconRegEx.Matches(html);
-            foreach (Match match in matches)
-            {
-                string iconblock = match.Value.Substring(0, match.Value.Length - 1);
-                string icon = iconblock.Replace("@icon-", "");
-                html = html.Replace(iconblock, "<i class=\"fa fa-" + icon + "\"></i> ");
-            }
-
             return html;
         }
     }

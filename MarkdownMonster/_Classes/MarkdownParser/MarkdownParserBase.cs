@@ -20,28 +20,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public abstract string Parse(string markdown);
         
-        /// <summary>
-        /// Post processing routine that post-processes the HTML and 
-        /// replaces @icon- with fontawesome icons
-        /// </summary>
-        /// <param name="html"></param>
-        /// <returns></returns>
-        protected string ParseFontAwesomeIcons(string html)
-        {
-            if (html == null)
-                return null;
-
-            while (true)
-            {
-                string iconBlock = StringUtils.ExtractString(html, "@icon-", " ", false, false, true);
-                if (string.IsNullOrEmpty(iconBlock))
-                    break;
-
-                string icon = iconBlock.Replace("@icon-", "").Trim();
-                html = html.Replace(iconBlock, "<i class=\"fa fa-" + icon + "\"></i> ");
-            }
-            return html;
-        }
+ 
 
 
         /// <summary>
@@ -62,18 +41,63 @@ namespace MarkdownMonster
                 if (match.Value.Contains('\n'))
                     continue;
 
-                val = "<strikeout>" + val.Substring(2, val.Length - 4) + "</strikeout>";
+                val = "<del>" + val.Substring(2, val.Length - 4) + "</del>";
                 html = html.Replace(match.Value, val);
             }
 
             return html;
         }
 
+        /// <summary>
+        /// Strips Front Matter headers at the beginning of the document
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        protected string StripFrontMatter(string html)
+        {
+            string fm = null;
+
+            if (html.StartsWith("---\n") || html.StartsWith("---\r"))
+                fm = mmFileUtils.ExtractString(html, "---", "---", returnDelimiters: true);
+
+            if (fm == null || !fm.Contains("title: "))
+                return html;
+            
+            return html.Replace(fm,"").TrimStart();
+        }
+        
+        /// <summary>
+        /// Parses out script tags that might not be encoded yet
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
         protected string ParseScript(string html)
         {
             html = html.Replace("<script", "&lt;script");
             html = html.Replace("</script", "&lt;/script");
             html = html.Replace("javascript:", "javaScript:");
+            return html;
+        }
+
+
+        public static Regex fontAwesomeIconRegEx = new Regex(@"@icon-.*?[\s|\.|\,|\<]");
+
+        /// <summary>
+        /// Post processing routine that post-processes the HTML and 
+        /// replaces @icon- with fontawesome icons
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        protected string ParseFontAwesomeIcons(string html)
+        {
+            var matches = fontAwesomeIconRegEx.Matches(html);
+            foreach (Match match in matches)
+            {
+                string iconblock = match.Value.Substring(0, match.Value.Length - 1);
+                string icon = iconblock.Replace("@icon-", "");
+                html = html.Replace(iconblock, "<i class=\"fa fa-" + icon + "\"></i> ");
+            }
+
             return html;
         }
 
