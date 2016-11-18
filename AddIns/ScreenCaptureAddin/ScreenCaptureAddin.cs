@@ -60,7 +60,7 @@ namespace SnagItAddin
                 Caption = "SnagIt Screen Capture",
                 FontawesomeIcon= FontAwesomeIcon.Camera            
             };            
-            this.MenuItems.Add(menuItem);
+            MenuItems.Add(menuItem);
         }
 
         public override void OnExecute(object sender)
