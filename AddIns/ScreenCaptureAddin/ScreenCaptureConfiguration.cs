@@ -28,8 +28,7 @@ namespace SnagItAddin
             OutputFormat = 4;
             IncludeCursor = true;
             CaptureDelaySeconds = 4;
-            ShowPreviewWindow = true;
-            
+            ShowPreviewWindow = true;            
         }
 
 

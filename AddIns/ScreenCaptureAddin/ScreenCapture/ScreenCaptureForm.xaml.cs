@@ -9,14 +9,14 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Gma.System.MouseKeyHook;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using ScreenCaptureAddin;
 using SnagItAddin.Annotations;
-using Westwind.Utilities;
-using Cursors = System.Windows.Input.Cursors;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using Point = System.Windows.Point;
 using Timer = System.Threading.Timer;
@@ -162,9 +162,23 @@ namespace SnagItAddin
             
             Loaded += ScreenCaptureForm_Loaded;
             Unloaded += ScreenCaptureForm_Unloaded;
+            SizeChanged += ScreenCaptureForm_SizeChanged;
 
             DataContext = this;
             
+        }
+
+        private void ScreenCaptureForm_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var image = ImageCaptured.Source as BitmapSource;
+            if (image == null)
+                return;
+
+            if (image.Width < Width - 20 && image.Height < PageGrid.RowDefinitions[2].ActualHeight)
+                ImageCaptured.Stretch = Stretch.None;
+            else
+                ImageCaptured.Stretch = Stretch.Uniform;
+
         }
 
         private void ScreenCaptureForm_Loaded(object sender, RoutedEventArgs e)
@@ -340,6 +354,7 @@ namespace SnagItAddin
                 CapturedBitmap = ScreenCapture.CaptureWindowBitmap(CurWindow.Handle);
                 ImageCaptured.Source = ScreenCapture.BitmapToBitmapSource(CapturedBitmap);
                 StatusText.Text = "Image capture from Screen: " + $"{CapturedBitmap.Width}x{CapturedBitmap.Height}";
+                ScreenCaptureForm_SizeChanged(this, null);
             }
 
             //Desktop.Topmost = false;
@@ -519,6 +534,8 @@ namespace SnagItAddin
                 CapturedBitmap = new Bitmap(System.Windows.Forms.Clipboard.GetImage());
                 ImageCaptured.Source = ScreenCapture.BitmapToBitmapSource(CapturedBitmap);
                 StatusText.Text = $"Pasted Image from Clipboard: {CapturedBitmap.Width}x{CapturedBitmap.Height}";
+
+                ScreenCaptureForm_SizeChanged(this, null);
             }
         }
 

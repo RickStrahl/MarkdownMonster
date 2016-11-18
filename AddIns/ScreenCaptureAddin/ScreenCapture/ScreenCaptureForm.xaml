@@ -16,11 +16,12 @@
         Icon="../MarkdownMonster_Icon_256.png"    
         WindowStyle="SingleBorderWindow"         
         WindowStartupLocation="Manual"
-        FontSize="15"
+        FontSize="15"    
         Foreground="#ffeeee"
+    
         Width="1250" Height="1000">
 
-    <Grid Margin="0,0,0,0">
+    <Grid Margin="0,0,0,0" Name="PageGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="100"/>
