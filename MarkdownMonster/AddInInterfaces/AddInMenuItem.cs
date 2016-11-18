@@ -5,8 +5,9 @@ namespace MarkdownMonster.AddIns
 {
     public class AddInMenuItem
     {
+        
         public AddInMenuItem(MarkdownMonsterAddin addin = null)
-        {
+        {            
             if (addin != null)
             {
                 Execute = addin.OnExecute;

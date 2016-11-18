@@ -2,20 +2,29 @@
 
 # Markdown Monster Change Log
 
-### Version 1.07
-<i><small>November 15th, 2016</small></i>
+### Version 1.09
+<i><small>November 18th, 2016</small></i>
 
-* **Fix Draft Posting of Blog Posts**  
-Posting Weblog posts as drafts now works as expected. The draft setting is also persisted into the post meta data stored with a Weblog post so that subsequent reloads automatically reflect the setting until explicitly changed.
+* **Add support for Front Matter**  
+When rendering Front Matter headers (`---` delimited block at beginning of Markdown text) is now stripped for rendering. When posting to a Blog, the title if available is pulled from Front Matter content.
 
 * **Updated UI for Screen Capture**  
-Updated the UI to capture screens with single clicks rather than drag and hold the mousepointer over a window. Simply move the mouse when in capture mode and the selected window/control will highlight.
+Updated the UI to capture screens with single clicks rather than drag and hold the mousepointer over a window. Simply move the mouse when in capture mode and the selected window/control will highlight. The image preview now auto-resizes better for small images.
 
 * **Delayed Screen Captures**  
 If you specify a delay value for screen captures the native screen capture now respects it by displaying a count down counter in the lower right corner of the screen before the capture. This allows opening menus and other operations that normally would require mouse clicks. Screens are also pre-captured and displayed from an image. 
 
 * **Capture Cursor for Screen Captures**  
 You can now optionally capture the cursor when capturing the screen using the native screen capture tool.
+
+* **Add Image Preview to the Image Link Dialog**  
+When you link images, the image dialog now previews selected images when you pick a file from disk, or when you type or paste a URL into the edit box. The editbox now also automatically picks up image Urls if they are on the clipboard prior to accessing the Image form.
+
+* **Add OnSaveImage to Add-in Interface**  
+The add on interface now supports notification whenever an image is to be saved. You can now intercept image save operations and hook your own custom operation into the save. Return true to consider the save operation handled or false to have the default processing take place.
+
+* **Fix Draft Posting of Blog Posts**  
+Posting Weblog posts as drafts now works as expected. The draft setting is also persisted into the post meta data stored with a Weblog post so that subsequent reloads automatically reflect the setting until explicitly changed.
 
 * **Preview Sync fixes**  
 Fixed a number of issues related to the new preview sync feature that would occasionally cause the preview and editor to erratically switch focus and slow down when rendering content. Fixed `<script>` tag rendering to always encode un-encoded script tags (which caused all sorts of havoc due to JS errors). Ignore scroll sync errors that previously forced a full page refresh. Fixed a few edge cases where a full preview re-render was triggered to still inject updated HTML.
