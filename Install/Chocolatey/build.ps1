@@ -10,7 +10,7 @@ cd "$PSScriptRoot"
 $file = gci "..\..\..\MarkdownMonsterReleases\v1.0" | sort LastWriteTime | select -last 1 | select -ExpandProperty "Name"
 write-host $file
 
-$sha = get-filehash -path ..\builds\releases\$file -Algorithm SHA256  | select -ExpandProperty "Hash"
+$sha = get-filehash -path "..\..\..\MarkdownMonsterReleases\v1.0\$file" -Algorithm SHA256  | select -ExpandProperty "Hash"
 write-host $sha
 
 
