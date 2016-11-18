@@ -168,19 +168,6 @@ namespace SnagItAddin
             
         }
 
-        private void ScreenCaptureForm_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var image = ImageCaptured.Source as BitmapSource;
-            if (image == null)
-                return;
-
-            if (image.Width < Width - 20 && image.Height < PageGrid.RowDefinitions[2].ActualHeight)
-                ImageCaptured.Stretch = Stretch.None;
-            else
-                ImageCaptured.Stretch = Stretch.Uniform;
-
-        }
-
         private void ScreenCaptureForm_Loaded(object sender, RoutedEventArgs e)
         {
             CaptureDelaySeconds = ScreenCaptureConfiguration.Current.CaptureDelaySeconds;
@@ -212,6 +199,19 @@ namespace SnagItAddin
                 ScreenCaptureConfiguration.Current.WindowWidth = Width;
                 ScreenCaptureConfiguration.Current.Write();
             }
+        }
+
+        private void ScreenCaptureForm_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var image = ImageCaptured.Source as BitmapSource;
+            if (image == null)
+                return;
+
+            if (image.Width < Width - 20 && image.Height < PageGrid.RowDefinitions[2].ActualHeight)
+                ImageCaptured.Stretch = Stretch.None;
+            else
+                ImageCaptured.Stretch = Stretch.Uniform;
+
         }
 
         #endregion
