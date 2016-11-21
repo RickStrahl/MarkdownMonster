@@ -56,20 +56,22 @@ namespace MarkdownMonster
 
             // Detect byte order mark if any - otherwise assume default
             byte[] buffer = new byte[5];
-            FileStream file = new FileStream(srcFile, FileMode.Open);
-            file.Read(buffer, 0, 5);
-            file.Close();            
-
-
-
-            if (buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
+            using (FileStream file = new FileStream(srcFile, FileMode.Open))
+            {             
+                file.Read(buffer, 0, 5);             
+            }
+            
+            
+            if (buffer.Length > 2 && buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
                 enc = Encoding.UTF8;
-            else if (buffer[0] == 0xff && buffer[1] == 0xfe)
+            else if (buffer.Length > 1 && buffer[0] == 0xff && buffer[1] == 0xfe)
                 enc = Encoding.Unicode; //UTF-16LE
-            else if (buffer[0] == 0xfe && buffer[1] == 0xff)
+            else if (buffer.Length > 1 && buffer[0] == 0xfe && buffer[1] == 0xff)
                 enc = Encoding.BigEndianUnicode; //UTF-16BE
-            else if (buffer[0] == 0x2b && buffer[1] == 0x2f && buffer[2] == 0x76)
-                enc = Encoding.UTF7;
+            else if (buffer.Length > 2 && buffer[0] == 0x2b && buffer[1] == 0x2f && buffer[2] == 0x76)
+                enc = Encoding.UTF7;            
+            else if (buffer.Length > 3 && buffer[0] != 0 && buffer[1] == 0 && buffer[2] != 0 && buffer[3] == 0)
+                enc = Encoding.Unicode;  // no BOM Unicode - bad idea: Should always have BOM and we'll write it
             else
                 // no identifiable BOM - use UTF-8 w/o BOM
                 enc = new UTF8Encoding(false);
