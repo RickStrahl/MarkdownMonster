@@ -199,6 +199,7 @@ namespace MarkdownMonster
         /// defined on the MarkdownDocument.
         /// 
         /// If there's no active filename a file save dialog
+        /// If there's no active filename a file save dialog
         /// is popped up. 
         /// </summary>1
         public bool SaveDocument()
@@ -565,6 +566,23 @@ namespace MarkdownMonster
             int lines = Convert.ToInt32(stats.lines);
 
             Window.StatusStats.Text = $"{words:n0} words, {lines:n0} lines";
+            
+            string enc = string.Empty;
+            bool hasBom = true;
+            if (MarkdownDocument.Encoding.WebName == "utf-8")
+                hasBom = (bool)ReflectionUtils.GetField(MarkdownDocument.Encoding, "emitUtf8Identifier");
+
+            if (hasBom)
+            {
+                enc = MarkdownDocument.Encoding.EncodingName;
+                if (MarkdownDocument.Encoding == Encoding.UTF8)
+                    enc = "UTF-8 (BOM)";
+            }
+            else
+                enc = "UTF-8 (no BOM)";
+
+            Window.StatusEncoding.Text = enc;
+
         }
 
         /// <summary>
