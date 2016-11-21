@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -163,9 +164,9 @@ namespace SnagItAddin
             Loaded += ScreenCaptureForm_Loaded;
             Unloaded += ScreenCaptureForm_Unloaded;
             SizeChanged += ScreenCaptureForm_SizeChanged;
+            KeyDown += ScreenCaptureForm_KeyDown;
 
-            DataContext = this;
-            
+            DataContext = this;            
         }
 
         private void ScreenCaptureForm_Loaded(object sender, RoutedEventArgs e)
@@ -546,6 +547,13 @@ namespace SnagItAddin
             ImageCaptured.Source = null;
         }
 
+
+        private void ScreenCaptureForm_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.V &&
+                (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                tbPasteImage_Click(this, null);
+        }
 
         #endregion
 
