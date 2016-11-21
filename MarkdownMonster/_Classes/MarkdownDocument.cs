@@ -68,13 +68,8 @@ namespace MarkdownMonster
         }
         private string _filename;
 
+        [JsonIgnore]
         public string FileCrc { get; set; }
-
-        /// <summary>
-        /// Holds the last preview window browser scroll position so it can be restored
-        /// when refreshing the preview window.
-        /// </summary>
-        public int LastBrowserScrollPosition { get; set; }        
 
 
         ///// <summary>
@@ -114,6 +109,15 @@ namespace MarkdownMonster
                 return Path.GetFileName(Filename) + "  –  " + path  + (IsDirty ? "*" : ""); 
             }
         }
+
+        [JsonIgnore]
+        public Encoding Encoding
+        {
+            get { return _encoding; }
+            set { _encoding = value; }
+        }
+
+        private Encoding _encoding = Encoding.UTF8;
 
         /// <summary>
         /// Determines whether the active document has changes
@@ -184,6 +188,12 @@ namespace MarkdownMonster
         public event Action<bool> IsDirtyChanged;
 
         /// <summary>
+        /// Holds the last preview window browser scroll position so it can be restored
+        /// when refreshing the preview window.
+        /// </summary>
+        public int LastBrowserScrollPosition { get; set; }
+
+        /// <summary>
         /// Holds the actively edited Markdown text
         /// </summary>
         [JsonIgnore]
@@ -192,6 +202,7 @@ namespace MarkdownMonster
         [JsonIgnore]
         public string OriginalText { get; set; }
 
+        #region Read and Write Files
 
         /// <summary>
         /// Loads the markdown document into the CurrentText
@@ -207,9 +218,10 @@ namespace MarkdownMonster
                 return false;
 
             UpdateCrc();
+            GetFileEncoding();
             try
             {
-                CurrentText = File.ReadAllText(filename);
+                CurrentText = File.ReadAllText(filename,Encoding);
                 OriginalText = CurrentText;
             }
             catch
@@ -232,7 +244,7 @@ namespace MarkdownMonster
 
             try
             {
-                File.WriteAllText(filename, CurrentText, Encoding.UTF8);
+                File.WriteAllText(filename, CurrentText, Encoding);
                 IsDirty = false;
                 OriginalText = CurrentText;
 
@@ -245,25 +257,37 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Checks to see if the CRC has changed
+        /// Output routWrites the file with a hidden attribute
         /// </summary>
-        /// <returns></returns>
-        public bool HasFileCrcChanged()
+        /// <param name="filename"></param>
+        /// <param name="html"></param>
+        public bool WriteFile(string filename, string html)
         {
-            if (string.IsNullOrEmpty(Filename) || !File.Exists(Filename) || string.IsNullOrEmpty(FileCrc))
-                return false;
-
-            var crcNow = ChecksumHelper.GetChecksumFromFile(Filename);
-            return crcNow != FileCrc;
-        }
-
-
-        public void UpdateCrc(string filename = null)
-        {
-            if (filename == null)
+            if (string.IsNullOrEmpty(filename))
                 filename = Filename;
 
-            FileCrc = ChecksumHelper.GetChecksumFromFile(filename);
+            int written = 0;
+            while (written < 4) // try 4 times
+            {
+                try
+                {
+                    File.WriteAllText(filename, html, Encoding.UTF8);
+                    written = 10;
+                }              
+                catch(Exception ex)
+                {
+                    // wait wind retry 3 times
+                    Thread.Sleep(150);
+                    written++;
+                    if (written == 4)
+                    {
+                        mmApp.Log("Warning: Unable to write output file: " + filename + "\r\n" + ex.Message);
+                        return false;
+                        throw new ApplicationException("Unable to write output file:  " + filename + "\r\n" + ex.Message);
+                    }
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -275,6 +299,10 @@ namespace MarkdownMonster
             if (File.Exists(HtmlRenderFilename))
                 File.Delete(HtmlRenderFilename);
         }
+
+        #endregion
+
+        #region Output Generation
 
         /// <summary>
         /// Renders markdown of the current document text into raw HTML
@@ -340,42 +368,72 @@ namespace MarkdownMonster
 
             return html;
         }
+        #endregion
+
+
+        #region File Information Manipulation
 
         /// <summary>
-        /// Output routWrites the file with a hidden attribute
+        /// Stores the CRC of the file as currently exists on disk
         /// </summary>
         /// <param name="filename"></param>
-        /// <param name="html"></param>
-        public bool WriteFile(string filename, string html)
+        public void UpdateCrc(string filename = null)
         {
-            if (string.IsNullOrEmpty(filename))
+            if (filename == null)
                 filename = Filename;
 
-            int written = 0;
-            while (written < 4) // try 4 times
-            {
-                try
-                {
-                    File.WriteAllText(filename, html, Encoding.UTF8);
-                    written = 10;
-                }              
-                catch(Exception ex)
-                {
-                    // wait wind retry 3 times
-                    Thread.Sleep(150);
-                    written++;
-                    if (written == 4)
-                    {
-                        mmApp.Log("Warning: Unable to write output file: " + filename + "\r\n" + ex.Message);
-                        return false;
-                        throw new ApplicationException("Unable to write output file:  " + filename + "\r\n" + ex.Message);
-                    }
-                }
-            }
-            return true;
+            FileCrc = ChecksumHelper.GetChecksumFromFile(filename);
         }
 
 
+        /// <summary>
+        /// Checks to see if the CRC has changed
+        /// </summary>
+        /// <returns></returns>
+        public bool HasFileCrcChanged()
+        {
+            if (string.IsNullOrEmpty(Filename) || !File.Exists(Filename) || string.IsNullOrEmpty(FileCrc))
+                return false;
+
+            var crcNow = ChecksumHelper.GetChecksumFromFile(Filename);
+            return crcNow != FileCrc;
+        }
+
+
+        /// <summary>
+        /// Determines whether text has changed from original.
+        /// </summary>
+        /// <param name="currentText">Text to compare to original text. If omitted uses CurrentText property to compare</param>
+        /// <returns></returns>
+        public bool HasFileChanged(string currentText = null)
+        {
+            if (currentText != null)
+                CurrentText = currentText;
+
+            IsDirty = CurrentText != OriginalText;
+            return IsDirty;
+        }
+
+        /// <summary>
+        /// Retrieve the file encoding for a given file so we can capture
+        /// and store the Encoding when writing the file back out after
+        /// editing.
+        /// 
+        /// Default is Utf-8 (w/ BOM). If file without BOM is read it is
+        /// assumed it's UTF-8.
+        /// </summary>
+        /// <param name="srcFile"></param>
+        /// <returns></returns>
+        public void GetFileEncoding(string filename = null)
+        {
+            if (filename == null)
+                filename = Filename;
+                  
+            Encoding = mmFileUtils.GetFileEncoding(filename);
+        }
+        #endregion
+
+        #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         
@@ -383,10 +441,13 @@ namespace MarkdownMonster
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+        #endregion
+
+
+
         ~MarkdownDocument()
         {
-            this.Close();
+            Close();
         }
 
         public override string ToString()
