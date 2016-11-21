@@ -75,7 +75,7 @@
                             </StackPanel>
                         </Button>
 
-                        <Button Name="ToolButtonPasteImage" Click="tbPasteImage_Click" ToolTip="Capture image from Clipboard." >
+                        <Button Name="ToolButtonPasteImage" Click="tbPasteImage_Click" ToolTip="Capture image from Clipboard (ctrl-v)" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Paste"                                             
                                             FontSize="15"                                                
