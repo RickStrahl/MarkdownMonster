@@ -121,17 +121,26 @@ namespace MarkdownMonster
                         string template = filename +
                                           "\r\n\r\nThis file was changed by another program.\r\nDo you want reload it?";
 
-                        if (MessageBox.Show(template,
+                        if (MessageBox.Show(this,template,
                                 "File change detected",
                                 MessageBoxButton.YesNo,
                                 MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
-                            dynamic pos = editor.AceEditor.getscrolltop(false);
+                            dynamic dom = PreviewBrowser.Document;
+                            var lastScrollpos = dom.documentElement.scrollTop;
 
+                            dynamic pos = editor.AceEditor.getscrolltop(false);
                             doc.Load(doc.Filename);
                             editor.SetMarkdown(doc.CurrentText);
-
+                            editor.AceEditor.updateDocumentStats(false);
                             editor.AceEditor.setscrolltop(pos);
+
+                            WindowUtilities.DoEvents();
+                            Activate();
+                            editor.WebBrowser.Focus();                            
+                            editor.MarkdownDocument.LastBrowserScrollPosition = lastScrollpos;
+                            
+                            PreviewMarkdown(editor, keepScrollPosition: true);                            
                         }
                         else
                             doc.UpdateCrc();

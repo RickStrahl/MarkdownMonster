@@ -2,6 +2,13 @@
 
 # Markdown Monster Change Log
 
+### Version 1.10
+<i><small>not released yet</small></i>
+
+* **File Encoding Support**  
+Markdown Monster now preserves original file encoding of documents for UTF-8 with and without BOM and for Unicode files. Default if no bom is available is always UTF-8.
+
+
 ### Version 1.09
 <i><small>November 18th, 2016</small></i>
 

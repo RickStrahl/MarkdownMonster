@@ -408,6 +408,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="4"  />
                             <ColumnDefinition Width="150"  />
+                            <ColumnDefinition Width="100"  />
                             <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
@@ -425,6 +426,10 @@
                 <TextBlock  Name="StatusStats" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
             </StatusBarItem>
             <StatusBarItem Grid.Column="4">
+                <TextBlock  Name="StatusEncoding" x:FieldModifier="public" HorizontalAlignment="Left"
+                            ToolTip="Document Encoding"></TextBlock>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="5">
                 <ComboBox  HorizontalAlignment="Right"  Width="145" ToolTip="Editor themes"
                            SelectedItem="{Binding Configuration.EditorTheme}"
                            IsSynchronizedWithCurrentItem="True" 
@@ -432,7 +437,7 @@
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="5">
+            <StatusBarItem Grid.Column="6">
                 <ComboBox  HorizontalAlignment="Right"  Width="145" ToolTip="Preview rendering theme"
                            SelectedItem="{Binding Configuration.RenderTheme}" 
                            IsSynchronizedWithCurrentItem="True" 

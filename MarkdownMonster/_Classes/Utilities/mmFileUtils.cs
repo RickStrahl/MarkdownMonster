@@ -27,7 +27,55 @@ namespace MarkdownMonster
 
             return null;
         }
-        
+
+
+        /// <summary>
+        /// Retrieve the file encoding for a given file so we can capture
+        /// and store the Encoding when writing the file back out after
+        /// editing.
+        /// 
+        /// Default is Utf-8 (w/ BOM). If file without BOM is read it is
+        /// assumed it's UTF-8.
+        /// </summary>
+        /// <param name="srcFile"></param>
+        /// <returns></returns>
+        public static Encoding GetFileEncoding(string srcFile)
+        {
+            if (string.IsNullOrEmpty(srcFile) || srcFile == "untitled")
+                return Encoding.UTF8;
+
+            // Use Default of Encoding.Default (Ansi CodePage)
+            Encoding enc;
+
+            //using (var reader = new StreamReader(srcFile, true))
+            //{
+            //    enc = reader.CurrentEncoding;
+            //}
+
+            //return enc;
+
+            // Detect byte order mark if any - otherwise assume default
+            byte[] buffer = new byte[5];
+            FileStream file = new FileStream(srcFile, FileMode.Open);
+            file.Read(buffer, 0, 5);
+            file.Close();            
+
+
+
+            if (buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
+                enc = Encoding.UTF8;
+            else if (buffer[0] == 0xff && buffer[1] == 0xfe)
+                enc = Encoding.Unicode; //UTF-16LE
+            else if (buffer[0] == 0xfe && buffer[1] == 0xff)
+                enc = Encoding.BigEndianUnicode; //UTF-16BE
+            else if (buffer[0] == 0x2b && buffer[1] == 0x2f && buffer[2] == 0x76)
+                enc = Encoding.UTF7;
+            else
+                // no identifiable BOM - use UTF-8 w/o BOM
+                enc = new UTF8Encoding(false);
+
+            return enc;
+        }
 
         /// <summary>
         /// This function returns the actual filename of a file
@@ -54,6 +102,17 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// API call that takes an input path and turns it into a long path
+        /// that matches the actual signature on disk
+        /// </summary>
+        /// <param name="ShortPath"></param>
+        /// <param name="sb"></param>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern uint GetLongPathName(string ShortPath, StringBuilder sb, int buffer);
+
+        /// <summary>
         /// Extracts a string from between a pair of delimiters. Only the first 
         /// instance is found.
         /// </summary>
@@ -63,11 +122,11 @@ namespace MarkdownMonster
         /// <param name="CaseInsensitive">Determines whether the search for delimiters is case sensitive</param>
         /// <returns>Extracted string or ""</returns>
         public static string ExtractString(string source,
-                                           string beginDelim,
-                                           string endDelim,
-                                           bool caseSensitive = false,
-                                           bool allowMissingEndDelimiter = false,
-                                           bool returnDelimiters = false)
+            string beginDelim,
+            string endDelim,
+            bool caseSensitive = false,
+            bool allowMissingEndDelimiter = false,
+            bool returnDelimiters = false)
         {
             int at1, at2;
 
@@ -105,17 +164,7 @@ namespace MarkdownMonster
 
             return string.Empty;
         }
-
-
-        /// <summary>
-        /// API call that takes an input path and turns it into a long path
-        /// that matches the actual signature on disk
-        /// </summary>
-        /// <param name="ShortPath"></param>
-        /// <param name="sb"></param>
-        /// <param name="buffer"></param>
-        /// <returns></returns>
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern uint GetLongPathName(string ShortPath, StringBuilder sb, int buffer);
     }
+
+
 }
