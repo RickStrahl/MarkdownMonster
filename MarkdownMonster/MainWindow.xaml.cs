@@ -126,20 +126,14 @@ namespace MarkdownMonster
                                 MessageBoxButton.YesNo,
                                 MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
-                            dynamic dom = PreviewBrowser.Document;
-                            var lastScrollpos = dom.documentElement.scrollTop;
-
+                            
                             dynamic pos = editor.AceEditor.getscrolltop(false);
                             doc.Load(doc.Filename);
                             editor.SetMarkdown(doc.CurrentText);
                             editor.AceEditor.updateDocumentStats(false);
-                            editor.AceEditor.setscrolltop(pos);
+                            if (pos > 0)
+                                editor.AceEditor.setscrolltop(pos);
 
-                            WindowUtilities.DoEvents();
-                            Activate();
-                            editor.WebBrowser.Focus();                            
-                            editor.MarkdownDocument.LastBrowserScrollPosition = lastScrollpos;
-                            
                             PreviewMarkdown(editor, keepScrollPosition: true);                            
                         }
                         else
