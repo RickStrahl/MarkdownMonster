@@ -47,6 +47,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MarkdownMonsterWeb", "Markd
 		SlnRelativePath = "MarkdownMonsterWeb\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Westwind.Utilities", "..\WestwindToolkit\Westwind.Utilities\Westwind.Utilities.csproj", "{1C9829A8-8979-4493-863C-635726F8A61C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,6 +128,16 @@ Global
 		{6AB5E445-9660-454B-BF02-506000EED978}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{6AB5E445-9660-454B-BF02-506000EED978}.SandBox|Any CPU.ActiveCfg = Debug|Any CPU
 		{6AB5E445-9660-454B-BF02-506000EED978}.SandBox|Any CPU.Build.0 = Debug|Any CPU
+		{1C9829A8-8979-4493-863C-635726F8A61C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C9829A8-8979-4493-863C-635726F8A61C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C9829A8-8979-4493-863C-635726F8A61C}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
+		{1C9829A8-8979-4493-863C-635726F8A61C}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
+		{1C9829A8-8979-4493-863C-635726F8A61C}.net40|Any CPU.ActiveCfg = net40|Any CPU
+		{1C9829A8-8979-4493-863C-635726F8A61C}.net40|Any CPU.Build.0 = net40|Any CPU
+		{1C9829A8-8979-4493-863C-635726F8A61C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C9829A8-8979-4493-863C-635726F8A61C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C9829A8-8979-4493-863C-635726F8A61C}.SandBox|Any CPU.ActiveCfg = SandBox|Any CPU
+		{1C9829A8-8979-4493-863C-635726F8A61C}.SandBox|Any CPU.Build.0 = SandBox|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

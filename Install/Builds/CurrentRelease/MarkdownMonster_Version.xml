@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>1.0.9</Version>
-   <ReleaseDate>November 18th, 2016</ReleaseDate>
-   <Title>West Wind Markdown Monster 1.0.9 now available</Title>
+   <Version>1.0.10</Version>
+   <ReleaseDate>November 21st, 2016</ReleaseDate>
+   <Title>West Wind Markdown Monster 1.0.10 now available</Title>
    <Detail>
-Version 1.0.8 adds improved native screen captures, editor to preview scroll syncing, image previews for image pasting and image pasting from the clipboard.
+Version 1.0.10 adds improved native screen captures, editor to preview scroll syncing, image previews for image pasting and image pasting from the clipboard.
 
 If you're upgrading from a version prior to 0.57, we recommend that you completely uninstall Markdown Monster and reinstall the new version to clear out files that are no longer used. Your existing configuration files will be updated. Registered users will have to re-apply their registration key in this version due to a change in the key format for the release version.
 
