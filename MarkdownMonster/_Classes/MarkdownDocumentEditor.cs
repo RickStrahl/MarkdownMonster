@@ -576,7 +576,7 @@ namespace MarkdownMonster
             {
                 enc = MarkdownDocument.Encoding.EncodingName;
                 if (MarkdownDocument.Encoding == Encoding.UTF8)
-                    enc = "UTF-8 (BOM)";
+                    enc = "UTF-8";
             }
             else
                 enc = "UTF-8 (no BOM)";
