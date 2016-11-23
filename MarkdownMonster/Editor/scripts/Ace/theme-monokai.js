@@ -2,7 +2,7 @@ define("ace/theme/monokai",["require","exports","module","ace/lib/dom"], functio
 
 exports.isDark = true;
 exports.cssClass = "ace-monokai";
-exports.cssText = ".ace-monokai .ace_gutter {\
+    exports.cssText = ".ace-monokai .ace_gutter {\
 background: #2F3129;\
 color: #8F908A\
 }\
@@ -96,8 +96,17 @@ color: #E6DB74\
 .ace-monokai .ace_comment {\
 color: #75715E\
 }\
+\
 .ace-monokai .ace_indent-guide {\
 background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWPQ0FD0ZXBzd/wPAAjVAoxeSgNeAAAAAElFTkSuQmCC) right repeat-y\
+}\
+.ace-monokai .ace_heading{\
+color: #E06C75;\
+}\
+.ace-monokai .ace_list,\
+.ace-monokai .ace_markup.ace_list,\
+.ace-monokai .ace_storage {\
+color: teal !important;\
 }";
 
 var dom = require("../lib/dom");
