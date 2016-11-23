@@ -37,7 +37,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using MarkdownMonster._Classes.Utilities;
 using Newtonsoft.Json;
 
 namespace MarkdownMonster
@@ -215,7 +214,10 @@ namespace MarkdownMonster
                 filename = Filename;
 
             if (!File.Exists(filename))
+            {
+                FileCrc = null;
                 return false;
+            }
 
             UpdateCrc();
             GetFileEncoding();
@@ -248,12 +250,14 @@ namespace MarkdownMonster
                 IsDirty = false;
                 OriginalText = CurrentText;
 
-                UpdateCrc(filename);
-                return true;
+                UpdateCrc(filename);                
             }
-            catch {  }
-            
-            return false;
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -382,7 +386,7 @@ namespace MarkdownMonster
             if (filename == null)
                 filename = Filename;
 
-            FileCrc = ChecksumHelper.GetChecksumFromFile(filename);
+            FileCrc = mmFileUtils.GetChecksumFromFile(filename);
         }
 
 
@@ -392,10 +396,10 @@ namespace MarkdownMonster
         /// <returns></returns>
         public bool HasFileCrcChanged()
         {
-            if (string.IsNullOrEmpty(Filename) || !File.Exists(Filename) || string.IsNullOrEmpty(FileCrc))
+            if (string.IsNullOrEmpty(Filename) || !File.Exists(Filename) || string.IsNullOrEmpty(FileCrc))            
                 return false;
-
-            var crcNow = ChecksumHelper.GetChecksumFromFile(Filename);
+            
+            var crcNow = mmFileUtils.GetChecksumFromFile(Filename);
             return crcNow != FileCrc;
         }
 

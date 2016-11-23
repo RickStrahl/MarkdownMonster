@@ -101,6 +101,8 @@ namespace MarkdownMonster
         private void MainWindow_Activated(object sender, EventArgs e)
         {
 
+            
+
             // check for external file changes
             for (int i = TabControl.Items.Count - 1; i > -1; i--)
             {
@@ -109,32 +111,40 @@ namespace MarkdownMonster
                 if (tab != null)
                 {
                     var editor = tab.Tag as MarkdownDocumentEditor;
-                    if (editor == null)
-                        continue;
-                    var doc = editor.MarkdownDocument;
+                    var doc = editor?.MarkdownDocument;
                     if (doc == null)
                         continue;
 
                     if (doc.HasFileCrcChanged())
                     {
-                        string filename = Path.GetFileName(doc.Filename);
+                        string filename = doc.FilenamePathWithIndicator.Replace("*","");
                         string template = filename +
-                                          "\r\n\r\nThis file was changed by another program.\r\nDo you want reload it?";
+                                          "\r\n\r\nThis file has been modified by another program.\r\nDo you want reload it?";
 
                         if (MessageBox.Show(this,template,
-                                "File change detected",
+                                "Reload",
                                 MessageBoxButton.YesNo,
                                 MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
-                            
+
+
+                            if (!doc.Load(doc.Filename))
+                            {
+                                MessageBox.Show(this, "Unable to re-load current document.",
+                                                "Error re-loading file",
+                                                MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                                doc.UpdateCrc(); // don't let it repeat
+                                continue;
+                            }
+
                             dynamic pos = editor.AceEditor.getscrolltop(false);
-                            doc.Load(doc.Filename);
                             editor.SetMarkdown(doc.CurrentText);
                             editor.AceEditor.updateDocumentStats(false);
                             if (pos > 0)
                                 editor.AceEditor.setscrolltop(pos);
-
-                            PreviewMarkdown(editor, keepScrollPosition: true);                            
+                            var selectedTab = TabControl.SelectedItem as TabItem;
+                            if (tab == selectedTab)
+                                PreviewMarkdown(editor, keepScrollPosition: true);                            
                         }
                         else
                             doc.UpdateCrc();
