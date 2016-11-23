@@ -243,11 +243,15 @@ var te = window.textEditor = {
         te.editor.getSession().replace(range, text);
     },
     gotoLine: function (line) {        
+        te.editor.scrollToLine(line);
+
         var sel = te.editor.getSelection();
         var range = sel.getRange();
         range.setStart({row: line, column: 0});
         range.setEnd({ row: line, column: 0 });
         sel.setSelectionRange(range);
+
+
     },
     setselposition: function(index,count) {    	
     	var doc = te.editor.getSession().getDocument();
