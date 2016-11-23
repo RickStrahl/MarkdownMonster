@@ -812,7 +812,9 @@ namespace MarkdownMonster
                 }
                 else
                 {
-                    renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: !showInBrowser && mmApp.Configuration.SyncPreviewToEditor);
+                    renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: !showInBrowser && 
+                        (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.PreviewToBrowser || 
+                         mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.PreviewAndBrowser) );
                     if (renderedHtml == null)
                     {
                         SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
@@ -867,7 +869,7 @@ namespace MarkdownMonster
                                 }
                                 catch(Exception ex)
                                 {
-                                    PreviewBrowser.Refresh(true);
+                                    PreviewBrowser.Refresh(true);                                   
                                 }
                                 
                             }
@@ -1401,9 +1403,16 @@ namespace MarkdownMonster
                 if (e.Uri.ToString().Contains("about:blank"))
                     return;
 
-                var editor = GetActiveMarkdownEditor();
-                dynamic dom = PreviewBrowser.Document;
-                dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;           
+                try
+                {
+                    var editor = GetActiveMarkdownEditor();
+                    dynamic dom = PreviewBrowser.Document;
+                    dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
+
+                    dynamic window = dom.parentWindow;
+                    window.initializeinterop(editor);
+                }
+                catch { }
             };
             PreviewBrowser.Navigate("about:blank");
         }
@@ -1421,11 +1430,8 @@ namespace MarkdownMonster
         /// <param name="silent"></param>
         static void NoScriptErrors(WebBrowser browser, bool silent)
         {
-            if (browser == null)
-                return;
-
             // get an IWebBrowser2 from the document
-            IOleServiceProvider sp = browser.Document as IOleServiceProvider;
+            IOleServiceProvider sp = browser?.Document as IOleServiceProvider;
             if (sp != null)
             {
                 Guid IID_IWebBrowserApp = new Guid("0002DF05-0000-0000-C000-000000000046");
@@ -1434,7 +1440,7 @@ namespace MarkdownMonster
                 dynamic webBrowser;
                 sp.QueryService(ref IID_IWebBrowserApp, ref IID_IWebBrowser2, out webBrowser);
                 if (webBrowser != null)
-                    webBrowser.Silent = silent;
+                    webBrowser.Silent = silent;                
             }
         }
 

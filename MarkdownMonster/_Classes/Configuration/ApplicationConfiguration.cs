@@ -76,17 +76,49 @@ namespace MarkdownMonster
         /// Determines whether the preview attempts to sync to 
         /// the editor when previewing HTML.
         /// </summary>
-        public bool SyncPreviewToEditor
+        public PreviewSyncMode PreviewSyncMode
         {
-            get { return _syncPreviewToEditor; }
+            get { return _previewSyncMode; }
             set
             {
-                if (value == _syncPreviewToEditor) return;
-                _syncPreviewToEditor = value;
-                OnPropertyChanged(nameof(SyncPreviewToEditor));
+                if (value == _previewSyncMode) return;
+                _previewSyncMode = value;
+                OnPropertyChanged(nameof(PreviewSyncMode));
             }
         }
-        private bool _syncPreviewToEditor = true;
+        private PreviewSyncMode _previewSyncMode = PreviewSyncMode.PreviewToBrowser;
+
+
+        /// <summary>
+        /// Determines whether the active line is highlighted in the editor
+        /// </summary>
+        public bool EditorHighlightActiveLine
+        {
+            get { return _editorHighlightActiveLine; }
+            set
+            {
+                if (_editorHighlightActiveLine == value) return;
+                _editorHighlightActiveLine = value;
+                OnPropertyChanged(nameof(EditorHighlightActiveLine));
+            }
+        }
+        private bool _editorHighlightActiveLine = true;
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool EditorShowLineNumbers
+        {
+            get { return _EditorShowLineNumbers; }
+            set
+            {
+                if (_EditorShowLineNumbers == value) return;
+                _EditorShowLineNumbers = value;
+                OnPropertyChanged(nameof(EditorShowLineNumbers));
+            }
+        }
+        private bool _EditorShowLineNumbers = false;
 
 
         /// <summary>
@@ -264,8 +296,8 @@ namespace MarkdownMonster
         }
 
         public bool FirstRun { get; set; }
+        
 
- 
 
         //internal string FileWatcherOpenFilePath;
 
@@ -301,6 +333,8 @@ namespace MarkdownMonster
             catch
             { }
             // TODO: END REMOVE THIS AFTER A WHILE
+
+            PreviewSyncMode = PreviewSyncMode.PreviewToBrowser;
 
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost/MarkdownMonster/bugreport.ashx?method=ReportBug";
@@ -412,5 +446,13 @@ namespace MarkdownMonster
         public int Width { get; set; }
         public int Height { get; set; }
         public int SplitterPosition { get; set; }
+    }
+
+    public enum PreviewSyncMode
+    {
+        PreviewToBrowser,
+        BrowserToPreview,
+        PreviewAndBrowser,        
+        None
     }
 }

@@ -12,8 +12,8 @@ var te = window.textEditor = {
     aff: null,
     isDirty: false,
     mousePos: { column: 0, row: 0 },
-    initialize: function () {
-        
+    initialize: function() {
+
         // attach ace to formatted code controls if they are loaded and visible
         var $el = $("pre[lang]");
         try {
@@ -41,7 +41,7 @@ var te = window.textEditor = {
         var session = editor.getSession();
 
         editor.setReadOnly(false);
-        editor.setHighlightActiveLine(false);
+        editor.setHighlightActiveLine(editorSettings.highlightActiveLine);
         editor.setShowPrintMargin(editorSettings.showPrintMargin);
 
         //te.settheme(editorSettings.theme, editorSettings.fontSize, editorSettings.wrapText);
@@ -51,7 +51,6 @@ var te = window.textEditor = {
         session.setUseWrapMode(editorSettings.wrapText);
         session.setOption("indentedSoftWrap", false);
 
-        
 
         editor.renderer.setShowGutter(editorSettings.showLineNumbers);
         session.setTabSize(editorSettings.tabSpaces);
@@ -89,16 +88,16 @@ var te = window.textEditor = {
             "ctrl-shift-up": function() { te.specialkey("ctrl-shift-up"); },
             "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
             "ctrl-shift-v": function() { te.specialkey("ctrl-shift-v"); },
-            "ctrl-v": function() { te.mm.textbox.PasteOperation();  }
-        
-    });
-        
+            "ctrl-v": function() { te.mm.textbox.PasteOperation(); }
+
+        });
+
         editor.renderer.setPadding(15);
         editor.renderer.setScrollMargin(5, 5, 0, 0); // top,bottom,left,right
 
         //te.editor.getSession().setMode("ace/mode/markdown" + lang);   
 
-        
+
         te.editor.setOptions({
             // fill entire view
             maxLines: 0,
@@ -163,7 +162,7 @@ var te = window.textEditor = {
                 if (valid)
                     te.isDirty = te.mm.textbox.setDirty(true);
             }
-           
+
             updateDocument();
 
             //if (te.isspellcheckingenabled)
@@ -171,19 +170,22 @@ var te = window.textEditor = {
 
         }
         var updateDocument = debounce(function() {
-            te.mm.textbox.PreviewMarkdownCallback();
-            te.updateDocumentStats();
-        },1000);
+                te.mm.textbox.PreviewMarkdownCallback();
+                te.updateDocumentStats();
+            },
+            1000);
         $("pre[lang]").on("keyup", keyupHandler);
 
-        
+
         // always have mouse position available when drop or paste
-        te.editor.on("mousemove",function (e) {
-            te.mousePos = e.getDocumentPosition();            
-        });
-        te.editor.on("mouseup",function() {
-            te.mm.textbox.PreviewMarkdownCallback();
-        });
+        te.editor.on("mousemove",
+            function(e) {
+                te.mousePos = e.getDocumentPosition();
+            });
+        te.editor.on("mouseup",
+            function() {
+                te.mm.textbox.PreviewMarkdownCallback();
+            });
 
         return editor;
     },
@@ -194,7 +196,7 @@ var te = window.textEditor = {
         //alert(msg);
         status(msg);
     },
-    getscrolltop: function () {
+    getscrolltop: function() {
         return te.editor.getSession().getScrollTop();
     },
     setscrolltop: function(scrollTop) {
@@ -212,17 +214,18 @@ var te = window.textEditor = {
 
         te.editor.getSession().setUndoManager(new ace.UndoManager());
 
-        setTimeout(function () {
-            te.editor.resize(true);  //force a redraw
-        }, 30);
+        setTimeout(function() {
+                te.editor.resize(true); //force a redraw
+            },
+            30);
     },
     refresh: function(ignored) {
         te.editor.resize(true); //force a redraw
     },
-    specialkey: function(key)   {
+    specialkey: function(key) {
         te.mm.textbox.SpecialKey(key);
     },
-    setfont: function (size, fontFace, weight) {
+    setfont: function(size, fontFace, weight) {
         if (size)
             te.editor.setFontSize(size);
         if (fontFace)
@@ -230,14 +233,21 @@ var te = window.textEditor = {
         if (weight)
             te.editor.setOption('fontWeight', weight);
     },
-    getfontsize: function () {        
+    getfontsize: function() {
         var zoom = screen.deviceXDPI / screen.logicalXDPI;
         var fontsize = te.editor.getFontSize() * zoom;
         return fontsize;
     },
-    setselection: function (text) {    
+    setselection: function(text) {
         var range = te.editor.getSelectionRange();
         te.editor.getSession().replace(range, text);
+    },
+    gotoLine: function (line) {        
+        var sel = te.editor.getSelection();
+        var range = sel.getRange();
+        range.setStart({row: line, column: 0});
+        range.setEnd({ row: line, column: 0 });
+        sel.setSelectionRange(range);
     },
     setselposition: function(index,count) {    	
     	var doc = te.editor.getSession().getDocument();
@@ -301,7 +311,7 @@ var te = window.textEditor = {
 
         te.editor.getSession().setMode("ace/mode/" + lang);
     },
-    settheme: function (theme, fontSize, wrapText) {
+    settheme: function (theme, fontSize, wrapText, highlightActiveLine,showLineNumbers) {
         te.editor.setTheme("ace/theme/" + theme);
         
         if (fontSize) 
@@ -312,6 +322,10 @@ var te = window.textEditor = {
         var session = te.editor.getSession();
         session.setUseWrapMode(wrapText);
         session.setOption("indentedSoftWrap", true);
+        session.setOption("indentedSoftWrap", true);
+
+        te.editor.setHighlightActiveLine(highlightActiveLine);
+        te.editor.renderer.setShowGutter(showLineNumbers);
 
         setTimeout(te.updateDocumentStats, 100);
     },
