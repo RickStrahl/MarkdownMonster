@@ -2,12 +2,20 @@
 
 # Markdown Monster Change Log
 
-### Version 1.10
+### Version 1.11
 <i><small>not released yet</small></i>
+
+* **New Window Scroll Options**  
+You can now set the new `PreviewSyncMode` setting in the configuration to specify, `PreviewToBrowser`, `BrowserToPreview`, `PreviewAndBrowser` or `None` to determine how the preview and edit panes react to scroll operations.
 
 * **File Encoding Support**  
 Markdown Monster now preserves original file encoding of documents for UTF-8 with and without BOM and for Unicode files. Default if no bom is available is always UTF-8.
 
+* **Active Line Highlight**  
+Added a `EditorHighlightActiveLine` configuration setting to set the active line highlight in the editor which makes it easier to see where the cursor is when scrolling is synced. New setting is true.
+
+* **Add Image Preview to the Image Link Dialog**  
+When you link images, the image dialog now previews selected images when you pick a file from disk, or when you type or paste a URL into the edit box. The editbox now also automatically picks up image Urls if they are on the clipboard prior to accessing the Image form.
 
 ### Version 1.09
 <i><small>November 18th, 2016</small></i>
@@ -23,9 +31,6 @@ If you specify a delay value for screen captures the native screen capture now r
 
 * **Capture Cursor for Screen Captures**  
 You can now optionally capture the cursor when capturing the screen using the native screen capture tool.
-
-* **Add Image Preview to the Image Link Dialog**  
-When you link images, the image dialog now previews selected images when you pick a file from disk, or when you type or paste a URL into the edit box. The editbox now also automatically picks up image Urls if they are on the clipboard prior to accessing the Image form.
 
 * **Add OnSaveImage to Add-in Interface**  
 The add on interface now supports notification whenever an image is to be saved. You can now intercept image save operations and hook your own custom operation into the save. Return true to consider the save operation handled or false to have the default processing take place.
