@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Markdown Monster</title>
-    <meta name="description" content="Markdown Monster is an easy to use and extensible Markdown Editor and Weblog Publisher for Windows. Easily edit Markdown documents, convert HTML to markdown and publish Markdown to your Weblog." />
+    <title>Markdown Monster - A better Markdown Editor for Windows</title>
+    <meta name="description" content="Markdown Monster is a powerful, easy to use Markdown Editor and Weblog Publisher for Windows. Easily view and edit Markdown documents, convert HTML to markdown and publish Markdown to your Weblog." />
     <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Publish,Writing,Documentation" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
