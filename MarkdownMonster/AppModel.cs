@@ -384,6 +384,14 @@ namespace MarkdownMonster
                 // save settings first so we're looking at current setting
                 Configuration.Write();
 
+                string fileText = File.ReadAllText(file);
+                if (!fileText.StartsWith("//"))
+                {
+                    fileText = "// Reference: http://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm\r\n" +
+                               fileText;
+                    File.WriteAllText(file, fileText);
+                }
+
                 Window.OpenTab(file, syntax: "json");
             }, null);
 
