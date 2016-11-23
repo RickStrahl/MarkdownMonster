@@ -112,6 +112,10 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Westwind.Utilities, Version=2.69.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Westwind.Utilities.2.69\lib\net45\Westwind.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -147,7 +151,6 @@
     <Compile Include="_Classes\MarkdownParser\MarkdownParserBase.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserFactory.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserMarkDig.cs" />
-    <Compile Include="_Classes\Utilities\CheckSumHelper.cs" />
     <Compile Include="_Classes\Utilities\mmFileUtils.cs" />
     <Compile Include="_Classes\Utilities\WindowUtilities.cs" />
     <Compile Include="_Classes\Infrastructure\ApplicationUpdater.cs" />
@@ -817,12 +820,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\WestwindToolkit\Westwind.Utilities\Westwind.Utilities.csproj">
-      <Project>{1c9829a8-8979-4493-863c-635726f8a61c}</Project>
-      <Name>Westwind.Utilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
