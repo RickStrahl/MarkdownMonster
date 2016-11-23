@@ -2,9 +2,10 @@
 
 var te = {
     mmEditor: null,
-    isPreviewEditorSync: false
+    isPreviewEditorSync: false,
+    codeScrolled: new Date().getSeconds()
 }
-var isDebug = false;
+var isDebug = true;
 
 $(document).on("contextmenu", function () {
     // inside of WebBrowser control don't show context menu
@@ -28,10 +29,16 @@ window.ondragover = function (event) {
 
 var lastMouseY = 0;
 
-window.onmousemove = debounce(function (event) {
+window.onscroll = debounce(function (event) {
     if (!te.mmEditor || te.isPreviewEditorSync !== true) return;
+    
+    // prevent repositioning editor scroll sync
+    if (te.codeScrolled > new Date().getSeconds() - 2)
+        return;
 
-    var winTop = event.pageY;
+    var st = $(window).scrollTop();
+
+    var winTop = st + 100;
     var $lines = $("[id*='pragma-line-']");
     if ($lines.length < 1)
         return;
@@ -57,8 +64,7 @@ window.onmousemove = debounce(function (event) {
 // to pass in the form object and pass back the text
 // editor instance that allows the parent to make
 // calls into this component
-function initializeinterop(editor) {
-    status("editor passed");
+function initializeinterop(editor) {    
     te.mmEditor = editor;
     te.isPreviewEditorSync = editor.IsPreviewToEditorSync();
 }
@@ -90,6 +96,7 @@ function scrollToPragmaLine(lineno) {
                 }
             }
 
+            te.codeScrolled = new Date().getSeconds();
             $("html").scrollTop($el.offset().top - 100);
 
             $el.addClass("line-highlight");
