@@ -66,7 +66,7 @@ namespace MarkdownMonster
         #region Loading And Initialization
         public MarkdownDocumentEditor(WebBrowser browser)
         {
-            WebBrowser = browser;            
+            WebBrowser = browser;        
         }
 
 
@@ -446,6 +446,22 @@ namespace MarkdownMonster
             return AceEditor.getLineNumber(false);
         }
 
+        public void GotoLine(int line)
+        {
+            if (AceEditor == null)
+                return;            
+            AceEditor.gotoLine(line);
+        }
+
+        public bool IsPreviewToEditorSync()
+        {
+            var mode = mmApp.Configuration.PreviewSyncMode;
+            if (mode == PreviewSyncMode.BrowserToPreview || mode == PreviewSyncMode.PreviewAndBrowser)
+                return true;
+
+            return false;
+        }
+
         /// <summary>
         /// Focuses the Markdown editor in the Window
         /// </summary>
@@ -769,9 +785,12 @@ namespace MarkdownMonster
         {
             try
             {
-                AceEditor.settheme(mmApp.Configuration.EditorTheme,
+                AceEditor.settheme(
+                    mmApp.Configuration.EditorTheme,
                     mmApp.Configuration.EditorFontSize,
-                    mmApp.Configuration.EditorWrapText);
+                    mmApp.Configuration.EditorWrapText,
+                    mmApp.Configuration.EditorHighlightActiveLine,
+                    mmApp.Configuration.EditorShowLineNumbers);
 
                 if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
                     AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck, mmApp.Configuration.EditorDictionary);

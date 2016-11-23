@@ -1,5 +1,10 @@
 ﻿highlightCode();
 
+var te = {
+    mmEditor: null,
+    isPreviewEditorSync: false
+}
+var isDebug = false;
 
 $(document).on("contextmenu", function () {
     // inside of WebBrowser control don't show context menu
@@ -19,6 +24,43 @@ window.ondrop = function (event) {
 window.ondragover = function (event) {
     event.preventDefault();
     return false;
+}
+
+var lastMouseY = 0;
+
+window.onmousemove = debounce(function (event) {
+    if (!te.mmEditor || te.isPreviewEditorSync !== true) return;
+
+    var winTop = event.pageY;
+    var $lines = $("[id*='pragma-line-']");
+    if ($lines.length < 1)
+        return;
+
+    var id = null;
+    for (var i = 0; i < $lines.length; i++) {
+        
+        if ($($lines[i]).position().top >= winTop) {
+            id = $lines[i].id;
+            break;
+        }        
+    }
+    if (!id)
+        return;
+
+    id = id.replace("pragma-line-", "");    
+    te.mmEditor.GotoLine((id * 1) - 1);
+},100);
+
+
+
+// This function is global and called by the parent
+// to pass in the form object and pass back the text
+// editor instance that allows the parent to make
+// calls into this component
+function initializeinterop(editor) {
+    status("editor passed");
+    te.mmEditor = editor;
+    te.isPreviewEditorSync = editor.IsPreviewToEditorSync();
 }
 
 function highlightCode() {
@@ -54,7 +96,7 @@ function scrollToPragmaLine(lineno) {
             setTimeout(function() { $el.removeClass("line-highlight"); }, 1200);
         }
         catch(ex) {  }
-    },200);
+    },30);
 }
 
 function status(msg) {
@@ -64,10 +106,11 @@ function status(msg) {
         $(document.body).append($el);
     }
     $el.text(msg);
+    $el.show();
     setTimeout(function() { $el.text(""); $el.fadeOut() }, 3000);
 }
 
-var isDebug = true;
+
 window.onerror = function windowError(message, filename, lineno, colno, error) {
     if (!isDebug)
         return true;
@@ -91,3 +134,19 @@ window.onerror = function windowError(message, filename, lineno, colno, error) {
     // don't let errors trigger browser window
     return true;
 }
+
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+        var context = this, args = arguments;
+        var later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow)
+            func.apply(context, args);
+    };
+};
