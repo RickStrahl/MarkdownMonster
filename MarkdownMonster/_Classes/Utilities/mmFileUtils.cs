@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
+using Westwind.Utilities;
 
 namespace MarkdownMonster 
 {
@@ -28,6 +30,32 @@ namespace MarkdownMonster
             return null;
         }
 
+        /// <summary>
+        /// Creates an SHA256 checksum of a file
+        /// </summary>
+        /// <param name="file"></param>        
+        /// <returns></returns>
+        public static string GetChecksumFromFile(string file)
+        {
+            if (!File.Exists(file))
+                return null;
+
+            try
+            {
+                byte[] checkSum;
+                using (FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    var md = new MD5CryptoServiceProvider();
+                    checkSum = md.ComputeHash(stream);
+                }
+
+                return StringUtils.BinaryToBinHex(checkSum);
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// Retrieve the file encoding for a given file so we can capture
