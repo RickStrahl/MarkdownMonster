@@ -84,11 +84,11 @@ namespace MarkdownMonster
 
             // Detect byte order mark if any - otherwise assume default
             byte[] buffer = new byte[5];
-            using (FileStream file = new FileStream(srcFile, FileMode.Open))
+            using (FileStream file = new FileStream(srcFile, FileMode.Open,FileAccess.Read,FileShare.ReadWrite))
             {             
-                file.Read(buffer, 0, 5);             
-            }
-            
+                file.Read(buffer, 0, 5);
+                file.Close();
+            }            
             
             if (buffer.Length > 2 && buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
                 enc = Encoding.UTF8;
