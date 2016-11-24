@@ -221,6 +221,7 @@ namespace MarkdownMonster
 
             UpdateCrc();
             GetFileEncoding();
+
             try
             {
                 CurrentText = File.ReadAllText(filename,Encoding);
