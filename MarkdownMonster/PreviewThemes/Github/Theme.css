@@ -130,7 +130,9 @@ hr {
     width: 1px; 
 }
 .line-highlight {
-    background: #ffe9ec;
+    background: #eee;
+    border-radius: 4px;
+    padding: 3px;
 }
 
 #MainContent {
