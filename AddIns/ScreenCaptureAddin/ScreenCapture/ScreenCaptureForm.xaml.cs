@@ -18,6 +18,7 @@ using MarkdownMonster;
 using MarkdownMonster.Windows;
 using ScreenCaptureAddin;
 using SnagItAddin.Annotations;
+using Brushes = System.Windows.Media.Brushes;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using Point = System.Windows.Point;
 using Timer = System.Threading.Timer;
@@ -75,6 +76,7 @@ namespace SnagItAddin
         /// </summary>
         public bool AutoClose { get; set; } = true;
 
+
         public int CaptureDelaySeconds
         {
             get { return _captureDelaySeconds; }
@@ -113,23 +115,33 @@ namespace SnagItAddin
             get { return _capturedBitmap; }
             set
             {
+                if (_capturedBitmap == value) return;
                 _capturedBitmap = value;
-                bool b = this.IsBitmap;
+                OnPropertyChanged(nameof(CapturedBitmap));
+                OnPropertyChanged(nameof(IsBitmap));
             }
         }
-        private Bitmap _capturedBitmap;
 
 
-        private bool IsBitmap
+        public bool IsBitmap
         {
             get
             {
                 bool isBitmap = CapturedBitmap != null;
-                if (ToolButtonSaveImage != null)
+                //if (ToolButtonSaveImage != null)
+                //{
+                //    ToolButtonSaveImage.IsEnabled = isBitmap;
+                //    ToolButtonSaveAndEdit.IsEnabled = isBitmap;
+                //}
+
+                if (isBitmap)
                 {
-                    ToolButtonSaveImage.IsEnabled = isBitmap;
-                    ToolButtonSaveAndEdit.IsEnabled = isBitmap;
-                }
+                    FaSaveImage.Foreground = Brushes.LightGreen;
+                    FaSaveAndEdit.Foreground = Brushes.Green;
+                }                         
+                else
+                    FaSaveImage.Foreground = FaSaveAndEdit.Foreground = Brushes.Silver;
+
                 return isBitmap;
             }
         }
@@ -227,6 +239,7 @@ namespace SnagItAddin
 
         
         private double SavedTop;
+        private Bitmap _capturedBitmap;
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -297,8 +310,7 @@ namespace SnagItAddin
             }
             
             IsMouseClickCapturing = true;
-            
-            
+                        
             Desktop = new ScreenOverlayDesktop(this);
             Desktop.SetDesktop(IncludeCursor);
             Desktop.Show();
@@ -352,6 +364,7 @@ namespace SnagItAddin
             
             if (LastWindow != null)
             {
+                var img = ScreenCapture.CaptureWindowBitmap(CurWindow.Handle);
                 CapturedBitmap = ScreenCapture.CaptureWindowBitmap(CurWindow.Handle);
                 ImageCaptured.Source = ScreenCapture.BitmapToBitmapSource(CapturedBitmap);
                 StatusText.Text = "Image capture from Screen: " + $"{CapturedBitmap.Width}x{CapturedBitmap.Height}";
@@ -461,7 +474,6 @@ namespace SnagItAddin
             SavedImageFile = sd.FileName;
             try
             {
-
                 CapturedBitmap?.Save(SavedImageFile);
             }
             catch (Exception ex)
@@ -520,10 +532,12 @@ namespace SnagItAddin
 
             StatusText.Text = $"Desktop captured Image: {CapturedBitmap.Width}x{CapturedBitmap.Height}";
             ExternalWindow?.Show();
-
+            
             this.Topmost = true;
             this.Show();
             WindowUtilities.DoEvents();
+
+            ScreenCaptureForm_SizeChanged(this, null);
         }
 
 
@@ -540,10 +554,19 @@ namespace SnagItAddin
             }
         }
 
+        private void tbCopyImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsBitmap)
+            {
+                System.Windows.Clipboard.SetImage((BitmapSource) ImageCaptured.Source);
+            }
+        }
+
         private void
             tbClearImage_Click(object sender, RoutedEventArgs e)
         {
             CapturedBitmap?.Dispose();
+            CapturedBitmap = null;
             ImageCaptured.Source = null;
         }
 
@@ -553,6 +576,12 @@ namespace SnagItAddin
             if (e.Key == Key.V &&
                 (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
                 tbPasteImage_Click(this, null);
+            else if (e.Key == Key.C &&
+                     (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                tbCopyImage_Click(this, null);
+                StatusText.Text = "Image copied to Clipboard.";
+            }
         }
 
         #endregion
