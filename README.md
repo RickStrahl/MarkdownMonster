@@ -13,7 +13,6 @@
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[Change Log](Changelog.md)**
-* [![Gitter](https://badges.gitter.im/RickStrahl/MarkdownMonster.svg)](https://gitter.im/RickStrahl/MarkdownMonster/General?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
 Here's what Markdown Monster looks like:
 

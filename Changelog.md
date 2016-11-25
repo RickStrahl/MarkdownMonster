@@ -2,11 +2,11 @@
 
 # Markdown Monster Change Log
 
-### Version 1.11
+### Version 1.14
 <i><small>not released yet</small></i>
 
 * **New Window Scroll Options**  
-You can now set the new `PreviewSyncMode` setting in the configuration to specify, `PreviewToBrowser`, `BrowserToPreview`, `PreviewAndBrowser` or `None` to determine how the preview and edit panes react to scroll operations.
+You can now set the new `PreviewS![](..\..\Temp\test.png)yncMode` setting in the configuration to specify `PreviewToBrowser`, `BrowserToPreview`, `PreviewAndBrowser` or `None` to determine how the preview and edit panes react to scroll operations. Default is `PreviewToBrowser`.
 
 * **File Encoding Support**  
 Markdown Monster now preserves original file encoding of documents for UTF-8 with and without BOM and for Unicode files. Default if no bom is available is always UTF-8.
@@ -16,6 +16,9 @@ Added a `EditorHighlightActiveLine` configuration setting to set the active line
 
 * **Add Image Preview to the Image Link Dialog**  
 When you link images, the image dialog now previews selected images when you pick a file from disk, or when you type or paste a URL into the edit box. The editbox now also automatically picks up image Urls if they are on the clipboard prior to accessing the Image form.
+
+* **Inline Code Menu Option and Shortcut**  
+You can now markup inline code inside of a paragraph using `<code>` syntax via new toolbar option using the **ctrl-`** keyboard shortcut.
 
 ### Version 1.09
 <i><small>November 18th, 2016</small></i>
