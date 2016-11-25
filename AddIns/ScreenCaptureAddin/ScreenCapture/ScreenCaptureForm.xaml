@@ -34,20 +34,23 @@
                 <StackPanel Orientation="Horizontal">
                     <ToolBar FontWeight="Normal" FontSize="14" Padding="0,8,0,5">
 
-                        <Button Name="ToolButtonSaveImage" Click="tbSave_Click" IsDefault="True" >
+                        <Button Name="ToolButtonSaveImage" Click="tbSave_Click" IsDefault="True"
+                                IsEnabled="{Binding IsBitmap}"
+                                ToolTip="Saves image to disk.">
                             <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome Icon="CheckCircleOutline" 
-                                            
+                                <fa:FontAwesome Icon="CheckCircleOutline"  Name="FaSaveImage"                                           
                                             FontSize="15"
                                             FontWeight="Normal" FontFamily="FontAwesome" 
                                             Margin="5,2,5,0" />
                                 <TextBlock>Save</TextBlock>
                             </StackPanel>
                         </Button>
-                        
-                        <Button Name="ToolButtonSaveAndEdit" Click="tbSaveAndEdit_Click" >
+
+                        <Button Name="ToolButtonSaveAndEdit" Click="tbSaveAndEdit_Click"  
+                                IsEnabled="{Binding IsBitmap}"
+                                ToolTip="Saves image to disk and opens configured image editor.">
                             <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome Icon="Image"                                             
+                                <fa:FontAwesome Icon="Image" Name="FaSaveAndEdit"                                                 
                                                 FontSize="15"
                                             FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
                                 <TextBlock>Save and Edit</TextBlock>
@@ -55,9 +58,11 @@
                         </Button>
 
 
-                        <Button Name="ToolButtonCancel" Click="tbCancel_Click" IsCancel="True">
+                        <Button Name="ToolButtonCancel" Click="tbCancel_Click" 
+                                IsCancel="True" 
+                                ToolTip="Exits the capture form.">
                             <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome Icon="Remove"                                             
+                                <fa:FontAwesome Icon="Remove" Foreground="Red"                                            
                                             FontSize="15"
                                             FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
                                 <TextBlock>Cancel</TextBlock>
@@ -71,34 +76,49 @@
                                 <fa:FontAwesome Icon="Desktop"                                             
                                             FontSize="15"                                                
                                             FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
-                                <TextBlock>Capture Screen</TextBlock>
+                                <TextBlock>Capture Desktop</TextBlock>
                             </StackPanel>
                         </Button>
+                        
+                        <Separator/>
 
-                        <Button Name="ToolButtonPasteImage" Click="tbPasteImage_Click" ToolTip="Capture image from Clipboard (ctrl-v)" >
+                        <Button Name="ToolButtonPasteImage" Click="tbPasteImage_Click" ToolTip="Paste Image from the Clipboard into the Image area (ctrl-v)" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Paste"                                             
                                             FontSize="15"                                                
                                             FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
-                                <TextBlock>Paste from Clipboard</TextBlock>
+                                <TextBlock>Paste</TextBlock>
                             </StackPanel>
                         </Button>
 
+                        <Button Name="ToolButtonCopyImage" Click="tbCopyImage_Click" ToolTip="Copy image to Clipboard (ctrl-c)" >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Copy"                                             
+                                            FontSize="15"                                                
+                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                <TextBlock>Copy</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        
                         <Button Name="ToolButtonClearImage" Click="tbClearImage_Click" ToolTip="Clear the current captured image." >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Trash"                                             
                                             FontSize="15"
                                             FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
-                                <TextBlock>Clear Image</TextBlock>
+                                <TextBlock>Clear</TextBlock>
                             </StackPanel>
                         </Button>
                         
                         <Separator />
                         
                         <Label>Capture Delay:</Label>
-                        <TextBox x:Name="TextCaptureDelay" Text="{Binding CaptureDelaySeconds,UpdateSourceTrigger=PropertyChanged}" 
-                                 Margin="0,3,0,0"  Width="30" BorderThickness="0" ></TextBox>
-                        <CheckBox x:Name="CheckBoxCaptureCursor"  IsChecked="{Binding IncludeCursor}" Content="Capture Cursor"></CheckBox>
+                        <TextBox x:Name="TextCaptureDelay" 
+                                 Text="{Binding CaptureDelaySeconds,UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,3,0,0"  Width="30" BorderThickness="0" 
+                                 ToolTip="Sets the delay time for the countdown timer displayed on the lower right hand corner of the window."></TextBox>
+                        <CheckBox x:Name="CheckBoxCaptureCursor"  IsChecked="{Binding IncludeCursor}" 
+                                  Content="Capture Cursor"
+                                  ToolTip="If checked causes the Mouse Pointer to be captured in the image."></CheckBox>
                     </ToolBar>
                 </StackPanel>
             </ToolBarPanel>

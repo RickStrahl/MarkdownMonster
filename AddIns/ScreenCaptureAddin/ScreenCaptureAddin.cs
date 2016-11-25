@@ -53,13 +53,13 @@ namespace SnagItAddin
             base.OnApplicationStart();
 
             Id = "screencapture";
-            
+
             // create menu item and use OnExecute/OnExecuteConfiguration/OnCanExecute handlers            
             var menuItem = new AddInMenuItem(this)
-            {                
+            {
                 Caption = "SnagIt Screen Capture",
-                FontawesomeIcon= FontAwesomeIcon.Camera            
-            };            
+                FontawesomeIcon = FontAwesomeIcon.Camera
+            };
             MenuItems.Add(menuItem);
         }
 
@@ -71,7 +71,7 @@ namespace SnagItAddin
                     mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            
+
             if (SnagItAutomation.IsInstalled && ScreenCaptureConfiguration.Current.UseSnagItForImageCapture)
                 ExecuteSnagitCapture();
             else
@@ -139,7 +139,7 @@ namespace SnagItAddin
             };
 
             Model.Window.Hide();
-           
+
             form.ShowDialog();
 
             Model.Window.Show();
@@ -157,18 +157,28 @@ namespace SnagItAddin
 
             string capturedFile = form.SavedImageFile;
 
-            capturedFile = FileUtils.GetRelativePath(capturedFile, imageFolder);
-            string relPath = capturedFile.Replace("\\", "/");
+            try
+            {
+                capturedFile = FileUtils.GetRelativePath(capturedFile, imageFolder);
+            }
+            catch
+            {
+            }
+
+            string relPath = capturedFile;
             if (relPath.StartsWith(".."))
-                relPath = capturedFile;
+                relPath = form.SavedImageFile;
 
             if (relPath.Contains(":\\")) // full path
-                relPath = "file:///" + relPath.Replace("\\", "/");
+                relPath = "file:///" + relPath;
 
             string replaceText = "![](" + relPath + ")";
 
             // Push the new text into the Editor's Selection
             SetSelection(replaceText);
+            Model.ActiveEditor.SetEditorFocus();
+            Model.Window.PreviewMarkdown(Model.ActiveEditor, true);
+
         }
 
 #if false
