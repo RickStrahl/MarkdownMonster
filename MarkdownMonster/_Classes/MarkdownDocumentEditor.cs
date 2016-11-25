@@ -265,7 +265,9 @@ namespace MarkdownMonster
             else if (action == "underline")
                 html = "<u>" + input + "</u>";
             else if (action == "strikethrough")
-                html = "<s>" + input + "</s>";
+                html = "~~" + input + "~~";
+            else if (action == "inlinecode")
+                html = "`" + input + "`";
             else if (action == "h1")
                 html = "# " + input;
             else if (action == "h2")
@@ -408,6 +410,20 @@ namespace MarkdownMonster
             MarkdownDocument.CurrentText = GetMarkdown();
         }
 
+        /// <summary>
+        /// Sets selection, sets focus to the editor and
+        /// refreshes the preview
+        /// </summary>
+        /// <param name="text"></param>
+        public void SetSelectionAndFocus(string text)
+        {
+            if (AceEditor == null)
+                return;
+
+            SetSelection(text);
+            SetEditorFocus();
+            Window.PreviewMarkdown(this, keepScrollPosition: true);
+        }
 
         public int GetFontSize()
         {
@@ -497,12 +513,8 @@ namespace MarkdownMonster
             
             string newhtml = MarkupMarkdown(action, html);
 
-            if (!string.IsNullOrEmpty(newhtml) && newhtml != html)
-            {
-                SetSelection(newhtml);
-                AceEditor.setfocus(true);                
-                Window.PreviewMarkdown(this, true);
-            }
+            if (!string.IsNullOrEmpty(newhtml) && newhtml != html)            
+                SetSelectionAndFocus(newhtml);                            
         }
         #endregion
 
@@ -629,6 +641,10 @@ namespace MarkdownMonster
             else if (key == "ctrl-i")
             {
                 Window.Model.ToolbarInsertMarkdownCommand.Execute("italic");
+            }
+            else if (key == "ctrl-`")
+            {
+                Window.Model.ToolbarInsertMarkdownCommand.Execute("inlinecode");
             }
             else if (key == "ctrl-l")
             {

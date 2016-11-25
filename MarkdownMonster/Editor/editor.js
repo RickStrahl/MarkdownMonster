@@ -70,7 +70,8 @@ var te = window.textEditor = {
             "ctrl-o": function() { te.specialkey("ctrl-o"); },
             "ctrl-s": function() { te.specialkey("ctrl-s"); },
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
-            "ctrl-i": function() { te.specialkey("ctrl-i"); },
+            "ctrl-i": function () { te.specialkey("ctrl-i"); },
+            "ctrl-`": function() { te.specialkey("ctrl-`"); },
             "ctrl-l": function() { te.specialkey("ctrl-l"); },
             "ctrl-k": function() { te.specialkey("ctrl-k"); },
 
