@@ -433,16 +433,17 @@ namespace MarkdownMonster
             var tab = new TabItem();
                       
             tab.Margin = new Thickness(0, 0, 3, 0);
-            tab.Padding = new Thickness(2, 0, 7, 2);
+            tab.Padding = new Thickness(2, 0, 7, 2);            
             tab.Background = Background;
-
             tab.ContextMenu = Resources["TabItemContextMenu"] as ContextMenu;
             
+
             ControlsHelper.SetHeaderFontSize(tab, 13F);
 
             var wb = new WebBrowser
             {                
-                Visibility = Visibility.Hidden
+                Visibility = Visibility.Hidden,
+                Margin = new Thickness(-1,0,0,0)
             };
             
 
