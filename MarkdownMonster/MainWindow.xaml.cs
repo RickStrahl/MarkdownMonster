@@ -519,11 +519,6 @@ namespace MarkdownMonster
 
             TabControl.Items.Insert(0, tab);
 
-            // Get Tabablz control to insert at the top of the head
-            //if (TabControl.Items.Count > 0)
-            //    TabablzControl.AddItem(tab, TabControl.Items[0] as TabItem, AddLocationHint.First);
-            //else
-            //    TabControl.AddToSource(tab);
             
             if (selectTab)
             {
@@ -666,6 +661,8 @@ namespace MarkdownMonster
                 PreviewBrowser.Visibility = Visibility.Hidden;
                 PreviewBrowser.Navigate("about:blank");
                 Model.ActiveDocument = null;
+                Title = "Markdown Monster" + 
+                        (UnlockKey.Unlocked ? "" : " (unregistered)");
             }
 
             if (rebindTabHeaders)
