@@ -21,25 +21,33 @@ namespace SnagItAddin
     /// </summary>
     public partial class ScreenClickOverlay: System.Windows.Window
     {
+        ScreenCaptureForm ScreenCaptureForm { get; set; }
 
-        public ScreenClickOverlay()
+        public ScreenClickOverlay(ScreenCaptureForm form)
         {
+            ScreenCaptureForm = form;
             InitializeComponent();
         }
 
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
+        
 
-            var hwnd = new WindowInteropHelper(this).Handle;
-            WindowsServices.SetWindowExTransparent(hwnd);
-        }
+        //protected override void OnSourceInitialized(EventArgs e)
+        //{
+        //    base.OnSourceInitialized(e);
+
+        //    var hwnd = new WindowInteropHelper(this).Handle;
+        //    WindowsServices.SetWindowExTransparent(hwnd);
+        //}
 
         public void SetWindowText(string text)
         {
             TextSize.Text = text;
         }
-
+        
+        private void TextSize_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ScreenCaptureForm.StopCapture();
+        }
     }
 
     public static class WindowsServices

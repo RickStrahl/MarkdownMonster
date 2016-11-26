@@ -7,15 +7,19 @@
         WindowStyle="None"                
         Topmost="True"            
         ResizeMode="NoResize" 
-        AllowsTransparency="True"
-        Opacity="0.6"
+        AllowsTransparency="True"        
         BorderBrush="Orange"
         BorderThickness="4"
+        Cursor="IBeam"       
+        MouseLeftButtonDown="TextSize_MouseLeftButtonDown"
         >
-    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBox Name="TextSize" Foreground="#bbb" BorderThickness="0" Margin="12" FontWeight="Bold">
+    <Window.Background>
+        <SolidColorBrush Opacity="0.6" Color="#555"/>
+    </Window.Background>
+    <Viewbox>
+        <TextBlock Name="TextSize" Foreground="#bbb" Margin="3" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" >
             200x300
-        </TextBox>
+       </TextBlock>
     </Viewbox>
 </Window>
     
