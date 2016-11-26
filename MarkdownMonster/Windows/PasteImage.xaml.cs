@@ -144,9 +144,10 @@ namespace MarkdownMonster.Windows
             // Normalize the path relative to the Markdown file
             if (!string.IsNullOrEmpty(MarkdownFile) && MarkdownFile != "untitled")
             {
-                Image = AddinManager.Current.RaiseOnSaveImage(fd.FileName);
-                if (!string.IsNullOrEmpty(Image))
+                var imgUrl = AddinManager.Current.RaiseOnSaveImage(fd.FileName);
+                if (!string.IsNullOrEmpty(imgUrl))
                 {
+                    Image = imgUrl;
                     TextImageText.Focus();
                     return;
                 }
