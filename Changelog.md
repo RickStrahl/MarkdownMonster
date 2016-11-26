@@ -2,11 +2,11 @@
 
 # Markdown Monster Change Log
 
-### Version 1.14
+### Version 1.0.15
 <i><small>not released yet</small></i>
 
 * **New Window Scroll Options**  
-You can now set the new `PreviewS![](..\..\Temp\test.png)yncMode` setting in the configuration to specify `PreviewToBrowser`, `BrowserToPreview`, `PreviewAndBrowser` or `None` to determine how the preview and edit panes react to scroll operations. Default is `PreviewToBrowser`.
+You can now set the new `PreviewSyncMode` setting in the configuration to specify `PreviewToBrowser`, `BrowserToPreview`, `PreviewAndBrowser` or `None` to determine how the preview and edit panes react to scroll operations. Default is `PreviewToBrowser`.
 
 * **File Encoding Support**  
 Markdown Monster now preserves original file encoding of documents for UTF-8 with and without BOM and for Unicode files. Default if no bom is available is always UTF-8.
@@ -20,7 +20,7 @@ When you link images, the image dialog now previews selected images when you pic
 * **Inline Code Menu Option and Shortcut**  
 You can now markup inline code inside of a paragraph using `<code>` syntax via new toolbar option using the **ctrl-`** keyboard shortcut.
 
-### Version 1.09
+### Version 1.0.9
 <i><small>November 18th, 2016</small></i>
 
 * **Add support for Front Matter**  
@@ -44,7 +44,7 @@ Posting Weblog posts as drafts now works as expected. The draft setting is also 
 * **Preview Sync fixes**  
 Fixed a number of issues related to the new preview sync feature that would occasionally cause the preview and editor to erratically switch focus and slow down when rendering content. Fixed `<script>` tag rendering to always encode un-encoded script tags (which caused all sorts of havoc due to JS errors). Ignore scroll sync errors that previously forced a full page refresh. Fixed a few edge cases where a full preview re-render was triggered to still inject updated HTML.
 
-### Version 1.03
+### Version 1.0.3
 <i><small>November 8th, 2016</small></i>
 
 * **Preview syncing to Editor**  
