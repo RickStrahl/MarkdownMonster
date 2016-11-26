@@ -10,7 +10,7 @@
         AllowsTransparency="True"        
         BorderBrush="Orange"
         BorderThickness="4"
-        Cursor="IBeam"       
+        Cursor="Cross"       
         MouseLeftButtonDown="TextSize_MouseLeftButtonDown"
         >
     <Window.Background>

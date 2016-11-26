@@ -327,7 +327,7 @@ namespace SnagItAddin
             Overlay.Show();
 
             LastWindow = null;
-            CaptureTimer = new Timer(Capture, null, 0, 140);
+            CaptureTimer = new Timer(Capture, null, 0, 100);
         }
 
 
