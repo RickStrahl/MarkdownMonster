@@ -476,6 +476,7 @@
                 {
                     ReleaseDate = matches[0].Value;
                 }
+                _lastAccess = DateTime.UtcNow;
             }
             catch (Exception ex)
             {
