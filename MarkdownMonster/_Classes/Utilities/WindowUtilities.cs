@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Point = System.Drawing.Point;
@@ -51,5 +54,44 @@ namespace MarkdownMonster.Windows
             bmp.UnlockBits(data);
             return bmp;
         }
+
+        public static decimal GetDpiRatio(Window window)
+        {
+            var dpi = WindowUtilities.GetDpi(window, DpiType.Effective);
+            decimal ratio = 1;
+            if (dpi > 96)
+                ratio = (decimal)dpi / 96M;
+
+            return ratio;
+        }
+
+
+        public static uint GetDpi(Window window, DpiType dpiType)
+        {
+            var hwnd = new WindowInteropHelper(window).Handle;
+            var screen = Screen.FromHandle(hwnd);
+            var pnt = new System.Drawing.Point(screen.Bounds.Left + 1, screen.Bounds.Top + 1);
+            var mon = MonitorFromPoint(pnt, 2 /*MONITOR_DEFAULTTONEAREST*/);
+            uint dpiX, dpiY;
+            GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
+
+            return dpiX;
+        }
+
+        //https://msdn.microsoft.com/en-us/library/windows/desktop/dd145062(v=vs.85).aspx
+        [DllImport("User32.dll")]
+        private static extern IntPtr MonitorFromPoint([In]System.Drawing.Point pt, [In]uint dwFlags);
+
+        //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280510(v=vs.85).aspx
+        [DllImport("Shcore.dll")]
+        private static extern IntPtr GetDpiForMonitor([In]IntPtr hmonitor, [In]DpiType dpiType, [Out]out uint dpiX, [Out]out uint dpiY);
+    }
+
+    //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280511(v=vs.85).aspx
+    public enum DpiType
+    {
+        Effective = 0,
+        Angular = 1,
+        Raw = 2,
     }
 }
