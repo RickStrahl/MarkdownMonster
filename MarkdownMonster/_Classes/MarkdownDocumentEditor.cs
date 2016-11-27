@@ -39,14 +39,18 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
-using Microsoft.Win32;
 using Newtonsoft.Json;
 using NHunspell;
 using Westwind.Utilities;
+using Clipboard = System.Windows.Clipboard;
+using MessageBox = System.Windows.MessageBox;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+using WebBrowser = System.Windows.Controls.WebBrowser;
 
 namespace MarkdownMonster
 {
@@ -61,7 +65,6 @@ namespace MarkdownMonster
 
         public dynamic AceEditor { get; set; }
         public string EditorSyntax { get; set; }
-
 
         #region Loading And Initialization
         public MarkdownDocumentEditor(WebBrowser browser)
@@ -801,12 +804,16 @@ namespace MarkdownMonster
         {
             try
             {
+                // determine if we want to rescale the editor fontsize
+                // based on DPI Screen Size
+                var dpiRatio = WindowUtilities.GetDpiRatio(Window);
+
                 AceEditor.settheme(
-                    mmApp.Configuration.EditorTheme,
-                    mmApp.Configuration.EditorFontSize,
-                    mmApp.Configuration.EditorWrapText,
-                    mmApp.Configuration.EditorHighlightActiveLine,
-                    mmApp.Configuration.EditorShowLineNumbers);
+                        mmApp.Configuration.EditorTheme,
+                        mmApp.Configuration.EditorFontSize * dpiRatio,
+                        mmApp.Configuration.EditorWrapText,
+                        mmApp.Configuration.EditorHighlightActiveLine,
+                        mmApp.Configuration.EditorShowLineNumbers);
 
                 if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
                     AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck, mmApp.Configuration.EditorDictionary);
@@ -850,6 +857,7 @@ namespace MarkdownMonster
             return _spellChecker;
         }
         private static Hunspell _spellChecker = null;
+        
 
         /// <summary>
         /// Check spelling of an individual word
