@@ -2,14 +2,20 @@
 
 # Markdown Monster Change Log
 
-### Version 1.0.15
+### Version 1.0.16
 <i><small>not released yet</small></i>
+
+* **Fix High DPI Font Scaling for Editor and Preview**  
+The preview browser now uses standard system settings for automatically scaling the preview based on Font Scaling settings in Windows. The Editor also adjusts the hard editor font settings based on DPI and adjusts with a ratio so that when you move your window to a different monitor the font display size should stay relatively stable regardless of the difference in scale factor.
+
+### Version 1.0.15
+<i><small>November 25th, 2016</small></i>
 
 * **New Window Scroll Options**  
 You can now set the new `PreviewSyncMode` setting in the configuration to specify `PreviewToBrowser`, `BrowserToPreview`, `PreviewAndBrowser` or `None` to determine how the preview and edit panes react to scroll operations. Default is `PreviewToBrowser`.
 
 * **File Encoding Support**  
-Markdown Monster now preserves original file encoding of documents for UTF-8 with and without BOM and for Unicode files. Default if no bom is available is always UTF-8.
+Markdown Monster now preserves original file encoding of documents for UTF-8 with and without BOM and for Unicode files. Default if no BOM is available is always UTF-8.
 
 * **Active Line Highlight**  
 Added a `EditorHighlightActiveLine` configuration setting to set the active line highlight in the editor which makes it easier to see where the cursor is when scrolling is synced. New setting is true.
