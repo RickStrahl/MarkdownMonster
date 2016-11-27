@@ -36,6 +36,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Dragablz;
@@ -65,6 +66,27 @@ namespace MarkdownMonster
 
         public ApplicationConfiguration Configuration { get; set; }
 
+        public IntPtr Hwnd
+        {
+            get
+            {
+                if (_hwnd == IntPtr.Zero)
+                    _hwnd = new WindowInteropHelper(this).EnsureHandle();
+
+                return _hwnd;
+            }
+
+        }
+        private IntPtr _hwnd = IntPtr.Zero;
+
+        private DateTime invoked = DateTime.MinValue;
+
+        /// <summary>
+        /// Handles WebBrowser configuration: DPI Awareness mainly!
+        /// </summary>
+        private WebBrowserHostUIHandler wbHandler;
+
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -91,18 +113,17 @@ namespace MarkdownMonster
                 PipeManager.StartServer();
                 PipeManager.ReceiveString += HandleNamedPipe_OpenRequest;
             }
-
-
+            
 
             // Override some of the theme defaults (dark header specifically)
             mmApp.SetThemeWindowOverride(this);
+
+            // Forces WebBrowser to be DPI aware and not display script errors
+            wbHandler = new WebBrowserHostUIHandler(PreviewBrowser);            
         }
 
         private void MainWindow_Activated(object sender, EventArgs e)
         {
-
-            
-
             // check for external file changes
             for (int i = TabControl.Items.Count - 1; i > -1; i--)
             {
@@ -154,10 +175,10 @@ namespace MarkdownMonster
         }
 
 
-
+        
         #region Opening and Closing
 
-            private
+        private
             void OnLoaded(object sender, RoutedEventArgs e)
         {
             RestoreSettings();
@@ -446,17 +467,17 @@ namespace MarkdownMonster
                 Margin = new Thickness(-1,0,0,0)
             };
             
+            tab.Content = wb;
 
-            tab.Content = wb;            
-            
+
             if (editor == null)
-            {                
+            {
                 editor = new MarkdownDocumentEditor(wb)
                 {
                     Window = this,
-                    EditorSyntax = syntax
+                    EditorSyntax = syntax                    
                 };
-
+                
                 var doc = new MarkdownDocument
                 {
                     Filename = mdFile ?? @"untitled"
@@ -894,7 +915,6 @@ namespace MarkdownMonster
             ShowPreviewBrowser(true,keepScrollPosition);
         }
 
-        private DateTime invoked = DateTime.MinValue;
         
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false)
         {
@@ -1399,13 +1419,8 @@ namespace MarkdownMonster
 
         private void InitializePreviewBrowser()
         {
-
-            // removed - handle at the document level
-            PreviewBrowser.Navigated += (sender, e) =>
-            {
-                // No Script Errors
-                NoScriptErrors(PreviewBrowser, true);
-            };
+            // wbhandle has additional browser initialization code
+            // using the WebBrowserHostUIHandler
             PreviewBrowser.LoadCompleted += (sender, e) =>
             {
                 if (e.Uri.ToString().Contains("about:blank"))
@@ -1423,41 +1438,6 @@ namespace MarkdownMonster
                 catch { }
             };
             PreviewBrowser.Navigate("about:blank");
-        }
-
-        /// <summary>
-        /// Keep WebBrowser Preview control from firing script errors. We need this
-        /// because we may be previewing HTML content that includes script content
-        /// that might not work because of local file restrictions or missing 
-        /// resources that can't load from the Web.
-        /// 
-        /// Ugh... Keep Web Browser control from showing error dialog - silent operation.
-        /// this is ugly, but it works.
-        /// </summary>
-        /// <param name="browser"></param>
-        /// <param name="silent"></param>
-        static void NoScriptErrors(WebBrowser browser, bool silent)
-        {
-            // get an IWebBrowser2 from the document
-            IOleServiceProvider sp = browser?.Document as IOleServiceProvider;
-            if (sp != null)
-            {
-                Guid IID_IWebBrowserApp = new Guid("0002DF05-0000-0000-C000-000000000046");
-                Guid IID_IWebBrowser2 = new Guid("D30C1661-CDAF-11d0-8A3E-00C04FC9E26E");
-
-                dynamic webBrowser;
-                sp.QueryService(ref IID_IWebBrowserApp, ref IID_IWebBrowser2, out webBrowser);
-                if (webBrowser != null)
-                    webBrowser.Silent = silent;                
-            }
-        }
-
-
-        [ComImport, Guid("6D5140C1-7436-11CE-8034-00AA006009FA"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        private interface IOleServiceProvider
-        {
-            [PreserveSig]
-            int QueryService([In] ref Guid guidService, [In] ref Guid riid, [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
         }
         #endregion
 
