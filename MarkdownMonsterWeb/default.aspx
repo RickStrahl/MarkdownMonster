@@ -33,7 +33,7 @@
 </head>
 <body>
     <div class="banner">
-        <span class="banner-title" style="cursor: pointer;" onclick="window.location = './';">
+        <span class="banner-title hidable" style="cursor: pointer;" onclick="window.location = './';">
             <img src="Images/MarkdownMonster_Icon_32.png"
                 style="height: 28px;"
                 alt="Markdown Monster" />
