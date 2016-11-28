@@ -475,7 +475,7 @@ namespace MarkdownMonster
         public bool IsPreviewToEditorSync()
         {
             var mode = mmApp.Configuration.PreviewSyncMode;
-            if (mode == PreviewSyncMode.BrowserToPreview || mode == PreviewSyncMode.PreviewAndBrowser)
+            if (mode == PreviewSyncMode.PreviewToEditor || mode == PreviewSyncMode.EditorAndPreview)
                 return true;
 
             return false;

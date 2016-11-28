@@ -8,8 +8,10 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
+using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
@@ -170,6 +172,47 @@ namespace MarkdownMonster
         }
         private readonly List<string> _renderThemeNames = new List<string>();
 
+
+  
+        
+
+        public List<PreviewSyncModeItem> PreviewSyncModeItems
+        {
+            get
+            {                
+                if (_previewSyncModeItems != null)
+                    return _previewSyncModeItems;
+
+                _previewSyncModeItems = ( (PreviewSyncMode[])Enum.GetValues(typeof(PreviewSyncMode)))
+                    .Select(e =>
+                    {
+                        var item = new PreviewSyncModeItem
+                        {
+                            Name = StringUtils.FromCamelCase(e.ToString()),
+                            Value = e
+                        };
+
+                        if (e == PreviewSyncMode.PreviewToEditor)
+                            item.Icon = FontAwesomeIcon.ArrowCircleLeft;                        
+                        else if (e == PreviewSyncMode.EditorAndPreview)
+                            item.Icon = FontAwesomeIcon.Exchange;
+                        else if (e == PreviewSyncMode.None)
+                            item.Icon = FontAwesomeIcon.Ban;
+                        else  
+                            item.Icon = FontAwesomeIcon.ArrowCircleRight;
+
+                        char c = (char) ((int) item.Icon);
+                        item.IconString = c.ToString() + "   " + item.Name;
+
+                        return item;
+                    })
+                    .ToList();                
+                return _previewSyncModeItems;
+            }
+        }
+        private List<PreviewSyncModeItem> _previewSyncModeItems;
+        
+
         /// <summary>
         /// A list of Ace Editor themes retrieved from the Editor script folder
         /// </summary>
@@ -192,6 +235,7 @@ namespace MarkdownMonster
             }
         }
         private readonly List<string> _editorThemeNames = new List<string>();
+
         #region Initialization
 
         public AppModel(MainWindow window)
@@ -412,4 +456,11 @@ namespace MarkdownMonster
 
     }
 
+    public class PreviewSyncModeItem
+    {
+        public string Name { get; set; }
+        public PreviewSyncMode Value { get; set; }
+        public FontAwesomeIcon Icon { get; set; }
+        public string IconString { get; set; }
+    }
 }

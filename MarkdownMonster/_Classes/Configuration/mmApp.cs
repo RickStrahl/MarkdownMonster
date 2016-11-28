@@ -164,7 +164,10 @@ namespace MarkdownMonster
         /// <param name="data"></param>
         public static void SendTelemetry(string operation, string data = null)
         {
-            if (!Configuration.SendTelemetry)
+            bool isRegistered = UnlockKey.IsRegistered();
+            int accessCount = mmApp.Configuration.ApplicationUpdates.AccessCount;
+
+            if (!Configuration.SendTelemetry ||  (isRegistered && accessCount > 350))
                 return;
 
             string version = GetVersion();
@@ -173,7 +176,7 @@ namespace MarkdownMonster
             {
                 Version = version,
                 Registered = UnlockKey.IsRegistered(),
-                Access = mmApp.Configuration.ApplicationUpdates.AccessCount,
+                Access = accessCount,
                 Operation = operation,
                 Time = Convert.ToInt32((DateTime.UtcNow - Started).TotalSeconds),
                 Data = data

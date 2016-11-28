@@ -842,8 +842,7 @@ namespace MarkdownMonster
                 else
                 {
                     renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: !showInBrowser && 
-                        (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.PreviewToBrowser || 
-                         mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.PreviewAndBrowser) );
+                                                    mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.None );
                     if (renderedHtml == null)
                     {
                         SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
@@ -890,9 +889,14 @@ namespace MarkdownMonster
                                     
                                     try
                                     {
-                                        int lineno = editor.GetLineNumber();                                        
-                                        if (lineno > -1)
-                                            window.scrollToPragmaLine(lineno);
+                                        // scroll preview to selected line
+                                        if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
+                                            mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
+                                        {
+                                            int lineno = editor.GetLineNumber();
+                                            if (lineno > -1)
+                                                window.scrollToPragmaLine(lineno);
+                                        }
                                     }
                                     catch {}                                        
                                 }
