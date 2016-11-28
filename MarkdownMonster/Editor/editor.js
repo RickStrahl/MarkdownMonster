@@ -46,7 +46,11 @@ var te = window.textEditor = {
 
         //te.settheme(editorSettings.theme, editorSettings.fontSize, editorSettings.wrapText);
         editor.setTheme("ace/theme/" + editorSettings.theme);
-        editor.setFontSize(editorSettings.fontSize);
+        editor.setOptions({
+            fontFamily: editorSettings.font,
+            fontSize: editorSettings.fontSize
+        });
+        
         // allow editor to soft wrap text
         session.setUseWrapMode(editorSettings.wrapText);
         session.setOption("indentedSoftWrap", false);
@@ -316,12 +320,14 @@ var te = window.textEditor = {
 
         te.editor.getSession().setMode("ace/mode/" + lang);
     },
-    settheme: function (theme, fontSize, wrapText, highlightActiveLine,showLineNumbers) {
+    settheme: function (theme, font, fontSize, wrapText, highlightActiveLine,showLineNumbers) {
         te.editor.setTheme("ace/theme/" + theme);
-        
-        if (fontSize) 
-            te.editor.setFontSize(fontSize);
 
+        te.editor.setOptions({
+            fontFamily: font,
+            fontSize: fontSize
+        });
+        
         wrapText = wrapText || false;        
 
         var session = te.editor.getSession();

@@ -1,7 +1,8 @@
 var editorSettings = {
   "dictionary": "EN_US",
   "enableSpellChecking": true,
-  "fontSize": 19,
+  "font": "Consolas",
+  "fontSize": 17,
   "highlightActiveLine": true,
   "isDebug": false,
   "showLineNumbers": false,

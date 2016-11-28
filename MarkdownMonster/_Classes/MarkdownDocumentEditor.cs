@@ -810,6 +810,7 @@ namespace MarkdownMonster
 
                 AceEditor.settheme(
                         mmApp.Configuration.EditorTheme,
+                        mmApp.Configuration.EditorFont,
                         mmApp.Configuration.EditorFontSize * dpiRatio,
                         mmApp.Configuration.EditorWrapText,
                         mmApp.Configuration.EditorHighlightActiveLine,
