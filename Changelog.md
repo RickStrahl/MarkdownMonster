@@ -2,16 +2,18 @@
 
 # Markdown Monster Change Log
 
-### Version 1.0.17
+### Version 1.0.18
 <i><small>November 28th, 2016</small></i>
+
+* **Fix High DPI Font Scaling for Editor and Preview**  
+The preview browser now uses standard system settings for automatically scaling the HTML preview based on Font Scaling settings in Windows. The Editor also adjusts the hard editor font settings based on DPI and adjusts with a ratio so that when you move your window to a different monitor the font display size should stay relatively the same regardless of the difference in font scaling factor.
 
 * **Preview Scroll Sync Updates**  
 The preview scroll syncing now can quickly set the four available options via a new dropdown on the statusbar:
 ![](http://markdownmonster.west-wind.com/docs/images/PreviewModeSelection.png)
 
-
-* **Fix High DPI Font Scaling for Editor and Preview**  
-The preview browser now uses standard system settings for automatically scaling the HTML preview based on Font Scaling settings in Windows. The Editor also adjusts the hard editor font settings based on DPI and adjusts with a ratio so that when you move your window to a different monitor the font display size should stay relatively the same regardless of the difference in font scaling factor.
+* **Add EditorFont Configuration Options**  
+You can now set the editor font in the Markdown Monster Settings file `MarkdownMonster.json` (Tools -> Settings). Note that fonts **have to be proportional** or severe cursor positioning issues will arise. This moves all font manipulation of the editor to the configuration to ensure that cursor position corruption does not occur.
 
 ### Version 1.0.15
 <i><small>November 25th, 2016</small></i>
