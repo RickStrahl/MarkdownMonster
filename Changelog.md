@@ -2,17 +2,22 @@
 
 # Markdown Monster Change Log
 
-### Version 1.0.16
-<i><small>not released yet</small></i>
+### Version 1.0.17
+<i><small>November 28th, 2016</small></i>
+
+* **Preview Scroll Sync Updates**  
+The preview scroll syncing now can quickly set the four available options via a new dropdown on the statusbar:
+![](http://markdownmonster.west-wind.com/docs/images/PreviewModeSelection.png)
+
 
 * **Fix High DPI Font Scaling for Editor and Preview**  
-The preview browser now uses standard system settings for automatically scaling the preview based on Font Scaling settings in Windows. The Editor also adjusts the hard editor font settings based on DPI and adjusts with a ratio so that when you move your window to a different monitor the font display size should stay relatively stable regardless of the difference in scale factor.
+The preview browser now uses standard system settings for automatically scaling the HTML preview based on Font Scaling settings in Windows. The Editor also adjusts the hard editor font settings based on DPI and adjusts with a ratio so that when you move your window to a different monitor the font display size should stay relatively the same regardless of the difference in font scaling factor.
 
 ### Version 1.0.15
 <i><small>November 25th, 2016</small></i>
 
 * **New Window Scroll Options**  
-You can now set the new `PreviewSyncMode` setting in the configuration to specify `PreviewToBrowser`, `BrowserToPreview`, `PreviewAndBrowser` or `None` to determine how the preview and edit panes react to scroll operations. Default is `PreviewToBrowser`.
+You can now set the new `PreviewSyncMode` setting in the configuration to specify `EditorToPreview`, `PreviewToEditor`, `EditorAndPreview` or `None` to determine how the preview and edit panes react to scroll operations. Default is `PreviewToBrowser`.
 
 * **File Encoding Support**  
 Markdown Monster now preserves original file encoding of documents for UTF-8 with and without BOM and for Unicode files. Default if no BOM is available is always UTF-8.
@@ -248,7 +253,6 @@ Thanks to an update in [Dragablz](https://github.com/ButchersBoy/Dragablz), tool
 The Weblog Add-in can now download blog posts for editing. If the server supports an `mt_markdown` *CustomField* that value is used for editing. If not then the HTML is converted as best as possible into Markdown for editing.
 
 ### 0.35
-
 * **Update preview refresh**  
 Add additional preview update logic to improve re-rendering of the previewer.
 
@@ -259,7 +263,6 @@ Fixed bug that caused SnagIt Addin options to not save reliably and resetting. S
 Fatal errors are now optionally logged to the Markdown Monster Web site. The information logged is the same information written to the local error log. Remote error logging can be disabled via configuration setting but is enabled by default.
 
 ### 0.32
-
 * **Update preview refresh**  
 Keyboard refresh now waits for keyboard to be idle for 1 second after typing before refreshing. This is a single check which is much more efficient and should result in less jitter and faster keyboard entry.
 

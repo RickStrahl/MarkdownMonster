@@ -86,7 +86,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(PreviewSyncMode));
             }
         }
-        private PreviewSyncMode _previewSyncMode = PreviewSyncMode.PreviewToBrowser;
+        private PreviewSyncMode _previewSyncMode = PreviewSyncMode.EditorAndPreview;
 
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace MarkdownMonster
             { }
             // TODO: END REMOVE THIS AFTER A WHILE
 
-            PreviewSyncMode = PreviewSyncMode.PreviewToBrowser;
+            PreviewSyncMode = PreviewSyncMode.EditorToPreview;
 
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost/MarkdownMonster/bugreport.ashx?method=ReportBug";
@@ -450,9 +450,9 @@ namespace MarkdownMonster
 
     public enum PreviewSyncMode
     {
-        PreviewToBrowser,
-        BrowserToPreview,
-        PreviewAndBrowser,        
+        EditorToPreview,
+        PreviewToEditor,
+        EditorAndPreview,        
         None
     }
 }
