@@ -18,12 +18,6 @@ namespace MarkdownMonster
     public class ApplicationConfiguration : AppConfiguration, 
                                             INotifyPropertyChanged
     {
-        private bool _isPreviewVisible;
-        private string _editorTheme;
-        private Themes _applicationTheme;
-        private bool _editorEnableSpellcheck;
-        private string _editorDictionary;
-
         /// <summary>
         /// The name of the application
         /// </summary>
@@ -38,6 +32,8 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(ApplicationTheme));
             }
         }
+
+        private Themes _applicationTheme;
 
 
         /// <summary>
@@ -54,6 +50,8 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(EditorTheme));
             }
         }
+
+        private string _editorTheme;
 
         /// <summary>
         /// Themes used to render the Preview. Preview themes are
@@ -90,6 +88,38 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// The font used in the editor. Must be a proportional font
+        /// </summary>
+        public string EditorFont
+        {
+            get { return _editorFont; }
+            set
+            {
+                if (_editorFont == value) return;
+                _editorFont = value;
+                OnPropertyChanged(nameof(EditorFont));
+            }
+        }
+
+        private string _editorFont;
+
+        /// <summary>
+        /// Font size for the editor.
+        /// </summary>
+        public int EditorFontSize
+        {
+            get { return _EditorFontSize; }
+            set
+            {
+                if (value == _EditorFontSize) return;
+                _EditorFontSize = value;
+                OnPropertyChanged(nameof(EditorFontSize));
+            }
+        }
+
+        private int _EditorFontSize;
+
+        /// <summary>
         /// Determines whether the active line is highlighted in the editor
         /// </summary>
         public bool EditorHighlightActiveLine
@@ -102,7 +132,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(EditorHighlightActiveLine));
             }
         }
-        private bool _editorHighlightActiveLine = true;
+        private bool _editorHighlightActiveLine;
 
 
         /// <summary>
@@ -139,22 +169,6 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Font size for the editor.
-        /// </summary>
-        public int EditorFontSize
-        {
-            get { return _EditorFontSize; }
-            set
-            {
-                if (value == _EditorFontSize) return;
-                _EditorFontSize = value;
-                OnPropertyChanged(nameof(EditorFontSize));
-            }
-        }
-        private int _EditorFontSize;
-
-
-        /// <summary>
         /// Determines if spell checking is used. This value maps to the
         /// spell check button in the window header.
         /// </summary>
@@ -168,6 +182,8 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(EditorEnableSpellcheck));
             }
         }
+
+        private bool _editorEnableSpellcheck;
 
 
         /// <summary>
@@ -186,7 +202,9 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(EditorDictionary));
             }
         }
-      
+
+
+        private string _editorDictionary;
 
         /// <summary>
         /// If true re-opens files that were open when last closed.
@@ -295,6 +313,7 @@ namespace MarkdownMonster
             } 
         }
 
+        private bool _isPreviewVisible;
         public bool FirstRun { get; set; }
         
 
@@ -344,8 +363,10 @@ namespace MarkdownMonster
             ApplicationTheme = Themes.Dark;
             RenderTheme = "Github";
             EditorTheme = "twilight";
-            EditorFontSize = 19;
+            EditorFont = "Consolas";
+            EditorFontSize = 17;
             EditorWrapText = true;
+            EditorHighlightActiveLine = true;
             EditorEnableSpellcheck = true;
             EditorDictionary = "EN_US";
 

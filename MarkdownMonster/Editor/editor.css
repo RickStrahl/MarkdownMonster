@@ -15,8 +15,7 @@ html, body {
     -webkit-overflow-scrolling: touch;
 }		
 
-.ace_editor, .ace_editor * {
-    font-family:  Consolas,"Courier New", monospace; 
+.ace_editor, .ace_editor * {    
     font-weight: normal;
     letter-spacing: 0 !important;
     background: transparent;           
