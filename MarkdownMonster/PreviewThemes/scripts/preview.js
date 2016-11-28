@@ -3,9 +3,9 @@
 var te = {
     mmEditor: null,
     isPreviewEditorSync: false,
-    codeScrolled: new Date().getSeconds()
+    codeScrolled: new Date().getTime()
 }
-var isDebug = true;
+var isDebug = false;
 
 $(document).on("contextmenu", function () {
     // inside of WebBrowser control don't show context menu
@@ -29,17 +29,24 @@ window.ondragover = function (event) {
 
 var lastMouseY = 0;
 
-window.onscroll = debounce(function (event) {
-    if (!te.mmEditor || te.isPreviewEditorSync !== true) return;
+
+var scroll =   debounce(function (event) {
+    if (!te.mmEditor || !te.isPreviewEditorSync) return;
+
+    // prevent repositioning editor scroll sync 
+    // when selecting line in editor (w/ two way sync)
+    var t = new Date().getTime();
     
-    // prevent repositioning editor scroll sync
-    if (te.codeScrolled > new Date().getSeconds() - 2)
+    if (te.codeScrolled > t - 150)
         return;
 
+    te.codeScrolled = t;
+        
     var st = $(window).scrollTop();
 
     var winTop = st + 100;
     var $lines = $("[id*='pragma-line-']");
+
     if ($lines.length < 1)
         return;
 
@@ -54,11 +61,10 @@ window.onscroll = debounce(function (event) {
     if (!id)
         return;
 
-    id = id.replace("pragma-line-", "");    
+    id = id.replace("pragma-line-", "");
     te.mmEditor.GotoLine((id * 1) - 1);
 },100);
-
-
+window.onscroll = scroll;
 
 // This function is global and called by the parent
 // to pass in the form object and pass back the text
@@ -66,8 +72,9 @@ window.onscroll = debounce(function (event) {
 // calls into this component
 function initializeinterop(editor) {    
     te.mmEditor = editor;
-    te.isPreviewEditorSync = editor.IsPreviewToEditorSync();
+    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();    
 }
+
 
 function highlightCode() {
     $("pre code")
@@ -76,7 +83,8 @@ function highlightCode() {
         });
 }
 
-function updateDocumentContent(html) {
+function updateDocumentContent(html) {    
+    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();    
     $("#MainContent").html(html);
     highlightCode();
 }
@@ -96,7 +104,7 @@ function scrollToPragmaLine(lineno) {
                 }
             }
 
-            te.codeScrolled = new Date().getSeconds();
+            te.codeScrolled = new Date().getTime();
             $("html").scrollTop($el.offset().top - 100);
 
             $el.addClass("line-highlight");
@@ -106,15 +114,24 @@ function scrollToPragmaLine(lineno) {
     },30);
 }
 
-function status(msg) {
+function status(msg,append) {
     var $el = $("#statusmessage");
     if ($el.length < 1) {
         $el = $("<div id='statusmessage' style='position: fixed; opacity: 0.8; left:0; right:0; bottom: 0; padding: 5px 10px; background: #444; color: white;'></div>");
         $(document.body).append($el);
     }
-    $el.text(msg);
+
+    if (append) {
+        var html = $el.html() +
+            "<br/>" +
+            msg;
+        $el.html(html);
+    }
+    else
+        $el.text(msg);
+
     $el.show();
-    setTimeout(function() { $el.text(""); $el.fadeOut() }, 3000);
+    setTimeout(function() { $el.text(""); $el.fadeOut() }, 6000);
 }
 
 
