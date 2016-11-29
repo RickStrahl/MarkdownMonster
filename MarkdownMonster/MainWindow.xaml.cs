@@ -138,23 +138,24 @@ namespace MarkdownMonster
 
                     if (doc.HasFileCrcChanged())
                     {
+                        // force update to what's on disk so it doesn't fire again
+                        // do here prior to dialogs so this code doesn't fire recursively
+                        doc.UpdateCrc();
+
                         string filename = doc.FilenamePathWithIndicator.Replace("*","");
                         string template = filename +
                                           "\r\n\r\nThis file has been modified by another program.\r\nDo you want reload it?";
-
+                        
                         if (MessageBox.Show(this,template,
                                 "Reload",
                                 MessageBoxButton.YesNo,
                                 MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
-
-
                             if (!doc.Load(doc.Filename))
                             {
                                 MessageBox.Show(this, "Unable to re-load current document.",
                                                 "Error re-loading file",
-                                                MessageBoxButton.OK,MessageBoxImage.Exclamation);
-                                doc.UpdateCrc(); // don't let it repeat
+                                                MessageBoxButton.OK,MessageBoxImage.Exclamation);                                
                                 continue;
                             }
 
@@ -167,8 +168,6 @@ namespace MarkdownMonster
                             if (tab == selectedTab)
                                 PreviewMarkdown(editor, keepScrollPosition: true);                            
                         }
-                        else
-                            doc.UpdateCrc();
                     }
                 }
             }
