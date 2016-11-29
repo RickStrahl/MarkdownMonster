@@ -283,7 +283,7 @@ namespace WebLogAddin.MetaWebLogApi
                     post_content = input.post_content,                    
                     Categories = input.categories,
                     DateCreated = input.dateCreated,
-                    Tags = input.mt_keywords.Split(','),
+                    Tags = input.mt_keywords != null ? input.mt_keywords.Split(',') : null,
                     Title = input.title,
                     Permalink = input.permaLink,
                     mt_excerpt = input.mt_excerpt,
