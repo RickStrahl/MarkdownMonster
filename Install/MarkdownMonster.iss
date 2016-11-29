@@ -42,6 +42,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 
+[Dirs]
+Name: "{pf}\{#MyAppName}\Addins"; Permissions: everyone-modify
+
 [Files]
 Source: ".\Distribution\MarkdownMonster.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\Distribution\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
