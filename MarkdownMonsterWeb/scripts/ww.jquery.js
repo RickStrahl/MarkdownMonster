@@ -18,7 +18,7 @@ http://en.wikipedia.org/wiki/MIT_License
         this.errorHandler = null;
         this.errorMessage = "";
         this.async = true;
-        this.evalResult = false; // treat result as JSON         
+        this.evalResult = false; // treat result as JSON 
         this.contentType = "application/x-www-form-urlencoded";
         this.accepts = null;
         this.method = "GET";
@@ -1543,7 +1543,7 @@ http://en.wikipedia.org/wiki/MIT_License
                         if (opt.onDragStart(e, $el, opt) === false)
                             return;
                     }
-                    opt.dragFunc = doDrag;
+                    opt.dragFunc = debounce(doDrag,20);
 
                     $(document).bind('mousemove.rsz', opt.dragFunc);
                     $(document).bind('mouseup.rsz', stopDragging);
@@ -1569,8 +1569,7 @@ http://en.wikipedia.org/wiki/MIT_License
 
                     if (opt.onDrag)
                         opt.onDrag(e, $el, opt);
-
-                    //console.log('dragging', e, pos, newWidth, newHeight);
+                    
                 }
 
                 function stopDragging(e) {

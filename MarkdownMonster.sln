@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddIns", "AddIns", "{4F5BF0
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MarkdownMonsterWeb", "MarkdownMonsterWeb\", "{6AB5E445-9660-454B-BF02-506000EED978}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_1863"
 		Debug.AspNetCompiler.PhysicalPath = "MarkdownMonsterWeb\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_1863\"
