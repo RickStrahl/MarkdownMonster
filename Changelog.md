@@ -2,6 +2,15 @@
 
 # Markdown Monster Change Log
 
+### Version 1.0.19
+<i><small>November 30th, 2016</small></i>
+
+* **WebLog Publishing/Download Updates**   
+Add better support for DasBlog which has a few funky MetaWeblog quirks. Fix MetaWebLog API post handler to allow string or numeric ids. Fix 
+
+* **Fix: File Updates on Disk Dialog Issues**   
+Under some circumstances with certain hardware combinations, files changed on disk while editing were throwing repeated message boxes to notify of changes in an endless loop. Fixed - props to Peter Kellner for reporting and stipulating the problem.
+
 ### Version 1.0.18
 <i><small>November 28th, 2016</small></i>
 
