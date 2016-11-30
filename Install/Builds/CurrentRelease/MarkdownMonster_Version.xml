@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>1.0.17</Version>
+   <Version>1.0.19</Version>
    <ReleaseDate>November 28th, 2016</ReleaseDate>
-   <Title>West Wind Markdown Monster 1.0.17 now available</Title>
+   <Title>West Wind Markdown Monster 1.0.19 now available</Title>
    <Detail>
-Version 1.0.17 improves high DPI font scaling, adds improved native screen captures, support for multiple editor/preview sync modes, image previews for image pasting and image pasting from the clipboard.
+Version 1.0.19 improves high DPI font scaling, adds improved native screen captures, support for multiple editor/preview sync modes, image previews for image pasting and image pasting from the clipboard.
 
 If you're upgrading from a version prior to 0.57, we recommend that you completely uninstall Markdown Monster and reinstall the new version to clear out files that are no longer used. Your existing configuration files will be updated. Registered users will have to re-apply their registration key in this version due to a change in the key format for the release version.
 
