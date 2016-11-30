@@ -34,10 +34,10 @@ namespace WebLogAddin.MetaWebLogApi
         /// <param name="post">The Post.</param>
         /// <param name="publish">If false, this is a draft post.</param>
         /// <returns>The postid of the newly-created post.</returns>
-        public virtual int NewPost(Post post, bool publish)
+        public virtual string NewPost(Post post, bool publish)
         {
-            var content = Map.From.Post(post);
-            return Convert.ToInt32(_wrapper.NewPost(BlogID, Username, Password, content, publish));
+            var content = Map.From.Post(post);            
+            return  _wrapper.NewPost(BlogID, Username, Password, content, publish);
         }
         
 

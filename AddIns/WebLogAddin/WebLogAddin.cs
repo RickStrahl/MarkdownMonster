@@ -216,8 +216,11 @@ namespace WeblogAddin
                 {
                     var postRaw = wrapper.GetPostRaw(ActivePost.PostID);
                     var link = postRaw.link;
-                    if (!string.IsNullOrEmpty(link))
+                    if (!string.IsNullOrEmpty(link) && ( link.StartsWith("http://") || link.StartsWith("https://")) )
                         ShellUtils.GoUrl(link);
+                    else
+                        // just go to the base domain - assume posts are listed there
+                        ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));
                 }
                 catch { }
             }
