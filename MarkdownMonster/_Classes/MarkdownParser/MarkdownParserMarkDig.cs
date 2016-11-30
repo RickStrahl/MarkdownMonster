@@ -52,14 +52,15 @@ namespace MarkdownMonster
             if (force || Pipeline == null)
             {
                 var builder = new MarkdownPipelineBuilder()
-                    .UsePipeTables()
-                    .UseAutoLinks()
-                    .UseCitations()
+                    .UseYamlFrontMatter()
                     .UseEmphasisExtras()
+                    .UseAutoLinks()
+                    .UsePipeTables()
+                    .UseGridTables()
                     .UseFooters()
-                    .UseFigures()
                     .UseFootnotes()
-                    .UseGridTables();
+                    .UseCitations()
+                    .UseFigures();
                     
                 if (usePragmaLines)
                     builder = builder
@@ -78,8 +79,6 @@ namespace MarkdownMonster
         {
             if (string.IsNullOrEmpty(markdown))
                 return string.Empty;
-
-            markdown = StripFrontMatter(markdown);
 
             var html = Markdown.ToHtml(markdown, Pipeline);
             
