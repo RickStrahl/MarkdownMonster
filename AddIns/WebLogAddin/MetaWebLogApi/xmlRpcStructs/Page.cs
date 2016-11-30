@@ -18,8 +18,8 @@ namespace WebLogAddin.MetaWebLogApi
         public string title;
         public string description;
         public string mt_excerpt;
-        public string mt_text_more;
-        public int mt_allow_comments;
+        public string mt_text_more;        
+        //public int mt_allow_comments;
         public int mt_allow_pings;
         public DateTime dateCreated;
 
@@ -29,3 +29,4 @@ namespace WebLogAddin.MetaWebLogApi
         }
     }
 }
+ 

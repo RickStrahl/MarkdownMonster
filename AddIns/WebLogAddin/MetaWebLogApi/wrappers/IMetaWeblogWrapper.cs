@@ -11,7 +11,7 @@ namespace WebLogAddin.MetaWebLogApi
         IEnumerable<UserBlog> GetUserBlogs();
         UserInfo GetUserInfo();
         MediaObjectInfo NewMediaObject(MediaObject mediaObject);
-        int NewPost(Post post, bool publish);
+        string NewPost(Post post, bool publish);
         bool EditPost(Post post, bool publish);
     }
 }

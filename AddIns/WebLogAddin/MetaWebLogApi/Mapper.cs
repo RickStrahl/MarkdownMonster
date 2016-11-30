@@ -137,7 +137,7 @@ namespace WebLogAddin.MetaWebLogApi
                            {
                                dateCreated = input.DateCreated,
                                description = input.Body,
-                               mt_allow_comments = input.AllowComments ? 1 : 0,
+                               //mt_allow_comments = input.AllowComments ? 1 : 0,
                                mt_allow_pings = input.AllowPings ? 1 : 0,
                                mt_excerpt = input.Excerpt,
                                mt_text_more = input.mt_text_more,
@@ -336,8 +336,8 @@ namespace WebLogAddin.MetaWebLogApi
             {
                 var result = new Page
                                  {
-                                     AllowComments = (input.mt_allow_comments == 1),
-                                     AllowPings = (input.mt_allow_comments == 1),
+                                     //AllowComments = (input.mt_allow_comments == 1),
+                                     AllowPings = (input.mt_allow_pings == 1),
                                      AuthorID = Convert.ToInt32(input.wp_author_id),
                                      Body = input.description,
                                      DateCreated = input.dateCreated,

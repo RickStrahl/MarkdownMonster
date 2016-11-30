@@ -178,7 +178,7 @@ namespace WeblogAddin
             var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                 weblogInfo.Username,
                 weblogInfo.DecryptPassword(weblogInfo.Password),
-+                weblogInfo.BlogId);
+                weblogInfo.BlogId);
 
 
             Model.Configuration.LastWeblogAccessed = weblogInfo.Name;
@@ -316,7 +316,7 @@ namespace WeblogAddin
                 var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                     weblogInfo.Username,
                     weblogInfo.DecryptPassword(weblogInfo.Password),
-+                    weblogInfo.BlogId);
+                    weblogInfo.BlogId);
 
                 try
                 {
