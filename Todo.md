@@ -4,10 +4,12 @@
 
 * Add cursor position to status bar
 * WebLog MetaWeblog Discovery with /rsd URL
+* Auto-Save files
 * ~~Paste Images from Clipboard and Save To Disk (forward to WPF)~~
 * <s>Integrate non-SnagIt screen capture natively</s>
 
 ### Bugs
+* Screen Capture Weirdness with High DPI Font Scaling
 * Weblog: Special Characters in Blog Publishing. Special attn to Image Posting
 
 
@@ -20,6 +22,7 @@
 * PngOut on Png Images captured with SnagIt or Inserted
 * Page Templates (add-in?)
 * Multiple configurations for blog posts (use post/blogid subitems?)
+* Research **R Markdown**, **AsciiDoc**
 
 ### Notes
 
