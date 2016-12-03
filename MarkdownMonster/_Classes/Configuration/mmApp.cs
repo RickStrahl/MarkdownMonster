@@ -130,7 +130,8 @@ namespace MarkdownMonster
                 TimeStamp = DateTime.UtcNow,
                 Message = ex.Message,                
                 Product = "Markdown Monster",
-                Version = mmApp.GetVersion(),                
+                Version = mmApp.GetVersion(),      
+                WinVersion = Environment.OSVersion.Version.ToString(),     
                 StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()               
             };            
             
@@ -316,7 +317,9 @@ namespace MarkdownMonster
         public string Message { get; set; }
         public string Product { get; set; }
         public string Version { get; set; }
+        public string WinVersion { get; set; }
         public string StackTrace { get; set; }
+        
     }
 
     public class Telemetry

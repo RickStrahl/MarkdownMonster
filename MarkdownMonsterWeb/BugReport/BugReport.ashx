@@ -31,6 +31,7 @@ public class BugReportService : CallbackHandler
     {
         string msg = $@"{bug.Message}    
 {bug.Product} v{bug.Version} - {Context.Request.ServerVariables["REMOTE_ADDR"]}
+{bug.WinVersion}
 {bug.StackTrace}
 ";
         bug.TimeStamp = DateTime.Now;
@@ -43,7 +44,7 @@ public class BugReportService : CallbackHandler
     [CallbackMethod(RouteUrl = "Telemetry")]
     public string Telemetry(Telemetry telemetry)
     {
-        StringUtils.LogString( telemetry.Version + " - " +
+        StringUtils.LogString( telemetry.Version + " -  " +
                                telemetry.Operation + " - " +
                                (telemetry.Registered ? "YES" : "no") + " - " +
                                telemetry.Access + " - " +
@@ -76,7 +77,7 @@ public class BugReportService : CallbackHandler
                 s.SetLength(0);
                 s.Flush();
 
-                ms.Position = 0;                
+                ms.Position = 0;
                 ms.CopyTo(s);
                 s.Flush();
             }
@@ -90,15 +91,16 @@ public class BugReportService : CallbackHandler
 public class Bug
 {
     public DateTime TimeStamp { get; set; }
-    public string Message { get; set; }
+    public string Message { get; set; }    
     public string Product { get; set; }
     public string Version { get; set; }
+    public string WinVersion { get; set; }
     public string StackTrace { get; set; }
 }
 
 public class Telemetry
 {
-    public string Version { get; set; }
+    public string Version { get; set; }    
     public bool Registered { get; set; }
     public string Operation { get; set;  }
     public string Data { get; set; }
