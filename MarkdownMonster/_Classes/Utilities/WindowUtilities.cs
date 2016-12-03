@@ -20,6 +20,9 @@ namespace MarkdownMonster.Windows
     /// </summary>
     public class WindowUtilities
     {
+        private delegate void EmptyDelegate();
+
+
         /// <summary>
         /// Idle loop to let events fire in the UI
         /// 
@@ -30,9 +33,7 @@ namespace MarkdownMonster.Windows
         {
             Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new EmptyDelegate(delegate { }));
         }
-
-        private delegate void EmptyDelegate();
-
+        
         public static Bitmap BitmapSourceToBitmap(BitmapSource source)
         {
             Bitmap bmp = new Bitmap(
@@ -55,6 +56,39 @@ namespace MarkdownMonster.Windows
             return bmp;
         }
 
+        #region Make Window Transparent
+        /// <summary>
+        /// Call this to make a window completely click through including all controls
+        /// on it.
+        /// </summary>
+        /// <example>
+        /// ///
+        /// protected override void OnSourceInitialized(EventArgs e)
+        /// {
+        ///    base.OnSourceInitialized(e);
+        ///    var hwnd = new WindowInteropHelper(this).Handle;
+        ///    WindowsServices.SetWindowExTransparent(hwnd);
+        /// }
+        ///</example>
+        public static void MakeWindowCompletelyTransparent(IntPtr hwnd)
+        {
+            var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+            SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+        }
+
+        const int WS_EX_TRANSPARENT = 0x00000020;
+        const int GWL_EXSTYLE = (-20);
+
+        [DllImport("user32.dll")]
+        static extern int GetWindowLong(IntPtr hwnd, int index);
+
+        [DllImport("user32.dll")]
+        static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+        #endregion
+
+
+        #region GetDpiRatio
+
         public static decimal GetDpiRatio(Window window)
         {
             var dpi = WindowUtilities.GetDpi(window, DpiType.Effective);
@@ -64,27 +98,48 @@ namespace MarkdownMonster.Windows
 
             return ratio;
         }
-
-
-        public static uint GetDpi(Window window, DpiType dpiType)
+        public static decimal GetDpiRatio(IntPtr hwnd)
         {
-            var hwnd = new WindowInteropHelper(window).Handle;
+            var dpi = GetDpi(hwnd, DpiType.Effective);            
+            decimal ratio = 1;
+            if (dpi > 96)
+                ratio = (decimal)dpi / 96M;
+
+            return ratio;
+        }
+
+        public static uint GetDpi(IntPtr hwnd, DpiType dpiType)
+        {
             var screen = Screen.FromHandle(hwnd);
             var pnt = new System.Drawing.Point(screen.Bounds.Left + 1, screen.Bounds.Top + 1);
             var mon = MonitorFromPoint(pnt, 2 /*MONITOR_DEFAULTTONEAREST*/);
             uint dpiX, dpiY;
             GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
-
             return dpiX;
         }
 
+        
+
+        public static uint GetDpi(Window window, DpiType dpiType)
+        {
+            var hwnd = new WindowInteropHelper(window).Handle;
+            return GetDpi(hwnd, dpiType);
+        }
+
+        #endregion
+
+
+        #region PInvoke DPI
         //https://msdn.microsoft.com/en-us/library/windows/desktop/dd145062(v=vs.85).aspx
         [DllImport("User32.dll")]
         private static extern IntPtr MonitorFromPoint([In]System.Drawing.Point pt, [In]uint dwFlags);
 
         //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280510(v=vs.85).aspx
         [DllImport("Shcore.dll")]
-        private static extern IntPtr GetDpiForMonitor([In]IntPtr hmonitor, [In]DpiType dpiType, [Out]out uint dpiX, [Out]out uint dpiY);
+        private static extern IntPtr GetDpiForMonitor([In]IntPtr hmonitor, [In]DpiType dpiType, [Out]out uint dpiX, [Out]out uint dpiY);        
+
+        #endregion
+
     }
 
     //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280511(v=vs.85).aspx

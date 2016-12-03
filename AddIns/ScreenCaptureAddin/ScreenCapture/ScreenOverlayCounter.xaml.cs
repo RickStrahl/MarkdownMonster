@@ -18,9 +18,11 @@ namespace SnagItAddin
 
         private void ScreenOverlayCounter_Loaded(object sender, RoutedEventArgs e)
         {
+            
+
             var screen = Screen.FromHandle(new WindowInteropHelper(this).Handle);
-            Left = screen.Bounds.Width - Width - 50;
-            Top = screen.Bounds.Height- Height - 50;
+            Left = System.Windows.SystemParameters.WorkArea.Right - Width - 50;
+            Top = System.Windows.SystemParameters.WorkArea.Bottom - Height - 50;
         }
        
 

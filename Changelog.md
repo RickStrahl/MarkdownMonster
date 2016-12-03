@@ -2,6 +2,15 @@
 
 # Markdown Monster Change Log
 
+### Version 1.0.20
+<i><small>December 3rd, 2016</small></i>
+
+* **Fix: Screen Capture on Scaled DPI**  
+Previously the native screen capture form had issues on scaled displays and would not properly highlight windows. Fixed.
+
+
+
+
 ### Version 1.0.19
 <i><small>November 30th, 2016</small></i>
 

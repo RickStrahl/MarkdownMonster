@@ -14,6 +14,7 @@ using System.Windows.Media;
 using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
+using MarkdownMonster.Windows;
 using ScreenCaptureAddin;
 using Westwind.Utilities;
 
@@ -47,7 +48,7 @@ namespace SnagItAddin
             base.OnSourceInitialized(e);
 
             var hwnd = new WindowInteropHelper(this).Handle;
-            WindowsServices.SetWindowExTransparent(hwnd);
+            WindowUtilities.MakeWindowCompletelyTransparent(hwnd);
         }
 
         public void SetDesktop(bool includeCursor = false)
@@ -61,10 +62,11 @@ namespace SnagItAddin
                 ScreenCapture.DrawMousePointer(MousePointerInfo, Bitmap);
             }
 
+            var dpiRatio = (double)WindowUtilities.GetDpiRatio(handle);
             Left = 0;
             Top = 0;
-            Width = Bitmap.Width;
-            Height = Bitmap.Height;
+            Width = Bitmap.Width / dpiRatio;
+            Height = Bitmap.Height / dpiRatio;
 
             DesktopImage.Source = ScreenCapture.BitmapToBitmapSource(Bitmap);
         }
@@ -74,13 +76,6 @@ namespace SnagItAddin
             Bitmap?.Dispose();
             base.Hide();            
         }
-
-        //private void DesktopImage_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        //{
-        //    Debug.WriteLine("Mouse Button Clicked...");
-        //    MessageBox.Show("Stop Capture - Left Mouse on Desktop Window");
-        //    CaptureForm.StopCapture();
-        //}
     }    
     
 }

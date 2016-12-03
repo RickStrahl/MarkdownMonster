@@ -353,20 +353,27 @@ namespace SnagItAddin
         {
             if (!IsMouseClickCapturing)
                 return;
+                        
+            CaptureTimer.Dispose();
 
             IsMouseClickCapturing = false;
 
             Overlay?.Close();
             WindowUtilities.DoEvents();
 
+            //Point pt = GetMousePosition();
+            //CurWindow = new WindowInfo(ScreenCapture.WindowFromPoint(new System.Drawing.Point((int)pt.X, (int)pt.Y)));
+
             Desktop.Topmost = true;
             Desktop.Activate();            
             WindowUtilities.DoEvents();
-            
+
             if (LastWindow != null)
-            {
+            {                
                 var img = ScreenCapture.CaptureWindow(CurWindow.Rect);
-                CapturedBitmap = new Bitmap(img); //ScreenCapture.CaptureWindowBitmap(CurWindow.Handle) as Bitmap;
+                CapturedBitmap = new Bitmap(img); 
+                
+                //CapturedBitmap = ScreenCapture.CaptureWindowBitmap(CurWindow.Handle) as Bitmap;
                 Desktop.Close();
                 if (CapturedBitmap != null)
                 {
@@ -389,7 +396,6 @@ namespace SnagItAddin
                 ExternalWindow.Activate();
             }
 
-
             if (cancelCapture)
                 CancelCapture();
             else
@@ -401,7 +407,7 @@ namespace SnagItAddin
 
         void Capture(object obj)
         {
-            Point pt = GetMousePosition();
+            Point pt = GetMousePosition();            
             CurWindow = new WindowInfo(ScreenCapture.WindowFromPoint(new System.Drawing.Point((int) pt.X, (int) pt.Y)));
 
             Dispatcher.Invoke(() =>
@@ -413,11 +419,14 @@ namespace SnagItAddin
                         // don't capture dual window desktop
                         Overlay != null)
                     {
-                        Overlay.Left = CurWindow.Rect.X;
-                        Overlay.Top = CurWindow.Rect.Y;
-                        Overlay.Width = CurWindow.Rect.Width;
-                        Overlay.Height = CurWindow.Rect.Height;
-                        Overlay.SetWindowText($"{Overlay.Width}x{Overlay.Height}");
+                        // WPF Windows use DPI Aware pixes for the desktop - adjust for raw pixels                        
+                        var dpiRatio = (double) WindowUtilities.GetDpiRatio(CurWindow.Handle);                        
+
+                        Overlay.Left = CurWindow.Rect.X / dpiRatio; 
+                        Overlay.Top = CurWindow.Rect.Y / dpiRatio;                         
+                        Overlay.Width = CurWindow.Rect.Width / dpiRatio;
+                        Overlay.Height = CurWindow.Rect.Height / dpiRatio; 
+                        Overlay.SetWindowText($"{(int) Overlay.Width}x{(int) Overlay.Height}");
                     }
                 }
 
