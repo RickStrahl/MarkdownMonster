@@ -13,10 +13,26 @@ namespace MarkdownMonster.Test
     {
 
         [TestMethod]
-        public void MyTestMethod()
+        public void GetAddinListTest()
         {
             var manager = new AddinManager();
-            manager.GetAddinList();
+            var list = manager.GetAddinList();
+
+            Assert.IsNotNull(list);
+            Assert.IsTrue(list.Count > 0);
         }
+
+        [TestMethod]
+        public void DownloadAndInstall()
+        {
+            const string url =
+                "https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin/raw/master/Build/SaveImageToAzureBlob-MarkdownMonster-Addin.zip";
+
+            var manager = new AddinManager();
+            bool result = manager.DownloadAndInstallAddin(url, "c:\\program files\\Markdown Monster\\Addins\\");
+
+            Assert.IsTrue(result);
+        }
+
     }
 }

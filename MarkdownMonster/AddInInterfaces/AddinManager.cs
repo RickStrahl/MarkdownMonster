@@ -368,7 +368,7 @@ namespace MarkdownMonster.AddIns
             return null;
         }
 
-
+        #region Addin Manager
         public List<AddinItem> GetAddinList()
         {
             const string addinListRepoUrl =
@@ -383,7 +383,7 @@ namespace MarkdownMonster.AddIns
             List<AddinItem> addinList;
             try
             {
-                addinList =  HttpUtils.JsonRequest<List<AddinItem>>(settings);
+                addinList = HttpUtils.JsonRequest<List<AddinItem>>(settings);
             }
             catch (Exception ex)
             {
@@ -406,13 +406,60 @@ namespace MarkdownMonster.AddIns
                         ai.icon = dl.icon;
                         ai.description = dl.description;
                     }
-                    catch { }
+                    catch { /* ignore error */}
                 });
-            
-            return addinList;          
+
+            return addinList;
         }
 
-        
+        public bool DownloadAndInstallAddin(string url, string targetFolder = null)
+        {
+            if (string.IsNullOrEmpty(targetFolder))
+                targetFolder = Path.GetFullPath(".\\");
+
+            string file = Path.GetTempFileName();
+            file = Path.ChangeExtension(file, "zip");
+
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    client.DownloadFile(url, file);
+                }
+
+                using (ZipArchive archive = ZipFile.OpenRead(file))
+                {
+                    foreach (ZipArchiveEntry zipfile in archive.Entries)
+                    {
+                        string fullName = Path.Combine(targetFolder, zipfile.FullName);
+
+                        //Extracts the files to the output folder in a safer manner
+                        if (!File.Exists(fullName))
+                        {
+                            //Calculates what the new full path for the unzipped file should be
+                            string fullPath = Path.GetDirectoryName(fullName);
+
+                            //Creates the directory (if it doesn't exist) for the new path
+                            Directory.CreateDirectory(fullPath);
+
+                            //Extracts the file to (potentially new) path
+                            zipfile.ExtractToFile(fullName, true);
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.ErrorMessage = ex.Message;
+                return false;
+            }
+
+        }
+        #endregion
+
+
     }
 
 
