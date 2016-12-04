@@ -45,12 +45,11 @@ namespace MarkdownMonster.AddIns
         /// <summary>
         /// Loads add-ins into the application from the add-ins folder
         /// </summary>
-        public void LoadAddins()
+        internal void LoadAddins()
         {
             string addinPath = Path.Combine(Environment.CurrentDirectory, "AddIns");
             if (!Directory.Exists(addinPath))
                 return;
-
 
             try
             {
