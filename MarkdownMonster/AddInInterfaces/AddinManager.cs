@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using FontAwesome.WPF;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.AddIns
 {
@@ -26,7 +27,9 @@ namespace MarkdownMonster.AddIns
         /// The full list of add ins registered
         /// </summary>
         public List<MarkdownMonsterAddin> AddIns;
-        
+
+        public string ErrorMessage { get; set; }
+
         static AddinManager()
         {
             Current = new AddinManager();
@@ -51,7 +54,7 @@ namespace MarkdownMonster.AddIns
             var assemblyFiles = Directory.GetFiles(Environment.CurrentDirectory, "*.dll");
 
             var files = Directory.GetFiles(addinPath, "*.dll");
-           
+
             foreach (var file in files)
             {
                 // don't allow assemblies the main app loads to load
@@ -59,12 +62,12 @@ namespace MarkdownMonster.AddIns
                 bool isLoaded = assemblyFiles.Any(f => fname == Path.GetFileName(f).ToLower());
 
                 if (!isLoaded)
-                {                    
-                    LoadAddinClasses(file);                    
+                {
+                    LoadAddinClasses(file);
                 }
             }
         }
-        
+
         /// <summary>
         /// Load all add in classes in an assembly
         /// </summary>
@@ -117,22 +120,22 @@ namespace MarkdownMonster.AddIns
             {
                 addin.Model = window.Model;
 
-                
+
                 foreach (var menuItem in addin.MenuItems)
                 {
                     var mitem = new MenuItem()
                     {
                         Header = menuItem.Caption
-                        
+
                     };
                     if (menuItem.CanExecute == null)
                         mitem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(mitem));
                     else
                         mitem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(mitem),
-                                                        (s, c) => menuItem.CanExecute.Invoke(mitem));                                            
-                                 
+                                                        (s, c) => menuItem.CanExecute.Invoke(mitem));
+
                     addin.Model.Window.MenuAddins.Items.Add(mitem);
-                    
+
                     // if an icon is provided also add to toolbar
                     if (menuItem.FontawesomeIcon != FontAwesomeIcon.None)
                     {
@@ -155,9 +158,9 @@ namespace MarkdownMonster.AddIns
                                 titem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(titem));
                             else
                                 titem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(titem),
-                                                                (s,c) => menuItem.CanExecute.Invoke(titem)) ;                            
+                                                                (s, c) => menuItem.CanExecute.Invoke(titem));
                         }
-                                                 
+
                         addin.Model.Window.ToolbarAddIns.Visibility = System.Windows.Visibility.Visible;
                         addin.Model.Window.ToolbarAddIns.Items.Add(titem);
 
@@ -166,7 +169,7 @@ namespace MarkdownMonster.AddIns
                         {
                             var tcitem = new Button
                             {
-                                FontSize = 10F,                                
+                                FontSize = 10F,
                                 Content = new Image()
                                 {
                                     Source =
@@ -174,8 +177,8 @@ namespace MarkdownMonster.AddIns
                                             addin.Model.Window.Foreground),
                                     ToolTip = menuItem.Caption + " Configuration",
                                     Height = 16,
-                                    Width = 8,                                                                                                            
-                                    Margin = new Thickness(0, 0, 0, 0),                                    
+                                    Width = 8,
+                                    Margin = new Thickness(0, 0, 0, 0),
                                 }
                             };
 
@@ -202,7 +205,7 @@ namespace MarkdownMonster.AddIns
                 }
                 catch (Exception ex)
                 {
-                    mmApp.Log( addin.Id + "::AddIn::OnApplicationStart Error: " + ex.GetBaseException().Message);
+                    mmApp.Log(addin.Id + "::AddIn::OnApplicationStart Error: " + ex.GetBaseException().Message);
                 }
             }
         }
@@ -220,7 +223,7 @@ namespace MarkdownMonster.AddIns
 
                     mmApp.Log(addin.Id + "::AddIn::OnApplicationShutdown Error: " + ex.GetBaseException().Message);
                 }
-                
+
             }
         }
 
@@ -245,14 +248,14 @@ namespace MarkdownMonster.AddIns
             return true;
         }
 
-        
+
         public void RaiseOnAfterOpenDocument(MarkdownDocument doc)
         {
             foreach (var addin in AddIns)
             {
                 try
                 {
-                   addin?.OnAfterOpenDocument(doc);
+                    addin?.OnAfterOpenDocument(doc);
                 }
                 catch (Exception ex)
                 {
@@ -305,7 +308,7 @@ namespace MarkdownMonster.AddIns
             {
                 try
                 {
-                    url= addin?.OnSaveImage(image);                    
+                    url = addin?.OnSaveImage(image);
                 }
                 catch (Exception ex)
                 {
@@ -366,5 +369,64 @@ namespace MarkdownMonster.AddIns
         }
 
 
+        public List<AddinItem> GetAddinList()
+        {
+            const string addinListRepoUrl =
+                "https://raw.githubusercontent.com/RickStrahl/MarkdownMonsterAddinsRegistry/master/MarkdownMonsterAddinRegistry.json";
+
+            var settings = new HttpRequestSettings
+            {
+                Url = addinListRepoUrl,
+                Timeout = 5000
+            };
+
+            List<AddinItem> addinList;
+            try
+            {
+                addinList =  HttpUtils.JsonRequest<List<AddinItem>>(settings);
+            }
+            catch (Exception ex)
+            {
+                this.ErrorMessage = ex.Message;
+                return null;
+            }
+
+            addinList
+                .AsParallel()
+                .ForAll(ai =>
+                {
+                    try
+                    {
+                        var dl = HttpUtils.JsonRequest<AddinItem>(new HttpRequestSettings
+                        {
+                            Url = ai.gitVersionUrl
+                        });
+                        ai.name = dl.name;
+                        ai.updated = dl.updated;
+                        ai.icon = dl.icon;
+                        ai.description = dl.description;
+                    }
+                    catch { }
+                });
+            
+            return addinList;          
+        }
+
+        
     }
+
+
+    public class AddinItem
+    {
+        public string id { get; set; }
+        public string gitUrl { get; set; }
+        public string gitVersionUrl { get; set; }
+
+        public string name { get; set; }
+        public string description { get; set; }
+        public string version { get; set; }
+        public string icon { get; set; }
+        public DateTime updated { get; set; }
+    }
+
 }
