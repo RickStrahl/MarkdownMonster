@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,6 +51,18 @@ namespace MarkdownMonster.AddIns
             if (!Directory.Exists(addinPath))
                 return;
 
+
+            try
+            {
+                if (Directory.Exists(addinPath + "\\Install"))
+                    InstallAddinFiles(addinPath + "\\Install");
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log($"Addin Update failed: {ex.Message}");
+            }
+
+
             // we need to make sure already loaded dependencies are not loaded again
             // when probing for add-ins
             var assemblyFiles = Directory.GetFiles(Environment.CurrentDirectory, "*.dll");
@@ -67,6 +81,32 @@ namespace MarkdownMonster.AddIns
                 }
             }
         }
+
+        private void InstallAddinFiles(string path)
+        {
+            var target = Path.GetFullPath(Path.Combine(path, ".."));
+
+            var files = Directory.GetFiles(path);
+            var dirs = Directory.GetDirectories(path);
+            foreach (var file in files)
+            {
+                var filename = Path.GetFileName(file);
+                File.Copy(file, Path.Combine(target,filename),true);
+                File.Delete(file);
+            }
+            foreach (var dir in dirs)
+            {
+                var files2 = Directory.GetFiles(Path.Combine(path, dir));
+                foreach (var file in files2)
+                {
+                    File.Copy(file, Path.Combine(target,dir,Path.GetFileName(file)), true);
+                    File.Delete(file);
+                }
+            }
+
+            Directory.Delete(path, true);
+        }
+        
 
         /// <summary>
         /// Load all add in classes in an assembly
@@ -412,10 +452,19 @@ namespace MarkdownMonster.AddIns
             return addinList;
         }
 
+        /// <summary>
+        /// This downloads the addin and temporarily dumps it into the 
+        /// addins/install folder. 
+        /// 
+        /// The addin-loader then moves the files.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="targetFolder"></param>
+        /// <returns></returns>
         public bool DownloadAndInstallAddin(string url, string targetFolder = null)
         {
             if (string.IsNullOrEmpty(targetFolder))
-                targetFolder = Path.GetFullPath(".\\");
+                targetFolder = Path.GetFullPath(".\\Addins\\Install\\");
 
             string file = Path.GetTempFileName();
             file = Path.ChangeExtension(file, "zip");
