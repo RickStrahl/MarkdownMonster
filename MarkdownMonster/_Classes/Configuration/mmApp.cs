@@ -7,9 +7,11 @@ using Westwind.Utilities;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MarkdownMonster.Windows;
 
 namespace MarkdownMonster
 {
@@ -67,17 +69,27 @@ namespace MarkdownMonster
             string exMsg = string.Empty;
             if (ex != null)
             {
-                ex = ex.GetBaseException();
-                exMsg = "\r\n" + ex.Message +
-                        "\r\n---\r\n" + ex.Source +
-                        "\r\n" + ex.StackTrace;
 
+                var version = mmApp.GetVersion();
+                var winVersion = ComputerInfo.WinMajorVersion + "." + ComputerInfo.WinMinorVersion + "." +
+                                 ComputerInfo.WinBuildLabVersion + " - " + CultureInfo.CurrentUICulture.IetfLanguageTag;
+          
+
+                ex = ex.GetBaseException();
+                exMsg =$@"
+Markdown Monster v{version}
+{winVersion}
+---
+{ex.Source}
+{ex.StackTrace}
+---------------------------
+
+
+";
                 SendBugReport(ex);
             }
 
-            var text = msg +
-                       exMsg +
-                       "\r\n\r\n---------------------------\r\n\r\n";
+            var text = msg + exMsg;
             StringUtils.LogString(text, Path.Combine( Configuration.CommonFolder ,                               
                 "MarkdownMonsterErrors.txt"), Encoding.UTF8);
         }
@@ -124,14 +136,14 @@ namespace MarkdownMonster
 
 
         public static void SendBugReport(Exception ex)
-        {            
+        {                        
             var bug = new BugReport()
             {
                 TimeStamp = DateTime.UtcNow,
                 Message = ex.Message,                
                 Product = "Markdown Monster",
                 Version = mmApp.GetVersion(),      
-                WinVersion = Environment.OSVersion.Version.ToString(),     
+                WinVersion = ComputerInfo.WinMajorVersion + "." + ComputerInfo.WinMinorVersion + "." + ComputerInfo.WinBuildLabVersion + " - " + CultureInfo.CurrentUICulture.IetfLanguageTag,
                 StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()               
             };            
             

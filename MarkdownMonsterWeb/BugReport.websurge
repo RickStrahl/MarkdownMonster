@@ -5,9 +5,10 @@ Content-type: application/json
 Websurge-Request-Name: Bugreport
 
 {
-   Version: 0.35,
-   Product: "Markdown Monster",
-   Message: "An error occurred",
+   "Version": "1.0.35",
+   "Product": "Markdown Monster",
+   "Message": "An error occurred",
+   "WinVersion": "10.0.1449",
    "StackTrace": "StackTrace goes here"
 }
 

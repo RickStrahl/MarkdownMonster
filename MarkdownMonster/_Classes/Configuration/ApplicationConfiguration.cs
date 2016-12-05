@@ -356,7 +356,7 @@ namespace MarkdownMonster
             PreviewSyncMode = PreviewSyncMode.EditorToPreview;
 
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
-            //BugReportUrl = "http://localhost/MarkdownMonster/bugreport.ashx?method=ReportBug";
+            //BugReportUrl = "http://localhost.fiddler/MarkdownMonster/bugreport/bugreport.ashx?method=ReportBug";
             TelemetryUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=Telemetry";
             SendTelemetry = true;
 

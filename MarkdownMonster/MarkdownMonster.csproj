@@ -149,6 +149,7 @@
     <Compile Include="_Classes\MarkdownParser\MarkdownParserBase.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserFactory.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserMarkDig.cs" />
+    <Compile Include="_Classes\Utilities\ComputerInfo.cs" />
     <Compile Include="_Classes\Utilities\mmFileUtils.cs" />
     <Compile Include="_Classes\Utilities\WindowUtilities.cs" />
     <Compile Include="_Classes\Infrastructure\ApplicationUpdater.cs" />

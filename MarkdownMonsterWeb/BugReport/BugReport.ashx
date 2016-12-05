@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using System.Text;
 using System.Web;
 using Westwind.Web;
 using Westwind.Web.JsonSerializers;
@@ -30,13 +31,17 @@ public class BugReportService : CallbackHandler
     public Bug ReportBug(Bug bug)
     {
         string msg = $@"{bug.Message}    
-{bug.Product} v{bug.Version} - {Context.Request.ServerVariables["REMOTE_ADDR"]}
+{bug.Product} v{bug.Version} 
 {bug.WinVersion}
+{Context.Request.ServerVariables["REMOTE_ADDR"]}
+---
 {bug.StackTrace}
+---------------------------------------
+
 ";
         bug.TimeStamp = DateTime.Now;
 
-        StringUtils.LogString(msg, BugReportFilePath);
+        StringUtils.LogString(msg, BugReportFilePath,Encoding.UTF8);
 
         return bug;
     }
@@ -51,7 +56,7 @@ public class BugReportService : CallbackHandler
                                Context.Request.ServerVariables["REMOTE_ADDR"]   + " - " +
                                telemetry.Time.ToString("n0") + "s -" +
                                telemetry.Data,
-                               TelemetryFilePath);
+                               TelemetryFilePath,Encoding.UTF8);
 
         return "ok";
     }

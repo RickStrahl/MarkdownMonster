@@ -11,8 +11,16 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void BugReportTest()
         {
-            var ex = new ApplicationException("Error generated");
-            mmApp.SendBugReport(ex);
+            try
+            {
+                throw new ApplicationException("Error generated... Extended Chars ¢ /►₧ƒƒ");
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log(ex);
+                //mmApp.SendBugReport(ex);
+            }
+            
 
             // wait to allow thread to finish
             Thread.Sleep(2000);
