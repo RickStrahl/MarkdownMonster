@@ -2,6 +2,15 @@
 
 # Markdown Monster Change Log
 
+### Version 1.0.21
+<i><small>not released yet</small></i>
+
+* **Add support for Vim and Emacs Keybindings**  
+Added new `EditorKeyboardHandler` configuration setting that lets you switch editor input handlers using `default`,`vim` and `emacs`.
+
+* **Fix: Href Dialog External links to use _blank**  
+When choosing to paste an external link with the HREF dialog the generated HTML now uses `target="_blank"` instead of `target="top"`. Result is that links are opened in a new tab/window **each** time the link is clicked.
+
 ### Version 1.0.20
 <i><small>December 3rd, 2016</small></i>
 

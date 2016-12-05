@@ -810,7 +810,8 @@ namespace MarkdownMonster
                         mmApp.Configuration.EditorFontSize * dpiRatio,
                         mmApp.Configuration.EditorWrapText,
                         mmApp.Configuration.EditorHighlightActiveLine,
-                        mmApp.Configuration.EditorShowLineNumbers);
+                        mmApp.Configuration.EditorShowLineNumbers,
+                        mmApp.Configuration.EditorKeyboardHandler);
 
                 if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
                     AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck, mmApp.Configuration.EditorDictionary);

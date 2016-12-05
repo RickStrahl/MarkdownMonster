@@ -320,7 +320,7 @@ var te = window.textEditor = {
 
         te.editor.getSession().setMode("ace/mode/" + lang);
     },
-    settheme: function (theme, font, fontSize, wrapText, highlightActiveLine,showLineNumbers) {
+    settheme: function (theme, font, fontSize, wrapText, highlightActiveLine,showLineNumbers,keyboardHandler) {
         te.editor.setTheme("ace/theme/" + theme);
 
         te.editor.setOptions({
@@ -337,6 +337,12 @@ var te = window.textEditor = {
 
         te.editor.setHighlightActiveLine(highlightActiveLine);
         te.editor.renderer.setShowGutter(showLineNumbers);
+
+        keyboardHandler = keyboardHandler.toLowerCase();
+        if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
+            te.editor.setKeyboardHandler("");
+        else
+            te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
 
         setTimeout(te.updateDocumentStats, 100);
     },

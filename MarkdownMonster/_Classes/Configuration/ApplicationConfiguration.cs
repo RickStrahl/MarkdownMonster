@@ -182,7 +182,6 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(EditorEnableSpellcheck));
             }
         }
-
         private bool _editorEnableSpellcheck;
 
 
@@ -202,9 +201,15 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(EditorDictionary));
             }
         }
-
-
         private string _editorDictionary;
+
+
+        /// <summary>
+        /// Keyboard input hanlder type:
+        /// default (ace/vs), vim, emacs
+        /// </summary>
+        public object EditorKeyboardHandler { get; set; }
+
 
         /// <summary>
         /// If true re-opens files that were open when last closed.
@@ -317,7 +322,6 @@ namespace MarkdownMonster
         public bool FirstRun { get; set; }
         
 
-
         //internal string FileWatcherOpenFilePath;
 
         public ApplicationConfiguration()
@@ -346,6 +350,7 @@ namespace MarkdownMonster
             EditorHighlightActiveLine = true;
             EditorEnableSpellcheck = true;
             EditorDictionary = "EN_US";
+            EditorKeyboardHandler = "default";  // vim,emacs
 
             OpenCommandLine = "cmd.exe";
             OpenFolderCommand = "explorer.exe";
