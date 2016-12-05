@@ -330,29 +330,6 @@ namespace MarkdownMonster
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             CommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Markdown Monster");
 
-            // TODO: REMOVE THIS AFTER A WHILE            
-            try
-            {
-                string oldFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    "West Wind Markdown Monster");
-                if (Directory.Exists(oldFolder))
-                {
-                    if (!Directory.Exists(CommonFolder))
-                        Directory.CreateDirectory(CommonFolder);
-
-                    var dir = new DirectoryInfo(oldFolder);
-                    foreach (var file in dir.EnumerateFiles("*.*"))
-                    {
-                        file.CopyTo(Path.Combine(CommonFolder, file.Name), true);
-                        file.Delete();
-                    }
-                    dir.Delete(true);
-                }
-            }
-            catch
-            { }
-            // TODO: END REMOVE THIS AFTER A WHILE
-
             PreviewSyncMode = PreviewSyncMode.EditorToPreview;
 
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
