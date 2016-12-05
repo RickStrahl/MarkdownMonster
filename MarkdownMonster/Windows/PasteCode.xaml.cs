@@ -37,10 +37,12 @@ namespace MarkdownMonster.Windows
                 {"fsharp", "Fsharp"},
               
                 {"html", "Html"},
+                {"css", "Css"},
                 {"javascript", "JavaScript"},
                 {"typescript", "TypeScript"},
-                {"css", "Css"},
                 {"json", "Json"},
+
+                {"sql","SQL" },                
 
                 {"ruby", "Ruby"},
                 {"python", "Python"},
@@ -50,16 +52,18 @@ namespace MarkdownMonster.Windows
                 {"objectivec", "Objective C"},                                
                 {"vbscript", "VB Script"},
 
-
                 {"dockerfile", "Docker file"},
                 {"makefile", "Make file"},
                 {"nginx", "NgInx"},
+
+                { "markdown","Markdown" },
 
                 {"powershell", "PowerShell"},
                 {"dos", "DOS"},
                 {"dns", "DNS"},
                 {"perl", "Perl"},
-                {"diff", "Diff file"}
+                {"diff", "Diff file"},
+                
             };
             CodeLanguage = "cs";
 
