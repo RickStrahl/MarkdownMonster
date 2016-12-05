@@ -31,7 +31,6 @@
 */
 #endregion
 using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -39,18 +38,15 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using NHunspell;
 using Westwind.Utilities;
-using Clipboard = System.Windows.Clipboard;
-using MessageBox = System.Windows.MessageBox;
-using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
-using WebBrowser = System.Windows.Controls.WebBrowser;
+
 
 namespace MarkdownMonster
 {
@@ -336,7 +332,7 @@ namespace MarkdownMonster
                 if (res != null && res.Value)
                 {
                     if (form.IsExternal)
-                        html = $"<a href=\"{form.Link}\" target=\"top\">{form.LinkText}</a>";
+                        html = $"<a href=\"{form.Link}\" target=\"_blank\">{form.LinkText}</a>";
                     else
                         html = $"[{form.LinkText}]({form.Link})";
                 }
