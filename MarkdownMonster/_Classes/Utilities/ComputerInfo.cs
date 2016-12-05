@@ -5,6 +5,7 @@ namespace MarkdownMonster.Windows
 {
     /// <summary>
     /// Static class that adds convenient methods for getting information on the running computers basic hardware and os setup.
+    /// Based on this: http://stackoverflow.com/questions/21737985/windows-version-in-c-sharp/37716269#37716269
     /// </summary>
     public static class ComputerInfo
     {

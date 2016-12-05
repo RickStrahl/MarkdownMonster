@@ -1066,6 +1066,12 @@ namespace MarkdownMonster
             {
                 Close();
             }
+            else if (button == MenuAddinManager)
+            {
+                var form = new AddinManagerWindow();
+                form.Owner = this;
+                form.ShowDialog();
+            }
             else if (button == MenuOpenConfigFolder)
             {
                 ShellUtils.GoUrl(mmApp.Configuration.CommonFolder);

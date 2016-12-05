@@ -133,6 +133,10 @@
     <Compile Include="AppModel.cs" />
     <Compile Include="Controls\CommandBase.cs" />
     <Compile Include="Controls\DropdownButtonBehavior.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Windows\AddinManagerWindow.xaml.cs">
+      <DependentUpon>AddinManagerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\BrowserDialog.xaml.cs">
       <DependentUpon>BrowserDialog.xaml</DependentUpon>
     </Compile>
@@ -200,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddinManagerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using FontAwesome.WPF;
+using MarkdownMonster.Annotations;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.AddIns
@@ -440,12 +444,54 @@ namespace MarkdownMonster.AddIns
                         {
                             Url = ai.gitVersionUrl
                         });
-                        ai.name = dl.name;
-                        ai.updated = dl.updated;
-                        ai.icon = dl.icon;
-                        ai.description = dl.description;
+                        DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
                     }
                     catch { /* ignore error */}
+                });
+
+            return addinList;
+        }
+
+        public async Task<List<AddinItem>> GetAddinListAsync()
+        {
+            const string addinListRepoUrl =
+                "https://raw.githubusercontent.com/RickStrahl/MarkdownMonsterAddinsRegistry/master/MarkdownMonsterAddinRegistry.json";
+
+            var settings = new HttpRequestSettings
+            {
+                Url = addinListRepoUrl,
+                Timeout = 5000
+            };
+
+            List<AddinItem> addinList;
+            try
+            {
+                addinList = await HttpUtils.JsonRequestAsync<List<AddinItem>>(settings);
+            }
+            catch (Exception ex)
+            {
+                this.ErrorMessage = ex.Message;
+                return null;
+            }
+
+            addinList
+                .AsParallel()
+                .ForAll(async ai =>
+                {
+                    try
+                    {
+                        var dl = await HttpUtils.JsonRequestAsync<AddinItem>(new HttpRequestSettings
+                        {
+                            Url = ai.gitVersionUrl
+                        });
+                        DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
+
+                        ai.icon = ai.gitVersionUrl.Replace("Version.json", ai.icon);
+                    }
+                    catch(Exception ex)
+                    {
+                        mmApp.Log($"Addin {ai.name} version failed", ex);                        
+                    }
                 });
 
             return addinList;
@@ -511,17 +557,169 @@ namespace MarkdownMonster.AddIns
     }
 
 
-    public class AddinItem
-    {
-        public string id { get; set; }
-        public string gitUrl { get; set; }
-        public string gitVersionUrl { get; set; }
+    public class AddinItem : INotifyPropertyChanged
+    {        
+        public string id
+        {
+            get { return _id; }
+            set
+            {
+                if (value == _id) return;
+                _id = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _id;
 
-        public string name { get; set; }
-        public string description { get; set; }
-        public string version { get; set; }
-        public string icon { get; set; }
-        public DateTime updated { get; set; }
+        public string gitUrl
+        {
+            get { return _gitUrl; }
+            set
+            {
+                if (value == _gitUrl) return;
+                _gitUrl = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _gitUrl;
+
+        public string gitVersionUrl
+        {
+            get { return _gitVersionUrl; }
+            set
+            {
+                if (value == _gitVersionUrl) return;
+                _gitVersionUrl = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _gitVersionUrl;
+        
+
+        public string downloadUrl
+        {
+            get { return _downloadUrl; }
+            set
+            {
+                if (value == _downloadUrl) return;
+                _downloadUrl = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _downloadUrl;
+
+
+        public string name
+        {
+            get { return _name; }
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _name;
+
+        public string summary
+        {
+            get { return _summary; }
+            set
+            {
+                if (value == _summary) return;
+                _summary = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _summary;
+
+        
+        public string description
+        {
+            get { return _description; }
+            set
+            {
+                if (value == _description) return;
+                _description = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _description;
+
+
+        public string version
+        {
+            get { return _version; }
+            set
+            {
+                if (value == _version) return;
+                _version = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _version;
+
+        public string author
+        {
+            get { return _author; }
+            set
+            {
+                if (value == _author) return;
+                _author = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _author;
+
+        
+
+        public string icon
+        {
+            get { return _icon; }
+            set
+            {
+                if (value == _icon) return;
+                _icon = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _icon;
+
+        
+
+        public DateTime updated
+        {
+            get { return _updated; }
+            set
+            {
+                if (value.Equals(_updated)) return;
+                _updated = value;
+                OnPropertyChanged();
+            }
+        }
+        private DateTime _updated;
+
+        
+
+        public bool IsInstalled
+        {
+            get { return _isInstalled; }
+            set
+            {
+                if (value == _isInstalled) return;
+                _isInstalled = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _isInstalled;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
 }
