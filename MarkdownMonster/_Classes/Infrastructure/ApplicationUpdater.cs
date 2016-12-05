@@ -135,7 +135,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="checkDate"></param>
         /// <returns></returns>
-        public bool IsNewVersionAvailable(bool checkDate = false)
+        public bool IsNewVersionAvailable(bool checkDate = false, int timeout = 1500)
         {
             if (checkDate)
             {
@@ -149,7 +149,7 @@ namespace MarkdownMonster
                 xml = HttpUtils.HttpRequestString(new HttpRequestSettings
                 {
                     Url = VersionCheckUrl, 
-                    Timeout = 1000,
+                    Timeout = timeout,
                     HttpVerb = "GET"
                 });
             }
