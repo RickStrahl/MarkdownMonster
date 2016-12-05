@@ -953,10 +953,10 @@ namespace MarkdownMonster
             return tab?.Tag as MarkdownDocumentEditor;
         }
 
-        bool CheckForNewVersion(bool force, bool closeForm = true)
+        bool CheckForNewVersion(bool force, bool closeForm = true, int timeout = 1500)
         {
             var updater = new ApplicationUpdater(typeof(MainWindow));
-            bool isNewVersion = updater.IsNewVersionAvailable(!force);
+            bool isNewVersion = updater.IsNewVersionAvailable(!force,timeout: timeout);
             if (isNewVersion)
             {
                 var res = MessageBox.Show(updater.VersionInfo.Detail + "\r\n\r\n" +
@@ -1090,10 +1090,16 @@ namespace MarkdownMonster
             }
             else if (button == MenuCheckNewVersion)
             {
-                if (!CheckForNewVersion(true))
+                ShowStatus("Checking for new version...");
+                if (!CheckForNewVersion(true, timeout: 5000))
+                {
+                    ShowStatus("Your version of Markdown Monster is up to date.", 6000);
+                    SetStatusIcon(FontAwesomeIcon.Check, Colors.Green);
+
                     MessageBox.Show("Your version of Markdown Monster is up to date.",
                         mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+                }                
+        }
             else if (button == MenuRegister)
             {
                 Window rf = new RegistrationForm();
