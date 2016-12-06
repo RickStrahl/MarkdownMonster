@@ -3,7 +3,7 @@
 # Markdown Monster Change Log
 
 ### Version 1.0.21
-<i><small>not released yet</small></i>
+<i><small>December 7th, 2016</small></i>
 
 * **Add support for Vim and Emacs Keybindings**  
 Added new `EditorKeyboardHandler` configuration setting that lets you switch editor input handlers using `default`,`vim` and `emacs`.
