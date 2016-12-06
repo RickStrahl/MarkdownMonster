@@ -820,15 +820,18 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
             {                
                 dynamic dom = null;
-                if (keepScrollPosition)
+                if (!showInBrowser)
                 {
-                    dom = PreviewBrowser.Document;
-                    editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
-                }
-                else
-                {
-                    ShowPreviewBrowser(false, false);
-                    editor.MarkdownDocument.LastBrowserScrollPosition = 0;
+                    if (keepScrollPosition)
+                    {
+                        dom = PreviewBrowser.Document;
+                        editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
+                    }
+                    else
+                    {
+                        ShowPreviewBrowser(false, false);
+                        editor.MarkdownDocument.LastBrowserScrollPosition = 0;
+                    }
                 }
 
                 if (ext == "html" || ext == "htm")
