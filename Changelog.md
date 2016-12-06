@@ -11,6 +11,9 @@ Added new `EditorKeyboardHandler` configuration setting that lets you switch edi
 * **Fix: Href Dialog External links to use _blank**  
 When choosing to paste an external link with the HREF dialog the generated HTML now uses `target="_blank"` instead of `target="top"`. Result is that links are opened in a new tab/window **each** time the link is clicked.
 
+* **Remove Binaries from Source Github Repo**  
+Removed all binary builds from the source code repo as the repo was getting massive in size. Filtered out all exe and zip files from history reducing repo download to 30M vs close to 300M.
+
 ### Version 1.0.20
 <i><small>December 3rd, 2016</small></i>
 
