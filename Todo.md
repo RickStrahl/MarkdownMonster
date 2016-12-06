@@ -23,6 +23,7 @@
 * Page Templates (add-in?)
 * Multiple configurations for blog posts (use post/blogid subitems?)
 * Research **R Markdown**, **AsciiDoc**
+* Export/Copy/Weblog Publish to Clipboard with Images embedded
 
 ### Notes
 

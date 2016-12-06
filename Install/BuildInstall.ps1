@@ -14,6 +14,12 @@
 
 
 "Zipping up setup file..."
+del ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip"
 7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip" ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"
+
+"Zipping up portable setup file..."
+del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
+7z a -tzip -r ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\Distribution\*.*"
+7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\MarkdownMonsterPortable.md"
 
 "Done!"

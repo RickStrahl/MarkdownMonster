@@ -64,7 +64,7 @@
                     <div class=" col-sm-5">
                         
                         <img src="Images/MarkdownMonster_Icon_256.png" style="display: block; margin-bottom: 15px; width: 210px"/>
-                        <p><b style="font-family: 'Arial Black'; font-size: 15pt">Markdown Monster</b></p>
+                        <p><b style=" font-size: 1.45em;font-weight: 800">Markdown Monster</b></p>
                         <dl>                            
                             <dt>Version:</dt>
                             <dd>v<%= Version %> 
@@ -75,7 +75,7 @@
                             <dd><%= ReleaseDate %></dd>
 
                             <dt>File size:</dt>
-                            <dd>4.5 mb</dd>
+                            <dd>4.3 mb</dd>
                        </dl> 
                                                                         
                     </div>
@@ -85,7 +85,8 @@
                             Download Markdown Monster
                         </a>
                         
-                        <div class="small" style="margin-top: 10px">download <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip">Zip file</a></div>
+                        <div class="small" style="margin-top: 10px">alternates: <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip" title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> | 
+                                                                                <a href="https://west-wind.com/files/MarkdownMonsterPortable.zip" title="Fully self contained folder structure for Markdown Monster that can run without installation. Adds some limitations: No .md file association, no global command line access and Addins may not install if running out of a non-privileged folder.">Portable Zip</a> </div>
                         <div style="margin-top: 15px;">
                             <div class="fa fa-info-circle" style="font-size: 280%; color: steelblue; float: left;"></div>
                             <div style="margin-left: 50px;">
