@@ -1250,9 +1250,10 @@ namespace MarkdownMonster
                 return;
 
             var markdown = MarkdownUtilities.HtmlToMarkdown(html);
+
             editor.SetSelection(markdown);
-            editor.SetEditorFocus();
-            editor.Window.PreviewMarkdownAsync();            
+            editor.SetEditorFocus();            
+            PreviewMarkdownAsync(editor,true);
         }
 
         internal void Button_CopyMarkdownAsHtml(object sender, RoutedEventArgs e)
@@ -1313,6 +1314,16 @@ namespace MarkdownMonster
                     if (File.Exists(file))
                         OpenTab(file,rebindTabHeaders:true);
                 }
+            }
+        }
+
+        private void PreviewBrowser_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width > 0)
+            {
+                mmApp.Configuration.WindowPosition.SplitterPosition =
+                    Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
+                Debug.WriteLine("Splitter: " + mmApp.Configuration.WindowPosition.SplitterPosition.ToString());
             }
         }
 
@@ -1458,7 +1469,6 @@ namespace MarkdownMonster
             PreviewBrowser.Navigate("about:blank");
         }
         #endregion
-
     }
 
 }
