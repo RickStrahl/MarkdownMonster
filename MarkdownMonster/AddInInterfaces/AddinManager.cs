@@ -124,7 +124,6 @@ namespace MarkdownMonster.AddIns
             {
                 asm = Assembly.LoadFile(assemblyFile);
                 types = asm.GetTypes();
-
             }
             catch
             {

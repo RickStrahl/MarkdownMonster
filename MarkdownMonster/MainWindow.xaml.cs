@@ -1322,8 +1322,7 @@ namespace MarkdownMonster
             if (e.NewSize.Width > 0)
             {
                 mmApp.Configuration.WindowPosition.SplitterPosition =
-                    Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
-                Debug.WriteLine("Splitter: " + mmApp.Configuration.WindowPosition.SplitterPosition.ToString());
+                    Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);                
             }
         }
 
