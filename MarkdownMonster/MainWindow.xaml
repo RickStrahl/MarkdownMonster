@@ -38,8 +38,18 @@
                 <ToggleButton Name="ToolButtonPreview"  Margin="7,0" 
                                       IsChecked="{Binding IsPreviewBrowserVisible}"
                                       Command="{Binding PreviewBrowserCommand}"                                  
-                                      ToolTip="open/hide the HTML Preview Pane"
+                                      ToolTip="open/hide the HTML Preview Pane (alt-v-p)"
                                  fa:Awesome.Content="Globe"
+                                 Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
+                                      />
+
+                <ToggleButton Name="ToolButtonFullScreen"  Margin="7,0" 
+                                      IsChecked="{Binding IsFullScreen}"
+                                      Click="Button_Fullscreen"                                         
+                                      ToolTip="toggle distraction free mode"
+                                 fa:Awesome.Content="ArrowsAlt"
                                  Height="22" Width="22"
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
@@ -62,9 +72,9 @@
         </ContextMenu>
     </Window.Resources>
 
-    <Grid>
+    <Grid Name="WindowGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="30" />
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="29"/>
@@ -180,7 +190,7 @@
 
         
         <StackPanel Grid.Row="1">
-            <ToolBarPanel>
+            <ToolBarPanel Name="ToolbarPanelMain">
                 <ToolBarPanel.Resources>
                     <Style x:Key="ToolbarIconRectangleStyle" TargetType="Rectangle">
                         <Style.Setters>
@@ -197,7 +207,7 @@
 
 
                 <StackPanel Orientation="Horizontal">
-                    <ToolBar>
+                    <ToolBar Name="ToolbarFile" >
 
                         <Button Name="ToolButtonOpenFile" Margin="7,0,0,0" Click="Button_Handler" ToolTip="Open Markdown file (ctrl-o)"                                
                                 fa:Awesome.Content="FolderOpen"
@@ -234,7 +244,7 @@
 
 
 
-                    <ToolBar FontWeight="Light" >
+                    <ToolBar FontWeight="Light" Name="ToolbarEdit">
                         <Button Name="ButtonBold" Margin="7,0"  ToolTip="Bold (ctrl-b)"                                   
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="bold"                                
@@ -368,15 +378,6 @@
                 <ColumnDefinition Width="0" />
             </Grid.ColumnDefinitions>
 
-            <!--<controls:MetroTabControl Grid.Column="0"                    
-                         x:Name="TabControl"                                                               
-                         VerticalAlignment="Stretch"
-                         HorizontalAlignment="Stretch" 
-                         FontSize="10" Margin="0" 
-                         controls:TabControlHelper.IsUnderlined="True"                          
-                         SelectionChanged="TabControl_SelectionChanged"
-                         TabItemClosingEvent="TabControl_TabItemClosing"                                                                                                    
-                         />-->
 
                 <dragablz:TabablzControl x:Name="TabControl" Margin="0,5,0,0" FontSize="13" Background="#222"
                                  BorderThickness="0" ShowDefaultCloseButton="True" 

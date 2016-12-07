@@ -88,7 +88,7 @@ var te = window.textEditor = {
                 te.specialkey("ctrl-=");
                 return null;
             },
-
+            "alt-shift-enter": function() { te.specialkey("alt-shift-enter")},
             "ctrl-shift-down": function() { te.specialkey("ctrl-shift-down"); },
             "ctrl-shift-up": function() { te.specialkey("ctrl-shift-up"); },
             "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },

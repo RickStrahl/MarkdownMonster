@@ -149,6 +149,7 @@
     <Compile Include="Windows\RegistrationForm.xaml.cs">
       <DependentUpon>RegistrationForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="_Classes\Utilities\KnownFolders.cs" />
     <Compile Include="_Classes\MarkdownParser\IMarkdownParser.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserBase.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserFactory.cs" />
@@ -156,7 +157,7 @@
     <Compile Include="_Classes\Utilities\ComputerInfo.cs" />
     <Compile Include="_Classes\Utilities\mmFileUtils.cs" />
     <Compile Include="_Classes\Utilities\WindowUtilities.cs" />
-    <Compile Include="_Classes\Infrastructure\ApplicationUpdater.cs" />
+    <Compile Include="_Classes\Configuration\ApplicationUpdater.cs" />
     <Compile Include="_Classes\NamedPipeManager.cs" />
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
@@ -822,6 +823,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_Classes\Infrastructure\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -101,6 +101,7 @@ namespace MarkdownMonster
             Loaded += OnLoaded;
             Drop += MainWindow_Drop;
             AllowDrop = true;
+                        
             KeyUp += MainWindow_KeyUp;
             Activated += MainWindow_Activated;
 
@@ -1210,7 +1211,7 @@ namespace MarkdownMonster
 
         private void ButtonViewInBrowser_Click(object sender, RoutedEventArgs e)
         {
-            PreviewMarkdown(showInBrowser: true);
+            PreviewMarkdown(showInBrowser: true);                      
         }
 
         private void Button_CommandWindow(object sender, RoutedEventArgs e)
@@ -1273,6 +1274,29 @@ namespace MarkdownMonster
             editor.SetEditorFocus();
             editor.Window.PreviewMarkdownAsync();
         }
+
+        internal void Button_Fullscreen(object sender, RoutedEventArgs e)
+        {
+            GridLength gl = new GridLength(0);
+            if (this.WindowGrid.RowDefinitions[1].Height == gl)
+            {
+                gl = new GridLength(30);
+                Model.IsPreviewBrowserVisible = true;                
+                PreviewMarkdown();
+                Model.IsFullScreen = false;
+            }
+            else
+            {
+                Model.IsPreviewBrowserVisible = false;
+                ShowPreviewBrowser(hide: true);
+                Model.IsFullScreen = true;
+            }
+
+            this.WindowGrid.RowDefinitions[0].Height = gl;
+            this.WindowGrid.RowDefinitions[1].Height = gl;
+            //this.WindowGrid.RowDefinitions[3].Height = gl;  
+        }
+
         #endregion
 
         #region Miscelleaneous Events
@@ -1296,6 +1320,7 @@ namespace MarkdownMonster
                 e.Handled = false;
                 Button_Handler(ButtonOpenFile, null);
             }
+            
         }
 
         /// <summary>

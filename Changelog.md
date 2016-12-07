@@ -2,6 +2,16 @@
 
 # Markdown Monster Change Log
 
+
+### Version 1.0.22
+<i><small>not released yet</small></i>
+
+* **Distraction Free Mode**  
+Added distraction free mode option on the window menu. When applied removes the toolbar, menu and preview.
+
+* **Portable Version**   
+Added build step to produce a portable version in a Zip file that can be unzipped anywhere and run. Some limitations apply: No .md file association, no command line PATH shortcuts and - depending on where you run from - inability to install addins.
+
 ### Version 1.0.21
 <i><small>December 7th, 2016</small></i>
 

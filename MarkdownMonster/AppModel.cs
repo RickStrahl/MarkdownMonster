@@ -54,6 +54,18 @@ namespace MarkdownMonster
             }
         }
 
+        public bool IsFullScreen
+        {
+            get { return _isFullScreen; }
+            set
+            {
+                if (value == _isFullScreen) return;
+                _isFullScreen = value;
+                OnPropertyChanged(nameof(IsFullScreen));
+            }
+        }
+        private bool _isFullScreen = false;
+
 
         /// <summary>
         /// Determines if there's a document loaded 
