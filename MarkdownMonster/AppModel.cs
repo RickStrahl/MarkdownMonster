@@ -279,6 +279,8 @@ namespace MarkdownMonster
 
         public CommandBase TabItemClosedCmd  { get; set; }
 
+        public CommandBase DistractionFreeModeCommand { get; set; }
+
         private void CreateCommands()
         {
             // SAVE COMMAND
@@ -451,6 +453,26 @@ namespace MarkdownMonster
                 Window.OpenTab(file, syntax: "json");
             }, null);
 
+            DistractionFreeModeCommand = new CommandBase((s, e) =>
+            {                
+                GridLength gl = new GridLength(0);
+                if (Window.WindowGrid.RowDefinitions[1].Height == gl)
+                {
+                    gl = new GridLength(30);
+                    IsPreviewBrowserVisible = true;
+                    Window.PreviewMarkdown();
+                    IsFullScreen = false;
+                }
+                else
+                {
+                    IsPreviewBrowserVisible = false;
+                    Window.ShowPreviewBrowser(hide: true);
+                    IsFullScreen = true;                    
+                }
+                
+                Window.WindowGrid.RowDefinitions[1].Height = gl;
+                //Window.WindowGrid.RowDefinitions[3].Height = gl;  
+            }, null);
         }
 
 

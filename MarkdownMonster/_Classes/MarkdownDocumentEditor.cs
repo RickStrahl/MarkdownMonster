@@ -691,11 +691,7 @@ namespace MarkdownMonster
             {
                 mmApp.Configuration.EditorFontSize--;
                 RestyleEditor();
-            }
-            if (key == "alt-shift-enter")
-            {
-                Window.Button_Fullscreen(this,null);
-            }
+            }         
         }
 
         /// <summary>

@@ -16,6 +16,11 @@
         GlowBrush="Black"                              
         ResizeMode="CanResizeWithGrip"
         Height="740" Width="1200" WindowTransitionsEnabled="False">
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Alt+Shift"
+                    Key="Return"
+                    Command="{Binding  DistractionFreeModeCommand}" />
+    </Window.InputBindings>
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
          
@@ -47,8 +52,8 @@
 
                 <ToggleButton Name="ToolButtonFullScreen"  Margin="7,0" 
                                       IsChecked="{Binding IsFullScreen}"
-                                      Click="Button_Fullscreen"                                         
-                                      ToolTip="toggle distraction free mode"
+                                      Command="{Binding DistractionFreeModeCommand}"                                                 
+                                      ToolTip="toggle distraction free mode (alt-shift-enter)"
                                  fa:Awesome.Content="ArrowsAlt"
                                  Height="22" Width="22"
                                 TextElement.FontSize="16"
@@ -74,7 +79,7 @@
 
     <Grid Name="WindowGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="25" />
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="29"/>
@@ -163,7 +168,13 @@
                           Header="Scroll Preview Browser Down"                         
                           InputGestureText="Ctrl-Shift-Down" Click="Button_Handler"
                           IsEnabled="{Binding IsPreviewBrowserVisible}" />
-                
+                <MenuItem Name="ButtonDistractionFreeMode" 
+                          Header="Distraction Free Mode"                         
+                          Command="{Binding DistractionFreeModeCommand}"
+                          IsChecked="{Binding IsFullScreen}"
+                          InputGestureText="Alt-Shift-Enter" Click="Button_Handler"
+                          IsEnabled="{Binding IsEditorActive}" />
+
                 <Separator />
                 <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   IsEnabled="{Binding IsEditorActive}" />
                 <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>

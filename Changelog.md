@@ -2,7 +2,6 @@
 
 # Markdown Monster Change Log
 
-
 ### Version 1.0.22
 <i><small>not released yet</small></i>
 
@@ -10,7 +9,7 @@
 Added distraction free mode option on the window menu. When applied removes the toolbar, menu and preview.
 
 * **Portable Version**   
-Added build step to produce a portable version in a Zip file that can be unzipped anywhere and run. Some limitations apply: No .md file association, no command line PATH shortcuts and - depending on where you run from - inability to install addins.
+Added build step to produce [a portable version in a Zip file](https://markdownmonster.west-wind.com/download.aspx) that can be unzipped anywhere and run without a full installation. Some limitations apply: No .md file association, no command line PATH mapping for install folder (no mm or markdownmonster from command line), no desktop icon and - depending on where you run from - inability to install addins using the Addin Manager.
 
 ### Version 1.0.21
 <i><small>December 7th, 2016</small></i>
