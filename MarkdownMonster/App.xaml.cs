@@ -89,7 +89,6 @@ namespace MarkdownMonster
                 }
             }
 #if !DEBUG
-
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
 
