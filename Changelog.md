@@ -3,7 +3,6 @@
 # Markdown Monster Change Log
 
 ### Version 1.0.22
-<i><small>not released yet</small></i>
 
 * **Distraction Free Mode**  
 Added distraction free mode option on the window menu. When applied removes the toolbar, menu and preview.
