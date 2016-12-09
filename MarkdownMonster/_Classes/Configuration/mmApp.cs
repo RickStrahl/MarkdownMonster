@@ -86,7 +86,7 @@ Markdown Monster v{version}
 
 
 ";
-                SendBugReport(ex);
+                SendBugReport(ex,msg);
             }
 
             var text = msg + exMsg;
@@ -135,7 +135,7 @@ Markdown Monster v{version}
         }
 
 
-        public static void SendBugReport(Exception ex)
+        public static void SendBugReport(Exception ex, string msg = null)
         {                        
             var bug = new BugReport()
             {
@@ -145,7 +145,9 @@ Markdown Monster v{version}
                 Version = mmApp.GetVersion(),      
                 WinVersion = ComputerInfo.WinMajorVersion + "." + ComputerInfo.WinMinorVersion + "." + ComputerInfo.WinBuildLabVersion + " - " + CultureInfo.CurrentUICulture.IetfLanguageTag,
                 StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()               
-            };            
+            };
+            if (!string.IsNullOrEmpty(msg))
+                bug.Message = msg + "\r\n" + bug.Message;
             
             new TaskFactory().StartNew(
                 (bg) =>

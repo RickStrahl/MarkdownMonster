@@ -154,8 +154,18 @@ namespace WeblogAddin
                     weblogInfo.Username,
                     weblogInfo.DecryptPassword(weblogInfo.Password));
 
-            
-            string body  = SendImages(html, doc.Filename, wrapper);
+
+            string body;
+            try
+            {
+                body = SendImages(html, doc.Filename, wrapper);
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log($"Error sending images to Weblog at {weblogInfo.ApiUrl}: ", ex);                
+                return false;
+            }
+
             if (body == null)
                 return false;
 
@@ -183,7 +193,8 @@ namespace WeblogAddin
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error sending post to Weblog: " + ex.Message,
+                mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: ", ex);
+                MessageBox.Show($"Error sending post to Weblog: " + ex.Message,
                     mmApp.ApplicationName,
                     MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
