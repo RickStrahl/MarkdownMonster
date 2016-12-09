@@ -178,9 +178,8 @@ namespace MarkdownMonster
         
         #region Opening and Closing
 
-        private
-            void OnLoaded(object sender, RoutedEventArgs e)
-        {
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {            
             RestoreSettings();
             RecentDocumentsContextList();
             ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;

@@ -17,7 +17,7 @@ namespace MarkdownMonster.Test
             }
             catch (Exception ex)
             {
-                mmApp.Log(ex);
+                mmApp.Log("BugReport Test Failure",ex);
                 //mmApp.SendBugReport(ex);
             }
             

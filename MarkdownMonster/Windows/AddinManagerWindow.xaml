@@ -48,7 +48,7 @@
                                                 FontStyle="Italic" HorizontalAlignment="Right" Margin="0,0,7,0" />
 
 
-                        <Grid Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2" Margin="10,0,0" >
+                        <Grid Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2" Margin="10,0,0,0" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>

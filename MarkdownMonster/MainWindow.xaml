@@ -135,7 +135,7 @@
             </MenuItem>
             <MenuItem Header="_Tools"> 
                 <MenuItem Name="MenuAddins" Header="Add-ins" />
-                <MenuItem Name="MenuAddinManager" Header="Add-in Manager" Click="Button_Handler"/>
+                <MenuItem Name="MenuAddinManager" Header="Add-in Manager" Click="Button_Handler" IsEnabled="False"/>
                 <Separator/>
                 <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler" />
                 <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>
