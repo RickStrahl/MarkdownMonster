@@ -23,13 +23,17 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Windows;
+using Microsoft.Win32;
 
 namespace MarkdownMonster
 {
@@ -134,9 +138,14 @@ namespace MarkdownMonster
 
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
 
-
-            AddinManager.Current.LoadAddins();
-            AddinManager.Current.RaiseOnApplicationStart();            
+            var taskFactory = new TaskFactory();
+            taskFactory.StartNew(() =>
+            {
+                ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");                
+                AddinManager.Current.LoadAddins();
+                AddinManager.Current.RaiseOnApplicationStart();
+            });
+            
         }
 
     }

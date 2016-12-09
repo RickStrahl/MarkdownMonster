@@ -77,7 +77,7 @@ namespace MarkdownMonster.Windows
                 if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentBuildNumber",
                     out buildNumber))
                 {
-                    return Convert.ToUInt32( buildNumber );
+                    return Convert.ToUInt32(buildNumber);
                 }
 
 
@@ -125,7 +125,26 @@ namespace MarkdownMonster.Windows
             }
         }
 
-        private static bool TryGetRegistryKey(string path, string key, out dynamic value)
+        public static void EnsureBrowserEmulationEnabled(string exename = "Markdownmonster.exe")
+        {
+
+            try
+            {
+                using (var rk = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true))
+                {
+                    dynamic value = rk.GetValue(exename);
+                    if (value == null)
+                        rk.SetValue(exename, (uint)1100, RegistryValueKind.DWord);
+                }
+            }
+            catch
+            {
+                int t = 1;
+                t++;
+            }
+        }
+
+        public static bool TryGetRegistryKey(string path, string key, out dynamic value)
         {
             value = null;
             try
@@ -140,5 +159,10 @@ namespace MarkdownMonster.Windows
                 return false;
             }
         }
+
+
     }
+
+   
+
 }
