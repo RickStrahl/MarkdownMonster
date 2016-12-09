@@ -102,8 +102,9 @@ namespace SnagItAddin
             var editor = Model.Window.GetActiveMarkdownEditor();
 
             SnagIt.CapturePath = editor?.MarkdownDocument.Filename;
-            if (!string.IsNullOrEmpty(SnagIt.CapturePath))
-                SnagIt.CapturePath = Path.GetDirectoryName(SnagIt.CapturePath);
+            SnagIt.CapturePath = !string.IsNullOrEmpty(SnagIt.CapturePath) && SnagIt.CapturePath != "untitled" ? 
+                Path.GetDirectoryName(SnagIt.CapturePath) :
+                mmApp.Configuration.LastImageFolder;
 
 
             string capturedFile = SnagIt.CaptureImageToFile();
@@ -119,6 +120,8 @@ namespace SnagItAddin
                 relPath = "file:///" + relPath.Replace("\\", "/");
 
             string replaceText = "![](" + relPath + ")";
+
+            mmApp.Configuration.LastImageFolder = SnagIt.CapturePath;
 
             // Push the new text into the Editor's Selection
             SetSelection(replaceText);
