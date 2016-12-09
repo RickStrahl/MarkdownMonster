@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Win32;
 
-namespace MarkdownMonster.Windows
+namespace MarkdownMonster
 {
     /// <summary>
     /// Static class that adds convenient methods for getting information on the running computers basic hardware and os setup.

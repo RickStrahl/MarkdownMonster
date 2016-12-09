@@ -12,7 +12,7 @@
         TitlebarHeight="35"
         Name="MainApplicationWindow"                      
         Title="Markdown Monster" TitleCaps="False"         
-        Icon="Assets\MarkdownMonster_Icon_256.png"    
+        Icon="Assets\MarkdownMonster_Icon_128.png"    
         GlowBrush="Black"                              
         ResizeMode="CanResizeWithGrip"
         Height="740" Width="1200" WindowTransitionsEnabled="False">
@@ -135,7 +135,7 @@
             </MenuItem>
             <MenuItem Header="_Tools"> 
                 <MenuItem Name="MenuAddins" Header="Add-ins" />
-                <MenuItem Name="MenuAddinManager" Header="Add-in Manager" Click="Button_Handler" IsEnabled="False"/>
+                <MenuItem Name="MenuAddinManager" Header="Add-in Manager" Click="Button_Handler" />
                 <Separator/>
                 <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler" />
                 <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>

@@ -156,6 +156,7 @@
     <Compile Include="Windows\RegistrationForm.xaml.cs">
       <DependentUpon>RegistrationForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="_Classes\Utilities\ValueConverters.cs" />
     <Compile Include="_Classes\Utilities\KnownFolders.cs" />
     <Compile Include="_Classes\MarkdownParser\IMarkdownParser.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserBase.cs" />
@@ -248,6 +249,8 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Resource Include="Assets\MarkdownMonster_Icon_128.png" />
+    <Resource Include="Assets\MarkdownMonsterAddins_Icon.png" />
     <Content Include="Editor\scripts\Ace\ace.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -516,7 +519,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\vsizegrip.png" />
-    <Resource Include="Assets\MarkdownMonster_Icon_256.png" />
     <Resource Include="Assets\MarkdownMonsterSplash.png" />
     <Resource Include="Assets\MarkdownMonster.ico" />
     <Resource Include="Assets\MarkdownMonster.png" />

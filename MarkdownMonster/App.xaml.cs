@@ -208,7 +208,8 @@ namespace MarkdownMonster
             var taskFactory = new TaskFactory();
             taskFactory.StartNew(() =>
             {
-                ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");                
+                ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");  
+                              
                 AddinManager.Current.LoadAddins();
                 AddinManager.Current.RaiseOnApplicationStart();
             });
