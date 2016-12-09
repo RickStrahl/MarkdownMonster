@@ -29,9 +29,18 @@ namespace MarkdownMonster.Test
                 "https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin/raw/master/Build/SaveImageToAzureBlob-MarkdownMonster-Addin.zip";
 
             var manager = new AddinManager();
-            bool result = manager.DownloadAndInstallAddin(url, "c:\\program files\\Markdown Monster\\Addins\\Install\\");
+            bool result = manager.DownloadAndInstallAddin(url, "c:\\program files\\Markdown Monster\\Addins\\Install\\SaveImageToAzureBlob-MarkdownMonster-Addin");
 
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void InstallAddinFiles()
+        {
+            var manager = new AddinManager();
+            manager.InstallAddinFiles("c:\\program files\\Markdown Monster\\Addins\\Install");
+
+            Assert.IsTrue(true);
         }
 
     }

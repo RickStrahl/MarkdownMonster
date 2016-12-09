@@ -36,7 +36,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -123,10 +123,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddInInterfaces\AddinItem.cs" />
     <Compile Include="AddInInterfaces\AddinManager.cs" />
     <Compile Include="AddInInterfaces\AddInMenuItem.cs" />
     <Compile Include="AddInInterfaces\IMarkdownMonsterAddin.cs" />
     <Compile Include="AddInInterfaces\MarkdownMonsterAddin.cs" />
+    <None Include="Addins\ScreenCaptureAddin\_addin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Addins\WeblogAddin\_addin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Addins\_Addins">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -89,11 +89,11 @@ namespace MarkdownMonster.Windows
 
             ShowStatus("Downloading and installing " + addin.name + " Addin...");
 
-            var url = addin.gitVersionUrl.Replace("Version.json",addin.downloadUrl);            
-            if (!AddinManager.Current.DownloadAndInstallAddin(url, ".\\Addins\\Install"))
+            var url = addin.gitVersionUrl.Replace("Version.json","addin.zip");            
+            if (!AddinManager.Current.DownloadAndInstallAddin(url, ".\\Addins\\Install\\" + addin.id))
                 ShowStatus(addin.name + "  installation  failed.",6000);
             else
-                ShowStatus(addin.name + " installed.",6000);
+                ShowStatus(addin.name + " installed. Restart required...",6000);
         }
 
         private Timer timer;

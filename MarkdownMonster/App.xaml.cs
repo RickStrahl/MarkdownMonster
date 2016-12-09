@@ -25,6 +25,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -92,6 +93,11 @@ namespace MarkdownMonster
                     Environment.Exit(0);
                 }
             }
+
+
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+
+            currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 #if !DEBUG
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
@@ -100,6 +106,67 @@ namespace MarkdownMonster
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 #endif
             mmApp.Started = DateTime.UtcNow;
+        }
+
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            if (args.Name.Contains(".resources"))
+                return null;
+
+            // check for assemblies already loaded
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            if (assembly != null)
+                return assembly;
+
+            // Try to load by filename - split out the filename of the full assembly name
+            // and append the base path of the original assembly (ie. look in the same dir)
+            // NOTE: this doesn't account for special search paths but then that never
+            //           worked before either.
+            string filename = args.Name.Split(',')[0] + ".dll".ToLower();
+
+
+            string asmFile = FindFileInPath(filename, ".\\Addins");
+            if (!string.IsNullOrEmpty(asmFile))
+            {
+                try
+                {
+                    return System.Reflection.Assembly.LoadFrom(asmFile);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+
+            // FAIL!
+            return null;
+        }
+
+        /// <summary>
+        /// Looks for the first match in a file structure
+        /// </summary>
+        /// <param name="filename">The filename only to look for</param>
+        /// <param name="path">Path to start with</param>
+        /// <returns>Fully qualified path of the file found or NULL</returns>
+        private string FindFileInPath(string filename, string path)
+        {
+            filename = filename.ToLower();
+
+            foreach (var fullFile in Directory.GetFiles(path))
+            {
+                var file = Path.GetFileName(fullFile).ToLower();
+                if (file == filename)
+                    return fullFile;
+
+            }
+            foreach (var dir in Directory.GetDirectories(path))
+            {
+                var file = FindFileInPath(filename, dir);
+                if (!string.IsNullOrEmpty(file))
+                    return file;
+            }
+
+            return null;
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

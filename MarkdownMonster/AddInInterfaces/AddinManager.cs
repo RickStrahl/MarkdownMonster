@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using FontAwesome.WPF;
-using MarkdownMonster.Annotations;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.AddIns
@@ -55,60 +52,40 @@ namespace MarkdownMonster.AddIns
             if (!Directory.Exists(addinPath))
                 return;
 
+            // Clear out old addin files in root
+            // TODO: Remove after a few months
+            try
+            {
+                var files = Directory.GetFiles(addinPath);
+                foreach (var file in files)                
+                    File.Delete(file);
+            } catch { }
+            
+
+            // Check for Addins to install
             try
             {
                 if (Directory.Exists(addinPath + "\\Install"))
-                    InstallAddinFiles(addinPath + "\\Install");
+                    InstallAddinFiles(addinPath + "\\Install\\");
             }
             catch (Exception ex)
             {
                 mmApp.Log($"Addin Update failed: {ex.Message}");
             }
 
-
-            // we need to make sure already loaded dependencies are not loaded again
-            // when probing for add-ins
-            var assemblyFiles = Directory.GetFiles(Environment.CurrentDirectory, "*.dll");
-
-            var files = Directory.GetFiles(addinPath, "*.dll");
-
-            foreach (var file in files)
-            {
-                // don't allow assemblies the main app loads to load
-                string fname = Path.GetFileName(file).ToLower();
-                bool isLoaded = assemblyFiles.Any(f => fname == Path.GetFileName(f).ToLower());
-
-                if (!isLoaded)
-                {
-                    LoadAddinClasses(file);
-                }
-            }
-        }
-
-        private void InstallAddinFiles(string path)
-        {
-            var target = Path.GetFullPath(Path.Combine(path, ".."));
-
-            var files = Directory.GetFiles(path);
-            var dirs = Directory.GetDirectories(path);
-            foreach (var file in files)
-            {
-                var filename = Path.GetFileName(file);
-                File.Copy(file, Path.Combine(target,filename),true);
-                File.Delete(file);
-            }
+            var dirs = Directory.GetDirectories(addinPath);            
             foreach (var dir in dirs)
             {
-                var files2 = Directory.GetFiles(Path.Combine(path, dir));
-                foreach (var file in files2)
+                var files = Directory.GetFiles(dir, "*.dll");
+                foreach (var file in files)
                 {
-                    File.Copy(file, Path.Combine(target,dir,Path.GetFileName(file)), true);
-                    File.Delete(file);
+                    string fname = Path.GetFileName(file).ToLower();
+                    if (fname.EndsWith("addin.dll"))
+                        LoadAddinClasses(file);
                 }
             }
-
-            Directory.Delete(path, true);
         }
+
         
 
         /// <summary>
@@ -122,10 +99,10 @@ namespace MarkdownMonster.AddIns
 
             try
             {
-                asm = Assembly.LoadFile(assemblyFile);
+                asm = Assembly.LoadFrom(assemblyFile);
                 types = asm.GetTypes();
             }
-            catch
+            catch(Exception ex)
             {
                 MessageBox.Show("Unable to load add-in assembly: " + Path.GetFileNameWithoutExtension(assemblyFile));
                 return;
@@ -483,9 +460,7 @@ namespace MarkdownMonster.AddIns
                         {
                             Url = ai.gitVersionUrl
                         });
-                        DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
-
-                        ai.icon = ai.gitVersionUrl.Replace("Version.json", ai.icon);
+                        DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");                        
                     }
                     catch(Exception ex)
                     {
@@ -503,12 +478,15 @@ namespace MarkdownMonster.AddIns
         /// The addin-loader then moves the files.
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="targetFolder"></param>
+        /// <param name="targetFolder">Addins\\Install\\AddinId</param>
         /// <returns></returns>
-        public bool DownloadAndInstallAddin(string url, string targetFolder = null)
+        public bool DownloadAndInstallAddin(string url, string targetFolder)
         {
             if (string.IsNullOrEmpty(targetFolder))
-                targetFolder = Path.GetFullPath(".\\Addins\\Install\\");
+            {
+                ErrorMessage = "No target folder provided";
+                return false;
+            }
 
             string file = Path.GetTempFileName();
             file = Path.ChangeExtension(file, "zip");
@@ -526,6 +504,7 @@ namespace MarkdownMonster.AddIns
                     {
                         string fullName = Path.Combine(targetFolder, zipfile.FullName);
 
+                        
                         //Extracts the files to the output folder in a safer manner
                         if (!File.Exists(fullName))
                         {
@@ -550,175 +529,44 @@ namespace MarkdownMonster.AddIns
             }
 
         }
+
+        /// <summary>
+        /// Installs pending Addins from the Install folder into the Addins folder
+        /// This is required because addins can be already loaded and can't be copied
+        /// over.
+        /// </summary>
+        /// <param name="path">Temporary install path</param>
+        public bool InstallAddinFiles(string path = ".\\Addins\\Install")
+        {
+            string addinBasePath = null,
+                   dirName = null;
+
+            try
+            {
+                addinBasePath = Path.GetFullPath(Path.Combine(path, ".."));
+
+                var dirs = Directory.GetDirectories(path);
+                foreach (var addinInstallFolder in dirs)
+                {
+                    dirName = Path.GetFileName(addinInstallFolder); // folder name
+                    var addinPath = Path.Combine(addinInstallFolder, "..\\..", dirName);
+                    if (Directory.Exists(addinPath))
+                        Directory.Delete(addinPath, true);
+
+                    Directory.Move(addinInstallFolder, addinPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log("Addin installation failed for " + dirName, ex);
+                return false;
+            }
+
+            return true;
+        }
+
         #endregion
 
 
     }
-
-
-    public class AddinItem : INotifyPropertyChanged
-    {        
-        public string id
-        {
-            get { return _id; }
-            set
-            {
-                if (value == _id) return;
-                _id = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _id;
-
-        public string gitUrl
-        {
-            get { return _gitUrl; }
-            set
-            {
-                if (value == _gitUrl) return;
-                _gitUrl = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _gitUrl;
-
-        public string gitVersionUrl
-        {
-            get { return _gitVersionUrl; }
-            set
-            {
-                if (value == _gitVersionUrl) return;
-                _gitVersionUrl = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _gitVersionUrl;
-        
-
-        public string downloadUrl
-        {
-            get { return _downloadUrl; }
-            set
-            {
-                if (value == _downloadUrl) return;
-                _downloadUrl = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _downloadUrl;
-
-
-        public string name
-        {
-            get { return _name; }
-            set
-            {
-                if (value == _name) return;
-                _name = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _name;
-
-        public string summary
-        {
-            get { return _summary; }
-            set
-            {
-                if (value == _summary) return;
-                _summary = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _summary;
-
-        
-        public string description
-        {
-            get { return _description; }
-            set
-            {
-                if (value == _description) return;
-                _description = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _description;
-
-
-        public string version
-        {
-            get { return _version; }
-            set
-            {
-                if (value == _version) return;
-                _version = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _version;
-
-        public string author
-        {
-            get { return _author; }
-            set
-            {
-                if (value == _author) return;
-                _author = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _author;
-
-        
-
-        public string icon
-        {
-            get { return _icon; }
-            set
-            {
-                if (value == _icon) return;
-                _icon = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _icon;
-
-        
-
-        public DateTime updated
-        {
-            get { return _updated; }
-            set
-            {
-                if (value.Equals(_updated)) return;
-                _updated = value;
-                OnPropertyChanged();
-            }
-        }
-        private DateTime _updated;
-
-        
-
-        public bool IsInstalled
-        {
-            get { return _isInstalled; }
-            set
-            {
-                if (value == _isInstalled) return;
-                _isInstalled = value;
-                OnPropertyChanged();
-            }
-        }
-        private bool _isInstalled;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
 }
