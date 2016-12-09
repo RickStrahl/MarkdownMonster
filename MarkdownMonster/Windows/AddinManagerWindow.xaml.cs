@@ -46,13 +46,12 @@ namespace MarkdownMonster.Windows
 
             Loaded += AddinManagerWindow_Loaded;
             DataContext = this;
-
-            
         }
 
         private async void AddinManagerWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var listOfAddins = await AddinManager.Current.GetAddinListAsync();
+
             AddinList = new ObservableCollection<AddinItem>(listOfAddins);
         }
 
@@ -75,11 +74,6 @@ namespace MarkdownMonster.Windows
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void ButtonInstall_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -89,11 +83,33 @@ namespace MarkdownMonster.Windows
 
             ShowStatus("Downloading and installing " + addin.name + " Addin...");
 
-            var url = addin.gitVersionUrl.Replace("Version.json","addin.zip");            
-            if (!AddinManager.Current.DownloadAndInstallAddin(url, ".\\Addins\\Install\\" + addin.id))
-                ShowStatus(addin.name + "  installation  failed.",6000);
+            var url = addin.gitVersionUrl.Replace("version.json","addin.zip");
+            if (!AddinManager.Current.DownloadAndInstallAddin(url, ".\\Addins", addin))
+                ShowStatus(addin.name + "  installation  failed.", 6000);
             else
-                ShowStatus(addin.name + " installed. Restart required...",6000);
+            {
+                ShowStatus(addin.name + " installed. You may have to restart Markdown Monster to finalize installation.", 6000);
+                addin.isInstalled = true;
+
+                //AddinManager.Current.LoadAddins();
+            }
+        }
+
+        private void ButtonUnInstall_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var addin = button.DataContext as AddinItem;
+            if (addin == null)
+                return;
+
+            if (AddinManager.Current.UninstallAddin(addin.id))
+            { ShowStatus(addin.name + 
+                    " marked for deletion. Please restart Markdown Monster to finalize un-install.", 
+                    6000);
+                addin.isInstalled = false;
+            }
+            else
+                ShowStatus(addin.name + " failed to uninstall.",6000);
         }
 
         private Timer timer;
@@ -119,5 +135,7 @@ namespace MarkdownMonster.Windows
             }
             WindowUtilities.DoEvents();
         }
+
+     
     }
 }

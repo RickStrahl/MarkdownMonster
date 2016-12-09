@@ -28,8 +28,13 @@ namespace MarkdownMonster.Test
             const string url =
                 "https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin/raw/master/Build/SaveImageToAzureBlob-MarkdownMonster-Addin.zip";
 
+            var addin = new AddinItem
+            {
+                id = "SaveImageToAzureBlob-MarkdownMonster-Addin"
+            };
+
             var manager = new AddinManager();
-            bool result = manager.DownloadAndInstallAddin(url, "c:\\program files\\Markdown Monster\\Addins\\Install\\SaveImageToAzureBlob-MarkdownMonster-Addin");
+            bool result = manager.DownloadAndInstallAddin(url, "c:\\program files\\Markdown Monster\\Addins",addin);
 
             Assert.IsTrue(result);
         }

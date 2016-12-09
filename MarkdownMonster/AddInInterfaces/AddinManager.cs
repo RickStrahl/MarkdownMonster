@@ -43,82 +43,6 @@ namespace MarkdownMonster.AddIns
             AddIns = new List<MarkdownMonsterAddin>();
         }
 
-        /// <summary>
-        /// Loads add-ins into the application from the add-ins folder
-        /// </summary>
-        internal void LoadAddins()
-        {
-            string addinPath = Path.Combine(Environment.CurrentDirectory, "AddIns");
-            if (!Directory.Exists(addinPath))
-                return;
-
-            // Clear out old addin files in root
-            // TODO: Remove after a few months
-            try
-            {
-                var files = Directory.GetFiles(addinPath);
-                foreach (var file in files)                
-                    File.Delete(file);
-            } catch { }
-            
-
-            // Check for Addins to install
-            try
-            {
-                if (Directory.Exists(addinPath + "\\Install"))
-                    InstallAddinFiles(addinPath + "\\Install\\");
-            }
-            catch (Exception ex)
-            {
-                mmApp.Log($"Addin Update failed: {ex.Message}");
-            }
-
-            var dirs = Directory.GetDirectories(addinPath);            
-            foreach (var dir in dirs)
-            {
-                var files = Directory.GetFiles(dir, "*.dll");
-                foreach (var file in files)
-                {
-                    string fname = Path.GetFileName(file).ToLower();
-                    if (fname.EndsWith("addin.dll"))
-                        LoadAddinClasses(file);
-                }
-            }
-        }
-
-        
-
-        /// <summary>
-        /// Load all add in classes in an assembly
-        /// </summary>
-        /// <param name="assemblyFile"></param>
-        private void LoadAddinClasses(string assemblyFile)
-        {
-            Assembly asm = null;
-            Type[] types = null;
-
-            try
-            {
-                asm = Assembly.LoadFrom(assemblyFile);
-                types = asm.GetTypes();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Unable to load add-in assembly: " + Path.GetFileNameWithoutExtension(assemblyFile));
-                return;
-            }
-
-            foreach (var type in types)
-            {
-                var typeList = type.FindInterfaces(AddinInterfaceFilter, typeof(IMarkdownMonsterAddin));
-                if (typeList.Length > 0)
-                {
-                    var ai = Activator.CreateInstance(type) as MarkdownMonsterAddin;
-                    this.AddIns.Add(ai);
-                }
-            }
-        }
-
 
         private static bool AddinInterfaceFilter(Type typeObj, Object criteriaObj)
         {
@@ -388,6 +312,84 @@ namespace MarkdownMonster.AddIns
         }
 
         #region Addin Manager
+
+        /// <summary>
+        /// Loads add-ins into the application from the add-ins folder
+        /// </summary>
+        internal void LoadAddins()
+        {
+            string addinPath = Path.Combine(Environment.CurrentDirectory, "AddIns");
+            if (!Directory.Exists(addinPath))
+                return;
+
+            // Clear out old addin files in .\Addins root
+            // TODO: Remove after a few months
+            try
+            {
+                var files = Directory.GetFiles(addinPath);
+                foreach (var file in files)                
+                    File.Delete(file);
+            } catch { }
+            // END TODO: Remove after a few months
+
+            // Check for Addins to install
+            try
+            {
+                if (Directory.Exists(addinPath + "\\Install"))
+                    InstallAddinFiles(addinPath + "\\Install\\");
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log($"Addin Update failed: {ex.Message}");
+            }
+
+            var dirs = Directory.GetDirectories(addinPath);            
+            foreach (var dir in dirs)
+            {
+                var files = Directory.GetFiles(dir, "*.dll");
+                foreach (var file in files)
+                {
+                    string fname = Path.GetFileName(file).ToLower();
+                    if (fname.EndsWith("addin.dll"))
+                        LoadAddinClasses(file);
+                }
+            }
+        }
+
+        
+        /// <summary>
+        /// Load all add in classes in an assembly
+        /// </summary>
+        /// <param name="assemblyFile"></param>
+        private void LoadAddinClasses(string assemblyFile)
+        {
+            Assembly asm = null;
+            Type[] types = null;
+
+            try
+            {
+                asm = Assembly.LoadFrom(assemblyFile);
+                types = asm.GetTypes();
+            }
+            catch(Exception ex)
+            {
+                var msg = $"Unable to load add-in assembly: {Path.GetFileNameWithoutExtension(assemblyFile)}";                
+                mmApp.Log(msg, ex);
+                MessageBox.Show(msg);
+                return;
+            }
+
+            foreach (var type in types)
+            {
+                var typeList = type.FindInterfaces(AddinInterfaceFilter, typeof(IMarkdownMonsterAddin));
+                if (typeList.Length > 0)
+                {
+                    var ai = Activator.CreateInstance(type) as MarkdownMonsterAddin;
+                    this.AddIns.Add(ai);
+                }
+            }
+        }
+
         public List<AddinItem> GetAddinList()
         {
             const string addinListRepoUrl =
@@ -421,9 +423,18 @@ namespace MarkdownMonster.AddIns
                             Url = ai.gitVersionUrl
                         });
                         DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
+
+                        if (Directory.Exists(".\\Addins\\" + ai.id) ||
+                            Directory.Exists(".\\Addins\\Installs\\" + ai.id))
+                            ai.isInstalled = true;
+
+                        if (File.Exists(".\\Addins\\Installs\\" + ai.id + ".delete"))
+                            ai.isInstalled = false;
                     }
                     catch { /* ignore error */}
                 });
+
+
 
             return addinList;
         }
@@ -460,15 +471,24 @@ namespace MarkdownMonster.AddIns
                         {
                             Url = ai.gitVersionUrl
                         });
-                        DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");                        
+                        DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
+
+                        if (Directory.Exists(".\\Addins\\" + ai.id) ||
+                            Directory.Exists(".\\Addins\\Installs\\" + ai.id))
+                            ai.isInstalled = true;
+
+                        if (File.Exists(".\\Addins\\Installs\\" + ai.id + ".delete"))
+                            ai.isInstalled = false;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        mmApp.Log($"Addin {ai.name} version failed", ex);                        
+                        mmApp.Log($"Addin {ai.name} version failed", ex);
                     }
                 });
 
-            return addinList;
+            return addinList
+                .OrderBy(ai => ai.isInstalled ? 0 : 1)
+                .ThenBy(ai => ai.updated).ToList();            
         }
 
         /// <summary>
@@ -478,9 +498,10 @@ namespace MarkdownMonster.AddIns
         /// The addin-loader then moves the files.
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="targetFolder">Addins\\Install\\AddinId</param>
+        /// <param name="targetFolder">Addins folder</param>
+        /// <param name="addin"></param>
         /// <returns></returns>
-        public bool DownloadAndInstallAddin(string url, string targetFolder)
+        public bool DownloadAndInstallAddin(string url, string targetFolder, AddinItem addin)
         {
             if (string.IsNullOrEmpty(targetFolder))
             {
@@ -488,6 +509,12 @@ namespace MarkdownMonster.AddIns
                 return false;
             }
 
+            var addinName = Path.GetFileName(targetFolder);
+            if (!Directory.Exists(Path.Combine(targetFolder, addin.id)))
+                targetFolder = Path.Combine(targetFolder, addin.id);
+            else
+                targetFolder = Path.Combine(targetFolder, "Install", addin.id);
+            
             string file = Path.GetTempFileName();
             file = Path.ChangeExtension(file, "zip");
 
@@ -497,6 +524,9 @@ namespace MarkdownMonster.AddIns
                 {
                     client.DownloadFile(url, file);
                 }
+                if (Directory.Exists(targetFolder))
+                    Directory.Delete(targetFolder, true);
+                
 
                 using (ZipArchive archive = ZipFile.OpenRead(file))
                 {
@@ -504,19 +534,15 @@ namespace MarkdownMonster.AddIns
                     {
                         string fullName = Path.Combine(targetFolder, zipfile.FullName);
 
-                        
-                        //Extracts the files to the output folder in a safer manner
-                        if (!File.Exists(fullName))
-                        {
-                            //Calculates what the new full path for the unzipped file should be
-                            string fullPath = Path.GetDirectoryName(fullName);
+                        //Calculates what the new full path for the unzipped file should be
+                        string fullPath = Path.GetDirectoryName(fullName);
 
-                            //Creates the directory (if it doesn't exist) for the new path
-                            Directory.CreateDirectory(fullPath);
+                        //Creates the directory (if it doesn't exist) for the new path
+                        Directory.CreateDirectory(fullPath);
 
-                            //Extracts the file to (potentially new) path
-                            zipfile.ExtractToFile(fullName, true);
-                        }
+                        //Extracts the file to (potentially new) path
+                        zipfile.ExtractToFile(fullName, true);
+                    
                     }
                 }
 
@@ -530,6 +556,21 @@ namespace MarkdownMonster.AddIns
 
         }
 
+        public bool UninstallAddin(string addinId, string addinPath = ".\\Addins")
+        {
+            var directory = Directory.GetDirectories(addinPath).FirstOrDefault(dir => Path.GetFileName(dir) == addinId);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                if (!Directory.Exists(Path.Combine(addinPath, "Install")))
+                    Directory.CreateDirectory(Path.Combine(addinPath, "Install"));
+
+                File.WriteAllText(Path.Combine(addinPath,"Install", addinId + ".delete"),"to be deleted");
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Installs pending Addins from the Install folder into the Addins folder
         /// This is required because addins can be already loaded and can't be copied
@@ -538,13 +579,22 @@ namespace MarkdownMonster.AddIns
         /// <param name="path">Temporary install path</param>
         public bool InstallAddinFiles(string path = ".\\Addins\\Install")
         {
-            string addinBasePath = null,
-                   dirName = null;
+            string dirName = null;
 
             try
             {
-                addinBasePath = Path.GetFullPath(Path.Combine(path, ".."));
+                // delete addins flagged for deletion
+                var files = Directory.GetFiles(path, "*.delete");
+                foreach (var file in files)
+                {
+                    var deleteFolder = Path.Combine(path + "..\\", Path.GetFileNameWithoutExtension(file));
+                    if (Directory.Exists(deleteFolder))
+                        Directory.Delete(deleteFolder, true);
 
+                    File.Delete(file);
+                }
+
+                // install new addins
                 var dirs = Directory.GetDirectories(path);
                 foreach (var addinInstallFolder in dirs)
                 {
@@ -555,6 +605,8 @@ namespace MarkdownMonster.AddIns
 
                     Directory.Move(addinInstallFolder, addinPath);
                 }
+
+                Directory.Delete(path);
             }
             catch (Exception ex)
             {
@@ -562,11 +614,11 @@ namespace MarkdownMonster.AddIns
                 return false;
             }
 
+            
+
             return true;
         }
 
         #endregion
-
-
     }
 }

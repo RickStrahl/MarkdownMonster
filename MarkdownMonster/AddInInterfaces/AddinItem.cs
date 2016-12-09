@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using MarkdownMonster.Annotations;
 
 namespace MarkdownMonster.AddIns
@@ -124,7 +125,7 @@ namespace MarkdownMonster.AddIns
 
         
 
-        public bool IsInstalled
+        public bool isInstalled
         {
             get { return _isInstalled; }
             set
