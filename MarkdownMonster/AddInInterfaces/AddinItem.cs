@@ -28,24 +28,15 @@ namespace MarkdownMonster.AddIns
                 if (value == _gitUrl) return;
                 _gitUrl = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(gitVersionUrl));
             }
         }
         private string _gitUrl;
 
-        public string gitVersionUrl
-        {
-            get { return _gitVersionUrl; }
-            set
-            {
-                if (value == _gitVersionUrl) return;
-                _gitVersionUrl = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _gitVersionUrl;
+        public string gitVersionUrl => gitUrl.ToLower()
+                                           .Replace("https://github.com", "https://raw.githubusercontent.com") +
+                                                    "/master/Build/version.json";
         
-
-
         public string name
         {
             get { return _name; }

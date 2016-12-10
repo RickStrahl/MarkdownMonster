@@ -138,6 +138,7 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+        #region Raise Events
         public void RaiseOnApplicationStart()
         {
             foreach (var addin in AddIns)
@@ -310,6 +311,7 @@ namespace MarkdownMonster.AddIns
 
             return null;
         }
+        #endregion
 
         #region Addin Manager
 
@@ -385,7 +387,7 @@ namespace MarkdownMonster.AddIns
                 if (typeList.Length > 0)
                 {
                     var ai = Activator.CreateInstance(type) as MarkdownMonsterAddin;
-                    this.AddIns.Add(ai);
+                    AddIns.Add(ai);
                 }
             }
         }
@@ -541,8 +543,7 @@ namespace MarkdownMonster.AddIns
                         Directory.CreateDirectory(fullPath);
 
                         //Extracts the file to (potentially new) path
-                        zipfile.ExtractToFile(fullName, true);
-                    
+                        zipfile.ExtractToFile(fullName, true);                    
                     }
                 }
 

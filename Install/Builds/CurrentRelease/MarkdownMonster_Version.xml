@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>1.0.22</Version>
-   <ReleaseDate>December 8th, 2016</ReleaseDate>
-   <Title>West Wind Markdown Monster 1.0.22 now available</Title>
+   <Version>1.0.23</Version>
+   <ReleaseDate>December 10th, 2016</ReleaseDate>
+   <Title>West Wind Markdown Monster 1.0.23 now available</Title>
    <Detail>
-Version 1.0.22 adds a distraction free mode, a portable install, improves high DPI font scaling, improves native screen captures, support for pasting of images into the editor, adds support for multiple editor/preview sync modes and many small bug fixes and tweaks.
+Recent versions have added a new Addin manager, print output from Html preview, distraction free mode, a portable install, Vim and Emacs support, improved high DPI font scaling, improves native screen captures, support for pasting of images into the editor, adds support for multiple editor/preview sync modes and many small bug fixes and tweaks.
 
 If you're upgrading from a version prior to 0.57, we recommend that you completely uninstall Markdown Monster and reinstall the new version to clear out files that are no longer used. Your existing configuration files will be updated. Registered users will have to re-apply their registration key in this version due to a change in the key format for the release version.
 

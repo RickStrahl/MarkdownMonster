@@ -13,7 +13,7 @@
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[Change Log](Changelog.md)**
-* <a href="https://gitter.im/WestWindTechnologies/MarkdownMonster"><img src="https://camo.githubusercontent.com/a05bc0f4476f07cf58e83b4d3f36cdaec0a86f7d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769747465722d4a6f696e253230436861742d677265656e2e7376673f7374796c653d666c61742d737175617265" /></a>
+* <a href="https://gitter.im/MarkdownMonster/MarkdownMonster"><img src="https://camo.githubusercontent.com/a05bc0f4476f07cf58e83b4d3f36cdaec0a86f7d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769747465722d4a6f696e253230436861742d677265656e2e7376673f7374796c653d666c61742d737175617265" /></a>
 
 Here's what Markdown Monster looks like:
 
