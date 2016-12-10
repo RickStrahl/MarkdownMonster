@@ -633,6 +633,10 @@ namespace MarkdownMonster
             {
                 Window.Button_Handler(Window.ButtonOpenFile, null);
             }
+            else if (key == "ctrl-p")
+            {
+                Window.Model.PrintPreviewCommand.Execute(Window.ButtonPrintPreview);
+            }
             else if (key == "ctrl-b")
             {
                 Window.Model.ToolbarInsertMarkdownCommand.Execute("bold");

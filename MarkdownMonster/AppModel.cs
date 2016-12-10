@@ -281,6 +281,8 @@ namespace MarkdownMonster
 
         public CommandBase DistractionFreeModeCommand { get; set; }
 
+        public CommandBase PrintPreviewCommand { get; set; }
+
         private void CreateCommands()
         {
             // SAVE COMMAND
@@ -453,6 +455,7 @@ namespace MarkdownMonster
                 Window.OpenTab(file, syntax: "json");
             }, null);
 
+            // DISTRACTION FREE MODE
             DistractionFreeModeCommand = new CommandBase((s, e) =>
             {                
                 GridLength gl = new GridLength(0);
@@ -473,6 +476,13 @@ namespace MarkdownMonster
                 Window.WindowGrid.RowDefinitions[1].Height = gl;
                 //Window.WindowGrid.RowDefinitions[3].Height = gl;  
             }, null);
+
+            // PRINT PREVIEW
+            PrintPreviewCommand = new CommandBase((s, e) =>
+            {
+                dynamic dom = Window.PreviewBrowser.Document;
+                dom.execCommand("print",true,null);
+            }, (s, e) => IsPreviewBrowserVisible);
         }
 
 

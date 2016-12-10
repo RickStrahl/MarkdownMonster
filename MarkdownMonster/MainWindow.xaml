@@ -20,6 +20,8 @@
         <KeyBinding Modifiers="Alt+Shift"
                     Key="Return"
                     Command="{Binding  DistractionFreeModeCommand}" />
+        <KeyBinding Modifiers="Ctrl" Key="P"
+                    Command="{Binding PrintPreviewCommand}" />
     </Window.InputBindings>
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
@@ -103,10 +105,11 @@
                 <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding SaveCommand}" 
                           InputGestureText="Ctrl+S"/>
                 <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding SaveAsCommand}" 
-                          InputGestureText="Ctrl+Shift+s"/>
+                          InputGestureText="Ctrl+Shift+S"/>
                 <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" />
-
                 <Separator/>
+                <MenuItem Name="ButtonPrintPreview" Header="_Print Html Preview" Command="{Binding PrintPreviewCommand}" InputGestureText="Ctrl-P"/>
+                <Separator />
                 <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
             </MenuItem>
             <MenuItem Header="_Edit">
@@ -147,7 +150,7 @@
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Name="ButtonHtmlPreview" 
-                          Header="Html _Preview"
+                          Header="Toggle Html _Preview Window"
                           IsCheckable="True" 
                           InputGestureText="Alt-V-P"
                           IsChecked="{Binding IsPreviewBrowserVisible}"
@@ -157,6 +160,7 @@
                           Click="ButtonViewInBrowser_Click" 
                           InputGestureText="Alt-V-B"
                           IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding PrintPreviewCommand}" InputGestureText="Ctrl-P"/>
                 <Separator/>
                 <MenuItem Name="ButtonRefreshBrowser" Header="Refresh Preview Browser"  
                           Click="Button_Handler"  IsEnabled="{Binding IsPreviewBrowserVisible}" InputGestureText="Ctrl-Shift"/>

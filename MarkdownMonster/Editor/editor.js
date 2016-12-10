@@ -70,8 +70,11 @@ var te = window.textEditor = {
                 // and let WPF handle the key
             },
             "f5": function() {},
-            "alt-c": function() { te.specialkey("alt-c"); },
-            "ctrl-o": function() { te.specialkey("ctrl-o"); },
+            "alt-c": function () { te.specialkey("alt-c"); },
+
+            "ctrl-o": function () { te.specialkey("ctrl-o"); },
+            "ctrl-p": function () { te.specialkey("ctrl-p") },
+
             "ctrl-s": function() { te.specialkey("ctrl-s"); },
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
             "ctrl-i": function () { te.specialkey("ctrl-i"); },

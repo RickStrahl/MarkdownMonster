@@ -2,16 +2,30 @@
 
 # Markdown Monster Change Log
 
+### Version 1.0.23
+<i><small>not released yet</small></i>
+
+* **Print Preview Html**  
+You can send the HTML output of the preview HTML viewer to a printer or PDF writer (if installed) using the **File -> Print Html Preview**.
+
+* **New Addin Manager** (experimental)  
+Added a basic Addin manager that hooks up to an Addin repository to display available addins. Currently, there are on a couple of addins but hopefully that will change in the future. Updated addin install to use separate folders for each addins so existing addins and existing addins installed in the `.\Addins` root are removed.
+
+> #### Breaking Change
+> * **Existing Addins removed**  
+> Due to the new Addin manager and install process addins now install into separate folders. If you have custom addins you've created or installed move them to a folder with a unique name and make sure the addin assembly is named with an `*Addin.dll` pattern. The **Weblog** and **ScreenCapture** addins are automatically installed into their respective folders by the newer version installer but all other addins need to be reinstalled or moved.
+
 ### Version 1.0.22
+<i><small>December 8th, 2016</small></i>
 
 * **Distraction Free Mode**  
 Added distraction free mode option on the window menu. When applied removes the toolbar, menu and preview.
 
 * **Portable Version**   
-Added build step to produce [a portable version in a Zip file](https://markdownmonster.west-wind.com/download.aspx) that can be unzipped anywhere and run without a full installation. Some limitations apply: No .md file association, no command line PATH mapping for install folder (no `mm` or `markdownmonster` from command line), no desktop icon and - depending on where you run from - inability to install addins using the Addin Manager.
+Added build step to produce [a portable version in a Zip file](https://markdownmonster.west-wind.com/download.aspx) that can be unzipped anywhere and run without a full installation. Some limitations apply: No .md file association, no command line PATH mapping for install folder (no `mm` or `markdownmonster` from command line), no desktop icon and - depending on where you run from - inability to install addins using the Addin Manager (you can install manually or run as Administrator to override permissions).
 
 ### Version 1.0.21
-<i><small>December 7th, 2016</small></i>
+<i><small>December 5th, 2016</small></i>
 
 * **Add support for Vim and Emacs Keybindings**  
 Added new `EditorKeyboardHandler` configuration setting that lets you switch editor input handlers using `default`,`vim` and `emacs`.
