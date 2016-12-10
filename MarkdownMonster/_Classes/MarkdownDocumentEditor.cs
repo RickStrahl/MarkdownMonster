@@ -806,7 +806,12 @@ namespace MarkdownMonster
             {
                 // determine if we want to rescale the editor fontsize
                 // based on DPI Screen Size
-                var dpiRatio = WindowUtilities.GetDpiRatio(Window);
+                decimal dpiRatio = 1;
+                try
+                {
+                    dpiRatio = WindowUtilities.GetDpiRatio(Window);
+                }
+                catch { }
 
                 AceEditor.settheme(
                         mmApp.Configuration.EditorTheme,
