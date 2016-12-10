@@ -108,6 +108,10 @@
                           InputGestureText="Ctrl+Shift+S"/>
                 <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" />
                 <Separator/>
+                <MenuItem Header="View in Web _Browser" 
+                          Click="ButtonViewInBrowser_Click" 
+                          InputGestureText="Alt-V-B"
+                          IsEnabled="{Binding IsEditorActive}" />
                 <MenuItem Name="ButtonPrintPreview" Header="_Print Html Preview" Command="{Binding PrintPreviewCommand}" InputGestureText="Ctrl-P"/>
                 <Separator />
                 <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
