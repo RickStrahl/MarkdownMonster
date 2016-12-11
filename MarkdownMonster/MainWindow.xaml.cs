@@ -28,6 +28,7 @@ using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -252,9 +253,11 @@ namespace MarkdownMonster
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            base.OnClosing(e);
+            base.OnClosing(e);            
             
             Hide();
+
+            AddinManager.Current.RaiseOnApplicationShutdown();
 
             bool isNewVersion = CheckForNewVersion(false, false);
 
@@ -800,6 +803,8 @@ namespace MarkdownMonster
             }
         }
 
+        // IMPORTANT: for browser COM CSE errors which can happen with script errors
+        [HandleProcessCorruptedStateExceptions]  
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false)
         {
             // only render if the preview is actually visible and rendering in Preview Browser
@@ -878,6 +883,8 @@ namespace MarkdownMonster
                                 "<!-- Markdown Monster Content -->",
                                 "<!-- End Markdown Monster Content -->");
 
+                            Debug.WriteLine("About to render HTML to browser...");
+
                             if (string.IsNullOrEmpty(renderedHtml))
                                 PreviewMarkdown(editor, false, false); // fully reload document
                             else
@@ -900,7 +907,7 @@ namespace MarkdownMonster
                                                 window.scrollToPragmaLine(lineno);
                                         }
                                     }
-                                    catch {}                                        
+                                    catch { /* ignore scroll error */ }                                        
                                 }
                                 catch(Exception ex)
                                 {
@@ -908,6 +915,7 @@ namespace MarkdownMonster
                                 }
                                 
                             }
+                            Debug.WriteLine("DONE to render HTML to browser...");
 
                             return;
                         }
@@ -1454,19 +1462,25 @@ namespace MarkdownMonster
             // using the WebBrowserHostUIHandler
             PreviewBrowser.LoadCompleted += (sender, e) =>
             {
+                
                 if (e.Uri.ToString().Contains("about:blank"))
                     return;
 
+                dynamic window = null;
+                MarkdownDocumentEditor editor = null;
                 try
                 {
-                    var editor = GetActiveMarkdownEditor();
+                    editor = GetActiveMarkdownEditor();
                     dynamic dom = PreviewBrowser.Document;
+                    window = dom.parentWindow;
                     dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
 
-                    dynamic window = dom.parentWindow;
-                    window.initializeinterop(editor);
+                    window.initializeinterop(editor);                                       
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Task.Delay(1500).ContinueWith( t=> window.initializeinterop(editor) );
+                }
             };
             PreviewBrowser.Navigate("about:blank");
         }
