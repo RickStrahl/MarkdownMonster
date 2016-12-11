@@ -507,7 +507,7 @@ namespace MarkdownMonster.AddIns
             return addinList
                 .Where(ai => ai.updated > new DateTime(2016, 1, 1))
                 .OrderBy(ai => ai.isInstalled ? 0 : 1)
-                .ThenBy(ai => ai.updated).ToList();
+                .ThenByDescending(ai => ai.updated).ToList();
         }
 
         /// <summary>
