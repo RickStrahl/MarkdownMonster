@@ -119,6 +119,8 @@ namespace MarkdownMonster
 
         private int _EditorFontSize;
 
+
+
         /// <summary>
         /// Determines whether the active line is highlighted in the editor
         /// </summary>
@@ -133,6 +135,7 @@ namespace MarkdownMonster
             }
         }
         private bool _editorHighlightActiveLine;
+
 
 
         /// <summary>
@@ -166,7 +169,6 @@ namespace MarkdownMonster
             }
         }
         private bool _EditorWrapText;
-
 
         /// <summary>
         /// Determines if spell checking is used. This value maps to the
@@ -202,6 +204,25 @@ namespace MarkdownMonster
             }
         }
         private string _editorDictionary;
+
+        /// <summary>
+        /// Determines whether the Markdown rendering allows script tags 
+        /// in generated HTML output. Set this to true
+        /// if you want to allow script tags to be rendered into
+        /// HTML script tags and execute - such as embedding
+        /// Gists or other Widgets that use scripts.        
+        /// </summary>
+        public bool EditorAllowRenderScriptTags
+        {
+            get { return _editorAllowRenderScriptTags; }
+            set
+            {
+                if (value == _editorAllowRenderScriptTags) return;
+                _editorAllowRenderScriptTags = value;
+                OnPropertyChanged(nameof(EditorAllowRenderScriptTags));
+            }
+        }
+        private bool _editorAllowRenderScriptTags;
 
 
         /// <summary>
@@ -348,6 +369,7 @@ namespace MarkdownMonster
             EditorFontSize = 17;
             EditorWrapText = true;
             EditorHighlightActiveLine = true;
+            EditorAllowRenderScriptTags = true;
             EditorEnableSpellcheck = true;
             EditorDictionary = "EN_US";
             EditorKeyboardHandler = "default";  // vim,emacs
