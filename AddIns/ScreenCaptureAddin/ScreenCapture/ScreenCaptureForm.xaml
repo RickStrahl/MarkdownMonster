@@ -13,7 +13,7 @@
         mc:Ignorable="d"        
         Title="Markdown Monster Screen Capture" 
         TitleCharacterCasing="Normal" ResizeMode="CanResizeWithGrip"
-        Icon="../MarkdownMonster_Icon_256.png"    
+        Icon="../MarkdownMonster_Icon_128.png"    
         WindowStyle="SingleBorderWindow"         
         WindowStartupLocation="Manual"
         FontSize="15"    
