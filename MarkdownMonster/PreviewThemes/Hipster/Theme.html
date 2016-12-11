@@ -9,21 +9,17 @@
     <link href="{$themePath}..\scripts\fontawesome\css\font-awesome.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
     <link href="{$themePath}Theme.css" rel="stylesheet"/>
-</head>
-<body>
-    <div id="MainContent">
-        <!-- Markdown Monster Content -->
-        {$markdownHtml}
-        <!-- End Markdown Monster Content -->
-    </div>  
+    
     <script src="{$themePath}..\scripts\jquery.min.js"></script>
     <link href="{$themePath}..\scripts\highlightjs/styles/monokai-sublime.css" rel="stylesheet" />
     <script src="{$themePath}..\scripts\highlightjs/highlight.pack.js"></script>
     <script src="{$themePath}..\scripts\preview.js"></script>
-<script>    
-    $('pre code').each(function (i, block) {
-        hljs.highlightBlock(block);
-    });
-</script>
+</head>
+<body>
+<div id="MainContent">
+    <!-- Markdown Monster Content -->
+    {$markdownHtml}
+    <!-- End Markdown Monster Content -->
+</div>  
 </body>
 </html>

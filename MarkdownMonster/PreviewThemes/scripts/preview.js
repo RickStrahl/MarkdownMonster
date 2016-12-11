@@ -1,11 +1,23 @@
-﻿highlightCode();
-
-var te = {
+﻿var te = {
     mmEditor: null,
     isPreviewEditorSync: false,
     codeScrolled: new Date().getTime()
 }
 var isDebug = false;
+
+// This function is global and called by the parent
+// to pass in the form object and pass back the text
+// editor instance that allows the parent to make
+// calls into this component
+function initializeinterop(editor) {    
+    te.mmEditor = editor;    
+    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();
+    scroll();    
+}
+
+$(document).ready(function() {
+    highlightCode();
+});
 
 $(document).on("contextmenu", function () {
     // inside of WebBrowser control don't show context menu
@@ -17,7 +29,7 @@ window.ondrop = function (event) {
     event.preventDefault();
     event.stopPropagation();
 
-    setTimeout(function () {
+    setTimeout(function () {        
         alert("To open dropped files in Markdown Monster, please drop files onto the header area of the window.");
     }, 50);
 }
@@ -27,10 +39,7 @@ window.ondragover = function (event) {
     return false;
 }
 
-var lastMouseY = 0;
-
-
-var scroll =   debounce(function (event) {
+var scroll = debounce(function (event) {    
     if (!te.mmEditor || !te.isPreviewEditorSync) return;
 
     // prevent repositioning editor scroll sync 
@@ -62,18 +71,12 @@ var scroll =   debounce(function (event) {
         return;
 
     id = id.replace("pragma-line-", "");
+    
     te.mmEditor.GotoLine((id * 1) - 1);
 },100);
 window.onscroll = scroll;
 
-// This function is global and called by the parent
-// to pass in the form object and pass back the text
-// editor instance that allows the parent to make
-// calls into this component
-function initializeinterop(editor) {    
-    te.mmEditor = editor;
-    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();    
-}
+
 
 
 function highlightCode() {
