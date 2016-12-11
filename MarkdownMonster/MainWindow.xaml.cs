@@ -1477,9 +1477,20 @@ namespace MarkdownMonster
 
                     window.initializeinterop(editor);                                       
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Task.Delay(1500).ContinueWith( t=> window.initializeinterop(editor) );
+                    Task.Delay(1500).ContinueWith(t =>
+                    {
+                        try
+                        {
+                            window.initializeinterop(editor);
+                        }
+                        catch (Exception ex)
+                        {
+                            mmApp.Log("Preview InitializeInterop failed", ex);
+                        }
+
+                    } );
                 }
             };
             PreviewBrowser.Navigate("about:blank");
