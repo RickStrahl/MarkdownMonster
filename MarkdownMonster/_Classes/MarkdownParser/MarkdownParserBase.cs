@@ -73,6 +73,9 @@ namespace MarkdownMonster
         /// <returns></returns>
         protected string ParseScript(string html)
         {
+            if (mmApp.Configuration.EditorAllowRenderScriptTags)
+                return html;
+
             html = html.Replace("<script", "&lt;script");
             html = html.Replace("</script", "&lt;/script");
             html = html.Replace("javascript:", "javaScript:");
