@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>1.0.23</Version>
-   <ReleaseDate>December 10th, 2016</ReleaseDate>
-   <Title>West Wind Markdown Monster 1.0.23 now available</Title>
+   <Version>1.0.24</Version>
+   <ReleaseDate>December 11th, 2016</ReleaseDate>
+   <Title>West Wind Markdown Monster 1.0.24 now available</Title>
    <Detail>
 Recent versions have added a new Addin manager, print output from Html preview, distraction free mode, a portable install, Vim and Emacs support, improved high DPI font scaling, improves native screen captures, support for pasting of images into the editor, adds support for multiple editor/preview sync modes and many small bug fixes and tweaks.
 

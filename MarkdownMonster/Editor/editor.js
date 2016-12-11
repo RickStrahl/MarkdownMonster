@@ -335,8 +335,7 @@ var te = window.textEditor = {
 
         var session = te.editor.getSession();
         session.setUseWrapMode(wrapText);
-        session.setOption("indentedSoftWrap", true);
-        session.setOption("indentedSoftWrap", true);
+        session.setOption("indentedSoftWrap", true);        
 
         te.editor.setHighlightActiveLine(highlightActiveLine);
         te.editor.renderer.setShowGutter(showLineNumbers);
