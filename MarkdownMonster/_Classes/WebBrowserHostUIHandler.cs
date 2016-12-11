@@ -24,7 +24,7 @@ public class WebBrowserHostUIHandler : Native.IDocHostUIHandler
         IsWebBrowserContextMenuEnabled = false;
         ScriptErrorsSuppressed = true; 
 
-        Flags |= HostUIFlags.ENABLE_REDIRECT_NOTIFICATION | HostUIFlags.DPI_AWARE | HostUIFlags.FLAT_SCROLLBAR;
+        Flags |= HostUIFlags.ENABLE_REDIRECT_NOTIFICATION | HostUIFlags.DPI_AWARE | HostUIFlags.FLAT_SCROLLBAR | HostUIFlags.DISABLE_SCRIPT_INACTIVE ;
     }
 
     public WebBrowser Browser { get; private set; }
