@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -27,7 +28,6 @@ namespace MarkdownMonster.Windows
     public partial class AddinManagerWindow : MetroWindow, INotifyPropertyChanged
     {
         
-
         public ObservableCollection<AddinItem> AddinList
         {
             get { return _addinList; }
@@ -43,16 +43,18 @@ namespace MarkdownMonster.Windows
         public AddinManagerWindow()
         {
             InitializeComponent();
+            mmApp.SetThemeWindowOverride(this);
 
             Loaded += AddinManagerWindow_Loaded;
-            DataContext = this;
+            DataContext = this;            
         }
 
         private async void AddinManagerWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var listOfAddins = await AddinManager.Current.GetAddinListAsync();
 
-            AddinList = new ObservableCollection<AddinItem>(listOfAddins);
+            // fill and sort as data is filled out
+            var addinList = await AddinManager.Current.GetAddinListAsync();
+            AddinList = new ObservableCollection<AddinItem>(addinList);
         }
 
         private void ListViewAddins_MouseDoubleClick(object sender, MouseButtonEventArgs e)

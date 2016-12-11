@@ -22,6 +22,21 @@ namespace MarkdownMonster.Test
             Assert.IsTrue(list.Count > 0);
         }
 
+        [TestMethod()]
+        public async Task GetAddinListAsyncTest()
+        {
+            var manager = new AddinManager();
+            var list = await manager.GetAddinListAsync();
+
+            foreach (var ai in list)
+            {
+                Console.WriteLine(ai.name + "  " + ai.updated);
+            }
+
+            Assert.IsNotNull(list);
+            Assert.IsTrue(list.Count > 0);
+        }
+
         [TestMethod]
         public void DownloadAndInstall()
         {

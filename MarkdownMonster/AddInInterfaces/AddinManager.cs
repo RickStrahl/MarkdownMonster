@@ -441,7 +441,7 @@ namespace MarkdownMonster.AddIns
             return addinList;
         }
 
-        public async Task<List<AddinItem>> GetAddinListAsync()
+        public async Task<List<AddinItem>> GetInitialAddinListAsync()
         {
             const string addinListRepoUrl =
                 "https://raw.githubusercontent.com/RickStrahl/MarkdownMonsterAddinsRegistry/master/MarkdownMonsterAddinRegistry.json";
@@ -459,38 +459,55 @@ namespace MarkdownMonster.AddIns
             }
             catch (Exception ex)
             {
-                this.ErrorMessage = ex.Message;
+                ErrorMessage = ex.Message;
                 return null;
             }
 
-            addinList
-                .AsParallel()
-                .ForAll(async ai =>
-                {
-                    try
+            return addinList;
+        }
+
+        public async Task<List<AddinItem>> GetAddinListAsync(List<AddinItem> addinList = null)
+        {
+      
+            if (addinList == null)
+                addinList = await GetInitialAddinListAsync();
+
+            if (addinList == null)
+                return null;
+      
+            //foreach (var ai in addinList)
+
+            Parallel.ForEach(addinList,
+                new ParallelOptions {MaxDegreeOfParallelism = 20},
+                ai =>                
                     {
-                        var dl = await HttpUtils.JsonRequestAsync<AddinItem>(new HttpRequestSettings
+                        try
+                        {                  
+                            // not using async here so we can wait for final list result          
+                            // before returning
+                            var dl = HttpUtils.JsonRequest<AddinItem>(new HttpRequestSettings
+                            {
+                                Url = ai.gitVersionUrl
+                            });
+                            DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
+
+                            if (Directory.Exists(".\\Addins\\" + ai.id) ||
+                                Directory.Exists(".\\Addins\\Installs\\" + ai.id))
+                                ai.isInstalled = true;
+
+                            if (File.Exists(".\\Addins\\Installs\\" + ai.id + ".delete"))
+                                ai.isInstalled = false;
+                        }
+                        catch (Exception ex)
                         {
-                            Url = ai.gitVersionUrl
-                        });
-                        DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
-
-                        if (Directory.Exists(".\\Addins\\" + ai.id) ||
-                            Directory.Exists(".\\Addins\\Installs\\" + ai.id))
-                            ai.isInstalled = true;
-
-                        if (File.Exists(".\\Addins\\Installs\\" + ai.id + ".delete"))
-                            ai.isInstalled = false;
-                    }
-                    catch (Exception ex)
-                    {
-                        mmApp.Log($"Addin {ai.name} version failed", ex);
-                    }
-                });
+                            mmApp.Log($"Addin {ai.name} version failed", ex);
+                        }
+                    });
 
             return addinList
+                .Where(ai => ai.updated > new DateTime(2016, 1, 1))
                 .OrderBy(ai => ai.isInstalled ? 0 : 1)
-                .ThenBy(ai => ai.updated).ToList();            
+                .ThenBy(ai => ai.updated).ToList();
         }
 
         /// <summary>

@@ -9,10 +9,8 @@
         xmlns:markdownMonster="clr-namespace:MarkdownMonster"
         mc:Ignorable="d"
         Icon="..\Assets\MarkdownMonsterAddins_Icon.png"
-        Title="Markdown Monster Addin Manager (EXPERIMENTAL)" 
+        Title="Markdown Monster Addin Manager (Experimental)"
         TitleCharacterCasing="Normal"
-                              
-         
         Height="800" Width="600">
     <Window.Resources>
         <markdownMonster:InvertedBoolenConverter x:Key="InvertBooleanConverter"/>
@@ -65,7 +63,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Image Grid.Column="0" Source="{Binding icon}" Height="40" Width="40" VerticalAlignment="Top" />
+                            <Image Grid.Column="0" Source="{Binding icon}" Height="50" Width="50" VerticalAlignment="Top" />
                             <StackPanel Grid.Column="1">
                                 <TextBlock 
                                                Padding="8,0,0,0"
@@ -84,13 +82,13 @@
                         </Grid>
 
                         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
-                            <Button Name="ButtonInstall"  Height="20"
-                                    Content="Install" FontSize="8" Margin="0,0,10,10"  
+                            <Button Name="ButtonInstall"  Height="20" 
+                                    Content="Install" FontSize="8" Margin="0,0,10,10"  Width="90"
                                     Visibility="{Binding isInstalled, Converter={StaticResource InstallButtonConverter}}" 
                                     Click="ButtonInstall_Click"/>
 
                             <Button Name="ButtonUnInstall" Height="20"
-                                    Content="Uninstall" FontSize="8" Margin="0,0,10,10"                                     
+                                    Content="Uninstall" FontSize="8" Margin="0,0,10,10" Width="90"                                 
                                     Visibility="{Binding isInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                     Click="ButtonUnInstall_Click"/>
                         </StackPanel>
