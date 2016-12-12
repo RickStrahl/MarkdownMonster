@@ -2,22 +2,25 @@
 
 # Markdown Monster Change Log
 
-### Version 1.0.23
+### Version 1.0.24
 <i><small>not released yet</small></i>
 
 * **Print Preview Html**  
 You can send the HTML output of the preview HTML viewer to a printer or PDF writer (if installed) using the **File -> Print Html Preview**.
 
 * **EditorAllowRenderScript Configuration Flag**   
-Added a `EditorAllowRenderScript` configuration flag that allows you to determine how embedded `<script>` tags are rendered in the HTML output. If `true` script tags render as raw script and the script executes, if `false` script is rendered as encoded text.\
+Added a `EditorAllowRenderScript` configuration flag that allows you to determine how embedded `<script>` tags are rendered in the HTML output. If `true` script tags render as raw script and the script executes, if `false` script is rendered as encoded text.  
 ***Note:** Regardless of this setting, both inline or block based code snippets always render `<script>` code as encoded text.*
+
+* **Add support for Featured Blog Post Image**   
+You can now add a featured image to your post that creates a `wp_post_thumbnail` custom field when data a post is made to the server. There are 2 ways to get a thumbnail url posted: Use a filename that includes **featured** or **thumbnail** in the image name (probably your lead image). Explicitly provide a URL in the `featuredImage` meta data field for the post. The latter is especially useful for existing posts.
 
 * **New Addin Manager** (experimental)  
 Added a basic Addin manager that hooks up to an Addin repository to display available addins. Currently, there are on a couple of addins but hopefully that will change in the future. Updated addin install to use separate folders for each addins so existing addins and existing addins installed in the `.\Addins` root are removed.
 
 > #### Breaking Change
 > * **Existing Addins removed**  
-> Due to the new Addin manager and install process addins now install into separate folders. If you have custom addins you've created or installed move them to a folder with a unique name and make sure the addin assembly is named with an `*Addin.dll` pattern. The **Weblog** and **ScreenCapture** addins are automatically installed into their respective folders by the newer version installer but all other addins need to be reinstalled or moved. See 
+> Due to the new Addin manager and install process addins now install into separate folders. If you have custom addins you've created or installed move them to a folder with a unique name and make sure the addin assembly is named with an `<addinName>Addin.dll` pattern. The **Weblog** and **ScreenCapture** addins are automatically installed into their respective folders by the newer version installer but all other addins need to be reinstalled or moved. See 
 
 ### Version 1.0.22
 <i><small>December 8th, 2016</small></i>

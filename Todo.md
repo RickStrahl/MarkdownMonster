@@ -14,6 +14,8 @@
 
 
 ### Consideration
+* Feature image with `wp_post_thumbnail` (also add support to my blog)
+    *  First image that includes `feature` as part of the name is used
 * Check out ReverseMarkdown C# source - needs adjustments (lists, spacing)
 * Support arbitrary MetaWeblog API attributes in MetaData
 * Drag and Drop Web Images into the editor (Not possible due to IE Security?)

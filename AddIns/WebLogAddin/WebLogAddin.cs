@@ -100,6 +100,8 @@ namespace WeblogAddin
             }            
         }
 
+        #region Post Send Operations
+
         /// <summary>
         /// High level method that sends posts to the Weblog
         /// 
@@ -158,7 +160,7 @@ namespace WeblogAddin
             string body;
             try
             {
-                body = SendImages(html, doc.Filename, wrapper);
+                body = SendImages(html, doc.Filename, wrapper,meta);
             }
             catch (Exception ex)
             {
@@ -171,17 +173,27 @@ namespace WeblogAddin
 
             ActivePost.Body = body;
             ActivePost.PostID = meta.PostId;
-            
 
-            ActivePost.CustomFields = new CustomField[1]
-            {
+            var customFields = new List<CustomField>();
+            
+            
+            customFields.Add(
                 new CustomField()
                 {
                     ID = "mt_markdown",
                     Key = "mt_markdown",
                     Value = meta.MarkdownBody
-                }
-            };
+                });
+
+            if (!string.IsNullOrEmpty(meta.FeaturedImageUrl))
+                customFields.Add(
+                    new CustomField()
+                    {
+                        ID = "wp_post_thumbnail",
+                        Key = "wp_post_thumbnail",
+                        Value = meta.FeaturedImageUrl
+                    });
+            ActivePost.CustomFields = customFields.ToArray();
 
             bool isNewPost = IsNewPost(ActivePost.PostID);
             try
@@ -241,6 +253,146 @@ namespace WeblogAddin
 
 
         /// <summary>
+        /// Parses each of the images in the document and posts them to the server.
+        /// Updates the HTML with the returned Image Urls
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="filename"></param>
+        /// <param name="wrapper"></param>
+        /// <returns>update HTML string for the document with updated images</returns>
+        private string SendImages(string html, string filename, MetaWeblogWrapper wrapper, WeblogPostMetadata metaData)
+        {
+            var basePath = Path.GetDirectoryName(filename);
+            var baseName = Path.GetFileName(basePath);
+
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            try
+            {
+                // send up normalized path images as separate media items
+                var images = doc.DocumentNode.SelectNodes("//img");
+                if (images != null)
+                {                    
+                    foreach (HtmlNode img in images)
+                    {
+                        string imgFile = img.Attributes["src"]?.Value as string;
+                        if (imgFile == null)
+                            continue;
+
+                        if (!imgFile.StartsWith("http://") && !imgFile.StartsWith("https://"))
+                        {
+                            imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
+                            if (File.Exists(imgFile))
+                            {
+                                var media = new MediaObject()
+                                {
+                                    Type = "application/image",
+                                    Bits = File.ReadAllBytes(imgFile),
+                                    Name = baseName + "/" + Path.GetFileName(imgFile)
+                                };
+                                var mediaResult = wrapper.NewMediaObject(media);
+                                img.Attributes["src"].Value = mediaResult.URL;
+                                ;
+                            }
+
+                            if (string.IsNullOrEmpty(metaData.FeaturedImageUrl) &&
+                                imgFile.ToLower().Contains("featured"))
+                                metaData.FeaturedImageUrl = imgFile;                 
+                        }
+                    }
+
+                    html = doc.DocumentNode.OuterHtml;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error posting images to Weblog: " + ex.Message,
+                    mmApp.ApplicationName,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Exclamation);
+                mmApp.Log(ex);
+                return null;
+            }
+
+            return html;
+        }
+
+        #endregion
+
+        #region Local Post Creation
+
+        public string NewWeblogPost(WeblogPostMetadata meta)
+        {
+            if (meta == null)
+            {
+                meta = new WeblogPostMetadata()
+                {
+                    Title = "Post Title",
+                };
+            }
+
+
+            if (string.IsNullOrEmpty(meta.WeblogName))
+                meta.WeblogName = "Name of registered blog to post to";
+            
+            return
+                $@"# {meta.Title}
+
+{meta.MarkdownBody}
+
+<!-- Post Configuration -->
+<!--
+```xml
+<blogpost>
+<title>{meta.Title}</title>
+<abstract>
+{meta.Abstract}
+</abstract>
+<categories>
+{meta.Categories}
+</categories>
+<isDraft>{meta.IsDraft}</isDraft>
+<featuredImage>{meta.FeaturedImageUrl}</featuredImage>
+<keywords>
+{meta.Keywords}
+</keywords>
+<weblogs>
+<postid>{meta.PostId}</postid>
+<weblog>
+{meta.WeblogName}
+</weblog>
+</weblogs>
+</blogpost>
+```
+-->
+<!-- End Post Configuration -->
+";                        
+        }
+
+        public void CreateNewPostOnDisk(string title, string postFilename, string weblogName)
+        {
+            string filename = SafeFilename(postFilename);
+            string titleFilename = SafeFilename(title);
+
+            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), titleFilename);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            var outputFile = Path.Combine(folder, filename);
+
+            // Create the new post by creating a file with title preset
+            string newPostMarkdown = NewWeblogPost(new WeblogPostMetadata()
+            {
+                Title = title,
+                WeblogName = weblogName
+            });
+            File.WriteAllText(outputFile, newPostMarkdown);
+            Model.Window.OpenTab(outputFile);
+
+            mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
+
+        }
+
+        /// <summary>
         /// determines whether post is a new post based on
         /// a postId of various types
         /// </summary>
@@ -277,116 +429,9 @@ namespace WeblogAddin
             return markdown;
         }
 
-        public string NewWeblogPost(WeblogPostMetadata meta)
-        {
-            if (meta == null)
-            {
-                meta = new WeblogPostMetadata()
-                {
-                    Title = "Post Title",
-                };
-            }
+        #endregion
 
-
-            if (string.IsNullOrEmpty(meta.WeblogName))
-                meta.WeblogName = "Name of registered blog to post to";
-            
-            return
-$@"# {meta.Title}
-
-{meta.MarkdownBody}
-
-<!-- Post Configuration -->
-<!--
-```xml
-<blogpost>
-<title>{meta.Title}</title>
-<abstract>
-{meta.Abstract}
-</abstract>
-<categories>
-{meta.Categories}
-</categories>
-<keywords>
-{meta.Keywords}
-</keywords>
-<weblogs>
-<postid>{meta.PostId}</postid>
-<weblog>
-{meta.WeblogName}
-</weblog>
-</weblogs>
-</blogpost>
-```
--->
-<!-- End Post Configuration -->
-";                        
-        }
-
-
-
-        /// <summary>
-        /// Parses each of the images in the document and posts them to the server.
-        /// Updates the HTML with the returned Image Urls
-        /// </summary>
-        /// <param name="html"></param>
-        /// <param name="filename"></param>
-        /// <param name="wrapper"></param>
-        /// <returns>update HTML string for the document with updated images</returns>
-        private string SendImages(string html, string filename, MetaWeblogWrapper wrapper)
-        {
-            var basePath = Path.GetDirectoryName(filename);
-            var baseName = Path.GetFileName(basePath);
-
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-            try
-            {
-                // send up normalized path images as separate media items
-                var images = doc.DocumentNode.SelectNodes("//img");
-                if (images != null)
-                {
-                    foreach (HtmlNode img in images)
-                    {
-                        string imgFile = img.Attributes["src"]?.Value as string;
-                        if (imgFile == null)
-                            continue;
-
-                        if (!imgFile.StartsWith("http://") && !imgFile.StartsWith("https://"))
-                        {
-                            imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
-                            if (File.Exists(imgFile))
-                            {
-                                var media = new MediaObject()
-                                {
-                                    Type = "application/image",
-                                    Bits = File.ReadAllBytes(imgFile),
-                                    Name = baseName + "/" + Path.GetFileName(imgFile)
-                                };
-                                var mediaResult = wrapper.NewMediaObject(media);
-                                img.Attributes["src"].Value = mediaResult.URL;
-                                ;
-                            }
-                        }
-                    }
-
-                    html = doc.DocumentNode.OuterHtml;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error posting images to Weblog: " + ex.Message,
-                   mmApp.ApplicationName,
-                   MessageBoxButton.OK,
-                   MessageBoxImage.Exclamation);
-                mmApp.Log(ex);
-                return null;
-            }
-
-            return html;
-        }
-        
-
+        #region Post Configuration and Meta Data
         /// <summary>
         /// Strips the Markdown Meta data from the message and populates
         /// the post structure with the meta data values.
@@ -447,13 +492,16 @@ $@"# {meta.Title}
             if (!string.IsNullOrEmpty(weblogName))
                 meta.WeblogName = weblogName;
 
+            string featuredImageUrl = StringUtils.ExtractString(config, "\n<featuredImage>", "</featuredImage>");
+            if (!string.IsNullOrEmpty(featuredImageUrl))
+                meta.FeaturedImageUrl = featuredImageUrl.Trim();
 
             ActivePost.Title = meta.Title;            
             ActivePost.Categories = meta.Categories.Split(new [] { ','},StringSplitOptions.RemoveEmptyEntries);
 
             ActivePost.mt_excerpt = meta.Abstract;
             ActivePost.mt_keywords = meta.Keywords;
-    
+
             return meta;
         }
 
@@ -481,6 +529,7 @@ $@"# {meta.Title}
 {meta.Keywords}
 </keywords>
 <isDraft>{meta.IsDraft}</isDraft>
+<featuredImage>{meta.FeaturedImageUrl}</featuredImage>
 <weblogs>
 <postid>{meta.PostId}</postid>
 <weblog>
@@ -505,29 +554,6 @@ $@"# {meta.Title}
             return markdown;
         }
 
-        public void CreateNewPostOnDisk(string title, string postFilename, string weblogName)
-        {
-            string filename = SafeFilename(postFilename);
-            string titleFilename = SafeFilename(title);
-
-            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), titleFilename);
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-            var outputFile = Path.Combine(folder, filename);
-
-            // Create the new post by creating a file with title preset
-            string newPostMarkdown = NewWeblogPost(new WeblogPostMetadata()
-            {
-                Title = title,
-                WeblogName = weblogName
-            });
-            File.WriteAllText(outputFile, newPostMarkdown);
-            Model.Window.OpenTab(outputFile);
-
-            mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
-
-        }
-
         public string SafeFilename(string fileName,string replace = "")
         {
             string filename = Path.GetInvalidFileNameChars()
@@ -536,6 +562,8 @@ $@"# {meta.Title}
 
             return filename;
         }
+
+        #endregion
 
         #region Downloaded Post Handling
 
@@ -554,6 +582,8 @@ $@"# {meta.Title}
 
             bool isMarkdown = false;
             string body = post.Body;
+            string featuredImage = null;
+
             if (post.CustomFields != null)
             {
                 var cf = post.CustomFields.FirstOrDefault(custf => custf.ID == "mt_markdown");
@@ -562,6 +592,10 @@ $@"# {meta.Title}
                     body = cf.Value;
                     isMarkdown = true;
                 }
+
+                cf = post.CustomFields.FirstOrDefault(custf => custf.ID == "wp_post_thumbnail");
+                if (cf != null)
+                    featuredImage = cf.Value;
             }
             if (!isMarkdown)
             {                
@@ -579,9 +613,7 @@ $@"# {meta.Title}
                     body = MarkdownUtilities.HtmlToMarkdown(body);
 
             }
-                
-
-
+            
             string categories = null;
             if (post.Categories != null && post.Categories.Length > 0)
                 categories = string.Join(",", post.Categories);
@@ -596,7 +628,8 @@ $@"# {meta.Title}
                 Keywords = post.mt_keywords,
                 Abstract = post.mt_excerpt,
                 PostId = post.PostID.ToString(),
-                WeblogName = weblogName
+                WeblogName = weblogName,
+                FeaturedImageUrl = featuredImage         
             });
             File.WriteAllText(outputFile, newPostMarkdown);
             

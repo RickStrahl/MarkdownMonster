@@ -29,6 +29,11 @@ namespace WeblogAddin
         public string MarkdownBody { get; set; }
 
         /// <summary>
+        /// Url that is mapped to wp_thumbnail
+        /// </summary>
+        public string FeaturedImageUrl { get; set; }
+
+        /// <summary>
         /// This should hold the raw markdown text retrieved
         /// from the editor which will contain the meta post data
         /// </summary>
