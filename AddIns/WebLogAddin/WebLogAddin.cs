@@ -256,9 +256,10 @@ namespace WeblogAddin
         /// Parses each of the images in the document and posts them to the server.
         /// Updates the HTML with the returned Image Urls
         /// </summary>
-        /// <param name="html"></param>
-        /// <param name="filename"></param>
-        /// <param name="wrapper"></param>
+        /// <param name="html">HTML that contains images</param>
+        /// <param name="filename">image file name</param>
+        /// <param name="wrapper">blog wrapper instance that sends</param>
+        /// <param name="metaData">metadata containing post info</param>
         /// <returns>update HTML string for the document with updated images</returns>
         private string SendImages(string html, string filename, MetaWeblogWrapper wrapper, WeblogPostMetadata metaData)
         {
@@ -296,7 +297,7 @@ namespace WeblogAddin
                             }
 
                             if (string.IsNullOrEmpty(metaData.FeaturedImageUrl) &&
-                                imgFile.ToLower().Contains("featured"))
+                                imgFile.ToLower().Contains("featured") || imgFile.ToLower().Contains("thumbnail"))
                                 metaData.FeaturedImageUrl = imgFile;                 
                         }
                     }
