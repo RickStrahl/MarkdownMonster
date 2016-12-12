@@ -109,7 +109,8 @@ namespace MarkdownMonster
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
+        {            
+            // missing resources are... missing
             if (args.Name.Contains(".resources"))
                 return null;
 

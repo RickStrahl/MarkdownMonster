@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("West Wind Technologies")]
 [assembly: AssemblyProduct("West West Wind Markdown Monster")]
-[assembly: AssemblyCopyright("Copyright ©  West Wind Technologies, 2016")]
+[assembly: AssemblyCopyright("Copyright ©  West Wind Technologies, 2016-2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

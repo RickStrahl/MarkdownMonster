@@ -377,7 +377,7 @@ namespace MarkdownMonster.AddIns
             {
                 var msg = $"Unable to load add-in assembly: {Path.GetFileNameWithoutExtension(assemblyFile)}";                
                 mmApp.Log(msg, ex);
-                MessageBox.Show(msg);
+                MessageBox.Show(msg,"Assembly Load Error",MessageBoxButton.OK,MessageBoxImage.Error);
                 return;
             }
 
