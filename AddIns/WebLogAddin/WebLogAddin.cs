@@ -293,12 +293,12 @@ namespace WeblogAddin
                                 };
                                 var mediaResult = wrapper.NewMediaObject(media);
                                 img.Attributes["src"].Value = mediaResult.URL;
-                                ;
-                            }
 
-                            if (string.IsNullOrEmpty(metaData.FeaturedImageUrl) &&
-                                imgFile.ToLower().Contains("featured") || imgFile.ToLower().Contains("thumbnail"))
-                                metaData.FeaturedImageUrl = imgFile;                 
+                                if (string.IsNullOrEmpty(metaData.FeaturedImageUrl)
+                                    && imgFile.ToLower().Contains("featured")
+                                    || imgFile.ToLower().Contains("thumbnail"))
+                                    metaData.FeaturedImageUrl = mediaResult.URL;
+                            }
                         }
                     }
 
