@@ -97,7 +97,7 @@ namespace MarkdownMonster
                 // Get the JavaScript Ace Editor Instance
                 dynamic doc = WebBrowser.Document;
                 var window = doc.parentWindow;
-                AceEditor = window.initializeinterop("", this);
+                AceEditor = window.initializeinterop(this);
                                
                if (EditorSyntax != "markdown")
                     AceEditor.setlanguage(EditorSyntax);                

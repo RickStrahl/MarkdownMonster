@@ -537,12 +537,9 @@ window.ondragover =
 // to pass in the form object and pass back the text
 // editor instance that allows the parent to make
 // calls into this component
-function initializeinterop(helpBuilderForm, textbox) {
-
-    te.mm = {};
-    te.mm.helpBuilderForm = helpBuilderForm;    
+function initializeinterop(textbox) {
+    te.mm = {};    
     te.mm.textbox = textbox;
-
     return window.textEditor;
 }
 
