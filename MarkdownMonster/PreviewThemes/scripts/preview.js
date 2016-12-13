@@ -46,7 +46,7 @@ var scroll = debounce(function (event) {
     // when selecting line in editor (w/ two way sync)
     var t = new Date().getTime();
     
-    if (te.codeScrolled > t - 150)
+    if (te.codeScrolled > t - 250)
         return;
 
     te.codeScrolled = t;
@@ -114,7 +114,7 @@ function scrollToPragmaLine(lineno) {
             setTimeout(function() { $el.removeClass("line-highlight"); }, 1200);
         }
         catch(ex) {  }
-    },30);
+    },80);
 }
 
 function status(msg,append) {
