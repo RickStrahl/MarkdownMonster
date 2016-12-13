@@ -294,9 +294,8 @@ namespace WeblogAddin
                                 var mediaResult = wrapper.NewMediaObject(media);
                                 img.Attributes["src"].Value = mediaResult.URL;
 
-                                if (string.IsNullOrEmpty(metaData.FeaturedImageUrl)
-                                    && imgFile.ToLower().Contains("featured")
-                                    || imgFile.ToLower().Contains("thumbnail"))
+                                // use first image as featured image
+                                if (string.IsNullOrEmpty(metaData.FeaturedImageUrl))
                                     metaData.FeaturedImageUrl = mediaResult.URL;
                             }
                         }

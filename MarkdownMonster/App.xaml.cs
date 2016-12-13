@@ -131,7 +131,7 @@ namespace MarkdownMonster
             {
                 try
                 {
-                    return System.Reflection.Assembly.LoadFrom(asmFile);
+                    return Assembly.LoadFrom(asmFile);
                 }
                 catch (Exception ex)
                 {
