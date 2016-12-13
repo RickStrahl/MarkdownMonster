@@ -341,6 +341,11 @@ namespace MarkdownMonster
 
         private bool _isPreviewVisible;
         public bool FirstRun { get; set; }
+
+        /// <summary>
+        /// Disables all addins from loading
+        /// </summary>
+        public bool DisableAddins { get; set; }
         
 
         //internal string FileWatcherOpenFilePath;

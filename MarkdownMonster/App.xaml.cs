@@ -206,22 +206,23 @@ namespace MarkdownMonster
 
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
 
-            var taskFactory = new TaskFactory();
-            taskFactory.StartNew(() =>
+            ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
+
+            if (!mmApp.Configuration.DisableAddins)
             {
-                ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
-
-                try
+                new TaskFactory().StartNew(() =>
                 {
-                    AddinManager.Current.LoadAddins();
-                    AddinManager.Current.RaiseOnApplicationStart();
-                }
-                catch (Exception ex)
-                {
-                    mmApp.Log("Addin loading failed", ex);
-                }
-            });
-
+                    try
+                    {
+                        AddinManager.Current.LoadAddins();
+                        AddinManager.Current.RaiseOnApplicationStart();
+                    }
+                    catch (Exception ex)
+                    {
+                        mmApp.Log("Addin loading failed", ex);
+                    }
+                });
+            }
         }
 
     }

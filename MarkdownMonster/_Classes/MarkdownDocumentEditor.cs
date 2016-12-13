@@ -82,10 +82,8 @@ namespace MarkdownMonster
             if (AceEditor == null)
             {
                 WebBrowser.LoadCompleted += OnDocumentCompleted;
-                WebBrowser.Navigate(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm"));
+                WebBrowser.Navigate("file:///" + Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm"));
             }
-            SetMarkdown();
-
             FindSyntaxFromFileType(MarkdownDocument.Filename);            
         }
 
@@ -97,10 +95,19 @@ namespace MarkdownMonster
                 // Get the JavaScript Ace Editor Instance
                 dynamic doc = WebBrowser.Document;
                 var window = doc.parentWindow;
-                AceEditor = window.initializeinterop(this);
-                               
-               if (EditorSyntax != "markdown")
-                    AceEditor.setlanguage(EditorSyntax);                
+
+                try
+                {
+                    AceEditor = window.initializeinterop(this);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log($"Editor failed to load initializeinterop {e.Uri}", ex);
+                    //throw;
+                }
+
+                if (EditorSyntax != "markdown")
+                    AceEditor?.setlanguage(EditorSyntax);                
 
                 WebBrowser.Visibility = Visibility.Visible;
                 RestyleEditor();
