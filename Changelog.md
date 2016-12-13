@@ -26,7 +26,7 @@ Fixed installer to provide proper Fontawesome font install.
 > Due to the new Addin manager and install process addins now install into separate folders. If you have custom addins you've created or installed move them to a folder with a unique name and make sure the addin assembly is named with an `<addinName>Addin.dll` pattern. The **Weblog** and **ScreenCapture** addins are automatically installed into their respective folders by the newer version installer but all other addins need to be reinstalled or moved. 
 >
 > * **Path SNAFU**  
-> Earlier installations of MM appended the install path to the system path every time it was installed resulting in many MM path references. To clean up this accidental mess, we've provide a `FixSystemPage.ps1` you can run as administrator from a Powershell console to clean up the paths. We apologize for not catching this sooner. 
+> Earlier installations of MM appended the install path to the system path every time it was installed resulting in many MM path references. To clean up this accidental mess, we've provide a `FixSystemPath.ps1` you can run as administrator from a Powershell console to clean up the paths. We apologize for not catching this sooner. 
 
 ### Version 1.0.22
 <i><small>December 8th, 2016</small></i>
