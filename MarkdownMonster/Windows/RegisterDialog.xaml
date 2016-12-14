@@ -8,7 +8,7 @@
         FontSize="16"
         WindowStyle="None" Background="Black" Foreground="WhiteSmoke"
         Title="Markdown Monster Registration" Height="356" Width="659.246" 
-        Icon="..\Assets\MarkdownMonster_Icon_128.png"  
+        Icon="..\Assets\MarkdownMonster_Icon_256.png"  
         WindowStartupLocation="CenterOwner" ShowInTaskbar="True" ResizeMode="NoResize">
     <StackPanel Orientation="Horizontal">
         <Image Source="../Assets/MarkdownMonster.png" Margin="0,30" Width="300" VerticalAlignment="Top" />

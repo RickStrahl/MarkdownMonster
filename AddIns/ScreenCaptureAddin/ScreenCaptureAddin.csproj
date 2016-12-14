@@ -120,7 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="version.json" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MarkdownMonster_Icon_128.png" />

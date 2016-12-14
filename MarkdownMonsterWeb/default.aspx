@@ -39,7 +39,7 @@
                 alt="Markdown Monster" />
             <span class="hidable-xs">West Wind</span> <span>Markdown Monster</span>
         </span>
-        <div id="TopMenu" class="right">
+        <nav id="TopMenu" class="right">
             <a href="./" class="active">
                 Home
             </a>
@@ -60,13 +60,14 @@
                 Docs
             </a>
             <%--<a href="pricing.aspx">License</a>--%>
-        </div>
+        </nav>
     </div>
     
     <div id="MainContainer" class="background" >
         
-       
-        <div id="ContentContainer">
+       <div class="flex-container" style="display: flex; flex-direction: row;">
+        <div style="flex: 0 0 10%"></div>
+        <div id="ContentContainer" style="flex: 1 1 auto; background: green">
             <header style="background-color: #535353; color: whitesmoke;">
                                
                 
@@ -78,7 +79,7 @@
                  </a>
                         
                         
-                         <div id="ActionButtons" >                            
+                         <nav id="ActionButtons" >                            
                             <a href="download.aspx" class="btn btn-lg btn-success"  >
                                 <i class="fa fa-download"></i>
                                 <b style="color: cornsilk">Free Download</b>
@@ -104,7 +105,7 @@
                            
                             <br />
                             <small style="font-size: 8pt;"><i>version <%= Version %> - <%= ReleaseDate%></i></small>
-                        </div>
+                        </nav>
                         
                         
 
@@ -173,7 +174,7 @@
             </header>
 
             
-            <div class="content" >
+            <article class="content" >
                 <div class="right created-by">
                     <div style="font-size: xx-small">created by:</div>
                     <a href="http://west-wind.com">
@@ -270,8 +271,10 @@
                         </a>
                     </div>
                 </div>
+                
+                
 
-                <div class="content" style="padding: 10px 0;">
+                <div class="content" style="padding: 10px 0; flex: 1 1 auto">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="panel panel-default">
@@ -392,18 +395,26 @@
                     </div>
 
 
-
+                    
                 </div>
-            </div>
+     
+               
+            </article>
             <div class="clearfix"></div>
         </div>
+        <div class="twitter-sidebar" >                         
+          <%--  <a class="twitter-timeline" data-theme="dark" style="width: auto;"
+               href="https://twitter.com/MarkdownMonstr">Tweets by RickStrahl</a> --%>
+            <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>                    
+        </div> 
+        </div><!-- flex -->
     </div>
 
     <nav class="banner" style="font-size: 8pt; padding: 10px; height: 80px; margin: 0; border-top: solid black 4px; border-bottom: none;">
         <div class="right">
             created by:<br />
             <a href="http://west-wind.com/" style="padding: 0;">
-                <img src="/Images/wwToolbarLogo.png" style="width: 150px;" />
+                <img src="/Images/wwToolbarLogo.png" style="width: 350px;" />
             </a>
         </div>
         &copy; West Wind Technologies, <%= DateTime.Now.Year %>

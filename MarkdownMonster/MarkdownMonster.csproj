@@ -249,8 +249,8 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Resource Include="Assets\MarkdownMonster_Icon_128.png" />
     <Resource Include="Assets\MarkdownMonsterAddins_Icon.png" />
+    <Resource Include="Assets\MarkdownMonster_Icon_256.png" />
     <Content Include="Editor\scripts\Ace\ace.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

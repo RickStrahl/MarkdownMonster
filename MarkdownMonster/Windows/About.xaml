@@ -7,7 +7,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Icon="../Assets/MarkdownMonster_Icon_128.png"                     
+        Icon="../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Markdown Monster" 
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner" TitleCaps="False"

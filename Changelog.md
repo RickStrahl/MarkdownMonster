@@ -32,7 +32,7 @@ Fixed installer to provide proper Fontawesome font install.
 <i><small>December 8th, 2016</small></i>
 
 * **Distraction Free Mode**  
-Added distraction free mode option on the window menu. When applied removes the toolbar, menu and preview.
+Added distraction free mode option on the window menu. When applied removes the toolbar and and preview window.
 
 * **Portable Version**   
 Added build step to produce [a portable version in a Zip file](https://markdownmonster.west-wind.com/download.aspx) that can be unzipped anywhere and run without a full installation. Some limitations apply: No .md file association, no command line PATH mapping for install folder (no `mm` or `markdownmonster` from command line), no desktop icon and - depending on where you run from - inability to install addins using the Addin Manager (you can install manually or run as Administrator to override permissions).

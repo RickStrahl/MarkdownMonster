@@ -112,6 +112,30 @@ h4 {
 .created-by {
     margin-top: -5px;
 }
+
+.twitter-sidebar {
+    display: none;
+    max-height: 2800px;
+    overflow: hidden;
+}
+
+@media(min-width: 1580px) {
+    .twitter-sidebar {
+        display: block;
+        
+        flex: 0 0 450px;
+    }
+
+}
+@media(min-width: 973px) {
+    .twitter-sidebar {
+        display: block;
+        
+        flex: 0 0 250px;
+    }
+
+}
+
 @media (max-width: 768px) {
     #ContentContainer {
         width: auto;
