@@ -185,6 +185,7 @@ namespace MarkdownMonster
             RecentDocumentsContextList();
             ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
 
+
             AddinManager.Current.InitializeAddinsUi(this);
 
             // Command Line Loading multiple files
@@ -238,11 +239,10 @@ namespace MarkdownMonster
             // force controls to realign - required because of WebBrowser control weirdness            
             Dispatcher.InvokeAsync(() =>
             {
-                TabControl.InvalidateVisual();
+                //TabControl.InvalidateVisual();
                 Left = left;
-
                 mmApp.SetWorkingSet(10000000, 5000000);
-            });            
+            });
         }
 
         protected override void OnDeactivated(EventArgs e)

@@ -77,7 +77,7 @@ namespace MarkdownMonster.AddIns
                         mitem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(mitem),
                                                         (s, c) => menuItem.CanExecute.Invoke(mitem));
 
-                    addin.Model.Window.MenuAddins.Items.Add(mitem);
+                    addin.Model.Window.MenuAddins.Items.Add(mitem);                    
 
                     // if an icon is provided also add to toolbar
                     if (menuItem.FontawesomeIcon != FontAwesomeIcon.None)
@@ -104,9 +104,9 @@ namespace MarkdownMonster.AddIns
                                                                 (s, c) => menuItem.CanExecute.Invoke(titem));
                         }
 
-                        addin.Model.Window.ToolbarAddIns.Visibility = System.Windows.Visibility.Visible;
+                        addin.Model.Window.ToolbarAddIns.Visibility = Visibility.Visible;
                         addin.Model.Window.ToolbarAddIns.Items.Add(titem);
-
+                    
                         // Add configuration dropdown if configured
                         if (hasConfigMenu)
                         {
