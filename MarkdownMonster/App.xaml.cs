@@ -206,12 +206,14 @@ namespace MarkdownMonster
 
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
 
-            ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
-
+            
             if (!mmApp.Configuration.DisableAddins)
             {
                 new TaskFactory().StartNew(() =>
                 {
+                    ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
+                    ComputerInfo.EnsureSystemPath();
+
                     try
                     {
                         AddinManager.Current.LoadAddins();

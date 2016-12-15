@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using Microsoft.Win32;
 
 namespace MarkdownMonster
@@ -137,11 +139,27 @@ namespace MarkdownMonster
                         rk.SetValue(exename, (uint)1100, RegistryValueKind.DWord);
                 }
             }
-            catch
-            {
-                int t = 1;
-                t++;
+            catch { }
+        }
+        public static void EnsureSystemPath()
+        {
+            try
+            {                
+                using (var sk = Registry.CurrentUser.OpenSubKey("Environment", true))
+                {
+                    string mmFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),"Markdown Monster");                    
+                    string path = sk.GetValue("Path").ToString();
+                    if (!path.Contains(mmFolder))
+                    {                        
+                        var pathList = path.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        pathList.Add(mmFolder);                            
+                        path = string.Join(";", pathList.Distinct().ToArray());
+
+                        sk.SetValue("Path", path);
+                    }                                        
+                }
             }
+            catch { }
         }
 
         public static bool TryGetRegistryKey(string path, string key, out dynamic value)
@@ -161,6 +179,7 @@ namespace MarkdownMonster
         }
 
 
+        
     }
 
    

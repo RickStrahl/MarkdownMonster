@@ -69,8 +69,8 @@ Root: HKCR; Subkey: "{#MyAppName}\shell\open\command"; ValueData: """{app}\{#MyA
 ; IE 11 mode
 Root: HKCU; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"; ValueType: dword; ValueName: "MarkdownMonster.exe"; ValueData: "11001"; Flags: createvalueifdoesntexist
 
-; Add path to global path
-Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{pf}\{#MyAppName}" ; Check: NeedsAddPath('{pf}\{#MyAppName}')
+; Add MM to user's system path
+Root: HKCU; Subkey: "Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{pf}\{#MyAppName}" ; Check: NeedsAddPath('{pf}\{#MyAppName}')
 
 [Code]
 function GetUninstallString: string;
@@ -93,8 +93,8 @@ var
 begin
   //expand the setup constants like {app} from Param
   ParamExpanded := ExpandConstant(Param);
-  if not RegQueryStringValue(HKEY_LOCAL_MACHINE,
-    'SYSTEM\CurrentControlSet\Control\Session Manager\Environment',
+  if not RegQueryStringValue(HKEY_CURRENT_USER,
+    'Environment',
     'Path', OrigPath)
   then begin
     Result := True;
