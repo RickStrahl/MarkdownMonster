@@ -1,7 +1,7 @@
 ﻿var te = {
     mmEditor: null,
     isPreviewEditorSync: false,
-    codeScrolled: new Date().getTime()
+    codeScrolled: new Date().getTime() + 2500
 }
 var isDebug = false;
 
