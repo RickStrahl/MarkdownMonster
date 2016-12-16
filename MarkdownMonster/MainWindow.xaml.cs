@@ -932,7 +932,8 @@ namespace MarkdownMonster
                                     }
                                     catch (Exception ex)
                                     {
-                                        PreviewBrowser.Refresh(true);
+                                        //PreviewBrowser.Refresh(true);
+                                        PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
                                     }
 
                                 }
