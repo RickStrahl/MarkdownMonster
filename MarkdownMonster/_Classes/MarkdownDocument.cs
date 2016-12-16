@@ -32,11 +32,13 @@
 #endregion
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace MarkdownMonster
@@ -108,6 +110,27 @@ namespace MarkdownMonster
                 return Path.GetFileName(Filename) + "  –  " + path  + (IsDirty ? "*" : ""); 
             }
         }
+
+        /// <summary>
+        /// Name of the auto save backup file
+        /// </summary>
+        [JsonIgnore]
+        public string BackupFilename
+        {
+            get
+            {
+                return Path.Combine(
+                    Path.GetDirectoryName(Filename),
+                    Path.GetFileName(Filename) + ".saved.bak");
+            }
+        }
+
+
+        /// <summary>
+        /// Determines whether backups are automatically saved
+        /// </summary>
+        [JsonIgnore]
+        public bool AutoSaveBackups { get; set; }
 
         [JsonIgnore]
         public Encoding Encoding
@@ -192,11 +215,25 @@ namespace MarkdownMonster
         /// </summary>
         public int LastBrowserScrollPosition { get; set; }
 
+        
+
         /// <summary>
         /// Holds the actively edited Markdown text
         /// </summary>
         [JsonIgnore]
-        public string CurrentText { get; set; }
+        public string CurrentText
+        {
+            get { return _currentText; }
+            set
+            {
+                bool isDirty = IsDirty;
+                _currentText = value;
+
+                if (isDirty)
+                    CreateBackupFileAsync();
+            }
+        }
+        private string _currentText;
 
         [JsonIgnore]
         public string OriginalText { get; set; }
@@ -221,17 +258,18 @@ namespace MarkdownMonster
 
             UpdateCrc();
             GetFileEncoding();
-
+            
             try
             {
                 CurrentText = File.ReadAllText(filename,Encoding);
                 OriginalText = CurrentText;
+                AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
             }
             catch
             {
                 return false;
             }
-
+            
             return true;
         }
 
@@ -246,12 +284,14 @@ namespace MarkdownMonster
                 filename = Filename;
 
             try
-            {
+            {                
                 File.WriteAllText(filename, CurrentText, Encoding);
                 IsDirty = false;
                 OriginalText = CurrentText;
 
-                UpdateCrc(filename);                
+                UpdateCrc(filename);
+
+                CleanupBackupFile();
             }
             catch
             {
@@ -259,6 +299,19 @@ namespace MarkdownMonster
             }
 
             return true;
+        }
+
+
+        /// <summary>
+        /// Cleans up after the file is closed by deleting
+        /// the HTML render file.
+        /// </summary>
+        public void Close()
+        {
+            if (File.Exists(HtmlRenderFilename))
+                File.Delete(HtmlRenderFilename);
+
+            CleanupBackupFile();
         }
 
         /// <summary>
@@ -293,16 +346,6 @@ namespace MarkdownMonster
                 }
             }
             return true;
-        }
-
-        /// <summary>
-        /// Cleans up after the file is closed by deleting
-        /// the HTML render file.
-        /// </summary>
-        public void Close()
-        {
-            if (File.Exists(HtmlRenderFilename))
-                File.Delete(HtmlRenderFilename);
         }
 
         #endregion
@@ -438,9 +481,83 @@ namespace MarkdownMonster
         }
         #endregion
 
+  
+
+        #region Auto-Save Backups
+
+
+        /// <summary>
+        /// Creates a backup file
+        /// </summary>
+        /// <param name="filename"></param>
+        public void CreateBackupFileAsync(string filename = null)
+        {
+            if (!AutoSaveBackups)
+                return;
+
+            // fire and forget
+            Task.Run(() =>
+            {
+                if (string.IsNullOrEmpty(filename))
+                {
+                    if (Filename == "untitled")
+                        return;
+
+                    filename = Path.Combine(
+                        Path.GetDirectoryName(Filename),
+                        Path.GetFileName(Filename) + ".saved.bak");
+                }
+                
+                if (filename == "untitled" || filename.Contains("saved.bak"))
+                    return;
+
+                try
+                {
+                    File.WriteAllText(filename, CurrentText, Encoding);                    
+                }
+                catch
+                { }
+            });
+        }
+
+        /// <summary>
+        /// Cleans up the backup file and removes the timer
+        /// </summary>
+        /// <param name="filename"></param>
+        public void CleanupBackupFile(string filename = null)
+        {
+            if (!AutoSaveBackups)
+                return;
+
+            if (string.IsNullOrEmpty(filename))
+            {
+                if (Filename == "untitled")
+                    return;
+
+                filename = Path.Combine(
+                    Path.GetDirectoryName(Filename),
+                    Path.GetFileName(Filename) + ".saved.bak");
+            }
+            
+            try
+            {
+                File.Delete(filename);
+            }
+            catch { }
+        }
+        
+        /// <summary>
+        ///  Checks to see whether there's a backup file present
+        /// </summary>
+        /// <returns></returns>
+        public bool HasBackupFile()
+        {
+            return Filename != "untitled" && File.Exists(BackupFilename);
+        }
+        #endregion
+
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-
         
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -448,10 +565,8 @@ namespace MarkdownMonster
         }
         #endregion
 
-
-
         ~MarkdownDocument()
-        {
+        {            
             Close();
         }
 

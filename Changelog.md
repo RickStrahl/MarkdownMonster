@@ -2,7 +2,13 @@
 
 # Markdown Monster Change Log
 
-### Version 1.0.26
+### Version 1.0.28
+<i><small>not released yet</small></i>
+
+* **Experimental Auto-Backup Implementation**
+We've implemented Auto-Backup for now behind a `AutoSaveBackups` configuration flag that defaults to `false`. When set MM creates a `*.save.bak` file that shadows the actual edited file. The file is updated whenever text changes and acts as a live backup in a crash. When the original file is reopened in the editor MM notices the backup file and opens both files for comparison.
+
+### Version 1.0.27
 <i><small>December 13th, 2016</small></i>
 
 * **Print Preview Html**  

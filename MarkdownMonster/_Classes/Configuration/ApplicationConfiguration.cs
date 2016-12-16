@@ -84,8 +84,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(PreviewSyncMode));
             }
         }
-        private PreviewSyncMode _previewSyncMode = PreviewSyncMode.EditorAndPreview;
-
+        private PreviewSyncMode _previewSyncMode;
 
         /// <summary>
         /// The font used in the editor. Must be a proportional font
@@ -237,6 +236,11 @@ namespace MarkdownMonster
         /// </summary>
         public bool RememberOpenFiles { get; set; }
 
+        /// <summary>
+        /// If non-zero creates a backup in the number of minutes
+        /// specified. 0 turns this feature off.
+        /// </summary>
+        public bool AutoSaveBackups { get; set; } 
 
         /// <summary>
         /// Determines whether Markdown Monster runs as a Singleton application.
@@ -361,6 +365,7 @@ namespace MarkdownMonster
             CommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Markdown Monster");
 
             PreviewSyncMode = PreviewSyncMode.EditorToPreview;
+            AutoSaveBackups = false;
 
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost.fiddler/MarkdownMonster/bugreport/bugreport.ashx?method=ReportBug";

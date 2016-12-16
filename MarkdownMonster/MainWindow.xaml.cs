@@ -419,6 +419,30 @@ namespace MarkdownMonster
             config.Write();
         }
 
+        public bool SaveFile()
+        {
+            var tab = TabControl.SelectedItem as TabItem;
+            if (tab == null)
+                return false;
+
+            var md = tab.Content;
+            var editor = tab.Tag as MarkdownDocumentEditor;
+            var doc = editor?.MarkdownDocument;
+            if (doc == null)
+                return false;
+
+            if (!editor.SaveDocument())
+            {
+                //var res = await this.ShowMessageOverlayAsync("Unable to save Document",
+                //    "Unable to save document most likely due to missing permissions.");
+
+                MessageBox.Show("Unable to save document most likely due to missing permissions.", mmApp.ApplicationName);
+                return false;
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region Tab Handling
@@ -487,7 +511,20 @@ namespace MarkdownMonster
                 if (doc.Filename != "untitled")
                 {                                        
                     doc.Filename = mmFileUtils.GetPhysicalPath(doc.Filename);
+
+                    if (doc.HasBackupFile())
+                    {
+                                ShowStatus("Auto-save recovery files have been found and opened in the editor.", milliSeconds: 9000);
+                                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                                {
+                                    File.Copy(doc.BackupFilename, doc.BackupFilename + ".md");
+                                    OpenTab(doc.BackupFilename + ".md");
+                                    File.Delete(doc.BackupFilename + ".md");
+                                }                     
+                    }
                     
+                    
+
                     if (!doc.Load())
                     {
                         if (!batchOpen)
@@ -653,15 +690,17 @@ namespace MarkdownMonster
             if (!string.IsNullOrEmpty(doc.HtmlRenderFilename) && File.Exists(doc.HtmlRenderFilename))
                 File.Delete(doc.HtmlRenderFilename);
 
+            doc.CleanupBackupFile();
+
             if (doc.IsDirty)
             {
-
                 var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n"  +
                                           "Do you want to save changes?",
                                           "Save Document",
                                            MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
                 if (res == MessageBoxResult.Cancel)
                 {
+                    
                     return false; // don't close
                 }
                 if (res == MessageBoxResult.No)
@@ -676,7 +715,7 @@ namespace MarkdownMonster
                         returnValue = false;
                 }
             }
-
+            
             tab.Tag = null;            
             TabControl.Items.Remove(tab);
             
@@ -748,31 +787,6 @@ namespace MarkdownMonster
 
         #region Worker Functions
 
-        public bool SaveFile()
-        {
-            var tab = TabControl.SelectedItem as TabItem;
-            if (tab == null)
-                return false;
-
-            var md = tab.Content;
-            var editor = tab.Tag as MarkdownDocumentEditor;
-            var doc = editor?.MarkdownDocument;
-            if (doc == null)
-                return false;
-
-            if (!editor.SaveDocument())
-            {
-                //var res = await this.ShowMessageOverlayAsync("Unable to save Document",
-                //    "Unable to save document most likely due to missing permissions.");
-
-                MessageBox.Show("Unable to save document most likely due to missing permissions.", mmApp.ApplicationName);
-                return false;
-            }
-
-            return true;
-        }
-
-
         /// <summary>
         /// Shows or hides the preview browser
         /// </summary>
@@ -807,126 +821,137 @@ namespace MarkdownMonster
         [HandleProcessCorruptedStateExceptions]  
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false)
         {
-            // only render if the preview is actually visible and rendering in Preview Browser
-            if (!Model.IsPreviewBrowserVisible && !showInBrowser)
-                return;
+            try
+            {
+                // only render if the preview is actually visible and rendering in Preview Browser
+                if (!Model.IsPreviewBrowserVisible && !showInBrowser)
+                    return;
 
-            if (editor == null)
-                editor = GetActiveMarkdownEditor();
+                if (editor == null)
+                    editor = GetActiveMarkdownEditor();
 
-            if (editor == null)
-                return;
+                if (editor == null)
+                    return;
 
-            var doc = editor.MarkdownDocument;
-            var ext = Path.GetExtension(doc.Filename).ToLower().Replace(".","");
+                var doc = editor.MarkdownDocument;
+                var ext = Path.GetExtension(doc.Filename).ToLower().Replace(".", "");
 
-            string renderedHtml = null;
+                string renderedHtml = null;
 
-            if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
-            {                
-                dynamic dom = null;
-                if (!showInBrowser)
+                if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
                 {
-                    if (keepScrollPosition)
+                    dynamic dom = null;
+                    if (!showInBrowser)
                     {
-                        dom = PreviewBrowser.Document;
-                        editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
+                        if (keepScrollPosition)
+                        {
+                            dom = PreviewBrowser.Document;
+                            editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
+                        }
+                        else
+                        {
+                            ShowPreviewBrowser(false, false);
+                            editor.MarkdownDocument.LastBrowserScrollPosition = 0;
+                        }
+                    }
+
+                    if (ext == "html" || ext == "htm")
+                    {
+                        if (!editor.MarkdownDocument.WriteFile(editor.MarkdownDocument.HtmlRenderFilename,
+                                editor.MarkdownDocument.CurrentText))
+                            // need a way to clear browser window
+                            return;
                     }
                     else
                     {
-                        ShowPreviewBrowser(false, false);
-                        editor.MarkdownDocument.LastBrowserScrollPosition = 0;
-                    }
-                }
-
-                if (ext == "html" || ext == "htm")
-                {
-                    if (!editor.MarkdownDocument.WriteFile(editor.MarkdownDocument.HtmlRenderFilename,
-                        editor.MarkdownDocument.CurrentText))
-                        // need a way to clear browser window
-                        return;
-                }
-                else
-                {
-                    renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: !showInBrowser && 
-                                                    mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.None );
-                    if (renderedHtml == null)
-                    {
-                        SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
-                        ShowStatus($"Access denied: {Path.GetFileName(editor.MarkdownDocument.Filename)}", 5000);                        
-                        // need a way to clear browser window
-
-                        return;
-                    }
-                }
-
-                if (showInBrowser)
-                {
-                    ShellUtils.GoUrl(editor.MarkdownDocument.HtmlRenderFilename);
-                    return;
-                }
-                else
-                {
-                    PreviewBrowser.Cursor = Cursors.None;
-                    PreviewBrowser.ForceCursor = true;
-                    if (keepScrollPosition)
-                    {
-                        string browserUrl = PreviewBrowser.Source.ToString().ToLower();
-                        string documentFile = "file:///" + editor.MarkdownDocument.HtmlRenderFilename.Replace('\\', '/').ToLower();
-                        if (browserUrl == documentFile)
+                        renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: !showInBrowser &&
+                                                                                                mmApp.Configuration
+                                                                                                    .PreviewSyncMode !=
+                                                                                                PreviewSyncMode.None);
+                        if (renderedHtml == null)
                         {
-                            dom = PreviewBrowser.Document;
-                            //var content = dom.getElementById("MainContent");
-                                                        
-
-                            renderedHtml = StringUtils.ExtractString(renderedHtml,
-                                "<!-- Markdown Monster Content -->",
-                                "<!-- End Markdown Monster Content -->");
-
-                            Debug.WriteLine("About to render HTML to browser...");
-
-                            if (string.IsNullOrEmpty(renderedHtml))
-                                PreviewMarkdown(editor, false, false); // fully reload document
-                            else
-                            {
-                                try
-                                {
-                                    // explicitly update the document with JavaScript code
-                                    // much more efficient and non-jumpy and no wait cursor
-                                    var window = dom.parentWindow;
-                                    window.updateDocumentContent(renderedHtml);
-                                    
-                                    try
-                                    {
-                                        // scroll preview to selected line
-                                        if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
-                                            mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
-                                        {
-                                            int lineno = editor.GetLineNumber();
-                                            if (lineno > -1)
-                                                window.scrollToPragmaLine(lineno);
-                                        }
-                                    }
-                                    catch { /* ignore scroll error */ }                                        
-                                }
-                                catch(Exception ex)
-                                {
-                                    PreviewBrowser.Refresh(true);                                   
-                                }
-                                
-                            }
-                            Debug.WriteLine("DONE to render HTML to browser...");
+                            SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
+                            ShowStatus($"Access denied: {Path.GetFileName(editor.MarkdownDocument.Filename)}", 5000);
+                            // need a way to clear browser window
 
                             return;
                         }
                     }
 
-                    PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
-                    return;
-                }
-            }
+                    if (showInBrowser)
+                    {
+                        ShellUtils.GoUrl(editor.MarkdownDocument.HtmlRenderFilename);
+                        return;
+                    }
+                    else
+                    {
+                        PreviewBrowser.Cursor = Cursors.None;
+                        PreviewBrowser.ForceCursor = true;
+                        if (keepScrollPosition)
+                        {
+                            string browserUrl = PreviewBrowser.Source.ToString().ToLower();
+                            string documentFile = "file:///" +
+                                                  editor.MarkdownDocument.HtmlRenderFilename.Replace('\\', '/')
+                                                      .ToLower();
+                            if (browserUrl == documentFile)
+                            {
+                                dom = PreviewBrowser.Document;
+                                //var content = dom.getElementById("MainContent");
 
-            ShowPreviewBrowser(true,keepScrollPosition);
+
+                                renderedHtml = StringUtils.ExtractString(renderedHtml,
+                                    "<!-- Markdown Monster Content -->",
+                                    "<!-- End Markdown Monster Content -->");
+
+                                if (string.IsNullOrEmpty(renderedHtml))
+                                    PreviewMarkdown(editor, false, false); // fully reload document
+                                else
+                                {
+                                    try
+                                    {
+                                        // explicitly update the document with JavaScript code
+                                        // much more efficient and non-jumpy and no wait cursor
+                                        var window = dom.parentWindow;
+                                        window.updateDocumentContent(renderedHtml);
+
+                                        try
+                                        {
+                                            // scroll preview to selected line
+                                            if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
+                                                mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
+                                            {
+                                                int lineno = editor.GetLineNumber();
+                                                if (lineno > -1)
+                                                    window.scrollToPragmaLine(lineno);
+                                            }
+                                        }
+                                        catch
+                                        {
+                                            /* ignore scroll error */
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        PreviewBrowser.Refresh(true);
+                                    }
+
+                                }
+
+                                return;
+                            }
+                        }
+
+                        PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
+                        return;
+                    }
+                }
+
+                ShowPreviewBrowser(true, keepScrollPosition);
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log("PreviewMarkdown failed (Exception captured - continuing)", ex);
+            }
         }
 
         
@@ -1388,6 +1413,8 @@ namespace MarkdownMonster
 
         #region StatusBar Display
 
+        private Timer statusTimer;
+
         public void ShowStatus(string message = null, int milliSeconds = 0)
         {
             if (message == null)
@@ -1400,7 +1427,8 @@ namespace MarkdownMonster
 
             if (milliSeconds > 0)
             {
-                var t = new Timer((object win) =>
+                statusTimer?.Dispose();
+                statusTimer = new Timer((object win) =>
                 {
                     var window = win as MainWindow;                    
                     window.Dispatcher.Invoke(() => {  window.ShowStatus(null, 0); } );
