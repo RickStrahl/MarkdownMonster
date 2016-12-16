@@ -430,7 +430,8 @@
         </Grid>
 
 
-        <StatusBar  Grid.Row ="3"  Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="12">
+        <StatusBar  Grid.Row ="3"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Stretch" FontSize="12">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -470,7 +471,8 @@
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="6">
-                <ComboBox  HorizontalAlignment="Right"  Width="125" ToolTip="Preview rendering theme"
+                <ComboBox  HorizontalAlignment="Right"  Width="125"
+                           ToolTip="Preview rendering theme"
                            SelectedItem="{Binding Configuration.RenderTheme}" 
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding RenderThemeNames}"
@@ -479,14 +481,13 @@
 
             </StatusBarItem>
             <StatusBarItem Grid.Column="7">
-                <ComboBox  HorizontalAlignment="Right"  Width="40" ToolTip="Preview sync mode"                            
+                <ComboBox  HorizontalAlignment="Right"  Width="44" ToolTip="Preview sync mode"                            
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,15,0"    
                            SelectedValue="{Binding Configuration.PreviewSyncMode}" 
-                           ItemsSource="{Binding PreviewSyncModeItems}"
+                           ItemsSource="{Binding PreviewSyncModeItems}"                           
                            DisplayMemberPath="IconString"
-                           SelectedValuePath="Value"
-                           FontFamily="FontAwesome"
-                           
+                           SelectedValuePath="Value" 
+                           FontFamily="FontAwesome" FontSize="11"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="RenderTheme_SelectionChanged">
                 </ComboBox>
