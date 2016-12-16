@@ -499,16 +499,9 @@ namespace MarkdownMonster
             Task.Run(() =>
             {
                 if (string.IsNullOrEmpty(filename))
-                {
-                    if (Filename == "untitled")
-                        return;
-
-                    filename = Path.Combine(
-                        Path.GetDirectoryName(Filename),
-                        Path.GetFileName(Filename) + ".saved.bak");
-                }
-                
-                if (filename == "untitled" || filename.Contains("saved.bak"))
+                    filename = BackupFilename;
+                                
+                if (Filename == "untitled" || Filename.Contains("saved.bak"))
                     return;
 
                 try
@@ -534,9 +527,7 @@ namespace MarkdownMonster
                 if (Filename == "untitled")
                     return;
 
-                filename = Path.Combine(
-                    Path.GetDirectoryName(Filename),
-                    Path.GetFileName(Filename) + ".saved.bak");
+                filename = BackupFilename;
             }
             
             try

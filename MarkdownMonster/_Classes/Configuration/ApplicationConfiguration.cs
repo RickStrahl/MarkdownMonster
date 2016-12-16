@@ -87,6 +87,12 @@ namespace MarkdownMonster
         private PreviewSyncMode _previewSyncMode;
 
         /// <summary>
+        /// If non-zero creates a backup in the number of minutes
+        /// specified. 0 turns this feature off.
+        /// </summary>
+        public bool AutoSaveBackups { get; set; }
+
+        /// <summary>
         /// The font used in the editor. Must be a proportional font
         /// </summary>
         public string EditorFont
@@ -237,12 +243,6 @@ namespace MarkdownMonster
         public bool RememberOpenFiles { get; set; }
 
         /// <summary>
-        /// If non-zero creates a backup in the number of minutes
-        /// specified. 0 turns this feature off.
-        /// </summary>
-        public bool AutoSaveBackups { get; set; } 
-
-        /// <summary>
         /// Determines whether Markdown Monster runs as a Singleton application.
         /// If true only a single instance runs and parameters are forwarded to
         /// open in the single instance.
@@ -351,8 +351,6 @@ namespace MarkdownMonster
         /// </summary>
         public bool DisableAddins { get; set; }
         
-
-        //internal string FileWatcherOpenFilePath;
 
         public ApplicationConfiguration()
         {
