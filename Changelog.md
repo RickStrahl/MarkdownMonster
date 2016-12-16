@@ -8,7 +8,10 @@
 * **Experimental Auto-Backup Implementation**
 We've implemented Auto-Backup for now behind a `AutoSaveBackups` configuration flag that defaults to `false`. When set MM creates a `*.save.bak` file that shadows the actual edited file. The file is updated whenever text changes and acts as a live backup in a crash. When the original file is reopened in the editor MM notices the backup file and opens both files for comparison.
 
-### Version 1.0.27
+* **Option to disable all Addin Loading**  
+You can now disable loading of all addins in Markdown Monster, which might be useful for debugging any load failures or to improve startup time. More of a debugging feature. Keep in mind that the ScreenCapture and Weblog features are implemented as addins and are not loaded when this option is enabled.
+
+### Version 1.0.26
 <i><small>December 13th, 2016</small></i>
 
 * **Print Preview Html**  
@@ -31,7 +34,7 @@ Fixed installer to provide proper Fontawesome font install.
 > * **Existing Addins removed**  
 > Due to the new Addin manager and install process addins now install into separate folders. If you have custom addins you've created or installed move them to a folder with a unique name and make sure the addin assembly is named with an `<addinName>Addin.dll` pattern. The **Weblog** and **ScreenCapture** addins are automatically installed into their respective folders by the newer version installer but all other addins need to be reinstalled or moved. 
 >
-> * **Path SNAFU**  
+> * **System PATH Bug**  
 > Earlier installations of MM appended the install path to the system path every time it was installed resulting in many MM path references. To clean up this accidental mess, we've provide a `FixSystemPath.ps1` you can run as administrator from a Powershell console to clean up the paths. We apologize for not catching this sooner. 
 
 ### Version 1.0.22
