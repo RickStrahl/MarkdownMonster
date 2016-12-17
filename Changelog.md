@@ -3,13 +3,16 @@
 # Markdown Monster Change Log
 
 ### Version 1.0.28
-<i><small>not released yet</small></i>
+<i><small>December 16th, 2016</small></i>
 
 * **Experimental Auto-Backup Implementation**
 We've implemented Auto-Backup for now behind a `AutoSaveBackups` configuration flag that defaults to `false`. When set MM creates a `*.save.bak` file that shadows the actual edited file. The file is updated whenever text changes and acts as a live backup in a crash. When the original file is reopened in the editor MM notices the backup file and opens both files for comparison.
 
 * **Option to disable all Addin Loading**  
 You can now disable loading of all addins in Markdown Monster, which might be useful for debugging any load failures or to improve startup time. More of a debugging feature. Keep in mind that the ScreenCapture and Weblog features are implemented as addins and are not loaded when this option is enabled.
+
+* **Fix Editor Focus Bug related to Preview**   
+Occasionally the editor refused to properly get focus as it got stuck in an endless Preview refresh loop. Fixed by properly reloading the entire page in the browser to ensure LoadCompleted is fired. Fixed.
 
 ### Version 1.0.26
 <i><small>December 13th, 2016</small></i>
