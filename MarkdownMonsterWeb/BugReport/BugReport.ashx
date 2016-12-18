@@ -71,7 +71,10 @@ public class BugReportService : CallbackHandler
         long cutoff = 100000;
         var fi = new FileInfo(filename);
         if (fi.Length < cutoff)
+        {
+            Response.Redirect("./");
             return true;
+        }
 
         using (MemoryStream ms = new MemoryStream((int)cutoff))
         {
@@ -88,6 +91,8 @@ public class BugReportService : CallbackHandler
             }
         }
 
+        Response.Redirect("./");
+
         return true;
     }
 
@@ -96,7 +101,7 @@ public class BugReportService : CallbackHandler
 public class Bug
 {
     public DateTime TimeStamp { get; set; }
-    public string Message { get; set; }    
+    public string Message { get; set; }
     public string Product { get; set; }
     public string Version { get; set; }
     public string WinVersion { get; set; }
@@ -105,7 +110,7 @@ public class Bug
 
 public class Telemetry
 {
-    public string Version { get; set; }    
+    public string Version { get; set; }
     public bool Registered { get; set; }
     public string Operation { get; set;  }
     public string Data { get; set; }
