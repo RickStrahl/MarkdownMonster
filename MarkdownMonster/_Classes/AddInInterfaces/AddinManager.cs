@@ -492,10 +492,31 @@ namespace MarkdownMonster.AddIns
                             DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
 
                             if (Directory.Exists(".\\Addins\\" + ai.id) ||
-                                Directory.Exists(".\\Addins\\Installs\\" + ai.id))
-                                ai.isInstalled = true;
+                                Directory.Exists(".\\Addins\\Install\\" + ai.id))
+                            {
+                                ai.isInstalled = true;                              
+                            }
 
-                            if (File.Exists(".\\Addins\\Installs\\" + ai.id + ".delete"))
+                            try
+                            {
+                                if (File.Exists(".\\Addins\\" + ai.id + "\\version.json"))
+                                {
+                                    var addinItem = JsonSerializationUtils.DeserializeFromFile(
+                                            ".\\Addins\\" + ai.id + "\\version.json", typeof(AddinItem), false)
+                                        as AddinItem;
+
+                                    if (addinItem != null && addinItem.version.CompareTo(ai.version) < 0)
+                                    {
+                                        ai.updateAvailable = true;
+                                        ai.installedVersion = addinItem.version;
+                                    }
+
+                                }
+                            }
+                            catch { }
+
+
+                            if (File.Exists(".\\Addins\\Install\\" + ai.id + ".delete"))
                                 ai.isInstalled = false;
                         }
                         catch (Exception ex)

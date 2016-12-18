@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
+
 using MarkdownMonster.Annotations;
 
 namespace MarkdownMonster.AddIns
@@ -127,6 +127,35 @@ namespace MarkdownMonster.AddIns
             }
         }
         private bool _isInstalled;
+
+
+        public bool updateAvailable
+        { 
+
+            get { return _updateAvailable; }
+            set
+            {
+                if (value == _updateAvailable) return;
+                _updateAvailable = value;
+                OnPropertyChanged();
+            }
+        }
+
+        
+
+        public string installedVersion
+        {
+            get { return _installedVersion; }
+            set
+            {
+                if (value == _installedVersion) return;
+                _installedVersion = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _installedVersion;
+
+        private bool _updateAvailable;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

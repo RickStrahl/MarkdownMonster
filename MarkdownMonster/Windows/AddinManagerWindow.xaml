@@ -45,6 +45,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Grid.Row="0"
@@ -53,7 +54,10 @@
                                             Text="{Binding name}" 
                                             FontWeight="Bold" Foreground="LightSteelBlue"  FontSize="16" />
 
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding updated,StringFormat='{}{0:MMM dd, yyyy}'}" 
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding version,StringFormat='v{0}'}" 
+                                                FontStyle="Italic" HorizontalAlignment="Right" Margin="0,8,7,0" />
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding updated,StringFormat='{}{0:MMM dd, yyyy}'}" 
                                                 FontStyle="Italic" HorizontalAlignment="Right" Margin="0,8,7,0" />
 
 
@@ -81,10 +85,19 @@
                             </StackPanel>
                         </Grid>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
+
+                            <TextBlock x:Name="TextInstalledVersion" FontStyle="Italic" Text="{Binding installedVersion, StringFormat='installed version: v{0}  '}" Margin="0,5,10,0"
+                                       Visibility="{Binding updateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            
                             <Button Name="ButtonInstall"  Height="20" 
                                     Content="Install" FontSize="8" Margin="0,0,10,10"  Width="90"
                                     Visibility="{Binding isInstalled, Converter={StaticResource InstallButtonConverter}}" 
+                                    Click="ButtonInstall_Click"/>
+
+                            <Button Name="ButtonUpdate"  Height="20" 
+                                    Content="Update" FontSize="8" Margin="0,0,10,10"  Width="90"
+                                    Visibility="{Binding updateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                     Click="ButtonInstall_Click"/>
 
                             <Button Name="ButtonUnInstall" Height="20"
