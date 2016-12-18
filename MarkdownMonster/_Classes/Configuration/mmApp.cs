@@ -72,8 +72,7 @@ namespace MarkdownMonster
 
                 var version = mmApp.GetVersion();
                 var winVersion = ComputerInfo.WinMajorVersion + "." + ComputerInfo.WinMinorVersion + "." +
-                                 ComputerInfo.WinBuildLabVersion + " - " + CultureInfo.CurrentUICulture.IetfLanguageTag;
-          
+                                 ComputerInfo.WinBuildLabVersion + " - " + CultureInfo.CurrentUICulture.IetfLanguageTag;          
 
                 ex = ex.GetBaseException();
                 exMsg =$@"
@@ -116,8 +115,9 @@ Markdown Monster v{version}
         /// <param name="ex"></param>
         /// <returns></returns>
         public static bool HandleApplicationException(Exception ex)
-        {            
-            mmApp.Log(ex);
+        {
+
+            mmApp.Log("Last Resort Handler", ex);
 
             var msg = string.Format("Yikes! Something went wrong...\r\n\r\n{0}\r\n\r\n" +
                 "The error has been recorded and written to a log file and you can\r\n" +
@@ -127,7 +127,7 @@ Markdown Monster v{version}
             var res = MessageBox.Show(msg, mmApp.ApplicationName + " Error",
                                                 MessageBoxButton.YesNo,
                                                 MessageBoxImage.Error);
-            mmApp.SendBugReport(ex);
+
 
             if (res.HasFlag(MessageBoxResult.No))
                 return false;
