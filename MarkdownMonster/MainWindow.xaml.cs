@@ -887,7 +887,7 @@ namespace MarkdownMonster
                     {
                         PreviewBrowser.Cursor = Cursors.None;
                         PreviewBrowser.ForceCursor = true;
-                        if (keepScrollPosition)
+                        if (keepScrollPosition && !mmApp.Configuration.AlwaysUsePreviewRefresh)
                         {
                             string browserUrl = PreviewBrowser.Source.ToString().ToLower();
                             string documentFile = "file:///" +
@@ -925,14 +925,14 @@ namespace MarkdownMonster
                                                     window.scrollToPragmaLine(lineno);
                                             }
                                         }
-                                        catch
-                                        {
-                                            /* ignore scroll error */
-                                        }
+                                        catch {/* ignore scroll error */}
                                     }
                                     catch (Exception ex)
                                     {
+                                        // Refresh doesn't fire Navigate event again so 
+                                        // the page is not getting initiallized properly
                                         //PreviewBrowser.Refresh(true);
+
                                         PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
                                     }
 
@@ -942,7 +942,9 @@ namespace MarkdownMonster
                             }
                         }
 
+                        PreviewBrowser.Tag = "EDITORSCROLL";
                         PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
+                        
                         return;
                     }
                 }
@@ -1490,10 +1492,12 @@ namespace MarkdownMonster
             // wbhandle has additional browser initialization code
             // using the WebBrowserHostUIHandler
             PreviewBrowser.LoadCompleted += (sender, e) =>
-            {
-                
+            {                
                 if (e.Uri.ToString().Contains("about:blank"))
                     return;
+
+                bool shouldScrollToEditor = PreviewBrowser.Tag != null && PreviewBrowser.Tag == "EDITORSCROLL";
+                PreviewBrowser.Tag = null;
 
                 dynamic window = null;
                 MarkdownDocumentEditor editor = null;
@@ -1504,7 +1508,25 @@ namespace MarkdownMonster
                     window = dom.parentWindow;
                     dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
 
-                    window.initializeinterop(editor);                                       
+                    window.initializeinterop(editor);
+
+
+                    if (shouldScrollToEditor)
+                    {
+                        try
+                        {
+                            // scroll preview to selected line
+                            if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
+                                mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
+                            {
+                                int lineno = editor.GetLineNumber();
+                                if (lineno > -1)
+                                    window.scrollToPragmaLine(lineno);
+                            }
+                        }
+                        catch
+                        { /* ignore scroll error */ }
+                    }
                 }
                 catch
                 {
@@ -1518,8 +1540,7 @@ namespace MarkdownMonster
                         {
                             mmApp.Log("Preview InitializeInterop failed", ex);
                         }
-
-                    } );
+                    });
                 }
             };
             PreviewBrowser.Navigate("about:blank");
