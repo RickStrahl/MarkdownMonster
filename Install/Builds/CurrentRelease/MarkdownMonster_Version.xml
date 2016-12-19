@@ -6,7 +6,7 @@
    <Detail>
 Recent versions have added a new Auto-backups, Addin manager, print output from Html preview, distraction free mode, a portable install, Vim and Emacs support, improved high DPI font scaling, improved native screen captures, support for pasting of images into the editor, support for multiple editor/preview sync modes and many small bug fixes and tweaks.
 
-If you're upgrading from a version prior to 0.57, we recommend that you completely uninstall Markdown Monster and reinstall the new version to clear out files that are no longer used. Your existing configuration files will be updated. Registered users will have to re-apply their registration key in this version due to a change in the key format for the release version.
+If you're upgrading from a version prior to 1.0, we recommend that you completely uninstall Markdown Monster and reinstall the new version to clear out files that are no longer used. Your existing configuration files will be updated. Registered users will have to re-apply their registration key in this version due to a change in the key format for the release version.
 
 For more detailed release info please see:
 https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md

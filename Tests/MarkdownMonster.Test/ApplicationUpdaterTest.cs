@@ -9,24 +9,6 @@ namespace MarkdownMonster.Test
     public class ApplicationUpdaterTest  {
 
         [TestMethod]
-        public void BugReportTest()
-        {
-            try
-            {
-                throw new ApplicationException("Error generated... Extended Chars ¢ /►₧ƒƒ");
-            }
-            catch (Exception ex)
-            {
-                mmApp.Log("BugReport Test Failure",ex);
-                //mmApp.SendBugReport(ex);
-            }
-            
-
-            // wait to allow thread to finish
-            Thread.Sleep(2000);
-        }
-
-        [TestMethod]
         public void CheckVersionFrequencyTest()
         {
             var updates = new ApplicationUpdates();
