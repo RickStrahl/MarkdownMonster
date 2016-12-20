@@ -377,7 +377,7 @@ namespace MarkdownMonster
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             CommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Markdown Monster");
 
-            PreviewSyncMode = PreviewSyncMode.EditorToPreview;
+            PreviewSyncMode = PreviewSyncMode.EditorAndPreview;
             AutoSaveBackups = true;
             AlwaysUsePreviewRefresh = false;
             
