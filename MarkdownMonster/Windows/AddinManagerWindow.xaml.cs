@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Annotations;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
@@ -138,6 +139,13 @@ namespace MarkdownMonster.Windows
             WindowUtilities.DoEvents();
         }
 
-     
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var addin = ListViewAddins.SelectedItem as AddinItem;
+            if (addin == null)
+                return;
+
+            ShellUtils.GoUrl(addin.gitUrl);
+        }
     }
 }
