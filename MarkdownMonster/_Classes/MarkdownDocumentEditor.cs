@@ -31,6 +31,7 @@
 */
 #endregion
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -128,7 +129,7 @@ namespace MarkdownMonster
         {
             if (string.IsNullOrEmpty(filename))
                 return;
-
+            
             EditorSyntax = "markdown";
 
             if (filename.ToLower() == "untitled")
@@ -464,8 +465,9 @@ namespace MarkdownMonster
         {
             if (AceEditor == null)
                 return -1;
-
-            return AceEditor.getLineNumber(false);
+            
+            int lineNo = AceEditor.getLineNumber(false);
+            return lineNo;
         }
 
         public void GotoLine(int line)
@@ -593,7 +595,7 @@ namespace MarkdownMonster
         public void PreviewMarkdownCallback()
         {
             GetMarkdown();                        
-            Window.PreviewMarkdownAsync(null,true);
+            Window.PreviewMarkdownAsync(keepScrollPosition: true);
         }
 
         /// <summary>

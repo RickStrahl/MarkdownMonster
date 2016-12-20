@@ -971,7 +971,7 @@ namespace MarkdownMonster
             {
                 invoked = current;
                 
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
                     new Action(() => {
                         try
                         {
@@ -1531,7 +1531,8 @@ namespace MarkdownMonster
                 }
                 catch
                 {
-                    Task.Delay(1500).ContinueWith(t =>
+                    // try again
+                    Task.Delay(200).ContinueWith(t =>
                     {
                         try
                         {
