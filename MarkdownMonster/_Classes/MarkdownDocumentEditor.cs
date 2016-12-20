@@ -530,7 +530,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Sets the Markdown Document as having changes
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">ignored</param>
         public bool SetDirty(bool value)
         {
              GetMarkdown();
@@ -540,6 +540,18 @@ namespace MarkdownMonster
             else
                 MarkdownDocument.IsDirty = false;
 
+            return MarkdownDocument.IsDirty;
+        }
+
+
+        /// <summary>
+        /// Determines whether current document is dirty and requires saving
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDirty()
+        {
+            GetMarkdown();
+            MarkdownDocument.IsDirty = MarkdownDocument.CurrentText != MarkdownDocument.OriginalText;
             return MarkdownDocument.IsDirty;
         }
 

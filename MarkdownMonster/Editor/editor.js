@@ -96,7 +96,8 @@ var te = window.textEditor = {
             "ctrl-shift-up": function() { te.specialkey("ctrl-shift-up"); },
             "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
             "ctrl-shift-v": function() { te.specialkey("ctrl-shift-v"); },
-            "ctrl-v": function() { te.mm.textbox.PasteOperation(); }
+            "ctrl-v": function () { te.mm.textbox.PasteOperation(); }
+
 
         });
 
@@ -143,45 +144,50 @@ var te = window.textEditor = {
         $("pre[lang]").on("keydown", keydownHandler);
 
 
+        var updateDocument = debounce(function () {
+            te.isDirty = te.mm.textbox.IsDirty();
+
+            te.mm.textbox.PreviewMarkdownCallback();
+            te.updateDocumentStats();
+        }, 1000);
+
         var keyupHandler = function keyUpHandler(e) {
             if (!te.mm)
                 return;
 
-            if (!te.isDirty) {
-                var keycode = e.keyCode;
-                //if (keycode == 13 ||   // cr
-                //    keycode == 8 ||    // backspace
-                //    keycode == 46 ||   // del                                
-                //    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
-                //    keycode == 222)   // single quote
-                //          te.mm.textbox.PreviewMarkdownCallback();
+            //if (!te.isDirty) { 
+                //te.isDirty = te.mm.textbox.IsDirty();
 
-                var valid =
-                    (e.keycode > 47 && keycode < 58) || // number keys
-                        keycode == 32 ||
-                        keycode == 13 || // spacebar & return key(s) 
-                        (keycode > 64 && keycode < 91) || // letter keys
-                        (keycode > 95 && keycode < 112) || // numpad keys  
-                        (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
-                        (keycode > 218 && keycode < 223) || // [\]' (in order)
-                        (keycode == 8 || keycode == 9 || keycode == 46);
-                // backspace, tab -> handled in key up
 
-                if (valid)
-                    te.isDirty = te.mm.textbox.setDirty(true);
-            }
+                    //var keycode = e.keyCode;
+                ////if (keycode == 13 ||   // cr
+                ////    keycode == 8 ||    // backspace
+                ////    keycode == 46 ||   // del                                
+                ////    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
+                ////    keycode == 222)   // single quote
+                ////          te.mm.textbox.PreviewMarkdownCallback();
+
+                //var valid =
+                //    (e.keycode > 47 && keycode < 58) || // number keys
+                //        keycode == 32 ||
+                //        keycode == 13 || // spacebar & return key(s) 
+                //        (keycode > 64 && keycode < 91) || // letter keys
+                //        (keycode > 95 && keycode < 112) || // numpad keys  
+                //        (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
+                //        (keycode > 218 && keycode < 223) || // [\]' (in order)
+                //        (keycode == 8 || keycode == 9 || keycode == 46);
+                //// backspace, tab -> handled in key up
+
+                //if (valid)
+                //    te.isDirty = te.mm.textbox.SetDirty(true);
+            //}
 
             updateDocument();
 
             //if (te.isspellcheckingenabled)
             //    sc.spellCheck();
 
-        }
-        var updateDocument = debounce(function() {
-                te.mm.textbox.PreviewMarkdownCallback();
-                te.updateDocumentStats();
-            },
-            1000);
+        }       
         $("pre[lang]").on("keyup", keyupHandler);
 
 
