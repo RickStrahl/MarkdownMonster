@@ -54,9 +54,7 @@ namespace MarkdownMonster
         /// <param name="ex"></param>
         public static void Log(Exception ex)
         {
-            ex = ex.GetBaseException();
-            var msg = ex.Message;
-
+            ex = ex.GetBaseException();            
             Log(ex.Message,ex);
         }
 
@@ -69,10 +67,11 @@ namespace MarkdownMonster
             string exMsg = string.Empty;
             if (ex != null)
             {
-
                 var version = mmApp.GetVersion();
                 var winVersion = ComputerInfo.WinMajorVersion + "." + ComputerInfo.WinMinorVersion + "." +
-                                 ComputerInfo.WinBuildLabVersion + " - " + CultureInfo.CurrentUICulture.IetfLanguageTag;          
+                                 ComputerInfo.WinBuildLabVersion + " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
+                                 " - " +
+                                 (Environment.Is64BitProcess ? "64 bit" : "32 bit");
 
                 ex = ex.GetBaseException();
                 exMsg =$@"
