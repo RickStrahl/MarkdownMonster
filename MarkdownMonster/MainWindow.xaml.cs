@@ -28,6 +28,7 @@ using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -818,9 +819,10 @@ namespace MarkdownMonster
         }
 
         // IMPORTANT: for browser COM CSE errors which can happen with script errors
-        [HandleProcessCorruptedStateExceptions]  
+        [HandleProcessCorruptedStateExceptions]
+        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false)
-        {
+        {            
             try
             {
                 // only render if the preview is actually visible and rendering in Preview Browser
@@ -932,10 +934,9 @@ namespace MarkdownMonster
                                         // Refresh doesn't fire Navigate event again so 
                                         // the page is not getting initiallized properly
                                         //PreviewBrowser.Refresh(true);
-
+                                        PreviewBrowser.Tag = "EDITORSCROLL";
                                         PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
                                     }
-
                                 }
 
                                 return;
@@ -1109,7 +1110,7 @@ namespace MarkdownMonster
             {
                 var form = new AddinManagerWindow();
                 form.Owner = this;
-                form.ShowDialog();
+                form.Show();
             }
             else if (button == MenuOpenConfigFolder)
             {
@@ -1487,6 +1488,7 @@ namespace MarkdownMonster
 
         #region Preview Browser Operation
 
+        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         private void InitializePreviewBrowser()
         {
             // wbhandle has additional browser initialization code
@@ -1510,7 +1512,6 @@ namespace MarkdownMonster
 
                     window.initializeinterop(editor);
 
-
                     if (shouldScrollToEditor)
                     {
                         try
@@ -1521,7 +1522,7 @@ namespace MarkdownMonster
                             {
                                 int lineno = editor.GetLineNumber();
                                 if (lineno > -1)
-                                    window.scrollToPragmaLine(lineno);
+                                    window.scrollToPragmaLine(lineno);                                
                             }
                         }
                         catch
