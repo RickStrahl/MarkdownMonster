@@ -2,6 +2,27 @@
 
 # Markdown Monster Change Log
 
+### Version 1.0.30
+<i><small>December 20th, 2016</small></i>
+
+* **Switch Exe to 32 bit Application**  
+Switched MM to run under 32 bit, which is faster and more reliable in the COM Automation tasks used to interact with the WebBrowser controls used in MM. Editor performance should be slightly improved and preview syncing should be considerably more reliable.
+
+* **Improved Dirty Document Handling**   
+Dirty document detection (* next to file name) now properly checks actual file content rather than just scanning for doc changes. Document status is reliably updated and back up files are kept more up to do date with backup files deleted once document is no longer dirty.
+
+* **Preview Sync Enhancements**  
+Add a number of optimizations and tweaks to the preview sync functionality to provide more consistent cursor location for editor->preview syncing. 32 bit helped significantly here and also added additional logic to find lines by reading forwards and backwards to find a close location match.
+
+* **Add `<loadFromRemoteSource>` to Config**   
+Add this configuration option to allow addins to be loaded from network or non-installed locations. This makes it possible for a portable MM install to run off a network drive which was previously failing to load addins.
+
+* **Addin Dialog Improvements**  
+The addin dialog is now modeless and can run in the background. Add in listings now show a 'more info' link to take to GitHub site of publisher.
+
+* **Logging Improvements**   
+Log now properly marks the last chance exception handler (DispatcherUnhandledException) to log this info - these are typically unrecoverable errors and are now identified more clearly (and can hopefully be addressed more urgently).
+
 ### Version 1.0.28
 <i><small>December 16th, 2016</small></i>
 
