@@ -93,18 +93,31 @@ function updateDocumentContent(html) {
 }
 
 function scrollToPragmaLine(lineno) {
+    //status("line:  " + lineno);
     if (lineno < 0) return;
-
+    
     setTimeout(function () {
         try {
             var $el = $("#pragma-line-" + lineno);
             if ($el.length < 1) {
-                for (var i = 0; i < 5; i++) {
-                    lineno--;
+                var origLine = lineno;
+                for (var i = 0; i < 3; i++) {
+                    lineno++;
                     $el = $("#pragma-line-" + lineno);
                     if ($el.length > 0)
-                        return;
+                        break;
                 }
+                if ($el.length < 1) {
+                    lineno = origLine;
+                    for (var i = 0; i < 3; i++) {
+                        lineno--;
+                        $el = $("#pragma-line-" + lineno);
+                        if ($el.length > 0)
+                            break;
+                    }
+                }
+                if ($el.length < 1)
+                    return;
             }
 
             te.codeScrolled = new Date().getTime();
