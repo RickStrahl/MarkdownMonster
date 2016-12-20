@@ -6,12 +6,14 @@
 var te = window.textEditor = {
     mm: null, // FoxPro COM object
     editor: null, // Ace Editor instance
+    previewRefresh: 800,
     settings: editorSettings,
     lastError: null,
     dic: null,
     aff: null,
     isDirty: false,
     mousePos: { column: 0, row: 0 },
+
     initialize: function() {
 
         // attach ace to formatted code controls if they are loaded and visible
@@ -141,7 +143,7 @@ var te = window.textEditor = {
                 te.updateDocumentStats();
             }
         };
-        $("pre[lang]").on("keydown", keydownHandler);
+        //$("pre[lang]").on("keydown", keydownHandler);
 
 
         var updateDocument = debounce(function () {
@@ -149,7 +151,7 @@ var te = window.textEditor = {
 
             te.mm.textbox.PreviewMarkdownCallback();
             te.updateDocumentStats();
-        }, 1000);
+        }, te.previewRefresh);
 
         var keyupHandler = function keyUpHandler(e) {
             if (!te.mm)
@@ -297,8 +299,10 @@ var te = window.textEditor = {
     getLineNumber: function(ignored) {
         var selectionRange = te.editor.getSelectionRange();
         if (!selectionRange) {
-            status("no selection range...");    return -1;}
-        return selectionRange.start.row;
+            status("no selection range...");
+            return -1;
+        }        
+        return Math.floor(selectionRange.start.row);
     },
     gotfocus: function (ignored) {
         te.setfocus();
