@@ -2,7 +2,7 @@
 
 # Markdown Monster Change Log
 
-### Version 1.0.30
+### Version 1.0.30 
 <i><small>December 20th, 2016</small></i>
 
 * **Switch Exe to 32 bit Application**  

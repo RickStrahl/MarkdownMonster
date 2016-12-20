@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>MarkdownMonster</id>
-    <version>1.0.28</version>
+    <version>1.0.30</version>
     <title>Markdown Monster</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
     <owners>West Wind Technologies</owners>
@@ -20,7 +20,7 @@ Markdown Monster can be downloaded and evaluated for free and this package is un
     </description>
     <summary>Markdown Monster is an easy to use and extensible Markdown editor, viewer and Weblog publisher</summary>
     <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>
-    <copyright>West Wind Technologies, 2016</copyright>
+    <copyright>West Wind Technologies, 2016-2017</copyright>
     <tags>markdown text editor weblog publishing blog admin</tags>
     <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
     <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
