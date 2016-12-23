@@ -13,7 +13,8 @@
         Name="MainApplicationWindow"                      
         Title="Markdown Monster" TitleCaps="False"         
         Icon="Assets\MarkdownMonster_Icon_256.png"
-        GlowBrush="Black"                              
+        BorderThickness="0" 
+        GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"
         Height="740" Width="1200" WindowTransitionsEnabled="False">
     <Window.InputBindings>
