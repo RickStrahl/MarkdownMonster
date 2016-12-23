@@ -1487,8 +1487,7 @@ namespace MarkdownMonster
         #endregion
 
         #region Preview Browser Operation
-
-        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
+        
         private void InitializePreviewBrowser()
         {
             // wbhandle has additional browser initialization code
@@ -1545,7 +1544,7 @@ namespace MarkdownMonster
                     });
                 }
             };
-            PreviewBrowser.Navigate("about:blank");
+            //PreviewBrowser.Navigate("about:blank");
         }
         #endregion
     }
