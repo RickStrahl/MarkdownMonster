@@ -2,10 +2,10 @@ html, body {
     color: #eee;
     background: #303030;       
     font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    text-shadow: 1px 1px 3px black;
-    font-size: 19px;    
+    text-shadow: 1px 1px 2px black;
+    font-size: 17px;    
     height: 100%;    
-    line-height: 1.45em;
+    line-height: 1.42em;
     padding: 5px 20px 5px 17px !important;
     margin: 0;
 
@@ -151,6 +151,6 @@ hr{
 
 @media(min-width: 1080px){
     html,body{
-        font-size: 1.2em;
+        font-size: 1.1em;
     }
 }
