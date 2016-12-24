@@ -335,7 +335,8 @@ namespace WeblogAddin
             if (string.IsNullOrEmpty(meta.WeblogName))
                 meta.WeblogName = "Name of registered blog to post to";
             
-            return
+
+            string post =
                 $@"# {meta.Title}
 
 {meta.MarkdownBody}
@@ -366,7 +367,16 @@ namespace WeblogAddin
 ```
 -->
 <!-- End Post Configuration -->
-";                        
+";
+
+            if (WeblogAddinConfiguration.Current.AddFrontMatterToNewBlogPost)
+            {
+
+                post = String.Format(WeblogAddinConfiguration.Current.FrontMatterTemplate + post, 
+                meta.Title,DateTime.Now);
+            }
+
+            return post;
         }
 
         public void CreateNewPostOnDisk(string title, string postFilename, string weblogName)

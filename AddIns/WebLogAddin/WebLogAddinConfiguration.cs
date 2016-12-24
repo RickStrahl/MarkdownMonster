@@ -56,6 +56,8 @@ namespace WeblogAddin
 
     public class WeblogAddinConfiguration : AppConfiguration, INotifyPropertyChanged
     {
+
+
         public static WeblogAddinConfiguration Current;
 
         static WeblogAddinConfiguration()
@@ -67,6 +69,14 @@ namespace WeblogAddin
         public WeblogAddinConfiguration()
         {
             Weblogs = new Dictionary<string, WeblogInfo>();
+
+            FrontMatterTemplate = @"---
+Title: {0}
+Published: {1:dd/MM/yyyy}
+Tags:
+- Keyword1
+---
+";
         }
 
 
@@ -140,7 +150,37 @@ namespace WeblogAddin
         }
         private bool _RenderLinksOpenExternal = true;
 
+        private bool _addFrontMatterToNewBlogPost;
+
+        /// <summary>
+        /// If true adds a Front Matter header to the beginning of new blog posts
+        /// using the FrontMatterTemplate.
+        /// </summary>
+        public bool AddFrontMatterToNewBlogPost
+        {
+            get { return _addFrontMatterToNewBlogPost; }
+            set
+            {
+                if (_addFrontMatterToNewBlogPost == value) return;
+                _addFrontMatterToNewBlogPost = value;
+                OnPropertyChanged(nameof(AddFrontMatterToNewBlogPost));
+            }
+        }
+
         
+
+        public string FrontMatterTemplate
+        {
+            get { return _frontMatterTemplate; }
+            set
+            {
+                if (_frontMatterTemplate == value) return;
+                _frontMatterTemplate = value;
+                OnPropertyChanged(nameof(FrontMatterTemplate));
+            }
+        }
+        private string _frontMatterTemplate;
+
         protected override IConfigurationProvider OnCreateDefaultProvider(string sectionName, object configData)
         {
             var provider = new JsonFileConfigurationProvider<WeblogAddinConfiguration>()
