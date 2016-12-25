@@ -40,6 +40,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using System.Windows.Threading;
 using Dragablz;
 using FontAwesome.WPF;
@@ -1492,60 +1493,65 @@ namespace MarkdownMonster
         {
             // wbhandle has additional browser initialization code
             // using the WebBrowserHostUIHandler
-            PreviewBrowser.LoadCompleted += (sender, e) =>
-            {                
-                if (e.Uri.ToString().Contains("about:blank"))
-                    return;
-
-                bool shouldScrollToEditor = PreviewBrowser.Tag != null && PreviewBrowser.Tag == "EDITORSCROLL";
-                PreviewBrowser.Tag = null;
-
-                dynamic window = null;
-                MarkdownDocumentEditor editor = null;
-                try
-                {
-                    editor = GetActiveMarkdownEditor();
-                    dynamic dom = PreviewBrowser.Document;
-                    window = dom.parentWindow;
-                    dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
-
-                    window.initializeinterop(editor);
-
-                    if (shouldScrollToEditor)
-                    {
-                        try
-                        {
-                            // scroll preview to selected line
-                            if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
-                                mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
-                            {
-                                int lineno = editor.GetLineNumber();
-                                if (lineno > -1)
-                                    window.scrollToPragmaLine(lineno);                                
-                            }
-                        }
-                        catch
-                        { /* ignore scroll error */ }
-                    }
-                }
-                catch
-                {
-                    // try again
-                    Task.Delay(200).ContinueWith(t =>
-                    {
-                        try
-                        {
-                            window.initializeinterop(editor);
-                        }
-                        catch (Exception ex)
-                        {
-                            mmApp.Log("Preview InitializeInterop failed", ex);
-                        }
-                    });
-                }
-            };
+            PreviewBrowser.LoadCompleted += PreviewBrowserOnLoadCompleted;
             //PreviewBrowser.Navigate("about:blank");
         }
+
+
+        private void PreviewBrowserOnLoadCompleted(object sender, NavigationEventArgs e)
+        {
+            if (e.Uri.ToString().Contains("about:blank"))
+                return;
+
+            bool shouldScrollToEditor = PreviewBrowser.Tag != null && PreviewBrowser.Tag.ToString() == "EDITORSCROLL";
+            PreviewBrowser.Tag = null;
+
+            dynamic window = null;
+            MarkdownDocumentEditor editor = null;
+            try
+            {
+                editor = GetActiveMarkdownEditor();
+                dynamic dom = PreviewBrowser.Document;
+                window = dom.parentWindow;
+                dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
+
+                window.initializeinterop(editor);
+
+                if (shouldScrollToEditor)
+                {
+                    try
+                    {
+                        // scroll preview to selected line
+                        if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview || mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
+                        {
+                            int lineno = editor.GetLineNumber();
+                            if (lineno > -1)
+                                window.scrollToPragmaLine(lineno);
+                        }
+                    }
+                    catch
+                    {
+                        /* ignore scroll error */
+                    }
+                }
+            }
+            catch
+            {
+                // try again
+                Task.Delay(500).ContinueWith(t =>
+                {
+                    try
+                    {
+                        window.initializeinterop(editor);
+                    }
+                    catch (Exception ex)
+                    {
+                        mmApp.Log("Preview InitializeInterop failed", ex);
+                    }
+                });
+            }
+        }
+
         #endregion
     }
 
