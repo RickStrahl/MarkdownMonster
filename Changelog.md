@@ -2,6 +2,12 @@
 
 # Markdown Monster Change Log
 
+### Version 1.0.31
+<i><small>not released yet</small></i>
+
+* **Add Front Matter to new Blog Post**   
+Weblog Addin configuration option `AddFrontMatterToNewBlogPost` and `FrontMatterTemplate` that is prepended to the beginning of a post. 
+
 ### Version 1.0.30 
 <i><small>December 20th, 2016</small></i>
 
