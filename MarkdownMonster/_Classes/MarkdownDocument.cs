@@ -39,6 +39,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Newtonsoft.Json;
 
 namespace MarkdownMonster
@@ -125,6 +126,8 @@ namespace MarkdownMonster
             }
         }
 
+        [JsonIgnore]
+        public bool AutoSaveDocuments { get; set; }
 
         /// <summary>
         /// Determines whether backups are automatically saved
@@ -230,7 +233,7 @@ namespace MarkdownMonster
                 _currentText = value;
 
                 if (isDirty)
-                    CreateBackupFileAsync();
+                    AutoSaveAsync();
             }
         }
         private string _currentText;
@@ -238,7 +241,15 @@ namespace MarkdownMonster
         [JsonIgnore]
         public string OriginalText { get; set; }
 
+        [JsonIgnore]
+        public Dispatcher Dispatcher { get; set; }
+
         #region Read and Write Files
+
+        public MarkdownDocument()
+        {
+            
+        }
 
         /// <summary>
         /// Loads the markdown document into the CurrentText
@@ -264,6 +275,7 @@ namespace MarkdownMonster
                 CurrentText = File.ReadAllText(filename,Encoding);
                 OriginalText = CurrentText;
                 AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
+                AutoSaveDocuments = mmApp.Configuration.AutoSaveDocuments;
             }
             catch
             {
@@ -273,28 +285,41 @@ namespace MarkdownMonster
             return true;
         }
 
+        private object _SaveLock = new object();
+        private bool _IsSaving = false;
+
         /// <summary>
         /// Saves the CurrentText into the specified filename
         /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public bool Save(string filename = null)
+        /// <param name="filename">filename to save (optional)</param>
+        /// <param name="noBackupFileCleanup">if true doesn't delete backup files that might exist</param>
+        /// <returns>true or false (no exceptions on failure)</returns>
+        public bool Save(string filename = null, bool noBackupFileCleanup = false)
         {
             if (string.IsNullOrEmpty(filename))
                 filename = Filename;
 
             try
             {                
-                File.WriteAllText(filename, CurrentText, Encoding);
-                IsDirty = false;
-                OriginalText = CurrentText;
+                lock (_SaveLock)
+                {
+                    _IsSaving = true;
 
-                UpdateCrc(filename);
+                    File.WriteAllText(filename, CurrentText, Encoding);
+                    OriginalText = CurrentText;
 
-                CleanupBackupFile();
+                    UpdateCrc(filename);
+
+                    if (!noBackupFileCleanup)
+                        CleanupBackupFile();
+
+                    IsDirty = false;
+
+                    _IsSaving = false;
+                }                
             }
             catch
-            {
+            {                
                 return false;
             }
 
@@ -315,7 +340,7 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Output routWrites the file with a hidden attribute
+        /// Writes the file with a retry
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="html"></param>
@@ -348,6 +373,170 @@ namespace MarkdownMonster
             return true;
         }
 
+        #endregion
+
+        #region Auto-Save Backups
+
+        /// <summary>
+        /// Creates a backup file
+        /// </summary>
+        /// <param name="filename"></param>
+        public void AutoSaveAsync(string filename = null)
+        {                    
+            if (AutoSaveDocuments)
+            {
+                if (_IsSaving)
+                    return;
+
+                Task.Run(() =>
+                {                    
+                    filename = Filename;
+
+                    if (filename == "untitled")
+                        return;
+
+                    try
+                    {
+                        lock (_SaveLock)
+                        {
+                            File.WriteAllText(filename, CurrentText, Encoding);
+                            OriginalText = CurrentText;
+                            UpdateCrc(filename);
+
+                            if (Dispatcher != null)
+                                // need dispatcher in order to handle the 
+                                // hooked up OnPropertyChanged events that fire
+                                // on the UI which otherwise fail.
+                                Dispatcher.InvokeAsync(() => { IsDirty = false; });
+                            else
+                                    IsDirty = false;
+                        }
+                    }
+                    catch
+                    {
+                        /* ignore save error, write next cycle */
+                    }
+                });                
+            }
+            else if (AutoSaveBackups)
+            {
+                // fire and forget
+                Task.Run(() =>
+                {
+                    if (string.IsNullOrEmpty(filename))
+                        filename = BackupFilename;
+
+                    if (Filename == "untitled" || Filename.Contains("saved.bak"))
+                        return;
+
+                    try
+                    {
+                        File.WriteAllText(filename, CurrentText, Encoding);
+                    }
+                    catch
+                    { /* ignore save error, write next cycle */ }                
+                });
+            }
+        }
+
+        /// <summary>
+        /// Cleans up the backup file and removes the timer
+        /// </summary>
+        /// <param name="filename"></param>
+        public void CleanupBackupFile(string filename = null)
+        {
+            if (!AutoSaveBackups)
+                return;
+
+            if (string.IsNullOrEmpty(filename))
+            {
+                if (Filename == "untitled")
+                    return;
+
+                filename = BackupFilename;
+            }
+            
+            try
+            {
+                File.Delete(filename);
+            }
+            catch { }
+        }
+        
+        /// <summary>
+        ///  Checks to see whether there's a backup file present
+        /// </summary>
+        /// <returns></returns>
+        public bool HasBackupFile()
+        {
+            return Filename != "untitled" && File.Exists(BackupFilename);
+        }
+
+        #endregion
+
+        #region File Information Manipulation
+
+        /// <summary>
+        /// Stores the CRC of the file as currently exists on disk
+        /// </summary>
+        /// <param name="filename"></param>
+        public void UpdateCrc(string filename = null)
+        {
+            if (filename == null)
+                filename = Filename;
+
+            FileCrc = mmFileUtils.GetChecksumFromFile(filename);
+        }
+
+
+        /// <summary>
+        /// Checks to see if the CRC has changed
+        /// </summary>
+        /// <returns></returns>
+        public bool HasFileCrcChanged()
+        {
+            if (string.IsNullOrEmpty(Filename) || !File.Exists(Filename) || string.IsNullOrEmpty(FileCrc))            
+                return false;
+            
+            var crcNow = mmFileUtils.GetChecksumFromFile(Filename);
+            return crcNow != FileCrc;
+        }
+
+
+        /// <summary>
+        /// Determines whether text has changed from original.
+        /// 
+        /// This method exists to explicitly check the dirty
+        /// state which can be set from a number of sources.
+        /// </summary>
+        /// <param name="currentText">Text to compare to original text. If omitted uses CurrentText property to compare</param>
+        /// <returns></returns>
+        public bool HasFileChanged(string currentText = null)
+        {
+            if (currentText != null)
+                CurrentText = currentText;
+
+            IsDirty = CurrentText != OriginalText;
+            return IsDirty;
+        }
+
+        /// <summary>
+        /// Retrieve the file encoding for a given file so we can capture
+        /// and store the Encoding when writing the file back out after
+        /// editing.
+        /// 
+        /// Default is Utf-8 (w/ BOM). If file without BOM is read it is
+        /// assumed it's UTF-8.
+        /// </summary>
+        /// <param name="srcFile"></param>
+        /// <returns></returns>
+        public void GetFileEncoding(string filename = null)
+        {
+            if (filename == null)
+                filename = Filename;
+                  
+            Encoding = mmFileUtils.GetFileEncoding(filename);
+        }
         #endregion
 
         #region Output Generation
@@ -408,142 +597,13 @@ namespace MarkdownMonster
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
             var html = themeHtml.Replace("{$themePath}", themePath)
-                                .Replace("{$docPath}", docPath)
-                                .Replace("{$markdownHtml}", markdownHtml);
+                .Replace("{$docPath}", docPath)
+                .Replace("{$markdownHtml}", markdownHtml);
 
             if (!WriteFile(filename, html))
                 return null;
 
             return html;
-        }
-        #endregion
-
-
-        #region File Information Manipulation
-
-        /// <summary>
-        /// Stores the CRC of the file as currently exists on disk
-        /// </summary>
-        /// <param name="filename"></param>
-        public void UpdateCrc(string filename = null)
-        {
-            if (filename == null)
-                filename = Filename;
-
-            FileCrc = mmFileUtils.GetChecksumFromFile(filename);
-        }
-
-
-        /// <summary>
-        /// Checks to see if the CRC has changed
-        /// </summary>
-        /// <returns></returns>
-        public bool HasFileCrcChanged()
-        {
-            if (string.IsNullOrEmpty(Filename) || !File.Exists(Filename) || string.IsNullOrEmpty(FileCrc))            
-                return false;
-            
-            var crcNow = mmFileUtils.GetChecksumFromFile(Filename);
-            return crcNow != FileCrc;
-        }
-
-
-        /// <summary>
-        /// Determines whether text has changed from original.
-        /// </summary>
-        /// <param name="currentText">Text to compare to original text. If omitted uses CurrentText property to compare</param>
-        /// <returns></returns>
-        public bool HasFileChanged(string currentText = null)
-        {
-            if (currentText != null)
-                CurrentText = currentText;
-
-            IsDirty = CurrentText != OriginalText;
-            return IsDirty;
-        }
-
-        /// <summary>
-        /// Retrieve the file encoding for a given file so we can capture
-        /// and store the Encoding when writing the file back out after
-        /// editing.
-        /// 
-        /// Default is Utf-8 (w/ BOM). If file without BOM is read it is
-        /// assumed it's UTF-8.
-        /// </summary>
-        /// <param name="srcFile"></param>
-        /// <returns></returns>
-        public void GetFileEncoding(string filename = null)
-        {
-            if (filename == null)
-                filename = Filename;
-                  
-            Encoding = mmFileUtils.GetFileEncoding(filename);
-        }
-        #endregion
-
-  
-
-        #region Auto-Save Backups
-
-
-        /// <summary>
-        /// Creates a backup file
-        /// </summary>
-        /// <param name="filename"></param>
-        public void CreateBackupFileAsync(string filename = null)
-        {
-            if (!AutoSaveBackups)
-                return;
-
-            // fire and forget
-            Task.Run(() =>
-            {
-                if (string.IsNullOrEmpty(filename))
-                    filename = BackupFilename;
-                                
-                if (Filename == "untitled" || Filename.Contains("saved.bak"))
-                    return;
-
-                try
-                {
-                    File.WriteAllText(filename, CurrentText, Encoding);                    
-                }
-                catch
-                { }
-            });
-        }
-
-        /// <summary>
-        /// Cleans up the backup file and removes the timer
-        /// </summary>
-        /// <param name="filename"></param>
-        public void CleanupBackupFile(string filename = null)
-        {
-            if (!AutoSaveBackups)
-                return;
-
-            if (string.IsNullOrEmpty(filename))
-            {
-                if (Filename == "untitled")
-                    return;
-
-                filename = BackupFilename;
-            }
-            
-            try
-            {
-                File.Delete(filename);
-            }
-            catch { }
-        }
-        
-        /// <summary>
-        ///  Checks to see whether there's a backup file present
-        /// </summary>
-        /// <returns></returns>
-        public bool HasBackupFile()
-        {
-            return Filename != "untitled" && File.Exists(BackupFilename);
         }
         #endregion
 
