@@ -106,9 +106,9 @@ hr{
     width: 1px; 
 }
 .line-highlight {
-    background: #ffe9ec;
+    background: #f5f5f5;
+    border-radius: 3px;
 }
-
 @media(min-width: 1080px){
     html,body{
         font-size: 1.08em;

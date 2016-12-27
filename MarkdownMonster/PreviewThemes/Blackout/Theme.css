@@ -147,6 +147,8 @@ hr{
 }
 .line-highlight {
     background: steelblue !important;
+    border-radius: 3px;
+}
 }
 
 @media(min-width: 1080px){

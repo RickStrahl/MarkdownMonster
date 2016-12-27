@@ -141,7 +141,7 @@ tbody>tr:nth-child(even) {
     width: 1px; 
 }
 .line-highlight {
-    background: #eee;
+    background: #f5f5f5;
     border-radius: 3px;
 }
 
