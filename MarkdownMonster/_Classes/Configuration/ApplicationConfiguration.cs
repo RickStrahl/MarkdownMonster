@@ -32,7 +32,6 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(ApplicationTheme));
             }
         }
-
         private Themes _applicationTheme;
 
 
@@ -317,6 +316,19 @@ namespace MarkdownMonster
         [JsonIgnore]
         public string CommonFolder { get; set;  }
 
+        [JsonIgnore]
+        internal string AddinsFolder
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_AddinsFolder))
+                    _AddinsFolder = Path.Combine(CommonFolder, "Addins");
+                return _AddinsFolder;
+            }
+        }
+        private string _AddinsFolder;
+
+        
 
         /// <summary>
         /// Command Processing for OpenFolder
@@ -453,6 +465,8 @@ namespace MarkdownMonster
                 if (!Directory.Exists(Path.GetDirectoryName(provider.JsonConfigurationFile)))
                     Directory.CreateDirectory(Path.GetDirectoryName(provider.JsonConfigurationFile));
             }
+           if (!Directory.Exists(AddinsFolder))
+                Directory.CreateDirectory(AddinsFolder);
 
             return provider;
         }

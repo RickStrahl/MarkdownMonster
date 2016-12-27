@@ -216,7 +216,10 @@ namespace MarkdownMonster
 
                     try
                     {
-                        AddinManager.Current.LoadAddins();
+                        AddinManager.Current.LoadAddins(Path.Combine(Environment.CurrentDirectory, "AddIns"));
+                        AddinManager.Current.LoadAddins(mmApp.Configuration.AddinsFolder);
+
+
                         AddinManager.Current.RaiseOnApplicationStart();
                     }
                     catch (Exception ex)

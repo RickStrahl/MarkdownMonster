@@ -2,7 +2,7 @@
 
 # Markdown Monster Change Log
 
-### Version 1.0.31
+### Version 1.0.32
 <i><small>not released yet</small></i>
 
 * **Auto Save Documents**   
@@ -13,6 +13,9 @@ This new configuration setting determines the number of open documents to rememb
 
 * **Add Front Matter to new Blog Post**   
 Weblog Addin configuration option `AddFrontMatterToNewBlogPost` and `FrontMatterTemplate` that is prepended to the beginning of a post.
+
+* **Addins now install to %AppData% Folder**  
+Addins now install to the `%AppData%\Markdown Monster\Addins` folder to make it easier for the Portable version to use Addins without requiring special permissions.
 
 ### Version 1.0.30 
 <i><small>December 20th, 2016</small></i>

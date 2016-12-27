@@ -318,9 +318,8 @@ namespace MarkdownMonster.AddIns
         /// <summary>
         /// Loads add-ins into the application from the add-ins folder
         /// </summary>
-        internal void LoadAddins()
-        {
-            string addinPath = Path.Combine(Environment.CurrentDirectory, "AddIns");
+        internal void LoadAddins(string addinPath)
+        {            
             if (!Directory.Exists(addinPath))
                 return;
 
@@ -328,10 +327,28 @@ namespace MarkdownMonster.AddIns
             // TODO: Remove after a few months
             try
             {
-                var files = Directory.GetFiles(addinPath);
+                var files = Directory.GetFiles(".\\Addins");
                 foreach (var file in files)                
                     File.Delete(file);
             } catch { }
+
+            try
+            {
+                var delDirs = Directory.GetDirectories(".\\Addins");
+                foreach (string delDir in delDirs)
+                {
+                    if (!delDir.EndsWith("ScreenCapture") && !delDir.EndsWith("Weblog"))
+                    {
+                        var targetFolder = Path.Combine(mmApp.Configuration.AddinsFolder, Path.GetFileName(delDir));
+                        if (!Directory.Exists(targetFolder))
+                            Directory.Move(delDir, targetFolder);
+                        else
+                            Directory.Delete(delDir, true);
+                    }                        
+                }
+            }
+            catch
+            { }
             // END TODO: Remove after a few months
 
             // Check for Addins to install
@@ -491,18 +508,20 @@ namespace MarkdownMonster.AddIns
                             });
                             DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
 
-                            if (Directory.Exists(".\\Addins\\" + ai.id) ||
-                                Directory.Exists(".\\Addins\\Install\\" + ai.id))
+                            string addinFolder = mmApp.Configuration.AddinsFolder;
+
+                            if (Directory.Exists(Path.Combine(addinFolder, ai.id)) ||
+                                Directory.Exists(Path.Combine(addinFolder,"Install", ai.id)))
                             {
                                 ai.isInstalled = true;                              
                             }
 
                             try
                             {
-                                if (File.Exists(".\\Addins\\" + ai.id + "\\version.json"))
+                                if (File.Exists(Path.Combine(addinFolder,ai.id,"version.json")))
                                 {
                                     var addinItem = JsonSerializationUtils.DeserializeFromFile(
-                                            ".\\Addins\\" + ai.id + "\\version.json", typeof(AddinItem), false)
+                                            Path.Combine(addinFolder,ai.id,"\\version.json"), typeof(AddinItem), false)
                                         as AddinItem;
 
                                     if (addinItem != null && addinItem.version.CompareTo(ai.version) < 0)
@@ -595,8 +614,11 @@ namespace MarkdownMonster.AddIns
 
         }
 
-        public bool UninstallAddin(string addinId, string addinPath = ".\\Addins")
+        public bool UninstallAddin(string addinId, string addinPath = null)
         {
+            if (string.IsNullOrEmpty(addinPath))
+                addinPath = mmApp.Configuration.AddinsFolder;
+
             var directory = Directory.GetDirectories(addinPath).FirstOrDefault(dir => Path.GetFileName(dir) == addinId);
             if (!string.IsNullOrEmpty(directory))
             {

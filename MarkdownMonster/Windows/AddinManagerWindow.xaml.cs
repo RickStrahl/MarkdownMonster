@@ -87,7 +87,7 @@ namespace MarkdownMonster.Windows
             ShowStatus("Downloading and installing " + addin.name + " Addin...");
 
             var url = addin.gitVersionUrl.Replace("version.json","addin.zip");
-            if (!AddinManager.Current.DownloadAndInstallAddin(url, ".\\Addins", addin))
+            if (!AddinManager.Current.DownloadAndInstallAddin(url, mmApp.Configuration.AddinsFolder, addin))
                 ShowStatus(addin.name + "  installation  failed.", 6000);
             else
             {
