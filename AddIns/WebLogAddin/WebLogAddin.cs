@@ -265,6 +265,7 @@ namespace WeblogAddin
         {
             var basePath = Path.GetDirectoryName(filename);
             var baseName = Path.GetFileName(basePath);
+            baseName = SafeFilename(baseName);
 
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
@@ -564,12 +565,13 @@ namespace WeblogAddin
             return markdown;
         }
 
-        public string SafeFilename(string fileName,string replace = "")
+        public string SafeFilename(string fileName, string replace = "")
         {
             string filename = Path.GetInvalidFileNameChars()
-                                  .Aggregate(fileName, 
-                                             (current, c) => current.Replace(c.ToString(), replace));
+                .Aggregate(fileName,
+                    (current, c) => current.Replace(c.ToString(), replace));
 
+            filename = filename.Replace("#", "");
             return filename;
         }
 
