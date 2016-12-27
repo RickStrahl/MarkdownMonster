@@ -87,7 +87,24 @@ namespace MarkdownMonster
         private PreviewSyncMode _previewSyncMode;
 
 
-       
+        
+        /// <summary>
+        /// Determines whether documents are automatically saved
+        /// whenever changes are made.
+        /// 
+        /// AutoSaveDocuments takes precedence over AutoSaveBackups
+        /// </summary>
+        public bool AutoSaveDocuments
+        {
+            get { return _autoSaveDocuments; }
+            set
+            {
+                if (value == _autoSaveDocuments) return;
+                _autoSaveDocuments = value;                                
+                OnPropertyChanged(nameof(AutoSaveDocuments));
+            }
+        }
+        private bool _autoSaveDocuments;
 
         /// <summary>
         /// If non-zero creates a backup in the number of minutes
@@ -253,9 +270,9 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// If true re-opens files that were open when last closed.
+        /// If greater than 0 re-opens up to number of files that were open when last closed.
         /// </summary>
-        public bool RememberOpenFiles { get; set; }
+        public int RememberLastDocuments { get; set; }
 
         /// <summary>
         /// Determines whether Markdown Monster runs as a Singleton application.
@@ -365,7 +382,7 @@ namespace MarkdownMonster
         /// Disables all addins from loading
         /// </summary>
         public bool DisableAddins { get; set; }
-        
+
 
         public ApplicationConfiguration()
         {
@@ -401,7 +418,7 @@ namespace MarkdownMonster
             OpenCommandLine = "cmd.exe";
             OpenFolderCommand = "explorer.exe";
 
-            RememberOpenFiles = true;
+            RememberLastDocuments = 3;
             UseSingleWindow = true;
             ReportErrors = true;            
             IsPreviewVisible = true;

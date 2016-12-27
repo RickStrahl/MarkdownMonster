@@ -361,14 +361,16 @@ namespace MarkdownMonster
                 Height = conf.WindowPosition.Height;
             }
 
-            if (mmApp.Configuration.RememberOpenFiles)
+            if (mmApp.Configuration.RememberLastDocuments > 0)
             {
                 var selectedDoc = conf.OpenDocuments.FirstOrDefault(dc => dc.IsActive);
                 TabItem selectedTab = null;
 
+                int counter = 0;
+
                 // since docs are inserted at the beginning we need to go in reverse
                 foreach (var doc in conf.OpenDocuments.Reverse<MarkdownDocument>())
-                {
+                {                    
                     if (File.Exists(doc.Filename))
                     {
                         var tab = OpenTab(doc.Filename,selectTab: false, batchOpen: true);
@@ -378,6 +380,10 @@ namespace MarkdownMonster
                         if (selectedDoc != null && selectedDoc.Filename == doc.Filename)                        
                             selectedTab = tab;                        
                     }
+
+                    counter++;
+                    if (counter >= mmApp.Configuration.RememberLastDocuments)
+                        break;
                 }
 
                 if (selectedTab != null)
@@ -406,7 +412,7 @@ namespace MarkdownMonster
 
             config.OpenDocuments.Clear();
 
-            if (mmApp.Configuration.RememberOpenFiles)
+            if (mmApp.Configuration.RememberLastDocuments > 0)
             {                
                 mmApp.Configuration.OpenDocuments.Clear();
 
@@ -506,9 +512,10 @@ namespace MarkdownMonster
                     EditorSyntax = syntax                    
                 };
                 
-                var doc = new MarkdownDocument
+                var doc = new MarkdownDocument()
                 {
-                    Filename = mdFile ?? @"untitled"
+                    Filename = mdFile ?? "untitled",
+                    Dispatcher = Dispatcher
                 };
                 if (doc.Filename != "untitled")
                 {                                        
