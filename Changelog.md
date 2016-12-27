@@ -15,7 +15,10 @@ This new configuration setting determines the number of open documents to rememb
 Weblog Addin configuration option `AddFrontMatterToNewBlogPost` and `FrontMatterTemplate` that is prepended to the beginning of a post.
 
 * **Addins now install to %AppData% Folder**  
-Addins now install to the `%AppData%\Markdown Monster\Addins` folder to make it easier for the Portable version to use Addins without requiring special permissions.
+Addins now install to the `%AppData%\Markdown Monster\Addins` folder to make it easier for the Portable version to use Addins without requiring special permissions. Existing Addins are moved to the new location.
+
+* **Fix Weblog Image Naming**   
+Fixed several issues related to invalid image names sent to server stripping out `#` and other invalid path characters from the image 'path'.
 
 ### Version 1.0.30 
 <i><small>December 20th, 2016</small></i>

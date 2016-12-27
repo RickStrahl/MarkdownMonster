@@ -316,7 +316,11 @@ namespace MarkdownMonster.AddIns
         #region Addin Manager
 
         /// <summary>
-        /// Loads add-ins into the application from the add-ins folder
+        /// Loads add-ins into the application from the add-ins folder.
+        /// 
+        /// Note: This method is called twice: Once for the install
+        /// Addins folder for built-in addins and once for the
+        /// %AppData% folder for user installed addins.
         /// </summary>
         internal void LoadAddins(string addinPath)
         {            
