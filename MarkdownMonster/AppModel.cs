@@ -4,12 +4,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using FontAwesome.WPF;
-using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using Westwind.Utilities;
 

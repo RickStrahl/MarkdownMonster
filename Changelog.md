@@ -2,7 +2,7 @@
 
 # Markdown Monster Change Log
 
-### Version 1.0.32
+### Version 1.0.33
 <i><small>not released yet</small></i>
 
 * **Auto Save Documents**   
@@ -14,10 +14,16 @@ This new configuration setting determines the number of open documents to rememb
 * **Add Front Matter to new Blog Post**   
 Weblog Addin configuration option `AddFrontMatterToNewBlogPost` and `FrontMatterTemplate` that is prepended to the beginning of a post.
 
+* **Default Save Location to Libraries Folder**  
+The default save folder now is set to the Windows Libraries folder that shows your Roaming profile documents/pictures/cloud Drive folders. Used as last resort - preferred location for save is last saved file location.
+
+* **Save As Html Additions**  
+There's now a new option that purports to save Html and all dependencies. Currently this option defers to View As Html and then using **Save As...** in the browser to save Html and all dependencies. We'll add true direct saving of full dependency files later. This is a stopgap to provide information on how to accomplish this task for now.
+
 * **Addins now install to %AppData% Folder**  
 Addins now install to the `%AppData%\Markdown Monster\Addins` folder to make it easier for the Portable version to use Addins without requiring special permissions. Existing Addins are moved to the new location.
 
-* **Fix Weblog Image Naming**   
+* **Fix Weblog Image Folder Naming**   
 Fixed several issues related to invalid image names sent to server stripping out `#` and other invalid path characters from the image 'path'.
 
 ### Version 1.0.30 
