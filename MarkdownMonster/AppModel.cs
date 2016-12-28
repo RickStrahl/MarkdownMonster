@@ -321,6 +321,8 @@ namespace MarkdownMonster
                     return;
 
                 var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
+                if (doc.MarkdownDocument.Filename == "untitled")
+                    folder = KnownFolders.GetPath(KnownFolder.Libraries);
 
                 SaveFileDialog sd = new SaveFileDialog
                 {
@@ -370,7 +372,7 @@ namespace MarkdownMonster
 
                 SaveFileDialog sd = new SaveFileDialog
                 {
-                    Filter = "Markdown files (*.html)|*.html|All files (*.*)|*.*",
+                    Filter = "Html files (Html only) (*.html)|*.html|Html files (Html and dependencies in a folder)|*.html",
                     FilterIndex = 1,
                     InitialDirectory = folder,
                     FileName = Path.ChangeExtension(doc.MarkdownDocument.Filename,"html"),
@@ -381,16 +383,36 @@ namespace MarkdownMonster
                 };
 
                 var result = sd.ShowDialog();
+                
                 if (result != null && result.Value)
-                {                    
-                    var html = doc.RenderMarkdown(doc.GetMarkdown());
-
-                    if (!doc.MarkdownDocument.WriteFile(sd.FileName, html))
+                {
+                    if (sd.FilterIndex != 2)
                     {
-                        MessageBox.Show(Window, $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
-                            "Unable to save Document", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        SaveAsHtmlCommand.Execute(null);
-                        return;
+                        var html = doc.RenderMarkdown(doc.GetMarkdown());
+
+                        if (!doc.MarkdownDocument.WriteFile(sd.FileName, html))
+                        {
+                            MessageBox.Show(Window,
+                                $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
+                                "Unable to save Document", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            SaveAsHtmlCommand.Execute(null);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        string msg = @"This feature is not available yet.
+
+For now, you can use 'View in Web Browser' to view the document in your favorite Web Browser. 
+
+From there you can 'Save As...' and save the document with all CSS and Image dependencies.
+";
+                       MessageBox.Show(msg, 
+                            mmApp.ApplicationName, 
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Asterisk);
+
+                        Window.ButtonViewInBrowser_Click(Window, null);
                     }
                 }
 

@@ -109,7 +109,7 @@
                           InputGestureText="Ctrl+Shift+S"/>
                 <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" />
                 <Separator/>
-                <MenuItem Header="View in Web _Browser" 
+                <MenuItem Header="View in Web _Browser" Name="ButtonViewInWebBrowser"
                           Click="ButtonViewInBrowser_Click" 
                           InputGestureText="Alt-V-B"
                           IsEnabled="{Binding IsEditorActive}" />
