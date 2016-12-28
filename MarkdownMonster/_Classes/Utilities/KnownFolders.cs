@@ -9,7 +9,8 @@ namespace MarkdownMonster
     public static class KnownFolders
     {
         private static string[] _knownFolderGuids = new string[]
-        {
+        {            
+            //Folder Ids: https://msdn.microsoft.com/en-us/library/windows/desktop/dd378457(v=vs.85).aspx
             "{56784854-C6CB-462B-8169-88E350ACB882}", // Contacts
             "{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", // Desktop
             "{FDD39AD0-238F-46AF-ADB4-6C85480369C7}", // Documents
@@ -21,6 +22,8 @@ namespace MarkdownMonster
             "{4C5C32FF-BB9D-43B0-B5B4-2D72E54EAAA4}", // SavedGames
             "{7D1D3A04-DEBB-4115-95CF-2F29DA2920DA}", // SavedSearches
             "{18989B1D-99B5-455B-841C-AB7C74E4DDFC}", // Videos
+            "{7B0DB17D-9CD2-4A93-9733-46CC89022E7C}", // DocumentsLibrary
+            "{1B3EA5DC-B587-4786-B4EF-BD1DC332AEAE}"  // Libraries
         };
 
         /// <summary>
@@ -158,5 +161,28 @@ namespace MarkdownMonster
         }
 
 
+    }
+
+
+    /// <summary>
+    /// Standard folders registered with the system. These folders are installed with Windows Vista
+    /// and later operating systems, and a computer will have only folders appropriate to it
+    /// installed.
+    /// </summary>
+    public enum KnownFolder
+    {
+        Contacts,
+        Desktop,
+        Documents,
+        Downloads,
+        Favorites,
+        Links,
+        Music,
+        Pictures,
+        SavedGames,
+        SavedSearches,
+        Videos,
+        DocumentsLibrary,
+        Libraries
     }
 }

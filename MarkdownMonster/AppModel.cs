@@ -321,9 +321,12 @@ namespace MarkdownMonster
                     return;
 
                 var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
-                if (doc.MarkdownDocument.Filename == "untitled")
-                    folder = KnownFolders.GetPath(KnownFolder.Libraries);
+                if (doc.MarkdownDocument.Filename == "untitled")                
+                    folder = mmApp.Configuration.LastFolder;
 
+                if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+                    folder = KnownFolders.GetPath(KnownFolder.Libraries);
+                
                 SaveFileDialog sd = new SaveFileDialog
                 {
                     Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*",
@@ -403,16 +406,18 @@ namespace MarkdownMonster
                     {
                         string msg = @"This feature is not available yet.
 
-For now, you can use 'View in Web Browser' to view the document in your favorite Web Browser. 
+For now, you can use 'View in Web Browser' to view the document in your favorite Web Browser and use 'Save As...' to save the Html document with all CSS and Image dependencies.
 
-From there you can 'Save As...' and save the document with all CSS and Image dependencies.
+Do you want to View in Browser now?
 ";
-                       MessageBox.Show(msg, 
+                       var mbResult = MessageBox.Show(msg, 
                             mmApp.ApplicationName, 
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Asterisk);
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Asterisk,
+                            MessageBoxResult.Yes);
 
-                        Window.ButtonViewInBrowser_Click(Window, null);
+                        if(mbResult == MessageBoxResult.Yes)
+                            Window.ButtonViewInBrowser_Click(Window, null);
                     }
                 }
 
