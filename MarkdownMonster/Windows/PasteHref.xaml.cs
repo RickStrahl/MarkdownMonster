@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using Westwind.Utilities;
@@ -85,7 +74,17 @@ namespace MarkdownMonster.Windows
             mmApp.SetThemeWindowOverride(this);
 
             Loaded += PasteHref_Loaded;
+            Activated += PasteHref_Activated;
             
+        }
+
+        private void PasteHref_Activated(object sender, EventArgs e)
+        {
+            string clip = Clipboard.GetText(TextDataFormat.Text);
+            if (string.IsNullOrEmpty(Link) &&
+                clip.StartsWith("http://") || clip.StartsWith("https://") || clip.StartsWith("mail:") ||
+                clip.StartsWith("ftp://"))
+                Link = clip;
         }
 
         private void PasteHref_Loaded(object sender, RoutedEventArgs e)
