@@ -21,6 +21,7 @@
         <KeyBinding Modifiers="Alt+Shift"
                     Key="Return"
                     Command="{Binding  DistractionFreeModeCommand}" />
+        <KeyBinding Key="F11" Command="{Binding PresentationModeCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="P"
                     Command="{Binding PrintPreviewCommand}" />
     </Window.InputBindings>
@@ -56,7 +57,7 @@
                 <ToggleButton Name="ToolButtonFullScreen"  Margin="7,0" 
                                       IsChecked="{Binding IsFullScreen}"
                                       Command="{Binding DistractionFreeModeCommand}"                                                 
-                                      ToolTip="toggle distraction free mode (alt-shift-enter)"
+                                      ToolTip="toggle distraction free edit mode (alt-shift-enter)"
                                  fa:Awesome.Content="ArrowsAlt"
                                  Height="22" Width="22"
                                 TextElement.FontSize="16"

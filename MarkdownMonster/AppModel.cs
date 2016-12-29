@@ -456,6 +456,10 @@ Do you want to View in Browser now?
 
                 Configuration.IsPreviewVisible = IsPreviewBrowserVisible;
 
+                if (!IsPreviewBrowserVisible && IsPresentationMode)
+                    PresentationModeCommand.Execute(null);
+                    
+
                 Window.ShowPreviewBrowser(!IsPreviewBrowserVisible);
                 if (IsPreviewBrowserVisible)
                     Window.PreviewMarkdown(editor);
@@ -495,14 +499,14 @@ Do you want to View in Browser now?
 
             // DISTRACTION FREE MODE
             DistractionFreeModeCommand = new CommandBase((s, e) =>
-            {                
+            {
                 GridLength gl = new GridLength(0);
-                if (Window.WindowGrid.RowDefinitions[1].Height == gl)
+                if ( Window.WindowGrid.RowDefinitions[1].Height == gl)
                 {
                     gl = new GridLength(30);
                     IsPreviewBrowserVisible = true;
                     Window.PreviewMarkdown();
-                    IsFullScreen = false;
+                    IsFullScreen = false;                    
                 }
                 else
                 {
@@ -517,7 +521,10 @@ Do you want to View in Browser now?
 
             // PRESENTATION MODE
             PresentationModeCommand = new CommandBase((s, e) =>
-            {                
+            {
+                if (IsFullScreen)
+                    DistractionFreeModeCommand.Execute(null);
+
                 GridLength gl = new GridLength(0);
                 if (Window.WindowGrid.RowDefinitions[1].Height == gl)
                 {
@@ -534,12 +541,30 @@ Do you want to View in Browser now?
                     mmApp.Configuration.WindowPosition.SplitterPosition =
                         Convert.ToInt32(Window.ContentGrid.ColumnDefinitions[2].Width.Value);
 
+                    // don't allow presentation mode for non-Markdown documents
+                    var editor = Window.GetActiveMarkdownEditor();
+                    if (editor != null)
+                    {                       
+                        var file = editor.MarkdownDocument.Filename.ToLower();
+                        var ext = Path.GetExtension(file);
+                        if (file != "untitled" && ext != ".md" && ext != ".htm" && ext != ".html")
+                        {
+                            // don't allow presentation mode for non markdown files
+                            IsPresentationMode = false;
+                            IsPreviewBrowserVisible = false;
+                            Window.ShowPreviewBrowser(true);
+                            return;
+                        }
+                    }
+                    
                     Window.ShowPreviewBrowser();
 
                     Window.ContentGrid.ColumnDefinitions[0].Width = gl;
                     Window.ContentGrid.ColumnDefinitions[1].Width = gl;
                     Window.ContentGrid.ColumnDefinitions[2].Width = new GridLength(1,GridUnitType.Star);
+                    
                     IsPresentationMode = true;
+                    IsPreviewBrowserVisible = true;                    
                 }
 
                 Window.WindowGrid.RowDefinitions[1].Height = gl;

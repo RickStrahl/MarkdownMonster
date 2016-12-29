@@ -241,8 +241,11 @@ namespace MarkdownMonster
 
             Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
             if (Model.IsPresentationMode)
+            {
                 Model.PresentationModeCommand.Execute(ToolButtonPresentationMode);
-            
+                Model.IsPreviewBrowserVisible = true;
+            }
+
             var left = Left;
             Left = 300000;
 
@@ -827,12 +830,13 @@ namespace MarkdownMonster
                 }
             }
             else
-            {
+            {          
                 if (ContentGrid.ColumnDefinitions[2].Width.Value > 100)
                     mmApp.Configuration.WindowPosition.SplitterPosition = Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
                 
                 ContentGrid.ColumnDefinitions[1].Width = new GridLength(0);
                 ContentGrid.ColumnDefinitions[2].Width = new GridLength(0);
+
                 PreviewBrowser.Navigate("about:blank");                
             }
         }
@@ -969,6 +973,7 @@ namespace MarkdownMonster
                     }
                 }
 
+                // not a markdown or HTML document to preview
                 ShowPreviewBrowser(true, keepScrollPosition);
             }
             catch (Exception ex)

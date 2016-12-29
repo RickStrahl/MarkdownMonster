@@ -540,7 +540,7 @@ namespace MarkdownMonster
             {
                 _splitterPosition = value;
                 Debug.WriteLine(value);
-            }
+            }   
         }
     }
 
