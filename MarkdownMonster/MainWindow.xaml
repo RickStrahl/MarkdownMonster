@@ -62,6 +62,15 @@
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
                                       />
+                <ToggleButton Name="ToolButtonPresentationMode"  Margin="7,0" 
+                                      IsChecked="{Binding IsPresentationMode}"
+                                      Command="{Binding PresentationModeCommand}"                                                 
+                                      ToolTip="toggle presentation mode (F11)"
+                                 fa:Awesome.Content="Desktop"
+                                 Height="22" Width="22"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
+                                      />
             </StackPanel>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>

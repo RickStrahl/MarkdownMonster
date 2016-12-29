@@ -63,6 +63,19 @@ namespace MarkdownMonster
         }
         private bool _isFullScreen = false;
 
+        
+        public bool IsPresentationMode
+        {
+            get { return _isPresentationMode; }
+            set
+            {
+                if (_isPresentationMode == value) return;
+                _isPresentationMode = value;
+                OnPropertyChanged(nameof(IsPresentationMode));
+            }
+        }
+        private bool _isPresentationMode;
+
 
         /// <summary>
         /// Determines if there's a document loaded 
@@ -277,6 +290,7 @@ namespace MarkdownMonster
         public CommandBase TabItemClosedCmd  { get; set; }
 
         public CommandBase DistractionFreeModeCommand { get; set; }
+        public CommandBase PresentationModeCommand { get; set; }
 
         public CommandBase PrintPreviewCommand { get; set; }
 
@@ -497,6 +511,37 @@ Do you want to View in Browser now?
                     IsFullScreen = true;                    
                 }
                 
+                Window.WindowGrid.RowDefinitions[1].Height = gl;
+                //Window.WindowGrid.RowDefinitions[3].Height = gl;  
+            }, null);
+
+            // PRESENTATION MODE
+            PresentationModeCommand = new CommandBase((s, e) =>
+            {                
+                GridLength gl = new GridLength(0);
+                if (Window.WindowGrid.RowDefinitions[1].Height == gl)
+                {
+                    gl = new GridLength(30); // toolbar height
+
+                    Window.ContentGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
+                    Window.ContentGrid.ColumnDefinitions[1].Width = new GridLength(0);
+                    Window.ContentGrid.ColumnDefinitions[2].Width = new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);                    
+                    Window.PreviewMarkdown();
+                    IsPresentationMode = false;
+                }
+                else
+                {                    
+                    mmApp.Configuration.WindowPosition.SplitterPosition =
+                        Convert.ToInt32(Window.ContentGrid.ColumnDefinitions[2].Width.Value);
+
+                    Window.ShowPreviewBrowser();
+
+                    Window.ContentGrid.ColumnDefinitions[0].Width = gl;
+                    Window.ContentGrid.ColumnDefinitions[1].Width = gl;
+                    Window.ContentGrid.ColumnDefinitions[2].Width = new GridLength(1,GridUnitType.Star);
+                    IsPresentationMode = true;
+                }
+
                 Window.WindowGrid.RowDefinitions[1].Height = gl;
                 //Window.WindowGrid.RowDefinitions[3].Height = gl;  
             }, null);

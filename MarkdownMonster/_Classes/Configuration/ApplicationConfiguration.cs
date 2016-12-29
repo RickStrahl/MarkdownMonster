@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -273,12 +274,17 @@ namespace MarkdownMonster
         /// </summary>
         public int RememberLastDocuments { get; set; }
 
+
+        public bool OpenInPresentationMode { get; set; }
+
         /// <summary>
         /// Determines whether Markdown Monster runs as a Singleton application.
         /// If true only a single instance runs and parameters are forwarded to
         /// open in the single instance.
         /// </summary>
         public bool UseSingleWindow { get; set; }
+
+
 
 
         /// <summary>
@@ -525,7 +531,17 @@ namespace MarkdownMonster
         public int Left { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public int SplitterPosition { get; set; }
+        private int _splitterPosition;
+
+        public int SplitterPosition
+        {
+            get { return _splitterPosition; }
+            set
+            {
+                _splitterPosition = value;
+                Debug.WriteLine(value);
+            }
+        }
     }
 
     public enum PreviewSyncMode

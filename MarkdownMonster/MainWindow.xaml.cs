@@ -126,8 +126,11 @@ namespace MarkdownMonster
             wbHandler = new WebBrowserHostUIHandler(PreviewBrowser);            
         }
 
+
+        
+
         private void MainWindow_Activated(object sender, EventArgs e)
-        {
+        {        
             // check for external file changes
             for (int i = TabControl.Items.Count - 1; i > -1; i--)
             {
@@ -188,6 +191,7 @@ namespace MarkdownMonster
             ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
 
 
+
             AddinManager.Current.InitializeAddinsUi(this);
 
             // Command Line Loading multiple files
@@ -235,6 +239,10 @@ namespace MarkdownMonster
                 Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
             }
 
+            Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
+            if (Model.IsPresentationMode)
+                Model.PresentationModeCommand.Execute(ToolButtonPresentationMode);
+            
             var left = Left;
             Left = 300000;
 
@@ -243,8 +251,9 @@ namespace MarkdownMonster
             {
                 //TabControl.InvalidateVisual();
                 Left = left;
-                mmApp.SetWorkingSet(10000000, 5000000);
+                mmApp.SetWorkingSet(10000000, 5000000);                
             });
+
         }
 
         protected override void OnDeactivated(EventArgs e)
@@ -811,8 +820,10 @@ namespace MarkdownMonster
                 {
                     if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
                         mmApp.Configuration.WindowPosition.SplitterPosition = 600;
-                    ContentGrid.ColumnDefinitions[2].Width =
-                        new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+
+                    if(!Model.IsPresentationMode)
+                        ContentGrid.ColumnDefinitions[2].Width =
+                            new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
                 }
             }
             else
@@ -1367,10 +1378,11 @@ namespace MarkdownMonster
 
         private void PreviewBrowser_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Width > 0)
+            if (e.NewSize.Width > 100)
             {
-                mmApp.Configuration.WindowPosition.SplitterPosition =
-                    Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);                
+                int width = Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
+                if (width > 100)
+                    mmApp.Configuration.WindowPosition.SplitterPosition = width;                                   
             }
         }
 
