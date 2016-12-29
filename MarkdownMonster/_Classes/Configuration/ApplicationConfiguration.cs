@@ -413,8 +413,10 @@ namespace MarkdownMonster
             CommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Markdown Monster");
 
             PreviewSyncMode = PreviewSyncMode.EditorAndPreview;
+
             AutoSaveBackups = true;
-            AlwaysUsePreviewRefresh = false;
+            AutoSaveDocuments = false;
+            
             
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost.fiddler/MarkdownMonster/bugreport/bugreport.ashx?method=ReportBug";
@@ -436,10 +438,14 @@ namespace MarkdownMonster
             OpenCommandLine = "cmd.exe";
             OpenFolderCommand = "explorer.exe";
 
-            RememberLastDocuments = 3;
-            UseSingleWindow = true;
-            ReportErrors = true;            
+            RememberLastDocuments = 3;            
+            ReportErrors = true;
+
+            UseSingleWindow = false;
+
             IsPreviewVisible = true;
+            OpenInPresentationMode = false;
+            AlwaysUsePreviewRefresh = false;
 
             FirstRun = true;
         }

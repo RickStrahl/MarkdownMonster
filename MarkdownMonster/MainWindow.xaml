@@ -11,12 +11,12 @@
         mc:Ignorable="d"
         TitlebarHeight="35"
         Name="MainApplicationWindow"                      
-        Title="Markdown Monster" TitleCaps="False"         
+        Title="Markdown Monster" TitleCharacterCasing="Normal"
         Icon="Assets\MarkdownMonster_Icon_256.png"
         BorderThickness="0" 
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"
-        Height="740" Width="1200" WindowTransitionsEnabled="False">
+        Height="740" Width="1200" MinWidth="800" MinHeight="600" WindowTransitionsEnabled="False">
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt+Shift"
                     Key="Return"
@@ -172,7 +172,7 @@
                           Command="{Binding PreviewBrowserCommand}"
                            IsEnabled="{Binding IsEditorActive}"/>
                 <MenuItem Header="View in Web _Browser" 
-                          Click="ButtonViewInBrowser_Click" 
+                          Click="ButtonViewInBrowser_Click"                           
                           InputGestureText="Alt-V-B"
                           IsEnabled="{Binding IsEditorActive}" />
                 <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding PrintPreviewCommand}" InputGestureText="Ctrl-P"/>
@@ -187,11 +187,22 @@
                           Header="Scroll Preview Browser Down"                         
                           InputGestureText="Ctrl-Shift-Down" Click="Button_Handler"
                           IsEnabled="{Binding IsPreviewBrowserVisible}" />
+                <Separator/>
                 <MenuItem Name="ButtonDistractionFreeMode" 
-                          Header="Distraction Free Mode"                         
+                          Header="Toggle Distraction Free Mode"                         
                           Command="{Binding DistractionFreeModeCommand}"
+                          ToolTip="Displays the editor in full screen mode"
+                          IsCheckable="True"
                           IsChecked="{Binding IsFullScreen}"
-                          InputGestureText="Alt-Shift-Enter" Click="Button_Handler"
+                          InputGestureText="Alt-Shift-Enter" 
+                          IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="ButtonPresentationMode" 
+                          Header="Toggle Presentation Mode"                         
+                          ToolTip="Displays the preview in full screen mode"
+                          Command="{Binding PresentationModeCommand}"
+                          IsCheckable="True"
+                          IsChecked="{Binding IsPresentationMode}"
+                          InputGestureText="F11" 
                           IsEnabled="{Binding IsEditorActive}" />
 
                 <Separator />
