@@ -2,6 +2,15 @@
 
 # Markdown Monster Change Log
 
+### 1.0.35
+<i><small>not released yet</small></i>
+
+* **Add Presentation Mode**   
+Added presentation mode that previews Markdown in a full screen preview browser. You can toggle Presentation Mode with F11 or by using menu and title bar buttons.
+
+* **OpenInPresentationMode Configuration Flag**  
+You can now set MM to open in presentation when you open MM or when click on a markdown document in Explorer. Useful for those that just want to view Markdown documents rather than editing them by default.
+
 ### Version 1.0.33
 <i><small>Dec 28th, 2016</small></i>
 
