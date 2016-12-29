@@ -141,7 +141,9 @@ namespace MarkdownMonster.Windows
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var addin = ListViewAddins.SelectedItem as AddinItem;
+            var tb = sender as TextBlock;
+            var addin = tb.DataContext as AddinItem;
+            
             if (addin == null)
                 return;
 
