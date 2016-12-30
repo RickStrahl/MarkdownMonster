@@ -256,14 +256,6 @@ namespace SnagItAddin
 
         public override bool OnCanExecute(object sender)
         {            
-            //if (!SnagItAutomation.IsInstalled)
-            //{
-            //    var button = sender as Control;                
-            //    button.ToolTip = "SnagIt isn't installed. Currently only SnagIt based captures are supported.";
-            //    button.IsEnabled = false;    
-            //    return false;
-            //}
-
             return true;
         }
     }
