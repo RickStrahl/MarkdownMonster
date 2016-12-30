@@ -1,7 +1,6 @@
 ﻿# Markdown Monster ToDo List
 
 ### Immediate
-
 * WebLog MetaWeblog Discovery with /rsd URL
 * Configuration for WebLog should open weblogaddin.json (or add UI) 
 * Check for startup location make sure position is visible

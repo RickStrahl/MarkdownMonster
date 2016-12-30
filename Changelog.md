@@ -11,6 +11,9 @@ Added presentation mode that previews Markdown in a full screen preview browser.
 * **OpenInPresentationMode Configuration Flag**  
 You can now set MM to open in presentation when you open MM or when click on a markdown document in Explorer. Useful for those that just want to view Markdown documents rather than editing them by default.
 
+* **Weblog Addin Configuration Button**  
+The WebLog addin configuration button now directly opens up the `weblogaddin.json` file to allow customization.
+
 ### Version 1.0.33
 <i><small>Dec 28th, 2016</small></i>
 
