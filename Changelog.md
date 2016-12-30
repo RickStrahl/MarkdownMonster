@@ -2,7 +2,7 @@
 
 # Markdown Monster Change Log
 
-### 1.0.35
+### 1.0.36
 <i><small>not released yet</small></i>
 
 * **Add Presentation Mode**   
@@ -13,6 +13,9 @@ You can now set MM to open in presentation when you open MM or when click on a m
 
 * **Weblog Addin Configuration Button**  
 The WebLog addin configuration button now directly opens up the `weblogaddin.json` file to allow customization.
+
+* **New About Window with Acknowledgements**  
+Added acknowledgements and &copy; for libraries used to the About form. Without these tools MM would not be what it is today!
 
 ### Version 1.0.33
 <i><small>Dec 28th, 2016</small></i>

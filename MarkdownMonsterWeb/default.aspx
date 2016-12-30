@@ -65,9 +65,8 @@
     
     <div id="MainContainer" class="background" >
         
-       <div class="flex-container" style="display: flex; flex-direction: row;">
-        <div style="flex: 0 0 10%"></div>
-        <div id="ContentContainer" style="flex: 1 1 auto; background: green">
+       <div class="flex-container" style="display: flex; flex-direction: row;">               
+       <div id="ContentContainer" style="flex: 1 1 auto;">
             <header style="background-color: #535353; color: whitesmoke;">
                                
                 
@@ -402,10 +401,14 @@
             </article>
             <div class="clearfix"></div>
         </div>
-        <div class="twitter-sidebar" >                         
-          <%--  <a class="twitter-timeline" data-theme="dark" style="width: auto;"
-               href="https://twitter.com/MarkdownMonstr">Tweets by RickStrahl</a> --%>
-            <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>                    
+        <div class="twitter-sidebar">                         
+<%--            <a class="twitter-timeline" data-theme="dark" style="width: 500px;"
+               href="https://twitter.com/MarkdownMonstr">Tweets by RickStrahl</a> 
+            <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>     --%>
+            
+          
+           <a class="twitter-timeline" data-chrome="noscrollbar"   data-height="2000" href="https://twitter.com/search?q=%40MarkdownMonstr" data-widget-id="814811218112167938">Tweets about @MarkdownMonstr</a>                                             
+           <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>        --%>
         </div> 
         </div><!-- flex -->
     </div>

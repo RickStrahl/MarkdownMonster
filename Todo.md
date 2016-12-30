@@ -2,15 +2,14 @@
 
 ### Immediate
 * WebLog MetaWeblog Discovery with /rsd URL
-* Configuration for WebLog should open weblogaddin.json (or add UI) 
 * Check for startup location make sure position is visible
-* Full Screen HTML Preview Mode (Presentation Mode)
+* ~~Configuration for WebLog should open weblogaddin.json (or add UI)~~ 
+* ~~Full Screen HTML Preview Mode (Presentation Mode)~~
 * ~~Add Front Matter Template to Weblog Posts optionally    
   `AddFrontMatterToNewPost` and `FrontMatterTemplate` config options~~
 * ~~Add cursor position to status bar~~
 * ~~Auto-Save files~~
 * ~~Paste Images from Clipboard and Save To Disk (forward to WPF)~~
-* <s>Integrate non-SnagIt screen capture natively</s>
 
 ### Bugs
 * ~~Weblog: Special Characters in Blog Publishing. Special attn to Image Posting~~

@@ -90,7 +90,7 @@ a {
     
 }
 #ContentContainer {
-    margin: 0 auto !important;
+    xmargin: 0 auto !important;
     max-width: 1100px;     
     background: white;
     border-bottom-right-radius: 3px;
@@ -114,24 +114,31 @@ h4 {
 }
 
 .twitter-sidebar {
-    display: none;
+    display: none;    
     max-height: 2800px;
     overflow: hidden;
 }
 
 @media(min-width: 1580px) {
+    #ContentContainer {
+        margin: 0 auto !important;
+    }
     .twitter-sidebar {
         display: block;
-        
-        flex: 0 0 450px;
+        flex: 1 1 auto;
+        max-width: 350px;        
     }
+    
 
 }
-@media(min-width: 973px) {
+@media(min-width: 1100px) {
+    #ContentContainer {
+        margin: 0 auto !important;
+    }
     .twitter-sidebar {
         display: block;
-        
-        flex: 0 0 250px;
+        flex: 1 1 auto;
+        max-width: 350px;
     }
 
 }
