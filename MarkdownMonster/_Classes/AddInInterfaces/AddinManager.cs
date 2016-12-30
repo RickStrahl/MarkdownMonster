@@ -522,16 +522,17 @@ namespace MarkdownMonster.AddIns
 
                             try
                             {
-                                if (File.Exists(Path.Combine(addinFolder,ai.id,"version.json")))
+                                var versionFile = Path.Combine(addinFolder, ai.id, "version.json");
+                                if (File.Exists(versionFile))
                                 {
                                     var addinItem = JsonSerializationUtils.DeserializeFromFile(
-                                            Path.Combine(addinFolder,ai.id,"\\version.json"), typeof(AddinItem), false)
+                                            versionFile, typeof(AddinItem), false)
                                         as AddinItem;
 
+                                    ai.installedVersion = addinItem.version;
                                     if (addinItem != null && addinItem.version.CompareTo(ai.version) < 0)
                                     {
-                                        ai.updateAvailable = true;
-                                        ai.installedVersion = addinItem.version;
+                                        ai.updateAvailable = true;                                        
                                     }
 
                                 }
