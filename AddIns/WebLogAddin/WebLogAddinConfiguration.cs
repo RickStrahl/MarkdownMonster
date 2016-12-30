@@ -80,34 +80,9 @@ Tags:
         }
 
 
-
-        public Dictionary<string,WeblogInfo> Weblogs
-        {
-            get { return _weblogs; }
-            set
-            {
-                if (value == _weblogs) return;
-                _weblogs = value;
-                OnPropertyChanged(nameof(Weblogs));
-            }
-        }
-        private Dictionary<string,WeblogInfo> _weblogs;
-        
-
-
-        public string LastWeblogAccessed
-        {
-            get { return _lastWeblogAccessed; }
-            set
-            {
-                if (value == _lastWeblogAccessed) return;
-                _lastWeblogAccessed = value;
-                OnPropertyChanged(nameof(LastWeblogAccessed));
-            }
-        }
-        private string _lastWeblogAccessed;
-
-
+        /// <summary>
+        /// Determines the folder were new Posts are stored
+        /// </summary>
         public string PostsFolder
         {
             get
@@ -136,7 +111,22 @@ Tags:
 
 
         /// <summary>
-        /// When true renders links to open externally.
+        /// Keeps track of the last WebLog you used to post a post to a site
+        /// </summary>
+        public string LastWeblogAccessed
+        {
+            get { return _lastWeblogAccessed; }
+            set
+            {
+                if (value == _lastWeblogAccessed) return;
+                _lastWeblogAccessed = value;
+                OnPropertyChanged(nameof(LastWeblogAccessed));
+            }
+        }
+        private string _lastWeblogAccessed;
+
+        /// <summary>
+        /// When true renders links to open external window with Target="blank"
         /// </summary>
         public bool RenderLinksOpenExternal
         {
@@ -167,8 +157,12 @@ Tags:
             }
         }
 
-        
-
+           
+        /// <summary>
+        /// A string that comprises text to be inserted at the beginning of a post.
+        /// By default this template is a Front Matter template but it can be 
+        /// any text based string.
+        /// </summary>
         public string FrontMatterTemplate
         {
             get { return _frontMatterTemplate; }
@@ -180,6 +174,20 @@ Tags:
             }
         }
         private string _frontMatterTemplate;
+
+        public Dictionary<string, WeblogInfo> Weblogs
+        {
+            get { return _weblogs; }
+            set
+            {
+                if (value == _weblogs) return;
+                _weblogs = value;
+                OnPropertyChanged(nameof(Weblogs));
+            }
+        }
+        private Dictionary<string, WeblogInfo> _weblogs;
+
+
 
         protected override IConfigurationProvider OnCreateDefaultProvider(string sectionName, object configData)
         {

@@ -67,14 +67,16 @@ namespace WeblogAddin
             };
 
             // Don't need a configuration dropdown
-            menuItem.ExecuteConfiguration = null;
+            //menuItem.ExecuteConfiguration = null;
 
             MenuItems.Add(menuItem);
         }
 
         public override void OnExecute(object sender)
         {
-            
+            // read settings on startup
+            WeblogAddinConfiguration.Current.Read();
+
             var form = new WebLogForm()
             {
                 Owner = Model.Window
@@ -84,7 +86,13 @@ namespace WeblogAddin
             form.Show();                       
         }
 
-        
+        public override void OnExecuteConfiguration(object sender)
+        {
+            string file = Path.Combine(mmApp.Configuration.CommonFolder, "weblogaddin.json");
+            Model.Window.OpenTab(file);
+        }
+
+
         public override void OnNotifyAddin(string command, object parameter)
         {
             if (command == "newweblogpost")
