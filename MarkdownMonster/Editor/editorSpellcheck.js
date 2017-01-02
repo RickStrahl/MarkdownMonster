@@ -14,7 +14,7 @@ var sc = window.spellcheck = {
     spellCheck: function() {},
     dictionary: null, // Typo instance
     markers: [],
-    excludedWords: ",div,span,td,th,tr,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,",
+    excludedWords: ",div,span,td,th,tr,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,http,https,---,--,----",
     clearMarkers: function() {
         for (var i in sc.markers) {
             te.editor.session.removeMarker(sc.markers[i]);
@@ -114,7 +114,7 @@ var sc = window.spellcheck = {
         // Check the spelling of a line, and return [start, end]-pairs for misspelled words.
         function misspelled(line) {
             // split lineby word boundaries
-            var words = line.split(/[\s,(,),\[,\],<,>,:,",=,?,!,.,;,\,]/g);
+            var words = line.split(/[\s,(,),\[,\],<,>,:,",=,?,!,.,;,\,\\,/]/g);
             var i = 0;
             var bads = [];
             for (var wordIndex in words) {
