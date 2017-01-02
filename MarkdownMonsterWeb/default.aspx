@@ -407,8 +407,12 @@
             <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>     --%>
             
           
-           <a class="twitter-timeline" data-chrome="noscrollbar"   data-height="2000" href="https://twitter.com/search?q=%40MarkdownMonstr" data-widget-id="814811218112167938">Tweets about @MarkdownMonstr</a>                                             
-           <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>        --%>
+            <a class="twitter-timeline" data-chrome="noscrollbar"  data-theme="dark"  data-height="2000" href="https://twitter.com/MarkdownMonstr" >Tweets about @MarkdownMonstr</a>
+                                  
+           <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>         
+          
+           <%--<a class="twitter-timeline" data-theme="dark" data-chrome="noscrollbar" href="https://twitter.com/search?q=@MarkdownMonstr">Tweets by MarkdownMonstr</a>  --%>
+           
         </div> 
         </div><!-- flex -->
     </div>
