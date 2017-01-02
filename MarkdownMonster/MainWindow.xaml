@@ -138,6 +138,8 @@
                           ToolTip="Copies the selected markdown from the editor as HTML to the clipboard"
                           InputGestureText="ctrl-shift-c" />
                 <Separator />
+                <MenuItem Name="Button_Spellcheck" Header="Toggle _Spellchecking" Click="ButtonSpellCheck_Click" />
+                <Separator />
                 <MenuItem Header="Find in Document" 
                           Name="Button_Find"
                           IsEnabled="{Binding IsEditorActive}"                          
