@@ -1160,7 +1160,7 @@ namespace MarkdownMonster
                     ShowStatus("Your version of Markdown Monster is up to date.", 6000);
                     SetStatusIcon(FontAwesomeIcon.Check, Colors.Green);
 
-                    MessageBox.Show("Your version of Markdown Monster is up to date.",
+                    MessageBox.Show("Your version of Markdown Monster is v" + mmApp.GetVersion() + " and you are up to date.",
                         mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
                 }                
         }

@@ -2,8 +2,8 @@
 
 # Markdown Monster Change Log
 
-### 1.0.36
-<i><small>not released yet</small></i>
+### 1.01
+<i><small>January 2nd, 2017</small></i>
 
 * **Add Presentation Mode**   
 Added presentation mode that previews Markdown in a full screen preview browser. You can toggle Presentation Mode with F11 or by using menu and title bar buttons.
@@ -16,9 +16,6 @@ The WebLog addin configuration button now directly opens up the `weblogaddin.jso
 
 * **New About Window with Acknowledgements**  
 Added acknowledgements and &copy; for libraries used to the About form. Without these tools MM would not be what it is today!
-
-### Version 1.0.33
-<i><small>Dec 28th, 2016</small></i>
 
 * **Auto Save Documents**   
 There's now an option to automatically save documents as you type. Documents on disk are updated in nearly real time when you stop for more than a second of typing. This option is disabled by default and can be enabled by setting the `AutoSaveDocuments` configuration setting to `true`. Note this setting overrides the `AutoSaveBackups` configuration option.
