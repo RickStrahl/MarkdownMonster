@@ -114,7 +114,7 @@ var sc = window.spellcheck = {
         // Check the spelling of a line, and return [start, end]-pairs for misspelled words.
         function misspelled(line) {
             // split lineby word boundaries
-            var words = line.split(/[\s,(,),\[,\],<,>,:,",=,?,!,.,;,\,\\,/]/g);
+            var words = line.split(/[\s,(,),\[,\],<,>,:,",=,?,!,.,;,\,|]/g);
             var i = 0;
             var bads = [];
             for (var wordIndex in words) {
@@ -123,7 +123,7 @@ var sc = window.spellcheck = {
                 // only use words without special characters
                 if (word.length > 1 &&                                     
                     sc.excludedWords.indexOf("," + word + ",") == -1 &&
-                    !word.match(/[_,-,(,),\[,\],:,*,&,/,~,#,@,%,`,0-9]/g)) {                    
+                    !word.match(/[_,-,(,),\[,\],:,*,&,/,\\,~,#,@,%,`,0-9]/g)) {                    
                     
                     if ( word[0] == "'" && word[word.length-1] == "'" )
                        word =  word.substr(1,word.length-2);

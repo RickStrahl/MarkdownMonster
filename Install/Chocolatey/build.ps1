@@ -7,17 +7,17 @@
 cd "$PSScriptRoot" 
 
 #$file = "MarkdownMonsterSetup-0.55.exe"
-$file = gci "..\..\..\MarkdownMonsterReleases\v1.0" | sort LastWriteTime | select -last 1 | select -ExpandProperty "Name"
+$file = gci "..\..\..\MarkdownMonsterReleases\v1.1" | sort LastWriteTime | select -last 1 | select -ExpandProperty "Name"
 write-host $file
 
-$sha = get-filehash -path "..\..\..\MarkdownMonsterReleases\v1.0\$file" -Algorithm SHA256  | select -ExpandProperty "Hash"
+$sha = get-filehash -path "..\..\..\MarkdownMonsterReleases\v1.1\$file" -Algorithm SHA256  | select -ExpandProperty "Hash"
 write-host $sha
 
 
 $filetext = @"
 `$packageName = 'markdownmonster'
 `$fileType = 'exe'
-`$url = 'https://github.com/RickStrahl/MarkdownMonsterReleases/raw/master/v1.0/$file'
+`$url = 'https://github.com/RickStrahl/MarkdownMonsterReleases/raw/master/v1.1/$file'
 
 `$silentArgs = '/SILENT'
 `$validExitCodes = @(0)
