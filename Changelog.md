@@ -2,7 +2,13 @@
 
 # Markdown Monster Change Log
 
-### 1.01
+### 1.1.2
+<i><small>not released yet</small></i>
+
+* **Force Focus to Editor when Activating Form**  
+Changed behavior so when the editor window is activated, focus is always forced into the editor so no matter where you click on the window you can just start typing again. This also avoids the occasional funky focus bug where the document 'overselects' the entire visible area just by moving the mouse over it.
+
+### 1.1
 <i><small>January 2nd, 2017</small></i>
 
 * **Add Presentation Mode**   

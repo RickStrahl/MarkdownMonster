@@ -23,3 +23,5 @@ del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
 7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\MarkdownMonsterPortable.md"
 
 "Done!"
+
+dir .\Builds\CurrentRelease
