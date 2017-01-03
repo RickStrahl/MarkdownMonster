@@ -26,6 +26,7 @@
                     Command="{Binding PrintPreviewCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewDocumentCommand }"  />
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenDocumentCommand }"    />
+        <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding CloseActiveDocumentCommand}" />
     </Window.InputBindings>
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
@@ -80,7 +81,7 @@
 
     <Window.Resources>
         <ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
-            <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"/>
+            <MenuItem Header="_Close Document" Command="{Binding CloseActiveDocumentCommand}" />
             <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Click="ButtonCloseAllTabs_Click"/>
             <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document" Click="ButtonCloseAllTabs_Click"/>
             <Separator/>
@@ -210,7 +211,7 @@
                           IsEnabled="{Binding IsEditorActive}" />
 
                 <Separator />
-                <MenuItem Header="_Close Document" Click="ButtonCloseTab_Click"   IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Header="_Close Document" Command="{Binding CloseActiveDocumentCommand}" InputGestureText="Ctrl-w"/>
                 <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
                 
 

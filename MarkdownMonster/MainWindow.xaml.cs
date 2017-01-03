@@ -191,15 +191,15 @@ namespace MarkdownMonster
             }
 
             var left = Left;
-            Left = 300000;
+            Left = 300000;            
 
             // force controls to realign - required because of WebBrowser control weirdness            
             Dispatcher.InvokeAsync(() =>
             {
                 //TabControl.InvalidateVisual();
-                Left = left;
-                mmApp.SetWorkingSet(10000000, 5000000);                
-            });
+                Left = left;                
+                mmApp.SetWorkingSet(10000000, 5000000);
+            }, DispatcherPriority.Background);
 
         }
 
@@ -1241,16 +1241,6 @@ namespace MarkdownMonster
             }
         }
 
-
-        private void ButtonCloseTab_Click(object sender, RoutedEventArgs e)
-        {
-            var tab = TabControl.SelectedItem as TabItem;
-            if (tab == null)
-                return;
-
-            if (CloseTab(tab))
-                TabControl.Items.Remove(tab);
-        }
 
         private void ButtonCloseAllTabs_Click(object sender, RoutedEventArgs e)
         {

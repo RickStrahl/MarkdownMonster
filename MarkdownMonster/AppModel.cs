@@ -296,6 +296,8 @@ namespace MarkdownMonster
 
         public CommandBase OpenDocumentCommand { get; set; }
 
+        public CommandBase CloseActiveDocumentCommand { get; set; }
+
         public CommandBase PrintPreviewCommand { get; set; }
 
         private void CreateCommands()
@@ -489,6 +491,19 @@ Do you want to View in Browser now?
                 Window.OpenTab(fd.FileName, rebindTabHeaders: true);
 
                 Window.AddRecentFile(fd.FileName);
+            });
+
+            CloseActiveDocumentCommand = new CommandBase((s, e) =>
+            {
+                var tab = Window.TabControl.SelectedItem as TabItem;
+                if (tab == null)
+                    return;
+
+                if (Window.CloseTab(tab))
+                    Window.TabControl.Items.Remove(tab);
+            }, (s, e) =>
+            {
+                return IsEditorActive;
             });
 
             // PREVIEW BUTTON COMMAND
