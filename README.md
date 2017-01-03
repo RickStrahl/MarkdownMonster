@@ -5,9 +5,10 @@
 
 ### Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
-* **[Download Installer](http://markdownmonster.west-wind.com/download.aspx)**
+* **[Download](http://markdownmonster.west-wind.com/download.aspx)**
 * **[Install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)**
 * **[Video: Getting Started with Markdown Monster](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
+* **[Documentation](https://markdownmonster.west-wind.com/docs/)**
 * **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
@@ -110,7 +111,7 @@ Right now the registry is pretty sparse but here are a couple of Addins you can 
 
 * [Save Image to Azure Blob Storage](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin)
 * [Paste Code as Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)
-* 
+
 ### Provided Add-ins
 Not only does Markdown Monster allow extension via Addins - it also uses Addins for some built-in features. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate the power of the Add-in model.
 
