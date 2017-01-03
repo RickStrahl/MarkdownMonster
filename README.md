@@ -9,7 +9,7 @@
 * **[Install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)**
 * **[Video: Getting Started with Markdown Monster](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
 * **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
-* **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)** (coming soon)   
+* **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[Change Log](Changelog.md)**
@@ -90,16 +90,34 @@ The editor and previewer are HTML and JavaScript based, so you can also apply an
 ### Extensible with .NET Add-ins
 But the **key feature** and the main reason I built this tool, is that it is **extensible**, so that you and I can plug additional functionality into it. Markdown Monster includes an add-in model that lets you add buttons to the UI, interact with the active document and the entire UI and attach to life cycle event to get notifications of various application events like  documents opening and closing, documents being saved and the application shutting down etc..
 
-The Add-in interface is still in flux, but you can find out more in the [online documention](http://markdownmonster.west-wind.com/docs/_4ne0rl1zf.htm). If you have ideas or suggestions  on how to make the Add-in system better, please use the Issue system to [provide feedback in GitHub Issues](https://github.com/RickStrahl/MarkdownMonster/issues). Otherwise for general discussion you can [post a message on our message board](http://support.west-wind.com?forum=Markdown+Monster).
+You can find documentation for creating Addins here:
 
+* [Creating a Markdown Monster Addin](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)
+* [Accessing and Manipulating the Active Editor](http://markdownmonster.west-wind.com/docs/_4nf02q0sz.htm)
+* [Bringing up UI from your Addin](http://markdownmonster.west-wind.com/docs/_4ne1ch7wa.htm)
+
+
+### Markdown Monster Addin Registry
+You can create addins for your own use, simply by copying them into the Addins folder, or if you created an Addin that you think might be useful for others you can publish on the Markdown Monster Addin Registry. The registry holds public Addins that show in the Addin Manager inside of Markdown Monster:
+
+![Addin Manager](AddinManager.png)
+
+You can find out more on how to publish your Addins in this GitHub repository:
+
+* [Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)
+
+Right now the registry is pretty sparse but here are a couple of Addins you can check out:
+
+* [Save Image to Azure Blob Storage](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin)
+* [Paste Code as Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)
+* 
 ### Provided Add-ins
-Markdown Monster uses the Add-in model internally to add base features to the core editor. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate how the Add-in model works.
+Not only does Markdown Monster allow extension via Addins - it also uses Addins for some built-in features. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate the power of the Add-in model.
 
-* **Screen Capture Addin**  
+#### Screen Capture Addin
 The Screen Capture add-in supports two separate capture modes: Using Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which i **highly** recommend!) or using an integrated less featured Screen Capture module that allows capturing for Windows desktop windows and objects. To capture, simply click the capture button (camera icon) and the main app minimizes and either SnagIt or the integrate screen capture tool pops up to let you select the object to capture. You can preview and edit your captures, and when finished the captured image is linked directly into content.
 
 ![SnagIt Screen Capture Add-in](SnagItCaptureAddin.png)
-
 
 Here's the **SnagIt Screen Capture** in action:
 
@@ -109,7 +127,7 @@ If you don't have SnagIt installed or you simply prefer a more light weight but 
 
 ![](ClassicScreenCapture.gif)
 
-* **WebLog Addin**  
+#### WebLog Addin
 Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the Weblog add-in. Click the Weblog button on the toolbar and set up your blog (MetaWebLog or WordPress), and then specify the Weblog specifics like title, abstract, tags and Web Site to publish to. You can also download existing blog posts from your blog and edit them as Markdown (with some conversion limitations) and then republish them.
 
 ![Weblog Publishing Addin](WebLogPublishingAddin.png)  
@@ -130,16 +148,29 @@ Ace Editor is a power HTML based editor platform that makes it easy to plug synt
 This extensible Markdown parser library is used for the rendering Markdown to HTML in Markdown Monster. The library is fast and supports a number of useful extensions like Github Flavored Markdown, table support, auto-linking and various add-on protocols. The feature set is extensible via a plug-in pipeline. 
 
 * **[MahApps.Metro](http://mahapps.com/)**  
-This library provides the Metro style window and theming support of the top level application shell.
+This library provides the Metro style window and theming support of the top level application shell. It's an easy to use library that makes it a snap to build nice looking WPF applications.
 
 * **[Dragablz](https://dragablz.net/)**  
-This library provides the tab control support for the editor allowing for nicely styled tab reordering and overflow. The library also supports tab tear off tabs and layout docking altough this feature is not used in Markdown Monster.
+This library provides the tab control support for the editor allowing for nicely styled tab reordering and overflow. The library also supports tab tear off tabs and layout docking although this feature is not used in Markdown Monster.
 
 * **[nHunspell Spell Checking](http://www.crawler-lib.net/nhunspell)**  
 Spell checking is handled via the hunspell library and the .NET wrapper in nhunspell. This library checks for mispellings and provides lookups for misspelled words. Word parsing is done in JavaScript and the spell checking is done in .NET by piping word lists to .NET to check which is drastically faster than doing the spell checking in the browser using JavaScript.
 
+## Spread the Word about Markdown Monster
+If you like Markdown Monster please pass it on to help spread the word. Let your friends know, mention it to others who ask about Markdown and help us grow this community to encourage building the best Markdown Editor around.
+
+Here are a few things you can do to help spread the word:
+
+* **Follow us on Twitter**: [@MarkdownMonstr](https://twitter.com/markdownmonstr)
+* **Tweet about Markdown Monster** and mention [@MarkdownMonstr](https://twitter.com/markdownmonstr)
+* **Star this repo** by clicking on the Star icon in the header
+* **Install from Chocolatey** with the [Markdown Monster Package](https://chocolatey.org/packages/MarkdownMonster)
+* **Write an Addin**: [Create a Markdown Monster Addin](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)
+
+The support from the community so far with feedback, bug reports and ideas for new features has been awesome, and I look forward for that to continue with a growing community of active users and contributors.
+
 ## License
-Although we provide the source in the open, Markdown Monster is licensed software &copy; West Wind Technologies, 2016.
+Although we provide the source in the open, Markdown Monster is licensed software &copy; West Wind Technologies, 2016-2017.
 
 Markdown Monster can  be downloaded and evaluated for free, but a [reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER) must be purchased for continued use. Licenses are **per user**, rather than per machine, so an individual user can use Markdown Monster on as many computers they wish with their license. 
 
