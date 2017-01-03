@@ -554,7 +554,7 @@ namespace MarkdownMonster
                 markdown = CurrentText;
             
             var parser = MarkdownParserFactory.GetParser(renderLinksAsExternal: renderLinksExternal, usePragmaLines: usePragmaLines, forceLoad: true);            
-            return parser.Parse(markdown);
+            return parser.Parse(markdown, renderLinksExternal);
         }
 
         /// <summary>

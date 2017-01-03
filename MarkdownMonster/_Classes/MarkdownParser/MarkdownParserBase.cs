@@ -18,7 +18,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>
-        public abstract string Parse(string markdown);
+        public abstract string Parse(string markdown, bool renderLinksExternal = false);
         
  
 
@@ -73,9 +73,6 @@ namespace MarkdownMonster
         /// <returns></returns>
         protected string ParseScript(string html)
         {
-            if (mmApp.Configuration.EditorAllowRenderScriptTags)
-                return html;
-
             html = html.Replace("<script", "&lt;script");
             html = html.Replace("</script", "&lt;/script");
             html = html.Replace("javascript:", "javaScript:");
@@ -102,6 +99,16 @@ namespace MarkdownMonster
             }
 
             return html;
+        }
+
+        /// <summary>
+        /// Replaces all links with target="top" links
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        protected string ParseExternalLinks(string html)
+        {
+            return html.Replace("<a href=", "<a target=\"top\" href=");
         }
 
     }

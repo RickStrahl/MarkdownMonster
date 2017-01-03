@@ -242,25 +242,6 @@ namespace MarkdownMonster
         }
         private string _editorDictionary;
 
-        /// <summary>
-        /// Determines whether the Markdown rendering allows script tags 
-        /// in generated HTML output. Set this to true
-        /// if you want to allow script tags to be rendered into
-        /// HTML script tags and execute - such as embedding
-        /// Gists or other Widgets that use scripts.        
-        /// </summary>
-        public bool EditorAllowRenderScriptTags
-        {
-            get { return _editorAllowRenderScriptTags; }
-            set
-            {
-                if (value == _editorAllowRenderScriptTags) return;
-                _editorAllowRenderScriptTags = value;
-                OnPropertyChanged(nameof(EditorAllowRenderScriptTags));
-            }
-        }
-        private bool _editorAllowRenderScriptTags;
-
 
         /// <summary>
         /// Keyboard input hanlder type:
@@ -268,6 +249,29 @@ namespace MarkdownMonster
         /// </summary>
         public object EditorKeyboardHandler { get; set; }
 
+        /// <summary>
+        /// Determines whether the Markdown rendering allows script tags 
+        /// in generated HTML output. Set this to true
+        /// if you want to allow script tags to be rendered into
+        /// HTML script tags and execute - such as embedding
+        /// Gists or other Widgets that use scripts.        
+        /// </summary>
+        public bool AllowRenderScriptTags
+        {
+            get { return _allowRenderScriptTags; }
+            set
+            {
+                if (value == _allowRenderScriptTags) return;
+                _allowRenderScriptTags = value;
+                OnPropertyChanged(nameof(AllowRenderScriptTags));
+            }
+        }
+        private bool _allowRenderScriptTags;
+
+        /// <summary>
+        /// Determines whether links are always rendered with target='top'
+        /// </summary>
+        public bool RenderLinksExternal { get; set; }
 
         /// <summary>
         /// If greater than 0 re-opens up to number of files that were open when last closed.
@@ -285,7 +289,7 @@ namespace MarkdownMonster
         public bool UseSingleWindow { get; set; }
 
 
-
+        
 
         /// <summary>
         /// Determines whether errors are reported anonymously
@@ -401,6 +405,8 @@ namespace MarkdownMonster
         /// </summary>
         public bool DisableAddins { get; set; }
 
+        
+
 
         public ApplicationConfiguration()
         {
@@ -430,7 +436,7 @@ namespace MarkdownMonster
             EditorFontSize = 17;
             EditorWrapText = true;
             EditorHighlightActiveLine = true;
-            EditorAllowRenderScriptTags = true;
+            AllowRenderScriptTags = true;
             EditorEnableSpellcheck = true;
             EditorDictionary = "EN_US";
             EditorKeyboardHandler = "default";  // vim,emacs

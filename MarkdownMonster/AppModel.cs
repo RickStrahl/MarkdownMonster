@@ -380,9 +380,7 @@ namespace MarkdownMonster
             SaveAsHtmlCommand = new CommandBase((s, e) =>
             {
                 var tab = Window.TabControl?.SelectedItem as TabItem;
-                if (tab == null)
-                    return;
-                var doc = tab.Tag as MarkdownDocumentEditor;
+                var doc = tab?.Tag as MarkdownDocumentEditor;
                 if (doc == null)
                     return;
 
@@ -406,7 +404,7 @@ namespace MarkdownMonster
                 {
                     if (sd.FilterIndex != 2)
                     {
-                        var html = doc.RenderMarkdown(doc.GetMarkdown());
+                        var html = doc.RenderMarkdown(doc.GetMarkdown(), mmApp.Configuration.RenderLinksExternal);
 
                         if (!doc.MarkdownDocument.WriteFile(sd.FileName, html))
                         {
@@ -455,6 +453,7 @@ Do you want to View in Browser now?
                 Window.OpenTab("untitled");
             });
 
+            // OPEN DOCUMENT COMMAND
             OpenDocumentCommand = new CommandBase((s, e) =>
             {
                 var fd = new OpenFileDialog

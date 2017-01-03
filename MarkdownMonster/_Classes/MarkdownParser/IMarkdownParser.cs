@@ -7,6 +7,6 @@
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>
-        string Parse(string markdown);
+        string Parse(string markdown, bool renderLinksExternal = false);
     }
 }

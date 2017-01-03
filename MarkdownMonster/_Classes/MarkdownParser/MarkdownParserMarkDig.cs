@@ -75,7 +75,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>
-        public override string Parse(string markdown)
+        public override string Parse(string markdown, bool renderLinksExternal = false)
         {
             if (string.IsNullOrEmpty(markdown))
                 return string.Empty;
@@ -83,7 +83,13 @@ namespace MarkdownMonster
             var html = Markdown.ToHtml(markdown, Pipeline);
             
             html = ParseFontAwesomeIcons(html);
-            html = ParseScript(html);            
+
+            if (renderLinksExternal)
+                html = ParseExternalLinks(html);
+
+            if (!mmApp.Configuration.AllowRenderScriptTags)
+                html = ParseScript(html);  
+                      
             return html;
         }
     }

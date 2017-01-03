@@ -892,10 +892,11 @@ namespace MarkdownMonster
                     }
                     else
                     {
-                        renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: !showInBrowser &&
+                        renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: !showInBrowser &&                                                                                
                                                                                                 mmApp.Configuration
                                                                                                     .PreviewSyncMode !=
-                                                                                                PreviewSyncMode.None);
+                                                                                                PreviewSyncMode.None,
+                                                                                                renderLinksExternal: mmApp.Configuration.RenderLinksExternal);
                         if (renderedHtml == null)
                         {
                             SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
