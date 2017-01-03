@@ -648,11 +648,11 @@ namespace MarkdownMonster
             }
             else if (key == "ctrl-n")
             {
-                Window.Button_Handler(Window.ButtonNewFile,null);
+                Window.Model.NewDocumentCommand.Execute(Window);
             }
             else if (key == "ctrl-o")
             {
-                Window.Button_Handler(Window.ButtonOpenFile, null);
+                Window.Model.OpenDocumentCommand.Execute(Window);
             }
             else if (key == "ctrl-p")
             {

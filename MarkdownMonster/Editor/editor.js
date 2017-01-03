@@ -66,7 +66,8 @@ var te = window.textEditor = {
         // disable certain hot keys in editor so we can handle them here        
         editor.commands.bindKeys({
             //"alt-k": null,
-            "ctrl-n": function() {
+            "ctrl-n": function (e) {
+                te.specialkey("ctrl-n");
                 // do nothing but:
                 // keep ctrl-n browser behavior from happening
                 // and let WPF handle the key
@@ -74,7 +75,7 @@ var te = window.textEditor = {
             "f5": function() {},
             "alt-c": function () { te.specialkey("alt-c"); },
 
-            "ctrl-o": function () { te.specialkey("ctrl-o"); },
+            "ctrl-o": function (e) { status("ctrl-o"); te.specialkey("ctrl-o"); },
             "ctrl-p": function () { te.specialkey("ctrl-p") },
 
             "ctrl-s": function() { te.specialkey("ctrl-s"); },

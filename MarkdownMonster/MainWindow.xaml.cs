@@ -106,7 +106,7 @@ namespace MarkdownMonster
             AllowDrop = true;
                         
             KeyUp += MainWindow_KeyUp;
-            Activated += MainWindow_Activated;
+            Activated += OnActivated;
 
             // Singleton App startup - server code that listens for other instances
             if (mmApp.Configuration.UseSingleWindow)
@@ -126,62 +126,6 @@ namespace MarkdownMonster
             wbHandler = new WebBrowserHostUIHandler(PreviewBrowser);            
         }
 
-
-        
-
-        private void MainWindow_Activated(object sender, EventArgs e)
-        {        
-            // check for external file changes
-            for (int i = TabControl.Items.Count - 1; i > -1; i--)
-            {
-                var tab = TabControl.Items[i] as TabItem;
-
-                if (tab != null)
-                {
-                    var editor = tab.Tag as MarkdownDocumentEditor;
-                    var doc = editor?.MarkdownDocument;
-                    if (doc == null)
-                        continue;
-
-                    if (doc.HasFileCrcChanged())
-                    {
-                        // force update to what's on disk so it doesn't fire again
-                        // do here prior to dialogs so this code doesn't fire recursively
-                        doc.UpdateCrc();
-
-                        string filename = doc.FilenamePathWithIndicator.Replace("*","");
-                        string template = filename +
-                                          "\r\n\r\nThis file has been modified by another program.\r\nDo you want reload it?";
-                        
-                        if (MessageBox.Show(this,template,
-                                "Reload",
-                                MessageBoxButton.YesNo,
-                                MessageBoxImage.Question) == MessageBoxResult.Yes)
-                        {
-                            if (!doc.Load(doc.Filename))
-                            {
-                                MessageBox.Show(this, "Unable to re-load current document.",
-                                                "Error re-loading file",
-                                                MessageBoxButton.OK,MessageBoxImage.Exclamation);                                
-                                continue;
-                            }
-
-                            dynamic pos = editor.AceEditor.getscrolltop(false);
-                            editor.SetMarkdown(doc.CurrentText);
-                            editor.AceEditor.updateDocumentStats(false);
-                            if (pos > 0)
-                                editor.AceEditor.setscrolltop(pos);
-                            var selectedTab = TabControl.SelectedItem as TabItem;
-                            if (tab == selectedTab)
-                                PreviewMarkdown(editor, keepScrollPosition: true);                            
-                        }
-                    }
-                }
-            }
-        }
-
-
-        
         #region Opening and Closing
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -265,6 +209,66 @@ namespace MarkdownMonster
             mmApp.SetWorkingSet(10000000, 5000000);
         }
 
+        protected void OnActivated(object sender, EventArgs e)
+        {
+
+            var selectedTab = TabControl.SelectedItem as TabItem;
+
+            // check for external file changes
+            for (int i = TabControl.Items.Count - 1; i > -1; i--)
+            {
+                var tab = TabControl.Items[i] as TabItem;
+
+                if (tab != null)
+                {
+                    var editor = tab.Tag as MarkdownDocumentEditor;
+                    var doc = editor?.MarkdownDocument;
+                    if (doc == null)
+                        continue;
+
+                    if (doc.HasFileCrcChanged())
+                    {
+                        // force update to what's on disk so it doesn't fire again
+                        // do here prior to dialogs so this code doesn't fire recursively
+                        doc.UpdateCrc();
+
+                        string filename = doc.FilenamePathWithIndicator.Replace("*","");
+                        string template = filename +
+                                          "\r\n\r\nThis file has been modified by another program.\r\nDo you want reload it?";
+                        
+                        if (MessageBox.Show(this,template,
+                                "Reload",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            if (!doc.Load(doc.Filename))
+                            {
+                                MessageBox.Show(this, "Unable to re-load current document.",
+                                    "Error re-loading file",
+                                    MessageBoxButton.OK,MessageBoxImage.Exclamation);                                
+                                continue;
+                            }
+
+                            dynamic pos = editor.AceEditor.getscrolltop(false);
+                            editor.SetMarkdown(doc.CurrentText);
+                            editor.AceEditor.updateDocumentStats(false);
+                            if (pos > 0)
+                                editor.AceEditor.setscrolltop(pos);
+                            
+                            if (tab == selectedTab)
+                            {
+                                PreviewMarkdown(editor, keepScrollPosition: true);
+                            }
+                        }
+                    }                    
+                }
+
+                var selectedEditor = selectedTab.Tag as MarkdownDocumentEditor;
+                selectedEditor?.WebBrowser.Focus();
+                selectedEditor?.SetEditorFocus();
+            }
+        }
+
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);            
@@ -308,11 +312,10 @@ namespace MarkdownMonster
             e.Cancel = false;            
         }
 
-        void AddRecentFile(string file)
+        public void AddRecentFile(string file)
         {
             mmApp.Configuration.AddRecentFile(file);
             RecentDocumentsContextList();
-
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(file);
         }
 
@@ -1053,42 +1056,44 @@ namespace MarkdownMonster
             if (sender == null)
                 return;
 
-            if (button == ButtonOpenFile || button == ToolButtonOpenFile)
-            {                
-                var fd = new OpenFileDialog
-                {
-                    DefaultExt = ".md",
-                    Filter = "Markdown files (*.md)|*.md|" +
-                             "Html files (*.htm,*.html)|*.htm;*.html|" +
-                             "Javascript files (*.js)|*.js|" +
-                             "Typescript files (*.ts)|*.ts|" +
-                             "Json files (*.json)|*.json|" +
-                             "Css files (*.css)|*.css|" +
-                             "Xml files (*.xml,*.config)|*.xml;*.config|" +
-                             "C# files (*.cs)|*.cs|" +
-                             "C# Razor files (*.cshtml)|*.cshtml|" +
-                             "Foxpro files (*.prg)|*.prg|" +
-                             "Powershell files (*.ps1)|*.ps1|" +
-                             "Php files (*.php)|*.php|" +
-                             "Python files (*.py)|*.py|" +
-                             "All files (*.*)|*.*",
-                    CheckFileExists = true,
-                    RestoreDirectory = true,
-                    Multiselect = true,
-                    Title = "Open Markdown File"
-                };
+            //if (button == ButtonOpenFile || button == ToolButtonOpenFile)
+            //{                
+            //    var fd = new OpenFileDialog
+            //    {
+            //        DefaultExt = ".md",
+            //        Filter = "Markdown files (*.md)|*.md|" +
+            //                 "Html files (*.htm,*.html)|*.htm;*.html|" +
+            //                 "Javascript files (*.js)|*.js|" +
+            //                 "Typescript files (*.ts)|*.ts|" +
+            //                 "Json files (*.json)|*.json|" +
+            //                 "Css files (*.css)|*.css|" +
+            //                 "Xml files (*.xml,*.config)|*.xml;*.config|" +
+            //                 "C# files (*.cs)|*.cs|" +
+            //                 "C# Razor files (*.cshtml)|*.cshtml|" +
+            //                 "Foxpro files (*.prg)|*.prg|" +
+            //                 "Powershell files (*.ps1)|*.ps1|" +
+            //                 "Php files (*.php)|*.php|" +
+            //                 "Python files (*.py)|*.py|" +
+            //                 "All files (*.*)|*.*",
+            //        CheckFileExists = true,
+            //        RestoreDirectory = true,
+            //        Multiselect = true,
+            //        Title = "Open Markdown File"
+            //    };
 
-                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
-                    fd.InitialDirectory = mmApp.Configuration.LastFolder;
+            //    if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
+            //        fd.InitialDirectory = mmApp.Configuration.LastFolder;
 
-                var res = fd.ShowDialog();
-                if (res == null || !res.Value)
-                    return;
+            //    var res = fd.ShowDialog();
+            //    if (res == null || !res.Value)
+            //        return;
 
-                OpenTab(fd.FileName, rebindTabHeaders: true);                
+            //    OpenTab(fd.FileName, rebindTabHeaders: true);                
 
-                AddRecentFile(fd.FileName);
-            }
+            //    AddRecentFile(fd.FileName);
+            //}
+
+
             if (button == ButtonOpenFromHtml)
             {
                 var fd = new OpenFileDialog
@@ -1118,10 +1123,10 @@ namespace MarkdownMonster
                 editor.MarkdownDocument.CurrentText = markdown;
                 PreviewMarkdown();
             }
-            else if (button == ButtonNewFile || button == ToolButtonNewFile)
-            {
-                OpenTab("untitled");
-            }
+            //else if (button == ButtonNewFile || button == ToolButtonNewFile)
+            //{
+            //    OpenTab("untitled");
+            //}
             else if (button == ButtonNewWeblogPost)
             {
                 AddinManager.Current.RaiseOnNotifyAddin("newweblogpost", null);
@@ -1348,18 +1353,18 @@ namespace MarkdownMonster
         /// <param name="e"></param>
         private void MainWindow_KeyUp(object sender, KeyEventArgs e)
         {
-            bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-            if (e.Key == Key.N && isControlKey)
-            {
-                e.Handled = true;
-                Button_Handler(ButtonNewFile, null);
-            }
-            if (e.Key == Key.O && isControlKey)
-            {
-                e.Handled = false;
-                Button_Handler(ButtonOpenFile, null);
-            }
-            
+            //bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+            //if (e.Key == Key.N && isControlKey)
+            //{
+            //    e.Handled = true;
+            //    Button_Handler(ButtonNewFile, null);
+            //}
+            //if (e.Key == Key.O && isControlKey)
+            //{
+            //    e.Handled = false;
+            //    Button_Handler(ButtonOpenFile, null);
+            //}
+
         }
 
         /// <summary>

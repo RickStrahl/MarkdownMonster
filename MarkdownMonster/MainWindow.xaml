@@ -24,6 +24,8 @@
         <KeyBinding Key="F11" Command="{Binding PresentationModeCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="P"
                     Command="{Binding PrintPreviewCommand}" />
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewDocumentCommand }"  />
+        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenDocumentCommand }"    />
     </Window.InputBindings>
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
@@ -105,10 +107,10 @@
               Margin="0"               
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File">
-                <MenuItem Name="ButtonNewFile" Header="_New" Click="Button_Handler" InputGestureText="Ctrl-N"/>
+                <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding NewDocumentCommand}" InputGestureText="Ctrl-N"/>
                 <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Click="Button_Handler" />
                 <Separator/>
-                <MenuItem Name="ButtonOpenFile" Header="_Open" Click="Button_Handler" InputGestureText="Ctrl-O"/>
+                <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding OpenDocumentCommand}"  InputGestureText="Ctrl-O"/>
                 <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
                 <MenuItem Name="ButtonRecentFiles" Header="Recent documents">
                 </MenuItem>
@@ -252,7 +254,7 @@
                 <StackPanel Orientation="Horizontal">
                     <ToolBar Name="ToolbarFile" >
 
-                        <Button Name="ToolButtonOpenFile" Margin="7,0,0,0" Click="Button_Handler" ToolTip="Open Markdown file (ctrl-o)"                                
+                        <Button Name="ToolButtonOpenFile" Margin="7,0,0,0"  Command="{Binding OpenDocumentCommand}" ToolTip="Open Markdown file (ctrl-o)"                                
                                 fa:Awesome.Content="FolderOpen"
                                  Height="22" Width="22"
                                 TextElement.FontSize="16"
@@ -270,7 +272,7 @@
                         </Button>
 
 
-                        <Button Name="ToolButtonNewFile" Margin="7,0,0,0" Click="Button_Handler" ToolTip="New file (ctrl-n)"                                
+                        <Button Name="ToolButtonNewFile" Margin="7,0,0,0" Command="{Binding NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
                                 fa:Awesome.Content="PlusCircle"
                                  Height="22" Width="22"
                                 TextElement.FontSize="16"

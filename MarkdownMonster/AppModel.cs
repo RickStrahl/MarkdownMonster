@@ -292,6 +292,10 @@ namespace MarkdownMonster
         public CommandBase DistractionFreeModeCommand { get; set; }
         public CommandBase PresentationModeCommand { get; set; }
 
+        public CommandBase NewDocumentCommand { get; set; }
+
+        public CommandBase OpenDocumentCommand { get; set; }
+
         public CommandBase PrintPreviewCommand { get; set; }
 
         private void CreateCommands()
@@ -443,6 +447,49 @@ Do you want to View in Browser now?
                     return false;
 
                 return true;
+            });
+
+            // NEW DOCUMENT COMMAND (ctrl-n)
+            NewDocumentCommand = new CommandBase((s, e) =>
+            {
+                Window.OpenTab("untitled");
+            });
+
+            OpenDocumentCommand = new CommandBase((s, e) =>
+            {
+                var fd = new OpenFileDialog
+                {
+                    DefaultExt = ".md",
+                    Filter = "Markdown files (*.md)|*.md|" +
+                            "Html files (*.htm,*.html)|*.htm;*.html|" +
+                            "Javascript files (*.js)|*.js|" +
+                            "Typescript files (*.ts)|*.ts|" +
+                            "Json files (*.json)|*.json|" +
+                            "Css files (*.css)|*.css|" +
+                            "Xml files (*.xml,*.config)|*.xml;*.config|" +
+                            "C# files (*.cs)|*.cs|" +
+                            "C# Razor files (*.cshtml)|*.cshtml|" +
+                            "Foxpro files (*.prg)|*.prg|" +
+                            "Powershell files (*.ps1)|*.ps1|" +
+                            "Php files (*.php)|*.php|" +
+                            "Python files (*.py)|*.py|" +
+                            "All files (*.*)|*.*",
+                    CheckFileExists = true,
+                    RestoreDirectory = true,
+                    Multiselect = true,
+                    Title = "Open Markdown File"
+                };
+
+                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
+                    fd.InitialDirectory = mmApp.Configuration.LastFolder;
+
+                var res = fd.ShowDialog();
+                if (res == null || !res.Value)
+                    return;
+
+                Window.OpenTab(fd.FileName, rebindTabHeaders: true);
+
+                Window.AddRecentFile(fd.FileName);
             });
 
             // PREVIEW BUTTON COMMAND
