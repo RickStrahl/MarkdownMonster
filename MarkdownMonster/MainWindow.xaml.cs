@@ -263,9 +263,13 @@ namespace MarkdownMonster
                     }                    
                 }
 
-                var selectedEditor = selectedTab.Tag as MarkdownDocumentEditor;
-                selectedEditor?.WebBrowser.Focus();
-                selectedEditor?.SetEditorFocus();
+                // Ensure that user hasn't higlighted a MenuItem so the menu doesn't lose focus
+                if (!MainMenu.Items.OfType<MenuItem>().Any(item => item.IsHighlighted))
+                {
+                    var selectedEditor = selectedTab.Tag as MarkdownDocumentEditor;
+                    selectedEditor?.WebBrowser.Focus();
+                    selectedEditor?.SetEditorFocus();
+                }
             }
         }
 
