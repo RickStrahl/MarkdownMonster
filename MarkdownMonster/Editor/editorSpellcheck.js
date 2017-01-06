@@ -23,7 +23,7 @@ var sc = window.spellcheck = {
     },
     contentModified: true,
     contentModifiedChanged: function(e) {        
-        sc.contentsModified = true;        
+        sc.contentModified = true;        
     },
     disable: function() {
         if (sc.interval) {
@@ -44,7 +44,7 @@ var sc = window.spellcheck = {
         var misspelledDict = [];
         var intervalTimeout = 1800;
 
-        sc.contentsModified = true;
+        sc.contentModified = true;
         var currentlySpellchecking = false;
 
         var typoLastAccess = new Date().getSeconds();
@@ -148,7 +148,7 @@ var sc = window.spellcheck = {
                 return;
             if (currentlySpellchecking) 
                 return;            
-            if (!force && !sc.contentsModified) 
+            if (!force && !sc.contentModified) 
                 return;
             
             currentlySpellchecking = true;
@@ -197,7 +197,7 @@ var sc = window.spellcheck = {
                         }
                         if (isLast) {
                             currentlySpellchecking = false;
-                            sc.contentsModified = false;                            
+                            sc.contentModified = false;                            
                         }
                     }.bind(this,line, lineCount >= lines.length), 40);
                 }
@@ -288,7 +288,7 @@ var sc = window.spellcheck = {
             if (text && text.trim() == "+ add") {
                 var word = $list.data("misspelled");
                 te.addWordSpelling(word);
-                sc.contentsModified = true;
+                sc.contentModified = true;
             }
             else if (text && text.trim() != "x close") {
                 var range = $el.data("range");
