@@ -159,7 +159,7 @@ namespace SnagItAddin
         WindowInfo LastWindow = null;
         WindowInfo CurWindow = null;
         
-        public UserActivityHook UserActivityHook { get; set; }
+        //public UserActivityHook UserActivityHook { get; set; }
 
         #endregion
 
@@ -185,9 +185,9 @@ namespace SnagItAddin
             CaptureDelaySeconds = ScreenCaptureConfiguration.Current.CaptureDelaySeconds;
             IncludeCursor = ScreenCaptureConfiguration.Current.IncludeCursor;
 
-            UserActivityHook = new UserActivityHook(true, true);
-            UserActivityHook.OnMouseActivity += UserActivityHook_OnMouseActivity;
-            UserActivityHook.KeyDown += UserActivityHook_KeyDown;
+            //UserActivityHook = new UserActivityHook(true, true);
+            //UserActivityHook.OnMouseActivity += UserActivityHook_OnMouseActivity;
+            //UserActivityHook.KeyDown += UserActivityHook_KeyDown;
             
             CapturedBitmap = null;
             WindowHandle = new WindowInteropHelper(this).Handle;
@@ -202,9 +202,9 @@ namespace SnagItAddin
 
             try
             {                
-                UserActivityHook.KeyDown -= UserActivityHook_KeyDown;
-                UserActivityHook.OnMouseActivity -= UserActivityHook_OnMouseActivity;
-                UserActivityHook.Stop();
+              //  UserActivityHook.KeyDown -= UserActivityHook_KeyDown;
+               // UserActivityHook.OnMouseActivity -= UserActivityHook_OnMouseActivity;
+                //UserActivityHook.Stop();
             }
             catch { }
 
@@ -330,7 +330,7 @@ namespace SnagItAddin
             CaptureTimer = new Timer(Capture, null, 0, 100);
         }
 
-
+#if false
         private void UserActivityHook_KeyDown(object sender, CustomKeyEventArgs e)
         {
             bool cancel = e.Key == Keys.Escape;
@@ -348,6 +348,7 @@ namespace SnagItAddin
             if (IsMouseClickCapturing && e.Button == MouseButton.Left)
                 StopCapture();
         }
+#endif
 
         internal void StopCapture(bool cancelCapture = false)
         {
@@ -456,9 +457,9 @@ namespace SnagItAddin
             ExternalWindow?.Activate();
         }
 
-        #endregion
+#endregion
 
-        #region ButtonHandlers
+#region ButtonHandlers
 
         private void tbCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -599,7 +600,7 @@ namespace SnagItAddin
             }
         }
 
-        #endregion
+#endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 

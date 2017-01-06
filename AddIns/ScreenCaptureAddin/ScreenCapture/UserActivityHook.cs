@@ -1,4 +1,5 @@
-﻿// Credit: ScreenToGif library
+﻿#if false
+// Credit: ScreenToGif library
 // https://github.com/NickeManarin/ScreenToGif
 
 using System;
@@ -1011,3 +1012,4 @@ namespace ScreenCaptureAddin
     }
 
 }
+#endif
