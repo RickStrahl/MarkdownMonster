@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using MarkdownMonster.Windows;
 
 namespace MarkdownMonster
@@ -21,7 +22,7 @@ namespace MarkdownMonster
         /// </remarks>
         /// <param name="html"></param>
         /// <returns></returns>
-        public static string HtmlToMarkdown(string html)
+        public static string HtmlToMarkdown(string html, bool noErrorUI = false)
         {
             if (string.IsNullOrEmpty(html))
                 return "";
@@ -43,24 +44,20 @@ namespace MarkdownMonster
             form.Show();
 
             bool exists = File.Exists(htmlFile);
-            form.Navigate(htmlFile);
+            form.NavigateAndWaitForCompletion(htmlFile);
 
             WindowUtilities.DoEvents();
 
-            for (int i = 0; i < 200; i++)
+            try
             {
                 dynamic doc = form.Browser.Document;
-
-                if (!form.IsLoaded)
-                {
-                    Task.Delay(10);
-                    WindowUtilities.DoEvents();
-                }
-                else
-                {
-                    markdown = doc.ParentWindow.htmltomarkdown(html);
-                    break;
-                }
+                markdown = doc.ParentWindow.htmltomarkdown(html);
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log("Failed to convert Html to Markdown", ex);
+                if (!noErrorUI)
+                    MessageBox.Show("Unable to convert Html to Markdown. Returning Html.","Html to Markdown Conversion Failed.",MessageBoxButtons.OK,MessageBoxIcon.Warning);
             }
 
             form.Close();
