@@ -170,16 +170,15 @@ var sc = window.spellcheck = {
                     setTimeout(function (line, isLast) {
                         var lineText = lines[line];
 
-                        if (lineText && lineText.length > 2 && lineText.substr(0, 3) === "```") {
-                            isCodeBlock = !isCodeBlock;
-                            status("toggled: " + isCodeBlock);
-                        }
+                        if (lineText && lineText.length > 2 && lineText.substr(0, 3) === "```") 
+                            isCodeBlock = !isCodeBlock;                            
+                        
                         if (!isCodeBlock) {
 
                             // Check spelling of this line.
                             var misspellings = misspelled(lineText);
 
-                            // Add markers and gutter markings.
+                            //// Add markers and gutter markings.
                             //if (misspellings.length > 0) {
                             //    session.addGutterDecoration(i, "misspelled");
                             //}
