@@ -11,9 +11,15 @@ Made change to have the spell checker not check code snippet blocks. This makes 
 * **WordPress Featured Image**   
 WordPress post uploads now select the first image and set it as the featured image on the post. This feature has been much requested, but might need some tweaking to get the right workflow for selecting images. If you have ideas on how to handle this from a UI flow, please post an issue.
 
-
 * **Force Focus to Editor when Activating Form**  
 Changed behavior so when the editor window is activated, focus is always forced into the editor so no matter where you click on the window you can just start typing again. This also avoids the occasional funky focus bug where the document 'overselects' the entire visible area just by moving the mouse over it.
+
+* **Fix: Tab Activation Editor Focus**  
+When activating a new tab focus is now properly set into the editor at current cursor position.
+
+* **Fix: Spell Checker Churn**   
+Spell checker was activating too frequently when switching between tabs as the check interval was doubling up. Fixed.
+
 
 ### 1.1
 <i><small>January 2nd, 2017</small></i>
