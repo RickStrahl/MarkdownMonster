@@ -788,6 +788,9 @@ namespace MarkdownMonster
             AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
 
             Model.ActiveEditor.RestyleEditor();
+
+            editor.WebBrowser.Focus();
+            editor.SetEditorFocus();            
         }
 
         //[Obsolete("This is old the code from the MetroTabControl")]
