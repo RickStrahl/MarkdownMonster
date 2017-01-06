@@ -520,7 +520,6 @@ namespace MarkdownMonster
             
             tab.Content = wb;
 
-
             if (editor == null)
             {
                 editor = new MarkdownDocumentEditor(wb)

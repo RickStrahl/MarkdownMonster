@@ -81,7 +81,7 @@
 
     <Window.Resources>
         <ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
-            <MenuItem Header="_Close Document" Command="{Binding CloseActiveDocumentCommand}" />
+            <MenuItem Header="_Close Document" Command="{Binding DataContext.CloseActiveDocumentCommand}" />
             <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Click="ButtonCloseAllTabs_Click"/>
             <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document" Click="ButtonCloseAllTabs_Click"/>
             <Separator/>
