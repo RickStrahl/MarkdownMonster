@@ -221,6 +221,12 @@
                 <p>
                     Licenses are valid for the major version for which it was purchased such as v1.0 to v1.99.                    
                 </p>
+                
+                <h3>Contribute - Get a Free License</h3>
+                <p>Contributors that provide valuable feedback, help out with code via Pull Requests or support
+                   Markdown Monster in a significant way are eligible for a free license. 
+                   Contact [Rick for more info](http://west-wind.com/contact/) or - just as likely - I'll be contacting
+                   you.</p>
 
                 <p>
                     <h4>No Warranty</h4>

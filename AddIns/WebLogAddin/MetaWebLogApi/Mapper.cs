@@ -120,7 +120,9 @@ namespace WebLogAddin.MetaWebLogApi
             {
                 return new XmlRpcMediaObjectInfo
                 {
-                    url = input.URL
+                    url = input.URL,
+                    id = input.Id,
+                    file = input.File
                 };
             }
             internal static XmlRpcOption Option(Option input)
@@ -411,7 +413,9 @@ namespace WebLogAddin.MetaWebLogApi
             {
                 return new MediaObjectInfo
                 {
-                    URL = input.url
+                    URL = input.url,
+                    Id = input.id,
+                    File = input.file
                 };
             }
 

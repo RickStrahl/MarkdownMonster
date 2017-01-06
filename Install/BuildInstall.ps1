@@ -25,3 +25,6 @@ del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
 "Done!"
 
 dir .\Builds\CurrentRelease
+
+
+get-childitem .\builds\CurrentRelease\* -include *.* | foreach-object { "{0}`t{1}`t{2:n0}`t`t{3}" -f $_.Name, $_.LastWriteTime, $_.Length, [System.Diagnostics.FileVersionInfo]::GetVersionInfo($_).FileVersion }

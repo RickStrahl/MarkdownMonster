@@ -501,10 +501,12 @@ Do you want to View in Browser now?
 
                 if (Window.CloseTab(tab))
                     Window.TabControl.Items.Remove(tab);
-            }, (s, e) =>
+            }, (s, e) => IsEditorActive)
             {
-                return IsEditorActive;
-            });
+                Caption = "_Close Document",
+                ToolTip = "Closes the active tab and asks to save the document."
+            };        
+                        
 
             // PREVIEW BUTTON COMMAND
             PreviewBrowserCommand = new CommandBase((s, e) =>
