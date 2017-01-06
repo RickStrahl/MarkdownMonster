@@ -123,7 +123,7 @@ var sc = window.spellcheck = {
                 // only use words without special characters
                 if (word.length > 1 &&                                     
                     sc.excludedWords.indexOf("," + word + ",") == -1 &&
-                    !word.match(/[_,-,(,),\[,\],:,*,&,/,\\,~,#,@,%,`,0-9]/g)) {                    
+                    !word.match(/[_,-,(,),\[,\],:,*,&,/,\\,~,#,@,%,{,},`,0-9]/g)) {                    
                     
                     if ( word[0] == "'" && word[word.length-1] == "'" )
                        word =  word.substr(1,word.length-2);
@@ -159,14 +159,23 @@ var sc = window.spellcheck = {
                 
                 var lineCount = 0;
 
+                var isCodeBlock = false;
                 for (var line in lines) {
                     // Clear the gutter.
                     //session.removeGutterDecoration(i, "misspelled");
                     lineCount++;                    
 
-                    setTimeout(function(line, isLast) {
+                    // setTimeout to free up processor in between lines
+                    setTimeout(function (line, isLast) {
+                        var lineText = lines[line];
+
+                        if (lineText.length > 2 && lineText.substr(0, 3) === "```")                             
+                            isCodeBlock = !isCodeBlock;
+                        if (isCodeBlock)
+                            return;
+
                         // Check spelling of this line.
-                        var misspellings = misspelled(lines[line]);
+                        var misspellings = misspelled(lineText);
 
                         // Add markers and gutter markings.
                         //if (misspellings.length > 0) {
