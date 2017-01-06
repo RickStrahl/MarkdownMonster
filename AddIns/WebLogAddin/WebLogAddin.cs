@@ -391,8 +391,9 @@ namespace WeblogAddin
             if (WeblogAddinConfiguration.Current.AddFrontMatterToNewBlogPost)
             {
 
-                post = String.Format(WeblogAddinConfiguration.Current.FrontMatterTemplate + post, 
-                meta.Title,DateTime.Now);
+                post = String.Format(WeblogAddinConfiguration.Current.FrontMatterTemplate,
+                meta.Title, DateTime.Now) + 
+                post;
             }
 
             return post;
