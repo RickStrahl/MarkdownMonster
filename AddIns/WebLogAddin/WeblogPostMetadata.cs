@@ -34,6 +34,11 @@ namespace WeblogAddin
         public string FeaturedImageUrl { get; set; }
 
         /// <summary>
+        /// Featured Image Id used for Wordpress
+        /// </summary>
+        public string FeatureImageId { get; set; }
+
+        /// <summary>
         /// This should hold the raw markdown text retrieved
         /// from the editor which will contain the meta post data
         /// </summary>
@@ -66,6 +71,8 @@ namespace WeblogAddin
                 OnPropertyChanged(nameof(IsDraft));
             }
         }
+
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 

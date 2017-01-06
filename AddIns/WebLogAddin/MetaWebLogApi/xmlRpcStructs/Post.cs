@@ -29,6 +29,7 @@ namespace WebLogAddin.MetaWebLogApi
         public string wp_password;
         public string wp_author_id;
         public string wp_author_display_name;
+        public string wp_post_thumbnail;
         public string post_status;
         public string post_type;
         public string post_content;

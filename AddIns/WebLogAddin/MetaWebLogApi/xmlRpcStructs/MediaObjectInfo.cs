@@ -13,5 +13,9 @@ namespace WebLogAddin.MetaWebLogApi
 		/// The URL to the media object.
 		/// </summary>
 		public string url;
+
+	    public string id;
+
+	    public string file;
 	}
 }

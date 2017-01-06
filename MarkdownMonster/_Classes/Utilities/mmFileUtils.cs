@@ -132,6 +132,34 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// Returns the image media type for a give file extension based
+        /// on a filename or url passed in.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static string GetImageMediaTypeFromFilename(string file)
+        {
+            if (string.IsNullOrEmpty(file))
+                return file;
+
+            string ext = Path.GetExtension(file).ToLower();
+            if (ext == ".jpg" || ext == ".jpeg")
+                return "image/jpeg";
+            if (ext == ".png")
+                return "image/png";
+            if (ext == ".gif")
+                return "image/gif";
+            if (ext == ".bmp")
+                return "image/bmp";
+            if (ext == ".tif" || ext == ".tiff")
+                return "image/tiff";
+
+            return "application/image";
+        }
+
+
+
+        /// <summary>
         /// API call that takes an input path and turns it into a long path
         /// that matches the actual signature on disk
         /// </summary>

@@ -180,7 +180,7 @@ namespace WeblogAddin
                 return false;
 
             ActivePost.Body = body;
-            ActivePost.PostID = meta.PostId;
+            ActivePost.PostID = meta.PostId;            
 
             var customFields = new List<CustomField>();
             
@@ -193,14 +193,21 @@ namespace WeblogAddin
                     Value = meta.MarkdownBody
                 });
 
-            if (!string.IsNullOrEmpty(meta.FeaturedImageUrl))
+            if (!string.IsNullOrEmpty(meta.FeaturedImageUrl) || !string.IsNullOrEmpty(meta.FeatureImageId))
+            {
+                var featuredImage = meta.FeaturedImageUrl;
+                if (!string.IsNullOrEmpty(meta.FeatureImageId)) // id takes precedence
+                    featuredImage = meta.FeatureImageId;
+
+                ActivePost.wp_post_thumbnail = featuredImage;
                 customFields.Add(
                     new CustomField()
                     {
                         ID = "wp_post_thumbnail",
                         Key = "wp_post_thumbnail",
-                        Value = meta.FeaturedImageUrl
+                        Value = featuredImage
                     });
+            }
             ActivePost.CustomFields = customFields.ToArray();
 
             bool isNewPost = IsNewPost(ActivePost.PostID);
@@ -293,10 +300,10 @@ namespace WeblogAddin
                         {
                             imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
                             if (File.Exists(imgFile))
-                            {
+                            {                                
                                 var media = new MediaObject()
                                 {
-                                    Type = "application/image",
+                                    Type = mmFileUtils.GetImageMediaTypeFromFilename(imgFile),
                                     Bits = File.ReadAllBytes(imgFile),
                                     Name = baseName + "/" + Path.GetFileName(imgFile)
                                 };
@@ -304,8 +311,11 @@ namespace WeblogAddin
                                 img.Attributes["src"].Value = mediaResult.URL;
 
                                 // use first image as featured image
-                                if (string.IsNullOrEmpty(metaData.FeaturedImageUrl))
+                                if (string.IsNullOrEmpty(metaData.FeaturedImageUrl)) 
                                     metaData.FeaturedImageUrl = mediaResult.URL;
+                                if (string.IsNullOrWhiteSpace(metaData.FeatureImageId))
+                                    metaData.FeatureImageId = mediaResult.Id;
+
                             }
                         }
                     }

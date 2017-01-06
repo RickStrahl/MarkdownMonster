@@ -26,6 +26,8 @@ namespace WebLogAddin.MetaWebLogApi
         public string mt_keywords { get; set; }
 
         public string mt_text_more { get; set; }
+
+        public string wp_post_thumbnail { get; set; }
         public string post_content { get; set; }
 
         public override string ToString()
