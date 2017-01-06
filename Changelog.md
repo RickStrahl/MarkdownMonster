@@ -20,6 +20,9 @@ When activating a new tab focus is now properly set into the editor at current c
 * **Fix: Spell Checker Churn**   
 Spell checker was activating too frequently when switching between tabs as the check interval was doubling up. Fixed.
 
+* **Fix: Html to Markdown Conversion**  
+Due to security changes pasting Html to Markdown and downloading of Html based blog posts was failing temporarily. Fixed.
+
 
 ### 1.1
 <i><small>January 2nd, 2017</small></i>
