@@ -138,7 +138,9 @@ var sc = window.spellcheck = {
         }
         
         // Spell check the Ace editor contents.
-        function spellCheck(force) {            
+        function spellCheck(force) {
+            
+
             if (!editorSettings.enableSpellChecking)
                 return;
             if (currently_spellchecking) 
@@ -155,11 +157,10 @@ var sc = window.spellcheck = {
                 var Range = ace.require('ace/range').Range;
 
                 var lines = session.getDocument().getAllLines();
-
                 
                 var lineCount = 0;
-
                 var isCodeBlock = false;
+                
                 for (var line in lines) {
                     // Clear the gutter.
                     //session.removeGutterDecoration(i, "misspelled");
@@ -169,26 +170,28 @@ var sc = window.spellcheck = {
                     setTimeout(function (line, isLast) {
                         var lineText = lines[line];
 
-                        if (lineText.length > 2 && lineText.substr(0, 3) === "```")                             
+                        if (lineText && lineText.length > 2 && lineText.substr(0, 3) === "```") {
                             isCodeBlock = !isCodeBlock;
-                        if (isCodeBlock)
-                            return;
+                            status("toggled: " + isCodeBlock);
+                        }
+                        if (!isCodeBlock) {
 
-                        // Check spelling of this line.
-                        var misspellings = misspelled(lineText);
+                            // Check spelling of this line.
+                            var misspellings = misspelled(lineText);
 
-                        // Add markers and gutter markings.
-                        //if (misspellings.length > 0) {
-                        //    session.addGutterDecoration(i, "misspelled");
-                        //}
-                        for (var j in misspellings) {
-                            j = j * 1;
-                            var range = new Range(line * 1, misspellings[j][0], line * 1, misspellings[j][1]);
-                            var marker =
-                                session.addMarker(range, "misspelled", "typo", true);
-                            var word = misspellings[j][2];
-                            range.misspelled = word;
-                            sc.markers[sc.markers.length] = marker;
+                            // Add markers and gutter markings.
+                            //if (misspellings.length > 0) {
+                            //    session.addGutterDecoration(i, "misspelled");
+                            //}
+                            for (var j in misspellings) {
+                                j = j * 1;
+                                var range = new Range(line * 1, misspellings[j][0], line * 1, misspellings[j][1]);
+                                var marker =
+                                    session.addMarker(range, "misspelled", "typo", true);
+                                var word = misspellings[j][2];
+                                range.misspelled = word;
+                                sc.markers[sc.markers.length] = marker;
+                            }
                         }
                         if (isLast) {
                             currently_spellchecking = false;
