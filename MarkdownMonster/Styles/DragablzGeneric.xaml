@@ -1107,7 +1107,11 @@
                                                   x:Name="contentPresenter" />
                                 <Thumb Grid.Column="0" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" 
                                        x:Name="PART_Thumb"
-                                       Style="{StaticResource InvisibleThumbStyle}" />
+                                       Style="{StaticResource InvisibleThumbStyle}">
+                                    <Thumb.InputBindings>
+                                        <MouseBinding Gesture="MiddleClick" Command="local:TabablzControl.CloseItemCommand" />
+                                    </Thumb.InputBindings>
+                                </Thumb>
                                 <Button Grid.Column="1"
                                         Style="{StaticResource CloseItemCommandButtonStyle}"                                        
                                         Command="{x:Static local:TabablzControl.CloseItemCommand}"
