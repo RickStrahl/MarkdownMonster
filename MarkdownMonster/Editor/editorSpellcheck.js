@@ -20,10 +20,17 @@ var sc = window.spellcheck = {
             te.editor.session.removeMarker(sc.markers[i]);
         }
         sc.markers_present = [];
-    },    
+    },
+    contentModified: true,
+    contentModifiedChanged: function(e) {        
+        sc.contentsModified = true;        
+    },
     disable: function() {
-        if (sc.interval)
+        if (sc.interval) {
             clearInterval(sc.interval);
+            sc.interval = null;
+        }
+        te.editor.session.off('change', sc.contentModifiedChanged);
         sc.clearMarkers();
         editorSettings.enableSpellChecking = false;
     },
@@ -35,10 +42,10 @@ var sc = window.spellcheck = {
         // You should configure these classes.                        
         var dicData, affData;
         var misspelledDict = [];
-        var interval = 1800;
+        var intervalTimeout = 1800;
 
-        var contents_modified = true;
-        var currently_spellchecking = false;
+        sc.contentsModified = true;
+        var currentlySpellchecking = false;
 
         var typoLastAccess = new Date().getSeconds();
 
@@ -98,17 +105,15 @@ var sc = window.spellcheck = {
         return;
 
 
-        function enableSpellcheck() {
+        function enableSpellcheck() {            
             spellCheck(true);
-
-            // detect changes to content - don't spell check if nothing's changed
-            te.editor.session.on('change',
-                function(e) {
-                    if (!contents_modified)
-                        contents_modified = true;
-                });
-
-            sc.interval = setInterval(spellCheck, interval);            
+            
+            if (!sc.interval) {
+                sc.interval = setInterval(spellCheck, intervalTimeout);  
+            
+                // detect changes to content - don't spell check if nothing's changed
+                te.editor.session.on('change', sc.contentModifiedChanged);
+            }            
         }
 
         // Check the spelling of a line, and return [start, end]-pairs for misspelled words.
@@ -138,17 +143,15 @@ var sc = window.spellcheck = {
         }
         
         // Spell check the Ace editor contents.
-        function spellCheck(force) {
-            
-
+        function spellCheck(force) {            
             if (!editorSettings.enableSpellChecking)
                 return;
-            if (currently_spellchecking) 
+            if (currentlySpellchecking) 
                 return;            
-            if (!force && !contents_modified) 
+            if (!force && !sc.contentsModified) 
                 return;
             
-            currently_spellchecking = true;
+            currentlySpellchecking = true;
             var session = te.editor.getSession();
 
             sc.clearMarkers();
@@ -193,8 +196,8 @@ var sc = window.spellcheck = {
                             }
                         }
                         if (isLast) {
-                            currently_spellchecking = false;
-                            contents_modified = false;                            
+                            currentlySpellchecking = false;
+                            sc.contentsModified = false;                            
                         }
                     }.bind(this,line, lineCount >= lines.length), 40);
                 }
@@ -285,7 +288,7 @@ var sc = window.spellcheck = {
             if (text && text.trim() == "+ add") {
                 var word = $list.data("misspelled");
                 te.addWordSpelling(word);
-                contents_modified = true;
+                sc.contentsModified = true;
             }
             else if (text && text.trim() != "x close") {
                 var range = $el.data("range");
