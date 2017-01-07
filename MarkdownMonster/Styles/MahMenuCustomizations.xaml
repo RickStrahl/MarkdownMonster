@@ -32,7 +32,11 @@
     </Style>
     
     <Style TargetType="{x:Type MenuItem}">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource Foreground}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
@@ -41,7 +45,7 @@
                             Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="1"
-                            SnapsToDevicePixels="False">
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <Grid x:Name="Grid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition x:Name="Col0"
@@ -81,7 +85,6 @@
                                    AllowsTransparency="True"
                                    Focusable="false"
                                    HorizontalOffset="-1"
-                                   
                                    IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                    Placement="Right"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
@@ -91,7 +94,7 @@
                                             Background="{StaticResource SubmenuItemBackground}"
                                             BorderBrush="{StaticResource MenuSeparatorBorderBrush}"
                                             BorderThickness="1"
-                                            SnapsToDevicePixels="True">
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                                         <Grid x:Name="SubMenu"
                                               Margin="2"
                                               Grid.IsSharedSizeScope="True">
@@ -101,17 +104,6 @@
                                             <DropShadowEffect ShadowDepth="2" Color="Black" />
                                         </Border.Effect>
                                     </Border>
-                                    <!--  Border 3  -->
-                                    <Border x:Name="TransitionBorder"
-                                            Width="0"
-                                            Height="2"
-                                            Margin="1 0 0 0"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Top"
-                                            Background="{StaticResource SubmenuItemBackground}"
-                                            BorderBrush="{StaticResource  MenuSeparatorBorderBrush}"
-                                            BorderThickness="1"
-                                            SnapsToDevicePixels="False" />
                                 </Grid>
                             </Popup>
                         </Grid>
@@ -127,7 +119,6 @@
                             <Setter TargetName="SubMenu" Property="Margin" Value="2 3 2 2" />
                             <Setter TargetName="SubMenuBorder" Property="BorderThickness" Value="1 1 1 1" />
                             <Setter TargetName="SubMenuPopup" Property="Placement" Value="Bottom" />
-                            <Setter TargetName="TransitionBorder" Property="Width" Value="{Binding ActualWidth, ElementName=Grid}" />
                         </Trigger>
                         <Trigger Property="Role" Value="TopLevelItem">
                             <Setter Property="Padding" Value="6 0 6 2" />
@@ -140,14 +131,14 @@
                         <Trigger Property="Role" Value="SubmenuHeader">
                             <Setter Property="DockPanel.Dock" Value="Top" />
                             <Setter Property="Padding" Value="10 3 0 3" />
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource SubmenuItemBackground}" />
+                            <Setter Property="Background" Value="{StaticResource SubmenuItemBackground}" />
                             <Setter TargetName="Border" Property="MinHeight" Value="22" />
                         </Trigger>
                         <Trigger Property="Role" Value="SubmenuItem">
                             <Setter Property="DockPanel.Dock" Value="Top" />
                             <Setter Property="Padding" Value="10 3 0 3" />
                             <Setter TargetName="ArrowPanel" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource SubmenuItemBackground}" />
+                            <Setter Property="Background" Value="{StaticResource SubmenuItemBackground}" />
                             <Setter TargetName="Border" Property="MinHeight" Value="22" />
                         </Trigger>
                         <MultiTrigger>
