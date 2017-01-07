@@ -159,7 +159,11 @@ namespace SnagItAddin
         WindowInfo LastWindow = null;
         WindowInfo CurWindow = null;
         
-        //public UserActivityHook UserActivityHook { get; set; }
+        /// <summary>
+        /// Used to ESC or click out while countdown is running
+        /// Doesn't work over admin windows
+        /// </summary>
+        public UserActivityHook UserActivityHook { get; set; }
 
         #endregion
 
@@ -185,10 +189,10 @@ namespace SnagItAddin
             CaptureDelaySeconds = ScreenCaptureConfiguration.Current.CaptureDelaySeconds;
             IncludeCursor = ScreenCaptureConfiguration.Current.IncludeCursor;
 
-            //UserActivityHook = new UserActivityHook(true, true);
-            //UserActivityHook.OnMouseActivity += UserActivityHook_OnMouseActivity;
-            //UserActivityHook.KeyDown += UserActivityHook_KeyDown;
-            
+            UserActivityHook = new UserActivityHook(true, true);
+            UserActivityHook.OnMouseActivity += UserActivityHook_OnMouseActivity;
+            UserActivityHook.KeyDown += UserActivityHook_KeyDown;
+
             CapturedBitmap = null;
             WindowHandle = new WindowInteropHelper(this).Handle;
         }
@@ -201,10 +205,10 @@ namespace SnagItAddin
             CaptureTimer?.Dispose();
 
             try
-            {                
-              //  UserActivityHook.KeyDown -= UserActivityHook_KeyDown;
-               // UserActivityHook.OnMouseActivity -= UserActivityHook_OnMouseActivity;
-                //UserActivityHook.Stop();
+            {
+                UserActivityHook.KeyDown -= UserActivityHook_KeyDown;
+                UserActivityHook.OnMouseActivity -= UserActivityHook_OnMouseActivity;
+                UserActivityHook.Stop();
             }
             catch { }
 
@@ -327,10 +331,9 @@ namespace SnagItAddin
             Overlay.Show();
 
             LastWindow = null;
-            CaptureTimer = new Timer(Capture, null, 0, 100);
+            CaptureTimer = new Timer(Capture, null, 0, 200);
         }
 
-#if false
         private void UserActivityHook_KeyDown(object sender, CustomKeyEventArgs e)
         {
             bool cancel = e.Key == Keys.Escape;
@@ -348,7 +351,7 @@ namespace SnagItAddin
             if (IsMouseClickCapturing && e.Button == MouseButton.Left)
                 StopCapture();
         }
-#endif
+
 
         internal void StopCapture(bool cancelCapture = false)
         {
@@ -413,7 +416,7 @@ namespace SnagItAddin
 
             Dispatcher.Invoke(() =>
             {
-                if (LastWindow == null || !CurWindow.Handle.Equals(LastWindow.Handle))
+                if (LastWindow == null || CurWindow.Handle != LastWindow.Handle)
                 {
                     if (CurWindow.Handle != WindowHandle &&
                         CurWindow.Rect.Width <= Screen.FromHandle(CurWindow.Handle).Bounds.Width &&
@@ -435,13 +438,13 @@ namespace SnagItAddin
             });
         }
 
-        private void Hide()
+        private new void Hide()
         {
             SavedTop = Top;
             Top = -100000;
         }
 
-        private void Show()
+        private new void Show()
         {
             Top = SavedTop;
         }
