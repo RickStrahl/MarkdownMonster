@@ -81,7 +81,7 @@
 
     <Window.Resources>
         <ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
-            <MenuItem Header="_Close Document" Command="{Binding CloseActiveDocumentCommand}" />
+            <MenuItem Header="_Close Document" Command="{Binding DataContext.CloseActiveDocumentCommand}" />
             <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Click="ButtonCloseAllTabs_Click"/>
             <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document" Click="ButtonCloseAllTabs_Click"/>
             <Separator/>
@@ -424,19 +424,16 @@
                 <ColumnDefinition Width="0" />
             </Grid.ColumnDefinitions>
 
+            <dragablz:TabablzControl x:Name="TabControl"
+                                     Margin="0,5,0,0"
+                                     FontSize="13"
+                                     Background="#222"
+                                     BorderThickness="0"
+                                     ShowDefaultCloseButton="True"
+                                     ShowDefaultAddButton="False"
+                                     SelectionChanged="TabControl_SelectionChanged" />
 
-                <dragablz:TabablzControl x:Name="TabControl" Margin="0,5,0,0" FontSize="13" Background="#222"
-                                 BorderThickness="0" ShowDefaultCloseButton="True" 
-                                 ShowDefaultAddButton="False" 
-                                 SelectionChanged="TabControl_SelectionChanged"      
-                                 ContextMenu="{StaticResource TabItemContextMenu}"    
-                                 ContextMenuService.Placement="MousePoint"                                         
-                                 ContextMenuService.HorizontalOffset="80"
-                                 ContextMenuService.VerticalOffset="16"                                          
-                                 />
-
-
-                <GridSplitter Grid.Column="1"                          
+            <GridSplitter Grid.Column="1"                          
                           Width="12"                          
                           HorizontalAlignment="Center"                          
                           BorderThickness="0"
@@ -524,3 +521,4 @@
         </StatusBar>
     </Grid>
 </controls:MetroWindow>
+
