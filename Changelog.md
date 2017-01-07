@@ -2,7 +2,7 @@
 
 # Markdown Monster Change Log
 
-### 1.1.6
+### 1.1.8
 <i><small>not released yet</small></i>
 
 * **Spellchecker to skip Code Snippets**  
@@ -14,6 +14,9 @@ WordPress post uploads now select the first image and set it as the featured ima
 * **Force Focus to Editor when Activating Form**  
 Changed behavior so when the editor window is activated, focus is always forced into the editor so no matter where you click on the window you can just start typing again. This also avoids the occasional funky focus bug where the document 'overselects' the entire visible area just by moving the mouse over it.
 
+* **Add support .markdown**  
+Add support for .markdown files as Markdown files that can be previewed and edited with the full Markdown experience.
+
 * **Fix: Tab Activation Editor Focus**  
 When activating a new tab focus is now properly set into the editor at current cursor position.
 
@@ -22,7 +25,6 @@ Spell checker was activating too frequently when switching between tabs as the c
 
 * **Fix: Html to Markdown Conversion**  
 Due to security changes pasting Html to Markdown and downloading of Html based blog posts was failing temporarily. Fixed.
-
 
 ### 1.1
 <i><small>January 2nd, 2017</small></i>

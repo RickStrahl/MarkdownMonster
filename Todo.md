@@ -12,7 +12,6 @@
 ### Mid Term
 * Refactor Weblog Publishing libraries
     * Need interfaces for Medium, New WordPress API
-    * 
 
 ### Bugs
 * ~~Weblog: Special Characters in Blog Publishing. Special attn to Image Posting~~
