@@ -2,22 +2,23 @@
 
 ### Immediate
 * WebLog MetaWeblog Discovery with /rsd URL
-* Check for startup location make sure position is visible
-* ~~Configuration for WebLog should open weblogaddin.json (or add UI)~~ 
-* ~~Full Screen HTML Preview Mode (Presentation Mode)~~
-* ~~Add Front Matter Template to Weblog Posts optionally    
-  `AddFrontMatterToNewPost` and `FrontMatterTemplate` config options~~
-* ~~Add cursor position to status bar~~
-* ~~Auto-Save files~~
-* ~~Paste Images from Clipboard and Save To Disk (forward to WPF)~~
+* Check for start position to make sure it's visible
+* Spell checker Dictionary Downloads
+    * Store dictionaries online
+    * Show what's installed
+    * Show whats available
+    * Link to Open Office for missing stuff
+
+### Mid Term
+* Refactor Weblog Publishing libraries
+    * Need interfaces for Medium, New WordPress API
+    * 
 
 ### Bugs
 * ~~Weblog: Special Characters in Blog Publishing. Special attn to Image Posting~~
 
 
 ### Consideration
-* Feature image with `wp_post_thumbnail` (also add support to my blog)
-    *  First image that includes `feature` as part of the name is used
 * Check out ReverseMarkdown C# source - needs adjustments (lists, spacing)
 * Support arbitrary MetaWeblog API attributes in MetaData
 * Drag and Drop Web Images into the editor (Not possible due to IE Security?)
