@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -99,25 +100,36 @@ namespace MarkdownMonster.Windows
             return ratio;
         }
         public static decimal GetDpiRatio(IntPtr hwnd)
-        {
+        {            
             var dpi = GetDpi(hwnd, DpiType.Effective);            
             decimal ratio = 1;
             if (dpi > 96)
                 ratio = (decimal)dpi / 96M;
 
+            //Debug.WriteLine($"Scale: {factor} {ratio}");
             return ratio;
         }
 
         public static uint GetDpi(IntPtr hwnd, DpiType dpiType)
         {
-            var screen = Screen.FromHandle(hwnd);
-            var pnt = new System.Drawing.Point(screen.Bounds.Left + 1, screen.Bounds.Top + 1);
+            var screen = Screen.FromHandle(hwnd);            
+            var pnt = new Point(screen.Bounds.Left + 1, screen.Bounds.Top + 1);
             var mon = MonitorFromPoint(pnt, 2 /*MONITOR_DEFAULTTONEAREST*/);
-            uint dpiX, dpiY;
-            GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
-            return dpiX;
-        }
 
+            try
+            {
+                uint dpiX, dpiY;
+                GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
+                return dpiX;
+            }
+            catch
+            {
+                // fallback for Windows 7 and older - not 100% reliable
+                Graphics graphics = Graphics.FromHwnd(hwnd);
+                float dpiXX = graphics.DpiX;                
+                return Convert.ToUInt32(dpiXX);
+            }
+        }
         
 
         public static uint GetDpi(Window window, DpiType dpiType)
