@@ -346,7 +346,7 @@ namespace MarkdownMonster
                 
                 SaveFileDialog sd = new SaveFileDialog
                 {
-                    Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*",
+                    Filter = "Markdown files (*.md)|*.md|Markdown files (*.markdown)|*.markdown|All files (*.*)|*.*",
                     FilterIndex = 1,
                     InitialDirectory=folder,
                     FileName = doc.MarkdownDocument.Filename,
@@ -461,7 +461,7 @@ Do you want to View in Browser now?
                 var fd = new OpenFileDialog
                 {
                     DefaultExt = ".md",
-                    Filter = "Markdown files (*.md)|*.md|" +
+                    Filter = "Markdown files (*.md,*.markdown)|*.md;*.markdown|" +
                             "Html files (*.htm,*.html)|*.htm;*.html|" +
                             "Javascript files (*.js)|*.js|" +
                             "Typescript files (*.ts)|*.ts|" +

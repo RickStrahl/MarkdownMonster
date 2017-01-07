@@ -136,7 +136,7 @@ namespace MarkdownMonster
                 return;
 
             var ext = Path.GetExtension(MarkdownDocument.Filename).ToLower().Replace(".", "");
-            if (ext == "md") { }                
+            if (ext == "md" || ext == "markdown") { }                
             else if (ext == "json")
                 EditorSyntax = "json";
             else if (ext == "html" || ext == "htm")

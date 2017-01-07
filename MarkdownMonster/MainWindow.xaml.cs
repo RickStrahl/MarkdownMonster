@@ -870,7 +870,7 @@ namespace MarkdownMonster
 
                 string renderedHtml = null;
 
-                if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "html" || ext == "htm")
+                if (string.IsNullOrEmpty(ext) || ext == "md" || ext=="markdown" || ext == "html" || ext == "htm")
                 {
                     dynamic dom = null;
                     if (!showInBrowser)
