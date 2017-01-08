@@ -58,9 +58,7 @@
   <PropertyGroup>
     <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <StartupObject>
     </StartupObject>
@@ -464,7 +462,6 @@
     <Content Include="PreviewThemes\Scripts\preview.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="app.manifest" />
     <None Include="Editor\de_DE.aff">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
