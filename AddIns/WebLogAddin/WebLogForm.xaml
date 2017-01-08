@@ -10,6 +10,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         mc:Ignorable="d"        
+        Icon="MarkdownMonster_Icon_128.png"
         Title="Markdown Monster Weblog Publishing" 
         TitleCaps="False"   
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
