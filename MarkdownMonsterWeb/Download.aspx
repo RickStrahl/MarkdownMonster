@@ -141,11 +141,11 @@
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Internet Explorer 11 or 10
+                                Internet Explorer 11
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft .NET 4.5 Runtime <small>(<a href="http://smallestdotnet.com/">check</a>)</small>
+                                Microsoft .NET 4.6.1 Runtime <small>(<a href="http://smallestdotnet.com/">check</a>)</small>
                             </div>                            
                         </div>
                     </div>
