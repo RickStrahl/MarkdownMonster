@@ -2,7 +2,7 @@
 
 # Markdown Monster Change Log
 
-### 1.1.8
+### 1.1.10
 <i><small>not released yet</small></i>
 
 * **Spellchecker to skip Code Snippets**  
@@ -25,6 +25,15 @@ Spell checker was activating too frequently when switching between tabs as the c
 
 * **Fix: Html to Markdown Conversion**  
 Due to security changes pasting Html to Markdown and downloading of Html based blog posts was failing temporarily. Fixed.
+
+* **Fix: Reduced Binary Size**   
+Reduced the main executable size by 40% by removing a number of unused and duplicated resources. Should slightly improve startup time. `MarkdownMonster.exe` now clocks in ~1mb, down from nearly 1.8mb.
+
+* **Switch to .NET 4.6.1 Runtime**  
+.NET 4.6+ includes a number of stability and high DPI enhancements for WCF and 4.6.1 been a recommended update for over a year now, so distribution should be wide.
+
+> ##### .NET Runtime Breaking Change: Addin Authors
+> This version switches to .NET 4.6.1. While we expect that most users won't be affected by this switch as they have 4.6.1 installed, any previously built Markdown Monster add-ins have to be recompiled against 4.6.1 to compile properly. Installed addins should continue to work however, so this only affects addin authors at compile time.
 
 ### 1.1
 <i><small>January 2nd, 2017</small></i>

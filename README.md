@@ -169,6 +169,7 @@ Here are a few things you can do to help spread the word:
 * **Star this repo** by clicking on the Star icon in the header
 * **Install from Chocolatey** with the [Markdown Monster Package](https://chocolatey.org/packages/MarkdownMonster)
 * **Write an Addin**: [Create a Markdown Monster Addin](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)
+* **Write a blog post** and mention how you use Markdown Monster
 
 The support from the community so far with feedback, bug reports and ideas for new features has been awesome, and I look forward for that to continue with a growing community of active users and contributors.
 

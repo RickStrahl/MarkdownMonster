@@ -497,18 +497,18 @@
     <None Include="PreviewThemes\Scripts\fontawesome\fonts\fontawesome-webfont.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Resource Include="PreviewThemes\Scripts\fontawesome\fonts\fontawesome-webfont.ttf">
+    <Content Include="PreviewThemes\Scripts\fontawesome\fonts\fontawesome-webfont.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <None Include="PreviewThemes\Scripts\fontawesome\fonts\fontawesome-webfont.woff">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="PreviewThemes\Scripts\fontawesome\fonts\fontawesome-webfont.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Resource Include="PreviewThemes\Scripts\fontawesome\fonts\FontAwesome.otf">
+    <Content Include="PreviewThemes\Scripts\fontawesome\fonts\FontAwesome.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <None Include="PreviewThemes\Scripts\highlightjs\LICENSE">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -520,7 +520,6 @@
   <ItemGroup>
     <Resource Include="Assets\vsizegrip.png" />
     <Resource Include="Assets\MarkdownMonsterSplash.png" />
-    <Resource Include="Assets\MarkdownMonster.ico" />
     <Resource Include="Assets\MarkdownMonster.png" />
     <Content Include="Editor\editor.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
