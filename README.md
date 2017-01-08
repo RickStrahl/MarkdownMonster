@@ -1,4 +1,4 @@
-﻿# Markdown Monster
+# Markdown Monster
 #### An extensible Markdown Editor, Viewer and Weblog Publisher for Windows
 
 ![](Art/MarkdownMonster.png)
@@ -89,7 +89,7 @@ Want a different editor theme than the dark default or a preview theme that matc
 The editor and previewer are HTML and JavaScript based, so you can also apply any custom styling and even hook up custom JavaScript code if you want to get fancy beyond the basic configurability. The preview themes are easy to modify HTML and CSS templates, so if you need to create a custom format so it matches your application's style it's quite easy to create a custom Preview theme or simply reference an online style sheet.
 
 ## Extensible with .NET Add-ins
-But the **key feature** and the main reason I built this tool, is that it is **extensible**, so that you and I can plug additional functionality into it. Markdown Monster includes an add-in model that lets you add buttons to the UI, interact with the active document and the entire UI and attach to life cycle event to get notifications of various application events like  documents opening and closing, documents being saved and the application shutting down etc..
+But the **key feature** and the main reason I built this tool, is that it is **extensible**, so that you and I can plug additional functionality into it. Markdown Monster includes an add-in model that lets you add buttons to the UI, interact with the active document and the entire UI and attach to life cycle event to get notifications of various application events like documents opening and closing, documents being saved and the application shutting down, etc..
 
 You can find documentation for creating Addins here:
 
@@ -107,7 +107,7 @@ You can find out more on how to publish your Addins in this GitHub repository:
 
 * [Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)
 
-Right now the registry is pretty sparse but here are a couple of Addins you can check out:
+Right now the registry is pretty sparse, but here are a couple of Addins you can check out:
 
 * [Save Image to Azure Blob Storage](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin)
 * [Paste Code as Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)
@@ -116,7 +116,7 @@ Right now the registry is pretty sparse but here are a couple of Addins you can 
 Not only does Markdown Monster allow extension via Addins - it also uses Addins for some built-in features. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate the power of the Add-in model.
 
 #### Screen Capture Addin
-The Screen Capture add-in supports two separate capture modes: Using Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which i **highly** recommend!) or using an integrated less featured Screen Capture module that allows capturing for Windows desktop windows and objects. To capture, simply click the capture button (camera icon) and the main app minimizes and either SnagIt or the integrate screen capture tool pops up to let you select the object to capture. You can preview and edit your captures, and when finished the captured image is linked directly into content.
+The Screen Capture add-in supports two separate capture modes: Using Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which I **highly** recommend!) or using an integrated less featured Screen Capture module that allows capturing for Windows desktop windows and objects. To capture, simply click the capture button (camera icon) and the main app minimizes and either SnagIt or the integrate screen capture tool pops up to let you select the object to capture. You can preview and edit your captures, and when finished the captured image is linked directly into content.
 
 ![SnagIt Screen Capture Add-in](SnagItCaptureAddin.png)
 
@@ -175,7 +175,7 @@ The support from the community so far with feedback, bug reports and ideas for n
 ## License
 Although we provide the source in the open, Markdown Monster is licensed software &copy; West Wind Technologies, 2016-2017.
 
-Markdown Monster can  be downloaded and evaluated for free, but a [reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER) must be purchased for continued use. Licenses are **per user**, rather than per machine, so an individual user can use Markdown Monster on as many computers they wish with their license. <a href="https://store.west-wind.com/product/markdown_monster_site">Organization licenses</a> are also available.
+Markdown Monster can be downloaded and evaluated for free, but a [reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER) must be purchased for continued use. Licenses are **per user**, rather than per machine, so an individual user can use Markdown Monster on as many computers they wish with their license. <a href="https://store.west-wind.com/product/markdown_monster_site">Organization licenses</a> are also available.
 
 Thanks for playing fair.
 
