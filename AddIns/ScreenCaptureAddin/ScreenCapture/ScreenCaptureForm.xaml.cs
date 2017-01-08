@@ -424,7 +424,9 @@ namespace SnagItAddin
                         Overlay != null)
                     {
                         // WPF Windows use DPI Aware pixes for the desktop - adjust for raw pixels                        
-                        var dpiRatio = (double) WindowUtilities.GetDpiRatio(CurWindow.Handle);                        
+                        var dpiRatio = (double) WindowUtilities.GetDpiRatio(CurWindow.Handle);
+
+                        //Debug.WriteLine("Dpi Ratio: " + dpiRatio + " Left: " + CurWindow.Rect.X + " x " + CurWindow.Rect.Y + " " + pt.X + "x" + pt.Y + " " + CurWindow.Handle);                        
 
                         Overlay.Left = CurWindow.Rect.X / dpiRatio; 
                         Overlay.Top = CurWindow.Rect.Y / dpiRatio;                         
