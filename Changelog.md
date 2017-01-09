@@ -30,7 +30,7 @@ Due to security changes pasting Html to Markdown and downloading of Html based b
 Reduced the main executable size by 40% by removing a number of unused and duplicated resources. Should slightly improve startup time. `MarkdownMonster.exe` now clocks in ~1mb, down from nearly 1.8mb.
 
 * **Switch to .NET 4.6.1 Runtime**  
-.NET 4.6+ includes a number of stability and high DPI enhancements for WCF and 4.6.1 been a recommended update for over a year now, so distribution should be wide.
+.NET 4.6+ includes a number of stability and high DPI enhancements for WCF and 4.6.1 been a recommended update for over a year now, so distribution should be wide. Ideally we'd use 4.6.2 which would fix additional problems with screen capture, but distribution of 4.6.2 is just too low at the moment.
 
 > ##### .NET Runtime Breaking Change: Addin Authors
 > This version switches to .NET 4.6.1. While we expect that most users won't be affected by this switch as they have 4.6.1 installed, any previously built Markdown Monster add-ins have to be recompiled against 4.6.1 to compile properly. Installed addins should continue to work however, so this only affects addin authors at compile time.
