@@ -99,6 +99,10 @@ namespace MarkdownMonster.Windows
 
             return ratio;
         }
+
+
+
+
         public static decimal GetDpiRatio(IntPtr hwnd)
         {            
             var dpi = GetDpi(hwnd, DpiType.Effective);            
@@ -110,16 +114,21 @@ namespace MarkdownMonster.Windows
             return ratio;
         }
 
+
+
         public static uint GetDpi(IntPtr hwnd, DpiType dpiType)
         {
             var screen = Screen.FromHandle(hwnd);            
-            var pnt = new Point(screen.Bounds.Left + 1, screen.Bounds.Top + 1);
+            var pnt = new Point(screen.Bounds.Left, screen.Bounds.Top);
+
             var mon = MonitorFromPoint(pnt, 2 /*MONITOR_DEFAULTTONEAREST*/);
 
             try
             {
                 uint dpiX, dpiY;
                 GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
+
+                Debug.WriteLine($"dpi: {dpiX} on mon {mon}");
                 return dpiX;
             }
             catch
@@ -130,7 +139,28 @@ namespace MarkdownMonster.Windows
                 return Convert.ToUInt32(dpiXX);
             }
         }
-        
+
+        public static uint GetDpi(System.Drawing.Point point, DpiType dpiType)
+        {                       
+            var mon = MonitorFromPoint(point, 2 /*MONITOR_DEFAULTTONEAREST*/);
+
+            try
+            {
+                uint dpiX, dpiY;
+                GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
+                return dpiX;
+            }
+            catch
+            {
+                // fallback for Windows 7 and older - not 100% reliable
+                Graphics graphics = Graphics.FromHdc(mon);
+                float dpiXX = graphics.DpiX;
+                return Convert.ToUInt32(dpiXX);
+            }
+        }
+
+
+
 
         public static uint GetDpi(Window window, DpiType dpiType)
         {
@@ -138,20 +168,56 @@ namespace MarkdownMonster.Windows
             return GetDpi(hwnd, dpiType);
         }
 
-        #endregion
-
-
-        #region PInvoke DPI
+   
         //https://msdn.microsoft.com/en-us/library/windows/desktop/dd145062(v=vs.85).aspx
         [DllImport("User32.dll")]
         private static extern IntPtr MonitorFromPoint([In]System.Drawing.Point pt, [In]uint dwFlags);
 
         //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280510(v=vs.85).aspx
         [DllImport("Shcore.dll")]
-        private static extern IntPtr GetDpiForMonitor([In]IntPtr hmonitor, [In]DpiType dpiType, [Out]out uint dpiX, [Out]out uint dpiY);        
+        private static extern IntPtr GetDpiForMonitor([In]IntPtr hmonitor, [In]DpiType dpiType, [Out]out uint dpiX, [Out]out uint dpiY);
 
         #endregion
 
+        #region SetDPIAwareness
+
+        /// <summary>
+        /// IMPORTANT: This only works if this is called in the immediate startup code
+        /// of the application. For WPF this means `static App() { }`.
+        /// </summary>
+        public static bool SetPerMonitorDpiAwareness(ProcessDpiAwareness type = ProcessDpiAwareness.Process_Per_Monitor_DPI_Aware)
+        {
+            try
+            {
+                // for this to work make sure [assembly: DisableDpiAwareness]
+                ProcessDpiAwareness awarenessType;
+                GetProcessDpiAwareness(Process.GetCurrentProcess().Handle, out awarenessType);
+                var result = SetProcessDpiAwareness(type);
+                GetProcessDpiAwareness(Process.GetCurrentProcess().Handle, out awarenessType);
+
+                return awarenessType == type;
+            }
+            catch
+            {
+                return false;
+            }            
+        }
+        
+        [DllImport("SHCore.dll", SetLastError = true)]
+        private static extern bool SetProcessDpiAwareness(ProcessDpiAwareness awareness);
+
+        [DllImport("SHCore.dll", SetLastError = true)]
+        private static extern void GetProcessDpiAwareness(IntPtr hprocess, out ProcessDpiAwareness awareness);
+        
+        #endregion
+
+    }
+
+    public enum ProcessDpiAwareness
+    {
+        Process_DPI_Unaware = 0,
+        Process_System_DPI_Aware = 1,
+        Process_Per_Monitor_DPI_Aware = 2
     }
 
     //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280511(v=vs.85).aspx

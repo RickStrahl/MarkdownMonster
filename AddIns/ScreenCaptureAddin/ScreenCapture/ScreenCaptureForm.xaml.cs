@@ -319,7 +319,7 @@ namespace SnagItAddin
                         
             Desktop = new ScreenOverlayDesktop(this);
             Desktop.SetDesktop(IncludeCursor);
-            Desktop.Show();
+            //Desktop.Show();
 
             WindowUtilities.DoEvents();
 
@@ -428,11 +428,17 @@ namespace SnagItAddin
 
                         //Debug.WriteLine("Dpi Ratio: " + dpiRatio + " Left: " + CurWindow.Rect.X + " x " + CurWindow.Rect.Y + " " + pt.X + "x" + pt.Y + " " + CurWindow.Handle);                        
 
-                        Overlay.Left = CurWindow.Rect.X / dpiRatio; 
-                        Overlay.Top = CurWindow.Rect.Y / dpiRatio;                         
+                        //Overlay.Left = CurWindow.Rect.X; 
+                        //Overlay.Top = CurWindow.Rect.Y;                         
+                        //Overlay.Width = CurWindow.Rect.Width;
+                        //Overlay.Height = CurWindow.Rect.Height; 
+                        //Overlay.SetWindowText($"{(int) Overlay.Width}x{(int) Overlay.Height}");
+
+                        Overlay.Left = CurWindow.Rect.X / dpiRatio;
+                        Overlay.Top = CurWindow.Rect.Y / dpiRatio;
                         Overlay.Width = CurWindow.Rect.Width / dpiRatio;
-                        Overlay.Height = CurWindow.Rect.Height / dpiRatio; 
-                        Overlay.SetWindowText($"{(int) Overlay.Width}x{(int) Overlay.Height}");
+                        Overlay.Height = CurWindow.Rect.Height / dpiRatio;
+                        Overlay.SetWindowText($"{(int)Overlay.Width}x{(int)Overlay.Height}");
                     }
                 }
 
