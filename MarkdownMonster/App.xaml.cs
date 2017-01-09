@@ -32,6 +32,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Windows;
 
 
 namespace MarkdownMonster
@@ -45,6 +46,18 @@ namespace MarkdownMonster
 
         public static string initialStartDirectory;
 
+
+
+        static App()
+        {
+            
+            try
+            {   // Multi-Monitor DPI awareness for screen captures
+                // requires [assembly: DisableDpiAwareness] set in assemblyinfo
+                bool res = WindowUtilities.SetPerMonitorDpiAwareness(ProcessDpiAwareness.Process_Per_Monitor_DPI_Aware);
+            }
+            catch {  /* fails not supported on Windows 7 and older */ }
+        }
 
 
         public App()
@@ -232,61 +245,6 @@ namespace MarkdownMonster
                 });
             }
         }
-
-
-#if false
-        #region per monitor Dpi Awareness
-
-        static App()
-        {
-        try
-        {
-            // for this to work make sure [assembly:dpiawareness
-            PROCESS_DPI_AWARENESS awareness;
-            GetProcessDpiAwareness(Process.GetCurrentProcess().Handle, out awareness);
-            var result = SetProcessDpiAwareness(PROCESS_DPI_AWARENESS.Process_Per_Monitor_DPI_Aware);
-            GetProcessDpiAwareness(Process.GetCurrentProcess().Handle, out awareness);
-
-
-            Screen s1 = Screen.AllScreens[0];
-            Screen s2 = Screen.AllScreens[1];
-
-            Console.WriteLine(s1.Bounds.Left);
-            var hwnd = WindowFromPoint(new System.Drawing.Point(s1.Bounds.Left + 1, s1.Bounds.Top + 1));
-            Console.WriteLine(hwnd);
-            var result2 = MarkdownMonster.Windows.WindowUtilities.GetDpiRatio(hwnd);
-
-
-
-            Console.WriteLine(s2.Bounds.Left);
-            hwnd = WindowFromPoint(new System.Drawing.Point(s2.Bounds.Left + 1, s2.Bounds.Top + 1));
-            Console.WriteLine(hwnd);
-            result2 = MarkdownMonster.Windows.WindowUtilities.GetDpiRatio(hwnd);
-
-        }
-        catch { /* will fail on pre Win8 */ }
-    }
-
-    [DllImport("user32.dll")]
-    public static extern IntPtr WindowFromPoint(System.Drawing.Point point);
-
-    [DllImport("SHCore.dll", SetLastError = true)]
-    public static extern bool SetProcessDpiAwareness(PROCESS_DPI_AWARENESS awareness);
-
-    [DllImport("SHCore.dll", SetLastError = true)]
-    public static extern void GetProcessDpiAwareness(IntPtr hprocess, out PROCESS_DPI_AWARENESS awareness);
-
-    public enum PROCESS_DPI_AWARENESS
-    {
-        Process_DPI_Unaware = 0,
-        Process_System_DPI_Aware = 1,
-        Process_Per_Monitor_DPI_Aware = 2
-    }
-
-
-
-        #endregion
-#endif
 
     }
     
