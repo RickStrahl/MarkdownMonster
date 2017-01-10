@@ -134,8 +134,6 @@ namespace MarkdownMonster
             RecentDocumentsContextList();
             ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
 
-
-
             AddinManager.Current.InitializeAddinsUi(this);
 
             // Command Line Loading multiple files
@@ -1533,7 +1531,8 @@ namespace MarkdownMonster
 
         private void PreviewBrowserOnLoadCompleted(object sender, NavigationEventArgs e)
         {
-            if (e.Uri.ToString().Contains("about:blank"))
+            string url = e.Uri.ToString();
+            if (url.Contains("about:blank") || !url.Contains("_MarkdownMonster_Preview") )
                 return;
 
             bool shouldScrollToEditor = PreviewBrowser.Tag != null && PreviewBrowser.Tag.ToString() == "EDITORSCROLL";
