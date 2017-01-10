@@ -348,7 +348,11 @@ namespace MarkdownMonster
                     var match = Regex.Match(doc.GetMarkdown(), @"^# (\ *)(?<Header>.+)", RegexOptions.Multiline);
 
                     if (match.Success)
+                    {
                         filename = match.Groups["Header"].Value;
+                        if (!string.IsNullOrEmpty(filename))
+                            filename = mmFileUtils.SafeFilename(filename);
+                    }
                 }
 
                 if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
