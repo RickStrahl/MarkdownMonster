@@ -203,6 +203,12 @@ namespace MarkdownMonster
 
         }
 
+        protected override void OnContentRendered(EventArgs e)
+        {
+            base.OnContentRendered(e);
+            WindowState = mmApp.Configuration.WindowState;
+        }
+
         protected override void OnDeactivated(EventArgs e)
         {
             base.OnDeactivated(e);
@@ -428,6 +434,9 @@ namespace MarkdownMonster
                 config.WindowPosition.Height = Convert.ToInt32(Height);
                 config.WindowPosition.SplitterPosition = Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
             }
+
+            if (WindowState != WindowState.Minimized)
+                config.WindowState = WindowState;
 
             config.OpenDocuments.Clear();
 

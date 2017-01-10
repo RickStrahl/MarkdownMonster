@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using Newtonsoft.Json;
-using Westwind.Utilities;
 using Westwind.Utilities.Configuration;
 
 
@@ -382,6 +381,10 @@ namespace MarkdownMonster
         /// </summary>
         public WindowPosition WindowPosition { get; set; }
 
+        /// <summary>
+        /// Hold last window state.
+        /// </summary>
+        public WindowState WindowState { get; set; }
 
         /// <summary>
         /// Determines whether the preview browser is visible
