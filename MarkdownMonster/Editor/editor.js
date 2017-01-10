@@ -79,6 +79,7 @@ var te = window.textEditor = {
             "alt-c": function () { te.specialkey("alt-c"); },
             
             "ctrl-s": function() { te.specialkey("ctrl-s"); },
+            "ctrl-shift-s": function() { te.specialkey("ctrl-shift-s"); },
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
             "ctrl-i": function () { te.specialkey("ctrl-i"); },
             "ctrl-`": function() { te.specialkey("ctrl-`"); },
