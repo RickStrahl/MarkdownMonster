@@ -291,7 +291,7 @@
 
                     <Label Margin="0,10,0,0">Api Url:</Label>
                     <TextBox 
-                	Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15" />
+                	Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15" ToolTip="The API Endpoint URL for MetaWeblog or WordPress APIs. IMPORTANT: This has to be the RPC endpoint URL, not a discovery URL." />
 
                     <Label Margin="0,10,0,0">Preview Url: (using {0} for post id)</Label>
                     <TextBox 

@@ -71,6 +71,7 @@ namespace MarkdownMonster
                 var winVersion = ComputerInfo.WinMajorVersion + "." + ComputerInfo.WinMinorVersion + "." +
                                  ComputerInfo.WinBuildLabVersion + " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
                                  " - " +
+                                 ".NET " + ComputerInfo.GetDotnetVersion() + " - " +
                                  (Environment.Is64BitProcess ? "64 bit" : "32 bit");
 
                 ex = ex.GetBaseException();
