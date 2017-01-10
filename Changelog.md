@@ -19,7 +19,7 @@ Add support for .markdown files as Markdown files that can be previewed and edit
 
 * **Save WindowState on Exit**  
 The WindowState (Maximized,Normal,Minimized) is now saved when exiting and restored when returning.  
-*(Alex Wiese)*
+*(credit: Alex Wiese)*
 
 * **Fix: Tab Activation Editor Focus**  
 When activating a new tab focus is now properly set into the editor at current cursor position.
