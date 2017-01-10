@@ -21,6 +21,10 @@ Add support for .markdown files as Markdown files that can be previewed and edit
 The WindowState (Maximized,Normal,Minimized) is now saved when exiting and restored when returning.  
 *(credit: Alex Wiese)*
 
+* **Title to filename when saving Untitled documents**  
+When you save new documents the filename defaults to the first line's text that start  `#` (header).  
+*(credit: Alex Wiese)*
+
 * **Fix: Tab Activation Editor Focus**  
 When activating a new tab focus is now properly set into the editor at current cursor position.
 
