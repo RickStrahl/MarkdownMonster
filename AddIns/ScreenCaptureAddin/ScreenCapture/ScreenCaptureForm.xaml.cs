@@ -319,7 +319,7 @@ namespace SnagItAddin
                         
             Desktop = new ScreenOverlayDesktop(this);
             Desktop.SetDesktop(IncludeCursor);
-            //Desktop.Show();
+            Desktop.Show();
 
             WindowUtilities.DoEvents();
 

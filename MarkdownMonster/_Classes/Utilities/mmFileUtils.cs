@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,7 +11,7 @@ namespace MarkdownMonster
     /// <summary>
     /// Internal File Utilities class
     /// </summary>
-    public class mmFileUtils
+    public static class mmFileUtils
     {
         /// <summary>
         /// Method checks for existance of full filename and tries
@@ -28,6 +29,39 @@ namespace MarkdownMonster
                 return newFile;
 
             return null;
+        }
+
+        /// <summary>
+        /// Returns a safe filename from a string by stripping out
+        /// illegal characters
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="replace"></param>
+        /// <returns></returns>
+        public static string SafeFilename(string fileName, string replace = "")
+        {
+            string file = Path.GetInvalidFileNameChars()
+                .Aggregate(fileName, 
+                           (current, c) => current.Replace(c.ToString(), replace)  );
+
+            file = file.Replace("#", "");
+            return file;
+        }
+
+        /// <summary>
+        /// Returns a safe filename in CamelCase
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static string CamelCaseSafeFilename(string filename)
+        {
+            if (string.IsNullOrEmpty(filename))
+                return filename;
+
+            string fname = Path.GetFileNameWithoutExtension(filename);
+            string ext = Path.GetExtension(filename);           
+
+            return StringUtils.ToCamelCase(SafeFilename(fname) ) + ext;
         }
 
         /// <summary>
@@ -156,7 +190,6 @@ namespace MarkdownMonster
 
             return "application/image";
         }
-
 
 
         /// <summary>

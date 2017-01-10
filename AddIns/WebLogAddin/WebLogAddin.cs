@@ -280,7 +280,7 @@ namespace WeblogAddin
         {
             var basePath = Path.GetDirectoryName(filename);
             var baseName = Path.GetFileName(basePath);
-            baseName = SafeFilename(baseName);
+            baseName = mmFileUtils.SafeFilename(baseName);
 
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
@@ -401,8 +401,8 @@ namespace WeblogAddin
 
         public void CreateNewPostOnDisk(string title, string postFilename, string weblogName)
         {
-            string filename = SafeFilename(postFilename);
-            string titleFilename = SafeFilename(title);
+            string filename = mmFileUtils.SafeFilename(postFilename);
+            string titleFilename = mmFileUtils.SafeFilename(title);
 
             var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), titleFilename);
             if (!Directory.Exists(folder))
@@ -584,15 +584,15 @@ namespace WeblogAddin
             return markdown;
         }
 
-        public string SafeFilename(string fileName, string replace = "")
-        {
-            string filename = Path.GetInvalidFileNameChars()
-                .Aggregate(fileName,
-                    (current, c) => current.Replace(c.ToString(), replace));
+        //public string SafeFilename(string fileName, string replace = "")
+        //{
+        //    string filename = Path.GetInvalidFileNameChars()
+        //        .Aggregate(fileName,
+        //            (current, c) => current.Replace(c.ToString(), replace));
 
-            filename = filename.Replace("#", "");
-            return filename;
-        }
+        //    filename = filename.Replace("#", "");
+        //    return filename;
+        //}
 
         #endregion
 
@@ -600,7 +600,7 @@ namespace WeblogAddin
 
         public void CreateDownloadedPostOnDisk(Post post, string weblogName)
         {
-            string filename = SafeFilename(post.Title);
+            string filename = mmFileUtils.SafeFilename(post.Title);
 
             var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,
                 "Downloaded",weblogName,
