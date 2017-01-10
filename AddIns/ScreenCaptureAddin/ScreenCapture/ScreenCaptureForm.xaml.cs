@@ -535,7 +535,7 @@ namespace SnagItAddin
                 var exe = ScreenCaptureConfiguration.Current.ImageEditorPath;
                 if (!File.Exists(exe))
                     exe = Path.Combine(Environment.SystemDirectory, "mspaint.exe");
-                var process = Process.Start(new ProcessStartInfo(exe, SavedImageFile));
+                var process = Process.Start(new ProcessStartInfo(exe,$"\"{SavedImageFile}\""));
             }
 
 
