@@ -127,6 +127,52 @@ namespace MarkdownMonster
             }
         }
 
+        static string DotnetVersion = null;
+
+        /// <summary>
+        /// Returns the framework version as a string
+        /// </summary>
+        /// <param name="releaseKey"></param>
+        /// <returns></returns>
+        public static string GetDotnetVersion()
+        {
+            if (!string.IsNullOrEmpty(DotnetVersion))
+                return DotnetVersion;
+            
+            dynamic value;
+            TryGetRegistryKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\", "Release", out value);
+
+            Console.WriteLine(value);
+            if (value == null)
+            {
+                DotnetVersion = "4.0";
+                return DotnetVersion;
+            }
+
+            int releaseKey = value;
+            Console.WriteLine(value);
+
+            if (releaseKey >= 394802)
+                DotnetVersion = "4.6.2";
+            else if (releaseKey >= 394254)
+                DotnetVersion = "4.6.1";
+            else if (releaseKey >= 393295)
+                DotnetVersion = "4.6";
+            else if ((releaseKey >= 379893))
+                DotnetVersion = "4.5.2";
+            else if ((releaseKey >= 378675))
+                DotnetVersion = "4.5.1";
+            else if ((releaseKey >= 378389))
+                DotnetVersion = "4.5";
+
+            // This line should never execute. A non-null release key should mean 
+            // that 4.5 or later is installed. 
+            else
+                DotnetVersion = "4.0";
+
+            return DotnetVersion;
+        }
+
         public static void EnsureBrowserEmulationEnabled(string exename = "Markdownmonster.exe")
         {
 
@@ -162,12 +208,17 @@ namespace MarkdownMonster
             catch { }
         }
 
-        public static bool TryGetRegistryKey(string path, string key, out dynamic value)
+        public static bool TryGetRegistryKey(string path, string key, out dynamic value, bool UseCurrentUser = false)
         {
             value = null;
             try
             {
-                var rk = Registry.LocalMachine.OpenSubKey(path);
+                RegistryKey rk;
+                if (UseCurrentUser)                
+                    rk = Registry.CurrentUser.OpenSubKey(path);                
+                else
+                    rk = Registry.LocalMachine.OpenSubKey(path);
+
                 if (rk == null) return false;
                 value = rk.GetValue(key);
                 return value != null;

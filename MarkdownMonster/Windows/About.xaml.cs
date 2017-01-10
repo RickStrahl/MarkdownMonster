@@ -16,9 +16,11 @@ namespace MarkdownMonster.Windows
             InitializeComponent();
             
             mmApp.SetThemeWindowOverride(this);
-            
-            VersionLabel.Content = mmApp.GetVersion() + " • " +
-                                   (Environment.Is64BitProcess ? "64 bit" : "32 bit");
+
+            VersionLabel.Content = mmApp.GetVersion();
+            OsLabel.Content = (Environment.Is64BitProcess ? "64 bit" : "32 bit") + " • " +
+                             ".NET " + ComputerInfo.GetDotnetVersion();
+                                
 
             if (UnlockKey.IsRegistered())
             {
