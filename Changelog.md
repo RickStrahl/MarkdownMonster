@@ -2,7 +2,7 @@
 
 # Markdown Monster Change Log
 
-### 1.1.10
+### 1.1.12
 <i><small>not released yet</small></i>
 
 * **Spellchecker to skip Code Snippets**  
@@ -17,11 +17,21 @@ Changed behavior so when the editor window is activated, focus is always forced 
 * **Add support .markdown**  
 Add support for .markdown files as Markdown files that can be previewed and edited with the full Markdown experience.
 
+* **Save WindowState on Exit**  
+The WindowState (Maximized,Normal,Minimized) is now saved when exiting and restored when returning.  
+*(Alex Wiese)*
+
 * **Fix: Tab Activation Editor Focus**  
 When activating a new tab focus is now properly set into the editor at current cursor position.
 
+* **Fix: Native Screen Capture on Secondary Monitors**  
+High DPI window selection on secondary monitors previously failed to select windows properly due to High DPI issues in WPF. Fix requires .NET 4.6.2. 4.6.2 supports per monitor DPI scaling in WPF and that will now be respected but only if the machine is running 4.6.2. Older version of .NET continue to get the buggy offset behavior previously seen. Note: Primary monitor captures should always work fine.
+
 * **Fix: Spell Checker Churn**   
 Spell checker was activating too frequently when switching between tabs as the check interval was doubling up. Fixed.
+
+* **Fix: Save And Edit Screen Capture**  
+Fix issue where files wouldn't be referenced properly to open in the specified external editor not dealing with the extended paths. Fixed.
 
 * **Fix: Html to Markdown Conversion**  
 Due to security changes pasting Html to Markdown and downloading of Html based blog posts was failing temporarily. Fixed.
@@ -33,7 +43,7 @@ Reduced the main executable size by 40% by removing a number of unused and dupli
 .NET 4.6+ includes a number of stability and high DPI enhancements for WCF and 4.6.1 been a recommended update for over a year now, so distribution should be wide. Ideally we'd use 4.6.2 which would fix additional problems with screen capture, but distribution of 4.6.2 is just too low at the moment.
 
 > ##### .NET Runtime Breaking Change: Addin Authors
-> This version switches to .NET 4.6.1. While we expect that most users won't be affected by this switch as they have 4.6.1 installed, any previously built Markdown Monster add-ins have to be recompiled against 4.6.1 to compile properly. Installed addins should continue to work however, so this only affects addin authors at compile time.
+> This version switches to .NET 4.6.2. While we expect that most users won't be affected by this switch as they have 4.6.2 installed, any previously built Markdown Monster add-ins have to be recompiled against 4.6.2 to compile properly. Installed addins should continue to work however, so this only affects **addin authors** at compile time.
 
 ### 1.1
 <i><small>January 2nd, 2017</small></i>
