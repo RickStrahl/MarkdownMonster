@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using FontAwesome.WPF;
@@ -337,9 +338,18 @@ namespace MarkdownMonster
                 if (doc == null)
                     return;
 
+                var filename = doc.MarkdownDocument.Filename;
+
                 var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
-                if (doc.MarkdownDocument.Filename == "untitled")                
+                if (filename == "untitled")
+                {
                     folder = mmApp.Configuration.LastFolder;
+
+                    var match = Regex.Match(doc.GetMarkdown(), @"^# (\ *)(?<Header>.+)", RegexOptions.Multiline);
+
+                    if (match.Success)
+                        filename = match.Groups["Header"].Value;
+                }
 
                 if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
                     folder = KnownFolders.GetPath(KnownFolder.Libraries);
@@ -349,7 +359,7 @@ namespace MarkdownMonster
                     Filter = "Markdown files (*.md)|*.md|Markdown files (*.markdown)|*.markdown|All files (*.*)|*.*",
                     FilterIndex = 1,
                     InitialDirectory=folder,
-                    FileName = doc.MarkdownDocument.Filename,
+                    FileName = filename,
                     CheckFileExists = false,
                     OverwritePrompt = false,
                     CheckPathExists = true,
