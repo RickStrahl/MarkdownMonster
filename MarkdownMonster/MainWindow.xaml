@@ -24,6 +24,7 @@
         <KeyBinding Key="F11" Command="{Binding PresentationModeCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="P"
                     Command="{Binding PrintPreviewCommand}" />
+        <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAsCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewDocumentCommand }"  />
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenDocumentCommand }"    />
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding CloseActiveDocumentCommand}" />
