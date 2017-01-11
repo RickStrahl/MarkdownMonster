@@ -34,7 +34,7 @@
 
         <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" FontSize="14" Background="#222"
                                  BorderThickness="0" ShowDefaultCloseButton="False"  
-                                 ShowDefaultAddButton="False"                                  
+                                 ShowDefaultAddButton="False" 
                                  >
             <dragablz:TabablzControl.Resources>
                 <Style TargetType="{x:Type TextBox}">
@@ -290,10 +290,18 @@
                            />
 
                     <Label Margin="0,10,0,0">Api Url:</Label>
-                    <TextBox 
-                	Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15" ToolTip="The API Endpoint URL for MetaWeblog or WordPress APIs. IMPORTANT: This has to be the RPC endpoint URL, not a discovery URL." />
+                    
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15" ToolTip="The API Endpoint URL for MetaWeblog or WordPress APIs. IMPORTANT: This has to be the RPC endpoint URL, not a discovery URL." />
+                        <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonApiUrlInfo" Click="ButtonApiUrlInfo_Click" Content="…" />
 
-                    <Label Margin="0,10,0,0">Preview Url: (using {0} for post id)</Label>
+                    </Grid>
+                    
+                        <Label Margin="0,10,0,0">Preview Url: (using {0} for post id)</Label>
                     <TextBox 
                         ToolTip="Leave blank to use the API's permalink downloaded in post data (if available). Otherwise fill in with a URL and use {0} to specify the Post Id."
                 	    Text="{Binding ActiveWeblogInfo.PreviewUrl}"  FontSize="15" />

@@ -350,5 +350,14 @@ namespace WeblogAddin
             Close();        
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonApiUrlInfo_Click(object sender, RoutedEventArgs e)
+        {
+            ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4sh0plup7.htm");
+        }
     }
 }
