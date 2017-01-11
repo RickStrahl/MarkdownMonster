@@ -75,7 +75,9 @@ namespace MarkdownMonster.Windows
 
             Loaded += PasteHref_Loaded;
             Activated += PasteHref_Activated;
-            
+
+            IsExternal = mmApp.Configuration.LastLinkExternal;
+
         }
 
         private void PasteHref_Activated(object sender, EventArgs e)
@@ -116,6 +118,7 @@ namespace MarkdownMonster.Windows
                 DialogResult = false;
             else
             {
+                mmApp.Configuration.LastLinkExternal = IsExternal;
                 DialogResult = true;                
             }
 

@@ -318,6 +318,11 @@ namespace MarkdownMonster
         /// </summary>
         public string LastImageFolder { get; set; }
 
+        /// <summary>
+        /// Remembers last Is link External setting when embedding links
+        /// </summary>
+        public bool LastLinkExternal { get; set; }
+
 
         /// <summary>
         /// Common folder where configuration files are stored.
