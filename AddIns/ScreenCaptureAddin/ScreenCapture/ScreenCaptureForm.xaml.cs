@@ -302,7 +302,7 @@ namespace SnagItAddin
                         }
                         if (Cancelled)
                         {
-                            CancelCapture();
+                            CancelCapture(true);
                             return;
                         }
                     }
@@ -337,9 +337,9 @@ namespace SnagItAddin
         private void UserActivityHook_KeyDown(object sender, CustomKeyEventArgs e)
         {
             bool cancel = e.Key == Keys.Escape;
-            if (IsPreviewCapturing)
+            if (IsPreviewCapturing && cancel)
             {
-                Cancelled = cancel;
+                CancelCapture(true);
                 return;
             }
 
@@ -355,15 +355,15 @@ namespace SnagItAddin
 
         internal void StopCapture(bool cancelCapture = false)
         {
+            Debug.WriteLine("StopCapture: " + cancelCapture);
             if (!IsMouseClickCapturing)
                 return;
                         
             CaptureTimer.Dispose();
-
             IsMouseClickCapturing = false;
 
             Overlay?.Close();
-            WindowUtilities.DoEvents();
+            //WindowUtilities.DoEvents();
 
             //Point pt = GetMousePosition();
             //CurWindow = new WindowInfo(ScreenCapture.WindowFromPoint(new System.Drawing.Point((int)pt.X, (int)pt.Y)));
@@ -372,13 +372,14 @@ namespace SnagItAddin
             Desktop.Activate();            
             WindowUtilities.DoEvents();
 
-            if (LastWindow != null)
+            if (LastWindow != null && !cancelCapture)
             {                
                 var img = ScreenCapture.CaptureWindow(CurWindow.Rect);
                 CapturedBitmap = new Bitmap(img); 
                 
                 //CapturedBitmap = ScreenCapture.CaptureWindowBitmap(CurWindow.Handle) as Bitmap;
                 Desktop.Close();
+
                 if (CapturedBitmap != null)
                 {
                     ImageCaptured.Source = ScreenCapture.BitmapToBitmapSource(CapturedBitmap);
@@ -394,14 +395,14 @@ namespace SnagItAddin
             //Desktop.Topmost = false;
             Desktop?.Close();
 
-            if (ExternalWindow != null)
-            {
-                ExternalWindow.Show();
-                ExternalWindow.Activate();
-            }
+            //if (ExternalWindow != null)
+            //{
+            //    ExternalWindow.Show();
+            //    ExternalWindow.Activate();
+            //}
 
             if (cancelCapture)
-                CancelCapture();
+                CancelCapture(true);
             else
             {
                 Show();
@@ -457,15 +458,23 @@ namespace SnagItAddin
             Top = SavedTop;
         }
 
-        private void CancelCapture()
+        private void CancelCapture(bool dontCloseForm = false)
         {
             if (!string.IsNullOrEmpty(ResultFilePath))
                 File.WriteAllText(ResultFilePath, "Cancelled");
 
             Cancelled = true;
-            Close();
 
-            ExternalWindow?.Activate();
+            if (!dontCloseForm)
+            {
+                Close();
+                ExternalWindow?.Activate();
+            }
+            else
+            {
+                Show();
+                Activate();
+            }
         }
 
 #endregion
@@ -518,6 +527,7 @@ namespace SnagItAddin
             if (AutoClose)
                 Close();
 
+            ExternalWindow?.Show();
             ExternalWindow?.Activate();
 
             if (WindowState != WindowState.Maximized && WindowState != WindowState.Minimized)
@@ -530,6 +540,7 @@ namespace SnagItAddin
         private void tbSaveAndEdit_Click(object sender, RoutedEventArgs e)
         {
             tbSave_Click(sender, e);
+
             if (!Cancelled)
             {
                 var exe = ScreenCaptureConfiguration.Current.ImageEditorPath;

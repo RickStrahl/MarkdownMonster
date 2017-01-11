@@ -58,8 +58,7 @@
                         </Button>
 
 
-                        <Button Name="ToolButtonCancel" Click="tbCancel_Click" 
-                                IsCancel="True" 
+                        <Button Name="ToolButtonCancel" Click="tbCancel_Click"                                 
                                 ToolTip="Exits the capture form.">
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Remove" Foreground="Red"                                            
