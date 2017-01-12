@@ -14,6 +14,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
+using WebLogAddin;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
 
@@ -358,6 +359,41 @@ namespace WeblogAddin
         private void ButtonApiUrlInfo_Click(object sender, RoutedEventArgs e)
         {
             ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4sh0plup7.htm");
+        }
+
+        private void ButtonDiscoverEndpoint_Click(object sender, RoutedEventArgs e)
+        {
+            var discover = new BlogEndpointDiscovery();
+
+            var url = Model.ActiveWeblogInfo.ApiUrl;
+
+            ShowStatus("Checking Endpoint Url...");
+
+            if (discover.CheckRpcEndpoint(url))
+            {
+                ShowStatus("The Weblog Endpoint is a valid RPC endpoint.");
+                return;
+            }
+
+            var blogInfo = discover.DiscoverBlogEndpoint(url, Model.ActiveWeblogInfo.BlogId as string, Model.ActiveWeblogInfo.Type.ToString());
+
+            if (blogInfo.HasError)
+            {
+                MessageBox.Show(blogInfo.ErrorMessage, "Unable to discover Endpoint Url",MessageBoxButton.OK,MessageBoxImage.Warning);
+                ShowStatus("Endpoint discovery failed: " + blogInfo.ErrorMessage, 6000);
+                return;
+            }
+
+            Model.ActiveWeblogInfo.ApiUrl = blogInfo.ApiUrl;
+            Model.ActiveWeblogInfo.BlogId = blogInfo.BlogId;
+            if (blogInfo.BlogType == "MetaWeblog" || blogInfo.BlogType == "MetaWeblogApi")
+                Model.ActiveWeblogInfo.Type = WeblogTypes.MetaWeblogApi;
+            else if (blogInfo.BlogType == "WordPress")
+                Model.ActiveWeblogInfo.Type = WeblogTypes.Wordpress;
+            else
+                Model.ActiveWeblogInfo.Type = WeblogTypes.Unknown;
+
+            ShowStatus("Weblog API Endpoint Url found and updated...", 6000);
         }
     }
 }

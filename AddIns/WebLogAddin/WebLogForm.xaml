@@ -272,15 +272,38 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="200" />
                         </Grid.ColumnDefinitions>
                         
                         <Label  Grid.Row="0" Grid.Column="0">Name:</Label>
-                        <Label  Grid.Row="0" Grid.Column="1">Blog Id:</Label>
+                        <Label  Grid.Row="0" Grid.Column="1" Margin="7,0,0,0">Blog Id:</Label>
 
                         <TextBox Grid.Column="0" Grid.Row="1"  Text="{Binding ActiveWeblogInfo.Name}"  FontSize="15" Style="{StaticResource HeaderStyle}" />
                         <TextBox  Grid.Column="1" Grid.Row="1" Text="{Binding ActiveWeblogInfo.BlogId}"  FontSize="15"  Margin="10,0,0,0"/>
                     </Grid>
+                 
+
+                    <Label Margin="0,10,0,0">Api Url:</Label>
+                    
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15" ToolTip="The API Endpoint URL for MetaWeblog or WordPress APIs. IMPORTANT: This has to be the RPC endpoint URL, not a discovery URL." />
+                        <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonDiscoverEndpoint" 
+                                Click="ButtonDiscoverEndpoint_Click"  
+                                ToolTip="Discover Weblog Endpoint Url"
+                                FontSize="15" FontFamily="FontAwesome" Content="&#xF013;" />
+                        <Button Grid.Column="2" Margin="5,0,0,0" Name="ButtonApiUrlInfo" 
+                                Click="ButtonApiUrlInfo_Click" 
+                                ToolTip="Documentation for Endpoint Configuration"
+                                FontSize="15" FontFamily="FontAwesome" Content="&#xF059;" />
+                        
+
+                    </Grid>
+
                     <Label Margin="0,10,0,0">Blog type:</Label>
 
                     <ComboBox Name="ComboWeblogType"                            
@@ -289,22 +312,10 @@
                            ItemsSource="{Binding WeblogNames}"
                            />
 
-                    <Label Margin="0,10,0,0">Api Url:</Label>
-                    
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="40"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15" ToolTip="The API Endpoint URL for MetaWeblog or WordPress APIs. IMPORTANT: This has to be the RPC endpoint URL, not a discovery URL." />
-                        <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonApiUrlInfo" Click="ButtonApiUrlInfo_Click" Content="…" />
-
-                    </Grid>
-                    
-                        <Label Margin="0,10,0,0">Preview Url: (using {0} for post id)</Label>
+                    <!--<Label Margin="0,10,0,0">Preview Url: (using {0} for post id)</Label>
                     <TextBox 
                         ToolTip="Leave blank to use the API's permalink downloaded in post data (if available). Otherwise fill in with a URL and use {0} to specify the Post Id."
-                	    Text="{Binding ActiveWeblogInfo.PreviewUrl}"  FontSize="15" />
+                	    Text="{Binding ActiveWeblogInfo.PreviewUrl}"  FontSize="15" />-->
 
 
                     <Label Margin="0,10,0,0">Username:</Label>
