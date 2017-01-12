@@ -916,6 +916,10 @@ namespace MarkdownMonster
 
                             return;
                         }
+
+                        renderedHtml = StringUtils.ExtractString(renderedHtml,
+                            "<!-- Markdown Monster Content -->",
+                            "<!-- End Markdown Monster Content -->");
                     }
 
                     if (showInBrowser)
@@ -927,7 +931,12 @@ namespace MarkdownMonster
                     {
                         PreviewBrowser.Cursor = Cursors.None;
                         PreviewBrowser.ForceCursor = true;
-                        if (keepScrollPosition && !mmApp.Configuration.AlwaysUsePreviewRefresh)
+
+                        // if content contains <script> tags we must do a full page refresh
+                        bool forceRefresh = renderedHtml != null && renderedHtml.Contains("<script ");
+
+                        
+                        if (keepScrollPosition && !mmApp.Configuration.AlwaysUsePreviewRefresh && !forceRefresh)
                         {
                             string browserUrl = PreviewBrowser.Source.ToString().ToLower();
                             string documentFile = "file:///" +
@@ -938,10 +947,6 @@ namespace MarkdownMonster
                                 dom = PreviewBrowser.Document;
                                 //var content = dom.getElementById("MainContent");
 
-
-                                renderedHtml = StringUtils.ExtractString(renderedHtml,
-                                    "<!-- Markdown Monster Content -->",
-                                    "<!-- End Markdown Monster Content -->");
 
                                 if (string.IsNullOrEmpty(renderedHtml))
                                     PreviewMarkdown(editor, false, false); // fully reload document
