@@ -2,8 +2,24 @@
 
 # Markdown Monster Change Log
 
-### 1.1.12
+### 1.1.14
 <i><small>not released yet</small></i>
+
+* **New Visual Studio Extension for Markdown Monster Project Template**  
+If you want to create a custom Markdown Monster Addin, the process just got a lot easier with a [Visual Studio Markdown Monster Addin Project Template](https://marketplace.visualstudio.com/items?itemName=RickStrahl.MarkdownMonsterAddinProject) that you can pick up from the Visual Studio Extension Manager or the Visual Studio Gallery.
+
+* **WebLog Endpoint Discovery (RSD)**    
+Implemented Real Simple Discovery protocol in the Weblog Addin when specifying WebLog Publishing endpoints. RSD allows for links to an RSD resource to be embedded in a home page via metadata. The RSD file can be read and discover publishing endpoints. Integrated on the WebLog configuration page via a new Search button that tries to find the endpoint url and blog id.
+
+* **Fix Ctrl-O and Letter O Insertion Bug**  
+Fixed annoying problem when using Ctrl-O (Open Document) which would inject the letter O into the open document. Worked around this IE key handling with blurring/re-focusing. Fixed.
+
+* **Force full Page Refresh when `<script>` is embedded in Content**  
+If the Markdown content contains literal script tags that need to be executed the Previewer reverts to using a full page refresh. Normally the previewer merely updates the content which is much faster and less janky when redisplaying the preview content. This fixes problems for Addins like the [PasteCodeAsGist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin) that embed script code into HTML to display their content.
+
+
+### 1.1.12
+<i><small>January 12th, 2017</small></i>
 
 * **Spellchecker to skip Code Snippets**  
 Made change to have the spell checker not check code snippet blocks. This makes code centric markdown much cleaner and also puts less load on the spell checker's background processing while typing, since code blocks often have many spelling errors.
