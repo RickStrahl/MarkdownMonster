@@ -72,7 +72,11 @@ var te = window.textEditor = {
                 // keep ctrl-n browser behavior from happening
                 // and let WPF handle the key
             },
-            "ctrl-o": function () { te.specialkey("ctrl-o"); },
+            "ctrl-o": function() {                
+                te.editor.blur(); // HACK: avoid letter o insertion into document
+                te.specialkey("ctrl-o");                
+                setTimeout(function() { te.editor.focus(); }, 20);
+            },
             "ctrl-p": function () { te.specialkey("ctrl-p") },
 
             "f5": function() {},
