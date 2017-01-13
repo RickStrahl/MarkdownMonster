@@ -115,7 +115,7 @@
                 <Separator/>
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding OpenDocumentCommand}"  InputGestureText="Ctrl-O"/>
                 <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
-                <MenuItem Name="ButtonRecentFiles" Header="Recent documents">
+                <MenuItem Name="ButtonRecentFiles" Header="Recent Documents">
                 </MenuItem>
                 <Separator/>
                 <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding SaveCommand}" 
@@ -221,11 +221,11 @@
             <MenuItem Header="_Help">
                 <MenuItem Name="MenuDocumentation" Header="Documentation"   Click="Button_Handler"/>
                 <MenuItem Name="MenuMarkdownBasics" Header="Markdown Basics"   Click="Button_Handler"/>
-                <MenuItem Name="MenuCreateAddinDocumentation" Header="Documentation for creating Addins"   Click="Button_Handler"/>
+                <MenuItem Name="MenuCreateAddinDocumentation" Header="Documentation for Creating Addins"   Click="Button_Handler"/>
                 <MenuItem Name="MenuShowSampleDocument" Header="Show Markdown Feature Sample Document"   Click="Button_Handler"/>
                 <Separator />
                 <MenuItem Name="MenuMarkdownMonsterSite" Header="Markdown Monster Web Site"   Click="Button_Handler"/>
-                <MenuItem Name="MenuBugReport" Header="Report a Bug or make a Suggestion" Click="Button_Handler"/>
+                <MenuItem Name="MenuBugReport" Header="Report a Bug or Make a Suggestion" Click="Button_Handler"/>
                 <Separator />
                 <MenuItem Name="MenuCheckNewVersion" Header="Check for New Version" Click="Button_Handler"/>
                 <MenuItem Name="MenuRegister" Header="Register Copy" Click="Button_Handler"/>
@@ -523,4 +523,3 @@
         </StatusBar>
     </Grid>
 </controls:MetroWindow>
-
