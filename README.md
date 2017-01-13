@@ -8,6 +8,7 @@
 * **[Download](http://markdownmonster.west-wind.com/download.aspx)**
 * **[Install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)**
 * **[Video: Getting Started with Markdown Monster](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
+* **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
 * **[Documentation](https://markdownmonster.west-wind.com/docs/)**
 * **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
@@ -15,6 +16,8 @@
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[Change Log](Changelog.md)**
 * <a href="https://gitter.im/MarkdownMonster/MarkdownMonster"><img src="https://camo.githubusercontent.com/a05bc0f4476f07cf58e83b4d3f36cdaec0a86f7d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769747465722d4a6f696e253230436861742d677265656e2e7376673f7374796c653d666c61742d737175617265" /></a>
+
+Please star this repo if you like what you see here!
 
 Here's what Markdown Monster looks like:
 
