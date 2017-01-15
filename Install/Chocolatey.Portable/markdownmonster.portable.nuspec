@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>MarkdownMonster.Portable</id>
+    <version>1.1.14</version>
+    <title>Markdown Monster Portable Install</title>
+    <authors>Rick Strahl, West Wind Technologies</authors>
+    <owners>West Wind Technologies</owners>
+    <licenseUrl>http://markdownmonster.west-wind.com/download.aspx#Licensing</licenseUrl>
+    <projectUrl>http://markdownmonster.west-wind.com</projectUrl>    
+    <iconUrl>http://markdownmonster.west-wind.com/images/MarkdownMonster_icon_128.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>    
+    <description>Markdown Monster is an easy to use and attractive Markdown Editor and Viewer as well as a Weblog Publishing tool. The editor sports syntax colored editing of Markdown text, inline spell checking, live HTML preview, embedding of images, links and built-in support for screen captures along with a few gentle toolbar helpers to facilitate embedding content into your markdown. The editor's goal is to let you focus on your content creation and not get out of your way of your creativity.
+
+You can publish your Markdown directly to your Weblog that supports WordPress or MetaWebLog APIs. You can manage multiple blogs and even download existing posts as Markdown.
+
+Markdown Monster can also be extended using an easy, but powerful .NET based add-in model. 
+
+Markdown Monster can be downloaded and evaluated for free and this package is unlimited and fully functional, but a [license](http://store.west-wind.com/product/markdown_monster) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub.
+    </description>
+    <summary>Markdown Monster is an easy to use and extensible Markdown editor and viewer and Weblog publisher</summary>
+    <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>
+    <copyright>West Wind Technologies, 2016-2017</copyright>
+    <tags>markdown text editor weblog-publishing weblog blog publishing documentation admin</tags>
+    <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
+    <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
+    <mailingListUrl>https://support.west-wind.com</mailingListUrl>
+    <packageSourceUrl>https://github.com/rickstrahl/MarkdownMonster</packageSourceUrl>    
+  </metadata>
+    <files>
+        <file src="tools\**" target="tools" />        
+    </files>    
+</package>
