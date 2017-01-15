@@ -40,7 +40,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="CheckCircleOutline"  Name="FaSaveImage"                                           
                                             FontSize="15"
-                                            FontWeight="Normal" FontFamily="FontAwesome" 
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Margin="5,2,5,0" />
                                 <TextBlock>Save</TextBlock>
                             </StackPanel>
@@ -52,7 +52,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Image" Name="FaSaveAndEdit"                                                 
                                                 FontSize="15"
-                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                                 <TextBlock>Save and Edit</TextBlock>
                             </StackPanel>
                         </Button>
@@ -63,7 +63,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Remove" Foreground="Red"                                            
                                             FontSize="15"
-                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                                 <TextBlock>Cancel</TextBlock>
                             </StackPanel>
                         </Button>
@@ -74,7 +74,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Desktop"                                             
                                             FontSize="15"                                                
-                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                                 <TextBlock>Capture Desktop</TextBlock>
                             </StackPanel>
                         </Button>
@@ -85,7 +85,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Paste"                                             
                                             FontSize="15"                                                
-                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                                 <TextBlock>Paste</TextBlock>
                             </StackPanel>
                         </Button>
@@ -94,7 +94,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Copy"                                             
                                             FontSize="15"                                                
-                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                                 <TextBlock>Copy</TextBlock>
                             </StackPanel>
                         </Button>
@@ -103,7 +103,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Trash"                                             
                                             FontSize="15"
-                                            FontWeight="Normal" FontFamily="FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                                 <TextBlock>Clear</TextBlock>
                             </StackPanel>
                         </Button>
@@ -142,7 +142,7 @@
                         <StackPanel Orientation="Horizontal" >
                             <fa:FontAwesome Icon="Camera" 
                                             Foreground="SteelBlue"
-                                            FontWeight="Normal" FontFamily="FontAwesome" FontSize="20" Margin="0,10,10,2"/>
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" FontSize="20" Margin="0,10,10,2"/>
                             <TextBlock Margin="0,0,0,0" FontSize="26" FontWeight="Normal">Click to start</TextBlock>
                         </StackPanel>
                         <TextBlock FontSize="11" FontWeight="Normal"  Margin="33,0,0,0">click over window to capture</TextBlock>

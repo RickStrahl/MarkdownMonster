@@ -105,7 +105,7 @@
                                     Visibility="{Binding isInstalled, Converter={StaticResource InstallButtonConverter}}" 
                                     Click="ButtonInstall_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <fa:FontAwesome Icon="Download" FontFamily="FontAwesome"  Margin="0,2,7,0" Foreground="LightGreen"/>
+                                    <fa:FontAwesome Icon="Download" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,7,0" Foreground="LightGreen"/>
                                     <TextBlock >Install</TextBlock>
                                 </StackPanel>
                             </Button>
@@ -115,7 +115,7 @@
                                     Visibility="{Binding updateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                     Click="ButtonInstall_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <fa:FontAwesome Icon="Retweet" FontFamily="FontAwesome"  Margin="0,2,7,0" Foreground="DarkOrange"/>
+                                    <fa:FontAwesome Icon="Retweet" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,7,0" Foreground="DarkOrange"/>
                                     <TextBlock >Update</TextBlock>
                                 </StackPanel>
                             </Button>
@@ -125,7 +125,7 @@
                                     Visibility="{Binding isInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                     Click="ButtonUnInstall_Click">
                                 <StackPanel Orientation="Horizontal">
-                                    <fa:FontAwesome Icon="Remove" FontFamily="FontAwesome"  Margin="0,2,7,0" Foreground="DarkRed"/>
+                                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,7,0" Foreground="DarkRed"/>
                                     <TextBlock Text="{Binding installedVersion,StringFormat='Uninstall v{0}'}" />
                                 </StackPanel>
                             </Button>

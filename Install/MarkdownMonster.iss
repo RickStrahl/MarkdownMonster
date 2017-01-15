@@ -35,6 +35,7 @@ ChangesAssociations=yes
 WizardSmallImageFile=WizIcon.bmp
 ; 164 x 314
 WizardImageFile=WizBanner.bmp
+CloseApplicationsFilter=*.exe
 ;CloseApplicationsFilter=*.exe,*.dll,*.chm,*.ttf
 
 [Languages]
@@ -51,7 +52,8 @@ Source: ".\Distribution\MarkdownMonster.exe"; DestDir: "{app}"; Flags: ignorever
 Source: ".\Distribution\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
-Source: "FontAwesome.ttf"; DestDir: "{fonts}"; FontInstall: "FontAwesome"; Flags: uninsneveruninstall onlyifdoesntexist
+; No longer using this - using FontAwesome.WPF embedded resources binding
+;Source: "FontAwesome.ttf"; DestDir: "{fonts}"; FontInstall: "FontAwesome"; Flags: uninsneveruninstall onlyifdoesntexist
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MarkdownMonster"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
+        
         mc:Ignorable="d"
         Icon="../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Embed Link"
@@ -39,14 +40,14 @@
          <StackPanel Orientation="Horizontal">
             <Button Name="ButtonOk" Margin="0,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
                 <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Upload" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                    <fa:FontAwesome  Icon="Upload"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                     <TextBlock Margin="10,0,0,0" FontSize="14">Paste Link</TextBlock>
                 </StackPanel>
             </Button>
 
             <Button Name="ButtonCancel" Margin="10,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
                 <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Remove" FontFamily="FontAwesome"  FontSize="20"/>
+                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  FontSize="20"/>
                     <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
                 </StackPanel>
             </Button>

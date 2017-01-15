@@ -97,7 +97,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button  Grid.Column="0" Margin="0,30" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
                             <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome Icon="Upload" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                                <fa:FontAwesome Icon="Upload" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Post to Weblog</TextBlock>
                             </StackPanel>
                        </Button>
@@ -105,7 +105,7 @@
                         
                         <Button Grid.Column="1" Margin="10,30" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonSaveMeta_Click" >
                             <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                                <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Save Metadata</TextBlock>
                             </StackPanel>
                         </Button>
@@ -142,7 +142,7 @@
                     <Button Margin="0,30" Height="36" Width="175" HorizontalAlignment="Left" 
                         Click="ButtonNewPost_Click" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                            <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                             <TextBlock Margin="10,0,0,0" FontSize="14">Create new Post</TextBlock>
                         </StackPanel>
                     </Button>
@@ -192,7 +192,7 @@
                         <Button Margin="0,10" Height="40" Width="175" HorizontalAlignment="Left" 
                         Click="Button_DownloadPosts_Click" >
                             <StackPanel Orientation="Horizontal">
-                                <fa:FontAwesome Icon="Download" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                                <fa:FontAwesome Icon="Download" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Download Posts</TextBlock>
                             </StackPanel>
                         </Button>
@@ -295,11 +295,11 @@
                         <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonDiscoverEndpoint" 
                                 Click="ButtonDiscoverEndpoint_Click"  
                                 ToolTip="Discover Weblog Endpoint Url"
-                                FontSize="15" FontFamily="FontAwesome" Content="&#xF013;" />
+                                FontSize="15" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Content="&#xF013;" />
                         <Button Grid.Column="2" Margin="5,0,0,0" Name="ButtonApiUrlInfo" 
                                 Click="ButtonApiUrlInfo_Click" 
                                 ToolTip="Documentation for Endpoint Configuration"
-                                FontSize="15" FontFamily="FontAwesome" Content="&#xF059;" />
+                                FontSize="15" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Content="&#xF059;" />
                         
 
                     </Grid>
@@ -327,7 +327,7 @@
                     <!--<Button Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" 
                         Click="ButtonNewPost_Click" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                            <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                             <TextBlock Margin="10,0,0,0" FontSize="14">Save Weblog</TextBlock>
                         </StackPanel>
                     </Button>-->

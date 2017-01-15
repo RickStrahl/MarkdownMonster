@@ -24,6 +24,7 @@
         <KeyBinding Key="F11" Command="{Binding PresentationModeCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="P"
                     Command="{Binding PrintPreviewCommand}" />
+        
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAsCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewDocumentCommand }"  />
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenDocumentCommand }"    />
@@ -513,7 +514,7 @@
                            ItemsSource="{Binding PreviewSyncModeItems}"                           
                            DisplayMemberPath="IconString"
                            SelectedValuePath="Value" 
-                           FontFamily="FontAwesome" FontSize="11"
+                           FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" FontSize="11"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="RenderTheme_SelectionChanged">
                 </ComboBox>

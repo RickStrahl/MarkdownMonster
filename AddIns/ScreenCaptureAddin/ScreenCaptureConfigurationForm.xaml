@@ -70,7 +70,7 @@
                 <Button Name="SubmitButton" Margin="0,20" Height="40" Width="155" HorizontalAlignment="Left" 
                         Click="ButtonSave_Click" IsDefault="True" >
                 <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Check" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                    <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                     <TextBlock Name="SubmitButtonText" Margin="10,0,0,0" FontSize="14">Save Settings</TextBlock>
                 </StackPanel>
             </Button>
@@ -78,7 +78,7 @@
             <Button Name="CancelButton" Margin="10,30" Height="40"  Width="155" HorizontalAlignment="Left" 
                         Click="ButtonCancel_Click" IsCancel="True">
                 <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Remove"  FontFamily="FontAwesome" Foreground="FireBrick" FontSize="20" />
+                    <fa:FontAwesome Icon="Remove"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="FireBrick" FontSize="20" />
                     <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
                 </StackPanel>
             </Button>
