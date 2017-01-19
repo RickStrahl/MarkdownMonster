@@ -7,17 +7,20 @@
 <html>
 <head>
     <title>Markdown Monster - A better Markdown Editor for Windows</title>
-    <meta name="description" content="Markdown Monster is a powerful, easy to use Markdown Editor and Weblog Publisher for Windows. Easily view and edit Markdown documents, convert HTML to markdown and publish Markdown to your Weblog." />
-    <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Publish,Writing,Documentation" />
-
+    <meta name="description" content="Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows." />
+    <meta name="keywords" content="markdown, text editor, documentation, editor, windows, weblog, publishing, screen capture, writing, open source, extensible, addins" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <meta name="company" content="West Wind Technologies - http://west-wind.com"/>
+    <meta name="author" content="Rick Strahl, West Wind Technologies  - http://weblog.west-wind.com"/>
+
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/application.css" rel="stylesheet" />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
 
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="icon" type="image/png" href="favicon.png" />
-    <meta content="Images/MarkdownMonster_Icon_128.png" itemprop="image">
+    <meta content="favicon.png" itemprop="image">
     
     <style>
         #ActionButtons {
@@ -30,6 +33,19 @@
                 background: linear-gradient(to bottom, #393939, #222);
             }
     </style>
+    
+        
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Markdown Monster">
+
+    <meta property="og:title" content="Markdown Monster: A better Markdown Editor for Windows">
+    <meta property="og:description" content="Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows.">
+    <meta property="og:url" content="https://markdownmonster.west-wind.com">
+    
+    <meta property="og:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterMonsterBigger.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="639">
 </head>
 <body>
     <div class="banner">
