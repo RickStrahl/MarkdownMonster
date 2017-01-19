@@ -311,6 +311,23 @@ namespace MarkdownMonster.AddIns
 
             return null;
         }
+
+        public void RaiseOnDocumentChanged()
+        {
+            foreach (var addin in AddIns)
+            {
+                try
+                {                    
+                    addin?.OnDocumentUpdated();                    
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::OnDocumentUpdated Error: " + ex.GetBaseException().Message);
+                }
+            }
+
+        }
+
         #endregion
 
         #region Addin Manager
@@ -686,5 +703,6 @@ namespace MarkdownMonster.AddIns
         }
 
         #endregion
+
     }
 }

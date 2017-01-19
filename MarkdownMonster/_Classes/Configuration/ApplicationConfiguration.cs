@@ -376,6 +376,8 @@ namespace MarkdownMonster
         }
         private List<string> _recentDocuments = new List<string>();
 
+        public int RecentDocumentLength { get; set; } = 12;
+
         /// <summary>
         /// Configuration object that olds info about how applications are updated
         /// </summary>
@@ -475,9 +477,11 @@ namespace MarkdownMonster
             RecentDocuments.Insert(0,filename);
             OnPropertyChanged(nameof(RecentDocuments));
 
-            if (RecentDocuments.Count > 12)
-                RecentDocuments = RecentDocuments.Take(12).ToList();            
+            if (RecentDocuments.Count > RecentDocumentLength)
+                RecentDocuments = RecentDocuments.Take(RecentDocumentLength).ToList();            
         }
+
+        
 
         protected override IConfigurationProvider OnCreateDefaultProvider(string sectionName, object configData)
         {

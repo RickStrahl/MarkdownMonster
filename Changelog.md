@@ -2,8 +2,21 @@
 
 # Markdown Monster Change Log
 
-### 1.1.14
+
+### 1.1.16
 <i><small>not released yet</small></i>
+
+* **RecentDocumentsLength Configuration Option**  
+You can now configure the length of the recent document list. Some people have requested to see a longer list of previous documents. The default remains at 12, but is now changeable via **Tools -> Settings -> RecentDocumensLength**
+
+* **Create Chocolatey Portable Install Package**  
+Created a new Chocolatey package you can install with **choco install MarkdownMonster.Portable**. Package installs without admin rights into self-contained chocolatey folder without running an installer. All features except: .md and .markdown file associations, and mm.bat shortcut.
+
+* **Remove external FontAwesome Font Dependency**  
+Removed dependency on an external copy of the FontAwesome font. Fixed all internal references to point at the embedded FontAwesome resource in FontAwesome.WPF library.
+
+### 1.1.14
+<i><small>January 14th, 2017</small></i>
 
 * **New Visual Studio Extension for Markdown Monster Project Template**  
 If you want to create a custom Markdown Monster Addin, the process just got a lot easier with a [Visual Studio Markdown Monster Addin Project Template](https://marketplace.visualstudio.com/items?itemName=RickStrahl.MarkdownMonsterAddinProject) that you can pick up from the Visual Studio Extension Manager or the Visual Studio Gallery.
@@ -19,7 +32,7 @@ If the Markdown content contains literal script tags that need to be executed th
 
 
 ### 1.1.12
-<i><small>January 12th, 2017</small></i>
+<i><small>January 10th, 2017</small></i>
 
 * **Spellchecker to skip Code Snippets**  
 Made change to have the spell checker not check code snippet blocks. This makes code centric markdown much cleaner and also puts less load on the spell checker's background processing while typing, since code blocks often have many spelling errors.

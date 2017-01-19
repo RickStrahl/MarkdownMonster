@@ -8,7 +8,7 @@ remove-item -recurse -force ${target}
 
 robocopy ${source}\bin\Release ${target} /MIR
 
-copy ${cur}\mm.bat ${target}\mm.bat
+copy ${cur}\mm.exe ${target}\mm.exe
 
 del ${target}\*.vshost.*
 del ${target}\*.pdb

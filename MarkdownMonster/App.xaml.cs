@@ -243,7 +243,7 @@ namespace MarkdownMonster
                         mmApp.Log("Addin loading failed", ex);
                     }
                 });
-            }
+            }            
         }
 
     }

@@ -17,8 +17,6 @@
 * **[Change Log](Changelog.md)**
 * <a href="https://gitter.im/MarkdownMonster/MarkdownMonster"><img src="https://camo.githubusercontent.com/a05bc0f4476f07cf58e83b4d3f36cdaec0a86f7d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769747465722d4a6f696e253230436861742d677265656e2e7376673f7374796c653d666c61742d737175617265" /></a>
 
-Please star this repo if you like what you see here!
-
 Here's what Markdown Monster looks like:
 
 ![Markdown Monster Screen Shot](ScreenShot.png)
@@ -68,6 +66,8 @@ Markdown Monster provides many useful features:
 JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
 * Open document folder or console 
 
+Please **star this repo** if you use Markdown Monster and you like what you see here. Please help spread the word.
+
 ## Why another Markdown Editor?
 Markdown is everywhere these days, and it's becoming a favorite format for many developers, writers and documentation experts to create lots of different kinds of content in this format. Markdown is used in a lot of different places:
 
@@ -115,6 +115,7 @@ Right now the registry is pretty sparse, but here are a couple of Addins you can
 
 * [Save Image to Azure Blob Storage](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin)
 * [Paste Code as Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)
+* [Snippets](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
 
 ## Provided Add-ins
 Not only does Markdown Monster allow extension via Addins - it also uses Addins for some built-in features. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate the power of the Add-in model.
@@ -174,6 +175,7 @@ Here are a few things you can do to help spread the word:
 * **Install from Chocolatey** with the [Markdown Monster Package](https://chocolatey.org/packages/MarkdownMonster)
 * **Write an Addin**: [Create a Markdown Monster Addin](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)
 * **Write a blog post** and mention how you use Markdown Monster
+* **Link to the [Markdown Monster Web Site](https://markdownmonster.west-wind.com)** to help us spread the Google Foo.
 
 The support from the community so far with feedback, bug reports and ideas for new features has been awesome, and I look forward for that to continue with a growing community of active users and contributors.
 

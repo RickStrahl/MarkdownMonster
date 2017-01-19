@@ -57,3 +57,5 @@ MarkdownMonster/Editor/scripts/Ace/theme-twilight - Copy.js
 /Install/Chocolatey/push.ps1
 /Install/Chocolatey.Portable/tools
 /MediumApi.websurge
+/mm.vshost.exe.config
+/mm.vshost.exe.manifest

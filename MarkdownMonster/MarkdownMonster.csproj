@@ -162,6 +162,7 @@
     <Compile Include="Windows\RegistrationForm.xaml.cs">
       <DependentUpon>RegistrationForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="_Classes\MarkdownEditorSimple.cs" />
     <Compile Include="_Classes\Utilities\ValueConverters.cs" />
     <Compile Include="_Classes\Utilities\KnownFolders.cs" />
     <Compile Include="_Classes\MarkdownParser\IMarkdownParser.cs" />
@@ -258,6 +259,12 @@
     </Compile>
     <Resource Include="Assets\MarkdownMonsterAddins_Icon.png" />
     <Resource Include="Assets\MarkdownMonster_Icon_256.png" />
+    <Content Include="Editor\editorSimple.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Editor\editorSimple.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Editor\scripts\Ace\ace.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -567,81 +574,6 @@
     <Content Include="PreviewThemes\Scripts\highlightjs\highlight.pack.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\agate.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\androidstudio.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\arduino-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\arta.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\ascetic.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-cave-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-cave-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-dune-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-dune-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-estuary-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-estuary-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-forest-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-forest-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-heath-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-heath-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-lakeside-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-lakeside-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-plateau-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-plateau-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-savanna-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-savanna-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-seaside-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-seaside-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-sulphurpool-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\atelier-sulphurpool-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="PreviewThemes\Scripts\highlightjs\styles\brown-paper.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -663,9 +595,6 @@
     <Content Include="PreviewThemes\Scripts\highlightjs\styles\default.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\docco.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="PreviewThemes\Scripts\highlightjs\styles\dracula.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -685,18 +614,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PreviewThemes\Scripts\highlightjs\styles\grayscale.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\gruvbox-dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\gruvbox-light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\hopscotch.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\hybrid.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PreviewThemes\Scripts\highlightjs\styles\idea.css">
@@ -732,18 +649,6 @@
     <Content Include="PreviewThemes\Scripts\highlightjs\styles\paraiso-light.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\pojoaque.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\pojoaque.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\qtcreator_dark.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\qtcreator_light.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="PreviewThemes\Scripts\highlightjs\styles\railscasts.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -763,21 +668,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PreviewThemes\Scripts\highlightjs\styles\sunburst.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\tomorrow-night-blue.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\tomorrow-night-bright.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\tomorrow-night-eighties.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\tomorrow-night.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PreviewThemes\Scripts\highlightjs\styles\tomorrow.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PreviewThemes\Scripts\highlightjs\styles\twilight.css">
