@@ -169,6 +169,17 @@ namespace MarkdownMonster.AddIns
         public virtual void OnDocumentActivated(MarkdownDocument doc)
         {                                    
         }
+
+
+        /// <summary>
+        /// Called whenever the document is updated and the document's current 
+        /// text is updated. Note this may not be always 100% in sync of what's
+        /// in the editor as the document is updated only when the user stops
+        /// typing for around a second.
+        /// </summary>
+        public virtual void OnDocumentUpdated()
+        {            
+        }
         #endregion
 
         #region Helper Methods

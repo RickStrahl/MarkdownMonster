@@ -185,7 +185,11 @@ namespace MarkdownMonster
                      SetDirty(true);                
             }
             if (AceEditor != null)
-                AceEditor.setvalue(markdown,position);
+            {
+                if (position == null)
+                    position = -2; // keep position
+                AceEditor.setvalue(markdown, position);
+            }
         }
 
         /// <summary>
@@ -470,11 +474,28 @@ namespace MarkdownMonster
             return lineNo;
         }
 
+        public string GetCurrentLine()
+        {
+            if (AceEditor == null)
+                return null;
+            return AceEditor.getCurrentLine(false);
+        }
+
         public void GotoLine(int line)
         {
             if (AceEditor == null)
                 return;            
             AceEditor.gotoLine(line);
+        }
+
+        public void FindAndReplaceText(string search, string replace)
+        {
+            AceEditor?.findAndReplaceText(search, replace);
+        }
+
+        public void FindAndReplaceTextInCurrentLine(string search, string replace)
+        {
+            AceEditor?.findAndReplaceTextInCurrentLine(search, replace);
         }
 
         public bool IsPreviewToEditorSync()
@@ -554,6 +575,10 @@ namespace MarkdownMonster
         {
             GetMarkdown();
             MarkdownDocument.IsDirty = MarkdownDocument.CurrentText != MarkdownDocument.OriginalText;
+
+            if (MarkdownDocument.IsDirty)
+                AddinManager.Current.RaiseOnDocumentChanged();
+
             return MarkdownDocument.IsDirty;
         }
 
