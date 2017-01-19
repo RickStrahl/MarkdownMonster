@@ -57,7 +57,7 @@ namespace SnagItAddin
             // create menu item and use OnExecute/OnExecuteConfiguration/OnCanExecute handlers            
             var menuItem = new AddInMenuItem(this)
             {
-                Caption = "SnagIt Screen Capture",
+                Caption = "Screen Capture",
                 FontawesomeIcon = FontAwesomeIcon.Camera
             };
             MenuItems.Add(menuItem);

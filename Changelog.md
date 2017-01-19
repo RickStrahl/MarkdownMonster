@@ -4,16 +4,23 @@
 
 
 ### 1.1.16
-<i><small>not released yet</small></i>
+<i><small>January 19th, 2017</small></i>
 
 * **RecentDocumentsLength Configuration Option**  
 You can now configure the length of the recent document list. Some people have requested to see a longer list of previous documents. The default remains at 12, but is now changeable via **Tools -> Settings -> RecentDocumensLength**
+
+* **[Reusable Snippets Addin](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)**  
+We've added a new **Snippets Addin** to the Addin registry that allows you to create reusable text snippets. Snippets can contain C# Expressions or @Razor script and can be invoked via the UI or via expandable shortcut words.
 
 * **Create Chocolatey Portable Install Package**  
 Created a new Chocolatey package you can install with **choco install MarkdownMonster.Portable**. Package installs without admin rights into self-contained chocolatey folder without running an installer. All features except: .md and .markdown file associations, and mm.bat shortcut.
 
 * **Remove external FontAwesome Font Dependency**  
 Removed dependency on an external copy of the FontAwesome font. Fixed all internal references to point at the embedded FontAwesome resource in FontAwesome.WPF library.
+
+* **Fix: Full Document Updates now retain their rough cursor position**  
+Previously on the few occasions when Markdown Monster refreshed the entire document by reassigning the full markdown the editor cursor position was lost. Cursor position is preserved now.
+
 
 ### 1.1.14
 <i><small>January 14th, 2017</small></i>
