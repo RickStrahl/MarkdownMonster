@@ -52,7 +52,7 @@ var te = window.textEditor = {
             fontFamily: editorSettings.font,
             fontSize: editorSettings.fontSize
         });
-        
+
         // allow editor to soft wrap text
         session.setUseWrapMode(editorSettings.wrapText);
         session.setOption("indentedSoftWrap", false);
@@ -66,25 +66,25 @@ var te = window.textEditor = {
         // disable certain hot keys in editor so we can handle them here        
         editor.commands.bindKeys({
             //"alt-k": null,
-            "ctrl-n": function () {
+            "ctrl-n": function() {
                 te.specialkey("ctrl-n");
                 // do nothing but:
                 // keep ctrl-n browser behavior from happening
                 // and let WPF handle the key
             },
-            "ctrl-o": function() {                
+            "ctrl-o": function() {
                 te.editor.blur(); // HACK: avoid letter o insertion into document
-                te.specialkey("ctrl-o");                
+                te.specialkey("ctrl-o");
                 setTimeout(function() { te.editor.focus(); }, 20);
             },
-            "ctrl-p": function () { te.specialkey("ctrl-p") },
+            "ctrl-p": function() { te.specialkey("ctrl-p") },
 
             "f5": function() {},
-            "alt-c": function () { te.specialkey("alt-c"); },
-            
+            "alt-c": function() { te.specialkey("alt-c"); },
+
             "ctrl-s": function() { te.specialkey("ctrl-s"); },
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
-            "ctrl-i": function () { te.specialkey("ctrl-i"); },
+            "ctrl-i": function() { te.specialkey("ctrl-i"); },
             "ctrl-`": function() { te.specialkey("ctrl-`"); },
             "ctrl-l": function() { te.specialkey("ctrl-l"); },
             "ctrl-k": function() { te.specialkey("ctrl-k"); },
@@ -103,7 +103,7 @@ var te = window.textEditor = {
             "ctrl-shift-up": function() { te.specialkey("ctrl-shift-up"); },
             "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
             "ctrl-shift-v": function() { te.specialkey("ctrl-shift-v"); },
-            "ctrl-v": function () { te.mm.textbox.PasteOperation(); }
+            "ctrl-v": function() { te.mm.textbox.PasteOperation(); }
 
 
         });
@@ -151,42 +151,43 @@ var te = window.textEditor = {
         //$("pre[lang]").on("keydown", keydownHandler);
 
 
-        var updateDocument = debounce(function () {
-            te.isDirty = te.mm.textbox.IsDirty();
+        var updateDocument = debounce(function() {
+                te.isDirty = te.mm.textbox.IsDirty();
 
-            te.mm.textbox.PreviewMarkdownCallback();
-            te.updateDocumentStats();
-        }, te.previewRefresh);
+                te.mm.textbox.PreviewMarkdownCallback();
+                te.updateDocumentStats();
+            },
+            te.previewRefresh);
 
         var keyupHandler = function keyUpHandler(e) {
             if (!te.mm)
                 return;
 
             //if (!te.isDirty) { 
-                //te.isDirty = te.mm.textbox.IsDirty();
+            //te.isDirty = te.mm.textbox.IsDirty();
 
 
-                    //var keycode = e.keyCode;
-                ////if (keycode == 13 ||   // cr
-                ////    keycode == 8 ||    // backspace
-                ////    keycode == 46 ||   // del                                
-                ////    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
-                ////    keycode == 222)   // single quote
-                ////          te.mm.textbox.PreviewMarkdownCallback();
+            //var keycode = e.keyCode;
+            ////if (keycode == 13 ||   // cr
+            ////    keycode == 8 ||    // backspace
+            ////    keycode == 46 ||   // del                                
+            ////    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
+            ////    keycode == 222)   // single quote
+            ////          te.mm.textbox.PreviewMarkdownCallback();
 
-                //var valid =
-                //    (e.keycode > 47 && keycode < 58) || // number keys
-                //        keycode == 32 ||
-                //        keycode == 13 || // spacebar & return key(s) 
-                //        (keycode > 64 && keycode < 91) || // letter keys
-                //        (keycode > 95 && keycode < 112) || // numpad keys  
-                //        (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
-                //        (keycode > 218 && keycode < 223) || // [\]' (in order)
-                //        (keycode == 8 || keycode == 9 || keycode == 46);
-                //// backspace, tab -> handled in key up
+            //var valid =
+            //    (e.keycode > 47 && keycode < 58) || // number keys
+            //        keycode == 32 ||
+            //        keycode == 13 || // spacebar & return key(s) 
+            //        (keycode > 64 && keycode < 91) || // letter keys
+            //        (keycode > 95 && keycode < 112) || // numpad keys  
+            //        (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
+            //        (keycode > 218 && keycode < 223) || // [\]' (in order)
+            //        (keycode == 8 || keycode == 9 || keycode == 46);
+            //// backspace, tab -> handled in key up
 
-                //if (valid)
-                //    te.isDirty = te.mm.textbox.SetDirty(true);
+            //if (valid)
+            //    te.isDirty = te.mm.textbox.SetDirty(true);
             //}
 
             updateDocument();
@@ -194,7 +195,7 @@ var te = window.textEditor = {
             //if (te.isspellcheckingenabled)
             //    sc.spellCheck();
 
-        }       
+        }
         $("pre[lang]").on("keyup", keyupHandler);
 
 
@@ -230,8 +231,24 @@ var te = window.textEditor = {
     setvalue: function(text, pos) {
         if (!pos)
             pos = -1; // first line
-        //if (pos == -2)  
+
+
+        var offset = 0; // get cursor offset
+        if (pos === -2) {
+            try {
+                offset = te.editor.session.doc.positionToIndex(te.editor.selection.getCursor());
+            } catch (ex) {
+                pos = -1; // go to top
+            }
+            if (offset == 0) // if 0 go to top
+                pos = -1;
+        }
+
         te.editor.setValue(text, pos);
+
+        if (offset > 0) {
+            te.setselposition(offset, 0);
+        }
 
         te.editor.getSession().setUndoManager(new ace.UndoManager());
 
@@ -263,42 +280,40 @@ var te = window.textEditor = {
         var range = te.editor.getSelectionRange();
         te.editor.getSession().replace(range, text);
     },
-    gotoLine: function (line) {        
+    gotoLine: function(line) {
         te.editor.scrollToLine(line);
 
         var sel = te.editor.getSelection();
         var range = sel.getRange();
-        range.setStart({row: line, column: 0});
+        range.setStart({ row: line, column: 0 });
         range.setEnd({ row: line, column: 0 });
         sel.setSelectionRange(range);
-
-
     },
-    setselposition: function(index,count) {    	
-    	var doc = te.editor.getSession().getDocument();
+    setselposition: function(index, count) {
+        var doc = te.editor.getSession().getDocument();
         var lines = doc.getAllLines();
 
-    	 var offsetToPos = function( offset ) {
+        var offsetToPos = function(offset) {
             var row = 0, col = 0;
             var pos = 0;
-            while ( row < lines.length && pos + lines[row].length < offset) {
+            while (row < lines.length && pos + lines[row].length < offset) {
                 pos += lines[row].length;
                 pos++; // for the newline
                 row++;
             }
             col = offset - pos;
-            return {row: row, column: col};
-        };             
-		var start = offsetToPos( index );
-        var end = offsetToPos( index + count );
+            return { row: row, column: col };
+        };
+        var start = offsetToPos(index);
+        var end = offsetToPos(index + count);
 
-    	var sel = te.editor.getSelection();
-    	var range = sel.getRange();
-    	range.setStart(start);
-    	range.setEnd(end);
-    	sel.setSelectionRange( range );
+        var sel = te.editor.getSelection();
+        var range = sel.getRange();
+        range.setStart(start);
+        range.setEnd(end);
+        sel.setSelectionRange(range);
     },
-    getselection: function (ignored) {
+    getselection: function(ignored) {
         return te.editor.getSelectedText();
     },
     getLineNumber: function(ignored) {
@@ -306,8 +321,45 @@ var te = window.textEditor = {
         if (!selectionRange) {
             status("no selection range...");
             return -1;
-        }        
+        }
         return Math.floor(selectionRange.start.row);
+    },
+    getCurrentLine: function(ignored) {
+
+        var selectionRange = te.editor.getSelectionRange();
+        var startLine = selectionRange.start.row;
+        return te.editor.session.getLine(startLine);
+    },
+    findAndReplaceText: function(search, replace) {
+        var range = te.editor.find(search,
+        {
+            wrap: true,
+            caseSensitive: true,
+            wholeWord: true,
+            regExp: false,
+            preventScroll: false // do not change selection
+        });
+        if (!range)
+            return;
+
+        range.start.column = 0;        
+        range.end.column = 2000;
+        
+        te.editor.session.replace(range, replace);        
+    },
+    findAndReplaceTextInCurrentLine: function (search, replace) {
+        var range = te.editor.getSelectionRange();
+        var startLine = range.start.row;
+        var lineText = te.editor.session.getLine(startLine);
+
+        var i = lineText.indexOf(search);
+        if (i === -1)
+            return;
+        
+        range.start.column = i;
+        range.end.column = i + search.length;
+
+        te.editor.session.replace(range, replace);
     },
     gotfocus: function (ignored) {
         te.setfocus();
