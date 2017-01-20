@@ -387,6 +387,8 @@ namespace MarkdownMonster
                     }
                 }
 
+                mmApp.Configuration.LastFolder = folder;
+
                 Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
             {
