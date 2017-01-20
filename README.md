@@ -1,4 +1,6 @@
-﻿# Markdown Monster
+﻿
+
+# Markdown Monster
 #### An extensible Markdown Editor, Viewer and Weblog Publisher for Windows
 
 ![](Art/MarkdownMonster.png)
@@ -42,6 +44,7 @@ Markdown Monster provides many useful features:
 * Easily select and embed images
 * Easily capture screen shots and embed the images
 * Embed code snippets and see highlighted syntax coloring
+* Text Snippet Expansion with C# Code via Snippets Addin
 
 #### Weblog Publisher
 * Create or edit Weblog posts using Markdown
