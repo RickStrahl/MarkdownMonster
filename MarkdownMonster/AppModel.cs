@@ -120,20 +120,15 @@ namespace MarkdownMonster
 
                 _activeDocument = value;
 
-                if (_activeDocument != null)
-                {
-                    _activeDocument.PropertyChanged += (a, b) =>
-                    {
-                        if (b.PropertyName == nameof(_activeDocument.IsDirty))                        
-                            SaveCommand.InvalidateCanExecute();                        
-                    };
-                }
+          
                 OnPropertyChanged(nameof(ActiveDocument));
                 OnPropertyChanged(nameof(ActiveEditor));
                 OnPropertyChanged(nameof(IsEditorActive));
 
                 SaveCommand.InvalidateCanExecute();
                 SaveAsHtmlCommand.InvalidateCanExecute();
+
+                Window.ToolbarEdit.IsEnabled = IsEditorActive;
             }
         }
 

@@ -86,6 +86,11 @@ namespace WeblogAddin
             form.Show();                       
         }
 
+        public override bool OnCanExecute(object sender)
+        {
+            return Model.IsEditorActive;
+        }
+
         public override void OnExecuteConfiguration(object sender)
         {
             string file = Path.Combine(mmApp.Configuration.CommonFolder, "weblogaddin.json");

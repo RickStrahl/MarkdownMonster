@@ -61,23 +61,28 @@ namespace MarkdownMonster.AddIns
         {
             foreach (var addin in AddIns)
             {
-                addin.Model = window.Model;
+                addin.Model = window.Model;                
 
 
                 foreach (var menuItem in addin.MenuItems)
                 {
                     var mitem = new MenuItem()
                     {
-                        Header = menuItem.Caption
+                        Header = menuItem.Caption,                        
 
                     };
+                    
+
                     if (menuItem.CanExecute == null)
                         mitem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(mitem));
                     else
                         mitem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(mitem),
                                                         (s, c) => menuItem.CanExecute.Invoke(mitem));
 
-                    addin.Model.Window.MenuAddins.Items.Add(mitem);                    
+                    int menuIndex = addin.Model.Window.MenuAddins.Items.Add(mitem);
+
+
+                              
 
                     // if an icon is provided also add to toolbar
                     if (menuItem.FontawesomeIcon != FontAwesomeIcon.None)
@@ -105,7 +110,7 @@ namespace MarkdownMonster.AddIns
                         }
 
                         addin.Model.Window.ToolbarAddIns.Visibility = Visibility.Visible;
-                        addin.Model.Window.ToolbarAddIns.Items.Add(titem);
+                        int toolIndex = addin.Model.Window.ToolbarAddIns.Items.Add(titem);
                     
                         // Add configuration dropdown if configured
                         if (hasConfigMenu)
@@ -129,10 +134,28 @@ namespace MarkdownMonster.AddIns
                                 tcitem.Command = new CommandBase((sender, c) => menuItem.ExecuteConfiguration.Invoke(sender));
                             else
                                 tcitem.Command = new CommandBase((sender, c) => menuItem.ExecuteConfiguration.Invoke(sender),
-                                                                 (s, c) => menuItem.CanExecute.Invoke(titem));
+                                    (s, c) => addin.OnCanExecute(c));
 
                             addin.Model.Window.ToolbarAddIns.Items.Add(tcitem);
                         }
+
+                        addin.Model.PropertyChanged += (s, arg) =>
+                        {
+                            if (arg.PropertyName == "ActiveDocument" || arg.PropertyName == "ActiveEditor")
+                            {                                
+                                bool isEnabled = addin.OnCanExecute(arg);
+                                if (mitem != null)
+                                {
+                                    var item = addin.Model.Window.MenuAddins.Items[menuIndex] as MenuItem;
+                                    item.IsEnabled = isEnabled;
+                                }                                
+                                if (titem != null)
+                                {
+                                    var item = addin.Model.Window.ToolbarAddIns.Items[toolIndex] as Button;
+                                    item.IsEnabled = isEnabled;
+                                }                                                        
+                            }
+                        };
                     }
                 }
             }

@@ -255,8 +255,9 @@ namespace SnagItAddin
         }
 
         public override bool OnCanExecute(object sender)
-        {            
-            return true;
+        {
+            bool isActive = Model.IsEditorActive;
+            return isActive;
         }
     }
 }
