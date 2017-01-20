@@ -356,8 +356,12 @@ namespace MarkdownMonster
                 }
 
                 if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
-                    folder = KnownFolders.GetPath(KnownFolder.Libraries);
-                
+                {
+                    folder = mmApp.Configuration.LastFolder;
+                    if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+                        folder = KnownFolders.GetPath(KnownFolder.Libraries);
+                }
+
                 SaveFileDialog sd = new SaveFileDialog
                 {
                     Filter = "Markdown files (*.md)|*.md|Markdown files (*.markdown)|*.markdown|All files (*.*)|*.*",
