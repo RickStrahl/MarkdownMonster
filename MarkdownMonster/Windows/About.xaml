@@ -16,14 +16,14 @@
         Width="603.57" Height="645.867">
     <Canvas RenderTransformOrigin="0.5,0.5" >
         <Image  Name="SplashImage" Source="../Assets/MarkdownMonster.png" Width="600" Height="441" Canvas.Left="0" Canvas.Top="0"  />
-        <Label x:Name="VersionLabel" Content="Version 1.0" Canvas.Right="10" Canvas.Top="385" FontSize="16" FontWeight="Bold"  HorizontalAlignment="Right" Foreground="WhiteSmoke" />
-        <Label x:Name="OsLabel" Content="32 bit" Canvas.Right="10" Canvas.Top="407" FontSize="14" HorizontalAlignment="Right" Foreground="WhiteSmoke" />
-        <Image Source="../Assets/WestwindText.png" Height="25" Canvas.Right="10" Canvas.Top="455" MouseDown="WestWindIcon_Click" Cursor="Hand" Width="125"/>
-        <Label x:Name="BroughtByLabel" Content="brought to you by:" Canvas.Right="10" Canvas.Top="435" FontSize="12" HorizontalAlignment="Right" Foreground="WhiteSmoke"/>
+        <Label x:Name="VersionLabel" Content="Version 1.0" Canvas.Right="10" Canvas.Top="380" FontSize="22" FontWeight="Bold"  HorizontalAlignment="Right" Foreground="WhiteSmoke" />
+        <Label x:Name="OsLabel" Content="32 bit" Canvas.Right="10" Canvas.Top="410" FontSize="14" HorizontalAlignment="Right" Foreground="WhiteSmoke" />
+        <Image Source="../Assets/WestwindText.png" Height="25" Canvas.Right="10" Canvas.Top="470" MouseDown="WestWindIcon_Click" Cursor="Hand" Width="125"/>
+        <Label x:Name="BroughtByLabel" Content="brought to you by:" Canvas.Right="10" Canvas.Top="445" FontSize="12" HorizontalAlignment="Right" Foreground="WhiteSmoke"/>
 
 
 
-        <StackPanel x:Name="PanelFreeNotice" Width="430" Height="64" Canvas.Left="20" Canvas.Top="425" >
+        <StackPanel x:Name="PanelFreeNotice" Width="430" Height="64" Canvas.Left="20" Canvas.Top="432" >
             <TextBlock Margin="0,10,6,0" Foreground="WhiteSmoke"><Run Text="You've been using the Free version"/></TextBlock>
             <Button Margin="0,2,0,30" Content="Register your copy" FontSize="17" FontWeight="Bold" IsDefault="True"
             	HorizontalAlignment="Left" Click="Register_Click" 
@@ -31,7 +31,7 @@
         </StackPanel>
         
 
-        <Grid Canvas.Left="20" Canvas.Top="500" Width="570" >
+        <Grid Canvas.Left="20" Canvas.Top="510" Width="570" >
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
