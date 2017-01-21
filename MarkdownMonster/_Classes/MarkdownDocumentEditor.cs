@@ -142,7 +142,7 @@ namespace MarkdownMonster
             else if (ext == "html" || ext == "htm")
                 EditorSyntax = "html";
 
-            else if (ext == "xml" || ext == "config")
+            else if (ext == "xml" || ext == "config" || ext == "xaml" || ext == "csproj")
                 EditorSyntax = "xml";
             else if (ext == "js")
                 EditorSyntax = "javascript";
@@ -545,6 +545,54 @@ namespace MarkdownMonster
             if (!string.IsNullOrEmpty(newhtml) && newhtml != html)            
                 SetSelectionAndFocus(newhtml);                            
         }
+
+        /// <summary>
+        /// Sets the Syntax language to highlight for in the editor
+        /// </summary>
+        /// <param name="syntax"></param>
+        public void SetEditorSyntax(string syntax = "markdown")
+        {
+            AceEditor?.setlanguage(syntax);
+        }
+        /// <summary>
+        /// Restyles the current editor with configuration settings
+        /// from the mmApp.Configuration object (or Model.Configuration
+        /// from an addin).
+        /// </summary>
+        public void RestyleEditor()
+        {
+            if (AceEditor == null)
+                return;
+
+            try
+            {
+                // determine if we want to rescale the editor fontsize
+                // based on DPI Screen Size
+                decimal dpiRatio = 1;
+                try
+                {
+                    dpiRatio = WindowUtilities.GetDpiRatio(Window);
+                }
+                catch { }
+
+                AceEditor.settheme(
+                        mmApp.Configuration.EditorTheme,
+                        mmApp.Configuration.EditorFont,
+                        mmApp.Configuration.EditorFontSize * dpiRatio,
+                        mmApp.Configuration.EditorWrapText,
+                        mmApp.Configuration.EditorHighlightActiveLine,
+                        mmApp.Configuration.EditorShowLineNumbers,
+                        mmApp.Configuration.EditorKeyboardHandler);
+
+                if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
+                    AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck, mmApp.Configuration.EditorDictionary);
+                else
+                    // always disable for non-markdown text
+                    AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
+            }
+            catch { }
+        }
+
         #endregion
 
         #region Callback functions from the Html Editor
@@ -841,41 +889,8 @@ namespace MarkdownMonster
             AceEditor.execcommand(action, parm);
         }
 
-        /// <summary>
-        /// Restyles the current editor with configuration settings
-        /// from the mmApp.Configuration object (or Model.Configuration
-        /// from an addin).
-        /// </summary>
-        public void RestyleEditor()
-        {
-            try
-            {
-                // determine if we want to rescale the editor fontsize
-                // based on DPI Screen Size
-                decimal dpiRatio = 1;
-                try
-                {
-                    dpiRatio = WindowUtilities.GetDpiRatio(Window);
-                }
-                catch { }
 
-                AceEditor.settheme(
-                        mmApp.Configuration.EditorTheme,
-                        mmApp.Configuration.EditorFont,
-                        mmApp.Configuration.EditorFontSize * dpiRatio,
-                        mmApp.Configuration.EditorWrapText,
-                        mmApp.Configuration.EditorHighlightActiveLine,
-                        mmApp.Configuration.EditorShowLineNumbers,
-                        mmApp.Configuration.EditorKeyboardHandler);
-
-                if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
-                    AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck, mmApp.Configuration.EditorDictionary);
-                else
-                    // always disable for non-markdown text
-                    AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
-            }
-            catch { }
-        }
+        
 
         public void ResizeWindow()
         {
