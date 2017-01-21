@@ -49,6 +49,19 @@ namespace MarkdownMonster.Windows
             Loaded += AddinManagerWindow_Loaded;
             DataContext = this;            
         }
+        
+
+        public AddinItem ActiveAddin
+        {
+            get { return _activeAddin; }
+            set
+            {
+                if (Equals(value, _activeAddin)) return;
+                _activeAddin = value;
+                OnPropertyChanged();
+            }
+        }
+        private AddinItem _activeAddin;
 
         private async void AddinManagerWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -56,6 +69,9 @@ namespace MarkdownMonster.Windows
             // fill and sort as data is filled out
             var addinList = await AddinManager.Current.GetAddinListAsync();
             AddinList = new ObservableCollection<AddinItem>(addinList);
+
+            if (AddinList.Count > 0)
+                ActiveAddin = AddinList[0];
         }
 
         private void ListViewAddins_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -141,13 +157,11 @@ namespace MarkdownMonster.Windows
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var tb = sender as TextBlock;
-            var addin = tb.DataContext as AddinItem;
             
-            if (addin == null)
+            if (ActiveAddin == null)
                 return;
 
-            ShellUtils.GoUrl(addin.gitUrl);
+            ShellUtils.GoUrl(ActiveAddin.gitUrl);
         }
     }
 }

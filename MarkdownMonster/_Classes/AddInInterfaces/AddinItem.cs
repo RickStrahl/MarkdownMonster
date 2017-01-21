@@ -37,6 +37,14 @@ namespace MarkdownMonster.AddIns
                                            .Replace("https://github.com", "https://raw.githubusercontent.com") +
                                                     "/master/Build/version.json";
         
+        public string gitIconUrl => gitUrl.ToLower()
+                                           .Replace("https://github.com", "https://raw.githubusercontent.com") +
+                                                    "/master/Build/icon.png";
+
+        public string gitScreenShotUrl => gitUrl.ToLower()
+                                           .Replace("https://github.com", "https://raw.githubusercontent.com") +
+                                                    "/master/Build/screenshot.png";
+
         public string name
         {
             get { return _name; }
