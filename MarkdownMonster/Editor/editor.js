@@ -276,10 +276,7 @@ var te = window.textEditor = {
         var fontsize = te.editor.getFontSize() * zoom;
         return fontsize;
     },
-    setselection: function(text) {
-        var range = te.editor.getSelectionRange();
-        te.editor.getSession().replace(range, text);
-    },
+
     gotoLine: function(line) {
         te.editor.scrollToLine(line);
 
@@ -289,8 +286,15 @@ var te = window.textEditor = {
         range.setEnd({ row: line, column: 0 });
         sel.setSelectionRange(range);
     },
+    setselection: function(text) {
+        var range = te.editor.getSelectionRange();
+        te.editor.session.replace(range, text);
+    },
+    getselection: function(ignored) {
+        return te.editor.getSelectedText();
+    },
     setselposition: function(index, count) {
-        var doc = te.editor.getSession().getDocument();
+        var doc = te.editor.session.getDocument();
         var lines = doc.getAllLines();
 
         var offsetToPos = function(offset) {
@@ -304,6 +308,7 @@ var te = window.textEditor = {
             col = offset - pos;
             return { row: row, column: col };
         };
+
         var start = offsetToPos(index);
         var end = offsetToPos(index + count);
 
@@ -313,8 +318,34 @@ var te = window.textEditor = {
         range.setEnd(end);
         sel.setSelectionRange(range);
     },
-    getselection: function(ignored) {
-        return te.editor.getSelectedText();
+    getCursorPosition: function(ignored) { // returns {row: y, column: x}
+        te.editor.getCursorPosition();
+    },
+
+    setCursorPosition: function(pos) { // { row: y, column: x }
+        var sel = te.editor.getSelection();
+        var range = sel.getRange();
+        range.setStart(pos);
+        range.setEnd(pos);
+        sel.setSelectionRange(range);
+    },
+    moveCursorLeft: function (count) {
+        if (!count)
+            count = 1;
+        var sel = te.editor.getSelection();
+        
+        for (var i = 0; i < count; i++) {
+           sel.moveCursorLeft();    
+        }        
+    },
+    moveCursorRight: function (count) {
+        if (!count)
+            count = 1;
+        var sel = te.editor.getSelection();
+        for (var i = 0; i < count; i++) {
+            sel.moveCursorRight();
+        }
+        
     },
     getLineNumber: function(ignored) {
         var selectionRange = te.editor.getSelectionRange();
@@ -325,7 +356,6 @@ var te = window.textEditor = {
         return Math.floor(selectionRange.start.row);
     },
     getCurrentLine: function(ignored) {
-
         var selectionRange = te.editor.getSelectionRange();
         var startLine = selectionRange.start.row;
         return te.editor.session.getLine(startLine);
@@ -379,14 +409,17 @@ var te = window.textEditor = {
         $("#losefocus").focus();
     },
     setlanguage: function (lang) {
+        
         if (!lang)
-            lang = "text";
+            lang = "txt";
         if (lang == "vfp")
             lang = "foxpro";
         if (lang == "c#")
             lang = "csharp";
-        if (lang == "c++")
-            lang == "c_cpp"
+        if (lang == "c++" || lang == "cpp")
+            lang = "c_cpp";
+        if (lang == "txt" || lang == "text" || lang == "none" || lang == "plain")
+            lang = "txt";
 
         te.editor.getSession().setMode("ace/mode/" + lang);
     },
