@@ -27,9 +27,7 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-      
-
-            <ListBox Grid.Row="0" Name="ListViewAddins" 
+        <ListBox Grid.Row="0" Name="ListViewAddins" 
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              MouseDoubleClick="ListViewAddins_MouseDoubleClick" 
                              ItemsSource="{Binding AddinList}"
