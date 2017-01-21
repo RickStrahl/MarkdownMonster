@@ -12,8 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
     <meta name="company" content="West Wind Technologies - http://west-wind.com"/>
-    <meta name="author" content="Rick Strahl, West Wind Technologies  - http://weblog.west-wind.com"/>
-
+    <meta name="author" content="Rick Strahl, West Wind Technologies  - http://weblog.west-wind.com"/>
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/application.css" rel="stylesheet" />

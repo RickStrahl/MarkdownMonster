@@ -20,6 +20,8 @@ Thumbs.db
 *.log
 [Bb]in
 [Dd]ebug*/
+.vs
+.idea
 *.lib
 *.sbr
 *.nupkg
@@ -40,7 +42,7 @@ InstallerFiles/FilesToInstall/AppData/Html/_preview.json
 /MightyMarkdown/Install/Distribution
 /MightyMarkdown/Install/Builds
 /Install/Builds
-.vs
+
 /MarkdownMonster.sln.DotSettings
 /Install/Builds/CurrentRelease/MarkdownMonsterSetup.exe
 /Install/Distribution

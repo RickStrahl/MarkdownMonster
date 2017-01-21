@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -26,9 +27,14 @@ namespace MarkdownMonster
 
         public string CurrentText { get; set; }
 
+        public string EditorSyntax { get; set; } = "markdown";
+               
 
-        public MarkdownEditorSimple(WebBrowser wb, string initialValue = null)
+
+        public MarkdownEditorSimple(WebBrowser wb, string initialValue = null, string editorSyntax = "markdown")
         {
+            EditorSyntax = editorSyntax;
+
             WebBrowser = wb;
             wb.Visibility = Visibility.Hidden;
             wb.Margin = new Thickness(-11, 0, 0, 15);
@@ -38,6 +44,8 @@ namespace MarkdownMonster
             wb.Navigate("file:///" + path);
 
             InitialValue = initialValue;
+
+
         }
 
         private void OnDocumentCompleted(object sender, NavigationEventArgs e)
@@ -68,9 +76,60 @@ namespace MarkdownMonster
                 if (InitialValue != null)
                     SetMarkdown(InitialValue);
 
+                if (EditorSyntax != "markdown")
+                    AceEditor?.setlanguage(EditorSyntax);
+
             }
         }
 
+        public string FindSyntaxFromFileType(string filename)
+        {
+            if (string.IsNullOrEmpty(filename))
+                return "markdown";
+
+            EditorSyntax = "markdown";
+
+            if (filename.ToLower() == "untitled")
+                return "markdown";
+
+            var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
+            if (ext == "md" || ext == "markdown") { }
+            else if (ext == "json")
+                EditorSyntax = "json";
+            else if (ext == "html" || ext == "htm")
+                EditorSyntax = "html";
+
+            else if (ext == "xml" || ext == "config" || ext == "xaml")
+                EditorSyntax = "xml";
+            else if (ext == "js")
+                EditorSyntax = "javascript";
+            else if (ext == "ts")
+                EditorSyntax = "typescript";
+            else if (ext == "cs")
+                EditorSyntax = "csharp";
+            else if (ext == "cshtml")
+                EditorSyntax = "razor";
+            else if (ext == "css")
+                EditorSyntax = "css";
+            else if (ext == "prg")
+                EditorSyntax = "foxpro";
+            else if (ext == "txt")
+                EditorSyntax = "text";
+            else if (ext == "php")
+                EditorSyntax = "php";
+            else if (ext == "py")
+                EditorSyntax = "python";
+            else if (ext == "ps1")
+                EditorSyntax = "powershell";
+            else if (ext == "sql")
+                EditorSyntax = "sqlserver";
+            else if (ext == "rb" || ext == "ruby" || ext=="rake")
+                EditorSyntax = "ruby";
+            else
+                EditorSyntax = "";
+
+            return EditorSyntax;
+        }
 
         #region Markdown Editor Methods
 
@@ -189,6 +248,11 @@ namespace MarkdownMonster
             if (AceEditor == null)
                 return;
             AceEditor.gotoLine(line);
+        }
+
+        public void SetEditorSyntax(string syntax = "markdown")
+        {
+            AceEditor?.setlanguage(syntax);
         }
 
         #endregion

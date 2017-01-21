@@ -1,7 +1,16 @@
 ﻿<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right"/>
 
+
 # Markdown Monster Change Log
 
+### 1.1.17
+<i><small>Not released yet</small></i>
+
+* **Fix: Edit Toolbar not active when no document is active**  
+The editor toolbar now is disabled when no document is active. Previously the toolbar always stayed enabled.
+
+* **Fix: Add OnCanExecute() Triggering**  
+`OnCanExecute()` was not triggering through the commands bound to the menus. Fixed with explicit change notification bindings.
 
 ### 1.1.16
 <i><small>January 19th, 2017</small></i>

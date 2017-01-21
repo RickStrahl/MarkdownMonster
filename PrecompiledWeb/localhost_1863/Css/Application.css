@@ -1,0 +1,237 @@
+﻿body {
+    color: #333;    
+    font-size: 16px;
+    font-family: "Segoe UI","Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.4;    
+}
+img {
+    max-width: 95%;
+}
+h2, h3,h4,h5 {
+    font-weight: bold;
+    color: steelblue;
+}
+a {
+    font-weight: bold;
+}
+.banner {
+    background: #535353;
+    color: #e1e1e1;
+    border-bottom: solid 4px black;    
+    overflow: auto;
+}
+    .banner.active {
+        color: white;
+        font-weight: bolder;
+    }
+
+.banner-title {
+    display: inline-block;    
+    font-size: larger;
+    font-weight: bold;
+    padding: 13px;
+}
+
+.banner nav {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    min-width: 100px;
+}
+
+.banner a {
+    display: inline-block;
+    padding: 15px;
+    color: #e1e1e1;
+    text-decoration: none;
+}
+
+    .banner a:hover {
+        color: white;
+        background: #767676;
+        text-decoration: none;
+        border-bottom: solid 4px silver;
+        border-radius: 2px;
+    }
+
+    .banner a.active {
+        color: white;
+        font-weight: bold;
+        border-bottom: solid 4px orange;
+        border-radius: 2px;
+    }
+
+#HeroImage {
+    max-height: 315px;
+}
+#FeatureList>div {
+    margin-bottom: 5px;    
+}
+.bullet-box-items {
+    padding: 5px 20px;
+    font-size: 1.3em;
+}
+
+.panel {
+    min-height: 450px;
+}
+.panel-title {
+    font-weight: bold;
+    color: steelblue;
+}
+
+.background {
+    background: #222222;
+}
+.hidable {
+    
+}
+.hidable-xs {
+    
+}
+#ContentContainer {
+    xmargin: 0 auto !important;
+    max-width: 1100px;     
+    background: white;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;    
+    margin-bottom: 20px;
+    box-shadow: 4px 4px 6px #535353;
+}
+.top-bullet-box {
+    background: #000000;
+    background: linear-gradient(to bottom, #000000 0%, #444 100%);
+    padding: 5px 10% 15px 12%;
+}
+h4 {
+    font-size: 1.5em;
+}
+.content {
+    padding: 0 6%;
+}
+.created-by {
+    margin-top: -5px;
+}
+
+.twitter-sidebar {
+    display: none;    
+    max-height: 2800px;
+    overflow: hidden;
+}
+
+@media(min-width: 1580px) {
+    #ContentContainer {
+        margin: 0 auto !important;
+    }
+    .twitter-sidebar {
+        display: block;
+        flex: 1 1 auto;
+        max-width: 350px;        
+    }
+    
+
+}
+@media(min-width: 1100px) {
+    #ContentContainer {
+        margin: 0 auto !important;
+    }
+    .twitter-sidebar {
+        display: block;
+        flex: 1 1 auto;
+        max-width: 350px;
+    }
+
+}
+
+@media (max-width: 768px) {
+    #ContentContainer {
+        width: auto;
+    }
+    #xTopMenu {
+        float: none !important;
+    }
+    h1 {
+        font-size: 2.0em;
+    }
+    h4 {
+        font-size: 1.3em;
+    }
+    .hidable {
+        display: none;
+    }
+}
+
+.left {
+    float: left;
+    text-align: left;
+}
+
+.right {
+    float: right;
+    text-align: right;
+}
+
+.boxshadow {
+    -moz-box-shadow: 3px 3px 5px #535353;
+    -webkit-box-shadow: 3px 3px 5px #535353;
+    box-shadow: 3px 3px 5px #535353;
+    border-collapse: separate;
+}
+
+.roundbox {
+    -moz-border-radius: 6px 6px 6px 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px 6px 6px 6px;
+}
+
+#ActionButtons .btn {
+    width: 200px;
+    margin: 0 5px;
+    border: lightgreen 2px solid;
+}
+@media(max-width: 768px) {
+    #ActionButtons .btn {
+        display: block;
+        margin-top: 5px;
+        margin:5px auto;
+        
+    }
+    .hidable {
+        display: none !important;
+    }
+}
+
+#FeatureList .fa {
+    color: steelblue;
+    padding: 3px;
+}
+
+@media (max-width: 580px) {
+    #TopMenu { 
+        margin: 0;       
+    }
+    .bullet-box-items {
+        font-size: 1.15em;
+        padding: 10px;
+    }
+    .content {
+        padding: 0 15px;
+    }
+
+    .created-by {
+        display: block;
+        float:none;
+        margin-top: 10px;  
+        margin-bottom: 0;     
+    }
+    .banner a {
+        float: none;
+    }
+
+    .hidable-xs {
+        display: none !important;
+    }
+    .top-bullet-box {
+        padding: 5px 20px 15px 15px !important;
+    }
+}
