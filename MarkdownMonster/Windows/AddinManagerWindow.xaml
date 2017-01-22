@@ -7,11 +7,11 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:markdownMonster="clr-namespace:MarkdownMonster"
-        mc:Ignorable="d"
+        mc:Ignorable="d" FontSize="14"
         Icon="..\Assets\MarkdownMonsterAddins_Icon.png"
         Title="Markdown Monster Addin Manager (Experimental)"
-        TitleCharacterCasing="Normal"
-        Height="700" Width="1100">
+        TitleCharacterCasing="Normal" ResizeMode="CanResizeWithGrip"
+        Height="730" Width="1100" MinWidth="900" MinHeight="500">
     <Window.Resources>
         <markdownMonster:InvertedBoolenConverter x:Key="InvertBooleanConverter"/>
         <markdownMonster:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -133,18 +133,18 @@
             <StackPanel Grid.Column="1" Margin="20,10,10,10">
                 <TextBlock Text="{Binding ActiveAddin.name}"  FontSize="22"/>
 
-                <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
                     <TextBlock   Text="{Binding ActiveAddin.version,StringFormat='v{0}'}" 
                                  FontStyle="Italic"  FontSize="10" />
 
-                    <TextBlock  Text="{Binding ActiveAddin.author}" Margin="20,0,0,0"                                                                                        
+                    <TextBlock  Text="{Binding ActiveAddin.author,StringFormat='  •  {0}'}" Margin="0,0,0,0"                                                                                        
                                            FontStyle="Italic" FontSize="10"/>
                 </StackPanel>
 
                 <TextBlock Text="{Binding ActiveAddin.description}" TextWrapping="Wrap" Margin="0,10,0,0"></TextBlock>
 
                 <TextBlock Foreground="LightSteelBlue" FontStyle="Italic" 
-                                               Margin="0,5,0,0" 
+                                               Margin="0,5,0,8" 
                                                Cursor="Arrow" MouseDown="TextBlock_MouseDown">more info</TextBlock>
 
                 <Image Source="{Binding ActiveAddin.gitScreenShotUrl}" Margin="0,10,0,0"/>
