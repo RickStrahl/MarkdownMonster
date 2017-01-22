@@ -550,7 +550,7 @@ namespace MarkdownMonster.AddIns
                             {
                                 Url = ai.gitVersionUrl
                             });
-                            DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl,minVersion");
+                            DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
 
                             string addinFolder = mmApp.Configuration.AddinsFolder;
 
@@ -587,8 +587,7 @@ namespace MarkdownMonster.AddIns
                             mmApp.Log($"Addin {ai.name} version failed", ex);
                         }
                     });
-
-            string ver = mmApp.GetVersion();
+            
 
             return addinList
                 .Where(ai => ai.updated > new DateTime(2016, 1, 1))
