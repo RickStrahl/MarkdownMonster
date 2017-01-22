@@ -719,6 +719,10 @@ namespace MarkdownMonster
             {
                 Window.Model.SaveCommand.Execute(Window);
             }
+            else if (key == "ctrl-shift-s")
+            {
+                Window.Model.SaveAsCommand.Execute(Window);
+            }
             else if (key == "ctrl-n")
             {
                 Window.Model.NewDocumentCommand.Execute(Window);
