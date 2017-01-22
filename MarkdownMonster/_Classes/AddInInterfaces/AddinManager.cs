@@ -550,7 +550,7 @@ namespace MarkdownMonster.AddIns
                             {
                                 Url = ai.gitVersionUrl
                             });
-                            DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
+                            DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl,minVersion");
 
                             string addinFolder = mmApp.Configuration.AddinsFolder;
 
@@ -569,12 +569,11 @@ namespace MarkdownMonster.AddIns
                                             versionFile, typeof(AddinItem), false)
                                         as AddinItem;
 
-                                    ai.installedVersion = addinItem.version;
+                                    ai.installedVersion = addinItem.version;                                                                        
                                     if (addinItem != null && addinItem.version.CompareTo(ai.version) < 0)
                                     {
                                         ai.updateAvailable = true;                                        
                                     }
-
                                 }
                             }
                             catch { }
@@ -589,10 +588,13 @@ namespace MarkdownMonster.AddIns
                         }
                     });
 
+            string ver = mmApp.GetVersion();
+
             return addinList
                 .Where(ai => ai.updated > new DateTime(2016, 1, 1))
-                .OrderBy(ai => ai.isInstalled ? 0 : 1)
-                .ThenByDescending(ai => ai.updated).ToList();
+                .OrderBy(ai => ai.isInstalled ? 0 : 1)  
+                .ThenByDescending(ai => ai.updated)
+                .ToList();
         }
 
         /// <summary>
@@ -610,6 +612,13 @@ namespace MarkdownMonster.AddIns
             if (string.IsNullOrEmpty(targetFolder))
             {
                 ErrorMessage = "No target folder provided";
+                return false;
+            }
+
+            string ver = mmApp.GetVersion();
+            if (addin.minVersion.CompareTo(ver) < 0)
+            {
+                ErrorMessage = "This addin requires v" + ver + " of Markdown Monster to run.\r\n\r\nPlease update to the latest version of Markdown Monster if you want to install this addin.";
                 return false;
             }
 

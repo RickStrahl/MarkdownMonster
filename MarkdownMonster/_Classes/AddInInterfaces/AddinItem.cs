@@ -109,7 +109,19 @@ namespace MarkdownMonster.AddIns
         }
         private string _author;
 
+        public string minVersion
+        {
+            get { return _minVersion; }
+            set
+            {
+                if (value == _minVersion) return;
+                _minVersion = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _minVersion = "1.0";
         
+
         public DateTime updated
         {
             get { return _updated; }
