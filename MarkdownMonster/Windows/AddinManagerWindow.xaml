@@ -9,7 +9,7 @@
         xmlns:markdownMonster="clr-namespace:MarkdownMonster"
         mc:Ignorable="d" FontSize="14"
         Icon="..\Assets\MarkdownMonsterAddins_Icon.png"
-        Title="Markdown Monster Addin Manager (Experimental)"
+        Title="Markdown Monster Addin Manager"
         TitleCharacterCasing="Normal" ResizeMode="CanResizeWithGrip"
         Height="730" Width="1100" MinWidth="900" MinHeight="500">
     <Window.Resources>
