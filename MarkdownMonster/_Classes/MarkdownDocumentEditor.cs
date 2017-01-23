@@ -381,18 +381,20 @@ namespace MarkdownMonster
             }
             else if (action == "code")
             {
+
                 var form = new PasteCode();
                 form.Owner = Window;
                 form.Code = input;
                 form.CodeLanguage = "csharp";
-
                 bool? res = form.ShowDialog();
+
                 if (res != null && res.Value)
                 {
                     html = "```" + form.CodeLanguage + "\r\n" +
                            form.Code.Trim() + "\r\n" +
                            "```\r\n";
                 }
+
             }
             else
             {
@@ -401,7 +403,7 @@ namespace MarkdownMonster
                 if (!string.IsNullOrEmpty(addinAction))
                     html = addinAction;
             }
-            
+
             return html;
         }
 
@@ -715,81 +717,85 @@ namespace MarkdownMonster
         /// <param name="key"></param>
         public void SpecialKey(string key)
         {
-            if (key == "ctrl-s")
+            // invoke out of sync in order to force out of scope of the editor - affects weird key behavior otherwise
+            Window.Dispatcher.InvokeAsync(() =>
             {
-                Window.Model.SaveCommand.Execute(Window);
-            }
-            else if (key == "ctrl-n")
-            {
-                Window.Model.NewDocumentCommand.Execute(Window);
-            }
-            else if (key == "ctrl-o")
-            {
-                Window.Model.OpenDocumentCommand.Execute(Window);
-            }
-            else if (key == "ctrl-p")
-            {
-                Window.Model.PrintPreviewCommand.Execute(Window.ButtonPrintPreview);
-            }
-            else if (key == "ctrl-b")
-            {
-                Window.Model.ToolbarInsertMarkdownCommand.Execute("bold");
-            }
-            else if (key == "ctrl-i")
-            {
-                Window.Model.ToolbarInsertMarkdownCommand.Execute("italic");
-            }
-            else if (key == "ctrl-`")
-            {
-                Window.Model.ToolbarInsertMarkdownCommand.Execute("inlinecode");
-            }
-            else if (key == "ctrl-l")
-            {
-                Window.Model.ToolbarInsertMarkdownCommand.Execute("list");
-            }
-            if (key == "ctrl-k")
-            {
-                Window.Model.ToolbarInsertMarkdownCommand.Execute("href");
-            }
-            if (key == "alt-c")
-            {
-                Window.Model.ToolbarInsertMarkdownCommand.Execute("code");
-            }
-            if (key == "ctrl-shift-v")
-            {
-                Window.Button_PasteMarkdownFromHtml(WebBrowser, null);
-            }
-            if (key == "ctrl-shift-c")
-            {
-                Window.Button_CopyMarkdownAsHtml(WebBrowser, null);
-            }
-            if (key == "ctrl-shift-down")
-            {
-                if (Window.PreviewBrowser.IsVisible)
+                if (key == "ctrl-s")
                 {
-                    dynamic dom = Window.PreviewBrowser.Document;
-                    dom.documentElement.scrollTop += 150;
-                }                
-            }
-            if (key == "ctrl-shift-up")
-            {
-                if (Window.PreviewBrowser.IsVisible)
-                {
-                    dynamic dom = Window.PreviewBrowser.Document;
-                    dom.documentElement.scrollTop -= 150;
+                    Window.Model.SaveCommand.Execute(Window);
                 }
-            }
-            // zooming
-            if (key == "ctrl-=")
-            {
-                mmApp.Configuration.EditorFontSize++;
-                RestyleEditor();
-            }
-            if (key == "ctrl--")
-            {
-                mmApp.Configuration.EditorFontSize--;
-                RestyleEditor();
-            }         
+                else if (key == "ctrl-n")
+                {
+                    Window.Model.NewDocumentCommand.Execute(Window);
+                }
+                else if (key == "ctrl-o")
+                {
+                    Window.Model.OpenDocumentCommand.Execute(Window);
+                }
+                else if (key == "ctrl-p")
+                {
+                    Window.Model.PrintPreviewCommand.Execute(Window.ButtonPrintPreview);
+                }
+                else if (key == "ctrl-b")
+                {
+                    Window.Model.ToolbarInsertMarkdownCommand.Execute("bold");
+                }
+                else if (key == "ctrl-i")
+                {
+                    Window.Model.ToolbarInsertMarkdownCommand.Execute("italic");
+                }
+                else if (key == "ctrl-`")
+                {
+                    Window.Model.ToolbarInsertMarkdownCommand.Execute("inlinecode");
+                }
+                else if (key == "ctrl-l")
+                {
+                    Window.Model.ToolbarInsertMarkdownCommand.Execute("list");
+                }
+                if (key == "ctrl-k")
+                {
+                    Window.Model.ToolbarInsertMarkdownCommand.Execute("href");
+                }
+                if (key == "alt-c")
+                {
+                    Window.Model.ToolbarInsertMarkdownCommand.Execute("code");
+                }
+                if (key == "ctrl-shift-v")
+                {
+                    Window.Button_PasteMarkdownFromHtml(WebBrowser, null);
+                }
+                if (key == "ctrl-shift-c")
+                {
+                    Window.Button_CopyMarkdownAsHtml(WebBrowser, null);
+                }
+                if (key == "ctrl-shift-down")
+                {
+                    if (Window.PreviewBrowser.IsVisible)
+                    {
+                        dynamic dom = Window.PreviewBrowser.Document;
+                        dom.documentElement.scrollTop += 150;
+                    }
+                }
+                if (key == "ctrl-shift-up")
+                {
+                    if (Window.PreviewBrowser.IsVisible)
+                    {
+                        dynamic dom = Window.PreviewBrowser.Document;
+                        dom.documentElement.scrollTop -= 150;
+                    }
+                }
+                // zooming
+                if (key == "ctrl-=")
+                {
+                    mmApp.Configuration.EditorFontSize++;
+                    RestyleEditor();
+                }
+                if (key == "ctrl--")
+                {
+                    mmApp.Configuration.EditorFontSize--;
+                    RestyleEditor();
+                }
+            }, System.Windows.Threading.DispatcherPriority.Background);
         }
 
         /// <summary>
