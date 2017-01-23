@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,13 +25,15 @@ namespace MarkdownMonster.Windows
         public string Code { get; set; }        
         public string CodeLanguage { get; set; }
         public Dictionary<string,string> LanguageNames { get; set; }
-        
+
+        private MarkdownEditorSimple editor;
+
         public PasteCode()
         {
 
             LanguageNames = new Dictionary<string, string>()
             {
-                {"cs", "Csharp"},
+                {"csharp", "Csharp"},
                 {"vbnet", "Vb.Net"},
                 {"cpp", "C++"},
                 {"foxpro", "FoxPro"},
@@ -60,24 +63,67 @@ namespace MarkdownMonster.Windows
 
                 {"powershell", "PowerShell"},
                 {"dos", "DOS"},
+                {"ini", "INI files" },
                 {"dns", "DNS"},
                 {"perl", "Perl"},
                 {"diff", "Diff file"},
-                
+
+                {"txt", "Plain text" }                
             };
             CodeLanguage = "cs";
 
             InitializeComponent();
 
-            DataContext = this;
-            mmApp.SetThemeWindowOverride(this);
+            
+            mmApp.SetThemeWindowOverride(this);            
 
             Loaded += PasteCode_Loaded;
+            PreviewKeyDown += PasteCode_PreviewKeyDown;
+
+            WebBrowserCode.Visibility = Visibility.Hidden;
         }
+
+     
 
         private void PasteCode_Loaded(object sender, RoutedEventArgs e)
         {
-            this.TextCodeLanguage.Focus();
+            DataContext = this;
+            WebBrowserCode.Focus();  
+
+            editor = new MarkdownEditorSimple(WebBrowserCode, Code, CodeLanguage);
+            editor.IsDirtyAction = () =>
+            {
+                Code = editor.GetMarkdown();
+                return true;
+            };
+
+            Dispatcher.InvokeAsync(() =>
+            {
+                if (!string.IsNullOrEmpty(Code))
+                {
+                    TextCodeLanguage.Focus();                    
+                }            
+                
+
+
+            }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+
+        }
+
+        /// <summary>
+        /// Handle default keys but ignore the Code editor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PasteCode_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                Button_Click(ButtonOk, null);
+                return;
+            }       
+            if (e.Key == Key.Enter && e.OriginalSource != WebBrowserCode)
+                Button_Click(ButtonOk, null);            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -91,5 +137,11 @@ namespace MarkdownMonster.Windows
 
             Close();
         }
+
+        private void TextCodeLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            editor?.SetEditorSyntax(CodeLanguage);
+        }
+        
     }
 }
