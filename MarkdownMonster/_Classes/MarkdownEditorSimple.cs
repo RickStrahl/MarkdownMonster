@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -37,8 +38,7 @@ namespace MarkdownMonster
 
             WebBrowser = wb;
             wb.Visibility = Visibility.Hidden;
-            wb.Margin = new Thickness(-11, 0, 0, 15);
-
+            
             wb.LoadCompleted += OnDocumentCompleted;
             string path = System.IO.Path.Combine(Environment.CurrentDirectory, "Editor\\editorSimple.htm");
             wb.Navigate("file:///" + path);
@@ -70,6 +70,7 @@ namespace MarkdownMonster
                 AceEditor?.setlanguage("markdown");
 
                 WindowUtilities.DoEvents();
+
                 WebBrowser.Visibility = Visibility.Visible;
                 //RestyleEditor();
 
@@ -173,7 +174,7 @@ namespace MarkdownMonster
         /// </summary>
         public void SetEditorFocus()
         {
-            AceEditor?.setfocus(true);
+            AceEditor?.setfocus(true);         
         }
 
 
