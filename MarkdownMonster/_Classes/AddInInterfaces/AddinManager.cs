@@ -615,9 +615,9 @@ namespace MarkdownMonster.AddIns
             }
 
             string ver = mmApp.GetVersion();
-            if (addin.minVersion.CompareTo(ver) < 0)
+            if (ver.CompareTo(addin.minVersion) < 0)
             {
-                ErrorMessage = "This addin requires v" + ver + " of Markdown Monster to run.\r\n\r\nPlease update to the latest version of Markdown Monster if you want to install this addin.";
+                ErrorMessage = "This addin requires v" + addin.minVersion + " of Markdown Monster to run. You are on v" +  ver + ".\r\n\r\nPlease update to the latest version of Markdown Monster if you want to install this addin.";
                 return false;
             }
 
