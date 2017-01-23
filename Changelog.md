@@ -3,14 +3,26 @@
 
 # Markdown Monster Change Log
 
-### 1.1.17
+### 1.1.19
 <i><small>Not released yet</small></i>
+
+* **Updated Addin Manager**   
+Addin Manager now displays more information about each addin in a separate panel on the right. Long description and screen shot (if available) are displayed in addition to summary, version, and author information.
+
+* **Paste Code Dialog Code Editor**  
+The Paste Code dialog now shows a full code editor that makes it easier to preview and edit code you want to embed. The dialog also defaults to the code style selection when code is supplied to the editor when the code is empty.
+
+* **Addin Interface Updates**   
+A number of improvements to the the .NET Addin interface. Ability to move the cursor left and right, ability to find and select text and setting editor syntax all as part of `MarkdownMonsterEditor`. Addins now can have a `minVersion` attribute that specifies a minimum version of Markdown Monster required.
+
+* **Fix: Addin OnCanExecute() Triggering**  
+`OnCanExecute()` was not triggering through the commands bound to the menus. Fixed with explicit change notification bindings.
 
 * **Fix: Edit Toolbar not active when no document is active**  
 The editor toolbar now is disabled when no document is active. Previously the toolbar always stayed enabled.
 
-* **Fix: Add OnCanExecute() Triggering**  
-`OnCanExecute()` was not triggering through the commands bound to the menus. Fixed with explicit change notification bindings.
+* **Fix: Editor Triggered Hotkeys execute Out of Band**  
+Some hotkeys are triggered from within the editor into the WPF application, which then could trigger code like a dialog popping up. This could cause race conditions if other editor code was called and also result in odd UI behavior especially if another editor was invoked. Changed code to execute out of band to avoid the nesting of editor code. This fixes a number of minor UI bugs in the various editor pop up dialogs.
 
 ### 1.1.16
 <i><small>January 19th, 2017</small></i>

@@ -1,13 +1,14 @@
 ﻿# Markdown Monster ToDo List
 
 ### Immediate
-* WebLog MetaWeblog Discovery with /rsd URL
 * Check for start position to make sure it's visible
+* Addin Manager to check for MinVersion of Addin
 * Spell checker Dictionary Downloads
     * Store dictionaries online
     * Show what's installed
     * Show whats available
     * Link to Open Office for missing stuff
+* ~~WebLog MetaWeblog Discovery with /rsd URL~~
 
 ### Mid Term
 * Refactor Weblog Publishing libraries
