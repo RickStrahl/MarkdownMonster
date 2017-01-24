@@ -499,7 +499,21 @@ Do you want to View in Browser now?
                 if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
                     fd.InitialDirectory = mmApp.Configuration.LastFolder;
 
-                var res = fd.ShowDialog();
+                bool? res = null;
+                try
+                {
+                    res = fd.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log("Unable to open file.", ex);
+                    MessageBox.Show(
+                        $@"Unable to open file:\r\n\r\n" + ex.Message,
+                        "An error occurred trying to open a file",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                    return;
+                }
                 if (res == null || !res.Value)
                     return;
 
