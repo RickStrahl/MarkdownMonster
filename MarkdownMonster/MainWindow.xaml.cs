@@ -325,6 +325,8 @@ namespace MarkdownMonster
             mmApp.Configuration.AddRecentFile(file);
             RecentDocumentsContextList();
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(file);
+
+            mmApp.Configuration.Write();
         }
 
         /// <summary>
