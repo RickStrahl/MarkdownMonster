@@ -4,7 +4,7 @@
 # Markdown Monster Change Log
 
 ### 1.1.20
-<i><small>Not released yet</small></i>
+<i><small>January 24th, 2017</small></i>
 
 * **Updated Addin Manager**   
 Addin Manager now displays more information about each addin in a separate panel on the right. Long description and screen shot (if available) are displayed in addition to summary, version, and author information.
