@@ -33,19 +33,18 @@ namespace MarkdownMonster.Windows
 
             LanguageNames = new Dictionary<string, string>()
             {
-                {"csharp", "Csharp"},
-                {"vbnet", "Vb.Net"},
-                {"cpp", "C++"},
-                {"foxpro", "FoxPro"},
-                {"fsharp", "Fsharp"},
-              
+                {"csharp", "C#"},
                 {"html", "Html"},
                 {"css", "Css"},
                 {"javascript", "JavaScript"},
                 {"typescript", "TypeScript"},
                 {"json", "Json"},
 
-                {"sql","SQL" },                
+                {"sql","SQL" },
+                {"vbnet", "Vb.Net"},
+                {"cpp", "C++"},
+                {"foxpro", "FoxPro"},
+                {"fsharp", "Fsharp"},
 
                 {"ruby", "Ruby"},
                 {"python", "Python"},
@@ -59,7 +58,7 @@ namespace MarkdownMonster.Windows
                 {"makefile", "Make file"},
                 {"nginx", "NgInx"},
 
-                { "markdown","Markdown" },
+                {"markdown","Markdown" },
 
                 {"powershell", "PowerShell"},
                 {"dos", "DOS"},
@@ -68,7 +67,7 @@ namespace MarkdownMonster.Windows
                 {"perl", "Perl"},
                 {"diff", "Diff file"},
 
-                {"txt", "Plain text" }                
+                {"txt", "Text - plain text, no formatting" }                
             };
             CodeLanguage = "cs";
 
