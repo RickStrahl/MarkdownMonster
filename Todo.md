@@ -2,20 +2,21 @@
 
 ### Immediate
 * Check for start position to make sure it's visible
-* Addin Manager to check for MinVersion of Addin
 * Spell checker Dictionary Downloads
     * Store dictionaries online
     * Show what's installed
     * Show whats available
     * Link to Open Office for missing stuff
 * ~~WebLog MetaWeblog Discovery with /rsd URL~~
+* ~~Addin Manager to check for MinVersion of Addin~~
+ 
 
 ### Mid Term
 * Refactor Weblog Publishing libraries
     * Need interfaces for Medium, New WordPress API
+* Add JavaScript {{Handlebars}} Processing to Snippets Addin
 
 ### Bugs
-* ~~Weblog: Special Characters in Blog Publishing. Special attn to Image Posting~~
 
 
 ### Consideration
@@ -32,18 +33,5 @@
 
 ### Notes
 
-* RSD format: (Live Writer Checks for this - so should Markdown Monster)
-    * Check URL
-    * If not XML check for /rsd link
-```xml
-<rsd version="1.0">
-  <service>
-    <engineName>CodePlex</engineName>
-    <engineLink>http://www.codeplex.com</engineLink>
-    <homePageLink>https://markdownmonstertest.codeplex.com/</homePageLink>
-    <apis>
-      <api name="MetaWeblog" blogID="markdownmonstertest" preferred="true" apiLink="https://www.codeplex.com/site/metaweblog" />
-    </apis>
-  </service>
-</rsd>
-```
+---
+&copy; MyCompany, 2017 

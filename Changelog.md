@@ -3,7 +3,7 @@
 
 # Markdown Monster Change Log
 
-### 1.1.19
+### 1.1.20
 <i><small>Not released yet</small></i>
 
 * **Updated Addin Manager**   
