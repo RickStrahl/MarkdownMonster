@@ -1583,7 +1583,7 @@ namespace MarkdownMonster
                     }
                     catch (Exception ex)
                     {
-                        mmApp.Log("Preview InitializeInterop failed", ex);
+                        mmApp.Log("Preview InitializeInterop failed: " + url, ex);
                     }
                 });
             }
