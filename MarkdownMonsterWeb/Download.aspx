@@ -225,7 +225,7 @@
                 <h3>Contribute - Get a Free License</h3>
                 <p>Contributors that provide valuable feedback, help out with code via Pull Requests or support
                    Markdown Monster in a significant way are eligible for a free license. 
-                   Contact [Rick for more info](http://west-wind.com/contact/) or - just as likely - I'll be contacting
+                   <a href="http://west-wind.com/contact/" target="top">Contact Rick for more info</a> or - just as likely - I'll be contacting
                    you.</p>
 
                 <p>
@@ -267,8 +267,7 @@
         <div style="height: 50px;"></div>
    </div>
 
-    <nav class="banner" style="font-size: 8pt; padding: 10px; height: 80px; border-top: solid black 4px;
-                                                                                                                                                                                                                                                                                                     border-bottom: none;">
+    <nav class="banner" style="font-size: 8pt; padding: 10px; height: 80px; border-top: solid black 4px;border-bottom: none;">
         <div class="right">
             created by:<br />
             <a href="http://west-wind.com/" style="padding: 0;">

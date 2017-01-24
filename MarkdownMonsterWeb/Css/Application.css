@@ -71,6 +71,7 @@ a {
     padding: 5px 20px;
     font-size: 1.3em;
 }
+.bullet-box-items>div>i { padding-right: 7px;}
 
 .panel {
     min-height: 450px;

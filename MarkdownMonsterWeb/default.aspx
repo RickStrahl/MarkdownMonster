@@ -29,10 +29,10 @@
             margin: 20px auto 40px;
             text-align: center;
         }
-            #ActionButtons a {
-                background: #333;
-                background: linear-gradient(to bottom, #393939, #222);
-            }
+        #ActionButtons a {
+            background: #333;
+            background: linear-gradient(to bottom, #393939, #222);
+        }
     </style>
     
         
@@ -128,7 +128,7 @@
                         <h1 style="font-weight: bold; display: none">Markdown Monster</h1>
                         
                     </div>
-
+    
                     <div class="top-bullet-box">
                         <h4 style="color: #ffd281;">Extensible Markdown Editing and Weblog Publishing</h4>
                         <div class="row">
@@ -152,8 +152,16 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
+                                        Paste Images from Clipboard
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-check" style="color: lightgreen"></i>
                                         Capture &amp; embed screen shots
-                                    </div>                                    
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-check" style="color: lightgreen"></i>
+                                        Print generated HTML ouput
+                                    </div>                              
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -174,7 +182,15 @@
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
                                         Weblog publishing and editing
-                                    </div>                                    
+                                    </div>                         
+                                    <div>
+                                        <i class="fa fa-check" style="color: lightgreen"></i>
+                                        Template expansion with snippets
+                                    </div>           
+                                    <div>
+                                        <i class="fa fa-check" style="color: lightgreen"></i>
+                                        Vim and Emacs support
+                                    </div>           
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
                                         Extensible with .NET add-ins
@@ -199,27 +215,37 @@
                     </a>
                 </div>
 
-                <h2>Easy and Extensible Markdown Editing</h2>
+                <h3>Better Markdown Editing for Windows</h3>
                 <p>
                     Markdown is everywhere and many of us are using Markdown for all sorts
                     of different purposes. Wouldn't it be nice if you have an editor that can keep 
                     up with <strong>all</strong> of those scenarios?
                 </p>
                 <p>                    
-                    Markdown Monster gives a responsive text editor that has you covered with Markdown syntax highlighting,
-                    and fast text entry, so it it's easy to navigate your Markdown text. A collapsable
-                    live preview lets you preview your markdown, or export your markdown to HTML. 
-                    Inline spell-checking and
-                    word counts keep your content streamlined and a handful of optional  toolbar and
-                    menu options help you embed and link images and links into your Markdown. Our preview
-                    can display syntax colored code snippets for most common coding languages and the
-                    preview can be easily customized with HTML and CSS to match your own sites
-                    and preferences. Finally, if you're a blogger you can easily take your Markdown and
-                    publish it straight to your blog from the editor.
+                    Markdown Monster is a responsive Markdown editor that lets you edit Markdown with syntax highlighting
+                    and super fast text entry. A collapsable synced, live preview lets you preview your output as you type.
+                    You can export Markdown to HTML by saving to disk or by exporting text selections of Markdown generated HTML directly to the clipboard.
+                    Inline spell-checking and word counts keep your content streamlined, and a handful of optional  
+                    toolbar and menu options help you to streamline embedding of links, images and code into your Markdown. 
+                    Our preview can display syntax colored code snippets for most common coding languages, and it can 
+                    easily be customized with HTML and CSS template to match your own sites and preferences. You can
+                    choose from a number of editor and preview themes and you can even use Vim or EMacs type conventions.
+                    Other convenience features let you jump to the current folder in Explorer or a Command window,
+                    print the current document's HTML output, and more.
+                </p>
+
+                <h3>Weblog Publishing</h3>
+                <p>
+                    Markdown Monster also can publish your Markdown to your Weblog quickly and easily.
+                    If your Weblog supports WordPress or MetaWeblog APIs we can publish your documents to
+                    your blog with minimal effort. You can also edit and republish, or download existing
+                    posts and even convert them from HTML to Markdown.
                  </p>
+                
+                <h3>Extensible via .NET Addins</h3>
                  <p>
                     In addition to building an attractive and highly functional Markdown editor and viewer, we
-                    also wanted to make sure <b>the editor is extensible</b> so you can plug in custom features
+                    also wanted to make sure <b>the editor is highly extensible</b>, so you can plug in custom features
                     of your own. Markdown Monster's .NET based add-in API makes it easy to build
                     extensions that let you hook into the UI, the editor behavior and the publishing
                     process. We use this same add-in API to build some of Markdown Monster's internal features 
@@ -271,7 +297,13 @@
                             </div>
                             
                             <div class="item">
-                                <img src="Images/SnagItCaptureAddin.png" />
+                                <img src="Images/ScreenCapture.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <img src="Images/AddinManager.png" />
                                 <div class="carousel-caption">
                                 </div>
                             </div>
@@ -321,11 +353,11 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i> 
-                                        Paste and save images
+                                        Paste images from Clipboard
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Screen capture embedding 
+                                        Built in screen captures
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
@@ -351,6 +383,10 @@
                                         <i class="fa fa-check-circle"></i>
                                         Html Editing with Live Preview
                                     </div>    
+                                    <div>
+                                        <i class="fa fa-check-circle"></i>
+                                        Expandable text templates
+                                    </div>                                        
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Extensible with .NET Add-ins
