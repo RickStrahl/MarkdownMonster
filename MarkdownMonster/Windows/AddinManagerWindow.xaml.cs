@@ -140,6 +140,9 @@ namespace MarkdownMonster.Windows
                 message = "Ready";                
             }
 
+            Brush oldBgColor = StatusText.Background;
+            StatusBar.Background = Brushes.SteelBlue;
+
             StatusText.Text = message;
 
             if (milliSeconds > 0)
@@ -149,7 +152,11 @@ namespace MarkdownMonster.Windows
                     var window = win as AddinManagerWindow;
                     if (window == null)
                         return;
-                    window.Dispatcher.Invoke(() => { window.ShowStatus(null, 0); });
+                    window.Dispatcher.Invoke(() =>
+                    {
+                        window.ShowStatus(null, 0);
+                        StatusBar.Background = oldBgColor;
+                    });
                 }, this, milliSeconds, Timeout.Infinite);
             }
             WindowUtilities.DoEvents();
