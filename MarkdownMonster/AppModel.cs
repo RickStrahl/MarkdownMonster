@@ -369,7 +369,22 @@ namespace MarkdownMonster
                     RestoreDirectory = true
                 };
 
-                var result = sd.ShowDialog();
+                bool? result = null;
+                try
+                {
+                    result = sd.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log("Unable to save file: " + doc.MarkdownDocument.Filename, ex);
+                    MessageBox.Show(
+                        $@"Unable to open file:\r\n\r\n" + ex.Message,
+                        "An error occurred trying to open a file",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+
+
                 if (result != null && result.Value)
                 {
                     doc.MarkdownDocument.Filename = sd.FileName;
@@ -415,7 +430,19 @@ namespace MarkdownMonster
                     RestoreDirectory = true                    
                 };
 
-                var result = sd.ShowDialog();
+                bool? result = null;
+                try
+                {
+                    result = sd.ShowDialog();
+                }catch(Exception ex)
+                {
+                    mmApp.Log("Unable to save html file: " + doc.MarkdownDocument.Filename, ex);
+                    MessageBox.Show(
+                        $@"Unable to open file:\r\n\r\n" + ex.Message,
+                        "An error occurred trying to open a file",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
                 
                 if (result != null && result.Value)
                 {

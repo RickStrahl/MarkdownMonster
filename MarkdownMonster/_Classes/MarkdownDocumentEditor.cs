@@ -103,7 +103,7 @@ namespace MarkdownMonster
                 }
                 catch (Exception ex)
                 {
-                    mmApp.Log($"Editor failed to load initializeinterop {e.Uri}", ex);
+                    mmApp.Log($"Editor InitializeInterop failed: {e.Uri}", ex);
                     //throw;
                 }
 
