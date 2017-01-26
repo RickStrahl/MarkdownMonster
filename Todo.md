@@ -1,6 +1,7 @@
 ﻿# Markdown Monster ToDo List
 
 ### Immediate
+* Addin Enabled/Disabled
 * Check for start position to make sure it's visible
 * Spell checker Dictionary Downloads
     * Store dictionaries online
@@ -8,7 +9,7 @@
     * Show whats available
     * Link to Open Office for missing stuff
 * ~~WebLog MetaWeblog Discovery with /rsd URL~~
-* ~~Addin Manager to check for MinVersion of Addin~~
+* ~~Addin Manager to check for MinVersion of Addin~~a
  
 
 ### Mid Term
