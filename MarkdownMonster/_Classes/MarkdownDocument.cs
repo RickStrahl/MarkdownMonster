@@ -41,6 +41,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Newtonsoft.Json;
+using Westwind.Utilities;
+using System.Linq;
 
 namespace MarkdownMonster
 {
@@ -123,6 +125,42 @@ namespace MarkdownMonster
                 return Path.Combine(
                     Path.GetDirectoryName(Filename),
                     Path.GetFileName(Filename) + ".saved.bak");
+            }
+        }
+
+        /// <summary>
+        /// Tries to return the title from the active Markdown document
+        /// by looking at:
+        /// 
+        /// 1 - For # title line in the first 5 lines of text
+        /// 2 - Camel Case File names
+        /// 3 - Untitled - stays untitled.
+        /// </summary>
+        [JsonIgnore]
+        public string Title
+        {
+            get
+            {
+                string title = null;
+
+                // try to find
+                if (!String.IsNullOrEmpty(CurrentText))
+                {
+                    var lines = StringUtils.GetLines(CurrentText);
+                    var lineCount = Math.Min(lines.Length, 5);
+                    var line = lines.Take(lineCount).FirstOrDefault(ln => ln.Trim().StartsWith("# "));
+                    if (!string.IsNullOrEmpty(line))
+                    {
+                        title = line.Trim().Substring(2);
+                        return title;
+                    }
+                }
+                if (Filename == "Untitled")
+                    return "Untitled";
+
+                title = StringUtils.FromCamelCase(Path.GetFileNameWithoutExtension(Filename));
+
+                return title;
             }
         }
 
