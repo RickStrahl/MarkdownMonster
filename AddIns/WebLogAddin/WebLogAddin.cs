@@ -284,8 +284,10 @@ namespace WeblogAddin
         private string SendImages(string html, string filename, MetaWeblogWrapper wrapper, WeblogPostMetadata metaData)
         {
             var basePath = Path.GetDirectoryName(filename);
+
+            // base folder name for uploads - just the folder name of the image
             var baseName = Path.GetFileName(basePath);
-            baseName = mmFileUtils.SafeFilename(baseName);
+            baseName = mmFileUtils.SafeFilename(baseName).Replace(" ","-");
 
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
