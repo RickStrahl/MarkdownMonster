@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
@@ -72,7 +73,7 @@ namespace MarkdownMonster
                 WindowUtilities.DoEvents();
 
                 WebBrowser.Visibility = Visibility.Visible;
-                //RestyleEditor();
+                RestyleEditor();
 
                 if (InitialValue != null)
                     SetMarkdown(InitialValue);
@@ -254,6 +255,50 @@ namespace MarkdownMonster
         public void SetEditorSyntax(string syntax = "markdown")
         {
             AceEditor?.setlanguage(syntax);
+        }
+
+        /// <summary>
+        /// Restyles the current editor with configuration settings
+        /// from the mmApp.Configuration object (or Model.Configuration
+        /// from an addin).
+        /// </summary>
+        public void RestyleEditor()
+        {
+            if (AceEditor == null)
+                return;
+            
+            try
+            {
+                // determine if we want to rescale the editor fontsize
+                // based on DPI Screen Size
+                decimal dpiRatio = 1;
+                try
+                {
+                    var window = VisualTreeHelper.GetParent(WebBrowser);
+                    while (!(window is Window))
+                    {
+                        window = VisualTreeHelper.GetParent(window);
+                    }
+                    dpiRatio = WindowUtilities.GetDpiRatio(window as Window);
+                }
+                catch { }
+
+                AceEditor.settheme(
+                        mmApp.Configuration.EditorTheme,
+                        mmApp.Configuration.EditorFont,
+                        mmApp.Configuration.EditorFontSize * dpiRatio,
+                        mmApp.Configuration.EditorWrapText,
+                        mmApp.Configuration.EditorHighlightActiveLine,
+                        mmApp.Configuration.EditorShowLineNumbers,
+                        mmApp.Configuration.EditorKeyboardHandler);
+
+                if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
+                    AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck, mmApp.Configuration.EditorDictionary);
+                else
+                    // always disable for non-markdown text
+                    AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
+            }
+            catch { }
         }
 
         #endregion
