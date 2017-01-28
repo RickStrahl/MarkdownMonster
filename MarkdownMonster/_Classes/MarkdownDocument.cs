@@ -148,13 +148,31 @@ namespace MarkdownMonster
                 {
                     var lines = StringUtils.GetLines(CurrentText);
                     var lineCount = Math.Min(lines.Length, 5);
+
+
+                    // # Header in first 5 lines
                     var line = lines.Take(lineCount).FirstOrDefault(ln => ln.Trim().StartsWith("# "));
                     if (!string.IsNullOrEmpty(line))
                     {
                         title = line.Trim().Substring(2);
                         return title;
                     }
+
+
+                    // Front Matter Title
+                    if (lines.Length > 2 && lines[0] == "---")
+                    {
+                        var block = mmFileUtils.ExtractString(CurrentText, "---", "---", returnDelimiters: true);
+                        if (!string.IsNullOrEmpty(block))
+                        {
+                            title = StringUtils.ExtractString(block, "title: ", "\n").Trim();
+                            if (!string.IsNullOrEmpty(title))
+                                return title;
+                        }
+                    }
+
                 }
+                
                 if (Filename == "Untitled")
                     return "Untitled";
 
