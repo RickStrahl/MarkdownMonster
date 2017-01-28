@@ -111,6 +111,7 @@ namespace MarkdownMonster
                     AceEditor?.setlanguage(EditorSyntax);                
 
                 WebBrowser.Visibility = Visibility.Visible;
+
                 RestyleEditor();
             }
             SetMarkdown();            
@@ -563,21 +564,25 @@ namespace MarkdownMonster
         /// </summary>
         public void RestyleEditor()
         {
-            if (AceEditor == null)
+            if (AceEditor == null )
                 return;
 
-            try
-            {
-                // determine if we want to rescale the editor fontsize
-                // based on DPI Screen Size
-                decimal dpiRatio = 1;
+            Window.Dispatcher.InvokeAsync(() =>
+            { 
                 try
                 {
-                    dpiRatio = WindowUtilities.GetDpiRatio(Window);
-                }
-                catch { }
+                    // determine if we want to rescale the editor fontsize
+                    // based on DPI Screen Size
+                    decimal dpiRatio = 1;
+                    try
+                    {
+                        dpiRatio = WindowUtilities.GetDpiRatio(Window);
+                    }
+                    catch
+                    {
+                    }
 
-                AceEditor.settheme(
+                    AceEditor.settheme(
                         mmApp.Configuration.EditorTheme,
                         mmApp.Configuration.EditorFont,
                         mmApp.Configuration.EditorFontSize * dpiRatio,
@@ -586,14 +591,19 @@ namespace MarkdownMonster
                         mmApp.Configuration.EditorShowLineNumbers,
                         mmApp.Configuration.EditorKeyboardHandler);
 
-                if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
-                    AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck, mmApp.Configuration.EditorDictionary);
-                else
-                    // always disable for non-markdown text
-                    AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
-            }
-            catch { }
+                    if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
+                        AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck,
+                            mmApp.Configuration.EditorDictionary);
+                    else
+                        // always disable for non-markdown text
+                        AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
+                }
+                catch
+                {
+                }
+            }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
+
 
         #endregion
 
