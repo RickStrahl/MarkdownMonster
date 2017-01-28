@@ -68,6 +68,7 @@
     <Compile Include="NamedPipeManagerTests.cs" />
     <Compile Include="ApplicationUpdaterTest.cs" />
     <Compile Include="MarkdownTests.cs" />
+    <Compile Include="ActiveDocumentTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

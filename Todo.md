@@ -34,5 +34,4 @@
 
 ### Notes
 
----
-&copy; MyCompany, 2017 
+

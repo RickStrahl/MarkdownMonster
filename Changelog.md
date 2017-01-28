@@ -3,6 +3,15 @@
 
 # Markdown Monster Change Log
 
+### 1.1.22
+<i><small>not released yet</small></i>
+
+* **Weblog Post Image Uploads Replace Folder Name Spaces with -**  
+When uploading images to Weblogs the parent folder name now replaces spaces with dashes. We're finding that featured image links by Facebook and Twitter will often not find images where spaces are found in the path. Replacing spaces with dashes provides more accepted URLs.
+
+* **ActiveDocument.Title Property**  
+For addin developers there's now a ActiveDocument.Title property that pulls the title from a # header, a Front Matter Title header, or the de-camel cased filename.
+
 ### 1.1.20
 <i><small>January 24th, 2017</small></i>
 
