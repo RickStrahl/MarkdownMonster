@@ -14,15 +14,13 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.IO;
-using Microsoft.Win32;
 using System.Xml.Serialization;
-using System.Reflection;
 using System.Windows;
 using MarkdownMonster.Windows;
-using Westwind.Utilities;
 
 namespace SnagItAddin
 {
@@ -41,7 +39,7 @@ namespace SnagItAddin
     [Serializable]
     public class SnagItAutomation
     {
-        public static string SNAGIT_PROGID = "SnagIt.ImageCapture";
+        public static string SNAGIT_PROGID = "SnagIt.ImageCapture.1";
 
         /// <summary>
         /// The initial directory where files are saved.
@@ -212,12 +210,15 @@ namespace SnagItAddin
                 return null;
             }
 
-            
-            snagIt.EnablePreviewWindow = ShowPreviewWindow;
-            snagIt.OutputImageFile.Filename = OutputCaptureFile;
+
             snagIt.Input = CaptureMode;
+            snagIt.EnablePreviewWindow = ShowPreviewWindow;
+
+            snagIt.OutputImageFile.Filename = OutputCaptureFile;
+            snagIt.OutputImageFile.Quality = 86; //86% quality
             snagIt.OutputImageFile.FileType = (int) OutputFileCaptureFormat;
             snagIt.OutputImageFile.ColorDepth = ColorDepth;
+
             snagIt.IncludeCursor = IncludeCursor;
             
             if (DelayInSeconds > 0)
@@ -238,33 +239,42 @@ namespace SnagItAddin
                 }
             }
 
-            snagIt.Capture();
+            snagIt.OnStateChange += new Action<CaptureState>(SnagImg_OnStateChange);            
 
             try
             {
-                while (true)
-                {
-                    if ((bool) snagIt.IsCaptureDone)
-                    {
-                        break;
-                    }
+                IsDone = false;
+                snagIt.Capture();
+
+                while (!IsDone)
+                {     
                     WindowUtilities.DoEvents();
-                    Thread.Sleep(100);                    
+                    Thread.Sleep(5);
                 }
             }
-
+            catch(Exception ex)
+            {                
+                ErrorMessage = "An error occurred during the image capture: " + ex.Message;                
+            }
             // *** No catch let it throw
             finally
             {
-                _outputCaptureFile = snagIt.LastFileWritten;
+                if (IsDone)
+                    _outputCaptureFile = snagIt.LastFileWritten;
+                else
+                {
+                    _outputCaptureFile = null;
+                    ErrorMessage = "Image capture failed.";
+                }
 
                 if (ActiveForm != null)
                 {
-                    // Reactivate Live Writer
+                    // Reactivate Editor
                     ActiveForm.WindowState = OldState;
-                    
+
                     // Make sure it pops on top of SnagIt Editors
-                    ActiveForm.Topmost = true;                    
+                    ActiveForm.Topmost = true;
+                    WindowUtilities.DoEvents();
                     Thread.Sleep(5);
                     ActiveForm.Topmost = false;
                 }
@@ -277,7 +287,7 @@ namespace SnagItAddin
             // a few seconds until Writer has picked up the image.
             if ((DeleteImageFromDisk))
             {
-                var timer = new Timer(new TimerCallback(
+                var timer = new Timer(
                     (imgFile) =>
                     {
                         var image = imgFile as string;
@@ -287,13 +297,27 @@ namespace SnagItAddin
                         {
                             File.Delete(image);
                         }
-                        catch { }
-                    }), _outputCaptureFile, 10000, Timeout.Infinite);               
+                        catch {}
+                    }, _outputCaptureFile, 10000, Timeout.Infinite);
             }
-            
+
             return OutputCaptureFile;
         }
         
+
+        private bool IsDone;
+        private bool HasError;
+        private void SnagImg_OnStateChange(CaptureState newState)
+        {            
+            if (newState != CaptureState.scsBusy && newState != CaptureState.scsIdle)
+                IsDone = true;
+
+            if (newState == CaptureState.scsCaptureFailed)
+                HasError = true;
+
+            Debug.WriteLine(newState.ToString() + " - IsDone " + IsDone );
+        }
+
 
         public object ImageCaptureFilename { get; set; }
 
@@ -303,7 +327,7 @@ namespace SnagItAddin
         /// <returns></returns>
         public bool SaveSettings()
         {
-            return ScreenCaptureConfiguration.Current.Write();
+           return ScreenCaptureConfiguration.Current.Write();
         }
 
         /// <summary>
@@ -379,5 +403,30 @@ namespace SnagItAddin
         Menu = 9,
         ScrollableArea = 18,
         AllInOne = 25
+    }
+
+    public enum CaptureState
+    {
+        scsIdle = 0,
+        scsCaptureSucceeded = 10,
+        scsCaptureFailed = 11,
+        scsBusy = 12
+    }
+    public enum snagError
+    {
+        serrUnknown = -1,
+        serrNone = 0,
+        serrSnagItExpired = 1,
+        serrInvalidInput = 2,
+        serrInvalidOutput = 3,
+        serrEngineBusy = 4,
+        serrInvalidScrollDelay = 5,
+        serrInvalidDelay = 6,
+        serrInvalidColorEffectValue = 7,
+        serrInvalidFileProgressiveValue = 8,
+        serrInvalidFileQualityValue = 9,
+        serrInvalidFileDirectory = 10,
+        serrInvalidColorConversionValue = 11,
+        serrInvalidImageResolution = 12
     }
 }
