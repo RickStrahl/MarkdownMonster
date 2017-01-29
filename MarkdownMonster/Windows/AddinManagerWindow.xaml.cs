@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -107,8 +108,24 @@ namespace MarkdownMonster.Windows
                 ShowStatus(addin.name + "  installation  failed.", 6000);
             else
             {
-                ShowStatus(addin.name + " installed. You may have to restart Markdown Monster to finalize installation.", 6000);
+                string msg = addin.name +
+                             " installed. You may have to restart Markdown Monster to finalize installation.";
+                ShowStatus(msg, 6000);
+
                 addin.isInstalled = true;
+                addin.isEnabled = true;
+                addin.installedVersion = addin.version;
+
+                if (MessageBox.Show(msg + "\r\n\r\nDo you want to restart Markdown Monster?", "Addin Installed",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    Owner.Close();
+                    Process.Start(new ProcessStartInfo()
+                    {
+                        FileName = Assembly.GetEntryAssembly().Location,                        
+                    });
+                }
 
                 //AddinManager.Current.LoadAddins();
             }
