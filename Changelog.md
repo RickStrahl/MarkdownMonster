@@ -6,11 +6,23 @@
 ### 1.1.22
 <i><small>not released yet</small></i>
 
+* **DPI Scaling Updates**  
+Change DPI scaling options during application startup which should result in cleaner High DPI scaling when running on a second monitor with different DPI settings. Best results are with .NET 4.6.2.
+
+* **New Addins now don't require a Restart**   
+Added logic to allow new addins to be loaded immediately after installation. Updates and deleted Addins still require an MM restart. MM now offers to restart for you when an addin requires a restart.
+
+* **Startup Speed Improvements**  
+Moved additional Addin loading logic into background threads to improve startup time. Slight improvement in load time.
+
+* **Paste Code Dialog Focus Hint for Language**  
+The Paste Code dialog now sets focus to the language when code is pre-selected for quicker selection. In order to direct user attention to the language selection added visual hint to try draw focus more easily and add explict highlight for initial focus.
+
 * **Weblog Post Image Uploads Replace Folder Name Spaces with -**  
 When uploading images to Weblogs the parent folder name now replaces spaces with dashes. We're finding that featured image links by Facebook and Twitter will often not find images where spaces are found in the path. Replacing spaces with dashes provides more accepted URLs.
 
 * **ActiveDocument.Title Property**  
-For addin developers there's now a ActiveDocument.Title property that pulls the title from a # header, a Front Matter Title header, or the de-camel cased filename.
+For addin developers there's now a `ActiveDocument.Title` property that pulls the title from a # header, a Front Matter Title header, or the de-camel cased filename.
 
 ### 1.1.20
 <i><small>January 24th, 2017</small></i>
