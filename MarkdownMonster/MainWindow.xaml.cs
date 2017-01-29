@@ -215,7 +215,6 @@ namespace MarkdownMonster
 
         protected void OnActivated(object sender, EventArgs e)
         {
-
             var selectedTab = TabControl.SelectedItem as TabItem;
 
             // check for external file changes
@@ -258,11 +257,9 @@ namespace MarkdownMonster
                             editor.AceEditor.updateDocumentStats(false);
                             if (pos > 0)
                                 editor.AceEditor.setscrolltop(pos);
-                            
+
                             if (tab == selectedTab)
-                            {
                                 PreviewMarkdown(editor, keepScrollPosition: true);
-                            }
                         }
                     }                    
                 }
@@ -271,8 +268,12 @@ namespace MarkdownMonster
                 if (!MainMenu.Items.OfType<MenuItem>().Any(item => item.IsHighlighted))
                 {
                     var selectedEditor = selectedTab.Tag as MarkdownDocumentEditor;
-                    selectedEditor?.WebBrowser.Focus();
-                    selectedEditor?.SetEditorFocus();
+                    if (selectedEditor != null)
+                    {
+                        selectedEditor.WebBrowser.Focus();
+                        selectedEditor.SetEditorFocus();
+                        selectedEditor.RestyleEditor();
+                    }
                 }
             }
         }
@@ -529,6 +530,8 @@ namespace MarkdownMonster
             
             tab.Content = wb;
 
+            
+
             if (editor == null)
             {
                 editor = new MarkdownDocumentEditor(wb)
@@ -628,8 +631,10 @@ namespace MarkdownMonster
             if (rebindTabHeaders)
                 BindTabHeaders();
 
+
             return tab;
         }
+
 
         /// <summary>
         /// Binds all Tab Headers

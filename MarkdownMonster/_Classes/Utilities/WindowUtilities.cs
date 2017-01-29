@@ -128,7 +128,7 @@ namespace MarkdownMonster.Windows
                 uint dpiX, dpiY;
                 GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
 
-                Debug.WriteLine($"dpi: {dpiX} on mon {mon}");
+                //Debug.WriteLine($"dpi: {dpiX} on mon {mon}");
                 return dpiX;
             }
             catch
