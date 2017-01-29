@@ -149,7 +149,8 @@
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft .NET 4.6.1 Runtime <small>(<a href="http://smallestdotnet.com/">check</a>)</small>
+                                Microsoft .NET 4.5.2+ <small>(4.6.2 recommended)
+                                <a href="http://smallestdotnet.com/">check</a></small>
                             </div>                            
                         </div>
                     </div>
