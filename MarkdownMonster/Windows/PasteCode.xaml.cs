@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
@@ -27,6 +28,8 @@ namespace MarkdownMonster.Windows
         public Dictionary<string,string> LanguageNames { get; set; }
 
         private MarkdownEditorSimple editor;
+
+        public Brush ComboBackground { get; set; }
 
         public PasteCode()
         {
@@ -73,7 +76,7 @@ namespace MarkdownMonster.Windows
 
             InitializeComponent();
 
-            
+          
             mmApp.SetThemeWindowOverride(this);            
 
             Loaded += PasteCode_Loaded;
@@ -86,6 +89,8 @@ namespace MarkdownMonster.Windows
 
         private void PasteCode_Loaded(object sender, RoutedEventArgs e)
         {
+            this.ComboBackground = TextCodeLanguage.Background;
+
             DataContext = this;
             WebBrowserCode.Focus();  
 
@@ -100,15 +105,17 @@ namespace MarkdownMonster.Windows
             {
                 if (!string.IsNullOrEmpty(Code))
                 {
-                    TextCodeLanguage.Focus();                    
-                }            
-                
+                    TextCodeLanguage.Focus();
+                    TextCodeLanguage.Background = Brushes.SlateGray;
 
-
+                    var sb = Resources["StoryboardLanguageCombo"] as Storyboard;
+                    sb.Begin();
+                }
             }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
         }
 
+       
         /// <summary>
         /// Handle default keys but ignore the Code editor
         /// </summary>
@@ -141,6 +148,11 @@ namespace MarkdownMonster.Windows
         {
             editor?.SetEditorSyntax(CodeLanguage);
         }
-        
+
+        private void TextCodeLanguage_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ((ComboBox) sender).Background = this.ComboBackground;
+
+        }
     }
 }
