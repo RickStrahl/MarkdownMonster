@@ -134,7 +134,13 @@ namespace MarkdownMonster
             RecentDocumentsContextList();
             ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
 
-            AddinManager.Current.InitializeAddinsUi(this);
+            //AddinManager.Current.InitializeAddinsUi(this);
+
+            Dispatcher.InvokeAsync(() =>
+            {
+                AddinManager.Current.InitializeAddinsUi(this);
+            }, DispatcherPriority.ApplicationIdle);
+
 
             // Command Line Loading multiple files
             var args = Environment.GetCommandLineArgs();
