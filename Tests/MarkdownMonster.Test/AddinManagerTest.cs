@@ -45,13 +45,13 @@ namespace MarkdownMonster.Test
 
             var addin = new AddinItem
             {
-                id = "SaveImageToAzureBlob-MarkdownMonster-Addin"
+                id = "SaveImageToAzureBlob"
             };
 
             var manager = new AddinManager();
-            bool result = manager.DownloadAndInstallAddin(url, "c:\\program files\\Markdown Monster\\Addins",addin);
+            var result = manager.DownloadAndInstallAddin(url, "c:\\program files (x86)\\Markdown Monster\\Addins",addin);
 
-            Assert.IsTrue(result);
+            Assert.IsTrue(!result.IsError);
         }
 
         [TestMethod]

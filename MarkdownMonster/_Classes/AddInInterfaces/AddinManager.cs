@@ -57,12 +57,14 @@ namespace MarkdownMonster.AddIns
         /// Loads the add-in menu and toolbar buttons
         /// </summary>
         /// <param name="window"></param>
-        public void InitializeAddinsUi(MainWindow window)
+        public void InitializeAddinsUi(MainWindow window, List<MarkdownMonsterAddin> addins = null)
         {
-            foreach (var addin in AddIns)
+            if (addins == null)
+                addins = this.AddIns;
+
+            foreach (var addin in addins)
             {
                 addin.Model = window.Model;                
-
 
                 foreach (var menuItem in addin.MenuItems)
                 {
@@ -80,9 +82,6 @@ namespace MarkdownMonster.AddIns
                                                         (s, c) => menuItem.CanExecute.Invoke(mitem));
 
                     int menuIndex = addin.Model.Window.MenuAddins.Items.Add(mitem);
-
-
-                              
 
                     // if an icon is provided also add to toolbar
                     if (menuItem.FontawesomeIcon != FontAwesomeIcon.None)
@@ -367,15 +366,6 @@ namespace MarkdownMonster.AddIns
             if (!Directory.Exists(addinPath))
                 return;
 
-            // Clear out old addin files in .\Addins root
-            // TODO: Remove after a few months
-            try
-            {
-                var files = Directory.GetFiles(".\\Addins");
-                foreach (var file in files)                
-                    File.Delete(file);
-            } catch { }
-
             try
             {
                 var delDirs = Directory.GetDirectories(".\\Addins");
@@ -419,12 +409,29 @@ namespace MarkdownMonster.AddIns
             }
         }
 
-        
+        public bool InstallAddin(string addinId)
+        {
+            string addinPath = Path.Combine(mmApp.Configuration.CommonFolder, "Addins", addinId);
+            if (!Directory.Exists(addinPath))
+                return false;
+
+            var files = Directory.GetFiles(addinPath, "*.dll");
+            foreach (var file in files)
+            {
+                string fname = Path.GetFileName(file).ToLower();
+                if (fname.EndsWith("addin.dll"))
+                    LoadAddinClasses(file,addinId);
+            }
+
+            return true;
+        }
+
+
         /// <summary>
         /// Load all add in classes in an assembly
         /// </summary>
         /// <param name="assemblyFile"></param>
-        private void LoadAddinClasses(string assemblyFile)
+        public void LoadAddinClasses(string assemblyFile,string addinId = null)
         {
             Assembly asm = null;
             Type[] types = null;
@@ -448,6 +455,8 @@ namespace MarkdownMonster.AddIns
                 if (typeList.Length > 0)
                 {
                     var ai = Activator.CreateInstance(type) as MarkdownMonsterAddin;
+                    if (addinId != null)
+                        ai.Id = addinId;
                     AddIns.Add(ai);
                 }
             }
@@ -597,8 +606,9 @@ namespace MarkdownMonster.AddIns
         }
 
         /// <summary>
-        /// This downloads the addin and temporarily dumps it into the 
-        /// addins/install folder. 
+        /// This downloads and installs a single addin to the Addins folder.
+        /// Note the addin still needs to be in initialized with:
+        /// OnApplicationStart() and InializeAddinUi()
         /// 
         /// The addin-loader then moves the files.
         /// </summary>
@@ -606,27 +616,35 @@ namespace MarkdownMonster.AddIns
         /// <param name="targetFolder">Addins folder</param>
         /// <param name="addin"></param>
         /// <returns></returns>
-        public bool DownloadAndInstallAddin(string url, string targetFolder, AddinItem addin)
+        public DownloadAndInstallResult DownloadAndInstallAddin(string url, string targetFolder, AddinItem addin)
         {
+
+            var result = new DownloadAndInstallResult() {ExistingAddin = false};
+
             if (string.IsNullOrEmpty(targetFolder))
             {
                 ErrorMessage = "No target folder provided";
-                return false;
+                result.IsError = true;
+                return result;
             }
 
             string ver = mmApp.GetVersion();
             if (ver.CompareTo(addin.minVersion) < 0)
             {
                 ErrorMessage = "This addin requires v" + addin.minVersion + " of Markdown Monster to run. You are on v" +  ver + ".\r\n\r\nPlease update to the latest version of Markdown Monster if you want to install this addin.";
-                return false;
+                result.IsError = true;
+                return result;
             }
 
             var addinName = Path.GetFileName(targetFolder);
-            if (!Directory.Exists(Path.Combine(targetFolder, addin.id)))
+            if (!Directory.Exists(Path.Combine(targetFolder, addin.id))) 
                 targetFolder = Path.Combine(targetFolder, addin.id);
             else
+            {
+                result.ExistingAddin = true;
                 targetFolder = Path.Combine(targetFolder, "Install", addin.id);
-            
+            }
+
             string file = Path.GetTempFileName();
             file = Path.ChangeExtension(file, "zip");
 
@@ -639,7 +657,6 @@ namespace MarkdownMonster.AddIns
                 if (Directory.Exists(targetFolder))
                     Directory.Delete(targetFolder, true);
                 
-
                 using (ZipArchive archive = ZipFile.OpenRead(file))
                 {
                     foreach (ZipArchiveEntry zipfile in archive.Entries)
@@ -657,13 +674,22 @@ namespace MarkdownMonster.AddIns
                     }
                 }
 
-                return true;
+                
+                return result;
             }
             catch (Exception ex)
             {
                 this.ErrorMessage = ex.Message;
-                return false;
+                result.IsError = true;
+                return result;
             }
+
+        }
+
+        public class DownloadAndInstallResult
+        {
+            public bool IsError = false;
+            public bool ExistingAddin = true;
 
         }
 

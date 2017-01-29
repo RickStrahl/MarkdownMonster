@@ -160,7 +160,6 @@ namespace MarkdownMonster.AddIns
                 OnPropertyChanged();
             }
         }
-
         
 
         public string installedVersion

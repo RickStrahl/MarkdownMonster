@@ -103,30 +103,54 @@ namespace MarkdownMonster.Windows
 
             ShowStatus("Downloading and installing " + addin.name + " Addin...");
 
+
+            bool noRestartRequired = false;
+            
+
             var url = addin.gitVersionUrl.Replace("version.json","addin.zip");
-            if (!AddinManager.Current.DownloadAndInstallAddin(url, mmApp.Configuration.AddinsFolder, addin))
+            var result = AddinManager.Current.DownloadAndInstallAddin(url, mmApp.Configuration.AddinsFolder, addin);
+            if (result.IsError)
                 ShowStatus(addin.name + "  installation  failed.", 6000);
             else
             {
-                string msg = addin.name +
-                             " installed. You may have to restart Markdown Monster to finalize installation.";
-                ShowStatus(msg, 6000);
-
                 addin.isInstalled = true;
                 addin.isEnabled = true;
                 addin.installedVersion = addin.version;
 
-                if (MessageBox.Show(msg + "\r\n\r\nDo you want to restart Markdown Monster?", "Addin Installed",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (!result.ExistingAddin)
                 {
-                    Owner.Close();
-                    Process.Start(new ProcessStartInfo()
+                    if (!AddinManager.Current.InstallAddin(addin.id))
+                        ShowStatus(addin.name + "  installation  failed.", 6000);
+                    else
                     {
-                        FileName = Assembly.GetEntryAssembly().Location,                        
-                    });
+                        var installedAddin = AddinManager.Current.AddIns.FirstOrDefault(ai => ai.Id == addin.id);
+                        if (installedAddin != null)
+                        {
+                            installedAddin.OnApplicationStart();
+                            AddinManager.Current.InitializeAddinsUi(Owner as MainWindow,
+                                new List<MarkdownMonsterAddin>() {installedAddin});
+                            ShowStatus(addin.name + "  addin installed.", 6000);
+                        }
+                    }
+                }
+                else
+                {
+                    string msg = addin.name +
+                                 " addin has been installed.\r\n\r\nYou need to restart Markdown Monster to finalize the addin installation.";
+                    ShowStatus(msg, 6000);
+                    if (MessageBox.Show(msg + "\r\n\r\nDo you want to restart Markdown Monster?", "Addin Installed",
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        Owner.Close();
+                        Process.Start(new ProcessStartInfo()
+                        {
+                            FileName = Assembly.GetEntryAssembly().Location,
+                        });
+                    }
                 }
 
+                
                 //AddinManager.Current.LoadAddins();
             }
         }
@@ -137,9 +161,10 @@ namespace MarkdownMonster.Windows
             var addin = button.DataContext as AddinItem;
             if (addin == null)
                 return;
-
+            
             if (AddinManager.Current.UninstallAddin(addin.id))
-            { ShowStatus(addin.name + 
+            {
+                ShowStatus(addin.name + 
                     " marked for deletion. Please restart Markdown Monster to finalize un-install.", 
                     6000);
                 addin.isInstalled = false;
