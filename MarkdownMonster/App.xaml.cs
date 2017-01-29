@@ -46,14 +46,12 @@ namespace MarkdownMonster
 
         public static string initialStartDirectory;
 
-
-
         static App()
-        {            
+        {
             //try
             //{   // Multi-Monitor DPI awareness for screen captures
             //    // requires [assembly: DisableDpiAwareness] set in assemblyinfo
-            //    bool res = WindowUtilities.SetPerMonitorDpiAwareness(ProcessDpiAwareness.Process_Per_Monitor_DPI_Aware);
+            //    bool res = WindowUtilities.SetPerMonitorDpiAwareness(ProcessDpiAwareness.Process_Per_Monitor_DPI_Aware);                
             //}
             //catch {  /* fails not supported on Windows 7 and older */ }
         }

@@ -22,9 +22,10 @@ public class WebBrowserHostUIHandler : Native.IDocHostUIHandler
         browser.Navigated += OnNavigated;
 
         IsWebBrowserContextMenuEnabled = false;
-        ScriptErrorsSuppressed = true; 
+        ScriptErrorsSuppressed = true;
 
-        Flags |= HostUIFlags.ENABLE_REDIRECT_NOTIFICATION | HostUIFlags.DPI_AWARE | HostUIFlags.FLAT_SCROLLBAR | HostUIFlags.DISABLE_SCRIPT_INACTIVE ;
+        Flags |= HostUIFlags.DPI_AWARE | HostUIFlags.ENABLE_REDIRECT_NOTIFICATION | HostUIFlags.FLAT_SCROLLBAR | HostUIFlags.DISABLE_SCRIPT_INACTIVE ;
+
     }
 
     public WebBrowser Browser { get; private set; }

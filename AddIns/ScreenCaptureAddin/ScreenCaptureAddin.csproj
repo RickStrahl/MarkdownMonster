@@ -81,6 +81,7 @@
       <DependentUpon>ScreenClickOverlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="ScreenCapture\UserActivityHook.cs" />
+    <Compile Include="ScreenCapture\WinFormOverlay.cs" />
     <Compile Include="SnagItAutomation.cs" />
     <Compile Include="ScreenCaptureConfigurationForm.xaml.cs">
       <DependentUpon>ScreenCaptureConfigurationForm.xaml</DependentUpon>
