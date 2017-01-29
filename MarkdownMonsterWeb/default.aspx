@@ -414,14 +414,18 @@
                                     <div style="margin-top: 15px">                                        
                                         <p>
                                             Alternately you can also install Markdown Monster 
-                                    using the Chocolatey NuGet installer:
+                                    using the Chocolatey installer:
                                         </p>
                                         <div style="margin: 10px;">
                                             <a href="http://chocolatey.org/packages/MarkdownMonster" style="display: block">
-                                                <img src="images/chocolatey.png" style="width: 170px;margin-bottom: 5px;" alt="Chocolatey" />
+                                                <img src="images/chocolatey.png" style="width: 170px;margin-bottom: 8px; display: block;" alt="Chocolatey" />
                                             </a>
 
-                                            <pre style="font-size: 10pt; font-family: Consolas, monospace; color: whitesmoke; background: #535353">c:\> choco install MarkdownMonster</pre>
+                                            <pre style="font-size: 10pt; font-family: Consolas, monospace; color: whitesmoke; background: #535353">c:\> choco install markdownmonster</pre>
+                                            
+                                            <p>or use the <a href="https://chocolatey.org/packages/MarkdownMonster.Portable">portable, non-admin installer</a>:</p>
+
+                                            <pre style="font-size: 10pt; font-family: Consolas, monospace; color: whitesmoke; background: #535353">c:\> choco install markdownmonster.portable</pre>
                                         </div>
                                     </div>
                                  
