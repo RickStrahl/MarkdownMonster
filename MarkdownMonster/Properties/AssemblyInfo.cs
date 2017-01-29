@@ -22,7 +22,7 @@ using System.Windows.Media;
 
 
 // we turn this on via code in app.xaml.cs
-[assembly: DisableDpiAwareness]
+//[assembly: DisableDpiAwareness]
 
 //In order to begin building localizable applications, set 
 //<UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
@@ -54,4 +54,4 @@ using System.Windows.Media;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.21")]
+[assembly: AssemblyVersion("1.1.22")]
