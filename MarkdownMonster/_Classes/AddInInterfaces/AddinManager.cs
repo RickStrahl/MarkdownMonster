@@ -120,13 +120,13 @@ namespace MarkdownMonster.AddIns
                                 Content = new Image()
                                 {
                                     Source =
-                                        ImageAwesome.CreateImageSource(FontAwesomeIcon.CaretDown,
-                                            addin.Model.Window.Foreground),
-                                    ToolTip = menuItem.Caption + " Configuration",
+                                        ImageAwesome.CreateImageSource(FontAwesomeIcon.Cog,
+                                            addin.Model.Window.Foreground),                                    
                                     Height = 16,
-                                    Width = 8,
+                                    Width = 7,
                                     Margin = new Thickness(0, 0, 0, 0),
-                                }
+                                },
+                                ToolTip = menuItem.Caption + " Configuration"
                             };
 
                             if (menuItem.CanExecute == null)
