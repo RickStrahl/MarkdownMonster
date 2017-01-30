@@ -9,6 +9,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interactivity;
+using System.Windows.Interop;
 using FontAwesome.WPF;
 using Westwind.Utilities;
 
@@ -120,20 +122,49 @@ namespace MarkdownMonster.AddIns
                                 Content = new Image()
                                 {
                                     Source =
-                                        ImageAwesome.CreateImageSource(FontAwesomeIcon.Cog,
+                                        ImageAwesome.CreateImageSource(FontAwesomeIcon.CaretDown,
                                             addin.Model.Window.Foreground),                                    
                                     Height = 16,
-                                    Width = 7,
+                                    Width = 8,
                                     Margin = new Thickness(0, 0, 0, 0),
                                 },
-                                ToolTip = menuItem.Caption + " Configuration"
+                                ToolTip = menuItem.Caption + " Configuration",                                
+                            };
+
+                            // create context menu and add drop down behavior
+                            var ctxm = new ContextMenu();
+                            tcitem.ContextMenu = ctxm;
+                            var behaviors = Interaction.GetBehaviors(tcitem);
+                            behaviors.Add(new DropDownButtonBehavior());
+
+                            
+                            var configMenuItem = new MenuItem()
+                            {
+                                Header = menuItem.Caption                                
+                            };
+                            if (menuItem.Execute != null)
+                            {
+                                if (menuItem.CanExecute == null)
+                                    configMenuItem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(titem));
+                                else
+                                    configMenuItem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(titem),
+                                                                    (s, c) => menuItem.CanExecute.Invoke(titem));
+                            }
+                            ctxm.Items.Add(configMenuItem);
+
+                            configMenuItem = new MenuItem()
+                            {
+                                Header = menuItem.Caption + " Configuration",                                
                             };
 
                             if (menuItem.CanExecute == null)
-                                tcitem.Command = new CommandBase((sender, c) => menuItem.ExecuteConfiguration.Invoke(sender));
+                                configMenuItem.Command = new CommandBase((sender, c) => menuItem.ExecuteConfiguration.Invoke(sender));
                             else
-                                tcitem.Command = new CommandBase((sender, c) => menuItem.ExecuteConfiguration.Invoke(sender),
+                                configMenuItem.Command = new CommandBase((sender, c) => menuItem.ExecuteConfiguration.Invoke(sender),
                                     (s, c) => addin.OnCanExecute(c));
+                            ctxm.Items.Add(configMenuItem);
+
+
 
                             addin.Model.Window.ToolbarAddIns.Items.Add(tcitem);
                         }
