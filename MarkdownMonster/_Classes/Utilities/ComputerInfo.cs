@@ -141,8 +141,7 @@ namespace MarkdownMonster
             
             dynamic value;
             TryGetRegistryKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\", "Release", out value);
-
-            Console.WriteLine(value);
+            
             if (value == null)
             {
                 DotnetVersion = "4.0";
@@ -173,6 +172,11 @@ namespace MarkdownMonster
             return DotnetVersion;
         }
 
+
+        /// <summary>
+        /// Set Internet Explorer browser compatibility
+        /// </summary>
+        /// <param name="exename"></param>
         public static void EnsureBrowserEmulationEnabled(string exename = "Markdownmonster.exe")
         {
 
@@ -182,7 +186,7 @@ namespace MarkdownMonster
                 {
                     dynamic value = rk.GetValue(exename);
                     if (value == null)
-                        rk.SetValue(exename, (uint)1100, RegistryValueKind.DWord);
+                        rk.SetValue(exename, (uint)11001, RegistryValueKind.DWord);
                 }
             }
             catch { }

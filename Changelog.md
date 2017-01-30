@@ -1,6 +1,5 @@
 ﻿<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right"/>
 
-
 # Markdown Monster Change Log
 
 ### 1.1.22
@@ -11,6 +10,9 @@ Change DPI scaling options during application startup which should result in cle
 
 * **New Addins now don't require a Restart**   
 Added logic to allow new addins to be loaded immediately after installation. Updates and deleted Addins still require an MM restart. MM now offers to restart for you when an addin requires a restart.
+
+* **Addin Toolbar Dropdown Button now shows both Main and Config options**   
+Apparently there was some confusion on the behavior of the Addin buttons where many took the drop down to mean the main functionality where it really provided configuration. Main button provides main addin (Execute) functionality, while the drop down now shows a menu of both the main functionality and configuration links.
 
 * **Startup Speed Improvements**  
 Moved additional Addin loading logic into background threads to improve startup time. Slight improvement in load time.
