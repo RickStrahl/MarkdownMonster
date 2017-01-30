@@ -41,7 +41,7 @@ namespace MarkdownMonster
         public static string SafeFilename(string fileName, string replace = "")
         {
             string file = Path.GetInvalidFileNameChars()
-                .Aggregate(fileName, 
+                .Aggregate(fileName.Trim(), 
                            (current, c) => current.Replace(c.ToString(), replace)  );
 
             file = file.Replace("#", "");
