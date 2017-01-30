@@ -411,7 +411,7 @@ namespace WeblogAddin
             string filename = mmFileUtils.SafeFilename(postFilename);
             string titleFilename = mmFileUtils.SafeFilename(title);
 
-            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), titleFilename);
+            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), titleFilename.Replace(" ","-"));
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             var outputFile = Path.Combine(folder, filename);
@@ -426,7 +426,6 @@ namespace WeblogAddin
             Model.Window.OpenTab(outputFile);
 
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
-
         }
 
         /// <summary>
