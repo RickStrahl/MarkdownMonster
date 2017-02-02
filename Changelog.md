@@ -2,7 +2,8 @@
 
 # Markdown Monster Change Log
 
-### 1.1.22
+
+### 1.1.24
 <i><small>not released yet</small></i>
 
 * **DPI Scaling Updates**  
@@ -25,6 +26,9 @@ When uploading images to Weblogs the parent folder name now replaces spaces with
 
 * **ActiveDocument.Title Property**  
 For addin developers there's now a `ActiveDocument.Title` property that pulls the title from a # header, a Front Matter Title header, or the de-camel cased filename.
+
+* **MarkdownMonsterAddin::OnWindowLoaded() Handler**  
+You can now get notified when the Markdown Monster main window has loaded if you create an Addin. This makes it possible to add additional behaviors and things like Keybindings when the addin starts.
 
 ### 1.1.20
 <i><small>January 24th, 2017</small></i>

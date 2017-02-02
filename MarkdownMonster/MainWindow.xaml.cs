@@ -30,8 +30,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -205,6 +203,7 @@ namespace MarkdownMonster
                 mmApp.SetWorkingSet(10000000, 5000000);
             }, DispatcherPriority.Background);
 
+            Dispatcher.InvokeAsync(() => AddinManager.Current.RaiseOnWindowLoaded(), DispatcherPriority.ApplicationIdle);
         }
 
         protected override void OnContentRendered(EventArgs e)
