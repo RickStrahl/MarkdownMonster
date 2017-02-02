@@ -207,6 +207,22 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+        public void RaiseOnWindowLoaded()
+        {
+            foreach (var addin in AddIns)
+            {
+                try
+                {
+                    addin?.OnWindowLoaded();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::OnApplicationStart Error: " + ex.GetBaseException().Message);
+                }
+            }
+        }
+
+
         public void RaiseOnApplicationShutdown()
         {
             foreach (var addin in AddIns)

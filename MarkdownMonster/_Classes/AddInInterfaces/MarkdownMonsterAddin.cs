@@ -75,6 +75,16 @@ namespace MarkdownMonster.AddIns
         }
 
         /// <summary>
+        /// Fired when the main application window has been loaded
+        /// Use this event to attach any behaviors/events etc. that
+        /// need access to the window
+        /// </summary>
+        public virtual void OnWindowLoaded()
+        {
+            
+        }
+
+        /// <summary>
         /// Called just before the application is shut down
         /// </summary>
         public virtual void OnApplicationShutdown()
