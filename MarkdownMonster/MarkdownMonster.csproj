@@ -396,22 +396,7 @@
     <Content Include="Editor\scripts\Ace\theme-github.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Editor\scripts\Ace\theme-idle_fingers.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Editor\scripts\Ace\theme-iplastic.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Editor\scripts\Ace\theme-katzenmilch.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Editor\scripts\Ace\theme-kuroir.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Editor\scripts\Ace\theme-merbivore.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Editor\scripts\Ace\theme-merbivore_soft.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Editor\scripts\Ace\theme-monokai.js">
@@ -474,6 +459,9 @@
     <Content Include="Editor\scripts\Ace\worker-xquery.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap.css" />
+    <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap_noprint.css" />
+    <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap_noprint.min.css" />
     <Content Include="PreviewThemes\Scripts\preview.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

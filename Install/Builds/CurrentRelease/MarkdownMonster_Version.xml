@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VersionInfo>
-   <Version>1.1.23</Version>
-   <ReleaseDate>January 30th, 2017</ReleaseDate>
-   <Title>West Wind Markdown Monster 1.1.22 is now available</Title>
+   <Version>1.1.24</Version>
+   <ReleaseDate>February 2rd, 2017</ReleaseDate>
+   <Title>West Wind Markdown Monster 1.1.24 is now available</Title>
    <Detail>
 Recent updates have added Weblog Endpoint Discovery (rds), a new Snippets text expansion addin, many updates to the Addin manager, a new Addin Project Template, Auto-save and Auto-backups, print output from Html preview, a portable install, Vim and Emacs support, improved high DPI font scaling, improved native screen captures, support for pasting of images into the editor, support for multiple editor/preview sync modes and many small bug fixes and tweaks.
 
