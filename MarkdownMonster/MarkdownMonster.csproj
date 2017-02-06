@@ -459,7 +459,6 @@
     <Content Include="Editor\scripts\Ace\worker-xquery.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap.css" />
     <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap_noprint.css" />
     <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap_noprint.min.css" />
     <Content Include="PreviewThemes\Scripts\preview.js">

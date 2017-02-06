@@ -584,7 +584,7 @@ namespace MarkdownMonster
         /// Default is Utf-8 (w/ BOM). If file without BOM is read it is
         /// assumed it's UTF-8.
         /// </summary>
-        /// <param name="srcFile"></param>
+        /// <param name="filename">file to get encoding from</param>
         /// <returns></returns>
         public void GetFileEncoding(string filename = null)
         {

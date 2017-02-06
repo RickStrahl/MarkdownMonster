@@ -121,33 +121,12 @@ var te = window.textEditor = {
             //wrapBehavioursEnabled: editorSettings.wrapText                       
         });
 
-        var keydownHandler = function keyDownHandler(e) {
-            //if (!te.isDirty) {
-            //    if (!te.mm)
-            //        return;
-
-            //    // any printable character
-            //    var keycode = e.keyCode;
-
-            //    var valid =
-            //        (e.keycode > 47 && keycode < 58) || // number keys
-            //            keycode == 32 ||
-            //            keycode == 13 || // spacebar & return key(s) 
-            //            (keycode > 64 && keycode < 91) || // letter keys
-            //            (keycode > 95 && keycode < 112) || // numpad keys  
-            //            (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
-            //            (keycode > 218 && keycode < 223); // [\]' (in order)
-            //    // backspace, tab -> handled in key up
-
-            //    if (valid) {
-            //        te.isDirty = te.mm.textbox.setDirty(true);
-            //    }
-            //}
-            if (e.ctrlKey && e.shiftKey) {
-                te.mm.textbox.PreviewMarkdownCallback();
-                te.updateDocumentStats();
-            }
-        };
+        // var keydownHandler = function keyDownHandler(e) {
+        //     if (e.ctrlKey && e.shiftKey) {
+        //         te.mm.textbox.PreviewMarkdownCallback();
+        //         te.updateDocumentStats();
+        //     }
+        // };
         //$("pre[lang]").on("keydown", keydownHandler);
 
 
@@ -162,39 +141,7 @@ var te = window.textEditor = {
         var keyupHandler = function keyUpHandler(e) {
             if (!te.mm)
                 return;
-
-            //if (!te.isDirty) { 
-            //te.isDirty = te.mm.textbox.IsDirty();
-
-
-            //var keycode = e.keyCode;
-            ////if (keycode == 13 ||   // cr
-            ////    keycode == 8 ||    // backspace
-            ////    keycode == 46 ||   // del                                
-            ////    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)                        
-            ////    keycode == 222)   // single quote
-            ////          te.mm.textbox.PreviewMarkdownCallback();
-
-            //var valid =
-            //    (e.keycode > 47 && keycode < 58) || // number keys
-            //        keycode == 32 ||
-            //        keycode == 13 || // spacebar & return key(s) 
-            //        (keycode > 64 && keycode < 91) || // letter keys
-            //        (keycode > 95 && keycode < 112) || // numpad keys  
-            //        (keycode > 185 && keycode < 193) || // ;=,-./` (in order) 
-            //        (keycode > 218 && keycode < 223) || // [\]' (in order)
-            //        (keycode == 8 || keycode == 9 || keycode == 46);
-            //// backspace, tab -> handled in key up
-
-            //if (valid)
-            //    te.isDirty = te.mm.textbox.SetDirty(true);
-            //}
-
             updateDocument();
-
-            //if (te.isspellcheckingenabled)
-            //    sc.spellCheck();
-
         }
         $("pre[lang]").on("keyup", keyupHandler);
 
