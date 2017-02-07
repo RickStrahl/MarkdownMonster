@@ -727,6 +727,14 @@ namespace MarkdownMonster
         /// <param name="key"></param>
         public void SpecialKey(string key)
         {
+
+            // run this one sync to avoid Browser default Open File popup!
+            if (key == "ctrl-o")
+            {
+                Window.Model.OpenDocumentCommand.Execute(Window);
+                return;
+            }
+
             // invoke out of sync in order to force out of scope of the editor - affects weird key behavior otherwise
             Window.Dispatcher.InvokeAsync(() =>
             {
@@ -738,10 +746,7 @@ namespace MarkdownMonster
                 {
                     Window.Model.NewDocumentCommand.Execute(Window);
                 }
-                else if (key == "ctrl-o")
-                {
-                    Window.Model.OpenDocumentCommand.Execute(Window);
-                }
+                
                 else if (key == "ctrl-p")
                 {
                     Window.Model.PrintPreviewCommand.Execute(Window.ButtonPrintPreview);
