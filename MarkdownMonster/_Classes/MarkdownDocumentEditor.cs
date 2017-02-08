@@ -101,7 +101,7 @@ namespace MarkdownMonster
 
                 try
                 {
-                    AceEditor = window.initializeinterop(this);
+                    AceEditor = window.initializeinterop(this);                 
                 }
                 catch (Exception ex)
                 {
@@ -110,11 +110,11 @@ namespace MarkdownMonster
                 }
 
                 if (EditorSyntax != "markdown")
-                    AceEditor?.setlanguage(EditorSyntax);                
+                    AceEditor?.setlanguage(EditorSyntax);
+                RestyleEditor(true);
+
 
                 WebBrowser.Visibility = Visibility.Visible;
-
-                RestyleEditor();
             }
             SetMarkdown();            
         }
@@ -559,54 +559,57 @@ namespace MarkdownMonster
         {
             AceEditor?.setlanguage(syntax);
         }
+
         /// <summary>
         /// Restyles the current editor with configuration settings
         /// from the mmApp.Configuration object (or Model.Configuration
         /// from an addin).
         /// </summary>
-        public void RestyleEditor()
+        /// <param name="forceSync">Forces higher priority on this operation - use when editor initializes at first</param>
+        public void RestyleEditor(bool forceSync = false)
         {
-            if (AceEditor == null )
+            if (AceEditor == null)
                 return;
 
             Window.Dispatcher.InvokeAsync(() =>
-            { 
-                try
                 {
-                    // determine if we want to rescale the editor fontsize
-                    // based on DPI Screen Size
-                    decimal dpiRatio = 1;
                     try
                     {
-                        dpiRatio = WindowUtilities.GetDpiRatio(Window);
+                        // determine if we want to rescale the editor fontsize
+                        // based on DPI Screen Size
+                        decimal dpiRatio = 1;
+                        try
+                        {
+                            dpiRatio = WindowUtilities.GetDpiRatio(Window);
+                        }
+                        catch
+                        {
+                        }
+
+                        AceEditor.settheme(
+                            mmApp.Configuration.EditorTheme,
+                            mmApp.Configuration.EditorFont,
+                            mmApp.Configuration.EditorFontSize * dpiRatio,
+                            mmApp.Configuration.EditorWrapText,
+                            mmApp.Configuration.EditorHighlightActiveLine,
+                            mmApp.Configuration.EditorShowLineNumbers,
+                            mmApp.Configuration.EditorKeyboardHandler);
+
+                        if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
+                            AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck,
+                                mmApp.Configuration.EditorDictionary);
+                        else
+                            // always disable for non-markdown text
+                            AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
                     }
                     catch
                     {
                     }
-
-                    AceEditor.settheme(
-                        mmApp.Configuration.EditorTheme,
-                        mmApp.Configuration.EditorFont,
-                        mmApp.Configuration.EditorFontSize * dpiRatio,
-                        mmApp.Configuration.EditorWrapText,
-                        mmApp.Configuration.EditorHighlightActiveLine,
-                        mmApp.Configuration.EditorShowLineNumbers,
-                        mmApp.Configuration.EditorKeyboardHandler);
-
-                    if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
-                        AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck,
-                            mmApp.Configuration.EditorDictionary);
-                    else
-                        // always disable for non-markdown text
-                        AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
-                }
-                catch
-                {
-                }
-            }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                },
+                forceSync
+                    ? System.Windows.Threading.DispatcherPriority.Send
+                    : System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
-
-
         #endregion
 
         #region Callback functions from the Html Editor
@@ -874,7 +877,7 @@ namespace MarkdownMonster
                             encoder.Save(fileStream);
 
                             if (ext == ".png")
-                                mmFileUtils.OptimizePngImage(sd.FileName); // async
+                                mmFileUtils.OptimizePngImage(sd.FileName,5); // async
                         }                        
                     }
                     catch (Exception ex)
