@@ -1,6 +1,4 @@
-﻿
-
-# Markdown Monster
+﻿# Markdown Monster
 #### An extensible Markdown Editor, Viewer and Weblog Publisher for Windows
 
 ![](Art/MarkdownMonster.png)
@@ -17,6 +15,7 @@
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[Change Log](Changelog.md)**
+* **[License](#license)**
 * <a href="https://gitter.im/MarkdownMonster/MarkdownMonster"><img src="https://camo.githubusercontent.com/a05bc0f4476f07cf58e83b4d3f36cdaec0a86f7d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769747465722d4a6f696e253230436861742d677265656e2e7376673f7374796c653d666c61742d737175617265" /></a>
 
 Here's what Markdown Monster looks like:
@@ -28,21 +27,22 @@ Markdown Monster provides many useful features:
 
 #### Markdown Editor
 * Syntax highlighted Markdown editing
-* Live Markdown HTML preview 
-* Easily customizable, HTML preview templates
-* Gentle toolbar support for Markdown newbies
+* Live and synced HTML preview 
+* Gentle, optional toolbar support for Markdown newbies
 * Inline spell checking
+* Easily customizable, HTML preview templates
 * Customizable editor and editor themes
-* Support for many common file types
+* Support for editing of many common file types  
+(JSON, HTML, XML, C#, Config, Razor, FoxPro etc.)
 * Edited HTML files preview HTML
 * Save Markdown output to HTML
 * Paste HTML text as Markdown
 * Copy Markdown editor selection as HTML
 
 #### Editing Features
-* Syntax colored Markdown text
-* Easily select and embed images
-* Easily capture screen shots and embed the images
+* Paste images from Clipboard into document
+* Smartly select and embed images from disk or URL
+* Easily capture screen shots and embed captured images
 * Embed code snippets and see highlighted syntax coloring
 * Text Snippet Expansion with C# Code via Snippets Addin
 
