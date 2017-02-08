@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -191,6 +192,26 @@ namespace MarkdownMonster
             return "application/image";
         }
 
+        /// <summary>
+        /// Tries to optimize png images in the background
+        /// This is not fast and does not happen right away
+        /// so generally this can be applied when images are saved.        
+        /// </summary>
+        /// <param name="pngFilename">Filename to optimize</param>
+        /// <param name="level">Optimization Level from 1-7</param>
+        public static void OptimizePngImage(string pngFilename, int level = 5)
+        {
+            try
+            {
+                var pi = new ProcessStartInfo(Path.Combine(Environment.CurrentDirectory, "optipng.exe"),
+                    $"-o{level} \"" + pngFilename + "\"");
+                
+                pi.WindowStyle = ProcessWindowStyle.Hidden;
+                pi.WorkingDirectory = Environment.CurrentDirectory;                
+                Process.Start(pi);
+            }
+            catch { }
+        }
 
         /// <summary>
         /// API call that takes an input path and turns it into a long path

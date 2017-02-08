@@ -32,6 +32,7 @@
 #endregion
 using System;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -47,6 +48,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using NHunspell;
 using Westwind.Utilities;
+using Encoder = System.Text.Encoder;
 
 
 namespace MarkdownMonster
@@ -821,7 +823,7 @@ namespace MarkdownMonster
             if (Clipboard.ContainsImage())
             {
                 string imagePath = null;
-
+                
                 var bmpSource = Clipboard.GetImage();
                 using (var bitMap = WindowUtilities.BitmapSourceToBitmap(bmpSource))
                 {
@@ -853,34 +855,38 @@ namespace MarkdownMonster
                 if (result != null && result.Value)
                 {
                     imagePath = sd.FileName;
+
                     try
                     {
-                        var ext = Path.GetExtension(imagePath)?.ToLower();                        
+                        var ext = Path.GetExtension(imagePath)?.ToLower();
+
                         using (var fileStream = new FileStream(imagePath, FileMode.Create))
                         {
-
                             BitmapEncoder encoder = null;
                             if (ext == ".png")
-                                encoder = new PngBitmapEncoder();                            
-                            else if(ext == ".jpg" || ext == ".jpeg")
+                                encoder = new PngBitmapEncoder();
+                            else if (ext == ".jpg")
                                 encoder = new JpegBitmapEncoder();
                             else if (ext == ".gif")
                                 encoder = new GifBitmapEncoder();
 
                             encoder.Frames.Add(BitmapFrame.Create(bmpSource));
                             encoder.Save(fileStream);
-                        }
+
+                            if (ext == ".png")
+                                mmFileUtils.OptimizePngImage(sd.FileName); // async
+                        }                        
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message, mmApp.ApplicationName);
-                        return;
+                        return;                                                                                        
                     }
 
                     string relPath = Path.GetDirectoryName(sd.FileName);
                     if (initialFolder != null)
                     {
-                        try
+                        try                                                                                                
                         {
                             relPath = FileUtils.GetRelativePath(sd.FileName, initialFolder);
                         }

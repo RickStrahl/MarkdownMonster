@@ -2,9 +2,21 @@
 
 # Markdown Monster Change Log
 
+### 1.1.25
+<i><small>not released yet</small></i>
+
+* **Optimize Images pasted into Editor**
+When you paste images into the editor and save them to disk, images are now better optimized. jpeg images are saved with medium jpeg compression, while PNG images are asynchronously optimized in background.
+
+* **Fix File Open Dialog Hotkey (ctrl-o)**  
+Fix bug with File Open dialog which popped up browser dialog. Fixed.
+
+* **Fix backup File and Cleanup Operation crashes**  
+Make backup file loading and saving more resiliant in order to not cause a hard failure. Errors during recovery operations are now handled and logged.
+
 
 ### 1.1.24
-<i><small>not released yet</small></i>
+<i><small>February 2nd, 2017</small></i>
 
 * **DPI Scaling Updates**  
 Change DPI scaling options during application startup which should result in cleaner High DPI scaling when running on a second monitor with different DPI settings. Best results are with .NET 4.6.2.

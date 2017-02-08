@@ -459,6 +459,9 @@
     <Content Include="Editor\scripts\Ace\worker-xquery.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="optipng.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap_noprint.css" />
     <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap_noprint.min.css" />
     <Content Include="PreviewThemes\Scripts\preview.js">
