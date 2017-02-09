@@ -595,7 +595,10 @@ namespace MarkdownMonster
                 doc.PropertyChanged += (sender, e) =>
                 {
                     if (e.PropertyName == "IsDirty")
-                        CommandManager.InvalidateRequerySuggested();
+                    {
+                        //CommandManager.InvalidateRequerySuggested();
+                        Model.SaveCommand.InvalidateCanExecute();
+                    }
                 };
                 editor.MarkdownDocument = doc;
 
