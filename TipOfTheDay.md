@@ -3,6 +3,9 @@ Markdown Monster is iterating very quickly. Don't want to see new version checks
 
 ![](https://raw.githubusercontent.com/RickStrahl/MarkdownMonster/master/MarkdownMonsterWeb/Images/ScreenShots/UpdateFrequency.png)
 
+### FontAwesome Icons
+Did you know that you can easily embed FontAwesome icons into Markdown documents with @MarkdownMonstr? Simply embed @icon-iconname into your documents and MM renders the icon for you. For more sophisticated use cases you can also use raw HTML.
+
 ### Portable Version 
 Did you know you can install Markdown Monster's portable version on a USB drive and run it on any machine?
 

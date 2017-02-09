@@ -5,14 +5,17 @@
 ### 1.1.25
 <i><small>not released yet</small></i>
 
-* **Optimize Images pasted into Editor**
-When you paste images into the editor and save them to disk, images are now better optimized. jpeg images are saved with medium jpeg compression, while PNG images are asynchronously optimized in background.
+* **Optimize Images pasted into Editor**  
+When you paste images into the editor and save them to disk, images are now better optimized. jpeg images are saved with medium jpeg compression, while PNG images are asynchronously optimized in background with OptiPng.
 
 * **Fix File Open Dialog Hotkey (ctrl-o)**  
 Fix bug with File Open dialog which popped up browser dialog. Fixed.
 
 * **Fix backup File and Cleanup Operation crashes**  
 Make backup file loading and saving more resiliant in order to not cause a hard failure. Errors during recovery operations are now handled and logged.
+
+* **Fix jumpy font sizing when editor first displays**   
+Fixed issue with editor fonts resizing after initial display producing unwanted jitter. Initial load is handled at higher priority now so initial font setting shows on first load. 
 
 
 ### 1.1.24

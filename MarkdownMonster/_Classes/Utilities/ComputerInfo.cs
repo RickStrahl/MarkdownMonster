@@ -131,8 +131,7 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Returns the framework version as a string
-        /// </summary>
-        /// <param name="releaseKey"></param>
+        /// </summary>        
         /// <returns></returns>
         public static string GetDotnetVersion()
         {

@@ -34,17 +34,17 @@ Markdown Monster provides many useful features:
 * Customizable editor and editor themes
 * Support for editing of many common file types  
 (JSON, HTML, XML, C#, Config, Razor, FoxPro etc.)
-* Edited HTML files preview HTML
-* Save Markdown output to HTML
+* Save Markdown output as raw or packaged HTML
 * Paste HTML text as Markdown
 * Copy Markdown editor selection as HTML
+* Print rendered output to printer or PDF documents
 
 #### Editing Features
-* Paste images from Clipboard into document
 * Smartly select and embed images from disk or URL
+* Paste images from Clipboard into document
 * Easily capture screen shots and embed captured images
 * Embed code snippets and see highlighted syntax coloring
-* Text Snippet Expansion with C# Code via Snippets Addin
+* Text Snippet Expansion with C# Code via [Snippets Addin](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
 
 #### Weblog Publisher
 * Create or edit Weblog posts using Markdown
