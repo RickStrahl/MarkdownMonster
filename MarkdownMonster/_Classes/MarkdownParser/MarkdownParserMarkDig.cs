@@ -52,19 +52,36 @@ namespace MarkdownMonster
             if (force || Pipeline == null)
             {
                 var builder = new MarkdownPipelineBuilder()
-                    .UseYamlFrontMatter()
                     .UseEmphasisExtras()
-                    .UseAutoLinks()
                     .UsePipeTables()
                     .UseGridTables()
                     .UseFooters()
                     .UseFootnotes()
-                    .UseCitations()
-                    .UseFigures();
+                    .UseCitations();                  
                     
+
+                var options = mmApp.Configuration.MarkdownOptions;
+                if (options.AutoLinks)
+                    builder = builder.UseAutoLinks();
+                if (options.AutoHeaderIdentifiers)
+                    builder = builder.UseAutoIdentifiers();
+                if (options.StripYamlFrontMatter)
+                    builder = builder.UseYamlFrontMatter();
+                if (options.EmojiAndSmiley)
+                    builder = builder.UseEmojiAndSmiley();
+                if (options.MediaLinks)
+                    builder = builder.UseMediaLinks();
+                if(options.ListExtras)
+                    builder = builder.UseListExtras();
+                if(options.Figures)
+                    builder = builder.UseFigures();
+                if(options.GithubTaskLists)
+                    builder = builder.UseTaskLists();
+                if(options.SmartyPants)
+                    builder = builder.UseSmartyPants();                
+
                 if (usePragmaLines)
-                    builder = builder
-                        .UsePragmaLines();
+                    builder = builder.UsePragmaLines();
 
                 Pipeline = builder.Build();         
             }

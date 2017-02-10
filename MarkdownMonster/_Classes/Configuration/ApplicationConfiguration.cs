@@ -323,6 +323,7 @@ namespace MarkdownMonster
         /// </summary>
         public bool LastLinkExternal { get; set; }
 
+        public MarkdownOptions MarkdownOptions { get; set; }
 
         /// <summary>
         /// Common folder where configuration files are stored.
@@ -420,9 +421,9 @@ namespace MarkdownMonster
 
         public ApplicationConfiguration()
         {
+            MarkdownOptions = new MarkdownOptions();
             WindowPosition = new WindowPosition();
             ApplicationUpdates = new ApplicationUpdates();
-
             OpenDocuments = new List<MarkdownDocument>();
 
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -549,13 +550,17 @@ namespace MarkdownMonster
         }
     }
 
+
+    /// <summary>
+    /// Holds the current Window position and splitter settings
+    /// </summary>
     public class WindowPosition
     {
         public int Top { get; set; }
         public int Left { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        private int _splitterPosition;
+        
 
         public int SplitterPosition
         {
@@ -566,6 +571,55 @@ namespace MarkdownMonster
                 //Debug.WriteLine(value);
             }   
         }
+        private int _splitterPosition;
+    }
+
+    public class MarkdownOptions
+    {
+        /// <summary>
+        /// Determines whether links are automatically expanded
+        /// </summary>
+        public bool AutoLinks { get; set; } = true;
+
+        /// <summary>
+        /// Determines if headers automatically generate 
+        /// ids.
+        /// </summary>
+        public bool AutoHeaderIdentifiers { get; set; }
+
+        /// <summary>
+        /// If true strips Yaml FrontMatter headers
+        /// </summary>
+        public bool StripYamlFrontMatter { get; set; } = true;
+
+        /// <summary>
+        /// If true expand Emoji and Smileys 
+        /// </summary>
+        public bool EmojiAndSmiley { get; set; } = true;
+
+        /// <summary>
+        /// Creates playable media links from music and video files
+        /// </summary>
+        public bool MediaLinks { get; set; } = true;
+
+        /// <summary>
+        /// Adds additional list features like a. b.  and roman numerals i. ii. ix.
+        /// </summary>
+        public bool ListExtras { get; set; }
+        
+
+        public bool Figures { get; set; }
+
+        /// <summary>
+        /// Creates Github task lists like - [ ] Task 1
+        /// </summary>
+        public bool GithubTaskLists { get; set; } = true;
+
+        /// <summary>
+        /// Converts common typeographic options like -- to em dash
+        /// quotes to curly quotes, triple dots to elipsis etc.
+        /// </summary>
+        public bool SmartyPants { get; set; }
     }
 
     public enum PreviewSyncMode
