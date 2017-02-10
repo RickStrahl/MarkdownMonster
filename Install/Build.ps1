@@ -1,5 +1,7 @@
 ﻿cd "$PSScriptRoot" 
-& "$PSScriptRoot\CopyFiles.ps1"
+#& "$PSScriptRoot\CopyFiles.ps1"
+
+
 
 
 & "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin\signtool.exe" sign /v /n "West Wind Technologies" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\MarkdownMonster.exe"
@@ -24,9 +26,20 @@ del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
 7z a -tzip -r ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\Distribution\*.*"
 7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\MarkdownMonsterPortable.md"
 
-"Done!"
 
-dir .\Builds\CurrentRelease
+"Writing Version File..."
+$version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe").FileVersion
+$version = $version.SubString(0,$version.lastIndexOf("."))
+
+$versionFilePath = ".\builds\currentrelease\MarkdownMonster_Version_Template.xml"
+$versionFile = Get-Content -Path $versionFilePath
+$versionFile = $versionFile.Replace("{{version}}",$version).Replace("{{date}}",[System.DateTime]::Now.ToString("MMMM d, yyyy"))
+$versionFile
+""
+
+out-file -filepath $versionFilePath.Replace("_Template","")  -inputobject $versionFile
 
 
 get-childitem .\builds\CurrentRelease\* -include *.* | foreach-object { "{0}`t{1}`t{2:n0}`t`t{3}" -f $_.Name, $_.LastWriteTime, $_.Length, [System.Diagnostics.FileVersionInfo]::GetVersionInfo($_).FileVersion }
+""
+"Done..."
