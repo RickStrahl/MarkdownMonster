@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Interop;
 using FontAwesome.WPF;
@@ -73,15 +74,15 @@ namespace MarkdownMonster.AddIns
                     var mitem = new MenuItem()
                     {
                         Header = menuItem.Caption,                        
-
                     };
-                    
+                    if (menuItem.CanExecute != null)
+                        mitem.IsEnabled = menuItem.CanExecute(mitem);
 
-                    if (menuItem.CanExecute == null)
-                        mitem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(mitem));
-                    else
-                        mitem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(mitem),
-                                                        (s, c) => menuItem.CanExecute.Invoke(mitem));
+                    //if (menuItem.CanExecute == null)
+                    mitem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(mitem));
+                    //else
+                    //    mitem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(mitem),
+                    //        (s, c) => menuItem.CanExecute.Invoke(mitem));
 
                     int menuIndex = addin.Model.Window.MenuAddins.Items.Add(mitem);
 
@@ -101,14 +102,17 @@ namespace MarkdownMonster.AddIns
                             Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
                         };
 
+
                         if (menuItem.Execute != null)
                         {
-                            if (menuItem.CanExecute == null)
+                            //if (menuItem.CanExecute == null)
                                 titem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(titem));
-                            else
-                                titem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(titem),
-                                                                (s, c) => menuItem.CanExecute.Invoke(titem));
+                            //else
+                            //    titem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(titem),
+                            //                                    (s, c) => menuItem.CanExecute.Invoke(titem));
                         }
+                        if (menuItem.CanExecute != null)
+                            titem.IsEnabled = menuItem.CanExecute(titem);
 
                         addin.Model.Window.ToolbarAddIns.Visibility = Visibility.Visible;
                         int toolIndex = addin.Model.Window.ToolbarAddIns.Items.Add(titem);
@@ -130,6 +134,8 @@ namespace MarkdownMonster.AddIns
                                 },
                                 ToolTip = menuItem.Caption + " Configuration",                                
                             };
+                            if (menuItem.CanExecute != null)
+                                titem.IsEnabled = menuItem.CanExecute(titem);
 
                             // create context menu and add drop down behavior
                             var ctxm = new ContextMenu();
@@ -144,11 +150,11 @@ namespace MarkdownMonster.AddIns
                             };
                             if (menuItem.Execute != null)
                             {
-                                if (menuItem.CanExecute == null)
+                                ///if (menuItem.CanExecute == null)
                                     configMenuItem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(titem));
-                                else
-                                    configMenuItem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(titem),
-                                                                    (s, c) => menuItem.CanExecute.Invoke(titem));
+                                //else
+                                //    configMenuItem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(titem),
+                                //                                    (s, c) => menuItem.CanExecute.Invoke(titem));
                             }
                             ctxm.Items.Add(configMenuItem);
 
@@ -172,18 +178,20 @@ namespace MarkdownMonster.AddIns
                         addin.Model.PropertyChanged += (s, arg) =>
                         {
                             if (arg.PropertyName == "ActiveDocument" || arg.PropertyName == "ActiveEditor")
-                            {                                
+                            {
+                                //CommandManager.InvalidateRequerySuggested();
+
                                 bool isEnabled = addin.OnCanExecute(arg);
                                 if (mitem != null)
                                 {
                                     var item = addin.Model.Window.MenuAddins.Items[menuIndex] as MenuItem;
                                     item.IsEnabled = isEnabled;
-                                }                                
+                                }
                                 if (titem != null)
                                 {
                                     var item = addin.Model.Window.ToolbarAddIns.Items[toolIndex] as Button;
                                     item.IsEnabled = isEnabled;
-                                }                                                        
+                                }
                             }
                         };
                     }
