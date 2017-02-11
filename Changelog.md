@@ -2,6 +2,18 @@
 
 # Markdown Monster Change Log
 
+### 1.1.28
+<i><small>not released yet</small></i>
+
+* **Image Pasting via Image Dialog**  
+In addition to pasting images directly into the document, you can now also use the Image Dialog to paste and preview images. If images are on the clipboard, the image is shown with an option to save it to disk before embedding into the document. Added to provide a better visual clue that clipboard pasting is available.
+
+* **Fix: Addin Button When No Documents are Active**  
+Fixed bug where addin buttons would never enable when MM opened with no document active.
+
+* **Fix: Image Relative Path when saving Images**   
+Fix relative paths for images saved via Paste operations. Image path slashes fixed and image is now **always** pasted as a relative image if possible never using a physical path. Note: this may look ugly if the document hasn't been saved with a filename yet.
+
 ### 1.1.26
 <i><small>February 10th, 2017</small></i>
 
@@ -9,7 +21,7 @@
 When you paste images into the editor and save them to disk, images are now better optimized. jpeg images are saved with medium jpeg compression, while PNG images are asynchronously optimized in background with OptiPng.
 
 * **Add Emoji Support**   
-You can now embed common emoji tags like `:smile:` :smile: or `:camera:` :camera: as well as smiley syntax like `:-)` :-) or `B-)` B-) into Markdown documents and get them rendered. Note that actual output of these icons may vary in various browsers and the previewer. Here's a list of [emoji symbols and shortcuts](https://gist.github.com/rxaviers/7360908).
+You can now embed common emoji tags like `:smile:` :smile: or `:camera:` :camera: as well as smiley syntax like `:-)` :-) or `B-)` B-) (the latter of which is not natively supported by GitHub) into Markdown documents and get them rendered. Note that actual output of these icons may vary in various browsers and the previewer. Here's a list of [emoji symbols and shortcuts](https://gist.github.com/rxaviers/7360908).
 
 * **Markdown Renderer Options Configuration**  
 We've enabled better fine tuning of the Markdown rendering options used in the Markdown conversion process. These settings largely map to the underlying [MarkDig parser](https://github.com/lunet-io/markdig), but you can now enable/disable various rendering features via the the `MarkdownOptions` settings in the Markdown configuration. For more info on options and how they work check the [MarkDig Features section](https://github.com/lunet-io/markdig).

@@ -27,12 +27,12 @@ del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
 7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\MarkdownMonsterPortable.md"
 
 
-"Writing Version File..."
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe").FileVersion
 $version = $version.SubString(0,$version.lastIndexOf("."))
-
+"Writing Version File for: " + $version
 $versionFilePath = ".\builds\currentrelease\MarkdownMonster_Version_Template.xml"
 $versionFile = Get-Content -Path $versionFilePath
+
 $versionFile = $versionFile.Replace("{{version}}",$version).Replace("{{date}}",[System.DateTime]::Now.ToString("MMMM d, yyyy"))
 $versionFile
 ""
