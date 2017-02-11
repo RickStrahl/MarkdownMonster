@@ -15,6 +15,10 @@
         Padding="0"                      
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="600" Height="250" MinWidth="500" MinHeight="250">
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="V"                    
+                    Command="{Binding PasteCommand}" />
+    </Window.InputBindings>
     <Grid Name="PageGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -27,22 +31,36 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="29"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBox Name="TextImage" Grid.Column="0"  Text="{Binding Image}"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  FontSize="15"  ToolTip="An image from your local disk. It's recommended that you use a file location with a path relative to the document 
             you are editing. Images at the same level or lower are linked as relative paths." LostFocus="TextImage_LostFocus"/>
                 <Button Grid.Column="1"  Height="25" Width="25" Click="SelectLocalImageFile_Click">...</Button>
+                <Button Grid.Column="2"  Height="25" Width="25" Click="Button_PasteImage" Margin="4,0,0,0">
+                    <fa:FontAwesome Icon="Paste" ToolTip="Paste image from clipboard" 
+                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+                </Button>
             </Grid>
 
             <Label Margin="0,10,0,0">Image Text: (optional)</Label>
             <TextBox Name="TextImageText" Text="{Binding ImageText}" FontSize="15" />
 
-
             <StackPanel Orientation="Horizontal">
-                <Button Name="ButtonOk" Margin="0,20,10,10" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
+                <Button Name="ButtonOk" Margin="0,20,10,10" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" Click="Button_Click"  
+                        Visibility="{Binding IsFileImage, Converter={StaticResource BooleanToVisibilityConverter}}" >
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome Icon="Upload" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                        <TextBlock Margin="10,0,0,0" FontSize="14">Paste Image</TextBlock>
+                        <TextBlock Margin="10,0,0,0" FontSize="14">Embed Image</TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Name="ButtonSaveImage" Margin="0,20,10,10" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" 
+                        Visibility="{Binding IsMemoryImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                         Click="Button_SaveImage" >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                        <TextBlock Margin="10,0,0,0" FontSize="14">Save Clipboard</TextBlock>
                     </StackPanel>
                 </Button>
 
@@ -52,6 +70,7 @@
                         <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
                     </StackPanel>
                 </Button>
+
             </StackPanel>
         </StackPanel>
 
