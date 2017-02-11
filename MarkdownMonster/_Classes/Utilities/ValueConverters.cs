@@ -8,7 +8,7 @@ using System.Windows.Data;
 namespace MarkdownMonster
 {
     [ValueConversion(typeof(bool), typeof(bool))]
-    public class InvertedBoolenConverter : IValueConverter
+    public class InvertedBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
