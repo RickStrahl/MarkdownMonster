@@ -7,6 +7,8 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Threading;
 using FontAwesome.WPF;
 using Microsoft.Win32;
 using Westwind.Utilities;
@@ -84,7 +86,7 @@ namespace MarkdownMonster
         public bool IsEditorActive
         {
             get
-            {
+            {                             
                 if (ActiveDocument != null)
                     return true;
 
@@ -125,8 +127,13 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(ActiveEditor));
                 OnPropertyChanged(nameof(IsEditorActive));
 
-                SaveCommand.InvalidateCanExecute();
-                SaveAsHtmlCommand.InvalidateCanExecute();
+                Dispatcher.CurrentDispatcher.InvokeAsync(() =>
+                {
+                    CommandManager.InvalidateRequerySuggested();
+
+                    //SaveCommand.InvalidateCanExecute();
+                    //SaveAsHtmlCommand.InvalidateCanExecute();
+                });
 
                 Window.ToolbarEdit.IsEnabled = IsEditorActive;
             }

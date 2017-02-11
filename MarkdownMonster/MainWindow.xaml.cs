@@ -132,8 +132,8 @@ namespace MarkdownMonster
             RestoreSettings();
             RecentDocumentsContextList();
             ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
-
-            //AddinManager.Current.InitializeAddinsUi(this);
+            
+            //Debug.WriteLine("Main Thread Id: " + Thread.CurrentThread.ManagedThreadId);
 
             Dispatcher.InvokeAsync(() =>
             {

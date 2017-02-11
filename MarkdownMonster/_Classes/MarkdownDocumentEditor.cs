@@ -896,13 +896,15 @@ namespace MarkdownMonster
                         catch (Exception ex)
                         {
                             mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}", ex);
-                        }
-                        if (!relPath.StartsWith("..\\"))
-                            imagePath = relPath;
+                        }                        
+                        imagePath = relPath;
                     }
 
                     if (imagePath.Contains(":\\"))
                         imagePath = "file:///" + imagePath;
+
+                    imagePath = imagePath.Replace("\\", "/");
+
                     SetSelection($"![]({imagePath})");
                     PreviewMarkdownCallback(); // force a preview refresh
                 }
