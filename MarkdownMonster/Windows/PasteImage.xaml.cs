@@ -232,11 +232,15 @@ namespace MarkdownMonster.Windows
                             Image = relPath;
                         }
                     }
+                    else
+                        Image = relPath;
                 }
             }
 
             if (Image.Contains(":\\"))
                 Image = "file:///" + Image;
+            else
+                Image = Image.Replace("\\", "/");
 
             SetImagePreview("file:///" + fd.FileName);
 

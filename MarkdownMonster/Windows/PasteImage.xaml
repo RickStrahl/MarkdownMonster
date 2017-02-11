@@ -38,7 +38,7 @@
             you are editing. Images at the same level or lower are linked as relative paths." LostFocus="TextImage_LostFocus"/>
                 <Button Grid.Column="1"  Height="25" Width="25" Click="SelectLocalImageFile_Click">...</Button>
                 <Button Grid.Column="2"  Height="25" Width="25" Click="Button_PasteImage" Margin="4,0,0,0">
-                    <fa:FontAwesome Icon="Paste" ToolTip="Paste image from clipboard" 
+                    <fa:FontAwesome Icon="Paste" ToolTip="Paste image from clipboard. Note: You can also directly pasted images into the document." 
                                         FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                 </Button>
             </Grid>
