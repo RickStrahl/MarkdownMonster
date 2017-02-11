@@ -74,17 +74,18 @@ namespace MarkdownMonster.AddIns
                     var mitem = new MenuItem()
                     {
                         Header = menuItem.Caption,                        
-                    };
+                    };                    
+                    if (menuItem.CanExecute == null)
+                        menuItem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(mitem));
+                    else
+                        menuItem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(mitem),
+                                                           (s, c) => menuItem.CanExecute.Invoke(mitem));
                     if (menuItem.CanExecute != null)
                         mitem.IsEnabled = menuItem.CanExecute(mitem);
+                    
+                    mitem.Command = menuItem.Command;
 
-                    //if (menuItem.CanExecute == null)
-                    mitem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(mitem));
-                    //else
-                    //    mitem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(mitem),
-                    //        (s, c) => menuItem.CanExecute.Invoke(mitem));
-
-                    int menuIndex = addin.Model.Window.MenuAddins.Items.Add(mitem);
+                    //int menuIndex = addin.Model.Window.MenuAddins.Items.Add(mitem);
 
                     // if an icon is provided also add to toolbar
                     if (menuItem.FontawesomeIcon != FontAwesomeIcon.None)
@@ -100,17 +101,11 @@ namespace MarkdownMonster.AddIns
                             Height = 16,
                             Width = 16,
                             Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
-                        };
-
+                        };                        
 
                         if (menuItem.Execute != null)
-                        {
-                            //if (menuItem.CanExecute == null)
-                                titem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(titem));
-                            //else
-                            //    titem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(titem),
-                            //                                    (s, c) => menuItem.CanExecute.Invoke(titem));
-                        }
+                            titem.Command = menuItem.Command;                            
+
                         if (menuItem.CanExecute != null)
                             titem.IsEnabled = menuItem.CanExecute(titem);
 
@@ -137,66 +132,70 @@ namespace MarkdownMonster.AddIns
                             if (menuItem.CanExecute != null)
                                 titem.IsEnabled = menuItem.CanExecute(titem);
 
-                            // create context menu and add drop down behavior
                             var ctxm = new ContextMenu();
                             tcitem.ContextMenu = ctxm;
+
+                            // create context menu and add drop down behavior
                             var behaviors = Interaction.GetBehaviors(tcitem);
                             behaviors.Add(new DropDownButtonBehavior());
 
-                            
-                            var configMenuItem = new MenuItem()
+                            tcitem.Click += (sender, args) =>
                             {
-                                Header = menuItem.Caption                                
+                                ctxm.Items.Clear();
+                                var configMenuItem = new MenuItem()
+                                {
+                                    Header = menuItem.Caption
+                                };
+
+                                if (menuItem.Execute != null)
+                                    configMenuItem.Click += (s,e) =>  menuItem.Execute.Invoke(s);
+                                if (menuItem.CanExecute != null)
+                                    configMenuItem.IsEnabled = menuItem.CanExecute.Invoke(sender);
+
+                                ctxm.Items.Add(configMenuItem);
+
+                                configMenuItem = new MenuItem()
+                                {
+                                    Header = menuItem.Caption + " Configuration",
+                                };
+                                if (menuItem.ExecuteConfiguration != null)
+                                    configMenuItem.Click += (s, e) => menuItem.ExecuteConfiguration?.Invoke(s);
+                                
+                                ctxm.Items.Add(configMenuItem);                                
                             };
-                            if (menuItem.Execute != null)
-                            {
-                                ///if (menuItem.CanExecute == null)
-                                    configMenuItem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(titem));
-                                //else
-                                //    configMenuItem.Command = new CommandBase((s, c) => menuItem.Execute.Invoke(titem),
-                                //                                    (s, c) => menuItem.CanExecute.Invoke(titem));
-                            }
-                            ctxm.Items.Add(configMenuItem);
-
-                            configMenuItem = new MenuItem()
-                            {
-                                Header = menuItem.Caption + " Configuration",                                
-                            };
-
-                            if (menuItem.CanExecute == null)
-                                configMenuItem.Command = new CommandBase((sender, c) => menuItem.ExecuteConfiguration.Invoke(sender));
-                            else
-                                configMenuItem.Command = new CommandBase((sender, c) => menuItem.ExecuteConfiguration.Invoke(sender),
-                                    (s, c) => addin.OnCanExecute(c));
-                            ctxm.Items.Add(configMenuItem);
-
-
 
                             addin.Model.Window.ToolbarAddIns.Items.Add(tcitem);
-                        }
+                        };
 
                         addin.Model.PropertyChanged += (s, arg) =>
                         {
                             if (arg.PropertyName == "ActiveDocument" || arg.PropertyName == "ActiveEditor")
                             {
-                                //CommandManager.InvalidateRequerySuggested();
+                                // menuItem.InvalidateCanExecute
 
-                                bool isEnabled = addin.OnCanExecute(arg);
-                                if (mitem != null)
+                                // this shouldn't be necessary but it looks like it is!
+                                var item = addin.Model.Window.ToolbarAddIns.Items[toolIndex] as Button;
+                                if (item != null)
                                 {
-                                    var item = addin.Model.Window.MenuAddins.Items[menuIndex] as MenuItem;
-                                    item.IsEnabled = isEnabled;
-                                }
-                                if (titem != null)
-                                {
-                                    var item = addin.Model.Window.ToolbarAddIns.Items[toolIndex] as Button;
-                                    item.IsEnabled = isEnabled;
+                                    ((CommandBase) item.Command).InvalidateCanExecute();
+                                    if (menuItem.CanExecute != null)
+                                        item.IsEnabled = menuItem.CanExecute.Invoke(null);
                                 }
                             }
                         };
                     }
                 }
             }
+        }
+
+        private void ConfigMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Tcitem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #region Raise Events
