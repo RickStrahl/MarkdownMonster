@@ -902,8 +902,8 @@ namespace MarkdownMonster
 
                     if (imagePath.Contains(":\\"))
                         imagePath = "file:///" + imagePath;
-
-                    imagePath = imagePath.Replace("\\", "/");
+                    else
+                       imagePath = imagePath.Replace("\\", "/");
 
                     SetSelection($"![]({imagePath})");
                     PreviewMarkdownCallback(); // force a preview refresh
