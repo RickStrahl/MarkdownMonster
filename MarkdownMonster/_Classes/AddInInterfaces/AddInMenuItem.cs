@@ -42,6 +42,11 @@ namespace MarkdownMonster.AddIns
         /// Check activation that passes the button or menu item
         /// that is clicked.
         /// </summary>
-        public Func<object, bool>  CanExecute { get; set;  }        
+        public Func<object, bool>  CanExecute { get; set;  }
+
+        /// <summary>
+        /// Internally created Command object that hooks up Execute and CanExecute
+        /// </summary>
+        public CommandBase Command { get; set; }
     }
 }
