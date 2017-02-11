@@ -13,11 +13,11 @@
         TitleCharacterCasing="Normal" ResizeMode="CanResizeWithGrip"
         Height="730" Width="1100" MinWidth="900" MinHeight="500">
     <Window.Resources>
-        <markdownMonster:InvertedBoolenConverter x:Key="InvertBooleanConverter"/>
+        <markdownMonster:InvertedBooleanConverter x:Key="InvertBooleanConverter"/>
         <markdownMonster:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         <markdownMonster:ValueConverterGroup x:Key="InstallButtonConverter">
-            <markdownMonster:InvertedBoolenConverter/>
+            <markdownMonster:InvertedBooleanConverter/>
             <markdownMonster:BooleanToVisibilityConverter/>
         </markdownMonster:ValueConverterGroup>
     </Window.Resources>
