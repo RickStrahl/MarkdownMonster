@@ -95,6 +95,15 @@ namespace MarkdownMonster.Windows
             Loaded += PasteImage_Loaded;
             SizeChanged += PasteImage_SizeChanged;
             Activated += PasteImage_Activated;
+            PreviewKeyDown += PasteImage_PreviewKeyDown;
+        }
+
+        private void PasteImage_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+            if (isControlKey && e.Key == Key.V && Clipboard.ContainsImage())            
+                PasteImageFromClipboard();
+            
         }
 
         private void PasteImage_Activated(object sender, EventArgs e)
@@ -254,13 +263,13 @@ namespace MarkdownMonster.Windows
         private void TextImage_LostFocus(object sender, RoutedEventArgs e)
         {
             
-            if (IsMemoryImage && string.IsNullOrEmpty(TextImage.Text))
+            if (!IsMemoryImage && string.IsNullOrEmpty(TextImage.Text))
             {
                 ImagePreview.Source = null;                
                 return;
             }
 
-            IsMemoryImage = false;
+         
 
             string href = TextImage.Text.ToLower();
             if (href.StartsWith("http://") || href.StartsWith("https://"))
@@ -274,7 +283,17 @@ namespace MarkdownMonster.Windows
         private void Button_SaveImage(object sender, RoutedEventArgs e)
         {
             string imagePath = null;
-            using (var bitMap = WindowUtilities.BitmapSourceToBitmap(ImagePreview.Source as BitmapSource))
+
+            var bitmapSource = ImagePreview.Source as BitmapSource;
+            if (bitmapSource == null)
+            {
+                MessageBox.Show("Unable to convert bitmap source.", "Bitmap conversion error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                    return;
+            }
+
+            using (var bitMap = WindowUtilities.BitmapSourceToBitmap(bitmapSource))
             {
                 imagePath = AddinManager.Current.RaiseOnSaveImage(bitMap);
             }
@@ -368,12 +387,6 @@ namespace MarkdownMonster.Windows
             Close();
         }
 
-        private void PasteImageFromClipboard()
-        {
-            SetImagePreview(Clipboard.GetImage());
-            IsMemoryImage = true;
-        }
-
         private void Button_PasteImage(object sender, RoutedEventArgs e)
         {
             PasteImageFromClipboard();
@@ -382,6 +395,13 @@ namespace MarkdownMonster.Windows
         #endregion
 
         #region Image Display
+
+        private void PasteImageFromClipboard()
+        {
+            SetImagePreview(Clipboard.GetImage());
+            Image = null;
+            IsMemoryImage = true;
+        }
 
         private void PasteImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
