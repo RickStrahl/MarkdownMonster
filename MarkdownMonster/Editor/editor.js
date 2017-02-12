@@ -72,22 +72,39 @@ var te = window.textEditor = {
                 // keep ctrl-n browser behavior from happening
                 // and let WPF handle the key
             },
+            "f5": function() {
+                // avoid page refresh
+            },
+            // save
+            "ctrl-s": function() { te.specialkey("ctrl-s"); },
+            // Open document
             "ctrl-o": function() {
-                te.editor.blur(); // HACK: avoid letter o insertion into document
+                te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
                 te.specialkey("ctrl-o");
                 setTimeout(function() { te.editor.focus(); }, 20);
             },
-            "ctrl-p": function() { te.specialkey("ctrl-p") },
 
-            "f5": function() {},
-            "alt-c": function() { te.specialkey("alt-c"); },
-
-            "ctrl-s": function() { te.specialkey("ctrl-s"); },
-            "ctrl-b": function() { te.specialkey("ctrl-b"); },
-            "ctrl-i": function() { te.specialkey("ctrl-i"); },
-            "ctrl-`": function() { te.specialkey("ctrl-`"); },
-            "ctrl-l": function() { te.specialkey("ctrl-l"); },
+            // link
             "ctrl-k": function() { te.specialkey("ctrl-k"); },
+            // print
+            "ctrl-p": function() { te.specialkey("ctrl-p") },
+            // turn lines into list
+            "ctrl-l": function() { te.specialkey("ctrl-l"); },
+            // Image emedding
+            "alt-i": function() { te.specialkey("alt-i"); },
+
+            // find again redirect
+            "f3": function () { te.editor.execCommand("findnext") },
+            // embed code
+            "alt-c": function () { te.specialkey("alt-c"); },
+            // inline code 
+            "ctrl-`": function () { te.specialkey("ctrl-`"); },
+            
+            "ctrl-b": function() { te.specialkey("ctrl-b"); },
+            "ctrl-i": function () { te.specialkey("ctrl-i"); },
+            
+            
+            
 
             // take over Zoom keys and manually zoom
             "ctrl--": function() {
