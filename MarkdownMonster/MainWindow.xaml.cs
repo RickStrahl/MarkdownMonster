@@ -1214,7 +1214,13 @@ namespace MarkdownMonster
                 if (editor == null)
                     return;
                 editor.ExecEditorCommand("find");
-
+            }
+            else if (button == Button_FindNext)
+            {
+                var editor = GetActiveMarkdownEditor();
+                if (editor == null)
+                    return;
+                editor.ExecEditorCommand("findnext");
             }
             else if (button == Button_Replace)
             {
