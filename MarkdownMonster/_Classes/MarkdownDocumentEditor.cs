@@ -755,7 +755,7 @@ namespace MarkdownMonster
                 else if (key == "ctrl-p")
                 {
                     Window.Model.PrintPreviewCommand.Execute(Window.ButtonPrintPreview);
-                }
+                }                
                 else if (key == "ctrl-b")
                 {
                     Window.Model.ToolbarInsertMarkdownCommand.Execute("bold");
@@ -775,6 +775,10 @@ namespace MarkdownMonster
                 if (key == "ctrl-k")
                 {
                     Window.Model.ToolbarInsertMarkdownCommand.Execute("href");
+                }
+                else if (key == "alt-i")
+                {
+                    Window.Model.ToolbarInsertMarkdownCommand.Execute("image");
                 }
                 if (key == "alt-c")
                 {

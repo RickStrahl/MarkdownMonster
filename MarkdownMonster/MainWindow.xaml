@@ -392,7 +392,7 @@
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
-                        <Button Name ="ButtonImage" Margin="7,0"  ToolTip="Insert image"                              
+                        <Button Name ="ButtonImage" Margin="7,0"  ToolTip="Insert image from disk or the clipboard (alt-i). You can also paste images from the clipboard directly into the document."                              
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="image" 
                                 fa:Awesome.Content="Image"
@@ -401,7 +401,7 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
-                        <Button Name ="ButtonCode" Margin="7,0"      ToolTip="Format selected text as code (alt-c)"
+                        <Button Name ="ButtonCode" Margin="7,0" ToolTip="Format selected text as code (alt-c)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="code"
                                 fa:Awesome.Content="Code"
