@@ -152,6 +152,12 @@
                           ToolTip="Find text in the active document" 
                           Click="Button_Handler"
                           InputGestureText="ctrl-f" />
+                <MenuItem Header="Find next occurrence"
+                          Name="Button_FindNext"
+                          IsEnabled="{Binding IsEditorActive}"
+                          ToolTip="Find the next occurrence of the searched text in the active document"
+                          Click="Button_Handler"
+                          InputGestureText="F3" />
                 <MenuItem Header="Find and Replace in Document" 
                           Name="Button_Replace"
                           IsEnabled="{Binding IsEditorActive}"
