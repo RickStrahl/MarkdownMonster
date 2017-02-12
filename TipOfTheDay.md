@@ -29,3 +29,6 @@ Did you know you can use @icon-FontAwesomeIconName to embed FontAwesome icons in
        target="top">Markdown Monster</a> 
 </div>
 
+### Html Editing
+Did you know that Markdown Monster can also edit HTML files with live preview?
+
