@@ -3,10 +3,10 @@
 # Markdown Monster Change Log
 
 ### 1.1.28
-<i><small>not released yet</small></i>
+<i><small>February 13th, 2017</small></i>
 
 * **Image Pasting via Image Dialog**  
-In addition to pasting images directly into the document, you can now also use the Image Dialog to paste and preview images. If images are on the clipboard, the image is shown with an option to save it to disk before embedding into the document. You can also use the paste icon or Ctrl-V to paste an image into the dialog and then save it to disk with optimization. Added to make image pasting more discoverable. Also added Alt-i shortcut.
+In addition to pasting images directly into the document, you can now also use the Image Dialog to paste and preview images. If images are on the clipboard, the image is shown with an option to save it to disk before embedding into the document. You can also use the paste icon or Ctrl-V to paste an image into the dialog and then save it to disk with optimization. Added to make image pasting more discoverable. Also added Alt-I shortcut to the image dialog.
 
 * **Fix: Addin Button When No Documents are Active**  
 Fixed bug where addin buttons would never enable when MM opened with no document active.

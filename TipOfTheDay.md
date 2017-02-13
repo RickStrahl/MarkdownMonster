@@ -30,5 +30,5 @@ Did you know you can use @icon-FontAwesomeIconName to embed FontAwesome icons in
 </div>
 
 ### Html Editing
-Did you know that Markdown Monster can also edit HTML files with live preview?
+Did you know that Markdown Monster can also edit HTML files with live preview? Open an HTML document and MM will preview it and update the preview as you edit it.
 

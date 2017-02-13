@@ -9,6 +9,15 @@ namespace MarkdownMonster.Test
     public class ApplicationUpdaterTest  {
 
         [TestMethod]
+        public void CheckVersion()
+        {
+            var updater = new ApplicationUpdater(typeof(MainWindow));
+            bool result = updater.IsNewVersionAvailable(false);
+
+            Console.WriteLine("New Version is available: " + result);
+        }
+
+        [TestMethod]
         public void CheckVersionFrequencyTest()
         {
             var updates = new ApplicationUpdates();
