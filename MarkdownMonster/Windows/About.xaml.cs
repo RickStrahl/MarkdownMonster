@@ -17,7 +17,8 @@ namespace MarkdownMonster.Windows
             
             mmApp.SetThemeWindowOverride(this);
 
-            VersionLabel.Content = mmApp.GetVersion();
+            VersionLabel.Content = "Version " +  mmApp.GetVersion();
+            VersionDateLabel.Content = mmApp.GetVersionDate();
             OsLabel.Content = (Environment.Is64BitProcess ? "64 bit" : "32 bit") + " • " +
                              ".NET " + ComputerInfo.GetDotnetVersion();
                                 

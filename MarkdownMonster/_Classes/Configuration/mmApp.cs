@@ -221,10 +221,16 @@ Markdown Monster v{version}
         /// <returns></returns>
         public static string GetVersion()
         {
-            var v = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-            return v.FileMajorPart + "." + v.FileMinorPart +
-                  (v.FileBuildPart > 0 ? "." + v.FileBuildPart : "");
+            var v = Assembly.GetExecutingAssembly().GetName().Version;
+            return v.ToString();            
         }
+
+        public static string GetVersionDate()
+        {
+            var fi = new FileInfo(Assembly.GetExecutingAssembly().Location);
+            return fi.LastWriteTime.ToString("MMM d, yyyy");
+        }
+
 
         /// <summary>
         /// Sets the light or dark theme for a form. Call before
