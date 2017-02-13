@@ -79,7 +79,7 @@ namespace MarkdownMonster
         /// <param name="version"></param>
         public ApplicationUpdater(Version version)
         {
-            CurrentVersion = GetVersionStringFromVersion(version);
+            CurrentVersion = version.ToString(); // GetVersionStringFromVersion(version);
             Initialize();
         }
 
@@ -93,7 +93,7 @@ namespace MarkdownMonster
         {
             VersionInfo = new VersionInfo();
             var version = assemblyType.Assembly.GetName().Version;
-            CurrentVersion = GetVersionStringFromVersion(version);
+            CurrentVersion = version.ToString();
             Initialize();
         }
 
