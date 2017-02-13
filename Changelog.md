@@ -14,6 +14,9 @@ Fixed bug where addin buttons would never enable when MM opened with no document
 * **Fix: Image Relative Path when saving Images**   
 Fix relative paths for images saved via Paste operations. Image path slashes fixed and image is now **always** pasted as a relative image if possible never using a physical path. Note: this may look ugly if the document hasn't been saved with a filename yet.
 
+* **Fix erroneous version check Notifications**  
+Due to the way we've handled versions in the past occasionally you could get stuck in a version update loop. Fixed version to use full version info  internally for display, processing and the online version file.
+
 ### 1.1.26
 <i><small>February 10th, 2017</small></i>
 

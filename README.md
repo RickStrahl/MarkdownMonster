@@ -30,18 +30,20 @@ Markdown Monster provides many useful features:
 * Live and synced HTML preview 
 * Gentle, optional toolbar support for Markdown newbies
 * Inline spell checking
+* Line and Word counts
 * Easily customizable, HTML preview templates
 * Customizable editor and editor themes
-* Support for editing of many common file types  
-(JSON, HTML, XML, C#, Config, Razor, FoxPro etc.)
 * Save Markdown output as raw or packaged HTML
 * Paste HTML text as Markdown
 * Copy Markdown editor selection as HTML
+* Open rendered output in Browser
 * Print rendered output to printer or PDF documents
+* Editor remembers open documents by default (optional)
+* Auto-Save and Auto-Backup support
 
 #### Editing Features
 * Smartly select and embed images from disk or URL
-* Paste images from Clipboard into document
+* Paste images from Clipboard at cursor
 * Easily capture screen shots and embed captured images
 * Embed code snippets and see highlighted syntax coloring
 * Text Snippet Expansion with C# Code via [Snippets Addin](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
@@ -52,7 +54,7 @@ Markdown Monster provides many useful features:
 * Download and edit existing posts
 * Very fast publish and download process
 * Publish to and remember multiple blogs
-* Optional Dropbox post storage
+* Optional Dropbox and OneDrive shared storage
 
 #### Extensibility
 * Create Addins with .NET code
@@ -67,7 +69,7 @@ Markdown Monster provides many useful features:
 * HTML file editing with live preview
 * Many other file formats can also be edited:  
 JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
-* Open document folder or console 
+* Use `mm document.md` from PowerShell or Command prompt to load documents
 
 Please **star this repo** if you use Markdown Monster and you like what you see here. Please help spread the word.
 
