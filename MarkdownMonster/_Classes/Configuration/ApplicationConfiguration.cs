@@ -416,7 +416,7 @@ namespace MarkdownMonster
         /// </summary>
         public bool DisableAddins { get; set; }
 
-        
+        public bool DisableHardwareAcceleration { get; set; }
 
 
         public ApplicationConfiguration()

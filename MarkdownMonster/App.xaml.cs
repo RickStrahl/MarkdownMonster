@@ -30,6 +30,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
@@ -212,6 +213,9 @@ namespace MarkdownMonster
 
         protected override void OnStartup(StartupEventArgs e)
         {
+
+            if (mmApp.Configuration.DisableHardwareAcceleration)
+                RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
 
             var dir = Assembly.GetExecutingAssembly().Location;
             

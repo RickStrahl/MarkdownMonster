@@ -8,6 +8,9 @@
 * **Image Pasting via Image Dialog**  
 In addition to pasting images directly into the document, you can now also use the Image Dialog to paste and preview images. If images are on the clipboard, the image is shown with an option to save it to disk before embedding into the document. You can also use the paste icon or Ctrl-V to paste an image into the dialog and then save it to disk with optimization. Added to make image pasting more discoverable. Also added Alt-I shortcut to the image dialog.
 
+* **DisableHardwareAcceleration Configuration Key**   
+Added this configuration key to allow disabling hardware GPU rendering acceleration. This option is available for the very few people that run into rendering problems with all white or all black initial screen loads.
+
 * **Fix: Addin Button When No Documents are Active**  
 Fixed bug where addin buttons would never enable when MM opened with no document active.
 

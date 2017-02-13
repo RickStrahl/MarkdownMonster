@@ -38,6 +38,20 @@ namespace MarkdownMonster
         public static DateTime Started { get; set;  }
 
 
+        internal static string EncryptionMachineKey { get; } = "42331333#1Ae@rTo*dOO-002" + Environment.MachineName;
+        internal static string Signature { get; } = "S3VwdWFfMTAw";
+
+        /// <summary>
+        /// The URL where new versions are downloaded from
+        /// </summary>
+        public static string InstallerDownloadUrl { get; internal set; } =
+            "https://markdownmonster.west-wind.com/download.aspx";
+
+        /// <summary>
+        /// Url that is used to check for new version information
+        /// </summary>
+        public static string UpdateCheckUrl { get; internal set; }
+        
         /// <summary>
         /// Static constructor to initialize configuration
         /// </summary>
@@ -302,21 +316,6 @@ Markdown Monster v{version}
             //    }
             //}
         }
-
-
-        internal static string EncryptionMachineKey { get; } = "42331333#1Ae@rTo*dOO-002" + Environment.MachineName;
-        internal static string Signature { get; } = "S3VwdWFfMTAw";
-
-        /// <summary>
-        /// The URL where new versions are downloaded from
-        /// </summary>
-        public static string InstallerDownloadUrl { get; internal set; } =
-            "https://markdownmonster.west-wind.com/download.aspx";
-
-        /// <summary>
-        /// Url that is used to check for new version information
-        /// </summary>
-        public static string UpdateCheckUrl { get; internal set; }
     }
 
 
