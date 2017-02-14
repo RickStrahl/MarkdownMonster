@@ -84,7 +84,7 @@ namespace WebLogAddin.MetaWebLogApi.XmlRpcInterfaces
         bool EditPage(object blogId, int page_id, string username, string password, XmlRpcPage content, bool publish);
 
         [XmlRpcMethod("wp.editPost")]
-        bool EditPost(string postid, string username, string password, XmlRpcPost content, bool publish);
+        new bool EditPost(string postid, string username, string password, XmlRpcPost content, bool publish);
 
         [XmlRpcMethod("wp.getAuthors")]
         XmlRpcAuthor[] GetAuthors(object blogId, string username, string password);

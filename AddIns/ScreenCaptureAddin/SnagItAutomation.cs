@@ -307,6 +307,7 @@ namespace SnagItAddin
 
         private bool IsDone;
         private bool HasError;
+
         private void SnagImg_OnStateChange(CaptureState newState)
         {            
             if (newState != CaptureState.scsBusy && newState != CaptureState.scsIdle)

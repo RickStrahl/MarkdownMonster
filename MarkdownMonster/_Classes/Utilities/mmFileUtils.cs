@@ -229,9 +229,11 @@ namespace MarkdownMonster
         /// instance is found.
         /// </summary>
         /// <param name="source">Input String to work on</param>
-        /// <param name="StartDelim">Beginning delimiter</param>
+        /// <param name="beginDelim">Beginning delimiter</param>
         /// <param name="endDelim">ending delimiter</param>
-        /// <param name="CaseInsensitive">Determines whether the search for delimiters is case sensitive</param>
+        /// <param name="caseSensitive">Determines whether the search for delimiters is case sensitive</param>
+        /// <param name="allowMissingEndDelimiter"></param>
+        /// <param name="returnDelimiters"></param>
         /// <returns>Extracted string or ""</returns>
         public static string ExtractString(string source,
             string beginDelim,

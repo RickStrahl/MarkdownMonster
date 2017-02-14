@@ -209,17 +209,7 @@ namespace MarkdownMonster
         public static string VersionCheckUrl { get; internal set; }
 
 
-        /// TODO: Handle global errors
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        //static void GlobalErrorHandler(object sender, UnhandledExceptionEventArgs args)
-        //{
-        //    if (!mmApp.HandleApplicationException(args.ExceptionObject as Exception))
-        //        Environment.Exit(0);
-        //}
+      
 
         protected override void OnStartup(StartupEventArgs e)
         {

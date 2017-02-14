@@ -113,7 +113,7 @@ namespace WeblogAddin
             }
         }
 
-        private async void ButtonSaveMeta_Click(object sender, RoutedEventArgs e)
+        void ButtonSaveMeta_Click(object sender, RoutedEventArgs e)
         {                        
             // Update the Markdown document first
             string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
