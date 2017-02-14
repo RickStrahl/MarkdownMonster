@@ -147,13 +147,23 @@ namespace MarkdownMonster
                     return Assembly.LoadFrom(asmFile);
                 }
                 catch (Exception ex)
-                {
+                {                    
                     return null;
                 }
             }
 
-            // FAIL!
-            return null;
+            
+
+            // try to just load the assembly
+            try
+            {
+                // this allows addins to load before form has loaded
+                return Assembly.LoadFrom(filename);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -235,6 +245,7 @@ namespace MarkdownMonster
                     {
                         AddinManager.Current.LoadAddins(Path.Combine(Environment.CurrentDirectory, "AddIns"));
                         AddinManager.Current.LoadAddins(mmApp.Configuration.AddinsFolder);
+                        AddinManager.Current.AddinsLoadingComplete = true;
 
 
                         AddinManager.Current.RaiseOnApplicationStart();

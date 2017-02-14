@@ -34,6 +34,11 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         public List<MarkdownMonsterAddin> AddIns;
 
+        /// <summary>
+        /// Set after addins have completed load
+        /// </summary>
+        public bool AddinsLoadingComplete { get; set; }
+
         public string ErrorMessage { get; set; }
 
         static AddinManager()
@@ -486,9 +491,13 @@ namespace MarkdownMonster.AddIns
             }
             catch(Exception ex)
             {
-                var msg = $"Unable to load add-in assembly: {Path.GetFileNameWithoutExtension(assemblyFile)}";                
+                var msg = $"Unable to load add-in: {Path.GetFileNameWithoutExtension(assemblyFile)}\r\n\r\n" +                          
+                          "Try updating the add-in and Markdown Monster to the latest versions or uninstall the add-in.";
+
                 mmApp.Log(msg, ex);
-                MessageBox.Show(msg,"Assembly Load Error",MessageBoxButton.OK,MessageBoxImage.Error);
+                MessageBox.Show(msg,"Assembly Load Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);                
                 return;
             }
 

@@ -137,7 +137,10 @@ namespace MarkdownMonster
 
             Dispatcher.InvokeAsync(() =>
             {
+                while (!AddinManager.Current.AddinsLoadingComplete)
+                    Task.Delay(50);
                 AddinManager.Current.InitializeAddinsUi(this);
+
             }, DispatcherPriority.ApplicationIdle);
 
 
@@ -276,9 +279,13 @@ namespace MarkdownMonster
                     var selectedEditor = selectedTab.Tag as MarkdownDocumentEditor;
                     if (selectedEditor != null)
                     {
-                        selectedEditor.WebBrowser.Focus();
-                        selectedEditor.SetEditorFocus();
-                        selectedEditor.RestyleEditor();
+                        try
+                        {
+                            selectedEditor.WebBrowser.Focus();
+                            selectedEditor.SetEditorFocus();
+                            selectedEditor.RestyleEditor();
+                        }
+                        catch { }
                     }
                 }
             }
