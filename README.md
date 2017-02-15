@@ -116,11 +116,13 @@ You can find out more on how to publish your Addins in this GitHub repository:
 
 * [Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)
 
-Right now the registry is pretty sparse, but here are a couple of Addins you can check out:
+Right now the registry is pretty sparse, but here are a few Addins you can check out:
 
+* [Snippets Text Expansion](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
+* [Commander C# Scripting](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
 * [Save Image to Azure Blob Storage](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin)
 * [Paste Code as Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)
-* [Snippets](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
+
 
 ## Provided Add-ins
 Not only does Markdown Monster allow extension via Addins - it also uses Addins for some built-in features. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate the power of the Add-in model.
