@@ -2,6 +2,13 @@
 
 # Markdown Monster Change Log
 
+### 1.1.30
+<i><small>not released yet</small></i>
+
+* **Updated Markdown Monster Addin VSIX Template for VS 2017**   
+We've updated the VSIX template to work with the upcoming Visual Studio 2017. We've also made a few small tweaks to the template to include references to all the required WPF dependencies to make it easier creating UI based add-ins.
+
+
 ### 1.1.28
 <i><small>February 13th, 2017</small></i>
 

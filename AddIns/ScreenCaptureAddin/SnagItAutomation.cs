@@ -287,7 +287,7 @@ namespace SnagItAddin
             // a few seconds until Writer has picked up the image.
             if ((DeleteImageFromDisk))
             {
-                var timer = new Timer(
+                new Timer(
                     (imgFile) =>
                     {
                         var image = imgFile as string;

@@ -10,6 +10,7 @@
         Icon="../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Embed Image"
         TitleCharacterCasing="Normal"                      
+        TitlebarHeight="35"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"         
         Padding="0"                      

@@ -10,6 +10,7 @@
         Icon="../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Embed Syntax Colored Code" FontSize="14"
         TitleCharacterCasing="Normal"
+        TitlebarHeight="35"                       
         ResizeMode="CanResizeWithGrip"
         WindowStyle="SingleBorderWindow"                    
         WindowStartupLocation="CenterOwner"         
