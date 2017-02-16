@@ -79,6 +79,21 @@ Tags:
 ";
         }
 
+        
+        /// <summary>
+        /// Keyboard shortcut for this addin.
+        /// </summary>
+        public string KeyboardShortcut
+        {
+            get { return _keyboardShortcut; }
+            set
+            {
+                if (_keyboardShortcut == value) return;
+                _keyboardShortcut = value;
+                OnPropertyChanged(nameof(KeyboardShortcut));
+            }
+        }
+        private string _keyboardShortcut = string.Empty;
 
         /// <summary>
         /// Determines the folder were new Posts are stored

@@ -58,7 +58,8 @@ namespace SnagItAddin
             var menuItem = new AddInMenuItem(this)
             {
                 Caption = "Screen Capture",
-                FontawesomeIcon = FontAwesomeIcon.Camera
+                FontawesomeIcon = FontAwesomeIcon.Camera,
+                KeyboardShortcut = ScreenCaptureConfiguration.Current.KeyboardShortcut
             };
             MenuItems.Add(menuItem);
         }

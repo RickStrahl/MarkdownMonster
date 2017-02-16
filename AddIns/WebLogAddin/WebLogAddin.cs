@@ -63,11 +63,9 @@ namespace WeblogAddin
             var menuItem = new AddInMenuItem(this)
             {
                 Caption = "Weblog Publishing",                
-                FontawesomeIcon = FontAwesomeIcon.Rss
+                FontawesomeIcon = FontAwesomeIcon.Rss,
+                KeyboardShortcut = WeblogAddinConfiguration.Current.KeyboardShortcut
             };
-
-            // Don't need a configuration dropdown
-            //menuItem.ExecuteConfiguration = null;
 
             MenuItems.Add(menuItem);
         }
