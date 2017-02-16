@@ -230,20 +230,6 @@ namespace MarkdownMonster
                 {
                     ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
                     ComputerInfo.EnsureSystemPath();
-
-                    try
-                    {
-                        AddinManager.Current.LoadAddins(Path.Combine(Environment.CurrentDirectory, "AddIns"));
-                        AddinManager.Current.LoadAddins(mmApp.Configuration.AddinsFolder);
-                        AddinManager.Current.AddinsLoadingComplete = true;
-
-
-                        AddinManager.Current.RaiseOnApplicationStart();
-                    }
-                    catch (Exception ex)
-                    {
-                        mmApp.Log("Addin loading failed", ex);
-                    }
                 });
             }            
         }

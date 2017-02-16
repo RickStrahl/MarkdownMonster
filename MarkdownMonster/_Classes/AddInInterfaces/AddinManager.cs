@@ -57,8 +57,8 @@ namespace MarkdownMonster.AddIns
         {
             if (typeObj.ToString() == criteriaObj.ToString())
                 return true;
-            else
-                return false;
+
+            return false;
         }
 
 
@@ -96,11 +96,15 @@ namespace MarkdownMonster.AddIns
                         var hasConfigMenu = menuItem.ExecuteConfiguration != null;
 
                         var titem = new Button();
+
                         titem.Content = new Image()
                         {
                             Source =
                                 ImageAwesome.CreateImageSource(menuItem.FontawesomeIcon, addin.Model.Window.Foreground),
-                            ToolTip = menuItem.Caption,
+                            ToolTip = menuItem.Caption + 
+                                        (!string.IsNullOrEmpty(menuItem.KeyboardShortcut) ?
+                                            $" ({menuItem.KeyboardShortcut})" :
+                                            string.Empty),
                             Height = 16,
                             Width = 16,
                             Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
@@ -111,9 +115,7 @@ namespace MarkdownMonster.AddIns
                             titem.Command = menuItem.Command;
                             AddKeyboardShortcut(menuItem, addin);
                         }
-
-
-
+                        
                         addin.Model.Window.ToolbarAddIns.Visibility = Visibility.Visible;
                         int toolIndex = addin.Model.Window.ToolbarAddIns.Items.Add(titem);
                     
@@ -223,7 +225,6 @@ namespace MarkdownMonster.AddIns
 
                 // Whatever command you need to bind to
                 kb.Command = menuItem.Command;
-
                 addin.Model.Window.InputBindings.Add(kb);
             }
         }

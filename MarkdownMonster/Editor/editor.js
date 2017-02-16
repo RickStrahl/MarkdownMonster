@@ -412,6 +412,9 @@ var te = window.textEditor = {
 
         setTimeout(te.updateDocumentStats, 100);
     },
+    setShowLineNumbers: function(showLineNumbers) { 
+        te.editor.renderer.setShowGutter(showLineNumbers);  
+    },
     execcommand: function(cmd,parm1,parm2) {
         te.editor.execCommand(cmd);
     },

@@ -132,17 +132,6 @@ namespace MarkdownMonster
             RestoreSettings();
             RecentDocumentsContextList();
             ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
-            
-            //Debug.WriteLine("Main Thread Id: " + Thread.CurrentThread.ManagedThreadId);
-
-            Dispatcher.InvokeAsync(() =>
-            {
-                while (!AddinManager.Current.AddinsLoadingComplete)
-                    Task.Delay(50);
-                AddinManager.Current.InitializeAddinsUi(this);
-
-            }, DispatcherPriority.ApplicationIdle);
-
 
             // Command Line Loading multiple files
             var args = Environment.GetCommandLineArgs();
@@ -207,7 +196,37 @@ namespace MarkdownMonster
                 mmApp.SetWorkingSet(10000000, 5000000);
             }, DispatcherPriority.Background);
 
-            Dispatcher.InvokeAsync(() => AddinManager.Current.RaiseOnWindowLoaded(), DispatcherPriority.ApplicationIdle);
+
+            new TaskFactory().StartNew(() =>
+            {
+                try
+                {
+                    AddinManager.Current.LoadAddins(Path.Combine(Environment.CurrentDirectory, "AddIns"));
+                    AddinManager.Current.LoadAddins(mmApp.Configuration.AddinsFolder);
+                    AddinManager.Current.AddinsLoadingComplete = true;
+
+                    try
+                    {
+                        AddinManager.Current.RaiseOnApplicationStart();
+                    }
+                    catch (Exception ex)
+                    {
+                        mmApp.Log("Addin loading failed", ex);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log("Addin loading failed", ex);
+                }
+                Dispatcher.Invoke(() =>
+                {
+                    AddinManager.Current.InitializeAddinsUi(this);
+                    
+                    AddinManager.Current.RaiseOnWindowLoaded();
+                }, DispatcherPriority.ApplicationIdle);
+            });
+
+            
         }
 
         protected override void OnContentRendered(EventArgs e)
