@@ -1028,7 +1028,7 @@ namespace MarkdownMonster
                                         // the page is not getting initiallized properly
                                         //PreviewBrowser.Refresh(true);
                                         PreviewBrowser.Tag = "EDITORSCROLL";
-                                        PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
+                                        PreviewBrowser.Navigate(new Uri(editor.MarkdownDocument.HtmlRenderFilename));
                                     }
                                 }
 
@@ -1036,9 +1036,8 @@ namespace MarkdownMonster
                             }
                         }
 
-                        PreviewBrowser.Tag = "EDITORSCROLL";
-                        PreviewBrowser.Navigate(editor.MarkdownDocument.HtmlRenderFilename);
-
+                        PreviewBrowser.Tag = "EDITORSCROLL";                        
+                        PreviewBrowser.Navigate(new Uri(editor.MarkdownDocument.HtmlRenderFilename));
                         return;
                     }
                 }
@@ -1552,14 +1551,14 @@ namespace MarkdownMonster
             // wbhandle has additional browser initialization code
             // using the WebBrowserHostUIHandler
             PreviewBrowser.LoadCompleted += PreviewBrowserOnLoadCompleted;
-            //PreviewBrowser.Navigate("about:blank");
+            //PreviewBrowser.Navigate("about:blank");            
         }
 
 
         private void PreviewBrowserOnLoadCompleted(object sender, NavigationEventArgs e)
         {
             string url = e.Uri.ToString();
-            if (url.Contains("about:blank") || !url.Contains("_MarkdownMonster_Preview"))
+            if (!url.Contains("_MarkdownMonster_Preview"))
                 return;
 
             bool shouldScrollToEditor = PreviewBrowser.Tag != null && PreviewBrowser.Tag.ToString() == "EDITORSCROLL";
