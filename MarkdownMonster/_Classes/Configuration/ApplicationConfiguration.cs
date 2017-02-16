@@ -309,16 +309,6 @@ namespace MarkdownMonster
         public bool SendTelemetry { get; set; }
 
         /// <summary>
-        /// Last folder used when opening a document
-        /// </summary>
-        public string LastFolder { get; set; }
-
-        /// <summary>
-        /// Last location where an image was opened.
-        /// </summary>
-        public string LastImageFolder { get; set; }
-
-        /// <summary>
         /// Remembers last Is link External setting when embedding links
         /// </summary>
         public bool LastLinkExternal { get; set; }
@@ -418,6 +408,19 @@ namespace MarkdownMonster
 
         public bool DisableHardwareAcceleration { get; set; }
 
+        #region Folder Locations
+
+        /// <summary>
+        /// Last folder used when opening a document
+        /// </summary>
+        public string LastFolder { get; set; }
+
+        /// <summary>
+        /// Last location where an image was opened.
+        /// </summary>
+        public string LastImageFolder { get; set; }
+
+        #endregion
 
         public ApplicationConfiguration()
         {

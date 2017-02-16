@@ -514,6 +514,12 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+        /// <summary>
+        /// Retrieves a list of addins from the addin repository. Note this list
+        /// is retrieved in chunks - first the summary list is retrieved and the
+        /// remaining data is filled in later from individual repos.
+        /// </summary>        
+        /// <returns></returns>
         public List<AddinItem> GetAddinList()
         {
             const string addinListRepoUrl =
@@ -563,6 +569,12 @@ namespace MarkdownMonster.AddIns
             return addinList;
         }
 
+
+        /// <summary>
+        /// Retrieves an initial minimal list of addins which is supplemented later
+        /// with data from individual repos.
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<AddinItem>> GetInitialAddinListAsync()
         {
             const string addinListRepoUrl =
@@ -588,6 +600,14 @@ namespace MarkdownMonster.AddIns
             return addinList;
         }
 
+
+        /// <summary>
+        /// Retrieves a list of addins from the addin repository. Note this list
+        /// is retrieved in chunks - first the summary list is retrieved and the
+        /// remaining data is filled in later from individual repos.
+        /// </summary>
+        /// <param name="addinList"></param>
+        /// <returns></returns>
         public async Task<List<AddinItem>> GetAddinListAsync(List<AddinItem> addinList = null)
         {
       
@@ -604,13 +624,15 @@ namespace MarkdownMonster.AddIns
                 ai =>                
                     {
                         try
-                        {                  
+                        {
                             // not using async here so we can wait for final list result          
                             // before returning
+                            Debug.WriteLine(ai.gitVersionUrl);
                             var dl = HttpUtils.JsonRequest<AddinItem>(new HttpRequestSettings
                             {
                                 Url = ai.gitVersionUrl
                             });
+                            
                             DataUtils.CopyObjectData(dl, ai, "id,name,gitVersionUrl,gitUrl");
 
                             string addinFolder = mmApp.Configuration.AddinsFolder;
