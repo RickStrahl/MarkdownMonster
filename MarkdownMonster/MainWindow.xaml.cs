@@ -265,7 +265,7 @@ namespace MarkdownMonster
 
                         string filename = doc.FilenamePathWithIndicator.Replace("*", "");
                         string template = filename +
-                                          "\r\n\r\nThis file has been modified by another program.\r\nDo you want reload it?";
+                                          "\r\n\r\nThis file has been modified by another program.\r\nDo you want to reload it?";
 
                         if (MessageBox.Show(this, template,
                                 "Reload",
