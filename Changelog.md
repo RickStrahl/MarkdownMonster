@@ -5,9 +5,14 @@
 ### 1.1.30
 <i><small>not released yet</small></i>
 
+* **New Commander: C# Script Execution Add-in**   
+Added a new addin that allows easy creation of automation scripts that can be tied to hotkeys. Use C# script code to launch external applications, load data and merge it into the document, or otherwise manipulate the active document. Think of it as addins without having to create a full project.
+
 * **Updated Markdown Monster Addin VSIX Template for VS 2017**   
 We've updated the VSIX template to work with the upcoming Visual Studio 2017. We've also made a few small tweaks to the template to include references to all the required WPF dependencies to make it easier creating UI based add-ins.
 
+* **Fix Browser Preview for Extended User Profile Names**  
+Fixed bug where extended characters in user name would fail to render the preview to encoding issues. Fixed.
 
 ### 1.1.28
 <i><small>February 13th, 2017</small></i>
