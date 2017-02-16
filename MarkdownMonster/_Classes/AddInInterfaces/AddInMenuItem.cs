@@ -27,6 +27,14 @@ namespace MarkdownMonster.AddIns
         public FontAwesomeIcon FontawesomeIcon { get; set; } = FontAwesomeIcon.None;
 
         /// <summary>
+        /// An optional keyboard shortcut in the 
+        /// 
+        /// format of Shift+Alt-H, F7, Alt-F1 etc.                
+        /// </summary>
+        public string KeyboardShortcut { get; set; }
+
+        
+        /// <summary>
         /// Event implementation that passes the button or menu item
         /// that is clicked.
         /// </summary>

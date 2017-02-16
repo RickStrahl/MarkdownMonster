@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -103,11 +104,16 @@ namespace MarkdownMonster.AddIns
                             Height = 16,
                             Width = 16,
                             Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
-                        };                        
+                        };
 
                         if (menuItem.Execute != null)
-                            titem.Command = menuItem.Command;                            
-                        
+                        {
+                            titem.Command = menuItem.Command;
+                            AddKeyboardShortcut(menuItem, addin);
+                        }
+
+
+
                         addin.Model.Window.ToolbarAddIns.Visibility = Visibility.Visible;
                         int toolIndex = addin.Model.Window.ToolbarAddIns.Items.Add(titem);
                     
@@ -176,9 +182,49 @@ namespace MarkdownMonster.AddIns
                                 //        item.IsEnabled = menuItem.CanExecute.Invoke(null);
                                 //}
                             }
-                        };
+                        };                        
                     }
                 }
+            }
+        }
+
+        private static void AddKeyboardShortcut(AddInMenuItem menuItem, MarkdownMonsterAddin addin)
+        {
+            if (!string.IsNullOrEmpty(menuItem.KeyboardShortcut))
+            {
+                var ksc = menuItem.KeyboardShortcut.ToLower();
+                KeyBinding kb = new KeyBinding();
+
+                if (ksc.Contains("alt"))
+                    kb.Modifiers = ModifierKeys.Alt;
+                if (ksc.Contains("shift"))
+                    kb.Modifiers |= ModifierKeys.Shift;                
+                if (ksc.Contains("ctrl") || ksc.Contains("ctl"))
+                    kb.Modifiers |= ModifierKeys.Control;
+                if (ksc.Contains("win"))
+                    kb.Modifiers |= ModifierKeys.Windows;
+
+                string key =
+                    ksc.Replace("+", "")
+                        .Replace("-", "")
+                        .Replace("_", "")
+                        .Replace(" ", "")
+                        .Replace("alt", "")
+                        .Replace("shift", "")
+                        .Replace("ctrl", "")
+                        .Replace("ctl", "");
+
+                key = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(key);
+                if (!string.IsNullOrEmpty(key))
+                {
+                    KeyConverter k = new KeyConverter();
+                    kb.Key = (Key) k.ConvertFromString(key);
+                }
+
+                // Whatever command you need to bind to
+                kb.Command = menuItem.Command;
+
+                addin.Model.Window.InputBindings.Add(kb);
             }
         }
 

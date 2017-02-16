@@ -107,15 +107,6 @@ namespace MarkdownMonster.AddIns
         }
         private string _description;
 
-
-        /// <summary>
-        /// An optional keyboard shortcut in the 
-        /// 
-        /// format of Shift+Alt-H, F7, Alt-F1 etc.                
-        /// </summary>
-        public string keyboardShortcut { get; set; }
-
-
         public string icon => gitVersionUrl.Replace("version.json", "icon.png");
 
 
