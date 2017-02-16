@@ -3,16 +3,27 @@
 # Markdown Monster Change Log
 
 ### 1.1.30
-<i><small>not released yet</small></i>
+<i><small>February 16, 2017</small></i>
 
-* **New 'Commander: C# Script Execution Add-in'**   
-Added a new [Commander Add-in](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin) that allows easy creation of automation scripts that can be tied to hotkeys. Use C# script code to launch external applications, load data and merge it into the document, or otherwise manipulate the active document. You get access to the same features as Add-ins, but without having to create a full project.
+* **New Commander C# Script Execution Add-in**   
+Added a new [Commander Add-in](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin) that allows easy creation of automation scripts that can be tied to hotkeys. Use C# script code to launch external applications, load data and merge it into the document, or otherwise manipulate the active document. You get access to the same features as Add-ins, but without having to create a full project. Use the Addin Manager to install this preview.
 
-* **Updated Markdown Monster Addin VSIX Template for VS 2017**   
-We've updated the VSIX template to work with the upcoming Visual Studio 2017. We've also made a few small tweaks to the template to include references to all the required WPF dependencies to make it easier creating UI based add-ins.
 
-* **Fix Browser Preview for Extended User Profile Names**  
+* **Updated Markdown Monster Addin Project Template for Visual Studio 2017**   
+We've updated the [Markdown Monster Addin VSIX Template](https://marketplace.visualstudio.com/items?itemName=RickStrahl.MarkdownMonsterAddinProject) in the Visual Studio Gallery to work with the upcoming Visual Studio 2017 release. We've also made a few small tweaks to the template to include references to all the required WPF dependencies to make it easier creating UI based add-ins without having to explicit add assembly references.
+
+* **Add Keyboard Shortcut support to Addins**   
+Addins can now choose to add a keyboard shortcut in order to activate their Execute method. Ideally addins should implement a separate configuration setting to allow the shortcut to be configurable. Added to Screen Capture, WebLog, Commander and Snippet addins. Look for `KeyboardShortcut` configuration settings in the respective addin configuration files/settings.
+
+* **Addins are now delay loaded**   
+We've pushed loading of addins later into the startup process to asynchronously load at the end of the Window load operation. This should speed up start up speed slightly (we were already loading in the background)
+
+* **Fix Browser Preview for User Accounts with Accented Characters**  
 Fixed bug where extended characters in user name would fail to render the preview to encoding issues. Fixed.
+
+* **Fix Assembly Resolving to map to latest versions**   
+Added additional Assembly resolution logic to allow loading latest versions of assemblies when Addins are bound to older versions. Previously, if assemblies got updated in MM addins would fail to load - now addins will load as long as there are no breaking changes in the interfaces.
+
 
 ### 1.1.28
 <i><small>February 13th, 2017</small></i>
