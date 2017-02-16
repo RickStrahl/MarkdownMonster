@@ -551,9 +551,11 @@ Do you want to View in Browser now?
                 if (res == null || !res.Value)
                     return;
 
-                Window.OpenTab(fd.FileName, rebindTabHeaders: true);
-
-                Window.AddRecentFile(fd.FileName);
+                foreach (var file in fd.FileNames)
+                {
+                    Window.OpenTab(file, rebindTabHeaders: true);
+                    Window.AddRecentFile(file);
+                }
             });
 
             CloseActiveDocumentCommand = new CommandBase((s, e) =>
