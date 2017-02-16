@@ -7,6 +7,7 @@
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
 * **[Download](http://markdownmonster.west-wind.com/download.aspx)**
 * **[Install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)**
+* **[What's New](Changelog.md)** (change log)
 * **[Video: Getting Started with Markdown Monster](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
 * **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
 * **[Documentation](https://markdownmonster.west-wind.com/docs/)**
@@ -14,9 +15,10 @@
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
-* **[Change Log](Changelog.md)**
 * **[License](#license)**
 * <a href="https://gitter.im/MarkdownMonster/MarkdownMonster"><img src="https://camo.githubusercontent.com/a05bc0f4476f07cf58e83b4d3f36cdaec0a86f7d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769747465722d4a6f696e253230436861742d677265656e2e7376673f7374796c653d666c61742d737175617265" /></a>
+
+Please **star this repo** if you use Markdown Monster and you like what you see here. Please help spread the word.
 
 Here's what Markdown Monster looks like:
 
@@ -70,8 +72,6 @@ Markdown Monster provides many useful features:
 * Many other file formats can also be edited:  
 JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
 * Use `mm document.md` from PowerShell or Command prompt to load documents
-
-Please **star this repo** if you use Markdown Monster and you like what you see here. Please help spread the word.
 
 ## Why another Markdown Editor?
 Markdown is everywhere these days, and it's becoming a favorite format for many developers, writers and documentation experts to create lots of different kinds of content in this format. Markdown is used in a lot of different places:
