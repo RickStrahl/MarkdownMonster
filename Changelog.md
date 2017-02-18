@@ -8,7 +8,6 @@
 * **New Commander C# Script Execution Add-in**   
 Added a new [Commander Add-in](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin) that allows easy creation of automation scripts that can be tied to hotkeys. Use C# script code to launch external applications, load data and merge it into the document, or otherwise manipulate the active document. You get access to the same features as Add-ins, but without having to create a full project. Use the Addin Manager to install this preview.
 
-
 * **Updated Markdown Monster Addin Project Template for Visual Studio 2017**   
 We've updated the [Markdown Monster Addin VSIX Template](https://marketplace.visualstudio.com/items?itemName=RickStrahl.MarkdownMonsterAddinProject) in the Visual Studio Gallery to work with the upcoming Visual Studio 2017 release. We've also made a few small tweaks to the template to include references to all the required WPF dependencies to make it easier creating UI based add-ins without having to explicit add assembly references.
 
