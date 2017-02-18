@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using MarkdownMonster.Annotations;
-using Newtonsoft.Json;
 using Westwind.Utilities;
 
 namespace WeblogAddin
