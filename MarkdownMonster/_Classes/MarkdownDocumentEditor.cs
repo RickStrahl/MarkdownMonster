@@ -32,6 +32,7 @@
 #endregion
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -830,87 +831,98 @@ namespace MarkdownMonster
             if (Clipboard.ContainsImage())
             {
                 string imagePath = null;
-                
-                var bmpSource = Clipboard.GetImage();
-                using (var bitMap = WindowUtilities.BitmapSourceToBitmap(bmpSource))
+
+                using (var bitMap = System.Windows.Forms.Clipboard.GetImage())
                 {
                     imagePath = AddinManager.Current.RaiseOnSaveImage(bitMap);
-                }
-                if (!string.IsNullOrEmpty(imagePath))
-                {
-                    SetSelection($"![]({imagePath})");
-                    PreviewMarkdownCallback(); // force a preview refresh
-                    return;
-                }
-                
-                string initialFolder = null;
-                if (!string.IsNullOrEmpty(MarkdownDocument.Filename) && MarkdownDocument.Filename != "untitled")
-                    initialFolder = Path.GetDirectoryName(MarkdownDocument.Filename);
 
-                var sd = new SaveFileDialog
-                {
-                    Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
-                    FilterIndex = 1,
-                    Title = "Save Image from Clipboard as",                    
-                    InitialDirectory = initialFolder,
-                    CheckFileExists = false,
-                    OverwritePrompt = true,
-                    CheckPathExists = true,
-                    RestoreDirectory = true
-                };
-                var result = sd.ShowDialog();
-                if (result != null && result.Value)
-                {
-                    imagePath = sd.FileName;
-
-                    try
+                    if (!string.IsNullOrEmpty(imagePath))
                     {
+                        SetSelection($"![]({imagePath})");
+                        PreviewMarkdownCallback(); // force a preview refresh
+                        return;
+                    }
+
+                    string initialFolder = null;
+                    if (!string.IsNullOrEmpty(MarkdownDocument.Filename) && MarkdownDocument.Filename != "untitled")
+                        initialFolder = Path.GetDirectoryName(MarkdownDocument.Filename);
+
+                    var sd = new SaveFileDialog
+                    {
+                        Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                        FilterIndex = 1,
+                        Title = "Save Image from Clipboard as",
+                        InitialDirectory = initialFolder,
+                        CheckFileExists = false,
+                        OverwritePrompt = true,
+                        CheckPathExists = true,
+                        RestoreDirectory = true
+                    };
+                    var result = sd.ShowDialog();
+                    if (result != null && result.Value)
+                    {
+                        imagePath = sd.FileName;
                         var ext = Path.GetExtension(imagePath)?.ToLower();
 
-                        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                        try
                         {
-                            BitmapEncoder encoder = null;
-                            if (ext == ".png")
-                                encoder = new PngBitmapEncoder();
-                            else if (ext == ".jpg")
-                                encoder = new JpegBitmapEncoder();
-                            else if (ext == ".gif")
-                                encoder = new GifBitmapEncoder();
+                            File.Delete(imagePath);
 
-                            encoder.Frames.Add(BitmapFrame.Create(bmpSource));
-                            encoder.Save(fileStream);
+                            var format = ImageUtils.GetImageFormatFromFilename(imagePath);
+                            bitMap.Save(imagePath, format);
+                            bitMap.Dispose();
+
 
                             if (ext == ".png")
-                                mmFileUtils.OptimizePngImage(sd.FileName,5); // async
-                        }                        
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message, mmApp.ApplicationName);
-                        return;                                                                                        
-                    }
+                                mmFileUtils.OptimizePngImage(sd.FileName, 5); // async
+                            //try
+                            //{
+                            //    
+                            //    using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                            //    {
+                            //        BitmapEncoder encoder = null;
+                            //        if (ext == ".png")
+                            //            encoder = new PngBitmapEncoder();
+                            //        else if (ext == ".jpg")
+                            //            encoder = new JpegBitmapEncoder();
+                            //        else if (ext == ".gif")
+                            //            encoder = new GifBitmapEncoder();
 
-                    string relPath = Path.GetDirectoryName(sd.FileName);
-                    if (initialFolder != null)
-                    {
-                        try                                                                                                
-                        {
-                            relPath = FileUtils.GetRelativePath(sd.FileName, initialFolder);
+                            //        encoder.Frames.Add(BitmapFrame.Create(bmpSource));
+                            //        encoder.Save(fileStream);
+
+
+                            //    }
                         }
                         catch (Exception ex)
                         {
-                            mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}", ex);
-                        }                        
-                        imagePath = relPath;
+                            MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message,
+                                mmApp.ApplicationName);
+                            return;
+                        }
+
+                        string relPath = Path.GetDirectoryName(sd.FileName);
+                        if (initialFolder != null)
+                        {
+                            try
+                            {
+                                relPath = FileUtils.GetRelativePath(sd.FileName, initialFolder);
+                            }
+                            catch (Exception ex)
+                            {
+                                mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}", ex);
+                            }
+                            imagePath = relPath;
+                        }
+
+                        if (imagePath.Contains(":\\"))
+                            imagePath = "file:///" + imagePath;
+                        else
+                            imagePath = imagePath.Replace("\\", "/");
+
+                        SetSelection($"![]({imagePath})");
+                        PreviewMarkdownCallback(); // force a preview refresh
                     }
-
-                    if (imagePath.Contains(":\\"))
-                        imagePath = "file:///" + imagePath;
-                    else
-                       imagePath = imagePath.Replace("\\", "/");
-
-                    SetSelection($"![]({imagePath})");
-                    PreviewMarkdownCallback(); // force a preview refresh
                 }
             }
             else if (Clipboard.ContainsText())
