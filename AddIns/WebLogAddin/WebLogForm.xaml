@@ -261,8 +261,19 @@
                            SelectionChanged="ComboWebLogName_SelectionChanged"                               
                            ItemsSource="{Binding Configuration.Weblogs}" 
                            />
-                        <Button Grid.Column="1" Margin="5,0,0,0" Click="Button_NewWeblog">New</Button>
-                        <Button Grid.Column="2" Margin="5,0,0,0" Click="Button_DeleteWeblog">Delete</Button>
+                        <Button Grid.Column="1" Margin="5,0,0,0" Click="Button_NewWeblog">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="PlusCircle" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" Margin="0,2,5,0" />
+                                <TextBlock>New</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Grid.Column="2" Margin="5,0,0,0" Click="Button_DeleteWeblog">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed" Margin="0,2,5,0" />
+                                <TextBlock>Delete</TextBlock>
+                            </StackPanel>
+                        </Button>
                     </Grid>
                     <Separator Margin="0,20"/>
 
@@ -295,7 +306,7 @@
                         <TextBox Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15" ToolTip="The API Endpoint URL for MetaWeblog or WordPress APIs. IMPORTANT: This has to be the RPC endpoint URL, not a discovery URL." />
                         <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonDiscoverEndpoint" 
                                 Click="ButtonDiscoverEndpoint_Click"  
-                                ToolTip="Discover Weblog Endpoint Url"
+                                ToolTip="Discover and check Weblog Endpoint Url. See status bar after clicking."
                                 FontSize="15" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Content="&#xF013;" />
                         <Button Grid.Column="2" Margin="5,0,0,0" Name="ButtonApiUrlInfo" 
                                 Click="ButtonApiUrlInfo_Click" 

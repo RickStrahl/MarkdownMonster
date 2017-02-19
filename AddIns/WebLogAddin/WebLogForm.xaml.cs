@@ -358,7 +358,7 @@ namespace WeblogAddin
 
         private void ButtonApiUrlInfo_Click(object sender, RoutedEventArgs e)
         {
-            ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4sh0plup7.htm");
+            ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4rg0qzg1i.htm");
         }
 
         private void ButtonDiscoverEndpoint_Click(object sender, RoutedEventArgs e)
