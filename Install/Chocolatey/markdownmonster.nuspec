@@ -10,13 +10,13 @@
     <projectUrl>http://markdownmonster.west-wind.com</projectUrl>    
     <iconUrl>http://markdownmonster.west-wind.com/images/MarkdownMonster_icon_128.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>    
-    <description>Markdown Monster is an easy to use and extensible **Markdown Editor and Viewer** and **Weblog Publishing** tool. The editor sports syntax colored editing of Markdown text, inline spell checking, live HTML preview, embedding and pasting of images, and built-in support for screen captures. You can expand predefined dynamic text templates directly into your documents. Above all though, the editor's goal is to get out of your way of your writing and let you focus on your content creation.
+    <description>Markdown Monster is an easy to use and extensible **Markdown Editor and Viewer** and **Weblog Publishing** tool. The editor sports syntax colored editing of Markdown text, inline spell checking, live HTML preview, embedding and pasting of images, code and links, and has built-in support for screen captures. There is support for text snippet expansion and C# script execution to automate and extend Markdown Monster. Above all though, the editor's goal is to get out of your way of your writing and let you focus on your content creation and provide you with tools to extend its capabilities and features.
 
-You can publish your Markdown directly to your Weblog that supports WordPress or MetaWebLog APIs. You can also manage multiple blogs and even download existing posts as Markdown.
+Markdown Monster can also publish your Markdown directly to your Weblog that supports WordPress or MetaWebLog APIs. You can manage multiple blogs and even download existing HTML posts as Markdown.
 
 Markdown Monster can also be extended using an easy, but powerful .NET based add-in model and a few useful addins are available to provide features like storing images in Azure Blobs, a reusable Snippets manager, and more.
 
-Markdown Monster can be downloaded and evaluated for free and this package is unlimited and fully functional, but a [license](http://store.west-wind.com/product/markdown_monster) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub.
+Markdown Monster can be downloaded and evaluated for free. This package is **unlimited and fully functional**, but a [license](http://store.west-wind.com/product/markdown_monster) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub.
 
 A portable, non-admin Chocolatey install is also available in **MarkdownMonster.Portable**.
     </description>
