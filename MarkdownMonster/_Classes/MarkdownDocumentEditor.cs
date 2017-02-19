@@ -85,7 +85,7 @@ namespace MarkdownMonster
             if (AceEditor == null)
             {
                 WebBrowser.LoadCompleted += OnDocumentCompleted;
-                WebBrowser.Navigate("file:///" + Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm"));
+                WebBrowser.Navigate(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm")));
             }
             FindSyntaxFromFileType(MarkdownDocument.Filename);            
         }
@@ -191,7 +191,7 @@ namespace MarkdownMonster
             {
                 if (position == null)
                     position = -2; // keep position
-                AceEditor.setvalue(markdown, position);
+                AceEditor.setvalue(markdown ?? string.Empty, position);
             }
         }
 
