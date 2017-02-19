@@ -41,6 +41,8 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="Westwind.Utilities, Version=2.69.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Westwind.Utilities.2.69\lib\net45\Westwind.Utilities.dll</HintPath>
       <Private>True</Private>
@@ -69,6 +71,7 @@
     <Compile Include="ApplicationUpdaterTest.cs" />
     <Compile Include="MarkdownTests.cs" />
     <Compile Include="ActiveDocumentTests.cs" />
+    <Compile Include="ClipboardTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -78,6 +81,11 @@
       <Project>{cb4eab0e-1796-476e-83a0-20da826e1c02}</Project>
       <Name>MarkdownMonster</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ClipboardImage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
