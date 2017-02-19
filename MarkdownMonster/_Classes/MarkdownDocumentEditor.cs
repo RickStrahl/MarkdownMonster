@@ -874,25 +874,7 @@ namespace MarkdownMonster
 
 
                             if (ext == ".png")
-                                mmFileUtils.OptimizePngImage(sd.FileName, 5); // async
-                            //try
-                            //{
-                            //    
-                            //    using (var fileStream = new FileStream(imagePath, FileMode.Create))
-                            //    {
-                            //        BitmapEncoder encoder = null;
-                            //        if (ext == ".png")
-                            //            encoder = new PngBitmapEncoder();
-                            //        else if (ext == ".jpg")
-                            //            encoder = new JpegBitmapEncoder();
-                            //        else if (ext == ".gif")
-                            //            encoder = new GifBitmapEncoder();
-
-                            //        encoder.Frames.Add(BitmapFrame.Create(bmpSource));
-                            //        encoder.Save(fileStream);
-
-
-                            //    }
+                                mmFileUtils.OptimizePngImage(sd.FileName, 5); // async                            
                         }
                         catch (Exception ex)
                         {
