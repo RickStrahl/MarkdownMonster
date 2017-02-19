@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 using MarkdownMonster.Windows;
 
 namespace MarkdownMonster
@@ -57,7 +57,7 @@ namespace MarkdownMonster
             {
                 mmApp.Log("Failed to convert Html to Markdown", ex);
                 if (!noErrorUI)
-                    MessageBox.Show("Unable to convert Html to Markdown. Returning Html.","Html to Markdown Conversion Failed.",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    MessageBox.Show("Unable to convert Html to Markdown. Returning Html.","Html to Markdown Conversion Failed.",MessageBoxButton.OK,MessageBoxImage.Warning);
             }
 
             form.Close();
