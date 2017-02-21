@@ -280,11 +280,21 @@ namespace MarkdownMonster
                                 continue;
                             }
 
-                            dynamic pos = editor.AceEditor.getscrolltop(false);
-                            editor.SetMarkdown(doc.CurrentText);
-                            editor.AceEditor.updateDocumentStats(false);
-                            if (pos > 0)
-                                editor.AceEditor.setscrolltop(pos);
+                            try
+                            {
+                                dynamic pos = editor.AceEditor?.getscrolltop(false);
+                                editor.SetMarkdown(doc.CurrentText);
+                                editor.AceEditor?.updateDocumentStats(false);
+                                if (pos != null && pos > 0)
+                                    editor.AceEditor?.setscrolltop(pos);
+                            }
+                            catch (Exception ex)
+                            {
+                                mmApp.Log("Changed file notification update failure", ex);
+                                MessageBox.Show(this, "Unable to re-load current document.",
+                                    "Error re-loading file",
+                                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                            }
 
                             if (tab == selectedTab)
                                 PreviewMarkdown(editor, keepScrollPosition: true);
