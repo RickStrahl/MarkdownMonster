@@ -18,7 +18,7 @@ Addins can now choose to add a keyboard shortcut in order to activate their Exec
 * **Addins are now delay loaded**   
 We've pushed loading of addins later into the startup process to asynchronously load at the end of the Window load operation. This should speed up start up speed slightly (we were already loading in the background)
 
-* **Addin.OnCreateMarkdownParser() to allow Customizing Markdown Parser**  
+* **Addin.GetMarkdownParser() to allow Customizing Markdown Parser**  
 Added a new Addin method to allow addins to override loading of a markdown parser or customize how MarkDig is configured. Addin method when overridden can simply return a `IMarkdownParser` interface.
 
 * **Fix Browser Preview for User Accounts with Accented Characters**  
