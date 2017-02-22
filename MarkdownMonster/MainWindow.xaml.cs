@@ -225,7 +225,6 @@ namespace MarkdownMonster
                     AddinManager.Current.RaiseOnWindowLoaded();
                 }, DispatcherPriority.ApplicationIdle);
             });
-
             
         }
 
@@ -1503,9 +1502,7 @@ namespace MarkdownMonster
         #endregion
 
         #region StatusBar Display
-
-        //private Timer statusTimer;
-
+        
         public void ShowStatus(string message = null, int milliSeconds = 0)
         {
             if (message == null)
@@ -1518,18 +1515,11 @@ namespace MarkdownMonster
 
             if (milliSeconds > 0)
             {
-                Dispatcher.DelayAsync(milliSeconds, (win) =>
+                Dispatcher.DelayWithPriority(milliSeconds, (win) =>
                 {
                     var window = win as MainWindow;
                     window.ShowStatus(null, 0);
-                },this,DispatcherPriority.Normal);
-
-                //statusTimer?.Dispose();
-                //statusTimer = new Timer((object win) =>
-                //{
-                //    var window = win as MainWindow;
-                //    window.Dispatcher.Invoke(() => { window.ShowStatus(null, 0); });
-                //}, this, milliSeconds, Timeout.Infinite);
+                }, this);              
             }
             WindowUtilities.DoEvents();
         }

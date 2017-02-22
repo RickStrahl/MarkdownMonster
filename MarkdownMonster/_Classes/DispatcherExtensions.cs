@@ -26,16 +26,10 @@ namespace MarkdownMonster.Windows
         public static void Delay(this Dispatcher disp, int delayMs,
                                  Action<object> action, object parm = null)
         {
-            long id = DataUtils.GenerateUniqueNumericId();
-            var timer = new System.Threading.Timer((arg) =>
+            var ignore = Task.Delay(delayMs).ContinueWith((t) =>
             {
-                using (var t = Timers[id])
-                {
-                    Timers.Remove(id);
-                    disp.Invoke(action, arg);                    
-                }
-            }, parm, delayMs, System.Threading.Timeout.Infinite);
-            Timers.Add(id, timer);
+                disp.Invoke(action, parm);
+            });
         }
         
         /// <summary>
@@ -47,20 +41,32 @@ namespace MarkdownMonster.Windows
         /// <param name="action">Single parm action to perform ; (arg) => {}</param>
         /// <param name="parm">The parameter to pass</param>
         /// <param name="priority">optional Dispatcher priority</param>
-        public static void DelayAsync(this Dispatcher disp, int delayMs,
+        public static void DelayWithPriority(this Dispatcher disp, int delayMs,
                           Action<object> action, object parm = null, 
                           DispatcherPriority priority = DispatcherPriority.ApplicationIdle)
         {
-            long id = DataUtils.GenerateUniqueNumericId();
-            var timer = new System.Threading.Timer((arg) =>
+            var ignore = Task.Delay(delayMs).ContinueWith((t) =>
             {
-                using (var t = Timers[id])
-                {
-                    Timers.Remove(id);
-                    disp.BeginInvoke(action, priority, arg);
-                }
-            },parm, delayMs, System.Threading.Timeout.Infinite);
-            Timers.Add(id, timer);            
+                disp.BeginInvoke(action, priority, parm);
+            });
+            
+        }
+
+        /// <summary>
+        /// Dispatcher.Delay Extension method that delay executes 
+        /// an action. 
+        /// </summary>        
+        /// <param name="disp">The Dispatcher instance</param>
+        /// <param name="delayMs">milliseconds to delay before executing</param>
+        /// <param name="action">Single parm action to perform ; (arg) => {}</param>
+        /// <param name="parm">The parameter to pass</param>
+        /// <param name="priority">optional Dispatcher priority</param>
+        public static async Task DelayAsync(this Dispatcher disp, int delayMs,
+                          Action<object> action, object parm = null,
+                          DispatcherPriority priority = DispatcherPriority.ApplicationIdle)
+        {
+            await Task.Delay(delayMs);
+            await disp.BeginInvoke(action, priority, parm);
         }
     }
 }
