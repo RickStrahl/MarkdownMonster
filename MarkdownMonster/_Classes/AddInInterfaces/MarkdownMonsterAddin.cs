@@ -190,6 +190,15 @@ namespace MarkdownMonster.AddIns
         public virtual void OnDocumentUpdated()
         {            
         }
+
+        /// <summary>
+        /// Called when a new instance of the Markdown Parser is instantiated
+        /// </summary>
+        /// <returns>IMarkdownParser instance or null. Passed the instance is used for parsing</returns>
+        public virtual IMarkdownParser OnCreateMarkdownParser()
+        {
+            return null;           
+        }
         #endregion
 
         #region Helper Methods
@@ -352,5 +361,7 @@ namespace MarkdownMonster.AddIns
         {
             return Id ?? "No Addin Id specified";
         }
+
+        
     }   
 }

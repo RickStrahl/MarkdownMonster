@@ -445,6 +445,23 @@ namespace MarkdownMonster.AddIns
 
         }
 
+
+        public IMarkdownParser RaiseOnCreateMarkdownParser()
+        {
+            foreach (var addin in AddIns)
+            {
+                try
+                {
+                    if (addin != null)
+                        return addin.OnCreateMarkdownParser();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::OnCreateMarkdownParser Error: " + ex.GetBaseException().Message);                    
+                }
+            }
+            return null;
+        }
         #endregion
 
         #region Addin Manager
@@ -881,6 +898,5 @@ namespace MarkdownMonster.AddIns
         }
 
         #endregion
-
     }
 }
