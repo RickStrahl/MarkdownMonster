@@ -1504,7 +1504,7 @@ namespace MarkdownMonster
 
         #region StatusBar Display
 
-        private Timer statusTimer;
+        //private Timer statusTimer;
 
         public void ShowStatus(string message = null, int milliSeconds = 0)
         {
@@ -1518,12 +1518,18 @@ namespace MarkdownMonster
 
             if (milliSeconds > 0)
             {
-                statusTimer?.Dispose();
-                statusTimer = new Timer((object win) =>
+                Dispatcher.DelayAsync(milliSeconds, (win) =>
                 {
                     var window = win as MainWindow;
-                    window.Dispatcher.Invoke(() => { window.ShowStatus(null, 0); });
-                }, this, milliSeconds, Timeout.Infinite);
+                    window.ShowStatus(null, 0);
+                },this,DispatcherPriority.Normal);
+
+                //statusTimer?.Dispose();
+                //statusTimer = new Timer((object win) =>
+                //{
+                //    var window = win as MainWindow;
+                //    window.Dispatcher.Invoke(() => { window.ShowStatus(null, 0); });
+                //}, this, milliSeconds, Timeout.Infinite);
             }
             WindowUtilities.DoEvents();
         }
