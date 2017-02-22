@@ -387,7 +387,7 @@ var te = window.textEditor = {
 
         te.editor.getSession().setMode("ace/mode/" + lang);
     },
-    settheme: function (theme, font, fontSize, wrapText, highlightActiveLine,showLineNumbers,keyboardHandler) {
+    settheme: function (theme, font, fontSize, wrapText, highlightActiveLine,keyboardHandler) {
         te.editor.setTheme("ace/theme/" + theme);
 
         te.editor.setOptions({
@@ -401,8 +401,7 @@ var te = window.textEditor = {
         session.setUseWrapMode(wrapText);
         session.setOption("indentedSoftWrap", true);        
 
-        te.editor.setHighlightActiveLine(highlightActiveLine);
-        te.editor.renderer.setShowGutter(showLineNumbers);
+        te.editor.setHighlightActiveLine(highlightActiveLine);        
 
         keyboardHandler = keyboardHandler.toLowerCase();
         if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")

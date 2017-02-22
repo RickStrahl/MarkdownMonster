@@ -91,7 +91,11 @@ namespace MarkdownMonster
         {
             get
             {
-                return Path.GetFileName(Filename) + (IsDirty ? "*" : "");                
+                var fname = Filename;
+                if (string.IsNullOrEmpty(Filename))
+                    fname = "Untitled";
+
+                return Path.GetFileName(fname) + (IsDirty ? "*" : "");                
             }
         }
 
@@ -105,7 +109,7 @@ namespace MarkdownMonster
         {
             get
             {
-                if (Filename == "untitled")
+                if (string.IsNullOrEmpty(Filename) || Filename == "untitled")
                     return FilenameWithIndicator;
 
                 string path = Path.GetFileName(Path.GetDirectoryName(Filename));

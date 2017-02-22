@@ -113,6 +113,7 @@ namespace MarkdownMonster
                 if (EditorSyntax != "markdown")
                     AceEditor?.setlanguage(EditorSyntax);
                 RestyleEditor(true);
+                SetShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
 
 
                 WebBrowser.Visibility = Visibility.Visible;
@@ -245,6 +246,7 @@ namespace MarkdownMonster
                 {
                     var editor = tab.Tag as MarkdownDocumentEditor;
                     editor.RestyleEditor();
+                    editor.AceEditor.setShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
                 }
             }
 
@@ -562,6 +564,20 @@ namespace MarkdownMonster
         }
 
         /// <summary>
+        /// Sets line number gutter on and off. Separated out from Restyle Editor to 
+        /// allow line number config to be set separately from main editor settings
+        /// for specialty file editing.
+        /// </summary>
+        /// <param name="show"></param>
+        public void SetShowLineNumbers(bool? show = null)
+        {
+            if (show == null)
+                show = mmApp.Configuration.EditorShowLineNumbers;
+
+            AceEditor?.setShowLineNumbers(show.Value);
+        }
+
+        /// <summary>
         /// Restyles the current editor with configuration settings
         /// from the mmApp.Configuration object (or Model.Configuration
         /// from an addin).
@@ -593,7 +609,6 @@ namespace MarkdownMonster
                             mmApp.Configuration.EditorFontSize * dpiRatio,
                             mmApp.Configuration.EditorWrapText,
                             mmApp.Configuration.EditorHighlightActiveLine,
-                            mmApp.Configuration.EditorShowLineNumbers,
                             mmApp.Configuration.EditorKeyboardHandler);
 
                         if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
@@ -611,6 +626,7 @@ namespace MarkdownMonster
                     ? System.Windows.Threading.DispatcherPriority.Send
                     : System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
+
         #endregion
 
         #region Callback functions from the Html Editor
