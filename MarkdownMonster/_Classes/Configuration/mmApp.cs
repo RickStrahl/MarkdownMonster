@@ -239,6 +239,11 @@ Markdown Monster v{version}
             return v.ToString();            
         }
 
+        public static string GetVersionForDisplay()
+        {
+            return GetVersion().Replace(".0", "");
+        }
+
         public static string GetVersionDate()
         {
             var fi = new FileInfo(Assembly.GetExecutingAssembly().Location);
