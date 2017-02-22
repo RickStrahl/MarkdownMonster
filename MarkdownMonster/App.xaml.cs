@@ -138,7 +138,17 @@ namespace MarkdownMonster
             //           worked before either.
             string filename = args.Name.Split(',')[0] + ".dll".ToLower();
 
-
+            
+            // try load the assembly from install path (this should always be automatic)
+            try
+            {
+                // this allows addins to load before form has loaded
+                return Assembly.LoadFrom(filename);
+            }
+            catch
+            { }
+            
+            // try load from install addins folder
             string asmFile = FindFileInPath(filename, ".\\Addins");
             if (!string.IsNullOrEmpty(asmFile))
             {
@@ -146,24 +156,11 @@ namespace MarkdownMonster
                 {
                     return Assembly.LoadFrom(asmFile);
                 }
-                catch (Exception ex)
-                {                    
-                    return null;
-                }
+                catch
+                { }
             }
 
-            
-
-            // try to just load the assembly
-            try
-            {
-                // this allows addins to load before form has loaded
-                return Assembly.LoadFrom(filename);
-            }
-            catch
-            {
-                return null;
-            }
+            return null;
         }
 
         /// <summary>
