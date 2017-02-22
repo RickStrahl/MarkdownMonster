@@ -2,8 +2,9 @@
 
 # Markdown Monster Change Log
 
-### 1.1.30
-<i><small>February 16, 2017</small></i>
+### 1.2
+<i><small>February 22nd, 2017</small></i>   
+<small>Version Rollup release</small>
 
 * **New Commander C# Script Execution Add-in**   
 Added a new [Commander Add-in](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin) that allows easy creation of automation scripts that can be tied to hotkeys. Use C# script code to launch external applications, load data and merge it into the document, or otherwise manipulate the active document. You get access to the same features as Add-ins, but without having to create a full project. Use the Addin Manager to install this preview.
@@ -16,6 +17,9 @@ Addins can now choose to add a keyboard shortcut in order to activate their Exec
 
 * **Addins are now delay loaded**   
 We've pushed loading of addins later into the startup process to asynchronously load at the end of the Window load operation. This should speed up start up speed slightly (we were already loading in the background)
+
+* **Addin.OnCreateMarkdownParser() to allow Customizing Markdown Parser**  
+Added a new Addin method to allow addins to override loading of a markdown parser or customize how MarkDig is configured. Addin method when overridden can simply return a `IMarkdownParser` interface.
 
 * **Fix Browser Preview for User Accounts with Accented Characters**  
 Fixed bug where extended characters in user name would fail to render the preview to encoding issues. Fixed.
@@ -195,7 +199,8 @@ Reduced the main executable size by 40% by removing a number of unused and dupli
 > This version switches to .NET 4.6.2. While we expect that most users won't be affected by this switch as they have 4.6.2 installed, any previously built Markdown Monster add-ins have to be recompiled against 4.6.2 to compile properly. Installed addins should continue to work however, so this only affects **addin authors** at compile time.
 
 ### 1.1
-<i><small>January 2nd, 2017</small></i>
+<i><small>January 2nd, 2017</small></i>  
+<small>Version Rollup release</small>
 
 * **Add Presentation Mode**   
 Added presentation mode that previews Markdown in a full screen preview browser. You can toggle Presentation Mode with F11 or by using menu and title bar buttons.
