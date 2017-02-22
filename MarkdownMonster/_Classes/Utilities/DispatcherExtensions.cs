@@ -65,7 +65,7 @@ namespace MarkdownMonster.Windows
                           Action<object> action, object parm = null,
                           DispatcherPriority priority = DispatcherPriority.ApplicationIdle)
         {
-            await Task.Delay(delayMs);
+            await Task.Delay(delayMs).ConfigureAwait(false);
             await disp.BeginInvoke(action, priority, parm);
         }
     }
