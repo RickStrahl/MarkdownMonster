@@ -1467,6 +1467,12 @@ namespace MarkdownMonster
             PreviewMarkdownAsync();
         }
 
+        private void MarkdownParserName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Configuration != null && !string.IsNullOrEmpty(Configuration.MarkdownParserName))
+                MarkdownParserFactory.GetParser(addinId: Configuration.MarkdownParserName, forceLoad: true);
+        }
+
 
         private void HandleNamedPipe_OpenRequest(string filesToOpen)
         {

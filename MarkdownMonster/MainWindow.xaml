@@ -474,6 +474,7 @@
                             <ColumnDefinition Width="4"  />
                             <ColumnDefinition Width="150"  />
                             <ColumnDefinition Width="100"  />
+                            <ColumnDefinition Width="130"  />
                             <ColumnDefinition Width="130" />
                             <ColumnDefinition Width="130" />
                             <ColumnDefinition Width="Auto" />
@@ -496,16 +497,26 @@
                             ToolTip="Document Encoding"></TextBlock>
             </StatusBarItem>
             <StatusBarItem Grid.Column="5">
-                <ComboBox  HorizontalAlignment="Right"  Width="125" ToolTip="Editor themes"
-                           SelectedItem="{Binding Configuration.EditorTheme}"
+                <ComboBox  HorizontalAlignment="Right"  Width="125"
+                           ToolTip="Registered Markdown Parsers"
+                           SelectedItem="{Binding Configuration.MarkdownParserName}" 
                            IsSynchronizedWithCurrentItem="True" 
+                           ItemsSource="{Binding MarkdownParserNames}"
+                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                           SelectionChanged="MarkdownParserName_SelectionChanged" />
+
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="6">
+                <ComboBox  HorizontalAlignment="Right"  Width="125" ToolTip="Editor Themes"
+                           SelectedItem="{Binding Configuration.EditorTheme}"
+                           IsSynchronizedWithCurrentItem="True"                            
                            ItemsSource="{Binding EditorThemeNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="6">
+            <StatusBarItem Grid.Column="7">
                 <ComboBox  HorizontalAlignment="Right"  Width="125"
-                           ToolTip="Preview rendering theme"
+                           ToolTip="Preview rendering Themes"
                            SelectedItem="{Binding Configuration.RenderTheme}" 
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding RenderThemeNames}"
@@ -513,7 +524,7 @@
                            SelectionChanged="RenderTheme_SelectionChanged" />
 
             </StatusBarItem>
-            <StatusBarItem Grid.Column="7">
+            <StatusBarItem Grid.Column="8">
                 <ComboBox  HorizontalAlignment="Right"  Width="44" ToolTip="Preview sync mode"                            
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,15,0"    
                            SelectedValue="{Binding Configuration.PreviewSyncMode}" 

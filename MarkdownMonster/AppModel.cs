@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using FontAwesome.WPF;
+using MarkdownMonster.AddIns;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
@@ -259,6 +260,21 @@ namespace MarkdownMonster
             }
         }
         private readonly List<string> _editorThemeNames = new List<string>();
+
+
+        /// <summary>
+        /// List of registered Markdown Parsers
+        /// </summary>
+        public List<string> MarkdownParserNames
+        {
+            get
+            {
+                if (_parserNames == null)
+                    _parserNames = MarkdownParserFactory.GetParserNames();
+                return _parserNames;
+            }
+        }
+        private List<string> _parserNames;
 
         #region Initialization
 
@@ -713,7 +729,7 @@ Do you want to View in Browser now?
         public event PropertyChangedEventHandler PropertyChanged;
 
         
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -273,6 +273,13 @@ namespace MarkdownMonster
         public bool RenderLinksExternal { get; set; }
 
         /// <summary>
+        /// The name of the Markdown Parser used to render
+        /// output. New parsers or parser configurations can be 
+        /// added via Addins.
+        /// </summary>
+        public string MarkdownParserName { get; set; }
+
+        /// <summary>
         /// If greater than 0 re-opens up to number of files that were open when last closed.
         /// </summary>
         public int RememberLastDocuments { get; set; }
@@ -432,6 +439,7 @@ namespace MarkdownMonster
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             CommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Markdown Monster");
 
+            MarkdownParserName = "MarkDig";
             PreviewSyncMode = PreviewSyncMode.EditorAndPreview;
 
             AutoSaveBackups = true;
