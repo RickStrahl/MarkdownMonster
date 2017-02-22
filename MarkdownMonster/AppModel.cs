@@ -121,7 +121,6 @@ namespace MarkdownMonster
                     return;
 
                 _activeDocument = value;
-
           
                 OnPropertyChanged(nameof(ActiveDocument));
                 OnPropertyChanged(nameof(ActiveEditor));
