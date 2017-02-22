@@ -19,6 +19,11 @@ namespace MarkdownMonster.AddIns
         public string Id { get; set; } = StringUtils.NewStringId();
 
         /// <summary>
+        /// The display name of the Addin
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// The application model which gives you access to Markdown Monster.
         /// Includes access to Configuration and the Main Window
         /// </summary>
@@ -192,10 +197,11 @@ namespace MarkdownMonster.AddIns
         }
 
         /// <summary>
-        /// Called when a new instance of the Markdown Parser is instantiated
+        /// If this addin wants to provide a custom Markdown Parser this method can 
+        /// be overriden to do it.
         /// </summary>
         /// <returns>IMarkdownParser instance or null. Passed the instance is used for parsing</returns>
-        public virtual IMarkdownParser OnCreateMarkdownParser()
+        public virtual IMarkdownParser GetMarkdownParser()
         {
             return null;           
         }
