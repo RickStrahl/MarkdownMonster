@@ -283,9 +283,7 @@ namespace MarkdownMonster
         {
             get
             {
-                if (AddinManager.Current
-                    .GetMarkDownParserAddins()
-                    .Count() > 0)
+                if (MarkdownParserFactory.GetParserNames().Count > 1)
                 {
                     return 130;
                 }
