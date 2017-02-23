@@ -721,7 +721,7 @@ namespace MarkdownMonster
             int lines = Convert.ToInt32(stats.lines);
             int chars = Convert.ToInt32(stats.characters);
 
-            Window.StatusStats.Text = $"{words:n0} words • {lines:n0} lines • {chars:n0} chars" ;
+            Window.StatusStats.Text = $"{words:n0} words   {lines:n0} lines   {chars:n0} chars" ;
             
             string enc = string.Empty;
             bool hasBom = true;
