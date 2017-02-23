@@ -879,7 +879,7 @@ namespace MarkdownMonster.AddIns
 
             return true;
         }
-
+        
         #endregion
     }
 }

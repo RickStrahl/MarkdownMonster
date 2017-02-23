@@ -275,6 +275,23 @@ namespace MarkdownMonster
         }
         private List<string> _parserNames;
 
+        /// <summary>
+        /// Returns the width of the column containing
+        /// the Markdown Parser selection combo box
+        /// </summary>
+        public int MarkdownParserColumnWidth
+        {
+            get
+            {
+                if (MarkdownParserFactory.GetParserNames().Count > 1)
+                {
+                    return 130;
+                }
+                
+                return 0;
+            }
+        }
+
         #region Initialization
 
         public AppModel(MainWindow window)

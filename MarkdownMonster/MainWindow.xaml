@@ -473,8 +473,9 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="4"  />
                             <ColumnDefinition Width="230"  />
-                            <ColumnDefinition Width="100"  />
-                            <ColumnDefinition Width="130"  />
+                            <ColumnDefinition Width="100"/>
+                            <!-- Markdown Parser column, width = 130 -->
+                            <ColumnDefinition Width="{Binding MarkdownParserColumnWidth}"/>
                             <ColumnDefinition Width="130" />
                             <ColumnDefinition Width="130" />
                             <ColumnDefinition Width="Auto" />
