@@ -55,7 +55,7 @@ namespace MarkdownMonster
             
             var parserStrings = new List<string>()
             {
-                {"MarkDig"}
+                {DefaultMarkdownParserName}
             };
 
             if (AddinManager.Current.AddIns.Count == 0)
