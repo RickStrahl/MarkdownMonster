@@ -72,6 +72,7 @@
     <Compile Include="MarkdownTests.cs" />
     <Compile Include="ActiveDocumentTests.cs" />
     <Compile Include="ClipboardTests.cs" />
+    <Compile Include="MarkdownParserFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

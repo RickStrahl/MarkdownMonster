@@ -10,6 +10,8 @@ namespace MarkdownMonster
     public static class MarkdownParserFactory
     {
 
+        public static readonly string DefaultMarkdownParserName = "MarkDig";
+
         /// <summary>
         /// Use a cached instance of the Markdown Parser to keep alive
         /// </summary>
@@ -31,7 +33,7 @@ namespace MarkdownMonster
 
             IMarkdownParser parser = null;
 
-            if (!string.IsNullOrEmpty(addinId) && addinId != "MarkDig")
+            if (!string.IsNullOrEmpty(addinId) && addinId != DefaultMarkdownParserName)
             {
                 var addin = AddinManager.Current.AddIns.FirstOrDefault(a => a.Name == addinId || a.Id == addinId);
                 if (addin != null)
