@@ -2,6 +2,13 @@
 
 # Markdown Monster Change Log
 
+### 1.2.2
+<small>not released yet</small>
+
+* **Show character count**  
+The title bar now shows the character count in addition to the word and line counts. This can be useful if you're using the editor to compose tweets or other character count sensitive text snippets.
+
+
 ### 1.2
 <i><small>February 22nd, 2017</small></i>   
 <small>Version Rollup release</small>
