@@ -65,7 +65,7 @@ namespace MarkdownMonster
 
         private NamedPipeManager PipeManager { get; set; }
 
-        public ApplicationConfiguration Configuration { get; set; }
+        //public ApplicationConfiguration Configuration { get; set; }
 
         public IntPtr Hwnd
         {
@@ -1470,8 +1470,11 @@ namespace MarkdownMonster
 
         private void MarkdownParserName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Configuration != null && !string.IsNullOrEmpty(Configuration.MarkdownParserName))
-                MarkdownParserFactory.GetParser(addinId: Configuration.MarkdownParserName, forceLoad: true);
+            if (mmApp.Configuration != null && !string.IsNullOrEmpty(mmApp.Configuration.MarkdownParserName))
+            {
+                MarkdownParserFactory.GetParser(addinId: mmApp.Configuration.MarkdownParserName, forceLoad: true);
+                PreviewMarkdownAsync();
+            }
         }
 
 
