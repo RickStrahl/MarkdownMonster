@@ -268,9 +268,8 @@ namespace MarkdownMonster
         public List<string> MarkdownParserNames
         {
             get
-            {
-                if (_parserNames == null)
-                    _parserNames = MarkdownParserFactory.GetParserNames();
+            {                
+                _parserNames = MarkdownParserFactory.GetParserNames();
                 return _parserNames;
             }
         }

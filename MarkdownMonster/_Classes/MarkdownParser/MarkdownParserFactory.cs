@@ -50,11 +50,15 @@ namespace MarkdownMonster
         /// <returns></returns>
         public static List<string> GetParserNames()
         {
-
+            
             var parserStrings = new List<string>()
             {
                 {"MarkDig"}
             };
+
+            if (AddinManager.Current.AddIns.Count == 0)
+                return parserStrings;
+
             foreach (var addin in AddinManager.Current.AddIns)
             {
                 var parser = addin.GetMarkdownParser();
