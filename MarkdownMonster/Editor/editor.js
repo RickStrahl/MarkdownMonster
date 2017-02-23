@@ -417,7 +417,7 @@ var te = window.textEditor = {
     execcommand: function(cmd,parm1,parm2) {
         te.editor.execCommand(cmd);
     },
-    curStats: { wordCount: 0, lines: 0 },
+    curStats: { wordCount: 0, lines: 0, characters: 0 },
     getDocumentStats: function () {
         var text = te.getvalue();
 
@@ -429,10 +429,12 @@ var te = window.textEditor = {
         var regExWords = /\s+/gi;
         var wordCount = text.replace(regExWords, ' ').split(' ').length;                
         var lines = text.split('\n').length;
-        
+        var chars = text.length;
+
         te.curStats = {
             wordCount: wordCount,
-            lines:lines
+            lines: lines,
+            characters: chars
         }
         return te.curStats;
     },
