@@ -474,7 +474,7 @@
                             <ColumnDefinition Width="4"  />
                             <ColumnDefinition Width="230"  />
                             <ColumnDefinition Width="100"/>
-                            <!-- Markdown Parser column, width = 130 -->
+                            <!-- Markdown Parser column, width = 150 -->
                             <ColumnDefinition Width="{Binding MarkdownParserColumnWidth}"/>
                             <ColumnDefinition Width="130" />
                             <ColumnDefinition Width="130" />
@@ -498,8 +498,8 @@
                             ToolTip="Document Encoding"></TextBlock>
             </StatusBarItem>
             <StatusBarItem Grid.Column="5">
-                <ComboBox  HorizontalAlignment="Right"  Width="125"
-                           ToolTip="Registered Markdown Parsers"
+                <ComboBox  HorizontalAlignment="Right"  
+                           ToolTip="Registered Markdown Parsers" Width="{Binding MarkdownParserColumnWidth}"
                            SelectedItem="{Binding Configuration.MarkdownParserName}" 
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding MarkdownParserNames}"
