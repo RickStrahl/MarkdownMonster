@@ -879,7 +879,10 @@ namespace MarkdownMonster.AddIns
 
             return true;
         }
-
+        /// <summary>
+        /// Returns an IEnumerable<MarkdownMonsterAddin> containing
+        /// loaded MarkDown parser addins
+        /// </summary>
         public IEnumerable<MarkdownMonsterAddin> GetMarkDownParserAddins()
         {
             return AddIns.Where(ai => ai.GetMarkdownParser() != null);
