@@ -205,7 +205,8 @@ namespace MarkdownMonster
                     AddinManager.Current.LoadAddins(mmApp.Configuration.AddinsFolder);
                     AddinManager.Current.AddinsLoadingComplete = true;
                     Model.OnPropertyChanged(nameof(AppModel.MarkdownParserNames));
-                    
+                    Model.OnPropertyChanged(nameof(AppModel.MarkdownParserColumnWidth));
+
                     try
                     {
                         AddinManager.Current.RaiseOnApplicationStart();

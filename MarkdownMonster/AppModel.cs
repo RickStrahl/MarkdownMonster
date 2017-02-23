@@ -275,6 +275,25 @@ namespace MarkdownMonster
         }
         private List<string> _parserNames;
 
+        public int MarkdownParserColumnWidth
+        {
+            get
+            {
+                if (AddinManager.Current
+                    .AddIns
+                    .Where(ai => ai.GetMarkdownParser() != null)
+                    .Count() > 0)
+                {
+                    return 130;
+                }
+                else
+                {
+                    return 0;
+                }
+                
+            }
+        }
+
         #region Initialization
 
         public AppModel(MainWindow window)
