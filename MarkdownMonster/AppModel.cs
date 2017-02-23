@@ -275,22 +275,22 @@ namespace MarkdownMonster
         }
         private List<string> _parserNames;
 
+        /// <summary>
+        /// Returns the width of the column containing
+        /// the Markdown Parser selection combo box
+        /// </summary>
         public int MarkdownParserColumnWidth
         {
             get
             {
                 if (AddinManager.Current
-                    .AddIns
-                    .Where(ai => ai.GetMarkdownParser() != null)
+                    .GetMarkDownParserAddins()
                     .Count() > 0)
                 {
                     return 130;
                 }
-                else
-                {
-                    return 0;
-                }
                 
+                return 0;
             }
         }
 

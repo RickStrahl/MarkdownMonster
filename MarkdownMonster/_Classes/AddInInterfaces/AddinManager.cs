@@ -880,6 +880,10 @@ namespace MarkdownMonster.AddIns
             return true;
         }
 
+        public IEnumerable<MarkdownMonsterAddin> GetMarkDownParserAddins()
+        {
+            return AddIns.Where(ai => ai.GetMarkdownParser() != null);
+        }
         #endregion
     }
 }
