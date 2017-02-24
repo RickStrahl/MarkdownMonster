@@ -613,10 +613,9 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
             
-            var parser = MarkdownParserFactory.GetParser(renderLinksAsExternal: renderLinksExternal, 
-                                                         usePragmaLines: usePragmaLines, 
-                                                         forceLoad: false);            
-            return parser.Parse(markdown, renderLinksExternal);
+            var parser = MarkdownParserFactory.GetParser(usePragmaLines: usePragmaLines,                                                         
+                                                         forceLoad: true, addinId: mmApp.Configuration.MarkdownParserName);            
+            return parser.Parse(markdown);
         }
 
         /// <summary>

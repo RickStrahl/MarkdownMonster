@@ -10,7 +10,7 @@ namespace MarkdownMonster
     public static class MarkdownParserFactory
     {
 
-        public static readonly string DefaultMarkdownParserName = "MarkDig";
+        public static string DefaultMarkdownParserName { get;  } = "MarkDig";
 
         /// <summary>
         /// Use a cached instance of the Markdown Parser to keep alive
@@ -25,7 +25,7 @@ namespace MarkdownMonster
         /// <param name="usePragmaLines">If true adds pragma line ids into the document that the editor can sync to</param>
         /// <param name="addinId">optional addin id that checks for a registered Markdown parser</param>
         /// <returns>Mardown Parser Interface</returns>
-        public static IMarkdownParser GetParser(bool renderLinksAsExternal = false, bool usePragmaLines = false,
+        public static IMarkdownParser GetParser(bool usePragmaLines = false,
                                                 bool forceLoad = false, string addinId = null)
         {
             if (!forceLoad && CurrentParser != null)

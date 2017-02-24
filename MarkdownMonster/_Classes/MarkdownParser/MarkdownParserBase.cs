@@ -18,11 +18,8 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>
-        public abstract string Parse(string markdown, bool renderLinksExternal = false);
+        public abstract string Parse(string markdown);
         
- 
-
-
         /// <summary>
         /// Parses strikeout text ~~text~~. Single line (to linebreak) allowed only.
         /// </summary>

@@ -112,7 +112,7 @@ namespace MarkdownMonster.Test
 
     class CustomParser : IMarkdownParser
     {
-        public string Parse(string markdown, bool renderLinksExternal = false)
+        public string Parse(string markdown)
         {
             return string.Empty;
         }

@@ -210,6 +210,7 @@ namespace MarkdownMonster
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            new TaskFactory().StartNew(LoadAddins);
 
             if (mmApp.Configuration.DisableHardwareAcceleration)
                 RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
@@ -231,6 +232,34 @@ namespace MarkdownMonster
             }            
         }
 
+
+        /// <summary>
+        /// Loads all addins asynchronously without loading the
+        /// addin UI  -handled in Window Load to ensure Window is up)
+        /// </summary>
+        private void LoadAddins()
+        {
+            try
+            {
+                AddinManager.Current.LoadAddins(Path.Combine(Environment.CurrentDirectory, "AddIns"));
+                AddinManager.Current.LoadAddins(mmApp.Configuration.AddinsFolder);
+                AddinManager.Current.AddinsLoadingComplete = true;
+                //Model.OnPropertyChanged(nameof(AppModel.MarkdownParserNames));
+                //Model.OnPropertyChanged(nameof(AppModel.MarkdownParserColumnWidth));
+                try
+                {
+                    AddinManager.Current.RaiseOnApplicationStart();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log("Addin loading failed", ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log("Addin loading failed", ex);
+            }
+        }
     }
     
 }

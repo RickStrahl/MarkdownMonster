@@ -260,7 +260,10 @@ namespace MarkdownMonster
         public List<string> MarkdownParserNames
         {
             get
-            {                
+            {
+                if (!AddinManager.Current.AddinsLoadingComplete)
+                    return null;
+
                 _parserNames = MarkdownParserFactory.GetParserNames();
                 return _parserNames;
             }
@@ -277,7 +280,7 @@ namespace MarkdownMonster
             {
                 if (MarkdownParserFactory.GetParserNames().Count > 1)
                 {
-                    return 150;
+                    return 180;
                 }
                 
                 return 0;

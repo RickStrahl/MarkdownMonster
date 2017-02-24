@@ -199,27 +199,27 @@ namespace MarkdownMonster
 
             new TaskFactory().StartNew(() =>
             {
-                try
-                {
-                    AddinManager.Current.LoadAddins(Path.Combine(Environment.CurrentDirectory, "AddIns"));
-                    AddinManager.Current.LoadAddins(mmApp.Configuration.AddinsFolder);
-                    AddinManager.Current.AddinsLoadingComplete = true;
-                    Model.OnPropertyChanged(nameof(AppModel.MarkdownParserNames));
-                    Model.OnPropertyChanged(nameof(AppModel.MarkdownParserColumnWidth));
+                //try
+                //{
+                //    AddinManager.Current.LoadAddins(Path.Combine(Environment.CurrentDirectory, "AddIns"));
+                //    AddinManager.Current.LoadAddins(mmApp.Configuration.AddinsFolder);
+                //    AddinManager.Current.AddinsLoadingComplete = true;
+                //    Model.OnPropertyChanged(nameof(AppModel.MarkdownParserNames));
+                //    Model.OnPropertyChanged(nameof(AppModel.MarkdownParserColumnWidth));
 
-                    try
-                    {
-                        AddinManager.Current.RaiseOnApplicationStart();
-                    }
-                    catch (Exception ex)
-                    {
-                        mmApp.Log("Addin loading failed", ex);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    mmApp.Log("Addin loading failed", ex);
-                }
+                //    try
+                //    {
+                //        AddinManager.Current.RaiseOnApplicationStart();
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        mmApp.Log("Addin loading failed", ex);
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    mmApp.Log("Addin loading failed", ex);
+                //}
                 Dispatcher.Invoke(() =>
                 {
                     AddinManager.Current.InitializeAddinsUi(this);
