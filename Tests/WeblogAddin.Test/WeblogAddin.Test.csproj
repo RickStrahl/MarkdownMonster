@@ -43,9 +43,8 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="Westwind.Utilities, Version=2.69.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Westwind.Utilities.2.69\lib\net45\Westwind.Utilities.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Westwind.Utilities, Version=2.70.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Westwind.Utilities.2.70\lib\net45\Westwind.Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -64,6 +63,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BlogEndpointDiscoveryTests.cs" />
+    <Compile Include="MediumTests.cs" />
     <Compile Include="WeblogAddinTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,8 +78,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="apikey.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="App.config" />
-    <None Include="packages.config" />
+    <Content Include="MarkdownMonster.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
