@@ -61,3 +61,4 @@ MarkdownMonster/Editor/scripts/Ace/theme-twilight - Copy.js
 /MediumApi.websurge
 /mm.vshost.exe.config
 /mm.vshost.exe.manifest
+/Tests/WeblogAddin.Test/apikey.txt
