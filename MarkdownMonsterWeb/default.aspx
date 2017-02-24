@@ -76,6 +76,9 @@
             <a href="docs/">                
                 Docs
             </a>
+            <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog">                
+                Blog
+            </a>
             <%--<a href="pricing.aspx">License</a>--%>
         </nav>
     </div>

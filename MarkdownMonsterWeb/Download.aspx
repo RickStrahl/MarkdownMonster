@@ -38,13 +38,13 @@
             <span>West Wind Markdown Monster</span>
         </span>      
         <div id="TopMenu" class="right">
-            <a href="./">Home</a>
-            <%--<a href="https://youtu.be/O5J8mDfVZH8">Video</a>--%>
-            <%--<a href="features.aspx">Features</a>--%>
+            <a href="./">Home</a>            
             <a href="download.aspx" class="active">Download</a>
             <a href="http://store.west-wind.com/product/markdown_monster">Buy</a>
-            <a href="docs/">Docs</a>
-            <%--<a href="pricing.aspx">License</a>--%>
+            <a href="docs/" class="hidable">Docs</a>
+            <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog">                
+                Blog
+            </a>
         </div>    
     </div>
     
