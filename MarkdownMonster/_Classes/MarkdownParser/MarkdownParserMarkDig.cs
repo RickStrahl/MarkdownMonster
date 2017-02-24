@@ -31,6 +31,7 @@
 */
 #endregion
 
+using System;
 using System.Text.RegularExpressions;
 using Markdig;
 using Westwind.Utilities;
@@ -45,7 +46,8 @@ namespace MarkdownMonster
     public class  MarkdownParserMarkdig : MarkdownParserBase
     {
         public static MarkdownPipeline Pipeline;
-        
+
+        private bool RenderLinksExternal = false;
 
         public MarkdownParserMarkdig(bool usePragmaLines = false, bool force = false)
         {
@@ -82,17 +84,22 @@ namespace MarkdownMonster
 
                 if (usePragmaLines)
                     builder = builder.UsePragmaLines();
-
-                Pipeline = builder.Build();         
+                
+                Pipeline = builder.Build();                
+                
+                
+                if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
+                    RenderLinksExternal = true;
             }
         }
 
+  
         /// <summary>
         /// Parses the actual markdown down to html
         /// </summary>
         /// <param name="markdown"></param>
-        /// <returns></returns>
-        public override string Parse(string markdown, bool renderLinksExternal = false)
+        /// <returns></returns>        
+        public override string Parse(string markdown)
         {
             if (string.IsNullOrEmpty(markdown))
                 return string.Empty;
@@ -101,7 +108,7 @@ namespace MarkdownMonster
             
             html = ParseFontAwesomeIcons(html);
 
-            if (renderLinksExternal)
+            if (RenderLinksExternal)
                 html = ParseExternalLinks(html);
 
             if (!mmApp.Configuration.AllowRenderScriptTags)

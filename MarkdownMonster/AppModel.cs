@@ -25,12 +25,12 @@ namespace MarkdownMonster
     /// </summary>
     public class AppModel : INotifyPropertyChanged
     {
-        //private string _activeDocumentTitle;
-        private MarkdownDocument _activeDocument;
-        private List<MarkdownDocument> _openDocuments;
-        private string _markdownEditAction;
+       
+        
+        
 
 
+        #region Top Level Model Properties
         /// <summary>
         /// An instance of the main application WPF form
         /// </summary>
@@ -40,74 +40,6 @@ namespace MarkdownMonster
         /// The application's main configuration object
         /// </summary>
         public ApplicationConfiguration Configuration { get; set; }
-
-        /// <summary>
-        /// Determines whether the preview browser is visible or not
-        /// </summary>
-        public bool IsPreviewBrowserVisible
-        {
-            get { return Configuration.IsPreviewVisible; }
-            set
-            {
-                if (value == Configuration.IsPreviewVisible) return;
-                Configuration.IsPreviewVisible = value;
-                OnPropertyChanged(nameof(IsPreviewBrowserVisible));
-            }
-        }
-
-        public bool IsFullScreen
-        {
-            get { return _isFullScreen; }
-            set
-            {
-                if (value == _isFullScreen) return;
-                _isFullScreen = value;
-                OnPropertyChanged(nameof(IsFullScreen));
-            }
-        }
-        private bool _isFullScreen = false;
-
-        
-        public bool IsPresentationMode
-        {
-            get { return _isPresentationMode; }
-            set
-            {
-                if (_isPresentationMode == value) return;
-                _isPresentationMode = value;
-                OnPropertyChanged(nameof(IsPresentationMode));
-            }
-        }
-        private bool _isPresentationMode;
-
-
-        /// <summary>
-        /// Determines if there's a document loaded 
-        /// </summary>
-        public bool IsEditorActive
-        {
-            get
-            {                             
-                if (ActiveDocument != null)
-                    return true;
-
-                return false;
-            }            
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string MarkdownEditAction
-        {
-            get { return _markdownEditAction; }
-            set
-            {
-                if (value == _markdownEditAction) return;
-                _markdownEditAction = value;
-                OnPropertyChanged(nameof(MarkdownEditAction));
-            }
-        }
 
 
         /// <summary>
@@ -130,7 +62,6 @@ namespace MarkdownMonster
                 Dispatcher.CurrentDispatcher.InvokeAsync(() =>
                 {
                     CommandManager.InvalidateRequerySuggested();
-
                     //SaveCommand.InvalidateCanExecute();
                     //SaveAsHtmlCommand.InvalidateCanExecute();
                 });
@@ -138,6 +69,7 @@ namespace MarkdownMonster
                 Window.ToolbarEdit.IsEnabled = IsEditorActive;
             }
         }
+        private MarkdownDocument _activeDocument;
 
         /// <summary>
         /// Returns an instance of the active Markdown Editor 
@@ -168,7 +100,67 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(OpenDocuments));
             }
         }
+        private List<MarkdownDocument> _openDocuments;
+        #endregion
 
+        #region Display Modes
+        /// <summary>
+        /// Determines whether the preview browser is visible or not
+        /// </summary>
+        public bool IsPreviewBrowserVisible
+        {
+            get { return Configuration.IsPreviewVisible; }
+            set
+            {
+                if (value == Configuration.IsPreviewVisible) return;
+                Configuration.IsPreviewVisible = value;
+                OnPropertyChanged(nameof(IsPreviewBrowserVisible));
+            }
+        }
+
+        public bool IsFullScreen
+        {
+            get { return _isFullScreen; }
+            set
+            {
+                if (value == _isFullScreen) return;
+                _isFullScreen = value;
+                OnPropertyChanged(nameof(IsFullScreen));
+            }
+        }
+        private bool _isFullScreen = false;
+
+
+        public bool IsPresentationMode
+        {
+            get { return _isPresentationMode; }
+            set
+            {
+                if (_isPresentationMode == value) return;
+                _isPresentationMode = value;
+                OnPropertyChanged(nameof(IsPresentationMode));
+            }
+        }
+        private bool _isPresentationMode;
+
+
+        /// <summary>
+        /// Determines if there's a document loaded 
+        /// </summary>
+        public bool IsEditorActive
+        {
+            get
+            {
+                if (ActiveDocument != null)
+                    return true;
+
+                return false;
+            }
+        }
+        #endregion
+
+
+        #region Statusbar Item Props
 
         /// <summary>
         /// A list of RenderThemes as retrieved based on the folder structure of hte
@@ -261,14 +253,17 @@ namespace MarkdownMonster
         }
         private readonly List<string> _editorThemeNames = new List<string>();
 
-
+    
         /// <summary>
         /// List of registered Markdown Parsers
         /// </summary>
         public List<string> MarkdownParserNames
         {
             get
-            {                
+            {
+                if (!AddinManager.Current.AddinsLoadingComplete)
+                    return null;
+
                 _parserNames = MarkdownParserFactory.GetParserNames();
                 return _parserNames;
             }
@@ -285,12 +280,13 @@ namespace MarkdownMonster
             {
                 if (MarkdownParserFactory.GetParserNames().Count > 1)
                 {
-                    return 130;
+                    return 180;
                 }
                 
                 return 0;
             }
         }
+        #endregion
 
         #region Initialization
 

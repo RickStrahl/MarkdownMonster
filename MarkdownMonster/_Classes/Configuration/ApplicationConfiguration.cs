@@ -270,14 +270,38 @@ namespace MarkdownMonster
         /// <summary>
         /// Determines whether links are always rendered with target='top'
         /// </summary>
-        public bool RenderLinksExternal { get; set; }
+
+        public bool RenderLinksExternal
+        {
+            get { return _RenderLinksExternal; }
+            set
+            {
+                if (value == _RenderLinksExternal) return;
+                _RenderLinksExternal = value;
+                OnPropertyChanged(nameof(RenderLinksExternal));
+            }
+        }
+        private bool _RenderLinksExternal;
+
 
         /// <summary>
         /// The name of the Markdown Parser used to render
         /// output. New parsers or parser configurations can be 
         /// added via Addins.
-        /// </summary>
-        public string MarkdownParserName { get; set; }
+        /// </summary>        
+        public string MarkdownParserName
+        {
+            get { return _markdownParserName; }
+            set
+            {
+                if (value == _markdownParserName) return;
+                _markdownParserName = value;
+                OnPropertyChanged(nameof(MarkdownParserName));
+            }
+        }
+
+        private string _markdownParserName;
+
 
         /// <summary>
         /// If greater than 0 re-opens up to number of files that were open when last closed.
@@ -294,8 +318,6 @@ namespace MarkdownMonster
         /// </summary>
         public bool UseSingleWindow { get; set; }
 
-
-        
 
         /// <summary>
         /// Determines whether errors are reported anonymously
@@ -439,7 +461,7 @@ namespace MarkdownMonster
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             CommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Markdown Monster");
 
-            MarkdownParserName = "MarkDig";
+            _markdownParserName = MarkdownParserFactory.DefaultMarkdownParserName;
             PreviewSyncMode = PreviewSyncMode.EditorAndPreview;
 
             AutoSaveBackups = true;
@@ -631,6 +653,11 @@ namespace MarkdownMonster
         /// quotes to curly quotes, triple dots to elipsis etc.
         /// </summary>
         public bool SmartyPants { get; set; }
+
+        /// <summary>
+        /// Renders all links as external links with `target='top'`
+        /// </summary>
+        public bool RenderLinksAsExternal { get; set; }
     }
 
     public enum PreviewSyncMode

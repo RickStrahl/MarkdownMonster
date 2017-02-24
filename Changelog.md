@@ -8,6 +8,9 @@
 * **Show character count**  
 The title bar now shows the character count in addition to the word and line counts. This can be useful if you're using the editor to compose tweets or other character count sensitive text snippets.
 
+* **[Custom Markdown Parser Support for Addins](https://markdownmonster.west-wind.com/docs/_4ut0j7xoe.htm)**   
+You can now create Markdown Monster addins that expose custom Markdown parsers for Markdown -> HTML parsing. 
+
 
 ### 1.2
 <i><small>February 22nd, 2017</small></i>   

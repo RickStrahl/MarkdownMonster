@@ -1,4 +1,7 @@
-﻿cd "$PSScriptRoot" 
+﻿$root = "$PSScriptRoot" 
+cd $root
 cd "Builds\CurrentRelease"
 
-& .\MarkdownMonsterSetup.exe
+& .\MarkdownMonsterSetup.exe /silent
+
+cd $root
