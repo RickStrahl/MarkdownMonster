@@ -446,7 +446,6 @@ namespace WeblogAddin
                 return true;
 
             return false;
-
         }
 
         /// <summary>

@@ -83,6 +83,7 @@
     <Compile Include="BlogEndpointDiscovery.cs" />
     <Compile Include="Medium\MediumApiClient.cs" />
     <Compile Include="Medium\MediumEntities.cs" />
+    <Compile Include="MetaWebLogApi\MetaWebLogWordpressApiClient.cs" />
     <Compile Include="WeblogAddinModel.cs" />
     <Compile Include="WeblogInfo.cs" />
     <Compile Include="WeblogPostMetadata.cs" />

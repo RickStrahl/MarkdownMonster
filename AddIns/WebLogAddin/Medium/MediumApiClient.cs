@@ -15,6 +15,18 @@ using File = System.IO.File;
 
 namespace WebLogAddin.Medium
 {
+
+
+    /// <summary>
+    /// Very basic implementation of the Medium Blog API 
+    /// for posting new stories. 
+    ///     
+    /// </summary>
+    /// <remarks>
+    /// Medium doesn't support updating of posts so posting
+    /// is a one way trip. Posts are sent as HTML and can
+    /// be edited on Medium after initial publish
+    /// </remarks>
     public class MediumApiClient
     {
         public static string MediumApiUrl = "https://api.medium.com/v1/";
