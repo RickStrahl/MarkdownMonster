@@ -1,4 +1,6 @@
-﻿namespace WebLogAddin.Medium
+﻿using System.Collections.Generic;
+
+namespace WebLogAddin.Medium
 {
 
 
@@ -17,11 +19,19 @@
     }
 
 
+    public class MediumPublicationsResult
+    {
+        public List<MediumPublication> data { get; set; }
+    }
     public class MediumPublication
     {
-        public string publicationId { get; set; }
+        public string id { get; set; }
         public string userId { get; set; }
         public string role { get; set; }
+
+        public string name { get; set; }
+        public string description { get; set; }
+        public string imageUrl { get; set; }    
     }
 
 

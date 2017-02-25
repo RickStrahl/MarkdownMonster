@@ -303,7 +303,9 @@ namespace WeblogAddin
 
                         if (!imgFile.StartsWith("http://") && !imgFile.StartsWith("https://"))
                         {
-                            imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
+                            if (!imgFile.Contains(":\\"))
+                                imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
+
                             if (File.Exists(imgFile))
                             {                                
                                 var media = new MediaObject()
