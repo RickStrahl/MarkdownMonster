@@ -1,8 +1,9 @@
 ﻿using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebLogAddin.Medium;
+using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
+using File = System.IO.File;
 
 namespace WeblogAddin.Test
 {
@@ -12,16 +13,24 @@ namespace WeblogAddin.Test
         // bogus account
         private string MediumApiKey = null;
 
+        private WeblogInfo WeblogInfo = null;
+
         public MediumTests()
         {
             // create a file with your test account api key
             MediumApiKey = File.ReadAllText(".\\ApiKey.txt");
+
+            WeblogInfo = new WeblogInfo
+            {
+                AccessToken = MediumApiKey,
+                Name = "Markdown Monster Test Blog"                 
+            };
         }
 
         [TestMethod]
         public void GetUser()
         {
-            var medium = new MediumApiClient(MediumApiKey);
+            var medium = new MediumApiClient(WeblogInfo);
             bool result = medium.GetUser();
             Assert.IsTrue(result,medium.ErrorMessage);
 
@@ -33,7 +42,7 @@ namespace WeblogAddin.Test
         [TestMethod]
         public void UploadCompletePost()
         {
-            var medium = new MediumApiClient(MediumApiKey);
+            var medium = new MediumApiClient(WeblogInfo);
             bool result = medium.GetUser();
             Assert.IsTrue(result, medium.ErrorMessage);
 
@@ -41,34 +50,32 @@ namespace WeblogAddin.Test
             var pubs = medium.GetPublications();
             Assert.IsNotNull(pubs, medium.ErrorMessage);
             string pubId = pubs[0].id;
+            WeblogInfo.BlogId = pubId;
 
-            var post = new MediumPost()
+            var post = new Post
             {
-                tags = new string[] { "Markdown", "Test" },
-                title = "Test Post #" + DataUtils.GenerateUniqueId(),
-                content = @"<h1>New Post</h1>
+                Tags = new string[] {"Markdown", "Test"},
+                Title = "Test Post #" + DataUtils.GenerateUniqueId(),
+                Body = @"<h1>New Post</h1>
 <img src=""MarkdownMonster.png"" />
 <p>This is a new post and text and image</p>
-",
-                contentFormat = "html",
-                publishStatus = "draft",
-                notifyFollowers = false,
-                canonicalUrl = "https://weblog.west-wind.com"
+"
             };
-            post = medium.PublishCompletePost(post,publicationId: pubId, 
-                                              documentBasePath: FileUtils.GetPhysicalPath(".\\"));
 
-            Assert.IsNotNull(post.url, medium.ErrorMessage);
-            Console.WriteLine(post.url);
-            Console.WriteLine(post.id);
-            ShellUtils.GoUrl(post.url);
+            
+            var mediumPost = medium.PublishCompletePost(post,documentBasePath: FileUtils.GetPhysicalPath(".\\"));
+
+            Assert.IsNotNull(mediumPost.url, medium.ErrorMessage);
+            Console.WriteLine(mediumPost.url);
+            Console.WriteLine(mediumPost.id);
+            ShellUtils.GoUrl(mediumPost.url);
 
         }
 
         [TestMethod]
         public void UploadPost()
         {
-            var medium = new MediumApiClient(MediumApiKey);
+            var medium = new MediumApiClient(WeblogInfo);
             bool result = medium.GetUser();
             Assert.IsTrue(result, medium.ErrorMessage);
 
@@ -94,7 +101,7 @@ namespace WeblogAddin.Test
         [TestMethod]
         public void UploadPostToPublication()
         {
-            var medium = new MediumApiClient(MediumApiKey);
+            var medium = new MediumApiClient(WeblogInfo);
             bool result = medium.GetUser();
             Assert.IsTrue(result, medium.ErrorMessage);
 
@@ -127,7 +134,7 @@ namespace WeblogAddin.Test
         [TestMethod]
         public void UploadImage()
         {
-            var medium = new MediumApiClient(MediumApiKey);
+            var medium = new MediumApiClient(WeblogInfo);
             bool result = medium.GetUser();
             Assert.IsTrue(result, medium.ErrorMessage);
 
@@ -142,7 +149,7 @@ namespace WeblogAddin.Test
         [TestMethod]
         public void GetPublications()
         {
-            var medium = new MediumApiClient(MediumApiKey);
+            var medium = new MediumApiClient(WeblogInfo);
             bool result = medium.GetUser();
             Assert.IsTrue(result, medium.ErrorMessage);
 

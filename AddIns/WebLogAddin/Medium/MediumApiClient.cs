@@ -9,6 +9,7 @@ using System.Windows;
 using HtmlAgilityPack;
 using MarkdownMonster;
 using Newtonsoft.Json;
+using WeblogAddin;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities.InternetTools;
 using File = System.IO.File;
@@ -31,7 +32,7 @@ namespace WebLogAddin.Medium
     {
         public static string MediumApiUrl = "https://api.medium.com/v1/";
 
-        public string MediumApiUserToken = null;
+        
 
         public string ErrorMessage { get; set; }
 
@@ -45,17 +46,30 @@ namespace WebLogAddin.Medium
         /// Access to the UserId
         /// </summary>
         public string UserId => User.id;
-        
 
+        public string PostUrl { get; set; }
+
+        
+        /// <summary>
+        /// The Api token that is sent to server 
+        /// in Authorization header as bearer token
+        /// </summary>
+        private string MediumApiUserToken {get; set; }
+
+        
         /// <summary>
         /// Internally used current url
         /// </summary>
         private string CurrentUrl;
 
+        private readonly WeblogInfo WeblogInfo;
 
-        public MediumApiClient(string userToken)
+
+        public MediumApiClient(WeblogInfo weblogInfo)
         {
-            MediumApiUserToken = userToken;
+            WeblogInfo = weblogInfo;
+            WeblogInfo.ApiUrl = MediumApiUrl;
+            MediumApiUserToken = WeblogInfo.DecryptPassword(WeblogInfo.Password);
         }
 
 
@@ -104,100 +118,37 @@ namespace WebLogAddin.Medium
         /// <param name="publicationId">Publication/Blog id</param>
         /// <param name="documentBasePath">Base path for images to find relatively pathed images</param>
         /// <returns></returns>
-        public MediumPost PublishCompletePost(MediumPost post, string publicationId = null, string documentBasePath = null)
+        public MediumPost PublishCompletePost(Post post,
+            string documentBasePath = null, 
+            bool sendasDraft = false)
         {
+            var mediumPost = new MediumPost
+            {
+                title = post.Title,
+                content = post.Body,
+                 contentFormat = "html",
+                 publishStatus = sendasDraft ? "draft" : "public",
+                 tags = post.Tags
+            };
+
             if (!GetUser())
                 return null;
 
-            if (!PublishPostImages(post, documentBasePath))
+            if (!PublishPostImages(mediumPost, documentBasePath))
                 return null;
 
-            return PublishPost(post, publicationId);                        
-
-            //if (type == WeblogTypes.Unknown)
-            //    type = weblogInfo.Type;
-
-            //MetaWeblogWrapper wrapper;
-
-            //if (type == WeblogTypes.MetaWeblogApi)
-            //    wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
-            //        weblogInfo.Username,
-            //        weblogInfo.DecryptPassword(weblogInfo.Password),
-            //        weblogInfo.BlogId);
-            //else
-            //    wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
-            //        weblogInfo.Username,
-            //        weblogInfo.DecryptPassword(weblogInfo.Password));
-
-
-            //string body;
-            //try
-            //{
-            //    body = SendImages(html, doc.Filename, wrapper, meta);
-            //}
-            //catch (Exception ex)
-            //{
-            //    mmApp.Log($"Error sending images to Weblog at {weblogInfo.ApiUrl}: ", ex);
-            //    return false;
-            //}
-
-            //if (body == null)
-            //    return false;
-
-            //ActivePost.Body = body;
-            //ActivePost.PostID = meta.PostId;
-
-            //var customFields = new List<CustomField>();
-
-
-            //customFields.Add(
-            //    new CustomField()
-            //    {
-            //        ID = "mt_markdown",
-            //        Key = "mt_markdown",
-            //        Value = meta.MarkdownBody
-            //    });
-
-            //if (!string.IsNullOrEmpty(meta.FeaturedImageUrl) || !string.IsNullOrEmpty(meta.FeatureImageId))
-            //{
-            //    var featuredImage = meta.FeaturedImageUrl;
-            //    if (!string.IsNullOrEmpty(meta.FeatureImageId)) // id takes precedence
-            //        featuredImage = meta.FeatureImageId;
-
-            //    ActivePost.wp_post_thumbnail = featuredImage;
-            //    customFields.Add(
-            //        new CustomField()
-            //        {
-            //            ID = "wp_post_thumbnail",
-            //            Key = "wp_post_thumbnail",
-            //            Value = featuredImage
-            //        });
-            //}
-            //ActivePost.CustomFields = customFields.ToArray();
-
-            //bool isNewPost = IsNewPost(ActivePost.PostID);
-            //try
-            //{
-            //    if (!isNewPost)
-            //        wrapper.EditPost(ActivePost, !sendAsDraft);
-            //    else
-            //        ActivePost.PostID = wrapper.NewPost(ActivePost, !sendAsDraft);
-            //}
-            //catch (Exception ex)
-            //{
-            //    mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: ", ex);
-            //    MessageBox.Show($"Error sending post to Weblog: " + ex.Message,
-            //        mmApp.ApplicationName,
-            //        MessageBoxButton.OK,
-            //        MessageBoxImage.Exclamation);
-
-            //    mmApp.Log(ex);
-            //    return false;
-            //}
-
-            //meta.PostId = ActivePost.PostID.ToString();            
+            return PublishPost(mediumPost, WeblogInfo.BlogId.ToString());                        
+            
         }
 
+
+        /// <summary>
+        /// Scans the HTML document and uploads any local files to the Medium
+        /// API and returns URL that are embedded as http links into the document
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="basePath"></param>
+        /// <returns></returns>
         bool PublishPostImages(MediumPost post, string basePath)
         {
             // base folder name for uploads - just the folder name of the image
@@ -335,6 +286,12 @@ namespace WebLogAddin.Medium
             
             return result.data;
         }
+
+        public string GetPostUrl(object postId)
+        {
+            return PostUrl;            
+        }
+
 
         #region Helpers
 

@@ -30,6 +30,7 @@ namespace WebLogAddin.MetaWebLogApi
         public string wp_post_thumbnail { get; set; }
         public string post_content { get; set; }
 
+        public string Url { get; set; }
         public override string ToString()
         {
             return this.Body;

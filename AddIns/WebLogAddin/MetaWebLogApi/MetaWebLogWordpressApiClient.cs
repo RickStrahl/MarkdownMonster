@@ -20,26 +20,27 @@ namespace WebLogAddin.MetaWebLogApi
 
         public string FeaturedImageUrl { get; set; }
 
+        public readonly WeblogInfo WeblogInfo;
 
+        public string PostUrl { get; set; }
 
-        public bool PublishCompletePost(Post post, WeblogInfo weblogInfo, string basePath = null, bool sendAsDraft = false)
+        public MetaWebLogWordpressApiClient(WeblogInfo weblogInfo)
         {
-            WeblogTypes type = weblogInfo.Type;
+            WeblogInfo = weblogInfo;
+        }
+        
+        public bool PublishCompletePost(Post post,  
+            string basePath = null, 
+            bool sendAsDraft = false,
+            string markdown = null)
+        {            
+            WeblogTypes type = WeblogInfo.Type;
             if (type == WeblogTypes.Unknown)
-                type = weblogInfo.Type;
+                type = WeblogInfo.Type;
 
-            MetaWeblogWrapper wrapper;
+            
 
-            if (type == WeblogTypes.MetaWeblogApi)
-                wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
-                    weblogInfo.Username,
-                    weblogInfo.DecryptPassword(weblogInfo.Password),
-                    weblogInfo.BlogId);
-            else
-                wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
-                    weblogInfo.Username,
-                    weblogInfo.DecryptPassword(weblogInfo.Password));
-
+            var wrapper = GetWrapper(WeblogInfo.Type);
 
             string body = post.Body;
             try
@@ -48,8 +49,8 @@ namespace WebLogAddin.MetaWebLogApi
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Error sending images to Weblog at {weblogInfo.ApiUrl}: " + ex.Message;
-                mmApp.Log($"Error sending images to Weblog at {weblogInfo.ApiUrl}: ", ex);
+                ErrorMessage = $"Error sending images to Weblog at {WeblogInfo.ApiUrl}: " + ex.Message;
+                mmApp.Log($"Error sending images to Weblog at {WeblogInfo.ApiUrl}: ", ex);
                 return false;
             }
 
@@ -57,8 +58,37 @@ namespace WebLogAddin.MetaWebLogApi
                 return false;
 
             post.Body = body;
-            
-            
+
+            var customFields = new List<CustomField>();
+            if (!string.IsNullOrEmpty(markdown))
+            {
+                customFields.Add(
+                    new CustomField()
+                    {
+                        ID = "mt_markdown",
+                        Key = "mt_markdown",
+                        Value = markdown
+                    });
+            }
+
+            if (!string.IsNullOrEmpty(FeaturedImageUrl) || !string.IsNullOrEmpty(FeatureImageId))
+            {
+                var featuredImage = FeaturedImageUrl;
+                if (!string.IsNullOrEmpty(FeatureImageId)) // id takes precedence
+                    featuredImage = FeatureImageId;
+
+                post.wp_post_thumbnail = featuredImage;
+                customFields.Add(
+                    new CustomField()
+                    {
+                        ID = "wp_post_thumbnail",
+                        Key = "wp_post_thumbnail",
+                        Value = featuredImage
+                    });
+            }
+
+            post.CustomFields = customFields.ToArray();
+
             bool isNewPost = IsNewPost(post.PostID);
             try
             {
@@ -69,13 +99,43 @@ namespace WebLogAddin.MetaWebLogApi
             }
             catch (Exception ex)
             {
-                mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: ", ex);
+                mmApp.Log($"Error sending post to Weblog at {WeblogInfo.ApiUrl}: ", ex);
                 ErrorMessage = $"Error sending post to Weblog: " + ex.Message;
                 return false;
             }
 
             return true;
         }
+
+        
+
+        /// <summary>
+        /// Retrieves a post and gets the link for the post
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <returns></returns>
+        public string GetPostUrl(object postId)
+        {
+            string link = null;
+            
+
+            try
+            {
+                var wrapper = GetWrapper(WeblogInfo.Type);
+                var postRaw = wrapper.GetPostRaw(postId);
+                link = postRaw.link;
+            }
+            catch (Exception ex)
+            {                
+            }
+
+            if (string.IsNullOrEmpty(link) || (!link.StartsWith("http://") && !link.StartsWith("https://")))
+                // just go to the base domain - assume posts are listed there
+                link = new Uri(WeblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority);
+            
+            return link;
+        }
+
 
         /// <summary>
         /// Parses each of the images in the document and posts them to the server.
@@ -164,6 +224,27 @@ namespace WebLogAddin.MetaWebLogApi
                 return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// Gets the appropriate wrapper object
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        MetaWeblogWrapper GetWrapper(WeblogTypes type)            
+        {
+            MetaWeblogWrapper wrapper;
+            if (type == WeblogTypes.MetaWeblogApi)
+                wrapper = new MetaWeblogWrapper(WeblogInfo.ApiUrl,
+                    WeblogInfo.Username,
+                    WeblogInfo.DecryptPassword(WeblogInfo.Password),
+                    WeblogInfo.BlogId);
+            else
+                wrapper = new WordPressWrapper(WeblogInfo.ApiUrl,
+                    WeblogInfo.Username,
+                    WeblogInfo.DecryptPassword(WeblogInfo.Password));
+
+            return wrapper;
         }
     }
 }

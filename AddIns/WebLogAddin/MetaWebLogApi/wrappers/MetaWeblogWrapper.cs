@@ -36,7 +36,7 @@ namespace WebLogAddin.MetaWebLogApi
         /// <returns>The postid of the newly-created post.</returns>
         public virtual string NewPost(Post post, bool publish)
         {
-            var content = Map.From.Post(post);            
+            var content = Map.From.Post(post);                        
             return  _wrapper.NewPost(BlogID, Username, Password, content, publish);
         }
         

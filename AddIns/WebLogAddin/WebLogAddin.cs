@@ -43,6 +43,7 @@ using HtmlAgilityPack;
 using WebLogAddin.MetaWebLogApi;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
+using WebLogAddin.Medium;
 using Westwind.Utilities;
 using File = System.IO.File;
 
@@ -139,6 +140,8 @@ namespace WeblogAddin
             var meta = GetPostConfigFromMarkdown(markdown);
 
             string html = doc.RenderHtml(meta.MarkdownBody, WeblogAddinConfiguration.Current.RenderLinksOpenExternal);
+            ActivePost.Body = html;
+            ActivePost.PostID = meta.PostId;  
 
             var config = WeblogAddinConfiguration.Current;
 
@@ -155,83 +158,128 @@ namespace WeblogAddin
             if (type == WeblogTypes.Unknown)
                 type = weblogInfo.Type;
 
-            MetaWeblogWrapper wrapper;
+            string basePath = Path.GetDirectoryName(doc.Filename);
+            bool postResult = false;
+            string postUrl = null;
 
-            if (type == WeblogTypes.MetaWeblogApi)
-                wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
-                    weblogInfo.Username,
-                    weblogInfo.DecryptPassword(weblogInfo.Password),
-                    weblogInfo.BlogId);
-            else
-                wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
-                    weblogInfo.Username,
-                    weblogInfo.DecryptPassword(weblogInfo.Password));
-
-
-            string body;
-            try
+            if (type == WeblogTypes.MetaWeblogApi || type== WeblogTypes.Wordpress)
             {
-                body = SendImages(html, doc.Filename, wrapper,meta);
-            }
-            catch (Exception ex)
-            {
-                mmApp.Log($"Error sending images to Weblog at {weblogInfo.ApiUrl}: ", ex);                
-                return false;
-            }
+                MetaWebLogWordpressApiClient client;
+                client = new MetaWebLogWordpressApiClient(weblogInfo);
 
-            if (body == null)
-                return false;
+                // if values are already configured don't overwrite them again
+                client.FeaturedImageUrl = meta.FeaturedImageUrl;
+                client.FeatureImageId = meta.FeatureImageId;
 
-            ActivePost.Body = body;
-            ActivePost.PostID = meta.PostId;            
-
-            var customFields = new List<CustomField>();
-            
-            
-            customFields.Add(
-                new CustomField()
+                if (!client.PublishCompletePost(ActivePost,basePath,  
+                                                sendAsDraft, markdown))                
                 {
-                    ID = "mt_markdown",
-                    Key = "mt_markdown",
-                    Value = meta.MarkdownBody
-                });
-
-            if (!string.IsNullOrEmpty(meta.FeaturedImageUrl) || !string.IsNullOrEmpty(meta.FeatureImageId))
-            {
-                var featuredImage = meta.FeaturedImageUrl;
-                if (!string.IsNullOrEmpty(meta.FeatureImageId)) // id takes precedence
-                    featuredImage = meta.FeatureImageId;
-
-                ActivePost.wp_post_thumbnail = featuredImage;
-                customFields.Add(
-                    new CustomField()
-                    {
-                        ID = "wp_post_thumbnail",
-                        Key = "wp_post_thumbnail",
-                        Value = featuredImage
-                    });
+                    mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: " + client.ErrorMessage);
+                    MessageBox.Show($"Error sending post to Weblog: " + client.ErrorMessage,
+                        mmApp.ApplicationName,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Exclamation);
+                    return false;
+                }
+                postUrl = client.GetPostUrl(ActivePost.PostID);
             }
-            ActivePost.CustomFields = customFields.ToArray();
-
-            bool isNewPost = IsNewPost(ActivePost.PostID);
-            try
+            if (type == WeblogTypes.Medium)
             {
-                if (!isNewPost)
-                    wrapper.EditPost(ActivePost,!sendAsDraft);
-                else
-                    ActivePost.PostID = wrapper.NewPost(ActivePost, !sendAsDraft);
+                var client = new MediumApiClient(weblogInfo);
+                var result = client.PublishCompletePost(ActivePost, basePath, sendAsDraft);
+                if (result == null)
+                {
+                    mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: " + client.ErrorMessage);
+                    MessageBox.Show($"Error sending post to Weblog: " + client.ErrorMessage,
+                        mmApp.ApplicationName,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Exclamation);                    
+                    return false;
+                }
+                // this is null
+                postUrl = client.PostUrl;
             }
-            catch (Exception ex)
-            {
-                mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: ", ex);
-                MessageBox.Show($"Error sending post to Weblog: " + ex.Message,
-                    mmApp.ApplicationName,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Exclamation);
 
-                mmApp.Log(ex);
-                return false;
-            }
+
+#if false
+            //MetaWeblogWrapper wrapper;
+
+            //if (type == WeblogTypes.MetaWeblogApi)
+            //    wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
+            //        weblogInfo.Username,
+            //        weblogInfo.DecryptPassword(weblogInfo.Password),
+            //        weblogInfo.BlogId);
+            //else
+            //    wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
+            //        weblogInfo.Username,
+            //        weblogInfo.DecryptPassword(weblogInfo.Password));
+
+
+            //string body;
+            //try
+            //{
+            //    body = SendImages(html, doc.Filename, wrapper,meta);
+            //}
+            //catch (Exception ex)
+            //{
+            //    mmApp.Log($"Error sending images to Weblog at {weblogInfo.ApiUrl}: ", ex);                
+            //    return false;
+            //}
+
+            //if (body == null)
+            //    return false;
+
+            //ActivePost.Body = body;
+            //ActivePost.PostID = meta.PostId;            
+
+            //var customFields = new List<CustomField>();
+
+
+            //customFields.Add(
+            //    new CustomField()
+            //    {
+            //        ID = "mt_markdown",
+            //        Key = "mt_markdown",
+            //        Value = meta.MarkdownBody
+            //    });
+
+            //if (!string.IsNullOrEmpty(meta.FeaturedImageUrl) || !string.IsNullOrEmpty(meta.FeatureImageId))
+            //{
+            //    var featuredImage = meta.FeaturedImageUrl;
+            //    if (!string.IsNullOrEmpty(meta.FeatureImageId)) // id takes precedence
+            //        featuredImage = meta.FeatureImageId;
+
+            //    ActivePost.wp_post_thumbnail = featuredImage;
+            //    customFields.Add(
+            //        new CustomField()
+            //        {
+            //            ID = "wp_post_thumbnail",
+            //            Key = "wp_post_thumbnail",
+            //            Value = featuredImage
+            //        });
+            //}
+            //ActivePost.CustomFields = customFields.ToArray();
+
+            //bool isNewPost = IsNewPost(ActivePost.PostID);
+            //try
+            //{
+            //    if (!isNewPost)
+            //        wrapper.EditPost(ActivePost,!sendAsDraft);
+            //    else
+            //        ActivePost.PostID = wrapper.NewPost(ActivePost, !sendAsDraft);
+            //}
+            //catch (Exception ex)
+            //{
+            //    mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: ", ex);
+            //    MessageBox.Show($"Error sending post to Weblog: " + ex.Message,
+            //        mmApp.ApplicationName,
+            //        MessageBoxButton.OK,
+            //        MessageBoxImage.Exclamation);
+
+            //    mmApp.Log(ex);
+            //    return false;
+            //}
+#endif
 
             meta.PostId = ActivePost.PostID.ToString();
 
@@ -253,23 +301,16 @@ namespace WeblogAddin
             }
             else
             {
-                try
-                {
-                    var postRaw = wrapper.GetPostRaw(ActivePost.PostID);
-                    var link = postRaw.link;
-                    if (!string.IsNullOrEmpty(link) && ( link.StartsWith("http://") || link.StartsWith("https://")) )
-                        ShellUtils.GoUrl(link);
-                    else
-                        // just go to the base domain - assume posts are listed there
-                        ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));
-                }
-                catch { }
+                if(postUrl != null)
+                    ShellUtils.GoUrl(postUrl);
+                else
+                    ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));                
             }
 
             return true;
         }
 
-
+#if false
         /// <summary>
         /// Parses each of the images in the document and posts them to the server.
         /// Updates the HTML with the returned Image Urls
@@ -342,10 +383,11 @@ namespace WeblogAddin
 
             return html;
         }
+#endif
 
-        #endregion
+#endregion
 
-        #region Local Post Creation
+#region Local Post Creation
 
         public string NewWeblogPost(WeblogPostMetadata meta)
         {
@@ -464,9 +506,9 @@ namespace WeblogAddin
             return markdown;
         }
 
-        #endregion
+#endregion
 
-        #region Post Configuration and Meta Data
+#region Post Configuration and Meta Data
         /// <summary>
         /// Strips the Markdown Meta data from the message and populates
         /// the post structure with the meta data values.
@@ -484,7 +526,7 @@ namespace WeblogAddin
             
             // check for title in first line and remove it 
             // since the body shouldn't render the title
-            var lines = StringUtils.GetLines(markdown);
+            var lines = StringUtils.GetLines(markdown,20);
             if (lines.Length > 0 && lines[0].StartsWith("# "))
             {
                 meta.MarkdownBody = meta.MarkdownBody.Replace(lines[0], "").Trim();
@@ -599,9 +641,9 @@ namespace WeblogAddin
         //    return filename;
         //}
 
-        #endregion
+#endregion
 
-        #region Downloaded Post Handling
+#region Downloaded Post Handling
 
         public void CreateDownloadedPostOnDisk(Post post, string weblogName)
         {
@@ -724,6 +766,6 @@ namespace WeblogAddin
             }
         }
 
-        #endregion
+#endregion
     }
 }
