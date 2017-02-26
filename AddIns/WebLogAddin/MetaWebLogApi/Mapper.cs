@@ -191,7 +191,7 @@ namespace WebLogAddin.MetaWebLogApi
             {
                 return new XmlRpcUserBlog
                            {
-                               blogId = input.BlogID,
+                               blogid = input.BlogId,
                                blogName = input.BlogName,
                                isAdmin = input.IsAdmin,
                                url = input.URL,
@@ -392,11 +392,12 @@ namespace WebLogAddin.MetaWebLogApi
                 var result = new UserBlog
                 {
                     BlogName = input.blogName,
+                    BlogId = input.blogid,
                     IsAdmin = input.isAdmin,
                     URL = input.url
                 };
 
-                SetPrivateFieldValue("_userBlogID", input.blogId, result);
+                SetPrivateFieldValue("_userBlogID", input.blogid, result);
 
                 return result;
             }

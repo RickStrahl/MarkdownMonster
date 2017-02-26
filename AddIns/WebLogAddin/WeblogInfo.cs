@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using MarkdownMonster.Annotations;
+using WebLogAddin.Medium;
 using Westwind.Utilities;
 
 namespace WeblogAddin
@@ -130,6 +131,9 @@ namespace WeblogAddin
                 if (value == _type) return;
                 _type = value;
                 OnPropertyChanged(nameof(Type));
+
+                if (Type == WeblogTypes.Medium)
+                    ApiUrl = MediumApiClient.MediumApiUrl;                
             }
         }
         private WeblogTypes _type = WeblogTypes.MetaWeblogApi;

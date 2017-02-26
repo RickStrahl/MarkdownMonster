@@ -105,9 +105,9 @@ namespace WebLogAddin.MetaWebLogApi
         /// Gets the blogs for the logged in user.
         /// </summary>
         /// <returns></returns>
-        public override IEnumerable<UserBlog> GetUserBlogs()
+        public override IEnumerable<UserBlog> GetUsersBlogs()
         {
-            var result = _wrapper.GetUserBlogs(Username, Password);
+            var result = _wrapper.GetUsersBlogs(null, Username, Password);
             foreach (var r in result)
                 yield return Map.To.UserBlog(r);
         }

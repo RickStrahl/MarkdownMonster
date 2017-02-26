@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebLogAddin.Medium;
 using WebLogAddin.MetaWebLogApi;
@@ -23,7 +24,7 @@ namespace WeblogAddin.Test
             WeblogInfo = new WeblogInfo
             {
                 AccessToken = MediumApiKey,
-                Name = "Markdown Monster Test Blog"                 
+                Name = "Markdown Monster Test Blog"  ,                
             };
         }
 
@@ -47,9 +48,9 @@ namespace WeblogAddin.Test
             Assert.IsTrue(result, medium.ErrorMessage);
 
             // make sure there is at least one publication available
-            var pubs = medium.GetPublications();
+            var pubs = medium.GetBlogs();
             Assert.IsNotNull(pubs, medium.ErrorMessage);
-            string pubId = pubs[0].id;
+            string pubId = pubs.FirstOrDefault().BlogId as string;
             WeblogInfo.BlogId = pubId;
 
             var post = new Post
@@ -106,10 +107,10 @@ namespace WeblogAddin.Test
             Assert.IsTrue(result, medium.ErrorMessage);
 
             // make sure there is at least one publication available
-            var pubs = medium.GetPublications();
+            var pubs = medium.GetBlogs();
             Assert.IsNotNull(pubs, medium.ErrorMessage);
 
-            string pubId = pubs[0].id;
+            string pubId = pubs.FirstOrDefault().BlogId as string;
 
 
             var post = new MediumPost()
@@ -147,18 +148,20 @@ namespace WeblogAddin.Test
 
 
         [TestMethod]
-        public void GetPublications()
+        public void GetBlogs()
         {
+            Console.WriteLine("Starting.");
+                
             var medium = new MediumApiClient(WeblogInfo);
             bool result = medium.GetUser();
             Assert.IsTrue(result, medium.ErrorMessage);
 
-            var pubs = medium.GetPublications();
+            var pubs = medium.GetBlogs();
 
             Assert.IsNotNull(pubs,medium.ErrorMessage);
             foreach (var pub in pubs)
             {
-                Console.WriteLine(pub.id + " - " + pub.name + " - " + pub.description);
+                Console.WriteLine(pub.BlogId + " - " + pub.BlogName);
             }
 
         }

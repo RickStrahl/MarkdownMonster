@@ -35,7 +35,7 @@ namespace WebLogAddin.MetaWebLogApi
 
             if (BlogID == null)
             {
-                try { BlogID = GetUserBlogs().First().BlogID; }
+                try { BlogID = GetUsersBlogs().First().BlogId; }
                 catch { BlogID = 1; }
             }
         }
@@ -44,7 +44,7 @@ namespace WebLogAddin.MetaWebLogApi
         /// Gets the blogs for the user.
         /// </summary>
         /// <returns></returns>
-        public abstract IEnumerable<UserBlog> GetUserBlogs();
+        public abstract IEnumerable<UserBlog> GetUsersBlogs();
 
         /// <summary>
         /// Gets or sets the blog ID.

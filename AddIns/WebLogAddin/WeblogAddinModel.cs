@@ -77,6 +77,8 @@ namespace WeblogAddin
                 if (value == _activeWeblogInfo) return;
                 _activeWeblogInfo = value;
                 OnPropertyChanged(nameof(ActiveWeblogInfo));
+                OnPropertyChanged(nameof(IsUserPassVisible));
+                OnPropertyChanged(nameof(IsTokenVisible));
             }
         }
         private WeblogInfo _activeWeblogInfo;
@@ -150,6 +152,16 @@ namespace WeblogAddin
             }
         }
 
+
+        public bool IsTokenVisible
+        {
+            get { return ActiveWeblogInfo.Type == WeblogTypes.Medium; }
+        }
+        public bool IsUserPassVisible
+        {
+            get { return ActiveWeblogInfo.Type != WeblogTypes.Medium; }
+        }
+
         public List<Post> PostList
         {
             get
@@ -201,7 +213,7 @@ namespace WeblogAddin
 
 
         
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

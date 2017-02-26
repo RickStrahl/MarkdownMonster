@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using CookComputing.XmlRpc;
@@ -15,6 +16,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using WebLogAddin;
+using WebLogAddin.Medium;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
 
@@ -42,14 +44,14 @@ namespace WeblogAddin
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
 
             InitializeComponent();            
-
-            DataContext = Model;
-
+            
             // Code bindings
             ComboWeblogType.ItemsSource = Enum.GetValues(typeof(WeblogTypes)).Cast<WeblogTypes>();            
 
             Loaded += WebLogStart_Loaded;
             Closing += WebLogStart_Closing;
+
+            DataContext = Model;
         }
 
         private void WebLogStart_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -67,6 +69,8 @@ namespace WeblogAddin
 
             if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))
                 Model.ActivePostMetadata.WeblogName = lastBlog;
+
+            
         }
 
 
@@ -141,6 +145,12 @@ namespace WeblogAddin
                 Model.ActiveWeblogInfo.Password = TextWeblogPassword.Password;
                 TextWeblogPassword.Password = string.Empty;
             }
+        }
+
+        private void TextWeblogToken_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Model.ActiveWeblogInfo.AccessToken = TextWeblogToken.Password;
+            TextWeblogToken.Password = string.Empty;            
         }
 
         private void ComboWebLogName_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -394,6 +404,83 @@ namespace WeblogAddin
                 Model.ActiveWeblogInfo.Type = WeblogTypes.Unknown;
 
             ShowStatus("Weblog API Endpoint Url found and updated...", 6000);
+        }
+
+        private void ComboWeblogType_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            // since we
+            Model.OnPropertyChanged(nameof(Model.IsTokenVisible));
+            Model.OnPropertyChanged(nameof(Model.IsUserPassVisible));           
+        }
+
+        private void DropDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowStatus("Getting Blog listing information from service...");
+            WindowUtilities.DoEvents();
+
+            var context = Resources["BlogsContextMenu"] as ContextMenu;
+            context.Items.Clear();
+
+            IEnumerable<UserBlog> blogs = null;
+
+            try
+            {
+                if (Model.ActiveWeblogInfo.Type == WeblogTypes.Medium)
+                {
+                    var client = new MediumApiClient(Model.ActiveWeblogInfo);
+                    blogs = client.GetBlogs();
+                    if (blogs == null)
+                        ShowStatus("Failed to get blog listing: " + client.ErrorMessage,6000);
+                }
+                else if (Model.ActiveWeblogInfo.Type == WeblogTypes.MetaWeblogApi ||
+                         Model.ActiveWeblogInfo.Type == WeblogTypes.Wordpress)
+                {
+                    var client = new MetaWebLogWordpressApiClient(Model.ActiveWeblogInfo);
+                    blogs = client.GetBlogs();
+                    if (blogs == null)
+                        ShowStatus("Failed to get blog listing: " + client.ErrorMessage, 6000);
+                }
+ 
+            }
+            catch (Exception ex)
+            {
+                ShowStatus("Failed to get blogs: " + ex.Message, 6000);
+                return;
+            }
+
+            ShowStatus("Blogs retrieved...", 2000);
+
+            if (blogs == null)
+                return;
+
+            string blogId = Model.ActiveWeblogInfo.BlogId as string;
+
+            if (!string.IsNullOrEmpty(blogId) && !blogs.Any(b => b.BlogId == blogId))
+                context.Items.Add(new MenuItem {Header = blogId, Tag = blogId});
+
+            foreach (var blog in blogs)
+            {
+                var item = new MenuItem()
+                {
+                    Header = blog.BlogName,
+                    Tag = blog.BlogId,
+                };
+                item.Click += (s,ea) =>
+                {                    
+                    var mitem = s as MenuItem;
+                    if (mitem == null)
+                        return;
+
+                    Model.ActiveWeblogInfo.BlogId = mitem.Tag as string;
+                    context.Items.Clear();
+                };
+                context.Items.Add(item);
+            }            
+        }
+
+        private void Hyperlink_UrlNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            ShellUtils.GoUrl("https://markdownmonster.west-wind.com/docs/_4rg0qzg1i.htm");
         }
     }
 }

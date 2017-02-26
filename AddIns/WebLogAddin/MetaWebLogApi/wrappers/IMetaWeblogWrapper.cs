@@ -8,7 +8,7 @@ namespace WebLogAddin.MetaWebLogApi
         IEnumerable<Category> GetCategories();
         Post GetPost(object postID);
         IEnumerable<Post> GetRecentPosts(int numberOfPosts);
-        IEnumerable<UserBlog> GetUserBlogs();
+        IEnumerable<UserBlog> GetUsersBlogs();
         UserInfo GetUserInfo();
         MediaObjectInfo NewMediaObject(MediaObject mediaObject);
         string NewPost(Post post, bool publish);

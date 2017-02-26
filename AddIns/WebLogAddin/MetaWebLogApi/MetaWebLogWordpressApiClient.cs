@@ -40,7 +40,7 @@ namespace WebLogAddin.MetaWebLogApi
 
             
 
-            var wrapper = GetWrapper(WeblogInfo.Type);
+            var wrapper = GetWrapper();
 
             string body = post.Body;
             try
@@ -121,7 +121,7 @@ namespace WebLogAddin.MetaWebLogApi
 
             try
             {
-                var wrapper = GetWrapper(WeblogInfo.Type);
+                var wrapper = GetWrapper();
                 var postRaw = wrapper.GetPostRaw(postId);
                 link = postRaw.link;
             }
@@ -206,6 +206,13 @@ namespace WebLogAddin.MetaWebLogApi
             return html;
         }
 
+
+        public IEnumerable<UserBlog> GetBlogs()
+        {
+            var wrapper = GetWrapper();
+            return wrapper.GetUsersBlogs().ToList();
+        }
+
         /// <summary>
         /// determines whether post is a new post based on
         /// a postId of various types
@@ -231,8 +238,10 @@ namespace WebLogAddin.MetaWebLogApi
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        MetaWeblogWrapper GetWrapper(WeblogTypes type)            
+        MetaWeblogWrapper GetWrapper()            
         {
+            var type = WeblogInfo.Type;
+
             MetaWeblogWrapper wrapper;
             if (type == WeblogTypes.MetaWeblogApi)
                 wrapper = new MetaWeblogWrapper(WeblogInfo.ApiUrl,

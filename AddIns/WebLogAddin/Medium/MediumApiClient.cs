@@ -21,7 +21,10 @@ namespace WebLogAddin.Medium
     /// <summary>
     /// Very basic implementation of the Medium Blog API 
     /// for posting new stories. 
-    ///     
+    /// 
+    /// For these tests to work make sure to first create 
+    /// a Medium account named "Medium Markdown Monster Test"
+    /// in Markdown Monster and add it    
     /// </summary>
     /// <remarks>
     /// Medium doesn't support updating of posts so posting
@@ -69,7 +72,10 @@ namespace WebLogAddin.Medium
         {
             WeblogInfo = weblogInfo;
             WeblogInfo.ApiUrl = MediumApiUrl;
-            MediumApiUserToken = WeblogInfo.DecryptPassword(WeblogInfo.Password);
+
+            MediumApiUserToken = WeblogInfo.DecryptPassword(WeblogInfo.AccessToken);
+
+            GetUser();
         }
 
 
@@ -79,6 +85,12 @@ namespace WebLogAddin.Medium
         /// <returns></returns>
         public bool GetUser()
         {
+            if (string.IsNullOrEmpty(MediumApiUserToken))
+            {
+                ErrorMessage = "Missing Medium API Access Token. Make sure you set up the token before other operations.";
+                return false;
+            }
+
             if (User != null)
                 return true;
 
@@ -231,6 +243,8 @@ namespace WebLogAddin.Medium
             }
 
             var postResult = JsonConvert.DeserializeObject<MediumPostResult>(httpResult);
+
+            this.PostUrl = postResult.data.url;
             return postResult.data;
         }
         
@@ -264,8 +278,11 @@ namespace WebLogAddin.Medium
         }
 
        
-        public List<MediumPublication>  GetPublications()
+        public IEnumerable<UserBlog>  GetBlogs()
         {
+            if (!GetUser())
+                return null;
+
             string url = MediumApiUrl + "users/" + User.id + "/publications";
 
             var http = CreateHttpClient(url);
@@ -283,8 +300,18 @@ namespace WebLogAddin.Medium
                 ErrorMessage = "Unable to convert user data.";
                 return null;
             }
-            
-            return result.data;
+
+            var blogs = new List<UserBlog>();
+            foreach (var blog in result.data)
+            {
+                blogs.Add(new UserBlog()
+                {
+                     BlogId = blog.id,
+                     BlogName = blog.name,                     
+                });
+            }
+
+            return blogs;
         }
 
         public string GetPostUrl(object postId)
