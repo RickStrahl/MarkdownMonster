@@ -31,7 +31,7 @@ namespace WebLogAddin.Medium
 
         public string name { get; set; }
         public string description { get; set; }
-        public string imageUrl { get; set; }    
+        public string imageUrl { get; set; }
     }
 
 
@@ -76,5 +76,17 @@ namespace WebLogAddin.Medium
         public string url { get; set; }
         public string md5 { get; set; }
     }
-    
+
+
+    public class ErrorResult
+    {
+        public Error[] errors { get; set; }
+    }
+
+    public class Error
+    {
+        public string message { get; set; }
+        public int code { get; set; }
+    }
+
 }

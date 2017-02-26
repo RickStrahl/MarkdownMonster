@@ -214,26 +214,26 @@ namespace WebLogAddin.Medium
         /// <returns></returns>
         public MediumPost PublishPost(MediumPost post, string publicationId = null)
         {
-            
+
             if (string.IsNullOrEmpty(UserId))
             {
                 ErrorMessage = "UserId has not been set yet. Make sure to call GetUser first.";
                 return null;
             }
-            
+
             var settings = new JsonSerializerSettings()
             {
                 NullValueHandling = NullValueHandling.Ignore,
                 Formatting = Formatting.Indented
             };
-            var json = JsonConvert.SerializeObject(post,settings);
+            var json = JsonConvert.SerializeObject(post, settings);
 
 
             string url = MediumApiUrl + "users/" + UserId + "/posts";
             if (!string.IsNullOrEmpty(publicationId))
                 url = MediumApiUrl + "publications/" + publicationId + "/posts";
 
-            var http = CreateHttpClient(url,json);            
+            var http = CreateHttpClient(url, json);
 
             var httpResult = http.DownloadString(url);
             if (http.Error)
@@ -241,13 +241,31 @@ namespace WebLogAddin.Medium
                 ErrorMessage = http.ErrorMessage;
                 return null;
             }
+            if (httpResult.Contains("\"errors\":"))
+            {
+                //{ "errors":[{"message":"Publication does not exist or user not allowed to publish in it","code":2006}]}
+                var errorResult = JsonConvert.DeserializeObject<ErrorResult>(httpResult);
+
+                StringBuilder sb = new StringBuilder();
+                foreach (var err in errorResult.errors)
+                    sb.AppendLine(err.message);
+
+                ErrorMessage = sb.ToString();
+                return null;
+            }
+
 
             var postResult = JsonConvert.DeserializeObject<MediumPostResult>(httpResult);
+            if (postResult.data == null)
+            {
+                ErrorMessage = "Unable to parse publishing API response.";
+                return null;
+            }
 
             this.PostUrl = postResult.data.url;
             return postResult.data;
+
         }
-        
 
 
         /// <summary>

@@ -2,8 +2,11 @@
 
 # Markdown Monster Change Log
 
-### 1.2.2
+### 1.2.5
 <small>not released yet</small>
+
+* **Add support for publishing to Medium Blogs**  
+You can now post your Markdown to a Medium blog. Unlike Wordpress and MetaWeblog API support however, due to severe [limitations in the Medium API](https://github.com/Medium/medium-api-docs) there is no support for re-posting or downloading of posts. The Medium support is **limited to one-time posts**. Any subsequent editing has to be done on the Medium site.
 
 * **Show character count**  
 The title bar now shows the character count in addition to the word and line counts. This can be useful if you're using the editor to compose tweets or other character count sensitive text snippets.
