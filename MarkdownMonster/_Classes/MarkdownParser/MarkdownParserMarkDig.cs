@@ -32,8 +32,10 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using Markdig;
+using Markdig.Renderers;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -47,53 +49,23 @@ namespace MarkdownMonster
     {
         public static MarkdownPipeline Pipeline;
 
+        private readonly bool _usePragmaLines;
+
         private bool RenderLinksExternal = false;
 
         public MarkdownParserMarkdig(bool usePragmaLines = false, bool force = false)
         {
+            _usePragmaLines = usePragmaLines;
             if (force || Pipeline == null)
             {
-                var builder = new MarkdownPipelineBuilder()
-                    .UseEmphasisExtras()
-                    .UsePipeTables()
-                    .UseGridTables()
-                    .UseFooters()
-                    .UseFootnotes()
-                    .UseCitations();                  
-                    
-
-                var options = mmApp.Configuration.MarkdownOptions;
-                if (options.AutoLinks)
-                    builder = builder.UseAutoLinks();
-                if (options.AutoHeaderIdentifiers)
-                    builder = builder.UseAutoIdentifiers();
-                if (options.StripYamlFrontMatter)
-                    builder = builder.UseYamlFrontMatter();
-                if (options.EmojiAndSmiley)
-                    builder = builder.UseEmojiAndSmiley();
-                if (options.MediaLinks)
-                    builder = builder.UseMediaLinks();
-                if(options.ListExtras)
-                    builder = builder.UseListExtras();
-                if(options.Figures)
-                    builder = builder.UseFigures();
-                if(options.GithubTaskLists)
-                    builder = builder.UseTaskLists();
-                if(options.SmartyPants)
-                    builder = builder.UseSmartyPants();                
-
-                if (usePragmaLines)
-                    builder = builder.UsePragmaLines();
-                
-                Pipeline = builder.Build();                
-                
+                var builder = CreatePipelineBuilder();
+                Pipeline = builder.Build();
                 
                 if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
                     RenderLinksExternal = true;
             }
         }
 
-  
         /// <summary>
         /// Parses the actual markdown down to html
         /// </summary>
@@ -104,7 +76,10 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(markdown))
                 return string.Empty;
 
-            var html = Markdown.ToHtml(markdown, Pipeline);
+            var htmlWriter = new StringWriter();
+            var renderer = CreateRenderer(htmlWriter);
+            Markdown.Convert(markdown, renderer, Pipeline);
+            var html = htmlWriter.ToString();
             
             html = ParseFontAwesomeIcons(html);
 
@@ -116,6 +91,47 @@ namespace MarkdownMonster
                       
             return html;
         }
-    }
 
+        protected virtual MarkdownPipelineBuilder CreatePipelineBuilder()
+        {
+            var builder = new MarkdownPipelineBuilder()
+                .UseEmphasisExtras()
+                .UsePipeTables()
+                .UseGridTables()
+                .UseFooters()
+                .UseFootnotes()
+                .UseCitations();
+
+
+            var options = mmApp.Configuration.MarkdownOptions;
+            if (options.AutoLinks)
+                builder = builder.UseAutoLinks();
+            if (options.AutoHeaderIdentifiers)
+                builder = builder.UseAutoIdentifiers();
+            if (options.StripYamlFrontMatter)
+                builder = builder.UseYamlFrontMatter();
+            if (options.EmojiAndSmiley)
+                builder = builder.UseEmojiAndSmiley();
+            if (options.MediaLinks)
+                builder = builder.UseMediaLinks();
+            if (options.ListExtras)
+                builder = builder.UseListExtras();
+            if (options.Figures)
+                builder = builder.UseFigures();
+            if (options.GithubTaskLists)
+                builder = builder.UseTaskLists();
+            if (options.SmartyPants)
+                builder = builder.UseSmartyPants();
+
+            if (_usePragmaLines)
+                builder = builder.UsePragmaLines();
+
+            return builder;
+        }
+
+        protected virtual IMarkdownRenderer CreateRenderer(TextWriter writer)
+        {
+            return new HtmlRenderer(writer);
+        }
+    }
 }
