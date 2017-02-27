@@ -119,7 +119,7 @@ namespace WeblogAddin
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool SendPost(WeblogTypes type = WeblogTypes.Unknown, bool sendAsDraft = false)
+        public bool SendPost(WeblogInfo weblogInfo, bool sendAsDraft = false)
         {            
             var editor = Model.ActiveEditor;
             if (editor == null)
@@ -135,13 +135,16 @@ namespace WeblogAddin
             // start by retrieving the current Markdown from the editor
             string markdown = editor.GetMarkdown();
 
+
             // Retrieve Meta data from post and clean up the raw markdown
             // so we render without the config data
-            var meta = GetPostConfigFromMarkdown(markdown);
+            var meta = GetPostConfigFromMarkdown(markdown, weblogInfo);
 
             string html = doc.RenderHtml(meta.MarkdownBody, WeblogAddinConfiguration.Current.RenderLinksOpenExternal);
             ActivePost.Body = html;
-            ActivePost.PostID = meta.PostId;  
+            ActivePost.PostID = meta.PostId;
+            
+
 
             var config = WeblogAddinConfiguration.Current;
 
@@ -153,10 +156,12 @@ namespace WeblogAddin
                                 MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
-            WeblogInfo weblogInfo = kv.Value;
+            weblogInfo = kv.Value;
 
+            var type = weblogInfo.Type;
             if (type == WeblogTypes.Unknown)
                 type = weblogInfo.Type;
+
 
             string basePath = Path.GetDirectoryName(doc.Filename);
             bool postResult = false;
@@ -515,7 +520,7 @@ namespace WeblogAddin
         /// </summary>
         /// <param name="markdown"></param>        
         /// <returns></returns>
-        public WeblogPostMetadata GetPostConfigFromMarkdown(string markdown)
+        public WeblogPostMetadata GetPostConfigFromMarkdown(string markdown, WeblogInfo weblogInfo)
         {
             var meta = new WeblogPostMetadata()
             {
@@ -529,7 +534,9 @@ namespace WeblogAddin
             var lines = StringUtils.GetLines(markdown,20);
             if (lines.Length > 0 && lines[0].StartsWith("# "))
             {
-                meta.MarkdownBody = meta.MarkdownBody.Replace(lines[0], "").Trim();
+                if (weblogInfo.Type != WeblogTypes.Medium) // medium wants the header in the text
+                    meta.MarkdownBody = meta.MarkdownBody.Replace(lines[0], "").Trim();                
+
                 meta.Title = lines[0].Trim().Substring(2);
             }
             else if (lines.Length > 2 && lines[0] == "---" && meta.MarkdownBody.Contains("layout: post"))
@@ -575,6 +582,7 @@ namespace WeblogAddin
 
             ActivePost.Title = meta.Title;            
             ActivePost.Categories = meta.Categories.Split(new [] { ','},StringSplitOptions.RemoveEmptyEntries);
+            ActivePost.Tags = meta.Keywords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             ActivePost.mt_excerpt = meta.Abstract;
             ActivePost.mt_keywords = meta.Keywords;

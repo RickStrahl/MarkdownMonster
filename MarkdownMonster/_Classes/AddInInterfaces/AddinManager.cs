@@ -90,8 +90,9 @@ namespace MarkdownMonster.AddIns
                         }
                         catch (Exception ex)
                         {
-                            mmApp.Log($"Addin {addin.Name} Execute failed", ex);
-                            string msg = $"Addin {addin.Name} failed:\r\n" + ex.GetBaseException().Message;
+                            mmApp.Log($"Addin {addin.Name ?? addin.Id} Execute failed", ex);
+                            string msg = $"The '{addin.Name ?? addin.Id}' addin failed:\r\n\r\n{ex.GetBaseException().Message}\r\n\r\n" + 
+                                           "You can check to see if there is an update for the Addin available in the Addin Manager. We also recommend you update to the latest version of Markdown Monster.";
                             MessageBox.Show(msg, "Addin Execution Failed",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                         }

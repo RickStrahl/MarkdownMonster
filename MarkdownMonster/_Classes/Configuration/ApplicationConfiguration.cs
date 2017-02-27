@@ -410,18 +410,7 @@ namespace MarkdownMonster
 
         internal string InternalCommonFolder { get; set; }
 
-        internal string AddinsFolder
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_AddinsFolder))
-                    _AddinsFolder = Path.Combine(CommonFolder, "Addins");
-                return _AddinsFolder;
-            }
-        }
-        private string _AddinsFolder;
-
-
+        internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
 
         #endregion
 

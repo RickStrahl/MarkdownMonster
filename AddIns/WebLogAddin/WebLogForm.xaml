@@ -52,19 +52,19 @@
                 </Style>
             </dragablz:TabablzControl.Resources>
 
-            <controls:MetroTabItem Header="Post to Weblog " Margin="0,0,5,0" CloseButtonEnabled="False"                                   
-                                   controls:ControlsHelper.HeaderFontSize="16">
+            <controls:MetroTabItem Name="TabPublish" Header="Post to Weblog " Margin="0,0,5,0" CloseButtonEnabled="False"                                   
+                                   controls:ControlsHelper.HeaderFontSize="16" >
 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
                     <Label>Title:</Label>
                     <TextBox Text="{Binding ActivePostMetadata.Title}"  Style="{StaticResource HeaderStyle}" />
 
-                    <Label Margin="0,10,0,0">Abstract:</Label>
+                    <Label Margin="0,10,0,0"  IsEnabled="{Binding IsAbstractVisible}">Abstract:</Label>
                     <TextBox TextWrapping="Wrap" Height="100"
-                	Text="{Binding ActivePostMetadata.Abstract}"   />
+                	Text="{Binding ActivePostMetadata.Abstract}" IsEnabled="{Binding IsAbstractVisible}"   />
 
-                    <Label Margin="0,10,0,0">Categories:</Label>
-                    <TextBox   Text="{Binding ActivePostMetadata.Categories}"  />
+                    <Label Margin="0,10,0,0" IsEnabled="{Binding IsCategoriesVisible}">Categories:</Label>
+                    <TextBox  Text="{Binding ActivePostMetadata.Categories}" IsEnabled="{Binding IsCategoriesVisible}"  />
 
                     <Label Margin="0,10,0,0">Keywords:</Label>
                     <TextBox Text="{Binding ActivePostMetadata.Keywords}"  />
@@ -90,7 +90,7 @@
                            />
 
                         <Label Grid.Row="0"  Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Right">Post Id:</Label>
-                        <TextBox Grid.Row="1"  Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
+                        <TextBox Grid.Row="1"  IsEnabled="{Binding IsAbstractVisible}" Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
                         
                         <CheckBox Name="PublishAsDraftCheckbox" Grid.Row="2" Grid.Column="0" Margin="0,5,0,0" 
                                   Content="Publish as Draft"  IsChecked="{Binding ActivePostMetadata.IsDraft}"                                  

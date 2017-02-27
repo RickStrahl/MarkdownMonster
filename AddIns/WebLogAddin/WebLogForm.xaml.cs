@@ -63,14 +63,12 @@ namespace WeblogAddin
                 return;
 
             var markdown = editor.GetMarkdown();
-            Model.ActivePostMetadata = Model.Addin.GetPostConfigFromMarkdown(markdown);
+            Model.ActivePostMetadata = Model.Addin.GetPostConfigFromMarkdown(markdown, Model.ActiveWeblogInfo);
                 
             var lastBlog = WeblogAddinConfiguration.Current.LastWeblogAccessed;
 
             if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))
                 Model.ActivePostMetadata.WeblogName = lastBlog;
-
-            
         }
 
 
@@ -102,7 +100,7 @@ namespace WeblogAddin
                 await Dispatcher.InvokeAsync(() =>
                 {
                     // Then send the post - it will re-read the new values
-                    if (Model.Addin.SendPost(sendAsDraft: Model.ActivePostMetadata.IsDraft))
+                    if (Model.Addin.SendPost(Model.ActiveWeblogInfo, Model.ActivePostMetadata.IsDraft))
                         Close();
                     else
                         window.ShowStatus("Failed to upload blog post.", 5000);

@@ -140,7 +140,7 @@ namespace WebLogAddin.Medium
                 content = post.Body,
                  contentFormat = "html",
                  publishStatus = sendasDraft ? "draft" : "public",
-                 tags = post.Tags
+                 tags = post.Tags                 
             };
 
             if (!GetUser())
