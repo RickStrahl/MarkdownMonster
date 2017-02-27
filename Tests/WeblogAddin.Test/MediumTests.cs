@@ -20,6 +20,8 @@ namespace WeblogAddin.Test
         {
             // create a file with your test account api key
             MediumApiKey = File.ReadAllText(".\\ApiKey.txt");
+            if (string.IsNullOrEmpty(MediumApiKey) || MediumApiKey.Contains(" "))
+                Assert.IsTrue(false, "Please add a valid Medium integration token into apikey.txt.");
 
             WeblogInfo = new WeblogInfo
             {
