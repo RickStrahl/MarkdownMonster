@@ -11,12 +11,10 @@ namespace MarkdownMonster
         public int Left { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-
+        
         /// <summary>
-        /// Hold last window state.
+        /// X offset to the position of the splitter
         /// </summary>
-        public WindowState WindowState { get; set; }
-
         public int SplitterPosition
         {
             get { return _splitterPosition; }
@@ -27,5 +25,11 @@ namespace MarkdownMonster
             }   
         }
         private int _splitterPosition;
+
+
+        /// <summary>
+        /// Hold last window state.
+        /// </summary>
+        public WindowState WindowState { get; set; }
     }
 }
