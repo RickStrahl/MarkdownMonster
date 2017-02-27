@@ -108,6 +108,9 @@ namespace MarkdownMonster
                 builder = builder.UseAutoLinks();
             if (options.AutoHeaderIdentifiers)
                 builder = builder.UseAutoIdentifiers();
+            if (options.Abbreviations)
+                builder = builder.UseAbbreviations();
+
             if (options.StripYamlFrontMatter)
                 builder = builder.UseYamlFrontMatter();
             if (options.EmojiAndSmiley)
@@ -121,7 +124,7 @@ namespace MarkdownMonster
             if (options.GithubTaskLists)
                 builder = builder.UseTaskLists();
             if (options.SmartyPants)
-                builder = builder.UseSmartyPants();
+                builder = builder.UseSmartyPants();            
 
             if (_usePragmaLines)
                 builder = builder.UsePragmaLines();

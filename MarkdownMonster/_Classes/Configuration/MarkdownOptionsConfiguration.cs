@@ -13,6 +13,8 @@ namespace MarkdownMonster
         /// </summary>
         public bool AutoLinks { get; set; } = true;
 
+        public bool Abbreviations { get; set; } = true;
+
         /// <summary>
         /// Determines if headers automatically generate 
         /// ids.
@@ -107,6 +109,9 @@ namespace MarkdownMonster
                 OnPropertyChanged();
             }
         }
+
+        
+
         private string _markdownParserName;
 
         #endregion
