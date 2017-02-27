@@ -246,12 +246,12 @@ namespace WebLogAddin.MetaWebLogApi
             if (type == WeblogTypes.MetaWeblogApi)
                 wrapper = new MetaWeblogWrapper(WeblogInfo.ApiUrl,
                     WeblogInfo.Username,
-                    WeblogInfo.DecryptPassword(WeblogInfo.Password),
+                    mmApp.DecryptString(WeblogInfo.Password),
                     WeblogInfo.BlogId);
             else
                 wrapper = new WordPressWrapper(WeblogInfo.ApiUrl,
                     WeblogInfo.Username,
-                    WeblogInfo.DecryptPassword(WeblogInfo.Password));
+                    mmApp.DecryptString(WeblogInfo.Password));
 
             return wrapper;
         }

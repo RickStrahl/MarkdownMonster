@@ -73,7 +73,7 @@ namespace WebLogAddin.Medium
             WeblogInfo = weblogInfo;
             WeblogInfo.ApiUrl = MediumApiUrl;
 
-            MediumApiUserToken = WeblogInfo.DecryptPassword(WeblogInfo.AccessToken);
+            MediumApiUserToken = mmApp.DecryptString(WeblogInfo.AccessToken);
 
             GetUser();
         }

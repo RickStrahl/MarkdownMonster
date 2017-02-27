@@ -21,9 +21,10 @@ namespace MarkdownMonster
                 dynamic major;
                 // The 'CurrentMajorVersionNumber' string value in the CurrentVersion key is new for Windows 10, 
                 // and will most likely (hopefully) be there for some time before MS decides to change this - again...
-                if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentMajorVersionNumber", out major))
+                if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentMajorVersionNumber",
+                    out major))
                 {
-                    return (uint)major;
+                    return (uint) major;
                 }
 
                 // When the 'CurrentMajorVersionNumber' value is not present we fallback to reading the previous key used for this: 'CurrentVersion'
@@ -31,7 +32,7 @@ namespace MarkdownMonster
                 if (!TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentVersion", out version))
                     return 0;
 
-                var versionParts = ((string)version).Split('.');
+                var versionParts = ((string) version).Split('.');
                 if (versionParts.Length != 2) return 0;
                 uint majorAsUInt;
                 return uint.TryParse(versionParts[0], out majorAsUInt) ? majorAsUInt : 0;
@@ -51,7 +52,7 @@ namespace MarkdownMonster
                 if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentMinorVersionNumber",
                     out minor))
                 {
-                    return (uint)minor;
+                    return (uint) minor;
                 }
 
                 // When the 'CurrentMinorVersionNumber' value is not present we fallback to reading the previous key used for this: 'CurrentVersion'
@@ -59,7 +60,7 @@ namespace MarkdownMonster
                 if (!TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentVersion", out version))
                     return 0;
 
-                var versionParts = ((string)version).Split('.');
+                var versionParts = ((string) version).Split('.');
                 if (versionParts.Length != 2) return 0;
                 uint minorAsUInt;
                 return uint.TryParse(versionParts[1], out minorAsUInt) ? minorAsUInt : 0;
@@ -120,7 +121,7 @@ namespace MarkdownMonster
                 if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "InstallationType",
                     out installationType))
                 {
-                    return (uint)(installationType.Equals("Client") ? 0 : 1);
+                    return (uint) (installationType.Equals("Client") ? 0 : 1);
                 }
 
                 return 0;
@@ -137,10 +138,10 @@ namespace MarkdownMonster
         {
             if (!string.IsNullOrEmpty(DotnetVersion))
                 return DotnetVersion;
-            
+
             dynamic value;
             TryGetRegistryKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\", "Release", out value);
-            
+
             if (value == null)
             {
                 DotnetVersion = "4.0";
@@ -181,35 +182,47 @@ namespace MarkdownMonster
 
             try
             {
-                using (var rk = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true))
+                using (
+                    var rk =
+                        Registry.CurrentUser.OpenSubKey(
+                            @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true)
+                )
                 {
                     dynamic value = rk.GetValue(exename);
                     if (value == null)
-                        rk.SetValue(exename, (uint)11001, RegistryValueKind.DWord);
+                        rk.SetValue(exename, (uint) 11001, RegistryValueKind.DWord);
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
+
         public static void EnsureSystemPath()
         {
             try
-            {                
+            {
                 using (var sk = Registry.CurrentUser.OpenSubKey("Environment", true))
                 {
-                    string mmFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),"Markdown Monster");                    
+                    string mmFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                        "Markdown Monster");
                     string path = sk.GetValue("Path").ToString();
                     if (!path.Contains(mmFolder))
-                    {                        
-                        var pathList = path.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                        pathList.Add(mmFolder);                            
+                    {
+                        var pathList = path.Split(new char[] {';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        pathList.Add(mmFolder);
                         path = string.Join(";", pathList.Distinct().ToArray());
 
                         sk.SetValue("Path", path);
-                    }                                        
+                    }
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
+
+    
 
         public static bool TryGetRegistryKey(string path, string key, out dynamic value, bool UseCurrentUser = false)
         {

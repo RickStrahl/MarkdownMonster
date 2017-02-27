@@ -188,7 +188,7 @@ namespace WeblogAddin
 
             var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                 weblogInfo.Username,
-                weblogInfo.DecryptPassword(weblogInfo.Password),
+                mmApp.DecryptString(weblogInfo.Password),
                 weblogInfo.BlogId);
 
 
@@ -326,7 +326,7 @@ namespace WeblogAddin
             {
                 var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
                     weblogInfo.Username,
-                    weblogInfo.DecryptPassword(weblogInfo.Password),
+                    mmApp.DecryptString(weblogInfo.Password),
                     weblogInfo.BlogId);
 
                 try
@@ -343,7 +343,7 @@ namespace WeblogAddin
             {
                 var wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
                     weblogInfo.Username,
-                    weblogInfo.DecryptPassword(weblogInfo.Password));
+                    mmApp.DecryptString(weblogInfo.Password));
 
                 try
                 {

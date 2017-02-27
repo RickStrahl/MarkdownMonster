@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -76,8 +77,9 @@ namespace MarkdownMonster
                     return false;
 
                 string key = File.ReadAllText(RegisterFile);
+                var encodedKey = EncodeKey(ProKey);
 
-                if (key == EncodeKey(ProKey))
+                if (key == encodedKey )
                 {
                     _regType = RegTypes.Professional;
                     _unlocked = true;
@@ -107,8 +109,7 @@ namespace MarkdownMonster
                 _unlocked = true;
                 key = EncodeKey(key);
                 File.WriteAllText(RegisterFile, key);
-
-                //if (RawKey == ProKey)
+                
                 _regType = RegTypes.Professional;
             }
             return true;
@@ -124,30 +125,14 @@ namespace MarkdownMonster
         /// <summary>
         /// Encodes the plain text key
         /// </summary>
-        /// <param name="Key"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
-        static string EncodeKey(string Key)
+        static string EncodeKey(string key)
         {
-            var Encoded = Encryption.EncryptString(Key, mmApp.EncryptionMachineKey);
-            //string Encoded = Key; //  for now do nothing Key.GetHashCode().ToString("x");
-            return Encoded;
+            var encoded = Encryption.ComputeHash(key,"HMACSHA256", mmApp.InternalMachineKey);            
+            //Debug.WriteLine($"encoded: {key} {encoded} {mmApp.EncryptionMachineKey}");
+            return encoded;
         }
-
-        //static string GetMacAddress()
-        //{
-        //    string macAddresses = string.Empty;
-
-        //    foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
-        //    {
-        //        if (nic.OperationalStatus == OperationalStatus.Up)
-        //        {
-        //            macAddresses += nic.GetPhysicalAddress().ToString();
-        //            break;
-        //        }
-        //    }
-
-        //    return macAddresses;
-        //}
     }
 
     public enum RegTypes

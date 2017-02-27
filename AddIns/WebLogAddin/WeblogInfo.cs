@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using MarkdownMonster;
 using MarkdownMonster.Annotations;
 using WebLogAddin.Medium;
 using Westwind.Utilities;
@@ -65,7 +66,7 @@ namespace WeblogAddin
             get { return _password; }
             set
             {
-                _password = EncryptPassword(value);
+                _password = mmApp.EncryptString(value);
                 OnPropertyChanged(nameof(Password));
             }
         }
@@ -171,9 +172,7 @@ namespace WeblogAddin
                 OnPropertyChanged(nameof(PreviewUrl));
             }
         }
-        private string _previewUrl;
-
-        string pb = Encoding.Default.GetString( new byte[] {  44, 33, 29,233, 255, 78, 33, 89, 88, 235, 121, 187});
+        private string _previewUrl;        
         private string postFix = "*~~*";
         private string _password;
 
@@ -191,21 +190,21 @@ namespace WeblogAddin
             if (password.EndsWith(postFix))
                 return password;
 
-            return Encryption.EncryptString(password,pb) + postFix;
+            return Encryption.EncryptString(password,mmApp.EncryptionMachineKey) + postFix;
         }
 
-        public string DecryptPassword(string encrypted)
-        {
-            if (string.IsNullOrEmpty(encrypted))
-                return string.Empty;
+        //public string DecryptPassword(string encrypted)
+        //{
+        //    if (string.IsNullOrEmpty(encrypted))
+        //        return string.Empty;
 
-            if (!encrypted.EndsWith(postFix))
-                return encrypted;
+        //    if (!encrypted.EndsWith(postFix))
+        //        return encrypted;
 
-            encrypted = encrypted.Replace(postFix, "");
+        //    encrypted = encrypted.Replace(postFix, "");
 
-            return Encryption.DecryptString(encrypted, pb);
-        }
+        //    return Encryption.DecryptString(encrypted, mmApp.EncryptionMachineKey);
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 
