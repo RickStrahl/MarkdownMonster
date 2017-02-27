@@ -344,11 +344,17 @@ namespace MarkdownMonster
 
         public MarkdownOptions MarkdownOptions { get; set; }
 
+        #region Folders
         /// <summary>
-        /// Common folder where configuration files are stored.
+        /// Common folder where configuration files are stored. Can be moved
+        /// to an alternate location to allow sharing.
         /// </summary>
-        [JsonIgnore]
+
         public string CommonFolder { get; set;  }
+
+        internal string InternalCommonFolder { get; set; }
+
+        #endregion
 
         [JsonIgnore]
         internal string AddinsFolder
@@ -459,7 +465,8 @@ namespace MarkdownMonster
             OpenDocuments = new List<MarkdownDocument>();
 
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            CommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Markdown Monster");
+            InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Markdown Monster");
+            CommonFolder = InternalCommonFolder;
 
             _markdownParserName = MarkdownParserFactory.DefaultMarkdownParserName;
             PreviewSyncMode = PreviewSyncMode.EditorAndPreview;
