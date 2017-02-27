@@ -20,7 +20,7 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void CheckVersionFrequencyTest()
         {
-            var updates = new ApplicationUpdates();
+            var updates = new ApplicationUpdatesConfiguration();
             updates.LastUpdateCheck =
 
             mmApp.Configuration.ApplicationUpdates.LastUpdateCheck = DateTime.Now.AddDays(-8);

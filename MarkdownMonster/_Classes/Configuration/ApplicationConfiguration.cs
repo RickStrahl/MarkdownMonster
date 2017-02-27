@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using Newtonsoft.Json;
 using Westwind.Utilities.Configuration;
 
@@ -33,8 +32,16 @@ namespace MarkdownMonster
             }
         }
         private Themes _applicationTheme;
+        public bool OpenInPresentationMode { get; set; }
 
+        /// <summary>
+        /// Determines whether Markdown Monster runs as a Singleton application.
+        /// If true only a single instance runs and parameters are forwarded to
+        /// open in the single instance.
+        /// </summary>
+        public bool UseSingleWindow { get; set; }
 
+        #region Editor Settings
         /// <summary>
         /// The theme used for the editor. Can be any of AceEditor themes
         /// twilight, visualstudio, github, monokai etc.
@@ -247,128 +254,11 @@ namespace MarkdownMonster
         /// default (ace/vs), vim, emacs
         /// </summary>
         public object EditorKeyboardHandler { get; set; }
-
-        /// <summary>
-        /// Determines whether the Markdown rendering allows script tags 
-        /// in generated HTML output. Set this to true
-        /// if you want to allow script tags to be rendered into
-        /// HTML script tags and execute - such as embedding
-        /// Gists or other Widgets that use scripts.        
-        /// </summary>
-        public bool AllowRenderScriptTags
-        {
-            get { return _allowRenderScriptTags; }
-            set
-            {
-                if (value == _allowRenderScriptTags) return;
-                _allowRenderScriptTags = value;
-                OnPropertyChanged(nameof(AllowRenderScriptTags));
-            }
-        }
-        private bool _allowRenderScriptTags;
-
-        /// <summary>
-        /// Determines whether links are always rendered with target='top'
-        /// </summary>
-
-        public bool RenderLinksExternal
-        {
-            get { return _RenderLinksExternal; }
-            set
-            {
-                if (value == _RenderLinksExternal) return;
-                _RenderLinksExternal = value;
-                OnPropertyChanged(nameof(RenderLinksExternal));
-            }
-        }
-        private bool _RenderLinksExternal;
-
-
-        /// <summary>
-        /// The name of the Markdown Parser used to render
-        /// output. New parsers or parser configurations can be 
-        /// added via Addins.
-        /// </summary>        
-        public string MarkdownParserName
-        {
-            get { return _markdownParserName; }
-            set
-            {
-                if (value == _markdownParserName) return;
-                _markdownParserName = value;
-                OnPropertyChanged(nameof(MarkdownParserName));
-            }
-        }
-
-        private string _markdownParserName;
-
-
-        /// <summary>
-        /// If greater than 0 re-opens up to number of files that were open when last closed.
-        /// </summary>
-        public int RememberLastDocuments { get; set; }
-
-
-        public bool OpenInPresentationMode { get; set; }
-
-        /// <summary>
-        /// Determines whether Markdown Monster runs as a Singleton application.
-        /// If true only a single instance runs and parameters are forwarded to
-        /// open in the single instance.
-        /// </summary>
-        public bool UseSingleWindow { get; set; }
-
-
-        /// <summary>
-        /// Determines whether errors are reported anonymously
-        /// </summary>
-        public bool ReportErrors { get; set; }
-
-
-        [JsonIgnore]
-        public string BugReportUrl { get; set; }
-
-        [JsonIgnore]
-        public string TelemetryUrl { get; set; }
-
-
-        /// <summary>
-        /// Flag to determine whether telemetry is sent
-        /// </summary>
-        public bool SendTelemetry { get; set; }
-
-        /// <summary>
-        /// Remembers last Is link External setting when embedding links
-        /// </summary>
-        public bool LastLinkExternal { get; set; }
-
-        public MarkdownOptions MarkdownOptions { get; set; }
-
-        #region Folders
-        /// <summary>
-        /// Common folder where configuration files are stored. Can be moved
-        /// to an alternate location to allow sharing.
-        /// </summary>
-
-        public string CommonFolder { get; set;  }
-
-        internal string InternalCommonFolder { get; set; }
-
         #endregion
 
-        [JsonIgnore]
-        internal string AddinsFolder
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_AddinsFolder))
-                    _AddinsFolder = Path.Combine(CommonFolder, "Addins");
-                return _AddinsFolder;
-            }
-        }
-        private string _AddinsFolder;
 
-        
+
+        #region Document Operations
 
         /// <summary>
         /// Command Processing for OpenFolder
@@ -402,23 +292,60 @@ namespace MarkdownMonster
         }
         private List<string> _recentDocuments = new List<string>();
 
-        public int RecentDocumentLength { get; set; } = 12;
+
+        /// <summary>
+        /// Determines how many items to display in the recent documents list
+        /// </summary>
+        public int RecentDocumentsLength { get; set; }
+
+        /// <summary>
+        /// Determines how many of the last documents are remembered and 
+        /// reopened at most
+        /// </summary>
+        public int RememberLastDocumentsLength { get; set; }
+        #endregion
+
+        #region Nested Objects
+
+        public MarkdownOptionsConfiguration MarkdownOptions { get; set; }
 
         /// <summary>
         /// Configuration object that olds info about how applications are updated
         /// </summary>
-        public ApplicationUpdates ApplicationUpdates { get; set; }
+        public ApplicationUpdatesConfiguration ApplicationUpdates { get; set; }
 
         /// <summary>
         /// Hold last window position
         /// </summary>
-        public WindowPosition WindowPosition { get; set; }
+        public WindowPositionConfiguration WindowPosition { get; set; }
+        
+        #endregion
+
+
+
+        #region Bug Reporting and Telemetry
 
         /// <summary>
-        /// Hold last window state.
+        /// Determines whether errors are reported anonymously
         /// </summary>
-        public WindowState WindowState { get; set; }
+        public bool ReportErrors { get; set; }
 
+
+        [JsonIgnore]
+        public string BugReportUrl { get; set; }
+
+        [JsonIgnore]
+        public string TelemetryUrl { get; set; }
+
+
+        /// <summary>
+        /// Flag to determine whether telemetry is sent
+        /// </summary>
+        public bool SendTelemetry { get; set; }
+
+        #endregion
+
+        #region Miscellaneous Settings
         /// <summary>
         /// Determines whether the preview browser is visible
         /// </summary>
@@ -434,17 +361,37 @@ namespace MarkdownMonster
         }
 
         private bool _isPreviewVisible;
-        public bool FirstRun { get; set; }
+
+        /// <summary>
+        /// Remembers last Is link External setting when embedding links
+        /// </summary>
+        public bool LastLinkExternal { get; set; }
 
         /// <summary>
         /// Disables all addins from loading
         /// </summary>
         public bool DisableAddins { get; set; }
 
+
+        /// <summary>
+        /// If set makes the application not use GPU accelleration.
+        /// Set this setting if you have problems with MM starting up
+        /// with a black screen. A very few  video drivers are known to
+        /// have render problems and this setting allows getting around
+        /// this driver issue.
+        /// </summary>
         public bool DisableHardwareAcceleration { get; set; }
 
-        #region Folder Locations
+        /// <summary>
+        /// By default passwords in addins are encrypted with machine encryption
+        /// keys which means they are not portable. When this option is true
+        /// </summary>
+        public bool UseMachineEncryptionKeyForPasswords { get; set; }
 
+        #endregion
+
+
+        #region Folder Locations
         /// <summary>
         /// Last folder used when opening a document
         /// </summary>
@@ -455,24 +402,48 @@ namespace MarkdownMonster
         /// </summary>
         public string LastImageFolder { get; set; }
 
+        /// <summary>
+        /// Common folder where configuration files are stored. Can be moved
+        /// to an alternate location to allow sharing.
+        /// </summary>        
+        public string CommonFolder { get; set; }
+
+        internal string InternalCommonFolder { get; set; }
+
+        internal string AddinsFolder
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_AddinsFolder))
+                    _AddinsFolder = Path.Combine(CommonFolder, "Addins");
+                return _AddinsFolder;
+            }
+        }
+        private string _AddinsFolder;
+
+
+
         #endregion
 
         public ApplicationConfiguration()
         {
-            MarkdownOptions = new MarkdownOptions();
-            WindowPosition = new WindowPosition();
-            ApplicationUpdates = new ApplicationUpdates();
+            MarkdownOptions = new MarkdownOptionsConfiguration();
+            WindowPosition = new WindowPositionConfiguration();
+            ApplicationUpdates = new ApplicationUpdatesConfiguration();
             OpenDocuments = new List<MarkdownDocument>();
 
-            LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Markdown Monster");
+            InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
             CommonFolder = InternalCommonFolder;
+            LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-            _markdownParserName = MarkdownParserFactory.DefaultMarkdownParserName;
+
             PreviewSyncMode = PreviewSyncMode.EditorAndPreview;
 
             AutoSaveBackups = true;
             AutoSaveDocuments = false;
+
+            RecentDocumentsLength = 12;
+            RememberLastDocumentsLength = 3;
             
             
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
@@ -487,24 +458,23 @@ namespace MarkdownMonster
             EditorFontSize = 17;
             EditorWrapText = true;
             EditorHighlightActiveLine = true;
-            AllowRenderScriptTags = true;
+            
             EditorEnableSpellcheck = true;
             EditorDictionary = "EN_US";
             EditorKeyboardHandler = "default";  // vim,emacs
 
+            UseMachineEncryptionKeyForPasswords = true;
+
             OpenCommandLine = "cmd.exe";
             OpenFolderCommand = "explorer.exe";
-
-            RememberLastDocuments = 3;            
+                    
             ReportErrors = true;
 
             UseSingleWindow = false;
 
             IsPreviewVisible = true;
             OpenInPresentationMode = false;
-            AlwaysUsePreviewRefresh = false;
-
-            FirstRun = true;
+            AlwaysUsePreviewRefresh = false;            
         }
 
         public void AddRecentFile(string filename)
@@ -518,17 +488,23 @@ namespace MarkdownMonster
             RecentDocuments.Insert(0,filename);
             OnPropertyChanged(nameof(RecentDocuments));
 
-            if (RecentDocuments.Count > RecentDocumentLength)
-                RecentDocuments = RecentDocuments.Take(RecentDocumentLength).ToList();            
+            if (RecentDocuments.Count > RecentDocumentsLength)
+                RecentDocuments = RecentDocuments.Take(RecentDocumentsLength).ToList();            
         }
 
-        
+
+        #region Configuration Settings
 
         protected override IConfigurationProvider OnCreateDefaultProvider(string sectionName, object configData)
         {
+            var commonFolder = CommonFolder;
+            var cfFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");
+            if (File.Exists(cfFile))
+                commonFolder = File.ReadAllText(cfFile);
+
             var provider = new JsonFileConfigurationProvider<ApplicationConfiguration>()
             {
-                JsonConfigurationFile = Path.Combine(CommonFolder,"MarkdownMonster.json")
+                JsonConfigurationFile = Path.Combine(commonFolder,"MarkdownMonster.json")
             };
 
             if (!File.Exists(provider.JsonConfigurationFile))
@@ -541,13 +517,34 @@ namespace MarkdownMonster
 
             return provider;
         }
+
+        public override bool Write()
+        {
+            var commonFolderFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");
+            if (CommonFolder != InternalCommonFolder)
+                File.WriteAllText(commonFolderFile, CommonFolder);
+            else
+                File.Delete(commonFolderFile);
+
+            return base.Write();
+        }
+        #endregion
+
+        #region  INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;        
         
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+         
+        #endregion
     }
+    
+
+      
+    
 
     public enum MarkdownStyles
     {
@@ -555,117 +552,6 @@ namespace MarkdownMonster
         GitHub
     }
 
-    public class ApplicationUpdates
-    {
-        /// <summary>
-        /// Url where installer is downloaded from
-        /// </summary>
-        [JsonIgnore]
-        public string InstallerDownloadUrl { get; }
-
-        /// <summary>
-        /// Url to check version info from
-        /// </summary>
-        [JsonIgnore]
-        public string UpdateCheckUrl { get; }
-
-
-        /// <summary>
-        /// Last date and time when an update check was performed
-        /// </summary>
-        public DateTime LastUpdateCheck { get; set; }
-
-        /// <summary>
-        /// Frequency for update checks in days. Done on shutdown
-        /// </summary>
-        public int  UpdateFrequency { get; set; }
-
-        public int AccessCount { get; set; }        
-
-        public ApplicationUpdates()
-        {
-            InstallerDownloadUrl = "http://west-wind.com/files/MarkdownMonsterSetup.exe";
-            UpdateCheckUrl = "http://west-wind.com/files/MarkdownMonster_version.xml";
-            UpdateFrequency = 7;
-        }
-    }
-
-
-    /// <summary>
-    /// Holds the current Window position and splitter settings
-    /// </summary>
-    public class WindowPosition
-    {
-        public int Top { get; set; }
-        public int Left { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        
-
-        public int SplitterPosition
-        {
-            get { return _splitterPosition; }
-            set
-            {
-                _splitterPosition = value;
-                //Debug.WriteLine(value);
-            }   
-        }
-        private int _splitterPosition;
-    }
-
-    public class MarkdownOptions
-    {
-        /// <summary>
-        /// Determines whether links are automatically expanded
-        /// </summary>
-        public bool AutoLinks { get; set; } = true;
-
-        /// <summary>
-        /// Determines if headers automatically generate 
-        /// ids.
-        /// </summary>
-        public bool AutoHeaderIdentifiers { get; set; }
-
-        /// <summary>
-        /// If true strips Yaml FrontMatter headers
-        /// </summary>
-        public bool StripYamlFrontMatter { get; set; } = true;
-
-        /// <summary>
-        /// If true expand Emoji and Smileys 
-        /// </summary>
-        public bool EmojiAndSmiley { get; set; } = true;
-
-        /// <summary>
-        /// Creates playable media links from music and video files
-        /// </summary>
-        public bool MediaLinks { get; set; } = true;
-
-        /// <summary>
-        /// Adds additional list features like a. b.  and roman numerals i. ii. ix.
-        /// </summary>
-        public bool ListExtras { get; set; }
-        
-
-        public bool Figures { get; set; }
-
-        /// <summary>
-        /// Creates Github task lists like - [ ] Task 1
-        /// </summary>
-        public bool GithubTaskLists { get; set; } = true;
-
-        /// <summary>
-        /// Converts common typeographic options like -- to em dash
-        /// quotes to curly quotes, triple dots to elipsis etc.
-        /// </summary>
-        public bool SmartyPants { get; set; }
-
-        /// <summary>
-        /// Renders all links as external links with `target='top'`
-        /// </summary>
-        public bool RenderLinksAsExternal { get; set; }
-    }
 
     public enum PreviewSyncMode
     {

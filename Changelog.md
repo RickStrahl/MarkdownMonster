@@ -5,14 +5,23 @@
 ### 1.2.5
 <small>not released yet</small>
 
-* **Add support for publishing to Medium Blogs**  
-You can now post your Markdown to a Medium blog. Unlike Wordpress and MetaWeblog API support however, due to severe [limitations in the Medium API](https://github.com/Medium/medium-api-docs) there is no support for re-posting or downloading of posts. The Medium support is **limited to one-time posts**. Any subsequent editing has to be done on the Medium site.
+* **[Add support for publishing to Medium Blogs](http://markdownmonster.west-wind.com/docs/_4uw03tmcu.htm)**  
+You can now post your Markdown to a Medium blog. Due to severe [limitations in the Medium API](https://github.com/Medium/medium-api-docs) however there is no support for re-posting or downloading of posts. The Medium support is **limited to one-time posts**. Any subsequent editing has to be done on the Medium site.
+
+* **[CommonFolder is now configurable](http://markdownmonster.west-wind.com/docs/_4uw16rvzj.htm)**  
+You can now configure the **CommonFolder** configuration setting to point to a custom location for your Markdown Monster configuration and Addin files. This allows you to use a cloud drive to share you configuration. 
+
+* **UseMachineEncryptionKeyForPasswords Configuration Setting**  
+In light of the ability to share your configuration you can now turn off MachineKey requirement for encryption so that encrypted data can be shared across machines. Less secure but allows for sharing. Set the property to false to share configuration information.
 
 * **Show character count**  
 The title bar now shows the character count in addition to the word and line counts. This can be useful if you're using the editor to compose tweets or other character count sensitive text snippets.
 
 * **[Custom Markdown Parser Support for Addins](https://markdownmonster.west-wind.com/docs/_4ut0j7xoe.htm)**   
 You can now create Markdown Monster addins that expose custom Markdown parsers for Markdown -> HTML parsing. 
+
+* **Improved MarkDig Configuration**   
+MarkDig is Markdown Monster's default Markdown Parser and thanks to a PR from [Thomas Levesque](https://twitter.com/thomaslevesque) you can now override Markdig instantiation and rendering more easily in Addins.
 
 
 ### 1.2

@@ -264,7 +264,6 @@ namespace WebLogAddin.Medium
 
             this.PostUrl = postResult.data.url;
             return postResult.data;
-
         }
 
 

@@ -23,6 +23,7 @@ namespace MarkdownMonster
     /// </summary>
     public class mmApp
     {
+        private const string mkbase = "42331333#1Ae@rTo*dOO-002";
 
         /// <summary>
         /// Holds a static instance of the application's configuration settings
@@ -37,8 +38,35 @@ namespace MarkdownMonster
 
         public static DateTime Started { get; set;  }
 
+        /// <summary>
+        /// Returns a machine specific encryption key that can be used for passwords
+        /// and other settings. 
+        /// 
+        /// If the Configuration.UseMachineEcryptionKeyForPasswords flag
+        /// is false, no machine specific information is added to the key.
+        /// Do this if you want to share your encrypted configuration settings
+        /// in cloud based folders like DropBox, OneDrive, etc.
+        /// </summary>
+        public static string EncryptionMachineKey
+        {
+            get
+            {
+                var key = mkbase;
+                if (mmApp.Configuration.UseMachineEncryptionKeyForPasswords)
+                     key += Environment.MachineName;
+                return key;
+            }
+        }
 
-        internal static string EncryptionMachineKey { get; } = "42331333#1Ae@rTo*dOO-002" + Environment.MachineName;
+        internal static string EncryptionMachineKeyForced 
+        {
+            get
+            {
+                return mkbase + Environment.MachineName;                
+            }
+        }
+
+
         internal static string Signature { get; } = "S3VwdWFfMTAw";
 
         /// <summary>
@@ -57,7 +85,7 @@ namespace MarkdownMonster
         /// </summary>
         static mmApp()
         {
-            Configuration = new ApplicationConfiguration();
+            Configuration = new ApplicationConfiguration();                
             Configuration.Initialize();            
         }
 

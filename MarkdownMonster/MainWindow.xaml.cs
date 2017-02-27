@@ -158,7 +158,7 @@ namespace MarkdownMonster
             }
 
 
-            if (mmApp.Configuration.FirstRun)
+            if (mmApp.Configuration.ApplicationUpdates.FirstRun)
             {
                 if (TabControl.Items.Count == 0)
                 {
@@ -166,7 +166,7 @@ namespace MarkdownMonster
                     File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"), tempFile, true);
                     OpenTab(tempFile);
                 }
-                mmApp.Configuration.FirstRun = false;
+                mmApp.Configuration.ApplicationUpdates.FirstRun = false;
             }
 
             BindTabHeaders();
@@ -233,7 +233,7 @@ namespace MarkdownMonster
         protected override void OnContentRendered(EventArgs e)
         {
             base.OnContentRendered(e);
-            WindowState = mmApp.Configuration.WindowState;
+            WindowState = mmApp.Configuration.WindowPosition.WindowState;
         }
 
         protected override void OnDeactivated(EventArgs e)
@@ -430,7 +430,7 @@ namespace MarkdownMonster
                 Height = conf.WindowPosition.Height;
             }
 
-            if (mmApp.Configuration.RememberLastDocuments > 0)
+            if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
                 var selectedDoc = conf.OpenDocuments.FirstOrDefault(dc => dc.IsActive);
                 TabItem selectedTab = null;
@@ -451,7 +451,7 @@ namespace MarkdownMonster
                     }
 
                     counter++;
-                    if (counter >= mmApp.Configuration.RememberLastDocuments)
+                    if (counter >= mmApp.Configuration.RememberLastDocumentsLength)
                         break;
                 }
 
@@ -480,11 +480,11 @@ namespace MarkdownMonster
             }
 
             if (WindowState != WindowState.Minimized)
-                config.WindowState = WindowState;
+                config.WindowPosition.WindowState = WindowState;
 
             config.OpenDocuments.Clear();
 
-            if (mmApp.Configuration.RememberLastDocuments > 0)
+            if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
                 mmApp.Configuration.OpenDocuments.Clear();
 
@@ -984,7 +984,7 @@ namespace MarkdownMonster
                                                                                                 mmApp.Configuration
                                                                                                     .PreviewSyncMode !=
                                                                                                 PreviewSyncMode.None,
-                            renderLinksExternal: mmApp.Configuration.RenderLinksExternal);
+                            renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
                         if (renderedHtml == null)
                         {
                             SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
@@ -1471,9 +1471,9 @@ namespace MarkdownMonster
 
         private void MarkdownParserName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (mmApp.Configuration != null && !string.IsNullOrEmpty(mmApp.Configuration.MarkdownParserName))
+            if (mmApp.Configuration != null && !string.IsNullOrEmpty(mmApp.Configuration.MarkdownOptions.MarkdownParserName))
             {
-                MarkdownParserFactory.GetParser(addinId: mmApp.Configuration.MarkdownParserName, forceLoad: true);
+                MarkdownParserFactory.GetParser(addinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName, forceLoad: true);
                 PreviewMarkdownAsync();
             }
         }

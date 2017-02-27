@@ -86,8 +86,7 @@ namespace MarkdownMonster
                     builder = builder.UsePragmaLines();
                 
                 Pipeline = builder.Build();                
-                
-                
+                                
                 if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
                     RenderLinksExternal = true;
             }
@@ -111,7 +110,7 @@ namespace MarkdownMonster
             if (RenderLinksExternal)
                 html = ParseExternalLinks(html);
 
-            if (!mmApp.Configuration.AllowRenderScriptTags)
+            if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
                 html = ParseScript(html);  
                       
             return html;
