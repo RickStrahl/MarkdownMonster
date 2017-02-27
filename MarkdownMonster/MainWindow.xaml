@@ -500,7 +500,7 @@
             <StatusBarItem Grid.Column="5">
                 <ComboBox  HorizontalAlignment="Right"  
                            ToolTip="Registered Markdown Parsers" Width="{Binding MarkdownParserColumnWidth}"
-                           SelectedItem="{Binding Configuration.MarkdownParserName}" 
+                           SelectedItem="{Binding Configuration.MarkdownOptions.MarkdownParserName}" 
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding MarkdownParserNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
