@@ -771,28 +771,7 @@ namespace MarkdownMonster
             }
             return true;
         }
-        public bool CloseTab(string filename)
-        {
-            TabItem tab = null;
-            foreach (var item in TabControl.Items.Cast<TabItem>())
-            {
-                if ((item.Tag as MarkdownDocumentEditor).MarkdownDocument.Filename.Equals(filename))
-                {
-                    tab = item;
-                    break;
-                }
-            }
-
-            if (tab == null)
-            {
-                return false;
-            }
-            else
-            {
-                return CloseTab(tab);
-            }
-        }
-
+        
         /// <summary>
         /// Closes a tab and ask for confirmation if the tab doc 
         /// is dirty.
@@ -870,6 +849,44 @@ namespace MarkdownMonster
             return returnValue; // close
         }
 
+        /// <summary>
+        /// Closes a tab and ask for confirmation if the tab doc 
+        /// is dirty.
+        /// </summary>
+        /// <param name="filename">
+        /// The absolute path to the file opened in the tab that 
+        /// is going to be closed
+        /// </param>
+        /// <returns>true if tab can close, false if it should stay open or 
+        /// filename not opened in any tab</returns>
+        public bool CloseTab(string filename)
+        {
+            TabItem tab = getTabItemByFileName(filename);
+
+            if (tab != null)
+            {
+                return CloseTab(tab);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private TabItem getTabItemByFileName(string filename)
+        {
+            TabItem tab = null;
+            foreach (TabItem tabItem in TabControl.Items.Cast<TabItem>())
+            {
+                var markdownEditor = tabItem.Tag as MarkdownDocumentEditor;
+                if (markdownEditor.MarkdownDocument.Filename.Equals(filename))
+                {
+                    tab = tabItem;
+                    break;
+                }
+            }
+            return tab;
+        }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
