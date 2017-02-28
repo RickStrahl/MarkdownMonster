@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Interop;
 using FontAwesome.WPF;
+using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.AddIns
@@ -217,54 +218,26 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+
+        /// <summary>
+        /// adds a keyboard 
+        /// </summary>
+        /// <param name="menuItem"></param>
+        /// <param name="addin"></param>
         private static void AddKeyboardShortcut(AddInMenuItem menuItem, MarkdownMonsterAddin addin)
         {
             if (!string.IsNullOrEmpty(menuItem.KeyboardShortcut))
             {
-                var ksc = menuItem.KeyboardShortcut.ToLower();
-                KeyBinding kb = new KeyBinding();
-
-                if (ksc.Contains("alt"))
-                    kb.Modifiers = ModifierKeys.Alt;
-                if (ksc.Contains("shift"))
-                    kb.Modifiers |= ModifierKeys.Shift;                
-                if (ksc.Contains("ctrl") || ksc.Contains("ctl"))
-                    kb.Modifiers |= ModifierKeys.Control;
-                if (ksc.Contains("win"))
-                    kb.Modifiers |= ModifierKeys.Windows;
-
-                string key =
-                    ksc.Replace("+", "")
-                        .Replace("-", "")
-                        .Replace("_", "")
-                        .Replace(" ", "")
-                        .Replace("alt", "")
-                        .Replace("shift", "")
-                        .Replace("ctrl", "")
-                        .Replace("ctl", "");
-
-                key = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(key);
-                if (!string.IsNullOrEmpty(key))
-                {
-                    KeyConverter k = new KeyConverter();
-                    kb.Key = (Key) k.ConvertFromString(key);
-                }
-
-                // Whatever command you need to bind to
-                kb.Command = menuItem.Command;
-                addin.Model.Window.InputBindings.Add(kb);
+                KeyBinding kb = WindowUtilities.CreateKeyboardShortcutBinding(
+                    menuItem.KeyboardShortcut,
+                    menuItem.Command);
+                if (kb != null)
+                    addin.Model.Window.InputBindings.Add(kb);
             }
         }
 
-        private void ConfigMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        private void Tcitem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         #region Raise Events
         public void RaiseOnApplicationStart()

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -34,7 +36,53 @@ namespace MarkdownMonster.Windows
         {
             Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new EmptyDelegate(delegate { }));
         }
-        
+
+        /// <summary>
+        /// Creates a keyboard shortcut from a 
+        /// </summary>
+        /// <param name="ksc"></param>
+        /// <param name="command"></param>
+        /// <returns>KeyBinding - Window.InputBindings.Add(keyBinding)</returns>
+        public static KeyBinding CreateKeyboardShortcutBinding(string ksc, ICommand command)
+        {
+            if (string.IsNullOrEmpty(ksc))
+                return null;
+
+            KeyBinding kb = new KeyBinding();
+
+            if (ksc.Contains("alt"))
+                kb.Modifiers = ModifierKeys.Alt;
+            if (ksc.Contains("shift"))
+                kb.Modifiers |= ModifierKeys.Shift;
+            if (ksc.Contains("ctrl") || ksc.Contains("ctl"))
+                kb.Modifiers |= ModifierKeys.Control;
+            if (ksc.Contains("win"))
+                kb.Modifiers |= ModifierKeys.Windows;
+
+            string key =
+                ksc.Replace("+", "")
+                    .Replace("-", "")
+                    .Replace("_", "")
+                    .Replace(" ", "")
+                    .Replace("alt", "")
+                    .Replace("shift", "")
+                    .Replace("ctrl", "")
+                    .Replace("ctl", "");
+
+            key = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(key);
+            if (!string.IsNullOrEmpty(key))
+            {
+                KeyConverter k = new KeyConverter();
+                kb.Key = (Key)k.ConvertFromString(key);
+            }
+
+            // Whatever command you need to bind to
+            kb.Command = command;
+
+            return kb;
+        }
+
+
         public static Bitmap BitmapSourceToBitmap(BitmapSource source)
         {
             Bitmap bmp = new Bitmap(
