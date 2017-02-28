@@ -2,11 +2,14 @@
 
 # Markdown Monster Change Log
 
-### 1.2.5
+### 1.2.8
 <small>not released yet</small>
 
 * **[Add support for publishing to Medium Blogs](http://markdownmonster.west-wind.com/docs/_4uw03tmcu.htm)**  
 You can now post your Markdown to a Medium blog. Due to severe [limitations in the Medium API](https://github.com/Medium/medium-api-docs) however there is no support for re-posting or downloading of posts. The Medium support is **limited to one-time posts**. Any subsequent editing has to be done on the Medium site.
+
+* **Medium Preview Theme**  
+Also added a Medium Preview theme that approximates the Medium default Story template.
 
 * **[CommonFolder is now configurable](http://markdownmonster.west-wind.com/docs/_4uw16rvzj.htm)**  
 You can now configure the **CommonFolder** configuration setting to point to a custom location for your Markdown Monster configuration and Addin files. This allows you to use a cloud drive to share you configuration. 

@@ -463,6 +463,12 @@
     <None Include="optipng.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="PreviewThemes\Medium\Theme.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PreviewThemes\Medium\Theme.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap_noprint.css" />
     <Content Include="PreviewThemes\Scripts\bootstrap\css\bootstrap_noprint.min.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
