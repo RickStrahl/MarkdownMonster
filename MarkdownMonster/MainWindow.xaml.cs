@@ -771,6 +771,27 @@ namespace MarkdownMonster
             }
             return true;
         }
+        public bool CloseTab(string filename)
+        {
+            TabItem tab = null;
+            foreach (var item in TabControl.Items.Cast<TabItem>())
+            {
+                if ((item.Tag as MarkdownDocumentEditor).MarkdownDocument.Filename.Equals(filename))
+                {
+                    tab = item;
+                    break;
+                }
+            }
+
+            if (tab == null)
+            {
+                return false;
+            }
+            else
+            {
+                return CloseTab(tab);
+            }
+        }
 
         /// <summary>
         /// Closes a tab and ask for confirmation if the tab doc 
