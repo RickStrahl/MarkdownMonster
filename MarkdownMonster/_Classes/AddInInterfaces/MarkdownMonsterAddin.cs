@@ -312,9 +312,10 @@ namespace MarkdownMonster.AddIns
         /// Opens a tab with a given filename and selects it
         /// </summary>
         /// <param name="filename">File to open</param>
-        protected void OpenTab(string filename)
+        /// <returns>The TabItem instance representing the opened tab</returns>
+        protected TabItem OpenTab(string filename)
         {
-            Model.Window.OpenTab(filename);                        
+            return Model.Window.OpenTab(filename);                        
         }
 
 
@@ -328,6 +329,15 @@ namespace MarkdownMonster.AddIns
             Model.Window.CloseTab(tab);
         }
 
+        /// <summary>
+        /// Closes the tab that contains the file specified by 
+        /// filename
+        /// </summary>
+        /// <param name="filename"></param>
+        protected void CloseTab(string filename)
+        {
+            Model.Window.CloseTab(filename);
+        }
 
         /// <summary>
         /// Refreshes the Preview WebBrowser

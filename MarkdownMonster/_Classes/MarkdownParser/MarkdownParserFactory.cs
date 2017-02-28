@@ -9,7 +9,6 @@ namespace MarkdownMonster
     /// </summary>
     public static class MarkdownParserFactory
     {
-
         public static string DefaultMarkdownParserName { get;  } = "MarkDig";
 
         /// <summary>
