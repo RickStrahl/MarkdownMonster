@@ -23,6 +23,18 @@ namespace MarkdownMonster.Windows
         public RegisterDialog()
         {
             InitializeComponent();
+            var accessCount = mmApp.Configuration.ApplicationUpdates.AccessCount;
+            RunUsage.Text = $"Started {accessCount} times.";
+
+            if (accessCount > 200)
+                RunUsage.Foreground = Brushes.LightCoral;
+            else if (accessCount > 120)
+                RunUsage.Foreground = Brushes.Firebrick;
+            else if (accessCount > 50)
+                RunUsage.Foreground = Brushes.Orange;
+            else if (accessCount > 10)
+                RunUsage.Foreground = Brushes.Green;
+            
         }
 
         private void Exit_Click(object sender, MouseButtonEventArgs e)
