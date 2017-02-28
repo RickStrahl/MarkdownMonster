@@ -226,8 +226,11 @@ namespace MarkdownMonster
             {
                 new TaskFactory().StartNew(() =>
                 {
-                    ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
+                    ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");                    
                     ComputerInfo.EnsureSystemPath();
+
+                    if(!Directory.Exists(mmApp.Configuration.InternalCommonFolder))
+                        Directory.CreateDirectory(mmApp.Configuration.InternalCommonFolder);
                 });
             }            
         }

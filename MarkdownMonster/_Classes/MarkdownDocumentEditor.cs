@@ -246,7 +246,7 @@ namespace MarkdownMonster
                 {
                     var editor = tab.Tag as MarkdownDocumentEditor;
                     editor.RestyleEditor();
-                    editor.AceEditor.setShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
+                    editor.AceEditor?.setShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
                 }
             }
 

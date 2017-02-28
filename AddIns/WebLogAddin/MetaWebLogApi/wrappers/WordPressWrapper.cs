@@ -45,7 +45,7 @@ namespace WebLogAddin.MetaWebLogApi
         /// Retrieve the blogs of the users.
         /// </summary>
         /// <returns></returns>
-        public override IEnumerable<UserBlog> GetUserBlogs()
+        public override IEnumerable<UserBlog> GetUsersBlogs()
         {
             var xmlRpcResult = _wrapper.GetUserBlogs(Username, Password);
 

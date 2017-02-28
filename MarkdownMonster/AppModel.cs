@@ -482,7 +482,7 @@ namespace MarkdownMonster
                 {
                     if (sd.FilterIndex != 2)
                     {
-                        var html = doc.RenderMarkdown(doc.GetMarkdown(), mmApp.Configuration.RenderLinksExternal);
+                        var html = doc.RenderMarkdown(doc.GetMarkdown(), mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
 
                         if (!doc.MarkdownDocument.WriteFile(sd.FileName, html))
                         {

@@ -21,12 +21,14 @@ namespace MarkdownMonster.Windows
             VersionDateLabel.Content = mmApp.GetVersionDate();
             OsLabel.Content = (Environment.Is64BitProcess ? "64 bit" : "32 bit") + " • " +
                              ".NET " + ComputerInfo.GetDotnetVersion();
-                                
 
             if (UnlockKey.IsRegistered())
-            {
                 PanelFreeNotice.Visibility = System.Windows.Visibility.Hidden;
-            }
+
+            if (mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
+                LabelUsingFreeVersion.Text =
+                    $"You've used the free version {mmApp.Configuration.ApplicationUpdates.AccessCount:n0} times.";
+
         }
 
         private void WestWindIcon_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)

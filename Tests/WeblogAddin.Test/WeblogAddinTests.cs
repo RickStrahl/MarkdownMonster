@@ -12,8 +12,8 @@ namespace WeblogAddin.Test
     [TestClass]
     public class WeblogAddinTests
     {
-        private const string ConstWeblogName = "3uqgqcrh";
-        private const string ConstWordPressWeblogName = "Rick's Wordpress Weblog";
+        private const string ConstWeblogName = "rk7wof4b";
+        private const string ConstWordPressWeblogName = "Rick Strahl WordPress";
 
 
         public WeblogAddinTests()
@@ -45,11 +45,12 @@ namespace WeblogAddin.Test
         [TestMethod]
         public void GetPostConfigFromMarkdown()
         {
+            WeblogInfo weblogInfo = WeblogAddinConfiguration.Current.Weblogs[ConstWeblogName];
 
             string markdown = MarkdownWithoutPostId;
             
             var addin = new WeblogAddin.WebLogAddin();
-            var meta = addin.GetPostConfigFromMarkdown(markdown);
+            var meta = addin.GetPostConfigFromMarkdown(markdown,weblogInfo);
 
             Console.WriteLine(JsonConvert.SerializeObject(meta, Formatting.Indented));
 

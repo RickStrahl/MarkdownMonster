@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MarkdownMonster.Windows;
+using Microsoft.Win32;
 
 namespace MarkdownMonster
 {
@@ -23,6 +24,7 @@ namespace MarkdownMonster
     /// </summary>
     public class mmApp
     {
+        private const string mkbase = "a4dx23513TY69dE+533#1Ae@rTo*dO&-002";
 
         /// <summary>
         /// Holds a static instance of the application's configuration settings
@@ -37,8 +39,64 @@ namespace MarkdownMonster
 
         public static DateTime Started { get; set;  }
 
+        /// <summary>
+        /// Returns a machine specific encryption key that can be used for passwords
+        /// and other settings. 
+        /// 
+        /// If the Configuration.UseMachineEcryptionKeyForPasswords flag
+        /// is false, no machine specific information is added to the key.
+        /// Do this if you want to share your encrypted configuration settings
+        /// in cloud based folders like DropBox, OneDrive, etc.
+        /// </summary>      
+        public static string EncryptionMachineKey
+        {
+            get
+            {                
+                if (!mmApp.Configuration.UseMachineEncryptionKeyForPasswords)
+                    return mkbase;
 
-        internal static string EncryptionMachineKey { get; } = "42331333#1Ae@rTo*dOO-002" + Environment.MachineName;
+                return InternalMachineKey;
+            }
+        }
+        
+        /// <summary>
+        /// Internal Machine Key which is a registry GUID value
+        /// </summary>
+        internal static string InternalMachineKey
+        {
+            get
+            {
+                if (_internalMachineKey != null)
+                    return _internalMachineKey;
+
+                var mmRegKey = @"SOFTWARE\West Wind Technologies\Markdown Monster";
+
+                dynamic data;
+                if (!ComputerInfo.TryGetRegistryKey(mmRegKey, "MachineKey", out data, UseCurrentUser: true))
+                {
+                    data = Guid.NewGuid().ToString();
+                    var rk = Registry.CurrentUser.OpenSubKey(mmRegKey, true);
+
+                    if (rk == null)
+                        rk = Registry.CurrentUser.CreateSubKey(mmRegKey);
+
+                    dynamic value = rk.GetValue("MachineKey");
+                    if (value == null)
+                        rk.SetValue("MachineKey", data, RegistryValueKind.String);
+
+                    rk.Dispose();
+                }
+
+                if (data != null)
+                    _internalMachineKey = data;
+
+                return data as string;
+            }
+        }
+        private static string _internalMachineKey = null;
+
+
+
         internal static string Signature { get; } = "S3VwdWFfMTAw";
 
         /// <summary>
@@ -47,17 +105,72 @@ namespace MarkdownMonster
         public static string InstallerDownloadUrl { get; internal set; } =
             "https://markdownmonster.west-wind.com/download.aspx";
 
+
+        internal static string PostFix = "*~~*";
+
         /// <summary>
-        /// Url that is used to check for new version information
+        /// Encrypts sensitive user data using an internally generated
+        /// encryption key.
         /// </summary>
-        public static string UpdateCheckUrl { get; internal set; }
+        /// <param name="value">Value to encrypt</param>
+        /// <param name="dontUseMachineKey">
+        /// In shared cloud drive situations you might want to not use a machine key
+        /// The default uses the UseMachineKeyForPasswords configuration setting.
+        /// </param>
+        /// <returns></returns>
+        public static string EncryptString(string value, bool? dontUseMachineKey = null)
+        {
+            if (dontUseMachineKey == null)
+                dontUseMachineKey = !mmApp.Configuration.UseMachineEncryptionKeyForPasswords;
+
+            if (string.IsNullOrEmpty(value))
+                return string.Empty;
+
+            // already encrypted
+            if (value.EndsWith(PostFix))
+                return value;
+
+            var key = mkbase;
+            if (!dontUseMachineKey.Value)
+                key = mmApp.EncryptionMachineKey;
+
+            var encrypted = Encryption.EncryptString(value, key) + PostFix;
+            return encrypted;
+        }
+                                                                                                                                              
+        public static string DecryptString(string encrypted, bool? dontUseMachineKey = null)
+        {
+            if (dontUseMachineKey == null)
+                dontUseMachineKey = !mmApp.Configuration.UseMachineEncryptionKeyForPasswords;
+
+            if (string.IsNullOrEmpty(encrypted))
+                return string.Empty;
+
+            if (!encrypted.EndsWith(PostFix))
+                return encrypted;
+
+            encrypted = encrypted.Replace(PostFix, "");
+
+            var key = mkbase;
+            if (!dontUseMachineKey.Value)
+                key = mmApp.EncryptionMachineKey;
+
+            var decoded = Encryption.DecryptString(encrypted, key);
+            return decoded;
+        }
+
+
+        /// <summary>
+    /// Url that is used to check for new version information
+    /// </summary>
+    public static string UpdateCheckUrl { get; internal set; }
         
         /// <summary>
         /// Static constructor to initialize configuration
         /// </summary>
         static mmApp()
         {
-            Configuration = new ApplicationConfiguration();
+            Configuration = new ApplicationConfiguration();                
             Configuration.Initialize();            
         }
 

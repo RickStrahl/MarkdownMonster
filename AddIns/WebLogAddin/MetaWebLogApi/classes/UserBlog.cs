@@ -6,7 +6,8 @@ namespace WebLogAddin.MetaWebLogApi
     /// </summary> 
     public class UserBlog
     {
-        public object BlogID { get; }
+        
+        public object BlogId { get; set; }
 
         public bool IsAdmin { get; set; }
         public string URL { get; set; }

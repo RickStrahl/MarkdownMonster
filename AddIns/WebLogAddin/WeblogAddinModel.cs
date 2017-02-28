@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using MarkdownMonster;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
@@ -77,6 +78,10 @@ namespace WeblogAddin
                 if (value == _activeWeblogInfo) return;
                 _activeWeblogInfo = value;
                 OnPropertyChanged(nameof(ActiveWeblogInfo));
+                OnPropertyChanged(nameof(IsUserPassVisible));
+                OnPropertyChanged(nameof(IsTokenVisible));
+                OnPropertyChanged(nameof(IsAbstractVisible));
+                OnPropertyChanged(nameof(IsCategoriesVisible));
             }
         }
         private WeblogInfo _activeWeblogInfo;
@@ -150,6 +155,27 @@ namespace WeblogAddin
             }
         }
 
+
+        public bool IsTokenVisible
+        {
+            get { return ActiveWeblogInfo.Type == WeblogTypes.Medium; }
+        }
+        public bool IsUserPassVisible
+        {
+            get { return ActiveWeblogInfo.Type != WeblogTypes.Medium; }
+        }
+
+        public bool IsAbstractVisible
+        {
+            get { return ActiveWeblogInfo.Type != WeblogTypes.Medium; }
+        }
+
+        public bool IsCategoriesVisible
+        {
+            get { return ActiveWeblogInfo.Type != WeblogTypes.Medium; }
+        }
+
+
         public List<Post> PostList
         {
             get
@@ -201,7 +227,7 @@ namespace WeblogAddin
 
 
         
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

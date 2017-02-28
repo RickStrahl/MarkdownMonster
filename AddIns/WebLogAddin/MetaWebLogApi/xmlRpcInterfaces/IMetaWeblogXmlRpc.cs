@@ -88,10 +88,11 @@ namespace WebLogAddin.MetaWebLogApi.XmlRpcInterfaces
         /// <summary>
         /// Gets the user blogs.
         /// </summary>
+        /// <param name="appKey"></param>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
         /// <returns></returns>
-        [XmlRpcMethod("metaWeblog.getUserBlogs")]
-        XmlRpcUserBlog[] GetUserBlogs(string username, string password);
+        [XmlRpcMethod("blogger.getUsersBlogs")]
+        XmlRpcUserBlog[] GetUsersBlogs(string appKey, string username, string password);
     }
 }

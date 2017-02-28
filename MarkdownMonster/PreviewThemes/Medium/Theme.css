@@ -1,0 +1,173 @@
+html, body {
+    font-family: medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;    
+    font-style: normal;
+    font-size: 21px;
+    line-height: 1.6;    
+    -webkit-font-smoothing: antialiased;
+    height: 100%;
+    padding: 10px !important;
+    margin: 0;
+    scrollbar-track-color: Whitesmoke;
+    scrollbar-arrow-color: silver;
+    scrollbar-base-color: #ddd;
+    scrollbar-face-color: #ddd;
+    -ms-overflow-style: -ms-autohiding-scrollbar !important;
+}
+
+h1, h2, h3, h4, h5, h6, .byline, .content-title {
+
+    font-family: apple-system,BlinkMacSystemFont,"Source Sans Pro","Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+    margin-top: 1em;
+    margin-bottom: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+h1 {
+    padding-bottom: 0.3em;
+    font-size: 40px;
+    line-height: 1.04;
+    margin-bottom: 16px;
+}
+
+h2 {
+    font-size: 1.6em;
+    border-bottom: 1px solid #eee;
+}
+
+h3 {
+    display: block;
+    font-size: 32px;
+}
+
+h4 {
+    font-size: 24px;
+}
+
+h5, h6 {
+    font-size: 1em;
+}
+
+a, a:visited {
+    text-decoration: none;
+    color: steelblue;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+li {
+	margin-bottom: 12px;
+	margin-top: 12px;
+}    
+
+pre {
+    font-family: Consolas, monospace;
+    font-weight: normal;
+    font-size: 85%;
+    line-height: 1.45;
+    margin: 7px 0;
+    padding: 0;
+    max-width: 98%;
+    border: none;
+    overflow: auto;
+    border-radius: 3px;
+    white-space: pre;
+    word-break: normal;
+    word-wrap: normal;
+}
+
+code {
+    font-family: Consolas, monospace;
+    color: #333;
+    background: #eee;
+    white-space: pre;
+}
+
+.hljs {
+    background: #eee !important;
+    padding: 16px !important;
+}
+
+table {
+    width: 100%;
+    overflow: auto;
+    display: block;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 15px 0;
+    border-color: gray;
+}
+
+td, th {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+    display: table-cell;
+    vertical-align: inherit;
+}
+
+th {
+    font-weight: bold;
+}
+
+tbody > tr:nth-child(even) {
+    background: #eee;
+}
+
+img {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+blockquote {
+    background: #f8f8f8;
+    font-size: 1.1em;
+    padding: 5px 10px 5px 15px;
+    margin: 30px 10px;
+    border-left: 7px #ddd solid;
+}
+
+    blockquote h3, blockquote h4, blockquote h5 {
+        margin-top: 8px;
+    }
+
+hr {
+    margin: 12px 0;
+}
+/* hidden display, but still part of document flow */
+.hidden {
+    display: none;
+}
+
+.hidden-nowidth {
+    width: 0;
+}
+
+.visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.line-highlight {
+    background: #f6f6f6;
+    border-radius: 3px;
+}
+
+#MainContent {
+    margin: 0 auto;
+    padding: 10px 40px;
+    max-width: 840px;    
+    color: #626262;
+}
+
+
+@media(min-width: 1080px) {
+    html, body {
+    }
+}

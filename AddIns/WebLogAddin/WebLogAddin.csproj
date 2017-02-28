@@ -53,6 +53,11 @@
       <HintPath>..\..\packages\MahApps.Metro.1.4.3\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -68,14 +73,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Westwind.Utilities, Version=2.70.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Westwind.Utilities.2.70\lib\net45\Westwind.Utilities.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Westwind.Utilities, Version=2.71.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Westwind.Utilities.2.71\lib\net45\Westwind.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlogEndpointDiscovery.cs" />
+    <Compile Include="Medium\MediumApiClient.cs" />
+    <Compile Include="Medium\MediumEntities.cs" />
+    <Compile Include="MetaWebLogApi\MetaWebLogWordpressApiClient.cs" />
     <Compile Include="WeblogAddinModel.cs" />
     <Compile Include="WeblogInfo.cs" />
     <Compile Include="WeblogPostMetadata.cs" />
@@ -165,6 +172,7 @@
   <ItemGroup>
     <Resource Include="MarkdownMonster_Icon_128.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)MarkdownMonster\bin\$(ConfigurationName)\Addins\Weblog\$(TargetFileName)"

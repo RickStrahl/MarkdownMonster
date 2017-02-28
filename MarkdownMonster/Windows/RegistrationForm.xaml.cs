@@ -33,6 +33,11 @@ namespace MarkdownMonster.Windows
             }
             else
                 LabelIsRegistered.Text = "This copy is not registered.";
+
+            Loaded += (s, e) =>
+            {
+                TextRegKey.Focus();
+            };
         }
 
         private void Register_Click(object sender, RoutedEventArgs routedEventArgs)

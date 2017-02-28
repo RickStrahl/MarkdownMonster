@@ -7,24 +7,39 @@
         mc:Ignorable="d"
         FontSize="16"
         WindowStyle="None" Background="Black" Foreground="WhiteSmoke"
-        Title="Markdown Monster Registration" Height="356" Width="659.246" 
+        Title="Markdown Monster Registration" Height="406.333" Width="700" 
         Icon="..\Assets\MarkdownMonster_Icon_256.png"  
         WindowStartupLocation="CenterOwner" ShowInTaskbar="True" ResizeMode="NoResize">
     <StackPanel Orientation="Horizontal">
         <Image Source="../Assets/MarkdownMonster.png" Margin="0,30" Width="300" VerticalAlignment="Top" />
-        <StackPanel Width="330">
-            <TextBlock Margin="15,35,0,0" Foreground="Cornsilk">You've been using the Free version of</TextBlock>
-            <TextBlock FontSize="30" FontWeight="Bold" Margin="15,14,0,14"><Run Text="Markdown Monster"/></TextBlock>
-            <TextBlock TextWrapping="Wrap" Margin="15,3,32,0" Foreground="Cornsilk" HorizontalAlignment="Stretch" ><Run Text="Markdown Monster can be evaluated for free, but a license is required for continued use. "/><LineBreak/><Run/><LineBreak/><Run Text="Thanks for playing fair."/></TextBlock>
-
-            <Button Margin="30" Content="Register your copy" FontSize="30" FontWeight="Bold" IsDefault="True"
-                    HorizontalAlignment="Center" Click="Register_Click"
-                    Style="{DynamicResource LinkButtonStyle}">
+        <StackPanel Width="355" Margin="20,0,0,0">
+            <TextBlock Margin="0,35,0,0" Foreground="Cornsilk">You've been using the free version of</TextBlock>
+            <TextBlock FontSize="30" FontWeight="Bold" Margin="25,14,0,14">Markdown Monster</TextBlock>
+            <TextBlock TextWrapping="Wrap" Margin="0,3,20,0" Foreground="Cornsilk" HorizontalAlignment="Stretch" >
+                
+                <Run Name="RunUsage" Text="Started x times" FontWeight="Bold" FontSize="17"/>
+                <LineBreak/><Run/><LineBreak/>
+                <Run Text="Markdown Monster can be evaluated for free, but a license is required for continued use. "/>                
+                <LineBreak/><Run/><LineBreak/>
+               
+                <Run Text="Thanks for playing fair."/></TextBlock>
+                <Button Margin="25,40,41,30" Content="Register your Copy" FontSize="30" FontWeight="Bold" IsDefault="True"
+                        Click="Register_Click" 
+                        Style="{DynamicResource LinkButtonStyle}" Width="Auto">
             </Button>
-     
+
         </StackPanel>
-        <TextBlock Text="x" FontFamily="Arial Black"  MouseDown="Exit_Click"       
-                   FontWeight="Bold" Padding="5,10" Width="19" />
-        
+        <TextBlock Text="x" FontWeight="Medium" MouseDown="Exit_Click"       
+                   Padding="0,5" Width="13"  FontSize="22" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+
     </StackPanel>
 </Window>

@@ -80,13 +80,40 @@ namespace MarkdownMonster.AddIns
                     var mitem = new MenuItem()
                     {
                         Header = menuItem.Caption,                        
-                    };                    
-                    if (menuItem.CanExecute == null)
-                        menuItem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(mitem));
-                    else
-                        menuItem.Command = new CommandBase((s, c) => menuItem.Execute?.Invoke(mitem),
-                                                           (s, c) => menuItem.CanExecute.Invoke(mitem));                    
+                    };
+
+                    Action<object, ICommand> xAction = (s, c) =>
+                    {
+                        try
+                        {
+                            menuItem.Execute?.Invoke(mitem);
+                        }
+                        catch (Exception ex)
+                        {
+                            mmApp.Log($"Addin {addin.Name ?? addin.Id} Execute failed", ex);
+                            string msg = $"The '{addin.Name ?? addin.Id}' addin failed:\r\n\r\n{ex.GetBaseException().Message}\r\n\r\n" + 
+                                           "You can check to see if there is an update for the Addin available in the Addin Manager. We also recommend you update to the latest version of Markdown Monster.";
+                            MessageBox.Show(msg, "Addin Execution Failed",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                    };
+                    Func<object, ICommand, bool> cxAction = null;
+                    if (menuItem.CanExecute != null)
+                        cxAction = (s, e) =>
+                        {
+                            try
+                            {
+                                return menuItem.CanExecute.Invoke(s);
+                            }
+                            catch (Exception ex)
+                            {
+                                mmApp.Log($"Addin {addin.Name} CanExecute failed", ex);
+                                return true;
+                            }
+                        };                    
+                    menuItem.Command = new CommandBase(xAction,cxAction);                    
                     mitem.Command = menuItem.Command;
+
 
                     int menuIndex = addin.Model.Window.MenuAddins.Items.Add(mitem);
 

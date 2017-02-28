@@ -2,14 +2,38 @@
 
 # Markdown Monster Change Log
 
-### 1.2.2
+### 1.2.8
 <small>not released yet</small>
+
+* **[Add support for publishing to Medium Blogs](http://markdownmonster.west-wind.com/docs/_4uw03tmcu.htm)**  
+You can now post your Markdown to a Medium blog. Due to severe [limitations in the Medium API](https://github.com/Medium/medium-api-docs) however there is no support for re-posting or downloading of posts. The Medium support is **limited to one-time posts**. Any subsequent editing has to be done on the Medium site.
+
+* **Medium Preview Theme**  
+Also added a Medium Preview theme that approximates the Medium default Story template.
+
+* **[CommonFolder is now configurable](http://markdownmonster.west-wind.com/docs/_4uw16rvzj.htm)**  
+You can now configure the **CommonFolder** configuration setting to point to a custom location for your Markdown Monster configuration and Addin files. This allows you to use a cloud drive to share you configuration. 
+
+* **UseMachineEncryptionKeyForPasswords Configuration Setting**  
+In light of the ability to share your configuration you can now turn off MachineKey requirement for encryption so that encrypted data can be shared across machines. Less secure but allows for sharing. Set the property to false to share configuration information.
 
 * **Show character count**  
 The title bar now shows the character count in addition to the word and line counts. This can be useful if you're using the editor to compose tweets or other character count sensitive text snippets.
 
 * **[Custom Markdown Parser Support for Addins](https://markdownmonster.west-wind.com/docs/_4ut0j7xoe.htm)**   
 You can now create Markdown Monster addins that expose custom Markdown parsers for Markdown -> HTML parsing. 
+
+* **Improved MarkDig Configuration**   
+MarkDig is Markdown Monster's default Markdown Parser and thanks to a PR from [Thomas Levesque](https://twitter.com/thomaslevesque) you can now override Markdig instantiation and rendering more easily in Addins.
+
+<h4 style="color: firebrick">v1.2.5 Breaking Changes</h4>
+This update has a few breaking changes for users and addin developers.
+
+* **Encryption keys have been reworked**  
+In order to support custom configuration folders the logic for managing encryption has changed, so all passwords for MM registration and also for the Weblog Addin are broken and have to be re-entered.
+
+* **Configuration Structure for Addins**   
+The configuration structure for MM has been refactored a bit, breaking out a number of configuration settings into object groups. If addins relied on some of these moved properties, the addins are likely to break. Recompilation of the addin for the latest version should fix these issues.
 
 
 ### 1.2

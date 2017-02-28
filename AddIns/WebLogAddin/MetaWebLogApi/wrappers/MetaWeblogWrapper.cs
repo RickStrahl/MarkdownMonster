@@ -36,7 +36,7 @@ namespace WebLogAddin.MetaWebLogApi
         /// <returns>The postid of the newly-created post.</returns>
         public virtual string NewPost(Post post, bool publish)
         {
-            var content = Map.From.Post(post);            
+            var content = Map.From.Post(post);                        
             return  _wrapper.NewPost(BlogID, Username, Password, content, publish);
         }
         
@@ -105,9 +105,9 @@ namespace WebLogAddin.MetaWebLogApi
         /// Gets the blogs for the logged in user.
         /// </summary>
         /// <returns></returns>
-        public override IEnumerable<UserBlog> GetUserBlogs()
+        public override IEnumerable<UserBlog> GetUsersBlogs()
         {
-            var result = _wrapper.GetUserBlogs(Username, Password);
+            var result = _wrapper.GetUsersBlogs(null, Username, Password);
             foreach (var r in result)
                 yield return Map.To.UserBlog(r);
         }

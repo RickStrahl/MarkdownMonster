@@ -614,7 +614,8 @@ namespace MarkdownMonster
                 markdown = CurrentText;
             
             var parser = MarkdownParserFactory.GetParser(usePragmaLines: usePragmaLines,                                                         
-                                                         forceLoad: true, addinId: mmApp.Configuration.MarkdownParserName);            
+                                                         forceLoad: true, 
+                                                         addinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName);            
             return parser.Parse(markdown);
         }
 

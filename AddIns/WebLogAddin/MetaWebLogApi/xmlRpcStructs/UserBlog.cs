@@ -11,7 +11,7 @@ namespace WebLogAddin.MetaWebLogApi
 	{
 		public bool isAdmin;
 		public string url;
-		public object blogId;
+		public object blogid;
 		public string blogName;
 		public string xmlrpc;
 	}
