@@ -375,7 +375,7 @@ namespace MarkdownMonster.AddIns
 
         public override string ToString()
         {
-            return Id ?? "No Addin Id specified";
+            return Id ?? Name ?? "No Addin Id specified";
         }
 
         
