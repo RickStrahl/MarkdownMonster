@@ -2,8 +2,18 @@
 
 # Markdown Monster Change Log
 
-### 1.2.8
+### 1.2.9
 <small>not released yet</small>
+
+* **SnagIt 13.1.1 fixes SnagIt 13 Failure**  
+Techsmith has finally released an update to SnagIt 13 that fixes the COM server bug that invalidated the SnagIt integration in MM. If you're using SnagIt 13 and want to use it with Markdown Monster make sure you upgrade to v13.1.1 or later. Thanks to Adam Marks from Techsmith for following up on this.
+
+* **Fix: Window Title for new documents**  
+Fixed bug where the window title would not update after a new untitled file was saved.
+
+
+### 1.2.8
+<small>February 28th, 2017</small>
 
 * **[Add support for publishing to Medium Blogs](http://markdownmonster.west-wind.com/docs/_4uw03tmcu.htm)**  
 You can now post your Markdown to a Medium blog. Due to severe [limitations in the Medium API](https://github.com/Medium/medium-api-docs) however there is no support for re-posting or downloading of posts. The Medium support is **limited to one-time posts**. Any subsequent editing has to be done on the Medium site.
