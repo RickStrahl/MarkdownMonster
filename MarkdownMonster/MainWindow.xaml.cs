@@ -742,18 +742,29 @@ namespace MarkdownMonster
         /// Binds the tab header to an expression
         /// </summary>
         /// <param name="tab"></param>   
-        /// <param name="bindingSource"></param>     
+        /// <param name="document"></param>     
         /// <param name="propertyPath"></param>
-        private void SetTabHeaderBinding(TabItem tab, object bindingSource,
+        private void SetTabHeaderBinding(TabItem tab, MarkdownDocument document,
             string propertyPath = "FilenameWithIndicator")
         {
-            var headerBinding = new Binding
+            if (document == null || tab == null)
+                return;
+
+            try
             {
-                Source = bindingSource,
-                Path = new PropertyPath(propertyPath),
-                Mode = BindingMode.OneWay
-            };
-            BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
+                var headerBinding = new Binding
+                {
+                    Source = document,
+                    Path = new PropertyPath(propertyPath),
+                    Mode = BindingMode.OneWay
+                };
+                BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log("SetTabHeaderBinding Failed. Assigning explicit path", ex);
+                tab.Header = document.FilenameWithIndicator;
+            }
         }
 
         private bool CloseAllTabs(TabItem allExcept = null)

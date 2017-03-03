@@ -11,7 +11,9 @@ robocopy ${source}\bin\Release ${target} /MIR
 copy ${cur}\mm.exe ${target}\mm.exe
 
 del ${target}\*.vshost.*
+ren ${target}\markdownmonster.pdb ${target}\markdownmonster.TPDB
 del ${target}\*.pdb
+ren ${target}\markdownmonster.TPDB ${target}\markdownmonster.pdb
 del ${target}\*.xml
 
 del ${target}\addins\*.pdb
