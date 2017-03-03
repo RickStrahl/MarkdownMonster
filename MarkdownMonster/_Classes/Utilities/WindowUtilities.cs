@@ -49,6 +49,7 @@ namespace MarkdownMonster.Windows
                 return null;
 
             KeyBinding kb = new KeyBinding();
+            ksc = ksc.ToLower();
 
             if (ksc.Contains("alt"))
                 kb.Modifiers = ModifierKeys.Alt;
