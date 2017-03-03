@@ -62,10 +62,8 @@
             <CheckBox  Margin="0,12,0,0"  IsChecked="{Binding Configuration.UseSnagItForImageCapture}">Use SnagIt when available</CheckBox>
             <TextBlock FontSize="9.6" Margin="20,0,10,0"
                        TextWrapping="Wrap" 
-                       Text="Note: Due to an acknowledged bug in SnagIt13, this version does not work reliably. 
-                       SnagIt12 and older work fine. Techsmith will fix in future update." />
+                       Text="Note: If you're using SnagIt 13 make sure you use v13.1.1 or later. Older versions of SnagIt 13 did not work for automated capture." />
 
-            
             <StackPanel Orientation="Horizontal">
                 <Button Name="SubmitButton" Margin="0,20" Height="40" Width="155" HorizontalAlignment="Left" 
                         Click="ButtonSave_Click" IsDefault="True" >
