@@ -433,6 +433,7 @@ namespace MarkdownMonster
 
                 mmApp.Configuration.LastFolder = folder;
 
+                Window.SetWindowTitle();
                 Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
             {

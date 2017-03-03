@@ -524,7 +524,8 @@ namespace MarkdownMonster
                 //var res = await this.ShowMessageOverlayAsync("Unable to save Document",
                 //    "Unable to save document most likely due to missing permissions.");
 
-                MessageBox.Show("Unable to save document most likely due to missing permissions.", mmApp.ApplicationName);
+                MessageBox.Show("Unable to save document most likely due to missing permissions.",
+                                mmApp.ApplicationName);
                 return false;
             }
 
@@ -655,7 +656,7 @@ namespace MarkdownMonster
             var filename = Path.GetFileName(editor.MarkdownDocument.Filename);
             tab.Tag = editor;
 
-            Title = filename;
+            
 
             editor.LoadDocument();
 
@@ -691,6 +692,7 @@ namespace MarkdownMonster
 
                 if (showPreviewIfActive && PreviewBrowser.Width > 5)
                     PreviewMarkdown(); //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
+                SetWindowTitle();
             }
 
             AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
@@ -897,10 +899,7 @@ namespace MarkdownMonster
             if (mmApp.Configuration.IsPreviewVisible)
                 PreviewMarkdown();
 
-
-            Title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*", "") +
-                    "  - Markdown Monster" +
-                    (UnlockKey.Unlocked ? "" : " (unregistered)");
+            SetWindowTitle();
 
             foreach (var doc in Model.OpenDocuments)
                 doc.IsActive = false;
@@ -918,15 +917,7 @@ namespace MarkdownMonster
             editor.SetEditorFocus();
         }
 
-        //[Obsolete("This is old the code from the MetroTabControl")]
-        //private void TabControl_TabItemClosing(object sender, BaseMetroTabControl.TabItemClosingEventArgs e)
-        //{
-        //    var tab = e.ClosingTabItem as TabItem;
-        //    if (tab == null)
-        //        return;
-
-        //    e.Cancel = !CloseTab(tab);
-        //}
+      
 
 
         private void TabControlDragablz_TabItemClosing(ItemActionCallbackArgs<TabablzControl> e)
@@ -937,6 +928,29 @@ namespace MarkdownMonster
 
             if (!CloseTab(tab))
                 e.Cancel();
+        }
+
+        /// <summary>
+        /// Sets the Window Title followed by Markdown Monster (registration status)
+        /// by default the filename is used and it's updated whenever tabs are changed.
+        /// 
+        /// Generally just call this when you need to have the title updated due to
+        /// file name change that doesn't change the active tab.
+        /// </summary>
+        /// <param name="title"></param>
+        public void SetWindowTitle(string title = null)
+        {
+            if (title == null)
+            {
+                var editor = GetActiveMarkdownEditor();
+                if (editor == null)
+                    return;
+                title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*", "");
+            }
+
+            Title = title +
+                    "  - Markdown Monster" +
+                    (UnlockKey.Unlocked ? "" : " (unregistered)");
         }
 
         #endregion
