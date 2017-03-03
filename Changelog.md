@@ -36,7 +36,7 @@ You can now create Markdown Monster addins that expose custom Markdown parsers f
 * **Improved MarkDig Configuration**   
 MarkDig is Markdown Monster's default Markdown Parser and thanks to a PR from [Thomas Levesque](https://twitter.com/thomaslevesque) you can now override Markdig instantiation and rendering more easily in Addins.
 
-<h4 style="color: firebrick">v1.2.5 Breaking Changes</h4>
+<h4 style="color: firebrick">v1.2.8 Breaking Changes</h4>
 This update has a few breaking changes for users and addin developers.
 
 * **Encryption keys have been reworked**  
