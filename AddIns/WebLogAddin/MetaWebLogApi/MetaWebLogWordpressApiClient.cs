@@ -71,6 +71,20 @@ namespace WebLogAddin.MetaWebLogApi
                     });
             }
 
+            if (WeblogInfo.CustomFields != null)
+            {
+                foreach (var kvp in WeblogInfo.CustomFields)
+                {
+                    customFields.Add(
+                        new CustomField
+                        {
+                            ID = kvp.Key,
+                            Key = kvp.Key,
+                            Value = kvp.Value
+                        });
+                }
+            }
+
             if (!string.IsNullOrEmpty(FeaturedImageUrl) || !string.IsNullOrEmpty(FeatureImageId))
             {
                 var featuredImage = FeaturedImageUrl;
