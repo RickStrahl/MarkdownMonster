@@ -173,7 +173,7 @@ var te = window.textEditor = {
                 te.mm.textbox.PreviewMarkdownCallback();
             });
 
-
+        
         if (window.EmojiCompleter) {
             // auto complete
             var langTools = ace.require("ace/ext/language_tools");
@@ -182,11 +182,8 @@ var te = window.textEditor = {
                 enableSnippets: false,
                 enableLiveAutocompletion: true
             });
-            console.log("completer");
-            
             langTools.setCompleters([window.EmojiCompleter]);         
         }
-
 
         return editor;
     },
@@ -451,6 +448,7 @@ var te = window.textEditor = {
             lines: lines,
             characters: chars
         }
+
         return te.curStats;
     },
     updateDocumentStats: function() {

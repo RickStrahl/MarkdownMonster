@@ -1,25 +1,15 @@
 ﻿var completer = window.EmojiCompleter = {
 
     getCompletions: function(editor, session, pos, prefix, callback) {
-        
-        console.log("getcompletions: " + prefix);
-
         var func = null;
         if (!completer.debouncedGetEmoji) {
             func = debounce(completer.getEmoji, 110);
-            completer.debouncedGetEmoji = func;
-            console.log("created");
-        } else {
+            completer.debouncedGetEmoji = func;            
+        } else
             func = completer.getEmoji;
-            console.log("cached");
-        }
-
+        
         // don't block UI thread
-        setTimeout(function () {
-            callback(null, func(prefix, pos));
-            },1);
-
-
+        setTimeout(function () { callback(null, func(prefix, pos)); }, 1);
     },
 
     debouncedGetEmoji: null,
@@ -39,7 +29,7 @@
             var item = items[i];
             list.push({ caption: item.key, value: item.key.substr(1), score: 300, meta: item.value });
         }
-        console.log(list);
+        
         return list;
     },
     getEmojiList: function getEmojiList(partial) {
