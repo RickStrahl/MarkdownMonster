@@ -1,8 +1,9 @@
-define("ace/theme/twilight",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
+define("ace/theme/twilight",["require","exports","module","ace/lib/dom"],
+    function(require, exports, module) {
 
-exports.isDark = true;
-exports.cssClass = "ace-twilight";
-exports.cssText = ".ace-twilight .ace_gutter {\
+        exports.isDark = true;
+        exports.cssClass = "ace-twilight";
+        exports.cssText = ".ace-twilight .ace_gutter {\
 background: #191919;\
 color: #E2E2E2\
 }\
@@ -99,6 +100,23 @@ color: #7587A6\
 }\
 .ace-twilight .ace_xml-pe {\
 color: #494949\
+}\
+.ace_editor.ace_autocomplete {\
+    background: #333;\
+    color: #eee;\
+    border: 1px solid #888;\
+}\
+.ace_editor.ace_autocomplete .ace_completion-highlight {\
+color: goldenrod;\
+}\
+.ace-twilight.ace_marker-layer.ace_active-line {\
+   background: #656565 !important;\
+}\
+ace_line.ace_selected {\
+    background-color: #777 !important;\
+}\
+.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line {\
+        background-color: #777;        \
 }\
 .ace-twilight .ace_indent-guide {\
 background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWMQERFpYLC1tf0PAAgOAnPnhxyiAAAAAElFTkSuQmCC) right repeat-y\

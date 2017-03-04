@@ -1,4 +1,4 @@
-/// <reference path="editorsettings.js"/>
+﻿/// <reference path="editorsettings.js"/>
 /// <reference path="editorSpellcheck.js"/>
 
 // NOTE: All method and property names have to be LOWER CASE!
@@ -172,6 +172,21 @@ var te = window.textEditor = {
             function() {
                 te.mm.textbox.PreviewMarkdownCallback();
             });
+
+
+        if (window.EmojiCompleter) {
+            // auto complete
+            var langTools = ace.require("ace/ext/language_tools");
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: false,
+                enableLiveAutocompletion: true
+            });
+            console.log("completer");
+            
+            langTools.setCompleters([window.EmojiCompleter]);         
+        }
+
 
         return editor;
     },
@@ -641,4 +656,3 @@ function debounce(func, wait, immediate) {
             func.apply(context, args);
     };
 };
-
