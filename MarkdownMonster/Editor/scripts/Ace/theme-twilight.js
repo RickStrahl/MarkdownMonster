@@ -118,6 +118,9 @@ ace_line.ace_selected {\
 .ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line {\
         background-color: #777;        \
 }\
+.ace_rightAlignedText {\
+        color: cornsilk !important;\
+}\
 .ace-twilight .ace_indent-guide {\
 background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWMQERFpYLC1tf0PAAgOAnPnhxyiAAAAAElFTkSuQmCC) right repeat-y\
 }";
