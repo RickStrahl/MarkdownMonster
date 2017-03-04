@@ -262,6 +262,9 @@
     </Compile>
     <Resource Include="Assets\MarkdownMonsterAddins_Icon.png" />
     <Resource Include="Assets\MarkdownMonster_Icon_256.png" />
+    <Content Include="Editor\emojiCompleter.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Editor\editorSimple.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

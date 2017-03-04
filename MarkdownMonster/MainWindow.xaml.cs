@@ -562,8 +562,9 @@ namespace MarkdownMonster
             bool rebindTabHeaders = false,
             bool batchOpen = false)
         {
-            if (mdFile != null && mdFile != "untitled" && (!File.Exists(mdFile) ||
-                                                           !AddinManager.Current.RaiseOnBeforeOpenDocument(mdFile)))
+            if (mdFile != null && mdFile != "untitled" && 
+                (!File.Exists(mdFile) ||
+                !AddinManager.Current.RaiseOnBeforeOpenDocument(mdFile)))
                 return null;
 
             var tab = new TabItem();
@@ -579,7 +580,6 @@ namespace MarkdownMonster
                 Visibility = Visibility.Hidden,
                 Margin = new Thickness(-1, 0, 0, 0)
             };
-
             tab.Content = wb;
 
 
@@ -727,10 +727,8 @@ namespace MarkdownMonster
             {
                 var doc = ((MarkdownDocumentEditor) tb.Tag).MarkdownDocument;
 
-                if (tabItems.Where(
-                    ti =>
-                        ti.Filename == Path.GetFileName(doc.Filename.ToLower()) &&
-                        ti.Count > 1).Any())
+                if (tabItems.Any(ti => ti.Filename == Path.GetFileName(doc.Filename.ToLower()) &&
+                        ti.Count > 1))
 
                     SetTabHeaderBinding(tb, doc, "FilenamePathWithIndicator");
                 else
