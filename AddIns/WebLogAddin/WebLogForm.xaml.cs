@@ -437,8 +437,7 @@ namespace WeblogAddin
                     blogs = client.GetBlogs();
                     if (blogs == null)
                         ShowStatus("Failed to get blog listing: " + client.ErrorMessage, 6000);
-                }
- 
+                } 
             }
             catch (Exception ex)
             {
@@ -453,7 +452,7 @@ namespace WeblogAddin
 
             string blogId = Model.ActiveWeblogInfo.BlogId as string;
 
-            if (!string.IsNullOrEmpty(blogId) && !blogs.Any(b => b.BlogId == blogId))
+            if (!string.IsNullOrEmpty(blogId) && !blogs.Any(b => blogId == b.BlogId as string))
                 context.Items.Add(new MenuItem {Header = blogId, Tag = blogId});
 
             foreach (var blog in blogs)

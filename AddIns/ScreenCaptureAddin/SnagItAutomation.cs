@@ -246,10 +246,10 @@ namespace SnagItAddin
                 IsDone = false;
                 snagIt.Capture();
 
-                while (!IsDone)
+                while (!IsDone && !HasError)
                 {     
                     WindowUtilities.DoEvents();
-                    Thread.Sleep(5);
+                    Thread.Sleep(20);
                 }
             }
             catch(Exception ex)

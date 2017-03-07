@@ -29,8 +29,7 @@ namespace MarkdownMonster.Test
             Assert.IsTrue(System.Windows.Forms.Clipboard.ContainsImage(), "No image on clipboard");
 
             string of = "c:\\temp\\test_Bitmap.png";
-
-            byte[] bytes;
+            
             using (var img = System.Windows.Forms.Clipboard.GetImage())
             {
                 using (var bmp = new Bitmap(img))
@@ -49,8 +48,7 @@ namespace MarkdownMonster.Test
             Assert.IsTrue(System.Windows.Forms.Clipboard.ContainsImage(), "No image on clipboard");
 
             string of = "c:\\temp\\test_Bitmap.jpg";
-
-            byte[] bytes;
+            
             using (var img = System.Windows.Forms.Clipboard.GetImage())
             {
                 using (var bmp = new Bitmap(img))

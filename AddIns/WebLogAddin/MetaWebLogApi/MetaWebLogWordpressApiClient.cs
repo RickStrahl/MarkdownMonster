@@ -125,9 +125,8 @@ namespace WebLogAddin.MetaWebLogApi
                 var postRaw = wrapper.GetPostRaw(postId);
                 link = postRaw.link;
             }
-            catch (Exception ex)
-            {                
-            }
+            catch { }                
+            
 
             if (string.IsNullOrEmpty(link) || (!link.StartsWith("http://") && !link.StartsWith("https://")))
                 // just go to the base domain - assume posts are listed there

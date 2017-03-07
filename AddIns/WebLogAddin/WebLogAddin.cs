@@ -164,7 +164,6 @@ namespace WeblogAddin
 
 
             string basePath = Path.GetDirectoryName(doc.Filename);
-            bool postResult = false;
             string postUrl = null;
 
             if (type == WeblogTypes.MetaWeblogApi || type== WeblogTypes.Wordpress)

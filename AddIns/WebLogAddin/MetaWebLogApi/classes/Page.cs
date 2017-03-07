@@ -4,9 +4,7 @@ namespace WebLogAddin.MetaWebLogApi
 {
     public class Page
     {
-        private int _pageID;
-
-        public int PageID { get { return _pageID; } }
+        public int PageID { get; }
         public int ParentPageID { get; set; }
         public string Slug { get; set; }
         public string Password { get; set; }

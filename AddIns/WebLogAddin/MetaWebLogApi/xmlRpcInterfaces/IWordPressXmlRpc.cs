@@ -15,7 +15,7 @@ namespace WebLogAddin.MetaWebLogApi.XmlRpcInterfaces
         /// <param name="password">The password.</param>
         /// <returns></returns>
         [XmlRpcMethod("wp.getUsersBlogs")]
-        new XmlRpcUserBlog[] GetUserBlogs(string username, string password);
+        XmlRpcUserBlog[] GetUserBlogs(string username, string password);
 
         /// <summary>
         /// Gets the tags.

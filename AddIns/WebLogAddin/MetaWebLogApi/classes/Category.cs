@@ -3,16 +3,14 @@ namespace WebLogAddin.MetaWebLogApi
 {
     public class CategoryMin
     {
-        private int _categoryID;
-        public int CategoryID { get { return _categoryID; } }
+        public int CategoryID { get; }
 
         public string Name { get; set; }
     }
 
     public class Category
     {
-        private long _categoryID;
-        public long CategoryID { get { return _categoryID; } }
+        public long CategoryID { get; }
         public long ParentCategoryID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
