@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -176,6 +177,11 @@ namespace WeblogAddin
         private string postFix = "*~~*";
         private string _password;
 
+
+        /// <summary>
+        /// Custom fields to add for all posts on this blog
+        /// </summary>
+        public IDictionary<string, string> CustomFields { get; set; }
 
         /// <summary>
         /// Encrypts the password using two encryption
