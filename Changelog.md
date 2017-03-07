@@ -3,7 +3,7 @@
 # Markdown Monster Change Log
 
 ### 1.2.10
-<small>not released yet</small>
+<small>March 7th, 2017</small>
 
 * **[Emoji Autocomplete](https://markdownmonster.west-wind.com/docs/_4v503ck7q.htm)**  
 Added auto-complete support for Emoji's. Type : + plus a letter or two for the emoji to embed to get a drop down that shows available Emojis. Note: The IE WebBrowser control shows monochrome Emoji, while most other browsers use colorful versions. To see what the actual Emoji look like in your favorite browser preview pages. :smi
