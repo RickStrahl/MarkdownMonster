@@ -151,6 +151,7 @@ namespace WeblogAddin
                 ActivePost.CustomFields = meta.CustomFields.Select(kvp => new CustomField
                 {
                     Key = kvp.Key,
+                    ID = kvp.Key,
                     Value = kvp.Value
                 }).ToArray();
             }
@@ -610,8 +611,8 @@ namespace WeblogAddin
                         if (child.NodeType == XmlNodeType.Element)
                         {
                             var key = child.FirstChild.InnerText;
-                            var value = child.ChildNodes[1].InnerText;
-                            meta.CustomFields.Add(key, value);
+                            var value = child.ChildNodes[1].InnerText;                            
+                            meta.CustomFields.Add(key, value);                            
                         }
                     }
                 }
@@ -624,6 +625,8 @@ namespace WeblogAddin
 
             ActivePost.mt_excerpt = meta.Abstract;
             ActivePost.mt_keywords = meta.Keywords;
+
+           
 
             return meta;
         }
@@ -648,7 +651,7 @@ namespace WeblogAddin
                 {
                     sb.AppendLine("\t<customField>");
                     sb.AppendLine($"\t\t<key>{cf.Key}</key>");
-                    sb.AppendLine($"\t\t<value>{System.Net.WebUtility.HtmlEncode(cf.Value)}</key>");
+                    sb.AppendLine($"\t\t<value>{System.Net.WebUtility.HtmlEncode(cf.Value)}</value>");
                     sb.AppendLine("\t</customField>");
                 }
                 sb.AppendLine("</customFields>");

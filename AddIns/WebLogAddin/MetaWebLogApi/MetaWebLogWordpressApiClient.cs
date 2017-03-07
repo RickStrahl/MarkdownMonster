@@ -60,6 +60,7 @@ namespace WebLogAddin.MetaWebLogApi
             post.Body = body;
 
             var customFields = new List<CustomField>();
+
             if (!string.IsNullOrEmpty(markdown))
             {
                 customFields.Add(
@@ -100,6 +101,10 @@ namespace WebLogAddin.MetaWebLogApi
                         Value = featuredImage
                     });
             }
+
+            // add existing post fields which come from meta data
+            if (post.CustomFields != null)
+                customFields.AddRange(post.CustomFields);
 
             post.CustomFields = customFields.ToArray();
 
