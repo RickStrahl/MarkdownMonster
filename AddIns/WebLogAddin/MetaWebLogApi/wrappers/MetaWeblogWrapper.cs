@@ -36,15 +36,20 @@ namespace WebLogAddin.MetaWebLogApi
         /// <returns>The postid of the newly-created post.</returns>
         public virtual string NewPost(Post post, bool publish)
         {
-            var content = Map.From.Post(post);                        
+            var content = Map.From.Post(post);
+            OnAfterPostMapping(post, content);
             return  _wrapper.NewPost(BlogID, Username, Password, content, publish);
         }
-        
 
         public virtual bool EditPost(Post post, bool publish)
         {            
             var content = Map.From.Post(post);
+            OnAfterPostMapping(post, content);
             return Convert.ToBoolean(_wrapper.EditPost(post.PostID.ToString(), Username, Password, content, publish));            
+        }
+
+        protected virtual void OnAfterPostMapping(Post post, XmlRpcPost xmlRpcPost)
+        {
         }
 
         public virtual Post GetPost(object postID)

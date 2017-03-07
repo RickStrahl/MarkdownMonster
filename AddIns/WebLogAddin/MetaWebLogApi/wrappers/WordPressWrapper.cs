@@ -316,6 +316,20 @@ namespace WebLogAddin.MetaWebLogApi
             return result;
         }
 
+        protected override void OnAfterPostMapping(Post post, XmlRpcPost xmlRpcPost)
+        {
+            base.OnAfterPostMapping(post, xmlRpcPost);
+
+            // WordPress doesn't like the id attribute, remove it
+            if (xmlRpcPost.custom_fields != null)
+            {
+                for (var index = 0; index < xmlRpcPost.custom_fields.Length; index++)
+                {
+                    xmlRpcPost.custom_fields[index].id = null;
+                }
+            }
+        }
+
         /// <summary>
         /// Get an array of available categories on a blog.
         /// </summary>
