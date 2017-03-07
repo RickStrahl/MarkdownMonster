@@ -8,6 +8,9 @@
 * **Emoji Autocomplete**  
 Added auto-complete for Emoji's. Type : + plus a letter or two for the emoji to embed to get a drop down that shows available Emojis. Note: The IE WebBrowser control shows monochrome Emoji, while most other browsers use colorful versions. To see what the actual Emoji look like in your favorite browser preview pages.
 
+* **Weblog Custom_Fields Support**  
+You can now specify CustomFields in the meta data of a Weblog post to send to the server. MM already sends the rar markdown to the server as custom data, but now you can specify your own custom values that you want to send as part of the `customFields` key value collection to send to the Weblog server.
+
 * **SnagIt 13.1.1 fixes SnagIt 13 Failure**  
 Techsmith has finally released an update to SnagIt 13 that fixes the COM server bug that invalidated the SnagIt integration in MM. If you're using SnagIt 13 and want to use it with Markdown Monster make sure you upgrade to v13.1.1 or later. Thanks to Adam Marks from Techsmith for following up on this.
 

@@ -122,7 +122,8 @@ namespace WeblogAddin
         /// </summary>
         /// <returns></returns>
         public bool SendPost(WeblogInfo weblogInfo, bool sendAsDraft = false)
-        {            
+        {
+
             var editor = Model.ActiveEditor;
             if (editor == null)
                 return false;
@@ -138,6 +139,7 @@ namespace WeblogAddin
             string markdown = editor.GetMarkdown();
 
 
+
             // Retrieve Meta data from post and clean up the raw markdown
             // so we render without the config data
             var meta = GetPostConfigFromMarkdown(markdown, weblogInfo);
@@ -146,16 +148,24 @@ namespace WeblogAddin
             ActivePost.Body = html;
             ActivePost.PostID = meta.PostId;
 
+
+            var customFields = new List<CustomField>();
+            if (!string.IsNullOrEmpty(markdown))
+            {
+                customFields.Add( new CustomField() { ID = "mt_markdown", Key = "mt_markdown", Value = markdown });
+            }
+            if (weblogInfo.CustomFields != null)
+            {
+                foreach (var kvp in weblogInfo.CustomFields)                
+                    customFields.Add( new CustomField { ID = kvp.Key,Key = kvp.Key, Value = kvp.Value});                
+            }
             if (meta.CustomFields != null)
             {
-                ActivePost.CustomFields = meta.CustomFields.Select(kvp => new CustomField
-                {
-                    Key = kvp.Key,
-                    ID = kvp.Key,
-                    Value = kvp.Value
-                }).ToArray();
+                foreach (var kvp in meta.CustomFields)
+                    customFields.Add(new CustomField { Key = kvp.Key, ID = kvp.Key, Value = kvp.Value });
+                
             }
-            
+            ActivePost.CustomFields = customFields.ToArray();
 
             var config = WeblogAddinConfiguration.Current;
 
@@ -163,8 +173,8 @@ namespace WeblogAddin
             if (kv.Equals(default(KeyValuePair<string, WeblogInfo>)))
             {
                 MessageBox.Show("Invalid Weblog configuration selected.",
-                                "Weblog Posting Failed",
-                                MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    "Weblog Posting Failed",
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
             weblogInfo = kv.Value;
@@ -177,7 +187,7 @@ namespace WeblogAddin
             string basePath = Path.GetDirectoryName(doc.Filename);
             string postUrl = null;
 
-            if (type == WeblogTypes.MetaWeblogApi || type== WeblogTypes.Wordpress)
+            if (type == WeblogTypes.MetaWeblogApi || type == WeblogTypes.Wordpress)
             {
                 MetaWebLogWordpressApiClient client;
                 client = new MetaWebLogWordpressApiClient(weblogInfo);
@@ -186,8 +196,8 @@ namespace WeblogAddin
                 client.FeaturedImageUrl = meta.FeaturedImageUrl;
                 client.FeatureImageId = meta.FeatureImageId;
 
-                if (!client.PublishCompletePost(ActivePost,basePath,  
-                                                sendAsDraft, markdown))                
+                if (!client.PublishCompletePost(ActivePost, basePath,
+                    sendAsDraft, markdown))
                 {
                     mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: " + client.ErrorMessage);
                     MessageBox.Show($"Error sending post to Weblog: " + client.ErrorMessage,
@@ -208,97 +218,14 @@ namespace WeblogAddin
                     MessageBox.Show($"Error sending post to Weblog: " + client.ErrorMessage,
                         mmApp.ApplicationName,
                         MessageBoxButton.OK,
-                        MessageBoxImage.Exclamation);                    
+                        MessageBoxImage.Exclamation);
                     return false;
                 }
                 // this is null
                 postUrl = client.PostUrl;
             }
 
-
-#if false
-            //MetaWeblogWrapper wrapper;
-
-            //if (type == WeblogTypes.MetaWeblogApi)
-            //    wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
-            //        weblogInfo.Username,
-            //        weblogInfo.DecryptPassword(weblogInfo.Password),
-            //        weblogInfo.BlogId);
-            //else
-            //    wrapper = new WordPressWrapper(weblogInfo.ApiUrl,
-            //        weblogInfo.Username,
-            //        weblogInfo.DecryptPassword(weblogInfo.Password));
-
-
-            //string body;
-            //try
-            //{
-            //    body = SendImages(html, doc.Filename, wrapper,meta);
-            //}
-            //catch (Exception ex)
-            //{
-            //    mmApp.Log($"Error sending images to Weblog at {weblogInfo.ApiUrl}: ", ex);                
-            //    return false;
-            //}
-
-            //if (body == null)
-            //    return false;
-
-            //ActivePost.Body = body;
-            //ActivePost.PostID = meta.PostId;            
-
-            //var customFields = new List<CustomField>();
-
-
-            //customFields.Add(
-            //    new CustomField()
-            //    {
-            //        ID = "mt_markdown",
-            //        Key = "mt_markdown",
-            //        Value = meta.MarkdownBody
-            //    });
-
-            //if (!string.IsNullOrEmpty(meta.FeaturedImageUrl) || !string.IsNullOrEmpty(meta.FeatureImageId))
-            //{
-            //    var featuredImage = meta.FeaturedImageUrl;
-            //    if (!string.IsNullOrEmpty(meta.FeatureImageId)) // id takes precedence
-            //        featuredImage = meta.FeatureImageId;
-
-            //    ActivePost.wp_post_thumbnail = featuredImage;
-            //    customFields.Add(
-            //        new CustomField()
-            //        {
-            //            ID = "wp_post_thumbnail",
-            //            Key = "wp_post_thumbnail",
-            //            Value = featuredImage
-            //        });
-            //}
-            //ActivePost.CustomFields = customFields.ToArray();
-
-            //bool isNewPost = IsNewPost(ActivePost.PostID);
-            //try
-            //{
-            //    if (!isNewPost)
-            //        wrapper.EditPost(ActivePost,!sendAsDraft);
-            //    else
-            //        ActivePost.PostID = wrapper.NewPost(ActivePost, !sendAsDraft);
-            //}
-            //catch (Exception ex)
-            //{
-            //    mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: ", ex);
-            //    MessageBox.Show($"Error sending post to Weblog: " + ex.Message,
-            //        mmApp.ApplicationName,
-            //        MessageBoxButton.OK,
-            //        MessageBoxImage.Exclamation);
-
-            //    mmApp.Log(ex);
-            //    return false;
-            //}
-#endif
-
             meta.PostId = ActivePost.PostID.ToString();
-
-            
 
             // retrieve the raw editor markdown
             markdown = editor.GetMarkdown();
@@ -318,93 +245,21 @@ namespace WeblogAddin
             }
             else
             {
-                if(postUrl != null)
+                if (postUrl != null)
                     ShellUtils.GoUrl(postUrl);
                 else
-                    ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));                
+                    ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));
             }
 
             return true;
+
         }
 
-#if false
-        /// <summary>
-        /// Parses each of the images in the document and posts them to the server.
-        /// Updates the HTML with the returned Image Urls
-        /// </summary>
-        /// <param name="html">HTML that contains images</param>
-        /// <param name="filename">image file name</param>
-        /// <param name="wrapper">blog wrapper instance that sends</param>
-        /// <param name="metaData">metadata containing post info</param>
-        /// <returns>update HTML string for the document with updated images</returns>
-        private string SendImages(string html, string filename, MetaWeblogWrapper wrapper, WeblogPostMetadata metaData)
-        {
-            var basePath = Path.GetDirectoryName(filename);
 
-            // base folder name for uploads - just the folder name of the image
-            var baseName = Path.GetFileName(basePath);
-            baseName = mmFileUtils.SafeFilename(baseName).Replace(" ","-");
 
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-            try
-            {
-                // send up normalized path images as separate media items
-                var images = doc.DocumentNode.SelectNodes("//img");
-                if (images != null)
-                {                    
-                    foreach (HtmlNode img in images)
-                    {
-                        string imgFile = img.Attributes["src"]?.Value as string;
-                        if (imgFile == null)
-                            continue;
+        #endregion
 
-                        if (!imgFile.StartsWith("http://") && !imgFile.StartsWith("https://"))
-                        {
-                            if (!imgFile.Contains(":\\"))
-                                imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
-
-                            if (File.Exists(imgFile))
-                            {                                
-                                var media = new MediaObject()
-                                {
-                                    Type = mmFileUtils.GetImageMediaTypeFromFilename(imgFile),
-                                    Bits = File.ReadAllBytes(imgFile),
-                                    Name = baseName + "/" + Path.GetFileName(imgFile)
-                                };
-                                var mediaResult = wrapper.NewMediaObject(media);
-                                img.Attributes["src"].Value = mediaResult.URL;
-
-                                // use first image as featured image
-                                if (string.IsNullOrEmpty(metaData.FeaturedImageUrl)) 
-                                    metaData.FeaturedImageUrl = mediaResult.URL;
-                                if (string.IsNullOrWhiteSpace(metaData.FeatureImageId))
-                                    metaData.FeatureImageId = mediaResult.Id;
-
-                            }
-                        }
-                    }
-
-                    html = doc.DocumentNode.OuterHtml;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error posting images to Weblog: " + ex.Message,
-                    mmApp.ApplicationName,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Exclamation);
-                mmApp.Log(ex);
-                return null;
-            }
-
-            return html;
-        }
-#endif
-
-#endregion
-
-#region Local Post Creation
+        #region Local Post Creation
 
         public string NewWeblogPost(WeblogPostMetadata meta)
         {
@@ -541,7 +396,7 @@ namespace WeblogAddin
                 RawMarkdownBody = markdown,
                 MarkdownBody = markdown,
                 WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed,
-                CustomFields = (weblogInfo.CustomFields ?? new Dictionary<string, string>())
+                CustomFields = new Dictionary<string, string>()
             };
             
             // check for title in first line and remove it 

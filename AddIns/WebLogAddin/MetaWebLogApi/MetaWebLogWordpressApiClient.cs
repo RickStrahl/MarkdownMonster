@@ -59,33 +59,6 @@ namespace WebLogAddin.MetaWebLogApi
 
             post.Body = body;
 
-            var customFields = new List<CustomField>();
-
-            if (!string.IsNullOrEmpty(markdown))
-            {
-                customFields.Add(
-                    new CustomField()
-                    {
-                        ID = "mt_markdown",
-                        Key = "mt_markdown",
-                        Value = markdown
-                    });
-            }
-
-            if (WeblogInfo.CustomFields != null)
-            {
-                foreach (var kvp in WeblogInfo.CustomFields)
-                {
-                    customFields.Add(
-                        new CustomField
-                        {
-                            ID = kvp.Key,
-                            Key = kvp.Key,
-                            Value = kvp.Value
-                        });
-                }
-            }
-
             if (!string.IsNullOrEmpty(FeaturedImageUrl) || !string.IsNullOrEmpty(FeatureImageId))
             {
                 var featuredImage = FeaturedImageUrl;
@@ -93,20 +66,18 @@ namespace WebLogAddin.MetaWebLogApi
                     featuredImage = FeatureImageId;
 
                 post.wp_post_thumbnail = featuredImage;
-                customFields.Add(
-                    new CustomField()
-                    {
-                        ID = "wp_post_thumbnail",
-                        Key = "wp_post_thumbnail",
-                        Value = featuredImage
-                    });
+
+                var cfl = post.CustomFields.ToList();
+                cfl.Add(new CustomField()
+                {
+                    ID = "wp_post_thumbnail",
+                    Key = "wp_post_thumbnail",
+                    Value = featuredImage
+                });
+                post.CustomFields = cfl.ToArray();
             }
 
-            // add existing post fields which come from meta data
-            if (post.CustomFields != null)
-                customFields.AddRange(post.CustomFields);
 
-            post.CustomFields = customFields.ToArray();
 
             bool isNewPost = IsNewPost(post.PostID);
             try
