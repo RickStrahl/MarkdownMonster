@@ -6,7 +6,7 @@
 <small>March 7th, 2017</small>
 
 * **[Emoji Autocomplete](https://markdownmonster.west-wind.com/docs/_4v503ck7q.htm)**  
-Added auto-complete support for Emoji's. Type : + plus a letter or two for the emoji to embed to get a drop down that shows available Emojis. Note: The IE WebBrowser control shows monochrome Emoji, while most other browsers use colorful versions. To see what the actual Emoji look like in your favorite browser preview pages. :smi
+Added auto-complete support for Emoji's. Type : + plus a letter or two for the emoji to embed to get a drop down that shows available Emojis. Note: The IE WebBrowser control shows monochrome Emoji, while most other browsers use colorful versions. To see what the actual Emoji look like in your favorite browser preview pages. :smile:
 
 * **[Weblog Custom Fields Support](http://markdownmonster.west-wind.com/docs/_4v500dkm9.htm)**  
 You can now specify custom fields in the meta data of a Weblog post and a Weblog to send to the server. MM already sends the rar markdown to the server as custom data, but now you can specify your own custom values that you want to send as part of the `customFields` key value collection to send to the Weblog server.
@@ -22,7 +22,7 @@ Fixed bug where the window title would not update after a new untitled file was 
 <small>February 28th, 2017</small>
 
 * **[Add support for publishing to Medium Blogs](http://markdownmonster.west-wind.com/docs/_4uw03tmcu.htm)**  
-You can now post your Markdown to a Medium blog. Due to severe [limitations in the Medium API](https://github.com/Medium/medium-api-docs) however there is no support for re-posting or downloading of posts. The Medium support is **limited to one-time posts**. Any subsequent editing has to be done on the Medium site.
+You can now post your Markdown to a Medium Weblog. Due to [limitations in the Medium API](https://github.com/Medium/medium-api-docs) however there is no support for re-posting or downloading of posts. The Medium support is limited to **one-time posts**. Any subsequent editing has to be done on the Medium site.
 
 * **Medium Preview Theme**  
 Also added a Medium Preview theme that approximates the Medium default Story template.
