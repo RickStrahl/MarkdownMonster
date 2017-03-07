@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -60,6 +61,8 @@ namespace WeblogAddin
         public string Categories { get; set; }
 
         public string WeblogName { get; set; }
+
+        public IDictionary<string, string> CustomFields { get; set;}
 
         public bool IsDraft
         {

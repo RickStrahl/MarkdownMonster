@@ -36,8 +36,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml;
 using FontAwesome.WPF;
 using HtmlAgilityPack;
 using WebLogAddin.MetaWebLogApi;
@@ -143,8 +145,16 @@ namespace WeblogAddin
             string html = doc.RenderHtml(meta.MarkdownBody, WeblogAddinConfiguration.Current.RenderLinksOpenExternal);
             ActivePost.Body = html;
             ActivePost.PostID = meta.PostId;
-            
 
+            if (meta.CustomFields != null)
+            {
+                ActivePost.CustomFields = meta.CustomFields.Select(kvp => new CustomField
+                {
+                    Key = kvp.Key,
+                    Value = kvp.Value
+                }).ToArray();
+            }
+            
 
             var config = WeblogAddinConfiguration.Current;
 
@@ -286,6 +296,8 @@ namespace WeblogAddin
 #endif
 
             meta.PostId = ActivePost.PostID.ToString();
+
+            
 
             // retrieve the raw editor markdown
             markdown = editor.GetMarkdown();
@@ -513,11 +525,13 @@ namespace WeblogAddin
 #endregion
 
 #region Post Configuration and Meta Data
+
         /// <summary>
         /// Strips the Markdown Meta data from the message and populates
         /// the post structure with the meta data values.
         /// </summary>
-        /// <param name="markdown"></param>        
+        /// <param name="markdown"></param>
+        /// <param name="weblogInfo"></param>
         /// <returns></returns>
         public WeblogPostMetadata GetPostConfigFromMarkdown(string markdown, WeblogInfo weblogInfo)
         {
@@ -525,7 +539,8 @@ namespace WeblogAddin
             {
                 RawMarkdownBody = markdown,
                 MarkdownBody = markdown,
-                WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed
+                WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed,
+                CustomFields = (weblogInfo.CustomFields ?? new Dictionary<string, string>())
             };
             
             // check for title in first line and remove it 
@@ -579,6 +594,30 @@ namespace WeblogAddin
             if (!string.IsNullOrEmpty(featuredImageUrl))
                 meta.FeaturedImageUrl = featuredImageUrl.Trim();
 
+            
+
+            string customFieldsString = StringUtils.ExtractString(config, "\n<customFields>", "</customFields>",returnDelimiters: true);
+            if (!string.IsNullOrEmpty(customFieldsString))
+            {
+
+                try
+                {
+                    var dom = new XmlDocument();
+                    dom.LoadXml(customFieldsString);
+
+                    foreach (XmlNode child in dom.DocumentElement.ChildNodes)
+                    {
+                        if (child.NodeType == XmlNodeType.Element)
+                        {
+                            var key = child.FirstChild.InnerText;
+                            var value = child.ChildNodes[1].InnerText;
+                            meta.CustomFields.Add(key, value);
+                        }
+                    }
+                }
+                catch { }
+            }
+            
             ActivePost.Title = meta.Title;            
             ActivePost.Categories = meta.Categories.Split(new [] { ','},StringSplitOptions.RemoveEmptyEntries);
             ActivePost.Tags = meta.Keywords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -597,6 +636,25 @@ namespace WeblogAddin
         public string SetConfigInMarkdown(WeblogPostMetadata meta)
         {
             string markdown = meta.RawMarkdownBody;
+
+
+            string customFields = null;
+            if (meta.CustomFields != null && meta.CustomFields.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine();
+                sb.AppendLine("<customFields>");
+                foreach (var cf in meta.CustomFields)
+                {
+                    sb.AppendLine("\t<customField>");
+                    sb.AppendLine($"\t\t<key>{cf.Key}</key>");
+                    sb.AppendLine($"\t\t<value>{System.Net.WebUtility.HtmlEncode(cf.Value)}</key>");
+                    sb.AppendLine("\t</customField>");
+                }
+                sb.AppendLine("</customFields>");
+                customFields = sb.ToString();
+            }
+
             string origConfig = StringUtils.ExtractString(markdown, "<!-- Post Configuration -->", "<!-- End Post Configuration -->", false, false, true);
             string newConfig = $@"<!-- Post Configuration -->
 <!--
@@ -613,7 +671,7 @@ namespace WeblogAddin
 {meta.Keywords}
 </keywords>
 <isDraft>{meta.IsDraft}</isDraft>
-<featuredImage>{meta.FeaturedImageUrl}</featuredImage>
+<featuredImage>{meta.FeaturedImageUrl}</featuredImage>{customFields}
 <weblogs>
 <postid>{meta.PostId}</postid>
 <weblog>

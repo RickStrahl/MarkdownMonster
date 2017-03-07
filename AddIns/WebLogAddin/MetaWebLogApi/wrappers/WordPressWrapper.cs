@@ -320,7 +320,7 @@ namespace WebLogAddin.MetaWebLogApi
         {
             base.OnAfterPostMapping(post, xmlRpcPost);
 
-            // WordPress doesn't like the id attribute, remove it
+            // WordPress doesn't like the id in custom_fields attribute, remove it if it's set
             if (xmlRpcPost.custom_fields != null)
             {
                 for (var index = 0; index < xmlRpcPost.custom_fields.Length; index++)
