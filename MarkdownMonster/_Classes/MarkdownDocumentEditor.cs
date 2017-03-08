@@ -69,9 +69,9 @@ namespace MarkdownMonster
         #region Loading And Initialization
         public MarkdownDocumentEditor(WebBrowser browser)
         {
-            WebBrowser = browser;        
+            WebBrowser = browser;
         }
-
+        
 
         /// <summary>
         /// Loads a new document into the active editor using 
@@ -931,14 +931,72 @@ namespace MarkdownMonster
             }
         }
 
+        /// <summary>
+        /// Fired by the browser when a file is dropped. This method
+        /// looks at the filename dropped and if it's an image handles
+        /// it. Otherwise an error is displayed and recommended to 
+        /// drop files on the header since we cannot capture the filename
+        /// of the originally dropped files.
+        /// </summary>
+        /// <param name="hexData"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public bool FileDropOperation(string hexData, string filename)
+        {
+            var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+            string imagePath = null;
+
+            var ext = Path.GetExtension(filename.ToLower());
+
+            if (ext != ".jpg" && ext != ".jpeg" && ext != ".png" && ext != ".gif")
+            {
+                ShowMessage(
+                    "To open or embed dropped files in Markdown Monster, please drop files onto the header area of the window.\r\n\r\n" +
+                    "You can drop text files to open and edit, or images to embed at the cursor position in the open document.",
+                    "Please drop files on the Window Header", "Warning", "Ok");
+                return false;
+            }
+
+            var sd = new SaveFileDialog
+            {
+                Filter =
+                    "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                FilterIndex = 1,
+                Title = "Save dropped Image as",
+                InitialDirectory = docPath,
+                FileName = filename,
+                CheckFileExists = false,
+                OverwritePrompt = true,
+                CheckPathExists = true,
+                RestoreDirectory = true
+            };
+            var result = sd.ShowDialog();
+            if (result == null || !result.Value)
+                return true;
+
+            string relFilePath = FileUtils.GetRelativePath(sd.FileName, docPath);
+
+
+            var tokens = hexData.Split(',');
+            var prefix = tokens[0];
+            var data = tokens[1];
+
+
+            var bytes = Convert.FromBase64String(data);
+            File.WriteAllBytes(sd.FileName, bytes);
+
+            SetSelectionAndFocus($"![]({relFilePath.Replace("\\", "/")})");
+            return true;
+        }
+
+
         public void ExecEditorCommand(string action, object parm = null)
         {
             AceEditor.execcommand(action, parm);
         }
 
 
-        
-
+       
         public void ResizeWindow()
         {
             return;

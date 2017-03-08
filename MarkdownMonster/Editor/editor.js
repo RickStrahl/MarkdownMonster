@@ -184,7 +184,7 @@ var te = window.textEditor = {
             });
             langTools.setCompleters([window.EmojiCompleter]);         
         }
-
+       
         return editor;
     },
     initializeeditor: function() {
@@ -546,51 +546,53 @@ window.onresize = debounce(function() {
     200);
 
 // prevent window from loading image/file
-window.ondrop = function (event) {
-    // don't allow dropping here - we can't get full file info
-    event.preventDefault();
-    event.stopPropagation();
+//window.ondrop = function (e) {
+//    // don't allow dropping here - we can't get full file info
+//    event.preventDefault();
+//    event.stopPropagation();
 
-    setTimeout(function () {
-        te.mm.textbox.ShowMessage("To open dropped files in Markdown Monster, please drop files onto the header area of the window.","Invalid Drop Operation","Warning","Ok");
-    },50);
-}
+//    te.mm.textbox.fileDropOperation();
 
-//window.ondrop =
-//    function (e) {
-//        e.preventDefault();
-//        e.stopPropagation();
+
+//    setTimeout(function () {
+//        te.mm.textbox.ShowMessage("To open or embed dropped files in Markdown Monster, please drop files onto the header area of the window.\r\n\r\n" +
+//            "You can drop text files to open and edit, or images to embed at the cursor position in the open document.",
+//            "Invalid Drop Operation", "Warning", "Ok");
+//    },50);
+//}
+
+window.ondrop =
+    function (e) {
+        // don't let files be dropped or the document 
+        // is replaced.
+        e.preventDefault();
+        e.stopPropagation();
+
+        var dt = e.dataTransfer;
+        var files = dt.files;
+
+        var file = files[0];        
         
-//        debugger;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var res = e.target.result;
 
-//        var dt = e.dataTransfer;
-//        var files = dt.files;
+            var pos = $.extend({}, te.mousePos);
 
-//        var file = files[0];
-//        console.log(file);
+            var sel = te.editor.getSelection();
+            var range = sel.getRange();
+            range.setStart(pos);
+            range.setEnd(pos);
+            sel.setSelectionRange(range);
 
-//        var reader = new FileReader();
-//        reader.onload = function(e) {
-//            var res = e.target.result;
-//            var pos = $.extend({}, te.mousePos);
-//            console.log(pos);
-//            var sel = te.editor.getSelection();
-//            var range = sel.getRange();
-//            range.setStart(pos);
-//            range.setEnd(pos);
-//            sel.setSelectionRange(range);
-
-//            setTimeout(function() {
-//                    te.setselection(res);
-//                },
-//                20);
-//        }
-//        try {
-//            bin = reader.readAsDataURL(file); //ReadAsArrayBuffer(file);
-//        } catch (ex) {
-//            alert(ex.message);
-//        }
-//    };
+            te.mm.textbox.FileDropOperation(res, file.name);
+        }
+        try {
+            bin = reader.readAsDataURL(file); //ReadAsArrayBuffer(file);
+        } catch (ex) {
+            status("Drag and drop error: " + ex.message);
+        }
+    };
 window.ondragover =
     function(e) {
         e.preventDefault();

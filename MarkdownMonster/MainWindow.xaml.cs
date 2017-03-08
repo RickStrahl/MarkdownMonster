@@ -1504,10 +1504,47 @@ namespace MarkdownMonster
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+
                 foreach (var file in files)
                 {
                     if (File.Exists(file))
-                        OpenTab(file, rebindTabHeaders: true);
+                    {
+                        var ext = Path.GetExtension(file.ToLower());
+
+                        if (ext == ".png" || ext == ".jpg" || ext == ".jpeg" || ext == ".gif")
+                        {
+                            var editor = Model.ActiveEditor;
+                            if (editor != null)
+                            {
+                                var docPath = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
+                                var relFilePath = FileUtils.GetRelativePath(file, docPath);
+                                if (relFilePath.StartsWith(".."))
+                                {
+                                    var sd = new SaveFileDialog
+                                    {
+                                        Filter =
+                                            "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                                        FilterIndex = 1,
+                                        Title = "Save dropped Image as",
+                                        InitialDirectory = docPath,
+                                        CheckFileExists = false,
+                                        OverwritePrompt = true,
+                                        CheckPathExists = true,
+                                        RestoreDirectory = true
+                                    };
+                                    var result = sd.ShowDialog();
+                                    if (result == null || !result.Value)
+                                        return;
+
+                                    File.Copy(file, sd.FileName);
+                                    relFilePath = FileUtils.GetRelativePath(sd.FileName, docPath);
+                                }
+                                Model.ActiveEditor.SetSelectionAndFocus($"![]({relFilePath.Replace("\\", "/")})");
+                            }
+                        }
+                        else
+                           OpenTab(file, rebindTabHeaders: true);
+                    }
                 }
             }
         }

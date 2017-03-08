@@ -1,4 +1,5 @@
 /// <reference path="editorsettings.js"/>
+/// <reference path="editorsettings.js"/>
 /// <reference path="editorSpellcheck.js"/>
 
 // NOTE: All method and property names have to be LOWER CASE!
