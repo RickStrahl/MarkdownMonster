@@ -1,3 +1,6 @@
+### 3 ways to Image Embedding
+Did you know you can get images into @MarkdownMonstr docs in 3 ways: Image dialog, paste image into doc, drag images from Explorer.
+
 ### Changing Update Check Interval
 Markdown Monster is iterating very quickly. Don't want to see new version checks as frequently? Set the following configuration settings to check less frequently:
 

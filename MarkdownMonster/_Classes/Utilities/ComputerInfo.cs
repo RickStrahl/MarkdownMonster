@@ -130,8 +130,9 @@ namespace MarkdownMonster
 
         static string DotnetVersion = null;
 
-        /// <summary>
-        /// Returns the framework version as a string
+        /// <summary> 
+        /// Returns the framework version as a string 
+        /// 4.x+ versions only
         /// </summary>        
         /// <returns></returns>
         public static string GetDotnetVersion()
@@ -170,6 +171,20 @@ namespace MarkdownMonster
                 DotnetVersion = "4.0";
 
             return DotnetVersion;
+        }
+
+        static string _WindowsVersion = null;
+
+        /// <summary>
+        /// Returns a Windows Version string including build number
+        /// </summary>
+        /// <returns></returns>
+        public static string GetWindowsVersion()
+        {
+
+            if (string.IsNullOrEmpty(_WindowsVersion))
+                _WindowsVersion = ComputerInfo.WinMajorVersion + "." + ComputerInfo.WinMinorVersion + "." + ComputerInfo.WinBuildLabVersion;
+            return _WindowsVersion;
         }
 
 

@@ -742,8 +742,7 @@ namespace MarkdownMonster
         /// <param name="tab"></param>   
         /// <param name="document"></param>     
         /// <param name="propertyPath"></param>
-        private void SetTabHeaderBinding(TabItem tab, MarkdownDocument document,
-            string propertyPath = "FilenameWithIndicator")
+        private void SetTabHeaderBinding(TabItem tab, MarkdownDocument document, string propertyPath = "FilenameWithIndicator")
         {
             if (document == null || tab == null)
                 return;

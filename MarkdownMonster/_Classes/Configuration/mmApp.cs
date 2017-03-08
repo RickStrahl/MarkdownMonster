@@ -174,7 +174,36 @@ namespace MarkdownMonster
             Configuration.Initialize();            
         }
 
+        /// <summary>
+        /// Handles an Application level exception by logging the error
+        /// to log, and displaying an error message to the user.
+        /// Also sends the error to server if enabled.
+        /// 
+        /// Returns true if application should continue, false to exit.        
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <returns></returns>
+        public static bool HandleApplicationException(Exception ex)
+        {
 
+            mmApp.Log("Last Resort Handler", ex);
+
+            var msg = string.Format("Yikes! Something went wrong...\r\n\r\n{0}\r\n\r\n" +
+                                    "The error has been recorded and written to a log file and you can\r\n" +
+                                    "review the details or report the error via Help | Show Error Log\r\n\r\n" +
+                                    "Do you want to continue?", ex.Message);
+
+            var res = MessageBox.Show(msg, mmApp.ApplicationName + " Error",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Error);
+
+
+            if (res.HasFlag(MessageBoxResult.No))
+                return false;
+            return true;
+        }
+
+        #region Logging and Telemetry
         /// <summary>
         /// Logs exceptions in the applications
         /// </summary>
@@ -195,10 +224,9 @@ namespace MarkdownMonster
             if (ex != null)
             {
                 var version = mmApp.GetVersion();
-                var winVersion = ComputerInfo.WinMajorVersion + "." + ComputerInfo.WinMinorVersion + "." +
-                                 ComputerInfo.WinBuildLabVersion + " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
-                                 " - " +
-                                 ".NET " + ComputerInfo.GetDotnetVersion() + " - " +
+                var winVersion = ComputerInfo.GetWindowsVersion() +
+                                 " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
+                                 " - NET " + ComputerInfo.GetDotnetVersion() + " - " +
                                  (Environment.Is64BitProcess ? "64 bit" : "32 bit");
 
                 ex = ex.GetBaseException();
@@ -231,47 +259,19 @@ Markdown Monster v{version}
             catch {}
         }
 
-
-        /// <summary>
-        /// Handles an Application level exception by logging the error
-        /// to log, and displaying an error message to the user.
-        /// Also sends the error to server if enabled.
-        /// 
-        /// Returns true if application should continue, false to exit.        
-        /// </summary>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        public static bool HandleApplicationException(Exception ex)
-        {
-
-            mmApp.Log("Last Resort Handler", ex);
-
-            var msg = string.Format("Yikes! Something went wrong...\r\n\r\n{0}\r\n\r\n" +
-                "The error has been recorded and written to a log file and you can\r\n" +
-                "review the details or report the error via Help | Show Error Log\r\n\r\n" +
-                "Do you want to continue?", ex.Message);
-
-            var res = MessageBox.Show(msg, mmApp.ApplicationName + " Error",
-                                                MessageBoxButton.YesNo,
-                                                MessageBoxImage.Error);
-
-
-            if (res.HasFlag(MessageBoxResult.No))
-                return false;
-            return true;
-        }
-
-
         public static void SendBugReport(Exception ex, string msg = null)
-        {                        
+        {
             var bug = new BugReport()
             {
                 TimeStamp = DateTime.UtcNow,
-                Message = ex.Message,                
+                Message = ex.Message,
                 Product = "Markdown Monster",
-                Version = mmApp.GetVersion(),      
-                WinVersion = ComputerInfo.WinMajorVersion + "." + ComputerInfo.WinMinorVersion + "." + ComputerInfo.WinBuildLabVersion + " - " + CultureInfo.CurrentUICulture.IetfLanguageTag,
-                StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()               
+                Version = mmApp.GetVersion(),
+                WinVersion = ComputerInfo.GetWindowsVersion() + 
+                             " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
+                             " - .NET " + ComputerInfo.GetDotnetVersion() + " - " +
+                             (Environment.Is64BitProcess ? "64 bit" : "32 bit"),
+                StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()
             };
             if (!string.IsNullOrEmpty(msg))
                 bug.Message = msg + "\r\n" + bug.Message;
@@ -340,7 +340,9 @@ Markdown Monster v{version}
                 Log("Unable to send telemetry: " + ex2.Message);
             }
         }
+        #endregion
 
+        #region Version information
 
         /// <summary>
         /// Gets the Markdown Monster Version as a string
@@ -362,7 +364,7 @@ Markdown Monster v{version}
             var fi = new FileInfo(Assembly.GetExecutingAssembly().Location);
             return fi.LastWriteTime.ToString("MMM d, yyyy");
         }
-
+        #endregion
 
         /// <summary>
         /// Sets the light or dark theme for a form. Call before
