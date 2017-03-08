@@ -2,6 +2,12 @@
 
 # Markdown Monster Change Log
 
+### 1.2.11
+<small>not released yet</small>
+
+* **Drag and Drop Images into Editor**   
+You can now drag images from Explorer directly into the editor and have an image link embedded in the document. MM will prompt to save the file in a local folder.
+
 ### 1.2.10
 <small>March 7th, 2017</small>
 
