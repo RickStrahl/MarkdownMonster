@@ -681,7 +681,7 @@ namespace MarkdownMonster
             var btn = MessageBoxButton.OK;
             Enum.TryParse<MessageBoxButton>(buttons, out btn);
 
-            var res = MessageBox.Show(text, title, btn, image);
+            var res = MessageBox.Show(Window,text, title, btn, image);
             return res.ToString();
         }
 
