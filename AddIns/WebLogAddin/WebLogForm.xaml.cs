@@ -87,6 +87,15 @@ namespace WeblogAddin
             SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Upload, Colors.Orange, true);
 
 
+            if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))
+            {
+                MessageBox.Show("Please select or create a Weblog to post to before posting.",
+                    "No Weblog Selected",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
             // Update the Markdown document first
             string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
             Model.AppModel.ActiveEditor.SetMarkdown(markdown);

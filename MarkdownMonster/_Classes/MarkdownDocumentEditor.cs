@@ -43,6 +43,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
@@ -70,8 +71,9 @@ namespace MarkdownMonster
         public MarkdownDocumentEditor(WebBrowser browser)
         {
             WebBrowser = browser;
+            WebBrowser.Navigating += WebBrowser_NavigatingAndDroppingFiles;
         }
-        
+
 
         /// <summary>
         /// Loads a new document into the active editor using 
@@ -441,7 +443,8 @@ namespace MarkdownMonster
 
             SetSelection(text);
             SetEditorFocus();
-            Window.PreviewMarkdown(this, keepScrollPosition: true);
+
+            Window.PreviewMarkdown(this, keepScrollPosition: true);                       
         }
 
         public int GetFontSize()
@@ -932,6 +935,78 @@ namespace MarkdownMonster
         }
 
         /// <summary>
+        /// Handle dropping of files 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WebBrowser_NavigatingAndDroppingFiles(object sender, NavigatingCancelEventArgs e)
+        {
+            var url = e.Uri.ToString().ToLower();
+            if (url.Contains("editor.htm") || url.Contains("editorsimple.htm"))
+                return; // continue navigating
+
+            // otherwise we either handle or don't allow
+            e.Cancel = true;
+
+            // if it's a URL or ??? don't navigate
+            if (!e.Uri.IsFile)
+                return;
+
+
+            string file = e.Uri.LocalPath;
+            string ext = Path.GetExtension(file).ToLower();
+
+            if (ext == ".png" || ext == ".gif" || ext == ".jpg" || ext == ".jpeg" || ext == ".svg")
+            {
+                var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+                string imagePath = null;
+
+                // if lower than 1 level down off base path ask to save the file
+                string relFilePath = FileUtils.GetRelativePath(file, docPath);
+                if (relFilePath.StartsWith("..\\..") || relFilePath.Contains(":\\"))
+                {
+                    var sd = new SaveFileDialog
+                    {
+                        Filter =
+                            "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                        FilterIndex = 1,
+                        Title = "Save dropped Image as",
+                        InitialDirectory = docPath,
+                        FileName = Path.GetFileName(file),
+                        CheckFileExists = false,
+                        OverwritePrompt = true,
+                        CheckPathExists = true,
+                        RestoreDirectory = true
+                    };
+                    var result = sd.ShowDialog();
+                    if (result == null || !result.Value)
+                        return;
+
+                    relFilePath = FileUtils.GetRelativePath(sd.FileName, docPath);
+
+                    File.Copy(file, relFilePath, true);
+                }
+
+                if (!relFilePath.Contains(":\\"))
+                    relFilePath = relFilePath.Replace("\\", "/");
+                else
+                    relFilePath = "file:///" + relFilePath;
+
+                AceEditor.setselpositionfrommouse(false);
+
+                Window.Dispatcher.InvokeAsync( ()=> SetSelectionAndFocus($"\r\n![]({relFilePath})\r\n"),
+                    DispatcherPriority.ApplicationIdle);
+
+                Window.Activate();
+            }
+            else if (mmApp.AllowedFileExtensions.Contains($",{ext.Substring(1)},"))
+            {
+                Window.OpenTab(e.Uri.LocalPath);
+            }
+
+        }
+
+        /// <summary>
         /// Fired by the browser when a file is dropped. This method
         /// looks at the filename dropped and if it's an image handles
         /// it. Otherwise an error is displayed and recommended to 
@@ -985,7 +1060,7 @@ namespace MarkdownMonster
             var bytes = Convert.FromBase64String(data);
             File.WriteAllBytes(sd.FileName, bytes);
 
-            SetSelectionAndFocus($"![]({relFilePath.Replace("\\", "/")})");
+            SetSelectionAndFocus($"\r\n![]({relFilePath.Replace("\\", "/")})\r\n");
             return true;
         }
 

@@ -294,6 +294,16 @@ var te = window.textEditor = {
         range.setEnd(end);
         sel.setSelectionRange(range);
     },
+    setselpositionfrommouse: function(pos) {
+        if (!pos)
+            pos = $.extend({}, te.mousePos);
+
+        var sel = te.editor.getSelection();
+        var range = sel.getRange();
+        range.setStart(pos);
+        range.setEnd(pos);
+        sel.setSelectionRange(range);
+    },
     getCursorPosition: function(ignored) { // returns {row: y, column: x}
         te.editor.getCursorPosition();
     },
@@ -561,43 +571,43 @@ window.onresize = debounce(function() {
 //    },50);
 //}
 
-window.ondrop =
-    function (e) {
-        // don't let files be dropped or the document 
-        // is replaced.
-        e.preventDefault();
-        e.stopPropagation();
+//window.ondrop =
+//    function (e) {
+//        // don't let files be dropped or the document 
+//        // is replaced.
+//        e.preventDefault();
+//        e.stopPropagation();
 
-        var dt = e.dataTransfer;
-        var files = dt.files;
+//        var dt = e.dataTransfer;
+//        var files = dt.files;
 
-        var file = files[0];        
+//        var file = files[0];        
         
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            var res = e.target.result;
+//        var reader = new FileReader();
+//        reader.onload = function(e) {
+//            var res = e.target.result;
 
-            var pos = $.extend({}, te.mousePos);
+//            var pos = $.extend({}, te.mousePos);
 
-            var sel = te.editor.getSelection();
-            var range = sel.getRange();
-            range.setStart(pos);
-            range.setEnd(pos);
-            sel.setSelectionRange(range);
+//            var sel = te.editor.getSelection();
+//            var range = sel.getRange();
+//            range.setStart(pos);
+//            range.setEnd(pos);
+//            sel.setSelectionRange(range);
 
-            te.mm.textbox.FileDropOperation(res, file.name);
-        }
-        try {
-            bin = reader.readAsDataURL(file); //ReadAsArrayBuffer(file);
-        } catch (ex) {
-            status("Drag and drop error: " + ex.message);
-        }
-    };
-window.ondragover =
-    function(e) {
-        e.preventDefault();
-        return false;
-    };
+//            te.mm.textbox.FileDropOperation(res, file.name);
+//        }
+//        try {
+//            bin = reader.readAsDataURL(file); //ReadAsArrayBuffer(file);
+//        } catch (ex) {
+//            status("Drag and drop error: " + ex.message);
+//        }
+//    };
+//window.ondragover =
+//    function(e) {
+//        e.preventDefault();
+//        return false;
+//    };
 
  window.onmousewheel = function (e) {     
     if (e.ctrlKey) {
