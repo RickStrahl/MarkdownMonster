@@ -11,10 +11,12 @@ robocopy ${source}\bin\Release ${target} /MIR
 copy ${cur}\mm.exe ${target}\mm.exe
 
 del ${target}\*.vshost.*
+del ${target}\*.xml
+
 ren ${target}\markdownmonster.pdb ${target}\markdownmonster.TPDB
 del ${target}\*.pdb
 ren ${target}\markdownmonster.TPDB ${target}\markdownmonster.pdb
-del ${target}\*.xml
 
-del ${target}\addins\*.pdb
-del ${target}\addins\*.xml
+
+get-childitem .\distribution\addins\*.pdb -Recurse | Remove-Item
+get-childitem .\distribution\addins\*.xml -Recurse | Remove-Item
