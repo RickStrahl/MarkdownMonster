@@ -15,13 +15,13 @@
         WindowStartupLocation="CenterOwner"         
         Padding="0"                      
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="600" Height="250" MinWidth="500" MinHeight="250">
+        Width="620" Height="282.447" MinWidth="600" MinHeight="250">
     <Grid Name="PageGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <StackPanel Margin="30,20,30,0">
             <Label  Content="Web URL or Local Image File: (relative path recommended)"/>
             <Grid>
@@ -31,8 +31,10 @@
                     <ColumnDefinition Width="29"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Name="TextImage" Grid.Column="0"  Text="{Binding Image}"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  FontSize="15"  
+                <TextBox Name="TextImage" Grid.Column="0"  Text="{Binding Image}"  HorizontalAlignment="Stretch" 
+                         Width="Auto" Height="28" Margin="0,0,3,0"  FontSize="15"  
                          ToolTip="An image from your local disk. It's recommended that you use a file location with a path relative to the document you are editing. Images at the same level or lower are linked as relative paths." LostFocus="TextImage_LostFocus"/>
+                
                 <Button Grid.Column="1"  Height="25" Width="25" Click="SelectLocalImageFile_Click">...</Button>
                 <Button Grid.Column="2"  Height="25" Width="25" Click="Button_PasteImage" Margin="4,0,0,0"
                         ToolTip="Paste image from clipboard. Note: You can also paste images directly into the document without this dialog.">
@@ -43,6 +45,13 @@
 
             <Label Margin="0,10,0,0">Image Text: (optional)</Label>
             <TextBox Name="TextImageText" Text="{Binding ImageText}" FontSize="15" />
+
+            <CheckBox x:Name="CheckPasteAsBase64Content" Margin="0,10,0,0"
+                      Checked="CheckPasteAsBase64Content_Checked"
+                      IsTabStop="False"
+                      IsChecked="{Binding PasteAsBase64Content}"                       
+                      Content="Paste as base64 content"
+                      ToolTip="Embeds the picture as inline base64 content in the HTML document. Can result in very large rendered HTML documents and recommended only for smaller images."/>
 
             <StackPanel Orientation="Horizontal">
                 <Button Name="ButtonOk" Margin="0,20,10,10" IsDefault="True" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" Click="Button_Click"  
@@ -69,7 +78,9 @@
                     </StackPanel>
                 </Button>
 
+                
             </StackPanel>
+            
         </StackPanel>
 
         <Image Name="ImagePreview" Grid.Row="1" Margin="10,0,10,10"/>

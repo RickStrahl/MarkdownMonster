@@ -384,12 +384,35 @@ namespace MarkdownMonster
                 if (res != null && res.Value)
                 {
                     var image = form.Image;
-                    html = $"![{form.ImageText}]({form.Image})";
+                    if (!image.StartsWith("data:image/"))
+                        html = $"![{form.ImageText}]({form.Image})";
+                    else
+                    {
+                        var id = "image_ref_" + DataUtils.GenerateUniqueId();
+
+                        dynamic pos = AceEditor.getCursorPosition(false);
+                        dynamic scroll = AceEditor.getscrolltop(false);
+                 
+                        // the ID tag
+                        html = $"\r\n[{id}]: {image}";
+
+                        // set selction position to bottom of document
+                        AceEditor.gotoBottom(false);
+                        SetSelection(html);
+
+                        // reset the selection point
+                        AceEditor.setcursorposition(pos); //pos.column,pos.row);
+
+                        if (scroll != null)
+                            AceEditor.setscrolltop(scroll);
+
+                        WindowUtilities.DoEvents();
+                        html = $"![{form.ImageText}][{id}]";                        
+                    }                   
                 }
             }
             else if (action == "code")
             {
-
                 var form = new PasteCode();
                 form.Owner = Window;
                 form.Code = input;

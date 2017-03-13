@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -30,7 +31,7 @@ namespace MarkdownMonster.Windows
             {
                 if (value == _image) return;
                 _image = value;
-                OnPropertyChanged(nameof(Image));
+                OnPropertyChanged(nameof(Image));                
             }
         }
 
@@ -44,6 +45,22 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged(nameof(ImageText));
             }
         }
+
+
+
+        public bool PasteAsBase64Content
+        {
+            get { return _PasteAsBase64Content; }
+            set
+            {
+                if (value == _PasteAsBase64Content) return;
+                _PasteAsBase64Content = value;
+                OnPropertyChanged(nameof(PasteAsBase64Content));
+            }
+        }
+        private bool _PasteAsBase64Content = false;
+
+
 
 
         public string MarkdownFile { get; set; }
@@ -96,6 +113,33 @@ namespace MarkdownMonster.Windows
             SizeChanged += PasteImage_SizeChanged;
             Activated += PasteImage_Activated;
             PreviewKeyDown += PasteImage_PreviewKeyDown;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="file"></param>
+        public void Base64EncodeImage(string file)
+        {
+            
+            if (!PasteAsBase64Content || 
+                Image.StartsWith("data:image/") || 
+                file == "Untitled")
+                return;
+            
+            file = file.Replace("file:///","");
+
+            var fullPath = file;
+            if(!File.Exists(file))
+                fullPath = Path.Combine(Path.GetDirectoryName(Editor.MarkdownDocument.Filename), file);
+
+            if (File.Exists(fullPath))
+            {
+                var bytes = File.ReadAllBytes(fullPath);
+                var bytestring = Convert.ToBase64String(bytes);
+                var mediaFormat = mmFileUtils.GetImageMediaTypeFromFilename(fullPath);
+                Image = $"data:{mediaFormat};base64," + bytestring;
+            }
         }
 
         private void PasteImage_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -167,6 +211,14 @@ namespace MarkdownMonster.Windows
                 return;
 
             Image = fd.FileName;
+
+            if (PasteAsBase64Content)
+            {
+                Base64EncodeImage(fd.FileName);                
+                ImagePreview.Source = new BitmapImage(new Uri(fd.FileName));
+                return;
+            }
+
 
             // Normalize the path relative to the Markdown file
             if (!string.IsNullOrEmpty(MarkdownFile) && MarkdownFile != "untitled")
@@ -246,6 +298,8 @@ namespace MarkdownMonster.Windows
                 }
             }
 
+
+            
             if (Image.Contains(":\\"))
                 Image = "file:///" + Image;
             else
@@ -268,8 +322,6 @@ namespace MarkdownMonster.Windows
                 ImagePreview.Source = null;                
                 return;
             }
-
-         
 
             string href = TextImage.Text.ToLower();
             if (href.StartsWith("http://") || href.StartsWith("https://"))
@@ -392,6 +444,15 @@ namespace MarkdownMonster.Windows
             PasteImageFromClipboard();
         }
 
+        private void CheckPasteAsBase64Content_Checked(object sender, RoutedEventArgs e)
+        {            
+            if (CheckPasteAsBase64Content.IsChecked.Value)
+                Base64EncodeImage(Image);
+            else
+                Image = null;
+            
+        }
+
         #endregion
 
         #region Image Display
@@ -465,7 +526,5 @@ namespace MarkdownMonster.Windows
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        
     }
 }

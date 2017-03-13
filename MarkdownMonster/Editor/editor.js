@@ -184,7 +184,7 @@ var te = window.textEditor = {
             });
             langTools.setCompleters([window.EmojiCompleter]);         
         }
-       
+
         return editor;
     },
     initializeeditor: function() {
@@ -262,6 +262,15 @@ var te = window.textEditor = {
         range.setEnd({ row: line, column: 0 });
         sel.setSelectionRange(range);
     },
+    gotoBottom: function (ignored) {
+        try {
+            var row = te.editor.session.getLength() - 1;
+            var column = te.editor.session.getLine(row).length; // or simply Infinity
+            te.editor.selection.moveTo(row, column);
+        } catch (ex) {
+            console.log(ex.message);
+        }
+    },
     setselection: function(text) {
         var range = te.editor.getSelectionRange();
         te.editor.session.replace(range, text);
@@ -304,16 +313,18 @@ var te = window.textEditor = {
         range.setEnd(pos);
         sel.setSelectionRange(range);
     },
-    getCursorPosition: function(ignored) { // returns {row: y, column: x}
-        te.editor.getCursorPosition();
+    getCursorPosition: function (ignored) { // returns {row: y, column: x}        
+        return te.editor.getCursorPosition();
     },
 
-    setCursorPosition: function(pos) { // { row: y, column: x }
-        var sel = te.editor.getSelection();
-        var range = sel.getRange();
-        range.setStart(pos);
-        range.setEnd(pos);
-        sel.setSelectionRange(range);
+    setCursorPosition: function(row, column) { // col and also be pos: { row: y, column: x }  
+        var pos;        
+        if (typeof row === "object")
+            pos = row;
+        else
+            pos = { column: column, row: row };
+        
+         te.editor.selection.moveTo(pos.row, pos.column);
     },
     moveCursorLeft: function (count) {
         if (!count)
@@ -541,10 +552,10 @@ window.onerror = function windowError(message, filename, lineno, colno, error) {
     if (editorSettings.isDebug)
         status(msg);
 
-    console.log(msg);
-
-    if(textEditor)
+    if (textEditor)
         textEditor.lastError = msg; 
+
+    console.log(msg,filename,lineno,colno,error);
 
     // don't let errors trigger browser window
     return true;
