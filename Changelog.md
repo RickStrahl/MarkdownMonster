@@ -1,7 +1,7 @@
 ﻿<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right"/>
 
 # Markdown Monster Change Log
-<small>[Download the latest version](https://markdownmonster.west-wind.com)</small>
+<small>[Download latest version](https://markdownmonster.west-wind.com)</small>
 
 ### 1.2.14
 <small>March 13th, 2017</small>
