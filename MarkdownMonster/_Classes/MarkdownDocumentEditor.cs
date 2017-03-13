@@ -394,7 +394,7 @@ namespace MarkdownMonster
                         dynamic scroll = AceEditor.getscrolltop(false);
                  
                         // the ID tag
-                        html = $"\r\n[{id}]: {image}";
+                        html = $"\r\n\r\n[{id}]: {image}\r\n";
 
                         // set selction position to bottom of document
                         AceEditor.gotoBottom(false);

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -123,6 +124,7 @@ namespace MarkdownMonster.Windows
         {
             
             if (!PasteAsBase64Content || 
+                Image == null ||
                 Image.StartsWith("data:image/") || 
                 file == "Untitled")
                 return;
@@ -139,6 +141,16 @@ namespace MarkdownMonster.Windows
                 var bytestring = Convert.ToBase64String(bytes);
                 var mediaFormat = mmFileUtils.GetImageMediaTypeFromFilename(fullPath);
                 Image = $"data:{mediaFormat};base64," + bytestring;
+            }
+        }
+
+        public void Base64EncodeImage(Bitmap bmp)
+        {            
+            using (var ms = new MemoryStream(10000))
+            {
+                bmp.Save(ms, ImageFormat.Jpeg);
+                ms.Flush();
+                Image = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
             }
         }
 
@@ -332,6 +344,12 @@ namespace MarkdownMonster.Windows
 
         #region Main Buttons
 
+        /// <summary>
+        /// Saves an image loaded from clipboard to disk OR if base64 is checked
+        /// creates the base64 content.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_SaveImage(object sender, RoutedEventArgs e)
         {
             string imagePath = null;
@@ -348,6 +366,13 @@ namespace MarkdownMonster.Windows
             using (var bitMap = WindowUtilities.BitmapSourceToBitmap(bitmapSource))
             {
                 imagePath = AddinManager.Current.RaiseOnSaveImage(bitMap);
+
+                if (PasteAsBase64Content)
+                {
+                    Base64EncodeImage(bitMap);
+                    IsMemoryImage = false;
+                    return;
+                }
             }
 
             if (!string.IsNullOrEmpty(imagePath))
@@ -426,6 +451,7 @@ namespace MarkdownMonster.Windows
 
                 this.Image = imagePath;
                 IsMemoryImage = false;
+
             }
         }
 
@@ -445,9 +471,15 @@ namespace MarkdownMonster.Windows
         }
 
         private void CheckPasteAsBase64Content_Checked(object sender, RoutedEventArgs e)
-        {            
-            if (CheckPasteAsBase64Content.IsChecked.Value)
-                Base64EncodeImage(Image);
+        {             
+            if (PasteAsBase64Content)
+                if (IsMemoryImage)
+                {
+                    Base64EncodeImage(WindowUtilities.BitmapSourceToBitmap(ImagePreview.Source as BitmapSource));
+                    IsMemoryImage = false;
+                }
+                else
+                    Base64EncodeImage(Image);
             else
                 Image = null;
             

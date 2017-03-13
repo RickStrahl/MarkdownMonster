@@ -48,6 +48,7 @@
 
             <CheckBox x:Name="CheckPasteAsBase64Content" Margin="0,10,0,0"
                       Checked="CheckPasteAsBase64Content_Checked"
+                      Unchecked="CheckPasteAsBase64Content_Checked"
                       IsTabStop="False"
                       IsChecked="{Binding PasteAsBase64Content}"                       
                       Content="Paste as base64 content"
