@@ -178,8 +178,8 @@
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\PasteImage.xaml.cs">
-      <DependentUpon>PasteImage.xaml</DependentUpon>
+    <Compile Include="Windows\PasteImageWindow.xaml.cs">
+      <DependentUpon>PasteImageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PasteHref.xaml.cs">
       <DependentUpon>PasteHref.xaml</DependentUpon>
@@ -239,7 +239,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\PasteImage.xaml">
+    <Page Include="Windows\PasteImageWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

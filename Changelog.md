@@ -2,11 +2,18 @@
 
 # Markdown Monster Change Log
 
-### 1.2.11
+### 1.2.14
 <small>not released yet</small>
 
-* **Drag and Drop Images into Editor**   
-You can now drag images from Explorer directly into the editor and have an image link embedded in the document. MM will prompt to save the file in a local folder.
+* **Drag and Drop Images from Explorer into Editor**   
+You can now drag images from Explorer directly into the editor and have an image link embedded in the document at the mouse cursor. MM will prompt to save the file in a local folder if the image is in a non-relative path or relative path 1 level below the document's folder. You now have 3 ways to get images into documents: Image Dialog, Pasting from Clipboard and drag and drop from Explorer.
+
+* **Drag and Drop Documents from Explorer**  
+You can now drag Markdown, HTML and other text documents directly into the editor and have MM open that document as a new tab. Previously this would only work if you dropped documents on the Window header. You can drag multiple documents as well.
+
+* **Paste Images as embedded Base64 Content**  
+You can now embed images inside of the rendered HTML document using base64 content image content. A new **Paste as base 64** checkbox on the in the Image dialog pastes the content as base64 encoded raw image content into the Markdown document and the rendered HTML. Useful for creating self-contained, single file, but potentially very large HTML documents that don't have external image dependencies.
+
 
 ### 1.2.10
 <small>March 7th, 2017</small>
