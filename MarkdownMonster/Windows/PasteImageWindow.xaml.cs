@@ -5,22 +5,26 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using FontAwesome.WPF;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using Microsoft.Win32;
 using Westwind.Utilities;
+using Color = System.Windows.Media.Color;
 
 namespace MarkdownMonster.Windows
 {
     /// <summary>
     /// Interaction logic for PasteHref.xaml
     /// </summary>
-    public partial class PasteImage : MetroWindow, INotifyPropertyChanged
+    public partial class PasteImageWindow : MetroWindow, INotifyPropertyChanged
     {
         private string _image;
         private string _imageText;
@@ -103,7 +107,7 @@ namespace MarkdownMonster.Windows
         MarkdownDocument Document { get; set; }
 
 
-        public PasteImage()
+        public PasteImageWindow()
         {
             InitializeComponent();
 
@@ -114,44 +118,6 @@ namespace MarkdownMonster.Windows
             SizeChanged += PasteImage_SizeChanged;
             Activated += PasteImage_Activated;
             PreviewKeyDown += PasteImage_PreviewKeyDown;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="file"></param>
-        public void Base64EncodeImage(string file)
-        {
-            
-            if (!PasteAsBase64Content || 
-                Image == null ||
-                Image.StartsWith("data:image/") || 
-                file == "Untitled")
-                return;
-            
-            file = file.Replace("file:///","");
-
-            var fullPath = file;
-            if(!File.Exists(file))
-                fullPath = Path.Combine(Path.GetDirectoryName(Editor.MarkdownDocument.Filename), file);
-
-            if (File.Exists(fullPath))
-            {
-                var bytes = File.ReadAllBytes(fullPath);
-                var bytestring = Convert.ToBase64String(bytes);
-                var mediaFormat = mmFileUtils.GetImageMediaTypeFromFilename(fullPath);
-                Image = $"data:{mediaFormat};base64," + bytestring;
-            }
-        }
-
-        public void Base64EncodeImage(Bitmap bmp)
-        {            
-            using (var ms = new MemoryStream(10000))
-            {
-                bmp.Save(ms, ImageFormat.Jpeg);
-                ms.Flush();
-                Image = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
-            }
         }
 
         private void PasteImage_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -494,6 +460,61 @@ namespace MarkdownMonster.Windows
             SetImagePreview(Clipboard.GetImage());
             Image = null;
             IsMemoryImage = true;
+            
+            ShowStatus("Image pasted from clipboard...", 5000);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="file"></param>
+        public void Base64EncodeImage(string file)
+        {
+            try
+            {
+                if (!PasteAsBase64Content ||
+                    Image == null ||
+                    Image.StartsWith("data:image/") ||
+                    file == "Untitled")
+                    return;
+
+                file = file.Replace("file:///", "");
+
+                var fullPath = file;
+                if (!File.Exists(file))
+                    fullPath = Path.Combine(Path.GetDirectoryName(Editor.MarkdownDocument.Filename), file);
+
+                if (File.Exists(fullPath))
+                {
+                    var bytes = File.ReadAllBytes(fullPath);
+                    var bytestring = Convert.ToBase64String(bytes);
+                    var mediaFormat = mmFileUtils.GetImageMediaTypeFromFilename(fullPath);
+                    Image = $"data:{mediaFormat};base64," + bytestring;
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowStatus("Image base64 encoding failed: " + ex.GetBaseException().Message, 5000);
+                this.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
+            }
+        }
+
+        public void Base64EncodeImage(Bitmap bmp)
+        {
+            try
+            {
+                using (var ms = new MemoryStream(10000))
+                {
+                    bmp.Save(ms, ImageFormat.Jpeg);
+                    ms.Flush();
+                    Image = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
+                }                
+            }
+            catch (Exception ex)
+            {
+                ShowStatus("Image base64 encoding failed: " + ex.GetBaseException().Message, 5000);
+                this.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
+            }
         }
 
         private void PasteImage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -548,6 +569,74 @@ namespace MarkdownMonster.Windows
             catch
             {
             }
+        }
+
+        #endregion
+
+        #region StatusBar Display
+
+        public void ShowStatus(string message = null, int milliSeconds = 0)
+        {
+            if (message == null)
+            {
+                message = "Ready";
+                SetStatusIcon();
+            }
+
+            StatusText.Text = message;
+
+            if (milliSeconds > 0)
+            {
+                Dispatcher.DelayWithPriority(milliSeconds, (win) =>
+                {                    
+                    ShowStatus(null, 0);
+                    SetStatusIcon();
+                }, this);
+            }
+            WindowUtilities.DoEvents();
+        }
+
+        /// <summary>
+        /// Status the statusbar icon on the left bottom to some indicator
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="color"></param>
+        /// <param name="spin"></param>
+        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
+        {
+            StatusIcon.Icon = icon;
+            StatusIcon.Foreground = new SolidColorBrush(color);
+            if (spin)
+                StatusIcon.SpinDuration = 30;
+
+            StatusIcon.Spin = spin;
+        }
+
+        /// <summary>
+        /// Resets the Status bar icon on the left to its default green circle
+        /// </summary>
+        public void SetStatusIcon()
+        {
+            StatusIcon.Icon = FontAwesomeIcon.Circle;
+            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
+            StatusIcon.Spin = false;
+            StatusIcon.SpinDuration = 0;
+            StatusIcon.StopSpin();
+        }
+
+        /// <summary>
+        /// Helper routine to show a Metro Dialog. Note this dialog popup is fully async!
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="style"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        public async Task<MessageDialogResult> ShowMessageOverlayAsync(string title, string message,
+            MessageDialogStyle style = MessageDialogStyle.Affirmative,
+            MetroDialogSettings settings = null)
+        {
+            return await this.ShowMessageAsync(title, message, style, settings);
         }
 
         #endregion

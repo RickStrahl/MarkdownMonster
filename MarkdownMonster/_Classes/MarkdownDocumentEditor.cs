@@ -89,6 +89,7 @@ namespace MarkdownMonster
             {
                 WebBrowser.LoadCompleted += OnDocumentCompleted;
                 WebBrowser.Navigate(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm")));
+                //WebBrowser.Navigate("http://localhost:8080/editor.htm");
             }
             FindSyntaxFromFileType(MarkdownDocument.Filename);            
         }
@@ -359,7 +360,7 @@ namespace MarkdownMonster
             }
             else if (action == "image")
             {
-                var form = new PasteImage
+                var form = new PasteImageWindow
                 {
                     Owner = Window,
                     ImageText = input,
