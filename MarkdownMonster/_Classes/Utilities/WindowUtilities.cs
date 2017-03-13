@@ -82,7 +82,7 @@ namespace MarkdownMonster.Windows
 
             return kb;
         }
-
+        #region Bitmap Convertsions
 
         public static Bitmap BitmapSourceToBitmap(BitmapSource source)
         {
@@ -105,6 +105,21 @@ namespace MarkdownMonster.Windows
             bmp.UnlockBits(data);
             return bmp;
         }
+
+
+        [DllImport("gdi32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool DeleteObject(IntPtr hObject);
+
+        public static BitmapSource BitmapToBitmapSource(Bitmap bmp)
+        {
+            var hBitmap = bmp.GetHbitmap();
+            var imageSource = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, System.Windows.Int32Rect.Empty, System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+            DeleteObject(hBitmap);
+            return imageSource;
+        }
+
+        #endregion
 
         #region Make Window Transparent
         /// <summary>

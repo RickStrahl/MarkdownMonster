@@ -165,53 +165,7 @@ namespace MarkdownMonster
             return filename;
         }
 
-
-        /// <summary>
-        /// Returns the image media type for a give file extension based
-        /// on a filename or url passed in.
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        public static string GetImageMediaTypeFromFilename(string file)
-        {
-            if (string.IsNullOrEmpty(file))
-                return file;
-
-            string ext = Path.GetExtension(file).ToLower();
-            if (ext == ".jpg" || ext == ".jpeg")
-                return "image/jpeg";
-            if (ext == ".png")
-                return "image/png";
-            if (ext == ".gif")
-                return "image/gif";
-            if (ext == ".bmp")
-                return "image/bmp";
-            if (ext == ".tif" || ext == ".tiff")
-                return "image/tiff";
-
-            return "application/image";
-        }
-
-        /// <summary>
-        /// Tries to optimize png images in the background
-        /// This is not fast and does not happen right away
-        /// so generally this can be applied when images are saved.        
-        /// </summary>
-        /// <param name="pngFilename">Filename to optimize</param>
-        /// <param name="level">Optimization Level from 1-7</param>
-        public static void OptimizePngImage(string pngFilename, int level = 5)
-        {
-            try
-            {
-                var pi = new ProcessStartInfo(Path.Combine(Environment.CurrentDirectory, "optipng.exe"),
-                    $"-o{level} \"" + pngFilename + "\"");
-                
-                pi.WindowStyle = ProcessWindowStyle.Hidden;
-                pi.WorkingDirectory = Environment.CurrentDirectory;                
-                Process.Start(pi);
-            }
-            catch { }
-        }
+       
 
         /// <summary>
         /// API call that takes an input path and turns it into a long path
@@ -278,6 +232,55 @@ namespace MarkdownMonster
 
             return string.Empty;
         }
+
+        #region Image Utilities
+        /// <summary>
+        /// Returns the image media type for a give file extension based
+        /// on a filename or url passed in.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static string GetImageMediaTypeFromFilename(string file)
+        {
+            if (string.IsNullOrEmpty(file))
+                return file;
+
+            string ext = Path.GetExtension(file).ToLower();
+            if (ext == ".jpg" || ext == ".jpeg")
+                return "image/jpeg";
+            if (ext == ".png")
+                return "image/png";
+            if (ext == ".gif")
+                return "image/gif";
+            if (ext == ".bmp")
+                return "image/bmp";
+            if (ext == ".tif" || ext == ".tiff")
+                return "image/tiff";
+
+            return "application/image";
+        }
+
+        /// <summary>
+        /// Tries to optimize png images in the background
+        /// This is not fast and does not happen right away
+        /// so generally this can be applied when images are saved.        
+        /// </summary>
+        /// <param name="pngFilename">Filename to optimize</param>
+        /// <param name="level">Optimization Level from 1-7</param>
+        public static void OptimizePngImage(string pngFilename, int level = 5)
+        {
+            try
+            {
+                var pi = new ProcessStartInfo(Path.Combine(Environment.CurrentDirectory, "optipng.exe"),
+                    $"-o{level} \"" + pngFilename + "\"");
+
+                pi.WindowStyle = ProcessWindowStyle.Hidden;
+                pi.WorkingDirectory = Environment.CurrentDirectory;
+                Process.Start(pi);
+            }
+            catch { }
+        }
+        #endregion
     }
 
 
