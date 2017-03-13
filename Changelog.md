@@ -3,7 +3,7 @@
 # Markdown Monster Change Log
 
 ### 1.2.14
-<small>not released yet</small>
+<small>March 13th, 2017</small>
 
 * **Drag and Drop Images from Explorer into Editor**   
 You can now drag images from Explorer directly into the editor and have an image link embedded in the document at the mouse cursor. MM will prompt to save the file in a local folder if the image is in a non-relative path or relative path 1 level below the document's folder. You now have 3 ways to get images into documents: Image Dialog, Pasting from Clipboard and drag and drop from Explorer.
