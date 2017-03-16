@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media;
 using FontAwesome.WPF;
 
 namespace MarkdownMonster.AddIns
@@ -26,6 +27,14 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         public FontAwesomeIcon FontawesomeIcon { get; set; } = FontAwesomeIcon.None;
 
+
+        /// <summary>
+        /// Optional Pack Image Icon resource string:
+        /// Example syntax: "pack://application:,,,/PandocMarkdownParserAddin;component/icon.png"
+        ///                 "pack://application:,,,/assemblyName;component/relativeImagePath.ext"
+        /// </summary>
+        public ImageSource IconImageSource { get; set;  }
+
         /// <summary>
         /// An optional keyboard shortcut in the 
         /// 
@@ -33,7 +42,6 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         public string KeyboardShortcut { get; set; }
 
-        
         /// <summary>
         /// Event implementation that passes the button or menu item
         /// that is clicked.

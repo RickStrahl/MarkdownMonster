@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Interop;
+using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
@@ -119,16 +120,18 @@ namespace MarkdownMonster.AddIns
                     int menuIndex = addin.Model.Window.MenuAddins.Items.Add(mitem);
 
                     // if an icon is provided also add to toolbar
-                    if (menuItem.FontawesomeIcon != FontAwesomeIcon.None)
+                    if (menuItem.FontawesomeIcon != FontAwesomeIcon.None || menuItem.IconImageSource != null)
                     {
                         var hasConfigMenu = menuItem.ExecuteConfiguration != null;
 
                         var titem = new Button();
 
+                        var source  = menuItem.IconImageSource ??
+                                 ImageAwesome.CreateImageSource(menuItem.FontawesomeIcon, addin.Model.Window.Foreground); 
+                        
                         titem.Content = new Image()
                         {
-                            Source =
-                                ImageAwesome.CreateImageSource(menuItem.FontawesomeIcon, addin.Model.Window.Foreground),
+                            Source = source,
                             ToolTip = menuItem.Caption + 
                                         (!string.IsNullOrEmpty(menuItem.KeyboardShortcut) ?
                                             $" ({menuItem.KeyboardShortcut})" :
@@ -494,7 +497,7 @@ namespace MarkdownMonster.AddIns
             var dirs = Directory.GetDirectories(addinPath);            
             foreach (var dir in dirs)
             {
-                var files = Directory.GetFiles(dir, "*.dll");
+                var files = Directory.GetFiles(dir, "*addin.dll");
                 foreach (var file in files)
                 {
                     string fname = Path.GetFileName(file).ToLower();

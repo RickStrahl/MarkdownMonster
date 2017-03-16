@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,10 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Drawing.Point;
 
 namespace MarkdownMonster.Windows
@@ -82,7 +85,7 @@ namespace MarkdownMonster.Windows
 
             return kb;
         }
-        #region Bitmap Convertsions
+        #region Bitmap Conversions
 
         public static Bitmap BitmapSourceToBitmap(BitmapSource source)
         {
@@ -118,6 +121,7 @@ namespace MarkdownMonster.Windows
             DeleteObject(hBitmap);
             return imageSource;
         }
+
 
         #endregion
 
