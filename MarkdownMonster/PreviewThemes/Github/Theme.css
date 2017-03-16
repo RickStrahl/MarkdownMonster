@@ -113,6 +113,11 @@ blockquote h3, blockquote h4, blockquote h5 {
 hr {
     margin: 12px 0;    
 }
+.figure .caption, figure figcaption {
+    font-size: 0.8em;
+    font-style: italic;
+    margin-top: 0;
+}
 /* hidden display, but still part of document flow */
 .hidden {
     display: none;
