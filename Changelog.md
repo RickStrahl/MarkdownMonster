@@ -3,6 +3,18 @@
 # Markdown Monster Change Log
 <small>[Download latest version](https://markdownmonster.west-wind.com)</small>
 
+### 1.2.15
+<small>not released yet</small>
+
+* **Addin Custom Menu Icons**  
+Addins can now provide a custom ImageSource on the Menuitem for providing an icon that displays on the menu bar via the `menuItem.ItemImageSource`. This removes the limitation of using only FontAwesome icons. It's recommended you create icons that fit a dark theme and use simple colors or better yet white and black high contrast images.
+
+* **Addin BaseAddinConfiguration Class for Addin Developers**  
+There's now a **BaseAddinConfiguration<T>** class that easily allows addin developers to set up a configuration settings file. Create a new class and subclass and add properties that are automatically persisted and call `.Write()` to write configuration changes out to the JSON configuration file.
+
+* **New Pandoc Markdown Parser Addin**   
+You can now plug in Pandoc support for Markdown Parsing through Pandoc in Markdown Monster. Additionally this addin adds Pandoc conversion recipies for creating a variety of output formats (PDF, Docx, Epub, ODT and more) from Markdown and HTML content.
+
 ### 1.2.14
 <small>March 13th, 2017</small>
 

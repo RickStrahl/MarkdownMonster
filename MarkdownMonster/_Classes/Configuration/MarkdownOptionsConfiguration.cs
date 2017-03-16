@@ -39,10 +39,10 @@ namespace MarkdownMonster
         /// <summary>
         /// Adds additional list features like a. b.  and roman numerals i. ii. ix.
         /// </summary>
-        public bool ListExtras { get; set; }
-        
+        public bool ListExtras { get; set; } = true;
 
-        public bool Figures { get; set; }
+
+        public bool Figures { get; set; } = true;
 
         /// <summary>
         /// Creates Github task lists like - [ ] Task 1

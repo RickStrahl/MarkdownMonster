@@ -34,9 +34,6 @@ namespace MarkdownMonster.AddIns
             Current = new T();
             Current.Initialize();            
         }
-
-
-
         
         /// <summary>
         /// Override default to use JsonFileConfiguraiton Provider using the ConfigurationFilename
