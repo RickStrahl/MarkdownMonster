@@ -15,6 +15,9 @@ There's now a **BaseAddinConfiguration<T>** class that easily allows addin devel
 * **New Pandoc Markdown Parser Addin**   
 You can now plug in Pandoc support for Markdown Parsing through Pandoc in Markdown Monster. Additionally this addin adds Pandoc conversion recipies for creating a variety of output formats (PDF, Docx, Epub, ODT and more) from Markdown and HTML content.
 
+* **Support for CustomFields.ID Values on Weblog Posts**  
+When posting Custom fields as part of a Weblog Post you now get back the server generated custom field ID. This ID is store in meta data and resent when updating a post on the server to properly keep custom fields in sync - especially on WordPress.
+
 ### 1.2.14
 <small>March 13th, 2017</small>
 
