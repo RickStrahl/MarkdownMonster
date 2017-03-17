@@ -53,12 +53,18 @@ namespace WeblogAddin
 {
     public class WebLogAddin :  MarkdownMonsterAddin, IMarkdownMonsterAddin
     {
-        private Post ActivePost { get; set; } = new Post();
+        public WeblogAddinModel WeblogModel { get; set; } = new WeblogAddinModel();
 
 
         public override void OnApplicationStart()
         {
             base.OnApplicationStart();
+
+            WeblogModel = new WeblogAddinModel()
+            {                
+                Addin = this,                
+                // AppModel = Model   // not ready here                 
+            };
 
             Id = "weblog";
 
@@ -78,12 +84,13 @@ namespace WeblogAddin
             // read settings on startup
             WeblogAddinConfiguration.Current.Read();
 
-            var form = new WebLogForm()
+            var form = new WebLogForm(WeblogModel)
             {
                 Owner = Model.Window
             };
-            form.Model.AppModel = Model;
-            form.Model.Addin = this;                       
+            WeblogModel.AppModel = Model;
+            
+
             form.Show();                       
         }
 
@@ -103,12 +110,11 @@ namespace WeblogAddin
         {
             if (command == "newweblogpost")
             {
-                var form = new WebLogForm()
+                var form = new WebLogForm(WeblogModel)
                 {
                     Owner = Model.Window
                 };
-                form.Model.AppModel = Model;
-                form.Model.Addin = this;
+                form.Model.AppModel = Model;                
                 form.Show();
                 form.TabControl.SelectedIndex = 1;
             }            
@@ -130,7 +136,7 @@ namespace WeblogAddin
 
             var doc = editor.MarkdownDocument;
 
-            ActivePost = new Post()
+            WeblogModel.ActivePost = new Post()
             {
                 DateCreated = DateTime.Now
             };
@@ -142,11 +148,11 @@ namespace WeblogAddin
 
             // Retrieve Meta data from post and clean up the raw markdown
             // so we render without the config data
-            var meta = GetPostConfigFromMarkdown(markdown, weblogInfo);
+            var meta = WeblogPostMetadata.GetPostConfigFromMarkdown(markdown,WeblogModel.ActivePost,weblogInfo);
 
             string html = doc.RenderHtml(meta.MarkdownBody, WeblogAddinConfiguration.Current.RenderLinksOpenExternal);
-            ActivePost.Body = html;
-            ActivePost.PostID = meta.PostId;
+            WeblogModel.ActivePost.Body = html;
+            WeblogModel.ActivePost.PostID = meta.PostId;
 
 
             var customFields = new List<CustomField>();
@@ -162,10 +168,9 @@ namespace WeblogAddin
             if (meta.CustomFields != null)
             {
                 foreach (var kvp in meta.CustomFields)
-                    customFields.Add(new CustomField { Key = kvp.Key, ID = kvp.Key, Value = kvp.Value });
-                
+                    customFields.Add(kvp.Value);                
             }
-            ActivePost.CustomFields = customFields.ToArray();
+            WeblogModel.ActivePost.CustomFields = customFields.ToArray();
 
             var config = WeblogAddinConfiguration.Current;
 
@@ -196,7 +201,7 @@ namespace WeblogAddin
                 client.FeaturedImageUrl = meta.FeaturedImageUrl;
                 client.FeatureImageId = meta.FeatureImageId;
 
-                if (!client.PublishCompletePost(ActivePost, basePath,
+                if (!client.PublishCompletePost(WeblogModel.ActivePost, basePath,
                     sendAsDraft, markdown))
                 {
                     mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: " + client.ErrorMessage);
@@ -206,12 +211,26 @@ namespace WeblogAddin
                         MessageBoxImage.Exclamation);
                     return false;
                 }
-                postUrl = client.GetPostUrl(ActivePost.PostID);
+                
+                //postUrl = client.GetPostUrl(WeblogModel.ActivePost.PostID);
+                var post = client.GetPost(WeblogModel.ActivePost.PostID);
+                postUrl = post.Url;
+
+                // Update CustomFields from server which may include id
+                if (post.CustomFields != null && meta.CustomFields != null)
+                {
+                    foreach(var cf in meta.CustomFields)                    
+                    {
+                        var foundCf = post.CustomFields.FirstOrDefault(cfld => cfld.Key == cf.Key);
+                        if (foundCf != null)
+                            meta.CustomFields[cf.Key].ID = foundCf.ID;
+                    }
+                }                                
             }
             if (type == WeblogTypes.Medium)
             {
                 var client = new MediumApiClient(weblogInfo);
-                var result = client.PublishCompletePost(ActivePost, basePath, sendAsDraft);
+                var result = client.PublishCompletePost(WeblogModel.ActivePost, basePath, sendAsDraft);
                 if (result == null)
                 {
                     mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: " + client.ErrorMessage);
@@ -225,14 +244,14 @@ namespace WeblogAddin
                 postUrl = client.PostUrl;
             }
 
-            meta.PostId = ActivePost.PostID.ToString();
+            meta.PostId = WeblogModel.ActivePost.PostID.ToString();
 
             // retrieve the raw editor markdown
             markdown = editor.GetMarkdown();
             meta.RawMarkdownBody = markdown;
 
             // add the meta configuration to it
-            markdown = SetConfigInMarkdown(meta);
+            markdown = meta.SetConfigInMarkdown();
 
             // write it back out to editor
             editor.SetMarkdown(markdown);
@@ -240,7 +259,7 @@ namespace WeblogAddin
             // preview post
             if (!string.IsNullOrEmpty(weblogInfo.PreviewUrl))
             {
-                var url = weblogInfo.PreviewUrl.Replace("{0}", ActivePost.PostID.ToString());
+                var url = weblogInfo.PreviewUrl.Replace("{0}", WeblogModel.ActivePost.PostID.ToString());
                 ShellUtils.GoUrl(url);
             }
             else
@@ -373,198 +392,14 @@ namespace WeblogAddin
         {
             markdown = markdown.Replace("</categories>",
                     "</categories>\r\n" +
-                    "<postid>" + ActivePost.PostID + "</postid>");
+                    "<postid>" + WeblogModel.ActivePost.PostID + "</postid>");
 
             return markdown;
         }
 
-#endregion
-
-#region Post Configuration and Meta Data
-
-        /// <summary>
-        /// Strips the Markdown Meta data from the message and populates
-        /// the post structure with the meta data values.
-        /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="weblogInfo"></param>
-        /// <returns></returns>
-        public WeblogPostMetadata GetPostConfigFromMarkdown(string markdown, WeblogInfo weblogInfo)
-        {
-            var meta = new WeblogPostMetadata()
-            {
-                RawMarkdownBody = markdown,
-                MarkdownBody = markdown,
-                WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed,
-                CustomFields = new Dictionary<string, string>()
-            };
-            
-            // check for title in first line and remove it 
-            // since the body shouldn't render the title
-            var lines = StringUtils.GetLines(markdown,20);
-            if (lines.Length > 0 && lines[0].StartsWith("# "))
-            {
-                if (weblogInfo.Type != WeblogTypes.Medium) // medium wants the header in the text
-                    meta.MarkdownBody = meta.MarkdownBody.Replace(lines[0], "").Trim();                
-
-                meta.Title = lines[0].Trim().Substring(2);
-            }
-            else if (lines.Length > 2 && lines[0] == "---" && meta.MarkdownBody.Contains("layout: post"))
-            {
-                var block = mmFileUtils.ExtractString(meta.MarkdownBody, "---", "---", returnDelimiters: true);
-                if (!string.IsNullOrEmpty(block))
-                {
-                    meta.Title = StringUtils.ExtractString(block, "title: ", "\n").Trim();
-                    meta.MarkdownBody = meta.MarkdownBody.Replace(block, "").Trim();
-                }
-            }
+        #endregion
 
 
-            string config = StringUtils.ExtractString(markdown,
-                "<!-- Post Configuration -->",
-                "<!-- End Post Configuration -->",
-                caseSensitive: false, allowMissingEndDelimiter: true, returnDelimiters: true);
-
-            if (string.IsNullOrEmpty(config))
-                return meta;
-
-            // strip the config section
-            meta.MarkdownBody = meta.MarkdownBody.Replace(config, "");
-
-
-            string title = StringUtils.ExtractString(config, "\n<title>", "</title>").Trim();
-            if (string.IsNullOrEmpty(meta.Title))
-                meta.Title = title;
-            meta.Abstract = StringUtils.ExtractString(config, "\n<abstract>", "\n</abstract>").Trim();
-            meta.Keywords = StringUtils.ExtractString(config, "\n<keywords>", "\n</keywords>").Trim();
-            meta.Categories = StringUtils.ExtractString(config, "\n<categories>", "\n</categories>").Trim();
-            meta.PostId = StringUtils.ExtractString(config, "\n<postid>", "</postid>").Trim();
-            string strIsDraft = StringUtils.ExtractString(config, "\n<isDraft>", "</isDraft>").Trim();
-            if (strIsDraft != null && strIsDraft == "True")
-                meta.IsDraft = true;
-            string weblogName = StringUtils.ExtractString(config, "\n<weblog>", "</weblog>").Trim();
-            if (!string.IsNullOrEmpty(weblogName))
-                meta.WeblogName = weblogName;
-
-            string featuredImageUrl = StringUtils.ExtractString(config, "\n<featuredImage>", "</featuredImage>");
-            if (!string.IsNullOrEmpty(featuredImageUrl))
-                meta.FeaturedImageUrl = featuredImageUrl.Trim();
-
-            
-
-            string customFieldsString = StringUtils.ExtractString(config, "\n<customFields>", "</customFields>",returnDelimiters: true);
-            if (!string.IsNullOrEmpty(customFieldsString))
-            {
-
-                try
-                {
-                    var dom = new XmlDocument();
-                    dom.LoadXml(customFieldsString);
-
-                    foreach (XmlNode child in dom.DocumentElement.ChildNodes)
-                    {
-                        if (child.NodeType == XmlNodeType.Element)
-                        {
-                            var key = child.FirstChild.InnerText;
-                            var value = child.ChildNodes[1].InnerText;                            
-                            meta.CustomFields.Add(key, value);                            
-                        }
-                    }
-                }
-                catch { }
-            }
-            
-            ActivePost.Title = meta.Title;            
-            ActivePost.Categories = meta.Categories.Split(new [] { ','},StringSplitOptions.RemoveEmptyEntries);
-            ActivePost.Tags = meta.Keywords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-            ActivePost.mt_excerpt = meta.Abstract;
-            ActivePost.mt_keywords = meta.Keywords;
-
-           
-
-            return meta;
-        }
-
-        /// <summary>
-        /// This method sets the RawMarkdownBody
-        /// </summary>
-        /// <param name="meta"></param>
-        /// <returns>Updated Markdown - also sets the RawMarkdownBody and MarkdownBody</returns>
-        public string SetConfigInMarkdown(WeblogPostMetadata meta)
-        {
-            string markdown = meta.RawMarkdownBody;
-
-
-            string customFields = null;
-            if (meta.CustomFields != null && meta.CustomFields.Count > 0)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine();
-                sb.AppendLine("<customFields>");
-                foreach (var cf in meta.CustomFields)
-                {
-                    sb.AppendLine("\t<customField>");
-                    sb.AppendLine($"\t\t<key>{cf.Key}</key>");
-                    sb.AppendLine($"\t\t<value>{System.Net.WebUtility.HtmlEncode(cf.Value)}</value>");
-                    sb.AppendLine("\t</customField>");
-                }
-                sb.AppendLine("</customFields>");
-                customFields = sb.ToString();
-            }
-
-            string origConfig = StringUtils.ExtractString(markdown, "<!-- Post Configuration -->", "<!-- End Post Configuration -->", false, false, true);
-            string newConfig = $@"<!-- Post Configuration -->
-<!--
-```xml
-<blogpost>
-<title>{meta.Title}</title>
-<abstract>
-{meta.Abstract}
-</abstract>
-<categories>
-{meta.Categories}
-</categories>
-<keywords>
-{meta.Keywords}
-</keywords>
-<isDraft>{meta.IsDraft}</isDraft>
-<featuredImage>{meta.FeaturedImageUrl}</featuredImage>{customFields}
-<weblogs>
-<postid>{meta.PostId}</postid>
-<weblog>
-{meta.WeblogName}
-</weblog>
-</weblogs>
-</blogpost>
-```
--->
-<!-- End Post Configuration -->";
-
-            if (string.IsNullOrEmpty(origConfig))
-            {
-                markdown += "\r\n" + newConfig;
-            }
-            else
-                markdown = markdown.Replace(origConfig, newConfig);
-
-            meta.RawMarkdownBody = markdown;
-            meta.MarkdownBody = meta.RawMarkdownBody.Replace(newConfig, "");
-
-            return markdown;
-        }
-
-        //public string SafeFilename(string fileName, string replace = "")
-        //{
-        //    string filename = Path.GetInvalidFileNameChars()
-        //        .Aggregate(fileName,
-        //            (current, c) => current.Replace(c.ToString(), replace));
-
-        //    filename = filename.Replace("#", "");
-        //    return filename;
-        //}
-
-#endregion
 
 #region Downloaded Post Handling
 

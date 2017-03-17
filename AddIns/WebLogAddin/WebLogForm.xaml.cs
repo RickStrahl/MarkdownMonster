@@ -32,26 +32,28 @@ namespace WeblogAddin
 
         #region Startup and Shutdown
 
-        public WebLogForm()
-        {            
-            Model = new WeblogAddinModel()
-            {
-                ActivePostMetadata = new WeblogPostMetadata(),
-                Configuration = WeblogAddinConfiguration.Current,
-                Window = this
-            };
+        public WebLogForm(WeblogAddinModel model)
+        {
+            Model = model;
 
+            model.ActivePostMetadata = new WeblogPostMetadata();
+            model.ActiveWeblogInfo = new WeblogInfo();
+
+            model.Window = this;
+            
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
 
-            InitializeComponent();            
-            
+            InitializeComponent();
+
+            DataContext = Model;
+
             // Code bindings
             ComboWeblogType.ItemsSource = Enum.GetValues(typeof(WeblogTypes)).Cast<WeblogTypes>();            
 
             Loaded += WebLogStart_Loaded;
             Closing += WebLogStart_Closing;
 
-            DataContext = Model;
+            
         }
 
         private void WebLogStart_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -63,7 +65,7 @@ namespace WeblogAddin
                 return;
 
             var markdown = editor.GetMarkdown();
-            Model.ActivePostMetadata = Model.Addin.GetPostConfigFromMarkdown(markdown, Model.ActiveWeblogInfo);
+            Model.ActivePostMetadata = WeblogPostMetadata.GetPostConfigFromMarkdown(markdown,Model.ActivePost, Model.ActiveWeblogInfo);
                 
             var lastBlog = WeblogAddinConfiguration.Current.LastWeblogAccessed;
 
@@ -97,7 +99,7 @@ namespace WeblogAddin
             }
 
             // Update the Markdown document first
-            string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
+            string markdown =  Model.ActivePostMetadata.SetConfigInMarkdown();
             Model.AppModel.ActiveEditor.SetMarkdown(markdown);
             
             WeblogAddinConfiguration.Current.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
@@ -127,7 +129,7 @@ namespace WeblogAddin
         void ButtonSaveMeta_Click(object sender, RoutedEventArgs e)
         {                        
             // Update the Markdown document first
-            string markdown = Model.Addin.SetConfigInMarkdown(Model.ActivePostMetadata);
+            string markdown = Model.ActivePostMetadata.SetConfigInMarkdown();
             Model.AppModel.ActiveEditor.SetMarkdown(markdown);            
         }
 

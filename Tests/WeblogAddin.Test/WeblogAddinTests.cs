@@ -34,7 +34,7 @@ namespace WeblogAddin.Test
             };
 
             var addin = new WeblogAddin.WebLogAddin();
-            string markdown = addin.SetConfigInMarkdown(meta);
+            string markdown = meta.SetConfigInMarkdown();
 
             Console.WriteLine(markdown);
             Assert.IsTrue(markdown.Contains("<postid>2</postid>"), "Post Id wasn't added");
@@ -46,13 +46,16 @@ namespace WeblogAddin.Test
         public void GetPostConfigFromMarkdown()
         {
             WeblogInfo weblogInfo = WeblogAddinConfiguration.Current.Weblogs[ConstWeblogName];
+            Post post = new Post() {};
 
             string markdown = MarkdownWithoutPostId;
             
             var addin = new WeblogAddin.WebLogAddin();
-            var meta = addin.GetPostConfigFromMarkdown(markdown,weblogInfo);
+            var meta = WeblogPostMetadata.GetPostConfigFromMarkdown(markdown,post,weblogInfo);
 
-            Console.WriteLine(JsonConvert.SerializeObject(meta, Formatting.Indented));
+            Console.WriteLine("meta: \r\n" + JsonConvert.SerializeObject(meta, Formatting.Indented));
+
+            Console.WriteLine("post: \r\n" +JsonConvert.SerializeObject(post, Formatting.Indented));
 
             Assert.IsTrue(meta.Abstract == "Abstract");
             Assert.IsTrue(meta.Keywords == "Keywords");

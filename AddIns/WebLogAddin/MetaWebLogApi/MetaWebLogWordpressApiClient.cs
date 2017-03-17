@@ -125,6 +125,27 @@ namespace WebLogAddin.MetaWebLogApi
             return link;
         }
 
+        /// <summary>
+        /// Retrieves a post and gets the link for the post
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <returns></returns>
+        public Post GetPost(object postId)
+        {
+            string link = null;
+
+            try
+            {
+                var wrapper = GetWrapper();
+                return wrapper.GetPost(postId);
+            }
+            catch(Exception ex)
+            {
+                ErrorMessage = "Unable to retrieve URL: " + ex.GetBaseException().Message;
+                return null;
+            }
+
+        }
 
         /// <summary>
         /// Parses each of the images in the document and posts them to the server.

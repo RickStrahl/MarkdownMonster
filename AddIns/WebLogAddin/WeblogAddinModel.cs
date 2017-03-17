@@ -58,6 +58,19 @@ namespace WeblogAddin
             }
         }
 
+        private Post _activePost = new Post();
+
+        public Post ActivePost
+        {
+            get { return _activePost; }
+            set
+            {
+                if (!value.Equals(_activePost)) return;
+                OnPropertyChanged(nameof(ActivePost));
+                _activePost = value;
+            }
+        }
+
         public WeblogPostMetadata ActivePostMetadata
         {
             get { return _activePostMetadata; }
@@ -156,24 +169,13 @@ namespace WeblogAddin
         }
 
 
-        public bool IsTokenVisible
-        {
-            get { return ActiveWeblogInfo.Type == WeblogTypes.Medium; }
-        }
-        public bool IsUserPassVisible
-        {
-            get { return ActiveWeblogInfo.Type != WeblogTypes.Medium; }
-        }
+        public bool IsTokenVisible => ActiveWeblogInfo?.Type == WeblogTypes.Medium;
 
-        public bool IsAbstractVisible
-        {
-            get { return ActiveWeblogInfo.Type != WeblogTypes.Medium; }
-        }
+        public bool IsUserPassVisible => ActiveWeblogInfo?.Type != WeblogTypes.Medium;
 
-        public bool IsCategoriesVisible
-        {
-            get { return ActiveWeblogInfo.Type != WeblogTypes.Medium; }
-        }
+        public bool IsAbstractVisible => ActiveWeblogInfo?.Type != WeblogTypes.Medium;
+
+        public bool IsCategoriesVisible => ActiveWeblogInfo?.Type != WeblogTypes.Medium;
 
 
         public List<Post> PostList
