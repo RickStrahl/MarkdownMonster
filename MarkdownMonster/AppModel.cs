@@ -656,23 +656,58 @@ Do you want to View in Browser now?
             // DISTRACTION FREE MODE
             DistractionFreeModeCommand = new CommandBase((s, e) =>
             {
-                GridLength gl = new GridLength(0);
-                if ( Window.WindowGrid.RowDefinitions[1].Height == gl)
-                {
-                    gl = new GridLength(30);
+                GridLength glToolbar = new GridLength(0);
+                GridLength glMenu = new GridLength(0);
+                GridLength glStatus = new GridLength(0);
+
+                if ( Window.WindowGrid.RowDefinitions[1].Height == glToolbar)
+                {                                  
+                    glToolbar = new GridLength(30);
+                    glMenu = new GridLength(25);
+                    glStatus = new GridLength(30);
+
                     IsPreviewBrowserVisible = true;
                     Window.PreviewMarkdown();
-                    IsFullScreen = false;                    
+                    Window.WindowState = WindowState.Normal;
+
+                    IsFullScreen = false;
                 }
                 else
                 {
-                    IsPreviewBrowserVisible = false;
-                    Window.ShowPreviewBrowser(hide: true);
-                    IsFullScreen = true;                    
+                    var tokens = mmApp.Configuration.DistractionFreeModeHideOptions.ToLower().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+
+                    if (tokens.All(d => d != "menu"))
+                        glMenu = new GridLength(25);
+
+                    if (tokens.All(d => d != "toolbar"))
+                        glToolbar = new GridLength(30);
+
+                    if (tokens.All(d => d != "statusbar"))
+                        glStatus = new GridLength(30);
+
+                    //if (tokens.Any(d => d == "tabs"))
+                    //{
+                    //    foreach(TabItem tab in Window.TabControl.Items)
+                    //        tab.Visibility = Visibility.Collapsed;                        
+                    //}
+
+                    if (tokens.Any(d => d == "preview"))
+                    {
+                        IsPreviewBrowserVisible = false;
+                        Window.ShowPreviewBrowser(hide: true);
+                    }                    
+
+                    if (tokens.Any(d => d == "maximized"))
+                        Window.WindowState = WindowState.Maximized;
+
+                    IsFullScreen = true;
                 }
-                
-                Window.WindowGrid.RowDefinitions[1].Height = gl;
-                //Window.WindowGrid.RowDefinitions[3].Height = gl;  
+
+                // toolbar
+                Window.WindowGrid.RowDefinitions[0].Height = glMenu;
+                Window.WindowGrid.RowDefinitions[1].Height = glToolbar;
+                Window.WindowGrid.RowDefinitions[3].Height = glStatus;  
             }, null);
 
             // PRESENTATION MODE

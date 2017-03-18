@@ -92,8 +92,30 @@ namespace MarkdownMonster
         }
         private PreviewSyncMode _previewSyncMode;
 
+        /// <summary>
+        /// String that holds any of the following as a comma delimited string
+        /// in all lower case:
+        /// "toolbar,statusbar,menu,preview,tabs";
+        /// 
+        /// Any of those are hidden in distraction free mode.
+        /// </summary>
+        public string DistractionFreeModeHideOptions
+        {
+            get
+            {
+                if (_DistractionFreeModeHideOptions == null)
+                    return string.Empty;
+                return _DistractionFreeModeHideOptions;
+            }
+            set
+            {
+                if (value == _DistractionFreeModeHideOptions) return;
+                _DistractionFreeModeHideOptions = value;
+                OnPropertyChanged(nameof(DistractionFreeModeHideOptions));
+            }
+        }
+        private string _DistractionFreeModeHideOptions = "toolbar,statusbar,menu,preview,tabs,maximized";
 
-        
         /// <summary>
         /// Determines whether documents are automatically saved
         /// whenever changes are made.
@@ -129,6 +151,8 @@ namespace MarkdownMonster
             }
         }
         private bool _alwaysUsePreviewRefresh;
+
+    
 
         /// <summary>
         /// The font used in the editor. Must be a proportional font
@@ -361,6 +385,7 @@ namespace MarkdownMonster
         }
 
         private bool _isPreviewVisible;
+
 
         /// <summary>
         /// Remembers last Is link External setting when embedding links
