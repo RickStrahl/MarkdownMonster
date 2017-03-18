@@ -67,14 +67,26 @@ namespace WebLogAddin.MetaWebLogApi
 
                 post.wp_post_thumbnail = featuredImage;
 
-                var cfl = post.CustomFields.ToList();
-                cfl.Add(new CustomField()
+                var thumbnailCustomField = post.CustomFields.FirstOrDefault(cf => cf.Key == "wp_post_thumbnail");
+                if (thumbnailCustomField != null)
                 {
-                    ID = "wp_post_thumbnail",
-                    Key = "wp_post_thumbnail",
-                    Value = featuredImage
-                });
-                post.CustomFields = cfl.ToArray();
+                    thumbnailCustomField.Value = featuredImage;
+                }
+                else
+                {
+                    var cfl = post.CustomFields.ToList();
+                    cfl.Add(
+                        new CustomField()
+                        {
+                            Key = "wp_post_thumbnail",
+                            Value = featuredImage
+                        });
+                    post.CustomFields = cfl.ToArray();
+                }
+            }
+            else
+            {
+                post.wp_post_thumbnail = null;
             }
 
 
