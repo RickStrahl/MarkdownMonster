@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 using MarkdownMonster;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
@@ -148,62 +148,53 @@ namespace WeblogAddin
             }
 
 
-            string config = StringUtils.ExtractString(markdown,
+            string configString = StringUtils.ExtractString(markdown,
                 "<!-- Post Configuration -->",
                 "<!-- End Post Configuration -->",
                 caseSensitive: false, allowMissingEndDelimiter: true, returnDelimiters: true);
 
-            if (string.IsNullOrEmpty(config))
+            if (string.IsNullOrEmpty(configString))
                 return meta;
 
             // strip the config section
-            meta.MarkdownBody = meta.MarkdownBody.Replace(config, "");
+            meta.MarkdownBody = meta.MarkdownBody.Replace(configString, "");
 
+            configString = StringUtils.ExtractString(configString,
+                "\n```xml",
+                "```",
+                caseSensitive: false, allowMissingEndDelimiter: true, returnDelimiters: false);
 
-            string title = StringUtils.ExtractString(config, "\n<title>", "</title>").Trim();
+            var config = XElement.Parse(configString);
+
+            string title = config.Element("title")?.Value.Trim();
             if (string.IsNullOrEmpty(meta.Title))
                 meta.Title = title;
-            meta.Abstract = StringUtils.ExtractString(config, "\n<abstract>", "\n</abstract>").Trim();
-            meta.Keywords = StringUtils.ExtractString(config, "\n<keywords>", "\n</keywords>").Trim();
-            meta.Categories = StringUtils.ExtractString(config, "\n<categories>", "\n</categories>").Trim();
-            meta.PostId = StringUtils.ExtractString(config, "\n<postid>", "</postid>").Trim();
-            string strIsDraft = StringUtils.ExtractString(config, "\n<isDraft>", "</isDraft>").Trim();
-            if (strIsDraft != null && strIsDraft == "True")
-                meta.IsDraft = true;
-            string weblogName = StringUtils.ExtractString(config, "\n<weblog>", "</weblog>").Trim();
+            meta.Abstract = config.Element("abstract")?.Value.Trim();
+            meta.Keywords = config.Element("keywords")?.Value.Trim();
+            meta.Categories = config.Element("categories")?.Value.Trim();
+            meta.PostId = config.Element("weblogs")?.Element("postid")?.Value.Trim();
+            string strIsDraft = config.Element("isDraft")?.Value.Trim();
+            bool isDraft;
+            if (strIsDraft != null && bool.TryParse(strIsDraft, out isDraft))
+                meta.IsDraft = isDraft;
+            string weblogName = config.Element("weblogs")?.Element("weblog")?.Value.Trim();
             if (!string.IsNullOrEmpty(weblogName))
                 meta.WeblogName = weblogName;
 
-            string featuredImageUrl = StringUtils.ExtractString(config, "\n<featuredImage>", "</featuredImage>");
+            string featuredImageUrl = config.Element("featuredImage")?.Value.Trim();
             if (!string.IsNullOrEmpty(featuredImageUrl))
-                meta.FeaturedImageUrl = featuredImageUrl.Trim();
+                meta.FeaturedImageUrl = featuredImageUrl;
 
-
-
-            string customFieldsString = StringUtils.ExtractString(config, "\n<customFields>", "</customFields>", returnDelimiters: true);
-            if (!string.IsNullOrEmpty(customFieldsString))
+            var customFields = config.Element("customFields");
+            if (customFields != null)
             {
-
-                try
+                foreach (var customField in customFields.Elements("customField"))
                 {
-                    var dom = new XmlDocument();
-                    dom.LoadXml(customFieldsString);
-
-                    foreach (XmlNode child in dom.DocumentElement.ChildNodes)
-                    {
-                        if (child.NodeType == XmlNodeType.Element)
-                        {
-                            var key = child.FirstChild.InnerText;
-                            var value = child.ChildNodes[1].InnerText;
-                            string id = null;
-                            if (child.ChildNodes.Count > 2)
-                                id = child.ChildNodes[2].InnerText;
-
-                            meta.CustomFields.Add(key, new CustomField { Key = key, Value = value, ID = id });
-                        }
-                    }
+                    var key = customField.Element("key")?.Value;
+                    var value = customField?.Element("value")?.Value;
+                    var id = customField?.Element("id")?.Value;
+                    meta.CustomFields.Add(key, new CustomField { Key = key, Value = value, ID = id });
                 }
-                catch { }
             }
 
             post.Title = meta.Title;
@@ -219,7 +210,6 @@ namespace WeblogAddin
         /// <summary>
         /// This method sets the RawMarkdownBody
         /// </summary>
-        /// <param name="meta"></param>
         /// <returns>Updated Markdown - also sets the RawMarkdownBody and MarkdownBody</returns>
         public string SetConfigInMarkdown()
         {
@@ -227,49 +217,23 @@ namespace WeblogAddin
             string markdown = meta.RawMarkdownBody;
 
 
-            string customFields = null;
-            if (meta.CustomFields != null && meta.CustomFields.Count > 0)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine();
-                sb.AppendLine("<customFields>");
-                foreach (var cf in meta.CustomFields)
-                {
-                    sb.AppendLine("\t<customField>");
-                    sb.AppendLine($"\t\t<key>{cf.Key}</key>");
-                    sb.AppendLine($"\t\t<value>{System.Net.WebUtility.HtmlEncode(cf.Value.Value)}</value>");
-                    if (!string.IsNullOrEmpty(cf.Value.ID))
-                        sb.AppendLine($"\t\t<id>{cf.Value.ID}</id>");
-                    sb.AppendLine("\t</customField>");
-                }
-                sb.AppendLine("</customFields>");
-                customFields = sb.ToString();
-            }
+            var config = new XElement("blogpost",
+                new XElement("title", meta.Title),
+                new XElement("abstract", meta.Abstract),
+                new XElement("categories", meta.Categories),
+                new XElement("keywords", meta.Keywords),
+                new XElement("isDraft", meta.IsDraft),
+                new XElement("featuredImage", meta.FeaturedImageUrl),
+                GetCustomFieldsXml(meta.CustomFields),
+                new XElement("weblogs",
+                    new XElement("postid", meta.PostId),
+                    new XElement("weblog", meta.WeblogName)));
 
             string origConfig = StringUtils.ExtractString(markdown, "<!-- Post Configuration -->", "<!-- End Post Configuration -->", false, false, true);
             string newConfig = $@"<!-- Post Configuration -->
 <!--
 ```xml
-<blogpost>
-<title>{meta.Title}</title>
-<abstract>
-{meta.Abstract}
-</abstract>
-<categories>
-{meta.Categories}
-</categories>
-<keywords>
-{meta.Keywords}
-</keywords>
-<isDraft>{meta.IsDraft}</isDraft>
-<featuredImage>{meta.FeaturedImageUrl}</featuredImage>{customFields}
-<weblogs>
-<postid>{meta.PostId}</postid>
-<weblog>
-{meta.WeblogName}
-</weblog>
-</weblogs>
-</blogpost>
+{config}
 ```
 -->
 <!-- End Post Configuration -->";
@@ -286,7 +250,21 @@ namespace WeblogAddin
 
             return markdown;
         }
-        
+
+        private static XElement GetCustomFieldsXml(IDictionary<string, CustomField> customFields)
+        {
+            if (customFields == null)
+                return null;
+
+            return new XElement(
+                "customFields",
+                from cf in customFields.Values
+                select new XElement(
+                    "customField",
+                    new XElement("key", cf.Key),
+                    new XElement("value", cf.Value),
+                    string.IsNullOrEmpty(cf.ID) ? null : new XElement("id", cf.ID)));
+        }
 
         #region INotify Property Changed
 
