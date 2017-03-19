@@ -154,23 +154,28 @@ namespace WeblogAddin
             WeblogModel.ActivePost.Body = html;
             WeblogModel.ActivePost.PostID = meta.PostId;
 
-
-            var customFields = new List<CustomField>();
-            if (!string.IsNullOrEmpty(markdown))
-            {
-                customFields.Add( new CustomField() { ID = "mt_markdown", Key = "mt_markdown", Value = markdown });
-            }
-            if (weblogInfo.CustomFields != null)
-            {
-                foreach (var kvp in weblogInfo.CustomFields)                
-                    customFields.Add( new CustomField { ID = kvp.Key,Key = kvp.Key, Value = kvp.Value});                
-            }
+            var customFields = new Dictionary<string, CustomField>();
             if (meta.CustomFields != null)
             {
                 foreach (var kvp in meta.CustomFields)
-                    customFields.Add(kvp.Value);                
+                {
+                    customFields.Add(kvp.Key, kvp.Value);
+                }
             }
-            WeblogModel.ActivePost.CustomFields = customFields.ToArray();
+            if (!string.IsNullOrEmpty(markdown))
+            {
+                AddOrUpdateCustomField(customFields, "mt_markdown", markdown);
+            }
+            if (weblogInfo.CustomFields != null)
+            {
+                foreach (var kvp in weblogInfo.CustomFields)
+                {
+                    if (!customFields.ContainsKey(kvp.Key))
+                        AddOrUpdateCustomField(customFields, kvp.Key, kvp.Value);
+                }
+            }
+
+            WeblogModel.ActivePost.CustomFields = customFields.Values.ToArray();
 
             var config = WeblogAddinConfiguration.Current;
 
@@ -216,16 +221,8 @@ namespace WeblogAddin
                 var post = client.GetPost(WeblogModel.ActivePost.PostID);
                 postUrl = post.Url;
 
-                // Update CustomFields from server which may include id
-                if (post.CustomFields != null && meta.CustomFields != null)
-                {
-                    foreach(var cf in meta.CustomFields)                    
-                    {
-                        var foundCf = post.CustomFields.FirstOrDefault(cfld => cfld.Key == cf.Key);
-                        if (foundCf != null)
-                            meta.CustomFields[cf.Key].ID = foundCf.ID;
-                    }
-                }                                
+                // Save all custom fields in metadata
+                SavePostCustomFieldsToMetadata(post, meta);
             }
             if (type == WeblogTypes.Medium)
             {
@@ -274,7 +271,45 @@ namespace WeblogAddin
 
         }
 
+        private static void SavePostCustomFieldsToMetadata(Post post, WeblogPostMetadata meta)
+        {
+            if (post.CustomFields != null)
+            {
+                if (meta.CustomFields == null)
+                    meta.CustomFields = new Dictionary<string, CustomField>();
 
+                foreach (var cf in post.CustomFields)
+                {
+                    if (cf.Key == "mt_markdown" || cf.Key == "wp_post_thumbnail")
+                    {
+                        // These fields have specific handling, we don't want to persist their value,
+                        // but we need to persist their ID.
+                        meta.CustomFields[cf.Key] = new CustomField
+                        {
+                            ID = cf.ID,
+                            Key = cf.Key
+                        };
+                    }
+                    else
+                    {
+                        meta.CustomFields[cf.Key] = cf;
+                    }
+                }
+            }
+        }
+
+        private void AddOrUpdateCustomField(IDictionary<string, CustomField> customFields, string key, string value)
+        {
+            CustomField cf;
+            if (customFields.TryGetValue(key, out cf))
+            {
+                cf.Value = value;
+            }
+            else
+            {
+                customFields.Add(key, new CustomField { Key = key, Value = value });
+            }
+        }
 
         #endregion
 
@@ -456,7 +491,7 @@ namespace WeblogAddin
 
 
             // Create the new post by creating a file with title preset
-            string newPostMarkdown = NewWeblogPost(new WeblogPostMetadata()
+            var meta = new WeblogPostMetadata()
             {
                 Title = post.Title,
                 MarkdownBody = body,
@@ -466,7 +501,9 @@ namespace WeblogAddin
                 PostId = post.PostID.ToString(),
                 WeblogName = weblogName,
                 FeaturedImageUrl = featuredImage         
-            });
+            };
+            SavePostCustomFieldsToMetadata(post, meta);
+            string newPostMarkdown = NewWeblogPost(meta);
             File.WriteAllText(outputFile, newPostMarkdown);
             
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
