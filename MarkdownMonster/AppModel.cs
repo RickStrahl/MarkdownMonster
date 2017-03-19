@@ -668,7 +668,7 @@ Do you want to View in Browser now?
 
                     IsPreviewBrowserVisible = true;
                     Window.PreviewMarkdown();
-                    Window.WindowState = WindowState.Normal;
+                    Window.WindowState = mmApp.Configuration.WindowPosition.WindowState;
 
                     IsFullScreen = false;
                 }
@@ -686,20 +686,23 @@ Do you want to View in Browser now?
                     if (tokens.All(d => d != "statusbar"))
                         glStatus = new GridLength(30);
 
-                    //if (tokens.Any(d => d == "tabs"))
-                    //{
-                    //    foreach(TabItem tab in Window.TabControl.Items)
-                    //        tab.Visibility = Visibility.Collapsed;                        
-                    //}
+                    if (tokens.Any(d => d == "tabs"))
+                    {
+                        foreach (TabItem tab in Window.TabControl.Items)
+                            tab.Visibility = Visibility.Collapsed;
+                    }
 
                     if (tokens.Any(d => d == "preview"))
                     {
                         IsPreviewBrowserVisible = false;
                         Window.ShowPreviewBrowser(hide: true);
-                    }                    
+                    }
 
                     if (tokens.Any(d => d == "maximized"))
+                    {
+                        mmApp.Configuration.WindowPosition.WindowState = Window.WindowState;
                         Window.WindowState = WindowState.Maximized;
+                    }
 
                     IsFullScreen = true;
                 }
