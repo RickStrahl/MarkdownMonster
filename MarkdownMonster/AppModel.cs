@@ -9,8 +9,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Dragablz;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
@@ -666,17 +668,20 @@ Do you want to View in Browser now?
                     glMenu = new GridLength(25);
                     glStatus = new GridLength(30);
 
+                    mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Visible;
+
                     IsPreviewBrowserVisible = true;
                     Window.PreviewMarkdown();
-                    Window.WindowState = mmApp.Configuration.WindowPosition.WindowState;
 
+                    Window.WindowState = mmApp.Configuration.WindowPosition.WindowState;
+                    
                     IsFullScreen = false;
                 }
                 else
                 {
                     var tokens = mmApp.Configuration.DistractionFreeModeHideOptions.ToLower().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-
+                    
                     if (tokens.All(d => d != "menu"))
                         glMenu = new GridLength(25);
 
@@ -687,10 +692,7 @@ Do you want to View in Browser now?
                         glStatus = new GridLength(30);
 
                     if (tokens.Any(d => d == "tabs"))
-                    {
-                        foreach (TabItem tab in Window.TabControl.Items)
-                            tab.Visibility = Visibility.Collapsed;
-                    }
+                        mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Collapsed;
 
                     if (tokens.Any(d => d == "preview"))
                     {
@@ -698,11 +700,9 @@ Do you want to View in Browser now?
                         Window.ShowPreviewBrowser(hide: true);
                     }
 
+                    mmApp.Configuration.WindowPosition.WindowState = Window.WindowState;
                     if (tokens.Any(d => d == "maximized"))
-                    {
-                        mmApp.Configuration.WindowPosition.WindowState = Window.WindowState;
                         Window.WindowState = WindowState.Maximized;
-                    }
 
                     IsFullScreen = true;
                 }

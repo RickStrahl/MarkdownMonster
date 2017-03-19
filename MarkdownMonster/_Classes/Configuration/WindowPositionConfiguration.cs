@@ -1,11 +1,14 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
+using MarkdownMonster.Annotations;
 
 namespace MarkdownMonster
 {
     /// <summary>
     /// Holds the current Window position and splitter settings
     /// </summary>
-    public class WindowPositionConfiguration
+    public class WindowPositionConfiguration : INotifyPropertyChanged
     {
         public int Top { get; set; }
         public int Left { get; set; }
@@ -27,9 +30,31 @@ namespace MarkdownMonster
         private int _splitterPosition;
 
 
+
+        public Visibility TabHeadersVisible
+        {
+            get { return _TabHeadersVisible; }
+            set
+            {
+                if (value == _TabHeadersVisible) return;
+                _TabHeadersVisible = value;
+                OnPropertyChanged(nameof(TabHeadersVisible));
+            }
+        }
+        private Visibility _TabHeadersVisible = Visibility.Visible;
+
+
         /// <summary>
         /// Hold last window state.
         /// </summary>
         public WindowState WindowState { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
