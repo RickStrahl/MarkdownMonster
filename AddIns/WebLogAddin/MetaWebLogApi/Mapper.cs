@@ -216,7 +216,7 @@ namespace WebLogAddin.MetaWebLogApi
                     mt_text_more = input.mt_text_more,                              
                     post_content = input.post_content,
                     mt_keywords = input.Tags == null ? input.mt_keywords : String.Join(",", input.Tags),
-                    postid = input.PostID,
+                    postid = input.PostId,
                     title = input.Title,
                     permaLink = input.Permalink,
                     post_type = input.PostType,
@@ -280,7 +280,7 @@ namespace WebLogAddin.MetaWebLogApi
             {
                 return new Post
                 {
-                    PostID = input.postid,
+                    PostId = input.postid,
                     Body = input.description,
                     mt_text_more = input.mt_text_more,
                     post_content = input.post_content,                    
@@ -311,7 +311,7 @@ namespace WebLogAddin.MetaWebLogApi
             {
                 return new Post
                 {
-                    PostID = input.postid,
+                    PostId = input.postid,
                     Body = input.description,
                     Categories = input.categories,
                     DateCreated = input.dateCreated,

@@ -91,13 +91,13 @@ namespace WebLogAddin.MetaWebLogApi
 
 
 
-            bool isNewPost = IsNewPost(post.PostID);
+            bool isNewPost = IsNewPost(post.PostId);
             try
             {
                 if (!isNewPost)
                     wrapper.EditPost(post, !sendAsDraft);
                 else
-                    post.PostID = wrapper.NewPost(post, !sendAsDraft);
+                    post.PostId = wrapper.NewPost(post, !sendAsDraft);
             }
             catch (Exception ex)
             {

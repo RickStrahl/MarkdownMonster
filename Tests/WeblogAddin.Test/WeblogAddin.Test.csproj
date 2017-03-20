@@ -66,6 +66,7 @@
     <Compile Include="MediumTests.cs" />
     <Compile Include="WeblogAddinTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WeblogMetaData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj">

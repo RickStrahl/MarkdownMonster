@@ -152,7 +152,7 @@ namespace WeblogAddin
 
             string html = doc.RenderHtml(meta.MarkdownBody, WeblogAddinConfiguration.Current.RenderLinksOpenExternal);
             WeblogModel.ActivePost.Body = html;
-            WeblogModel.ActivePost.PostID = meta.PostId;
+            WeblogModel.ActivePost.PostId = meta.PostId;
 
             var customFields = new Dictionary<string, CustomField>();
             if (meta.CustomFields != null)
@@ -218,7 +218,7 @@ namespace WeblogAddin
                 }
                 
                 //postUrl = client.GetPostUrl(WeblogModel.ActivePost.PostID);
-                var post = client.GetPost(WeblogModel.ActivePost.PostID);
+                var post = client.GetPost(WeblogModel.ActivePost.PostId);
                 postUrl = post.Url;
 
                 // Save all custom fields in metadata
@@ -241,7 +241,7 @@ namespace WeblogAddin
                 postUrl = client.PostUrl;
             }
 
-            meta.PostId = WeblogModel.ActivePost.PostID.ToString();
+            meta.PostId = WeblogModel.ActivePost.PostId.ToString();
 
             // retrieve the raw editor markdown
             markdown = editor.GetMarkdown();
@@ -256,7 +256,7 @@ namespace WeblogAddin
             // preview post
             if (!string.IsNullOrEmpty(weblogInfo.PreviewUrl))
             {
-                var url = weblogInfo.PreviewUrl.Replace("{0}", WeblogModel.ActivePost.PostID.ToString());
+                var url = weblogInfo.PreviewUrl.Replace("{0}", WeblogModel.ActivePost.PostId.ToString());
                 ShellUtils.GoUrl(url);
             }
             else
@@ -427,7 +427,7 @@ namespace WeblogAddin
         {
             markdown = markdown.Replace("</categories>",
                     "</categories>\r\n" +
-                    "<postid>" + WeblogModel.ActivePost.PostID + "</postid>");
+                    "<postid>" + WeblogModel.ActivePost.PostId + "</postid>");
 
             return markdown;
         }
@@ -498,7 +498,7 @@ namespace WeblogAddin
                 Categories = categories,
                 Keywords = post.mt_keywords,
                 Abstract = post.mt_excerpt,
-                PostId = post.PostID.ToString(),
+                PostId = post.PostId.ToString(),
                 WeblogName = weblogName,
                 FeaturedImageUrl = featuredImage         
             };

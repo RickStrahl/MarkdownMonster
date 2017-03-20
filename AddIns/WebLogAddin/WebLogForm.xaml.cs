@@ -325,7 +325,7 @@ namespace WeblogAddin
             if (item == null)
                 return;
 
-            string postId = item.PostID.ToString();
+            string postId = item.PostId.ToString();
             WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
 
             

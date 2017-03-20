@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using MarkdownMonster;
+using Newtonsoft.Json;
 using WebLogAddin.MetaWebLogApi;
 using Westwind.Utilities;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 
 namespace WeblogAddin
@@ -17,12 +23,7 @@ namespace WeblogAddin
         private string _abstract;
         private bool _isDraft;
 
-        /// <summary>
-        /// The post id - empty on new entries, and set to 
-        /// the id generated on the server after a post 
-        /// was uploaded.
-        /// </summary>
-        public string PostId { get; set; }
+       
 
 
         /// <summary>
@@ -39,11 +40,6 @@ namespace WeblogAddin
             }
         }
 
-        /// <summary>
-        /// This should hold the sanitized markdown text
-        /// stripped of the config data.
-        /// </summary>
-        public string MarkdownBody { get; set; }
 
         /// <summary>
         /// Url that is mapped to wp_thumbnail
@@ -55,11 +51,6 @@ namespace WeblogAddin
         /// </summary>
         public string FeatureImageId { get; set; }
 
-        /// <summary>
-        /// This should hold the raw markdown text retrieved
-        /// from the editor which will contain the meta post data
-        /// </summary>
-        public string RawMarkdownBody { get; set; }
 
         /// <summary>
         /// Short abstract text for the post.
@@ -91,12 +82,17 @@ namespace WeblogAddin
         /// </summary>
         public string WeblogName { get; set; }
 
+        /// <summary>
+        /// The post id - empty on new entries, and set to 
+        /// the id generated on the server after a post 
+        /// was uploaded.
+        /// </summary>
+        public string PostId { get; set; }
 
         /// <summary>
-        /// A collection of custom fields that are uploaded to the server
+        /// Determines whether a post is published or
+        /// a unpublished draft.
         /// </summary>
-        public IDictionary<string,CustomField> CustomFields { get; set;}
-
         public bool IsDraft
         {
             get { return _isDraft; }
@@ -108,6 +104,134 @@ namespace WeblogAddin
             }
         }
 
+        /// <summary>
+        /// A collection of custom fields that are uploaded to the server
+        /// </summary>
+        public IDictionary<string,CustomField> CustomFields { get; set;}
+
+        
+        /// <summary>
+        /// This should hold the sanitized markdown text
+        /// stripped of the config data.
+        /// </summary>
+        [YamlIgnore]
+        public string MarkdownBody { get; set; }
+
+
+        /// <summary>
+        /// This should hold the raw markdown text retrieved
+        /// from the editor which will contain the meta post data
+        /// </summary>
+        [YamlIgnore]
+        public string RawMarkdownBody { get; set; }
+
+        
+        static Regex YamlExtractionRegex = new Regex("^---\n.*?^---\n", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Multiline);
+        //static Regex YamlExtractionRegex = new Regex("^ ---$.*?^ ---$", RegexOptions.Multiline | RegexOptions.Compiled);
+
+        /// <summary>
+        /// Strips the Markdown Meta data from the message and populates
+        /// the post structure with the meta data values.
+        /// </summary>
+        /// <param name="markdown"></param>
+        /// <param name="post"></param>
+        /// <param name="weblogInfo"></param>
+        public static WeblogPostMetadata GetPostYamlConfigFromMarkdown(string markdown, Post post, WeblogInfo weblogInfo)
+        {
+            var meta = new WeblogPostMetadata()
+            {
+                RawMarkdownBody = markdown,
+                MarkdownBody = markdown,
+                WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed,
+                CustomFields = new Dictionary<string, CustomField>()
+            };
+
+            
+            if (string.IsNullOrEmpty(markdown))
+                return meta;
+
+            markdown = markdown.Trim();
+
+            if (!markdown.StartsWith("---\n") && !markdown.StartsWith("---\r"))            
+                return meta;
+
+            string extractedYaml = null;
+            var match = YamlExtractionRegex.Match(markdown);
+            if (match.Success)
+                extractedYaml = match.Value;
+
+            //var extractedYaml = StringUtils.ExtractString(markdown.TrimStart(), "---\n", "\n---\n",returnDelimiters: true);
+            if (string.IsNullOrEmpty(extractedYaml))
+                return meta;
+
+            var yaml = StringUtils.ExtractString(markdown, "---\n", "\n---\n", returnDelimiters: false);
+
+            var input = new StringReader(yaml);
+
+            var deserializer = new DeserializerBuilder()
+                 .IgnoreUnmatchedProperties()
+                 .WithNamingConvention(new CamelCaseNamingConvention())
+                 .Build();
+
+            WeblogPostMetadata yamlMeta = null;
+            try
+            {
+                yamlMeta = deserializer.Deserialize<WeblogPostMetadata>(input);
+            }
+            catch (Exception ex)
+            {
+                return meta;    
+            }
+
+            if (yamlMeta == null)
+                return meta;
+
+            meta = yamlMeta;
+            meta.MarkdownBody = markdown.Replace(extractedYaml,"");
+            meta.RawMarkdownBody = markdown;
+            
+            
+            post.Title = meta.Title;
+            if (!string.IsNullOrEmpty(meta.Categories))
+                post.Categories = meta.Categories.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            
+            if (!string.IsNullOrEmpty(meta.Keywords))
+                post.Tags = meta.Keywords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            post.mt_excerpt = meta.Abstract;
+            post.mt_keywords = meta.Keywords;
+
+            post.CustomFields = meta.CustomFields.Values.ToArray();
+
+            return meta;
+        }
+
+
+        public string SetPostYaml()
+        {
+            if (RawMarkdownBody == null)
+                return RawMarkdownBody;
+
+            string markdown = RawMarkdownBody.Trim();
+
+            var serializer = new SerializerBuilder()
+                 .WithNamingConvention(new CamelCaseNamingConvention())
+                 .Build();
+            
+            string yaml = serializer.Serialize(this);
+
+            string extractedYaml = null;
+            var match = YamlExtractionRegex.Match(markdown);
+            if (match.Success)
+                extractedYaml = match.Value;
+
+            if (!string.IsNullOrEmpty(extractedYaml))
+                markdown = markdown.Replace(extractedYaml, "");
+
+
+            markdown = "---\r\n" + yaml + "---\r\n" + markdown;
+            return markdown;
+        }
 
         /// <summary>
         /// Strips the Markdown Meta data from the message and populates

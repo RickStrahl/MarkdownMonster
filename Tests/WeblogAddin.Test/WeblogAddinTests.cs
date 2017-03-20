@@ -82,7 +82,7 @@ namespace WeblogAddin.Test
                         Value = "**Markdown Text**"
                     }
                 },
-                PostID = 0,
+                PostId = 0,
                 Title = "Testing a post"
             };
 
@@ -92,7 +92,7 @@ namespace WeblogAddin.Test
                 weblogInfo.Username,
                 weblogInfo.Password);
 
-             rawPost.PostID = wrapper.NewPost(rawPost, true);            
+             rawPost.PostId = wrapper.NewPost(rawPost, true);            
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace WeblogAddin.Test
                         Value = "**Markdown Text**"
                     }
                 },
-                PostID = 0,
+                PostId = 0,
                 Title = "Testing a post"
             };
 
@@ -123,7 +123,7 @@ namespace WeblogAddin.Test
                 weblogInfo.Username,
                 weblogInfo.Password);
 
-            rawPost.PostID = wrapper.NewPost(rawPost, true);
+            rawPost.PostId = wrapper.NewPost(rawPost, true);
         }
 
         [TestMethod]
@@ -180,7 +180,7 @@ namespace WeblogAddin.Test
 
             Assert.IsTrue(posts.Count == 2);
 
-            var postId = posts[0].PostID;
+            var postId = posts[0].PostId;
 
             var post = wrapper.GetPost(postId.ToString());
 

@@ -43,7 +43,7 @@ namespace WebLogAddin.MetaWebLogApi
         public virtual bool EditPost(Post post, bool publish)
         {            
             var content = Map.From.Post(post);
-            return Convert.ToBoolean(_wrapper.EditPost(post.PostID.ToString(), Username, Password, content, publish));            
+            return Convert.ToBoolean(_wrapper.EditPost(post.PostId.ToString(), Username, Password, content, publish));            
         }
 
         public virtual Post GetPost(object postID)
