@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -219,6 +220,16 @@ namespace MarkdownMonster.AddIns
                     }
                 }
             }
+
+            if (AddinLoadErrors.Length > 0)
+            {
+                MessageBox.Show(AddinLoadErrors.ToString() +
+                    "\r\n\r\n" +
+                    "Try updating each failing addin and Markdown Monster to the latest versions or uninstall each failing addins.",
+                    "The following addins failed to load",                    
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            _addinLoadErrors = null;
         }
 
 
@@ -524,7 +535,9 @@ namespace MarkdownMonster.AddIns
             return true;
         }
 
-
+        private static StringBuilder AddinLoadErrors => _addinLoadErrors ?? (_addinLoadErrors = new StringBuilder());
+        private static StringBuilder _addinLoadErrors;
+            
         /// <summary>
         /// Load all add in classes in an assembly
         /// </summary>
@@ -541,13 +554,11 @@ namespace MarkdownMonster.AddIns
             }
             catch(Exception ex)
             {
-                var msg = $"Unable to load add-in: {Path.GetFileNameWithoutExtension(assemblyFile)}\r\n\r\n" +                          
-                          "Try updating the add-in and Markdown Monster to the latest versions or uninstall the add-in.";
+                var msg = $"Unable to load add-in: {Path.GetFileNameWithoutExtension(assemblyFile)}";
 
                 mmApp.Log(msg, ex);
-                MessageBox.Show(msg,"Assembly Load Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);                
+                AddinLoadErrors.AppendLine(msg + "\r\n");
+
                 return;
             }
 
