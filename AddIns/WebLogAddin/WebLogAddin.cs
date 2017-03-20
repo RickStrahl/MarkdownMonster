@@ -335,32 +335,7 @@ namespace WeblogAddin
 
 {meta.MarkdownBody}
 
-<!-- Post Configuration -->
-<!--
-```xml
-<blogpost>
-<title>{meta.Title}</title>
-<abstract>
-{meta.Abstract}
-</abstract>
-<categories>
-{meta.Categories}
-</categories>
-<isDraft>{meta.IsDraft}</isDraft>
-<featuredImage>{meta.FeaturedImageUrl}</featuredImage>
-<keywords>
-{meta.Keywords}
-</keywords>
-<weblogs>
-<postid>{meta.PostId}</postid>
-<weblog>
-{meta.WeblogName}
-</weblog>
-</weblogs>
-</blogpost>
-```
--->
-<!-- End Post Configuration -->
+{meta.SetConfigInMarkdown()}
 ";
 
             if (WeblogAddinConfiguration.Current.AddFrontMatterToNewBlogPost)
@@ -414,22 +389,6 @@ namespace WeblogAddin
                 return true;
 
             return false;
-        }
-
-        /// <summary>
-        /// Adds a post id to Weblog configuration in a weblog post document.
-        /// Only works if [categories] key exists.
-        /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="postId"></param>
-        /// <returns></returns>
-        public string AddPostId(string markdown, int postId)
-        {
-            markdown = markdown.Replace("</categories>",
-                    "</categories>\r\n" +
-                    "<postid>" + WeblogModel.ActivePost.PostID + "</postid>");
-
-            return markdown;
         }
 
         #endregion
