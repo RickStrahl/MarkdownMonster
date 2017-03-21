@@ -1,4 +1,4 @@
-﻿# Markdown Monster
+# Markdown Monster
 #### An extensible Markdown Editor, Viewer and Weblog Publisher for Windows
 
 ![](Art/MarkdownMonster.png)
@@ -18,7 +18,7 @@
 * **[License](#license)**
 * <a href="https://gitter.im/MarkdownMonster/MarkdownMonster"><img src="https://camo.githubusercontent.com/a05bc0f4476f07cf58e83b4d3f36cdaec0a86f7d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769747465722d4a6f696e253230436861742d677265656e2e7376673f7374796c653d666c61742d737175617265" /></a>
 
-If you like what you see please consider **starring this repo** (top left of this page). Please help spread the word.
+If you like what you see please consider :star: **starring this repo** (top left of this page). Please help spread the word.
 
 > #### Please report any Issues you run into
 > If you run into a problem with Markdown Monster, please let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature requests here on Github. We want to know what doesn't work and get it fixed. Help us make Markdown Monster better!
