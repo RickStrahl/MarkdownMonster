@@ -440,12 +440,17 @@ namespace MarkdownMonster
                 Height = conf.WindowPosition.Height;
             }
 
+
             if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
                 //var selectedDoc = conf.RecentDocuments.FirstOrDefault();
                 TabItem selectedTab = null;
 
                 string firstDoc = conf.RecentDocuments.FirstOrDefault();
+
+
+                // prevent TabSelectionChanged to fire
+                batchTabAction = true;
 
                 // since docs are inserted at the beginning we need to go in reverse
                 foreach (var doc in conf.RecentDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength).Reverse())
@@ -460,6 +465,10 @@ namespace MarkdownMonster
                             selectedTab = tab;                        
                     }                                   
                 }
+
+
+                // prevent TabSelectionChanged to fire
+                batchTabAction = false;
 
                 if (selectedTab != null)
                     TabControl.SelectedItem = selectedTab;
@@ -765,11 +774,11 @@ namespace MarkdownMonster
         /// <summary>
         ///  Flag used to let us know we don't want to perform tab selection operations
         /// </summary>
-        private bool closingAllTabs = false;
+        private bool batchTabAction = false;
 
         private bool CloseAllTabs(TabItem allExcept = null)
         {
-            closingAllTabs = true;
+            batchTabAction = true;
             for (int i = TabControl.Items.Count - 1; i > -1; i--)
             {
                 var tab = TabControl.Items[i] as TabItem;
@@ -783,7 +792,7 @@ namespace MarkdownMonster
                         return false;
                 }
             }
-            closingAllTabs = false;
+            batchTabAction = false;
             return true;
         }
         
@@ -905,7 +914,7 @@ namespace MarkdownMonster
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (closingAllTabs)
+            if (batchTabAction)
                 return;
             
             var editor = GetActiveMarkdownEditor();
