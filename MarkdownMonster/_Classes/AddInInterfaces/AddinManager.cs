@@ -43,6 +43,11 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         public bool AddinsLoadingComplete { get; set; }
 
+
+        /// <summary>
+        /// Add in manager error message  - set when loading addins
+        /// if there is a failure.
+        /// </summary>
         public string ErrorMessage { get; set; }
 
         static AddinManager()
@@ -137,10 +142,12 @@ namespace MarkdownMonster.AddIns
                                         (!string.IsNullOrEmpty(menuItem.KeyboardShortcut) ?
                                             $" ({menuItem.KeyboardShortcut})" :
                                             string.Empty),
-                            Height = 16,
-                            Width = 16,
+                            Height = menuItem.IconImageSource == null ? 16 : 24,
+                            Width = menuItem.IconImageSource == null ? 16 : 24,                           
                             Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
                         };
+
+                        
 
                         if (menuItem.Execute != null)
                         {
