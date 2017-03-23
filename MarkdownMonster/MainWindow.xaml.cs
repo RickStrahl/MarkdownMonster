@@ -332,6 +332,7 @@ namespace MarkdownMonster
             bool isNewVersion = CheckForNewVersion(false, false);
 
             mmApp.Configuration.ApplicationUpdates.AccessCount++;
+
             SaveSettings();
 
             if (!CloseAllTabs())
@@ -372,13 +373,14 @@ namespace MarkdownMonster
             e.Cancel = false;
         }
 
-        public void AddRecentFile(string file)
+        public void AddRecentFile(string file, bool noConfigWrite = false )
         {
             mmApp.Configuration.AddRecentFile(file);
             RecentDocumentsContextList();
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(file);
 
-            mmApp.Configuration.Write();
+            if (!noConfigWrite)
+                mmApp.Configuration.Write();
         }
 
         /// <summary>
@@ -440,27 +442,23 @@ namespace MarkdownMonster
 
             if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
-                var selectedDoc = conf.OpenDocuments.FirstOrDefault(dc => dc.IsActive);
+                //var selectedDoc = conf.RecentDocuments.FirstOrDefault();
                 TabItem selectedTab = null;
 
-                int counter = 0;
+                string firstDoc = conf.RecentDocuments.FirstOrDefault();
 
                 // since docs are inserted at the beginning we need to go in reverse
-                foreach (var doc in conf.OpenDocuments.Reverse<MarkdownDocument>())
+                foreach (var doc in conf.RecentDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength).Reverse())
                 {
-                    if (File.Exists(doc.Filename))
+                    if (File.Exists(doc))
                     {
-                        var tab = OpenTab(doc.Filename, selectTab: false, batchOpen: true);
+                        var tab = OpenTab(doc, selectTab: false, batchOpen: true);
                         if (tab == null)
                             continue;
 
-                        if (selectedDoc != null && selectedDoc.Filename == doc.Filename)
-                            selectedTab = tab;
-                    }
-
-                    counter++;
-                    if (counter >= mmApp.Configuration.RememberLastDocumentsLength)
-                        break;
+                        if (firstDoc == doc)                                                    
+                            selectedTab = tab;                        
+                    }                                   
                 }
 
                 if (selectedTab != null)
@@ -494,8 +492,6 @@ namespace MarkdownMonster
 
             if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
-                mmApp.Configuration.OpenDocuments.Clear();
-
                 foreach (var item in TabControl.GetOrderedHeaders())
                 {
                     var tab = item.Content as TabItem;
@@ -552,6 +548,8 @@ namespace MarkdownMonster
         /// 
         /// Checks to see if multiple tabs have the same filename open and
         /// if so displays partial path.
+        /// 
+        /// New Tabs are opened at the front of the tab list at index 0
         /// </param>
         /// <returns></returns>
         public TabItem OpenTab(string mdFile = null,
@@ -764,8 +762,14 @@ namespace MarkdownMonster
             }
         }
 
+        /// <summary>
+        ///  Flag used to let us know we don't want to perform tab selection operations
+        /// </summary>
+        private bool closingAllTabs = false;
+
         private bool CloseAllTabs(TabItem allExcept = null)
         {
+            closingAllTabs = true;
             for (int i = TabControl.Items.Count - 1; i > -1; i--)
             {
                 var tab = TabControl.Items[i] as TabItem;
@@ -779,6 +783,7 @@ namespace MarkdownMonster
                         return false;
                 }
             }
+            closingAllTabs = false;
             return true;
         }
         
@@ -900,6 +905,9 @@ namespace MarkdownMonster
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (closingAllTabs)
+                return;
+            
             var editor = GetActiveMarkdownEditor();
             if (editor == null)
                 return;
@@ -915,7 +923,7 @@ namespace MarkdownMonster
             Model.ActiveDocument = editor.MarkdownDocument;
             Model.ActiveDocument.IsActive = true;
 
-            AddRecentFile(Model.ActiveDocument?.Filename);
+            AddRecentFile(Model.ActiveDocument?.Filename,noConfigWrite: true);
 
             AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
 
@@ -924,8 +932,6 @@ namespace MarkdownMonster
             editor.WebBrowser.Focus();
             editor.SetEditorFocus();
         }
-
-      
 
 
         private void TabControlDragablz_TabItemClosing(ItemActionCallbackArgs<TabablzControl> e)
