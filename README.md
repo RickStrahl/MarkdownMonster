@@ -140,7 +140,7 @@ Right now the registry is pretty sparse, but here are a few Addins you can check
 * [Commander C# Scripting](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
 * [Save Image to Azure Blob Storage](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin)
 * [Paste Code as Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)
-
+* [Pandoc Markdown Parser](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin) 
 
 ## Provided Add-ins
 Not only does Markdown Monster allow extension via Addins - it also uses Addins for some built-in features. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate the power of the Add-in model.
