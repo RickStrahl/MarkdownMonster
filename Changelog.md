@@ -3,8 +3,19 @@
 # Markdown Monster Change Log
 <small>[Download latest version](https://markdownmonster.west-wind.com)</small>
 
+### 1.2.16
+<small>Not released yet</small>
+
+* **New Pandoc Markdown Parser Addin**   
+You can now plug in Pandoc support for Markdown Parsing through Pandoc in Markdown Monster. Additionally this addin adds Pandoc conversion recipies for creating a variety of output formats (PDF, Docx, Epub, ODT and more) from Markdown and HTML content.
+
+* **Fix: Recent document loading**  
+Recent document loading on startup now properly preserves the last loaded documents up to the `RememberLastDocumentsLength` configuration setting, and selects the last active window. Previously the selection of the last document did not always occur.
+
+
+
 ### 1.2.15
-<small>not released yet</small>
+<small>March 18th, 2016</small>
 
 * **Addin Custom Menu Icons**  
 Addins can now provide a custom ImageSource on the Menuitem for providing an icon that displays on the menu bar via the `menuItem.ItemImageSource`. This removes the limitation of using only FontAwesome icons. It's recommended you create icons that fit a dark theme and use simple colors or better yet white and black high contrast images.
@@ -12,17 +23,12 @@ Addins can now provide a custom ImageSource on the Menuitem for providing an ico
 * **Addin BaseAddinConfiguration Class for Addin Developers**  
 There's now a **BaseAddinConfiguration<T>** class that easily allows addin developers to set up a configuration settings file. Create a new class and subclass and add properties that are automatically persisted and call `.Write()` to write configuration changes out to the JSON configuration file.
 
-* **New Pandoc Markdown Parser Addin**   
-You can now plug in Pandoc support for Markdown Parsing through Pandoc in Markdown Monster. Additionally this addin adds Pandoc conversion recipies for creating a variety of output formats (PDF, Docx, Epub, ODT and more) from Markdown and HTML content.
-
 * **Support for CustomFields.ID Values on Weblog Posts**  
 When posting Custom fields as part of a Weblog Post you now get back the server generated custom field ID. This ID is store in meta data and resent when updating a post on the server to properly keep custom fields in sync - especially on WordPress.
 
 * **DistractionFreeModeHideOptions to customize Distraction Free Mode**  
 The new configuration flag lets you specify what's hidden when entering distraction-free mode. The value accepts a comma delimited string of UI features to hide: `"toolbar,statusbar,menu,preview,tabs,maximized"`. Each value specified is hidden. `maximized` is a special case - if specified causes the form to maxmize in distraction-free mode.
 
-* **Fix: Recent document loading**  
-Recent document loading on startup now properly preserves the last loaded documents up to the `RememberLastDocumentsLength` configuration setting, and selects the last active window. Previously the selection of the last document did not always occur.
 
 ### 1.2.14
 <small>March 13th, 2017</small>

@@ -66,7 +66,6 @@ namespace MarkdownMonster.Windows
 
         private async void AddinManagerWindow_Loaded(object sender, RoutedEventArgs e)
         {
-
             // fill and sort as data is filled out
             var addinList = await AddinManager.Current.GetAddinListAsync();
             AddinList = new ObservableCollection<AddinItem>(addinList);

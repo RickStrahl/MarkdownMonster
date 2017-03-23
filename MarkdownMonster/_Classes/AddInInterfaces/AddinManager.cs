@@ -121,10 +121,7 @@ namespace MarkdownMonster.AddIns
                         };                    
                     menuItem.Command = new CommandBase(xAction,cxAction);                    
                     mitem.Command = menuItem.Command;
-
-
-                    int menuIndex = addin.Model.Window.MenuAddins.Items.Add(mitem);
-
+                    
                     // if an icon is provided also add to toolbar
                     if (menuItem.FontawesomeIcon != FontAwesomeIcon.None || menuItem.IconImageSource != null)
                     {
@@ -142,8 +139,8 @@ namespace MarkdownMonster.AddIns
                                         (!string.IsNullOrEmpty(menuItem.KeyboardShortcut) ?
                                             $" ({menuItem.KeyboardShortcut})" :
                                             string.Empty),
-                            Height = menuItem.IconImageSource == null ? 16 : 24,
-                            Width = menuItem.IconImageSource == null ? 16 : 24,                           
+                            Height = menuItem.IconImageSource == null ? 18 : 22,
+                            Width = menuItem.IconImageSource == null ? 18 : 23,                           
                             Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
                         };
 

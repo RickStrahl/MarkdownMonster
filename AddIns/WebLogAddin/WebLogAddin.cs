@@ -39,6 +39,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Xml;
 using FontAwesome.WPF;
 using HtmlAgilityPack;
@@ -62,11 +63,11 @@ namespace WeblogAddin
 
             WeblogModel = new WeblogAddinModel()
             {                
-                Addin = this,                
-                // AppModel = Model   // not ready here                 
+                Addin = this,                              
             };
 
             Id = "weblog";
+            Name = "Weblog Publishing Addin";
 
             // Create addin and automatically hook menu events
             var menuItem = new AddInMenuItem(this)
@@ -75,6 +76,13 @@ namespace WeblogAddin
                 FontawesomeIcon = FontAwesomeIcon.Rss,
                 KeyboardShortcut = WeblogAddinConfiguration.Current.KeyboardShortcut
             };
+            try
+            {
+                menuItem.IconImageSource = new ImageSourceConverter()
+                        .ConvertFromString("pack://application:,,,/WeblogAddin;component/icon_22.png") as ImageSource;
+            }
+            catch { }
+
 
             MenuItems.Add(menuItem);
         }

@@ -37,11 +37,13 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
+
 
 namespace SnagItAddin
 {
@@ -62,6 +64,14 @@ namespace SnagItAddin
                 KeyboardShortcut = ScreenCaptureConfiguration.Current.KeyboardShortcut
             };
             MenuItems.Add(menuItem);
+
+          
+            try
+            {
+                menuItem.IconImageSource = new ImageSourceConverter()
+                        .ConvertFromString("pack://application:,,,/ScreenCaptureAddin;component/icon_22.png") as ImageSource;
+            }
+            catch { }
         }
 
         public override void OnExecute(object sender)
