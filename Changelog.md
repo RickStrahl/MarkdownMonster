@@ -4,18 +4,10 @@
 <small>[Download latest version](https://markdownmonster.west-wind.com)</small>
 
 ### 1.2.16
-<small>Not released yet</small>
+<small>March 23th, 2016</small>
 
 * **New Pandoc Markdown Parser Addin**   
 You can now plug in Pandoc support for Markdown Parsing through Pandoc in Markdown Monster. Additionally this addin adds Pandoc conversion recipies for creating a variety of output formats (PDF, Docx, Epub, ODT and more) from Markdown and HTML content.
-
-* **Fix: Recent document loading**  
-Recent document loading on startup now properly preserves the last loaded documents up to the `RememberLastDocumentsLength` configuration setting, and selects the last active window. Previously the selection of the last document did not always occur.
-
-
-
-### 1.2.15
-<small>March 18th, 2016</small>
 
 * **Addin Custom Menu Icons**  
 Addins can now provide a custom ImageSource on the Menuitem for providing an icon that displays on the menu bar via the `menuItem.ItemImageSource`. This removes the limitation of using only FontAwesome icons. It's recommended you create icons that fit a dark theme and use simple colors or better yet white and black high contrast images.
@@ -28,6 +20,9 @@ When posting Custom fields as part of a Weblog Post you now get back the server 
 
 * **DistractionFreeModeHideOptions to customize Distraction Free Mode**  
 The new configuration flag lets you specify what's hidden when entering distraction-free mode. The value accepts a comma delimited string of UI features to hide: `"toolbar,statusbar,menu,preview,tabs,maximized"`. Each value specified is hidden. `maximized` is a special case - if specified causes the form to maxmize in distraction-free mode.
+
+* **Fix: Recent document loading**  
+Recent document loading on startup now properly preserves the last loaded documents up to the `RememberLastDocumentsLength` configuration setting, and selects the last active window. Previously the selection of the last document did not always occur.
 
 
 ### 1.2.14
