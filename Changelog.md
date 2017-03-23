@@ -21,6 +21,9 @@ When posting Custom fields as part of a Weblog Post you now get back the server 
 * **DistractionFreeModeHideOptions to customize Distraction Free Mode**  
 The new configuration flag lets you specify what's hidden when entering distraction-free mode. The value accepts a comma delimited string of UI features to hide: `"toolbar,statusbar,menu,preview,tabs,maximized"`. Each value specified is hidden. `maximized` is a special case - if specified causes the form to maxmize in distraction-free mode.
 
+* **Fix: Recent document loading**  
+Recent document loading on startup now properly preserves the last loaded documents up to the `RememberLastDocumentsLength` configuration setting, and selects the last active window. Previously the selection of the last document did not always occur.
+
 ### 1.2.14
 <small>March 13th, 2017</small>
 
