@@ -66,6 +66,8 @@ namespace MarkdownMonster
 
         public dynamic AceEditor { get; set; }
         public string EditorSyntax { get; set; }
+        public int InitialLineNumber
+        { get; set; }
 
         #region Loading And Initialization
         public MarkdownDocumentEditor(WebBrowser browser)
@@ -119,6 +121,11 @@ namespace MarkdownMonster
                 SetShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
 
 
+                if (InitialLineNumber > 0)
+                {
+                    GotoLine(InitialLineNumber);
+                }
+
                 WebBrowser.Visibility = Visibility.Visible;
             }
             SetMarkdown();            
@@ -127,57 +134,6 @@ namespace MarkdownMonster
         #endregion
 
         #region Markdown Access and Manipulation
-
-        /// <summary>
-        /// Looks up and sets the EditorSyntax based on a file name
-        /// So .cs file gets csharp, .xml get xml etc.        
-        /// </summary>
-        /// <param name="filename"></param>
-        public void FindSyntaxFromFileType(string filename)
-        {
-            if (string.IsNullOrEmpty(filename))
-                return;
-            
-            EditorSyntax = "markdown";
-
-            if (filename.ToLower() == "untitled")
-                return;
-
-            var ext = Path.GetExtension(MarkdownDocument.Filename).ToLower().Replace(".", "");
-            if (ext == "md" || ext == "markdown") { }                
-            else if (ext == "json")
-                EditorSyntax = "json";
-            else if (ext == "html" || ext == "htm")
-                EditorSyntax = "html";
-
-            else if (ext == "xml" || ext == "config" || ext == "xaml" || ext == "csproj")
-                EditorSyntax = "xml";
-            else if (ext == "js")
-                EditorSyntax = "javascript";
-            else if (ext == "ts")
-                EditorSyntax = "typescript";
-            else if (ext == "cs")
-                EditorSyntax = "csharp";
-            else if (ext == "cshtml")
-                EditorSyntax = "razor";
-            else if (ext == "css")
-                EditorSyntax = "css";
-            else if (ext == "prg")
-                EditorSyntax = "foxpro";
-            else if (ext == "txt")
-                EditorSyntax = "text";
-            else if (ext == "php")
-                EditorSyntax = "php";
-            else if (ext == "py")
-                EditorSyntax = "python";
-            else if (ext == "ps1")
-                EditorSyntax = "powershell";
-            else if (ext == "sql")
-                EditorSyntax = "sqlserver";
-            else
-                EditorSyntax = "";
-            
-        }
 
         /// <summary>
         /// Sets the markdown text into the editor control
@@ -211,6 +167,17 @@ namespace MarkdownMonster
 
             MarkdownDocument.CurrentText =  AceEditor.getvalue(false);
             return MarkdownDocument.CurrentText;
+        }
+
+        /// <summary>
+        /// Renders Markdown as HTML
+        /// </summary>
+        /// <param name="markdown">Markdown text to turn into HTML</param>
+        /// <param name="renderLinksExternal">If true creates all links with target='top'</param>
+        /// <returns></returns>
+        public string RenderMarkdown(string markdown, bool renderLinksExternal = false, bool usePragmaLines = false)
+        {
+            return MarkdownDocument.RenderHtml(markdown, renderLinksExternal, usePragmaLines);
         }
 
         /// <summary>
@@ -440,99 +407,6 @@ namespace MarkdownMonster
         }
 
 
-        /// <summary>
-        /// Pastes text into the editor at the current 
-        /// insertion/selection point. Replaces any 
-        /// selected text.
-        /// </summary>
-        /// <param name="text"></param>
-        public void SetSelection(string text)
-        {
-            if (AceEditor == null)
-                return;
-
-            AceEditor.setselection(text);                        
-            MarkdownDocument.CurrentText = GetMarkdown();
-        }
-
-        /// <summary>
-        /// Sets selection, sets focus to the editor and
-        /// refreshes the preview
-        /// </summary>
-        /// <param name="text"></param>
-        public void SetSelectionAndFocus(string text)
-        {
-            if (AceEditor == null)
-                return;
-
-            SetSelection(text);
-            SetEditorFocus();
-
-            Window.PreviewMarkdown(this, keepScrollPosition: true);                       
-        }
-
-        public int GetFontSize()
-        {
-            if (AceEditor == null)
-                return 0;
-
-            object fontsize = AceEditor.getfontsize(false);
-            if (fontsize == null || !(fontsize is double || fontsize is int) )
-                return 0;
-
-            // If we have a fontsize, force the zoom level to 100% 
-            // The font-size has been adjusted to reflect the zoom percentage
-            var wb = (dynamic)WebBrowser.GetType().GetField("_axIWebBrowser2",
-                      BindingFlags.Instance | BindingFlags.NonPublic)
-                      .GetValue(WebBrowser);
-            int zoomLevel = 100; // Between 10 and 1000
-            wb.ExecWB(63, 2, zoomLevel, ref zoomLevel);   // OLECMDID_OPTICAL_ZOOM (63) - don't prompt (2)
-            
-            return Convert.ToInt32(fontsize);
-        }
-
-        /// <summary>
-        /// Gets the current selection of the editor
-        /// </summary>
-        /// <returns></returns>
-        public string GetSelection()
-        {            
-            return AceEditor?.getselection(false);            
-        }
-
-        public int GetLineNumber()
-        {
-            if (AceEditor == null)
-                return -1;
-            
-            int lineNo = AceEditor.getLineNumber(false);
-            return lineNo;
-        }
-
-        public string GetCurrentLine()
-        {
-            if (AceEditor == null)
-                return null;
-            return AceEditor.getCurrentLine(false);
-        }
-
-        public void GotoLine(int line)
-        {
-            if (AceEditor == null)
-                return;            
-            AceEditor.gotoLine(line);
-        }
-
-        public void FindAndReplaceText(string search, string replace)
-        {
-            AceEditor?.findAndReplaceText(search, replace);
-        }
-
-        public void FindAndReplaceTextInCurrentLine(string search, string replace)
-        {
-            AceEditor?.findAndReplaceTextInCurrentLine(search, replace);
-        }
-
         public bool IsPreviewToEditorSync()
         {
             var mode = mmApp.Configuration.PreviewSyncMode;
@@ -542,25 +416,6 @@ namespace MarkdownMonster
             return false;
         }
 
-        /// <summary>
-        /// Focuses the Markdown editor in the Window
-        /// </summary>
-        public void SetEditorFocus()
-        {            
-            AceEditor?.setfocus(true);
-        }
-
-
-        /// <summary>
-        /// Renders Markdown as HTML
-        /// </summary>
-        /// <param name="markdown">Markdown text to turn into HTML</param>
-        /// <param name="renderLinksExternal">If true creates all links with target='top'</param>
-        /// <returns></returns>
-        public string RenderMarkdown(string markdown, bool renderLinksExternal = false, bool usePragmaLines = false)
-        {
-            return MarkdownDocument.RenderHtml(markdown, renderLinksExternal, usePragmaLines);
-        }
 
         /// <summary>
         /// Takes a command  like bold,italic,href etc., reads the
@@ -590,18 +445,75 @@ namespace MarkdownMonster
             AceEditor?.setlanguage(syntax);
         }
 
-        /// <summary>
-        /// Sets line number gutter on and off. Separated out from Restyle Editor to 
-        /// allow line number config to be set separately from main editor settings
-        /// for specialty file editing.
-        /// </summary>
-        /// <param name="show"></param>
-        public void SetShowLineNumbers(bool? show = null)
+        public int GetFontSize()
         {
-            if (show == null)
-                show = mmApp.Configuration.EditorShowLineNumbers;
+            if (AceEditor == null)
+                return 0;
 
-            AceEditor?.setShowLineNumbers(show.Value);
+            object fontsize = AceEditor.getfontsize(false);
+            if (fontsize == null || !(fontsize is double || fontsize is int) )
+                return 0;
+
+            // If we have a fontsize, force the zoom level to 100% 
+            // The font-size has been adjusted to reflect the zoom percentage
+            var wb = (dynamic)WebBrowser.GetType().GetField("_axIWebBrowser2",
+                    BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(WebBrowser);
+            int zoomLevel = 100; // Between 10 and 1000
+            wb.ExecWB(63, 2, zoomLevel, ref zoomLevel);   // OLECMDID_OPTICAL_ZOOM (63) - don't prompt (2)
+            
+            return Convert.ToInt32(fontsize);
+        }
+
+        /// <summary>
+        /// Looks up and sets the EditorSyntax based on a file name
+        /// So .cs file gets csharp, .xml get xml etc.        
+        /// </summary>
+        /// <param name="filename"></param>
+        public void FindSyntaxFromFileType(string filename)
+        {
+            if (string.IsNullOrEmpty(filename))
+                return;
+            
+            EditorSyntax = "markdown";
+
+            if (filename.ToLower() == "untitled")
+                return;
+
+            var ext = Path.GetExtension(MarkdownDocument.Filename).ToLower().Replace(".", "");
+            if (ext == "md" || ext == "markdown") { }                
+            else if (ext == "json")
+                EditorSyntax = "json";
+            else if (ext == "html" || ext == "htm")
+                EditorSyntax = "html";
+
+            else if (ext == "xml" || ext == "config" || ext == "xaml" || ext == "csproj")
+                EditorSyntax = "xml";
+            else if (ext == "js")
+                EditorSyntax = "javascript";
+            else if (ext == "ts")
+                EditorSyntax = "typescript";
+            else if (ext == "cs")
+                EditorSyntax = "csharp";
+            else if (ext == "cshtml")
+                EditorSyntax = "razor";
+            else if (ext == "css")
+                EditorSyntax = "css";
+            else if (ext == "prg")
+                EditorSyntax = "foxpro";
+            else if (ext == "txt")
+                EditorSyntax = "text";
+            else if (ext == "php")
+                EditorSyntax = "php";
+            else if (ext == "py")
+                EditorSyntax = "python";
+            else if (ext == "ps1")
+                EditorSyntax = "powershell";
+            else if (ext == "sql")
+                EditorSyntax = "sqlserver";
+            else
+                EditorSyntax = "";
+            
         }
 
         /// <summary>
@@ -654,7 +566,185 @@ namespace MarkdownMonster
                     : System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
 
+        /// <summary>
+        /// Sets line number gutter on and off. Separated out from Restyle Editor to 
+        /// allow line number config to be set separately from main editor settings
+        /// for specialty file editing.
+        /// </summary>
+        /// <param name="show"></param>
+        public void SetShowLineNumbers(bool? show = null)
+        {
+            if (show == null)
+                show = mmApp.Configuration.EditorShowLineNumbers;
+
+            AceEditor?.setShowLineNumbers(show.Value);
+        }
+
         #endregion
+
+        #region Selection and Line Operations
+        /// <summary>
+        /// Gets the current selection of the editor
+        /// </summary>
+        /// <returns></returns>
+        public string GetSelection()
+        {
+            return AceEditor?.getselection(false);
+        }
+
+        /// <summary>
+        /// Pastes text into the editor at the current 
+        /// insertion/selection point. Replaces any 
+        /// selected text.
+        /// </summary>
+        /// <param name="text"></param>
+        public void SetSelection(string text)
+        {
+            if (AceEditor == null)
+                return;
+
+            AceEditor.setselection(text);                        
+            MarkdownDocument.CurrentText = GetMarkdown();
+        }
+
+        /// <summary>
+        /// Sets selection, sets focus to the editor and
+        /// refreshes the preview
+        /// </summary>
+        /// <param name="text"></param>
+        public void SetSelectionAndFocus(string text)
+        {
+            if (AceEditor == null)
+                return;
+
+            SetSelection(text);
+            SetEditorFocus();
+
+            Window.PreviewMarkdown(this, keepScrollPosition: true);                       
+        }
+
+
+        /// <summary>
+        /// Retrieves the text of the current line as a string.
+        /// </summary>
+        /// <returns></returns>
+        public string GetCurrentLine()
+        {
+            return AceEditor?.getCurrentLine(false);
+        }
+
+
+        /// <summary>
+        /// Gets the active line number of the editor
+        /// </summary>
+        /// <returns></returns>
+        public int GetLineNumber()
+        {
+            if (AceEditor == null)
+                return -1;
+
+            try
+            {
+                int lineNo = AceEditor.getLineNumber(false);
+                return lineNo;
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+
+
+        /// <summary>
+        /// Goes to the specified line number in the editor
+        /// </summary>
+        /// <param name="line"></param>
+        public void GotoLine(int line)
+        {
+            if (line < 0)
+                line = 0;
+
+            try
+            {
+                AceEditor?.gotoLine(line);
+            }
+            catch { }
+        }
+
+        public void FindAndReplaceText(string search, string replace)
+        {
+            AceEditor?.findAndReplaceText(search, replace);
+        }
+
+        public void FindAndReplaceTextInCurrentLine(string search, string replace)
+        {
+            AceEditor?.findAndReplaceTextInCurrentLine(search, replace);
+        }
+
+        #endregion
+
+        #region HTML Document functions
+
+        /// <summary>
+        /// Returns the editor's vertical scroll position
+        /// </summary>
+        /// <returns></returns>
+        public int GetScrollPosition()
+        {
+            if (AceEditor == null)
+                return -1;
+
+            try
+            {
+                object st = AceEditor.getscrolltop(false);
+                int scrollTop = (int)st;
+                return scrollTop;
+            }
+            catch
+            {
+                return -1;
+            }
+            
+        }
+
+        /// <summary>
+        ///  Sets the vertical scroll position of the document
+        /// </summary>
+        /// <param name="top"></param>
+        public void  SetScrollPosition(int top)
+        {
+            if (AceEditor == null)
+                return;
+
+            try
+            {
+                AceEditor.setscrolltop(top);                
+            }
+            catch
+            { }
+        }
+
+        /// <summary>
+        /// Focuses the Markdown editor in the Window
+        /// </summary>
+        public void SetEditorFocus()
+        {            
+            AceEditor?.setfocus(true);
+
+
+        }
+
+        public void ExecEditorCommand(string action, object parm = null)
+        {
+            AceEditor?.execcommand(action, parm);
+        }
+
+        public void ResizeWindow()
+        {
+            // nothing to do at the moment             
+        }
+
+        #endregion  
 
         #region Callback functions from the Html Editor
 
@@ -1088,18 +1178,6 @@ namespace MarkdownMonster
             return true;
         }
 
-
-        public void ExecEditorCommand(string action, object parm = null)
-        {
-            AceEditor.execcommand(action, parm);
-        }
-
-
-       
-        public void ResizeWindow()
-        {
-            return;
-        }
         #endregion
 
         #region SpellChecking interactions

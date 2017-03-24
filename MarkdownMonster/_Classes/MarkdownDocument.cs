@@ -276,7 +276,7 @@ namespace MarkdownMonster
         /// Holds the last preview window browser scroll position so it can be restored
         /// when refreshing the preview window.
         /// </summary>
-        public int LastBrowserScrollPosition { get; set; }
+        public int LastEditorLineNumber { get; set; }
 
         
 

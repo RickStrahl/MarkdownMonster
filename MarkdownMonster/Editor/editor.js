@@ -121,15 +121,12 @@ var te = window.textEditor = {
             "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
             "ctrl-shift-v": function() { te.specialkey("ctrl-shift-v"); },
             "ctrl-v": function() { te.mm.textbox.PasteOperation(); }
-
-
         });
 
         editor.renderer.setPadding(15);
         editor.renderer.setScrollMargin(5, 5, 0, 0); // top,bottom,left,right
 
         //te.editor.getSession().setMode("ace/mode/markdown" + lang);   
-
 
         te.editor.setOptions({
             // fill entire view
@@ -194,11 +191,15 @@ var te = window.textEditor = {
         //alert(msg);
         status(msg);
     },
-    getscrolltop: function() {
-        return te.editor.getSession().getScrollTop();
+    getscrolltop: function (ignored) {        
+        var st = te.editor.getSession().getScrollTop();        
+        return st;
     },
-    setscrolltop: function(scrollTop) {
-        return te.editor.getSession().setScrollTop(scrollTop);
+    setscrolltop: function (scrollTop) {
+        setTimeout(function() {
+                return te.editor.getSession().setScrollTop(scrollTop);
+            },
+            100);
     },
     getvalue: function(ignored) {
         var text = te.editor.getSession().getValue();
@@ -207,7 +208,6 @@ var te = window.textEditor = {
     setvalue: function(text, pos) {
         if (!pos)
             pos = -1; // first line
-
 
         var offset = 0; // get cursor offset
         if (pos === -2) {
@@ -253,23 +253,29 @@ var te = window.textEditor = {
         return fontsize;
     },
 
-    gotoLine: function(line) {
-        te.editor.scrollToLine(line);
+    gotoLine: function (line) {
+        setTimeout(function() {
+                te.editor.scrollToLine(line);
+                var sel = te.editor.getSelection();
+                var range = sel.getRange();
+                range.setStart({ row: line, column: 0 });
+                range.setEnd({ row: line, column: 0 });
+                sel.setSelectionRange(range);
 
-        var sel = te.editor.getSelection();
-        var range = sel.getRange();
-        range.setStart({ row: line, column: 0 });
-        range.setEnd({ row: line, column: 0 });
-        sel.setSelectionRange(range);
+                setTimeout(te.refreshPreview, 10);
+        },100);
     },
     gotoBottom: function (ignored) {
-        try {
-            var row = te.editor.session.getLength() - 1;
-            var column = te.editor.session.getLine(row).length; // or simply Infinity
-            te.editor.selection.moveTo(row, column);
-        } catch (ex) {
-            console.log(ex.message);
-        }
+        setTimeout(function() {
+                var row = te.editor.session.getLength() - 1;
+                var column = te.editor.session.getLine(row).length; // or simply Infinity
+                te.editor.selection.moveTo(row, column);
+                setTimeout(te.refreshPreview, 10);                
+            },
+            70);
+    },
+    refreshPreview: function(ignored) {
+        te.mm.textbox.PreviewMarkdownCallback();
     },
     setselection: function(text) {
         var range = te.editor.getSelectionRange();

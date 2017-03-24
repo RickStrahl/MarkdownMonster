@@ -105,7 +105,7 @@ namespace MarkdownMonster
             AllowDrop = true;
 
             KeyUp += MainWindow_KeyUp;
-            Activated += OnActivated;
+            Activated += OnActivated;            
 
             // Singleton App startup - server code that listens for other instances
             if (mmApp.Configuration.UseSingleWindow)
@@ -198,32 +198,10 @@ namespace MarkdownMonster
 
 
             new TaskFactory().StartNew(() =>
-            {
-                //try
-                //{
-                //    AddinManager.Current.LoadAddins(Path.Combine(Environment.CurrentDirectory, "AddIns"));
-                //    AddinManager.Current.LoadAddins(mmApp.Configuration.AddinsFolder);
-                //    AddinManager.Current.AddinsLoadingComplete = true;
-                //    Model.OnPropertyChanged(nameof(AppModel.MarkdownParserNames));
-                //    Model.OnPropertyChanged(nameof(AppModel.MarkdownParserColumnWidth));
-
-                //    try
-                //    {
-                //        AddinManager.Current.RaiseOnApplicationStart();
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        mmApp.Log("Addin loading failed", ex);
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    mmApp.Log("Addin loading failed", ex);
-                //}
+            {                
                 Dispatcher.Invoke(() =>
                 {
-                    AddinManager.Current.InitializeAddinsUi(this);
-                    
+                    AddinManager.Current.InitializeAddinsUi(this);                    
                     AddinManager.Current.RaiseOnWindowLoaded();
                 }, DispatcherPriority.ApplicationIdle);
             });
@@ -238,6 +216,17 @@ namespace MarkdownMonster
 
         protected override void OnDeactivated(EventArgs e)
         {
+            var editor = Model.ActiveEditor;            
+            if (editor != null)
+            {
+                var doc = Model.ActiveDocument;
+                doc.IsActive = true;
+
+                doc.LastEditorLineNumber = editor.GetLineNumber();
+                if (doc.LastEditorLineNumber == -1)
+                    doc.LastEditorLineNumber = 0;
+            }
+
             base.OnDeactivated(e);
             mmApp.SetWorkingSet(10000000, 5000000);
         }
@@ -319,6 +308,176 @@ namespace MarkdownMonster
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Opens a tab by a filename
+        /// </summary>
+        /// <param name="mdFile"></param>
+        /// <param name="editor"></param>
+        /// <param name="showPreviewIfActive"></param>
+        /// <param name="syntax"></param>
+        /// <param name="selectTab"></param>
+        /// <param name="rebindTabHeaders">
+        /// Rebinds the headers which should be done whenever a new Tab is
+        /// manually opened and added but not when opening in batch.
+        /// 
+        /// Checks to see if multiple tabs have the same filename open and
+        /// if so displays partial path.
+        /// 
+        /// New Tabs are opened at the front of the tab list at index 0
+        /// </param>
+        /// <returns></returns>
+        public TabItem OpenTab(string mdFile = null,
+            MarkdownDocumentEditor editor = null,
+            bool showPreviewIfActive = false,
+            string syntax = "markdown",
+            bool selectTab = true,
+            bool rebindTabHeaders = false,
+            bool batchOpen = false,
+            int initialLineNumber = 0)
+        {
+            if (mdFile != null && mdFile != "untitled" && 
+                (!File.Exists(mdFile) ||
+                 !AddinManager.Current.RaiseOnBeforeOpenDocument(mdFile)))
+                return null;
+
+            var tab = new TabItem();
+
+            tab.Margin = new Thickness(0, 0, 3, 0);
+            tab.Padding = new Thickness(2, 0, 7, 2);
+            tab.Background = Background;
+
+            ControlsHelper.SetHeaderFontSize(tab, 13F);
+
+            var wb = new WebBrowser
+            {
+                Visibility = Visibility.Hidden,
+                Margin = new Thickness(-1, 0, 0, 0)
+            };
+            tab.Content = wb;
+
+
+
+            if (editor == null)
+            {
+                editor = new MarkdownDocumentEditor(wb)
+                {
+                    Window = this,
+                    EditorSyntax = syntax,
+                    InitialLineNumber = initialLineNumber
+                };
+
+                var doc = new MarkdownDocument()
+                {
+                    Filename = mdFile ?? "untitled",
+                    Dispatcher = Dispatcher
+                };
+                if (doc.Filename != "untitled")
+                {
+                    doc.Filename = mmFileUtils.GetPhysicalPath(doc.Filename);
+
+                    if (doc.HasBackupFile())
+                    {
+                        try
+                        {
+                            ShowStatus("Auto-save recovery files have been found and opened in the editor.",
+                                milliSeconds: 9000);
+                            SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                            {
+                                File.Copy(doc.BackupFilename, doc.BackupFilename + ".md");
+                                OpenTab(doc.BackupFilename + ".md");
+                                File.Delete(doc.BackupFilename + ".md");
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            string msg = "Unable to open backup file: " + doc.BackupFilename + ".md";
+                            mmApp.Log(msg, ex);
+                            MessageBox.Show(
+                                "A backup file was previously saved, but we're unable to open it.\r\n" + msg,
+                                "Cannot open backup file",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
+                        }
+                    }
+
+                    if (!doc.Load())
+                    {
+                        if (!batchOpen)
+                            MessageBox.Show(
+                                $"Unable to load {doc.Filename}.\r\n\r\nMost likely you don't have access to the file.",
+                                "File Open Error - " + mmApp.ApplicationName, MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
+
+                        return null;
+                    }
+                }
+
+                doc.PropertyChanged += (sender, e) =>
+                {
+                    if (e.PropertyName == "IsDirty")
+                    {
+                        //CommandManager.InvalidateRequerySuggested();
+                        Model.SaveCommand.InvalidateCanExecute();
+                    }
+                };
+                editor.MarkdownDocument = doc;
+
+                SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
+
+                tab.ToolTip = doc.Filename;
+            }
+
+            var filename = Path.GetFileName(editor.MarkdownDocument.Filename);
+            tab.Tag = editor;
+
+            
+
+            editor.LoadDocument();
+
+            // is the tab already open?
+            TabItem existingTab = null;
+            if (filename != "untitled")
+            {
+                foreach (TabItem tb in TabControl.Items)
+                {
+                    var lEditor = tb.Tag as MarkdownDocumentEditor;
+                    if (lEditor.MarkdownDocument.Filename == editor.MarkdownDocument.Filename)
+                    {
+                        existingTab = tb;
+                        break;
+                    }
+                }
+            }
+
+            Model.OpenDocuments.Add(editor.MarkdownDocument);
+            Model.ActiveDocument = editor.MarkdownDocument;
+
+            if (existingTab != null)
+                TabControl.Items.Remove(existingTab);
+
+            tab.IsSelected = false;
+
+            TabControl.Items.Insert(0, tab);
+
+
+            if (selectTab)
+            {
+                TabControl.SelectedItem = tab;
+
+                if (showPreviewIfActive && PreviewBrowser.Width > 5)
+                    PreviewMarkdown(); //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
+                SetWindowTitle();
+            }
+
+            AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
+
+            if (rebindTabHeaders)
+                BindTabHeaders();
+
+
+            return tab;
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -453,15 +612,18 @@ namespace MarkdownMonster
                 batchTabAction = true;
 
                 // since docs are inserted at the beginning we need to go in reverse
-                foreach (var doc in conf.RecentDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength).Reverse())
+                foreach (var doc in conf.OpenDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength).Reverse())
                 {
-                    if (File.Exists(doc))
+                    if (doc.Filename == null)
+                        continue;
+
+                    if (File.Exists(doc.Filename))
                     {
-                        var tab = OpenTab(doc, selectTab: false, batchOpen: true);
+                        var tab = OpenTab(doc.Filename, selectTab: false, batchOpen: true, initialLineNumber: doc.LastEditorLineNumber);
                         if (tab == null)
                             continue;
 
-                        if (firstDoc == doc)                                                    
+                        if (doc.IsActive)                                                    
                             selectedTab = tab;                        
                     }                                   
                 }
@@ -501,13 +663,39 @@ namespace MarkdownMonster
 
             if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
-                foreach (var item in TabControl.GetOrderedHeaders())
+                var documents = TabControl.GetOrderedHeaders().Select(itm =>
                 {
-                    var tab = item.Content as TabItem;
-                    var doc = tab.Tag as MarkdownDocumentEditor;
-                    if (doc != null)
-                        config.OpenDocuments.Add(doc.MarkdownDocument);
+                    var item = itm.Content as TabItem;                    
+                    var editor = item?.Tag as MarkdownDocumentEditor;
+
+                    if (editor == null)
+                        return null;                    
+
+                    return new {Editor = editor, Document = editor.MarkdownDocument };
+                });
+
+                foreach (var recentDocument in config.RecentDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength))
+                {
+                    var editor = getTabItemByFileName(recentDocument)?.Tag as MarkdownDocumentEditor;
+
+                    var doc = editor?.MarkdownDocument;
+                    if (doc == null)
+                        continue;
+
+                    doc.LastEditorLineNumber = editor.GetLineNumber();
+                    if (doc.LastEditorLineNumber < 0)
+                        doc.LastEditorLineNumber = 0;
+                    
+                   config.OpenDocuments.Add(doc);
                 }
+
+                //foreach (var item in TabControl.GetOrderedHeaders())
+                //{
+                //    var tab = item.Content as TabItem;
+                //    var doc = tab.Tag as MarkdownDocumentEditor;
+                //    if (doc != null)
+                //        config.OpenDocuments.Add(doc.MarkdownDocument);
+                //}
             }
             config.Write();
         }
@@ -540,177 +728,6 @@ namespace MarkdownMonster
         #endregion
 
         #region Tab Handling
-
-
-
-        /// <summary>
-        /// Opens a tab by a filename
-        /// </summary>
-        /// <param name="mdFile"></param>
-        /// <param name="editor"></param>
-        /// <param name="showPreviewIfActive"></param>
-        /// <param name="syntax"></param>
-        /// <param name="selectTab"></param>
-        /// <param name="rebindTabHeaders">
-        /// Rebinds the headers which should be done whenever a new Tab is
-        /// manually opened and added but not when opening in batch.
-        /// 
-        /// Checks to see if multiple tabs have the same filename open and
-        /// if so displays partial path.
-        /// 
-        /// New Tabs are opened at the front of the tab list at index 0
-        /// </param>
-        /// <returns></returns>
-        public TabItem OpenTab(string mdFile = null,
-            MarkdownDocumentEditor editor = null,
-            bool showPreviewIfActive = false,
-            string syntax = "markdown",
-            bool selectTab = true,
-            bool rebindTabHeaders = false,
-            bool batchOpen = false)
-        {
-            if (mdFile != null && mdFile != "untitled" && 
-                (!File.Exists(mdFile) ||
-                !AddinManager.Current.RaiseOnBeforeOpenDocument(mdFile)))
-                return null;
-
-            var tab = new TabItem();
-
-            tab.Margin = new Thickness(0, 0, 3, 0);
-            tab.Padding = new Thickness(2, 0, 7, 2);
-            tab.Background = Background;
-
-            ControlsHelper.SetHeaderFontSize(tab, 13F);
-
-            var wb = new WebBrowser
-            {
-                Visibility = Visibility.Hidden,
-                Margin = new Thickness(-1, 0, 0, 0)
-            };
-            tab.Content = wb;
-
-
-
-            if (editor == null)
-            {
-                editor = new MarkdownDocumentEditor(wb)
-                {
-                    Window = this,
-                    EditorSyntax = syntax
-                };
-
-                var doc = new MarkdownDocument()
-                {
-                    Filename = mdFile ?? "untitled",
-                    Dispatcher = Dispatcher
-                };
-                if (doc.Filename != "untitled")
-                {
-                    doc.Filename = mmFileUtils.GetPhysicalPath(doc.Filename);
-
-                    if (doc.HasBackupFile())
-                    {
-                        try
-                        {
-                            ShowStatus("Auto-save recovery files have been found and opened in the editor.",
-                                milliSeconds: 9000);
-                            SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
-                            {
-                                File.Copy(doc.BackupFilename, doc.BackupFilename + ".md");
-                                OpenTab(doc.BackupFilename + ".md");
-                                File.Delete(doc.BackupFilename + ".md");
-                            }
-                        }
-                        catch(Exception ex)
-                        {
-                            string msg = "Unable to open backup file: " + doc.BackupFilename + ".md";
-                            mmApp.Log(msg, ex);
-                            MessageBox.Show(
-                                "A backup file was previously saved, but we're unable to open it.\r\n" + msg,
-                                "Cannot open backup file",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Warning);
-                        }
-                    }
-
-                    if (!doc.Load())
-                    {
-                        if (!batchOpen)
-                            MessageBox.Show(
-                                $"Unable to load {doc.Filename}.\r\n\r\nMost likely you don't have access to the file.",
-                                "File Open Error - " + mmApp.ApplicationName, MessageBoxButton.OK,
-                                MessageBoxImage.Warning);
-
-                        return null;
-                    }
-                }
-
-                doc.PropertyChanged += (sender, e) =>
-                {
-                    if (e.PropertyName == "IsDirty")
-                    {
-                        //CommandManager.InvalidateRequerySuggested();
-                        Model.SaveCommand.InvalidateCanExecute();
-                    }
-                };
-                editor.MarkdownDocument = doc;
-
-                SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
-
-                tab.ToolTip = doc.Filename;
-            }
-
-            var filename = Path.GetFileName(editor.MarkdownDocument.Filename);
-            tab.Tag = editor;
-
-            
-
-            editor.LoadDocument();
-
-            // is the tab already open?
-            TabItem existingTab = null;
-            if (filename != "untitled")
-            {
-                foreach (TabItem tb in TabControl.Items)
-                {
-                    var lEditor = tb.Tag as MarkdownDocumentEditor;
-                    if (lEditor.MarkdownDocument.Filename == editor.MarkdownDocument.Filename)
-                    {
-                        existingTab = tb;
-                        break;
-                    }
-                }
-            }
-
-            Model.OpenDocuments.Add(editor.MarkdownDocument);
-            Model.ActiveDocument = editor.MarkdownDocument;
-
-            if (existingTab != null)
-                TabControl.Items.Remove(existingTab);
-
-            tab.IsSelected = false;
-
-            TabControl.Items.Insert(0, tab);
-
-
-            if (selectTab)
-            {
-                TabControl.SelectedItem = tab;
-
-                if (showPreviewIfActive && PreviewBrowser.Width > 5)
-                    PreviewMarkdown(); //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
-                SetWindowTitle();
-            }
-
-            AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
-
-            if (rebindTabHeaders)
-                BindTabHeaders();
-
-
-            return tab;
-        }
-
 
         /// <summary>
         /// Binds all Tab Headers
@@ -808,10 +825,7 @@ namespace MarkdownMonster
         /// <returns>true if tab can close, false if it should stay open</returns>
         public bool CloseTab(TabItem tab, bool rebindTabHeaders = true)
         {
-            if (tab == null)
-                return false;
-
-            var editor = tab.Tag as MarkdownDocumentEditor;
+            var editor = tab?.Tag as MarkdownDocumentEditor;
             if (editor == null)
                 return false;
 
@@ -854,6 +868,10 @@ namespace MarkdownMonster
                         returnValue = false;
                 }
             }
+
+            doc.LastEditorLineNumber = editor.GetLineNumber();
+            if (doc.LastEditorLineNumber == -1)
+                doc.LastEditorLineNumber = 0;
 
             tab.Tag = null;
             TabControl.Items.Remove(tab);
@@ -1045,12 +1063,12 @@ namespace MarkdownMonster
                         if (keepScrollPosition)
                         {
                             dom = PreviewBrowser.Document;
-                            editor.MarkdownDocument.LastBrowserScrollPosition = dom.documentElement.scrollTop;
+                            editor.MarkdownDocument.LastEditorLineNumber = dom.documentElement.scrollTop;
                         }
                         else
                         {
                             ShowPreviewBrowser(false, false);
-                            editor.MarkdownDocument.LastBrowserScrollPosition = 0;
+                            editor.MarkdownDocument.LastEditorLineNumber = 0;
                         }
                     }
 
@@ -1694,7 +1712,7 @@ namespace MarkdownMonster
                 editor = GetActiveMarkdownEditor();
                 dynamic dom = PreviewBrowser.Document;
                 window = dom.parentWindow;
-                dom.documentElement.scrollTop = editor.MarkdownDocument.LastBrowserScrollPosition;
+                dom.documentElement.scrollTop = editor.MarkdownDocument.LastEditorLineNumber;
 
                 window.initializeinterop(editor);
 
