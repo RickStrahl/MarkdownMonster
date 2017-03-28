@@ -175,17 +175,10 @@ var sc = window.spellcheck = {
                         var lineText = lines[line];
                         
 
-                        if (isFrontMatter && lineText == "---") {
-                            isFrontMatter = false;
-                            console.log("isFrontMatter set off");
-                        }
-                            
-                        console.log(line, lineText + "!");
-                        debugger;
-                        if (line == 0 && lineText == "---") {
-                            isFrontMatter = true;
-                            console.log("isFrontMatter set");
-                        }
+                        if (isFrontMatter && lineText == "---") 
+                            isFrontMatter = false;                                                                                                                               
+                        if (line == 0 && lineText == "---") 
+                            isFrontMatter = true;                            
 
                         if (lineText && lineText.length > 2 && lineText.substr(0, 3) === "```") 
                             isCodeBlock = !isCodeBlock;                            
