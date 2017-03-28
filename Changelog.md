@@ -3,11 +3,20 @@
 # Markdown Monster Change Log
 <small>[Download latest version](https://markdownmonster.west-wind.com)</small>
 
+### 1.2.18
+<small>not released yet</small>
+
+* **Recent Document Scroll Position Remembered**   
+When you shut down MM, and then re-open it, MM now remembers the last scroll position of the recent documents you stored so when opened you can continue to edit at the last position you were working on. 
+
+* **Weblog Meta Data InferFeaturedImage Flag**
+You can now opt out from inferring a featured image to send to the server when publishing a Blog post. By default MM sets the first image it finds a post as the featured image and sends that to the host. The `InferFeaturedImage` flag allows opting out of this behavior so you can manually set the featured image on the server.
+
 ### 1.2.16
 <small>March 23th, 2016</small>
 
 * **New Pandoc Markdown Parser Addin**   
-You can now plug in Pandoc support for Markdown Parsing through Pandoc in Markdown Monster. Additionally this addin adds Pandoc conversion recipies for creating a variety of output formats (PDF, Docx, Epub, ODT and more) from Markdown and HTML content.
+You can now plug in Pandoc support for Markdown Parsing through Pandoc in Markdown Monster. Additionally this addin adds Pandoc conversion recipies for creating a variety of output formats (PDF, Docx, Epub, ODT and more) from Markdown and HTML content. :smile:
 
 * **Addin Custom Menu Icons**  
 Addins can now provide a custom ImageSource on the Menuitem for providing an icon that displays on the menu bar via the `menuItem.ItemImageSource`. This removes the limitation of using only FontAwesome icons. It's recommended you create icons that fit a dark theme and use simple colors or better yet white and black high contrast images.
