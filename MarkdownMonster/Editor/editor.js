@@ -465,6 +465,17 @@ var te = window.textEditor = {
         if (pos > 0)
             text = text.substr(0, pos - 1);
 
+        // strip of front matter
+        if (text.substr(0, 4) === "---\r" || text.substr(0, 4) === "---\n") {
+            pos = text.indexOf("\n---\n");
+            if (pos < 0)
+                pos = text.indexOf("\n---\r\n");
+            if (pos > -1) {
+                pos += 6;
+                text = text.substr(pos);
+            }
+        }
+
         var regExWords = /\s+/gi;
         var wordCount = text.replace(regExWords, ' ').split(' ').length;                
         var lines = text.split('\n').length;

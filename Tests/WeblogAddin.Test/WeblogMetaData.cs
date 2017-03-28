@@ -92,7 +92,7 @@ namespace MarkdownMonster.Test
                         "mt_markdown",
                         new CustomField()
                         {
-                            ID = "1",
+                            Id = "1",
                             Key = "mt_markdown",
                             Value = "markdown"
 
@@ -102,7 +102,7 @@ namespace MarkdownMonster.Test
                         "wp_featured_image",
                         new CustomField()
                         {
-                            ID = "1",
+                            Id = "1",
                             Key = "wp_featured_image",
                             Value = "http://blah.com/image.png"
                         }

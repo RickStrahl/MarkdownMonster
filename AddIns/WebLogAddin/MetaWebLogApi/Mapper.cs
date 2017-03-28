@@ -83,7 +83,7 @@ namespace WebLogAddin.MetaWebLogApi
             {
                 return new XmlRpcCustomField
                 {
-                    id = input.ID,
+                    id = input.Id,
                     key = input.Key,
                     value = input.Value
                 };
@@ -224,7 +224,7 @@ namespace WebLogAddin.MetaWebLogApi
                     wp_post_thumbnail = input.wp_post_thumbnail,                       
                     custom_fields = input.CustomFields == null ? null : input.CustomFields.Select(cf => new XmlRpcCustomField()
                     {
-                        id = cf.ID,
+                        id = cf.Id,
                         key = cf.Key,
                         value = cf.Value
                     }).ToArray(),
@@ -295,7 +295,7 @@ namespace WebLogAddin.MetaWebLogApi
                     PostType = input.post_type,
                     CustomFields = input.custom_fields == null ? null : input.custom_fields.Select(cf => new CustomField()
                     {
-                        ID = cf.id,
+                        Id = cf.id,
                         Key = cf.key,
                         Value = cf.value
                     }).ToArray(),
@@ -323,7 +323,7 @@ namespace WebLogAddin.MetaWebLogApi
                     mt_excerpt = input.mt_excerpt,                    
                     CustomFields = input.custom_fields == null ? null : input.custom_fields.Select(cf => new CustomField()
                     {
-                        ID = cf.id,
+                        Id = cf.id,
                         Key = cf.key,
                         Value = cf.value
                     }).ToArray(),

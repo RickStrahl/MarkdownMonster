@@ -63,7 +63,7 @@ namespace WebLogAddin.MetaWebLogApi
             var field = list.FirstOrDefault(cf => cf == customField);
             if (field != null)
             {
-                field.ID = customField.ID;
+                field.Id = customField.Id;
                 field.Value = customField.Value;
                 return;
             }

@@ -99,7 +99,7 @@ namespace WeblogAddin
             }
 
             // Update the Markdown document first
-            string markdown =  Model.ActivePostMetadata.SetConfigInMarkdown();
+            string markdown =  Model.ActivePostMetadata.SetPostYaml();
             Model.AppModel.ActiveEditor.SetMarkdown(markdown);
             
             WeblogAddinConfiguration.Current.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
@@ -129,7 +129,7 @@ namespace WeblogAddin
         void ButtonSaveMeta_Click(object sender, RoutedEventArgs e)
         {                        
             // Update the Markdown document first
-            string markdown = Model.ActivePostMetadata.SetConfigInMarkdown();
+            string markdown = Model.ActivePostMetadata.SetPostYaml();
             Model.AppModel.ActiveEditor.SetMarkdown(markdown);            
         }
 

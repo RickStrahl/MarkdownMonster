@@ -34,7 +34,7 @@ namespace WeblogAddin.Test
             };
 
             var addin = new WeblogAddin.WebLogAddin();
-            string markdown = meta.SetConfigInMarkdown();
+            string markdown = meta.xSetConfigInMarkdown();
 
             Console.WriteLine(markdown);
             Assert.IsTrue(markdown.Contains("<postid>2</postid>"), "Post Id wasn't added");
@@ -77,7 +77,7 @@ namespace WeblogAddin.Test
                 {
                     new CustomField()
                     {
-                        ID = Guid.NewGuid().ToString(),
+                        Id = Guid.NewGuid().ToString(),
                         Key = "mt_Markdown",
                         Value = "**Markdown Text**"
                     }
@@ -108,7 +108,7 @@ namespace WeblogAddin.Test
                 {
                     new CustomField()
                     {
-                        ID = Guid.NewGuid().ToString(),
+                        Id = Guid.NewGuid().ToString(),
                         Key = "mt_Markdown",
                         Value = "**Markdown Text**"
                     }

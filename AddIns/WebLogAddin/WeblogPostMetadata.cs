@@ -148,9 +148,8 @@ namespace WeblogAddin
         
 
 
-        static Regex YamlExtractionRegex = new Regex("^---\n.*?^---\n", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Multiline);
-        //static Regex YamlExtractionRegex = new Regex("^ ---$.*?^ ---$", RegexOptions.Multiline | RegexOptions.Compiled);
-
+        static Regex YamlExtractionRegex = new Regex("^---[\n,\r\n].*?^---[\n,\r\n]", RegexOptions.Singleline | RegexOptions.Multiline);
+        
         /// <summary>
         /// Strips the Markdown Meta data from the message and populates
         /// the post structure with the meta data values.
@@ -178,6 +177,7 @@ namespace WeblogAddin
                 return meta;
 
             string extractedYaml = null;
+            //var match = YamlExtractionRegex.Match(markdown);
             var match = YamlExtractionRegex.Match(markdown);
             if (match.Success)
                 extractedYaml = match.Value;
@@ -185,9 +185,8 @@ namespace WeblogAddin
             //var extractedYaml = StringUtils.ExtractString(markdown.TrimStart(), "---\n", "\n---\n",returnDelimiters: true);
             if (string.IsNullOrEmpty(extractedYaml))
                 return meta;
-
-            var yaml = StringUtils.ExtractString(markdown, "---\n", "\n---\n", returnDelimiters: false);
-
+            
+            var yaml = StringUtils.ExtractString(markdown, "---", "\n---", returnDelimiters: false).Trim();            
             var input = new StringReader(yaml);
 
             var deserializer = new DeserializerBuilder()
@@ -249,9 +248,21 @@ namespace WeblogAddin
 
             if (!string.IsNullOrEmpty(extractedYaml))
                 markdown = markdown.Replace(extractedYaml, "");
+            else
+                markdown = "\r\n" + markdown.Trim();
 
+            markdown = "---\r\n" + yaml + "---" +                 
+                markdown;
 
-            markdown = "---\r\n" + yaml + "---\r\n" + markdown;
+            // strip out old meta data
+            string config = StringUtils.ExtractString(markdown,
+                "<!-- Post Configuration -->",
+                "<!-- End Post Configuration -->",
+                caseSensitive: false, allowMissingEndDelimiter: true, returnDelimiters: true);
+
+            if (!string.IsNullOrEmpty(config))
+                markdown = markdown.Replace(config, "");
+
             return markdown;
         }
 
@@ -276,21 +287,27 @@ namespace WeblogAddin
             // check for title in first line and remove it 
             // since the body shouldn't render the title
             var lines = StringUtils.GetLines(markdown, 20);
-            if (lines.Length > 0 && lines[0].StartsWith("# "))
+            if (lines.Length > 2 && lines[0] == "---")
+            {
+                var block = mmFileUtils.ExtractString(meta.MarkdownBody, "---", "\n---", returnDelimiters: true);
+                if (!string.IsNullOrEmpty(block))
+                {
+                    meta = WeblogPostMetadata.GetPostYamlConfigFromMarkdown(markdown, post, weblogInfo);
+                    meta.RawMarkdownBody = markdown;
+                    if (string.IsNullOrEmpty(meta.WeblogName))
+                        meta.WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed;
+
+                    meta.MarkdownBody = meta.MarkdownBody.Replace(block, "").Trim();
+
+
+                }
+            }
+            else if (lines.Length > 0 && lines[0].StartsWith("# "))
             {
                 if (weblogInfo.Type != WeblogTypes.Medium) // medium wants the header in the text
                     meta.MarkdownBody = meta.MarkdownBody.Replace(lines[0], "").Trim();
 
                 meta.Title = lines[0].Trim().Substring(2);
-            }
-            else if (lines.Length > 2 && lines[0] == "---" && meta.MarkdownBody.Contains("layout: post"))
-            {
-                var block = mmFileUtils.ExtractString(meta.MarkdownBody, "---", "---", returnDelimiters: true);
-                if (!string.IsNullOrEmpty(block))
-                {
-                    meta.Title = StringUtils.ExtractString(block, "title: ", "\n").Trim();
-                    meta.MarkdownBody = meta.MarkdownBody.Replace(block, "").Trim();
-                }
             }
 
 
@@ -352,7 +369,7 @@ namespace WeblogAddin
                             if (child.ChildNodes.Count > 2)
                                 id = child.ChildNodes[2].InnerText;
 
-                            meta.CustomFields.Add(key, new CustomField { Key = key, Value = value, ID = id });
+                            meta.CustomFields.Add(key, new CustomField { Key = key, Value = value, Id = id });
                         }
                     }
                 }
@@ -374,7 +391,7 @@ namespace WeblogAddin
         /// </summary>
         /// <param name="meta"></param>
         /// <returns>Updated Markdown - also sets the RawMarkdownBody and MarkdownBody</returns>
-        public string SetConfigInMarkdown()
+        public string xSetConfigInMarkdown()
         {
             var meta = this;
             string markdown = meta.RawMarkdownBody;
@@ -391,8 +408,8 @@ namespace WeblogAddin
                     sb.AppendLine("\t<customField>");
                     sb.AppendLine($"\t\t<key>{cf.Key}</key>");
                     sb.AppendLine($"\t\t<value>{System.Net.WebUtility.HtmlEncode(cf.Value.Value)}</value>");
-                    if (!string.IsNullOrEmpty(cf.Value.ID))
-                        sb.AppendLine($"\t\t<id>{cf.Value.ID}</id>");
+                    if (!string.IsNullOrEmpty(cf.Value.Id))
+                        sb.AppendLine($"\t\t<id>{cf.Value.Id}</id>");
                     sb.AppendLine("\t</customField>");
                 }
                 sb.AppendLine("</customFields>");

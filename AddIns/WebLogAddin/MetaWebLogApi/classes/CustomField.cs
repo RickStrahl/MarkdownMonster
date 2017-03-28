@@ -8,7 +8,7 @@ namespace WebLogAddin.MetaWebLogApi
     [DebuggerDisplay("{Key},{Value}")]
     public class CustomField
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }
     }

@@ -257,7 +257,7 @@ namespace WeblogAddin
             meta.RawMarkdownBody = markdown;
 
             // add the meta configuration to it
-            markdown = meta.SetConfigInMarkdown();
+            markdown = meta.SetPostYaml();
 
             // write it back out to editor
             editor.SetMarkdown(markdown);
@@ -295,7 +295,7 @@ namespace WeblogAddin
                         // but we need to persist their ID.
                         meta.CustomFields[cf.Key] = new CustomField
                         {
-                            ID = cf.ID,
+                            Id = cf.Id,
                             Key = cf.Key
                         };
                     }
@@ -466,14 +466,14 @@ namespace WeblogAddin
 
             if (post.CustomFields != null)
             {
-                var cf = post.CustomFields.FirstOrDefault(custf => custf.ID == "mt_markdown");
+                var cf = post.CustomFields.FirstOrDefault(custf => custf.Id == "mt_markdown");
                 if (cf != null)
                 {
                     body = cf.Value;
                     isMarkdown = true;
                 }
 
-                cf = post.CustomFields.FirstOrDefault(custf => custf.ID == "wp_post_thumbnail");
+                cf = post.CustomFields.FirstOrDefault(custf => custf.Id == "wp_post_thumbnail");
                 if (cf != null)
                     featuredImage = cf.Value;
             }
