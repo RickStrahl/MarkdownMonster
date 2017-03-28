@@ -393,7 +393,7 @@
                         <Button Name ="ButtonLink" Margin="7,0" ToolTip="Insert link (ctrl-k)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="href" 
-                                fa:Awesome.Content="Link"
+                                fa:Awesome.Content="ExternalLink"
                                  Height="22" Width="22"
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
