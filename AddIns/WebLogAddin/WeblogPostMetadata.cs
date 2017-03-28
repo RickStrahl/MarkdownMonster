@@ -49,7 +49,7 @@ namespace WeblogAddin
         /// <summary>
         /// Featured Image Id used for Wordpress
         /// </summary>
-        public string FeatureImageId { get; set; }
+        public string FeaturedImageId { get; set; }
 
 
         /// <summary>
@@ -105,6 +105,26 @@ namespace WeblogAddin
         }
 
         /// <summary>
+        /// Determines whether the addin tries to infer the featured
+        /// image based on the first image in the post.
+        /// 
+        /// If false, only explicitly set images in the meta data
+        /// are used.
+        /// </summary>
+        public bool InferFeaturedImage
+        {
+            get { return _InferFeaturedImage; }
+            set
+            {
+                if (value == _InferFeaturedImage) return;
+                _InferFeaturedImage = value;
+                OnPropertyChanged(nameof(InferFeaturedImage));
+            }
+        }
+        private bool _InferFeaturedImage = true;
+
+        
+        /// <summary>
         /// A collection of custom fields that are uploaded to the server
         /// </summary>
         public IDictionary<string,CustomField> CustomFields { get; set;}
@@ -126,6 +146,8 @@ namespace WeblogAddin
         public string RawMarkdownBody { get; set; }
 
         
+
+
         static Regex YamlExtractionRegex = new Regex("^---\n.*?^---\n", RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.Multiline);
         //static Regex YamlExtractionRegex = new Regex("^ ---$.*?^ ---$", RegexOptions.Multiline | RegexOptions.Compiled);
 
@@ -298,10 +320,17 @@ namespace WeblogAddin
             if (!string.IsNullOrEmpty(weblogName))
                 meta.WeblogName = weblogName;
 
+            string inferFeaturedImage = StringUtils.ExtractString(config, "\n<inferFeaturedImage>", "</inferFeaturedImage>");
+            if (!string.IsNullOrEmpty(inferFeaturedImage))
+                meta.InferFeaturedImage = inferFeaturedImage != "False" && inferFeaturedImage != "false";
+
             string featuredImageUrl = StringUtils.ExtractString(config, "\n<featuredImage>", "</featuredImage>");
             if (!string.IsNullOrEmpty(featuredImageUrl))
                 meta.FeaturedImageUrl = featuredImageUrl.Trim();
 
+            string featuredImageId = StringUtils.ExtractString(config, "\n<featuredImageId>", "</featuredImageId>");
+            if (!string.IsNullOrEmpty(featuredImageId))
+                meta.FeaturedImageId = featuredImageId.Trim();
 
 
             string customFieldsString = StringUtils.ExtractString(config, "\n<customFields>", "</customFields>", returnDelimiters: true);
@@ -386,13 +415,15 @@ namespace WeblogAddin
 {meta.Keywords}
 </keywords>
 <isDraft>{meta.IsDraft}</isDraft>
-<featuredImage>{meta.FeaturedImageUrl}</featuredImage>{customFields}
 <weblogs>
 <postid>{meta.PostId}</postid>
 <weblog>
 {meta.WeblogName}
 </weblog>
 </weblogs>
+<inferFeaturedImage>{meta.InferFeaturedImage}</inferFeaturedImage>
+<featuredImage>{meta.FeaturedImageUrl}</featuredImage>
+<featuredImageId>{meta.FeaturedImageId}</featuredImageId>{customFields}
 </blogpost>
 ```
 -->

@@ -15,14 +15,29 @@ namespace WebLogAddin.MetaWebLogApi
     {
         public  string ErrorMessage { get; set; }
 
-
+        /// <summary>
+        /// If true tries to use the first image as the featured image.
+        /// If false, no featured image is implicitly assigned.        
+        /// </summary>
+        public bool InferFeaturedImage { get; set; } = true;
+        
+        /// <summary>
+        /// Featured image Id captured in the request
+        /// </summary>
         public string FeatureImageId { get; set; }
 
+        /// <summary>
+        /// Featured image url captured in the request
+        /// </summary>
         public string FeaturedImageUrl { get; set; }
 
-        public readonly WeblogInfo WeblogInfo;
-
+        
+        /// <summary>
+        /// The URL of the new post created
+        /// </summary>
         public string PostUrl { get; set; }
+
+        private readonly WeblogInfo WeblogInfo;
 
         public MetaWebLogWordpressApiClient(WeblogInfo weblogInfo)
         {
@@ -207,11 +222,13 @@ namespace WebLogAddin.MetaWebLogApi
                                 img.Attributes["src"].Value = mediaResult.URL;
 
                                 // use first image as featured image
-                                if (string.IsNullOrEmpty(this.FeaturedImageUrl))
-                                    FeaturedImageUrl = mediaResult.URL;
-                                if (string.IsNullOrWhiteSpace(FeatureImageId))
-                                    FeatureImageId = mediaResult.Id;
-
+                                if (InferFeaturedImage)
+                                {
+                                    if (string.IsNullOrEmpty(FeaturedImageUrl))
+                                        FeaturedImageUrl = mediaResult.URL;
+                                    if (string.IsNullOrEmpty(FeatureImageId))
+                                        FeatureImageId = mediaResult.Id;
+                                }
                             }
                         }
                     }
@@ -228,6 +245,7 @@ namespace WebLogAddin.MetaWebLogApi
             return html;
         }
 
+        
 
         public IEnumerable<UserBlog> GetBlogs()
         {

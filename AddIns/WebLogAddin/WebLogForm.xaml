@@ -72,7 +72,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition Width="85"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -91,10 +91,16 @@
 
                         <Label Grid.Row="0"  Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Right">Post Id:</Label>
                         <TextBox Grid.Row="1"  IsEnabled="{Binding IsAbstractVisible}" Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
-                        
-                        <CheckBox Name="PublishAsDraftCheckbox" Grid.Row="2" Grid.Column="0" Margin="0,5,0,0" 
-                                  Content="Publish as Draft"  IsChecked="{Binding ActivePostMetadata.IsDraft}"                                  
-                                 />
+
+                        <StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0"  >
+                        <CheckBox Name="PublishAsDraftCheckbox" 
+                                  Content="Publish as Draft"  IsChecked="{Binding ActivePostMetadata.IsDraft}"
+                                  ToolTip="If checked posts the current entry to the server as a non-active draft."
+                                  />
+                        <CheckBox Name="InferFeaturedImage"  Margin="30,0,0,0" 
+                                  Content="Infer Featured Image"  IsChecked="{Binding ActivePostMetadata.InferFeaturedImage}" 
+                                  ToolTip="If checked infers a featured image from the first linked image in the post content."/>
+                        </StackPanel>
                     </Grid>
 
                     <StackPanel Orientation="Horizontal">

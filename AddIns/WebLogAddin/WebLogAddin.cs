@@ -211,8 +211,9 @@ namespace WeblogAddin
                 client = new MetaWebLogWordpressApiClient(weblogInfo);
 
                 // if values are already configured don't overwrite them again
+                client.InferFeaturedImage = meta.InferFeaturedImage;
                 client.FeaturedImageUrl = meta.FeaturedImageUrl;
-                client.FeatureImageId = meta.FeatureImageId;
+                client.FeatureImageId = meta.FeaturedImageId;
 
                 if (!client.PublishCompletePost(WeblogModel.ActivePost, basePath,
                     sendAsDraft, markdown))
