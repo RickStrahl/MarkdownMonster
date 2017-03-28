@@ -163,6 +163,7 @@ var sc = window.spellcheck = {
                 
                 var lineCount = 0;
                 var isCodeBlock = false;
+                var isFrontMatter = false;
                 
                 for (var line in lines) {
                     // Clear the gutter.
@@ -172,11 +173,24 @@ var sc = window.spellcheck = {
                     // setTimeout to free up processor in between lines
                     setTimeout(function (line, isLast) {
                         var lineText = lines[line];
+                        
+
+                        if (isFrontMatter && lineText == "---") {
+                            isFrontMatter = false;
+                            console.log("isFrontMatter set off");
+                        }
+                            
+                        console.log(line, lineText + "!");
+                        debugger;
+                        if (line == 0 && lineText == "---") {
+                            isFrontMatter = true;
+                            console.log("isFrontMatter set");
+                        }
 
                         if (lineText && lineText.length > 2 && lineText.substr(0, 3) === "```") 
                             isCodeBlock = !isCodeBlock;                            
                         
-                        if (!isCodeBlock) {
+                        if (!isCodeBlock && !isFrontMatter) {
 
                             // Check spelling of this line.
                             var misspellings = misspelled(lineText);
