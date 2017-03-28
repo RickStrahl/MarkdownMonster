@@ -289,6 +289,7 @@ namespace WebLogAddin.MetaWebLogApi
                     Tags = input.mt_keywords?.Split(','),
                     Title = input.title,
                     Permalink = input.permaLink,
+                    Url = input.link,
                     mt_excerpt = input.mt_excerpt,
                     mt_keywords = input.mt_keywords,
                     wp_post_thumbnail = input.wp_post_thumbnail,
