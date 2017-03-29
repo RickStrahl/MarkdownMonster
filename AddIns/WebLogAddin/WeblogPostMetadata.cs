@@ -23,9 +23,7 @@ namespace WeblogAddin
         private string _abstract;
         private bool _isDraft;
 
-       
-
-
+               
         /// <summary>
         /// The title of the post derived from the document's header
         /// </summary>
@@ -65,6 +63,8 @@ namespace WeblogAddin
                 OnPropertyChanged(nameof(Abstract));
             }
         }
+
+        
 
         /// <summary>
         /// Keywords that are added to the post when published.
@@ -148,7 +148,7 @@ namespace WeblogAddin
         
 
 
-        static Regex YamlExtractionRegex = new Regex("^---[\n,\r\n].*?^---[\n,\r\n]", RegexOptions.Singleline | RegexOptions.Multiline);
+        static readonly Regex YamlExtractionRegex = new Regex("^---[\n,\r\n].*?^---[\n,\r\n]", RegexOptions.Singleline | RegexOptions.Multiline);
         
         /// <summary>
         /// Strips the Markdown Meta data from the message and populates
