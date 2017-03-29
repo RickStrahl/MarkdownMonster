@@ -237,6 +237,7 @@ namespace WeblogAddin
 
             var serializer = new SerializerBuilder()
                  .WithNamingConvention(new CamelCaseNamingConvention())
+                 .EmitDefaults()
                  .Build();
             
             string yaml = serializer.Serialize(this);
