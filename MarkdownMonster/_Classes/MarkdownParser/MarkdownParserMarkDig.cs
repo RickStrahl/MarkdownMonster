@@ -51,8 +51,6 @@ namespace MarkdownMonster
 
         private readonly bool _usePragmaLines;
 
-        private bool RenderLinksExternal = false;
-
         public MarkdownParserMarkdig(bool usePragmaLines = false, bool force = false)
         {
             _usePragmaLines = usePragmaLines;
@@ -60,9 +58,6 @@ namespace MarkdownMonster
             {
                 var builder = CreatePipelineBuilder();
                 Pipeline = builder.Build();
-                
-                if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
-                    RenderLinksExternal = true;
             }
         }
 
@@ -83,7 +78,7 @@ namespace MarkdownMonster
             
             html = ParseFontAwesomeIcons(html);
 
-            if (RenderLinksExternal)
+            if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
                 html = ParseExternalLinks(html);
 
             if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)

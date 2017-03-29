@@ -45,24 +45,26 @@ namespace MarkdownMonster
             return html;
         }
 
+        static readonly Regex YamlExtractionRegex = new Regex("^---[\n,\r\n].*?^---[\n,\r\n]", RegexOptions.Singleline | RegexOptions.Multiline);
+
         /// <summary>
-        /// Strips Front Matter headers at the beginning of the document
+        /// Strips 
         /// </summary>
-        /// <param name="html"></param>
+        /// <param name="markdown"></param>
         /// <returns></returns>
-        protected string StripFrontMatter(string html)
+        public string StripFrontMatter(string markdown)
         {
-            string fm = null;
+            string extractedYaml = null;
+            var match = YamlExtractionRegex.Match(markdown);
+            if (match.Success)
+                extractedYaml = match.Value;
 
-            if (html.StartsWith("---\n") || html.StartsWith("---\r"))
-                fm = mmFileUtils.ExtractString(html, "---", "---", returnDelimiters: true);
+            if (!string.IsNullOrEmpty(extractedYaml))
+                markdown = markdown.Replace(extractedYaml, "");
 
-            if (fm == null || !fm.Contains("title: "))
-                return html;
-            
-            return html.Replace(fm,"").TrimStart();
+            return markdown;
         }
-        
+
         /// <summary>
         /// Parses out script tags that might not be encoded yet
         /// </summary>
