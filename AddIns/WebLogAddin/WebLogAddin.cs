@@ -189,7 +189,7 @@ namespace WeblogAddin
             {
                 foreach (var kvp in meta.CustomFields)
                 {
-                    customFields.Add(kvp.Key, kvp.Value);
+                    AddOrUpdateCustomField(customFields, kvp.Key, kvp.Value.Value);
                 }
             }
             if (!string.IsNullOrEmpty(markdown))
@@ -237,8 +237,7 @@ namespace WeblogAddin
                         MessageBoxImage.Exclamation);
                     return false;
                 }
-                
-                //postUrl = client.GetPostUrl(WeblogModel.ActivePost.PostID);
+                                
                 var post = client.GetPost(WeblogModel.ActivePost.PostId);
                 postUrl = post.Url;                
             }
