@@ -110,21 +110,34 @@ namespace WeblogAddin
         /// 
         /// If false, only explicitly set images in the meta data
         /// are used.
-        /// </summary>
-        [DefaultValue(true)]
-        public bool InferFeaturedImage
+        /// </summary>        
+        public bool DontInferFeaturedImage
         {
-            get { return _inferFeaturedImage; }
+            get { return _dontInferFeaturedImage; }
             set
             {
-                if (value == _inferFeaturedImage) return;
-                _inferFeaturedImage = value;
-                OnPropertyChanged(nameof(InferFeaturedImage));
+                if (value == _dontInferFeaturedImage) return;
+                _dontInferFeaturedImage = value;
+                OnPropertyChanged(nameof(DontInferFeaturedImage));
             }
         }
-        private bool _inferFeaturedImage = true;
+        private bool _dontInferFeaturedImage = false;
 
-        
+        /// <summary>
+        /// By default an H1 header at the top document is stripped
+        /// </summary>
+        public bool DontStripH1Header
+        {
+            get { return _dontStripH1Header; }
+            set
+            {
+                if (value == _dontStripH1Header) return;
+                _dontStripH1Header = value;
+                OnPropertyChanged(nameof(DontStripH1Header));
+            }
+        }
+        private bool _dontStripH1Header = false;
+
         /// <summary>
         /// A collection of custom fields that are uploaded to the server
         /// </summary>
@@ -145,11 +158,6 @@ namespace WeblogAddin
         /// </summary>
         [YamlIgnore]
         public string RawMarkdownBody { get; set; }
-
-        public WeblogPostMetadata()
-        {
-            CustomFields = new Dictionary<string, CustomField>();
-        }
         
 
 
@@ -302,7 +310,7 @@ namespace WeblogAddin
 
             // check for title in first line and remove it 
             // since the body shouldn't render the title
-            var lines = StringUtils.GetLines(markdown, 20);
+            var lines = StringUtils.GetLines(markdown, 40);
             if (lines.Length > 2 && lines[0] == "---")
             {
                 var block = mmFileUtils.ExtractString(meta.MarkdownBody, "---", "\n---", returnDelimiters: true);
@@ -315,18 +323,19 @@ namespace WeblogAddin
 
                     meta.MarkdownBody = meta.MarkdownBody.Replace(block, "").Trim();
 
-
+                    // update to what's left
+                    lines = StringUtils.GetLines(meta.MarkdownBody, 10);
                 }
             }
-            else if (lines.Length > 0 && lines[0].StartsWith("# "))
+            if (lines.Length > 0 && lines[0].StartsWith("# "))
             {
-                if (weblogInfo.Type != WeblogTypes.Medium) // medium wants the header in the text
+                if (!meta.DontStripH1Header && weblogInfo.Type != WeblogTypes.Medium) // medium wants the header in the text
                     meta.MarkdownBody = meta.MarkdownBody.Replace(lines[0], "").Trim();
 
-                meta.Title = lines[0].Trim().Substring(2);
+                if (string.IsNullOrEmpty(meta.Title))
+                    meta.Title = lines[0].Trim().Substring(2);
             }
-
-
+                       
             string config = StringUtils.ExtractString(markdown,
                 "<!-- Post Configuration -->",
                 "<!-- End Post Configuration -->",
@@ -355,7 +364,7 @@ namespace WeblogAddin
 
             string inferFeaturedImage = StringUtils.ExtractString(config, "\n<inferFeaturedImage>", "</inferFeaturedImage>");
             if (!string.IsNullOrEmpty(inferFeaturedImage))
-                meta.InferFeaturedImage = inferFeaturedImage != "False" && inferFeaturedImage != "false";
+                meta.DontInferFeaturedImage = inferFeaturedImage != "False" && inferFeaturedImage != "false";
 
             string featuredImageUrl = StringUtils.ExtractString(config, "\n<featuredImage>", "</featuredImage>");
             if (!string.IsNullOrEmpty(featuredImageUrl))
@@ -454,7 +463,7 @@ namespace WeblogAddin
 {meta.WeblogName}
 </weblog>
 </weblogs>
-<inferFeaturedImage>{meta.InferFeaturedImage}</inferFeaturedImage>
+<inferFeaturedImage>{meta.DontInferFeaturedImage}</inferFeaturedImage>
 <featuredImage>{meta.FeaturedImageUrl}</featuredImage>
 <featuredImageId>{meta.FeaturedImageId}</featuredImageId>{customFields}
 </blogpost>

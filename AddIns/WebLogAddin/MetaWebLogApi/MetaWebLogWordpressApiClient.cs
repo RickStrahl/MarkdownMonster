@@ -19,7 +19,7 @@ namespace WebLogAddin.MetaWebLogApi
         /// If true tries to use the first image as the featured image.
         /// If false, no featured image is implicitly assigned.        
         /// </summary>
-        public bool InferFeaturedImage { get; set; } = true;
+        public bool DontInferFeaturedImage { get; set; } = true;
         
         /// <summary>
         /// Featured image Id captured in the request
@@ -222,7 +222,7 @@ namespace WebLogAddin.MetaWebLogApi
                                 img.Attributes["src"].Value = mediaResult.URL;
 
                                 // use first image as featured image
-                                if (InferFeaturedImage)
+                                if (DontInferFeaturedImage)
                                 {
                                     if (string.IsNullOrEmpty(FeaturedImageUrl))
                                         FeaturedImageUrl = mediaResult.URL;

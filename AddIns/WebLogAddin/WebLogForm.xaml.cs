@@ -66,7 +66,7 @@ namespace WeblogAddin
 
             var markdown = editor.GetMarkdown();
             Model.ActivePostMetadata = WeblogPostMetadata.GetPostConfigFromMarkdown(markdown,Model.ActivePost, Model.ActiveWeblogInfo);
-                
+         
             var lastBlog = WeblogAddinConfiguration.Current.LastWeblogAccessed;
 
             if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))

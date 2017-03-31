@@ -93,14 +93,18 @@
                         <TextBox Grid.Row="1"  IsEnabled="{Binding IsAbstractVisible}" Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
 
                         <StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0"  >
-                        <CheckBox Name="PublishAsDraftCheckbox" 
+                            <CheckBox Name="PublishAsDraftCheckbox" 
                                   Content="Publish as Draft"  IsChecked="{Binding ActivePostMetadata.IsDraft}"
                                   ToolTip="If checked posts the current entry to the server as a non-active draft."
                                   />
-                        <CheckBox Name="InferFeaturedImage"  Margin="30,0,0,0" 
-                                  Content="Infer Featured Image"  IsChecked="{Binding ActivePostMetadata.InferFeaturedImage}" 
-                                  ToolTip="If checked infers a featured image from the first linked image in the post content."/>
+                            <CheckBox Name="InferFeaturedImage"  Margin="30,0,0,0" 
+                                  Content="Don't infer Featured Image"  IsChecked="{Binding ActivePostMetadata.DontInferFeaturedImage}" 
+                                  ToolTip="If checked won't infer a featured image from the first linked image in the post content."/>
+                            <CheckBox Name="StripH1Header"  Margin="30,0,0,0" 
+                                  Content="Don't strip Header Text"  IsChecked="{Binding ActivePostMetadata.DontStripH1Header}" 
+                                  ToolTip="If checked leaves strips the first H1 link in the post." />
                         </StackPanel>
+
                     </Grid>
 
                     <StackPanel Orientation="Horizontal">

@@ -162,18 +162,20 @@ namespace WeblogAddin
             WeblogModel.ActivePost.Body = html;
             WeblogModel.ActivePost.PostId = meta.PostId;
 
+            // Custom Field Processing:
+            // Add custom fields from existing post
+            // then add or update our custom fields            
             var customFields = new Dictionary<string, CustomField>();
-            if (meta.CustomFields != null)
+
+            // load existing custom fields from post online if possible
+            if (!string.IsNullOrEmpty(meta.PostId))
             {
-                foreach (var kvp in meta.CustomFields)
-                {
-                    customFields.Add(kvp.Key, kvp.Value);
-                }
+                var existingPost = GetPost(meta.PostId, weblogInfo);
+                if (existingPost != null && meta.CustomFields != null)
+                    customFields = existingPost.CustomFields
+                                               .ToDictionary(cf => cf.Key, cf => cf);                
             }
-            if (!string.IsNullOrEmpty(markdown))
-            {
-                AddOrUpdateCustomField(customFields, "mt_markdown", markdown);
-            }
+            // add custom fields from Weblog configuration
             if (weblogInfo.CustomFields != null)
             {
                 foreach (var kvp in weblogInfo.CustomFields)
@@ -182,6 +184,16 @@ namespace WeblogAddin
                         AddOrUpdateCustomField(customFields, kvp.Key, kvp.Value);
                 }
             }
+            // add custom fields from Meta data
+            if (meta.CustomFields != null)
+            {
+                foreach (var kvp in meta.CustomFields)
+                {
+                    customFields.Add(kvp.Key, kvp.Value);
+                }
+            }
+            if (!string.IsNullOrEmpty(markdown))
+                AddOrUpdateCustomField(customFields, "mt_markdown", markdown);
 
             WeblogModel.ActivePost.CustomFields = customFields.Values.ToArray();
 
@@ -211,7 +223,7 @@ namespace WeblogAddin
                 client = new MetaWebLogWordpressApiClient(weblogInfo);
 
                 // if values are already configured don't overwrite them again
-                client.InferFeaturedImage = meta.InferFeaturedImage;
+                client.DontInferFeaturedImage = meta.DontInferFeaturedImage;
                 client.FeaturedImageUrl = meta.FeaturedImageUrl;
                 client.FeatureImageId = meta.FeaturedImageId;
 
@@ -219,7 +231,7 @@ namespace WeblogAddin
                     sendAsDraft, markdown))
                 {
                     mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: " + client.ErrorMessage);
-                    MessageBox.Show($"Error sending post to Weblog: " + client.ErrorMessage,
+                    MessageBox.Show("Error sending post to Weblog: " + client.ErrorMessage,
                         mmApp.ApplicationName,
                         MessageBoxButton.OK,
                         MessageBoxImage.Exclamation);
@@ -228,10 +240,7 @@ namespace WeblogAddin
                 
                 //postUrl = client.GetPostUrl(WeblogModel.ActivePost.PostID);
                 var post = client.GetPost(WeblogModel.ActivePost.PostId);
-                postUrl = post.Url;
-
-                // Save all custom fields in metadata
-                SavePostCustomFieldsToMetadata(post, meta);
+                postUrl = post.Url;                
             }
             if (type == WeblogTypes.Medium)
             {
@@ -277,10 +286,30 @@ namespace WeblogAddin
             }
 
             return true;
-
         }
 
-        private static void SavePostCustomFieldsToMetadata(Post post, WeblogPostMetadata meta)
+
+        /// <summary>
+        /// Returns a Post by Id
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <param name="weblogInfo"></param>
+        /// <returns></returns>
+        public Post GetPost(string postId, WeblogInfo weblogInfo)
+        {
+            if (weblogInfo.Type == WeblogTypes.MetaWeblogApi || weblogInfo.Type == WeblogTypes.Wordpress)
+            {
+                MetaWebLogWordpressApiClient client;
+                client = new MetaWebLogWordpressApiClient(weblogInfo);
+                return client.GetPost(postId);
+            }
+
+            // Medium doesn't support post retrieval so return null
+            return null;
+        }
+
+
+        private void SavePostCustomFieldsToMetadata(Post post, WeblogPostMetadata meta)
         {
             if (post.CustomFields != null)
             {
@@ -511,7 +540,7 @@ namespace WeblogAddin
                 WeblogName = weblogName,
                 FeaturedImageUrl = featuredImage         
             };
-            SavePostCustomFieldsToMetadata(post, meta);
+            
             string newPostMarkdown = NewWeblogPost(meta);
             File.WriteAllText(outputFile, newPostMarkdown);
             
