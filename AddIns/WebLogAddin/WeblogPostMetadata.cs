@@ -127,7 +127,7 @@ namespace WeblogAddin
         /// <summary>
         /// A collection of custom fields that are uploaded to the server
         /// </summary>
-        public IDictionary<string,CustomField> CustomFields { get; set;}
+        public IDictionary<string,CustomField> CustomFields { get; set;} = new Dictionary<string, CustomField>();
 
         
         /// <summary>
