@@ -31,9 +31,6 @@
 */
 #endregion
 using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -41,7 +38,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using MarkdownMonster.AddIns;
@@ -50,7 +46,6 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using NHunspell;
 using Westwind.Utilities;
-using Encoder = System.Text.Encoder;
 
 
 namespace MarkdownMonster

@@ -1,4 +1,28 @@
-﻿using System;
+﻿#region License
+/*
+ **************************************************************
+ *  Author: Rick Strahl 
+ *          © West Wind Technologies, 2016
+ *          http://www.west-wind.com/
+ * 
+ * Created: 04/28/2016
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ **************************************************************  
+*/
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -9,10 +33,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Dragablz;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
-using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
@@ -27,10 +49,6 @@ namespace MarkdownMonster
     /// </summary>
     public class AppModel : INotifyPropertyChanged
     {
-       
-        
-        
-
 
         #region Top Level Model Properties
         /// <summary>

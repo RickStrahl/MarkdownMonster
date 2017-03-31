@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MarkdownMonster
@@ -12,10 +8,9 @@ namespace MarkdownMonster
     /// </summary>
     public class CommandBase : ICommand
     {
-
-        Action<object, ICommand> _execute;
-        private Func<object, ICommand,bool> _canExecute;
-        private Func<object, ICommand, bool> _previewExecute;
+        private readonly Action<object, ICommand> _execute;
+        private readonly Func<object, ICommand,bool> _canExecute;
+        private readonly Func<object, ICommand, bool> _previewExecute;
 
         public string Caption { get; set; }
 
