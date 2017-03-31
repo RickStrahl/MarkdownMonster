@@ -134,7 +134,7 @@ namespace MarkdownMonster
         /// Sets the markdown text into the editor control
         /// </summary>
         /// <param name="markdown"></param>
-        public void SetMarkdown(string markdown = null, object position = null)
+        public void SetMarkdown(string markdown = null, object position = null, bool updateDirtyFlag = false)
         {
             if (MarkdownDocument != null)
             {
@@ -149,6 +149,9 @@ namespace MarkdownMonster
                     position = -2; // keep position
                 AceEditor.setvalue(markdown ?? string.Empty, position);
             }
+
+            if (updateDirtyFlag)
+                IsDirty();
         }
 
         /// <summary>

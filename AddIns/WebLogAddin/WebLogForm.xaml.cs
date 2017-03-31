@@ -130,7 +130,7 @@ namespace WeblogAddin
         {                        
             // Update the Markdown document first
             string markdown = Model.ActivePostMetadata.SetPostYaml();
-            Model.AppModel.ActiveEditor.SetMarkdown(markdown);            
+            Model.AppModel.ActiveEditor.SetMarkdown(markdown, updateDirtyFlag: true);            
         }
 
         private void ButtonNewPost_Click(object sender, System.Windows.RoutedEventArgs e)

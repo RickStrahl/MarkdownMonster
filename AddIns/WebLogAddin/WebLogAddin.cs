@@ -268,8 +268,8 @@ namespace WeblogAddin
             markdown = meta.SetPostYaml();
 
             // write it back out to editor
-            editor.SetMarkdown(markdown);
-
+            editor.SetMarkdown(markdown, updateDirtyFlag: true);                        
+            
             // preview post
             if (!string.IsNullOrEmpty(weblogInfo.PreviewUrl))
             {
@@ -307,7 +307,7 @@ namespace WeblogAddin
             return null;
         }
 
-
+#if false
         private void SavePostCustomFieldsToMetadata(Post post, WeblogPostMetadata meta)
         {
             if (post.CustomFields != null)
@@ -334,6 +334,7 @@ namespace WeblogAddin
                 }
             }
         }
+#endif
 
         private void AddOrUpdateCustomField(IDictionary<string, CustomField> customFields, string key, string value)
         {
@@ -348,9 +349,9 @@ namespace WeblogAddin
             }
         }
 
-        #endregion
+#endregion
 
-        #region Local Post Creation
+#region Local Post Creation
 
         public string NewWeblogPost(WeblogPostMetadata meta)
         {
@@ -469,7 +470,7 @@ namespace WeblogAddin
             return markdown;
         }
 
-        #endregion
+#endregion
 
 
 
