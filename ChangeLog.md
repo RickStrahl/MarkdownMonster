@@ -6,8 +6,8 @@
 ### 1.2.18
 <small>March 31, 2017</small>
 
-* **Switch to FrontMatter Weblog Meta Data**
-The Weblog publishing Addin now stores all meta data using Front Matter at the top of the document rather than the pseudo XML meta data stored previously. This is more inline with markdown meta data usage in general. Existing meta data continues to work and is converted to front matter when updating posts or updating meta data.
+* **YAML Weblog Meta Data**  
+The Weblog publishing Addin now stores all meta data using YAML Front Matter at the top of the document rather than the pseudo XML meta data stored previously. This is more inline with markdown meta data usage in general. Existing meta data continues to work and is converted to YAML when posting posts or updating meta data.
 
 * **Recent Document Scroll Position Remembered**   
 When you shut down MM, and then re-open it, MM now remembers the last scroll position of the recent documents you stored so when opened you can continue to edit at the last position you were working on. 
