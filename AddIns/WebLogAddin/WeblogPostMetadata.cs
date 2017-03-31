@@ -111,17 +111,18 @@ namespace WeblogAddin
         /// If false, only explicitly set images in the meta data
         /// are used.
         /// </summary>
+        [DefaultValue(true)]
         public bool InferFeaturedImage
         {
-            get { return _InferFeaturedImage; }
+            get { return _inferFeaturedImage; }
             set
             {
-                if (value == _InferFeaturedImage) return;
-                _InferFeaturedImage = value;
+                if (value == _inferFeaturedImage) return;
+                _inferFeaturedImage = value;
                 OnPropertyChanged(nameof(InferFeaturedImage));
             }
         }
-        private bool _InferFeaturedImage = true;
+        private bool _inferFeaturedImage = true;
 
         
         /// <summary>
@@ -145,6 +146,10 @@ namespace WeblogAddin
         [YamlIgnore]
         public string RawMarkdownBody { get; set; }
 
+        public WeblogPostMetadata()
+        {
+            CustomFields = new Dictionary<string, CustomField>();
+        }
         
 
 
@@ -199,7 +204,7 @@ namespace WeblogAddin
             {
                 yamlMeta = deserializer.Deserialize<WeblogPostMetadata>(input);
             }
-            catch (Exception ex)
+            catch 
             {
                 return meta;    
             }
@@ -221,8 +226,9 @@ namespace WeblogAddin
 
             post.mt_excerpt = meta.Abstract;
             post.mt_keywords = meta.Keywords;
-
-            post.CustomFields = meta.CustomFields.Values.ToArray();
+            
+            if (meta.CustomFields != null)
+                post.CustomFields = meta.CustomFields.Values.ToArray();
 
             return meta;
         }
@@ -236,11 +242,20 @@ namespace WeblogAddin
             string markdown = RawMarkdownBody.Trim();
 
             var serializer = new SerializerBuilder()
-                 .WithNamingConvention(new CamelCaseNamingConvention())
-                 .EmitDefaults()
+                 .WithNamingConvention(new CamelCaseNamingConvention())              
                  .Build();
-            
+
+            // hide fields  if none are set
+            var customFields = CustomFields;
+            if (CustomFields != null && CustomFields.Count < 1)
+                CustomFields = null;
+            if (string.IsNullOrEmpty(PostId))
+                PostId = null;
+
             string yaml = serializer.Serialize(this);
+
+            // reset customfields
+            CustomFields = customFields;
 
             string extractedYaml = null;
             var match = YamlExtractionRegex.Match(markdown);
