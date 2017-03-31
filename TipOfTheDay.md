@@ -9,6 +9,11 @@ Markdown Monster is iterating very quickly. Don't want to see new version checks
 ### FontAwesome Icons
 Did you know that you can easily embed FontAwesome icons into Markdown documents with @MarkdownMonstr? Simply embed @icon-iconname into your documents and MM renders the icon for you. For more sophisticated use cases you can also use raw HTML.
 
+
+### Snippet Add-in
+Did you know the Snippet Addin can turn an expansion key into expanded text? Turn short phrases like `fa-` into an expanded font-awesome HTML string, turn `signature` into your name, company and logo signature. It's easy...
+
+
 ### Portable Version 
 Did you know you can install Markdown Monster's portable version on a USB drive and run it on any machine?
 
