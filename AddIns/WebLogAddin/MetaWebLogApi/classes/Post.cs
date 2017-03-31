@@ -10,6 +10,7 @@ namespace WebLogAddin.MetaWebLogApi
         {
             DateCreated = DateTime
                 .Now;
+            CustomFields = new CustomField[] {};
         }
 
         public object PostId { get; set; }

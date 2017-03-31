@@ -171,7 +171,7 @@ namespace WeblogAddin
             if (!string.IsNullOrEmpty(meta.PostId))
             {
                 var existingPost = GetPost(meta.PostId, weblogInfo);
-                if (existingPost != null && meta.CustomFields != null)
+                if (existingPost != null && meta.CustomFields != null && existingPost.CustomFields != null)
                     customFields = existingPost.CustomFields
                                                .ToDictionary(cf => cf.Key, cf => cf);                
             }
