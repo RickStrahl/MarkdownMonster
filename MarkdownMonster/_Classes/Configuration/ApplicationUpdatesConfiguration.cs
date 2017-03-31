@@ -44,9 +44,11 @@ namespace MarkdownMonster
         public ApplicationUpdatesConfiguration()
         {
             InstallerDownloadUrl = "http://west-wind.com/files/MarkdownMonsterSetup.exe";
-            UpdateCheckUrl = "http://west-wind.com/files/MarkdownMonster_version.xml";
+            UpdateCheckUrl = "http://west-wind.com/files/MarkdownMonster_version.xml";            
             UpdateFrequency = 7;
-            FirstRun = true;
+            // prevent immediate update check for at least a day on new install
+            LastUpdateCheck = DateTime.UtcNow.AddDays((UpdateFrequency -1) * -1 ); 
+            FirstRun = true;            
         }
     }
 }
