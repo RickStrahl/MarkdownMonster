@@ -8,9 +8,9 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Icon="../Assets/MarkdownMonster_Icon_256.png"                     
-        Title="Embed Syntax Colored Code" FontSize="14"
+        Title="Embed Syntax Colored Code" FontSize="15"
         TitleCharacterCasing="Normal"
-        TitlebarHeight="35"                       
+        TitlebarHeight="35"                                 
         ResizeMode="CanResizeWithGrip"
         WindowStyle="SingleBorderWindow"                    
         WindowStartupLocation="CenterOwner"         
@@ -101,14 +101,18 @@
         </ComboBox>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal">
-            <Button Name="ButtonOk" Margin="0,30,0,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"  Click="Button_Click"   >
+            <Button Name="ButtonOk" Margin="0,30,0,20" Height="40" FontSize="15" Width="175" 
+                    HorizontalAlignment="Left"  
+                    Click="Button_Click"   >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Upload" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                     <TextBlock Margin="10,0,0,0" FontSize="14">Paste Code</TextBlock>
                 </StackPanel>
             </Button>
 
-            <Button Name="ButtonCancel" Margin="10,30,0,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
+            <Button Name="ButtonCancel" Margin="10,30,0,20" Height="40" FontSize="15" 
+                    Width="175" HorizontalAlignment="Left" 
+                    IsCancel="True" Click="Button_Click" >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  FontSize="20"/>
                     <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>

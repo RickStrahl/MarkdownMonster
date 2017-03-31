@@ -131,11 +131,19 @@ namespace MarkdownMonster.Windows
         {
             if (e.Key == Key.Enter && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
+                if (TextCodeLanguage.IsDropDownOpen)
+                    return;
+
                 Button_Click(ButtonOk, null);
                 return;
-            }       
+            }
             if (e.Key == Key.Enter && e.OriginalSource != WebBrowserCode)
-                Button_Click(ButtonOk, null);            
+            {
+                if (TextCodeLanguage.IsDropDownOpen)
+                    return;
+
+                Button_Click(ButtonOk, null);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -143,9 +151,7 @@ namespace MarkdownMonster.Windows
             if (sender == ButtonCancel)
                 DialogResult = false;
             else
-            {
-                DialogResult = true;                
-            }
+                DialogResult = true;
 
             Close();
         }
@@ -160,5 +166,6 @@ namespace MarkdownMonster.Windows
             ((ComboBox) sender).Background = this.ComboBackground;
 
         }
+        
     }
 }
