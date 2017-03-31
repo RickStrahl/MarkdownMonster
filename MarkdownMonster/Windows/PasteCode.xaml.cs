@@ -42,12 +42,13 @@ namespace MarkdownMonster.Windows
                 {"javascript", "JavaScript"},
                 {"typescript", "TypeScript"},
                 {"json", "Json"},
+                {"xml", "Xml" },                
 
                 {"sql","SQL" },
                 {"vbnet", "Vb.Net"},
+                {"fsharp", "Fsharp"},
                 {"cpp", "C++"},
                 {"foxpro", "FoxPro"},
-                {"fsharp", "Fsharp"},
 
                 {"ruby", "Ruby"},
                 {"python", "Python"},
@@ -56,19 +57,24 @@ namespace MarkdownMonster.Windows
                 {"swift", "Swift"},
                 {"objectivec", "Objective C"},                                
                 {"vbscript", "VB Script"},
-
+                {"haskell", "Haskel" },
+                {"go", "Go" },
+                
                 {"dockerfile", "Docker file"},
                 {"makefile", "Make file"},
                 {"nginx", "NgInx"},
-
+                
                 {"markdown","Markdown" },
+                {"yaml", "Yaml" },
 
-                {"powershell", "PowerShell"},
+                { "powershell", "PowerShell"},
                 {"dos", "DOS"},
+                {"bash", "Bash" },
                 {"ini", "INI files" },
                 {"dns", "DNS"},
                 {"perl", "Perl"},
                 {"diff", "Diff file"},
+                
 
                 {"txt", "Text - plain text, no formatting" }                
             };

@@ -72,14 +72,32 @@
             </Rectangle.RenderTransform>
         </Rectangle>
         
-        <ComboBox Grid.Row="3" x:Name="TextCodeLanguage"  ToolTip="Weblog selection"
+        <ComboBox Grid.Row="3" x:Name="TextCodeLanguage"  
+                  ToolTip="Weblog selection"
                           SelectedValuePath="Key"
-                          DisplayMemberPath="Value"                           
+                          DisplayMemberPath="Value"    
+                  IsHitTestVisible="True"
                           SelectedValue="{Binding CodeLanguage}"
-                           IsSynchronizedWithCurrentItem="True" 
-                           ItemsSource="{Binding LanguageNames}" SelectionChanged="TextCodeLanguage_SelectionChanged"
+                          IsSynchronizedWithCurrentItem="True" 
+                          ItemsSource="{Binding LanguageNames}" 
+                  SelectionChanged="TextCodeLanguage_SelectionChanged"
                   LostFocus="TextCodeLanguage_LostFocus"
                            >
+            <!--<ComboBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding}" Value="">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                        <Separator HorizontalAlignment="Stretch" IsEnabled="False"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.ItemContainerStyle>-->
         </ComboBox>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal">
