@@ -7,10 +7,12 @@ $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($releaseFile).Fi
 $version = $version.Trim().Trim(".0")
 "Writing Version File for: " + $version
 
-copy $releaseFile "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases\v1.2\MarkdownMonsterSetup-${version}.exe"
+$finalFile = "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases\v1.2\MarkdownMonsterSetup-${version}.exe"
+copy $releaseFile $finalFile
 cd "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases"
 
+git add -f "v1.2/MarkdownMonsterSetup-${version}.exe"
 git commit -m "$version"
-# git push origin master
+git push origin master
 
 cd "$PSScriptRoot" 
