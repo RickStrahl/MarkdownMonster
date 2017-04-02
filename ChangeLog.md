@@ -12,10 +12,10 @@ The Weblog publishing Addin now stores all meta data using YAML Front Matter at 
 * **Recent Document Scroll Position Remembered**   
 When you shut down MM, and then re-open it, MM now remembers the last scroll position of the recent documents you stored so when opened you can continue to edit at the last position you were working on. 
 
-* **Weblog Meta Data DontInferFeaturedImage Flag**
+* **Weblog Meta Data DontInferFeaturedImage Flag**  
 You can now opt out from inferring a featured image to send to the server when publishing a Blog post. By default MM sets the first image it finds a post as the featured image and sends that to the host. The `InferFeaturedImage` flag allows opting out of this behavior so you can manually set the featured image on the server.
 
-* **Weblog Meta DontStripHeaderText Flag**
+* **Weblog Meta DontStripHeaderText Flag**  
 By default Markdown Monster finds an `# header` tag in a blog post and strips it out of the post. The header is used for figuring out hte title if no other meta data is provided. Most blog engines render the title of the post separately from the content, so the header needs to be stripped to avoid duplication. However, some platforms (Medium and some Markdown based Blog engines) don't explicitly extract and display their own header so an option is required to leave it in when required.
 
 ### 1.2.16
