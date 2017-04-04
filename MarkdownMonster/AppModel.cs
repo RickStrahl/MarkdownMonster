@@ -318,6 +318,8 @@ namespace MarkdownMonster
             Window = window;
 
             CreateCommands();
+
+            mmApp.Model = this;
         }
 
         #endregion
@@ -645,13 +647,10 @@ Do you want to View in Browser now?
             // MARKDOWN EDIT COMMANDS TOOLBAR COMMAND
             ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>
             {
-                var editor = Window.GetActiveMarkdownEditor();
-                if (editor == null || editor.AceEditor == null)
-                    return;
-
                 string action = s as string;
-
-                editor.ProcessEditorUpdateCommand(action);
+                
+                var editor = Window.GetActiveMarkdownEditor();                
+                editor?.ProcessEditorUpdateCommand(action);
             }, null);
 
             // Settings

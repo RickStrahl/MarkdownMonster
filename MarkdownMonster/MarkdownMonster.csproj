@@ -125,6 +125,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Windows\EmojiWindow.xaml.cs">
+      <DependentUpon>EmojiWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_Classes\AddInInterfaces\AddinItem.cs" />
     <Compile Include="_Classes\AddInInterfaces\AddinManager.cs" />
     <Compile Include="_Classes\AddInInterfaces\AddInMenuItem.cs" />
@@ -232,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\BrowserDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EmojiWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

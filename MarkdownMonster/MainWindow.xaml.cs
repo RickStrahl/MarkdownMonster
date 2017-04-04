@@ -1153,7 +1153,7 @@ namespace MarkdownMonster
 /* ignore scroll error */
                                         }
                                     }
-                                    catch (Exception ex)
+                                    catch 
                                     {
                                         // Refresh doesn't fire Navigate event again so 
                                         // the page is not getting initiallized properly
@@ -1744,7 +1744,7 @@ namespace MarkdownMonster
                     {
                         window.initializeinterop(editor);
                     }
-                    catch (Exception ex)
+                    catch 
                     {
                         //mmApp.Log("Preview InitializeInterop failed: " + url, ex);
                     }

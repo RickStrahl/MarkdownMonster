@@ -333,6 +333,25 @@
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
+                       
+                        
+                        <Button Name="ButtonEmoji" Margin="7,0" ToolTip="Insert emoji (ctrl-j)"
+                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="emoji"
+                                fa:Awesome.Content="SmileOutline"
+                                Height="22" Width="22"
+                                TextElement.FontSize="16"                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                        />
+
+                        <!--<Button Name="ButtonFontAwesome" Margin="7,0" ToolTip="Insert FontAwesome Icon"
+                                Command="{Binding ToolbarInsertMarkdownCommand}" 
+                                CommandParameter="fontawesome"
+                                fa:Awesome.Content="FontAwesome" IsEnabled="False"
+                                Height="22" Width="22"
+                                TextElement.FontSize="16"                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                        />-->
                         
                         <Separator />
 
@@ -354,7 +373,7 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                 />
 
-                        <Button Name ="ButtonNumberList" Margin="7,0" ToolTip="Ordered List (ctrl-l)"
+                        <Button Name ="ButtonNumberList" Margin="7,0" ToolTip="Turns lines to ordered list (ctrl-l)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="numberlist"
                                 fa:Awesome.Content="ListOl"
@@ -362,6 +381,7 @@
                                 TextElement.FontSize="16"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                 />
+                       
 
                         <Separator />
 

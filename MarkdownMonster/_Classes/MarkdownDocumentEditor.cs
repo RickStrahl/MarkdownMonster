@@ -236,7 +236,8 @@ namespace MarkdownMonster
 
             action = action.ToLower();
 
-            if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image", "href", "code" }))
+            // check for insert actions that don't require a pre selection
+            if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image", "href", "code", "emoji" }))
                 return null;
 
             string html = input;
@@ -295,6 +296,17 @@ namespace MarkdownMonster
                     sb.AppendLine($"{ct}. " + line);
                 }
                 html = sb.ToString();
+            }
+            else if (action == "emoji")
+            {
+                var form = new EmojiWindow();
+                form.Owner = Window;
+                form.ShowDialog();
+
+                if (form.Cancelled)
+                    return input;
+
+                html = form.EmojiString;
             }
             else if (action == "href")
             {
@@ -905,7 +917,11 @@ namespace MarkdownMonster
                 {
                     Window.Model.ToolbarInsertMarkdownCommand.Execute("list");
                 }
-                if (key == "ctrl-k")
+                else if (key == "ctrl-j")
+                {
+                    Window.Model.ToolbarInsertMarkdownCommand.Execute("emoji");
+                }
+                else if (key == "ctrl-k")
                 {
                     Window.Model.ToolbarInsertMarkdownCommand.Execute("href");
                 }
@@ -1071,8 +1087,7 @@ namespace MarkdownMonster
             if (ext == ".png" || ext == ".gif" || ext == ".jpg" || ext == ".jpeg" || ext == ".svg")
             {
                 var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
-                string imagePath = null;
-
+                
                 // if lower than 1 level down off base path ask to save the file
                 string relFilePath = FileUtils.GetRelativePath(file, docPath);
                 if (relFilePath.StartsWith("..\\..") || relFilePath.Contains(":\\"))
@@ -1130,8 +1145,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public bool FileDropOperation(string hexData, string filename)
         {
-            var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
-            string imagePath = null;
+            var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);            
 
             var ext = Path.GetExtension(filename.ToLower());
 

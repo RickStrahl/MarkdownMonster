@@ -89,7 +89,10 @@ var te = window.textEditor = {
             // print
             "ctrl-p": function() { te.specialkey("ctrl-p") },
             // turn lines into list
-            "ctrl-l": function() { te.specialkey("ctrl-l"); },
+            "ctrl-l": function () { te.specialkey("ctrl-l"); },
+            // Emoji
+            "ctrl-j": function () { te.specialkey("ctrl-j") },
+
             // Image emedding
             "alt-i": function() { te.specialkey("alt-i"); },
 
@@ -102,6 +105,7 @@ var te = window.textEditor = {
             
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
             "ctrl-i": function () { te.specialkey("ctrl-i"); },
+            
             
             
             

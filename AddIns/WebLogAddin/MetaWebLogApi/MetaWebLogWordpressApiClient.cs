@@ -159,8 +159,6 @@ namespace WebLogAddin.MetaWebLogApi
         /// <returns></returns>
         public Post GetPost(object postId)
         {
-            string link = null;
-
             try
             {
                 var wrapper = GetWrapper();

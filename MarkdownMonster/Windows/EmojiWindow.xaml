@@ -1,0 +1,36 @@
+﻿<controls:MetroWindow x:Class="MarkdownMonster.Windows.EmojiWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster.Windows"  
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        WindowStyle="ToolWindow" ShowMinButton="False" ShowMaxRestoreButton="False"                      
+        WindowStartupLocation="Manual"                      
+        KeyDown="EmojiWindow_KeyDown"                         
+        Title="Pick an Emoji" TitleCharacterCasing="Normal"
+        Height="680" Width="835">
+    <Grid>
+        <ListBox Name="ListEmojis"  ItemsSource="{Binding Emojis}"  
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"  
+                 SelectedValuePath="Key"
+                 MouseDoubleClick="ListBox_MouseDoubleClick"
+                 KeyUp="ListBox_KeyUp"
+            >
+            <ItemsControl.ItemsPanel >
+                <ItemsPanelTemplate>
+                        <WrapPanel Width="auto"  />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Value}" Margin="8" Height="24" Width="24" FontSize="18" 
+                               Foreground="LightGray" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListBox>
+
+    </Grid>
+</controls:MetroWindow>

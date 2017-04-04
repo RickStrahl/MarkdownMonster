@@ -3,6 +3,15 @@
 # Markdown Monster Change Log
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)</small>
 
+### 1.2.19
+<small>not released yet</small>
+
+* **Added Emoji Picker**  
+There's now an Emoji Picker on the toolbar that lets you select emoji from a visual selection list to embed into the document. Shortcut is **ctrl-j**.
+
+* **mmApp.Model AppModel now globally accessible**  
+If you're building Addins, or otherwise extending MM you can now get global access to the App Model via `mmApp.Model`.
+
 ### 1.2.18
 <small>March 31, 2017</small>
 

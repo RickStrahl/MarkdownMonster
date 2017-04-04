@@ -103,9 +103,6 @@ namespace MarkdownMonster.Windows
             ShowStatus("Downloading and installing " + addin.name + " Addin...");
 
 
-            bool noRestartRequired = false;
-            
-
             var url = addin.gitVersionUrl.Replace("version.json","addin.zip");
             var result = AddinManager.Current.DownloadAndInstallAddin(url, mmApp.Configuration.AddinsFolder, addin);
             if (result.IsError)

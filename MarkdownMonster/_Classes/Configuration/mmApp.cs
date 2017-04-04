@@ -31,6 +31,10 @@ namespace MarkdownMonster
         /// </summary>
         public static ApplicationConfiguration Configuration { get; set;  }
 
+        /// <summary>
+        /// Holds a static instance of the Application Model
+        /// </summary>
+        public static AppModel Model { get; set; }
 
         /// <summary>
         /// The full name of the application displayed on toolbar and dialogs
