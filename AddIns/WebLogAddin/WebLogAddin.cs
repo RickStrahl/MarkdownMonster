@@ -367,48 +367,29 @@ namespace WeblogAddin
             if (string.IsNullOrEmpty(meta.WeblogName))
                 meta.WeblogName = "Name of registered blog to post to";
             
-
+  
             string post =
                 $@"# {meta.Title}
 
 {meta.MarkdownBody}
-
-<!-- Post Configuration -->
-<!--
-```xml
-<blogpost>
-<title>{meta.Title}</title>
-<abstract>
-{meta.Abstract}
-</abstract>
-<categories>
-{meta.Categories}
-</categories>
-<isDraft>{meta.IsDraft}</isDraft>
-<featuredImage>{meta.FeaturedImageUrl}</featuredImage>
-<keywords>
-{meta.Keywords}
-</keywords>
-<weblogs>
-<postid>{meta.PostId}</postid>
-<weblog>
-{meta.WeblogName}
-</weblog>
-</weblogs>
-</blogpost>
-```
--->
-<!-- End Post Configuration -->
 ";
 
             if (WeblogAddinConfiguration.Current.AddFrontMatterToNewBlogPost)
             {
 
                 post = String.Format(WeblogAddinConfiguration.Current.FrontMatterTemplate,
-                meta.Title, DateTime.Now) + 
-                post;
+                           meta.Title, DateTime.Now) +
+                       post;
             }
+            else
+            {
+                meta.RawMarkdownBody = post;
+                meta.MarkdownBody = post;
 
+                // Add Yaml data to post
+                post = meta.SetPostYaml();
+            }
+            
             return post;
         }
 
