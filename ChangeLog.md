@@ -7,10 +7,13 @@
 <small>not released yet</small>
 
 * **Added Emoji Picker**  
-There's now an Emoji Picker on the toolbar that lets you select emoji from a visual selection list to embed into the document. Shortcut is **ctrl-j**.
+There's now an Emoji Picker on the toolbar that lets you select emoji from a visual selection list to embed into the document. Shortcut is **ctrl-j**. 
 
 * **mmApp.Model AppModel now globally accessible**  
 If you're building Addins, or otherwise extending MM you can now get global access to the App Model via `mmApp.Model`.
+
+* **Fix: New Weblog Post to add initial Yaml Meta Data**  
+Added default Yaml data to new weblog posts. Add logic to automatically convert old XML based meta data to Yaml data when opening or downloading existing posts.
 
 ### 1.2.18
 <small>March 31, 2017</small>

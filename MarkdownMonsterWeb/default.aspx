@@ -151,7 +151,7 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Image & link embedding
+                                        Embed images, links and emoji
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
@@ -169,11 +169,11 @@
                             </div>
                             <div class="col-md-6">
 
-                                <div class="bullet-box-items">
+                                <div class="bullet-box-items">                                    
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Gentle toolbar support
-                                    </div>
+                                        Weblog publishing and editing
+                                    </div> 
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
                                         HTML to Markdown conversion
@@ -182,22 +182,24 @@
                                         <i class="fa fa-check" style="color: lightgreen"></i>
                                         Editor and preview themes
                                     </div>
-                                    <div>
-                                        <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Weblog publishing and editing
-                                    </div>                         
-                                    <div>
-                                        <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Template expansion with snippets
-                                    </div>           
+                                                                                                        
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
                                         Vim and Emacs support
-                                    </div>           
+                                    </div>  
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Extensible with .NET add-ins
+                                        Pandoc rendering &amp; doc conversion
                                     </div>
+                                    <div>
+                                        <i class="fa fa-check" style="color: lightgreen"></i>
+                                        Template expansion with snippets
+                                    </div>   
+                                    <div>
+                                        <i class="fa fa-check" style="color: lightgreen"></i>
+                                        Extend with .NET snippets & addins
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

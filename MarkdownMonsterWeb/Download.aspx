@@ -69,7 +69,7 @@
                             <dt>Version:</dt>
                             <dd>v<%= Version %> 
                                 <a style="font-size: 0.8em;padding-left: 15px" 
-                                   href="https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md">what's new?</a></dd>
+                                   href="https://github.com/RickStrahl/MarkdownMonster/blob/master/ChangeLog.md">what's new?</a></dd>
                                 
                             <dt>Released:</dt>
                             <dd><%= ReleaseDate %></dd>
