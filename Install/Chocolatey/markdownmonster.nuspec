@@ -21,7 +21,7 @@ Markdown Monster can be downloaded and evaluated for free. This package is **unl
 A portable, non-admin Chocolatey install is also available in [MarkdownMonster.Portable](https://chocolatey.org/packages/MarkdownMonster.Portable).
     </description>
     <summary>Markdown Monster is an easy to use and extensible Markdown Editor and Viewer and Weblog Publisher</summary>
-    <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>
+    <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/ChangeLog.md</releaseNotes>
     <copyright>West Wind Technologies, 2016-2017</copyright>
     <tags>markdown text editor weblog-publishing weblog blog publishing documentation admin</tags>
     <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
