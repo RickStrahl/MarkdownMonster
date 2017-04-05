@@ -325,18 +325,18 @@
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
-                         <Button Name ="ButtonInlineCode" Margin="7,0" ToolTip="Inline code inside of a paragraph (ctrl-`)" 
+                        <Button Name ="ButtonInlineCode" Margin="5,-7,7,0" ToolTip="Inline code inside of a paragraph (ctrl-`)" 
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
-                                CommandParameter="inlinecode"
-                                fa:Awesome.Content="Code" 
+                                CommandParameter="inlinecode"  
+                                FontWeight="Medium"  FontSize="16" TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                        >`{ }`</Button>
+                                
+                                <!--fa:Awesome.Content="Code"
                                 Height="22" Width="22"
                                 TextElement.FontSize="16"
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
-
-                       
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                        />-->
                         
-                      
-
                         <!--<Button Name="ButtonFontAwesome" Margin="7,0" ToolTip="Insert FontAwesome Icon"
                                 Command="{Binding ToolbarInsertMarkdownCommand}" 
                                 CommandParameter="fontawesome"
@@ -420,14 +420,13 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
-                        <Button Name ="ButtonCode" Margin="7,0" ToolTip="Format selected text as code (alt-c)"
+                        <Button Name ="ButtonCode" Margin="7,-7,7,0" ToolTip="Format selected text as code (alt-c)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="code"
-                                fa:Awesome.Content="Code"
-                                Height="22" Width="22"
-                                TextElement.FontSize="16"
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                />
+                                FontWeight="Bold" FontSize="17"
+                        >{#}</Button>
+
+                        
 
                         <Button Name="ButtonEmoji" Margin="7,0" ToolTip="Insert emoji (ctrl-j)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
