@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)</small>
 
 ### 1.2.19
-<small>not released yet</small>
+<small>April 4th, 2017</small>
 
 * **Added Emoji Picker**  
 There's now an Emoji Picker on the toolbar that lets you select emoji from a visual selection list to embed into the document. Shortcut is **ctrl-j**. 
