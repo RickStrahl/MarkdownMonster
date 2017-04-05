@@ -83,9 +83,7 @@ namespace MarkdownMonster.Windows
         #region Emojis and Smileys
 
         public Dictionary<string, string> Emojis { get; set; } = new Dictionary<string, string>()
-        {
-            {":100:", "💯"},
-            {":1234:", "🔢"},
+        {            
             {":smile:", "😄"},
             {":smiley:", "😃"},
             {":grinning:", "😀"},
@@ -953,7 +951,9 @@ namespace MarkdownMonster.Windows
             {":large_orange_diamond:", "🔶"},
             {":large_blue_diamond:", "🔷"},
             {":small_orange_diamond:", "🔸"},
-            {":small_blue_diamond:", "🔹"}
+            {":small_blue_diamond:", "🔹"},
+            {":100:", "💯"},
+            {":1234:", "🔢"}
         };
 
 
