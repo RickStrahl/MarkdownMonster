@@ -325,7 +325,7 @@
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
-                        <Button Name ="ButtonInlineCode" Margin="5,-7,7,0" ToolTip="Inline code inside of a paragraph (ctrl-`)" 
+                        <Button Name ="ButtonInlineCode" Margin="5,-4,7,0" ToolTip="Inline code inside of a paragraph (ctrl-`)" 
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="inlinecode"  
                                 FontWeight="Medium"  FontSize="16" TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
@@ -420,10 +420,10 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
-                        <Button Name ="ButtonCode" Margin="7,-7,7,0" ToolTip="Format selected text as code (alt-c)"
+                        <Button Name ="ButtonCode" Margin="7,-5,7,0" ToolTip="Format selected text as code (alt-c)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="code"
-                                FontWeight="Bold" FontSize="17"
+                                FontWeight="Bold" FontSize="16"
                         >{#}</Button>
 
                         
