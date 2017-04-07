@@ -175,16 +175,16 @@ var te = window.textEditor = {
             });
 
         
-        if (window.EmojiCompleter) {
-            // auto complete
-            var langTools = ace.require("ace/ext/language_tools");
-            editor.setOptions({
-                enableBasicAutocompletion: true,
-                enableSnippets: false,
-                enableLiveAutocompletion: true
-            });
-            langTools.setCompleters([window.EmojiCompleter]);         
-        }
+        //if (window.EmojiCompleter) {
+        //    // auto complete
+        //    var langTools = ace.require("ace/ext/language_tools");
+        //    editor.setOptions({
+        //        enableBasicAutocompletion: true,
+        //        enableSnippets: false,
+        //        enableLiveAutocompletion: true
+        //    });
+        //    langTools.setCompleters([window.EmojiCompleter]);         
+        //}
 
         return editor;
     },

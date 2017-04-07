@@ -1,3 +1,7 @@
+/* 
+    top level editor configuration
+    Ace Editor style overrides
+*/
 html, body {
 	height: 100%;
 	width: 100%;
@@ -25,7 +29,7 @@ html, body {
     padding-left: 0;                        
 }    
 .ace_cursor { 
-    width: 2 !important;
+    width: 2px !important;
     height: 1em !important;
 }
 .ace_text-input {
