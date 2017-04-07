@@ -24,7 +24,7 @@ namespace MarkdownMonster.Windows
         {
             InitializeComponent();
             var accessCount = mmApp.Configuration.ApplicationUpdates.AccessCount;
-            RunUsage.Text = $"Started {accessCount} times.";
+            RunUsage.Text = $"{accessCount} times.";
 
             if (accessCount > 200)
                 RunUsage.Foreground = Brushes.LightCoral;

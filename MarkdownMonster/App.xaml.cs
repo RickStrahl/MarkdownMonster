@@ -109,7 +109,7 @@ namespace MarkdownMonster
             AppDomain currentDomain = AppDomain.CurrentDomain;
 
             currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-#if !DEBUG
+#if true //!DEBUG
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
 
@@ -192,13 +192,10 @@ namespace MarkdownMonster
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-
             if (!mmApp.HandleApplicationException(e.Exception as Exception))
-                Shutdown(0);
-            else
-                e.Handled = true; 
-
-            return;            
+                Environment.Exit(1);
+            
+            e.Handled = true;
         }
 
         
@@ -235,6 +232,10 @@ namespace MarkdownMonster
             }            
         }
 
+        protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
+        {
+            base.OnSessionEnding(e);
+        }
 
         /// <summary>
         /// Loads all addins asynchronously without loading the

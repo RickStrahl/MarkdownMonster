@@ -616,7 +616,24 @@ namespace MarkdownMonster
             var parser = MarkdownParserFactory.GetParser(usePragmaLines: usePragmaLines,                                                         
                                                          forceLoad: true, 
                                                          addinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName);            
-            return parser.Parse(markdown);
+            var html = parser.Parse(markdown);
+
+
+            if (!string.IsNullOrEmpty(html) && !UnlockKey.IsRegistered() && mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
+            {
+                html += @"
+<div style=""margin-top: 30px;margin-bottom: 10px;font-size: 0.8em;border-top: 1px solid #eee;padding-top: 8px;opacity: 0.75;""
+     title=""This message doesn't display in the registered version of Markdown Monster."">
+    <img src=""https://markdownmonster.west-wind.com/favicon.png""
+         style=""height: 20px;float: left; margin-right: 10px;opacity: 0.75;""/>
+    created with the free version of
+    <a href=""https://markdownmonster.west-wind.com"" 
+       target=""top"">Markdown Monster</a> 
+</div>
+";
+            }
+
+            return html;
         }
 
         /// <summary>

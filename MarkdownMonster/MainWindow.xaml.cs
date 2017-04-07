@@ -501,6 +501,8 @@ namespace MarkdownMonster
                 return;
             }
 
+            Top -= 10000;
+
             if (mmApp.Configuration.UseSingleWindow)
             {
                 PipeManager?.StopServer();
@@ -514,20 +516,22 @@ namespace MarkdownMonster
                 displayCount = 4;
             if (mmApp.Configuration.ApplicationUpdates.AccessCount > 100)
                 displayCount = 2;
-            if (mmApp.Configuration.ApplicationUpdates.AccessCount > 200)
+            if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
                 displayCount = 1;
 
             if (!isNewVersion &&                
                 mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
                 !UnlockKey.IsRegistered())
             {
+                
                 Hide();
+                Top += 10000;
                 var rd = new RegisterDialog();
                 rd.Owner = this;
                 rd.ShowDialog();
             }
-
-            mmApp.SendTelemetry("shutdown");
+            
+            mmApp.Shutdown();
 
             e.Cancel = false;
         }
@@ -1255,7 +1259,6 @@ namespace MarkdownMonster
         /// <param name="e"></param>
         public void Button_Handler(object sender, RoutedEventArgs e)
         {
-
             var button = sender;
             if (sender == null)
                 return;
