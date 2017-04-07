@@ -26,8 +26,27 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Value}" Margin="8" Height="24" Width="24" FontSize="18"
-                               Foreground="LightGray" />
+                    <TextBlock Text="{Binding Value}" Margin="8" Height="24" Width="24" FontSize="18" ToolTip="{Binding Key}"
+                               Foreground="LightGray">
+                        <TextBlock.Style>
+                            <Style>
+                            <Style.Triggers>
+                                    <Trigger Property="TextBlock.IsMouseOver" Value="True">
+                                        <!--<Setter Property="TextBlock.Width" Value="50" />
+                                        <Setter Property="TextBlock.Height" Value="50" />-->
+                                        <Setter Property="TextBlock.RenderTransform">
+                                            <Setter.Value>
+                                                <TransformGroup>
+                                                    <TranslateTransform X="-8" Y="-7" />
+                                                    <ScaleTransform ScaleX="1.9" ScaleY="1.9" />
+                                                </TransformGroup>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                            </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
