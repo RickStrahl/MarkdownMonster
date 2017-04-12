@@ -145,7 +145,7 @@ namespace MarkdownMonster
                 AppInsights = new TelemetryClient {InstrumentationKey = Telemetry.Key};
                 AppInsights.Context.Session.Id = Guid.NewGuid().ToString();
                 AppInsights.Context.Component.Version = GetVersion();
-                AppRunTelemetry = AppInsights.StartOperation<RequestTelemetry>("Application Run");
+                AppRunTelemetry = AppInsights.StartOperation<RequestTelemetry>($"App Run - {GetVersion()} - {Configuration.ApplicationUpdates.AccessCount +  1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
                 AppRunTelemetry.Telemetry.Start();
             }
         }

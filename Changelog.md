@@ -3,11 +3,14 @@
 # Markdown Monster Change Log
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)</small>
 
-### 1.2.20
+### 1.2.21
 <small>not released yet</small>
 
 * **Add AppInsights (experimental)**  
 Added support for AppInsights to provide better telemetry on usage and exception logging. Currently running under a flag that is enabled by default.
+
+* **Updated Toolbar icons for Code and Inline Code**  
+Changed toolbar icons for code and inline code to make it clearer which is which when inserting.
 
 ### 1.2.19
 <small>April 4th, 2017</small>
