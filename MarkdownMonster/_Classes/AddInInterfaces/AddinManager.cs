@@ -106,142 +106,151 @@ namespace MarkdownMonster.AddIns
 
                 foreach (var menuItem in addin.MenuItems)
                 {
-                    var mitem = new MenuItem()
+                    try
                     {
-                        Header = menuItem.Caption,                        
-                    };
+                        var mitem = new MenuItem()
+                        {
+                            Header = menuItem.Caption,                        
+                        };
 
-                    Action<object, ICommand> xAction = (s, c) =>
-                    {
-                        try
-                        {
-                            menuItem.Execute?.Invoke(mitem);
-                        }
-                        catch (Exception ex)
-                        {
-                            mmApp.Log($"Addin {addin.Name ?? addin.Id} Execute failed", ex);
-                            string msg = $"The '{addin.Name ?? addin.Id}' addin failed:\r\n\r\n{ex.GetBaseException().Message}\r\n\r\n" + 
-                                           "You can check to see if there is an update for the Addin available in the Addin Manager. We also recommend you update to the latest version of Markdown Monster.";
-                            MessageBox.Show(msg, "Addin Execution Failed",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
-                        }
-                    };
-                    Func<object, ICommand, bool> cxAction = null;
-                    if (menuItem.CanExecute != null)
-                        cxAction = (s, e) =>
+                        Action<object, ICommand> xAction = (s, c) =>
                         {
                             try
                             {
-                                return menuItem.CanExecute.Invoke(s);
+                                menuItem.Execute?.Invoke(mitem);
                             }
                             catch (Exception ex)
                             {
-                                mmApp.Log($"Addin {addin.Name} CanExecute failed", ex);
-                                return true;
+                                mmApp.Log($"Addin {addin.Name ?? addin.Id} Execute failed", ex);
+                                string msg = $"The '{addin.Name ?? addin.Id}' addin failed:\r\n\r\n{ex.GetBaseException().Message}\r\n\r\n" + 
+                                             "You can check to see if there is an update for the Addin available in the Addin Manager. We also recommend you update to the latest version of Markdown Monster.";
+                                MessageBox.Show(msg, "Addin Execution Failed",
+                                    MessageBoxButton.OK, MessageBoxImage.Warning);
                             }
-                        };                    
-                    menuItem.Command = new CommandBase(xAction,cxAction);                    
-                    mitem.Command = menuItem.Command;
-                    
-                    // if an icon is provided also add to toolbar
-                    if (menuItem.FontawesomeIcon != FontAwesomeIcon.None || menuItem.IconImageSource != null)
-                    {
-                        var hasConfigMenu = menuItem.ExecuteConfiguration != null;
-
-                        var titem = new Button();
-
-                        var source  = menuItem.IconImageSource ??
-                                 ImageAwesome.CreateImageSource(menuItem.FontawesomeIcon, addin.Model.Window.Foreground); 
-                        
-                        titem.Content = new Image()
-                        {
-                            Source = source,
-                            ToolTip = menuItem.Caption + 
-                                        (!string.IsNullOrEmpty(menuItem.KeyboardShortcut) ?
-                                            $" ({menuItem.KeyboardShortcut})" :
-                                            string.Empty),
-                            Height = menuItem.IconImageSource == null ? 18 : 22,
-                            Width = menuItem.IconImageSource == null ? 18 : 23,                           
-                            Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
                         };
-
-                        
-
-                        if (menuItem.Execute != null)
-                        {
-                            titem.Command = menuItem.Command;
-                            AddKeyboardShortcut(menuItem, addin);
-                        }
-                        
-                        addin.Model.Window.ToolbarAddIns.Visibility = Visibility.Visible;
-                        int toolIndex = addin.Model.Window.ToolbarAddIns.Items.Add(titem);
-                    
-                        // Add configuration dropdown if configured
-                        if (hasConfigMenu)
-                        {
-                            var tcitem = new Button
+                        Func<object, ICommand, bool> cxAction = null;
+                        if (menuItem.CanExecute != null)
+                            cxAction = (s, e) =>
                             {
-                                FontSize = 10F,
-                                Content = new Image()
+                                try
                                 {
-                                    Source =
-                                        ImageAwesome.CreateImageSource(FontAwesomeIcon.CaretDown,
-                                            addin.Model.Window.Foreground),                                    
-                                    Height = 16,
-                                    Width = 8,
-                                    Margin = new Thickness(0, 0, 0, 0),
-                                },
-                                ToolTip = menuItem.Caption + " Configuration",                                
+                                    return menuItem.CanExecute.Invoke(s);
+                                }
+                                catch (Exception ex)
+                                {
+                                    mmApp.Log($"Addin {addin.Name} CanExecute failed", ex);
+                                    return true;
+                                }
+                            };                    
+                        menuItem.Command = new CommandBase(xAction,cxAction);                    
+                        mitem.Command = menuItem.Command;
+                    
+                        // if an icon is provided also add to toolbar
+                        if (menuItem.FontawesomeIcon != FontAwesomeIcon.None || menuItem.IconImageSource != null)
+                        {
+                            var hasConfigMenu = menuItem.ExecuteConfiguration != null;
+
+                            var titem = new Button();
+
+                            var source  = menuItem.IconImageSource ??
+                                          ImageAwesome.CreateImageSource(menuItem.FontawesomeIcon, addin.Model.Window.Foreground); 
+                        
+                            titem.Content = new Image()
+                            {
+                                Source = source,
+                                ToolTip = menuItem.Caption + 
+                                          (!string.IsNullOrEmpty(menuItem.KeyboardShortcut) ?
+                                              $" ({menuItem.KeyboardShortcut})" :
+                                              string.Empty),
+                                Height = menuItem.IconImageSource == null ? 18 : 22,
+                                Width = menuItem.IconImageSource == null ? 18 : 23,                           
+                                Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
                             };
 
-                            var ctxm = new ContextMenu();
-                            tcitem.ContextMenu = ctxm;
+                        
 
-                            // create context menu and add drop down behavior
-                            var behaviors = Interaction.GetBehaviors(tcitem);
-                            behaviors.Add(new DropDownButtonBehavior());
-
-                            tcitem.Click += (sender, args) =>
+                            if (menuItem.Execute != null)
                             {
-                                ctxm.Items.Clear();
-                                var configMenuItem = new MenuItem()
+                                titem.Command = menuItem.Command;
+                                AddKeyboardShortcut(menuItem, addin);
+                            }
+                        
+                            addin.Model.Window.ToolbarAddIns.Visibility = Visibility.Visible;
+                            int toolIndex = addin.Model.Window.ToolbarAddIns.Items.Add(titem);
+                    
+                            // Add configuration dropdown if configured
+                            if (hasConfigMenu)
+                            {
+                                var tcitem = new Button
                                 {
-                                    Header = menuItem.Caption
+                                    FontSize = 10F,
+                                    Content = new Image()
+                                    {
+                                        Source =
+                                            ImageAwesome.CreateImageSource(FontAwesomeIcon.CaretDown,
+                                                addin.Model.Window.Foreground),                                    
+                                        Height = 16,
+                                        Width = 8,
+                                        Margin = new Thickness(0, 0, 0, 0),
+                                    },
+                                    ToolTip = menuItem.Caption + " Configuration",                                
                                 };
-                                configMenuItem.Command = menuItem.Command;                                
-                                if (menuItem.CanExecute != null)
-                                    configMenuItem.IsEnabled = menuItem.CanExecute.Invoke(sender);
-                                ctxm.Items.Add(configMenuItem);
 
-                                configMenuItem = new MenuItem()
+                                var ctxm = new ContextMenu();
+                                tcitem.ContextMenu = ctxm;
+
+                                // create context menu and add drop down behavior
+                                var behaviors = Interaction.GetBehaviors(tcitem);
+                                behaviors.Add(new DropDownButtonBehavior());
+
+                                tcitem.Click += (sender, args) =>
                                 {
-                                    Header = menuItem.Caption + " Configuration",
-                                };
-                                if (menuItem.ExecuteConfiguration != null)
-                                    configMenuItem.Click += (s, e) => menuItem.ExecuteConfiguration?.Invoke(s);
+                                    ctxm.Items.Clear();
+                                    var configMenuItem = new MenuItem()
+                                    {
+                                        Header = menuItem.Caption
+                                    };
+                                    configMenuItem.Command = menuItem.Command;                                
+                                    if (menuItem.CanExecute != null)
+                                        configMenuItem.IsEnabled = menuItem.CanExecute.Invoke(sender);
+                                    ctxm.Items.Add(configMenuItem);
+
+                                    configMenuItem = new MenuItem()
+                                    {
+                                        Header = menuItem.Caption + " Configuration",
+                                    };
+                                    if (menuItem.ExecuteConfiguration != null)
+                                        configMenuItem.Click += (s, e) => menuItem.ExecuteConfiguration?.Invoke(s);
                                 
-                                ctxm.Items.Add(configMenuItem);                                
+                                    ctxm.Items.Add(configMenuItem);                                
+                                };
+
+                                addin.Model.Window.ToolbarAddIns.Items.Add(tcitem);
                             };
 
-                            addin.Model.Window.ToolbarAddIns.Items.Add(tcitem);
-                        };
-
-                        addin.Model.PropertyChanged += (s, arg) =>
-                        {
-                            if (arg.PropertyName == "ActiveDocument" || arg.PropertyName == "ActiveEditor")
+                            addin.Model.PropertyChanged += (s, arg) =>
                             {
-                                menuItem.Command?.InvalidateCanExecute();
+                                if (arg.PropertyName == "ActiveDocument" || arg.PropertyName == "ActiveEditor")
+                                {
+                                    menuItem.Command?.InvalidateCanExecute();
 
-                                // this shouldn't be necessary but it looks if the Command bindings work correctly
-                                //var item = addin.Model.Window.ToolbarAddIns.Items[toolIndex] as Button;
-                                //if (item != null)
-                                //{
-                                //    ((CommandBase)item.Command).InvalidateCanExecute();
-                                //    if (menuItem.CanExecute != null)
-                                //        item.IsEnabled = menuItem.CanExecute.Invoke(null);
-                                //}
-                            }
-                        };                        
+                                    // this shouldn't be necessary but it looks if the Command bindings work correctly
+                                    //var item = addin.Model.Window.ToolbarAddIns.Items[toolIndex] as Button;
+                                    //if (item != null)
+                                    //{
+                                    //    ((CommandBase)item.Command).InvalidateCanExecute();
+                                    //    if (menuItem.CanExecute != null)
+                                    //        item.IsEnabled = menuItem.CanExecute.Invoke(null);
+                                    //}
+                                }
+                            };                        
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        var msg = $"Unable to load add-in: {Path.GetFileNameWithoutExtension(addin.Name)}";
+                        mmApp.Log(msg, ex);
+                        AddinLoadErrors.AppendLine(msg + "\r\n");                                                                        
                     }
                 }
             }
