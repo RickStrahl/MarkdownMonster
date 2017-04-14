@@ -3,14 +3,23 @@
 # Markdown Monster Change Log
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)</small>
 
-### 1.2.21
-<small>not released yet</small>
+### 1.2.22
+<small>April 14th, 2017</small>
 
 * **Add AppInsights (experimental)**  
 Added support for AppInsights to provide better telemetry on usage and exception logging. Currently running under a flag that is enabled by default.
 
 * **Updated Toolbar icons for Code and Inline Code**  
 Changed toolbar icons for code and inline code to make it clearer which is which when inserting.
+
+* **Editor support for opening Additional File Types**  
+You can now also open `.nuspec`, `.wsdl`, `.config`, `.asp/x` documents for editing. 
+
+* **Additional Addin Helper Methods**  
+Added several new common operations to the addin base class to make it easier to access common functions: `SetEditorFocus()`, `RefreshPreview()`, `OpenTab()`, `CloseTab()`, `ShowStatus()`, `ActiveEditor`, `ActiveDocument`.
+
+* **Updated Markdown Monster Addin Template**  
+The Markdown Monster Addin template for Visual Studio has been updated to add a default configuration class, as well as a few additional base addin members that make it easier to access common MM features from an addin directly off the Addin object.
 
 ### 1.2.19
 <small>April 4th, 2017</small>
