@@ -145,6 +145,7 @@ namespace MarkdownMonster
                 AppInsights = new TelemetryClient {InstrumentationKey = Telemetry.Key};
                 AppInsights.Context.Session.Id = Guid.NewGuid().ToString();
                 AppInsights.Context.Component.Version = GetVersion();
+
                 AppRunTelemetry = AppInsights.StartOperation<RequestTelemetry>($"App Run - {GetVersion()} - {Configuration.ApplicationUpdates.AccessCount +  1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
                 AppRunTelemetry.Telemetry.Start();
             }
@@ -215,13 +216,22 @@ namespace MarkdownMonster
         /// <param name="ex"></param>
         public static void Log(Exception ex)
         {
-            if (Telemetry.UseApplicationInsights)                
-                AppInsights.TrackException(ex.GetBaseException());
-            else
-            {
-                ex = ex.GetBaseException();
-                Log(ex.Message, ex);
-            }
+            Log(ex.GetBaseException().Message, ex);
+            //if (Telemetry.UseApplicationInsights)
+            //{
+            //    var props = new Dictionary<string, string>()
+            //    {
+            //        {"version", GetVersion()},
+            //        {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
+            //        {"registered", UnlockKey.IsRegistered().ToString()}
+            //    };
+            //    AppInsights.TrackException(ex.GetBaseException(), props);
+            //}
+            //else
+            //{
+            //    ex = ex.GetBaseException();
+            //    Log(ex.Message, ex);
+            //}
         }
 
         /// <summary>
@@ -259,16 +269,29 @@ Markdown Monster v{version}
             {
                 if (ex != null)
                 {
-                    AppRunTelemetry.Telemetry.Success = false;                    
+                    AppRunTelemetry.Telemetry.Success = false;
                     AppInsights.TrackException(ex,
                         new Dictionary<string, string>
                         {
                             {"msg", msg},
-                            {"severity", unhandledException ? "unhandled" : ""}
-                        });                    
+                            {"exmsg",exMsg },
+                            {"severity", unhandledException ? "unhandled" : ""},                            
+                            {"version", GetVersion()},
+                            {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
+                            {"registered", UnlockKey.IsRegistered().ToString()}
+                        });
                 }
                 else
-                    AppInsights.TrackTrace(msg);
+                {
+                    var props = new Dictionary<string, string>()
+                    {
+                        {"msg",msg },
+                        {"version", GetVersion()},
+                        {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
+                        {"registered", UnlockKey.IsRegistered().ToString()}
+                    };
+                    AppInsights.TrackTrace(msg,props);
+                }
             }
             var text = msg + exMsg;
             StringUtils.LogString(text, Path.Combine(Configuration.CommonFolder,
