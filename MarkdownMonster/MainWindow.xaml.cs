@@ -514,9 +514,9 @@ namespace MarkdownMonster
             var displayCount = 6;
             if (mmApp.Configuration.ApplicationUpdates.AccessCount > 50) 
                 displayCount = 4;
-            if (mmApp.Configuration.ApplicationUpdates.AccessCount > 100)
+            else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 100)
                 displayCount = 2;
-            if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
+            else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
                 displayCount = 1;
 
             if (!isNewVersion &&                
@@ -1581,7 +1581,7 @@ namespace MarkdownMonster
         {
             if (mmApp.Configuration != null && !string.IsNullOrEmpty(mmApp.Configuration.MarkdownOptions.MarkdownParserName))
             {
-                MarkdownParserFactory.GetParser(addinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName, forceLoad: true);
+                MarkdownParserFactory.GetParser(parserAddinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName, forceLoad: true);
                 PreviewMarkdownAsync();
             }
         }

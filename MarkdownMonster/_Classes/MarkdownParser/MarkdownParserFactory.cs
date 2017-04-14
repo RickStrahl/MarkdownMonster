@@ -21,19 +21,19 @@ namespace MarkdownMonster
         /// </summary>                
         /// <param name="forceLoad">Forces the parser to be reloaded - otherwise previously loaded instance is used</param>
         /// <param name="usePragmaLines">If true adds pragma line ids into the document that the editor can sync to</param>
-        /// <param name="addinId">optional addin id that checks for a registered Markdown parser</param>
+        /// <param name="parserAddinId">optional addin id that checks for a registered Markdown parser</param>
         /// <returns>Mardown Parser Interface</returns>
         public static IMarkdownParser GetParser(bool usePragmaLines = false,
-                                                bool forceLoad = false, string addinId = null)
+                                                bool forceLoad = false, string parserAddinId = null)
         {
             if (!forceLoad && CurrentParser != null)
                 return CurrentParser;
 
             IMarkdownParser parser = null;
 
-            if (!string.IsNullOrEmpty(addinId) && addinId != DefaultMarkdownParserName)
+            if (!string.IsNullOrEmpty(parserAddinId) && parserAddinId != DefaultMarkdownParserName)
             {
-                var addin = AddinManager.Current.AddIns.FirstOrDefault(a => a.Name == addinId || a.Id == addinId);
+                var addin = AddinManager.Current.AddIns.FirstOrDefault(a => a.Name == parserAddinId || a.Id == parserAddinId);
                 if (addin != null)
                     parser = addin.GetMarkdownParser();
             }

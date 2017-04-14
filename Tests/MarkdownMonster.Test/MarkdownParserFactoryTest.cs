@@ -46,7 +46,7 @@ namespace MarkdownMonster.Test
         {
             _loadAddin(new CustomParserAddin());
 
-            var parser = MarkdownParserFactory.GetParser(addinId: "CustomParser");
+            var parser = MarkdownParserFactory.GetParser(parserAddinId: "CustomParser");
             Assert.IsInstanceOfType(parser, typeof(CustomParser));
         }
 
@@ -56,7 +56,7 @@ namespace MarkdownMonster.Test
             _loadAddin(new CustomParserAddin());
 
             MarkdownParserFactory.GetParser();
-            var parser = MarkdownParserFactory.GetParser(forceLoad: false, addinId: "CustomParser");
+            var parser = MarkdownParserFactory.GetParser(forceLoad: false, parserAddinId: "CustomParser");
             Assert.IsInstanceOfType(parser, typeof(MarkdownParserMarkdig));
         }
 
@@ -66,14 +66,14 @@ namespace MarkdownMonster.Test
             _loadAddin(new CustomParserAddin());
 
             MarkdownParserFactory.GetParser();
-            var parser = MarkdownParserFactory.GetParser(forceLoad: true, addinId: "CustomParser");
+            var parser = MarkdownParserFactory.GetParser(forceLoad: true, parserAddinId: "CustomParser");
             Assert.IsInstanceOfType(parser, typeof(CustomParser));
         }
 
         [TestMethod]
         public void ShouldReturnTheDefaultMarkdownParserWhenUnkownParserNameGiven()
         {
-            var parser = MarkdownParserFactory.GetParser(addinId: "BogusParser");
+            var parser = MarkdownParserFactory.GetParser(parserAddinId: "BogusParser");
             Assert.IsInstanceOfType(parser, typeof(MarkdownParserMarkdig));
         }
 
@@ -81,7 +81,7 @@ namespace MarkdownMonster.Test
         public void ShouldFetchAddinParserByAddinId()
         {
             _loadAddin(new CustomParserAddin());
-            var parser = MarkdownParserFactory.GetParser(addinId: "CustomParserAddin");
+            var parser = MarkdownParserFactory.GetParser(parserAddinId: "CustomParserAddin");
             Assert.IsInstanceOfType(parser, typeof(CustomParser));
         }
         private void _loadAddin(AddIns.MarkdownMonsterAddin addin)
