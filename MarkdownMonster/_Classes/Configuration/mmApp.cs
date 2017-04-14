@@ -270,13 +270,19 @@ Markdown Monster v{version}
                 else
                     AppInsights.TrackTrace(msg);
             }
-            else
-            {
-                var text = msg + exMsg;
-
-                StringUtils.LogString(text, Path.Combine(Configuration.CommonFolder,
+            var text = msg + exMsg;
+            StringUtils.LogString(text, Path.Combine(Configuration.CommonFolder,
                     "MarkdownMonsterErrors.txt"), Encoding.UTF8);
-            }
+            
+        }
+
+        /// <summary>
+        /// Writes a trace message
+        /// </summary>
+        /// <param name="msg"></param>
+        public void Trace(string msg)
+        {
+            Log(msg);
         }
 
         public static void SetWorkingSet(int lnMaxSize, int lnMinSize)
@@ -432,6 +438,12 @@ Markdown Monster v{version}
             return encrypted;
         }
 
+        /// <summary>
+        /// Decrypts a string encrypted with EncryptString()
+        /// </summary>
+        /// <param name="encrypted">pass in the encrypted string</param>
+        /// <param name="dontUseMachineKey"></param>
+        /// <returns></returns>
         public static string DecryptString(string encrypted, bool? dontUseMachineKey = null)
         {
             if (dontUseMachineKey == null)
@@ -452,7 +464,6 @@ Markdown Monster v{version}
             var decoded = Encryption.DecryptString(encrypted, key);
             return decoded;
         }
-
         #endregion
 
         #region Themes
@@ -505,7 +516,7 @@ Markdown Monster v{version}
         /// <param name="window"></param>
         public static void SetThemeWindowOverride(MetroWindow window)
         {
-            if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
+            if (Configuration.ApplicationTheme == Themes.Dark)
             {
                 if (window != null)
                 {
