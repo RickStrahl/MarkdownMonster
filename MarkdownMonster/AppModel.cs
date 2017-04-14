@@ -61,6 +61,22 @@ namespace MarkdownMonster
         /// </summary>
         public ApplicationConfiguration Configuration { get; set; }
 
+        /// <summary>
+        /// Returns an instance of the Active Editor instance. The editor contains
+        /// editor behavior of the browser control as well as all interactions with
+        /// the editor's event model and text selection interfaces.
+        /// 
+        /// Contains an `AceEditor` property that references the underlying 
+        /// JavaScript editor wrapper instance.
+        /// </summary>
+        public MarkdownDocumentEditor ActiveEditor
+        {
+            get
+            {
+                var editor = Window.GetActiveMarkdownEditor();
+                return editor;
+            }
+        }
 
         /// <summary>
         /// Returns the MarkdownDocument instance of the active editor
@@ -90,22 +106,7 @@ namespace MarkdownMonster
             }
         }
         private MarkdownDocument _activeDocument;
-
-        /// <summary>
-        /// Returns an instance of the active Markdown Editor 
-        /// WebBrowser control which also contains a number
-        /// of support features that can access the underlying
-        /// AceEditor document itself.
-        /// </summary>
-        public MarkdownDocumentEditor ActiveEditor
-        {
-            get
-            {
-                var editor = Window.GetActiveMarkdownEditor();              
-                return editor;
-            }
-        }
-
+      
 
         /// <summary>
         /// Gives a list of all the open documents as Markdown document instances
