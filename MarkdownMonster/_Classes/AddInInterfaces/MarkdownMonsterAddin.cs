@@ -34,6 +34,7 @@ namespace MarkdownMonster.AddIns
     /// </summary>
     public abstract class MarkdownMonsterAddin : IMarkdownMonsterAddin
     {
+        #region Addin Configuration
         /// <summary>
         /// Optional Id for this addin - use a recognizable Id
         /// </summary>
@@ -56,10 +57,37 @@ namespace MarkdownMonster.AddIns
         /// when clicked.        
         /// </summary>
         public List<AddInMenuItem> MenuItems { get; set;  }  = new List<AddInMenuItem>();
-        
-        
+
+        #endregion
+
+        #region Access Properties
+
+        /// <summary>
+        /// Returns an instance of the Active Editor instance. The editor contains
+        /// editor behavior of the browser control as well as all interactions with
+        /// the editor's event model and text selection interfaces.
+        ///         
+        /// Contains an `AceEditor` property that references the underlying 
+        /// JavaScript editor wrapper instance.
+        /// </summary>
+        public MarkdownDocumentEditor ActiveEditor => Model.ActiveEditor;
+
+
+        /// <summary>
+        /// Returns the active Markdown document that's being edited. The document
+        /// holds the actual markdown text and knows how to load, save and render
+        /// the markdown contained within it.
+        /// </summary>
+        public MarkdownDocument ActiveDocument => Model.ActiveDocument;
+
+
+        #endregion
+
+
+
+
         #region Event Handlers
-        
+
 
         /// <summary>
         /// Called when the Menu or Toolbar button is clicked
@@ -272,7 +300,7 @@ namespace MarkdownMonster.AddIns
         /// <param name="markdownText"></param>
         protected void SetMarkdown(string markdownText)
         {
-            var editor = this.Model.Window.GetActiveMarkdownEditor();
+            var editor = Model.Window.GetActiveMarkdownEditor();
             editor?.SetMarkdown(markdownText);
         }
 
@@ -283,8 +311,7 @@ namespace MarkdownMonster.AddIns
         /// <returns></returns>
         protected string GetSelection()
         {
-            var editor = this.Model.Window.GetActiveMarkdownEditor();
-            return editor?.AceEditor.getselection(false);
+            return Model.ActiveEditor?.AceEditor.getselection(false) ?? string.Empty;
         }
         
         /// <summary>
@@ -293,7 +320,7 @@ namespace MarkdownMonster.AddIns
         /// <param name="text"></param>
         protected void SetSelection(string text)
         {
-            var editor = this.Model.Window.GetActiveMarkdownEditor();
+            var editor = Model.Window.GetActiveMarkdownEditor();
             if (editor == null)
                 return;
 
@@ -313,9 +340,19 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         protected void SetEditorFocus()
         {
-            Model.ActiveEditor.SetEditorFocus();
+            Model.Window.Activate();
+            Model.ActiveEditor?.SetEditorFocus();
         }
 
+
+        /// <summary>
+        /// Refreshes the Html Preview Window if active
+        /// </summary>
+        /// <param name="keepScrollPosition"></param>
+        protected void RefreshPreview(bool keepScrollPosition=true)
+        {
+            Model.Window.PreviewMarkdownAsync(keepScrollPosition: keepScrollPosition);
+        }
 
         /// <summary>
         /// Executes a predefined edit command (bold,italic,href etc.) 
@@ -324,7 +361,7 @@ namespace MarkdownMonster.AddIns
         /// <param name="action">Name of the Editor action to perform</param>
         protected void ExecuteEditCommand(string action)
         {
-            var editor = this.Model.Window.GetActiveMarkdownEditor();
+            var editor = Model.Window.GetActiveMarkdownEditor();
             editor?.ProcessEditorUpdateCommand(action);
         }
 
@@ -360,14 +397,6 @@ namespace MarkdownMonster.AddIns
             Model.Window.CloseTab(filename);
         }
 
-        /// <summary>
-        /// Refreshes the Preview WebBrowser
-        /// </summary>
-        protected void UpdatePreview()
-        {            
-            Model.Window.PreviewMarkdownAsync();
-        }
-
 
         /// <summary>
         /// Shows a Status Message on the Status bar
@@ -396,7 +425,7 @@ namespace MarkdownMonster.AddIns
 
         public override string ToString()
         {
-            return Id ?? Name ?? "No Addin Id specified";
+            return Id ?? Name ?? "no name";
         }
 
         
