@@ -278,7 +278,7 @@ namespace WeblogAddin
             }
             else
             {
-                if (postUrl != null)
+                if (!string.IsNullOrEmpty(postUrl))
                     ShellUtils.GoUrl(postUrl);
                 else
                     ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));

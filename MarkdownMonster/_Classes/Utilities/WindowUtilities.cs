@@ -51,40 +51,50 @@ namespace MarkdownMonster.Windows
             if (string.IsNullOrEmpty(ksc))
                 return null;
 
-            KeyBinding kb = new KeyBinding();
-            ksc = ksc.ToLower();
-
-            if (ksc.Contains("alt"))
-                kb.Modifiers = ModifierKeys.Alt;
-            if (ksc.Contains("shift"))
-                kb.Modifiers |= ModifierKeys.Shift;
-            if (ksc.Contains("ctrl") || ksc.Contains("ctl"))
-                kb.Modifiers |= ModifierKeys.Control;
-            if (ksc.Contains("win"))
-                kb.Modifiers |= ModifierKeys.Windows;
-
-            string key =
-                ksc.Replace("+", "")
-                    .Replace("-", "")
-                    .Replace("_", "")
-                    .Replace(" ", "")
-                    .Replace("alt", "")
-                    .Replace("shift", "")
-                    .Replace("ctrl", "")
-                    .Replace("ctl", "");
-
-            key = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(key);
-            if (!string.IsNullOrEmpty(key))
+            try
             {
-                KeyConverter k = new KeyConverter();
-                kb.Key = (Key)k.ConvertFromString(key);
+                KeyBinding kb = new KeyBinding();
+                ksc = ksc.ToLower();
+
+                if (ksc.Contains("alt"))
+                    kb.Modifiers = ModifierKeys.Alt;
+                if (ksc.Contains("shift"))
+                    kb.Modifiers |= ModifierKeys.Shift;
+                if (ksc.Contains("ctrl") || ksc.Contains("ctl"))
+                    kb.Modifiers |= ModifierKeys.Control;
+                if (ksc.Contains("win"))
+                    kb.Modifiers |= ModifierKeys.Windows;
+
+                string key =
+                    ksc.Replace("+", "")
+                        .Replace("-", "")
+                        .Replace("_", "")
+                        .Replace(" ", "")
+                        .Replace("alt", "")
+                        .Replace("shift", "")
+                        .Replace("ctrl", "")
+                        .Replace("ctl", "");
+
+                key = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(key);
+                if (!string.IsNullOrEmpty(key))
+                {
+                    KeyConverter k = new KeyConverter();
+                    kb.Key = (Key) k.ConvertFromString(key);
+                }
+
+                // Whatever command you need to bind to
+                kb.Command = command;
+
+                return kb;
             }
-
-            // Whatever command you need to bind to
-            kb.Command = command;
-
-            return kb;
+            // deal with invalid bindings - ignore them
+            catch(Exception ex)
+            {
+                mmApp.Log("Unable to assign key binding: " + ksc, ex);
+                return null; 
+            }
         }
+
         #region Bitmap Conversions
 
         public static Bitmap BitmapSourceToBitmap(BitmapSource source)
