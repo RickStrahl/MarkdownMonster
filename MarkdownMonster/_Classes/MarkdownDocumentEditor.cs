@@ -494,10 +494,11 @@ namespace MarkdownMonster
             if (ext == "md" || ext == "markdown") { }                
             else if (ext == "json")
                 EditorSyntax = "json";
-            else if (ext == "html" || ext == "htm")
+            else if (ext == "html" || ext == "htm" || ext == "asp" || ext == "aspx")
                 EditorSyntax = "html";
-
-            else if (ext == "xml" || ext == "config" || ext == "xaml" || ext == "csproj")
+            else if (ext == "xml" || ext == "config" || ext == "xaml" || 
+                     ext == "csproj" || ext == "nuspec" || ext == "wsdl" || 
+                     ext == "soap")
                 EditorSyntax = "xml";
             else if (ext == "js")
                 EditorSyntax = "javascript";
