@@ -1,20 +1,57 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using MarkdownMonster.Annotations;
 
 namespace MarkdownMonster.Windows
 {
     /// <summary>
     /// Interaction logic for EmojiWindow.xaml
     /// </summary>
-    public partial class EmojiWindow : MetroWindow
+    public partial class EmojiWindow : MetroWindow, INotifyPropertyChanged
     {
         public bool Cancelled { get; set;  }
 
         public string EmojiString { get; set; }
+
+        
+        public string SearchText
+        {
+            get { return _searchText; }
+            set
+            {
+                if (value == _searchText) return;
+                _searchText = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FilteredEmojiList));
+            }
+        }
+        private string _searchText;
+
+        public Dictionary<string,string> FilteredEmojiList
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(SearchText))
+                    return Emojis;
+
+                string search = SearchText.Trim().ToLower();
+                return Emojis.Where(kv => kv.Key.ToLower().Contains(search)).ToDictionary(kv => kv.Key,kv=> kv.Value);
+            }
+            set
+            {
+                if (value == _filteredEmojiList) return;
+                _filteredEmojiList = value;
+                OnPropertyChanged(nameof(_filteredEmojiList));
+            }
+        }
+
+        private Dictionary<string, string> _filteredEmojiList = new Dictionary<string, string>();
 
         public EmojiWindow()
         {
@@ -41,7 +78,7 @@ namespace MarkdownMonster.Windows
             Left = window.Left + pos.X - 10;
             Top = window.Top + pos.Y + window.ButtonEmoji.Height;
 
-            ListEmojis.Focus();
+            TextSearchText.Focus();
             ListEmojis.SelectedItem = Emojis.FirstOrDefault(kv => kv.Key == ":smile:");
         }
 
@@ -66,7 +103,18 @@ namespace MarkdownMonster.Windows
                 Close();
             }
         }
-        
+
+        private void TextSearchText_Keydown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                if (!string.IsNullOrEmpty(SearchText))
+                {
+                    SearchText = null;
+                    e.Handled = true;
+                }                
+            }           
+        }
 
         private void SelectItem()
         {
@@ -958,5 +1006,15 @@ namespace MarkdownMonster.Windows
 
 
         #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        
     }
 }

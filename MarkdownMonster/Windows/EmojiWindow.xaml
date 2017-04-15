@@ -7,14 +7,32 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         WindowStyle="ToolWindow" ShowMinButton="False" ShowMaxRestoreButton="False"                      
-        WindowStartupLocation="Manual"                      
+        WindowStartupLocation="Manual"        
         KeyDown="EmojiWindow_KeyDown"                         
         Title="Pick an Emoji" TitleCharacterCasing="Normal"
         Height="680" Width="835">
     <Grid>
-        <ListBox Name="ListEmojis"  ItemsSource="{Binding Emojis}"  
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Search:" FontSize="14" Margin="5,3,10,0"></TextBlock>
+            
+            <TextBox Grid.Column="1"  x:Name="TextSearchText" Grid.Row="0"
+                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                 BorderThickness="0" FontSize="16" Background="#444" KeyDown="TextSearchText_Keydown">
+            </TextBox>
+        </Grid>
+        
+        <ListBox  Grid.Row="1" Name="ListEmojis"  ItemsSource="{Binding FilteredEmojiList}"  
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"  
+                 ScrollViewer.VerticalScrollBarVisibility="Auto" 
                  SelectedValuePath="Key" 
                  MouseDoubleClick="ListBox_MouseDoubleClick"
                  KeyUp="ListBox_KeyUp"

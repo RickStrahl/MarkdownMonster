@@ -4,6 +4,12 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)</small>
 
 ### 1.2.22
+<small>not released yet</small>
+
+* **Search Emojis**  
+You can now search the Emoji list with for text contained in the Emoji name key using a search box above the emoji list.
+
+### 1.2.22
 <small>April 14th, 2017</small>
 
 * **Add AppInsights (experimental)**  
