@@ -10,6 +10,9 @@ using MarkdownMonster.Windows;
 
 namespace MarkdownMonster
 {
+    /// <summary>
+    /// Contains a few static utilities for Markdown handling
+    /// </summary>
     public class MarkdownUtilities
     {
 

@@ -72,14 +72,15 @@ namespace MarkdownMonster
         }
         private string _filename;
 
+
+        /// <summary>
+        /// Holds the disk file Crc of the document. This value is
+        /// used to determine if the document on disk has changed when
+        /// activating a document after having navigated off and when
+        /// saving.
+        /// </summary>
         [JsonIgnore]
         public string FileCrc { get; set; }
-
-
-        ///// <summary>
-        ///// Markdown style used on this document. Not used at the moment
-        ///// </summary>
-        ////public MarkdownStyles MarkdownStyle = MarkdownStyles.GitHub;
 
 
         /// <summary>
@@ -186,15 +187,29 @@ namespace MarkdownMonster
             }
         }
 
+        /// <summary>
+        /// Determines whether documents are automatically saved in
+        /// the background as soon as changes are made and you stop
+        /// typiing for a second. This setting takes precendence over
+        /// AutoSaveBackups.
+        /// 
+        /// Defaults to Configuration.AutoSaveDocuments
+        /// </summary>
         [JsonIgnore]
         public bool AutoSaveDocuments { get; set; }
 
         /// <summary>
         /// Determines whether backups are automatically saved
+        /// 
+        /// Defaults to Configuration.AutoSaveBackups
         /// </summary>
         [JsonIgnore]
         public bool AutoSaveBackups { get; set; }
 
+        /// <summary>
+        /// Document encoding used when writing the document to disk.
+        /// Default: UTF-8 without a BOM
+        /// </summary>
         [JsonIgnore]
         public Encoding Encoding
         {
@@ -298,9 +313,18 @@ namespace MarkdownMonster
         }
         private string _currentText;
 
+
+        /// <summary>
+        /// The original text of the document since the last save
+        /// operation. Updated whenever a document is saved.
+        /// </summary>
         [JsonIgnore]
         public string OriginalText { get; set; }
 
+        /// <summary>
+        /// Window dispatcher to ensure we're synchronizing in
+        /// the right context always.
+        /// </summary>
         [JsonIgnore]
         public Dispatcher Dispatcher { get; set; }
 

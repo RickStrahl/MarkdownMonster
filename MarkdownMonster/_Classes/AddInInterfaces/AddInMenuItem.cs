@@ -4,9 +4,19 @@ using FontAwesome.WPF;
 
 namespace MarkdownMonster.AddIns
 {
+    /// <summary>
+    /// Information about an Addin's menu item that
+    /// is displayed on the Addin toolbar and the button
+    /// displayed on the Addins installed menu.
+    /// </summary>
     public class AddInMenuItem
     {
         
+        /// <summary>
+        /// By default hook up Execute/ExecuteConfiguration/CanExecute
+        /// handlers to the On Handlers in the Addin class.
+        /// </summary>
+        /// <param name="addin"></param>
         public AddInMenuItem(MarkdownMonsterAddin addin = null)
         {            
             if (addin != null)
@@ -17,6 +27,9 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+        /// <summary>
+        /// The display name for the Addin on the menu
+        /// </summary>
         public string Caption { get; set; }
 
         /// <summary>

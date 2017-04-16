@@ -3,6 +3,11 @@ using Newtonsoft.Json;
 
 namespace MarkdownMonster
 {
+
+    /// <summary>
+    /// Configuration item for Application Updates which are attached
+    /// to the main Configuration 
+    /// </summary>
     public class ApplicationUpdatesConfiguration
     {
         /// <summary>

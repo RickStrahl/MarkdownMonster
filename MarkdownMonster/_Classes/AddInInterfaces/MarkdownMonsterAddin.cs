@@ -92,7 +92,7 @@ namespace MarkdownMonster.AddIns
         /// <summary>
         /// Called when the Menu or Toolbar button is clicked
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">Menu item clicked</param>
         public virtual void OnExecute(object sender)
         {
             
@@ -101,7 +101,7 @@ namespace MarkdownMonster.AddIns
         /// <summary>
         /// Called when the configuration Toolbar drop down button is clicked
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">Menu Item clicked</param>
         public virtual void OnExecuteConfiguration(object sender)
         {
 
@@ -423,6 +423,10 @@ namespace MarkdownMonster.AddIns
         }
         #endregion
 
+        /// <summary>
+        /// Customized to display the Addin Id or Name
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return Id ?? Name ?? "no name";

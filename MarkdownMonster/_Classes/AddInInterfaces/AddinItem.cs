@@ -30,6 +30,11 @@ using MarkdownMonster.Annotations;
 
 namespace MarkdownMonster.AddIns
 {
+
+    /// <summary>
+    /// Detail about an individual external add in 
+    /// that is listed in the Addin Manager
+    /// </summary>
     public class AddinItem : INotifyPropertyChanged
     {        
         /// <summary>

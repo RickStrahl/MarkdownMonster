@@ -50,13 +50,34 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
+
+    /// <summary>
+    /// Wrapper around the Editor WebBrowser Control and the embedded
+    /// Ace Editor instance that is contained within it. This class 
+    /// manages creation of the WebBrowser instance and handles configuration
+    /// and event firing. It also provides event interfaces for AceEditor
+    /// callbacks and methods to affect the behavior of the AceEditor instance
+    /// using the low level AceEditor property.
+    /// </summary>
     [ComVisible(true)]
     public class MarkdownDocumentEditor 
     {
+        /// <summary>
+        /// Instance of the Web Browser control that hosts ACE Editor
+        /// </summary>
         public WebBrowser WebBrowser { get; set; }
 
+
+        /// <summary>
+        /// Reference back to the main Markdown Monster window that 
+        /// </summary>
         public MainWindow Window { get; set;  }
 
+
+        /// <summary>
+        /// References the loaded MarkdownDocument instance. Note this 
+        /// value can be null before the document has been loaded.
+        /// </summary>
         public MarkdownDocument MarkdownDocument { get; set; }
 
         public dynamic AceEditor { get; set; }
@@ -455,6 +476,12 @@ namespace MarkdownMonster
             AceEditor?.setlanguage(syntax);
         }
 
+
+        /// <summary>
+        /// Returns the font size of the editor. Note font-size automatically
+        /// affects all open editor instances .
+        /// </summary>
+        /// <returns></returns>        
         public int GetFontSize()
         {
             if (AceEditor == null)
@@ -464,20 +491,20 @@ namespace MarkdownMonster
             if (fontsize == null || !(fontsize is double || fontsize is int) )
                 return 0;
 
-            // If we have a fontsize, force the zoom level to 100% 
-            // The font-size has been adjusted to reflect the zoom percentage
-            var wb = (dynamic)WebBrowser.GetType().GetField("_axIWebBrowser2",
-                    BindingFlags.Instance | BindingFlags.NonPublic)
-                .GetValue(WebBrowser);
-            int zoomLevel = 100; // Between 10 and 1000
-            wb.ExecWB(63, 2, zoomLevel, ref zoomLevel);   // OLECMDID_OPTICAL_ZOOM (63) - don't prompt (2)
-            
             return Convert.ToInt32(fontsize);
+
+            //// If we have a fontsize, force the zoom level to 100% 
+            //// The font-size has been adjusted to reflect the zoom percentage
+            //var wb = (dynamic)WebBrowser.GetType().GetField("_axIWebBrowser2",
+            //        BindingFlags.Instance | BindingFlags.NonPublic)
+            //    .GetValue(WebBrowser);
+            //int zoomLevel = 100; // Between 10 and 1000
+            //wb.ExecWB(63, 2, zoomLevel, ref zoomLevel);   // OLECMDID_OPTICAL_ZOOM (63) - don't prompt (2)                     
         }
 
         /// <summary>
         /// Looks up and sets the EditorSyntax based on a file name
-        /// So .cs file gets csharp, .xml get xml etc.        
+        /// So .cs file gets csharp, .xml get xml, .ts Typescript  etc.        
         /// </summary>
         /// <param name="filename"></param>
         public void FindSyntaxFromFileType(string filename)

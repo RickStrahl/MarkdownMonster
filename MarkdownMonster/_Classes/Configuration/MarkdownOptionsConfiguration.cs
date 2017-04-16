@@ -4,15 +4,24 @@ using MarkdownMonster.Annotations;
 
 namespace MarkdownMonster
 {
+
+    /// <summary>
+    /// Configuration contained class that holds Markdown options
+    /// applied as available to the Markdown Parser (mostly to default MarkDig parser)
+    /// </summary>
     public class MarkdownOptionsConfiguration : INotifyPropertyChanged
     {
 
         #region Markdig Configurations
+
         /// <summary>
         /// Determines whether links are automatically expanded
         /// </summary>
         public bool AutoLinks { get; set; } = true;
 
+        /// <summary>
+        /// Use Abbreviations which are linked to definitions
+        /// </summary>
         public bool Abbreviations { get; set; } = true;
 
         /// <summary>

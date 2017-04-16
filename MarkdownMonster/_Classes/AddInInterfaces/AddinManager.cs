@@ -855,13 +855,30 @@ namespace MarkdownMonster.AddIns
 
         }
 
+
+        /// <summary>
+        /// Result value for Addin Download and Install operation
+        /// </summary>
         public class DownloadAndInstallResult
         {
+            /// <summary>
+            /// Determines if an error occurred during download/install
+            /// </summary>
             public bool IsError = false;
+
+            /// <summary>
+            /// If true an existing addin was updated
+            /// </summary>
             public bool ExistingAddin = true;
 
         }
 
+        /// <summary>
+        /// Uninstalls an addin by removing the addin folder.
+        /// </summary>
+        /// <param name="addinId"></param>
+        /// <param name="addinPath"></param>
+        /// <returns></returns>
         public bool UninstallAddin(string addinId, string addinPath = null)
         {
             if (string.IsNullOrEmpty(addinPath))

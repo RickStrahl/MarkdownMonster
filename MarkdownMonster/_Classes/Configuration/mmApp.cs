@@ -576,7 +576,10 @@ Markdown Monster v{version}
         Default
     }
 
-
+    /// <summary>
+    /// Message class that holds information about a bug report
+    /// for logging and telemetry reporting
+    /// </summary>
     public class BugReport
     {
         public DateTime TimeStamp { get; set; }
@@ -588,6 +591,10 @@ Markdown Monster v{version}
 
     }
 
+    /// <summary>
+    /// Holds telemetry information sent to server for telemetry
+    /// reports. Used only for custom telemetry not AppInsights.
+    /// </summary>
     public class Telemetry
     {
         public string Version { get; set; }

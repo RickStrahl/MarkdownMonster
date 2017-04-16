@@ -8,13 +8,14 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
+
+    /// <summary>
+    /// Extension methods for the System.Windows.Threading.Dispatcher object
+    /// that provides an easy way for delayed execution of code.
+    /// </summary>
     public static class DispatcherExtensions
     {
-        /// <summary>
-        /// Dictionary to hold timer instances while they're live.         
-        /// </summary>
-        private static Dictionary<long, System.Threading.Timer> Timers = new Dictionary<long, System.Threading.Timer>();
-
+        
         /// <summary>
         /// Dispatcher.Delay Extension method that delay executes 
         /// an action. 
@@ -54,7 +55,8 @@ namespace MarkdownMonster.Windows
 
         /// <summary>
         /// Dispatcher.Delay Extension method that delay executes 
-        /// an action. 
+        /// an action. This version awaits both the delay and the
+        /// synchonized action
         /// </summary>        
         /// <param name="disp">The Dispatcher instance</param>
         /// <param name="delayMs">milliseconds to delay before executing</param>

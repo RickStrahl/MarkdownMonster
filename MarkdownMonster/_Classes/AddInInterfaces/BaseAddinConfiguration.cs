@@ -6,6 +6,16 @@ using Westwind.Utilities.Configuration;
 
 namespace MarkdownMonster.AddIns
 {
+
+    /// <summary>
+    /// Base class that can be used for holding configuration values that are 
+    /// persisted between execution. Create a class that inherits from this base
+    /// class and use the `Current` property to access the active instance
+    /// 
+    /// You can save configuration to a json file by setting `ConfigurationFilename`
+    /// and calling the `.Write()` method at any point.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BaseAddinConfiguration<T> : AppConfiguration, INotifyPropertyChanged
         where T:AppConfiguration,  new()
     {
@@ -52,9 +62,14 @@ namespace MarkdownMonster.AddIns
             return provider;
         }       
 
-
+        /// <summary>
+        /// INotifyPropertyChanged handler implementation
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// INotifyPropertyChanged handler implementation
+        /// </summary>
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

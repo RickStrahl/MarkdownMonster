@@ -34,6 +34,16 @@ using MarkdownMonster.Windows;
 
 namespace MarkdownMonster
 {
+    /// <summary>
+    /// A stripped down version of the MarkdownEditor class that is used
+    /// for displaying various edtibable code snippets for the Code Editor
+    /// as well as in various addins. Similar behavior and hookup, but doesn't
+    /// include all the Markdown parsing features and uses a separate template
+    /// that is simpler and less resource intensive.
+    /// 
+    /// If you need to use a code editor as part of an Addin this is the class
+    /// to use. For a usage example, see the PasteCode.xaml form and code behind.
+    /// </summary>
     [ComVisible(true)]
     public class MarkdownEditorSimple
     {
@@ -63,8 +73,6 @@ namespace MarkdownMonster
             wb.Navigate("file:///" + path);
 
             InitialValue = initialValue;
-
-
         }
 
         private void OnDocumentCompleted(object sender, NavigationEventArgs e)
