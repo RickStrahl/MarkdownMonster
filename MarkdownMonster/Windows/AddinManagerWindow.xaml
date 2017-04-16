@@ -14,13 +14,13 @@
         TitleCharacterCasing="Normal" ResizeMode="CanResizeWithGrip"
         Height="730" Width="1100" MinWidth="900" MinHeight="500">
     <Window.Resources>
-        <markdownMonster:InvertedBooleanConverter x:Key="InvertBooleanConverter"/>
-        <markdownMonster:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-        <markdownMonster:ValueConverterGroup x:Key="InstallButtonConverter">
-            <markdownMonster:InvertedBooleanConverter/>
-            <markdownMonster:BooleanToVisibilityConverter/>
-        </markdownMonster:ValueConverterGroup>
+        <local:ValueConverterGroup x:Key="InstallButtonConverter">
+            <local:InvertedBooleanConverter/>
+            <BooleanToVisibilityConverter/>
+        </local:ValueConverterGroup>
     </Window.Resources>
 
     <Grid>
@@ -173,3 +173,4 @@
 
     </Grid>
 </controls:MetroWindow>
+

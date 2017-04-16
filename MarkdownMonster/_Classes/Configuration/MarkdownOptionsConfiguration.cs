@@ -36,7 +36,7 @@ namespace MarkdownMonster
         public bool StripYamlFrontMatter { get; set; } = true;
 
         /// <summary>
-        /// If true expand Emoji and Smileys 
+        /// If true expand Emoji in the format of :smile: and common Smileys  like :-)
         /// </summary>
         public bool EmojiAndSmiley { get; set; } = true;
 
@@ -50,7 +50,9 @@ namespace MarkdownMonster
         /// </summary>
         public bool ListExtras { get; set; } = true;
 
-
+        /// <summary>
+        /// Figure referencing below images
+        /// </summary>
         public bool Figures { get; set; } = true;
 
         /// <summary>

@@ -10,6 +10,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:windows="clr-namespace:MarkdownMonster.Windows;assembly=MarkdownMonster"
         mc:Ignorable="d"        
         Icon="MarkdownMonster_Icon_128.png"
         Title="Markdown Monster Weblog Publishing" 
@@ -20,8 +21,8 @@
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="800" Height="660" MinHeight="660" MinWidth="600">
     <Window.Resources>
-        <local:InvertedBooleanConverter x:Key="InvertBooleanConverter"/>
-        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <windows:InvertedBooleanConverter x:Key="InvertBooleanConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         
         <ContextMenu x:Key="BlogsContextMenu" Name="BlogsContextMenu">
         </ContextMenu>
