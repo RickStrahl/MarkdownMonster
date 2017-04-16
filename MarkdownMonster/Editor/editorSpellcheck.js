@@ -161,11 +161,25 @@ var sc = window.spellcheck = {
 
                 var lines = session.getDocument().getAllLines();
                 
-                var lineCount = 0;
+                
                 var isCodeBlock = false;
                 var isFrontMatter = false;
+
+                var topRow = Math.ceil(te.editor.renderer.getFirstVisibleRow()) - 30;
+                if (topRow < 0)
+                    topRow = 0;                    
+                var bottomRow = Math.ceil(te.editor.renderer.getLastVisibleRow()) + 5;
+                if (bottomRow > lines.length)
+                    bottomRow = lines.length;
+                var lineCount = topRow;
+
+                //console.log(topRow, bottomRow, lines.length);
                 
-                for (var line in lines) {
+                for (var i = topRow; i < bottomRow; i++) {
+
+                    var line = i;                    
+
+                //for (var line in lines) {
                     // Clear the gutter.
                     //session.removeGutterDecoration(i, "misspelled");
                     lineCount++;                    
@@ -174,14 +188,21 @@ var sc = window.spellcheck = {
                     setTimeout(function (line, isLast) {
                         var lineText = lines[line];
                         
-
                         if (isFrontMatter && lineText == "---") 
                             isFrontMatter = false;                                                                                                                               
                         if (line == 0 && lineText == "---") 
                             isFrontMatter = true;                            
 
-                        if (lineText && lineText.length > 2 && lineText.substr(0, 3) === "```") 
-                            isCodeBlock = !isCodeBlock;                            
+
+                        if (lineText && lineText.length > 2 && lineText.substr(0, 3) === "```") {
+                            
+                            if (lineText.trim().length > 3)
+                                isCodeBlock = true;
+                            else
+                                isCodeBlock = false;
+                        
+                        }
+                        //isCodeBlock = !isCodeBlock;                            
                         
                         if (!isCodeBlock && !isFrontMatter) {
 
@@ -206,7 +227,7 @@ var sc = window.spellcheck = {
                             currentlySpellchecking = false;
                             sc.contentModified = false;                            
                         }
-                    }.bind(this,line, lineCount >= lines.length), 40);
+                    }.bind(this, line, lineCount >= bottomRow -1), 40);
                 }
             } finally {            
             }

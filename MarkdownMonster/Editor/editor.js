@@ -150,7 +150,6 @@ var te = window.textEditor = {
 
         var updateDocument = debounce(function() {
                 te.isDirty = te.mm.textbox.IsDirty();
-
                 te.mm.textbox.PreviewMarkdownCallback();
                 te.updateDocumentStats();
             },
@@ -172,8 +171,10 @@ var te = window.textEditor = {
         te.editor.on("mouseup",
             function() {
                 te.mm.textbox.PreviewMarkdownCallback();
+                if (sc)
+                    sc.contentModified = true;  // force recheck next cycle                
             });
-
+      
         
         //if (window.EmojiCompleter) {
         //    // auto complete
