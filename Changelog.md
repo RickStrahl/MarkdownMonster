@@ -3,11 +3,18 @@
 # Markdown Monster Change Log
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)</small>
 
-### 1.2.22
-<small>not released yet</small>
+### 1.3
+<small>April 18th, 2017</small>
+<small>Version Rollup Release</small>
+
+* **Improved Spellchecking Performance**  
+The spell checking logic has been updated to spell check only visible text instead of the entire document. You should now be able to efficiently use the spell checker even on very large documents. This should also improve overall performance of the editor while typing.
 
 * **Search Emojis**  
-You can now search the Emoji list with for text contained in the Emoji name key using a search box above the emoji list.
+You can now search the Emoji list or text contained in the Emoji name key using a search box above the emoji list. Emoji under cursor is now zoomed and displayed at 2x base image size.
+
+* **Copy Foldername to Clipboard**  
+Added option to the tab context menu to copy the document's folder name to the clipboard. Useful if you need to access or save files in the document folder from other applications or the command line and makes it easy to get the folder name quickly to the clipboard.
 
 ### 1.2.22
 <small>April 14th, 2017</small>
@@ -70,7 +77,7 @@ There's now a **BaseAddinConfiguration<T>** class that easily allows addin devel
 When posting Custom fields as part of a Weblog Post you now get back the server generated custom field ID. This ID is store in meta data and resent when updating a post on the server to properly keep custom fields in sync - especially on WordPress.
 
 * **DistractionFreeModeHideOptions to customize Distraction Free Mode**  
-The new configuration flag lets you specify what's hidden when entering distraction-free mode. The value accepts a comma delimited string of UI features to hide: `"toolbar,statusbar,menu,preview,tabs,maximized"`. Each value specified is hidden. `maximized` is a special case - if specified causes the form to maxmize in distraction-free mode.
+The new configuration flag lets you specify what's hidden when entering distraction-free mode. The value accepts a comma delimited string of UI features to hide: `"toolbar, statusbar,menu,preview,tabs,maximized"`. Each value specified is hidden. `maximized` is a special case - if specified causes the form to maxmize in distraction-free mode.
 
 * **Fix: Recent document loading**  
 Recent document loading on startup now properly preserves the last loaded documents up to the `RememberLastDocumentsLength` configuration setting, and selects the last active window. Previously the selection of the last document did not always occur.
@@ -376,7 +383,7 @@ Fixed several issues related to invalid image names sent to server stripping out
 <i><small>December 20th, 2016</small></i>
 
 * **Switch Exe to 32 bit Application**  
-Switched MM to run as a 32 bit application for interop stability and better performance. 32 bit is faster and more reliable in the COM Automation tasks used to interact with the WebBrowser controls used in MM. Editor performance should be slightly improved and preview syncing should be considerably more reliable.
+Switched MM to run as 32 bit application for interop stability and better performance. 32 bit is faster and more reliable in the COM Automation tasks used to interact with the WebBrowser controls used in MM. Editor performance should be slightly improved and preview syncing should be considerably more reliable.
 > **NOTE**: When upgrading from a version below 1.0.30 please uninstall the old version before installing this one, to ensure the older 64 bit version in `C:\Program Files\Markdown Monster` - is cleaned up as the 32 and 64 bit versions use separate install signatures. The new version now lives in `c:\Program Files (x86)\Markdown Monster`. Otherwise you can separately uninstall the 64 bit version explicitly from Windows' **Programs and Features**.
 
 * **Improved Dirty Document Handling**   
