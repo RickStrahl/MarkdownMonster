@@ -1347,7 +1347,7 @@ namespace MarkdownMonster
                 Window about = new About();
                 about.Owner = this;
                 about.Show();
-            }
+            }        
             else if (button == Button_Find)
             {
                 var editor = GetActiveMarkdownEditor();
@@ -1456,6 +1456,19 @@ namespace MarkdownMonster
             if (editor == null)
                 return;
             Process.Start("explorer.exe", "/select,\"" + editor.MarkdownDocument.Filename + "\"");
+        }
+
+        private void Button_CopyFoldername(object sender, RoutedEventArgs e)
+        {
+            var editor = GetActiveMarkdownEditor();
+            if (editor == null)
+                return;
+
+            if (editor.MarkdownDocument.Filename == "untitled")
+                return;
+
+            string path = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
+            Clipboard.SetText(path);
         }
 
         internal void Button_PasteMarkdownFromHtml(object sender, RoutedEventArgs e)
@@ -1756,6 +1769,8 @@ namespace MarkdownMonster
         }
 
         #endregion
+
+       
     }
 
 }
