@@ -156,7 +156,7 @@ namespace WeblogAddin
 
             // Retrieve Meta data from post and clean up the raw markdown
             // so we render without the config data
-            var meta = WeblogPostMetadata.GetPostConfigFromMarkdown(markdown,WeblogModel.ActivePost,weblogInfo);
+            var meta = WeblogPostMetadata.GetPostConfigFromMarkdown(markdown, WeblogModel.ActivePost, weblogInfo);
 
             string html = doc.RenderHtml(meta.MarkdownBody, WeblogAddinConfiguration.Current.RenderLinksOpenExternal);
             WeblogModel.ActivePost.Body = html;
@@ -173,7 +173,7 @@ namespace WeblogAddin
                 var existingPost = GetPost(meta.PostId, weblogInfo);
                 if (existingPost != null && meta.CustomFields != null && existingPost.CustomFields != null)
                     customFields = existingPost.CustomFields
-                                               .ToDictionary(cf => cf.Key, cf => cf);                
+                        .ToDictionary(cf => cf.Key, cf => cf);
             }
             // add custom fields from Weblog configuration
             if (weblogInfo.CustomFields != null)
@@ -237,9 +237,9 @@ namespace WeblogAddin
                         MessageBoxImage.Exclamation);
                     return false;
                 }
-                                
+
                 var post = client.GetPost(WeblogModel.ActivePost.PostId);
-                postUrl = post.Url;                
+                postUrl = post.Url;
             }
             if (type == WeblogTypes.Medium)
             {
@@ -268,20 +268,28 @@ namespace WeblogAddin
             markdown = meta.SetPostYaml();
 
             // write it back out to editor
-            editor.SetMarkdown(markdown, updateDirtyFlag: true);                        
-            
-            // preview post
-            if (!string.IsNullOrEmpty(weblogInfo.PreviewUrl))
+            editor.SetMarkdown(markdown, updateDirtyFlag: true);
+
+            try
             {
-                var url = weblogInfo.PreviewUrl.Replace("{0}", WeblogModel.ActivePost.PostId.ToString());
-                ShellUtils.GoUrl(url);
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(postUrl))
-                    ShellUtils.GoUrl(postUrl);
+                // preview post
+                if (!string.IsNullOrEmpty(weblogInfo.PreviewUrl))
+                {
+                    var url = weblogInfo.PreviewUrl.Replace("{0}", WeblogModel.ActivePost.PostId.ToString());
+                    ShellUtils.GoUrl(url);
+                }
                 else
-                    ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));
+                {
+                    if (!string.IsNullOrEmpty(postUrl))
+                        ShellUtils.GoUrl(postUrl);
+                    else
+                        ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));
+                }
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log("Failed to display Weblog Url after posting: " +
+                          weblogInfo.PreviewUrl ?? postUrl ?? weblogInfo.ApiUrl);
             }
 
             return true;
