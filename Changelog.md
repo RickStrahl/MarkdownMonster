@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)</small>
 
 ### 1.3
-<small>April 18th, 2017</small>
+*<small>April 18th, 2017</small>*  
 <small>Version Rollup Release</small>
 
 * **Improved Spellchecking Performance**  
@@ -17,7 +17,7 @@ You can now search the Emoji list or text contained in the Emoji name key using 
 Added option to the tab context menu to copy the document's folder name to the clipboard. Useful if you need to access or save files in the document folder from other applications or the command line and makes it easy to get the folder name quickly to the clipboard.
 
 ### 1.2.22
-<small>April 14th, 2017</small>
+*<small>April 14th, 2017</small>*
 
 * **Add AppInsights (experimental)**  
 Added support for AppInsights to provide better telemetry on usage and exception logging. Currently running under a flag that is enabled by default.
@@ -35,7 +35,7 @@ Added several new common operations to the addin base class to make it easier to
 The Markdown Monster Addin template for Visual Studio has been updated to add a default configuration class, as well as a few additional base addin members that make it easier to access common MM features from an addin directly off the Addin object.
 
 ### 1.2.19
-<small>April 4th, 2017</small>
+*<small>April 4th, 2017</small>*
 
 * **Added Emoji Picker**  
 There's now an Emoji Picker on the toolbar that lets you select emoji from a visual selection list to embed into the document. Shortcut is **ctrl-j**. 
@@ -47,7 +47,7 @@ If you're building Addins, or otherwise extending MM you can now get global acce
 Added default Yaml data to new weblog posts. Add logic to automatically convert old XML based meta data to Yaml data when opening or downloading existing posts.
 
 ### 1.2.18
-<small>March 31, 2017</small>
+*<small>March 31, 2017</small>*
 
 * **YAML Weblog Meta Data**  
 The Weblog publishing Addin now stores all meta data using YAML Front Matter at the top of the document rather than the pseudo XML meta data stored previously. This is more inline with markdown meta data usage in general. Existing meta data continues to work and is converted to YAML when posting posts or updating meta data.
@@ -62,7 +62,7 @@ You can now opt out from inferring a featured image to send to the server when p
 By default Markdown Monster finds an `# header` tag in a blog post and strips it out of the post. The header is used for figuring out hte title if no other meta data is provided. Most blog engines render the title of the post separately from the content, so the header needs to be stripped to avoid duplication. However, some platforms (Medium and some Markdown based Blog engines) don't explicitly extract and display their own header so an option is required to leave it in when required.
 
 ### 1.2.16
-<small>March 23th, 2017</small>
+*<small>March 23th, 2017</small>*
 
 * **New Pandoc Markdown Parser Addin**   
 You can now plug in Pandoc support for Markdown Parsing through Pandoc in Markdown Monster. Additionally this addin adds Pandoc conversion recipies for creating a variety of output formats (PDF, Docx, Epub, ODT and more) from Markdown and HTML content. :smile:
@@ -84,7 +84,7 @@ Recent document loading on startup now properly preserves the last loaded docume
 
 
 ### 1.2.14
-<small>March 13th, 2017</small>
+*<small>March 13th, 2017</small>*
 
 * **Drag and Drop Images from Explorer into Editor**   
 You can now drag images from Explorer directly into the editor and have an image link embedded in the document at the mouse cursor. MM will prompt to save the file in a local folder if the image is in a non-relative path or relative path 1 level below the document's folder. You now have 3 ways to get images into documents: Image Dialog, Pasting from Clipboard and drag and drop from Explorer.
@@ -97,7 +97,7 @@ You can now embed images inside of the rendered HTML document using base64 conte
 
 
 ### 1.2.10
-<small>March 7th, 2017</small>
+*<small>March 7th, 2017</small>*
 
 * **[Emoji Autocomplete](https://markdownmonster.west-wind.com/docs/_4v503ck7q.htm)**  
 Added auto-complete support for Emoji's. Type : + plus a letter or two for the emoji to embed to get a drop down that shows available Emojis. Note: The IE WebBrowser control shows monochrome Emoji, while most other browsers use colorful versions. To see what the actual Emoji look like in your favorite browser preview pages. :smile:
@@ -113,7 +113,7 @@ Fixed bug where the window title would not update after a new untitled file was 
 
 
 ### 1.2.8
-<small>February 28th, 2017</small>
+*<small>February 28th, 2017</small>*
 
 * **[Add support for publishing to Medium Blogs](http://markdownmonster.west-wind.com/docs/_4uw03tmcu.htm)**  
 You can now post your Markdown to a Medium Weblog. Due to [limitations in the Medium API](https://github.com/Medium/medium-api-docs) however there is no support for re-posting or downloading of posts. The Medium support is limited to **one-time posts**. Any subsequent editing has to be done on the Medium site.
