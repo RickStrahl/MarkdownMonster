@@ -254,8 +254,9 @@ namespace WeblogAddin
                         MessageBoxImage.Exclamation);
                     return false;
                 }
+
                 // this is null
-                postUrl = client.PostUrl;
+                postUrl = client.PostUrl;                
             }
 
             meta.PostId = WeblogModel.ActivePost.PostId.ToString();
@@ -314,35 +315,6 @@ namespace WeblogAddin
             // Medium doesn't support post retrieval so return null
             return null;
         }
-
-#if false
-        private void SavePostCustomFieldsToMetadata(Post post, WeblogPostMetadata meta)
-        {
-            if (post.CustomFields != null)
-            {
-                if (meta.CustomFields == null)
-                    meta.CustomFields = new Dictionary<string, CustomField>();
-
-                foreach (var cf in post.CustomFields)
-                {
-                    if (cf.Key == "mt_markdown" || cf.Key == "wp_post_thumbnail")
-                    {
-                        // These fields have specific handling, we don't want to persist their value,
-                        // but we need to persist their ID.
-                        meta.CustomFields[cf.Key] = new CustomField
-                        {
-                            Id = cf.Id,
-                            Key = cf.Key
-                        };
-                    }
-                    else
-                    {
-                        meta.CustomFields[cf.Key] = cf;
-                    }
-                }
-            }
-        }
-#endif
 
         private void AddOrUpdateCustomField(IDictionary<string, CustomField> customFields, string key, string value)
         {
