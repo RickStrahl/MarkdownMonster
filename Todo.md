@@ -15,7 +15,8 @@
 * Add JavaScript {{Handlebars}} Processing to Snippets Addin
 
 ### Bugs
-
+* Fix spell check dialog window overflow
+* Fix Markdown List display where new bullet auto creates
 
 ### Consideration
 * Check out ReverseMarkdown C# source - needs adjustments (lists, spacing)
