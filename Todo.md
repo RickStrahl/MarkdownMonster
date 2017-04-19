@@ -9,8 +9,6 @@
     * Show whats available
     * Link to Open Office for missing stuff
 
-
-
 ### Mid Term
 * Add JavaScript {{Handlebars}} Processing to Snippets Addin
 
