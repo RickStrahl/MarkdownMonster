@@ -139,28 +139,14 @@ var te = window.textEditor = {
             //wrapBehavioursEnabled: editorSettings.wrapText                       
         });
 
-        // var keydownHandler = function keyDownHandler(e) {
-        //     if (e.ctrlKey && e.shiftKey) {
-        //         te.mm.textbox.PreviewMarkdownCallback();
-        //         te.updateDocumentStats();
-        //     }
-        // };
-        //$("pre[lang]").on("keydown", keydownHandler);
-
-
         var updateDocument = debounce(function() {
-                te.isDirty = te.mm.textbox.IsDirty();
-                te.mm.textbox.PreviewMarkdownCallback();
-                te.updateDocumentStats();
-            },
-            te.previewRefresh);
-
-        var keyupHandler = function keyUpHandler(e) {
             if (!te.mm)
                 return;
-            updateDocument();
-        }
-        $("pre[lang]").on("keyup", keyupHandler);
+            te.isDirty = te.mm.textbox.IsDirty();
+            te.mm.textbox.PreviewMarkdownCallback();
+            te.updateDocumentStats();
+        },te.previewRefresh);  
+        $("pre[lang]").on("keyup", updateDocument);
 
 
         // always have mouse position available when drop or paste
@@ -173,19 +159,34 @@ var te = window.textEditor = {
                 te.mm.textbox.PreviewMarkdownCallback();
                 if (sc)
                     sc.contentModified = true;  // force recheck next cycle                
+
+
             });
-      
-        
-        //if (window.EmojiCompleter) {
-        //    // auto complete
-        //    var langTools = ace.require("ace/ext/language_tools");
-        //    editor.setOptions({
-        //        enableBasicAutocompletion: true,
-        //        enableSnippets: false,
-        //        enableLiveAutocompletion: true
-        //    });
-        //    langTools.setCompleters([window.EmojiCompleter]);         
-        //}
+
+        // special selections for images code and links
+        te.editor.on('mousedown', function (e) {
+            if (e.domEvent.which != 3) return;
+
+            var text = te.getselection();
+            var markdown = null;
+            var handled = false;
+            if (text.startsWith("![") && text.endsWith(")")) {
+                markdown = te.editorSelectionOperation("image", text);
+                handled = true;
+            } else if (text.startsWith("[") && text.endsWith(")")) {
+                markdown = te.editorSelectionOperation("link", text);
+                handled = true;
+            } else if (text.startsWith("```") && text.endsWith("```")) {
+                markdown = te.editorSelectionOperation("code", text);
+                handled = true;     
+            }
+            if (handled) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            if (markdown != null)
+                te.setselection(markdown);
+        });
 
         return editor;
     },
@@ -243,6 +244,9 @@ var te = window.textEditor = {
     },
     specialkey: function(key) {
         te.mm.textbox.SpecialKey(key);
+    },
+    editorSelectionOperation: function(action, text) {
+        te.mm.textbox.EditorSelectionOperation(action, text);
     },
     setfont: function(size, fontFace, weight) {
         if (size)
@@ -367,6 +371,9 @@ var te = window.textEditor = {
         var selectionRange = te.editor.getSelectionRange();
         var startLine = selectionRange.start.row;
         return te.editor.session.getLine(startLine);
+    },
+    getLine: function(row) {
+        return te.editor.session.getLine(row);
     },
     findAndReplaceText: function(search, replace) {
         var range = te.editor.find(search,
@@ -588,61 +595,7 @@ window.onresize = debounce(function() {
     },
     200);
 
-// prevent window from loading image/file
-//window.ondrop = function (e) {
-//    // don't allow dropping here - we can't get full file info
-//    event.preventDefault();
-//    event.stopPropagation();
-
-//    te.mm.textbox.fileDropOperation();
-
-
-//    setTimeout(function () {
-//        te.mm.textbox.ShowMessage("To open or embed dropped files in Markdown Monster, please drop files onto the header area of the window.\r\n\r\n" +
-//            "You can drop text files to open and edit, or images to embed at the cursor position in the open document.",
-//            "Invalid Drop Operation", "Warning", "Ok");
-//    },50);
-//}
-
-//window.ondrop =
-//    function (e) {
-//        // don't let files be dropped or the document 
-//        // is replaced.
-//        e.preventDefault();
-//        e.stopPropagation();
-
-//        var dt = e.dataTransfer;
-//        var files = dt.files;
-
-//        var file = files[0];        
-        
-//        var reader = new FileReader();
-//        reader.onload = function(e) {
-//            var res = e.target.result;
-
-//            var pos = $.extend({}, te.mousePos);
-
-//            var sel = te.editor.getSelection();
-//            var range = sel.getRange();
-//            range.setStart(pos);
-//            range.setEnd(pos);
-//            sel.setSelectionRange(range);
-
-//            te.mm.textbox.FileDropOperation(res, file.name);
-//        }
-//        try {
-//            bin = reader.readAsDataURL(file); //ReadAsArrayBuffer(file);
-//        } catch (ex) {
-//            status("Drag and drop error: " + ex.message);
-//        }
-//    };
-//window.ondragover =
-//    function(e) {
-//        e.preventDefault();
-//        return false;
-//    };
-
- window.onmousewheel = function (e) {     
+window.onmousewheel = function(e) {
     if (e.ctrlKey) {
         e.cancelBubble = true;
         e.returnValue = false;
@@ -654,9 +607,7 @@ window.onresize = debounce(function() {
 
         return false;
     }
- }
-
-
+}
 
 
 // This function is global and called by the parent
@@ -698,4 +649,58 @@ function debounce(func, wait, immediate) {
         if (callNow)
             func.apply(context, args);
     };
+};
+String.prototype.startsWith = function (sub, nocase) {
+    if (!this || this.length === 0 || sub === null) return false;
+
+    if (sub && nocase)
+        return this.toLowerCase().indexOf(sub.toLowerCase()) === 0;
+       
+    return this.indexOf(sub) === 0;
+}
+String.prototype.endsWith = function (sub, nocase) {
+    if (!this || this.length === 0) return false;
+
+    var ix = 0;
+    if (sub && nocase) {
+        ix = this.toLowerCase().lastIndexOf(sub.toLowerCase());
+        if (ix > 0 && ix + sub.length === this.length)
+            return true;
+        return false;
+    }
+
+    ix = this.lastIndexOf(sub);
+    if (ix > 0 && ix + sub.length === this.length)
+        return true;
+    return false;
+}
+String.prototype.extract = function (startDelim, endDelim, allowMissingEndDelim, returnDelims) {
+    var str = this;
+    if (str.length === 0)
+        return "";
+
+    var src = str.toLowerCase();
+    startDelim = startDelim.toLocaleLowerCase();
+    endDelim = endDelim.toLocaleLowerCase();
+
+    var i1 = src.indexOf(startDelim);
+    if (i1 == -1)
+        return "";
+
+    var i2 = src.indexOf(endDelim, i1 + startDelim.length);
+
+    if (!allowMissingEndDelim && i2 == -1)
+        return "";
+
+    if (allowMissingEndDelim && i2 == -1) {
+        if (returnDelims)
+            return str.substr(i1);
+
+        return str.substr(i1 + startDelim.length);
+    }
+
+    if (returnDelims)
+        return str.substr(i1, i2 - i1 + startDelim.length);
+
+    return str.substr(i1 + startDelim.length, i2 - i1 - startDelim.length);
 };
