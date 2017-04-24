@@ -3,12 +3,22 @@
 # Markdown Monster Change Log
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)</small>
 
+### 1.3.2
+<small>not released yet</small>
+
+* **Improved Paste Image Dialog**  
+The Paste Image dialog has been updated with a few enhanced features that allow pasting and copying to the clipboard more easily. You can now also open the configured Image Editor from this form.
+
+* **New `ImageEditor` Configuration Switch**  
+You can now create a configuration setting for your favorite Image Editor which is used in the Paste Image dialog and by default in the Screen Capture and Paste Image to Azure Addins. Point at your favorite editor which allows for editing the current picture in the editor.
+
+
 ### 1.3
 *<small>April 18th, 2017</small>*  
 <small>Version Rollup Release</small>
 
 * **Improved Spellchecking Performance**  
-The spell checking logic has been updated to spell check only visible text instead of the entire document. You should now be able to efficiently use the spell checker even on very large documents. This should also improve overall performance of the editor while typing.
+The spell checking logic has been updated to spell check only visible text instead of the entire document. You should now be able to efficiently use the spell checker even on very large documents. This should also improve overall performance of the editor while typing and provide consistent typing speed regardless of document size.
 
 * **Search Emojis**  
 You can now search the Emoji list or text contained in the Emoji name key using a search box above the emoji list. Emoji under cursor is now zoomed and displayed at 2x base image size.
