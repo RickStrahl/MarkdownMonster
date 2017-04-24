@@ -6,12 +6,14 @@
 ### 1.3.2
 <small>not released yet</small>
 
+* **Edit Images from Markdown Image Link**  
+You can now bring up the Image Dialog from an image in the Markdown editor by selecting the image, and then right clicking. From there the full Paste Image Dialog is available and a new option there allows for editing of the image in your configured image editor.
+
 * **Improved Paste Image Dialog**  
 The Paste Image dialog has been updated with a few enhanced features that allow pasting and copying to the clipboard more easily. You can now also open the configured Image Editor from this form.
 
 * **New `ImageEditor` Configuration Switch**  
 You can now create a configuration setting for your favorite Image Editor which is used in the Paste Image dialog and by default in the Screen Capture and Paste Image to Azure Addins. Point at your favorite editor which allows for editing the current picture in the editor.
-
 
 ### 1.3
 *<small>April 18th, 2017</small>*  
