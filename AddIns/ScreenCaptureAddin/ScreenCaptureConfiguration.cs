@@ -145,8 +145,7 @@ namespace SnagItAddin
         }
         private string _keyboardShortcut = string.Empty;
 
-        public string ImageEditorPath { get; set; } =
-            @"C:\Program Files\paint.net\PaintDotNet.exe";
+        public string ImageEditorPath { get; set; } = mmApp.Configuration.ImageEditor;
 
         public double WindowHeight { get; set; } = 730;
         public double WindowWidth { get; set; } = 910;
