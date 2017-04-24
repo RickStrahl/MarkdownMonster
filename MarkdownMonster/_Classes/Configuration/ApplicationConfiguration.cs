@@ -278,6 +278,12 @@ namespace MarkdownMonster
         /// default (ace/vs), vim, emacs
         /// </summary>
         public object EditorKeyboardHandler { get; set; }
+
+
+        /// <summary>
+        /// Image editor used to edit images
+        /// </summary>
+        public string ImageEditor { get; set; }
         #endregion
 
 
@@ -437,6 +443,7 @@ namespace MarkdownMonster
 
         internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
 
+
         #endregion
 
         public ApplicationConfiguration()
@@ -488,7 +495,10 @@ namespace MarkdownMonster
 
             IsPreviewVisible = true;
             OpenInPresentationMode = false;
-            AlwaysUsePreviewRefresh = false;            
+            AlwaysUsePreviewRefresh = false;
+
+            ImageEditor = @"C:\Program Files\paint.net\PaintDotNet.exe";
+
         }
 
         public void AddRecentFile(string filename)

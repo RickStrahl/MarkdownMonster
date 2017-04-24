@@ -36,7 +36,8 @@ namespace MarkdownMonster.Windows
             {
                 if (value == _image) return;
                 _image = value;
-                OnPropertyChanged(nameof(Image));                
+                OnPropertyChanged(nameof(Image));
+               
             }
         }
 
@@ -103,14 +104,16 @@ namespace MarkdownMonster.Windows
 
         private bool _isMemoryImage;
 
+        AppModel Model { get; set; } 
         MarkdownDocumentEditor Editor { get; set; }
         MarkdownDocument Document { get; set; }
 
 
-        public PasteImageWindow()
+        public PasteImageWindow(MainWindow window)
         {
             InitializeComponent();
 
+            Owner = window;
             DataContext = this;
             mmApp.SetThemeWindowOverride(this);
 
@@ -118,6 +121,11 @@ namespace MarkdownMonster.Windows
             SizeChanged += PasteImage_SizeChanged;
             Activated += PasteImage_Activated;
             PreviewKeyDown += PasteImage_PreviewKeyDown;
+
+            
+            Model = window.Model;
+            Editor = Model.ActiveEditor;
+            Document = Model.ActiveDocument;
         }
 
         private void PasteImage_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -125,7 +133,8 @@ namespace MarkdownMonster.Windows
             bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
             if (isControlKey && e.Key == Key.V && Clipboard.ContainsImage())            
                 PasteImageFromClipboard();
-            
+            else if (isControlKey && e.Key == Key.C)
+                Button_CopyImage(null, null);
         }
 
         private void PasteImage_Activated(object sender, EventArgs e)
@@ -136,21 +145,18 @@ namespace MarkdownMonster.Windows
 
         private void PasteImage_Loaded(object sender, RoutedEventArgs e)
         {
-            var window = this.Owner as MainWindow;
-            Editor = window.Model.ActiveEditor;
-            Document = window.Model.ActiveDocument;
-
+ 
             PasteCommand = new CommandBase((s, args) =>
             {
                 MessageBox.Show("PasteCommand");
             });
 
             TextImage.Focus();
-            if (Clipboard.ContainsImage())
+            if (string.IsNullOrEmpty(Image) && Clipboard.ContainsImage())
             {
-                Button_PasteImage(null, null);
+                PasteImageFromClipboard();
             }
-            else if (Clipboard.ContainsText())
+            else if (string.IsNullOrEmpty(Image) && Clipboard.ContainsText())
             {
                 string clip = Clipboard.GetText().ToLower();
                 if ((clip.StartsWith("http://") || clip.StartsWith("https://")) &&
@@ -175,7 +181,7 @@ namespace MarkdownMonster.Windows
             };
 
             if (!string.IsNullOrEmpty(MarkdownFile))
-                fd.InitialDirectory = System.IO.Path.GetDirectoryName(MarkdownFile);
+                fd.InitialDirectory = Path.GetDirectoryName(MarkdownFile);
             else
             {
                 if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
@@ -289,7 +295,6 @@ namespace MarkdownMonster.Windows
 
             mmApp.Configuration.LastImageFolder = Path.GetDirectoryName(fd.FileName);
             TextImageText.Focus();
-            
         }
 
         private void TextImage_LostFocus(object sender, RoutedEventArgs e)
@@ -451,6 +456,110 @@ namespace MarkdownMonster.Windows
             
         }
 
+        private void Button_EditImage(object sender, RoutedEventArgs e)
+        {
+            string exe = mmApp.Configuration.ImageEditor;
+
+            string imageFile = Image;
+            if (!imageFile.Contains(":\\") && Document != null)
+            {
+                imageFile = Path.Combine(Path.GetDirectoryName(Document.Filename),
+                    Image);
+            }
+            
+            var process = Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
+            ShowStatus("Launching editor " + exe + " with " + imageFile, 5000);
+        }
+
+        private void Button_ClearImage(object sender, RoutedEventArgs e)
+        {
+            Image = null;
+            ImageText = null;
+            ImagePreview.Source = null;
+            ShowStatus("Image has been cleared.", 6000);
+        }
+
+        private void Button_CopyImage(object sender, RoutedEventArgs e)
+        {
+            if (ImagePreview.Source != null)
+            {
+                var src = ImagePreview.Source as BitmapSource;
+                if (src != null)
+                {
+                    Clipboard.SetImage(src);
+                    ShowStatus("Image copied to the Clipboard.", 6000);
+                }
+            }
+        }
+
+        #region StatusBar Display
+
+        public void ShowStatus(string message = null, int milliSeconds = 0)
+        {
+            if (message == null)
+            {
+                message = "Ready";
+                SetStatusIcon();
+            }
+
+            StatusText.Text = message;
+
+            if (milliSeconds > 0)
+            {
+                Dispatcher.DelayWithPriority(milliSeconds, (win) =>
+                {                    
+                    ShowStatus(null, 0);
+                    SetStatusIcon();
+                }, this);
+            }
+            WindowUtilities.DoEvents();
+        }
+
+        /// <summary>
+        /// Status the statusbar icon on the left bottom to some indicator
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="color"></param>
+        /// <param name="spin"></param>
+        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
+        {
+            StatusIcon.Icon = icon;
+            StatusIcon.Foreground = new SolidColorBrush(color);
+            if (spin)
+                StatusIcon.SpinDuration = 30;
+
+            StatusIcon.Spin = spin;
+        }
+
+        /// <summary>
+        /// Resets the Status bar icon on the left to its default green circle
+        /// </summary>
+        public void SetStatusIcon()
+        {
+            StatusIcon.Icon = FontAwesomeIcon.Circle;
+            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
+            StatusIcon.Spin = false;
+            StatusIcon.SpinDuration = 0;
+            StatusIcon.StopSpin();
+        }
+
+        /// <summary>
+        /// Helper routine to show a Metro Dialog. Note this dialog popup is fully async!
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="style"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        public async Task<MessageDialogResult> ShowMessageOverlayAsync(string title, string message,
+            MessageDialogStyle style = MessageDialogStyle.Affirmative,
+            MetroDialogSettings settings = null)
+        {
+            return await this.ShowMessageAsync(title, message, style, settings);
+        }
+
+        #endregion
+
         #endregion
 
         #region Image Display
@@ -529,8 +638,35 @@ namespace MarkdownMonster.Windows
                 ImagePreview.Stretch = Stretch.Uniform;
         }
 
-        private void SetImagePreview(string url)
+
+        /// <summary>
+        /// Attempts to resolve the full image filename from the active image
+        /// if the image is a file based image with a relative or physical
+        /// path but not a URL based image.
+        /// </summary>
+        /// <returns></returns>
+        public string GetFullImageFilename(string filename = null)
         {
+            string imageFile = filename ?? Image;
+
+            if (string.IsNullOrEmpty(imageFile))
+                return null;
+
+             if (!File.Exists(imageFile))
+                    imageFile = Path.Combine(Path.GetDirectoryName(Editor.MarkdownDocument.Filename), imageFile);
+
+            return File.Exists(imageFile) ? imageFile : null;
+        }
+
+        public void SetImagePreview(string url = null)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                url = GetFullImageFilename();
+                if (url == null)
+                    url = Image;
+            }
+
             try
             {
                 ImagePreview.Source = BitmapFrame.Create(new Uri(url));
@@ -569,74 +705,6 @@ namespace MarkdownMonster.Windows
             catch
             {
             }
-        }
-
-        #endregion
-
-        #region StatusBar Display
-
-        public void ShowStatus(string message = null, int milliSeconds = 0)
-        {
-            if (message == null)
-            {
-                message = "Ready";
-                SetStatusIcon();
-            }
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                Dispatcher.DelayWithPriority(milliSeconds, (win) =>
-                {                    
-                    ShowStatus(null, 0);
-                    SetStatusIcon();
-                }, this);
-            }
-            WindowUtilities.DoEvents();
-        }
-
-        /// <summary>
-        /// Status the statusbar icon on the left bottom to some indicator
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="color"></param>
-        /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
-        {
-            StatusIcon.Icon = icon;
-            StatusIcon.Foreground = new SolidColorBrush(color);
-            if (spin)
-                StatusIcon.SpinDuration = 30;
-
-            StatusIcon.Spin = spin;
-        }
-
-        /// <summary>
-        /// Resets the Status bar icon on the left to its default green circle
-        /// </summary>
-        public void SetStatusIcon()
-        {
-            StatusIcon.Icon = FontAwesomeIcon.Circle;
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-            StatusIcon.Spin = false;
-            StatusIcon.SpinDuration = 0;
-            StatusIcon.StopSpin();
-        }
-
-        /// <summary>
-        /// Helper routine to show a Metro Dialog. Note this dialog popup is fully async!
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
-        /// <param name="style"></param>
-        /// <param name="settings"></param>
-        /// <returns></returns>
-        public async Task<MessageDialogResult> ShowMessageOverlayAsync(string title, string message,
-            MessageDialogStyle style = MessageDialogStyle.Affirmative,
-            MetroDialogSettings settings = null)
-        {
-            return await this.ShowMessageAsync(title, message, style, settings);
         }
 
         #endregion
