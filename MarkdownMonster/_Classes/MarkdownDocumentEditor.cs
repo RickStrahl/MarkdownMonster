@@ -358,9 +358,8 @@ namespace MarkdownMonster
             }
             else if (action == "image")
             {
-                var form = new PasteImageWindow
+                var form = new PasteImageWindow(Window)
                 {
-                    Owner = Window,
                     ImageText = input,
                     MarkdownFile = MarkdownDocument.Filename
                 };
@@ -1088,6 +1087,70 @@ namespace MarkdownMonster
                 // just paste as is at cursor or selection
                 SetSelection(Clipboard.GetText());
             }
+        }
+
+        public string EditorSelectionOperation(string action, string text)
+        {
+            if (action == "image")
+            {
+                string label = StringUtils.ExtractString(text, "![", "]");
+                string link = StringUtils.ExtractString(text, "](", ")");
+
+                var form = new PasteImageWindow(Window)
+                {
+                    Image = link,
+                    ImageText = label
+                };
+                form.SetImagePreview();
+               
+                bool? res = form.ShowDialog();
+                string html = null;
+
+                if (res != null && res.Value)
+                {
+                    var image = form.Image;
+                    if (!image.StartsWith("data:image/"))
+                        html = $"![{form.ImageText}]({form.Image})";
+                    else
+                    {
+                        var id = "image_ref_" + DataUtils.GenerateUniqueId();
+
+                        dynamic pos = AceEditor.getCursorPosition(false);
+                        dynamic scroll = AceEditor.getscrolltop(false);
+
+                        // the ID tag
+                        html = $"\r\n\r\n[{id}]: {image}\r\n";
+
+                        // set selction position to bottom of document
+                        AceEditor.gotoBottom(false);
+                        SetSelection(html);
+
+                        // reset the selection point
+                        AceEditor.setcursorposition(pos); //pos.column,pos.row);
+
+                        if (scroll != null)
+                            AceEditor.setscrolltop(scroll);
+
+                        WindowUtilities.DoEvents();
+                        html = $"![{form.ImageText}][{id}]";
+                    }
+
+                    if (!string.IsNullOrEmpty(html))
+                    {
+                        SetSelection(html);
+                        PreviewMarkdownCallback();
+                    }
+                }
+            } 
+            else if (action == "link")
+            {
+                MessageBox.Show("Link to Edit", text);
+            }
+            else if (action == "code")
+            {
+                MessageBox.Show("Link to Edit", text);
+            }
+            return null;
         }
 
         /// <summary>
