@@ -657,7 +657,7 @@ namespace MarkdownMonster
                 config.WindowPosition.Top = Convert.ToInt32(Top);
                 config.WindowPosition.Width = Convert.ToInt32(Width);
                 config.WindowPosition.Height = Convert.ToInt32(Height);
-                config.WindowPosition.SplitterPosition = Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
+                config.WindowPosition.SplitterPosition = Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
             }
 
             if (WindowState != WindowState.Minimized)
@@ -1012,25 +1012,25 @@ namespace MarkdownMonster
             {
                 PreviewBrowser.Visibility = Visibility.Visible;
 
-                ContentGrid.ColumnDefinitions[1].Width = new GridLength(12);
+                MainWindowSeparatorColumn.Width = new GridLength(12);
                 if (!refresh)
                 {
                     if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
                         mmApp.Configuration.WindowPosition.SplitterPosition = 600;
 
                     if (!Model.IsPresentationMode)
-                        ContentGrid.ColumnDefinitions[2].Width =
+                        MainWindowPreviewColumn.Width =
                             new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
                 }
             }
             else
             {
-                if (ContentGrid.ColumnDefinitions[2].Width.Value > 100)
+                if (MainWindowPreviewColumn.Width.Value > 100)
                     mmApp.Configuration.WindowPosition.SplitterPosition =
-                        Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
+                        Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
 
-                ContentGrid.ColumnDefinitions[1].Width = new GridLength(0);
-                ContentGrid.ColumnDefinitions[2].Width = new GridLength(0);
+                MainWindowSeparatorColumn.Width = new GridLength(0);
+                MainWindowPreviewColumn.Width = new GridLength(0);
 
                 PreviewBrowser.Navigate("about:blank");
             }
@@ -1568,7 +1568,7 @@ namespace MarkdownMonster
         {
             if (e.NewSize.Width > 100)
             {
-                int width = Convert.ToInt32(ContentGrid.ColumnDefinitions[2].Width.Value);
+                int width = Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
                 if (width > 100)
                     mmApp.Configuration.WindowPosition.SplitterPosition = width;
             }

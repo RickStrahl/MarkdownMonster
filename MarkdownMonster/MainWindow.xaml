@@ -449,9 +449,9 @@
 
         <Grid Name="ContentGrid" Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="0" />
-                <ColumnDefinition Width="0" />
+                <ColumnDefinition Name="MainWindowEditorColumn" Width="*" />
+                <ColumnDefinition Name="MainWindowSeparatorColumn" Width="0" />
+                <ColumnDefinition Name="MainWindowPreviewColumn"  Width="0" />
             </Grid.ColumnDefinitions>
 
             <dragablz:TabablzControl x:Name="TabControl"

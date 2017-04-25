@@ -742,16 +742,17 @@ Do you want to View in Browser now?
                 {
                     gl = new GridLength(30); // toolbar height
 
-                    Window.ContentGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
-                    Window.ContentGrid.ColumnDefinitions[1].Width = new GridLength(0);
-                    Window.ContentGrid.ColumnDefinitions[2].Width = new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);                    
+                    Window.MainWindowEditorColumn.Width = new GridLength(1, GridUnitType.Star);
+                    Window.MainWindowSeparatorColumn.Width = new GridLength(0);
+                    Window.MainWindowPreviewColumn.Width = new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+
                     Window.PreviewMarkdown();
                     IsPresentationMode = false;
                 }
                 else
                 {                    
                     mmApp.Configuration.WindowPosition.SplitterPosition =
-                        Convert.ToInt32(Window.ContentGrid.ColumnDefinitions[2].Width.Value);
+                        Convert.ToInt32(Window.MainWindowPreviewColumn.Width.Value);
 
                     // don't allow presentation mode for non-Markdown documents
                     var editor = Window.GetActiveMarkdownEditor();
@@ -771,9 +772,9 @@ Do you want to View in Browser now?
                     
                     Window.ShowPreviewBrowser();
 
-                    Window.ContentGrid.ColumnDefinitions[0].Width = gl;
-                    Window.ContentGrid.ColumnDefinitions[1].Width = gl;
-                    Window.ContentGrid.ColumnDefinitions[2].Width = new GridLength(1,GridUnitType.Star);
+                    Window.MainWindowEditorColumn.Width = gl;
+                    Window.MainWindowSeparatorColumn.Width = gl;
+                    Window.MainWindowPreviewColumn.Width = new GridLength(1,GridUnitType.Star);
                     
                     IsPresentationMode = true;
                     IsPreviewBrowserVisible = true;                    
