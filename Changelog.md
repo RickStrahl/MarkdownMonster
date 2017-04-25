@@ -15,6 +15,9 @@ The Paste Image dialog has been updated with a few enhanced features that allow 
 * **New `ImageEditor` Configuration Switch**  
 You can now create a configuration setting for your favorite Image Editor which is used in the Paste Image dialog and by default in the Screen Capture and Paste Image to Azure Addins. Point at your favorite editor which allows for editing the current picture in the editor.
 
+* **Fix: Spellchecking Popup overrun on bottom or right of Screen**  
+Fixed issue where the spell checking context menu (right click) is not fully visible at the bottom or right for the screen. Pop up now pops up or to the left when it would otherwise be partially offscreen.
+
 ### 1.3
 *<small>April 18th, 2017</small>*  
 **<small>Version Rollup Release</small>**
