@@ -157,10 +157,10 @@ var te = window.textEditor = {
         te.editor.on("mouseup",
             function() {
                 te.mm.textbox.PreviewMarkdownCallback();
+
+                // spellcheck - force recheck on next cycle
                 if (sc)
-                    sc.contentModified = true;  // force recheck next cycle                
-
-
+                    sc.contentModified = true;                  
             });
 
         // special selections for images code and links

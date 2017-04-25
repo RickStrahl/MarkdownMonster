@@ -300,7 +300,13 @@ var sc = window.spellcheck = {
                     $list.hide();
                     $list.html("");
                 });
-
+            
+                setTimeout(function () {
+                    if (e.clientY + $list.height() > document.documentElement.clientHeight)
+                        $list.css({ top: e.clientY - $list.height() });
+                    if (e.clientX + $list.width() > document.documentElement.clientWidth)
+                        $list.css({ left: e.clientX - $list.width() });
+                }, 1);
         }
 
         // <div id="spellfixes"> 
