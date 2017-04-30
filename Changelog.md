@@ -6,7 +6,7 @@
 ### 1.3.2
 <small>not released yet</small>
 
-* **Edit Images from Markdown Image Link**
+* **Edit Images from Markdown Image Link**  
 You can now bring up the Image Dialog from an image in the Markdown editor by selecting the image, and then right clicking. From there the full Paste Image Dialog is available and a new option there allows for editing of the image in your configured image editor.
 
 * **Improved Paste Image Dialog**  
