@@ -1085,6 +1085,7 @@
         <Setter Property="Background" Value="{StaticResource TabItem.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{StaticResource TabItem.Static.Border}"/>
         
+        
         <Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mm:MainWindow}}, Path=Model.Configuration.WindowPosition.TabHeadersVisible}" />
        
         <Setter Property="Margin" Value="0 6 0 0"/>

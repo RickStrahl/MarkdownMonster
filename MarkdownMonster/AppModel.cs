@@ -710,7 +710,7 @@ Do you want to View in Browser now?
                         glStatus = new GridLength(30);
 
                     if (tokens.Any(d => d == "tabs"))
-                        mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Collapsed;
+                        mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Hidden;
 
                     if (tokens.Any(d => d == "preview"))
                     {
