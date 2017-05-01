@@ -128,6 +128,8 @@ namespace MarkdownMonster
         /// </summary>
         public static string UpdateCheckUrl { get; internal set; }
 
+          
+
 
         #region Initialization and Shutdown
 
@@ -136,21 +138,25 @@ namespace MarkdownMonster
         /// Static constructor to initialize configuration
         /// </summary>
         static mmApp()
-        {
+        {            
             Configuration = new ApplicationConfiguration();
-            Configuration.Initialize();
+            Configuration.Initialize();            
+        }
+
+        public static void ApplicationStart()
+        {
+            Started = DateTime.UtcNow;
 
             if (Telemetry.UseApplicationInsights)
             {
-                AppInsights = new TelemetryClient {InstrumentationKey = Telemetry.Key};
+                AppInsights = new TelemetryClient { InstrumentationKey = Telemetry.Key };
                 AppInsights.Context.Session.Id = Guid.NewGuid().ToString();
                 AppInsights.Context.Component.Version = GetVersion();
 
-                AppRunTelemetry = AppInsights.StartOperation<RequestTelemetry>($"App Run - {GetVersion()} - {Configuration.ApplicationUpdates.AccessCount +  1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
+                AppRunTelemetry = AppInsights.StartOperation<RequestTelemetry>($"App Run - {GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
                 AppRunTelemetry.Telemetry.Start();
             }
         }
-
         public static void Shutdown(bool errorShutdown = false)
         {
             if (Telemetry.UseApplicationInsights && AppInsights != null)
@@ -158,10 +164,17 @@ namespace MarkdownMonster
                 var t = AppRunTelemetry.Telemetry;
                 t.Properties.Add("version", GetVersion());
                 t.Properties.Add("usage", Configuration.ApplicationUpdates.AccessCount.ToString());
-                t.Properties.Add("registered", UnlockKey.IsRegistered().ToString());
-                
+                t.Properties.Add("registered", UnlockKey.IsRegistered().ToString());                
                 t.Stop();
-                AppInsights.StopOperation(AppRunTelemetry);
+
+                try
+                {
+                    AppInsights.StopOperation(AppRunTelemetry);
+                }
+                catch(Exception ex)
+                {
+                    LogToLogfile("Failed to Stop Telemetry Client: " + ex.GetBaseException().Message);
+                }
                 AppInsights.Flush();
             }
             else
@@ -188,7 +201,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public static bool HandleApplicationException(Exception ex)
         {            
-            mmApp.Log("Last Resort Handler", ex, unhandledException: true);
+            Log("Last Resort Handler", ex, unhandledException: true);
 
             var msg = string.Format("Yikes! Something went wrong...\r\n\r\n{0}\r\n\r\n" +
                                     "The error has been recorded and written to a log file and you can\r\n" +
@@ -240,11 +253,14 @@ namespace MarkdownMonster
         /// <param name="msg"></param>
         public static void Log(string msg, Exception ex = null, bool unhandledException = false)
         {
+            string version = GetVersion();
+			string winVersion = null;
+			 
             string exMsg = string.Empty;
             if (ex != null)
             {
-                var version = mmApp.GetVersion();
-                var winVersion = ComputerInfo.GetWindowsVersion() +
+               
+                winVersion = ComputerInfo.GetWindowsVersion() +
                                  " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
                                  " - NET " + ComputerInfo.GetDotnetVersion() + " - " +
                                  (Environment.Is64BitProcess ? "64 bit" : "32 bit");
@@ -260,9 +276,7 @@ Markdown Monster v{version}
 
 
 ";
-                SendBugReport(ex, msg);
-
-                
+                SendBugReport(ex, msg);                
             }
 
             if (Telemetry.UseApplicationInsights)
@@ -274,9 +288,12 @@ Markdown Monster v{version}
                         new Dictionary<string, string>
                         {
                             {"msg", msg},
-                            {"exmsg",exMsg },
+                            {"exmsg",ex.Message },
+                            {"exsource", ex.Source },
+                            {"extrace", ex.StackTrace },
                             {"severity", unhandledException ? "unhandled" : ""},                            
-                            {"version", GetVersion()},
+                            {"version", version},
+                            {"winversion", winVersion },
                             {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
                             {"registered", UnlockKey.IsRegistered().ToString()}
                         });
@@ -294,9 +311,10 @@ Markdown Monster v{version}
                 }
             }
             var text = msg + exMsg;
+
+            LogToLogfile(text);
             StringUtils.LogString(text, Path.Combine(Configuration.CommonFolder,
-                    "MarkdownMonsterErrors.txt"), Encoding.UTF8);
-            
+                    "MarkdownMonsterErrors.txt"), Encoding.UTF8);            
         }
 
         /// <summary>
@@ -306,6 +324,17 @@ Markdown Monster v{version}
         public void Trace(string msg)
         {
             Log(msg);
+        }
+
+        /// <summary>
+        /// Logs directly to the text file - use this if you don't want to have
+        /// public log trail and only log diagnostics.        
+        /// </summary>
+        /// <param name="text"></param>
+        public static void LogToLogfile(string text)
+        {
+            StringUtils.LogString(text, Path.Combine(Configuration.CommonFolder,
+                "MarkdownMonsterErrors.txt"), Encoding.UTF8);
         }
 
         public static void SetWorkingSet(int lnMaxSize, int lnMinSize)

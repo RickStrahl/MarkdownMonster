@@ -104,21 +104,21 @@ namespace MarkdownMonster
                     Environment.Exit(0);
                 }
             }
-
-
+            
             AppDomain currentDomain = AppDomain.CurrentDomain;
 
             currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-#if true //!DEBUG
+#if !DEBUG
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
 
 
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 #endif
-            mmApp.Started = DateTime.UtcNow;
+           
 
-            
+            mmApp.ApplicationStart();
+
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
@@ -207,6 +207,7 @@ namespace MarkdownMonster
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            
             new TaskFactory().StartNew(LoadAddins);
 
             if (mmApp.Configuration.DisableHardwareAcceleration)
