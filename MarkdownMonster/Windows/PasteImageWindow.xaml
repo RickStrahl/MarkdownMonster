@@ -13,7 +13,7 @@
         TitlebarHeight="35"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"         
-        Padding="0"   FontSize="15"                   
+        Padding="0"   FontSize="16"                   
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="620" Height="300" MinWidth="600" MinHeight="300">
     <Grid Name="PageGrid">
@@ -25,14 +25,14 @@
         </Grid.RowDefinitions>
         <ToolBarPanel>
             <StackPanel Orientation="Horizontal">
-                <ToolBar FontWeight="Normal" FontSize="16" Padding="0,2,0,2" >
+                <ToolBar FontWeight="Normal" Padding="0,2,0,2" >
                   
                     <Button Name="ButtonOk"  IsDefault="True"  Click="Button_Click"  
                             Visibility="{Binding IsFileImage, Converter={StaticResource BooleanToVisibilityConverter}}" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="Upload" 
-                                            FontWeight="Bold"
-                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="15" />
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Foreground="#1F9B3C" />
                             <TextBlock>Embed Image</TextBlock>
                         </StackPanel>
                     </Button>
@@ -41,15 +41,18 @@
                             Visibility="{Binding IsMemoryImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
                             Click="Button_SaveImage" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,4,5,0" Icon="HddOutline" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                            Foreground="#FF0E7E28" FontSize="15" FontWeight="Bold" />
+                            <fa:FontAwesome Margin="5,4,5,0" Icon="FloppyOutline" 
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Foreground="#1F9B3C"   />
                             <TextBlock>Save to Disk</TextBlock>
                         </StackPanel>
                     </Button>
 
                     <Button Name="ButtonCancel" IsCancel="True" Click="Button_Click" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Remove" Margin="5,4,5,0"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Foreground="Firebrick" FontSize="15"/>
+                            <fa:FontAwesome Icon="Remove" Margin="5,4,5,0"  
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
+                                            Foreground="Firebrick"/>
                             <TextBlock>Cancel</TextBlock>
                         </StackPanel>
                     </Button>
@@ -61,7 +64,7 @@
                             ToolTip="Edit Image.">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Edit"  Name="FaEditImage"                                           
-                                            FontSize="15"
+                                          
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Margin="5,4,5,0" />
                             <TextBlock>Edit</TextBlock>
@@ -72,7 +75,7 @@
                             ToolTip="Paste Image from Clipboard.">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Paste"  Name="FaPasteImage"                                           
-                                            FontSize="15"
+                                            
                                             FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Margin="5,2,5,0" />
                             <TextBlock>Paste</TextBlock>
@@ -83,7 +86,6 @@
                             ToolTip="Copy image.">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Copy"  Name="FaCopyImage"                                           
-                                            FontSize="15"
                                             FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Margin="5,2,5,0" />
                             <TextBlock>Copy</TextBlock>
@@ -94,7 +96,6 @@
                             ToolTip="Clear image.">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Remove"  Name="FaClearImage"                                           
-                                            FontSize="15"
                                             FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Margin="5,4,5,0" />
                             <TextBlock>Clear</TextBlock>
@@ -104,7 +105,7 @@
             </StackPanel>
         </ToolBarPanel>
         
-        <StackPanel Grid.Row="1" Margin="30,20,30,0">
+        <StackPanel Grid.Row="1" Margin="30,10,30,0">
             <Label  Content="Web URL or Local Image File: (relative path recommended)"/>
             <Grid>
                 <Grid.ColumnDefinitions>
