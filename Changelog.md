@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.3.4
-<small>not released yet</small>
+<small>May 4th, 2017</small>
 
 * **Edit Images from Markdown Image Link**  
 You can now bring up the Image Dialog from an image in the Markdown editor by selecting the image, and then right clicking. From there the full Paste Image Dialog is available and a new option there allows for editing of the image in your configured image editor.
