@@ -76,7 +76,6 @@
     <Compile Include="ClipboardTests.cs" />
     <Compile Include="MarkdownParserFactoryTest.cs" />
     <Compile Include="mmAppTests.cs" />
-    <Compile Include="WeblogMetaData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

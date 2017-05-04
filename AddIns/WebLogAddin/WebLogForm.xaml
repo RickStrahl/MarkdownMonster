@@ -72,17 +72,28 @@
 
 
 					<StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+						<StackPanel.Resources>
+							<Style TargetType="Button">
+								<Setter Property="Margin" Value="12,0,0,0" />
+								<Setter Property="BorderThickness" Value="0" />
+								<Setter Property="Background" Value="Transparent" />
+								<Setter Property="FontSize" Value="16" />
+							</Style>
+						</StackPanel.Resources>
 		                <TextBlock>Custom Fields:</TextBlock>
-		                <Button fa:Awesome.Content="Plus" 
-		                        Margin="8,0,0,0"
-		                        BorderThickness="0"
-		                        Foreground="Green" Click="ButtonAddCustomField_Click"/>
-		                <Button fa:Awesome.Content="Remove" 
-		                        Margin="8,0,0,0"
-		                        BorderThickness="0"
-		                        Foreground="Firebrick" Click="ButtonDeleteCustomField_Click"/>
-
-						<TextBlock fa:Awesome.Content="InfoCircle" Foreground="SteelBlue"/>
+		                <Button fa:Awesome.Content="PlusCircle" 								
+		                        Foreground="ForestGreen" 
+								ToolTip="Add a new Custom Field"
+								Click="ButtonAddCustomField_Click"/>
+						<Button fa:Awesome.Content="Remove" 
+		                        Foreground="Firebrick" 
+								ToolTip="Remove the selected Custom Field"
+								Click="ButtonDeleteCustomField_Click"/>
+						<Button Name="ButtonCustomFieldHelp" 
+								fa:Awesome.Content="InfoCircle" 
+								Foreground="SteelBlue"
+								ToolTip="More info on Custom Fields"
+								Click="ButtonCustomFieldHelp_Click"/>
 
 					</StackPanel>
 
@@ -96,13 +107,13 @@
 		                <ListBox.ItemTemplate>
 			                <DataTemplate>
 				                <Grid Name="GridCustomFields" >
-					                <Grid.ColumnDefinitions>
-						                <ColumnDefinition Width="150"/>
-						                <ColumnDefinition Width="*" />
-						                <ColumnDefinition Width="100" />
-					                </Grid.ColumnDefinitions>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="150"/>
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="100" />
+									</Grid.ColumnDefinitions>
 
-					                <TextBox Text="{Binding Key}" BorderThickness="0" />
+									<TextBox Text="{Binding Key}" BorderThickness="0" />
 					                <TextBox Grid.Column="1" Padding="5,0,5,0"  BorderThickness="0"
 					                         Text="{Binding Value}" />
 					                <TextBox Grid.Column="2" Text="{Binding Id}" BorderThickness="0" />
