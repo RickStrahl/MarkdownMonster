@@ -441,10 +441,11 @@
                                     <p>
                                         <ul>
                                             <li>Windows Vista or newer, 2008 or newer</li>
-                                            <li>.NET Framework 4.5 or later</li>
+                                            <li>.NET Framework 4.6 or later (<a href="http://smallestdotnet.com">check</a> or <a href="https://www.microsoft.com/net/download/framework">download</a>)</li">
                                             <li>Internet Explorer 11 or 10</li>
                                         </ul>
-                                    </p>                                    
+                                    <p>
+										&nbsp;</p>
                                     <div style="margin-top: 15px">                                        
                                        <a style="font-size: 1.4em" href="http://twitter.com/MarkdownMonstr"><i class="fa fa-twitter"></i>
                                            Follow us on Twitter

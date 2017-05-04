@@ -149,10 +149,15 @@ namespace MarkdownMonster
                 return DotnetVersion;
             }
 
-            int releaseKey = value;
+	        
+			int releaseKey = value;
             Console.WriteLine(value);
 
-            if (releaseKey >= 394802)
+			// https://msdn.microsoft.com/en-us/library/hh925568(v=vs.110).aspx
+			// RegEdit paste: HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full
+			if (releaseKey >= 460798)
+		        DotnetVersion = "4.7";
+            else if (releaseKey >= 394802)
                 DotnetVersion = "4.6.2";
             else if (releaseKey >= 394254)
                 DotnetVersion = "4.6.1";

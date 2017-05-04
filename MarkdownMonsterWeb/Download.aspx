@@ -150,7 +150,7 @@
                             <div>
                                 <i class="fa fa-check-circle"></i>
                                 Microsoft .NET 4.6+ <small>(4.6.2 recommended)
-                                <a href="http://smallestdotnet.com/">check</a></small>
+                                <a href="http://smallestdotnet.com/">check</a> or <a href="https://www.microsoft.com/net/download/framework">download</a></small>
                             </div>                            
                         </div>
                     </div>
