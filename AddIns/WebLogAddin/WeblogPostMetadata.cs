@@ -23,23 +23,22 @@ namespace WeblogAddin
         private string _abstract;
         private bool _isDraft;
 
-               
-        /// <summary>
-        /// The title of the post derived from the document's header
-        /// </summary>
-        public string Title
-        {
-            get { return _title; }
-            set
-            {
-                if (value == _title) return;
-                _title = value;
-                OnPropertyChanged(nameof(Title));
-            }
-        }
+	    /// <summary>
+	    /// The title of the post derived from the document's header
+	    /// </summary>
+	    public string Title
+	    {
+		    get { return _title; }
+		    set
+		    {
+			    if (value == _title) return;
+			    _title = value;
+			    OnPropertyChanged(nameof(Title));
+		    }
+	    }
 
 
-        /// <summary>
+	    /// <summary>
         /// Url that is mapped to wp_thumbnail
         /// </summary>
         public string FeaturedImageUrl { get; set; }
@@ -143,12 +142,13 @@ namespace WeblogAddin
         /// </summary>
         public IDictionary<string,CustomField> CustomFields { get; set;} = new Dictionary<string, CustomField>();
 
-        
-        /// <summary>
-        /// This should hold the sanitized markdown text
-        /// stripped of the config data.
-        /// </summary>
-        [YamlIgnore]
+	   
+
+		/// <summary>
+		/// This should hold the sanitized markdown text
+		/// stripped of the config data.
+		/// </summary>
+		[YamlIgnore]
         public string MarkdownBody { get; set; }
 
 
@@ -162,7 +162,7 @@ namespace WeblogAddin
 
 
         static readonly Regex YamlExtractionRegex = new Regex("^---[\n,\r\n].*?^---[\n,\r\n]", RegexOptions.Singleline | RegexOptions.Multiline);
-        
+		
         /// <summary>
         /// Strips the Markdown Meta data from the message and populates
         /// the post structure with the meta data values.
@@ -219,6 +219,9 @@ namespace WeblogAddin
 
             if (yamlMeta == null)
                 return meta;
+
+	        if (meta.CustomFields == null)
+		        meta.CustomFields = new Dictionary<string, CustomField>();
 
             meta = yamlMeta;
             meta.MarkdownBody = markdown.Replace(extractedYaml,"");
@@ -410,87 +413,14 @@ namespace WeblogAddin
 
             return meta;
         }
+             
 
-        /// <summary>
-        /// This method sets the RawMarkdownBody
-        /// </summary>
-        /// <param name="meta"></param>
-        /// <returns>Updated Markdown - also sets the RawMarkdownBody and MarkdownBody</returns>
-        public string xSetConfigInMarkdown()
-        {
-            var meta = this;
-            string markdown = meta.RawMarkdownBody;
+		#region INotify Property Changed
 
-
-            string customFields = null;
-            if (meta.CustomFields != null && meta.CustomFields.Count > 0)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine();
-                sb.AppendLine("<customFields>");
-                foreach (var cf in meta.CustomFields)
-                {
-                    sb.AppendLine("\t<customField>");
-                    sb.AppendLine($"\t\t<key>{cf.Key}</key>");
-                    sb.AppendLine($"\t\t<value>{System.Net.WebUtility.HtmlEncode(cf.Value.Value)}</value>");
-                    if (!string.IsNullOrEmpty(cf.Value.Id))
-                        sb.AppendLine($"\t\t<id>{cf.Value.Id}</id>");
-                    sb.AppendLine("\t</customField>");
-                }
-                sb.AppendLine("</customFields>");
-                customFields = sb.ToString();
-            }
-
-            string origConfig = StringUtils.ExtractString(markdown, "<!-- Post Configuration -->", "<!-- End Post Configuration -->", false, false, true);
-            string newConfig = $@"<!-- Post Configuration -->
-<!--
-```xml
-<blogpost>
-<title>{meta.Title}</title>
-<abstract>
-{meta.Abstract}
-</abstract>
-<categories>
-{meta.Categories}
-</categories>
-<keywords>
-{meta.Keywords}
-</keywords>
-<isDraft>{meta.IsDraft}</isDraft>
-<weblogs>
-<postid>{meta.PostId}</postid>
-<weblog>
-{meta.WeblogName}
-</weblog>
-</weblogs>
-<inferFeaturedImage>{meta.DontInferFeaturedImage}</inferFeaturedImage>
-<featuredImage>{meta.FeaturedImageUrl}</featuredImage>
-<featuredImageId>{meta.FeaturedImageId}</featuredImageId>{customFields}
-</blogpost>
-```
--->
-<!-- End Post Configuration -->";
-
-            if (string.IsNullOrEmpty(origConfig))
-            {
-                markdown += "\r\n" + newConfig;
-            }
-            else
-                markdown = markdown.Replace(origConfig, newConfig);
-
-            meta.RawMarkdownBody = markdown;
-            meta.MarkdownBody = meta.RawMarkdownBody.Replace(newConfig, "");
-
-            return markdown;
-        }
-        
-
-        #region INotify Property Changed
-
-        public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler PropertyChanged;
 
         
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

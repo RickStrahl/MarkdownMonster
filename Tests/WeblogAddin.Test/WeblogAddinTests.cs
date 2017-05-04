@@ -20,25 +20,7 @@ namespace WeblogAddin.Test
         {
             
         }
-
-        [TestMethod]
-        public void SetConfigInMarkdown()
-        {
-            var meta = new WeblogPostMetadata()
-            {
-                Abstract = "THis is an abstract",
-                Keywords = "Security,SSL,IIS",
-                RawMarkdownBody = MarkdownWithoutPostId,
-                PostId = "2",
-                WeblogName = "Rick Strahl's Web Log"
-            };
-
-            var addin = new WeblogAddin.WebLogAddin();
-            string markdown = meta.xSetConfigInMarkdown();
-
-            Console.WriteLine(markdown);
-            Assert.IsTrue(markdown.Contains("<postid>2</postid>"), "Post Id wasn't added");
-        }
+		
 
 
 

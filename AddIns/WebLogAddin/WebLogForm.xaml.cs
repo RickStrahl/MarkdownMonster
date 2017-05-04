@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -35,43 +36,48 @@ namespace WeblogAddin
         public WebLogForm(WeblogAddinModel model)
         {
             Model = model;
-
+			
             model.ActivePostMetadata = new WeblogPostMetadata();
+			
             model.ActiveWeblogInfo = new WeblogInfo();
 
             model.Window = this;
             
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
 
-            InitializeComponent();
+			
+			InitializeComponent();
 
-            DataContext = Model;
-
-            // Code bindings
-            ComboWeblogType.ItemsSource = Enum.GetValues(typeof(WeblogTypes)).Cast<WeblogTypes>();            
-
-            Loaded += WebLogStart_Loaded;
-            Closing += WebLogStart_Closing;
-
-            
+			Loaded += WebLogStart_Loaded;
+            Closing += WebLogStart_Closing;			
         }
 
         private void WebLogStart_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            //Model.LoadWebLognames();
+			//Model.LoadWebLognames();
 
-            var editor = Model.AppModel.ActiveEditor;
-            if (editor == null)
-                return;
+			var editor = Model.AppModel.ActiveEditor;
+	        if (editor == null)
+		        return;
 
-            var markdown = editor.GetMarkdown();
-            Model.ActivePostMetadata = WeblogPostMetadata.GetPostConfigFromMarkdown(markdown,Model.ActivePost, Model.ActiveWeblogInfo);
-         
-            var lastBlog = WeblogAddinConfiguration.Current.LastWeblogAccessed;
+	        var markdown = editor.GetMarkdown();
+	        Model.ActivePostMetadata = WeblogPostMetadata.GetPostConfigFromMarkdown(markdown, Model.ActivePost, Model.ActiveWeblogInfo);
+	        
+			Model.MetadataCustomFields =
+		        new ObservableCollection<CustomField>(
+			        Model.ActivePostMetadata.CustomFields.Select(kv => kv.Value));
+
+			var lastBlog = WeblogAddinConfiguration.Current.LastWeblogAccessed;
 
             if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))
                 Model.ActivePostMetadata.WeblogName = lastBlog;
-        }
+	        
+			// Code bindings
+	        ComboWeblogType.ItemsSource = Enum.GetValues(typeof(WeblogTypes)).Cast<WeblogTypes>();
+
+			// have to do this here otherwise MetadataCustomFields is not updating in model
+	        DataContext = Model;
+		}
 
 
         private void WebLogStart_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -86,7 +92,10 @@ namespace WeblogAddin
         private async void ButtonPostBlog_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             ShowStatus("Uploading Blog post...");
-            SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Upload, Colors.Orange, true);
+
+	        GetCustomFieldsFromObservableCollection();
+
+			SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Upload, Colors.Orange, true);
 
 
             if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))
@@ -127,7 +136,9 @@ namespace WeblogAddin
         }
 
         void ButtonSaveMeta_Click(object sender, RoutedEventArgs e)
-        {                        
+        {
+	        GetCustomFieldsFromObservableCollection();
+
             // Update the Markdown document first
             string markdown = Model.ActivePostMetadata.SetPostYaml();
             Model.AppModel.ActiveEditor.SetMarkdown(markdown, updateDirtyFlag: true);            
@@ -135,7 +146,6 @@ namespace WeblogAddin
 
         private void ButtonNewPost_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-         
             string title = Model.NewTitle;
             if (string.IsNullOrEmpty(title))
                 return;
@@ -490,5 +500,53 @@ namespace WeblogAddin
         {
             ShellUtils.GoUrl("https://markdownmonster.west-wind.com/docs/_4rg0qzg1i.htm");
         }
-    }
+
+
+		#region CustomField Handling
+		private void ButtonAddCustomField_Click(object sender, RoutedEventArgs e)
+		{
+			Model.MetadataCustomFields.Add(new CustomField
+			{
+				Key="new_key",Value="value"
+			});
+			//RefreshCustomFields();
+		}
+
+	    private void ButtonDeleteCustomField_Click(object sender, RoutedEventArgs e)
+	    {
+
+			var item = ListCustomFields.SelectedItem as CustomField;
+			if (item == null)
+				return;
+
+		    
+			Model.MetadataCustomFields.Remove(item);
+		    //RefreshCustomFields();
+	    }
+
+	    private void GetCustomFieldsFromObservableCollection()
+	    {
+		    Model.ActivePostMetadata.CustomFields.Clear();
+		    foreach (var cf in Model.MetadataCustomFields)
+		    {
+			    Model.ActivePostMetadata.CustomFields.Add(cf.Key, cf);
+		    }			
+		}
+
+
+	    private void ButtonCustomFieldHelp_Click(object sender, RoutedEventArgs e)
+	    {
+		    ShellUtils.GoUrl(mmApp.GetDocumentionUrl("_4wq1dbsnh"));
+	    }
+
+		//private void RefreshCustomFields()
+		//   {
+		//	ListCustomFields.ItemsSource = null;
+		//    WindowUtilities.DoEvents();
+		//    ListCustomFields.ItemsSource = Model.ActivePostMetadata.CustomFields;
+		//    Model.ActivePostMetadata.OnPropertyChanged("HasCustomFields");
+		//}
+		#endregion
+
+	}
 }

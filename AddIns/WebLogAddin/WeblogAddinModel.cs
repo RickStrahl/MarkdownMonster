@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -81,9 +82,32 @@ namespace WeblogAddin
                 OnPropertyChanged(nameof(ActivePostMetadata));
             }
         }
+		
 
+		public ObservableCollection<CustomField> MetadataCustomFields
+		{
+			get { return _metadataCustomFields; }
+			set
+			{
+				if (value == _metadataCustomFields) return;
+				_metadataCustomFields = value;
+				OnPropertyChanged(nameof(MetadataCustomFields));
+			}
+		}
+	    private ObservableCollection<CustomField> _metadataCustomFields = new ObservableCollection<CustomField>();
+		
+	    
+	    public bool MetadataHasCustomFields
+	    {
+		    get
+		    {
+			    bool any = MetadataCustomFields.Any();
+			    OnPropertyChanged(nameof(MetadataCustomFields));
+			    return any;
+		    }
+	    }
 
-        public WeblogInfo ActiveWeblogInfo
+		public WeblogInfo ActiveWeblogInfo
         {
             get { return _activeWeblogInfo; }
             set

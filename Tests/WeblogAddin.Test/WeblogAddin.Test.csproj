@@ -45,6 +45,9 @@
     <Reference Include="Westwind.Utilities, Version=2.71.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Westwind.Utilities.2.71.1\lib\net45\Westwind.Utilities.dll</HintPath>
     </Reference>
+    <Reference Include="YamlDotNet, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\YamlDotNet.4.1.0\lib\net35\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">

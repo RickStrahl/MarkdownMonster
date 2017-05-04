@@ -19,7 +19,7 @@
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner" FontSize="15"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="800" Height="660" MinHeight="660" MinWidth="600">
+        Width="800" Height="750" MinHeight="750" MinWidth="600">
     <Window.Resources>
         <windows:InvertedBooleanConverter x:Key="InvertBooleanConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -70,7 +70,48 @@
                     <Label Margin="0,10,0,0">Keywords:</Label>
                     <TextBox Text="{Binding ActivePostMetadata.Keywords}"  />
 
-                    <Grid>
+
+					<StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+		                <TextBlock>Custom Fields:</TextBlock>
+		                <Button fa:Awesome.Content="Plus" 
+		                        Margin="8,0,0,0"
+		                        BorderThickness="0"
+		                        Foreground="Green" Click="ButtonAddCustomField_Click"/>
+		                <Button fa:Awesome.Content="Remove" 
+		                        Margin="8,0,0,0"
+		                        BorderThickness="0"
+		                        Foreground="Firebrick" Click="ButtonDeleteCustomField_Click"/>
+
+						<TextBlock fa:Awesome.Content="InfoCircle" Foreground="SteelBlue"/>
+
+					</StackPanel>
+
+	                <!--<Line Margin="0,8,0,0" Height="3" Width="300" Fill="white"/>-->
+
+	                <ListBox Name="ListCustomFields" IsSynchronizedWithCurrentItem="True"
+	                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+	                         Height="57"
+	                         ItemsSource="{Binding MetadataCustomFields}"
+	                         Visibility="{Binding MetadataHasCustomFields,Converter={StaticResource BooleanToVisibilityConverter}}">
+		                <ListBox.ItemTemplate>
+			                <DataTemplate>
+				                <Grid Name="GridCustomFields" >
+					                <Grid.ColumnDefinitions>
+						                <ColumnDefinition Width="150"/>
+						                <ColumnDefinition Width="*" />
+						                <ColumnDefinition Width="100" />
+					                </Grid.ColumnDefinitions>
+
+					                <TextBox Text="{Binding Key}" BorderThickness="0" />
+					                <TextBox Grid.Column="1" Padding="5,0,5,0"  BorderThickness="0"
+					                         Text="{Binding Value}" />
+					                <TextBox Grid.Column="2" Text="{Binding Id}" BorderThickness="0" />
+				                </Grid>
+			                </DataTemplate>
+		                </ListBox.ItemTemplate>
+	                </ListBox>
+
+					<Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="85"/>
@@ -93,23 +134,25 @@
                         <Label Grid.Row="0"  Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Right">Post Id:</Label>
                         <TextBox Grid.Row="1"  IsEnabled="{Binding IsAbstractVisible}" Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
 
-                        <StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0"  >
-                            <CheckBox Name="PublishAsDraftCheckbox" 
+						<StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
+							<CheckBox Name="PublishAsDraftCheckbox" 
                                   Content="Publish as Draft"  IsChecked="{Binding ActivePostMetadata.IsDraft}"
                                   ToolTip="If checked posts the current entry to the server as a non-active draft."
                                   />
-                            <CheckBox Name="InferFeaturedImage"  Margin="30,0,0,0" 
+							<CheckBox Name="InferFeaturedImage"  Margin="20,0,0,0" 
                                   Content="Don't infer Featured Image"  IsChecked="{Binding ActivePostMetadata.DontInferFeaturedImage}" 
                                   ToolTip="If checked won't infer a featured image from the first linked image in the post content."/>
-                            <CheckBox Name="StripH1Header"  Margin="30,0,0,0" 
+							<CheckBox Name="StripH1Header"  Margin="20,0,0,0" 
                                   Content="Don't strip Header Text"  IsChecked="{Binding ActivePostMetadata.DontStripH1Header}" 
                                   ToolTip="If checked leaves strips the first H1 link in the post." />
-                        </StackPanel>
+						</StackPanel>
+					</Grid>
 
-                    </Grid>
+					
 
-                    <StackPanel Orientation="Horizontal">
-                        <Button  Grid.Column="0" Margin="0,30" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
+
+					<StackPanel Orientation="Horizontal">
+                        <Button  Grid.Column="0" Margin="0,10" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonPostBlog_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Upload" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Post to Weblog</TextBlock>
@@ -117,15 +160,16 @@
                        </Button>
                          
                         
-                        <Button Grid.Column="1" Margin="10,30" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonSaveMeta_Click" >
+                        <Button Grid.Column="1" Margin="10,20" Height="40" Width="175"  HorizontalAlignment="Left" Click="ButtonSaveMeta_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Save Metadata</TextBlock>
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                    
-                </StackPanel>
+
+					
+				</StackPanel>
             </controls:MetroTabItem>
 
 
@@ -386,8 +430,8 @@
                     FontSize="14" Padding="0,4,0,0">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
+					<Grid>
+						<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
