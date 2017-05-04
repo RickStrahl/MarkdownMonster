@@ -128,10 +128,11 @@ namespace MarkdownMonster
         /// </summary>
         public static string UpdateCheckUrl { get; internal set; }
 
-          
+	    public static string DocumentationBaseUrl { get; set; } =
+		    "https://markdownmonster.west-wind.com/docs/";
 
 
-        #region Initialization and Shutdown
+	    #region Initialization and Shutdown
 
         
         /// <summary>
@@ -147,19 +148,29 @@ namespace MarkdownMonster
         {
             Started = DateTime.UtcNow;
 
-            if (Telemetry.UseApplicationInsights)
+            try
             {
-                AppInsights = new TelemetryClient { InstrumentationKey = Telemetry.Key };
-                AppInsights.Context.Session.Id = Guid.NewGuid().ToString();
-                AppInsights.Context.Component.Version = GetVersion();
+                if (Configuration.SendTelemetry && Telemetry.UseApplicationInsights)
+                {
+                    AppInsights = new TelemetryClient {InstrumentationKey = Telemetry.Key};
+                    AppInsights.Context.Session.Id = Guid.NewGuid().ToString();
+                    AppInsights.Context.Component.Version = GetVersion();
 
-                AppRunTelemetry = AppInsights.StartOperation<RequestTelemetry>($"App Run - {GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
-                AppRunTelemetry.Telemetry.Start();
+                    AppRunTelemetry =
+                        AppInsights.StartOperation<RequestTelemetry>(
+                            $"App Run - {GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
+                    AppRunTelemetry.Telemetry.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                Telemetry.UseApplicationInsights = false;
+                LogToLogfile("Application Insights initialization failure: " + ex.GetBaseException().Message);
             }
         }
         public static void Shutdown(bool errorShutdown = false)
         {
-            if (Telemetry.UseApplicationInsights && AppInsights != null)
+            if (Configuration.SendTelemetry &&  Telemetry.UseApplicationInsights && AppInsights != null)
             {
                 var t = AppRunTelemetry.Telemetry;
                 t.Properties.Add("version", GetVersion());
@@ -313,8 +324,7 @@ Markdown Monster v{version}
             var text = msg + exMsg;
 
             LogToLogfile(text);
-            StringUtils.LogString(text, Path.Combine(Configuration.CommonFolder,
-                    "MarkdownMonsterErrors.txt"), Encoding.UTF8);            
+                  
         }
 
         /// <summary>
@@ -397,18 +407,18 @@ Markdown Monster v{version}
         /// <param name="data"></param>
         public static void SendTelemetry(string operation, string data = null)
         {
+            if (!Configuration.SendTelemetry)
+                return;
+
             bool isRegistered = UnlockKey.IsRegistered();
             int accessCount = mmApp.Configuration.ApplicationUpdates.AccessCount;
-
-            if (!Configuration.SendTelemetry || (isRegistered && accessCount > 350))
-                return;
 
             string version = GetVersion();
 
             var t = new Telemetry
             {
                 Version = version,
-                Registered = UnlockKey.IsRegistered(),
+                Registered = isRegistered,
                 Access = accessCount,
                 Operation = operation,
                 Time = Convert.ToInt32((DateTime.UtcNow - Started).TotalSeconds),
@@ -432,6 +442,19 @@ Markdown Monster v{version}
             }
         }
 
+		/// <summary>
+		/// Returns a fully qualified Help URL to a topic in the online
+		/// documentation based on a topic id.
+		/// </summary>
+		/// <param name="topic">The topic id or topic .html file</param>
+		/// <returns>Fully qualified URL</returns>
+	    public static string GetDocumentionUrl(string topic)
+	    {
+		    if (!topic.Contains(".htm"))
+			    topic += ".htm";
+
+			return mmApp.DocumentationBaseUrl + topic;
+	    }
         #endregion
 
         #region Version information
