@@ -8,7 +8,7 @@
 <head>
     <title>Markdown Monster - A better Markdown Editor for Windows</title>
     <meta name="description" content="Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows." />
-    <meta name="keywords" content="markdown, text editor, documentation, editor, windows, weblog, publishing, screen capture, writing, open source, extensible, addins" />
+    <meta name="keywords" content="markdown editor,markdown,text editor,documentation,windows,weblog,publishing,screen capture,writing,documentation,open source,extensible,addins,wpf,dotnet" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
     <meta name="company" content="West Wind Technologies - http://west-wind.com"/>
