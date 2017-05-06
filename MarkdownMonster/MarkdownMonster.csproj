@@ -129,6 +129,10 @@
     <Compile Include="Windows\EmojiWindow.xaml.cs">
       <DependentUpon>EmojiWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\FolderBrowserSidebar\FolderBrowerSidebar.xaml.cs">
+      <DependentUpon>FolderBrowerSidebar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\FolderBrowserSidebar\FolderStructure.cs" />
     <Compile Include="_Classes\AddInInterfaces\AddinItem.cs" />
     <Compile Include="_Classes\AddInInterfaces\AddinManager.cs" />
     <Compile Include="_Classes\AddInInterfaces\AddInMenuItem.cs" />
@@ -240,6 +244,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\EmojiWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\FolderBrowserSidebar\FolderBrowerSidebar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

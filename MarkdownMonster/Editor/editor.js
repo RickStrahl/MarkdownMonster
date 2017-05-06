@@ -4,7 +4,7 @@
 // NOTE: All method and property names have to be LOWER CASE!
 //       in order for FoxPro to be able to access them here.
 var te = window.textEditor = {
-    mm: null, // FoxPro COM object
+    mm: null, // Markdown Monster MarkdownDocumentEditor COM object
     editor: null, // Ace Editor instance
     previewRefresh: 800,
     settings: editorSettings,
@@ -619,7 +619,6 @@ function initializeinterop(textbox) {
     te.mm.textbox = textbox;
     return window.textEditor;
 }
-
 
 function status(msg) {
     var $el = $("#message");

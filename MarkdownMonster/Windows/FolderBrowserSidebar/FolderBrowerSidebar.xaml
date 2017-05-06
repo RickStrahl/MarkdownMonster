@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="MarkdownMonster.Windows.FolderBrowerSidebar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:local="clr-namespace:MarkdownMonster.Windows"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+	<Grid>
+		<Grid.Resources>
+			<HierarchicalDataTemplate x:Key="FolderTemplate" ItemsSource="{Binding Path=Files}" DataType="{x:Type local:PathItem}">
+				<TextBlock Text="{Binding DisplayName, Mode=OneWay}" Margin="0,0,0,0" 
+								   MouseDown="TreeViewItem_MouseDoubleClick">
+
+					<TextBlock.Style>
+								<Style TargetType="TextBlock">
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding IsFolder}"
+												 Value="True">
+											<Setter Property="FontWeight" Value="Bold"/>
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+			</HierarchicalDataTemplate>
+		</Grid.Resources>
+		
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		
+
+		<Grid>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="30" />
+			</Grid.ColumnDefinitions>
+
+			<TextBox Name="TextFolderPath" Text="{Binding FolderPath}" Margin="0,0,3,0" BorderThickness="0" Opacity="0.8"/>
+			<Button Grid.Column="1" fa:Awesome.Content="LocationArrow"
+			        Foreground="SteelBlue"
+					Name="ButtonUseCurrentFolder" BorderThickness="0" FontSize="15" FontWeight="Normal"
+					ToolTip="Select folder of active document" 
+					Click="ButtonUseCurrentFolder_Click" />
+		</Grid>
+		<TreeView Grid.Row="1" Name="TreeFolderBrowser"
+				  ItemTemplate="{StaticResource FolderTemplate}"
+				  ItemsSource="{Binding ActivePathItem.Files}"  KeyDown="TreeViewItem_Keyup" />
+	</Grid>
+</UserControl>

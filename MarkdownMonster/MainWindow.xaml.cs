@@ -91,9 +91,11 @@ namespace MarkdownMonster
 
         public MainWindow()
         {
-            InitializeComponent();
 
-            Model = new AppModel(this);
+	        InitializeComponent();
+						
+
+			Model = new AppModel(this);
             DataContext = Model;
 
             InitializePreviewBrowser();

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarkdownMonster"
+		xmlns:localwindows="clr-namespace:MarkdownMonster.Windows"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -16,6 +17,7 @@
         BorderThickness="0" 
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"
+		FontSize="14"
         Height="740" Width="1100" MinWidth="800" MinHeight="600" WindowTransitionsEnabled="False">
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt+Shift"
@@ -109,7 +111,8 @@
         </Grid.ColumnDefinitions>
 
         <Menu x:Name="MainMenu" Grid.Row="0" Height="30" 
-              Margin="0"               
+              Margin="0" 
+              FontSize="{Binding Path=FontSize,ElementName=MainApplicationWindow}"
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File">
                 <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding NewDocumentCommand}" InputGestureText="Ctrl-N"/>
@@ -246,8 +249,8 @@
         </Menu>
 
         
-        <StackPanel Grid.Row="1">
-            <ToolBarPanel Name="ToolbarPanelMain">
+        <StackPanel Grid.Row="1" >
+			<ToolBarPanel Name="ToolbarPanelMain" >
                 <ToolBarPanel.Resources>
                     <Style x:Key="ToolbarIconRectangleStyle" TargetType="Rectangle">
                         <Style.Setters>
@@ -264,7 +267,7 @@
 
 
                 <StackPanel Orientation="Horizontal">
-                    <ToolBar Name="ToolbarFile" >
+					<ToolBar Name="ToolbarFile" >
 
                         <Button Name="ToolButtonOpenFile" Margin="7,0,0,0"  Command="{Binding OpenDocumentCommand}" ToolTip="Open Markdown file (ctrl-o)"                                
                                 fa:Awesome.Content="FolderOpen"
@@ -449,12 +452,33 @@
 
         <Grid Name="ContentGrid" Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Name="MainWindowEditorColumn" Width="*" />
+				<ColumnDefinition Name="FolderBrowserColumn" Width="250" />
+	            <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="12" />
+				<ColumnDefinition Name="MainWindowEditorColumn" Width="*" />
                 <ColumnDefinition Name="MainWindowSeparatorColumn" Width="0" />
                 <ColumnDefinition Name="MainWindowPreviewColumn"  Width="0" />
             </Grid.ColumnDefinitions>
 
-            <dragablz:TabablzControl x:Name="TabControl"
+			<localwindows:FolderBrowerSidebar x:Name="FolderBrowser"  FolderPath="c:\temp\clienttools">
+				
+			</localwindows:FolderBrowerSidebar>
+
+			<GridSplitter Grid.Column="1"                          
+			              Width="12"                          
+			              HorizontalAlignment="Center"                          
+			              BorderThickness="0" IsTabStop="False"
+			              VerticalAlignment="Stretch">
+				<GridSplitter.Template>
+					<ControlTemplate TargetType="{x:Type GridSplitter}">
+						<Grid Background="Transparent">
+							<Image Source="Assets/vsizegrip.png" Height="30" VerticalAlignment="Center" />
+						</Grid>
+					</ControlTemplate>
+				</GridSplitter.Template>
+			</GridSplitter>
+
+			
+			<dragablz:TabablzControl x:Name="TabControl" Grid.Column="2"
                                      Margin="0,5,0,0"
                                      FontSize="13"
                                      Background="#222"
@@ -463,10 +487,10 @@
                                      ShowDefaultAddButton="False"
                                      SelectionChanged="TabControl_SelectionChanged" />
 
-            <GridSplitter Grid.Column="1"                          
+            <GridSplitter Grid.Column="3"                          
                           Width="12"                          
                           HorizontalAlignment="Center"                          
-                          BorderThickness="0"
+                          BorderThickness="0" IsTabStop="False"
                           VerticalAlignment="Stretch">
                 <GridSplitter.Template>
                     <ControlTemplate TargetType="{x:Type GridSplitter}">
@@ -477,7 +501,7 @@
                 </GridSplitter.Template>
             </GridSplitter>
 
-            <WebBrowser Grid.Column="2" Name="PreviewBrowser"
+            <WebBrowser Grid.Column="4" Name="PreviewBrowser"
                         VerticalAlignment="Stretch"  SizeChanged="PreviewBrowser_SizeChanged"
                         HorizontalAlignment="Stretch"  >
             </WebBrowser>
@@ -485,7 +509,7 @@
 
 
         <StatusBar  Grid.Row ="3"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
-                    HorizontalAlignment="Stretch" FontSize="12">
+                    HorizontalAlignment="Stretch">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>

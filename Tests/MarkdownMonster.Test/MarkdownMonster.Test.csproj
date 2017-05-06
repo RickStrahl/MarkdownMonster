@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="AddinManagerTest.cs" />
     <Compile Include="BugReportTests.cs" />
+    <Compile Include="FolderStructureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NamedPipeManagerTests.cs" />
     <Compile Include="ApplicationUpdaterTest.cs" />
