@@ -33,7 +33,7 @@ using System.Windows;
 using System.Windows.Media;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
-using MarkdownMonster.Windows;
+using Westwind.Utilities;
 
 
 namespace MarkdownMonster
@@ -60,12 +60,15 @@ namespace MarkdownMonster
 
         public App()
         {
-            initialStartDirectory = Environment.CurrentDirectory;
 
             SplashScreen splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
             splashScreen.Show(true);
 
-            if (mmApp.Configuration.UseSingleWindow)
+	        initialStartDirectory = Environment.CurrentDirectory;
+
+		
+
+			if (mmApp.Configuration.UseSingleWindow)
             {
                 bool isOnlyInstance = false;
                 Mutex = new Mutex(true, @"MarkdownMonster", out isOnlyInstance);
@@ -207,8 +210,26 @@ namespace MarkdownMonster
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            
-            new TaskFactory().StartNew(LoadAddins);
+	        var dotnetVersion = ComputerInfo.GetDotnetVersion();
+	        if (String.Compare(dotnetVersion, "4.6", StringComparison.Ordinal) < 0)
+	        {
+		        new TaskFactory().StartNew(() => MessageBox.Show("Markdown Monster requires .NET 4.6 or later to run.\r\n\r\n" +
+		                                                               "Please download and install the latest version of .NET version from:\r\n" +
+		                                                               "https://www.microsoft.com/net/download/framework\r\n\r\n" +
+		                                                               "Exiting application and navigating to .NET Runtime Downloads page.",
+			        "Markdown Monster",
+			        MessageBoxButton.OK,
+			        MessageBoxImage.Warning
+		        ));
+
+		        Thread.Sleep(10000);
+		        ShellUtils.GoUrl("https://www.microsoft.com/net/download/framework");
+				Environment.Exit(0);
+			}
+
+
+
+			new TaskFactory().StartNew(LoadAddins);
 
             if (mmApp.Configuration.DisableHardwareAcceleration)
                 RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
@@ -219,12 +240,13 @@ namespace MarkdownMonster
 
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
 
-            
-            if (!mmApp.Configuration.DisableAddins)
+	        
+
+			if (!mmApp.Configuration.DisableAddins)
             {
                 new TaskFactory().StartNew(() =>
                 {
-                    ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");                    
+	                ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");                    
                     ComputerInfo.EnsureSystemPath();
 
                     if(!Directory.Exists(mmApp.Configuration.InternalCommonFolder))
