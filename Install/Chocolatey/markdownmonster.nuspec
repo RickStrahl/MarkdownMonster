@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>MarkdownMonster</id>
-    <version>1.3.4</version>
+    <version>1.3.5</version>
     <title>Markdown Monster</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
     <owners>West Wind Technologies</owners>
@@ -16,9 +16,9 @@ Markdown Monster can also publish your Markdown directly to your Weblog that sup
 
 Markdown Monster can also be extended using an easy, but powerful .NET based add-in model and a few useful addins are available to provide features like storing images in Azure Blobs, a reusable Snippets manager, and more.
 
-Markdown Monster can be downloaded and evaluated for free. This package is **unlimited and fully functional**, but a [license](http://store.west-wind.com/product/markdown_monster) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub.
+Markdown Monster can be downloaded and evaluated for free. This package is **unlimited and fully functional**, but a [license](http://store.west-wind.com/product/markdown_monster) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub. Requires **.NET 4.6 or later**.
 
-A portable, non-admin Chocolatey install is also available in [MarkdownMonster.Portable](https://chocolatey.org/packages/MarkdownMonster.Portable).
+A portable, non-admin Chocolatey install is also available in [MarkdownMonster.Portable](https://chocolatey.org/packages/MarkdownMonster.Portable). 
     </description>
     <summary>Markdown Monster is an easy to use and extensible Markdown Editor and Viewer and Weblog Publisher</summary>
     <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/ChangeLog.md</releaseNotes>

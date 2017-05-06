@@ -9,6 +9,7 @@ $version = $version.Trim().Trim(".0")
 
 $finalFile = "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases\v1.3\MarkdownMonsterSetup-${version}.exe"
 copy $releaseFile $finalFile
+copy $releaseFile "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases\CurrentRelease\MarkdownMonsterSetup.exe"
 cd "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases"
 
 git add -f "v1.3/MarkdownMonsterSetup-${version}.exe"
