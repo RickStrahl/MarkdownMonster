@@ -3,6 +3,12 @@
 # Markdown Monster Change Log
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.3.6
+<small>*not released yet*</small>
+
+* **New File Browser Panel**
+There's no a file browser that you can use to see files in a specific folder.
+
 ### 1.3.4
 *<small>May 4th, 2017</small>*
 
