@@ -7,7 +7,7 @@
 <small>*not released yet*</small>
 
 * **New File Browser Panel**
-There's no a file browser that you can use to see files in a specific folder.
+Added a new file browser panel that allows browsing for files. You can open files from this view as well as preview images, and open others with default programs. Basic image editing and management for adding, deleting and renaming of files and folders.
 
 ### 1.3.4
 *<small>May 4th, 2017</small>*
