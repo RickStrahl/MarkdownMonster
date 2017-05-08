@@ -81,22 +81,22 @@
 			<Button fa:Awesome.Content="EllipsisH" Grid.Column="1" Background="Transparent"
 			        Foreground="#70B8FF" Padding="8,0,8,0" 
 			        Name="ButtonSelecttFolder" BorderThickness="0"  FontWeight="Normal" 
-			        ToolTip="Browse for folder" 
+			        ToolTip="Browse for Folder" 
 			        Click="ButtonSelectFolder_Click" />
 			<Button  fa:Awesome.Content="LocationArrow" Background="Transparent" 
 			         Foreground="#70B8FF" Padding="8,0,8,0" Grid.Column="2"  
 					 Name="ButtonUseCurrentFolder" BorderThickness="0" FontWeight="Normal"
-			         ToolTip="Select folder of active document" 
+			         ToolTip="Set Folder to Active Document's Folder" 
 			         Click="ButtonUseCurrentFolder_Click" />
 			<Button  fa:Awesome.Content="Refresh" Background="Transparent" 
 			         Foreground="#70B8FF" Padding="8,0,8,0" Grid.Column="3"  
 			         Name="ButtonRefreshFolder" BorderThickness="0" FontWeight="Normal"
-			         ToolTip="Refresh folder" 
+			         ToolTip="Refresh Folder" 
 			         Click="ButtonRefreshFolder_Click" />
 			<Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
 			         Foreground="#70B8FF" Padding="8,0,8,0" Grid.Column="4"  
-			         Name="ButtonClosePanel" BorderThickness="0" FontWeight="Normal"
-			         ToolTip="Refresh folder" 
+			         Name="ButtonClosePanel" BorderThickness="0" 
+			         ToolTip="Close Folder Browser Panel" 
 			         Click="ButtonClosePanel_Click" />
 
 		</Grid>

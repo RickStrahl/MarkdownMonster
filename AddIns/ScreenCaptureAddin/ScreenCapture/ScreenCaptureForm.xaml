@@ -16,23 +16,21 @@
         Icon="../MarkdownMonster_Icon_128.png"    
         WindowStyle="SingleBorderWindow"         
         WindowStartupLocation="Manual"
-        FontSize="15"    
+        FontSize="14"    
         Foreground="#ffeeee"
-    
         Width="1250" Height="1000">
 
     <Grid Margin="0,0,0,0" Name="PageGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
+            <RowDefinition Height="34"/>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0">
-            <ToolBarPanel>
+            <ToolBarPanel Grid.Row="0">
                 <StackPanel Orientation="Horizontal">
-                    <ToolBar FontWeight="Normal" FontSize="14" Padding="0,8,0,5">
+                    <ToolBar FontWeight="Normal" Padding="0,10,0,7">
 
                         <Button Name="ToolButtonSaveImage" Click="tbSave_Click" IsDefault="True"
                                 IsEnabled="{Binding IsBitmap}"
@@ -121,7 +119,7 @@
                     </ToolBar>
                 </StackPanel>
             </ToolBarPanel>
-        </StackPanel>
+        
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>

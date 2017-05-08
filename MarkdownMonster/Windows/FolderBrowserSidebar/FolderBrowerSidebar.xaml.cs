@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -488,12 +489,15 @@ namespace MarkdownMonster.Windows
 
 			var selected = TreeFolderBrowser.SelectedItem as PathItem;
 			if (selected != null)
-				folder = Path.GetDirectoryName(selected.FullPath);
+				folder = selected.FullPath; // Path.GetDirectoryName(selected.FullPath);
 
 			if (string.IsNullOrEmpty(folder))
 				return;
 
-			ShellUtils.GoUrl(folder);
+			if (selected == null || selected.IsFolder)
+				ShellUtils.GoUrl(folder);
+			else
+				Process.Start("explorer.exe", "/select,\"" + folder + "\"");
 		}
 
 		private void MenuOpenTerminal_Click(object sender, RoutedEventArgs e)

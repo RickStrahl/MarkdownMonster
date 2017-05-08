@@ -701,7 +701,7 @@ Do you want to View in Browser now?
 
                     glToolbar = new GridLength(30);
                     glMenu = new GridLength(25);
-                    glStatus = new GridLength(30);
+                    glStatus = new GridLength(28);
 
                     mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Visible;
 
@@ -726,7 +726,7 @@ Do you want to View in Browser now?
                         glToolbar = new GridLength(30);
 
                     if (tokens.All(d => d != "statusbar"))
-                        glStatus = new GridLength(30);
+                        glStatus = new GridLength(28);
 					
 					if (tokens.Any(d => d == "tabs"))
                         mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Hidden;
