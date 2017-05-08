@@ -69,22 +69,28 @@
                             <dt>Version:</dt>
                             <dd>v<%= Version %> 
                                 <a style="font-size: 0.8em;padding-left: 15px" 
-                                   href="https://github.com/RickStrahl/MarkdownMonster/blob/master/ChangeLog.md">what's new?</a></dd>
+                                   href="https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md">what's new?</a></dd>
                                 
                             <dt>Released:</dt>
                             <dd><%= ReleaseDate %></dd>
 
                             <dt>File size:</dt>
-                            <dd>4.3 mb</dd>
+                            <dd>4.8 mb</dd>
                        </dl> 
                                                                         
                     </div>
                     <div class=" col-sm-7">
-                        <a class="btn btn-lg btn-info" href="https://west-wind.com/files/MarkdownMonsterSetup.exe">
-                            <i class="fa fa-download fa-" style="font-size: 0.8em; padding-left: 10px;"></i> &nbsp; 
+	                    
+						<a class="btn btn-lg btn-info" href="https://west-wind.com/files/MarkdownMonsterSetup.exe">
+                            <i class="fa fa-download fa-2x" style="font-size: 0.8em; "></i> &nbsp; 
                             Download Markdown Monster
                         </a>
+						
+	                    <a href="http://www.softpedia.com/get/Office-tools/Text-editors/Markdown-Monster.shtml#status">
+		                    <img src="images/Softpedia.png" style="margin: 5px; margin-left: 15px; height: 115px;"/>
+	                    </a>
                         
+						
                         <div class="small" style="margin-top: 10px">alternates: <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip" title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> | 
                                                                                 <a href="https://west-wind.com/files/MarkdownMonsterPortable.zip" title="Fully self contained folder structure for Markdown Monster that can run without installation. Adds some limitations: No .md file association, no global command line access and Addins may not install if running out of a non-privileged folder.">Portable Zip</a> </div>
                         <div style="margin-top: 15px;">

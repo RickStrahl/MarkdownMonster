@@ -227,34 +227,38 @@
                     up with <strong>all</strong> of those scenarios?
                 </p>
                 <p>                    
-                    Markdown Monster is a responsive Markdown editor that lets you edit Markdown with syntax highlighting
-                    and super fast text entry. A collapsable synced, live preview lets you preview your output as you type.
-                    You can export Markdown to HTML by saving to disk or by exporting text selections of Markdown generated HTML directly to the clipboard.
-                    Inline spell-checking and word counts keep your content streamlined, and a handful of optional  
-                    toolbar and menu options help you to streamline embedding of links, images and code into your Markdown. 
-                    Our preview can display syntax colored code snippets for most common coding languages, and it can 
-                    easily be customized with HTML and CSS template to match your own sites and preferences. You can
-                    choose from a number of editor and preview themes and you can even use Vim or EMacs type conventions.
-                    Other convenience features let you jump to the current folder in Explorer or a Command window,
-                    print the current document's HTML output, and more.
+                    Markdown Monster is a Markdown editor and viewer that lets you edit Markdown with syntax highlighting
+                    and fast text entry. A collapsible, synced, live preview lets you see your output as you type.
+					You can easily embed images, links, emojis and code as text or by using our gentle UI
+					helpers that simplify many operations. You can also paste and drag images directly into the editor.
+	                Inline spell-checking and word counts keep your content streamlined unobtrusively.
+				</p>
+				<p>
+                    You can export Markdown to HTML by saving to disk or by exporting text selections of Markdown
+					generated HTML directly to the clipboard. The HTML preview can display syntax colored code snippets 
+					for most common coding languages, and it can easily be customized with HTML and CSS template to match 
+					your own sites and preferences. You can choose from a number of editor and preview themes and you 
+					can even use Vim or EMacs type conventions. Both the editor and preview can be customized with 
+					themes that are extensible with Web technologies. Other convenience features let you jump to the current 
+					folder in Explorer or a Command window, print the current document's HTML output, and more.
                 </p>
 
                 <h3>Weblog Publishing</h3>
                 <p>
-                    Markdown Monster also can publish your Markdown to your Weblog quickly and easily.
-                    If your Weblog supports WordPress or MetaWeblog APIs we can publish your documents to
-                    your blog with minimal effort. You can also edit and republish, or download existing
-                    posts and even convert them from HTML to Markdown.
+                    Markdown Monster can also publish your Markdown directly to your Weblog. If your Weblog supports 
+					WordPress, MetaWeblog or Medium APIs you can publish your documents with one click. You can also 
+					edit and republish, or download existing posts and even convert existing posts from HTML to Markdown.
                  </p>
                 
                 <h3>Extensible via .NET Addins</h3>
                  <p>
-                    In addition to building an attractive and highly functional Markdown editor and viewer, we
+                    In addition to building an attractive and highly functional Markdown editor, we
                     also wanted to make sure <b>the editor is highly extensible</b>, so you can plug in custom features
-                    of your own. Markdown Monster's .NET based add-in API makes it easy to build
+                    of your own. Markdown Monster includes an easy addin model that makes it easy to build
                     extensions that let you hook into the UI, the editor behavior and the publishing
-                    process. We use this same add-in API to build some of Markdown Monster's internal features 
-                    like the Weblog Publisher and Screen Capture. The sky's the limit. Find out more about 
+                    process. We also provide some useful .NET Scripting and Text Templating addins that
+					let you automate many tasks without creating a full addin. We use this same add-in API 
+					to build some of Markdown Monster's internal features so the sky's the limit. Find out more about 
                     <a href="http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm" target="top">
                     creating an addin with .NET</a>.
                 </p>                
@@ -312,6 +316,13 @@
                                 <div class="carousel-caption">
                                 </div>
                             </div>
+							
+	                        <div class="item">
+		                        <img src="Images/FolderBrowser.png" />
+		                        <div class="carousel-caption">
+		                        </div>
+	                        </div>
+							
                         
                         </div>
 
@@ -387,7 +398,11 @@
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Html Editing with Live Preview
-                                    </div>    
+                                    </div>   
+									<div>
+										<i class="fa fa-check-circle"></i>
+										Integrated Folder Browser
+									</div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Expandable text templates
