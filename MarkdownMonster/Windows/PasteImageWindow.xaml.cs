@@ -467,9 +467,19 @@ namespace MarkdownMonster.Windows
                     Image);
             }
 
-	        mmFileUtils.OpenImageInImageEditor(imageFile);
+			if (!mmFileUtils.OpenImageInImageEditor(imageFile))
+			{
+				MessageBox.Show("Unable to launch image editor " + Path.GetFileName(mmApp.Configuration.ImageEditor) +
+				                "\r\n\r\n" +
+				                "Most likely the image editor configured in settings is not a valid executable. Please check the 'ImageEditor' key in the Markdown Monster Settings.\r\n\r\n" +
+				                "We're opening the settings file for you in the editor now.",
+					"Image Launching Error",
+					MessageBoxButton.OK, MessageBoxImage.Warning);
 
-            ShowStatus("Launching editor " + exe + " with " + imageFile, 5000);
+				mmApp.Model.Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json"));
+			}
+			else
+				ShowStatus("Launching editor " + exe + " with " + imageFile, 5000);
         }
 
         private void Button_ClearImage(object sender, RoutedEventArgs e)

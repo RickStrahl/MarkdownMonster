@@ -13,7 +13,7 @@
         TitlebarHeight="35"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"         
-        Padding="0"   FontSize="13"                   
+        Padding="0" FontSize="13"                   
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="620" Height="300" MinWidth="600" MinHeight="300">
     <Grid Name="PageGrid">

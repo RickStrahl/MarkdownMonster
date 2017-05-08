@@ -699,9 +699,9 @@ Do you want to View in Browser now?
 				{
 					Window.SaveSettings();
 
-                    glToolbar = new GridLength(30);
-                    glMenu = new GridLength(25);
-                    glStatus = new GridLength(28);
+                    glToolbar = GridLength.Auto;
+                    glMenu = GridLength.Auto;
+                    glStatus = GridLength.Auto;
 
                     mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Visible;
 
@@ -720,13 +720,13 @@ Do you want to View in Browser now?
 
                     
                     if (tokens.All(d => d != "menu"))
-                        glMenu = new GridLength(25);
+                        glMenu = GridLength.Auto;
 
                     if (tokens.All(d => d != "toolbar"))
-                        glToolbar = new GridLength(30);
+                        glToolbar = GridLength.Auto;
 
                     if (tokens.All(d => d != "statusbar"))
-                        glStatus = new GridLength(28);
+                        glStatus = GridLength.Auto;
 					
 					if (tokens.Any(d => d == "tabs"))
                         mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Hidden;
@@ -761,7 +761,7 @@ Do you want to View in Browser now?
                 GridLength gl = new GridLength(0);
                 if (Window.WindowGrid.RowDefinitions[1].Height == gl)
                 {
-	                gl = new GridLength(30); // toolbar height
+	                gl = GridLength.Auto; // toolbar height
 
                     Window.MainWindowEditorColumn.Width = new GridLength(1, GridUnitType.Star);
                     Window.MainWindowSeparatorColumn.Width = new GridLength(0);

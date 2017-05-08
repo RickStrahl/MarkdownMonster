@@ -16,7 +16,7 @@
         Icon="../MarkdownMonster_Icon_128.png"    
         WindowStyle="SingleBorderWindow"         
         WindowStartupLocation="Manual"
-        FontSize="14"    
+        FontSize="13"    
         Foreground="#ffeeee"
         Width="1250" Height="1000">
 

@@ -17,6 +17,7 @@
         BorderThickness="0" 
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"		
+		FontSize="13"
         Height="740" Width="1100" MinWidth="800" MinHeight="600" WindowTransitionsEnabled="False">
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt+Shift"
@@ -108,16 +109,16 @@
 
     <Grid Name="WindowGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="25" />
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="28"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Menu x:Name="MainMenu" Grid.Row="0" Height="30" 
+        <Menu x:Name="MainMenu" Grid.Row="0" 
               Margin="0" 
               FontSize="{Binding Path=FontSize,ElementName=MainApplicationWindow}"
               HorizontalAlignment="Stretch">
@@ -263,10 +264,10 @@
         </Menu>
 
         
-        <StackPanel Grid.Row="1" >
-			<ToolBarPanel Name="ToolbarPanelMain">
+        <StackPanel Grid.Row="1">
+			<ToolBarPanel Name="ToolbarPanelMain" >
 				<StackPanel Orientation="Horizontal">
-					<ToolBar Name="ToolbarFile"  >
+					<ToolBar Name="ToolbarFile"  FontSize="17">
 						<!--<Button  Margin="7,0,0,0"  Command="{Binding ShowFolderBrowserCommand}" ToolTip="Show Folder Browser pane (alt-v-f)"                                
 						         fa:Awesome.Content="Bars"
 						         Height="22" Width="22"
@@ -276,7 +277,7 @@
                         <Button Name="ToolButtonOpenFile" Margin="7,0,0,0"  Command="{Binding OpenDocumentCommand}" ToolTip="Open Markdown file (ctrl-o)"                                
                                 fa:Awesome.Content="FolderOpen"
                                  Height="22" Width="22"
-                                TextElement.FontSize="16"
+                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
                         <Button Name="ToolbarButtonRecentFiles" Margin="0,0" Click="Button_Handler" ToolTip="Recent Markdown files"
@@ -294,27 +295,24 @@
                         <Button Name="ToolButtonNewFile" Margin="7,0,0,0" Command="{Binding NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
                                 fa:Awesome.Content="PlusCircle"
                                  Height="22" Width="22"
-                                TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
                         <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding SaveCommand}" ToolTip="Save active document (ctrl-s)"                                
                                 fa:Awesome.Content="CheckCircleOutline"
                                  Height="22" Width="22"
-                                TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
                     </ToolBar>
 
 
 
-                    <ToolBar FontWeight="Light" Name="ToolbarEdit">
+                    <ToolBar FontWeight="Light" Name="ToolbarEdit" FontSize="17">
                         <Button Name="ButtonBold" Margin="7,0"  ToolTip="Bold (ctrl-b)"                                   
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="bold"                                
                                 fa:Awesome.Content="Bold"
                                 Height="22" Width="22"
-                                TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
                         <Button Name ="ButtonItalic" Margin="7,0" ToolTip="Italic (ctrl-i)" 
@@ -322,7 +320,6 @@
                                 CommandParameter="italic"
                                 fa:Awesome.Content="Italic" 
                                 Height="22" Width="22"
-                                TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
                        
@@ -331,13 +328,14 @@
                                 CommandParameter="strikethrough"
                                 fa:Awesome.Content="Strikethrough" 
                                 Height="22" Width="22"
-                                TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
-                        <Button Name ="ButtonInlineCode" Margin="5,-4,7,0" ToolTip="Inline code inside of a paragraph (ctrl-`)" 
+                        <Button Name ="ButtonInlineCode" Margin="5,-4,7,0"
+								ToolTip="Inline code inside of a paragraph (ctrl-`)" 
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="inlinecode"  
-                                FontWeight="Medium"  FontSize="16" TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                                FontWeight="Medium"  
+								TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
                         >`{ }`</Button>
                                 
                                 <!--fa:Awesome.Content="Code"
@@ -362,7 +360,6 @@
                                 CommandParameter="quote"
                                 fa:Awesome.Content="QuoteLeft"
                                 Height="22" Width="22"
-                                TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                 />
 
@@ -371,7 +368,6 @@
                                 CommandParameter="list"
                                 fa:Awesome.Content="ListUl"                                
                                  Height="22" Width="22"
-                                TextElement.FontSize="16"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                 />
 
@@ -380,7 +376,6 @@
                                 CommandParameter="numberlist"
                                 fa:Awesome.Content="ListOl"
                                  Height="22" Width="22"
-                                TextElement.FontSize="16"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                 />
                        
@@ -417,7 +412,6 @@
                                 CommandParameter="href" 
                                 fa:Awesome.Content="ExternalLink"
                                  Height="22" Width="22"
-                                TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
                         <Button Name ="ButtonImage" Margin="7,0"  ToolTip="Insert image from disk or the clipboard (alt-i). You can also paste images from the clipboard directly into the document."                              
@@ -425,14 +419,15 @@
                                 CommandParameter="image" 
                                 fa:Awesome.Content="Image"
                                  Height="22" Width="25"
-                                TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
-                        <Button Name ="ButtonCode" Margin="7,-5,7,0" ToolTip="Format selected text as code (alt-c)"
+                        <Button Name ="ButtonCode"  
+								ToolTip="Format selected text as code (alt-c)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
-                                CommandParameter="code"
-                                FontWeight="Bold" FontSize="16"
+                                CommandParameter="code"                                
+                                FontWeight="Medium" 
+								Width="27" Margin="0,-3,0,0"
                         >{#}</Button>
 
                         
@@ -441,15 +436,14 @@
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="emoji"
                                 fa:Awesome.Content="SmileOutline"
-                                Height="22" Width="22"
-                                TextElement.FontSize="16"                                
+                                Height="22" Width="22"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                         />
                     </ToolBar>
-           
-                    <ToolBar Name="ToolbarAddIns" Visibility="Hidden">
 
-                    </ToolBar>
+					<ToolBar Name="ToolbarAddIns" Visibility="Hidden" FontSize="17">
+					</ToolBar>
+					
                 </StackPanel>
             </ToolBarPanel>
         </StackPanel>

@@ -511,9 +511,8 @@ namespace MarkdownMonster
             IsPreviewVisible = true;
             OpenInPresentationMode = false;
             AlwaysUsePreviewRefresh = false;
-
-            ImageEditor = @"C:\Program Files\paint.net\PaintDotNet.exe";
-
+			
+            ImageEditor = @"Paint.exe";			
         }
 
         public void AddRecentFile(string filename)
