@@ -4,24 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:local="clr-namespace:MarkdownMonster.Windows"
-             xmlns:controls="clr-namespace:Microsoft.WindowsAPICodePack.Dialogs.Controls;assembly=Microsoft.WindowsAPICodePack.Shell"
+             xmlns:local="clr-namespace:MarkdownMonster.Windows"             
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-		
-	<Grid>
-		<Grid.Resources>
-			<!--DataType="{x:Type local:PathItem}"-->
-			<HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
-				<StackPanel MouseDown="TreeViewItem_MouseDoubleClick">
-					<TextBlock Text="{Binding DisplayName, Mode=OneWay}" Padding="5,2,5,2"
-								Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
-								   >
-						<TextBlock.Style>
+
+	<UserControl.Resources>
+		<local:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+
+		<!--DataType="{x:Type local:PathItem}"-->
+		<HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
+			<StackPanel MouseDown="TreeViewItem_MouseDoubleClick">
+				<TextBlock Text="{Binding DisplayName, Mode=OneWay}" Padding="5,2,5,2"
+				           Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
+				>
+					<TextBlock.Style>
 						<Style TargetType="TextBlock">
 							<Style.Triggers>
 								<DataTrigger Binding="{Binding IsFolder}"
-										     Value="True">
+								             Value="True">
 									<Setter Property="FontWeight" Value="SemiBold"/>
 								</DataTrigger>
 							</Style.Triggers>
@@ -29,35 +29,44 @@
 					</TextBlock.Style>
 				</TextBlock>
 
-					<TextBox Name="TextEditFileItem" 
-						 Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="6,4,10,4"
-						 Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
-						<TextBox.Style>
-							<Style TargetType="TextBox">
-								<Style.Triggers>
-									<DataTrigger Binding="{Binding IsEditing}" Value="True">
-										<Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
-										<Setter Property="Background" Value="#444" />
-									</DataTrigger>
-								</Style.Triggers>
-							</Style>
-						</TextBox.Style>
-					</TextBox>
+				<TextBox Name="TextEditFileItem" 
+				         Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="6,4,10,4"
+				         Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+					<TextBox.Style>
+						<Style TargetType="TextBox">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding IsEditing}" Value="True">
+									<Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+									<Setter Property="Background" Value="#444" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</TextBox.Style>
+				</TextBox>
 
-				</StackPanel>
-			</HierarchicalDataTemplate>
-			<ContextMenu x:Key="FileContextMenu" Name="PathItemContextMenu">
-				<MenuItem Name="MenuAddFile" Header="New File" Click="MenuAddFile_Click" InputGestureText="N"/>
-				<MenuItem Name="MenuAddFolder" Header="New Folder" Click="MenuAddDirectory_Click" />
-				<Separator/>
-				<MenuItem Name="MenuDeleteFile" Header="Delete" InputGestureText="Del" Click="MenuDeleteFile_Click" />
-				<MenuItem Name="MenuRenameFile" Header="Rename"  InputGestureText="F2" Click="MenuRenameFile_Click" />
-				<Separator/>
-				<MenuItem Name="MenuOpenWithShell" Header="Open File with Shell" Click="MenuOpenWithShell_Click" />
-				<MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
-				<MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
-			</ContextMenu>
-		</Grid.Resources>
+			</StackPanel>
+		</HierarchicalDataTemplate>
+		<ContextMenu x:Key="FileContextMenu" Name="PathItemContextMenu">
+			<MenuItem Name="MenuAddFile" Header="New File" Click="MenuAddFile_Click" InputGestureText="N"/>
+			<MenuItem Name="MenuAddFolder" Header="New Folder" Click="MenuAddDirectory_Click" />
+			<Separator/>
+			<MenuItem Name="MenuDeleteFile" Header="Delete" InputGestureText="Del" Click="MenuDeleteFile_Click" />
+			<MenuItem Name="MenuRenameFile" Header="Rename"  InputGestureText="F2" Click="MenuRenameFile_Click" />
+			<Separator/>
+			<MenuItem Name="MenuOpenInEditor" Header="Open File in Editor" Click="MenuOpenInEditor_Click" 
+			          IsEnabled="{Binding SelectedItem.IsFolder,					
+					Converter={StaticResource InvertedBooleanConverter}}"						  
+			/>
+			<MenuItem Name="MenuOpenWithShell" Header="Open with Shell" Click="MenuOpenWithShell_Click" />
+			<Separator/>
+			<MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
+			<MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
+		</ContextMenu>
+	</UserControl.Resources>
+	
+	<Grid Name="GridFolderBrowser">
+		
+		
 		
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>

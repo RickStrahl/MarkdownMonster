@@ -71,17 +71,24 @@ namespace MarkdownMonster.Windows
 
 		private FolderStructure FolderStructure { get; set; } = new FolderStructure();
 
+		#region Initialization
 		public FolderBrowerSidebar()
 		{
 			InitializeComponent();
 			Loaded += FolderBrowerSidebar_Loaded;
+
+			
 		}
 		
 
 		private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)
 		{
+			var context = Resources["FileContextMenu"] as ContextMenu;
+			context.DataContext = TreeFolderBrowser;
+
 			DataContext = this;			
 		}
+		#endregion
 
 		#region Folder Button and Text Handling
 
@@ -311,9 +318,22 @@ namespace MarkdownMonster.Windows
 				return;				
 			}
 
-			var ext = System.IO.Path.GetExtension(file).ToLower().Replace(".","");
+			var ext = Path.GetExtension(file).ToLower().Replace(".","");
 			if (StringUtils.Inlist(ext, "jpg", "png", "gif", "jpeg"))
-				mmFileUtils.OpenImageInImageEditor(file);
+			{
+				if (!mmFileUtils.OpenImageInImageEditor(file))
+				{
+					MessageBox.Show("Unable to launch image editor " + Path.GetFileName(mmApp.Configuration.ImageEditor) + 
+						"\r\n\r\n" +
+						"Most likely the image editor configured in settings is not valid. Please check the 'ImageEditor' key in the Markdown Monster Settings." +
+						"\r\n\r\n" +
+						"We're opening the Settings file for you in the editor now.",
+						"Image Launching Error",
+						MessageBoxButton.OK, MessageBoxImage.Warning);
+
+					mmApp.Model.Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder,"MarkdownMonster.json"));
+				}
+			}		
 			else
 			{
 				try
@@ -483,6 +503,8 @@ namespace MarkdownMonster.Windows
 
 		#endregion
 
+
+		#region Shell/Terminal Operations
 		private void MenuOpenInExplorer_Click(object sender, RoutedEventArgs e)
 		{
 			string folder = FolderPath;
@@ -532,5 +554,17 @@ namespace MarkdownMonster.Windows
 		}
 
 
+		private void MenuOpenInEditor_Click(object sender, RoutedEventArgs e)
+		{
+			var selected = TreeFolderBrowser.SelectedItem as PathItem;
+			if (selected == null)
+				return;
+
+			if (selected.IsFolder)
+				ShellUtils.GoUrl(selected.FullPath);
+			else
+				mmApp.Model.Window.OpenTab(selected.FullPath);
+		}
+		#endregion
 	}
 }

@@ -378,22 +378,42 @@ namespace MarkdownMonster
 		/// Opens an image in the configured image editor
 		/// </summary>
 		/// <param name="imageFile"></param>
-	    public static void OpenImageInImageEditor(string imageFile)
+	    public static bool OpenImageInImageEditor(string imageFile)
 	    {
-			string exe = mmApp.Configuration.ImageEditor;
-		    var process = Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));			
-		}
+		    try
+		    {
+			    string exe = mmApp.Configuration.ImageEditor;
+			    var process = Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
+
+		    }
+		    catch (Exception e)
+		    {
+				return false;
+		    }
+
+			return true;
+	    }
 
 
 		/// <summary>
-		/// Opens a 
+		/// Opens the configured image editor. If command can't be executed
+		/// the function returns false
 		/// </summary>
 		/// <param name="folder"></param>
-	    public static void OpenTerminal(string folder)
-	    {			
-		    Process.Start(mmApp.Configuration.TerminalCommand,
-				  	      string.Format(mmApp.Configuration.TerminalCommandArgs, folder));			
-		}
+		/// <returns>false if process couldn't be started - most likely invalid link</returns>
+	    public static bool OpenTerminal(string folder)
+	    {
+		    try
+		    {
+			    Process.Start(mmApp.Configuration.TerminalCommand,
+				    string.Format(mmApp.Configuration.TerminalCommandArgs, folder));
+		    }
+		    catch
+		    {
+				return false;
+		    }
+			return true;
+	    }
         #endregion
     }
 
