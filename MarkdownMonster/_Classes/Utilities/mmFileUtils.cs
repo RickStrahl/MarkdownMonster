@@ -256,13 +256,15 @@ namespace MarkdownMonster
 	    public const int FOF_ALLOWUNDO = 0x40;
 	    public const int FOF_NOCONFIRMATION = 0x10; // Don't prompt the user
 
-	    public static void MoveToRecycleBin(string filename)
+	    public static bool MoveToRecycleBin(string filename)
 	    {
 		    var shf = new SHFILEOPSTRUCT();
 		    shf.wFunc = FO_DELETE;
 		    shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
-		    shf.pFrom = filename;
-		    SHFileOperation(ref shf);
+		    shf.pFrom = filename + '\0'; // required!
+		    int result =SHFileOperation(ref shf);
+
+		    return result == 0;
 	    }
 		#endregion
 
