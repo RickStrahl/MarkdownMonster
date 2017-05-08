@@ -5,50 +5,116 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:local="clr-namespace:MarkdownMonster.Windows"
+             xmlns:controls="clr-namespace:Microsoft.WindowsAPICodePack.Dialogs.Controls;assembly=Microsoft.WindowsAPICodePack.Shell"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+		
 	<Grid>
 		<Grid.Resources>
-			<HierarchicalDataTemplate x:Key="FolderTemplate" ItemsSource="{Binding Path=Files}" DataType="{x:Type local:PathItem}">
-				<TextBlock Text="{Binding DisplayName, Mode=OneWay}" Margin="0,0,0,0" 
-								   MouseDown="TreeViewItem_MouseDoubleClick">
+			<!--DataType="{x:Type local:PathItem}"-->
+			<HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
+				<StackPanel MouseDown="TreeViewItem_MouseDoubleClick">
+					<TextBlock Text="{Binding DisplayName, Mode=OneWay}" Padding="5,2,5,2"
+								Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
+								   >
+						<TextBlock.Style>
+						<Style TargetType="TextBlock">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding IsFolder}"
+										     Value="True">
+									<Setter Property="FontWeight" Value="SemiBold"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</TextBlock.Style>
+				</TextBlock>
 
-					<TextBlock.Style>
-								<Style TargetType="TextBlock">
-									<Style.Triggers>
-										<DataTrigger Binding="{Binding IsFolder}"
-												 Value="True">
-											<Setter Property="FontWeight" Value="Bold"/>
-										</DataTrigger>
-									</Style.Triggers>
-								</Style>
-							</TextBlock.Style>
-						</TextBlock>
+					<TextBox Name="TextEditFileItem" 
+						 Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="6,4,10,4"
+						 Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+						<TextBox.Style>
+							<Style TargetType="TextBox">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding IsEditing}" Value="True">
+										<Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+										<Setter Property="Background" Value="#444" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBox.Style>
+					</TextBox>
+
+				</StackPanel>
 			</HierarchicalDataTemplate>
+			<ContextMenu x:Key="FileContextMenu" Name="PathItemContextMenu">
+				<MenuItem Name="MenuAddFile" Header="New File" Click="MenuAddFile_Click" InputGestureText="N"/>
+				<MenuItem Name="MenuAddFolder" Header="New Folder" Click="MenuAddDirectory_Click" />
+				<Separator/>
+				<MenuItem Name="MenuDeleteFile" Header="Delete" InputGestureText="Del" Click="MenuDeleteFile_Click" />
+				<MenuItem Name="MenuRenameFile" Header="Rename"  InputGestureText="F2" Click="MenuRenameFile_Click" />
+				<Separator/>
+				<MenuItem Name="MenuOpenWithShell" Header="Open File with Shell" Click="MenuOpenWithShell_Click" />
+				<MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
+				<MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
+			</ContextMenu>
 		</Grid.Resources>
 		
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-		
 
-		<Grid>
-
+		<Grid Background="#353535">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="30" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
+			
+			<TextBlock Height="Auto" 
+					   Text="FOLDER BROWSER (experimental)" FontWeight="Medium" FontSize="11"  Padding="6,3" />
 
-			<TextBox Name="TextFolderPath" Text="{Binding FolderPath}" Margin="0,0,3,0" BorderThickness="0" Opacity="0.8"/>
-			<Button Grid.Column="1" fa:Awesome.Content="LocationArrow"
-			        Foreground="SteelBlue"
-					Name="ButtonUseCurrentFolder" BorderThickness="0" FontSize="15" FontWeight="Normal"
-					ToolTip="Select folder of active document" 
-					Click="ButtonUseCurrentFolder_Click" />
+
+			<Button fa:Awesome.Content="EllipsisH" Grid.Column="1" Background="Transparent"
+			        Foreground="#70B8FF" Padding="8,0,8,0" 
+			        Name="ButtonSelecttFolder" BorderThickness="0"  FontWeight="Normal" 
+			        ToolTip="Browse for folder" 
+			        Click="ButtonSelectFolder_Click" />
+			<Button  fa:Awesome.Content="LocationArrow" Background="Transparent" 
+			         Foreground="#70B8FF" Padding="8,0,8,0" Grid.Column="2"  
+					 Name="ButtonUseCurrentFolder" BorderThickness="0" FontWeight="Normal"
+			         ToolTip="Select folder of active document" 
+			         Click="ButtonUseCurrentFolder_Click" />
+			<Button  fa:Awesome.Content="Refresh" Background="Transparent" 
+			         Foreground="#70B8FF" Padding="8,0,8,0" Grid.Column="3"  
+			         Name="ButtonRefreshFolder" BorderThickness="0" FontWeight="Normal"
+			         ToolTip="Refresh folder" 
+			         Click="ButtonRefreshFolder_Click" />
+			<Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
+			         Foreground="#70B8FF" Padding="8,0,8,0" Grid.Column="4"  
+			         Name="ButtonClosePanel" BorderThickness="0" FontWeight="Normal"
+			         ToolTip="Refresh folder" 
+			         Click="ButtonClosePanel_Click" />
+
 		</Grid>
-		<TreeView Grid.Row="1" Name="TreeFolderBrowser"
-				  ItemTemplate="{StaticResource FolderTemplate}"
-				  ItemsSource="{Binding ActivePathItem.Files}"  KeyDown="TreeViewItem_Keyup" />
+		
+		<TextBox Grid.Row="1" Name="TextFolderPath" Text="{Binding FolderPath}"
+					 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
+					 BorderThickness="0" Background="#151515" KeyDown="TextFolderPath_KeyDown" />
+
+		<TreeView Grid.Row="2" Name="TreeFolderBrowser"
+				  ItemTemplate="{StaticResource FolderTemplate}" 
+				  KeyDown="TreeView_Keyup"
+				  ItemsSource="{Binding ActivePathItem.Files}"  
+				  ContextMenu="{StaticResource FileContextMenu}">
+			<TreeView.Resources>
+				<Style TargetType="{x:Type TreeViewItem}">
+					<Setter Property="IsSelected" Value="{Binding Path=IsSelected,Mode=TwoWay}" />
+				</Style>
+			</TreeView.Resources>
+		</TreeView>
 	</Grid>
 </UserControl>

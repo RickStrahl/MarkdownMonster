@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using MarkdownMonster._Classes.Configuration;
 using Newtonsoft.Json;
 using Westwind.Utilities.Configuration;
 
@@ -295,15 +296,24 @@ namespace MarkdownMonster
         /// </summary>
         public string OpenFolderCommand { get; set;  }
 
-        /// <summary>
-        /// Command Processing for open command window
-        /// </summary>
-        public string OpenCommandLine { get; set; }
+		/// <summary>
+		/// Command Processing Executable to bring up a terminal window
+		/// Command or Powershell, but could also be Console or ConEmu
+		/// cmd.exe				/k \"cd {0}\"
+		/// powershell.exe		-NoExit -Command  "& cd 'c:\program files'"
+		/// </summary>
+		public string TerminalCommand { get; set; }
 
-        /// <summary>
-        /// A collection of the open Markdown documents.
-        /// </summary>
-        public List<MarkdownDocument> OpenDocuments { get; set; }
+		/// <summary>
+		/// Terminal executable arguments to pass to bring up terminal
+		/// in a specific folder. {0} represents folder name.
+		/// </summary>
+	    public string TerminalCommandArgs { get; set; }
+
+		/// <summary>
+		/// A collection of the open Markdown documents.
+		/// </summary>
+		public List<MarkdownDocument> OpenDocuments { get; set; }
 
 
         /// <summary>
@@ -348,6 +358,8 @@ namespace MarkdownMonster
         /// Hold last window position
         /// </summary>
         public WindowPositionConfiguration WindowPosition { get; set; }
+
+		public FolderBrowserConfiguration FolderBrowser { get; set;  }
         
         #endregion
 
@@ -442,14 +454,15 @@ namespace MarkdownMonster
         internal string InternalCommonFolder { get; set; }
 
         internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
+	    
 
-
-        #endregion
+	    #endregion
 
         public ApplicationConfiguration()
         {
             MarkdownOptions = new MarkdownOptionsConfiguration();
             WindowPosition = new WindowPositionConfiguration();
+	        FolderBrowser = new FolderBrowserConfiguration();
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
             OpenDocuments = new List<MarkdownDocument>();
 
@@ -486,7 +499,9 @@ namespace MarkdownMonster
 
             UseMachineEncryptionKeyForPasswords = true;
 
-            OpenCommandLine = "cmd.exe";
+	        
+			TerminalCommand = "cmd.exe";
+			TerminalCommandArgs = "/k \"cd {0}\"";
             OpenFolderCommand = "explorer.exe";
                     
             ReportErrors = true;

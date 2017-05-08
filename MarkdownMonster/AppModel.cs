@@ -353,6 +353,8 @@ namespace MarkdownMonster
 
         public CommandBase PrintPreviewCommand { get; set; }
 
+		public CommandBase ShowFolderBrowserCommand { get; set; }
+
         private void CreateCommands()
         {
             // SAVE COMMAND
@@ -645,6 +647,15 @@ Do you want to View in Browser now?
 
             }, null);
 
+			// SHOW FILE BROWSER COMMAND
+	        ShowFolderBrowserCommand = new CommandBase((s, e) =>
+	        {
+		        mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
+
+		        mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+
+	        });
+
             // MARKDOWN EDIT COMMANDS TOOLBAR COMMAND
             ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>
             {
@@ -680,8 +691,14 @@ Do you want to View in Browser now?
                 GridLength glMenu = new GridLength(0);
                 GridLength glStatus = new GridLength(0);
 
-                if ( Window.WindowGrid.RowDefinitions[1].Height == glToolbar)
-                {                                  
+				GridLength glFileBrowser = new GridLength(0);
+	            
+
+
+				if ( Window.WindowGrid.RowDefinitions[1].Height == glToolbar)
+				{
+					Window.SaveSettings();
+
                     glToolbar = new GridLength(30);
                     glMenu = new GridLength(25);
                     glStatus = new GridLength(30);
@@ -694,6 +711,8 @@ Do you want to View in Browser now?
                     Window.WindowState = mmApp.Configuration.WindowPosition.WindowState;
                     
                     IsFullScreen = false;
+
+	                Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
                 }
                 else
                 {
@@ -708,8 +727,8 @@ Do you want to View in Browser now?
 
                     if (tokens.All(d => d != "statusbar"))
                         glStatus = new GridLength(30);
-
-                    if (tokens.Any(d => d == "tabs"))
+					
+					if (tokens.Any(d => d == "tabs"))
                         mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Hidden;
 
                     if (tokens.Any(d => d == "preview"))
@@ -722,7 +741,9 @@ Do you want to View in Browser now?
                     if (tokens.Any(d => d == "maximized"))
                         Window.WindowState = WindowState.Maximized;
 
-                    IsFullScreen = true;
+	                Window.ShowFolderBrowser(true);
+
+					IsFullScreen = true;
                 }
 
                 // toolbar
@@ -740,18 +761,23 @@ Do you want to View in Browser now?
                 GridLength gl = new GridLength(0);
                 if (Window.WindowGrid.RowDefinitions[1].Height == gl)
                 {
-                    gl = new GridLength(30); // toolbar height
+	                gl = new GridLength(30); // toolbar height
 
                     Window.MainWindowEditorColumn.Width = new GridLength(1, GridUnitType.Star);
                     Window.MainWindowSeparatorColumn.Width = new GridLength(0);
                     Window.MainWindowPreviewColumn.Width = new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
 
                     Window.PreviewMarkdown();
-                    IsPresentationMode = false;
+
+	                Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+
+					IsPresentationMode = false;
                 }
                 else
-                {                    
-                    mmApp.Configuration.WindowPosition.SplitterPosition =
+                {
+					Window.SaveSettings();
+
+					mmApp.Configuration.WindowPosition.SplitterPosition =
                         Convert.ToInt32(Window.MainWindowPreviewColumn.Width.Value);
 
                     // don't allow presentation mode for non-Markdown documents
@@ -771,8 +797,9 @@ Do you want to View in Browser now?
                     }
                     
                     Window.ShowPreviewBrowser();
+	                Window.ShowFolderBrowser(true);
 
-                    Window.MainWindowEditorColumn.Width = gl;
+					Window.MainWindowEditorColumn.Width = gl;
                     Window.MainWindowSeparatorColumn.Width = gl;
                     Window.MainWindowPreviewColumn.Width = new GridLength(1,GridUnitType.Star);
                     

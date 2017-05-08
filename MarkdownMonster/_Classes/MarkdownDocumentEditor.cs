@@ -109,7 +109,8 @@ namespace MarkdownMonster
                 WebBrowser.Navigate(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm")));
                 //WebBrowser.Navigate("http://localhost:8080/editor.htm");
             }
-            FindSyntaxFromFileType(MarkdownDocument.Filename);            
+
+	        EditorSyntax = mmFileUtils.GetEditorSyntaxFromFileType(MarkdownDocument.Filename);
         }
 
 
@@ -506,15 +507,17 @@ namespace MarkdownMonster
         /// So .cs file gets csharp, .xml get xml, .ts Typescript  etc.        
         /// </summary>
         /// <param name="filename"></param>
-        public void FindSyntaxFromFileType(string filename)
+        public string xFindSyntaxFromFileType(string filename)
         {
-            if (string.IsNullOrEmpty(filename))
-                return;
+			
+
+	        if (string.IsNullOrEmpty(filename))
+		        return null;
             
             EditorSyntax = "markdown";
 
-            if (filename.ToLower() == "untitled")
-                return;
+			if (filename.ToLower() == "untitled")
+				return null;
 
             var ext = Path.GetExtension(MarkdownDocument.Filename).ToLower().Replace(".", "");
             if (ext == "md" || ext == "markdown") { }                
@@ -550,7 +553,8 @@ namespace MarkdownMonster
                 EditorSyntax = "sqlserver";
             else
                 EditorSyntax = "";
-            
+
+			return EditorSyntax;
         }
 
         /// <summary>

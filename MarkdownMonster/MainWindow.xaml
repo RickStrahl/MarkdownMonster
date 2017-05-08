@@ -9,15 +9,14 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
-        mc:Ignorable="d"
+        mc:Ignorable="d"					  
         TitlebarHeight="35"
         Name="MainApplicationWindow"                      
         Title="Markdown Monster" TitleCharacterCasing="Normal"
         Icon="Assets\MarkdownMonster_Icon_256.png"
         BorderThickness="0" 
         GlowBrush="Black"                           
-        ResizeMode="CanResizeWithGrip"
-		FontSize="14"
+        ResizeMode="CanResizeWithGrip"		
         Height="740" Width="1100" MinWidth="800" MinHeight="600" WindowTransitionsEnabled="False">
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt+Shift"
@@ -42,7 +41,8 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <StackPanel Orientation="Horizontal">
-                    <ToggleButton Margin="7,0"                          
+						
+                   <ToggleButton Margin="7,0"                          
                                  fa:Awesome.Content="Check"  Foreground="#70B8FF"                               
                                  Height="22" Width="22"
                                  IsChecked="{Binding Configuration.EditorEnableSpellcheck}"
@@ -50,7 +50,7 @@
                                  Click="ButtonSpellCheck_Click"
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                    />
+                   />
 
                 <ToggleButton Name="ToolButtonPreview"  Margin="7,0" Foreground="#70B8FF"
                                       IsChecked="{Binding IsPreviewBrowserVisible}"
@@ -62,7 +62,14 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
                 </ToggleButton>
 
-                <ToggleButton Name="ToolButtonFullScreen"  Margin="7,0" Foreground="#70B8FF"
+				<Button  Margin="7,0,0,0"  Command="{Binding ShowFolderBrowserCommand}" ToolTip="Show Folder Browser pane (alt-v-f)"                                
+				         fa:Awesome.Content="FilesOutline" Foreground="#70B8FF"
+				         Height="22" Width="22" 
+				         TextElement.FontSize="16" 
+				         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+				/>
+
+				<ToggleButton Name="ToolButtonFullScreen"  Margin="7,0" Foreground="#70B8FF"
                                       IsChecked="{Binding IsFullScreen}"
                                       Command="{Binding DistractionFreeModeCommand}"                                                 
                                       ToolTip="toggle distraction free edit mode (alt-shift-enter)"
@@ -207,6 +214,13 @@
                           InputGestureText="Ctrl-Shift-Down" Click="Button_Handler"
                           IsEnabled="{Binding IsPreviewBrowserVisible}" />
                 <Separator/>
+	            <MenuItem Name="ButtonToggleFolderBrowser" 
+	                      Header="Toggle _Folder Browser Panel"                         
+	                      Command="{Binding ShowFolderBrowserCommand}"
+	                      InputGestureText="Alt-V-F"
+
+	                      ToolTip="Toggles the Folder Browser sidebar panel"
+	                      />
                 <MenuItem Name="ButtonDistractionFreeMode" 
                           Header="Toggle Distraction Free Mode"                         
                           Command="{Binding DistractionFreeModeCommand}"
@@ -250,25 +264,15 @@
 
         
         <StackPanel Grid.Row="1" >
-			<ToolBarPanel Name="ToolbarPanelMain" >
-                <ToolBarPanel.Resources>
-                    <Style x:Key="ToolbarIconRectangleStyle" TargetType="Rectangle">
-                        <Style.Setters>
-                            <Setter Property="Height" Value="16" />
-                            <Setter Property="Width" Value="16" />
-                        </Style.Setters>
-                        <Style.Triggers>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" Value="0.5" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ToolBarPanel.Resources>
-
-
-                <StackPanel Orientation="Horizontal">
-					<ToolBar Name="ToolbarFile" >
-
+			<ToolBarPanel Name="ToolbarPanelMain">
+				<StackPanel Orientation="Horizontal">
+					<ToolBar Name="ToolbarFile"  >
+						<!--<Button  Margin="7,0,0,0"  Command="{Binding ShowFolderBrowserCommand}" ToolTip="Show Folder Browser pane (alt-v-f)"                                
+						         fa:Awesome.Content="Bars"
+						         Height="22" Width="22"
+						         TextElement.FontSize="13" FontWeight="Light"
+						         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+						/>-->
                         <Button Name="ToolButtonOpenFile" Margin="7,0,0,0"  Command="{Binding OpenDocumentCommand}" ToolTip="Open Markdown file (ctrl-o)"                                
                                 fa:Awesome.Content="FolderOpen"
                                  Height="22" Width="22"
@@ -383,25 +387,25 @@
 
                         <Separator />
 
-                        <Button Name ="ButtonH1" Margin="5,0" ToolTip="H1 Text"
+                        <Button Name ="ButtonH1" Margin="3,0" ToolTip="H1 Text"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h1" Content="H1" FontWeight="Bold"                                
                                 />
 
-                        <Button Name ="ButtonH2" Margin="5,0" ToolTip="H2 Text"
+                        <Button Name ="ButtonH2" Margin="3,0" ToolTip="H2 Text"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h2" Content="H2" FontWeight="Bold"                                
                                 />
 
-                        <Button Name ="ButtonH3" Margin="5,0" ToolTip="H2 Text"
+                        <Button Name ="ButtonH3" Margin="3,0" ToolTip="H2 Text"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h3" Content="H3" FontWeight="Bold"                                
                                 />
-                        <Button Name ="ButtonH4" Margin="5,0" ToolTip="H4 Text"
+                        <Button Name ="ButtonH4" Margin="3,0" ToolTip="H4 Text"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h4" Content="H4" FontWeight="Bold"                                
                                 />
-                        <Button Name ="ButtonH5" Margin="5,0" ToolTip="H5 Text"
+                        <Button Name ="ButtonH5" Margin="3,0" ToolTip="H5 Text"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h5" Content="H5" FontWeight="Bold"                                
                                 />
@@ -452,15 +456,14 @@
 
         <Grid Name="ContentGrid" Grid.Row="2">
             <Grid.ColumnDefinitions>
-				<ColumnDefinition Name="FolderBrowserColumn" Width="250" />
-	            <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="12" />
+				<ColumnDefinition Name="FolderBrowserColumn" Width="0" />
+	            <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="0" />
 				<ColumnDefinition Name="MainWindowEditorColumn" Width="*" />
                 <ColumnDefinition Name="MainWindowSeparatorColumn" Width="0" />
                 <ColumnDefinition Name="MainWindowPreviewColumn"  Width="0" />
             </Grid.ColumnDefinitions>
 
-			<localwindows:FolderBrowerSidebar x:Name="FolderBrowser"  FolderPath="c:\temp\clienttools">
-				
+			<localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
 			</localwindows:FolderBrowerSidebar>
 
 			<GridSplitter Grid.Column="1"                          

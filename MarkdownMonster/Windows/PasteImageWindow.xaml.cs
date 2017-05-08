@@ -466,8 +466,9 @@ namespace MarkdownMonster.Windows
                 imageFile = Path.Combine(Path.GetDirectoryName(Document.Filename),
                     Image);
             }
-            
-            var process = Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
+
+	        mmFileUtils.OpenImageInImageEditor(imageFile);
+
             ShowStatus("Launching editor " + exe + " with " + imageFile, 5000);
         }
 

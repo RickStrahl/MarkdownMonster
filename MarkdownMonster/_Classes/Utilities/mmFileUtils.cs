@@ -14,13 +14,14 @@ namespace MarkdownMonster
     /// </summary>
     public static class mmFileUtils
     {
-        /// <summary>
-        /// Method checks for existance of full filename and tries
-        /// to check for file in the initial startup folder.
-        /// </summary>
-        /// <param name="file">Name of file - fully qualified or local folder file</param>
-        /// <returns>filename or null if file doesn't exist</returns>
-        public static string FixupDocumentFilename(string file)
+		#region File Utilities
+		/// <summary>
+		/// Method checks for existance of full filename and tries
+		/// to check for file in the initial startup folder.
+		/// </summary>
+		/// <param name="file">Name of file - fully qualified or local folder file</param>
+		/// <returns>filename or null if file doesn't exist</returns>
+		public static string FixupDocumentFilename(string file)
         {
             if (File.Exists(file))
                 return file;
@@ -176,20 +177,108 @@ namespace MarkdownMonster
         /// <param name="buffer"></param>
         /// <returns></returns>
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern uint GetLongPathName(string ShortPath, StringBuilder sb, int buffer);
+        static extern uint GetLongPathName(string ShortPath, StringBuilder sb, int buffer);
 
-        /// <summary>
-        /// Extracts a string from between a pair of delimiters. Only the first 
-        /// instance is found.
-        /// </summary>
-        /// <param name="source">Input String to work on</param>
-        /// <param name="beginDelim">Beginning delimiter</param>
-        /// <param name="endDelim">ending delimiter</param>
-        /// <param name="caseSensitive">Determines whether the search for delimiters is case sensitive</param>
-        /// <param name="allowMissingEndDelimiter"></param>
-        /// <param name="returnDelimiters"></param>
-        /// <returns>Extracted string or ""</returns>
-        public static string ExtractString(string source,
+		/// <summary>
+		/// Retrieves the editor syntax for a file based on extension for use in the editor
+		/// 
+		/// Unknown file types returning null
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public static string GetEditorSyntaxFromFileType(string filename)
+	    {
+		    if (string.IsNullOrEmpty(filename) || filename.ToLower() == "untitled")
+			    return null;
+
+		    string editorSyntax = null;
+
+		    var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
+
+		    if (ext == "md" || ext == "markdown")
+			    editorSyntax = "markdown";
+		    else if (ext == "json")
+			    editorSyntax = "json";
+		    else if (ext == "html" || ext == "htm" || ext == "asp" || ext == "aspx")
+			    editorSyntax = "html";
+		    else if (ext == "xml" || ext == "config" || ext == "xaml" ||
+		             ext == "csproj" || ext == "nuspec" || ext == "wsdl" ||
+		             ext == "soap")
+			    editorSyntax = "xml";
+		    else if (ext == "js")
+			    editorSyntax = "javascript";
+		    else if (ext == "ts")
+			    editorSyntax = "typescript";
+		    else if (ext == "cs")
+			    editorSyntax = "csharp";
+		    else if (ext == "cshtml")
+			    editorSyntax = "razor";
+		    else if (ext == "css")
+			    editorSyntax = "css";
+		    else if (ext == "prg")
+			    editorSyntax = "foxpro";
+		    else if (ext == "txt")
+			    editorSyntax = "text";
+		    else if (ext == "php")
+			    editorSyntax = "php";
+		    else if (ext == "py")
+			    editorSyntax = "python";
+		    else if (ext == "ps1")
+			    editorSyntax = "powershell";
+		    else if (ext == "sql")
+			    editorSyntax = "sqlserver";
+		    
+		    return editorSyntax;
+	    }
+
+		#endregion
+
+		#region Recycle Bin Deletion
+		// Credit: http://stackoverflow.com/a/3282450/11197
+
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
+	    public struct SHFILEOPSTRUCT
+	    {
+		    public IntPtr hwnd;
+		    [MarshalAs(UnmanagedType.U4)] public int wFunc;
+		    public string pFrom;
+		    public string pTo;
+		    public short fFlags;
+		    [MarshalAs(UnmanagedType.Bool)] public bool fAnyOperationsAborted;
+		    public IntPtr hNameMappings;
+		    public string lpszProgressTitle;
+	    }
+
+	    [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+	    public static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
+
+	    public const int FO_DELETE = 3;
+	    public const int FOF_ALLOWUNDO = 0x40;
+	    public const int FOF_NOCONFIRMATION = 0x10; // Don't prompt the user
+
+	    public static void MoveToRecycleBin(string filename)
+	    {
+		    var shf = new SHFILEOPSTRUCT();
+		    shf.wFunc = FO_DELETE;
+		    shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
+		    shf.pFrom = filename;
+		    SHFileOperation(ref shf);
+	    }
+		#endregion
+
+		#region String Utilities
+		/// <summary>
+		/// Extracts a string from between a pair of delimiters. Only the first 
+		/// instance is found.
+		/// </summary>
+		/// <param name="source">Input String to work on</param>
+		/// <param name="beginDelim">Beginning delimiter</param>
+		/// <param name="endDelim">ending delimiter</param>
+		/// <param name="caseSensitive">Determines whether the search for delimiters is case sensitive</param>
+		/// <param name="allowMissingEndDelimiter"></param>
+		/// <param name="returnDelimiters"></param>
+		/// <returns>Extracted string or ""</returns>
+		public static string ExtractString(string source,
             string beginDelim,
             string endDelim,
             bool caseSensitive = false,
@@ -233,14 +322,16 @@ namespace MarkdownMonster
             return string.Empty;
         }
 
-        #region Image Utilities
-        /// <summary>
-        /// Returns the image media type for a give file extension based
-        /// on a filename or url passed in.
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        public static string GetImageMediaTypeFromFilename(string file)
+		#endregion
+
+		#region Image Utilities
+		/// <summary>
+		/// Returns the image media type for a give file extension based
+		/// on a filename or url passed in.
+		/// </summary>
+		/// <param name="file"></param>
+		/// <returns></returns>
+		public static string GetImageMediaTypeFromFilename(string file)
         {
             if (string.IsNullOrEmpty(file))
                 return file;
@@ -280,6 +371,27 @@ namespace MarkdownMonster
             }
             catch { }
         }
+
+		/// <summary>
+		/// Opens an image in the configured image editor
+		/// </summary>
+		/// <param name="imageFile"></param>
+	    public static void OpenImageInImageEditor(string imageFile)
+	    {
+			string exe = mmApp.Configuration.ImageEditor;
+		    var process = Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));			
+		}
+
+
+		/// <summary>
+		/// Opens a 
+		/// </summary>
+		/// <param name="folder"></param>
+	    public static void OpenTerminal(string folder)
+	    {			
+		    Process.Start(mmApp.Configuration.TerminalCommand,
+				  	      string.Format(mmApp.Configuration.TerminalCommandArgs, folder));			
+		}
         #endregion
     }
 
