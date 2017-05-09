@@ -6,7 +6,7 @@
 ### 1.3.7
 <small>May 9th, 2017</small>
 
-* **New File Browser Panel**
+* **New File Browser Panel**  
 Added a new file browser panel that allows browsing for files. You can open files from this view as well as preview images, and open others with default programs. Basic image editing and management for adding, deleting and renaming of files and folders.
 
 
