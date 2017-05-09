@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.3.7
-<small>*not released yet*</small>
+<small>May 9th, 2017</small>
 
 * **New File Browser Panel**
 Added a new file browser panel that allows browsing for files. You can open files from this view as well as preview images, and open others with default programs. Basic image editing and management for adding, deleting and renaming of files and folders.
