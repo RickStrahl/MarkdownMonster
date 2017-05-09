@@ -119,7 +119,6 @@ You can now drag Markdown, HTML and other text documents directly into the edito
 * **Paste Images as embedded Base64 Content**  
 You can now embed images inside of the rendered HTML document using base64 content image content. A new **Paste as base 64** checkbox on the in the Image dialog pastes the content as base64 encoded raw image content into the Markdown document and the rendered HTML. Useful for creating self-contained, single file, but potentially very large HTML documents that don't have external image dependencies.
 
-
 ### 1.2.10
 *<small>March 7th, 2017</small>*
 

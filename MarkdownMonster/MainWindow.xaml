@@ -267,7 +267,7 @@
         <StackPanel Grid.Row="1">
 			<ToolBarPanel Name="ToolbarPanelMain" >
 				<StackPanel Orientation="Horizontal">
-					<ToolBar Name="ToolbarFile"  FontSize="18">
+					<ToolBar Name="ToolbarFile"  FontSize="17">
 						<!--<Button  Margin="7,0,0,0"  Command="{Binding ShowFolderBrowserCommand}" ToolTip="Show Folder Browser pane (alt-v-f)"                                
 						         fa:Awesome.Content="Bars"
 						         Height="24" Width="24"
@@ -290,7 +290,16 @@
                         </Button>
 
 
-                        <Button Name="ToolButtonNewFile" Margin="7,0,0,0" Command="{Binding NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
+						<Button  Margin="7,0,7,0"  Command="{Binding ShowFolderBrowserCommand}" 
+						         ToolTip="Toggle Folder Browser Pane (alt-v-f)"                                
+						         fa:Awesome.Content="FilesOutline" 			
+								 FontSize="15"  Foreground="#eee"
+						         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+						/>
+
+						<Separator/>
+
+						<Button Name="ToolButtonNewFile" Margin="7,0,0,0" Command="{Binding NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
                                 fa:Awesome.Content="PlusCircle"
                                  
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
@@ -301,11 +310,12 @@
                                  
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
-                    </ToolBar>
+
+					</ToolBar>
 
 
 
-                    <ToolBar FontWeight="Light" Name="ToolbarEdit" FontSize="18">
+                    <ToolBar FontWeight="Light" Name="ToolbarEdit" FontSize="17">
                         <Button Name="ButtonBold" Margin="7,0"  ToolTip="Bold (ctrl-b)"                                   
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="bold"                                
@@ -424,16 +434,16 @@
 								Width="27" Margin="0,0,0,0"
                         >{#}</Button>
 
-						<Button Name="ButtonEmoji" Margin="7,0" ToolTip="Insert emoji (ctrl-j)"
+						<Button Name="ButtonEmoji" Margin="7,0" 
+								ToolTip="Insert emoji (ctrl-j)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="emoji"
-                                fa:Awesome.Content="SmileOutline"
-                                Height="24" Width="24"                                
+                                fa:Awesome.Content="SmileOutline"                                                           
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                         />
                     </ToolBar>
 
-					<ToolBar Name="ToolbarAddIns" Visibility="Hidden" FontSize="18">
+					<ToolBar Name="ToolbarAddIns" Visibility="Hidden" FontSize="17">
 					</ToolBar>
 					
                 </StackPanel>
