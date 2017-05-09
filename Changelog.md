@@ -9,6 +9,8 @@
 * **New File Browser Panel**  
 Added a new file browser panel that allows browsing for files. You can open files from this view as well as preview images, and open others with default programs. Basic image editing and management for adding, deleting and renaming of files and folders.
 
+* **[Custom Fields Editor for Weblog Publishing](http://markdownmonster.west-wind.com/docs/_4wq1dbsnh.htm)**
+The Weblog Publish Dialog now allows interactive editing of Custom Fields to send to MetaWeblog and Wordpress Weblog engines. This is in addition to explicitly editing the post YAML meta data at the beginning of a post which can also be edited as plain text.
 
 
 ### 1.3.4
@@ -22,9 +24,6 @@ The Paste Image dialog has been updated with a few enhanced features that allow 
 
 * **New `ImageEditor` Configuration Switch**  
 You can now create a configuration setting for your favorite Image Editor which is used in the Paste Image dialog and by default in the Screen Capture and Paste Image to Azure Addins. Point at your favorite editor which allows for editing the current picture in the editor.
-
-* **[Custom Fields Editor for Weblog Publishing](http://markdownmonster.west-wind.com/docs/_4wq1dbsnh.htm)**  
-The Weblog Publish Dialog now allows interactive editing of Custom Fields to send to MetaWeblog and Wordpress Weblog engines. This is in addition to explicitly editing the post YAML meta data at the beginning of a post which can also be edited as plain text.
 
 * **Fix: Spellchecking Popup overrun on bottom or right of Screen**  
 Fixed issue where the spell checking context menu (right click) is not fully visible at the bottom or right for the screen. Pop up now pops up or to the left when it would otherwise be partially off-screen.
