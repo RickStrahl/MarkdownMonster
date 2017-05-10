@@ -6,6 +6,12 @@
 ### 1.3.8
 *<small>not released yet</small>*
 
+* **Folder Browser Image Enhancements**
+Images are now previewed as you hover over them in the folder browser. Double clicking shows the image in the configured image viewer. The context menu now has options to **View** and **Edit** images, using the configured image editors.
+
+* **Image Editor and Viewer Configuration Changes**  
+There are now two separate configuration settings for **ImageEditor** and **ImageViewer**. Both default to empty strings which bring up the default editors (PhotoViewer and Paint by default on Win10). You can configure these two keys with paths to applications. Setting up editors like Paint.NET or the SnagIt Image Editor is great for making quick edits to images. These editor and viewer settings are used in the Folder browser, in the Paste Image and Screen Capture dialogs, and the right click Image selection in the editor.
+
 * **Custom Editor Extension Mapping**  
 The extensions that are supported in the editor are now configurable via a collection of configuration values in the **EditorExtensionMapping** key in Settings. You can map any file extension to any of Ace Editor's support edit formats.
 
