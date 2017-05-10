@@ -349,40 +349,84 @@ namespace MarkdownMonster
 
         public MarkdownOptionsConfiguration MarkdownOptions { get; set; }
 
-        /// <summary>
-        /// Configuration object that olds info about how applications are updated
-        /// </summary>
-        public ApplicationUpdatesConfiguration ApplicationUpdates { get; set; }
+	    /// <summary>
+	    /// Editor to editor syntax mappings that maps file extensions to 
+	    /// specific Ace Editor syntax formats. If a file with the given
+	    /// extension is opened it uses the specified syntax highlighting 
+	    /// in the editor.
+	    /// </summary>
+	    public Dictionary<string, string> EditorExtensionMappings { get; set; } = new Dictionary<string, string>
+	    {
+		    {"md", "markdown"},
+		    {"json", "json"},
+		    {"html", "html"},
 
-        /// <summary>
-        /// Hold last window position
-        /// </summary>
-        public WindowPositionConfiguration WindowPosition { get; set; }
+		    {"cs", "csharp"},
+		    {"js", "javascript"},
+		    {"ts", "typescript"},
+		    {"css", "css"},
+		    {"less", "less"},
+		    {"sass", "sass"},
+		    {"sql", "sqlserver"},
+		    {"prg", "foxpro"},
+		    {"vb", "vb"},
+		    {"py", "python"},
+		    {"c", "c_cpp"},
+		    {"cpp", "c_cpp"},
+		    {"ps1", "powershell"},
+		    {"ini", "ini"},
+		    {"sh", "bash"},
+		    {"bat", "batchfile"},
+		    {"cmd", "batchfile"},
 
+
+		    {"asp", "html"},
+		    {"aspx", "html"},
+		    {"jsx", "jsx"},
+		    {"php", "php"},
+		    {"go", "golang"},
+		    {"cshtml", "razor"},
+		    {"r", "r"},
+		    {"mak", "makefile"},
+
+		    {"xml", "xml"},
+		    {"xaml", "xml"},
+		    {"wsdl", "xml"},
+		    {"config", "xml"},
+		    {"csproj", "xml"},
+		    {"nuspec", "xml"},
+
+		    {"yaml", "yaml"},
+		    {"txt", "text"},
+		    {"log", "text"}
+	    };
 
 		/// <summary>
-		/// Configuration Setting for the Folder Browser
+		/// Configuration object that olds info about how applications are updated
 		/// </summary>
-		public FolderBrowserConfiguration FolderBrowser { get; set;  }
+		public ApplicationUpdatesConfiguration ApplicationUpdates { get; set; }
+
+	    /// <summary>
+	    /// Hold last window position
+	    /// </summary>
+	    public WindowPositionConfiguration WindowPosition { get; set; }
+
+
+	    /// <summary>
+	    /// Configuration Setting for the Folder Browser
+	    /// </summary>
+	    public FolderBrowserConfiguration FolderBrowser { get; set; }
+
+		#endregion
+
+
+
+		#region Bug Reporting and Telemetry
 
 		/// <summary>
-		/// Editor to editor syntax mappings that maps file extensions to 
-		/// specific Ace Editor syntax formats. If a file with the given
-		/// extension is opened it uses the specified syntax highlighting 
-		/// in the editor.
+		/// Determines whether errors are reported anonymously
 		/// </summary>
-		public EditorExtensionMappingConfiguration EditorExtensionMapping { get; set; }
-        
-        #endregion
-
-
-
-        #region Bug Reporting and Telemetry
-
-        /// <summary>
-        /// Determines whether errors are reported anonymously
-        /// </summary>
-        public bool ReportErrors { get; set; }
+		public bool ReportErrors { get; set; }
 
 
         [JsonIgnore]
@@ -474,8 +518,7 @@ namespace MarkdownMonster
         {
             MarkdownOptions = new MarkdownOptionsConfiguration();
             WindowPosition = new WindowPositionConfiguration();
-	        FolderBrowser = new FolderBrowserConfiguration();
-	        EditorExtensionMapping = new EditorExtensionMappingConfiguration();
+	        FolderBrowser = new FolderBrowserConfiguration();	        
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
             OpenDocuments = new List<MarkdownDocument>();
 

@@ -201,7 +201,7 @@ namespace MarkdownMonster
 			    return "markdown"; // most common use case
 
 			// look up all others
-			if (!mmApp.Configuration.EditorExtensionMapping.Extensions.TryGetValue(ext,out editorSyntax))
+			if (!mmApp.Configuration.EditorExtensionMappings.TryGetValue(ext,out editorSyntax))
 				return null;
 
 		    return editorSyntax;			
