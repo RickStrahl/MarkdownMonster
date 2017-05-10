@@ -110,55 +110,6 @@ namespace MarkdownMonster
             }
         }
 
-        public string FindSyntaxFromFileType(string filename)
-        {
-            if (string.IsNullOrEmpty(filename))
-                return "markdown";
-
-            EditorSyntax = "markdown";
-
-            if (filename.ToLower() == "untitled")
-                return "markdown";
-
-            var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
-            if (ext == "md" || ext == "markdown") { }
-            else if (ext == "json")
-                EditorSyntax = "json";
-            else if (ext == "html" || ext == "htm")
-                EditorSyntax = "html";
-
-            else if (ext == "xml" || ext == "config" || ext == "xaml")
-                EditorSyntax = "xml";
-            else if (ext == "js")
-                EditorSyntax = "javascript";
-            else if (ext == "ts")
-                EditorSyntax = "typescript";
-            else if (ext == "cs")
-                EditorSyntax = "csharp";
-            else if (ext == "cshtml")
-                EditorSyntax = "razor";
-            else if (ext == "css")
-                EditorSyntax = "css";
-            else if (ext == "prg")
-                EditorSyntax = "foxpro";
-            else if (ext == "txt")
-                EditorSyntax = "text";
-            else if (ext == "php")
-                EditorSyntax = "php";
-            else if (ext == "py")
-                EditorSyntax = "python";
-            else if (ext == "ps1")
-                EditorSyntax = "powershell";
-            else if (ext == "sql")
-                EditorSyntax = "sqlserver";
-            else if (ext == "rb" || ext == "ruby" || ext=="rake")
-                EditorSyntax = "ruby";
-            else
-                EditorSyntax = "";
-
-            return EditorSyntax;
-        }
-
         #region Markdown Editor Methods
 
 
