@@ -188,8 +188,11 @@ namespace MarkdownMonster
 		/// <returns></returns>
 		public static string GetEditorSyntaxFromFileType(string filename)
 	    {
-		    if (string.IsNullOrEmpty(filename) || filename.ToLower() == "untitled")
+		    if (string.IsNullOrEmpty(filename))
 			    return null;
+
+		    if (filename.ToLower() == "untitled")
+			    return "markdown";
 
 		    string editorSyntax = null;
 

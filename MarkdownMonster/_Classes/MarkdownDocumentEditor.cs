@@ -133,7 +133,7 @@ namespace MarkdownMonster
                 }
 
                 if (EditorSyntax != "markdown")
-                    AceEditor?.setlanguage(EditorSyntax);
+					AceEditor?.setlanguage(EditorSyntax);
                 RestyleEditor(true);
                 SetShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
 
@@ -501,61 +501,7 @@ namespace MarkdownMonster
             //int zoomLevel = 100; // Between 10 and 1000
             //wb.ExecWB(63, 2, zoomLevel, ref zoomLevel);   // OLECMDID_OPTICAL_ZOOM (63) - don't prompt (2)                     
         }
-
-        /// <summary>
-        /// Looks up and sets the EditorSyntax based on a file name
-        /// So .cs file gets csharp, .xml get xml, .ts Typescript  etc.        
-        /// </summary>
-        /// <param name="filename"></param>
-        public string xFindSyntaxFromFileType(string filename)
-        {
-			
-
-	        if (string.IsNullOrEmpty(filename))
-		        return null;
-            
-            EditorSyntax = "markdown";
-
-			if (filename.ToLower() == "untitled")
-				return null;
-
-            var ext = Path.GetExtension(MarkdownDocument.Filename).ToLower().Replace(".", "");
-            if (ext == "md" || ext == "markdown") { }                
-            else if (ext == "json")
-                EditorSyntax = "json";
-            else if (ext == "html" || ext == "htm" || ext == "asp" || ext == "aspx")
-                EditorSyntax = "html";
-            else if (ext == "xml" || ext == "config" || ext == "xaml" || 
-                     ext == "csproj" || ext == "nuspec" || ext == "wsdl" || 
-                     ext == "soap")
-                EditorSyntax = "xml";
-            else if (ext == "js")
-                EditorSyntax = "javascript";
-            else if (ext == "ts")
-                EditorSyntax = "typescript";
-            else if (ext == "cs")
-                EditorSyntax = "csharp";
-            else if (ext == "cshtml")
-                EditorSyntax = "razor";
-            else if (ext == "css")
-                EditorSyntax = "css";
-            else if (ext == "prg")
-                EditorSyntax = "foxpro";
-            else if (ext == "txt")
-                EditorSyntax = "text";
-            else if (ext == "php")
-                EditorSyntax = "php";
-            else if (ext == "py")
-                EditorSyntax = "python";
-            else if (ext == "ps1")
-                EditorSyntax = "powershell";
-            else if (ext == "sql")
-                EditorSyntax = "sqlserver";
-            else
-                EditorSyntax = "";
-
-			return EditorSyntax;
-        }
+		
 
         /// <summary>
         /// Restyles the current editor with configuration settings
