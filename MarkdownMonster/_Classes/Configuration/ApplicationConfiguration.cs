@@ -359,7 +359,19 @@ namespace MarkdownMonster
         /// </summary>
         public WindowPositionConfiguration WindowPosition { get; set; }
 
+
+		/// <summary>
+		/// Configuration Setting for the Folder Browser
+		/// </summary>
 		public FolderBrowserConfiguration FolderBrowser { get; set;  }
+
+		/// <summary>
+		/// Editor to editor syntax mappings that maps file extensions to 
+		/// specific Ace Editor syntax formats. If a file with the given
+		/// extension is opened it uses the specified syntax highlighting 
+		/// in the editor.
+		/// </summary>
+		public EditorExtensionMappingConfiguration EditorExtensionMapping { get; set; }
         
         #endregion
 
@@ -463,6 +475,7 @@ namespace MarkdownMonster
             MarkdownOptions = new MarkdownOptionsConfiguration();
             WindowPosition = new WindowPositionConfiguration();
 	        FolderBrowser = new FolderBrowserConfiguration();
+	        EditorExtensionMapping = new EditorExtensionMappingConfiguration();
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
             OpenDocuments = new List<MarkdownDocument>();
 

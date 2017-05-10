@@ -197,41 +197,14 @@ namespace MarkdownMonster
 		    string editorSyntax = null;
 
 		    var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
+		    if (ext == "md")
+			    return "markdown"; // most common use case
 
-		    if (ext == "md" || ext == "markdown")
-			    editorSyntax = "markdown";
-		    else if (ext == "json")
-			    editorSyntax = "json";
-		    else if (ext == "html" || ext == "htm" || ext == "asp" || ext == "aspx")
-			    editorSyntax = "html";
-		    else if (ext == "xml" || ext == "config" || ext == "xaml" ||
-		             ext == "csproj" || ext == "nuspec" || ext == "wsdl" ||
-		             ext == "soap")
-			    editorSyntax = "xml";
-		    else if (ext == "js")
-			    editorSyntax = "javascript";
-		    else if (ext == "ts")
-			    editorSyntax = "typescript";
-		    else if (ext == "cs")
-			    editorSyntax = "csharp";
-		    else if (ext == "cshtml")
-			    editorSyntax = "razor";
-		    else if (ext == "css")
-			    editorSyntax = "css";
-		    else if (ext == "prg")
-			    editorSyntax = "foxpro";
-		    else if (ext == "txt")
-			    editorSyntax = "text";
-		    else if (ext == "php")
-			    editorSyntax = "php";
-		    else if (ext == "py")
-			    editorSyntax = "python";
-		    else if (ext == "ps1")
-			    editorSyntax = "powershell";
-		    else if (ext == "sql")
-			    editorSyntax = "sqlserver";
-		    
-		    return editorSyntax;
+			// look up all others
+			if (!mmApp.Configuration.EditorExtensionMapping.Extensions.TryGetValue(ext,out editorSyntax))
+				return null;
+
+		    return editorSyntax;			
 	    }
 
 		#endregion
