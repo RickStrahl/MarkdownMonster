@@ -26,6 +26,18 @@ del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
 
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe").FileVersion
 $version = $version.Trim()
+"Initial Version: " + $version
+
+# Remove 4th version tuple
+try{
+    $al = New-Object System.Collections.ArrayList( $null )
+    $al.AddRange($version.Split("."))
+    $al.RemoveAt(3)
+    $version = [System.String]::Join(".", $al.ToArray())
+}
+catch{ }
+"Truncated Version: " + $version
+
 "Writing Version File for: " + $version
 $versionFilePath = ".\builds\currentrelease\MarkdownMonster_Version_Template.xml"
 $versionFile = Get-Content -Path $versionFilePath

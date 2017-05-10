@@ -406,7 +406,11 @@
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Expandable text templates
-                                    </div>                                        
+                                    </div>   
+									<div>
+										<i class="fa fa-check-circle"></i>
+										Swappable Markdown Parsers (Markdig,Pandoc)
+									</div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Extensible with .NET Add-ins
