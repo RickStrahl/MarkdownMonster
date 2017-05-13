@@ -67,7 +67,7 @@
             <a href="download.aspx" class="hidable-xs">                
                 Download
             </a>
-            <a href="http://store.west-wind.com/product/markdown_monster">                
+            <a href="http://store.west-wind.com/product/order/markdown_monster">                
                 Buy
             </a>                 
             <a href="https://support.west-wind.com/Thread4NM0M17RC.wwt" class="hidable">                
@@ -551,7 +551,6 @@
     {
         get
         {
-
             if (_version != null && DateTime.UtcNow.Subtract(_lastAccess).TotalMinutes < 10)
                 return _version;
 

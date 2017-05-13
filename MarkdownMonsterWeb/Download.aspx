@@ -40,7 +40,7 @@
         <div id="TopMenu" class="right">
             <a href="./">Home</a>            
             <a href="download.aspx" class="active">Download</a>
-            <a href="http://store.west-wind.com/product/markdown_monster">Buy</a>
+            <a href="http://store.west-wind.com/product/order/markdown_monster">Buy</a>
             <a href="docs/" class="hidable">Docs</a>
             <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog">                
                 Blog
@@ -99,7 +99,7 @@
                                 
                                 <div class="small">  
                                     <p>
-                                    Markdown Monster can be downloaded and evaluated for free, but a <a href="https://store.west-wind.com/product/MARKDOWN_MONSTER">reasonably priced license</a>
+                                    Markdown Monster can be downloaded and evaluated for free, but a <a href="https://store.west-wind.com/product/order/markdown_monster">reasonably priced license</a>
                                     must be purchased for continued use. Licenses are per-user, rather than per-machine, so you can use 
                                     Markdown Monster on as many computers you wish with your license. 
                                     </p>
@@ -206,7 +206,7 @@
 
 
                 <p>
-                    Markdown Monster can be downloaded and evaluated for free, but <a href="https://store.west-wind.com/product/markdown_monster">
+                    Markdown Monster can be downloaded and evaluated for free, but <a href="https://store.west-wind.com/product/order/markdown_monster">
                     a reasonably priced license</a> must be purchased for continued use. Licenses are per-user, 
                     rather than per-machine, so a licensed user can use Markdown Monster on as many 
                     computers as desired.
@@ -216,7 +216,7 @@
                 </p>
                 <p>
 
-                    <a href="https://store.west-wind.com/product/markdown_monster" class="btn btn-lg btn-primary">
+                    <a href="https://store.west-wind.com/product/order/markdown_monster" class="btn btn-lg btn-primary">
                         <i class="fa  fa-credit-card"></i>
                         Purchase
                     </a>
