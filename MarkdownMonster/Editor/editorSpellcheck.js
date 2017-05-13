@@ -51,8 +51,8 @@ var sc = window.spellcheck = {
 
         if (sc.firstpass) {
             // Make red underline for gutter and words.
-            $("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }\r\n" +
-              ".misspelled { border-bottom: 1px dashed red; margin-bottom: -1px; }</style>").appendTo("head");
+			$("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</script>")
+				.appendTo("head");
         }
 
         if (te.mm) //te.dic && te.aff) {  
@@ -99,9 +99,12 @@ var sc = window.spellcheck = {
                 setTimeout(function () { ctxNoShow = false; }, 1000);
             }
         });
-        $("#spellfixes") // handle the click on the selected item
-            .on("click", "div", clickSuggestion);
-        
+	    $("#spellfixes") // handle the click on the selected item
+		    .on("click", "div", clickSuggestion);
+
+		// can't access the marker
+	    //$(document).on("click", ".misspelled", function() { alert('here we go'); });
+		
         return;
 
 
@@ -220,7 +223,7 @@ var sc = window.spellcheck = {
                                     session.addMarker(range, "misspelled", "typo", true);
                                 var word = misspellings[j][2];
                                 range.misspelled = word;
-                                sc.markers[sc.markers.length] = marker;
+								sc.markers[sc.markers.length] = marker;
                             }
                         }
                         if (isLast) {
@@ -302,7 +305,7 @@ var sc = window.spellcheck = {
 				//});
 
 			   // clicking anywhere will close the popup
-	           $(document).bind("click.suggestionsdoc", closeSuggestionPopup);
+	           $(document).bind("click.suggestionsdoc", hideSuggestions);
             
                 setTimeout(function () {
                     if (e.clientY + $list.height() > document.documentElement.clientHeight)
@@ -312,7 +315,7 @@ var sc = window.spellcheck = {
                 }, 1);
         }
 
-		function closeSuggestionPopup() {
+		function hideSuggestions() {
 			var $list = $("#spellfixes");
 			$list.hide();
 			$list.html("");
@@ -339,7 +342,7 @@ var sc = window.spellcheck = {
                 te.editor.getSession().replace(range, text);
             }
 
-	        closeSuggestionPopup();            
+	        hideSuggestions();            
         }
     }
 }

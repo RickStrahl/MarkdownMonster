@@ -121,12 +121,12 @@ pre>code {
 #spellfixes {    
     position: absolute;
     font-family: 'Segoe UI', Arial, sans-serif;    
-    font-size: 0.825em;
+    font-size: 0.875em;
     width: auto;      
     height: auto;
-    color: #eee;
-    border: 1px solid #555;
-    background: #2d2d30;
+    color: white;
+    border: 1px solid #888;
+    background: #444;
     min-width: 150px;
     padding-left: 10px;
     top: 200px;
@@ -134,7 +134,7 @@ pre>code {
     z-index: 1000;
     overflow-y: auto;
     border-radius: 3px;
-    box-shadow: 3px 3px 7px #222;
+    box-shadow: 6px 6px 12px #383838;
 }
 #spellfixes>div {    
     min-width: 100px;
