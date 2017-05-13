@@ -618,19 +618,20 @@ window.onmousewheel = function(e) {
 window.ondrop =
 	function (e) {
 		// these don't really have any effect'
-		e.stopPropagation();
-		e.preventDefault();		
+		//e.stopPropagation();
+		//e.preventDefault();	
+		
 		var file = e.dataTransfer.getData('text');		
 		if (file) {
-			// IE will *ALWAYS* drop the file text but selects the drops text
-			// delay and the collapse selection and let
-			// WPF paste the image expansion
-			setTimeout(function () {
-					te.setselection(''); // collapse selection
-					te.mm.textbox.EmbedDroppedFileAsImage(file);
-				},
-				80);
+			//// IE will *ALWAYS* drop the file text but selects the drops text
+			//// delay and the collapse selection and let
+			//// WPF paste the image expansion
+			setTimeout(function () {				
+				te.mm.textbox.EmbedDroppedFileAsImage(file);
+			},1);			
 		}
+		te.setselection(''); // collapse selection
+
 		return false;
 	};
 
