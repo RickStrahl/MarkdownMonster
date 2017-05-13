@@ -89,16 +89,17 @@ namespace MarkdownMonster
         public MarkdownDocumentEditor(WebBrowser browser)
         {
             WebBrowser = browser;
-            WebBrowser.Navigating += WebBrowser_NavigatingAndDroppingFiles;
+            WebBrowser.Navigating += WebBrowser_NavigatingAndDroppingFiles;		
         }
 
+		
 
-        /// <summary>
-        /// Loads a new document into the active editor using 
-        /// MarkdownDocument instance.
-        /// </summary>
-        /// <param name="mdDoc"></param>
-        public void LoadDocument(MarkdownDocument mdDoc = null)
+		/// <summary>
+		/// Loads a new document into the active editor using 
+		/// MarkdownDocument instance.
+		/// </summary>
+		/// <param name="mdDoc"></param>
+		public void LoadDocument(MarkdownDocument mdDoc = null)
         {            
             if (mdDoc != null)
                 MarkdownDocument = mdDoc;
@@ -948,6 +949,11 @@ namespace MarkdownMonster
             }, System.Windows.Threading.DispatcherPriority.Background);
         }
 
+	    public void DropOperation(string uri)
+	    {
+		    
+	    }
+
         /// <summary>
         /// Handle pasting and handle images
         /// </summary>
@@ -1110,7 +1116,8 @@ namespace MarkdownMonster
         /// <param name="e"></param>
         private void WebBrowser_NavigatingAndDroppingFiles(object sender, NavigatingCancelEventArgs e)
         {
-            var url = e.Uri.ToString().ToLower();
+			var url = e.Uri.ToString().ToLower();
+
             if (url.Contains("editor.htm") || url.Contains("editorsimple.htm"))
                 return; // continue navigating
 
@@ -1121,70 +1128,80 @@ namespace MarkdownMonster
             if (!e.Uri.IsFile)
                 return;
 
-
             string file = e.Uri.LocalPath;
-            string ext = Path.GetExtension(file).ToLower();
 
-            if (ext == ".png" || ext == ".gif" || ext == ".jpg" || ext == ".jpeg" || ext == ".svg")
-            {
-                var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
-                
-                // if lower than 1 level down off base path ask to save the file
-                string relFilePath = FileUtils.GetRelativePath(file, docPath);
-                if (relFilePath.StartsWith("..\\..") || relFilePath.Contains(":\\"))
-                {
-                    var sd = new SaveFileDialog
-                    {
-                        Filter =
-                            "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
-                        FilterIndex = 1,
-                        Title = "Save dropped Image as",
-                        InitialDirectory = docPath,
-                        FileName = Path.GetFileName(file),
-                        CheckFileExists = false,
-                        OverwritePrompt = true,
-                        CheckPathExists = true,
-                        RestoreDirectory = true
-                    };
-                    var result = sd.ShowDialog();
-                    if (result == null || !result.Value)
-                        return;
-
-                    relFilePath = FileUtils.GetRelativePath(sd.FileName, docPath);
-
-                    File.Copy(file, relFilePath, true);
-                }
-
-                if (!relFilePath.Contains(":\\"))
-                    relFilePath = relFilePath.Replace("\\", "/");
-                else
-                    relFilePath = "file:///" + relFilePath;
-
-                AceEditor.setselpositionfrommouse(false);
-
-                Window.Dispatcher.InvokeAsync( ()=> SetSelectionAndFocus($"\r\n![]({relFilePath})\r\n"),
-                    DispatcherPriority.ApplicationIdle);
-
-                Window.Activate();
-            }
-            else if (mmApp.AllowedFileExtensions.Contains($",{ext.Substring(1)},"))
-            {
-                Window.OpenTab(e.Uri.LocalPath);
-            }
-
+            EmbedDroppedFileAsImage(file);
         }
 
-        /// <summary>
-        /// Fired by the browser when a file is dropped. This method
-        /// looks at the filename dropped and if it's an image handles
-        /// it. Otherwise an error is displayed and recommended to 
-        /// drop files on the header since we cannot capture the filename
-        /// of the originally dropped files.
-        /// </summary>
-        /// <param name="hexData"></param>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public bool FileDropOperation(string hexData, string filename)
+		/// <summary>
+		/// Embeds a dropped file as an image. If not an image no action is taken
+		/// </summary>
+		/// <param name="file"></param>
+	    public void EmbedDroppedFileAsImage(string file)
+	    {
+		    //NavigatingCancelEventArgs e;
+		    string ext = Path.GetExtension(file).ToLower();
+
+		    if (ext == ".png" || ext == ".gif" || ext == ".jpg" || ext == ".jpeg" || ext == ".svg")
+		    {
+			    var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+
+			    // if lower than 1 level down off base path ask to save the file
+			    string relFilePath = FileUtils.GetRelativePath(file, docPath);
+			    if (relFilePath.StartsWith("..\\..") || relFilePath.Contains(":\\"))
+			    {
+				    var sd = new SaveFileDialog
+				    {
+					    Filter =
+						    "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+					    FilterIndex = 1,
+					    Title = "Save dropped Image as",
+					    InitialDirectory = docPath,
+					    FileName = Path.GetFileName(file),
+					    CheckFileExists = false,
+					    OverwritePrompt = true,
+					    CheckPathExists = true,
+					    RestoreDirectory = true
+				    };
+				    var result = sd.ShowDialog();
+				    if (result == null || !result.Value)
+					    return;
+
+				    relFilePath = FileUtils.GetRelativePath(sd.FileName, docPath);
+
+				    File.Copy(file, relFilePath, true);
+			    }
+
+			    if (!relFilePath.Contains(":\\"))
+				    relFilePath = relFilePath.Replace("\\", "/");
+			    else
+				    relFilePath = "file:///" + relFilePath;
+
+			    AceEditor.setselpositionfrommouse(false);
+
+			    Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\r\n![]({relFilePath})\r\n"),
+				    DispatcherPriority.ApplicationIdle);
+
+			    Window.Activate();
+		    }
+		    else if (mmApp.AllowedFileExtensions.Contains($",{ext.Substring(1)},"))
+		    {
+			    Window.OpenTab(file);
+		    }
+	    }
+
+#if false
+		/// <summary>
+		/// Fired by the browser when a file is dropped. This method
+		/// looks at the filename dropped and if it's an image handles
+		/// it. Otherwise an error is displayed and recommended to 
+		/// drop files on the header since we cannot capture the filename
+		/// of the originally dropped files.
+		/// </summary>
+		/// <param name="hexData"></param>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public bool xxFileDropOperation(string hexData, string filename)
         {
             var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);            
 
@@ -1230,10 +1247,10 @@ namespace MarkdownMonster
             SetSelectionAndFocus($"\r\n![]({relFilePath.Replace("\\", "/")})\r\n");
             return true;
         }
+#endif
+#endregion
 
-        #endregion
-
-        #region SpellChecking interactions
+#region SpellChecking interactions
         static Hunspell GetSpellChecker(string language = "EN_US", bool reload = false)
         {
             if (reload || _spellChecker == null)
@@ -1302,7 +1319,7 @@ namespace MarkdownMonster
             File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\",  lang + "_custom.txt"),word  + "\n");
             _spellChecker.Add(word);            
         }
-        #endregion
+#endregion
 
 
     }

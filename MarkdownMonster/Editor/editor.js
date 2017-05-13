@@ -182,12 +182,15 @@ var te = window.textEditor = {
             }
             if (handled) {
                 e.preventDefault();
-                e.stopPropagation();
+				e.stopPropagation();
+				return false;
             }
             if (markdown != null)
                 te.setselection(markdown);
-        });
+		});
 
+	    
+		
         return editor;
     },
     initializeeditor: function() {
@@ -593,21 +596,43 @@ window.onerror = function windowError(message, filename, lineno, colno, error) {
 window.onresize = debounce(function() {
         te.mm.textbox.resizeWindow();
     },
-    200);
+	200);
+
 
 window.onmousewheel = function(e) {
-    if (e.ctrlKey) {
-        e.cancelBubble = true;
-        e.returnValue = false;
+	if (e.ctrlKey) {
+		e.cancelBubble = true;
+		e.returnValue = false;
 
-        if (e.wheelDelta > 0)
-            te.specialkey("ctrl-=");
-        if (e.wheelDelta < 0)
-            te.specialkey("ctrl--");
+		if (e.wheelDelta > 0)
+			te.specialkey("ctrl-=");
+		if (e.wheelDelta < 0)
+			te.specialkey("ctrl--");
 
-        return false;
-    }
-}
+		return false;
+	}
+};
+
+
+// handle file browser dragged files dropped
+window.ondrop =
+	function (e) {
+		// these don't really have any effect'
+		e.stopPropagation();
+		e.preventDefault();		
+		var file = e.dataTransfer.getData('text');		
+		if (file) {
+			// IE will *ALWAYS* drop the file text but selects the drops text
+			// delay and the collapse selection and let
+			// WPF paste the image expansion
+			setTimeout(function () {
+					te.setselection(''); // collapse selection
+					te.mm.textbox.EmbedDroppedFileAsImage(file);
+				},
+				80);
+		}
+		return false;
+	};
 
 
 // This function is global and called by the parent

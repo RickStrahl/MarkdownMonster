@@ -600,9 +600,9 @@ namespace MarkdownMonster.Windows
 
 			overImage = selected.FullPath;
 
-			Dispatcher.Delay(600, (imageFile) =>
-			{
-				if (string.IsNullOrEmpty(overImage) || overImage != imageFile)
+			Dispatcher.Delay(600, imageFile =>
+			{				
+				if (string.IsNullOrEmpty(overImage) || overImage != (string) imageFile)
 					return;
 
 				try
@@ -611,8 +611,7 @@ namespace MarkdownMonster.Windows
 					PopupImagePreview.IsOpen = true;
 				}
 				catch
-				{
-				}
+				{ }
 			}, overImage);
 
 		}
@@ -626,5 +625,43 @@ namespace MarkdownMonster.Windows
 			ImagePreviewColumn.Height = new GridLength(0);
 
 		}
+
+		#region Drag Operations
+
+		private System.Windows.Point startPoint;
+
+		private void TreeFolderBrowser_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			startPoint = e.GetPosition(null);
+		}
+
+		private void TreeFolderBrowser_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (e.LeftButton == MouseButtonState.Pressed)
+			{
+				var selected = TreeFolderBrowser.SelectedItem as PathItem;
+
+				// only drag image files
+				if (selected == null || !selected.IsImage)
+					return;
+
+				var mousePos = e.GetPosition(null);
+				var diff = startPoint - mousePos;
+
+				if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance
+				    || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+				{
+					var treeView = sender as TreeView;
+					var treeViewItem = FindCommonVisualAncestor((DependencyObject) e.OriginalSource);
+					if (treeView == null || treeViewItem == null)
+						return;
+					
+					var dragData = new DataObject(DataFormats.UnicodeText, selected.FullPath);
+					DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.Copy);
+				}
+			}
+		}
+
+		#endregion
 	}
 }

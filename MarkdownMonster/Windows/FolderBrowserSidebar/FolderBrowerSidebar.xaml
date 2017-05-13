@@ -16,7 +16,7 @@
 			<StackPanel MouseDown="TreeViewItem_MouseDoubleClick">
 				<TextBlock Name="TextFileOrFolderName" Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
 				           Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
-						   MouseEnter="TextFileOrFolderName_MouseEnter" MouseLeave="TextFileOrFolderName_MouseLeave"
+						   MouseEnter="TextFileOrFolderName_MouseEnter" MouseLeave="TextFileOrFolderName_MouseLeave"						   
 				>
 					<TextBlock.Style>
 						<Style TargetType="TextBlock">
@@ -133,6 +133,8 @@
 		<TreeView Grid.Row="2" Name="TreeFolderBrowser"
 				  ItemTemplate="{StaticResource FolderTemplate}" 
 				  KeyDown="TreeView_Keyup"
+		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"
+		          PreviewMouseMove="TreeFolderBrowser_MouseMove"
 				  ItemsSource="{Binding ActivePathItem.Files}"  
 				  ContextMenu="{StaticResource FileContextMenu}">
 			<TreeView.Resources>
