@@ -282,9 +282,15 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Image editor used to edit images
+        /// Image editor used to edit images. Empty uses system default editor
         /// </summary>
         public string ImageEditor { get; set; }
+
+		/// <summary>
+		/// Image viewer used to open images. Empty setting uses the default viewer
+		/// </summary>
+		public string ImageViewer { get; set;  }
+
         #endregion
 
 
@@ -360,6 +366,7 @@ namespace MarkdownMonster
 		    {"md", "markdown"},
 		    {"json", "json"},
 		    {"html", "html"},
+			{ "htm", "html" },
 
 		    {"cs", "csharp"},
 		    {"js", "javascript"},
@@ -378,8 +385,7 @@ namespace MarkdownMonster
 		    {"sh", "bash"},
 		    {"bat", "batchfile"},
 		    {"cmd", "batchfile"},
-
-
+			
 		    {"asp", "html"},
 		    {"aspx", "html"},
 		    {"jsx", "jsx"},
@@ -566,9 +572,7 @@ namespace MarkdownMonster
 
             IsPreviewVisible = true;
             OpenInPresentationMode = false;
-            AlwaysUsePreviewRefresh = false;
-			
-            ImageEditor = @"Paint.exe";			
+            AlwaysUsePreviewRefresh = false;		
         }
 
         public void AddRecentFile(string filename)
