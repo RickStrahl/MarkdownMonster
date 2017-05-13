@@ -9,6 +9,12 @@
 * **Add Dragging of Images from Folder Browser into Markdown**  
 You can now drag an image from the Folder Browser into your Markdown document. If the document is in the current path or below the image is embedded with a relative link, otherwise you get a file re-save dialog to optionally save the file in a local relative location.
 
+* **Spellcheck Popup Enhancements**  
+The spell check dialog now closes only by clicking on either a selection or outside of the popup window. The window no longer auto-closes when moving out of the popup. Minor styling changes to make the pop up stand out more against background.
+
+* **Fix: Find Box Not Working**  
+Fixed regression bug that cause the Find and Search and Replace functionality to not be available. Fixed.
+
 ### 1.3.8
 *<small>May 12th, 2017</small>*
 

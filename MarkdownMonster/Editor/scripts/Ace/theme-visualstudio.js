@@ -34,7 +34,7 @@ define('ace/theme/visualstudio', ['require', 'exports', 'module' , 'ace/lib/dom'
 exports.isDark = false;
 exports.cssClass = "ace-vs";
 exports.cssText = ".ace-vs .ace_gutter {\
-background: #f0f0f0;\
+background: #f9f9f90;\
 color: #333;\
 }\
 .ace-vs .ace_print-margin {\

@@ -239,8 +239,9 @@
 					for most common coding languages, and it can easily be customized with HTML and CSS template to match 
 					your own sites and preferences. You can choose from a number of editor and preview themes and you 
 					can even use Vim or EMacs type conventions. Both the editor and preview can be customized with 
-					themes that are extensible with Web technologies. Other convenience features let you jump to the current 
-					folder in Explorer or a Command window, print the current document's HTML output, and more.
+					themes that are extensible with Web technologies. Other convenience features let you browse for and 
+					select files using the built-in folder browser, jump to the current folder in Explorer or the Terminal,
+					print the current document's HTML output, and more.
                 </p>
 
                 <h3>Weblog Publishing</h3>

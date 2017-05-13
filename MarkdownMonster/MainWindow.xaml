@@ -63,7 +63,8 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
                 </ToggleButton>
 
-				<Button  Margin="7,0,0,0"  Command="{Binding ShowFolderBrowserCommand}" ToolTip="Show Folder Browser pane (alt-v-f)"                                
+				<Button  Margin="7,0,0,0"  Command="{Binding ShowFolderBrowserCommand}" 
+						 ToolTip="Show Folder Browser pane (alt-v-f)"                                
 				         fa:Awesome.Content="FilesOutline" Foreground="#70B8FF"
 				         Height="24" Width="24" 
 				         TextElement.FontSize="16" 
@@ -268,13 +269,7 @@
 			<ToolBarPanel Name="ToolbarPanelMain" >
 				<StackPanel Orientation="Horizontal">
 					<ToolBar Name="ToolbarFile"  FontSize="17">
-						<!--<Button  Margin="7,0,0,0"  Command="{Binding ShowFolderBrowserCommand}" ToolTip="Show Folder Browser pane (alt-v-f)"                                
-						         fa:Awesome.Content="Bars"
-						         Height="24" Width="24"
-						         TextElement.FontSize="13" FontWeight="Light"
-						         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-						/>-->
-                        <Button Name="ToolButtonOpenFile" Margin="7,0,0,0"  Command="{Binding OpenDocumentCommand}" ToolTip="Open Markdown file (ctrl-o)"                                
+						<Button Name="ToolButtonOpenFile" Margin="7,0,0,0"  Command="{Binding OpenDocumentCommand}" ToolTip="Open Markdown file (ctrl-o)"                                
                                 fa:Awesome.Content="FolderOpen"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
@@ -300,14 +295,13 @@
 						<Separator/>
 
 						<Button Name="ToolButtonNewFile" Margin="7,0,0,0" Command="{Binding NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
-                                fa:Awesome.Content="PlusCircle"
-                                 
+                                fa:Awesome.Content="PlusCircle"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
-                        <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding SaveCommand}" ToolTip="Save active document (ctrl-s)"                                
-                                fa:Awesome.Content="CheckCircleOutline"
-                                 
+                        <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding SaveCommand}" 
+								ToolTip="Save active document (ctrl-s)"                                
+                                fa:Awesome.Content="CheckCircleOutline"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
