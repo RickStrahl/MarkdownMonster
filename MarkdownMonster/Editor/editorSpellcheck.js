@@ -292,14 +292,17 @@ var sc = window.spellcheck = {
             $item = $("<div style='text-align:right'>x close</div>");
             $list.append($item);
 
-            $list
-                .data("misspelled",misspelledWord)
-                .show()
-                .css({ left: e.clientX, top: e.clientY })
-                .mouseleave(function(e) {
-                    $list.hide();
-                    $list.html("");
-                });
+	        $list
+		        .data("misspelled", misspelledWord)
+		        .show()
+		        .css({ left: e.clientX, top: e.clientY });
+    //            .mouseleave(function(e) {
+    //                $list.hide();
+    //                $list.html("");
+				//});
+
+			   // clicking anywhere will close the popup
+	           $(document).bind("click.suggestionsdoc", closeSuggestionPopup);
             
                 setTimeout(function () {
                     if (e.clientY + $list.height() > document.documentElement.clientHeight)
@@ -308,6 +311,13 @@ var sc = window.spellcheck = {
                         $list.css({ left: e.clientX - $list.width() });
                 }, 1);
         }
+
+		function closeSuggestionPopup() {
+			var $list = $("#spellfixes");
+			$list.hide();
+			$list.html("");
+			$(document).unbind("click.suggestionsdoc");			
+		}
 
         // <div id="spellfixes"> 
         //    <div>word</div>
@@ -329,8 +339,7 @@ var sc = window.spellcheck = {
                 te.editor.getSession().replace(range, text);
             }
 
-            $list.hide();
-            $list.html("");
+	        closeSuggestionPopup();            
         }
     }
 }
