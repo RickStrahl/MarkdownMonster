@@ -6,7 +6,7 @@
 ### 1.3.8
 *<small>not released yet</small>*
 
-* **Folder Browser Image Enhancements**
+* **Folder Browser Image Enhancements**  
 Images are now previewed as you hover over them in the folder browser. Double clicking shows the image in the configured image viewer. The context menu now has options to **View** and **Edit** images, using the configured image editors.
 
 * **Image Editor and Viewer Configuration Changes**  

@@ -178,7 +178,6 @@
     </Compile>
     <Compile Include="_Classes\AddInInterfaces\BaseAddinConfiguration.cs" />
     <Compile Include="_Classes\Configuration\ApplicationUpdatesConfiguration.cs" />
-    <Compile Include="_Classes\Configuration\EditorExtensionMappingConfiguration.cs" />
     <Compile Include="_Classes\Configuration\FolderBrowserConfiguration.cs" />
     <Compile Include="_Classes\Configuration\MarkdownOptionsConfiguration.cs" />
     <Compile Include="_Classes\Configuration\WindowPositionConfiguration.cs" />
