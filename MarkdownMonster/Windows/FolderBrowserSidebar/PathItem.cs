@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using MarkdownMonster.Annotations;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
@@ -31,6 +32,8 @@ namespace MarkdownMonster.Windows
 				_fullPath = value;
 				OnPropertyChanged();
 				OnPropertyChanged(nameof(DisplayName));
+				OnPropertyChanged(nameof(IsImage));
+				OnPropertyChanged(nameof(IsNotImage));
 			}
 		}
 		private string _fullPath;
@@ -46,7 +49,7 @@ namespace MarkdownMonster.Windows
 				if (value == _isFolder) return;
 				_isFolder = value;
 				OnPropertyChanged();
-				OnPropertyChanged(nameof(DisplayName));
+				OnPropertyChanged(nameof(DisplayName));				
 			}
 		}
 		private bool _isFolder;
@@ -96,7 +99,22 @@ namespace MarkdownMonster.Windows
 			}
 		}
 		private bool _isSelected;
+
 		
+
+		public bool IsImage
+		{
+
+			get
+			{
+				if (mmFileUtils.GetImageMediaTypeFromFilename(FullPath) == "application/image")
+					return false;
+
+				return true;
+			}
+		}
+
+		public bool IsNotImage => !IsImage;
 
 
 		public ObservableCollection<PathItem> Files

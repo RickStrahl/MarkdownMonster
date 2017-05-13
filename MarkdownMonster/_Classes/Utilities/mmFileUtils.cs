@@ -359,8 +359,17 @@ namespace MarkdownMonster
 		    try
 		    {
 			    string exe = mmApp.Configuration.ImageEditor;
-			    var process = Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
-
+			    if (!string.IsNullOrEmpty(exe))
+				    Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
+			    else
+			    {
+				    Process.Start(new ProcessStartInfo
+				    {
+						 FileName = imageFile,
+						 UseShellExecute = true,
+						 Verb = "Edit"
+				    });
+			    }
 		    }
 		    catch (Exception e)
 		    {
@@ -370,6 +379,34 @@ namespace MarkdownMonster
 			return true;
 	    }
 
+	    /// <summary>
+	    /// Opens an image in the configured image viewer.
+	    /// If none is specified uses default image viewer
+	    /// </summary>
+	    /// <param name="imageFile"></param>
+	    public static bool OpenImageInImageViewer(string imageFile)
+	    {
+		    try
+		    {
+			    string exe = mmApp.Configuration.ImageViewer;
+			    if (!string.IsNullOrEmpty(exe))
+				    Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
+			    else
+			    {
+				    Process.Start(new ProcessStartInfo
+				    {
+					    FileName = imageFile,
+					    UseShellExecute = true					    
+				    });
+			    }
+		    }
+		    catch (Exception e)
+		    {
+			    return false;
+		    }
+
+		    return true;
+	    }
 
 		/// <summary>
 		/// Opens the configured image editor. If command can't be executed
@@ -377,7 +414,7 @@ namespace MarkdownMonster
 		/// </summary>
 		/// <param name="folder"></param>
 		/// <returns>false if process couldn't be started - most likely invalid link</returns>
-	    public static bool OpenTerminal(string folder)
+		public static bool OpenTerminal(string folder)
 	    {
 		    try
 		    {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MarkdownMonster.Annotations;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -321,11 +323,11 @@ namespace MarkdownMonster.Windows
 			var ext = Path.GetExtension(file).ToLower().Replace(".","");
 			if (StringUtils.Inlist(ext, "jpg", "png", "gif", "jpeg"))
 			{
-				if (!mmFileUtils.OpenImageInImageEditor(file))
+				if (!mmFileUtils.OpenImageInImageViewer(file))
 				{
-					MessageBox.Show("Unable to launch image editor " + Path.GetFileName(mmApp.Configuration.ImageEditor) + 
+					MessageBox.Show("Unable to launch image viewer " + Path.GetFileName(mmApp.Configuration.ImageViewer) + 
 						"\r\n\r\n" +
-						"Most likely the image editor configured in settings is not valid. Please check the 'ImageEditor' key in the Markdown Monster Settings." +
+						"Most likely the image viewer configured in settings is not valid. Please check the 'ImageEditor' key in the Markdown Monster Settings." +
 						"\r\n\r\n" +
 						"We're opening the Settings file for you in the editor now.",
 						"Image Launching Error",
@@ -565,6 +567,64 @@ namespace MarkdownMonster.Windows
 			else
 				mmApp.Model.Window.OpenTab(selected.FullPath);
 		}
+
+		private void MenuShowImage_Click(object sender, RoutedEventArgs e)
+		{
+			var selected = TreeFolderBrowser.SelectedItem as PathItem;
+			if (selected == null)
+				return;
+
+			mmFileUtils.OpenImageInImageViewer(selected.FullPath);
+		}
+
+		private void MenuEditImage_Click(object sender, RoutedEventArgs e)
+		{
+			var selected = TreeFolderBrowser.SelectedItem as PathItem;
+			if (selected == null)
+				return;
+
+			mmFileUtils.OpenImageInImageEditor(selected.FullPath);
+		}
+
 		#endregion
+
+		private string overImage;
+
+		private void TextFileOrFolderName_MouseEnter(object sender, MouseEventArgs e)
+		{
+			dynamic s = sender as dynamic;
+
+			var selected = s.DataContext as PathItem;
+			if (selected == null)
+				return;
+
+			overImage = selected.FullPath;
+
+			Dispatcher.Delay(600, (imageFile) =>
+			{
+				if (string.IsNullOrEmpty(overImage) || overImage != imageFile)
+					return;
+
+				try
+				{
+					ImagePreview.Source = new BitmapImage(new Uri((string) imageFile));
+					PopupImagePreview.IsOpen = true;
+				}
+				catch
+				{
+				}
+			}, overImage);
+
+		}
+
+		private void TextFileOrFolderName_MouseLeave(object sender, MouseEventArgs e)
+		{
+			overImage = null;
+
+			PopupImagePreview.IsOpen = false;
+			ImagePreview.Source = null;
+			ImagePreviewColumn.Height = new GridLength(0);
+
+		}
 	}
 }

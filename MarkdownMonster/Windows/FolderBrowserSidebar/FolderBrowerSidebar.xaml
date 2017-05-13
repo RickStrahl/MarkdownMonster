@@ -14,8 +14,9 @@
 		<!--DataType="{x:Type local:PathItem}"-->
 		<HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
 			<StackPanel MouseDown="TreeViewItem_MouseDoubleClick">
-				<TextBlock Text="{Binding DisplayName, Mode=OneWay}" Padding="5,2,5,2"
+				<TextBlock Name="TextFileOrFolderName" Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
 				           Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
+						   MouseEnter="TextFileOrFolderName_MouseEnter" MouseLeave="TextFileOrFolderName_MouseLeave"
 				>
 					<TextBlock.Style>
 						<Style TargetType="TextBlock">
@@ -30,7 +31,7 @@
 				</TextBlock>
 
 				<TextBox Name="TextEditFileItem" 
-				         Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="6,4,10,4"
+				         Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="6,5,10,5"
 				         Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<TextBox.Style>
 						<Style TargetType="TextBox">
@@ -53,11 +54,21 @@
 			<MenuItem Name="MenuDeleteFile" Header="Delete" InputGestureText="Del" Click="MenuDeleteFile_Click" />
 			<MenuItem Name="MenuRenameFile" Header="Rename"  InputGestureText="F2" Click="MenuRenameFile_Click" />
 			<Separator/>
-			<MenuItem Name="MenuOpenInEditor" Header="Open File in Editor" Click="MenuOpenInEditor_Click" 
-			          IsEnabled="{Binding SelectedItem.IsFolder,					
-					Converter={StaticResource InvertedBooleanConverter}}"						  
+			<MenuItem Name="MenuOpenImage" Header="Show Image" 
+					  Visibility="{Binding SelectedItem.IsImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
+					  Click="MenuShowImage_Click" />
+			<MenuItem Name="MenuEditImage" Header="Edit Image" 
+			          Visibility="{Binding SelectedItem.IsImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
+					  Click="MenuEditImage_Click" />
+
+			<MenuItem Name="MenuOpenInEditor" Header="Open in Editor" Click="MenuOpenInEditor_Click" 
+			          Visibility="{Binding SelectedItem.IsNotImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
+			          IsEnabled="{Binding SelectedItem.IsFolder,Converter={StaticResource InvertedBooleanConverter}}"						  
 			/>
-			<MenuItem Name="MenuOpenWithShell" Header="Open with Shell" Click="MenuOpenWithShell_Click" />
+			<MenuItem Name="MenuOpenWithShell"
+			          Visibility="{Binding SelectedItem.IsNotImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
+					  Header="Open with Shell" 
+					  Click="MenuOpenWithShell_Click" />
 			<Separator/>
 			<MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
 			<MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
@@ -72,6 +83,7 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
+			<RowDefinition Name="ImagePreviewColumn"  Height="Auto"/>
 		</Grid.RowDefinitions>
 
 		<Grid Background="#353535">
@@ -84,7 +96,8 @@
 			</Grid.ColumnDefinitions>
 			
 			<TextBlock Height="Auto" 
-					   Text="FOLDER BROWSER (experimental)" FontWeight="Medium" FontSize="11"  Padding="6,3" />
+					   Text="FOLDER BROWSER (experimental)"
+					   FontWeight="Medium" FontSize="11"  Padding="6,3" />
 
 
 			<Button fa:Awesome.Content="EllipsisH" Grid.Column="1" Background="Transparent"
@@ -109,6 +122,9 @@
 			         Click="ButtonClosePanel_Click" />
 
 		</Grid>
+
+
+	
 		
 		<TextBox Grid.Row="1" Name="TextFolderPath" Text="{Binding FolderPath}"
 					 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
@@ -125,5 +141,16 @@
 				</Style>
 			</TreeView.Resources>
 		</TreeView>
+
+		<Popup Name="PopupImagePreview" Grid.Row="3" Placement="Mouse" Margin="10" >
+			<Border BorderThickness="1" BorderBrush="#676767" >
+				<Image Name="ImagePreview" Height="Auto" Width="Auto" 
+				   MinHeight="50"
+				   MinWidth="50"	
+				   MaxHeight="470"
+				   MaxWidth="570" />
+			</Border>
+		</Popup>
+
 	</Grid>
 </UserControl>
