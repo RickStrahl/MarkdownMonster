@@ -14,9 +14,10 @@ You can now drag an image from the Folder Browser into your Markdown document. I
 
 * **Folder Browser Image Enhancements**  
 Images are now previewed as you hover over them in the folder browser. Double clicking shows the image in the configured image viewer. The context menu now has options to **View** and **Edit** images, using the configured image editors.
-C:\projects2010\MarkdownMonster\FolderBrowser.png
+
 * **Image Editor and Viewer Configuration Changes**  
 There are now two separate configuration settings for **ImageEditor** and **ImageViewer**. Both default to empty strings which bring up the default editors (PhotoViewer and Paint by default on Win10). You can configure these two keys with paths to applications. Setting up editors like Paint.NET or the SnagIt Image Editor is great for making quick edits to images. These editor and viewer settings are used in the Folder browser, in the Paste Image and Screen Capture dialogs, and the right click Image selection in the editor.
+
 
 * **Custom Editor Extension Mapping**  
 The extensions that are supported in the editor are now configurable via a collection of configuration values in the **EditorExtensionMapping** key in Settings. You can map any file extension to any of Ace Editor's support edit formats.
@@ -32,7 +33,6 @@ Added a new file browser panel that allows browsing for files. You can open file
 
 * **[Custom Fields Editor for Weblog Publishing](http://markdownmonster.west-wind.com/docs/_4wq1dbsnh.htm)**
 The Weblog Publish Dialog now allows interactive editing of Custom Fields to send to MetaWeblog and Wordpress Weblog engines. This is in addition to explicitly editing the post YAML meta data at the beginning of a post which can also be edited as plain text.
-
 
 ### 1.3.4
 *<small>May 4th, 2017</small>*

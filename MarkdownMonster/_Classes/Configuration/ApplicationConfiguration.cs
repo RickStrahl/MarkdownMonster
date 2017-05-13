@@ -306,7 +306,7 @@ namespace MarkdownMonster
 		/// Command Processing Executable to bring up a terminal window
 		/// Command or Powershell, but could also be Console or ConEmu
 		/// cmd.exe				/k \"cd {0}\"
-		/// powershell.exe		-NoExit -Command  "& cd 'c:\program files'"
+		/// powershell.exe		-NoExit -Command  "&amp; cd 'c:\program files'"
 		/// </summary>
 		public string TerminalCommand { get; set; }
 
