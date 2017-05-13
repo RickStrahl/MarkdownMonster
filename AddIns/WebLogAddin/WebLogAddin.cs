@@ -287,8 +287,8 @@ namespace WeblogAddin
                         ShellUtils.GoUrl(new Uri(weblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority));
                 }
             }
-            catch (Exception ex)
-            {
+            catch
+			{ 
                 mmApp.Log("Failed to display Weblog Url after posting: " +
                           weblogInfo.PreviewUrl ?? postUrl ?? weblogInfo.ApiUrl);
             }
