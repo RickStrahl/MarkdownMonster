@@ -507,13 +507,25 @@ namespace MarkdownMonster
         /// </summary>
         public string LastImageFolder { get; set; }
 
-        /// <summary>
-        /// Common folder where configuration files are stored. Can be moved
-        /// to an alternate location to allow sharing.
-        /// </summary>        
-        public string CommonFolder { get; set; }
+	    
 
-        internal string InternalCommonFolder { get; set; }
+	    /// <summary>
+	    /// Common folder where configuration files are stored. Can be moved
+	    /// to an alternate location to allow sharing.
+	    /// </summary>        
+	    public string CommonFolder
+	    {
+		    get
+		    {
+			    if (_commonFolder == null)
+				    _commonFolder = InternalCommonFolder;
+				return _commonFolder;
+		    }
+		    set { _commonFolder = value; }
+	    }
+	    private string _commonFolder;
+
+		internal string InternalCommonFolder { get; set; }
 
         internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
 	    
@@ -599,8 +611,13 @@ namespace MarkdownMonster
             var cfFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");
             if (File.Exists(cfFile))
                 commonFolder = File.ReadAllText(cfFile);
+	        if (string.IsNullOrWhiteSpace(commonFolder))
+	        {
+		        commonFolder = CommonFolder;
+		        File.Delete(cfFile);
+	        }
 
-            var provider = new JsonFileConfigurationProvider<ApplicationConfiguration>()
+	        var provider = new JsonFileConfigurationProvider<ApplicationConfiguration>()
             {
                 JsonConfigurationFile = Path.Combine(commonFolder,"MarkdownMonster.json")
             };
