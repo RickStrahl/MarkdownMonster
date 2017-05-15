@@ -209,42 +209,7 @@ namespace MarkdownMonster
 
 		#endregion
 
-		#region Recycle Bin Deletion
-		// Credit: http://stackoverflow.com/a/3282450/11197
-
-		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
-	    public struct SHFILEOPSTRUCT
-	    {
-		    public IntPtr hwnd;
-		    [MarshalAs(UnmanagedType.U4)] public int wFunc;
-		    public string pFrom;
-		    public string pTo;
-		    public short fFlags;
-		    [MarshalAs(UnmanagedType.Bool)] public bool fAnyOperationsAborted;
-		    public IntPtr hNameMappings;
-		    public string lpszProgressTitle;
-	    }
-
-	    [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-	    public static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
-
-	    public const int FO_DELETE = 3;
-	    public const int FOF_ALLOWUNDO = 0x40;
-	    public const int FOF_NOCONFIRMATION = 0x10; // Don't prompt the user
-
-	    public static bool MoveToRecycleBin(string filename)
-	    {
-		    var shf = new SHFILEOPSTRUCT();
-		    shf.wFunc = FO_DELETE;
-		    shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
-		    shf.pFrom = filename + '\0'; // required!
-		    int result =SHFileOperation(ref shf);
-
-		    return result == 0;
-	    }
-		#endregion
-
-		#region String Utilities
+	    #region String Utilities
 		/// <summary>
 		/// Extracts a string from between a pair of delimiters. Only the first 
 		/// instance is found.
@@ -407,14 +372,16 @@ namespace MarkdownMonster
 
 		    return true;
 	    }
+		#endregion
 
-		/// <summary>
-		/// Opens the configured image editor. If command can't be executed
-		/// the function returns false
-		/// </summary>
-		/// <param name="folder"></param>
-		/// <returns>false if process couldn't be started - most likely invalid link</returns>
-		public static bool OpenTerminal(string folder)
+	    #region Shell Operations
+	    /// <summary>
+	    /// Opens the configured image editor. If command can't be executed
+	    /// the function returns false
+	    /// </summary>
+	    /// <param name="folder"></param>
+	    /// <returns>false if process couldn't be started - most likely invalid link</returns>
+	    public static bool OpenTerminal(string folder)
 	    {
 		    try
 		    {
@@ -423,11 +390,108 @@ namespace MarkdownMonster
 		    }
 		    catch
 		    {
-				return false;
+			    return false;
 		    }
-			return true;
+		    return true;
 	    }
-        #endregion
+
+	    /// <summary>
+	    /// Executes a process with given command line parameters
+	    /// </summary>
+	    /// <param name="executable">Executable to run</param>
+	    /// <param name="arguments"></param>
+	    /// <param name="timeoutMs">Timeout of the process in milliseconds. Pass -1 to wait forever. Pass 0 to not wait.</param>
+	    /// <returns></returns>
+	    public static int ExecuteProcess(string executable, string arguments, int timeoutMs = 60000)
+	    {
+		    Process process;
+
+		    try
+		    {
+			    using (process = new Process())
+			    {
+				    process.StartInfo.FileName = executable;
+				    process.StartInfo.Arguments = arguments;
+				    process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+
+				    process.StartInfo.UseShellExecute = false;
+
+				    process.StartInfo.RedirectStandardOutput = true;
+				    process.StartInfo.RedirectStandardError = true;
+
+				    process.OutputDataReceived += (sender, args) =>
+				    {
+					    Console.WriteLine(args.Data);
+				    };
+				    process.ErrorDataReceived += (sender, args) =>
+				    {
+					    Console.WriteLine(args.Data);
+				    };
+
+				    process.Start();
+					
+				    if (timeoutMs < 0)
+					    timeoutMs = 99999999; // indefinitely
+
+				    if (timeoutMs > 0)
+				    {
+					    if (!process.WaitForExit(timeoutMs))
+					    {
+						    Console.WriteLine("Process timed out.");
+						    return 1460;
+					    }
+				    }
+				    else
+					    return 0;
+
+				    return process.ExitCode;
+			    }
+		    }
+		    catch (Exception ex)
+		    {
+			    Console.WriteLine("Error executing process: " + ex.Message);
+			    return -1; // unhandled error
+		    }
+
+
+	    }
+
+	    #endregion
+
+	    #region Recycle Bin Deletion
+	    // Credit: http://stackoverflow.com/a/3282450/11197
+
+	    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
+	    public struct SHFILEOPSTRUCT
+	    {
+		    public IntPtr hwnd;
+		    [MarshalAs(UnmanagedType.U4)] public int wFunc;
+		    public string pFrom;
+		    public string pTo;
+		    public short fFlags;
+		    [MarshalAs(UnmanagedType.Bool)] public bool fAnyOperationsAborted;
+		    public IntPtr hNameMappings;
+		    public string lpszProgressTitle;
+	    }
+
+	    [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+	    public static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
+
+	    public const int FO_DELETE = 3;
+	    public const int FOF_ALLOWUNDO = 0x40;
+	    public const int FOF_NOCONFIRMATION = 0x10; // Don't prompt the user
+
+	    public static bool MoveToRecycleBin(string filename)
+	    {
+		    var shf = new SHFILEOPSTRUCT();
+		    shf.wFunc = FO_DELETE;
+		    shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
+		    shf.pFrom = filename + '\0'; // required!
+		    int result =SHFileOperation(ref shf);
+
+		    return result == 0;
+	    }
+	    #endregion
     }
 
 
