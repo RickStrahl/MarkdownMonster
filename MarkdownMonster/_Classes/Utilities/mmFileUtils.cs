@@ -336,7 +336,7 @@ namespace MarkdownMonster
 				    });
 			    }
 		    }
-		    catch (Exception e)
+		    catch (Exception)
 		    {
 				return false;
 		    }
@@ -365,7 +365,7 @@ namespace MarkdownMonster
 				    });
 			    }
 		    }
-		    catch (Exception e)
+		    catch (Exception)
 		    {
 			    return false;
 		    }

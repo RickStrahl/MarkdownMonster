@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Net.Cache;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -198,8 +199,12 @@ namespace MarkdownMonster.Windows
 
             if (PasteAsBase64Content)
             {
-                Base64EncodeImage(fd.FileName);                
-                ImagePreview.Source = new BitmapImage(new Uri(fd.FileName));
+	            var bmi = new BitmapImage();
+	            bmi.CreateOptions = BitmapCreateOptions.IgnoreImageCache; // don't lock file
+	            bmi.UriSource = new Uri(fd.FileName);
+
+				Base64EncodeImage(fd.FileName);
+	            ImagePreview.Source = bmi;
                 return;
             }
 
@@ -680,7 +685,11 @@ namespace MarkdownMonster.Windows
 
             try
             {
-                ImagePreview.Source = BitmapFrame.Create(new Uri(url));
+	            var bmi = new BitmapImage();
+	            bmi.CreateOptions = BitmapCreateOptions.IgnoreImageCache; // no locking
+	            bmi.UriSource = new Uri(url);
+
+	            ImagePreview.Source = bmi;
                 if (Height < 400)
                 {
                     Top -= 300;
@@ -695,7 +704,7 @@ namespace MarkdownMonster.Windows
             catch
             {
             }
-        }
+        }		
 
         private void SetImagePreview(BitmapSource source)
         {

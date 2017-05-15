@@ -97,6 +97,12 @@ namespace MarkdownMonster.Windows
 
         #region Bitmap Conversions
 
+		/// <summary>
+		/// Converts a bitmap source to a bitmap
+		/// Make sure to dispose the bitmap
+		/// </summary>
+		/// <param name="source"></param>
+		/// <returns></returns>
         public static Bitmap BitmapSourceToBitmap(BitmapSource source)
         {
             Bitmap bmp = new Bitmap(
@@ -116,6 +122,7 @@ namespace MarkdownMonster.Windows
                 data.Stride);
 
             bmp.UnlockBits(data);
+			
             return bmp;
         }
 
