@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
  
 ### 1.3.10
-*<small>not released yet</small>*
+*<small>May 14th, 2017</small>*
 
 * **Add Dragging of Images from Folder Browser into Markdown**  
 You can now drag an image from the Folder Browser into your Markdown document. If the document is in the current path or below the image is embedded with a relative link, otherwise you get a file re-save dialog to optionally save the file in a local relative location.
