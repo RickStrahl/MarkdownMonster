@@ -1,3 +1,4 @@
+/// <reference path="Ace/ace.js" />
 /// <reference path="editorSettings.js" />
 /// <reference path="editor.js" />
 
@@ -100,8 +101,20 @@ var sc = window.spellcheck = {
             }
         });
 	    $("#spellfixes") // handle the click on the selected item
-		    .on("click", "div", clickSuggestion);
+			.on("click", "div", clickSuggestion);
 
+	    //var keydownFunc = function(e) {
+		   // alert('keydown'); //e.key + " " + e.keyCode);
+		   // if (e.key == ']') {
+			  //  var $misspelled = $(e.target).find(".misspelled");
+			  //  //if ($misspelled.length < 1) return;
+			  //  alert($misspelled.length + " " + $(e.target).html());
+			  //  showSuggestions(e);
+			  //  //alert($misspelled.html());
+			  //  e.preventDefault();
+		   // }
+	    //};	
+			
 		// can't access the marker
 	    //$(document).on("click", ".misspelled", function() { alert('here we go'); });
 		

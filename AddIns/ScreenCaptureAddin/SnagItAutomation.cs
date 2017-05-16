@@ -39,7 +39,7 @@ namespace SnagItAddin
     [Serializable]
     public class SnagItAutomation
     {
-        public static string SNAGIT_PROGID = "SnagIt.ImageCapture.1";
+        public static string SNAGIT_PROGID = "SnagIt.ImageCapture";
 
         /// <summary>
         /// The initial directory where files are saved.
@@ -199,6 +199,8 @@ namespace SnagItAddin
             }
 
             dynamic snagIt = SnagItCom;
+
+			
             
             try
             {
