@@ -435,17 +435,25 @@ namespace MarkdownMonster
 		public bool ReportErrors { get; set; }
 
 
-        [JsonIgnore]
-        public string BugReportUrl { get; set; }
+		/// <summary>
+		/// Custom Bug Reporting url. Obsolete - in lieu of ApplicationInsights
+		/// </summary>
+		[JsonIgnore]
+		public string BugReportUrl { get; set; }
 
-        [JsonIgnore]
-        public string TelemetryUrl { get; set; }
 
 
-        /// <summary>
-        /// Flag to determine whether telemetry is sent
-        /// </summary>
-        public bool SendTelemetry { get; set; }
+		/// <summary>
+		/// Custom Bug Reporting url. Obsolete - in lieu of ApplicationInsights
+		/// </summary>
+		[JsonIgnore]
+		public string TelemetryUrl { get; set; }
+
+
+		/// <summary>
+		/// Flag to determine whether telemetry is sent
+		/// </summary>
+		public bool SendTelemetry { get; set; }
 
         #endregion
 

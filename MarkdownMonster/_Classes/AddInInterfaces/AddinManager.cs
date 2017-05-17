@@ -616,13 +616,10 @@ namespace MarkdownMonster.AddIns
         /// </summary>        
         /// <returns></returns>
         public List<AddinItem> GetAddinList()
-        {
-            const string addinListRepoUrl =
-                "https://raw.githubusercontent.com/RickStrahl/MarkdownMonsterAddinsRegistry/master/MarkdownMonsterAddinRegistry.json";
-
+        {            
             var settings = new HttpRequestSettings
             {
-                Url = addinListRepoUrl,
+                Url = mmApp.Urls.AddinRepositoryUrl,
                 Timeout = 5000
             };
 
@@ -672,12 +669,10 @@ namespace MarkdownMonster.AddIns
         /// <returns></returns>
         public async Task<List<AddinItem>> GetInitialAddinListAsync()
         {
-            const string addinListRepoUrl =
-                "https://raw.githubusercontent.com/RickStrahl/MarkdownMonsterAddinsRegistry/master/MarkdownMonsterAddinRegistry.json";
 
             var settings = new HttpRequestSettings
             {
-                Url = addinListRepoUrl,
+                Url = mmApp.Urls.AddinRepositoryUrl,
                 Timeout = 5000
             };
 

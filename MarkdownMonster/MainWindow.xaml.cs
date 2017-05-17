@@ -1285,7 +1285,7 @@ namespace MarkdownMonster
 
 				if (res == MessageBoxResult.Yes)
 				{
-					ShellUtils.GoUrl(mmApp.InstallerDownloadUrl);
+					ShellUtils.GoUrl(mmApp.Urls.InstallerDownloadUrl);
 
 					if (closeForm)
 						Close();
@@ -1309,7 +1309,7 @@ namespace MarkdownMonster
 		public void Button_Handler(object sender, RoutedEventArgs e)
 		{
 			var button = sender;
-			if (sender == null)
+			if (button == null )
 				return;
 
 			if (button == ButtonOpenFromHtml)
@@ -1366,11 +1366,11 @@ namespace MarkdownMonster
 			}
 			else if (button == MenuMarkdownMonsterSite)
 			{
-				ShellUtils.GoUrl("http://markdownmonster.west-wind.com");
+				ShellUtils.GoUrl(mmApp.Urls.WebSiteUrl);
 			}
 			else if (button == MenuBugReport)
 			{
-				ShellUtils.GoUrl("https://github.com/RickStrahl/MarkdownMonster/issues");
+				ShellUtils.GoUrl(mmApp.Urls.SupportUrl);
 			}
 			else if (button == MenuCheckNewVersion)
 			{
@@ -1441,11 +1441,11 @@ namespace MarkdownMonster
 				this.PreviewMarkdownAsync();
 			}
 			else if (button == MenuDocumentation)
-				ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs");
+				ShellUtils.GoUrl(mmApp.Urls.DocumentationBaseUrl);
 			else if (button == MenuMarkdownBasics)
-				ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4ne1eu2cq.htm");
+				ShellUtils.GoUrl( "_4ne1eu2cq.htm");
 			else if (button == MenuCreateAddinDocumentation)
-				ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm");
+				ShellUtils.GoUrl(mmApp.Urls.DocumentationBaseUrl + "_4ne0s0qoi.htm");
 			else if (button == MenuShowSampleDocument)
 				OpenTab(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"));
 			else if (button == MenuShowErrorLog)

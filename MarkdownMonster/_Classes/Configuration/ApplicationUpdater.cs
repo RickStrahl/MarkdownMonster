@@ -103,8 +103,7 @@ namespace MarkdownMonster
             VersionFile = mmApp.Configuration.CommonFolder + "MarkdownMonster_Version.xml";
             DownloadStoragePath = Path.Combine(KnownFolders.GetDefaultPath(KnownFolder.Downloads), "MarkDownMonsterSetup.exe");
 
-            VersionCheckUrl = mmApp.Configuration.ApplicationUpdates.UpdateCheckUrl;
-            DownloadUrl = mmApp.Configuration.ApplicationUpdates.InstallerDownloadUrl;
+            VersionCheckUrl = mmApp.Urls.VersionCheckUrl;            
             CheckDays = mmApp.Configuration.ApplicationUpdates.UpdateFrequency;
             LastCheck = mmApp.Configuration.ApplicationUpdates.LastUpdateCheck;
         }

@@ -108,28 +108,14 @@ namespace MarkdownMonster
 
         private static string _internalMachineKey = null;
 
+		internal static string Signature { get; } = "S3VwdWFfMTAw";
 
+		internal static string PostFix = "*~~*";
 
-        internal static string Signature { get; } = "S3VwdWFfMTAw";
-
-        /// <summary>
-        /// The URL where new versions are downloaded from
-        /// </summary>
-        public static string InstallerDownloadUrl { get; internal set; } =
-            "https://markdownmonster.west-wind.com/download.aspx";
-
-
-        internal static string PostFix = "*~~*";
-
-
-
-        /// <summary>
-        /// Url that is used to check for new version information
-        /// </summary>
-        public static string UpdateCheckUrl { get; internal set; }
-
-	    public static string DocumentationBaseUrl { get; set; } =
-		    "https://markdownmonster.west-wind.com/docs/";
+		/// <summary>
+		/// Application related Urls used throughout the application
+		/// </summary>
+	    public static ApplicationUrls Urls { get; set; } 
 
 
 	    #region Initialization and Shutdown
@@ -147,6 +133,7 @@ namespace MarkdownMonster
         public static void ApplicationStart()
         {
             Started = DateTime.UtcNow;
+	        Urls = new ApplicationUrls();
 
             try
             {
@@ -454,7 +441,7 @@ Markdown Monster v{version}
 		    if (!topic.Contains(".htm"))
 			    topic += ".htm";
 
-			return mmApp.DocumentationBaseUrl + topic;
+			return Urls.DocumentationBaseUrl + topic;
 	    }
         #endregion
 
@@ -629,11 +616,59 @@ Markdown Monster v{version}
         Default
     }
 
-    /// <summary>
-    /// Message class that holds information about a bug report
-    /// for logging and telemetry reporting
-    /// </summary>
-    public class BugReport
+	/// <summary>
+	/// Urls that are associated with the application
+	/// </summary>
+	public class ApplicationUrls
+	{
+		/// <summary>
+		/// The URL where new versions are downloaded from
+		/// </summary>
+		public string InstallerDownloadUrl { get; internal set; } =
+			"https://markdownmonster.west-wind.com/download.aspx";
+
+
+		/// <summary>
+		/// Url to go to purchase a registered version of Markdown Monster
+		/// </summary>
+		public string RegistrationUrl { get; internal set; } =
+			"https://store.west-wind.com/product/order/markdown_monster";
+
+
+		/// <summary>
+		/// Base Url where documentation is found. Add just 'topicid.htm'
+		/// </summary>
+		public string DocumentationBaseUrl { get; internal set; } =
+			"https://markdownmonster.west-wind.com/docs/";
+
+
+		/// <summary>
+		/// Web site home url
+		/// </summary>
+		public string WebSiteUrl { get; internal set; } =
+			"http://markdownmonster.west-wind.com";
+
+		/// <summary>
+		/// Url to the Github repo for support and enhancement requests
+		/// </summary>
+		public string SupportUrl { get; set; } =
+			"https://github.com/RickStrahl/MarkdownMonster/issues";
+
+		/// <summary>
+		/// Url that is checked for new version
+		/// </summary>
+		public string VersionCheckUrl { get; set; } =
+			"http://west-wind.com/files/MarkdownMonster_version.xml";
+
+		public string AddinRepositoryUrl { get; set; } =
+			"https://raw.githubusercontent.com/RickStrahl/MarkdownMonsterAddinsRegistry/master/MarkdownMonsterAddinRegistry.json";
+	}
+
+	/// <summary>
+	/// Message class that holds information about a bug report
+	/// for logging and telemetry reporting
+	/// </summary>
+	public class BugReport
     {
         public DateTime TimeStamp { get; set; }
         public string Message { get; set; }

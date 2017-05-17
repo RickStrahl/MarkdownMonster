@@ -10,18 +10,11 @@ namespace MarkdownMonster
     /// </summary>
     public class ApplicationUpdatesConfiguration
     {
-        /// <summary>
-        /// Url where installer is downloaded from
-        /// </summary>
-        [JsonIgnore]
-        public string InstallerDownloadUrl { get; }
-
-        /// <summary>
-        /// Url to check version info from
-        /// </summary>
-        [JsonIgnore]
-        public string UpdateCheckUrl { get; }
-
+        ///// <summary>
+        ///// Url to check version info from
+        ///// </summary>
+        //[JsonIgnore]
+        //public string UpdateCheckUrl { get; }
 
         /// <summary>
         /// Last date and time when an update check was performed
@@ -47,9 +40,7 @@ namespace MarkdownMonster
 
 
         public ApplicationUpdatesConfiguration()
-        {
-            InstallerDownloadUrl = "http://west-wind.com/files/MarkdownMonsterSetup.exe";
-            UpdateCheckUrl = "http://west-wind.com/files/MarkdownMonster_version.xml";            
+        {                        
             UpdateFrequency = 7;
             // prevent immediate update check for at least a day on new install
             LastUpdateCheck = DateTime.UtcNow.AddDays((UpdateFrequency -1) * -1 ); 
