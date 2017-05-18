@@ -67,10 +67,10 @@ namespace MarkdownMonster.Windows
 		// Using a DependencyProperty as the backing store for SelectedFile.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty SelectedFileProperty =
 			DependencyProperty.Register("SelectedFile", typeof(string), typeof(FolderBrowerSidebar), new PropertyMetadata(null));
-
-		public event Action<object, EventArgs> FileSelected;
-
-
+		
+		/// <summary>
+		/// Internal value
+		/// </summary>
 		private FolderStructure FolderStructure { get; set; } = new FolderStructure();
 
 		#region Initialization
@@ -78,8 +78,6 @@ namespace MarkdownMonster.Windows
 		{
 			InitializeComponent();
 			Loaded += FolderBrowerSidebar_Loaded;
-
-			
 		}
 		
 
