@@ -96,7 +96,7 @@
 			</Grid.ColumnDefinitions>
 			
 			<TextBlock Height="Auto" 
-					   Text="FOLDER BROWSER (experimental)"
+					   Text="FOLDER BROWSER"
 					   FontWeight="Medium" FontSize="11"  Padding="6,3" />
 
 

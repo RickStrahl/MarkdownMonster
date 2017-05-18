@@ -1,13 +1,21 @@
 ﻿<img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right" style="height: 64px"/>
 
 # Welcome to Markdown Monster
-Thanks for checking out Markdown Monster. We hope it'll grow to be your go-to tool for editing and viewing Markdown text, and perhaps even for your Weblog publishing needs.
+Here are a few tips to get you started:
 
-* To create a new document press **Ctrl-n** or **click the +** in the toolbar.
+* To create a new document press **Ctrl-n** or **click the @icon-plus-circle icon** in the toolbar
+* Click the **@icon-files-o icon** to open the Folder Browser to select and manage files
+* To change **Editor or Preview Themes**, click on the dropdown lists on the bottom right status bar:  
+![Image and Preview Themes on the toolbar](https://markdownmonster.west-wind.com/docs/images/EditorPreviewThemeUi.png) 
+
+* For **light editor themes** look at `visualstudio`, `github` or `xcode`  
+* For **dark editor themes** look at `twilight`, `monokai`, `terminal`
+
+### Problems? Please let us know
 
 If you run into any problems or issues, **please** let us know so we can address and fix them right away. You can report issues on GitHub:
 
-* <a href="https://github.com/RickStrahl/MarkdownMonster/issues" target="top">Markdown Monster Bug Reports and Feature Requests</a>
+* [Markdown Monster Bug Reports and Feature Requests](https://github.com/RickStrahl/MarkdownMonster/issues)
 
 # Markdown Features
 This topic is meant to give you a very basic overview of how Markdown works, showing some of the most frequently used operations.

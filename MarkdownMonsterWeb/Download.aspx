@@ -75,7 +75,7 @@
                             <dd><%= ReleaseDate %></dd>
 
                             <dt>File size:</dt>
-                            <dd>4.8 mb</dd>
+                            <dd>9.5 mb</dd>
                        </dl> 
                                                                         
                     </div>
@@ -237,13 +237,23 @@
                     Licenses are valid for the major version for which it was purchased such as v1.0 to v1.99.                    
                 </p>
                 
+	            <a name="Contribute"></a>
                 <h3>Contribute - Get a Free License</h3>
-                <p>Contributors that provide valuable feedback, help out with code via Pull Requests or support
-                   Markdown Monster in a significant way are eligible for a free license. 
-                   <a href="http://west-wind.com/contact/" target="top">Contact Rick for more info</a> or - just as likely - I'll be contacting
-                   you.</p>
-
+                <p>Contributors that provide valuable feedback with quality bug reports and enhancement requests, 
+				   or help out with code via Pull Requests, or support Markdown Monster in a significant 
+					way are all eligible for a free license.
+				   <br />
+                
+	            <p>
+		            Microsoft employees and Microsoft MVPs as well as employees of any company 
+		            offering free tools to the MS MVP program also qualify for a free license.
+	            </p>
+				<p>   
+					<a href="http://west-wind.com/contact/" target="top">Contact Rick for more info</a>
+					or - just as likely - I'll be contacting you.
+                </p>
                 <p>
+					
                     <h4>No Warranty</h4>
                     You expressly acknowledge and agree that use of the licensed application is at your sole risk and that
                     the entire risk as to satisfactory quality, performance, accuracy and effort is with you. To the maximum

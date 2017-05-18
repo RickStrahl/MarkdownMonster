@@ -16,6 +16,7 @@ namespace MarkdownMonster.Test
     [TestClass]
     public class ClipboardTests
     {
+		string TempImagePath = Path.Combine(Path.GetTempPath(),"c:\\temp\\test_Bitmap.png");
 
         public ClipboardTests()
         {
@@ -28,13 +29,13 @@ namespace MarkdownMonster.Test
         {
             Assert.IsTrue(System.Windows.Forms.Clipboard.ContainsImage(), "No image on clipboard");
 
-            string of = "c:\\temp\\test_Bitmap.png";
+            
             
             using (var img = System.Windows.Forms.Clipboard.GetImage())
             {
                 using (var bmp = new Bitmap(img))
                 {
-                    bmp.Save(of, ImageFormat.Png);
+                    bmp.Save(TempImagePath, ImageFormat.Png);
                 }
 
             }
@@ -47,9 +48,9 @@ namespace MarkdownMonster.Test
         {
             Assert.IsTrue(System.Windows.Forms.Clipboard.ContainsImage(), "No image on clipboard");
 
-            string of = "c:\\temp\\test_Bitmap.jpg";
-            
-            using (var img = System.Windows.Forms.Clipboard.GetImage())
+			string of = Path.Combine(Path.GetTempPath(), "test_Bitmap.png");
+
+			using (var img = System.Windows.Forms.Clipboard.GetImage())
             {
                 using (var bmp = new Bitmap(img))
                 {
@@ -71,11 +72,11 @@ namespace MarkdownMonster.Test
         {
             Assert.IsTrue(System.Windows.Clipboard.ContainsImage(), "No image on clipboard");
 
-            string of = "c:\\temp\\test_Bitmap.png";
+            
 
             var bmpSource = System.Windows.Clipboard.GetImage();
 
-            using (var fileStream = new FileStream(of, FileMode.Create))
+            using (var fileStream = new FileStream(TempImagePath, FileMode.Create))
             {
                 BitmapEncoder encoder = null;
                 encoder = new PngBitmapEncoder();
@@ -86,10 +87,10 @@ namespace MarkdownMonster.Test
                 //if (ext == ".png")
                 //    mmFileUtils.OptimizePngImage(sd.FileName,5); // async
             }
-            Assert.IsTrue(File.Exists(of));
+            Assert.IsTrue(File.Exists(TempImagePath));
 
              
-            ShellUtils.GoUrl(of);
+            ShellUtils.GoUrl(TempImagePath);
         }
     }
 }

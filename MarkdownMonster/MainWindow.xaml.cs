@@ -118,7 +118,6 @@ namespace MarkdownMonster
 				PipeManager.ReceiveString += HandleNamedPipe_OpenRequest;
 			}
 
-
 			// Override some of the theme defaults (dark header specifically)
 			mmApp.SetThemeWindowOverride(this);
 
@@ -512,13 +511,13 @@ namespace MarkdownMonster
 			}
 
 			var displayCount = 6;
-			if (mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
-				displayCount = 4;
+			if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
+				displayCount = 1;
 			else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 100)
 				displayCount = 2;
-			else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
-				displayCount = 1;
-
+			else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
+				displayCount = 4;
+			
 			if (!isNewVersion &&
 			    mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
 			    !UnlockKey.IsRegistered())

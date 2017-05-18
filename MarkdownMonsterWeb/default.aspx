@@ -113,15 +113,8 @@
                                 <i class="fa fa-youtube"></i>
                                 Video
                             </a>
-                           
-                             
                             
-                            <%-- <a href="http://chocolatey.org/WestwindMarkdownMonster" class="btn btn-lg btn-success" style="background: #222" >
-                                <i class="fa  fa-cloud-download"></i>
-                                 <i class="fa fa-"></i>
-                                 Chocolatey
-                            </a>--%>
-                           
+          
                             <br />
                             <small style="font-size: 8pt;"><i>version <%= Version %> - <%= ReleaseDate%></i></small>
                         </nav>
@@ -163,7 +156,7 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Print generated HTML ouput
+                                        Save as Html and Pdf
                                     </div>                              
                                 </div>
                             </div>

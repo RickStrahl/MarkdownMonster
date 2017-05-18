@@ -43,6 +43,7 @@ Markdown Monster provides many useful features:
 * Paste HTML text as Markdown
 * Copy Markdown editor selection as HTML
 * Open rendered output in Browser
+* Save as Pdf
 * Print rendered output to printer or PDF documents
 * Editor remembers open documents by default (optional)
 * Auto-Save and Auto-Backup support

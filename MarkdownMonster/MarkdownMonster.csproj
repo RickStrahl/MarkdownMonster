@@ -143,6 +143,9 @@
     </Compile>
     <Compile Include="Windows\FolderBrowserSidebar\FolderStructure.cs" />
     <Compile Include="Windows\FolderBrowserSidebar\PathItem.cs" />
+    <Compile Include="Windows\GeneratePdfWindow.xaml.cs">
+      <DependentUpon>GeneratePdfWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_Classes\AddInInterfaces\AddinItem.cs" />
     <Compile Include="_Classes\AddInInterfaces\AddinManager.cs" />
     <Compile Include="_Classes\AddInInterfaces\AddInMenuItem.cs" />
@@ -184,6 +187,7 @@
     <Compile Include="_Classes\Utilities\DispatcherExtensions.cs" />
     <Compile Include="_Classes\MarkdownEditorSimple.cs" />
     <Compile Include="Windows\Helpers\ValueConverters.cs" />
+    <Compile Include="_Classes\Utilities\HtmlToPdfGeneration.cs" />
     <Compile Include="_Classes\Utilities\KnownFolders.cs" />
     <Compile Include="_Classes\MarkdownParser\IMarkdownParser.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserBase.cs" />
@@ -274,6 +278,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\GeneratePdfWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\PasteCode.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -299,6 +307,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Content Include="wkhtmltopdf.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Assets\MarkdownMonsterAddins_Icon.png" />
     <Resource Include="Assets\MarkdownMonster_Icon_256.png" />
     <Content Include="Editor\emojiCompleter.js">

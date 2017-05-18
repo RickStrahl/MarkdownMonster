@@ -35,6 +35,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
@@ -817,10 +818,21 @@ Do you want to View in Browser now?
                 dynamic dom = Window.PreviewBrowser.Document;
                 dom.execCommand("print",true,null);
             }, (s, e) => IsPreviewBrowserVisible);
-        }
 
+	        // PRINT PREVIEW
+	        GeneratePdfCommand = new CommandBase((s, e) =>
+	        {
+		        var form = new GeneratePdfWindow()
+		        {
+			        Owner = mmApp.Model.Window
+		        };
+		        form.Show();		        
+	        }, (s, e) => IsPreviewBrowserVisible);
+		}
 
-        #endregion
+	    public CommandBase GeneratePdfCommand { get; set; }
+
+	    #endregion
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
