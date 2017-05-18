@@ -221,6 +221,7 @@ namespace WebLogAddin.MetaWebLogApi
                     permaLink = input.Permalink,
                     link  = input.Url,
                     post_type = input.PostType,
+					post_status = input.PostStatus,
                     mt_excerpt = input.mt_excerpt,   
                     wp_post_thumbnail = input.wp_post_thumbnail,                       
                     custom_fields = input.CustomFields == null ? null : input.CustomFields.Select(cf => new XmlRpcCustomField()
@@ -295,6 +296,7 @@ namespace WebLogAddin.MetaWebLogApi
                     mt_keywords = input.mt_keywords,
                     wp_post_thumbnail = input.wp_post_thumbnail,
                     PostType = input.post_type,
+					PostStatus = input.post_status,
                     CustomFields = input.custom_fields == null ? null : input.custom_fields.Select(cf => new CustomField()
                     {
                         Id = cf.id,
@@ -321,6 +323,7 @@ namespace WebLogAddin.MetaWebLogApi
                     Title = input.title,
                     Permalink = input.permaLink,
                     PostType = input.post_type,
+					PostStatus = input.post_status,
                     mt_keywords = input.mt_keywords,
                     mt_excerpt = input.mt_excerpt,                    
                     CustomFields = input.custom_fields == null ? null : input.custom_fields.Select(cf => new CustomField()

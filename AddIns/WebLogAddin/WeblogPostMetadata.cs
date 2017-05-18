@@ -19,9 +19,7 @@ namespace WeblogAddin
 {
     public class WeblogPostMetadata : INotifyPropertyChanged
     {
-        private string _title;
-        private string _abstract;
-        private bool _isDraft;
+        
 
 	    /// <summary>
 	    /// The title of the post derived from the document's header
@@ -36,12 +34,13 @@ namespace WeblogAddin
 			    OnPropertyChanged(nameof(Title));
 		    }
 	    }
+	    private string _title;
 
 
-	    /// <summary>
-        /// Url that is mapped to wp_thumbnail
-        /// </summary>
-        public string FeaturedImageUrl { get; set; }
+		/// <summary>
+		/// Url that is mapped to wp_thumbnail
+		/// </summary>
+		public string FeaturedImageUrl { get; set; }
 
         /// <summary>
         /// Featured Image Id used for Wordpress
@@ -62,14 +61,16 @@ namespace WeblogAddin
                 OnPropertyChanged(nameof(Abstract));
             }
         }
+	    private string _abstract;
 
-        
 
-        /// <summary>
-        /// Keywords that are added to the post when published.
-        /// Typically these are added to the document meta data.
-        /// </summary>
-        public string Keywords { get; set; }
+
+
+		/// <summary>
+		/// Keywords that are added to the post when published.
+		/// Typically these are added to the document meta data.
+		/// </summary>
+		public string Keywords { get; set; }
 
         /// <summary>
         /// Categories that this post is associated with
@@ -88,29 +89,49 @@ namespace WeblogAddin
         /// </summary>
         public string PostId { get; set; }
 
-        /// <summary>
-        /// Determines whether a post is published or
-        /// a unpublished draft.
-        /// </summary>
-        public bool IsDraft
-        {
-            get { return _isDraft; }
-            set
-            {
-                if (value == _isDraft) return;
-                _isDraft = value;
-                OnPropertyChanged(nameof(IsDraft));
-            }
-        }
+        ///// <summary>
+        ///// Determines whether a post is published or
+        ///// a unpublished draft.
+        ///// </summary>
+        //public bool IsDraft
+        //{
+        //    get { return _isDraft; }
+        //    set
+        //    {
+        //        if (value == _isDraft) return;
+        //        _isDraft = value;
+        //        OnPropertyChanged(nameof(IsDraft));
+	       //     if (value)
+		      //      PostStatus = "draft";
+        //    }
+        //}
 
-        /// <summary>
-        /// Determines whether the addin tries to infer the featured
-        /// image based on the first image in the post.
-        /// 
-        /// If false, only explicitly set images in the meta data
-        /// are used.
-        /// </summary>        
-        public bool DontInferFeaturedImage
+	    
+		/// <summary>
+		/// Post status for this post
+		/// Supported values: publish, draft, private
+		/// </summary>
+		[DefaultValue("publish")]
+	    public string PostStatus
+	    {
+		    get { return _postStatus; }
+		    set
+		    {
+				if (value == _postStatus) return;
+				_postStatus = value;
+			    OnPropertyChanged();
+		    }
+	    }
+	    private string _postStatus = "publish";
+
+		/// <summary>
+		/// Determines whether the addin tries to infer the featured
+		/// image based on the first image in the post.
+		/// 
+		/// If false, only explicitly set images in the meta data
+		/// are used.
+		/// </summary>        
+		public bool DontInferFeaturedImage
         {
             get { return _dontInferFeaturedImage; }
             set
@@ -360,7 +381,7 @@ namespace WeblogAddin
             meta.PostId = StringUtils.ExtractString(config, "\n<postid>", "</postid>").Trim();
             string strIsDraft = StringUtils.ExtractString(config, "\n<isDraft>", "</isDraft>").Trim();
             if (strIsDraft != null && strIsDraft == "True")
-                meta.IsDraft = true;
+                meta.PostStatus = "draft";
             string weblogName = StringUtils.ExtractString(config, "\n<weblog>", "</weblog>").Trim();
             if (!string.IsNullOrEmpty(weblogName))
                 meta.WeblogName = weblogName;

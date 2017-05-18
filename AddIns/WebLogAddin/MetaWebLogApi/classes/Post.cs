@@ -23,7 +23,10 @@ namespace WebLogAddin.MetaWebLogApi
         public string[] Tags { get; set; }
         public CustomField[] CustomFields { get; set; }
         public Term[] Terms { get; set; }
+
         public string PostType { get; set; }
+
+		public string PostStatus { get; set; }
 
         public string mt_excerpt { get; set; }
         public string mt_keywords { get; set; }
@@ -32,8 +35,10 @@ namespace WebLogAddin.MetaWebLogApi
 
         public string wp_post_thumbnail { get; set; }
         public string post_content { get; set; }
+		
 
         public string Url { get; set; }
+
         public override string ToString()
         {
             return Body;

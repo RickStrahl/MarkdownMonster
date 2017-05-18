@@ -220,7 +220,7 @@ namespace WebLogAddin.MetaWebLogApi
                                 img.Attributes["src"].Value = mediaResult.URL;
 
                                 // use first image as featured image
-                                if (DontInferFeaturedImage)
+                                if (!DontInferFeaturedImage)
                                 {
                                     if (string.IsNullOrEmpty(FeaturedImageUrl))
                                         FeaturedImageUrl = mediaResult.URL;

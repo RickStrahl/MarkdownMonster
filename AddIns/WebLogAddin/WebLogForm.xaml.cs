@@ -120,7 +120,7 @@ namespace WeblogAddin
                 await Dispatcher.InvokeAsync(() =>
                 {
                     // Then send the post - it will re-read the new values
-                    if (Model.Addin.SendPost(Model.ActiveWeblogInfo, Model.ActivePostMetadata.IsDraft))
+                    if (Model.Addin.SendPost(Model.ActiveWeblogInfo, Model.ActivePostMetadata.PostStatus == "draft"))
                         Close();
                     else
                         window.ShowStatus("Failed to upload blog post.", 5000);

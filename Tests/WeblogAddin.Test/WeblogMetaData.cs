@@ -99,8 +99,7 @@ namespace MarkdownMonster.Test
 			return new WeblogPostMetadata()
 			{
 				Title = "Tip: Create a Visual Studio Menu option to Open a Command Window",
-				Abstract = "This is the abstract for this blog post... ",
-				IsDraft = false,
+				Abstract = "This is the abstract for this blog post... ",				
 				WeblogName = "West Wind Weblog",
 				PostId = "9022271",
 				Categories = "ASP.NET, .NET, Visual Studio",

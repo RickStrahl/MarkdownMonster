@@ -161,6 +161,7 @@ namespace WeblogAddin
             string html = doc.RenderHtml(meta.MarkdownBody, WeblogAddinConfiguration.Current.RenderLinksOpenExternal);
             WeblogModel.ActivePost.Body = html;
             WeblogModel.ActivePost.PostId = meta.PostId;
+	        WeblogModel.ActivePost.PostStatus = meta.PostStatus;
 
             // Custom Field Processing:
             // Add custom fields from existing post

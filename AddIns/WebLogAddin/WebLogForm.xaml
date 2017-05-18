@@ -21,10 +21,10 @@
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="800" Height="750" MinHeight="750" MinWidth="600">
     <Window.Resources>
-        <windows:InvertedBooleanConverter x:Key="InvertBooleanConverter"/>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        
-        <ContextMenu x:Key="BlogsContextMenu" Name="BlogsContextMenu">
+        <windows:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+		<windows:StringComparisonToBooleanConverter x:Key="StringComparisonToBooleanConverter" />
+		<ContextMenu x:Key="BlogsContextMenu" Name="BlogsContextMenu">
         </ContextMenu>
         
     </Window.Resources>
@@ -146,10 +146,25 @@
                         <TextBox Grid.Row="1"  IsEnabled="{Binding IsAbstractVisible}" Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
 
 						<StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
-							<CheckBox Name="PublishAsDraftCheckbox" 
+
+							<!--<RadioButton GroupName="PostStatus" Content="Publish" IsChecked="{Binding }" />
+							<RadioButton GroupName="PostStatus" Content="Draft" Margin="20,0,0,0" />
+							<RadioButton GroupName="PostStatus" Content="Private" Margin="20,0,0,0" />-->
+
+							<ComboBox Name="ComboPostStatus" 
+							          SelectedValue="{Binding ActivePostMetadata.PostStatus, Mode=TwoWay}" 
+									  SelectedValuePath="Tag" Width="150">
+								<ComboBoxItem Content="Publish Post" Tag="publish" />
+								<ComboBoxItem Content="Publish as Draft"  Tag="draft"/>
+								<ComboBoxItem Content="Publish as Private" Tag="private" 
+											  IsEnabled="{Binding ActiveWeblogInfo.Type, Converter={StaticResource StringComparisonToBooleanConverter},ConverterParameter='Wordpress'}"/>
+							</ComboBox>
+
+							<!--<CheckBox Name="PublishAsDraftCheckbox"  Margin="20,0,0,0"
                                   Content="Publish as Draft"  IsChecked="{Binding ActivePostMetadata.IsDraft}"
                                   ToolTip="If checked posts the current entry to the server as a non-active draft."
-                                  />
+                                  />-->
+					
 							<CheckBox Name="InferFeaturedImage"  Margin="20,0,0,0" 
                                   Content="Don't infer Featured Image"  IsChecked="{Binding ActivePostMetadata.DontInferFeaturedImage}" 
                                   ToolTip="If checked won't infer a featured image from the first linked image in the post content."/>
