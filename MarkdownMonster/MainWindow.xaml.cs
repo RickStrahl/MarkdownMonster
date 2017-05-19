@@ -542,6 +542,9 @@ namespace MarkdownMonster
 
 			if (!noConfigWrite)
 				mmApp.Configuration.Write();
+
+			Dispatcher.InvokeAsync(() => MostRecentlyUsedList.AddToRecentlyUsedDocs(Path.GetFullPath(file)),
+				DispatcherPriority.ApplicationIdle);
 		}
 
 		/// <summary>

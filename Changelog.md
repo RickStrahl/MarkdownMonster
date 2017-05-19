@@ -9,6 +9,9 @@
 * **Save as Pdf**  
 You can now save Markdown and HTML documents directly to PDF. A new dialog provides a number of layout  options for margins and headers. The generated Pdf output can be immediately previewed.
 
+* **Add Windows MRU List Support for Shortcut**   
+If you pin Markdown Monster to your taskbar, you'll now get Most Recently Used (MRU) files in the file pop up list. Both files opened directly from disk or opened from within Markdown Monster now show up in this list.
+
 * **Private Post Support for Wordpress**  
 You can now select from **Publish**, **Draft** and **Private** modes when posting to your Weblog using a new drop down on the Weblog Post window.
 
