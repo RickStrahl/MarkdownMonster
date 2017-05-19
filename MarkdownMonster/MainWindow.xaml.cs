@@ -536,14 +536,23 @@ namespace MarkdownMonster
 
 		public void AddRecentFile(string file, bool noConfigWrite = false)
 		{
-			mmApp.Configuration.AddRecentFile(file);
-			RecentDocumentsContextList();
-			mmApp.Configuration.LastFolder = Path.GetDirectoryName(file);
+			Dispatcher.InvokeAsync(() =>
+				{
+					mmApp.Configuration.AddRecentFile(file);
+					RecentDocumentsContextList();
+					mmApp.Configuration.LastFolder = Path.GetDirectoryName(file);
 
-			if (!noConfigWrite)
-				mmApp.Configuration.Write();
+					if (!noConfigWrite)
+						mmApp.Configuration.Write();
 
-			Dispatcher.InvokeAsync(() => MostRecentlyUsedList.AddToRecentlyUsedDocs(Path.GetFullPath(file)),
+					try
+					{
+						MostRecentlyUsedList.AddToRecentlyUsedDocs(Path.GetFullPath(file));
+					}
+					catch
+					{
+					}
+				},
 				DispatcherPriority.ApplicationIdle);
 		}
 
