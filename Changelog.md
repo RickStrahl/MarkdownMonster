@@ -3,8 +3,8 @@
 # Markdown Monster Change Log
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
  
-### 1.3.15
-*<small>not released yet</small>*
+### 1.3.16
+*<small>May 22nd, 2017</small>*
 
 * **Save as Pdf**  
 You can now save Markdown and HTML documents directly to PDF. A new dialog provides a number of layout  options for margins and headers. The generated Pdf output can be immediately previewed.
