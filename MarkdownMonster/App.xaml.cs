@@ -66,65 +66,73 @@ namespace MarkdownMonster
 
 	        initialStartDirectory = Environment.CurrentDirectory;
 
-		
+			// Singleton launch marshalls subsequent launches to the singleton instance
+			// via named pipes communication
+	        if (mmApp.Configuration.UseSingleWindow)
+		        CheckForSingletonLaunch(splashScreen);
 
-			if (mmApp.Configuration.UseSingleWindow)
-            {
-                bool isOnlyInstance = false;
-                Mutex = new Mutex(true, @"MarkdownMonster", out isOnlyInstance);
-                if (!isOnlyInstance)
-                {
-                    string filesToOpen = " ";
-                    var args = Environment.GetCommandLineArgs();
-                    if (args != null && args.Length > 1)
-                    {
-                        StringBuilder sb = new StringBuilder();
-                        for (int i = 1; i < args.Length; i++)
-                        {
-                            string file = args[i];
-
-                            // check if file exists and fully qualify to 
-                            // pass to named pipe
-                            if (!File.Exists(file))
-                            {
-                                file = Path.Combine(initialStartDirectory, file);
-                                if (!File.Exists(file))
-                                    file = null;                                
-                            }
-
-                            if (!string.IsNullOrEmpty(file))                                                            
-                                sb.AppendLine(Path.GetFullPath(file));
-                            
-                        }
-                        filesToOpen = sb.ToString();
-                    }
-                    var manager = new NamedPipeManager("MarkdownMonster");
-                    manager.Write(filesToOpen);
-
-                    splashScreen.Close(TimeSpan.MinValue);
-
-                    // this exits the application                    
-                    Environment.Exit(0);
-                }
-            }
-            
-            AppDomain currentDomain = AppDomain.CurrentDomain;
+	        AppDomain currentDomain = AppDomain.CurrentDomain;
 
             currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 #if !DEBUG
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
-
-
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 #endif
-           
-
+           			
             mmApp.ApplicationStart();
-
         }
 
-        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+
+		/// <summary>
+		/// Checks to see if app is already running and if it is pushes
+		/// parameters via NamedPipes to existing running application
+		/// and exits this instance.
+		/// 
+		/// Otherwise app just continues
+		/// </summary>
+		/// <param name="splashScreen"></param>
+	    private static void CheckForSingletonLaunch(SplashScreen splashScreen)
+	    {
+		    bool isOnlyInstance;
+		    Mutex = new Mutex(true, @"MarkdownMonster", out isOnlyInstance);
+		    if (isOnlyInstance)
+			    return;
+
+		    string filesToOpen = " ";
+		    var args = Environment.GetCommandLineArgs();
+		    if (args != null && args.Length > 1)
+		    {
+			    StringBuilder sb = new StringBuilder();
+			    for (int i = 1; i < args.Length; i++)
+			    {
+				    string file = args[i];
+
+				    // check if file exists and fully qualify to 
+				    // pass to named pipe
+				    if (!File.Exists(file))
+				    {
+					    file = Path.Combine(initialStartDirectory, file);
+					    if (!File.Exists(file))
+						    file = null;
+				    }
+
+				    if (!string.IsNullOrEmpty(file))
+					    sb.AppendLine(Path.GetFullPath(file));
+
+			    }
+			    filesToOpen = sb.ToString();
+		    }
+		    var manager = new NamedPipeManager("MarkdownMonster");
+		    manager.Write(filesToOpen);
+
+		    splashScreen.Close(TimeSpan.MinValue);
+
+		    // Shut down application
+		    Environment.Exit(0);
+	    }
+
+	    private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {            
             // missing resources are... missing
             if (args.Name.Contains(".resources"))
