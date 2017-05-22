@@ -607,8 +607,9 @@ Do you want to View in Browser now?
 
                 foreach (var file in fd.FileNames)
                 {
+					// TODO: Check AddRecentFile and make sure Tab Selection works
                     Window.OpenTab(file, rebindTabHeaders: true);
-                    Window.AddRecentFile(file);
+                    //Window.AddRecentFile(file);
                 }
             });
 

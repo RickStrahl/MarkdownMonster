@@ -154,7 +154,7 @@ namespace MarkdownMonster
 				}
 
 				OpenTab(mdFile: file, batchOpen: true);
-				AddRecentFile(file);
+				//AddRecentFile(file);
 			}
 
 
@@ -549,11 +549,8 @@ namespace MarkdownMonster
 					{
 						MostRecentlyUsedList.AddToRecentlyUsedDocs(Path.GetFullPath(file));
 					}
-					catch
-					{
-					}
-				},
-				DispatcherPriority.ApplicationIdle);
+					catch{}
+				},DispatcherPriority.ApplicationIdle);
 		}
 
 		/// <summary>
@@ -584,7 +581,9 @@ namespace MarkdownMonster
 				mi.Click += (object s, RoutedEventArgs ev) =>
 				{
 					OpenTab(file, rebindTabHeaders: true);
-					AddRecentFile(file);
+
+					// TODO: Check this and make sure we get recent file added from tab of new tab selection
+					//AddRecentFile(file);
 				};
 				context.Items.Add(mi);
 
