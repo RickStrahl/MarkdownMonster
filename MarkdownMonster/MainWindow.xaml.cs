@@ -143,7 +143,6 @@ namespace MarkdownMonster
 		{
 			RestoreSettings();
 
-			FixMonitorPosition();
 
 			RecentDocumentsContextList();
 			ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
@@ -208,7 +207,8 @@ namespace MarkdownMonster
 			Dispatcher.InvokeAsync(() =>
 			{
 				//TabControl.InvalidateVisual();
-				Left = left;
+				Left = left;				
+
 				mmApp.SetWorkingSet(10000000, 5000000);
 			}, DispatcherPriority.Background);
 
@@ -217,6 +217,8 @@ namespace MarkdownMonster
 			{
 				Dispatcher.Invoke(() =>
 				{
+					FixMonitorPosition();
+
 					AddinManager.Current.InitializeAddinsUi(this);
 					AddinManager.Current.RaiseOnWindowLoaded();
 				}, DispatcherPriority.ApplicationIdle);
