@@ -37,7 +37,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Navigation;
@@ -48,8 +48,20 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
-using Microsoft.Win32;
 using Westwind.Utilities;
+using Application = System.Windows.Application;
+using Binding = System.Windows.Data.Binding;
+using Clipboard = System.Windows.Clipboard;
+using ContextMenu = System.Windows.Controls.ContextMenu;
+using Cursors = System.Windows.Input.Cursors;
+using DataFormats = System.Windows.DataFormats;
+using DragEventArgs = System.Windows.DragEventArgs;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MenuItem = System.Windows.Controls.MenuItem;
+using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using TextDataFormat = System.Windows.TextDataFormat;
+using WebBrowser = System.Windows.Controls.WebBrowser;
 
 namespace MarkdownMonster
 {
@@ -130,8 +142,12 @@ namespace MarkdownMonster
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			RestoreSettings();
+
+			FixMonitorPosition();
+
 			RecentDocumentsContextList();
 			ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
+
 
 			// Command Line Loading multiple files
 			var args = Environment.GetCommandLineArgs();
@@ -1304,6 +1320,33 @@ namespace MarkdownMonster
 			mmApp.Configuration.ApplicationUpdates.LastUpdateCheck = DateTime.UtcNow.Date;
 
 			return isNewVersion;
+		}
+
+		/// <summary>
+		/// Check to see if the window is visible in the bounds of the 
+		/// virtual screen space. If not adjust to main monitor off 0 position.
+		/// </summary>
+		/// <returns></returns>
+		void FixMonitorPosition()
+		{
+			var virtualScreenHeight = SystemParameters.VirtualScreenHeight;
+			var virtualScreenWidth = SystemParameters.VirtualScreenWidth;
+
+			
+			if (Left > virtualScreenWidth - 150)
+				Left = 20;
+			if (Top > virtualScreenHeight - 150)
+				Top = 20;
+
+			if (Left < SystemParameters.VirtualScreenLeft)
+				Left = SystemParameters.VirtualScreenLeft;
+			if (Top < SystemParameters.VirtualScreenTop)
+				Top = SystemParameters.VirtualScreenTop;
+
+			if (Width > virtualScreenWidth)
+				Width = virtualScreenWidth - 40;
+			if (Height > virtualScreenHeight)
+				Height = virtualScreenHeight - 40;			
 		}
 
 		#endregion
