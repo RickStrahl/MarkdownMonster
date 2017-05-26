@@ -8,10 +8,10 @@
  
 * **Startup Screen Position**   
 MM now checks startup screen position and adjusts the position to the main monitor if the saved start position is off screen.
- 
+
 * **Fix: Weblog Custom Fields Display**  
 Fix display bug that didn't show new items when clicking the add button. Items were added but the list didn't expand. Fixed.
- 
+
 ### 1.3.16
 *<small>May 22nd, 2017</small>*
 

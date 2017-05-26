@@ -449,8 +449,7 @@ namespace MarkdownMonster
                     if (written == 4)
                     {
                         mmApp.Log("Warning: Unable to write output file: " + filename + "\r\n" + ex.Message);
-                        return false;
-                        throw new ApplicationException("Unable to write output file:  " + filename + "\r\n" + ex.Message);
+                        return false;                    
                     }
                 }
             }
@@ -493,7 +492,7 @@ namespace MarkdownMonster
                                 // on the UI which otherwise fail.
                                 Dispatcher.InvokeAsync(() => { IsDirty = false; });
                             else
-                                    IsDirty = false;
+                                IsDirty = false;
                         }
                     }
                     catch

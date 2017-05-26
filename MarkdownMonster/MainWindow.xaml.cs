@@ -1283,6 +1283,10 @@ namespace MarkdownMonster
 						{
 							PreviewMarkdown(editor, keepScrollPosition);
 						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Preview Markdown Async Exception: " + ex.Message);
+						}
 						finally
 						{
 							invoked = DateTime.MinValue;
