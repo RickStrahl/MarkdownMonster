@@ -81,6 +81,7 @@ Markdown Monster provides many useful features:
 JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
 * Use `mm document.md` from PowerShell or Command prompt to load documents
 * Optional shared configuration on Cloud drives
+* High DPI Monitor Aware
 
 ## Why another Markdown Editor?
 Markdown is everywhere these days, and it's becoming a favorite format for many developers, writers and documentation experts to create lots of different kinds of content in this format. Markdown is used in a lot of different places:
