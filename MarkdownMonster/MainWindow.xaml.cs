@@ -190,7 +190,7 @@ namespace MarkdownMonster
 			{
 				ButtonHtmlPreview.IsChecked = true;
 				ToolButtonPreview.IsChecked = true;
-				Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
+				//Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
 			}
 
 			Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
@@ -659,18 +659,17 @@ namespace MarkdownMonster
 					}
 				}
 
-
-				// prevent TabSelectionChanged to fire
-				batchTabAction = false;
-
 				if (selectedTab != null)
 					TabControl.SelectedItem = selectedTab;
 				else
 					TabControl.SelectedIndex = 0;
+
+				batchTabAction = false;
+
 			}
 
 			Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;
-			Model.PreviewBrowserCommand.Execute(null);
+			//Model.PreviewBrowserCommand.Execute(null);
 
 			ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
 		}

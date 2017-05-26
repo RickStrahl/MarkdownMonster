@@ -1319,10 +1319,13 @@ namespace MarkdownMonster
             File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\",  lang + "_custom.txt"),word  + "\n");
             _spellChecker.Add(word);            
         }
-#endregion
+		#endregion
 
-
-    }
+		public override string ToString()
+		{
+			return MarkdownDocument?.Filename ?? base.ToString();
+		}
+	}
 
 
 }
