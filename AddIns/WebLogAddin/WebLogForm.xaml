@@ -147,10 +147,6 @@
 
 						<StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
 
-							<!--<RadioButton GroupName="PostStatus" Content="Publish" IsChecked="{Binding }" />
-							<RadioButton GroupName="PostStatus" Content="Draft" Margin="20,0,0,0" />
-							<RadioButton GroupName="PostStatus" Content="Private" Margin="20,0,0,0" />-->
-
 							<ComboBox Name="ComboPostStatus" 
 							          SelectedValue="{Binding ActivePostMetadata.PostStatus, Mode=TwoWay}" 
 									  SelectedValuePath="Tag" Width="150">
@@ -159,11 +155,6 @@
 								<ComboBoxItem Content="Publish as Private" Tag="private" 
 											  IsEnabled="{Binding ActiveWeblogInfo.Type, Converter={StaticResource StringComparisonToBooleanConverter},ConverterParameter='Wordpress'}"/>
 							</ComboBox>
-
-							<!--<CheckBox Name="PublishAsDraftCheckbox"  Margin="20,0,0,0"
-                                  Content="Publish as Draft"  IsChecked="{Binding ActivePostMetadata.IsDraft}"
-                                  ToolTip="If checked posts the current entry to the server as a non-active draft."
-                                  />-->
 					
 							<CheckBox Name="InferFeaturedImage"  Margin="20,0,0,0" 
                                   Content="Don't infer Featured Image"  IsChecked="{Binding ActivePostMetadata.DontInferFeaturedImage}" 

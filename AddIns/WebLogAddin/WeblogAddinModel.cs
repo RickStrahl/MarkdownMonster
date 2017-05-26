@@ -63,8 +63,8 @@ namespace WeblogAddin
 
         public Post ActivePost
         {
-            get { return _activePost; }
-            set
+            get => _activePost;
+	        set
             {
                 if (!value.Equals(_activePost)) return;
                 OnPropertyChanged(nameof(ActivePost));
@@ -74,8 +74,8 @@ namespace WeblogAddin
 
         public WeblogPostMetadata ActivePostMetadata
         {
-            get { return _activePostMetadata; }
-            set
+            get => _activePostMetadata;
+	        set
             {
                 if (Equals(value, _activePostMetadata)) return;
                 _activePostMetadata = value;
@@ -86,28 +86,21 @@ namespace WeblogAddin
 
 		public ObservableCollection<CustomField> MetadataCustomFields
 		{
-			get { return _metadataCustomFields; }
+			get => _metadataCustomFields;
 			set
 			{
 				if (value == _metadataCustomFields) return;
 				_metadataCustomFields = value;
 				OnPropertyChanged(nameof(MetadataCustomFields));
+				OnPropertyChanged(nameof(MetadataHasCustomFields));
 			}
 		}
 	    private ObservableCollection<CustomField> _metadataCustomFields = new ObservableCollection<CustomField>();
 		
 	    
-	    public bool MetadataHasCustomFields
-	    {
-		    get
-		    {
-			    bool any = MetadataCustomFields.Any();
-			    OnPropertyChanged(nameof(MetadataCustomFields));
-			    return any;
-		    }
-	    }
+	    public bool MetadataHasCustomFields => MetadataCustomFields.Any();
 
-		public WeblogInfo ActiveWeblogInfo
+	    public WeblogInfo ActiveWeblogInfo
         {
             get { return _activeWeblogInfo; }
             set

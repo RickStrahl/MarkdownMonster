@@ -509,7 +509,7 @@ namespace WeblogAddin
 			{
 				Key="new_key",Value="value"
 			});
-			//RefreshCustomFields();
+			RefreshCustomFields();
 		}
 
 	    private void ButtonDeleteCustomField_Click(object sender, RoutedEventArgs e)
@@ -518,10 +518,9 @@ namespace WeblogAddin
 			var item = ListCustomFields.SelectedItem as CustomField;
 			if (item == null)
 				return;
-
 		    
 			Model.MetadataCustomFields.Remove(item);
-		    //RefreshCustomFields();
+		    RefreshCustomFields();
 	    }
 
 	    private void GetCustomFieldsFromObservableCollection()
@@ -539,13 +538,11 @@ namespace WeblogAddin
 		    ShellUtils.GoUrl(mmApp.GetDocumentionUrl("_4wq1dbsnh"));
 	    }
 
-		//private void RefreshCustomFields()
-		//   {
-		//	ListCustomFields.ItemsSource = null;
-		//    WindowUtilities.DoEvents();
-		//    ListCustomFields.ItemsSource = Model.ActivePostMetadata.CustomFields;
-		//    Model.ActivePostMetadata.OnPropertyChanged("HasCustomFields");
-		//}
+		private void RefreshCustomFields()
+		{
+			Model.ActivePostMetadata.OnPropertyChanged(nameof(WeblogPostMetadata.CustomFields));
+			Model.OnPropertyChanged(nameof(WeblogAddinModel.MetadataHasCustomFields));
+		}
 		#endregion
 
 	}
