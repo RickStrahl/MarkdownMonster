@@ -3,7 +3,7 @@
 # Markdown Monster Change Log
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.3.17
+### 1.3.18
 *<small>not released yet</small>*
  
 * **Startup Screen Position**   
@@ -11,6 +11,9 @@ MM now checks startup screen position and adjusts the position to the main monit
 
 * **Startup Speed Improvements**  
 Refactored editor and preview load operations should result in slightly better startup performance. Removed several redundant preview refreshes during startup.
+
+* **Open Folder from Command Line**  
+You can now open Markdown Monster with a folder name as an argument and the FolderBrowser will be opened in the specified folder - ie. `mm .` or `mm .\subfolder`.
 
 * **Fix: Weblog Custom Fields Display**  
 Fix display bug that didn't show new items when clicking the add button. Items were added but the list didn't expand. Fixed.

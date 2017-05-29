@@ -107,26 +107,20 @@ namespace MarkdownMonster
 			    for (int i = 1; i < args.Length; i++)
 			    {
 				    string file = args[i];
+                    if (string.IsNullOrEmpty(file))
+                        continue;
 
-				    // check if file exists and fully qualify to 
-				    // pass to named pipe
-				    if (!File.Exists(file))
-				    {
-					    file = Path.Combine(initialStartDirectory, file);
-					    if (!File.Exists(file))
-						    file = null;
-				    }
-
-				    if (!string.IsNullOrEmpty(file))
-					    sb.AppendLine(Path.GetFullPath(file));
-
+			        file = file.TrimEnd('\\');
+			        sb.AppendLine(Path.GetFullPath(file));
 			    }
 			    filesToOpen = sb.ToString();
 		    }
+
 		    var manager = new NamedPipeManager("MarkdownMonster");
 		    manager.Write(filesToOpen);
+	        
 
-		    splashScreen.Close(TimeSpan.MinValue);
+            splashScreen.Close(TimeSpan.MinValue);
 
 		    // Shut down application
 		    Environment.Exit(0);

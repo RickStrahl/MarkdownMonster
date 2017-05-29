@@ -148,32 +148,9 @@ namespace MarkdownMonster
 			ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
 
 
-			// Command Line Loading multiple files
-			var args = Environment.GetCommandLineArgs();
+			OpenFilesFromCommandLine();
 
-			bool first = true;
-			foreach (var fileArgs in args)
-			{
-				if (first)
-				{
-					first = false;
-					continue;
-				}
-
-				var file = fileArgs;
-				if (!File.Exists(file))
-				{
-					file = mmFileUtils.FixupDocumentFilename(file);
-					if (string.IsNullOrEmpty(file))
-						continue;
-				}
-
-				OpenTab(mdFile: file, batchOpen: true);
-				//AddRecentFile(file);
-			}
-
-
-			if (mmApp.Configuration.ApplicationUpdates.FirstRun)
+		    if (mmApp.Configuration.ApplicationUpdates.FirstRun)
 			{
 				if (TabControl.Items.Count == 0)
 				{
@@ -225,7 +202,58 @@ namespace MarkdownMonster
 			});
 		}
 
-		protected override void OnContentRendered(EventArgs e)
+
+        /// <summary>
+        /// Opens files from the command line or from an array of strings
+        /// </summary>
+        /// <param name="args">Array of file names. If null Command Line Args are used.</param>
+	    private void OpenFilesFromCommandLine(string[] args = null)
+	    {
+	        if (args == null)
+	        {
+	            args = Environment.GetCommandLineArgs(); //
+	            if (args.Length < 2) // no args, only command line
+	                return;
+
+	            if (args.Length > 1) // first item is full command line
+	                args = args.Skip(1).ToArray();
+	        }
+	        
+	        foreach (var fileArgs in args)
+	        {
+	            var file = fileArgs;
+                if (string.IsNullOrEmpty(file))
+                    continue;
+
+	            file = file.TrimEnd('\\');
+	            
+	            try
+	            {
+                    // FAIL: This fails at runtime not in debugger when value is .\ trimmed to . VERY WEIRD
+	                file = Path.GetFullPath(file);
+	            }
+	            catch (Exception ex)
+	            {
+	                mmApp.Log("Fullpath failed: " + file);                    
+	            }
+
+	            if (File.Exists(file))
+	                OpenTab(mdFile: file, batchOpen: true);
+	            else if (Directory.Exists(file))
+	                ShowFolderBrowser(false, file);
+	            else
+	            {
+	                file = Path.Combine(App.initialStartDirectory, file);
+	                file = Path.GetFullPath(file);
+	                if (File.Exists(file))
+	                    OpenTab(mdFile: file, batchOpen: true);
+	                else if (Directory.Exists(file))
+	                    ShowFolderBrowser(false, file);	                
+	            }
+	        }
+	    }
+
+	    protected override void OnContentRendered(EventArgs e)
 		{
 			base.OnContentRendered(e);
 			WindowState = mmApp.Configuration.WindowPosition.WindowState;
@@ -1085,7 +1113,7 @@ namespace MarkdownMonster
 		/// Shows or hides the File Browser
 		/// </summary>
 		/// <param name="hide"></param>
-		public void ShowFolderBrowser(bool hide = false)
+		public void ShowFolderBrowser(bool hide = false, string folder = null)
 		{
 			if (hide)
 			{
@@ -1094,18 +1122,21 @@ namespace MarkdownMonster
 
 				FolderBrowserColumn.Width = new GridLength(0);
 				FolderBrowserSeparatorColumn.Width = new GridLength(0);
-
-				mmApp.Configuration.FolderBrowser.Visible = false;
+                
+    			mmApp.Configuration.FolderBrowser.Visible = false;
 			}
 			else
 			{
-				if (string.IsNullOrEmpty(FolderBrowser.FolderPath))
-					Dispatcher.InvokeAsync(() =>
-					{
-						FolderBrowser.FolderPath = mmApp.Configuration.FolderBrowser.FolderPath;
-						if (string.IsNullOrEmpty(FolderBrowser.FolderPath) && Model.ActiveDocument != null)
-							FolderBrowser.FolderPath = Path.GetDirectoryName(Model.ActiveDocument.Filename);
-					});
+			    if (folder == null)
+			        folder = FolderBrowser.FolderPath;
+
+			    Dispatcher.InvokeAsync(() =>
+			    {
+			        if (string.IsNullOrEmpty(folder) && Model.ActiveDocument != null)
+			            folder = Path.GetDirectoryName(Model.ActiveDocument.Filename);
+
+			        FolderBrowser.FolderPath = folder;
+			    });
 
 				FolderBrowserColumn.Width = new GridLength(mmApp.Configuration.FolderBrowser.WindowWidth);
 				FolderBrowserSeparatorColumn.Width = new GridLength(5);
@@ -1707,22 +1738,32 @@ namespace MarkdownMonster
 
 
 		private void HandleNamedPipe_OpenRequest(string filesToOpen)
-		{
-			Dispatcher.Invoke(() =>
+		{		 
+            Dispatcher.Invoke(() =>
 			{
 				if (!string.IsNullOrEmpty(filesToOpen))
 				{
-					var parms = StringUtils.GetLines(filesToOpen);
+                    var parms = StringUtils.GetLines(filesToOpen.Trim());
+                    
+				    OpenFilesFromCommandLine(parms);
 
-					TabItem lastTab = null;
-					foreach (var file in parms)
-					{
-						if (!string.IsNullOrEmpty(file))
-							lastTab = OpenTab(file.Trim());
-					}
-					if (lastTab != null)
-						Dispatcher.InvokeAsync(() => TabControl.SelectedItem = lastTab);
-					BindTabHeaders();
+
+					//TabItem lastTab = null;
+					//foreach (var file in parms)
+					//{
+					//    if (!string.IsNullOrEmpty(file))
+					//    {
+					//        var ext = Path.GetExtension(file);
+
+					//        if (string.IsNullOrEmpty(ext))					        
+					//            ShowFolderBrowser(false, file);					        
+     //                       else
+     //                           lastTab = OpenTab(file.Trim());                            
+					//    }
+					//}
+					//if (lastTab != null)
+					//	Dispatcher.InvokeAsync(() => TabControl.SelectedItem = lastTab);
+					//BindTabHeaders();
 				}
 
 				Topmost = true;
@@ -1733,7 +1774,7 @@ namespace MarkdownMonster
 				Activate();
 
 				// restore out of band
-				Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }));
+				Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }),DispatcherPriority.ApplicationIdle);
 			});
 		}
 
