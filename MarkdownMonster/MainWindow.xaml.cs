@@ -154,9 +154,16 @@ namespace MarkdownMonster
 			{
 				if (TabControl.Items.Count == 0)
 				{
-					string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
-					File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"), tempFile, true);
-					OpenTab(tempFile);
+				    try
+				    {
+				        string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
+				        File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"), tempFile, true);
+				        OpenTab(tempFile);
+				    }
+				    catch (Exception ex)
+				    {
+				        mmApp.Log("Handled: Unable to copy file to temp folder.", ex);
+				    }
 				}
 				mmApp.Configuration.ApplicationUpdates.FirstRun = false;
 			}

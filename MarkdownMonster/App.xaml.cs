@@ -71,8 +71,8 @@ namespace MarkdownMonster
 	        if (mmApp.Configuration.UseSingleWindow)
 		        CheckForSingletonLaunch(splashScreen);
 
+            // We have to manage assembly loading for Addins 
 	        AppDomain currentDomain = AppDomain.CurrentDomain;
-
             currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 #if !DEBUG
             //AppDomain currentDomain = AppDomain.CurrentDomain;

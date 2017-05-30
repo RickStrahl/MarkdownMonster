@@ -202,10 +202,10 @@ namespace MarkdownMonster
         {            
             Log("Last Resort Handler", ex, unhandledException: true);
 
-            var msg = string.Format("Yikes! Something went wrong...\r\n\r\n{0}\r\n\r\n" +
-                                    "The error has been recorded and written to a log file and you can\r\n" +
-                                    "review the details or report the error via Help | Show Error Log\r\n\r\n" +
-                                    "Do you want to continue?", ex.Message);
+            var msg = $"Yikes! Something went wrong...\r\n\r\n{ex.Message}\r\n\r\n" +
+                        "The error has been recorded and written to a log file and you can " +
+                        "review the details or report the error via Help | Show Error Log\r\n\r\n" +
+                        "Do you want to continue?";
 
             var res = MessageBox.Show(msg, ApplicationName + " Error",
                 MessageBoxButton.YesNo,
