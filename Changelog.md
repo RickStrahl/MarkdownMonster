@@ -3,8 +3,8 @@
 # Markdown Monster Change Log
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.3.18
-*<small>not released yet</small>*
+### 1.3.20
+*<small>May 30th, 2017</small>*
  
 * **Startup Screen Position**   
 MM now checks startup screen position and adjusts the position to the main monitor if the saved start position is off screen.
