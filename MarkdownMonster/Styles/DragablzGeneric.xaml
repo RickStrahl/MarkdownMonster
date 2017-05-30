@@ -196,7 +196,7 @@
     <SolidColorBrush x:Key="TabItem.Selected.Foreground" Color="#DDDDDD"/>
     <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#535353"/>
     <SolidColorBrush x:Key="Button.Static.Foreground" Color="#eee"/>
-    <SolidColorBrush x:Key="Button.Static.Background" Color="#222222"/>
+    <SolidColorBrush x:Key="Button.Static.Background" Color="#222222"/>    
     <SolidColorBrush x:Key="Button.Static.Border" Color="Black"/>
     <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
     <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
@@ -206,11 +206,12 @@
     <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
     <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="WhiteSmoke"/>
 
+    
     <LinearGradientBrush x:Key="TabItem.Static.Background" EndPoint="0,1" StartPoint="0,0">
         <GradientStop Color="#656565" Offset="0.0"/>
         <GradientStop Color="#4F4F4F" Offset="1.0"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="TabItem.Static.Foreground" Color="#bbb"/>
+    <SolidColorBrush x:Key="TabItem.Static.Foreground" Color="#888"/>
     <SolidColorBrush x:Key="TabItem.Static.Border" Color="#111"/>
     <LinearGradientBrush x:Key="TabItem.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
         <GradientStop Color="#ECF4FC" Offset="0.0"/>
