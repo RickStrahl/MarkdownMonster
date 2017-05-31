@@ -56,6 +56,8 @@ namespace WeblogAddin
     {
         public WeblogAddinModel WeblogModel { get; set; } = new WeblogAddinModel();
 
+        public WeblogForm WeblogForm { get; set; }
+
 
         public override void OnApplicationStart()
         {
@@ -92,14 +94,14 @@ namespace WeblogAddin
             // read settings on startup
             WeblogAddinConfiguration.Current.Read();
 
-            var form = new WebLogForm(WeblogModel)
+            WeblogForm?.Close();
+            WeblogForm = new WeblogForm(WeblogModel)
             {
                 Owner = Model.Window
             };
             WeblogModel.AppModel = Model;
             
-
-            form.Show();                       
+            WeblogForm.Show();                       
         }
 
         public override bool OnCanExecute(object sender)
@@ -118,7 +120,7 @@ namespace WeblogAddin
         {
             if (command == "newweblogpost")
             {
-                var form = new WebLogForm(WeblogModel)
+                var form = new WeblogForm(WeblogModel)
                 {
                     Owner = Model.Window
                 };

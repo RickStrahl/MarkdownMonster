@@ -217,7 +217,7 @@ namespace WeblogAddin
 
 
 
-        public WebLogForm Window { get; set; }
+        public WeblogForm Window { get; set; }
 
 
         public List<string> WeblogNames

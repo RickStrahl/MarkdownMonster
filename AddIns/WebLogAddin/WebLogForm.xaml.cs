@@ -26,14 +26,14 @@ namespace WeblogAddin
     /// <summary>
     /// Interaction logic for About.xaml
     /// </summary>
-    public partial class WebLogForm : MetroWindow
+    public partial class WeblogForm : MetroWindow
     {
         public WeblogAddinModel Model { get; set;  }
 
 
         #region Startup and Shutdown
 
-        public WebLogForm(WeblogAddinModel model)
+        public WeblogForm(WeblogAddinModel model)
         {
             Model = model;
 			
@@ -291,7 +291,7 @@ namespace WeblogAddin
             {
                 var t = new Timer(new TimerCallback((object win) =>
                 {
-                    var window = win as WebLogForm;
+                    var window = win as WeblogForm;
                     if (window == null)
                         return;
 
