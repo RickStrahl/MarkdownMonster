@@ -60,16 +60,23 @@ a {
 img {
 	max-width: 100%;
 }
+li {
+	margin-bottom: 6px;
+}
+b, strong { 
+	font-weight: 600;
+}
 blockquote {
-    background: #f8f8f8;
-    font-size: 1.1em;
-    padding: 10px;
-    margin: 30px 10px;
-    border-left: 6px #ddd solid;
+    background: #f9f9f9;
+    font-size: 1em;
+    opacity: 0.85;
+    padding: 10px 20px;
+    margin: 30px 20px;
+    border-left: 4px #ddd solid;
 }
 
 blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 8px;
+    margin-top: 0;
 }
 hr {
     margin: 12px 0;    

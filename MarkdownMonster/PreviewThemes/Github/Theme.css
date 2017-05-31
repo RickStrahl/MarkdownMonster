@@ -14,7 +14,9 @@ html, body {
     scrollbar-face-color: #ddd;
     -ms-overflow-style: -ms-autohiding-scrollbar !important;
 } 
-
+strong, b {
+    font-weight: 600;   
+}
 h1,h2,h3,h4,h5,h6, .byline,.content-title {  
   margin-top: 1em;
   margin-bottom: 16px;    
@@ -23,7 +25,7 @@ h1,h2,h3,h4,h5,h6, .byline,.content-title {
 }
 h1 {
     padding-bottom: 0.3em;
-    font-size: 2em;
+    font-size: 1.8em;
     line-height: 1.2;
     border-bottom: 1px solid #eee;
     margin-bottom: 16px;   
@@ -34,7 +36,7 @@ h2 {
 }
 h3 {
     display: block;
-    font-size: 1.35em;    
+    font-size: 1.3em;    
 }
 h4 {
     font-size: 1.1em;
@@ -48,6 +50,16 @@ a,a:visited {
 }
 a:hover {
     text-decoration: underline;
+}
+blockquote {
+    opacity: 0.75;
+    font-size: 1em !important;
+    background: transparent !important;
+    border-width-left: 13px !important;
+    padding-top: 5px !important;
+}
+blockquote h3, blockquote h4 {
+    margin-top: 0 !important;
 }
 pre {
     font-family: Consolas, monospace;
@@ -65,7 +77,7 @@ pre {
     word-wrap: normal;        
 }
 code {
-	font-family: Consolas, monospace;
+    font-family: Consolas, monospace;
     color: #333;
     background: #eee;
     white-space: pre;    
@@ -97,7 +109,7 @@ tbody>tr:nth-child(even) {
 }
 
 img {
-	max-width: 100%;
+    max-width: 100%;
 }
 blockquote {
     background: #f8f8f8;
@@ -141,10 +153,10 @@ hr {
 }
 
 #MainContent {
-	margin: 0 auto;
-	padding: 10px 40px;
-	max-width: 888px;
-	border: 1px solid #eee;
+    margin: 0 auto;
+    padding: 10px 40px;
+    max-width: 888px;
+    border: 1px solid #eee;
 }
 
 
