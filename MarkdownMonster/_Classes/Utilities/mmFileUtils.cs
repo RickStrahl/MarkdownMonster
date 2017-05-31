@@ -402,7 +402,7 @@ namespace MarkdownMonster
 	    /// <param name="arguments"></param>
 	    /// <param name="timeoutMs">Timeout of the process in milliseconds. Pass -1 to wait forever. Pass 0 to not wait.</param>
 	    /// <returns></returns>
-	    public static int ExecuteProcess(string executable, string arguments, int timeoutMs = 60000)
+	    public static int ExecuteProcess(string executable, string arguments, int timeoutMs = 60000, ProcessWindowStyle windowStyle= ProcessWindowStyle.Hidden)
 	    {
 		    Process process;
 
@@ -412,9 +412,11 @@ namespace MarkdownMonster
 			    {
 				    process.StartInfo.FileName = executable;
 				    process.StartInfo.Arguments = arguments;
-				    process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+				    process.StartInfo.WindowStyle = windowStyle;
+			        if (windowStyle == ProcessWindowStyle.Hidden)
+			            process.StartInfo.CreateNoWindow = true;
 
-				    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.UseShellExecute = false;
 
 				    process.StartInfo.RedirectStandardOutput = true;
 				    process.StartInfo.RedirectStandardError = true;
