@@ -97,12 +97,19 @@ html, body {
     font-family: 'Segoe UI';    
 }
 .ace_searchbtn.next, .ace_searchbtn.prev {
-    width: 29px !important;    
+    width: 30px !important;    
 }
 .ace_search_options>span:hover {
     background: #777 !important;
     border-radius: 2px;
 }
+.ace_search .ace_searchbtn, .ace_search .ace_replacebtn {
+    font-size: 11pt !important;
+}
+/*.ace-search_options {
+    font-size: 12pt !important;
+    color: green !important;
+}*/
 
 
 pre{
@@ -111,7 +118,7 @@ pre{
 	border-radius: 0;
 }
 pre.no-container {
-  padding: 0 !important; 
+  padding: 0 !important;  
   margin: 0 !important;   
 }
 pre>code {
