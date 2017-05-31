@@ -22,21 +22,28 @@ h1,h2,h3,h4,h5,h6, .byline,.content-title {
 }
 h1 {
     font-size: 1.7em;
-    padding-bottom:10px;
+    padding-bottom: 10px;
     margin-bottom: 15px;
     color: steelblue;
     border-bottom: 1px solid #eee;
 }
-h2 {
-    font-size: 1.5em;
-    color: steelblue;
+h2
+{    
+    color: Steelblue;
+    font-size: 1.45em;         
 }
-h3 {
+h3
+{
+    color: steelblue;
     font-size: 1.3em;
-    color: steelblue;
+    font-weight: 800;    
+    margin-top: 15px;
 }
-h4 {
-    font-size: 1.1em;
+h4
+{
+    color: #2D2A2A;
+    font-size: 1.1em;       
+    margin-top: 14px;
 }
 h5, h6 { 
     font-size: 1em;

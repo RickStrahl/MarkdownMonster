@@ -112,10 +112,10 @@ namespace MarkdownMonster
 
 		internal static string PostFix = "*~~*";
 
-		/// <summary>
-		/// Application related Urls used throughout the application
-		/// </summary>
-	    public static ApplicationUrls Urls { get; set; } 
+        /// <summary>
+        /// Application related Urls used throughout the application
+        /// </summary>
+        public static ApplicationUrls Urls { get; set; } = new ApplicationUrls();
 
 
 	    #region Initialization and Shutdown

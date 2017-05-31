@@ -163,8 +163,9 @@ namespace MarkdownMonster
                 if (ver != null)
                 {
                     VersionInfo = ver;
-
-                    if (ver.Version.CompareTo(CurrentVersion) > 0)
+                    var curVer = new Version(CurrentVersion);                    
+                    var onlineVer = new Version(ver.Version);                    
+                    if (onlineVer.CompareTo(curVer) > 0)
                         return true;
                 }
             }
