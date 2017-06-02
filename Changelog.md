@@ -3,6 +3,24 @@
 # Markdown Monster Change Log
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.3.21
+*<small>June 2nd, 2017</small>*
+
+* **Theme Adjustments**   
+The Github and Dharkan Preview themes have been adjusted for lists and blockquote spacing and a few other minor adjustments to closer match their derived from templates.
+
+* **Tweak Tab highlighting**   
+Added slightly more contrast between active and inactive tabs while trying to preserve dark theme semantics.
+
+* **Fix render bug in Find/Replace Editor popup**   
+Fixed breaking window when using huge font sizes in the editor (for those use High DPI and no scaling). Find window no longer spazzes out for size, but also does not scale up when the rest of the editor is zoomed.
+
+* **Fix Command Line Launch with Relative Path**  
+Fixed regression bug with file opening for relative paths or folder on a new instance. Fixed.
+
+* **Many documentation updates**   
+The documentation at https://markdownmonster.west-wind.com/docs has been updated with a simpler help structure and updated topic content and FAQ. Still some work to do here but mostly there.
+
 ### 1.3.20
 *<small>May 30th, 2017</small>*
  
