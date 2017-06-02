@@ -47,6 +47,8 @@ namespace MarkdownMonster
 
         public static string initialStartDirectory;
 
+        public static string[] commandArgs;
+
         static App()
         {
             //try
@@ -94,28 +96,35 @@ namespace MarkdownMonster
 		/// <param name="splashScreen"></param>
 	    private static void CheckForSingletonLaunch(SplashScreen splashScreen)
 	    {
-		    bool isOnlyInstance;
+            // fix up the startup path
+	        string filesToOpen = " ";
+	        var args = Environment.GetCommandLineArgs();
+	        if (args != null && args.Length > 1)
+	        {
+	            StringBuilder sb = new StringBuilder();
+	            for (int i = 1; i < args.Length; i++)
+	            {
+	                string file = args[i];
+	                if (string.IsNullOrEmpty(file))
+	                    continue;
+
+	                file = file.TrimEnd('\\');
+	                file = Path.GetFullPath(file);
+                    sb.AppendLine(file);
+	                
+                    // write fixed up path arguments
+                    args[i] = file;
+	            }
+	            filesToOpen = sb.ToString();
+	        }
+            commandArgs = args;
+
+
+            bool isOnlyInstance;
 		    Mutex = new Mutex(true, @"MarkdownMonster", out isOnlyInstance);
 		    if (isOnlyInstance)
 			    return;
-
-		    string filesToOpen = " ";
-		    var args = Environment.GetCommandLineArgs();
-		    if (args != null && args.Length > 1)
-		    {
-			    StringBuilder sb = new StringBuilder();
-			    for (int i = 1; i < args.Length; i++)
-			    {
-				    string file = args[i];
-                    if (string.IsNullOrEmpty(file))
-                        continue;
-
-			        file = file.TrimEnd('\\');
-			        sb.AppendLine(Path.GetFullPath(file));
-			    }
-			    filesToOpen = sb.ToString();
-		    }
-
+		    
 		    var manager = new NamedPipeManager("MarkdownMonster");
 		    manager.Write(filesToOpen);
 	        

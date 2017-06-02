@@ -218,7 +218,9 @@ namespace MarkdownMonster
 	    {
 	        if (args == null)
 	        {
-	            args = Environment.GetCommandLineArgs(); //
+                // read fixed up command line args
+	            args = App.commandArgs; 
+
 	            if (args.Length < 2) // no args, only command line
 	                return;
 
@@ -241,7 +243,7 @@ namespace MarkdownMonster
 	            }
 	            catch (Exception ex)
 	            {
-	                mmApp.Log("Fullpath failed: " + file);                    
+	                mmApp.Log("Fullpath CommandLine failed: " + file);                    
 	            }
 
 	            if (File.Exists(file))
