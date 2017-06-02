@@ -106,11 +106,18 @@ html, body {
 .ace_search .ace_searchbtn, .ace_search .ace_replacebtn {
     font-size: 11pt !important;
 }
-/*.ace-search_options {
-    font-size: 12pt !important;
-    color: green !important;
-}*/
+.ace_searchbtn.next, .ace_searchbtn.prev {
+    width: 30px !important;
+}
 
+.ace_search_options > span {
+    font-size: 17pt;
+}
+
+.ace_search_options > span:hover {
+    background: #777 !important;
+    border-radius: 2px;
+}
 
 pre{
 	margin: 0;

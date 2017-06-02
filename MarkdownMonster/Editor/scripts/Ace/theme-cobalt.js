@@ -88,7 +88,6 @@ color: #0088FF\
 .ace-cobalt .ace_heading,\
 .ace-cobalt .ace_markup.ace_heading {\
 color: #C8E4FD;\
-background-color: #001221\
 }\
 .ace-cobalt .ace_list,\
 .ace-cobalt .ace_markup.ace_list {\

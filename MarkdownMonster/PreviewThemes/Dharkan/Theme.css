@@ -74,14 +74,13 @@ b, strong {
 	font-weight: 600;
 }
 blockquote {
-    background: #f9f9f9;
+    background: #39f9f9;
     font-size: 1em;
     opacity: 0.85;
-    padding: 10px 20px;
+    padding: 5px 20px 10px !important;
     margin: 30px 20px;
     border-left: 4px #ddd solid;
 }
-
 blockquote h3, blockquote h4, blockquote h5 {
     margin-top: 0;
 }
