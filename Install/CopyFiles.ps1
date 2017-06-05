@@ -1,4 +1,4 @@
-Set-ExecutionPolicy Bypass -Scope CurrentUser
+#Set-ExecutionPolicy Bypass -Scope CurrentUser
 
 $cur="$PSScriptRoot"
 $source="$PSScriptRoot\..\MarkdownMonster"
