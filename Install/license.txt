@@ -1,5 +1,5 @@
 Although source code is available for Markdown Monster, the software
-is licensed as © Rick Strahl, West Wind Technologies, 2016-2017.
+is licensed as Â© Rick Strahl, West Wind Technologies, 2016-2017.
 
 Markdown Monster can be downloaded and evaluated for free, but
 a reasonably priced license must be purchased for continued use.
