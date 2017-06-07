@@ -1,13 +1,13 @@
 <img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right"/>
 
-# Markdown Monster Change Log
+# Markdown Monster Change Logs
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.3.24
 *<small>not released yet</small>*
 
 * **Commit to Git for Active Document and File Browser**  
-You can now quickly commit the active document or a file from the file browser to Git in a single operation. Use the new **Commit to Git and Push** operation from the tab context menu, the tools menu for the active document, or on any single file or folder in the Folder Browser to commit and push to Git.
+You can now quickly commit the active document or a file from the file browser to Git in a single operation. Use the new **Commit to Git and Push** operation from the tab context menu, the tools menu for the active document, or on any single file or folder in the Folder Browser to commit and push to Git. 
 
 ### 1.3.21
 *<small>June 2nd, 2017</small>*
