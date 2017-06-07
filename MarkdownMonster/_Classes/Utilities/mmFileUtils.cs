@@ -458,6 +458,18 @@ namespace MarkdownMonster
 
 	    }
 
+
+        /// <summary>
+        /// Commits a specific, individual file to Git and optionally pushes
+        /// to the Git origin.
+        /// 
+        /// Note: Push operation may end up pushing more than the single file
+        /// committed if previous commits were made.
+        /// </summary>
+        /// <param name="filename">File to commit</param>
+        /// <param name="push">If set pushes to the currently configured Git Origin</param>
+        /// <param name="message">A string message passed in that is set if an error occurs. Message can be used directly for error/status messages.</param>
+        /// <returns>true or false. If false message parameter is set.</returns>
         public static bool CommitFileToGit(string filename, bool push, out string message)
         {
             //  git commit --only Build.ps1 -m "Updating documentation for readme.md."

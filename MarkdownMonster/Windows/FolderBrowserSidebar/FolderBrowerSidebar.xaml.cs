@@ -253,6 +253,14 @@ namespace MarkdownMonster.Windows
                     e.Handled = true;
                 }
             }
+            else if (e.Key == Key.G)
+            {
+                if (!selected.IsEditing)
+                {
+                    MenuCommitGit_Click(null, null);
+                    e.Handled = true;
+                }
+            }
         }
 
         void HandleSelection()
@@ -528,7 +536,8 @@ namespace MarkdownMonster.Windows
 
             string error = null;
 
-            bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, true, out error));
+            bool pushToGit = mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
+            bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file,pushToGit, out error));
 
             if (result)
                 model.Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", 6000);

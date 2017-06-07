@@ -644,14 +644,15 @@ Do you want to View in Browser now?
 
                 string error = null;
 
-                bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, true, out error));
+                bool pushToGit = mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
+                bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, pushToGit, out error));
 
                 if (result)
                     Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", 6000);
                 else
                 {
                     Window.ShowStatus(error, 7000);
-                    Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Red);
+                    Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
                 }
             }, (s, e) => IsEditorActive);
 

@@ -48,7 +48,7 @@
 			</StackPanel>
 		</HierarchicalDataTemplate>
 		<ContextMenu x:Key="FileContextMenu" Name="PathItemContextMenu">
-			<MenuItem Name="MenuAddFile" Header="New File" Click="MenuAddFile_Click" InputGestureText="N"/>
+			<MenuItem Name="MenuAddFile" Header="_New File" Click="MenuAddFile_Click" InputGestureText="N"/>
 			<MenuItem Name="MenuAddFolder" Header="New Folder" Click="MenuAddDirectory_Click" />
 			<Separator/>
 			<MenuItem Name="MenuDeleteFile" Header="Delete" InputGestureText="Del" Click="MenuDeleteFile_Click" />
@@ -69,12 +69,10 @@
 			          Visibility="{Binding SelectedItem.IsNotImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
 					  Header="Open with Shell" 
 					  Click="MenuOpenWithShell_Click" />
-		    <MenuItem Name="MenuCommitToGit" Header="Commit to Git and Push" Click="MenuCommitGit_Click" />
+		    <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Click="MenuCommitGit_Click" InputGestureText="G"/>
 			<Separator/>
 			<MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
 			<MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
-             
-		    
         </ContextMenu>
 	</UserControl.Resources>
 	

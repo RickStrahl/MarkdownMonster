@@ -153,7 +153,8 @@ namespace MarkdownMonster
         }
         private bool _alwaysUsePreviewRefresh;
 
-    
+
+        
 
         /// <summary>
         /// The font used in the editor. Must be a proportional font
@@ -316,10 +317,17 @@ namespace MarkdownMonster
 		/// </summary>
 	    public string TerminalCommandArgs { get; set; }
 
-		/// <summary>
-		/// A collection of the open Markdown documents.
-		/// </summary>
-		public List<MarkdownDocument> OpenDocuments { get; set; }
+        /// <summary>
+        /// Determines how Git Commits are handled - either just commit
+        /// or Commit and Push
+        /// </summary>
+        public GitCommitBehaviors GitCommitBehavior { get; set; } = GitCommitBehaviors.CommitAndPush;
+
+
+        /// <summary>
+        /// A collection of the open Markdown documents.
+        /// </summary>
+        public List<MarkdownDocument> OpenDocuments { get; set; }
 
 
         /// <summary>
@@ -682,5 +690,11 @@ namespace MarkdownMonster
         PreviewToEditor,
         EditorAndPreview,        
         None
+    }
+
+    public enum GitCommitBehaviors
+    {
+        Commit,
+        CommitAndPush
     }
 }

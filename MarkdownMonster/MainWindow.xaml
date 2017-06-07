@@ -101,7 +101,7 @@
             <Separator/>
             <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
             <MenuItem Name="ContextOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer" />
-            <MenuItem Name="ContextCommitToGit" Header="Commit and Push to Git"
+            <MenuItem Name="ContextCommitToGit" Header="Commit and Push to _Git"
                     Command="{Binding DataContext.CommitToGitCommand}"   />
             <Separator/>
             <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Click="Button_CopyFoldername" />
@@ -183,16 +183,19 @@
                           InputGestureText="ctrl-h" />
             </MenuItem>
             <MenuItem Header="_Tools"> 
-                <MenuItem Name="MenuAddins" Header="Add-ins" />
-                <MenuItem Name="MenuAddinManager" Header="Add-in Manager" Click="Button_Handler" />
+                <!--<MenuItem Name="MenuAddins" Header="Add-ins" />-->
+                <MenuItem Name="MenuAddinManager" Header="_Add-in Manager" Click="Button_Handler" />
                 <Separator/>
                 <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler" />
                 <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>
                 <Separator/>
                 <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow"  IsEnabled="{Binding IsEditorActive}" />
-                <MenuItem Name="MenuOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer"  IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="MenuOpenInFolder" Header="Open E_xplorer" 
+                        Click="Button_OpenExplorer"  
+                        IsEnabled="{Binding IsEditorActive}" 
+                        ToolTip="Open the document's folder in Explorer" />
                 <Separator/>
-                <MenuItem Name="MenuCommitToGit" Header="Commit to Git and Push" Command="{Binding CommitToGitCommand}" IsEnabled="{Binding IsEditorActive}" 
+                <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Command="{Binding CommitToGitCommand}" IsEnabled="{Binding IsEditorActive}" 
                           ToolTip="Commits the open document to Git and tries to push to the active remote branch." />
                 <MenuItem Name="MenuCopyFoldername" Header="Copy Foldername" ToolTip="Copy the document's foldername to the Clipboard" Click="Button_CopyFoldername"  IsEnabled="{Binding IsEditorActive}" />
                 <Separator/>
