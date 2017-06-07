@@ -29,14 +29,17 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -613,6 +616,7 @@ Do you want to View in Browser now?
                 }
             });
 
+            // CLOSE ACTIVE DOCUMENT COMMAND
             CloseActiveDocumentCommand = new CommandBase((s, e) =>
             {
                 var tab = Window.TabControl.SelectedItem as TabItem;
@@ -621,12 +625,36 @@ Do you want to View in Browser now?
 
                 if (Window.CloseTab(tab))
                     Window.TabControl.Items.Remove(tab);
-            }, (s, e) => IsEditorActive)
+            }, null)
             {
                 Caption = "_Close Document",
                 ToolTip = "Closes the active tab and asks to save the document."
             };        
                         
+
+            // COMMIT TO GIT Command
+            CommitToGitCommand = new CommandBase(async (s, e) =>
+            {
+                string file = ActiveDocument?.Filename;
+                if (string.IsNullOrEmpty(file))
+                    return;
+
+                Window.ShowStatus("Committing and pushing to Git...");
+                WindowUtilities.DoEvents();
+
+                string error = null;
+
+                bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, true, out error));
+
+                if (result)
+                    Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", 6000);
+                else
+                {
+                    Window.ShowStatus(error, 7000);
+                    Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Red);
+                }
+            }, (s, e) => IsEditorActive);
+
 
             // PREVIEW BUTTON COMMAND
             PreviewBrowserCommand = new CommandBase((s, e) =>
@@ -832,6 +860,8 @@ Do you want to View in Browser now?
 		}
 
 	    public CommandBase GeneratePdfCommand { get; set; }
+
+        public CommandBase CommitToGitCommand { get; set; }
 
 	    #endregion
 

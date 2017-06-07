@@ -69,10 +69,13 @@
 			          Visibility="{Binding SelectedItem.IsNotImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
 					  Header="Open with Shell" 
 					  Click="MenuOpenWithShell_Click" />
+		    <MenuItem Name="MenuCommitToGit" Header="Commit to Git and Push" Click="MenuCommitGit_Click" />
 			<Separator/>
 			<MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
 			<MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
-		</ContextMenu>
+             
+		    
+        </ContextMenu>
 	</UserControl.Resources>
 	
 	<Grid Name="GridFolderBrowser">

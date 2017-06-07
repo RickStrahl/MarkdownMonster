@@ -458,12 +458,63 @@ namespace MarkdownMonster
 
 	    }
 
-	    #endregion
+        public static bool CommitFileToGit(string filename, bool push, out string message)
+        {
+            //  git commit --only Build.ps1 -m "Updating documentation for readme.md."
+            //  git push origin
 
-	    #region Recycle Bin Deletion
-	    // Credit: http://stackoverflow.com/a/3282450/11197
+            string file = Path.GetFullPath(filename);
+            string justFile = System.IO.Path.GetFileName(file);
 
-	    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
+            if (!File.Exists(file))
+            {
+                message = $"File {justFile} doesn't exist.";
+                return false;
+            }
+
+            string path = Path.GetDirectoryName(filename);
+            if (!Directory.Exists(path))
+            {
+                message = $"File {file} doesn't exist.";
+                return false;
+            }
+
+
+            string origPath = Environment.CurrentDirectory;
+            try
+            {
+                Directory.SetCurrentDirectory(path);
+
+                int result = ExecuteProcess("git.exe",
+                    $"commit --only \"{file}\" -m \"Updating documentation for {justFile}\".", timeoutMs: 10000);
+                if (result != 0)
+                {
+                    message = $"There are no changes to commit for {justFile}.";
+                    return false;
+                }
+
+                if (push)
+                    ExecuteProcess("git.exe", "push origin",timeoutMs: 10000);
+            }
+            catch(Exception ex)
+            {
+                message = "An error occurred committing to Git: " + ex.Message;
+                return false;
+            }
+            finally
+            {
+                Directory.SetCurrentDirectory(origPath);
+            }
+
+            message = string.Empty;
+            return true;            
+        }
+        #endregion
+
+        #region Recycle Bin Deletion
+        // Credit: http://stackoverflow.com/a/3282450/11197
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
 	    public struct SHFILEOPSTRUCT
 	    {
 		    public IntPtr hwnd;

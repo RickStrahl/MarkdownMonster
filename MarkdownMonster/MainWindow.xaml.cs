@@ -221,7 +221,7 @@ namespace MarkdownMonster
                 // read fixed up command line args
 	            args = App.commandArgs; 
 
-	            if (args.Length < 2) // no args, only command line
+	            if (args == null || args.Length < 2) // no args, only command line
 	                return;
 
 	            if (args.Length > 1) // first item is full command line
@@ -1596,8 +1596,8 @@ namespace MarkdownMonster
 			string path = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
 			mmFileUtils.OpenTerminal(path);
 		}
-
-		private void Button_OpenExplorer(object sender, RoutedEventArgs e)
+        
+	    private void Button_OpenExplorer(object sender, RoutedEventArgs e)
 		{
 			var editor = GetActiveMarkdownEditor();
 			if (editor == null)
