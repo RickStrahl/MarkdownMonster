@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MarkdownMonster.Annotations;
 
-namespace MarkdownMonster._Classes.Configuration
+namespace MarkdownMonster.Configuration
 {
 	public class FolderBrowserConfiguration : INotifyPropertyChanged
 	{
