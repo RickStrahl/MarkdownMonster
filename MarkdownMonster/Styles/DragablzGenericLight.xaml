@@ -190,12 +190,12 @@
 
     <!-- RAS: Adjusted styles for MahApps -->
     <LinearGradientBrush x:Key="TabItem.Selected.Background" EndPoint="0,1" StartPoint="0,0">
-        <GradientStop Color="#444444" Offset="0.0"/>
-        <GradientStop Color="#222222" Offset="0.5"/>
+        <GradientStop Color="#F1F1F1" Offset="0.0"/>
+        <GradientStop Color="#eFeFeF" Offset="0.5"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="TabItem.Selected.Foreground" Color="#EEE"/>
-    <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#535353"/>
-    <SolidColorBrush x:Key="Button.Static.Foreground" Color="#eee"/>
+    <SolidColorBrush x:Key="TabItem.Selected.Foreground" Color="#222222"/>
+    <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#B6B6B6"/>
+    <SolidColorBrush x:Key="Button.Static.Foreground" Color="#eeeeee"/>
     <SolidColorBrush x:Key="Button.Static.Background" Color="#222222"/>    
     <SolidColorBrush x:Key="Button.Static.Border" Color="Black"/>
     <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
@@ -208,11 +208,11 @@
 
     
     <LinearGradientBrush x:Key="TabItem.Static.Background" EndPoint="0,1" StartPoint="0,0">
-        <GradientStop Color="#656565" Offset="0.0"/>
-        <GradientStop Color="#4F4F4F" Offset="1.0"/>
+        <GradientStop Color="#D9D9D9" Offset="0.0"/>
+        <GradientStop Color="#D7D7D7" Offset="1.0"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="TabItem.Static.Foreground" Color="#999"/>
-    <SolidColorBrush x:Key="TabItem.Static.Border" Color="#111"/>
+    <SolidColorBrush x:Key="TabItem.Static.Foreground" Color="#555"/>
+    <SolidColorBrush x:Key="TabItem.Static.Border" Color="#C4C4C4"/>
     <LinearGradientBrush x:Key="TabItem.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
         <GradientStop Color="#ECF4FC" Offset="0.0"/>
         <GradientStop Color="#DCECFC" Offset="1.0"/>
@@ -324,7 +324,7 @@
         </Setter>
         <Setter Property="Width" Value="46" />
         <Setter Property="Margin" Value="0 0 4 0" />
-        <Setter Property="Foreground" Value="{x:Static SystemColors.HighlightTextBrush}" />
+        <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Background">
@@ -367,7 +367,7 @@
         <Setter Property="Width" Value="12" />
         <Setter Property="Height" Value="12" />
         <Setter Property="Margin" Value="4 0 2 0" />
-        <Setter Property="Foreground" Value="{x:Static SystemColors.HighlightTextBrush}" />
+        <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Background">
@@ -1120,7 +1120,7 @@
                                 </Thumb>
                                 <Button Grid.Column="1"
                                         Style="{StaticResource CloseItemCommandButtonStyle}"                                        
-                                        Command="{x:Static local:TabablzControl.CloseItemCommand}"
+                                        Command="{x:Static local:TabablzControl.CloseItemCommand}"                                      
                                         CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}">
                                     <Button.Visibility>
                                         <MultiBinding Converter="{StaticResource ShowDefaultCloseButtonConverter}">
@@ -1141,7 +1141,7 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Foreground" Value="{StaticResource TabItem.Selected.Foreground}" TargetName="Trapezoid"/>
                             <Setter Property="Background" Value="{StaticResource TabItem.Selected.Background}" TargetName="Trapezoid"/>
-                            <Setter Property="Padding" Value="5,2,10,8"/>
+                            <Setter Property="Padding" Value="5,4,10,5"/>
                             <Setter Property="Margin" Value="0 0 0 0"/>
                             <Setter Property="LongBasePenBrush" Value="{StaticResource TabItem.Selected.Background}" TargetName="Trapezoid"/>
                         </Trigger>

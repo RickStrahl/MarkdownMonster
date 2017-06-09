@@ -273,11 +273,16 @@ namespace MarkdownMonster
             {
                 var menuCustomizations = new Uri("Styles/MahMenuCustomizations.xaml", UriKind.RelativeOrAbsolute);
                 Application.Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary() {Source = menuCustomizations});
+                    new ResourceDictionary() {Source = menuCustomizations});                
             }
             else
             {
+                var dragablzLightStyles = new Uri("Styles/DragablzGenericLight.xaml", UriKind.RelativeOrAbsolute);
+                Application.Current.Resources.MergedDictionaries.Add(
+                    new ResourceDictionary() { Source = dragablzLightStyles });
+
                 Resources["HeadlineColor"] = new SolidColorBrush(Colors.SteelBlue);
+                Resources["BlueItem"] = new SolidColorBrush(Colors.SteelBlue);
             }
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
 

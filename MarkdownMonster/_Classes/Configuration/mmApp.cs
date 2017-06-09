@@ -591,15 +591,15 @@ Markdown Monster v{version}
                 window.WindowTitleBrush = darkBrush;
                 window.NonActiveWindowTitleBrush = (Brush) window.FindResource("WhiteBrush");
 
-                App.Current.Resources["MenuSeparatorBorderBrush"] = darkBrush;
+                //App.Current.Resources["MenuSeparatorBorderBrush"] = darkBrush;
             }
             else
             {
                 // Need to fix this to show the accent color when switching
-                //window.WindowTitleBrush = (Brush)window.FindResource("WhiteBrush");
-                //window.NonActiveWindowTitleBrush = (Brush)window.FindResource("WhiteBrush");
+                window.WindowTitleBrush = (SolidColorBrush) window.FindResource("AccentColorBrush");
+                window.NonActiveWindowTitleBrush = window.WindowTitleBrush;                
 
-                window.BorderBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#ddd");
+                window.BorderBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#ccc");                
             }
         }
         #endregion

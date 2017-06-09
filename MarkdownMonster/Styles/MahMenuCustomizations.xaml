@@ -9,7 +9,7 @@
 
     <SolidColorBrush x:Key="MenuItemHighlightedBackground"  Color="#3E3E40" />
     <SolidColorBrush x:Key="SubmenuItemBackground" Color="#1B1B1C" />
-    <SolidColorBrush x:Key="SubmenuItemBackgroundHighlighted" Color="#444444" />
+    <SolidColorBrush x:Key="SubmenuItemBackgroundHighlighted" Color="#606060" />
     <SolidColorBrush x:Key="MenuDisabledForeground"  Color="#656565" />
     <SolidColorBrush x:Key="BackgroundSelected" Color="#007ACC" />
     <SolidColorBrush x:Key="Foreground" Color="#EEEEEE" />
@@ -30,7 +30,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type MenuItem}">
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -195,8 +195,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
-    <!--<Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}" />-->
 
 </ResourceDictionary>
