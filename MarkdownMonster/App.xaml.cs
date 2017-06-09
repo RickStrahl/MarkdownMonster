@@ -268,22 +268,37 @@ namespace MarkdownMonster
             // Custom MahApps Light Theme based on Blue
             ThemeManager.AddAccent("MahLight", new Uri("Styles/MahLightAccents.xaml", UriKind.RelativeOrAbsolute));
 
+            Uri resourceUri = null;
+
             // Add Dark Menu Customizations
             if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
             {
-                var menuCustomizations = new Uri("Styles/MahMenuCustomizations.xaml", UriKind.RelativeOrAbsolute);
-                Application.Current.Resources.MergedDictionaries.Add(
-                    new ResourceDictionary() {Source = menuCustomizations});                
+                resourceUri = new Uri("Styles/MahMenuCustomizations.xaml", UriKind.RelativeOrAbsolute);
+                Current.Resources.MergedDictionaries.Add(
+                    new ResourceDictionary() {Source = resourceUri});
+
+                var dragablzLightStyles = new Uri("Styles/DragablzGeneric.xaml", UriKind.RelativeOrAbsolute);
+                Current.Resources.MergedDictionaries.Add(
+                    new ResourceDictionary() { Source = dragablzLightStyles });
+
+                resourceUri = new Uri("Styles/MahDarkResources.xaml", UriKind.RelativeOrAbsolute);
+                Current.Resources.MergedDictionaries.Add(
+                    new ResourceDictionary() { Source = resourceUri });
             }
             else
             {
                 var dragablzLightStyles = new Uri("Styles/DragablzGenericLight.xaml", UriKind.RelativeOrAbsolute);
-                Application.Current.Resources.MergedDictionaries.Add(
+                Current.Resources.MergedDictionaries.Add(
                     new ResourceDictionary() { Source = dragablzLightStyles });
-
-                Resources["HeadlineColor"] = new SolidColorBrush(Colors.SteelBlue);
-                Resources["BlueItem"] = new SolidColorBrush(Colors.SteelBlue);
+                
+                resourceUri = new Uri("Styles/MahLightResources.xaml", UriKind.RelativeOrAbsolute);
+                Current.Resources.MergedDictionaries.Add(
+                    new ResourceDictionary() { Source = resourceUri });
             }
+            
+
+
+
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
 
         }

@@ -25,12 +25,12 @@
                 <!-- load this dynamically in OnStartup for dark theme -->
                 <!--<ResourceDictionary Source="Styles/MahMenuCustomizations.xaml"/>-->
                 
-                <ResourceDictionary Source="Styles/DragablzGeneric.xaml"/>
+                <!--<ResourceDictionary Source="Styles/DragablzGeneric.xaml"/>-->
                 <!--<ResourceDictionary Source="Styles/DragablzGenericLight.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
 
-            <!--<Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MahAppsTabablzControlStyle}">-->
+            <!--<Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MahAppsTabablzControlStyle}">--><!--
             <Style x:Key="MarkdownMonsterTrapezoidDragableTabItemStyle"
                    TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource TrapezoidDragableTabItemStyle}">
                 <Setter Property="ContextMenu" Value="{DynamicResource TabItemContextMenu}" />
@@ -45,7 +45,7 @@
 
             <SolidColorBrush x:Key="BlueItem" Color="#70B8FF" />
             <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
-            <SolidColorBrush x:Key="HeadlineColor" Color="LightSteelBlue" />
+            <SolidColorBrush x:Key="HeadlineColor" Color="LightSteelBlue" />-->
 
         </ResourceDictionary>
     </Application.Resources>

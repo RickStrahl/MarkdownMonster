@@ -592,6 +592,7 @@ Markdown Monster v{version}
                 window.NonActiveWindowTitleBrush = (Brush) window.FindResource("WhiteBrush");
 
                 //App.Current.Resources["MenuSeparatorBorderBrush"] = darkBrush;
+                window.BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#999");
             }
             else
             {
