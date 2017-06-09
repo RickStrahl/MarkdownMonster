@@ -211,7 +211,7 @@
         <GradientStop Color="#656565" Offset="0.0"/>
         <GradientStop Color="#4F4F4F" Offset="1.0"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="TabItem.Static.Foreground" Color="#888"/>
+    <SolidColorBrush x:Key="TabItem.Static.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="TabItem.Static.Border" Color="#111"/>
     <LinearGradientBrush x:Key="TabItem.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
         <GradientStop Color="#ECF4FC" Offset="0.0"/>

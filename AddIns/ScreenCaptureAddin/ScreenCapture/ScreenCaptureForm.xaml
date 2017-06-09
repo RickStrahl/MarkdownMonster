@@ -16,9 +16,8 @@
         Icon="../MarkdownMonster_Icon_128.png"    
         WindowStyle="SingleBorderWindow"         
         WindowStartupLocation="Manual"
-        FontSize="13"    
-        Foreground="#ffeeee"
-        Width="1250" Height="1000">
+        FontSize="13"  MinWidth="800" MinHeight="600"          
+        Width="1100" Height="900">
 
     <Grid Margin="0,0,0,0" Name="PageGrid">
         <Grid.RowDefinitions>
@@ -92,7 +91,8 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Copy"                                             
                                             FontSize="15"                                                
-                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
+                                            FontWeight="Normal" 
+                                                FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Margin="5,2,5,0" />
                                 <TextBlock>Copy</TextBlock>
                             </StackPanel>
                         </Button>
@@ -126,7 +126,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid  Background="#555" >
+            <Grid  Background="#555" Name="CaptureButtonContainer">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="250" />
                     <ColumnDefinition Width="*"/>
@@ -151,7 +151,7 @@
 
 
                 <TextBlock Margin="10" TextWrapping="Wrap" Grid.Column="1" FontSize="12">
-                Click the button on the left to start the capture. Hover over windows and click to select a window or control. You'll see a highight and when ready click to capture the selected area.
+                Click the button on the left to start the capture. Hover over windows and click to select a window or control. You'll see a highlight and when ready click to capture the selected area.
                 </TextBlock>
                 <!--<TextBlock Name="msg" Grid.Column="2" ></TextBlock>-->
             </Grid>
@@ -159,8 +159,7 @@
       
         <Image Name="ImageCaptured" Grid.Row="2"  Margin="10,0"/>
 
-            <StatusBar  Grid.Row="3" Height="30" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="12"
-                        Background="{Binding Window.Background}">
+            <StatusBar  Grid.Row="3" Height="30" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="12">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid>

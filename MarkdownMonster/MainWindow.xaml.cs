@@ -72,13 +72,7 @@ namespace MarkdownMonster
 	{
 		public AppModel Model { get; set; }
 
-		//private string FileName;
-
-		//private FileSystemWatcher openFileWatcher;
-
 		private NamedPipeManager PipeManager { get; set; }
-
-		//public ApplicationConfiguration Configuration { get; set; }
 
 		public IntPtr Hwnd
 		{
@@ -105,7 +99,6 @@ namespace MarkdownMonster
 		{
 			InitializeComponent();
 
-
 			Model = new AppModel(this);
 			DataContext = Model;
 
@@ -115,9 +108,7 @@ namespace MarkdownMonster
 
 			Loaded += OnLoaded;
 			Drop += MainWindow_Drop;
-			AllowDrop = true;
-
-			KeyUp += MainWindow_KeyUp;
+			AllowDrop = true;			
 			Activated += OnActivated;
 
 			// Singleton App startup - server code that listens for other instances
@@ -144,7 +135,8 @@ namespace MarkdownMonster
 			RestoreSettings();
 
 
-			RecentDocumentsContextList();
+
+            RecentDocumentsContextList();
 			ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
 
 
@@ -705,10 +697,18 @@ namespace MarkdownMonster
 
 			}
 
-			Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;
-			//Model.PreviewBrowserCommand.Execute(null);
+			Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;			
 
 			ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+
+            // force background so we have a little more contrast
+		    if (mmApp.Configuration.ApplicationTheme == Themes.Light)
+		    {
+		        ContentGrid.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#eee");		       
+		        ToolbarPanelMain.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#D5DAE8");
+            }
+		    else
+		        ContentGrid.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#333");
 		}
 
 		/// <summary>
@@ -1094,7 +1094,7 @@ namespace MarkdownMonster
 			{
 				PreviewBrowser.Visibility = Visibility.Visible;
 
-				MainWindowSeparatorColumn.Width = new GridLength(2);
+				MainWindowSeparatorColumn.Width = new GridLength(12);
 				if (!refresh)
 				{
 					if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
@@ -1148,7 +1148,7 @@ namespace MarkdownMonster
 			    });
 
 				FolderBrowserColumn.Width = new GridLength(mmApp.Configuration.FolderBrowser.WindowWidth);
-				FolderBrowserSeparatorColumn.Width = new GridLength(5);
+				FolderBrowserSeparatorColumn.Width = new GridLength(14);
 				mmApp.Configuration.FolderBrowser.Visible = true;
 			}
 		}
@@ -1530,14 +1530,14 @@ namespace MarkdownMonster
 					return;
 				editor.SpecialKey("ctrl-shift-d");
 			}
-			else if (button == ButtonRefreshBrowser)
-			{
-				var editor = GetActiveMarkdownEditor();
-				if (editor == null)
-					return;
+			//else if (button == ButtonRefreshBrowser)
+			//{
+			//	var editor = GetActiveMarkdownEditor();
+			//	if (editor == null)
+			//		return;
 
-				this.PreviewMarkdownAsync();
-			}
+			//	this.PreviewMarkdownAsync();
+			//}
 			else if (button == MenuDocumentation)
 				ShellUtils.GoUrl(mmApp.Urls.DocumentationBaseUrl);
 			else if (button == MenuMarkdownBasics)
@@ -1664,27 +1664,6 @@ namespace MarkdownMonster
 		#endregion
 
 		#region Miscelleaneous Events
-
-		/// <summary>
-		/// Key handler used to intercept special menu hotkeys fired from
-		/// editor.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void MainWindow_KeyUp(object sender, KeyEventArgs e)
-		{
-			//bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-			//if (e.Key == Key.N && isControlKey)
-			//{
-			//    e.Handled = true;
-			//    Button_Handler(ButtonNewFile, null);
-			//}
-			//if (e.Key == Key.O && isControlKey)
-			//{
-			//    e.Handled = false;
-			//    Button_Handler(ButtonOpenFile, null);
-			//}
-		}
 
 		/// <summary>
 		/// Handle drag and drop of file. Note only works when dropped on the

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using MarkdownMonster;
-using SnagItAddin.Annotations;
+using MarkdownMonster.Annotations;
 using Westwind.Utilities.Configuration;
 
 namespace SnagItAddin

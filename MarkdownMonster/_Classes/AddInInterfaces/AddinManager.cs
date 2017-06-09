@@ -162,8 +162,8 @@ namespace MarkdownMonster.AddIns
                                           (!string.IsNullOrEmpty(menuItem.KeyboardShortcut) ?
                                               $" ({menuItem.KeyboardShortcut})" :
                                               string.Empty),
-                                Height = menuItem.IconImageSource == null ? 18 : 22,
-                                Width = menuItem.IconImageSource == null ? 18 : 23,                           
+                                Height = menuItem.IconImageSource == null ? 18 : 19,
+                                Width = menuItem.IconImageSource == null ? 18 : 19,                           
                                 Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
                             };
 

@@ -33,65 +33,6 @@
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  CloseActiveDocumentCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding CloseActiveDocumentCommand}" />
     </Window.InputBindings>
-    <controls:MetroWindow.LeftWindowCommands>
-        <controls:WindowCommands>
-         
-        </controls:WindowCommands>
-    </controls:MetroWindow.LeftWindowCommands>
-
-    <controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands>
-            <StackPanel Orientation="Horizontal">
-						
-                   <ToggleButton Margin="7,0"                          
-                                 fa:Awesome.Content="Check"  Foreground="#70B8FF"                               
-                                 Height="22" Width="22"
-                                 IsChecked="{Binding Configuration.EditorEnableSpellcheck}"
-                                 ToolTip="enable/disable spell-checking"
-                                 Click="ButtonSpellCheck_Click"
-                                TextElement.FontSize="16"
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                   />
-
-                <ToggleButton Name="ToolButtonPreview"  Margin="7,0" Foreground="#70B8FF"
-                                      IsChecked="{Binding IsPreviewBrowserVisible}"
-                                      Command="{Binding PreviewBrowserCommand}"                                  
-                                      ToolTip="open/hide the HTML Preview Pane (alt-v-p)"
-                                 fa:Awesome.Content="Globe"
-                                 Height="22" Width="22"
-                                TextElement.FontSize="16"
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
-                </ToggleButton>
-
-				<Button  Margin="7,0,0,0"  Command="{Binding ShowFolderBrowserCommand}" 
-						 ToolTip="Show Folder Browser pane (alt-v-f)"                                
-				         fa:Awesome.Content="FilesOutline" Foreground="#70B8FF"
-				         Height="24" Width="24" 
-				         TextElement.FontSize="16" 
-				         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-				/>
-
-				<ToggleButton Name="ToolButtonFullScreen"  Margin="7,0" Foreground="#70B8FF"
-                                      IsChecked="{Binding IsFullScreen}"
-                                      Command="{Binding DistractionFreeModeCommand}"                                                 
-                                      ToolTip="toggle distraction free edit mode (alt-shift-enter)"
-                                 fa:Awesome.Content="ArrowsAlt"
-                                 Height="22" Width="22"
-                                TextElement.FontSize="16"
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
-                                      />
-                <ToggleButton Name="ToolButtonPresentationMode"  Margin="7,0" Foreground="#70B8FF"
-                                      IsChecked="{Binding IsPresentationMode}"
-                                      Command="{Binding PresentationModeCommand}"                                                 
-                                      ToolTip="toggle presentation mode (F11)"
-                                 fa:Awesome.Content="Desktop"
-                                 Height="22" Width="22"
-                                TextElement.FontSize="16"
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
-                                      />
-            </StackPanel>
-        </controls:WindowCommands>
-    </controls:MetroWindow.RightWindowCommands>
 
     <Window.Resources>
         <ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
@@ -102,7 +43,7 @@
             <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
             <MenuItem Name="ContextOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer" />
             <MenuItem Name="ContextCommitToGit" Header="Commit and Push to _Git"
-                    Command="{Binding DataContext.CommitToGitCommand}"   />
+                      Command="{Binding DataContext.CommitToGitCommand}"   />
             <Separator/>
             <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Click="Button_CopyFoldername" />
         </ContextMenu>
@@ -110,6 +51,66 @@
             <MenuItem Header="Recent Files go here..."/>
         </ContextMenu>
     </Window.Resources>
+
+    <controls:MetroWindow.LeftWindowCommands>
+        <controls:WindowCommands>
+         
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <StackPanel Orientation="Horizontal">
+						
+                   <ToggleButton   fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
+                                IsChecked="{Binding Configuration.EditorEnableSpellcheck}"
+                                ToolTip="enable/disable spell-checking"
+                                Click="ButtonSpellCheck_Click"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                   />
+
+                <ToggleButton Name="ToolButtonPreview"  Foreground="{StaticResource BlueItem}"
+                                Margin="2,0"
+                                IsChecked="{Binding IsPreviewBrowserVisible}"
+                                Command="{Binding PreviewBrowserCommand}"                                  
+                                ToolTip="open/hide the HTML Preview Pane (alt-v-p)"
+                                fa:Awesome.Content="Globe"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
+                </ToggleButton>
+
+                <Button   Command="{Binding ShowFolderBrowserCommand}" 
+                        Margin="2,0"
+						ToolTip="Show Folder Browser pane (alt-v-f)"                                
+				        fa:Awesome.Content="FilesOutline" Foreground="{StaticResource BlueItem}"				         
+				        TextElement.FontSize="16" 
+				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+				/>
+
+                <ToggleButton Name="ToolButtonFullScreen"   Foreground="{StaticResource BlueItem}"
+				              Margin="2,0"
+                                      IsChecked="{Binding IsFullScreen}"
+                                      Command="{Binding DistractionFreeModeCommand}"                                                 
+                                      ToolTip="toggle distraction free edit mode (alt-shift-enter)"
+                                 fa:Awesome.Content="ArrowsAlt"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
+                                      />
+                <ToggleButton Name="ToolButtonPresentationMode"   Foreground="{StaticResource BlueItem}"
+                              Margin="2,0"
+                                      IsChecked="{Binding IsPresentationMode}"
+                                      Command="{Binding PresentationModeCommand}"                                                 
+                                      ToolTip="toggle presentation mode (F11)"
+                                 fa:Awesome.Content="Desktop"
+                                TextElement.FontSize="16"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
+                                      />
+            </StackPanel>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
+
 
     <Grid Name="WindowGrid">
         <Grid.RowDefinitions>
@@ -146,7 +147,7 @@
                           Click="ButtonViewInBrowser_Click" 
                           InputGestureText="Alt-V-B"
                           IsEnabled="{Binding IsEditorActive}" />
-				<MenuItem Name="ButtonPrintPreview" Header="_Print Output" Command="{Binding PrintPreviewCommand}" InputGestureText="Ctrl-P"/>
+				<MenuItem Name="ButtonPrintPreview" Header="_Print Output" Command="{Binding PrintPreviewCommand}" InputGestureText="ctrl-p"/>
 				<Separator />
                 <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
             </MenuItem>
@@ -205,32 +206,29 @@
                 <MenuItem Name="ButtonHtmlPreview" 
                           Header="Toggle Html _Preview Window"
                           IsCheckable="True" 
-                          InputGestureText="Alt-V-P"
+                          InputGestureText="alt-v-p"
                           IsChecked="{Binding IsPreviewBrowserVisible}"
                           Command="{Binding PreviewBrowserCommand}"
                            IsEnabled="{Binding IsEditorActive}"/>
                 <MenuItem Header="View in Web _Browser" 
                           Click="ButtonViewInBrowser_Click"                           
-                          InputGestureText="Alt-V-B"
+                          InputGestureText="alt-v-b"
                           IsEnabled="{Binding IsEditorActive}" />
-                <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding PrintPreviewCommand}" InputGestureText="Ctrl-P"/>
+                <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding PrintPreviewCommand}" InputGestureText="ctrl-p"/>
                 <Separator/>
-                <MenuItem Name="ButtonRefreshBrowser" Header="Refresh Preview Browser"  
-                          Click="Button_Handler"  IsEnabled="{Binding IsPreviewBrowserVisible}" InputGestureText="Ctrl-Shift"/>
                 <MenuItem Name="ButtonScrollBrowserUp" 
                           Header="Scroll Preview Browser Up"                         
-                          InputGestureText="Ctrl-Shift-Up" Click="Button_Handler"
+                          InputGestureText="ctrl-shift-up" Click="Button_Handler"
                           IsEnabled="{Binding IsPreviewBrowserVisible}" />
                 <MenuItem Name="ButtonScrollBrowserDown" 
                           Header="Scroll Preview Browser Down"                         
-                          InputGestureText="Ctrl-Shift-Down" Click="Button_Handler"
+                          InputGestureText="ctrl-shift-down" Click="Button_Handler"
                           IsEnabled="{Binding IsPreviewBrowserVisible}" />
                 <Separator/>
 	            <MenuItem Name="ButtonToggleFolderBrowser" 
 	                      Header="Toggle _Folder Browser Panel"                         
 	                      Command="{Binding ShowFolderBrowserCommand}"
-	                      InputGestureText="Alt-V-F"
-
+	                      InputGestureText="alt-v-f"
 	                      ToolTip="Toggles the Folder Browser sidebar panel"
 	                      />
                 <MenuItem Name="ButtonDistractionFreeMode" 
@@ -239,7 +237,7 @@
                           ToolTip="Displays the editor in full screen mode"
                           IsCheckable="True"
                           IsChecked="{Binding IsFullScreen}"
-                          InputGestureText="Alt-Shift-Enter" 
+                          InputGestureText="alt-shift-enter" 
                           IsEnabled="{Binding IsEditorActive}" />
                 <MenuItem Name="ButtonPresentationMode" 
                           Header="Toggle Presentation Mode"                         
@@ -251,7 +249,7 @@
                           IsEnabled="{Binding IsEditorActive}" />
 
                 <Separator />
-                <MenuItem Header="_Close Document" Command="{Binding CloseActiveDocumentCommand}" InputGestureText="Ctrl-w"/>
+                <MenuItem Header="_Close Document" Command="{Binding CloseActiveDocumentCommand}" InputGestureText="ctrl-w"/>
                 <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
                 
 
@@ -298,7 +296,7 @@
 						<Button  Margin="7,0,7,0"  Command="{Binding ShowFolderBrowserCommand}" 
 						         ToolTip="Toggle Folder Browser Pane (alt-v-f)"                                
 						         fa:Awesome.Content="FilesOutline" 			
-								 FontSize="15"  Foreground="#eee"
+								 FontSize="15" 
 						         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
 						/>
 
@@ -463,11 +461,10 @@
                 <ColumnDefinition Name="MainWindowPreviewColumn"  Width="0" />
             </Grid.ColumnDefinitions>
 
-			<localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
-			</localwindows:FolderBrowerSidebar>
+		<localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
+		</localwindows:FolderBrowerSidebar>
 
-			<GridSplitter Grid.Column="1"                          
-			              Width="12"                          
+			<GridSplitter Grid.Column="1"                               
 			              HorizontalAlignment="Center"                          
 			              BorderThickness="0" IsTabStop="False"
 			              VerticalAlignment="Stretch">
@@ -490,8 +487,7 @@
                                      ShowDefaultAddButton="False"
                                      SelectionChanged="TabControl_SelectionChanged" />
 
-            <GridSplitter Grid.Column="3"                          
-                          Width="12"                          
+            <GridSplitter Grid.Column="3"                                                                        
                           HorizontalAlignment="Center"                          
                           BorderThickness="0" IsTabStop="False"
                           VerticalAlignment="Stretch">

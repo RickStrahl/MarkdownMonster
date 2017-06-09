@@ -43,12 +43,13 @@ namespace WeblogAddin
 
             model.Window = this;
             
-            mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
-
-			
 			InitializeComponent();
 
-			Loaded += WebLogStart_Loaded;
+            mmApp.SetThemeWindowOverride(this);
+            if (mmApp.Configuration.ApplicationTheme == Themes.Light)
+                TabControl.Background = (SolidColorBrush) Resources["LightThemeTitleBackground"];
+
+            Loaded += WebLogStart_Loaded;
             Closing += WebLogStart_Closing;			
         }
 

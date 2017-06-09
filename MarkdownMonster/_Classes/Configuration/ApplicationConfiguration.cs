@@ -20,8 +20,7 @@ namespace MarkdownMonster
     {
         /// <summary>
         /// The name of the application
-        /// </summary>
-        [JsonIgnore]
+        /// </summary>        
         public Themes ApplicationTheme
         {
             get { return _applicationTheme; }

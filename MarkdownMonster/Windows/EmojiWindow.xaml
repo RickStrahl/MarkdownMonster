@@ -26,7 +26,7 @@
             
             <TextBox Grid.Column="1"  x:Name="TextSearchText" Grid.Row="0"
                  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                 BorderThickness="0" FontSize="16" Background="#444" KeyDown="TextSearchText_Keydown">
+                 BorderThickness="0" FontSize="16" Opacity="0.70" KeyDown="TextSearchText_Keydown">
             </TextBox>
         </Grid>
         
@@ -44,8 +44,9 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Value}" Margin="8" Height="24" Width="24" FontSize="18" ToolTip="{Binding Key}"
-                               Foreground="LightGray">
+                    <TextBlock Text="{Binding Value}" Margin="8" Height="24" Width="24" FontSize="18"
+                               ToolTip="{Binding Key}"
+                               Opacity="0.70">
                         <TextBlock.Style>
                             <Style>
                             <Style.Triggers>

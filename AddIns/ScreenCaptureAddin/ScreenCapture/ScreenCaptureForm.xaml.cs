@@ -14,11 +14,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
+using MarkdownMonster.Annotations;
 using MarkdownMonster.Windows;
 using ScreenCaptureAddin;
-using SnagItAddin.Annotations;
 using Brushes = System.Windows.Media.Brushes;
-using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using Point = System.Windows.Point;
 using Timer = System.Threading.Timer;
 
@@ -171,11 +170,14 @@ namespace SnagItAddin
         #region Startup and Shutdown
 
         public ScreenCaptureForm()
-        {
-            mmApp.SetTheme(mmApp.Configuration.ApplicationTheme);
-            
+        {            
             InitializeComponent();
-            
+
+            mmApp.SetThemeWindowOverride(this);
+            if (mmApp.Configuration.ApplicationTheme == Themes.Light)
+                CaptureButtonContainer.Background =
+                    (System.Windows.Media.Brush) FindResource("LightThemeTitleBackground");
+
             Loaded += ScreenCaptureForm_Loaded;
             Unloaded += ScreenCaptureForm_Unloaded;
             SizeChanged += ScreenCaptureForm_SizeChanged;

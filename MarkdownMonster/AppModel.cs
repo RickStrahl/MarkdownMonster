@@ -858,6 +858,7 @@ Do you want to View in Browser now?
 		        };
 		        form.Show();		        
 	        }, (s, e) => IsPreviewBrowserVisible);
+            
 		}
 
 	    public CommandBase GeneratePdfCommand { get; set; }

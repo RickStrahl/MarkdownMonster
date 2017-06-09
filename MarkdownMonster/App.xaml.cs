@@ -31,6 +31,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
 using Westwind.Utilities;
@@ -221,49 +222,65 @@ namespace MarkdownMonster
 
         protected override void OnStartup(StartupEventArgs e)
         {
-	        var dotnetVersion = ComputerInfo.GetDotnetVersion();
-	        if (String.Compare(dotnetVersion, "4.6", StringComparison.Ordinal) < 0)
-	        {
-		        new TaskFactory().StartNew(() => MessageBox.Show("Markdown Monster requires .NET 4.6 or later to run.\r\n\r\n" +
-		                                                               "Please download and install the latest version of .NET version from:\r\n" +
-		                                                               "https://www.microsoft.com/net/download/framework\r\n\r\n" +
-		                                                               "Exiting application and navigating to .NET Runtime Downloads page.",
-			        "Markdown Monster",
-			        MessageBoxButton.OK,
-			        MessageBoxImage.Warning
-		        ));
+            var dotnetVersion = ComputerInfo.GetDotnetVersion();
+            if (String.Compare(dotnetVersion, "4.6", StringComparison.Ordinal) < 0)
+            {
+                new TaskFactory().StartNew(() => MessageBox.Show("Markdown Monster requires .NET 4.6 or later to run.\r\n\r\n" +
+                                                                       "Please download and install the latest version of .NET version from:\r\n" +
+                                                                       "https://www.microsoft.com/net/download/framework\r\n\r\n" +
+                                                                       "Exiting application and navigating to .NET Runtime Downloads page.",
+                    "Markdown Monster",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                ));
 
-		        Thread.Sleep(10000);
-		        ShellUtils.GoUrl("https://www.microsoft.com/net/download/framework");
-				Environment.Exit(0);
-			}
+                Thread.Sleep(10000);
+                ShellUtils.GoUrl("https://www.microsoft.com/net/download/framework");
+                Environment.Exit(0);
+            }
 
-
-
-			new TaskFactory().StartNew(LoadAddins);
+            new TaskFactory().StartNew(LoadAddins);
 
             if (mmApp.Configuration.DisableHardwareAcceleration)
                 RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
 
             var dir = Assembly.GetExecutingAssembly().Location;
-            
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(dir));            
 
-            mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(dir));
 
-	        
+            ThemeCustomizations();
 
-			if (!mmApp.Configuration.DisableAddins)
+            if (!mmApp.Configuration.DisableAddins)
             {
                 new TaskFactory().StartNew(() =>
                 {
-	                ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");                    
+                    ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
                     ComputerInfo.EnsureSystemPath();
 
-                    if(!Directory.Exists(mmApp.Configuration.InternalCommonFolder))
+                    if (!Directory.Exists(mmApp.Configuration.InternalCommonFolder))
                         Directory.CreateDirectory(mmApp.Configuration.InternalCommonFolder);
                 });
-            }            
+            }
+        }
+
+        private void ThemeCustomizations()
+        {
+            // Custom MahApps Light Theme based on Blue
+            ThemeManager.AddAccent("MahLight", new Uri("Styles/MahLightAccents.xaml", UriKind.RelativeOrAbsolute));
+
+            // Add Dark Menu Customizations
+            if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
+            {
+                var menuCustomizations = new Uri("Styles/MahMenuCustomizations.xaml", UriKind.RelativeOrAbsolute);
+                Application.Current.Resources.MergedDictionaries.Add(
+                    new ResourceDictionary() {Source = menuCustomizations});
+            }
+            else
+            {
+                Resources["HeadlineColor"] = new SolidColorBrush(Colors.SteelBlue);
+            }
+            mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
+
         }
 
         protected override void OnSessionEnding(SessionEndingCancelEventArgs e)

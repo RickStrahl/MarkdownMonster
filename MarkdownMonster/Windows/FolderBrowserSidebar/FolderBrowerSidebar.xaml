@@ -9,6 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
 	<UserControl.Resources>
+        
 		<local:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
 
 		<!--DataType="{x:Type local:PathItem}"-->
@@ -87,7 +88,7 @@
 			<RowDefinition Name="ImagePreviewColumn"  Height="Auto"/>
 		</Grid.RowDefinitions>
 
-		<Grid Background="#353535">
+		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
@@ -98,11 +99,11 @@
 			
 			<TextBlock Height="Auto" 
 					   Text="FOLDER BROWSER"
-					   FontWeight="Medium" FontSize="11"  Padding="6,3" />
+					   FontWeight="Medium" FontSize="11"  Padding="7,5" />
 
 
 			<Button fa:Awesome.Content="EllipsisH" Grid.Column="1" Background="Transparent"
-			        Foreground="#70B8FF" Padding="8,0,8,0" 
+			        Foreground="{DynamicResource BlueItem}" Padding="8,0,8,0" 
 			        Name="ButtonSelecttFolder" BorderThickness="0"  FontSize="12"
 			        ToolTip="Browse for Folder" 
 			        Click="ButtonSelectFolder_Click" />
@@ -129,7 +130,7 @@
 		
 		<TextBox Grid.Row="1" Name="TextFolderPath" Text="{Binding FolderPath}"
 					 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
-					 BorderThickness="0" Background="#151515" KeyDown="TextFolderPath_KeyDown" />
+					 BorderThickness="0"  KeyDown="TextFolderPath_KeyDown" />
 
 		<TreeView Grid.Row="2" Name="TreeFolderBrowser"
 				  ItemTemplate="{StaticResource FolderTemplate}" 

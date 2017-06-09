@@ -116,6 +116,7 @@ namespace MarkdownMonster.Windows
 
             Owner = window;
             DataContext = this;
+
             mmApp.SetThemeWindowOverride(this);
 
             Loaded += PasteImage_Loaded;

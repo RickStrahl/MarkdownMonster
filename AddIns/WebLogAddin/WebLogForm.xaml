@@ -36,9 +36,9 @@
         </Grid.RowDefinitions>
 
 
-        <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" FontSize="14" Background="#222"
+        <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" FontSize="14" 
                                  BorderThickness="0" ShowDefaultCloseButton="False"  
-                                 ShowDefaultAddButton="False" 
+                                 ShowDefaultAddButton="False" Background="#222"
                                  >
             <dragablz:TabablzControl.Resources>
                 <Style TargetType="{x:Type TextBox}">
@@ -54,7 +54,7 @@
             </dragablz:TabablzControl.Resources>
 
             <controls:MetroTabItem Name="TabPublish" Header="Post to Weblog " Margin="0,0,5,0" CloseButtonEnabled="False"                                   
-                                   controls:ControlsHelper.HeaderFontSize="16" >
+                               controls:ControlsHelper.HeaderFontSize="16" >
 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
                     <Label>Title:</Label>
@@ -297,9 +297,9 @@
                                             Padding="10,3,10,0"
                                             TextTrimming="WordEllipsis"
                                             Text="{Binding Title}" 
-                                            FontWeight="Bold" Foreground="LightSteelBlue"  FontSize="16" />
+                                            FontWeight="SemiBold" Foreground="{DynamicResource HeadlineColor}"  FontSize="16" />
                                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DateCreated,StringFormat='{}{0:MMM dd, yyyy}'}" 
-                                                FontStyle="Italic" HorizontalAlignment="Right" Margin="0,0,7,0" />
+                                                FontStyle="Italic" FontSize="11" HorizontalAlignment="Right" Margin="0,0,7,0" />
                                     <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                                Padding="15,0,0,0"
                                                Text="{Binding mt_excerpt}" 
@@ -441,8 +441,7 @@
 
         </dragablz:TabablzControl>
 
-        <StatusBar  Grid.Row ="3" Height="32" Margin="0,0,0,0" 
-                    Background="{Binding Window.Background}"
+        <StatusBar  Grid.Row ="3" Height="32"                    
                     VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
                     FontSize="14" Padding="0,4,0,0">
             <StatusBar.ItemsPanel>
