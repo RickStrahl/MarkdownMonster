@@ -1,6 +1,6 @@
 <img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right"/>
 
-# Markdown Monster Change Log
+# Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.3.25
