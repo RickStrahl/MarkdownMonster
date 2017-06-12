@@ -156,7 +156,7 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Save as Html and Pdf
+                                        Save to Html and Pdf
                                     </div>                              
                                 </div>
                             </div>
@@ -358,6 +358,11 @@
                                         Gentle toolbar support
                                     </div>
                                     <div>
+                                        <i class="fa fa-check-circle"></i>
+                                        File and Folder Browser
+                                    </div>
+
+                                    <div>
                                         <i class="fa fa-check-circle"></i> 
                                         Easy image and link embedding
                                     </div>
@@ -379,12 +384,12 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Many editor themes
-                                    </div>
+                                        Dark and Light UI Themes
+                                    </div>                                    
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Customizable preview themes
-                                    </div>
+                                        Editor and Preview Theming
+                                    </div>                                    
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Weblog publishing and editing
@@ -408,7 +413,11 @@
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Extensible with .NET Add-ins
-                                    </div>                                    
+                                    </div>                   
+                                    <div>
+                                        <i class="fa fa-check-circle"></i>
+                                        High DPI Support
+                                    </div>                   
                                 </div>
                             </div>
                         </div>
@@ -423,7 +432,7 @@
                                     You can simply download and install Markdown Monster from
                                     our Web site.
                                     </p>
-                                    <div style="margin: 10px;">
+                                    <div style="margin: 21px 10px;">
                                         <a href="download.aspx" style="display: block; margin-bottom: 15px;">
                                             <img src="/images/download.gif" class="boxshadow roundbox">
                                         </a>
@@ -434,7 +443,7 @@
                                             Alternately you can also install Markdown Monster 
                                     using the Chocolatey installer:
                                         </p>
-                                        <div style="margin: 10px;">
+                                        <div style="margin: 20px 10px;">
                                             <a href="http://chocolatey.org/packages/MarkdownMonster" style="display: block">
                                                 <img src="images/chocolatey.png" style="width: 170px;margin-bottom: 8px; display: block;" alt="Chocolatey" />
                                             </a>

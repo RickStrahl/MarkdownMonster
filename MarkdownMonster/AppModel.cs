@@ -359,6 +359,12 @@ namespace MarkdownMonster
 
 		public CommandBase ShowFolderBrowserCommand { get; set; }
 
+        public CommandBase HelpCommand { get; set; }
+
+        public CommandBase GeneratePdfCommand { get; set; }
+
+        public CommandBase CommitToGitCommand { get; set; }
+
         private void CreateCommands()
         {
             // SAVE COMMAND
@@ -531,7 +537,7 @@ For now, you can use 'View in Web Browser' to view the document in your favorite
 
 Do you want to View in Browser now?
 ";
-                       var mbResult = MessageBox.Show(msg, 
+                        var mbResult = MessageBox.Show(msg, 
                             mmApp.ApplicationName, 
                             MessageBoxButton.YesNo,
                             MessageBoxImage.Asterisk,
@@ -568,19 +574,19 @@ Do you want to View in Browser now?
                 {
                     DefaultExt = ".md",
                     Filter = "Markdown files (*.md,*.markdown)|*.md;*.markdown|" +
-                            "Html files (*.htm,*.html)|*.htm;*.html|" +
-                            "Javascript files (*.js)|*.js|" +
-                            "Typescript files (*.ts)|*.ts|" +
-                            "Json files (*.json)|*.json|" +
-                            "Css files (*.css)|*.css|" +
-                            "Xml files (*.xml,*.config)|*.xml;*.config|" +
-                            "C# files (*.cs)|*.cs|" +
-                            "C# Razor files (*.cshtml)|*.cshtml|" +
-                            "Foxpro files (*.prg)|*.prg|" +
-                            "Powershell files (*.ps1)|*.ps1|" +
-                            "Php files (*.php)|*.php|" +
-                            "Python files (*.py)|*.py|" +
-                            "All files (*.*)|*.*",
+                             "Html files (*.htm,*.html)|*.htm;*.html|" +
+                             "Javascript files (*.js)|*.js|" +
+                             "Typescript files (*.ts)|*.ts|" +
+                             "Json files (*.json)|*.json|" +
+                             "Css files (*.css)|*.css|" +
+                             "Xml files (*.xml,*.config)|*.xml;*.config|" +
+                             "C# files (*.cs)|*.cs|" +
+                             "C# Razor files (*.cshtml)|*.cshtml|" +
+                             "Foxpro files (*.prg)|*.prg|" +
+                             "Powershell files (*.ps1)|*.ps1|" +
+                             "Php files (*.php)|*.php|" +
+                             "Python files (*.py)|*.py|" +
+                             "All files (*.*)|*.*",
                     CheckFileExists = true,
                     RestoreDirectory = true,
                     Multiselect = true,
@@ -610,7 +616,7 @@ Do you want to View in Browser now?
 
                 foreach (var file in fd.FileNames)
                 {
-					// TODO: Check AddRecentFile and make sure Tab Selection works
+                    // TODO: Check AddRecentFile and make sure Tab Selection works
                     Window.OpenTab(file, rebindTabHeaders: true);
                     //Window.AddRecentFile(file);
                 }
@@ -678,14 +684,14 @@ Do you want to View in Browser now?
 
             }, null);
 
-			// SHOW FILE BROWSER COMMAND
-	        ShowFolderBrowserCommand = new CommandBase((s, e) =>
-	        {
-		        mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
+            // SHOW FILE BROWSER COMMAND
+            ShowFolderBrowserCommand = new CommandBase((s, e) =>
+            {
+                mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
 
-		        mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+                mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
 
-	        });
+            });
 
             // MARKDOWN EDIT COMMANDS TOOLBAR COMMAND
             ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>
@@ -722,13 +728,13 @@ Do you want to View in Browser now?
                 GridLength glMenu = new GridLength(0);
                 GridLength glStatus = new GridLength(0);
 
-				GridLength glFileBrowser = new GridLength(0);
+                GridLength glFileBrowser = new GridLength(0);
 	            
 
 
-				if ( Window.WindowGrid.RowDefinitions[1].Height == glToolbar)
-				{
-					Window.SaveSettings();
+                if ( Window.WindowGrid.RowDefinitions[1].Height == glToolbar)
+                {
+                    Window.SaveSettings();
 
                     glToolbar = GridLength.Auto;
                     glMenu = GridLength.Auto;
@@ -743,7 +749,7 @@ Do you want to View in Browser now?
                     
                     IsFullScreen = false;
 
-	                Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+                    Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
                 }
                 else
                 {
@@ -759,7 +765,7 @@ Do you want to View in Browser now?
                     if (tokens.All(d => d != "statusbar"))
                         glStatus = GridLength.Auto;
 					
-					if (tokens.Any(d => d == "tabs"))
+                    if (tokens.Any(d => d == "tabs"))
                         mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Hidden;
 
                     if (tokens.Any(d => d == "preview"))
@@ -772,9 +778,9 @@ Do you want to View in Browser now?
                     if (tokens.Any(d => d == "maximized"))
                         Window.WindowState = WindowState.Maximized;
 
-	                Window.ShowFolderBrowser(true);
+                    Window.ShowFolderBrowser(true);
 
-					IsFullScreen = true;
+                    IsFullScreen = true;
                 }
 
                 // toolbar
@@ -792,7 +798,7 @@ Do you want to View in Browser now?
                 GridLength gl = new GridLength(0);
                 if (Window.WindowGrid.RowDefinitions[1].Height == gl)
                 {
-	                gl = GridLength.Auto; // toolbar height
+                    gl = GridLength.Auto; // toolbar height
 
                     Window.MainWindowEditorColumn.Width = new GridLength(1, GridUnitType.Star);
                     Window.MainWindowSeparatorColumn.Width = new GridLength(0);
@@ -800,15 +806,15 @@ Do you want to View in Browser now?
 
                     Window.PreviewMarkdown();
 
-	                Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+                    Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
 
-					IsPresentationMode = false;
+                    IsPresentationMode = false;
                 }
                 else
                 {
-					Window.SaveSettings();
+                    Window.SaveSettings();
 
-					mmApp.Configuration.WindowPosition.SplitterPosition =
+                    mmApp.Configuration.WindowPosition.SplitterPosition =
                         Convert.ToInt32(Window.MainWindowPreviewColumn.Width.Value);
 
                     // don't allow presentation mode for non-Markdown documents
@@ -828,9 +834,9 @@ Do you want to View in Browser now?
                     }
                     
                     Window.ShowPreviewBrowser();
-	                Window.ShowFolderBrowser(true);
+                    Window.ShowFolderBrowser(true);
 
-					Window.MainWindowEditorColumn.Width = gl;
+                    Window.MainWindowEditorColumn.Width = gl;
                     Window.MainWindowSeparatorColumn.Width = gl;
                     Window.MainWindowPreviewColumn.Width = new GridLength(1,GridUnitType.Star);
                     
@@ -849,23 +855,29 @@ Do you want to View in Browser now?
                 dom.execCommand("print",true,null);
             }, (s, e) => IsPreviewBrowserVisible);
 
-	        // PRINT PREVIEW
-	        GeneratePdfCommand = new CommandBase((s, e) =>
-	        {
-		        var form = new GeneratePdfWindow()
-		        {
-			        Owner = mmApp.Model.Window
-		        };
-		        form.Show();		        
-	        }, (s, e) => IsPreviewBrowserVisible);
-            
-		}
+            // PDF GENERATION PREVIEW
+            GeneratePdfCommand = new CommandBase((s, e) =>
+            {
+                var form = new GeneratePdfWindow()
+                {
+                    Owner = mmApp.Model.Window
+                };
+                form.Show();		        
+            }, (s, e) => IsPreviewBrowserVisible);
 
-	    public CommandBase GeneratePdfCommand { get; set; }
+            // F1 Help Command - Pass option CommandParameter="TopicId"
+            HelpCommand = new CommandBase((topicId, e) =>
+            {
+                string url = mmApp.Urls.DocumentationBaseUrl;
 
-        public CommandBase CommitToGitCommand { get; set; }
+                if (topicId != null)
+                    url = mmApp.GetDocumentionUrl(topicId as string);
 
-	    #endregion
+                ShellUtils.GoUrl(url);
+            }, (s, e) => IsPreviewBrowserVisible);            
+        }
+
+        #endregion
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

@@ -75,6 +75,9 @@ var te = window.textEditor = {
             "f5": function() {
                 // avoid page refresh
             },
+            //"f1": function () {
+            //    te.specialkey("f1");
+            //},
             // save
             "ctrl-s": function() { te.specialkey("ctrl-s"); },
             // Open document
