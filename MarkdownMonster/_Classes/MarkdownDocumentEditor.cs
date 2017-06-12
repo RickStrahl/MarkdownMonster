@@ -907,19 +907,19 @@ namespace MarkdownMonster
                 {
                     Window.Model.ToolbarInsertMarkdownCommand.Execute("image");
                 }
-                if (key == "alt-c")
+                else if (key == "alt-c")
                 {
                     Window.Model.ToolbarInsertMarkdownCommand.Execute("code");
                 }
-                if (key == "ctrl-shift-v")
+                else if (key == "ctrl-shift-v")
                 {
                     Window.Button_PasteMarkdownFromHtml(WebBrowser, null);
                 }
-                if (key == "ctrl-shift-c")
+                else if (key == "ctrl-shift-c")
                 {
                     Window.Button_CopyMarkdownAsHtml(WebBrowser, null);
                 }
-                if (key == "ctrl-shift-down")
+                else if (key == "ctrl-shift-down")
                 {
                     if (Window.PreviewBrowser.IsVisible)
                     {
@@ -927,7 +927,7 @@ namespace MarkdownMonster
                         dom.documentElement.scrollTop += 150;
                     }
                 }
-                if (key == "ctrl-shift-up")
+                else if (key == "ctrl-shift-up")
                 {
                     if (Window.PreviewBrowser.IsVisible)
                     {
@@ -936,12 +936,12 @@ namespace MarkdownMonster
                     }
                 }
                 // zooming
-                if (key == "ctrl-=")
+                else if (key == "ctrl-=")
                 {
                     mmApp.Configuration.EditorFontSize++;
                     RestyleEditor();
                 }
-                if (key == "ctrl--")
+                else if (key == "ctrl--")
                 {
                     mmApp.Configuration.EditorFontSize--;
                     RestyleEditor();

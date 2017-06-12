@@ -13,9 +13,12 @@
         TitlebarHeight="35"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"         
-        Padding="0" FontSize="13"                   
+        Padding="0" FontSize="15"             
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="620" Height="300" MinWidth="600" MinHeight="300">
+        Width="620" Height="320" MinWidth="600" MinHeight="320">
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding AppModel.HelpCommand}" CommandParameter="_4s01ezteq.htm"/>
+    </Window.InputBindings>
     <Grid Name="PageGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="34" />

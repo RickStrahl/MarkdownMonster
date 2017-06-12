@@ -18,6 +18,9 @@
         WindowStartupLocation="Manual"
         FontSize="13"  MinWidth="800" MinHeight="600"          
         Width="1100" Height="900">
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding AppModel.HelpCommand}" CommandParameter="_4nj0wbomy.htm"/>
+    </Window.InputBindings>
 
     <Grid Margin="0,0,0,0" Name="PageGrid">
         <Grid.RowDefinitions>

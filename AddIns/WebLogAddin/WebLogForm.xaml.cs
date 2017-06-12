@@ -35,8 +35,7 @@ namespace WeblogAddin
 
         public WeblogForm(WeblogAddinModel model)
         {
-            Model = model;
-			
+            Model = model;           
             model.ActivePostMetadata = new WeblogPostMetadata();
 			
             model.ActiveWeblogInfo = new WeblogInfo();

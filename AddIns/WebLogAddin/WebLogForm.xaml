@@ -28,6 +28,9 @@
         </ContextMenu>
         
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding AppModel.HelpCommand}" CommandParameter="_4rg0r0hmd.htm"/>
+    </Window.InputBindings>
     <Grid>
         
         <Grid.RowDefinitions>

@@ -12,10 +12,15 @@
         TitleCharacterCasing="Normal"
         TitlebarHeight="35"                       
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
-        WindowStartupLocation="CenterOwner"         
+        WindowStartupLocation="CenterOwner" 
+        FontSize="15"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="603.57" Height="306.403">
-    <StackPanel Margin="30">
+
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding AppModel.HelpCommand}" CommandParameter="_4xs10gaui.htm"/>
+    </Window.InputBindings>
+    <StackPanel Margin="30,20">
 
         <Label>Link Text:</Label>
         <TextBox Name="TextLinkText" Grid.Column="0"  Text="{Binding LinkText}"  
@@ -47,7 +52,7 @@
 
             <Button Name="ButtonCancel" Margin="10,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
                 <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  FontSize="20"/>
+                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
                     <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
                 </StackPanel>
             </Button>

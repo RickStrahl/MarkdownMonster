@@ -76,12 +76,14 @@ namespace MarkdownMonster.Windows
         /// Internal value
         /// </summary>
         private FolderStructure FolderStructure { get; set; } = new FolderStructure();
-
+        
         #region Initialization
 
         public FolderBrowerSidebar()
         {
             InitializeComponent();
+            Focusable = true;
+            DataContext = this;
             Loaded += FolderBrowerSidebar_Loaded;
         }
 
@@ -89,9 +91,7 @@ namespace MarkdownMonster.Windows
         private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)
         {
             var context = Resources["FileContextMenu"] as ContextMenu;
-            context.DataContext = TreeFolderBrowser;
-
-            DataContext = this;
+            context.DataContext = TreeFolderBrowser;            
         }
 
         #endregion
@@ -260,6 +260,11 @@ namespace MarkdownMonster.Windows
                     MenuCommitGit_Click(null, null);
                     e.Handled = true;
                 }
+            }
+            else if (e.Key == Key.F1)
+            {
+                mmApp.Model.HelpCommand.Execute("_4xs10gaui.htm");
+                e.Handled = true;
             }
         }
 

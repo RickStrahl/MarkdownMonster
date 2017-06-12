@@ -31,6 +31,8 @@ namespace SnagItAddin
     {
         #region Externally accessible capture interface
 
+        public AppModel AppModel { get; set; } = mmApp.Model;
+
         public ScreenCaptureConfiguration Configuration { get; set; }
 
         /// <summary>

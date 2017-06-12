@@ -32,6 +32,7 @@
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenDocumentCommand }"    />
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  CloseActiveDocumentCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding CloseActiveDocumentCommand}" />
+        <KeyBinding Key="F1" Command="{Binding HelpCommand}" />
     </Window.InputBindings>
 
     <Window.Resources>
@@ -255,7 +256,7 @@
 
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Name="MenuDocumentation" Header="Documentation"   Click="Button_Handler"/>
+                <MenuItem Name="MenuDocumentation" Header="Documentation" Command="{Binding HelpCommand}" InputGestureText="F1" />
                 <MenuItem Name="MenuMarkdownBasics" Header="Markdown Basics"   Click="Button_Handler"/>
                 <MenuItem Name="MenuCreateAddinDocumentation" Header="Documentation for Creating Addins"   Click="Button_Handler"/>
                 <MenuItem Name="MenuShowSampleDocument" Header="Show Markdown Feature Sample Document"   Click="Button_Handler"/>

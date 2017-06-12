@@ -72,7 +72,7 @@ namespace MarkdownMonster.Windows
 
         public string MarkdownFile { get; set; }
 
-
+        public AppModel AppModel { get; set; } = mmApp.Model;
 
         public CommandBase PasteCommand
         {
@@ -113,7 +113,7 @@ namespace MarkdownMonster.Windows
         public PasteImageWindow(MainWindow window)
         {
             InitializeComponent();
-
+            
             Owner = window;
             DataContext = this;
 

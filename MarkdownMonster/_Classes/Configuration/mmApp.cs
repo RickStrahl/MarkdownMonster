@@ -51,6 +51,7 @@ namespace MarkdownMonster
         public static string AllowedFileExtensions =
             ",.md,.markdown,.txt,.htm,.html,.xml,.json,.js,.ts,.css,.ps1,.bat,.cs,.prg,.config,";
 
+
         /// <summary>
         /// Returns a machine specific encryption key that can be used for passwords
         /// and other settings. 
@@ -107,11 +108,10 @@ namespace MarkdownMonster
         }
 
         private static string _internalMachineKey = null;
-
 		internal static string Signature { get; } = "S3VwdWFfMTAw";
+		internal static string PostFix { get; set;  } = "*~~*";
 
-		internal static string PostFix = "*~~*";
-
+        
         /// <summary>
         /// Application related Urls used throughout the application
         /// </summary>

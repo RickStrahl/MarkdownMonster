@@ -7,9 +7,7 @@
              xmlns:local="clr-namespace:MarkdownMonster.Windows"             
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-
-	<UserControl.Resources>
-        
+    <UserControl.Resources>
 		<local:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
 
 		<!--DataType="{x:Type local:PathItem}"-->
@@ -78,8 +76,7 @@
 	</UserControl.Resources>
 	
 	<Grid Name="GridFolderBrowser">
-		
-		
+
 		
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
