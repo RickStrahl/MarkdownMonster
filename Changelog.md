@@ -3,14 +3,26 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+
+### 1.4
+*<small>June 12th, 2017</small>*
+
+* **Version Rollup Release**   
+This release is a version rollup release that combines all the recent additions into a point release.
+
+
 ### 1.3.25
-*<small>June 9th, 2017</small>*
+*<small>June 8th, 2017</small>*
 
 * **[New Light Theme](https://markdownmonster.west-wind.com/docs/_4rg0mw5c2.htm)**   
 Added support for theme swapping with a new light theme in addition to the original dark theme.
 
 * **[Commit to Git for Active Document and File Browser](https://markdownmonster.west-wind.com/docs/_4xp0yygt2.htm)**  
 You can now quickly commit the active document or a file from the file browser to Git in a single operation. Use the new **Commit to Git and Push** operation from the tab context menu, the tools menu for the active document, or on any single file or folder in the Folder Browser to commit and push to Git. 
+
+* **F1 key links to Online Documentation**  
+Pressing F1 now opens in the online documentation. For built in features the documentation is context sensitive.
+
 
 ### 1.3.21
 *<small>June 2nd, 2017</small>*
