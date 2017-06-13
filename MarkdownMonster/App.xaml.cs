@@ -81,9 +81,7 @@ namespace MarkdownMonster
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
             DispatcherUnhandledException += App_DispatcherUnhandledException;
-#endif
-           			
-            mmApp.ApplicationStart();
+#endif           			            
         }
 
 
@@ -222,6 +220,8 @@ namespace MarkdownMonster
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            mmApp.ApplicationStart();
+
             var dotnetVersion = ComputerInfo.GetDotnetVersion();
             if (String.Compare(dotnetVersion, "4.6", StringComparison.Ordinal) < 0)
             {

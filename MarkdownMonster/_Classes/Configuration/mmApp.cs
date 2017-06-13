@@ -137,7 +137,7 @@ namespace MarkdownMonster
 
             try
             {
-                if (Configuration.SendTelemetry && Telemetry.UseApplicationInsights)
+                if (Configuration.SendTelemetry && Telemetry.UseApplicationInsights && AppInsights == null)
                 {
                     AppInsights = new TelemetryClient {InstrumentationKey = Telemetry.Key};
                     AppInsights.Context.Session.Id = Guid.NewGuid().ToString();
@@ -175,6 +175,7 @@ namespace MarkdownMonster
                     LogToLogfile("Failed to Stop Telemetry Client: " + ex.GetBaseException().Message);
                 }
                 AppInsights.Flush();
+                AppInsights = null;
             }
             else
             {                
