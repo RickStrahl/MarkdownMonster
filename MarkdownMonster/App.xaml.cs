@@ -84,8 +84,53 @@ namespace MarkdownMonster
 #endif           			            
         }
 
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            mmApp.ApplicationStart();
 
-		/// <summary>
+            var dotnetVersion = ComputerInfo.GetDotnetVersion();
+            if (String.Compare(dotnetVersion, "4.6", StringComparison.Ordinal) < 0)
+            {
+                new TaskFactory().StartNew(() => MessageBox.Show("Markdown Monster requires .NET 4.6 or later to run.\r\n\r\n" +
+                                                                 "Please download and install the latest version of .NET version from:\r\n" +
+                                                                 "https://www.microsoft.com/net/download/framework\r\n\r\n" +
+                                                                 "Exiting application and navigating to .NET Runtime Downloads page.",
+                    "Markdown Monster",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                ));
+
+                Thread.Sleep(10000);
+                ShellUtils.GoUrl("https://www.microsoft.com/net/download/framework");
+                Environment.Exit(0);
+            }
+
+            new TaskFactory().StartNew(LoadAddins);
+
+            if (mmApp.Configuration.DisableHardwareAcceleration)
+                RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
+
+            var dir = Assembly.GetExecutingAssembly().Location;
+
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(dir));
+
+            ThemeCustomizations();
+
+            if (!mmApp.Configuration.DisableAddins)
+            {
+                new TaskFactory().StartNew(() =>
+                {
+                    ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
+                    ComputerInfo.EnsureSystemPath();
+
+                    if (!Directory.Exists(mmApp.Configuration.InternalCommonFolder))
+                        Directory.CreateDirectory(mmApp.Configuration.InternalCommonFolder);
+                });
+            }
+        }
+
+
+        /// <summary>
 		/// Checks to see if app is already running and if it is pushes
 		/// parameters via NamedPipes to existing running application
 		/// and exits this instance.
@@ -215,53 +260,6 @@ namespace MarkdownMonster
         public static string UserDataPath { get; internal set; }
         public static string VersionCheckUrl { get; internal set; }
 
-
-      
-
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            mmApp.ApplicationStart();
-
-            var dotnetVersion = ComputerInfo.GetDotnetVersion();
-            if (String.Compare(dotnetVersion, "4.6", StringComparison.Ordinal) < 0)
-            {
-                new TaskFactory().StartNew(() => MessageBox.Show("Markdown Monster requires .NET 4.6 or later to run.\r\n\r\n" +
-                                                                       "Please download and install the latest version of .NET version from:\r\n" +
-                                                                       "https://www.microsoft.com/net/download/framework\r\n\r\n" +
-                                                                       "Exiting application and navigating to .NET Runtime Downloads page.",
-                    "Markdown Monster",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning
-                ));
-
-                Thread.Sleep(10000);
-                ShellUtils.GoUrl("https://www.microsoft.com/net/download/framework");
-                Environment.Exit(0);
-            }
-
-            new TaskFactory().StartNew(LoadAddins);
-
-            if (mmApp.Configuration.DisableHardwareAcceleration)
-                RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
-
-            var dir = Assembly.GetExecutingAssembly().Location;
-
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(dir));
-
-            ThemeCustomizations();
-
-            if (!mmApp.Configuration.DisableAddins)
-            {
-                new TaskFactory().StartNew(() =>
-                {
-                    ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
-                    ComputerInfo.EnsureSystemPath();
-
-                    if (!Directory.Exists(mmApp.Configuration.InternalCommonFolder))
-                        Directory.CreateDirectory(mmApp.Configuration.InternalCommonFolder);
-                });
-            }
-        }
 
         private void ThemeCustomizations()
         {
