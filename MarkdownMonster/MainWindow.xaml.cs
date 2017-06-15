@@ -134,8 +134,6 @@ namespace MarkdownMonster
 		{
 			RestoreSettings();
 
-
-
             RecentDocumentsContextList();
 			ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
 
