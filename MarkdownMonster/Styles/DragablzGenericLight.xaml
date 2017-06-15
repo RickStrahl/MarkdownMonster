@@ -193,8 +193,8 @@
         <GradientStop Color="#F1F1F1" Offset="0.0"/>
         <GradientStop Color="#eFeFeF" Offset="0.5"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="TabItem.Selected.Foreground" Color="#222222"/>
-    <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#B6B6B6"/>
+    <SolidColorBrush x:Key="TabItem.Selected.Foreground" Color="#222"/>
+    <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#dddddd"/>
     <SolidColorBrush x:Key="Button.Static.Foreground" Color="#eeeeee"/>
     <SolidColorBrush x:Key="Button.Static.Background" Color="#222222"/>    
     <SolidColorBrush x:Key="Button.Static.Border" Color="Black"/>
@@ -283,9 +283,9 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="1"/>
-        <Setter Property="Opacity" Value=".8"/>
-        <Setter Property="Width" Value="24"/>
-        <Setter Property="Height" Value="20"/>
+        <Setter Property="Opacity" Value=".5"/>
+        <Setter Property="Width" Value="25"/>
+        <Setter Property="Height" Value="22"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -1140,7 +1140,9 @@
                         
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Foreground" Value="{StaticResource TabItem.Selected.Foreground}" TargetName="Trapezoid"/>
+                            <Setter Property="FontWeight" Value="600" TargetName="Trapezoid"/>
                             <Setter Property="Background" Value="{StaticResource TabItem.Selected.Background}" TargetName="Trapezoid"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource TabItem.Selected.Border}" TargetName="Trapezoid"/>
                             <Setter Property="Padding" Value="5,4,10,5"/>
                             <Setter Property="Margin" Value="0 0 0 0"/>
                             <Setter Property="LongBasePenBrush" Value="{StaticResource TabItem.Selected.Background}" TargetName="Trapezoid"/>

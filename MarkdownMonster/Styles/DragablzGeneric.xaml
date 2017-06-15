@@ -190,8 +190,8 @@
 
     <!-- RAS: Adjusted styles for MahApps -->
     <LinearGradientBrush x:Key="TabItem.Selected.Background" EndPoint="0,1" StartPoint="0,0">
-        <GradientStop Color="#444444" Offset="0.0"/>
-        <GradientStop Color="#222222" Offset="0.5"/>
+        <GradientStop Color="#656565" Offset="0.0"/>
+        <GradientStop Color="#222222" Offset="0.4"/>
     </LinearGradientBrush>
     <SolidColorBrush x:Key="TabItem.Selected.Foreground" Color="#EEE"/>
     <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#535353"/>
@@ -208,8 +208,8 @@
 
     
     <LinearGradientBrush x:Key="TabItem.Static.Background" EndPoint="0,1" StartPoint="0,0">
-        <GradientStop Color="#656565" Offset="0.0"/>
-        <GradientStop Color="#4F4F4F" Offset="1.0"/>
+        <GradientStop Color="#595959" Offset="0.0"/>
+        <GradientStop Color="#444444" Offset="0.2"/>
     </LinearGradientBrush>
     <SolidColorBrush x:Key="TabItem.Static.Foreground" Color="#999"/>
     <SolidColorBrush x:Key="TabItem.Static.Border" Color="#111"/>
@@ -283,7 +283,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="1"/>
-        <Setter Property="Opacity" Value=".8"/>
+        <Setter Property="Opacity" Value=".5"/>
         <Setter Property="Width" Value="24"/>
         <Setter Property="Height" Value="20"/>
         <Setter Property="Template">
