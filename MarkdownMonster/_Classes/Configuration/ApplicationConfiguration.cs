@@ -140,6 +140,14 @@ namespace MarkdownMonster
         /// </summary>
         public bool AutoSaveBackups { get; set; }
 
+
+        /// <summary>
+        /// Determines whether the Preview browser always does a full 
+        /// refresh when the preview is updated. Normally MM tries to
+        /// update just the document content. Use this setting if you
+        /// are rendering custom content that includes script tags that 
+        /// need to execute in the page in the rendered content.
+        /// </summary>
         public bool AlwaysUsePreviewRefresh
         {
             get { return _alwaysUsePreviewRefresh; }
@@ -595,7 +603,7 @@ namespace MarkdownMonster
                     
             ReportErrors = true;
 
-            UseSingleWindow = false;
+            UseSingleWindow = true;
 
             IsPreviewVisible = true;
             OpenInPresentationMode = false;

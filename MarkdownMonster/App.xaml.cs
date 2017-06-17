@@ -71,8 +71,7 @@ namespace MarkdownMonster
 
 			// Singleton launch marshalls subsequent launches to the singleton instance
 			// via named pipes communication
-	        if (mmApp.Configuration.UseSingleWindow)
-		        CheckForSingletonLaunch(splashScreen);
+	        CheckCommandLineForSingletonLaunch(splashScreen);
 
             // We have to manage assembly loading for Addins 
 	        AppDomain currentDomain = AppDomain.CurrentDomain;
@@ -129,7 +128,6 @@ namespace MarkdownMonster
             }
         }
 
-
         /// <summary>
 		/// Checks to see if app is already running and if it is pushes
 		/// parameters via NamedPipes to existing running application
@@ -138,31 +136,36 @@ namespace MarkdownMonster
 		/// Otherwise app just continues
 		/// </summary>
 		/// <param name="splashScreen"></param>
-	    private static void CheckForSingletonLaunch(SplashScreen splashScreen)
-	    {
+	    private static void CheckCommandLineForSingletonLaunch(SplashScreen splashScreen)
+        {
             // fix up the startup path
-	        string filesToOpen = " ";
-	        var args = Environment.GetCommandLineArgs();
-	        if (args != null && args.Length > 1)
-	        {
-	            StringBuilder sb = new StringBuilder();
-	            for (int i = 1; i < args.Length; i++)
-	            {
-	                string file = args[i];
-	                if (string.IsNullOrEmpty(file))
-	                    continue;
+            string filesToOpen = " ";
+            var args = Environment.GetCommandLineArgs();
+            if (args != null && args.Length > 1)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 1; i < args.Length; i++)
+                {
+                    string file = args[i];
+                    if (string.IsNullOrEmpty(file))
+                        continue;
 
-	                file = file.TrimEnd('\\');
-	                file = Path.GetFullPath(file);
+                    file = file.TrimEnd('\\');
+                    file = Path.GetFullPath(file);
                     sb.AppendLine(file);
-	                
+
                     // write fixed up path arguments
                     args[i] = file;
-	            }
-	            filesToOpen = sb.ToString();
-	        }
+                }
+                filesToOpen = sb.ToString();
+            }
+
+            // Update Command Arguments
             commandArgs = args;
 
+
+            if (!mmApp.Configuration.UseSingleWindow)
+                return;
 
             bool isOnlyInstance;
 		    Mutex = new Mutex(true, @"MarkdownMonster", out isOnlyInstance);
@@ -172,7 +175,6 @@ namespace MarkdownMonster
 		    var manager = new NamedPipeManager("MarkdownMonster");
 		    manager.Write(filesToOpen);
 	        
-
             splashScreen.Close(TimeSpan.MinValue);
 
 		    // Shut down application
