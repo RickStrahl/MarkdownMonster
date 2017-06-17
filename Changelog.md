@@ -4,11 +4,18 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-### 1.4.2
+### 1.4.3
 *<small>not released yet</small>*
 
 * **Fix: Commandline File Loading and MD File Load**  
 Fixed regression bug that caused files to not load when running in single window mode. This affected loading from `.md` files in Explorer or from the command line via `mm readme.md`.
+
+* **Fix: Dragging Explorer Files Copying from external Locations**  
+Fixed issue where files dropped from Explorer were not getting copied properly into the selected project local folder.
+
+* **Fix: Better support for Text Drag and Drop**  
+Reworked drop handling in Editor so that Text dragging and dropping within the document works. Operations now work for both Move and Copy operations, but there's still an issue with the drag image being an image of the entire editor.
+
 
 ### 1.4
 *<small>June 12th, 2017</small>*
