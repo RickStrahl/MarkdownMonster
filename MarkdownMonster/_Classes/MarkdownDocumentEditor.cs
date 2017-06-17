@@ -1169,7 +1169,7 @@ namespace MarkdownMonster
 
 				    relFilePath = FileUtils.GetRelativePath(sd.FileName, docPath);
 
-				    File.Copy(file, relFilePath, true);
+				    File.Copy(file, sd.FileName, true);
 			    }
 
 			    if (!relFilePath.Contains(":\\"))
