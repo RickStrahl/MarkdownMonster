@@ -137,7 +137,9 @@ namespace MarkdownMonster
 
             try
             {
-                if (Configuration.SendTelemetry && Telemetry.UseApplicationInsights && AppInsights == null)
+                if (Configuration.SendTelemetry &&
+                    Telemetry.UseApplicationInsights && 
+                    AppInsights == null)
                 {
                     AppInsights = new TelemetryClient {InstrumentationKey = Telemetry.Key};
                     AppInsights.Context.Session.Id = Guid.NewGuid().ToString();

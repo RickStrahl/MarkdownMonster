@@ -23,6 +23,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -80,13 +81,13 @@ namespace MarkdownMonster
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
             DispatcherUnhandledException += App_DispatcherUnhandledException;
-#endif           			            
+#endif
+            // This has to be here for AppInsights not in OnStartup
+            mmApp.ApplicationStart();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            mmApp.ApplicationStart();
-
             var dotnetVersion = ComputerInfo.GetDotnetVersion();
             if (String.Compare(dotnetVersion, "4.6", StringComparison.Ordinal) < 0)
             {
