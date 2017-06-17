@@ -4,6 +4,12 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
+### 1.4.2
+*<small>not released yet</small>*
+
+* **Fix: Commandline File Loading and MD File Load**  
+Fixed regression bug that caused files to not load when running in single window mode. This affected loading from `.md` files in Explorer or from the command line via `mm readme.md`.
+
 ### 1.4
 *<small>June 12th, 2017</small>*
 
