@@ -133,7 +133,7 @@
 
 		<TreeView Grid.Row="2" Name="TreeFolderBrowser"
 				  ItemTemplate="{StaticResource FolderTemplate}" 
-				  KeyDown="TreeView_Keyup"
+				  KeyDown="TreeView_Keyup" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
 		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"
 		          PreviewMouseMove="TreeFolderBrowser_MouseMove"
 				  ItemsSource="{Binding ActivePathItem.Files}"  
