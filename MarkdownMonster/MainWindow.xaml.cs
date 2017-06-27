@@ -1528,6 +1528,14 @@ namespace MarkdownMonster
 					return;
 				editor.SpecialKey("ctrl-shift-d");
 			}
+            else if (button == ButtonWordWrap)
+			{
+			    Model.ActiveEditor?.SetWordWrap(Model.Configuration.EditorWrapText);
+			}
+            else if (button == ButtonLineNumbers)
+			{   Model.ActiveEditor?.SetShowLineNumbers(Model.Configuration.EditorShowLineNumbers);
+			}
+
 			//else if (button == ButtonRefreshBrowser)
 			//{
 			//	var editor = GetActiveMarkdownEditor();

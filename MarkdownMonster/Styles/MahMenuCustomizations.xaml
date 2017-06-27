@@ -56,10 +56,21 @@
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup" />
                                 <ColumnDefinition x:Name="Col3" Width="14" />
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter x:Name="Icon"
-                                              Grid.Column="0"
-                                              VerticalAlignment="Center"
-                                              ContentSource="Icon" />
+                            <!-- RAS: Add Checkmark Support: https://stackoverflow.com/questions/29234024/wpf-check-mark-missing-in-checkable-menuitem -->
+                            <Grid Grid.Column="0"
+                                  Margin="6,0,6,0"
+                                  x:Name="CheckMarkPanel"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Visibility="Collapsed">
+                                <Path x:Name="CheckMarkPath"
+                                      Width="8" Height="8"
+                                      Visibility="Hidden"
+                                      SnapsToDevicePixels="False"
+                                      Stroke="#cccccc"                                      
+                                      StrokeThickness="2"
+                                      Data="M1,5 L4,7 L6,0" />
+                            </Grid>
                             <ContentPresenter x:Name="HeaderHost"
                                               Grid.Column="1"
                                               Margin="{TemplateBinding Padding}"
@@ -115,7 +126,7 @@
                             <Setter TargetName="Col0" Property="MinWidth" Value="0" />
                             <Setter TargetName="Col3" Property="Width" Value="Auto" />
                             <Setter TargetName="IGTHost" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                            
                             <Setter TargetName="SubMenu" Property="Margin" Value="2 3 2 2" />
                             <Setter TargetName="SubMenuBorder" Property="BorderThickness" Value="1 1 1 1" />
                             <Setter TargetName="SubMenuPopup" Property="Placement" Value="Bottom" />
@@ -126,7 +137,7 @@
                             <Setter TargetName="Col0" Property="MinWidth" Value="0" />
                             <Setter TargetName="Col3" Property="Width" Value="Auto" />
                             <Setter TargetName="IGTHost" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                            
                         </Trigger>
                         <Trigger Property="Role" Value="SubmenuHeader">
                             <Setter Property="DockPanel.Dock" Value="Top" />
@@ -184,12 +195,33 @@
                         <Trigger Property="IsSuspendingPopupAnimation" Value="true">
                             <Setter TargetName="SubMenuPopup" Property="PopupAnimation" Value="None" />
                         </Trigger>
-                        <Trigger Property="Icon" Value="{x:Null}">
-                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
-                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource MenuDisabledForeground}" />
                         </Trigger>
+
+                        <!-- RAS: Checkable support: https://stackoverflow.com/questions/29234024/wpf-check-mark-missing-in-checkable-menuitem -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked"
+                                           Value="true" />
+                                <Condition Property="Role"
+                                           Value="SubmenuItem" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="CheckMarkPath"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsCheckable"
+                                           Value="true" />
+                                <Condition Property="Role"
+                                           Value="SubmenuItem" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="CheckMarkPanel"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

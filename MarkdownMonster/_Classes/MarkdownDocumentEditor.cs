@@ -568,6 +568,15 @@ namespace MarkdownMonster
             AceEditor?.setShowLineNumbers(show.Value);
         }
 
+        /// <summary>
+        /// Enables or disables Wordwrap
+        /// </summary>
+        /// <param name="enable"></param>
+        public void SetWordWrap(bool enable)
+        {
+            AceEditor?.setWordWrap(enable);
+        }
+
         #endregion
 
         #region Selection and Line Operations

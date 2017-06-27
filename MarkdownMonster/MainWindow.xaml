@@ -248,6 +248,19 @@
                           IsChecked="{Binding IsPresentationMode}"
                           InputGestureText="F11" 
                           IsEnabled="{Binding IsEditorActive}" />
+                <Separator />
+                <MenuItem Name="ButtonWordWrap" 
+                          Header="_Word Wrap"                         
+                          Click="Button_Handler"                                                    
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.EditorWrapText}" />
+
+                <MenuItem Name="ButtonLineNumbers" 
+                          Header="Line _Numbers"                         
+                          Click="Button_Handler"
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.EditorShowLineNumbers}"
+                />
 
                 <Separator />
                 <MenuItem Header="_Close Document" Command="{Binding CloseActiveDocumentCommand}" InputGestureText="ctrl-w"/>
