@@ -474,6 +474,9 @@ var te = window.textEditor = {
     setShowLineNumbers: function(showLineNumbers) { 
         te.editor.renderer.setShowGutter(showLineNumbers);  
     },
+    setWordWrap: function (enable) {
+        te.editor.session.setUseWrapMode(enable);
+    },
     execcommand: function(cmd,parm1,parm2) {
         te.editor.execCommand(cmd);
     },
