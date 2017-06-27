@@ -30,6 +30,7 @@
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAsCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewDocumentCommand }"  />
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenDocumentCommand }"    />
+        <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  CloseActiveDocumentCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding CloseActiveDocumentCommand}" />
         <KeyBinding Key="F1" Command="{Binding HelpCommand}" />
@@ -63,13 +64,13 @@
         <controls:WindowCommands>
             <StackPanel Orientation="Horizontal">
 						
-                   <ToggleButton   fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
-                                IsChecked="{Binding Configuration.EditorEnableSpellcheck}"
-                                ToolTip="enable/disable spell-checking"
-                                Click="ButtonSpellCheck_Click"
-                                TextElement.FontSize="16"
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                   />
+                <ToggleButton   fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
+                            IsChecked="{Binding Configuration.EditorEnableSpellcheck}"
+                            ToolTip="enable/disable spell-checking"
+                            Click="ButtonSpellCheck_Click"
+                            TextElement.FontSize="16"
+                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                />
 
                 <ToggleButton Name="ToolButtonPreview"  Foreground="{StaticResource BlueItem}"
                                 Margin="2,0"
@@ -81,7 +82,7 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
                 </ToggleButton>
 
-                <Button   Command="{Binding ShowFolderBrowserCommand}" 
+                <Button Command="{Binding ShowFolderBrowserCommand}" 
                         Margin="2,0"
 						ToolTip="Show Folder Browser pane (alt-v-f)"                                
 				        fa:Awesome.Content="FilesOutline" Foreground="{StaticResource BlueItem}"				         
@@ -129,27 +130,31 @@
               FontSize="{Binding Path=FontSize,ElementName=MainApplicationWindow}"
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File">
-                <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding NewDocumentCommand}" InputGestureText="Ctrl-N"/>
+                <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding NewDocumentCommand}" InputGestureText="ctrl-n"/>
                 <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Click="Button_Handler" />
                 <Separator/>
-                <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding OpenDocumentCommand}"  InputGestureText="Ctrl-O"/>
+                <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding OpenDocumentCommand}"  InputGestureText="ctrl-o"/>
                 <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
                 <MenuItem Name="ButtonRecentFiles" Header="Recent Documents">
                 </MenuItem>
                 <Separator/>
                 <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding SaveCommand}" 
-                          InputGestureText="Ctrl+S"/>
+                          InputGestureText="ctrl+s"/>
                 <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding SaveAsCommand}" 
-                          InputGestureText="Ctrl+Shift+S"/>
+                          InputGestureText="ctrl+shift+s"/>
 				<MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" />
 				<MenuItem Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding GeneratePdfCommand}" />
                 <Separator/>
                 <MenuItem Header="View in Web _Browser" Name="ButtonViewInWebBrowser"
                           Click="ButtonViewInBrowser_Click" 
-                          InputGestureText="Alt-V-B"
+                          InputGestureText="alt-v-b"
                           IsEnabled="{Binding IsEditorActive}" />
 				<MenuItem Name="ButtonPrintPreview" Header="_Print Output" Command="{Binding PrintPreviewCommand}" InputGestureText="ctrl-p"/>
-				<Separator />
+                <Separator />
+                <MenuItem Header="_Close Document" Command="{Binding CloseActiveDocumentCommand}" InputGestureText="ctrl-w"/>
+                <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
+
+                <Separator />
                 <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
             </MenuItem>
             <MenuItem Header="_Edit">
@@ -261,12 +266,6 @@
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.EditorShowLineNumbers}"
                 />
-
-                <Separator />
-                <MenuItem Header="_Close Document" Command="{Binding CloseActiveDocumentCommand}" InputGestureText="ctrl-w"/>
-                <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
-                
-
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Name="MenuDocumentation" Header="Documentation" Command="{Binding HelpCommand}" InputGestureText="F1" />
@@ -361,12 +360,7 @@
                                 FontWeight="Medium"  
 								TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
                         >`{ }`</Button>
-                                
-                                <!--fa:Awesome.Content="Code"
-                                Height="24" Width="24"
-                                TextElement.FontSize="16"
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                        />-->
+                                                               
                         
                         <!--<Button Name="ButtonFontAwesome" Margin="7,0" ToolTip="Insert FontAwesome Icon"
                                 Command="{Binding ToolbarInsertMarkdownCommand}" 
@@ -379,7 +373,7 @@
                         
                         <Separator />
 
-                        <Button Name="ButtonQuote" Margin="7,0" ToolTip="Quote text"
+                        <Button Name="ButtonQuote" Margin="7,0" ToolTip="Quote text (ctrl-q)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }"  
                                 CommandParameter="quote"
                                 fa:Awesome.Content="QuoteLeft"

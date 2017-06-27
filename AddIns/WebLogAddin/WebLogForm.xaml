@@ -41,7 +41,7 @@
 
         <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" FontSize="14" 
                                  BorderThickness="0" ShowDefaultCloseButton="False"  
-                                 ShowDefaultAddButton="False" Background="#222"
+                                 ShowDefaultAddButton="False" 
                                  >
             <dragablz:TabablzControl.Resources>
                 <Style TargetType="{x:Type TextBox}">
