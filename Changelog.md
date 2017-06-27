@@ -4,8 +4,14 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-### 1.4.3
+### 1.4.5
 *<small>not released yet</small>*
+
+* **Word Wrap and Line Number Toggles on Menu**  
+You can now toggle Word Wrap and Line Numbers from the **View** menu. Previously you could only set this setting globally in **Tools->Settings**.
+
+* **Add Ctrl-Q hotkey for Quoting**  
+You can now use the Ctrl-Q hotkey to quote a text selection. Select the text you want to quote and press Ctrl-Q to turn the text into quoted text. Same behavior as toolbar with a hotkey.
 
 * **Fix: Commandline File Loading and MD File Load**  
 Fixed regression bug that caused files to not load when running in single window mode. This affected loading from `.md` files in Explorer or from the command line via `mm readme.md`.
@@ -16,13 +22,11 @@ Fixed issue where files dropped from Explorer were not getting copied properly i
 * **Fix: Better support for Text Drag and Drop**  
 Reworked drop handling in Editor so that Text dragging and dropping within the document works. Operations now work for both Move and Copy operations, but there's still an issue with the drag image being an image of the entire editor.
 
-
 ### 1.4
 *<small>June 12th, 2017</small>*
 
 * **Version Rollup Release**   
 This release is a version rollup release that combines all the recent additions into a point release.
-
 
 ### 1.3.25
 *<small>June 8th, 2017</small>*
