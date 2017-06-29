@@ -668,6 +668,19 @@ namespace MarkdownMonster
             catch { }
         }
 
+        /// <summary>
+        /// Allows the PreviewBrowser to navigate to a URL for external links
+        /// so links open in the default browser rather than IE.
+        /// </summary>
+        /// <param name="url"></param>
+        public void NavigateExternalUrl(string url)
+        {
+            if (!string.IsNullOrEmpty(url))
+            {
+                ShellUtils.GoUrl(url);
+            }
+        }
+
         public void FindAndReplaceText(string search, string replace)
         {
             AceEditor?.findAndReplaceText(search, replace);
@@ -813,9 +826,11 @@ namespace MarkdownMonster
         /// <summary>
         /// Callback handler callable from JavaScript editor
         /// </summary>
-        public void PreviewMarkdownCallback()
+        public void PreviewMarkdownCallback(bool dontGetMarkdown = false)
         {
-            GetMarkdown();                        
+            if (!dontGetMarkdown)
+                GetMarkdown();                        
+
             Window.PreviewMarkdownAsync(keepScrollPosition: true);
         }
 

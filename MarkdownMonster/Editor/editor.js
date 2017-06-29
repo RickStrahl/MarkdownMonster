@@ -146,7 +146,7 @@ var te = window.textEditor = {
             if (!te.mm)
                 return;
             te.isDirty = te.mm.textbox.IsDirty();
-            te.mm.textbox.PreviewMarkdownCallback();
+            te.mm.textbox.PreviewMarkdownCallback(true);  // don't get markdown again
             te.updateDocumentStats();
         },te.previewRefresh);  
         $("pre[lang]").on("keyup", updateDocument);
