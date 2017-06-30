@@ -122,6 +122,7 @@ namespace MarkdownMonster
                 {
                     ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
                     ComputerInfo.EnsureSystemPath();
+                    ComputerInfo.EnsureAssociations();
 
                     if (!Directory.Exists(mmApp.Configuration.InternalCommonFolder))
                         Directory.CreateDirectory(mmApp.Configuration.InternalCommonFolder);

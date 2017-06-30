@@ -218,6 +218,59 @@ namespace MarkdownMonster
             }
         }
 
+        public static void EnsureAssociations(bool force = false)
+        {
+            dynamic value = null;
+
+            string pf = Environment.CurrentDirectory;
+            //.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+
+
+            if (!TryGetRegistryKey("Software\\Classes\\Markdown Monster", null, out value, true))
+            {
+                using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster", true))
+                {
+                    rk.SetValue(null, "Program Markdown Monster");
+                }
+            }
+            else
+            {
+                if (!force)                    
+                    return; // already exists
+            }
+
+            if (!TryGetRegistryKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", null, out value, true))
+            {
+                using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", true))
+                {
+                    rk.SetValue(null, $"\"{pf}\\MarkdownMonster.exe\" \"%1\"");
+                }
+            }
+
+            if (!TryGetRegistryKey("Software\\Classes\\Markdown Monster\\DefaultIcon", null, out value, true))
+            {
+                var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\DefaultIcon", true);
+                rk.SetValue(null, $"{pf}\\MarkdownMonster.exe,0");
+            }
+
+
+            if (!TryGetRegistryKey("Software\\Classes\\.md", null, out value,true))
+            {
+                var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.md");
+                rk.SetValue(null, "Markdown Monster");                
+            }
+
+            if (!TryGetRegistryKey("Software\\Classes\\.markdown", null, out value, true))
+            {
+                using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.markdown"))
+                {
+                    rk.SetValue(null, "Markdown Monster");
+                }
+            }
+
+            
+        }
+
         public static void EnsureSystemPath()
         {
             try
