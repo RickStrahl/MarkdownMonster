@@ -19,14 +19,15 @@ $(document).ready(function() {
     highlightCode();
 
     // navigate all links externally in default browser
-    $(document).on("click","a",function(e) {
-        var url = this.href;
-        if (url.substr(0, 4) === "http") {
-            te.mmEditor.NavigateExternalUrl(url);
-            e.preventDefault();
-            return false;
-        }
-    });
+    $(document).on("click","a",
+        function(e) {
+            var url = this.href;
+            if (url.substr(0, 4) === "http" &&
+                te.mmEditor.NavigateExternalUrl(url)) {
+                    e.preventDefault();
+                    return false;                
+            }
+        });
 });
 
 $(document).on("contextmenu", function () {

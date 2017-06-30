@@ -92,6 +92,23 @@ namespace MarkdownMonster
         }
         private PreviewSyncMode _previewSyncMode;
 
+        
+        /// <summary>
+        /// If set to true causes Http links in the Previewer
+        /// to be opened in the default system Web Browser
+        /// </summary>
+        public bool PreviewHttpLinksExternal
+        {
+            get { return _previewHttpLinksExternal; }
+            set
+            {
+                if (value == _previewHttpLinksExternal) return;
+                OnPropertyChanged();
+                _previewHttpLinksExternal = value;
+            }
+        }
+        private bool _previewHttpLinksExternal;
+
         /// <summary>
         /// String that holds any of the following as a comma delimited string
         /// in all lower case:
@@ -593,6 +610,8 @@ namespace MarkdownMonster
             EditorEnableSpellcheck = true;
             EditorDictionary = "EN_US";
             EditorKeyboardHandler = "default";  // vim,emacs
+
+            PreviewHttpLinksExternal = true;
 
             UseMachineEncryptionKeyForPasswords = true;
 

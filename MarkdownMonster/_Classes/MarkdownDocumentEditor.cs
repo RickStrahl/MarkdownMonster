@@ -668,24 +668,6 @@ namespace MarkdownMonster
             catch { }
         }
 
-        /// <summary>
-        /// Allows the PreviewBrowser to navigate to a URL for external links
-        /// so links open in the default browser rather than IE.
-        /// </summary>
-        /// <param name="url"></param>
-        public void NavigateExternalUrl(string url)
-        {
-            if (!string.IsNullOrEmpty(url))
-            {
-                ShellUtils.GoUrl(url);
-            }
-        }
-
-        public void FindAndReplaceText(string search, string replace)
-        {
-            AceEditor?.findAndReplaceText(search, replace);
-        }
-
         public void FindAndReplaceTextInCurrentLine(string search, string replace)
         {
             AceEditor?.findAndReplaceTextInCurrentLine(search, replace);
@@ -1131,6 +1113,28 @@ namespace MarkdownMonster
                 MessageBox.Show("Link to Edit", text);
             }
             return null;
+        }
+
+        public void FindAndReplaceText(string search, string replace)
+        {
+            AceEditor?.findAndReplaceText(search, replace);
+        }
+
+        /// <summary>
+        /// Allows the PreviewBrowser to navigate to a URL for external links
+        /// so links open in the default browser rather than IE.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>true if handled (navigated) false if passed through and expected to navigate</returns>
+        public bool NavigateExternalUrl(string url)
+        {
+            if (mmApp.Configuration.PreviewHttpLinksExternal &&  !string.IsNullOrEmpty(url))
+            {
+                ShellUtils.GoUrl(url);
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
