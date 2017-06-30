@@ -47,6 +47,7 @@ h5, h6 {
 a,a:visited {
     text-decoration: none;
     color: steelblue;
+    font-weight: 600;
 }
 a:hover {
     text-decoration: underline;

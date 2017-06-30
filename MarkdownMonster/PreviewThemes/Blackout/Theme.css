@@ -15,7 +15,7 @@ html, body {
     -ms-overflow-style: -ms-autohiding-scrollbar !important;    
 } 
 a {
-    font-weight: bold;
+    font-weight: 600;
     color: lightsteelblue;
     text-decoration: none;
 }

@@ -31,7 +31,7 @@ h5, h6 {
     font-size: 1em;
 }
 a {
-    font-weight: bold;
+    font-weight: 600;
 }
 code {
     color: firebrick;
