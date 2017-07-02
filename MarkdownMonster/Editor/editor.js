@@ -624,25 +624,26 @@ window.onmousewheel = function(e) {
 
 
 // handle file browser dragged files dropped
-//window.ondrop =
-//	function (e) {
-//		// these don't really have any effect'
-//		//e.stopPropagation();
-//		//e.preventDefault();	
-//	    alert('made it');
-//        var file = e.dataTransfer.getData('text');	    
-//		if (file) {
-//			//// IE will *ALWAYS* drop the file text but selects the drops text
-//			//// delay and the collapse selection and let
-//			//// WPF paste the image expansion
-//			setTimeout(function () {				
-//				te.mm.textbox.EmbedDroppedFileAsImage(file);
-//			},1);			
-//		}
-//		te.setselection(''); // collapse selection
+window.ondrop =
+	function (e) {
+		// these don't really have any effect'
+		//e.stopPropagation();
+		//e.preventDefault();		    
+        var file = e.dataTransfer.getData('text');	    
+        if (file && /(.png|.jpg|.gif|.jpeg|.bmp|.svg)$/i.test(file)) {
+			//// IE will *ALWAYS* drop the file text but selects the drops text
+			//// delay and the collapse selection and let
+			//// WPF paste the image expansion
+			setTimeout(function () {				
+				te.mm.textbox.EmbedDroppedFileAsImage(file);
+            }, 1);		
+            
+            te.setselection(''); // collapse selection
 
-//		return false;
-//    };
+            return false;
+		}
+	
+    };
 window.ondragstart = function (e) {    
     e.dataTransfer.effectAllowed = 'all';  
 }

@@ -3,6 +3,22 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+
+### 1.4.6
+*<small>not released yet</small>*
+
+* **HTTP Links now rendered in external Browser**  
+Embedded HTTP links in the document that point to external sites with explicit URLs (not relative urls) are now opened in the default system browser rather than inside the previewer or - for links with explicit targets - Internet Explorer. MM intercepts navigation to http links and displays the content in the default browser.
+
+* **Installer no longer requires Admin Privileges**  
+The full installer no longer requires admin priviliges as the installer now installs all registry keys in the Current User store.
+
+* **Portable Install now supports Markdown File Associations**  
+We've added support code to add `.md` and `.markdown` file extension assocation to Markdown Monster using Current User registry keys, so admin rights are not longer required. This makes all MM features available to the portable install.
+
+* **Fix: File Browser Drag Image into Document**  
+Fixed issue with File Browser image dropping. Works again as well as text selection drag and drop in editor.
+
 ### 1.4.5
 *<small>June 26th, 2017</small>*
 
