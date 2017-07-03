@@ -71,4 +71,54 @@ namespace MarkdownMonster.Windows
             await disp.BeginInvoke(action, priority, parm);
         }
     }
+
+
+    /// <summary>
+    /// Debounces events by a given timeout. Effectively delays execution of
+    /// the provided action until after the timeout has passed and no further
+    /// events have fired within the timeout period. Any events fired before
+    /// the last are discarded.
+    /// 
+    /// Use this to ensure that events aren't handled too frequently and are
+    /// delayed until an operation is completed (like keyboard input or
+    /// sizing operations for example).
+    /// </summary>
+    public class DebounceDispatcher
+    {
+        private DispatcherTimer timer;
+
+        /// <summary>
+        /// Debounce an actual event. Essentially wrap the logic you 
+        /// would normally use in your event code in an Action of object
+        /// and pass to this method to debounce the event.
+        /// Example: https://gist.github.com/RickStrahl/0519b678f3294e27891f4d4f0608519a
+        /// </summary>
+        /// <param name="timeout">Timeout in Milliseconds</param>
+        /// <param name="action">Action<object> to fire when debounced event fires</object></param>
+        /// <param name="param">optional parameter</param>
+        /// <param name="priority">optional priorty for the dispatcher</param>
+        /// <param name="disp">optional dispatcher. If not passed or null CurrentDispatcher is used.</param>
+        public void Debounce(int timeout, Action<object> action,
+            object param = null,
+            DispatcherPriority priority = DispatcherPriority.ApplicationIdle,
+            Dispatcher disp = null)
+        {
+            if (disp == null)
+                disp = Dispatcher.CurrentDispatcher;
+
+            if (timer == null)
+            {
+                timer = new DispatcherTimer(TimeSpan.FromMilliseconds(timeout), priority, (s, e) =>
+                {
+                    timer.IsEnabled = false;
+                    action.Invoke(param);
+                }, disp)
+                { IsEnabled = true };
+            }
+            else
+                timer.IsEnabled = false;
+
+            timer.IsEnabled = true;
+        }
+    }
 }
