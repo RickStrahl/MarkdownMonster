@@ -137,8 +137,7 @@ namespace MarkdownMonster
             RecentDocumentsContextList();
 			ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
 
-
-			OpenFilesFromCommandLine();
+            OpenFilesFromCommandLine();
 
 		    if (mmApp.Configuration.ApplicationUpdates.FirstRun)
 			{
@@ -1772,9 +1771,11 @@ namespace MarkdownMonster
 			});
 		}
 
-		#endregion
+        #endregion
 
-		#region StatusBar Display
+        #region StatusBar Display
+
+        DebounceDispatcher debounce = new DebounceDispatcher();
 
 		public void ShowStatus(string message = null, int milliSeconds = 0)
 		{
@@ -1785,15 +1786,20 @@ namespace MarkdownMonster
 			}
 
 			StatusText.Text = message;
-
+            
 			if (milliSeconds > 0)
 			{
-				Dispatcher.DelayWithPriority(milliSeconds, (win) =>
-				{
-					var window = win as MainWindow;
-					window.ShowStatus(null, 0);
-				}, this);
-			}
+                debounce.Debounce(milliSeconds,(win) =>
+                {
+                        var window = win as MainWindow;
+                        window.ShowStatus(null, 0);
+                }, this);
+                //            Dispatcher.DelayWithPriority(milliSeconds, (win) =>
+                //{
+                //	var window = win as MainWindow;
+                //	window.ShowStatus(null, 0);
+                //}, this);
+            }
 			WindowUtilities.DoEvents();
 		}
 
