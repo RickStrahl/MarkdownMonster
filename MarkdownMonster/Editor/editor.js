@@ -630,6 +630,8 @@ window.ondrop =
 		//e.stopPropagation();
 		//e.preventDefault();		    
         var file = e.dataTransfer.getData('text');	    
+
+        // image file names dropped from FolderBrowser
         if (file && /(.png|.jpg|.gif|.jpeg|.bmp|.svg)$/i.test(file)) {
 			//// IE will *ALWAYS* drop the file text but selects the drops text
 			//// delay and the collapse selection and let
