@@ -21,7 +21,7 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 ;ArchitecturesInstallIn64BitMode=x64
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName={userappdata}\{#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=.\license.txt
 OutputDir=.\Builds\CurrentRelease
@@ -37,7 +37,7 @@ WizardSmallImageFile=WizIcon.bmp
 WizardImageFile=WizBanner.bmp
 CloseApplicationsFilter=*.exe
 ;CloseApplicationsFilter=*.exe,*.dll,*.chm,*.ttf
-;PrivilegesRequired=lowest
+PrivilegesRequired=lowest
 AlwaysShowDirOnReadyPage=yes
 DisableDirPage=false
 
@@ -49,7 +49,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 
 [Dirs]
-Name: "{pf}\{#MyAppName}\Addins"; Permissions: everyone-modify
+Name: "{userappdata}\{#MyAppName}\Addins"; Permissions: everyone-modify
 
 [Files]
 Source: ".\Distribution\MarkdownMonster.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -78,7 +78,7 @@ Root: HKCU; Subkey: "Software\Classes\{#MyAppName}\shell\open\command"; ValueDat
 Root: HKCU; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"; ValueType: dword; ValueName: "MarkdownMonster.exe"; ValueData: "11001"; Flags: createvalueifdoesntexist
 
 ; Add MM to user's system path
-Root: HKCU; Subkey: "Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{pf}\{#MyAppName}" ; Check: NeedsAddPath('{pf}\{#MyAppName}')
+Root: HKCU; Subkey: "Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{userappdata}\{#MyAppName}" ; Check: NeedsAddPath('{userappdata}\{#MyAppName}')
 
 [Code]
 function GetUninstallString: string;
@@ -127,7 +127,7 @@ var
   sUnInstallString: string;
 begin
   Result := True; // in case when no previous version is found
-  if RegValueExists(HKEY_LOCAL_MACHINE,'Software\Microsoft\Windows\CurrentVersion\Uninstall\{E3476879-4D00-405A-B058-90D4AEAD7C4A}_is1', 'UninstallString') then  //Your App GUID/ID
+  if RegValueExists(HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Uninstall\{E3476879-4D00-405A-B058-90D4AEAD7C4A}_is1', 'UninstallString') then  //Your App GUID/ID
   begin
   //  V := MsgBox(ExpandConstant('Hey! An old version of app was detected. Do you want to uninstall it?'), mbInformation, MB_YESNO); //Custom Message if App installed
   //  if V = IDYES then
