@@ -119,7 +119,7 @@ namespace MarkdownMonster.Windows
             // if timeout is not up yet - adjust timeout to fire 
             // with potentially new Action parameters           
             if (curTime.Subtract(timerStarted).TotalMilliseconds < interval)
-                interval = (int)curTime.Subtract(timerStarted).TotalMilliseconds;
+                interval -= (int)curTime.Subtract(timerStarted).TotalMilliseconds;
 
             timer = new DispatcherTimer(TimeSpan.FromMilliseconds(interval), priority, (s, e) =>
             {
