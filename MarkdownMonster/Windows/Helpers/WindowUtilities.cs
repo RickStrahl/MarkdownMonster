@@ -37,7 +37,13 @@ namespace MarkdownMonster.Windows
         /// </summary>
         public static void DoEvents()
         {
-            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new EmptyDelegate(delegate { }));
+            try
+            {
+                Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new EmptyDelegate(delegate { }));
+            }
+            catch
+            {                
+            }
         }
 
         /// <summary>
