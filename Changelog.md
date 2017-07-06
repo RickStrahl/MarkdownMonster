@@ -9,6 +9,9 @@
 * **HTTP Links now rendered in external Browser**  
 Embedded HTTP links in the document that point to external sites with explicit URLs (not relative URLs) are now opened in the default system browser rather than inside the previewer or - for links with explicit targets - Internet Explorer. MM intercepts navigation to http links and displays the content in the default browser.
 
+* **Save as Encrypted File**   
+You can now use a password to encrypt files when they are saved to disk. Using the new **Save as Encrypted File** option files are encrypted using TripleDES encryption using a password you provide. Encryption works for any text file you can open in MM, not just markdown files.
+
 * **Installer no longer requires Admin Privileges**  
 The full installer no longer requires admin privileges as the installer now installs all registry keys in the Current User store. The install folder is now `%applocaldata%\Markdown Monster` which doesn't require admin rights.
 
