@@ -11,6 +11,7 @@
 
 
 ### Mid Term
+* [ ] Add File Encryption as an Option
 * [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
 
 ### Bugs
