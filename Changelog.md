@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.4.8
-*<small>not released yet</small>*
+*<small>July 6th, 2017</small>*
 
 * **HTTP Links now rendered in external Browser**  
 Embedded HTTP links in the document that point to external sites with explicit URLs (not relative URLs) are now opened in the default system browser rather than inside the previewer or - for links with explicit targets - Internet Explorer. MM intercepts navigation to http links and displays the content in the default browser.
