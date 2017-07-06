@@ -43,6 +43,7 @@ using System.Windows.Threading;
 using Newtonsoft.Json;
 using Westwind.Utilities;
 using System.Linq;
+using System.Security;
 
 namespace MarkdownMonster
 {
@@ -54,6 +55,8 @@ namespace MarkdownMonster
     [ComVisible(true)]
     public class MarkdownDocument : INotifyPropertyChanged
     {
+        private const string ENCRYPTION_PREFIX = "__ENCRYPTED__";
+
         /// <summary>
         /// Name of the Markdown file. If this is a new file the file is 
         /// named 'untitled'
@@ -216,7 +219,6 @@ namespace MarkdownMonster
             get { return _encoding; }
             set { _encoding = value; }
         }
-
         private Encoding _encoding = Encoding.UTF8;
 
         /// <summary>
@@ -313,7 +315,10 @@ namespace MarkdownMonster
         }
         private string _currentText;
 
+        [JsonIgnore]
+        public SecureString Password { get; set; }
 
+        
         /// <summary>
         /// The original text of the document since the last save
         /// operation. Updated whenever a document is saved.
@@ -340,10 +345,12 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public bool Load(string filename = null)
+        public bool Load(string filename = null, SecureString password = null)
         {
             if (string.IsNullOrEmpty(filename))
                 filename = Filename;
+
+            Password = password;
 
             if (!File.Exists(filename))
             {
@@ -357,9 +364,21 @@ namespace MarkdownMonster
             try
             {
                 CurrentText = File.ReadAllText(filename,Encoding);
+
+                if (password != null)
+                {
+                    if (CurrentText.StartsWith(ENCRYPTION_PREFIX))
+                    {
+                        string encrypted = CurrentText.Substring(ENCRYPTION_PREFIX.Length);
+                        CurrentText = Encryption.DecryptString(encrypted, password.GetString());
+                    }
+                }
+
                 OriginalText = CurrentText;
                 AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
                 AutoSaveDocuments = mmApp.Configuration.AutoSaveDocuments;
+
+                Filename = filename;
             }
             catch
             {
@@ -378,7 +397,7 @@ namespace MarkdownMonster
         /// <param name="filename">filename to save (optional)</param>
         /// <param name="noBackupFileCleanup">if true doesn't delete backup files that might exist</param>
         /// <returns>true or false (no exceptions on failure)</returns>
-        public bool Save(string filename = null, bool noBackupFileCleanup = false)
+        public bool Save(string filename = null, bool noBackupFileCleanup = false, SecureString password = null)
         {
             if (string.IsNullOrEmpty(filename))
                 filename = Filename;
@@ -389,7 +408,18 @@ namespace MarkdownMonster
                 {
                     _IsSaving = true;
 
-                    File.WriteAllText(filename, CurrentText, Encoding);
+                    string fileText = CurrentText;
+
+                    password = password ?? Password;
+
+                    if (password != null)
+                    {
+                        fileText = ENCRYPTION_PREFIX + Encryption.EncryptString(fileText, password.GetString());
+                        if (Password == null)
+                            Password = password;
+                    }
+
+                    File.WriteAllText(filename, fileText, Encoding);
                     OriginalText = CurrentText;
 
                     UpdateCrc(filename);
@@ -410,6 +440,37 @@ namespace MarkdownMonster
             return true;
         }
 
+        /// <summary>
+        /// Determines whether the file on disk is encrypted
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public bool IsFileEncrypted(string filename)
+        {
+            filename = filename ?? Filename;
+
+            if (string.IsNullOrEmpty(filename))
+                return false;
+
+            
+            using (var fs = File.OpenRead(Filename))
+            {
+                int count;
+                var bytes = new char[ENCRYPTION_PREFIX.Length];
+
+                using (var sr = new StreamReader(fs))
+                {
+                    count = sr.Read(bytes, 0, bytes.Length);
+                }
+                if (count == ENCRYPTION_PREFIX.Length)
+                {
+                    if (new string(bytes) == ENCRYPTION_PREFIX)
+                        return true;
+                }
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Cleans up after the file is closed by deleting
@@ -732,5 +793,34 @@ namespace MarkdownMonster
         }
 
         
+    }
+
+    static class SecureStringExtensions
+    {
+        public static string GetString(
+            this SecureString source)
+        {
+            string result = null;
+            int length = source.Length;
+            IntPtr pointer = IntPtr.Zero;
+            char[] chars = new char[length];
+
+            try
+            {
+                pointer = Marshal.SecureStringToBSTR(source);
+                Marshal.Copy(pointer, chars, 0, length);
+
+                result = string.Join("", chars);
+            }
+            finally
+            {
+                if (pointer != IntPtr.Zero)
+                {
+                    Marshal.ZeroFreeBSTR(pointer);
+                }
+            }
+
+            return result;
+        }
     }
 }
