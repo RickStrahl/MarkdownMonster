@@ -13,7 +13,9 @@ Embedded HTTP links in the document that point to external sites with explicit U
 You can now use a password to encrypt files when they are saved to disk. Using the new **Save as Encrypted File** option files are encrypted using TripleDES encryption using a password you provide. Encryption works for any text file you can open in MM, not just markdown files.
 
 * **Installer no longer requires Admin Privileges**  
-The full installer no longer requires admin privileges as the installer now installs all registry keys in the Current User store. The install folder is now `%applocaldata%\Markdown Monster` which doesn't require admin rights.
+The full installer no longer requires admin privileges and installs into `%AppLocalData%\Markdown Monster`. MM now sets all registry keys - including file associations - in the Current User store so no admin access is required for installation or running MM.
+ > #### Recommend: Manual Uninstall for existing Installation
+ > We recommend you do a full uninstall, before reinstalling Markdown Monster 4.18. Because the install location changed, update installs will continue to install to the old **Program Files (x86)** location. A manual Uninstall ensures that files get moved to the new **%applocaldata%** location that doesn't require admin privileges. Configuration settings are preserved across locations.
 
 * **Portable Install now supports Markdown File Associations**  
 We've added support code to add `.md` and `.markdown` file extension association to Markdown Monster using Current User registry keys, so admin rights are not longer required. This makes all MM features available to the portable install.
