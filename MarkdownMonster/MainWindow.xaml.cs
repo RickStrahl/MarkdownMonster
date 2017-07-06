@@ -446,7 +446,23 @@ namespace MarkdownMonster
 						}
 					}
 
-					if (!doc.Load())
+				    if (doc.Password == null && doc.IsFileEncrypted())
+				    {
+				        var pwdDialog = new FilePasswordDialog(doc,true)
+				        {
+				            Owner = this
+				        };
+				        bool? pwdResult = pwdDialog.ShowDialog();
+				        if (pwdResult == false)
+				        {
+				            ShowStatus("Encrypted document not opened, due to missing password.",
+				                mmApp.Configuration.StatusTimeout);
+				            return null;
+				        }
+				    }
+                    
+
+				    if (!doc.Load())
 					{
 						if (!batchOpen)
 							MessageBox.Show(
@@ -782,7 +798,7 @@ namespace MarkdownMonster
 			config.Write();
 		}
 
-		public bool SaveFile()
+		public bool SaveFile(bool secureSave = false)
 		{
 			var tab = TabControl.SelectedItem as TabItem;
 			if (tab == null)
@@ -793,6 +809,13 @@ namespace MarkdownMonster
 			var doc = editor?.MarkdownDocument;
 			if (doc == null)
 				return false;
+
+            // prompt for password on a secure save
+		    if (secureSave && editor.MarkdownDocument.Password == null)
+		    {
+		        var pwdDialog = new FilePasswordDialog(editor.MarkdownDocument,false);
+		        pwdDialog.ShowDialog();
+		    }
 
 			if (!editor.SaveDocument())
 			{
@@ -1173,7 +1196,7 @@ namespace MarkdownMonster
 
 				string renderedHtml = null;
 
-				if (string.IsNullOrEmpty(ext) || ext == "md" || ext == "markdown" || ext == "html" || ext == "htm")
+				if (string.IsNullOrEmpty(ext) || ext == "md" || ext=="mdcrypt" || ext == "markdown" || ext == "html" || ext == "htm")
 				{
 					dynamic dom = null;
 					if (!showInBrowser)
@@ -1339,7 +1362,7 @@ namespace MarkdownMonster
 			return tab?.Tag as MarkdownDocumentEditor;
 		}
 
-		bool CheckForNewVersion(bool force, bool closeForm = true, int timeout = 1500)
+		bool CheckForNewVersion(bool force, bool closeForm = true, int timeout = 2000)
 		{
 			var updater = new ApplicationUpdater(typeof(MainWindow));
 			bool isNewVersion = updater.IsNewVersionAvailable(!force, timeout: timeout);

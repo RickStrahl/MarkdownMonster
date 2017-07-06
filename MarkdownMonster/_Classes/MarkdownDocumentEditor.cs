@@ -209,13 +209,29 @@ namespace MarkdownMonster
         /// If there's no active filename a file save dialog
         /// is popped up. 
         /// </summary>1
-        public bool SaveDocument()
+        public bool SaveDocument(bool isEncrypted = false)
         {
+
             if (MarkdownDocument == null || AceEditor == null || 
                !AddinManager.Current.RaiseOnBeforeSaveDocument(MarkdownDocument))
                 return false;
             
             GetMarkdown();
+            
+            if (isEncrypted && MarkdownDocument.Password == null)
+            {
+                var pwdDialog = new FilePasswordDialog(MarkdownDocument, true)
+                {
+                    Owner = Window
+                };
+                bool? pwdResult = pwdDialog.ShowDialog();
+                if (pwdResult == false)
+                {
+                    Window.ShowStatus("Encrypted document not opened, due to missing password.",
+                        mmApp.Configuration.StatusTimeout);
+                    return false;
+                }
+            }
 
             if (!MarkdownDocument.Save())
                 return false;

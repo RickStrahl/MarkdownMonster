@@ -315,10 +315,45 @@ namespace MarkdownMonster
         }
         private string _currentText;
 
+        
+        /// <summary>
+        /// Holds the username and password
+        /// </summary>
         [JsonIgnore]
-        public SecureString Password { get; set; }
+        public SecureString Password
+        {
+            get { return _password; }
+            set
+            {
+                if (_password == value) return;
+                _password = value;
+                if (_password==null)
+                    _isEncrypted = false;
+                else
+                    _isEncrypted = true;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsEncrypted));
+            }
+        }
+        private SecureString _password;
 
         
+
+        /// <summary>
+        /// Determines whether the file is encrypted
+        /// </summary>
+        public bool IsEncrypted
+        {
+            get { return _isEncrypted; }
+            set
+            {
+                if (_isEncrypted == value) return;
+                _isEncrypted = value;
+                OnPropertyChanged();                
+            }
+        }
+        private bool _isEncrypted;
+
         /// <summary>
         /// The original text of the document since the last save
         /// operation. Updated whenever a document is saved.
@@ -350,8 +385,11 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(filename))
                 filename = Filename;
 
-            Password = password;
-
+            if (password == null)
+                password = Password;
+            else
+                Password = password;
+            
             if (!File.Exists(filename))
             {
                 FileCrc = null;
@@ -381,7 +419,7 @@ namespace MarkdownMonster
                 Filename = filename;
             }
             catch
-            {
+            {                
                 return false;
             }
             
@@ -443,9 +481,9 @@ namespace MarkdownMonster
         /// <summary>
         /// Determines whether the file on disk is encrypted
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">Optional filename - if not specified Filename is used</param>
         /// <returns></returns>
-        public bool IsFileEncrypted(string filename)
+        public bool IsFileEncrypted(string filename = null)
         {
             filename = filename ?? Filename;
 

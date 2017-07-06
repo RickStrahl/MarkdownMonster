@@ -396,7 +396,8 @@ namespace MarkdownMonster
 	    public Dictionary<string, string> EditorExtensionMappings { get; set; } = new Dictionary<string, string>
 	    {
 		    {"md", "markdown"},
-		    {"json", "json"},
+	        {"mdcrypt", "markdown"},
+            {"json", "json"},
 		    {"html", "html"},
 			{ "htm", "html" },
 
@@ -568,9 +569,13 @@ namespace MarkdownMonster
 		internal string InternalCommonFolder { get; set; }
 
         internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
-	    
 
-	    #endregion
+        /// <summary>
+        /// Statusbar timeout length
+        /// </summary>
+        internal int StatusTimeout { get; set; } = 7000;
+
+        #endregion
 
         public ApplicationConfiguration()
         {

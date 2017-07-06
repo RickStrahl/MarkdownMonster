@@ -393,8 +393,10 @@ namespace MarkdownMonster
             });
 
             // SAVEAS COMMAND
-            SaveAsCommand = new CommandBase((s, e) =>
+            SaveAsCommand = new CommandBase((parameter, e) =>
             {
+                bool isEncrypted = parameter != null && parameter.ToString() == "Secure";
+
                 var tab = Window.TabControl?.SelectedItem as TabItem;
                 if (tab == null)
                     return;
@@ -403,8 +405,8 @@ namespace MarkdownMonster
                     return;
 
                 var filename = doc.MarkdownDocument.Filename;
-
                 var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
+              
                 if (filename == "untitled")
                 {
                     folder = mmApp.Configuration.LastFolder;
@@ -425,6 +427,7 @@ namespace MarkdownMonster
                     if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
                         folder = KnownFolders.GetPath(KnownFolder.Libraries);
                 }
+
 
                 SaveFileDialog sd = new SaveFileDialog
                 {
@@ -453,6 +456,16 @@ namespace MarkdownMonster
                         MessageBoxImage.Error);
                 }
 
+                if (!isEncrypted)
+                    doc.MarkdownDocument.Password = null;
+                else
+                {
+                    var pwdDialog = new FilePasswordDialog(doc.MarkdownDocument, true)
+                    {
+                        Owner = Window
+                    };
+                    bool? pwdResult = pwdDialog.ShowDialog();                            
+                }
 
                 if (result != null && result.Value)
                 {
@@ -471,12 +484,12 @@ namespace MarkdownMonster
                 Window.SetWindowTitle();
                 Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
-            {
+            {                
                 if (ActiveDocument == null)
                     return false;
 
                 return true;
-            });
+            });            
 
             // SAVEASHTML COMMAND
             SaveAsHtmlCommand = new CommandBase((s, e) =>

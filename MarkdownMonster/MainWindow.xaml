@@ -140,10 +140,12 @@
                 <MenuItem Name="ButtonRecentFiles" Header="Recent Documents">
                 </MenuItem>
                 <Separator/>
-                <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding SaveCommand}" 
+                <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding SaveCommand}"  
                           InputGestureText="ctrl+s"/>
-                <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding SaveAsCommand}" 
+                <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding SaveAsCommand}"  
                           InputGestureText="ctrl+shift+s"/>
+                <MenuItem Name="ButtonSaveAsSecureFile" Header="Save As _Encrypted File" Command="{Binding SaveAsCommand}" CommandParameter="Secure"  />
+                
 				<MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" />
 				<MenuItem Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding GeneratePdfCommand}" />
                 <Separator/>
