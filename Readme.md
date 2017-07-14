@@ -224,10 +224,15 @@ Markdown Monster can be downloaded and evaluated for free, but a [reasonably pri
 Thanks for playing fair.
 
 #### Contribute - get a Free License
-Contributors that provide valuable feedback, help out with code or support Markdown Monster in a significant way are eligible for a free license. Contact [Rick for more info](http://west-wind.com/contact/).
+Contributors that provide valuable feedback, help out with code/PRs, actively promote Markdown Monster or support Markdown Monster in any other significant way are eligible for a free license. Contact [Rick for more info](http://west-wind.com/contact/).
+
+#### Microsoft MVPs and Microsoft Employees get free Licenses
+If you are a current Microsoft MVP or Insider, a Microsoft employee, or an employee of a company that offers free tools to Microsoft MVPs you qualify for a free license. Basically I want to give back to those that have given to the community and shared their knowledge or work. I'll consider anybody who has given back to the community for a free license. Contact [Rick for more info](http://west-wind.com/contact/).
 
 ## Warranty Disclaimer: No Warranty!
 IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE 
 THIS PROGRAM AND DOCUMENTATION, BE LIABLE FOR ANY COMMERCIAL, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM INCLUDING, BUT NOT LIMITED TO, LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR LOSSES SUSTAINED BY THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 
-&copy; Rick Strahl, West Wind Technologies, 2016
+---
+
+&copy; Rick Strahl, West Wind Technologies, 2016-2017
