@@ -46,15 +46,6 @@ Markdown Monster provides many useful features:
 * Save rendered output as HTML and PDF documents
 * Print rendered output to printer or PDF documents
 
-#### File Operations
-* Editor remembers open documents by default (optional)
-* Auto-Save and Auto-Backup support
-* Integrated folder browser
-* Save files with encryption
-* File and Folder Browser
-* Drag and drop from Explorer and Folder Browser
-
-
 #### Editing Features
 * Smartly select and embed images from disk or URL
 * Paste images from Clipboard at cursor
@@ -62,6 +53,15 @@ Markdown Monster provides many useful features:
 * Embed code snippets and see highlighted syntax coloring
 * Text Snippet Expansion with C# Code via [Snippets Addin](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
 
+#### File Operations
+* Editor remembers open documents by default (optional)
+* Auto-Save and Auto-Backup support
+* Integrated file and folder browser
+* Save files with encryption
+* Drag and drop from Explorer and Folder Browser
+* Open Command Window or Explorer for active document
+* Open images for editing with a right click
+* Commit and push active document to Git
 
 #### Weblog Publisher
 * Create or edit Weblog posts using Markdown
