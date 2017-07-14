@@ -36,16 +36,23 @@ Markdown Monster provides many useful features:
 * Gentle, optional toolbar support for Markdown newbies
 * Inline spell checking
 * Line and Word counts
-* Easily customizable, HTML preview templates
+* Dark and Light Themes
+* Easily customizable HTML preview templates
 * Customizable editor and editor themes
 * Save Markdown output as raw or packaged HTML
 * Paste HTML text as Markdown
-* Copy Markdown editor selection as HTML
+* Copy Markdown selection as HTML
 * Open rendered output in Browser
-* Save as Pdf
+* Save rendered output as HTML and PDF documents
 * Print rendered output to printer or PDF documents
+
+#### File Operations
 * Editor remembers open documents by default (optional)
 * Auto-Save and Auto-Backup support
+* Integrated folder browser
+* Save files with encryption
+* File and Folder Browser
+* Drag and drop from Explorer and Folder Browser
 
 
 #### Editing Features
@@ -58,30 +65,37 @@ Markdown Monster provides many useful features:
 
 #### Weblog Publisher
 * Create or edit Weblog posts using Markdown
-* Publish your posts to your blog
+* Publish your Markdown directly to your blog
+* Re-publish at any time
 * Supports MetaWebLog, Wordpress and Medium (limited)
 * Download and edit existing posts
 * Very fast publish and download process
 * Publish to and remember multiple blogs
+* Custom Metadata field support
 * Optional Dropbox and OneDrive shared post storage
 
-#### Extensibility
-* Use C# Code Snippets via the [Commander Addin](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
-* Create Addins with .NET code
-* Simple interface, easy to implement
-* Access the UI, buttons, active document
-* Access document and application lifecycle events
-* Two useful plugins are provided:
-* Screen capture addin (SnagIt and custom tool)
-* Weblog publishing addin
 
 #### Non Markdown Features
 * HTML file editing with live preview
 * Many other file formats can also be edited:  
 JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
-* Use `mm document.md` from PowerShell or Command prompt to load documents
+* Command line support: `mm readme.md` or `mm .` to open files or folders
 * Optional shared configuration on Cloud drives
 * High DPI Monitor Aware
+
+#### Extensibility
+* Automate Markdown Monster using C# and the [Commander Addin](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
+* Create Addins with .NET code
+* Simple interface, easy to implement
+* Access UI, menu and active documents
+* Access document and application lifecycle events
+* Published addins available:
+    * [Snippets: Scripted Text Expansions](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
+    * [Commander: C# based Script Automation](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
+    * [Pandoc Markdown Parser and Conversions](https://github.com/RickStrahl/Pandoc-MarkdownMonster-Addin)
+    * [Paste Code as Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)
+    * [Save Image to Azure Blob Storage](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin)
+
 
 ## Why another Markdown Editor?
 Markdown is everywhere these days, and it's becoming a favorite format for many developers, writers and documentation experts to create lots of different kinds of content in this format. Markdown is used in a lot of different places:
