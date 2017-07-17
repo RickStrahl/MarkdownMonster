@@ -21,7 +21,7 @@
 If you like what you see please consider :star: **starring this repo** (top left of this page). Please help spread the word.
 
 > #### Please report any Issues you run into
-> If you run into a problem with Markdown Monster, please let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature requests here on Github. We want to know what doesn't work and get it fixed. Help us make Markdown Monster better!
+> If you run into a problem with Markdown Monster, please let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature request here on Github. We want to know what doesn't work and get it fixed. Help us make Markdown Monster better!
 
 Here's what Markdown Monster looks like:
 
