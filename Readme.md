@@ -31,7 +31,7 @@ Here's what Markdown Monster looks like:
 Markdown Monster provides many useful features:
 
 #### Markdown Editor
-* Syntax highlighted Markdown editing
+* Syntax highlighted Markdown editing 
 * Live and synced HTML preview 
 * Gentle, optional toolbar support for Markdown newbies
 * Inline spell checking
