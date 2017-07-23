@@ -242,7 +242,8 @@ namespace WeblogAddin
                 }
 
                 var post = client.GetPost(WeblogModel.ActivePost.PostId);
-                postUrl = post.Url;
+                if (post != null)
+                    postUrl = post.Url;
             }
             if (type == WeblogTypes.Medium)
             {
