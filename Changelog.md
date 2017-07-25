@@ -3,6 +3,11 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.4.10
+
+* **Uninstall Command Line Option**  
+You can now run `MarkdownMonster.exe uninstall` to remove all registry settings that Markdown Monster makes during a portable (ie. non-installer) installation. To do a full, clean, manual uninstall of Markdown Monster run `MarkdownMonster.exe uninstall`, then delete the install folder and `%appdata%\Markdown Monster`.
+
 ### 1.4.8
 *<small>July 6th, 2017</small>*
 
