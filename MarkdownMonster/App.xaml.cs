@@ -50,10 +50,10 @@ namespace MarkdownMonster
         public static string initialStartDirectory;
 
         public static string[] commandArgs;
-        
+
         // Flag to indicate that app shouldn't start
         // Need this so OnStartup doesn't fire
-        bool noStart = false;
+        static bool noStart = false;
 
 
         static App()
@@ -73,7 +73,7 @@ namespace MarkdownMonster
             // Get just the command arguments
             commandArgs = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
-            if (commandArgs.Length > 0 && commandArgs[0].ToLower() == "uninstall")
+            if (commandArgs.Length > 0 && (commandArgs[0].ToLower() == "uninstall" || commandArgs[0].ToLower() == "-uninstall"))
             {
                 noStart = true;
                 UninstallSettings();
@@ -159,7 +159,7 @@ namespace MarkdownMonster
 		/// Otherwise app just continues
 		/// </summary>
 		/// <param name="splashScreen"></param>
-	    private static void CheckCommandLineForSingletonLaunch(SplashScreen splashScreen)
+	    private void CheckCommandLineForSingletonLaunch(SplashScreen splashScreen)
         {
             // fix up the startup path
             string filesToOpen = " ";
@@ -188,6 +188,8 @@ namespace MarkdownMonster
 		    Mutex = new Mutex(true, @"MarkdownMonster", out isOnlyInstance);
 		    if (isOnlyInstance)
 			    return;
+
+            noStart = true;
 		    
 		    var manager = new NamedPipeManager("MarkdownMonster");
 		    manager.Write(filesToOpen);
