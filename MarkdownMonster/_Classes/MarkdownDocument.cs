@@ -510,7 +510,9 @@ namespace MarkdownMonster
                 }
                 catch { /* ignore */ }
             }
+            CleanupBackupFile();
         }
+
 
         /// <summary>
         /// Writes the file with a retry
