@@ -753,7 +753,7 @@ Do you want to View in Browser now?
                     glMenu = GridLength.Auto;
                     glStatus = GridLength.Auto;
 
-                    mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Visible;
+                    //mmApp.Configuration.WindowPosition.IsTabHeaderPanelVisible = true;
                     Window.TabControl.IsHeaderPanelVisible = true;
 
                     IsPreviewBrowserVisible = true;
@@ -781,7 +781,6 @@ Do you want to View in Browser now?
 
                     if (tokens.Any(d => d == "tabs"))
                     {
-                        mmApp.Configuration.WindowPosition.TabHeadersVisible = Visibility.Hidden;
                         Window.TabControl.IsHeaderPanelVisible = false;
                     }
 
@@ -798,12 +797,13 @@ Do you want to View in Browser now?
                     Window.ShowFolderBrowser(true);
 
                     IsFullScreen = true;
+                
                 }
 
                 // toolbar
                 Window.WindowGrid.RowDefinitions[0].Height = glMenu;
                 Window.WindowGrid.RowDefinitions[1].Height = glToolbar;
-                Window.WindowGrid.RowDefinitions[3].Height = glStatus;  
+                Window.WindowGrid.RowDefinitions[3].Height = glStatus;
             }, null);
 
             // PRESENTATION MODE

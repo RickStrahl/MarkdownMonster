@@ -2,11 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mm="clr-namespace:MarkdownMonster"
+    xmlns:mmwin="clr-namespace:MarkdownMonster.Windows"
     xmlns:local="http://dragablz.net/winfx/xaml/dragablz"
     xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
     xmlns:converters="clr-namespace:Dragablz.Converters;assembly=Dragablz"    
     xmlns:themes="clr-namespace:Dragablz.Themes;assembly=Dragablz">
 
+    <mmwin:BooleanToCollapsedVisibilityConverter x:Key="BooleanToCollapsedVisibilityConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:EqualityToVisibilityConverter x:Key="EqualityToVisibilityConverter" />
     <converters:BooleanAndToVisibilityConverter x:Key="BooleanAndToVisibilityConverter" />
@@ -1085,8 +1087,9 @@
         <Setter Property="Foreground" Value="{StaticResource TabItem.Static.Foreground}"/>
         <Setter Property="Background" Value="{StaticResource TabItem.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{StaticResource TabItem.Static.Border}"/>
-        
-        <Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mm:MainWindow}}, Path=Model.Configuration.WindowPosition.TabHeadersVisible}" />
+
+        <!--<Setter Property="Visibility" Value="Collapsed" />-->
+        <!--<Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mm:MainWindow}}, Path=Model.Configuration.WindowPosition.IsTabHeaderPanelVisible,Converter={StaticResource BooleanToCollapsedVisibilityConverter}}" />-->
        
         <Setter Property="Margin" Value="0 6 0 0"/>
         <Setter Property="Padding" Value="5,1,10,3" />
@@ -1371,7 +1374,7 @@
                                 Margin="0 -1 0 0">
                             <Grid x:Name="PART_ItemsHolder" />
                         </Border>
-                        <Grid Grid.Column="0" Grid.Row="0" Margin="0,2,2,0" x:Name="HeaderContainerGrid">
+                        <Grid Grid.Column="0" Grid.Row="0" Margin="0,2,2,0" x:Name="HeaderContainerGrid" Visibility="{TemplateBinding IsHeaderPanelVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid.Resources>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource StandardEmbeddedButtonStyle}"></Style>
                             </Grid.Resources>
@@ -1424,6 +1427,9 @@
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsHeaderPanelVisible" Value="False">
+                            <Setter Property="Margin" TargetName="contentPanel" Value="0 0 0 0"/>
+                        </Trigger> 
                         <Trigger Property="TabStripPlacement" Value="Bottom">
                             <Setter Property="Grid.Row" TargetName="PART_HeaderItemsControl" Value="1"/>
                             <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>

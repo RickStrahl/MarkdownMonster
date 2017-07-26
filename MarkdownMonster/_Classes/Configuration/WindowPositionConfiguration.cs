@@ -28,20 +28,22 @@ namespace MarkdownMonster
             }   
         }
         private int _splitterPosition;
+        
 
-
-
-        public Visibility TabHeadersVisible
+        /// <summary>
+        /// Determines if the tabs are visible
+        /// </summary>
+        public bool IsTabHeaderPanelVisible
         {
-            get { return _TabHeadersVisible; }
+            get { return _IsTabHeaderPanelVisible; }
             set
             {
-                if (value == _TabHeadersVisible) return;
-                _TabHeadersVisible = value;
-                OnPropertyChanged(nameof(TabHeadersVisible));
+                if (value == _IsTabHeaderPanelVisible) return;
+                _IsTabHeaderPanelVisible = value;
+                OnPropertyChanged(nameof(IsTabHeaderPanelVisible));
             }
         }
-        private Visibility _TabHeadersVisible = Visibility.Visible;
+        private bool _IsTabHeaderPanelVisible = true;
 
 
         /// <summary>

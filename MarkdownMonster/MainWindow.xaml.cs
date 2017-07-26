@@ -732,7 +732,7 @@ namespace MarkdownMonster
 		{
 			var config = mmApp.Configuration;
 			config.IsPreviewVisible = Model.IsPreviewBrowserVisible;
-			config.WindowPosition.TabHeadersVisible = Visibility.Visible;
+			config.WindowPosition.IsTabHeaderPanelVisible = true;
 
 			if (WindowState == WindowState.Normal)
 			{
@@ -937,6 +937,9 @@ namespace MarkdownMonster
 				return false;
 
 			bool returnValue = true;
+
+            tab.Background = Brushes.Green;
+            tab.Padding = new Thickness(200);
 
 			var doc = editor.MarkdownDocument;
 
