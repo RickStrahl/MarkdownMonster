@@ -943,17 +943,6 @@ namespace MarkdownMonster
 
 			var doc = editor.MarkdownDocument;
 
-			if (!string.IsNullOrEmpty(doc.HtmlRenderFilename) && File.Exists(doc.HtmlRenderFilename))
-			{
-				try
-				{
-					File.Delete(doc.HtmlRenderFilename);
-				}
-				catch
-				{
-				}
-			}
-
 			doc.CleanupBackupFile();
 
 			if (doc.IsDirty)

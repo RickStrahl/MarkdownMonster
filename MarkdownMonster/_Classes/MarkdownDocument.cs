@@ -503,9 +503,13 @@ namespace MarkdownMonster
         public void Close()
         {
             if (File.Exists(HtmlRenderFilename))
-                File.Delete(HtmlRenderFilename);
-
-            CleanupBackupFile();
+            {
+                try
+                {
+                    File.Delete(HtmlRenderFilename);
+                }
+                catch { /* ignore */ }
+            }
         }
 
         /// <summary>
