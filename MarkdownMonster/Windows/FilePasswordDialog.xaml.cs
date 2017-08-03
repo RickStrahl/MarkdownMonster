@@ -44,10 +44,13 @@ namespace MarkdownMonster.Windows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            document.Password = TextPassword.SecurePassword;
+            if (TextPassword.SecurePassword.Length == 0)
+                document.Password = null;
+            else
+                document.Password = TextPassword.SecurePassword;
+
             DialogResult = true;
             Close();
-
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
