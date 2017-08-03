@@ -230,7 +230,7 @@ namespace MarkdownMonster
                     // FAIL: This fails at runtime not in debugger when value is .\ trimmed to . VERY WEIRD
 	                file = Path.GetFullPath(file);
 	            }
-	            catch (Exception ex)
+	            catch
 	            {
 	                mmApp.Log("Fullpath CommandLine failed: " + file);                    
 	            }
@@ -732,7 +732,7 @@ namespace MarkdownMonster
 		{
 			var config = mmApp.Configuration;
 			config.IsPreviewVisible = Model.IsPreviewBrowserVisible;
-			config.WindowPosition.TabHeadersVisible = Visibility.Visible;
+			config.WindowPosition.IsTabHeaderPanelVisible = true;
 
 			if (WindowState == WindowState.Normal)
 			{
@@ -938,18 +938,10 @@ namespace MarkdownMonster
 
 			bool returnValue = true;
 
-			var doc = editor.MarkdownDocument;
+            tab.Background = Brushes.Green;
+            tab.Padding = new Thickness(200);
 
-			if (!string.IsNullOrEmpty(doc.HtmlRenderFilename) && File.Exists(doc.HtmlRenderFilename))
-			{
-				try
-				{
-					File.Delete(doc.HtmlRenderFilename);
-				}
-				catch
-				{
-				}
-			}
+			var doc = editor.MarkdownDocument;
 
 			doc.CleanupBackupFile();
 

@@ -51,6 +51,11 @@ namespace MarkdownMonster
 
         public static string[] commandArgs;
 
+        // Flag to indicate that app shouldn't start
+        // Need this so OnStartup doesn't fire
+        static bool noStart = false;
+
+
         static App()
         {
             //try
@@ -59,17 +64,26 @@ namespace MarkdownMonster
             //    bool res = WindowUtilities.SetPerMonitorDpiAwareness(ProcessDpiAwareness.Process_Per_Monitor_DPI_Aware);                
             //}
             //catch {  /* fails not supported on Windows 7 and older */ }
-        }
 
+            initialStartDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        }
 
         public App()
         {
+            // Get just the command arguments
+            commandArgs = Environment.GetCommandLineArgs().Skip(1).ToArray();
+
+            if (commandArgs.Length > 0 && (commandArgs[0].ToLower() == "uninstall" || commandArgs[0].ToLower() == "-uninstall"))
+            {
+                noStart = true;
+                UninstallSettings();
+                Environment.Exit(0);
+                return;
+            }
 
             SplashScreen splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
             splashScreen.Show(true);
-
-	        initialStartDirectory = Environment.CurrentDirectory;
-
+            
 			// Singleton launch marshalls subsequent launches to the singleton instance
 			// via named pipes communication
 	        CheckCommandLineForSingletonLaunch(splashScreen);
@@ -86,8 +100,13 @@ namespace MarkdownMonster
             mmApp.ApplicationStart();
         }
 
+
+       
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (noStart)
+                return;
+
             var dotnetVersion = ComputerInfo.GetDotnetVersion();
             if (String.Compare(dotnetVersion, "4.6", StringComparison.Ordinal) < 0)
             {
@@ -130,6 +149,8 @@ namespace MarkdownMonster
             }
         }
 
+
+
         /// <summary>
 		/// Checks to see if app is already running and if it is pushes
 		/// parameters via NamedPipes to existing running application
@@ -138,33 +159,27 @@ namespace MarkdownMonster
 		/// Otherwise app just continues
 		/// </summary>
 		/// <param name="splashScreen"></param>
-	    private static void CheckCommandLineForSingletonLaunch(SplashScreen splashScreen)
+	    private void CheckCommandLineForSingletonLaunch(SplashScreen splashScreen)
         {
             // fix up the startup path
             string filesToOpen = " ";
-            var args = Environment.GetCommandLineArgs();
-            if (args != null && args.Length > 1)
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < commandArgs.Length; i++)
             {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 1; i < args.Length; i++)
-                {
-                    string file = args[i];
-                    if (string.IsNullOrEmpty(file))
-                        continue;
+                string file = commandArgs[i];
+                if (string.IsNullOrEmpty(file))
+                    continue;
 
-                    file = file.TrimEnd('\\');
-                    file = Path.GetFullPath(file);
-                    sb.AppendLine(file);
+                file = file.TrimEnd('\\');
+                file = Path.GetFullPath(file);
+                sb.AppendLine(file);
 
-                    // write fixed up path arguments
-                    args[i] = file;
-                }
-                filesToOpen = sb.ToString();
+                // write fixed up path arguments
+                commandArgs[i] = file;
             }
-
-            // Update Command Arguments
-            commandArgs = args;
-
+            filesToOpen = sb.ToString();
+            
 
             if (!mmApp.Configuration.UseSingleWindow)
                 return;
@@ -173,6 +188,8 @@ namespace MarkdownMonster
 		    Mutex = new Mutex(true, @"MarkdownMonster", out isOnlyInstance);
 		    if (isOnlyInstance)
 			    return;
+
+            noStart = true;
 		    
 		    var manager = new NamedPipeManager("MarkdownMonster");
 		    manager.Write(filesToOpen);
@@ -183,7 +200,24 @@ namespace MarkdownMonster
 		    Environment.Exit(0);
 	    }
 
-	    private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+
+        /// <summary>
+        /// Uninstall registry and configuration settings
+        /// </summary>
+        private void UninstallSettings()
+        {
+            ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe", uninstall: true);
+            ComputerInfo.EnsureSystemPath(uninstall: true);
+            ComputerInfo.EnsureAssociations(uninstall: true);
+
+            Console.WriteLine("Markdown Monster settings uninstalled from registry");
+            MessageBox.Show("Markdown Monster settings uninstalled from registry");
+
+            noStart = true;
+            Environment.Exit(0);
+        }
+
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {            
             // missing resources are... missing
             if (args.Name.Contains(".resources"))

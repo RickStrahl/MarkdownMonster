@@ -298,7 +298,7 @@ namespace MarkdownMonster.Windows
                         else
                             Directory.CreateDirectory(newPath);
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         MessageBox.Show("Unable to rename or create folder:\r\n" +
                                         newPath, "Path Creation Error",
@@ -314,7 +314,7 @@ namespace MarkdownMonster.Windows
                         else
                             File.WriteAllText(newPath, "");
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         MessageBox.Show("Unable to rename or create file:\r\n" +
                                         newPath, "File Creation Error",
@@ -411,8 +411,6 @@ namespace MarkdownMonster.Windows
 
             try
             {
-                FileInfo fi;
-
                 //Directory.Delete(selected.FullPath, true);
                 //File.Delete(selected.FullPath);
 

@@ -197,7 +197,7 @@ namespace MarkdownMonster
         /// Set Internet Explorer browser compatibility
         /// </summary>
         /// <param name="exename"></param>
-        public static void EnsureBrowserEmulationEnabled(string exename = "Markdownmonster.exe")
+        public static void EnsureBrowserEmulationEnabled(string exename = "MarkdownMonster.exe", bool uninstall = false)
         {
 
             try
@@ -208,9 +208,14 @@ namespace MarkdownMonster
                             @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true)
                 )
                 {
-                    dynamic value = rk.GetValue(exename);
-                    if (value == null)
-                        rk.SetValue(exename, (uint) 11001, RegistryValueKind.DWord);
+                    if (!uninstall)
+                    {
+                        dynamic value = rk.GetValue(exename);
+                        if (value == null)
+                            rk.SetValue(exename, (uint)11001, RegistryValueKind.DWord);
+                    }
+                    else
+                        rk.DeleteValue(exename);
                 }
             }
             catch
@@ -218,12 +223,25 @@ namespace MarkdownMonster
             }
         }
 
-        public static void EnsureAssociations(bool force = false)
+        public static void EnsureAssociations(bool force = false, bool uninstall = false)
         {
             dynamic value = null;
 
-            string pf = Environment.CurrentDirectory;
+            string installFolder = App.initialStartDirectory;
             //.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+
+            if (uninstall)
+            {
+                Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\Markdown Monster",false);
+
+                if (TryGetRegistryKey("Software\\Classes\\.md", null, out value, true) && value == "Markdown Monster")
+                    Registry.CurrentUser.DeleteSubKey("Software\\Classes\\.md");
+
+                if (TryGetRegistryKey("Software\\Classes\\.markdown", null, out value, true) && value == "Markdown Monster")
+                    Registry.CurrentUser.DeleteSubKey("Software\\Classes\\.markdown");
+
+                return;
+            }
 
 
             if (!TryGetRegistryKey("Software\\Classes\\Markdown Monster", null, out value, true))
@@ -243,14 +261,14 @@ namespace MarkdownMonster
             {
                 using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", true))
                 {
-                    rk.SetValue(null, $"\"{pf}\\MarkdownMonster.exe\" \"%1\"");
+                    rk.SetValue(null, $"\"{installFolder}\\MarkdownMonster.exe\" \"%1\"");
                 }
             }
 
             if (!TryGetRegistryKey("Software\\Classes\\Markdown Monster\\DefaultIcon", null, out value, true))
             {
                 var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\DefaultIcon", true);
-                rk.SetValue(null, $"{pf}\\MarkdownMonster.exe,0");
+                rk.SetValue(null, $"{installFolder}\\MarkdownMonster.exe,0");
             }
 
 
@@ -267,20 +285,23 @@ namespace MarkdownMonster
                     rk.SetValue(null, "Markdown Monster");
                 }
             }
-
-            
         }
 
-        public static void EnsureSystemPath()
+        public static void EnsureSystemPath(bool uninstall = false)
         {
             try
             {
                 using (var sk = Registry.CurrentUser.OpenSubKey("Environment", true))
                 {
-                    string mmFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                        "Markdown Monster");
+                    string mmFolder = Path.Combine(App.initialStartDirectory,"Markdown Monster");
                     string path = sk.GetValue("Path").ToString();
-                    if (!path.Contains(mmFolder))
+
+                    if (uninstall)
+                    {
+                        path = path.Replace(";" + mmFolder, "");
+                        sk.SetValue("Path", path);
+                    }
+                    else if (!path.Contains(mmFolder))
                     {
                         var pathList = path.Split(new char[] {';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
                         pathList.Add(mmFolder);
@@ -288,6 +309,7 @@ namespace MarkdownMonster
 
                         sk.SetValue("Path", path);
                     }
+                    
                 }
             }
             catch
