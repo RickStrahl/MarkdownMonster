@@ -448,7 +448,7 @@ namespace MarkdownMonster
 
 				    if (doc.Password == null && doc.IsFileEncrypted())
 				    {
-				        var pwdDialog = new FilePasswordDialog(doc,true)
+				        var pwdDialog = new FilePasswordDialog(doc, true)
 				        {
 				            Owner = this
 				        };
@@ -457,12 +457,13 @@ namespace MarkdownMonster
 				        {
 				            ShowStatus("Encrypted document not opened, due to missing password.",
 				                mmApp.Configuration.StatusTimeout);
+
 				            return null;
 				        }
 				    }
-                    
 
-				    if (!doc.Load())
+
+                    if (!doc.Load())
 					{
 						if (!batchOpen)
 							MessageBox.Show(
@@ -1557,7 +1558,14 @@ namespace MarkdownMonster
             else if (button == ButtonLineNumbers)
 			{   Model.ActiveEditor?.SetShowLineNumbers(Model.Configuration.EditorShowLineNumbers);
 			}
-
+            else if (button == ButtonStatusEncrypted)
+			{
+			    var dialog = new FilePasswordDialog(Model.ActiveDocument,false)
+			    {
+			        Owner = this
+			    };
+			    dialog.ShowDialog();
+			}
 			//else if (button == ButtonRefreshBrowser)
 			//{
 			//	var editor = GetActiveMarkdownEditor();

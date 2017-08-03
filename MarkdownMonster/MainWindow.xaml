@@ -39,6 +39,8 @@
     </Window.InputBindings>
 
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         <ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
             <MenuItem Header="_Close Document" Command="{Binding DataContext.CloseActiveDocumentCommand}" />
             <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Click="ButtonCloseAllTabs_Click"/>
@@ -535,6 +537,7 @@
                             <ColumnDefinition Width="130" />
                             <ColumnDefinition Width="130" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -583,7 +586,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="8">
                 <ComboBox  HorizontalAlignment="Right"  Width="44" ToolTip="Preview sync mode"                            
-                           IsSynchronizedWithCurrentItem="True" Margin="0,0,15,0"    
+                           IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
                            SelectedValue="{Binding Configuration.PreviewSyncMode}" 
                            ItemsSource="{Binding PreviewSyncModeItems}"                           
                            DisplayMemberPath="IconString"
@@ -592,7 +595,15 @@
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="RenderTheme_SelectionChanged">
                 </ComboBox>
+            </StatusBarItem>
 
+            <StatusBarItem Grid.Column="9">
+                <Button Name="ButtonStatusEncrypted" Margin="0,0,15,0" Click="Button_Handler" 
+                    ToolTip="Encrypted"
+                    fa:Awesome.Content="Lock" Visibility="{Binding ActiveDocument.IsEncrypted, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    BorderThickness="0"                    
+                    TextElement.FontSize="12"
+                    TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
             </StatusBarItem>
 
         </StatusBar>
