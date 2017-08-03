@@ -460,7 +460,7 @@ namespace MarkdownMonster
                     doc.MarkdownDocument.Password = null;
                 else
                 {
-                    var pwdDialog = new FilePasswordDialog(doc.MarkdownDocument, true)
+                    var pwdDialog = new FilePasswordDialog(doc.MarkdownDocument, false)
                     {
                         Owner = Window
                     };
