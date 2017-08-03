@@ -326,11 +326,7 @@ namespace MarkdownMonster
             set
             {
                 if (_password == value) return;
-                _password = value;
-                if (_password==null)
-                    _isEncrypted = false;
-                else
-                    _isEncrypted = true;
+                _password = value;                
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsEncrypted));
             }
@@ -338,21 +334,11 @@ namespace MarkdownMonster
         private SecureString _password;
 
         
-
+        [JsonIgnore]
         /// <summary>
         /// Determines whether the file is encrypted
         /// </summary>
-        public bool IsEncrypted
-        {
-            get { return _isEncrypted; }
-            set
-            {
-                if (_isEncrypted == value) return;
-                _isEncrypted = value;
-                OnPropertyChanged();                
-            }
-        }
-        private bool _isEncrypted;
+        public bool IsEncrypted => _password != null;
 
         /// <summary>
         /// The original text of the document since the last save
