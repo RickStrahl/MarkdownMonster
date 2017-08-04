@@ -88,7 +88,7 @@
 
                 <Button Command="{Binding ShowFolderBrowserCommand}" 
                         Margin="2,0"
-						ToolTip="Show Folder Browser pane (alt-v-f)"                                
+						ToolTip="show Folder Browser pane (alt-v-f)"                                
 				        fa:Awesome.Content="FilesOutline" Foreground="{StaticResource BlueItem}"				         
 				        TextElement.FontSize="16" 
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
@@ -98,7 +98,7 @@
 				              Margin="2,0"
                                       IsChecked="{Binding IsFullScreen}"
                                       Command="{Binding DistractionFreeModeCommand}"                                                 
-                                      ToolTip="toggle distraction free edit mode (alt-shift-enter)"
+                                      ToolTip="toggle distraction free edit mode (alt-shift-enter). configure with: 'DistractionFreeModeHideOptions' setting."
                                  fa:Awesome.Content="ArrowsAlt"
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      

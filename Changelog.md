@@ -4,11 +4,18 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-> #### Upgrades: Explicitly uninstall pre-1.4.10 Installations 
-> If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall**, before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges. Use **Programs and Features** to uninstall.</small>
+> #### Upgrades: Explicitly uninstall pre-1.4.10 Installations! 
+> If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall using Programs and Features** before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges.
 
-### 1.4.12
-<small>August 3rd, 2017</small>
+### 1.5
+*<small>August 4th, 2017</small>*
+
+* **Version Rollup Release**   
+This release is a version rollup release that combines all the recent additions into a point release.
+
+
+### 1.4.10
+*<small>July 20th, 2017</small>*
 
 * **Uninstall Command Line Option**  
 You can now run `MarkdownMonster.exe -uninstall` to remove all registry settings that Markdown Monster makes during a portable (ie. non-installer) installation. To do a full, clean, manual uninstall of Markdown Monster run `MarkdownMonster.exe uninstall`, then delete the install folder and `%appdata%\Markdown Monster`.
