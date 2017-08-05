@@ -7,6 +7,16 @@
 > #### Upgrades: Explicitly uninstall pre-1.4.10 Installations! 
 > If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall using Programs and Features** before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges.
 
+### 1.5.1
+*<small>August 6th, 2017</small>*
+
+* **Alt-z shortcut for WordWrap in Editor**  
+You can now use Alt-z for toggling wordwrap in the Markdown/Code editor.
+
+* **Fix: File association not working**  
+Fixed issue where clicking on a file in Explorer or using the command line wasn't opening the file in Markdown Monster.
+
+
 ### 1.5
 *<small>August 4th, 2017</small>*
 
