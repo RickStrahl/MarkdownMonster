@@ -35,6 +35,7 @@
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  CloseActiveDocumentCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding CloseActiveDocumentCommand}" />
+        <KeyBinding Modifiers="Alt" Key="Z" Command="{Binding WordWrapCommand}" />
         <KeyBinding Key="F1" Command="{Binding HelpCommand}" />
     </Window.InputBindings>
 
@@ -261,10 +262,11 @@
                           IsEnabled="{Binding IsEditorActive}" />
                 <Separator />
                 <MenuItem Name="ButtonWordWrap" 
-                          Header="_Word Wrap"                         
-                          Click="Button_Handler"                                                    
+                          Header="_Word Wrap"      
+                          Command="{Binding WordWrapCommand}"                                                                   
                           IsCheckable="True"
-                          IsChecked="{Binding Configuration.EditorWrapText}" />
+                          InputGestureText="alt-z"
+                          IsChecked="{Binding Configuration.EditorWrapText, Mode=OneWay}" />
 
                 <MenuItem Name="ButtonLineNumbers" 
                           Header="Line _Numbers"                         

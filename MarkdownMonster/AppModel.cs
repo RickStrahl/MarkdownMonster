@@ -365,6 +365,8 @@ namespace MarkdownMonster
 
         public CommandBase CommitToGitCommand { get; set; }
 
+        public CommandBase WordWrapCommand { get; set; }
+
         private void CreateCommands()
         {
             // SAVE COMMAND
@@ -705,7 +707,15 @@ Do you want to View in Browser now?
                 mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
 
             });
-
+        
+            // WORD WRAP COMMAND
+            WordWrapCommand = new CommandBase((parameter, command) =>
+                {
+                    //MessageBox.Show("alt-z WPF");
+                    mmApp.Model.Configuration.EditorWrapText = !mmApp.Model.Configuration.EditorWrapText;
+                    mmApp.Model.ActiveEditor?.SetWordWrap(mmApp.Model.Configuration.EditorWrapText);
+                },(p, c) => IsEditorActive);
+        
             // MARKDOWN EDIT COMMANDS TOOLBAR COMMAND
             ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>
             {
