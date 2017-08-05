@@ -210,11 +210,8 @@ namespace MarkdownMonster
                 // read fixed up command line args
 	            args = App.commandArgs; 
 
-	            if (args == null || args.Length < 2) // no args, only command line
+	            if (args == null || args.Length == 0) // no args, only command line
 	                return;
-
-	            if (args.Length > 1) // first item is full command line
-	                args = args.Skip(1).ToArray();
 	        }
 	        
 	        foreach (var fileArgs in args)
