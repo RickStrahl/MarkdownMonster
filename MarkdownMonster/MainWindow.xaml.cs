@@ -1705,7 +1705,7 @@ namespace MarkdownMonster
 				foreach (var file in files)
 				{
 					var ext = Path.GetExtension(file.ToLower());
-					if (File.Exists(file) && mmApp.AllowedFileExtensions.Contains($",{ext.Substring(1)},"))
+					if (File.Exists(file) && mmApp.AllowedFileExtensions.Contains($",{ext},"))
 					{
 						OpenTab(file, rebindTabHeaders: true);
 					}
