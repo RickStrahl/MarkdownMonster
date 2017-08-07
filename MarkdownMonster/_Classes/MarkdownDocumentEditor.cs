@@ -1,4 +1,4 @@
-﻿#region License
+﻿#region 
 /*
  **************************************************************
  *  Author: Rick Strahl 
@@ -1228,7 +1228,7 @@ namespace MarkdownMonster
 
 			    Window.Activate();
 		    }
-		    else if (mmApp.AllowedFileExtensions.Contains($",{ext.Substring(1)},"))
+		    else if (mmApp.AllowedFileExtensions.Contains($",{ext},"))
 		    {
 			    Window.OpenTab(file);
 		    }
