@@ -21,9 +21,8 @@ $filetext = @"
 `$fileType = 'exe'
 `$url = 'https://github.com/RickStrahl/MarkdownMonsterReleases/raw/master/v1.5/$file'
 
-`$silentArgs = '/SILENT'
+`$silentArgs = '/VERYSILENT'
 `$validExitCodes = @(0)
-
 
 Install-ChocolateyPackage "`packageName" "`$fileType" "`$silentArgs" "`$url"  -validExitCodes  `$validExitCodes  -checksum "$sha" -checksumType "sha256"
 "@
