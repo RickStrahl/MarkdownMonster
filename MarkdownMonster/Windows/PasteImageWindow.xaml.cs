@@ -170,139 +170,6 @@ namespace MarkdownMonster.Windows
             }
         }
 
-        private void SelectLocalImageFile_Click(object sender, RoutedEventArgs e)
-        {
-            var fd = new OpenFileDialog
-            {
-                DefaultExt = ".png",
-                Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
-                CheckFileExists = true,
-                RestoreDirectory = true,
-                Multiselect = false,
-                Title = "Embed Image"
-            };
-
-            if (!string.IsNullOrEmpty(MarkdownFile))
-                fd.InitialDirectory = Path.GetDirectoryName(MarkdownFile);
-            else
-            {
-                if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
-                    fd.InitialDirectory = mmApp.Configuration.LastImageFolder;
-                else
-                    fd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            }
-
-            var res = fd.ShowDialog();
-            if (res == null || !res.Value)
-                return;
-
-            Image = fd.FileName;
-
-            if (PasteAsBase64Content)
-            {
-	            var bmi = new BitmapImage();
-	            bmi.CreateOptions = BitmapCreateOptions.IgnoreImageCache; // don't lock file
-	            bmi.UriSource = new Uri(fd.FileName);
-
-				Base64EncodeImage(fd.FileName);
-	            ImagePreview.Source = bmi;
-                return;
-            }
-
-
-            // Normalize the path relative to the Markdown file
-            if (!string.IsNullOrEmpty(MarkdownFile) && MarkdownFile != "untitled")
-            {
-                var imgUrl = AddinManager.Current.RaiseOnSaveImage(fd.FileName);
-                if (!string.IsNullOrEmpty(imgUrl))
-                {
-                    Image = imgUrl;
-                    TextImageText.Focus();
-                    return;
-                }
-
-                string mdPath = Path.GetDirectoryName(MarkdownFile);
-                string relPath = fd.FileName;
-                try
-                {
-                    relPath = FileUtils.GetRelativePath(fd.FileName, mdPath);
-                }
-                catch (Exception ex)
-                {
-                    mmApp.Log($"Failed to get relative path.\r\nFile: {fd.FileName}, Path: {mdPath}", ex);
-                }
-
-
-                if (!relPath.StartsWith("..\\"))
-                    Image = relPath;
-                else
-                {
-                    // not relative 
-                    var mbres = MessageBox.Show(
-                        "The image you are linking, is not in a relative path.\r\n" +
-                        "Do you want to copy it to a local path?",
-                        "Non-relative Image",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Question);
-
-                    if (mbres.Equals(MessageBoxResult.Yes))
-                    {
-                        string newImageFileName = System.IO.Path.Combine(mdPath, System.IO.Path.GetFileName(fd.FileName));
-                        var sd = new SaveFileDialog
-                        {
-                            Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
-                            FilterIndex = 1,
-                            FileName = newImageFileName,
-                            InitialDirectory = mdPath,
-                            CheckFileExists = false,
-                            OverwritePrompt = true,
-                            CheckPathExists = true,
-                            RestoreDirectory = true
-                        };
-                        var result = sd.ShowDialog();
-                        if (result != null && result.Value)
-                        {
-                            try
-                            {
-                                File.Copy(fd.FileName, sd.FileName, true);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message,
-                                    mmApp.ApplicationName);
-                                return;
-                            }
-                            try
-                            {
-                                relPath = FileUtils.GetRelativePath(sd.FileName, mdPath);
-                            }
-                            catch (Exception ex)
-                            {
-                                mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {mdPath}", ex);
-                            }
-                            Image = relPath;
-                        }
-                    }
-                    else
-                        Image = relPath;
-                }
-            }
-
-
-            
-            if (Image.Contains(":\\"))
-                Image = "file:///" + Image;
-            else
-                Image = Image.Replace("\\", "/");
-
-            SetImagePreview("file:///" + fd.FileName);
-
-            IsMemoryImage = false;
-
-            mmApp.Configuration.LastImageFolder = Path.GetDirectoryName(fd.FileName);
-            TextImageText.Focus();
-        }
-
         private void TextImage_LostFocus(object sender, RoutedEventArgs e)
         {
             
@@ -509,6 +376,140 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        private void SelectLocalImageFile_Click(object sender, RoutedEventArgs e)
+        {
+            var fd = new OpenFileDialog
+            {
+                DefaultExt = ".png",
+                Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                CheckFileExists = true,
+                RestoreDirectory = true,
+                Multiselect = false,
+                Title = "Embed Image"
+            };
+
+            if (!string.IsNullOrEmpty(MarkdownFile))
+                fd.InitialDirectory = Path.GetDirectoryName(MarkdownFile);
+            else
+            {
+                if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
+                    fd.InitialDirectory = mmApp.Configuration.LastImageFolder;
+                else
+                    fd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            }
+
+            var res = fd.ShowDialog();
+            if (res == null || !res.Value)
+                return;
+
+            Image = fd.FileName;
+
+            if (PasteAsBase64Content)
+            {
+                var bmi = new BitmapImage(new Uri(fd.FileName))
+                {
+                    CreateOptions = BitmapCreateOptions.IgnoreImageCache // don't lock file                    
+                };
+                
+                Base64EncodeImage(fd.FileName);
+                ImagePreview.Source = bmi;
+                return;
+            }
+
+
+            // Normalize the path relative to the Markdown file
+            if (!string.IsNullOrEmpty(MarkdownFile) && MarkdownFile != "untitled")
+            {
+                var imgUrl = AddinManager.Current.RaiseOnSaveImage(fd.FileName);
+                if (!string.IsNullOrEmpty(imgUrl))
+                {
+                    Image = imgUrl;
+                    TextImageText.Focus();
+                    return;
+                }
+
+                string mdPath = Path.GetDirectoryName(MarkdownFile);
+                string relPath = fd.FileName;
+                try
+                {
+                    relPath = FileUtils.GetRelativePath(fd.FileName, mdPath);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log($"Failed to get relative path.\r\nFile: {fd.FileName}, Path: {mdPath}", ex);
+                }
+
+
+                if (!relPath.StartsWith("..\\"))
+                    Image = relPath;
+                else
+                {
+                    // not relative 
+                    var mbres = MessageBox.Show(
+                        "The image you are linking, is not in a relative path.\r\n" +
+                        "Do you want to copy it to a local path?",
+                        "Non-relative Image",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
+
+                    if (mbres.Equals(MessageBoxResult.Yes))
+                    {
+                        string newImageFileName = System.IO.Path.Combine(mdPath, System.IO.Path.GetFileName(fd.FileName));
+                        var sd = new SaveFileDialog
+                        {
+                            Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                            FilterIndex = 1,
+                            FileName = newImageFileName,
+                            InitialDirectory = mdPath,
+                            CheckFileExists = false,
+                            OverwritePrompt = true,
+                            CheckPathExists = true,
+                            RestoreDirectory = true
+                        };
+                        var result = sd.ShowDialog();
+                        if (result != null && result.Value)
+                        {
+                            try
+                            {
+                                File.Copy(fd.FileName, sd.FileName, true);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message,
+                                    mmApp.ApplicationName);
+                                return;
+                            }
+                            try
+                            {
+                                relPath = FileUtils.GetRelativePath(sd.FileName, mdPath);
+                            }
+                            catch (Exception ex)
+                            {
+                                mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {mdPath}", ex);
+                            }
+                            Image = relPath;
+                        }
+                    }
+                    else
+                        Image = relPath;
+                }
+            }
+
+
+            
+            if (Image.Contains(":\\"))
+                Image = "file:///" + Image;
+            else
+                Image = Image.Replace("\\", "/");
+
+            SetImagePreview("file:///" + fd.FileName);
+
+            IsMemoryImage = false;
+
+            mmApp.Configuration.LastImageFolder = Path.GetDirectoryName(fd.FileName);
+            TextImageText.Focus();
+        }
+
         #region StatusBar Display
 
         public void ShowStatus(string message = null, int milliSeconds = 0)
@@ -686,11 +687,12 @@ namespace MarkdownMonster.Windows
 
             try
             {
-	            var bmi = new BitmapImage();
-	            bmi.CreateOptions = BitmapCreateOptions.IgnoreImageCache; // no locking
-	            bmi.UriSource = new Uri(url);
+                var bmi = new BitmapImage(new Uri(url))
+                {
+                    CreateOptions = BitmapCreateOptions.IgnoreImageCache, // no locking
+                };
 
-	            ImagePreview.Source = bmi;
+            ImagePreview.Source = bmi;
                 if (Height < 400)
                 {
                     Top -= 300;
