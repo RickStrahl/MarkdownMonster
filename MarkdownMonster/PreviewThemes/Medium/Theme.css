@@ -161,8 +161,12 @@ hr {
 }
 
 .line-highlight {
-    background: #f6f6f6;
-    border-radius: 3px;
+    background: #f6f6f6 !important;
+    border-radius: 4px;
+    margin-left: -10px;
+    margin-right: -10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #MainContent {

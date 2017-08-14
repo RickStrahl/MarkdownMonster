@@ -104,9 +104,9 @@ function updateDocumentContent(html) {
 }
 
 function scrollToPragmaLine(lineno) {
-    //status("line:  " + lineno);
-    if (lineno < 0) return;
-    if (lineno === 0) {
+    if (typeof lineno !== "number" || lineno < 0) return;
+
+    if (lineno < 2) {
         $("html").scrollTop(0);
         return;
     }

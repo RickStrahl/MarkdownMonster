@@ -163,8 +163,12 @@ tbody>tr:nth-child(even) {
     width: 1px; 
 }
 .line-highlight {
-    background: #f5f5f5;
-    border-radius: 3px;
+    background: #e9f5ff !important;
+    border-radius: 4px;
+    margin-left: -10px;
+    margin-right: -10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 @media(min-width: 1080px){

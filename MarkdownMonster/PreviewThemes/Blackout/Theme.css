@@ -152,9 +152,13 @@ hr{
 }
 .line-highlight {
     background: steelblue !important;
-    border-radius: 3px;
+    border-radius: 4px;
+    margin-left: -10px;
+    margin-right: -10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
-}
+
 
 @media(min-width: 1080px){
     html,body{
