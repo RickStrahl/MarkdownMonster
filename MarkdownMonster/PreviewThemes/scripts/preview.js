@@ -106,7 +106,11 @@ function updateDocumentContent(html) {
 function scrollToPragmaLine(lineno) {
     //status("line:  " + lineno);
     if (lineno < 0) return;
-    
+    if (lineno === 0) {
+        $("html").scrollTop(0);
+        return;
+    }
+
     setTimeout(function () {
         try {
             var $el = $("#pragma-line-" + lineno);
@@ -132,8 +136,9 @@ function scrollToPragmaLine(lineno) {
             }
 
             te.codeScrolled = new Date().getTime();
-            $("html").scrollTop($el.offset().top - 100);
-
+            if(lineno > 2)
+                $("html").scrollTop($el.offset().top - 100);            
+                
             $el.addClass("line-highlight");
             setTimeout(function() { $el.removeClass("line-highlight"); }, 1200);
         }
