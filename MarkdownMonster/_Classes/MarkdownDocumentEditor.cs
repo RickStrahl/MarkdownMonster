@@ -752,6 +752,15 @@ namespace MarkdownMonster
             // nothing to do at the moment             
         }
 
+        public void PreviewContextMenu(dynamic position)
+        {
+            //MessageBox.Show("Preview Context Menu Fired" + position.Top + " - " + position.Left);
+
+            var ctm = Window.PreviewBrowser.ContextMenu;            
+            ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
+            ctm.PlacementTarget = Window.PreviewBrowser;
+            ctm.IsOpen = true;
+        }
         #endregion  
 
         #region Callback functions from the Html Editor

@@ -57,6 +57,7 @@
         <ContextMenu x:Key="ContextMenuRecentFiles">
             <MenuItem Header="Recent Files go here..."/>
         </ContextMenu>
+       
     </Window.Resources>
 
     <controls:MetroWindow.LeftWindowCommands>
@@ -224,7 +225,7 @@
                           Command="{Binding PreviewBrowserCommand}"
                            IsEnabled="{Binding IsEditorActive}"/>
                 <MenuItem Header="View in Web _Browser" 
-                          Click="ButtonViewInBrowser_Click"                           
+                          Command="{Binding ViewInExternalBrowserCommand}"
                           InputGestureText="alt-v-b"
                           IsEnabled="{Binding IsEditorActive}" />
                 <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding PrintPreviewCommand}" InputGestureText="ctrl-p"/>
@@ -519,6 +520,15 @@
             <WebBrowser Grid.Column="4" Name="PreviewBrowser"
                         VerticalAlignment="Stretch"  SizeChanged="PreviewBrowser_SizeChanged"
                         HorizontalAlignment="Stretch"  >
+                <WebBrowser.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
+                        <MenuItem Header="View Html Source" Command="{Binding ViewHtmlSourceCommand}" />
+                        <Separator/>
+                        <MenuItem Header="Hide HTML Preview" Command="{Binding PreviewBrowserCommand}"  IsCheckable="True"
+                                  IsChecked="{Binding IsPreviewBrowserVisible}" />
+                    </ContextMenu>
+                </WebBrowser.ContextMenu>
             </WebBrowser>
         </Grid>
 

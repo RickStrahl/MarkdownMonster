@@ -352,192 +352,7 @@ namespace MarkdownMonster
 			}
 		}
 
-		/// <summary>
-		/// Opens a tab by a filename
-		/// </summary>
-		/// <param name="mdFile"></param>
-		/// <param name="editor"></param>
-		/// <param name="showPreviewIfActive"></param>
-		/// <param name="syntax"></param>
-		/// <param name="selectTab"></param>
-		/// <param name="rebindTabHeaders">
-		/// Rebinds the headers which should be done whenever a new Tab is
-		/// manually opened and added but not when opening in batch.
-		/// 
-		/// Checks to see if multiple tabs have the same filename open and
-		/// if so displays partial path.
-		/// 
-		/// New Tabs are opened at the front of the tab list at index 0
-		/// </param>
-		/// <returns></returns>
-		public TabItem OpenTab(string mdFile = null,
-			MarkdownDocumentEditor editor = null,
-			bool showPreviewIfActive = false,
-			string syntax = "markdown",
-			bool selectTab = true,
-			bool rebindTabHeaders = false,
-			bool batchOpen = false,
-			int initialLineNumber = 0)
-		{
-			if (mdFile != null && mdFile != "untitled" &&
-			    (!File.Exists(mdFile) ||
-			     !AddinManager.Current.RaiseOnBeforeOpenDocument(mdFile)))
-				return null;
-
-			var tab = new TabItem();
-
-			tab.Margin = new Thickness(0, 0, 3, 0);
-			tab.Padding = new Thickness(2, 0, 7, 2);
-			tab.Background = Background;
-
-			ControlsHelper.SetHeaderFontSize(tab, 13F);
-
-			var webBrowser = new WebBrowser
-			{
-				Visibility = Visibility.Hidden,
-				Margin = new Thickness(-4, 0, 0, 0)
-			};
-			tab.Content = webBrowser;
-
-
-			if (editor == null)
-			{
-				editor = new MarkdownDocumentEditor(webBrowser)
-				{
-					Window = this,
-					EditorSyntax = syntax,
-					InitialLineNumber = initialLineNumber
-				};
-
-				var doc = new MarkdownDocument()
-				{
-					Filename = mdFile ?? "untitled",
-					Dispatcher = Dispatcher
-				};
-				if (doc.Filename != "untitled")
-				{
-					doc.Filename = mmFileUtils.GetPhysicalPath(doc.Filename);
-
-					if (doc.HasBackupFile())
-					{
-						try
-						{
-							ShowStatus("Auto-save recovery files have been found and opened in the editor.",
-								milliSeconds: 9000);
-							SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
-							{
-								File.Copy(doc.BackupFilename, doc.BackupFilename + ".md");
-								OpenTab(doc.BackupFilename + ".md");
-								File.Delete(doc.BackupFilename + ".md");
-							}
-						}
-						catch (Exception ex)
-						{
-							string msg = "Unable to open backup file: " + doc.BackupFilename + ".md";
-							mmApp.Log(msg, ex);
-							MessageBox.Show(
-								"A backup file was previously saved, but we're unable to open it.\r\n" + msg,
-								"Cannot open backup file",
-								MessageBoxButton.OK,
-								MessageBoxImage.Warning);
-						}
-					}
-
-				    if (doc.Password == null && doc.IsFileEncrypted())
-				    {
-				        var pwdDialog = new FilePasswordDialog(doc, true)
-				        {
-				            Owner = this
-				        };
-				        bool? pwdResult = pwdDialog.ShowDialog();
-				        if (pwdResult == false)
-				        {
-				            ShowStatus("Encrypted document not opened, due to missing password.",
-				                mmApp.Configuration.StatusTimeout);
-
-				            return null;
-				        }
-				    }
-
-
-                    if (!doc.Load())
-					{
-						if (!batchOpen)
-							MessageBox.Show(
-								$"Unable to load {doc.Filename}.\r\n\r\nMost likely you don't have access to the file.",
-								"File Open Error - " + mmApp.ApplicationName, MessageBoxButton.OK,
-								MessageBoxImage.Warning);
-
-						return null;
-					}
-				}
-
-				doc.PropertyChanged += (sender, e) =>
-				{
-					if (e.PropertyName == "IsDirty")
-					{
-						//CommandManager.InvalidateRequerySuggested();
-						Model.SaveCommand.InvalidateCanExecute();
-					}
-				};
-				editor.MarkdownDocument = doc;
-
-				SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
-
-				tab.ToolTip = doc.Filename;
-			}
-
-			var filename = Path.GetFileName(editor.MarkdownDocument.Filename);
-			tab.Tag = editor;
-
-
-			editor.LoadDocument();
-
-			// is the tab already open?
-			TabItem existingTab = null;
-			if (filename != "untitled")
-			{
-				foreach (TabItem tb in TabControl.Items)
-				{
-					var lEditor = tb.Tag as MarkdownDocumentEditor;
-					if (lEditor.MarkdownDocument.Filename == editor.MarkdownDocument.Filename)
-					{
-						existingTab = tb;
-						break;
-					}
-				}
-			}
-
-			Model.OpenDocuments.Add(editor.MarkdownDocument);
-			Model.ActiveDocument = editor.MarkdownDocument;
-
-			if (existingTab != null)
-				TabControl.Items.Remove(existingTab);
-
-			tab.IsSelected = false;
-
-			TabControl.Items.Insert(0, tab);
-
-
-			if (selectTab)
-			{
-				TabControl.SelectedItem = tab;
-
-				if (showPreviewIfActive && PreviewBrowser.Width > 5)
-					PreviewMarkdown(); //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
-				SetWindowTitle();
-			}
-
-			AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
-
-			if (rebindTabHeaders)
-				BindTabHeaders();
-
-
-			return tab;
-		}
-
-		protected override void OnClosing(CancelEventArgs e)
+	    protected override void OnClosing(CancelEventArgs e)
 		{
 			base.OnClosing(e);
 
@@ -832,7 +647,192 @@ namespace MarkdownMonster
 
 		#region Tab Handling
 
-		/// <summary>
+	    /// <summary>
+	    /// Opens a tab by a filename
+	    /// </summary>
+	    /// <param name="mdFile"></param>
+	    /// <param name="editor"></param>
+	    /// <param name="showPreviewIfActive"></param>
+	    /// <param name="syntax"></param>
+	    /// <param name="selectTab"></param>
+	    /// <param name="rebindTabHeaders">
+	    /// Rebinds the headers which should be done whenever a new Tab is
+	    /// manually opened and added but not when opening in batch.
+	    /// 
+	    /// Checks to see if multiple tabs have the same filename open and
+	    /// if so displays partial path.
+	    /// 
+	    /// New Tabs are opened at the front of the tab list at index 0
+	    /// </param>
+	    /// <returns></returns>
+	    public TabItem OpenTab(string mdFile = null,
+	        MarkdownDocumentEditor editor = null,
+	        bool showPreviewIfActive = false,
+	        string syntax = "markdown",
+	        bool selectTab = true,
+	        bool rebindTabHeaders = false,
+	        bool batchOpen = false,
+	        int initialLineNumber = 0)
+	    {
+	        if (mdFile != null && mdFile != "untitled" &&
+	            (!File.Exists(mdFile) ||
+	             !AddinManager.Current.RaiseOnBeforeOpenDocument(mdFile)))
+	            return null;
+
+	        var tab = new TabItem();
+
+	        tab.Margin = new Thickness(0, 0, 3, 0);
+	        tab.Padding = new Thickness(2, 0, 7, 2);
+	        tab.Background = Background;
+
+	        ControlsHelper.SetHeaderFontSize(tab, 13F);
+
+	        var webBrowser = new WebBrowser
+	        {
+	            Visibility = Visibility.Hidden,
+	            Margin = new Thickness(-4, 0, 0, 0)
+	        };
+	        tab.Content = webBrowser;
+
+
+	        if (editor == null)
+	        {
+	            editor = new MarkdownDocumentEditor(webBrowser)
+	            {
+	                Window = this,
+	                EditorSyntax = syntax,
+	                InitialLineNumber = initialLineNumber
+	            };
+
+	            var doc = new MarkdownDocument()
+	            {
+	                Filename = mdFile ?? "untitled",
+	                Dispatcher = Dispatcher
+	            };
+	            if (doc.Filename != "untitled")
+	            {
+	                doc.Filename = mmFileUtils.GetPhysicalPath(doc.Filename);
+
+	                if (doc.HasBackupFile())
+	                {
+	                    try
+	                    {
+	                        ShowStatus("Auto-save recovery files have been found and opened in the editor.",
+	                            milliSeconds: 9000);
+	                        SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+	                        {
+	                            File.Copy(doc.BackupFilename, doc.BackupFilename + ".md");
+	                            OpenTab(doc.BackupFilename + ".md");
+	                            File.Delete(doc.BackupFilename + ".md");
+	                        }
+	                    }
+	                    catch (Exception ex)
+	                    {
+	                        string msg = "Unable to open backup file: " + doc.BackupFilename + ".md";
+	                        mmApp.Log(msg, ex);
+	                        MessageBox.Show(
+	                            "A backup file was previously saved, but we're unable to open it.\r\n" + msg,
+	                            "Cannot open backup file",
+	                            MessageBoxButton.OK,
+	                            MessageBoxImage.Warning);
+	                    }
+	                }
+
+	                if (doc.Password == null && doc.IsFileEncrypted())
+	                {
+	                    var pwdDialog = new FilePasswordDialog(doc, true)
+	                    {
+	                        Owner = this
+	                    };
+	                    bool? pwdResult = pwdDialog.ShowDialog();
+	                    if (pwdResult == false)
+	                    {
+	                        ShowStatus("Encrypted document not opened, due to missing password.",
+	                            mmApp.Configuration.StatusTimeout);
+
+	                        return null;
+	                    }
+	                }
+
+
+	                if (!doc.Load())
+	                {
+	                    if (!batchOpen)
+	                        MessageBox.Show(
+	                            $"Unable to load {doc.Filename}.\r\n\r\nMost likely you don't have access to the file.",
+	                            "File Open Error - " + mmApp.ApplicationName, MessageBoxButton.OK,
+	                            MessageBoxImage.Warning);
+
+	                    return null;
+	                }
+	            }
+
+	            doc.PropertyChanged += (sender, e) =>
+	            {
+	                if (e.PropertyName == "IsDirty")
+	                {
+	                    //CommandManager.InvalidateRequerySuggested();
+	                    Model.SaveCommand.InvalidateCanExecute();
+	                }
+	            };
+	            editor.MarkdownDocument = doc;
+
+	            SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
+
+	            tab.ToolTip = doc.Filename;
+	        }
+
+	        var filename = Path.GetFileName(editor.MarkdownDocument.Filename);
+	        tab.Tag = editor;
+
+
+	        editor.LoadDocument();
+
+	        // is the tab already open?
+	        TabItem existingTab = null;
+	        if (filename != "untitled")
+	        {
+	            foreach (TabItem tb in TabControl.Items)
+	            {
+	                var lEditor = tb.Tag as MarkdownDocumentEditor;
+	                if (lEditor.MarkdownDocument.Filename == editor.MarkdownDocument.Filename)
+	                {
+	                    existingTab = tb;
+	                    break;
+	                }
+	            }
+	        }
+
+	        Model.OpenDocuments.Add(editor.MarkdownDocument);
+	        Model.ActiveDocument = editor.MarkdownDocument;
+
+	        if (existingTab != null)
+	            TabControl.Items.Remove(existingTab);
+
+	        tab.IsSelected = false;
+
+	        TabControl.Items.Insert(0, tab);
+
+
+	        if (selectTab)
+	        {
+	            TabControl.SelectedItem = tab;
+
+	            if (showPreviewIfActive && PreviewBrowser.Width > 5)
+	                PreviewMarkdown(); //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
+	            SetWindowTitle();
+	        }
+
+	        AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
+
+	        if (rebindTabHeaders)
+	            BindTabHeaders();
+
+
+	        return tab;
+	    }
+
+	    /// <summary>
 		/// Binds all Tab Headers
 		/// </summary>        
 		void BindTabHeaders()
