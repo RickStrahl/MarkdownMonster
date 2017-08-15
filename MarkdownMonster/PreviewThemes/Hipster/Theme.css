@@ -110,14 +110,21 @@ hr{
     position: absolute;
     width: 1px; 
 }
+
 .line-highlight {
-    background: #fff1f1 !important;
+    background: #e9f5ff !important;
+}
+p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.line-highlight {
     border-radius: 4px;
     margin-left: -10px;
     margin-right: -10px;
     padding-left: 10px;
     padding-right: 10px;
 }
+code.line-highlight {
+    background: #444 !important;
+}
+
 @media(min-width: 1080px){
     html,body{
         font-size: 1.08em;

@@ -30,10 +30,13 @@ $(document).ready(function() {
         });
 });
 
-$(document).on("contextmenu", function () {
-    // inside of WebBrowser control don't show context menu
-    return navigator.userAgent.indexOf("Trident") > -1 ? false : true;
-});
+$(document).on("contextmenu",
+    function() {
+        te.mmEditor.PreviewContextMenu({ Top: 1, Left: 1 });
+
+        // inside of WebBrowser control don't show context menu
+        return navigator.userAgent.indexOf("Trident") > -1 ? false : true;
+    });
 
 window.ondrop = function (event) {
     // don't allow dropping here - we can't get full file info
@@ -140,7 +143,7 @@ function scrollToPragmaLine(lineno) {
                 $("html").scrollTop($el.offset().top - 100);            
                 
             $el.addClass("line-highlight");
-            setTimeout(function() { $el.removeClass("line-highlight"); }, 1200);
+            setTimeout(function() { $el.removeClass("line-highlight"); }, 1800);
         }
         catch(ex) {  }
     },80);

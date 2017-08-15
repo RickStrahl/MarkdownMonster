@@ -150,8 +150,11 @@ hr{
     position: absolute;
     width: 1px; 
 }
+
 .line-highlight {
-    background: steelblue !important;
+    background: #444 !important;
+}
+p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.line-highlight {
     border-radius: 4px;
     margin-left: -10px;
     margin-right: -10px;

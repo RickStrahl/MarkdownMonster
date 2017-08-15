@@ -150,12 +150,15 @@ hr {
 }
 .line-highlight {
     background: #e9f5ff !important;
+}
+p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.line-highlight {
     border-radius: 4px;
     margin-left: -10px;
     margin-right: -10px;
     padding-left: 10px;
     padding-right: 10px;
 }
+
 
 #MainContent {
     margin: 0 auto;
