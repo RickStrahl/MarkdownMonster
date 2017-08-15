@@ -395,6 +395,8 @@ namespace MarkdownMonster
                     {
                         string encrypted = CurrentText.Substring(ENCRYPTION_PREFIX.Length);
                         CurrentText = Encryption.DecryptString(encrypted, password.GetString());
+                        if (string.IsNullOrEmpty(CurrentText))
+                            return false;
                     }
                 }
 

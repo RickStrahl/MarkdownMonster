@@ -758,10 +758,17 @@ namespace MarkdownMonster
 	                if (!doc.Load())
 	                {
 	                    if (!batchOpen)
-	                        MessageBox.Show(
-	                            $"Unable to load {doc.Filename}.\r\n\r\nMost likely you don't have access to the file.",
-	                            "File Open Error - " + mmApp.ApplicationName, MessageBoxButton.OK,
+	                    {
+                            var msg = "Most likely you don't have access to the file";
+	                        if (doc.Password != null && doc.IsFileEncrypted())
+	                            msg = "Invalid password for opening this file";
+	                        var file = Path.GetFileName(doc.Filename);
+
+                            MessageBox.Show(
+	                            $"{msg}.\r\n\r\n{file}",
+	                            "Can't open File", MessageBoxButton.OK,
 	                            MessageBoxImage.Warning);
+	                    }
 
 	                    return null;
 	                }
