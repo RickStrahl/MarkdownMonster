@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -355,7 +356,11 @@ namespace MarkdownMonster
 
         public CommandBase CloseActiveDocumentCommand { get; set; }
 
+        public CommandBase ViewInExternalBrowserCommand { get; set; }
+
         public CommandBase PrintPreviewCommand { get; set; }
+
+        public CommandBase ViewHtmlSourceCommand { get; set; }
 
 		public CommandBase ShowFolderBrowserCommand { get; set; }
 
@@ -558,8 +563,8 @@ Do you want to View in Browser now?
                             MessageBoxImage.Asterisk,
                             MessageBoxResult.Yes);
 
-                        if(mbResult == MessageBoxResult.Yes)
-                            Window.ButtonViewInBrowser_Click(Window, null);
+                        if (mbResult == MessageBoxResult.Yes)
+                            Window.Model.ViewInExternalBrowserCommand.Execute(null);
                     }
                 }
 
@@ -874,6 +879,20 @@ Do you want to View in Browser now?
                 Window.WindowGrid.RowDefinitions[1].Height = gl;
                 //Window.WindowGrid.RowDefinitions[3].Height = gl;  
             }, null);
+
+            // 
+            ViewInExternalBrowserCommand = new CommandBase((p, e) =>
+            {
+                Window?.PreviewMarkdown(showInBrowser: true);
+            }, (p, e) => IsPreviewBrowserVisible);
+
+            ViewHtmlSourceCommand = new CommandBase((p, e) =>
+            {
+                if (ActiveDocument == null) return;
+
+                Window.OpenTab(ActiveDocument.HtmlRenderFilename);
+            }, (p, e) => IsPreviewBrowserVisible);
+
 
             // PRINT PREVIEW
             PrintPreviewCommand = new CommandBase((s, e) =>

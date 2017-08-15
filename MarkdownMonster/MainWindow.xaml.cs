@@ -1606,10 +1606,7 @@ namespace MarkdownMonster
 			}
 		}
 
-		public void ButtonViewInBrowser_Click(object sender, RoutedEventArgs e)
-		{
-			PreviewMarkdown(showInBrowser: true);
-		}
+		
 
 		private void Button_CommandWindow(object sender, RoutedEventArgs e)
 		{

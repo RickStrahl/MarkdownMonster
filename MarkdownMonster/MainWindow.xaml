@@ -153,8 +153,8 @@
 				<MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" />
 				<MenuItem Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding GeneratePdfCommand}" />
                 <Separator/>
-                <MenuItem Header="View in Web _Browser" Name="ButtonViewInWebBrowser"
-                          Click="ButtonViewInBrowser_Click" 
+                <MenuItem Header="View in Web _Browser" Name="ButtonViewInWebBrowser"                          
+                          Command="{Binding ViewInExternalBrowserCommand}"
                           InputGestureText="alt-v-b"
                           IsEnabled="{Binding IsEditorActive}" />
 				<MenuItem Name="ButtonPrintPreview" Header="_Print Output" Command="{Binding PrintPreviewCommand}" InputGestureText="ctrl-p"/>
