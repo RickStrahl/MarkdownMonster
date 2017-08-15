@@ -316,6 +316,16 @@ namespace MarkdownMonster
 		/// </summary>
 		public string ImageViewer { get; set;  }
 
+        /// <summary>
+        /// Web Browser Preview Executable - use this to force 
+        /// a specific browser since Windows seems to not be able
+        /// to maintain a proper association long term.
+        /// 
+        /// If not set or path doesn't exist, uses Windows default
+        /// configuration.
+        /// </summary>
+        public string WebBrowserPreviewExecutable { get; set; }
+
         #endregion
 
 
@@ -624,8 +634,10 @@ namespace MarkdownMonster
 			TerminalCommand = "cmd.exe";
 			TerminalCommandArgs = "/k \"cd {0}\"";
             OpenFolderCommand = "explorer.exe";
-                    
-            ReportErrors = true;
+
+            WebBrowserPreviewExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),@"Google\Chrome\Application\chrome.exe");
+            
+           ReportErrors = true;
 
             UseSingleWindow = true;
 

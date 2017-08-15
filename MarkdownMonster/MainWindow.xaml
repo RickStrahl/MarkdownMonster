@@ -122,10 +122,10 @@
 
     <Grid Name="WindowGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"  Name="MainMenuGridRow"/>
+            <RowDefinition Height="Auto" Name="ToolbarGridRow"/>
+            <RowDefinition Height="*" Name="MainContentGridRow" />
+            <RowDefinition Height="Auto" Name="StatusBarGridRow"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

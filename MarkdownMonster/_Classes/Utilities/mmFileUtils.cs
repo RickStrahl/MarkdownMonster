@@ -521,6 +521,21 @@ namespace MarkdownMonster
             message = string.Empty;
             return true;            
         }
+
+        public static void ShowExternalBrowser(string url)
+        {
+            if (string.IsNullOrEmpty(mmApp.Configuration.WebBrowserPreviewExecutable) ||
+                !File.Exists(mmApp.Configuration.WebBrowserPreviewExecutable))
+            {
+                mmApp.Configuration.WebBrowserPreviewExecutable = null;
+                ShellUtils.GoUrl(url);
+            }
+            else
+            {
+                ExecuteProcess(mmApp.Configuration.WebBrowserPreviewExecutable, url);
+            }
+        }
+
         #endregion
 
         #region Recycle Bin Deletion

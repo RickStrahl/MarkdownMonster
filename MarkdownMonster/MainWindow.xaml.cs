@@ -1212,11 +1212,9 @@ namespace MarkdownMonster
 					}
 					else
 					{
-						renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: !showInBrowser &&
-						                                                                        mmApp.Configuration
-							                                                                        .PreviewSyncMode !=
-						                                                                        PreviewSyncMode.None,
-							renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
+					    bool usePragma = !showInBrowser && mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.None;
+                        renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: usePragma,
+							            renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
 						if (renderedHtml == null)
 						{
 							SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
@@ -1233,8 +1231,9 @@ namespace MarkdownMonster
 
 					if (showInBrowser)
 					{
-						ShellUtils.GoUrl(editor.MarkdownDocument.HtmlRenderFilename);
-						return;
+					    var url = editor.MarkdownDocument.HtmlRenderFilename;
+					    mmFileUtils.ShowExternalBrowser(url);
+					    return;
 					}
 					else
 					{
