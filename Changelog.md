@@ -9,7 +9,7 @@
 > If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall using Programs and Features** before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges.
 
 ### 1.5.5
-*<small>not released yet</small>*
+*<small>August 16th</small>*
 
 * **New Context Menu in Preview Browser**  
 The preview browser now provides a few options to show content in an external browser, and show source code in an editor window (with live HTML preview of the HTML text).
