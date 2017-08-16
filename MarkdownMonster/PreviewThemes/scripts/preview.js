@@ -109,12 +109,13 @@ function updateDocumentContent(html) {
 function scrollToPragmaLine(lineno) {
     if (typeof lineno !== "number" || lineno < 0) return;
 
-    if (lineno < 2) {
-        $("html").scrollTop(0);
-        return;
-    }
 
     setTimeout(function () {
+        if (lineno < 2) {
+            $("html").scrollTop(0);
+            return;
+        }
+
         try {
             var $el = $("#pragma-line-" + lineno);
             if ($el.length < 1) {
@@ -137,13 +138,13 @@ function scrollToPragmaLine(lineno) {
                 if ($el.length < 1)
                     return;
             }
-
-            te.codeScrolled = new Date().getTime();
-            if(lineno > 2)
-                $("html").scrollTop($el.offset().top - 100);            
                 
             $el.addClass("line-highlight");
-            setTimeout(function() { $el.removeClass("line-highlight"); }, 1800);
+            setTimeout(function () { $el.removeClass("line-highlight"); }, 1800);
+
+            te.codeScrolled = new Date().getTime();
+            if (lineno > 2)
+                $("html").scrollTop($el.offset().top - 100); 
         }
         catch(ex) {  }
     },80);
