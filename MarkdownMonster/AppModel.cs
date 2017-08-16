@@ -758,9 +758,7 @@ Do you want to View in Browser now?
 
                 GridLength glFileBrowser = new GridLength(0);
 	            
-
-
-                if ( Window.WindowGrid.RowDefinitions[1].Height == glToolbar)
+                if ( Window.ToolbarGridRow.Height == glToolbar)
                 {
                     Window.SaveSettings();
 
@@ -783,8 +781,7 @@ Do you want to View in Browser now?
                 else
                 {
                     var tokens = mmApp.Configuration.DistractionFreeModeHideOptions.ToLower().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    
+                   
                     if (tokens.All(d => d != "menu"))
                         glMenu = GridLength.Auto;
 
@@ -795,9 +792,7 @@ Do you want to View in Browser now?
                         glStatus = GridLength.Auto;
 
                     if (tokens.Any(d => d == "tabs"))
-                    {
                         Window.TabControl.IsHeaderPanelVisible = false;
-                    }
 
                     if (tokens.Any(d => d == "preview"))
                     {
@@ -811,14 +806,13 @@ Do you want to View in Browser now?
 
                     Window.ShowFolderBrowser(true);
 
-                    IsFullScreen = true;
-                
+                    IsFullScreen = true;                
                 }
 
-                // toolbar
-                Window.WindowGrid.RowDefinitions[0].Height = glMenu;
-                Window.WindowGrid.RowDefinitions[1].Height = glToolbar;
-                Window.WindowGrid.RowDefinitions[3].Height = glStatus;
+                // toolbar     
+                Window.MainMenuGridRow.Height = glMenu;
+                Window.ToolbarGridRow.Height = glToolbar;
+                Window.StatusBarGridRow.Height = glStatus;
             }, null);
 
             // PRESENTATION MODE
@@ -880,16 +874,16 @@ Do you want to View in Browser now?
                 //Window.WindowGrid.RowDefinitions[3].Height = gl;  
             }, null);
 
-            // 
+            // EXTERNAL BROWSER VIEW
             ViewInExternalBrowserCommand = new CommandBase((p, e) =>
             {
-                Window?.PreviewMarkdown(showInBrowser: true);
+                if (ActiveDocument == null) return;
+                mmFileUtils.ShowExternalBrowser(ActiveDocument.HtmlRenderFilename);                
             }, (p, e) => IsPreviewBrowserVisible);
 
             ViewHtmlSourceCommand = new CommandBase((p, e) =>
             {
                 if (ActiveDocument == null) return;
-
                 Window.OpenTab(ActiveDocument.HtmlRenderFilename);
             }, (p, e) => IsPreviewBrowserVisible);
 

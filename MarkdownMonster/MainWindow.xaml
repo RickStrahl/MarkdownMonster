@@ -524,8 +524,10 @@
                     <ContextMenu>
                         <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
                         <MenuItem Header="View Html Source" Command="{Binding ViewHtmlSourceCommand}" />
+                        <MenuItem Header="Configure Preview Syncing" Click="Button_Handler" Name="MenuItemPreviewConfigureSync"/>
                         <Separator/>
-                        <MenuItem Header="Hide HTML Preview" Command="{Binding PreviewBrowserCommand}"  IsCheckable="True"
+                        <MenuItem Header="Hide HTML Preview" 
+                                  Command="{Binding PreviewBrowserCommand}"  IsCheckable="True"
                                   IsChecked="{Binding IsPreviewBrowserVisible}" />
                     </ContextMenu>
                 </WebBrowser.ContextMenu>
@@ -597,7 +599,8 @@
 
             </StatusBarItem>
             <StatusBarItem Grid.Column="8">
-                <ComboBox  HorizontalAlignment="Right"  Width="44" ToolTip="Preview sync mode"                            
+                <ComboBox  HorizontalAlignment="Right"  Width="44" ToolTip="Preview sync mode"  
+                           Name="ComboBoxPreviewSyncModes"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
                            SelectedValue="{Binding Configuration.PreviewSyncMode}" 
                            ItemsSource="{Binding PreviewSyncModeItems}"                           

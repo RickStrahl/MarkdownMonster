@@ -1561,6 +1561,11 @@ namespace MarkdownMonster
 			    };
 			    dialog.ShowDialog();
 			}
+            else if (button == MenuItemPreviewConfigureSync)
+			{
+			    ComboBoxPreviewSyncModes.Focus();
+                ComboBoxPreviewSyncModes.IsDropDownOpen = true;
+			}
 			//else if (button == ButtonRefreshBrowser)
 			//{
 			//	var editor = GetActiveMarkdownEditor();
