@@ -11,5 +11,5 @@ DesktopAppConverter.exe `
     -PackagePublisherDisplayName "West Wind Technologies" `
     -AppDisplayName "Markdown Monster" `
     -AppDescription "A rich Markdown Editor and Weblog Publisher" `
-    -AppFileTypes ".md" `
+    -AppFileTypes "'.md', '.markdown', '.mdcrypt'" `
     -MakeAppx -Verbose -sign -verify

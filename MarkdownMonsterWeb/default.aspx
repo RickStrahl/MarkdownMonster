@@ -54,7 +54,7 @@
             <img src="Images/MarkdownMonster_Icon_32.png"
                 style="height: 28px;"
                 alt="Markdown Monster" />
-            <span class="hidable-xs">West Wind</span> <span>Markdown Monster</span>
+            <span class="hidable-xs">West Wind Markdown Monster</span>
         </span>
         <nav id="TopMenu" class="right">
             <a href="./" class="active">

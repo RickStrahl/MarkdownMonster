@@ -4,20 +4,33 @@
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
+
 > #### Upgrades: Explicitly uninstall pre-1.4.10 Installations! 
 > If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall using Programs and Features** before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges.
 
-### 1.5.2
-*<small>August 6th, 2017</small>*
+### 1.5.5
+*<small>not released yet</small>*
+
+* **New Context Menu in Preview Browser**  
+The preview browser now provides a few options to show content in an external browser, and show source code in an editor window (with live HTML preview of the HTML text).
 
 * **Alt-z shortcut for WordWrap in Editor**  
 You can now use Alt-z for toggling wordwrap in the Markdown/Code editor.
+
+* **Updates to the Preview Active Line Indicator Highlight**
+When previewing Markdown Monster highlights the active line in the previewer using custom styling. Those styles have been updated to be more context sensitive and a little bit bolder to make preview cursor position more obvious.
+
+* **WebBrowerPreviewExecutable Configuration Option**  
+You can now explicitly specify an executable to use for externally previewing HTML in a Web Browser. Since Windows seems to have a problem with amnesia when it comes to remembering file associations to the Web Browser and reverts to Edge frequently, you can explicitly specify a browser executable. Defaults to **Chrome** in `Program Files (x86)`. If executable is not found or empty, MM uses the system default (previous behavior).
 
 * **Fix: File association not working**  
 Fixed issue where clicking on a file in Explorer or using the command line wasn't opening the file in Markdown Monster.
 
 * **Fix: Image Preview from Files or Editor**  
 If selecting images in the file selector, the preview now shows local file images and images selected from within the editor via selection of an image Markdown tag.
+
+* **Fix: Preview sync for first two lines displays top of page**  
+Preview sync for the first two editor lines now show the top of the document adding no scroll offset as is done for other pages. This ensures that the top of the document displays more easily.
 
 ### 1.5
 *<small>August 4th, 2017</small>*

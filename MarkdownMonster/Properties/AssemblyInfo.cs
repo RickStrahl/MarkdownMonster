@@ -6,7 +6,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Markdown Monster")]
-[assembly: AssemblyDescription("A monstrous Markdown Editor for Windows")]
+[assembly: AssemblyDescription("A monstrous Markdown Editor and Weblog Publisher for Windows")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("West Wind Technologies")]
 [assembly: AssemblyProduct("West West Wind Markdown Monster")]
@@ -53,5 +53,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.5.2")]
+[assembly: AssemblyVersion("1.5.5")]
 
