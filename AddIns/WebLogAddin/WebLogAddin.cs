@@ -262,8 +262,8 @@ namespace WeblogAddin
                 // this is null
                 postUrl = client.PostUrl;                
             }
-
-            meta.PostId = WeblogModel.ActivePost.PostId.ToString();
+            
+            meta.PostId = WeblogModel.ActivePost.PostId?.ToString();
 
             // retrieve the raw editor markdown
             markdown = editor.GetMarkdown();
