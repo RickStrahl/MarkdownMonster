@@ -101,15 +101,17 @@ namespace MarkdownMonster
 
 			Model = new AppModel(this);
 			DataContext = Model;
-
+            
 			InitializePreviewBrowser();
-
+            
 			TabControl.ClosingItemCallback = TabControlDragablz_TabItemClosing;
 
 			Loaded += OnLoaded;
 			Drop += MainWindow_Drop;
 			AllowDrop = true;			
 			Activated += OnActivated;
+
+            
 
 			// Singleton App startup - server code that listens for other instances
 			if (mmApp.Configuration.UseSingleWindow)
