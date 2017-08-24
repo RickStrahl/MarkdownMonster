@@ -437,8 +437,7 @@ namespace MarkdownMonster
 
 
                 SaveFileDialog sd = new SaveFileDialog
-                {
-                    Filter = "Markdown files (*.md)|*.md|Markdown files (*.markdown)|*.markdown|All files (*.*)|*.*",
+                {                    
                     FilterIndex = 1,
                     InitialDirectory=folder,
                     FileName = filename,
@@ -447,6 +446,13 @@ namespace MarkdownMonster
                     CheckPathExists = true,
                     RestoreDirectory = true
                 };
+
+                var mdcryptExt = string.Empty;
+                if (isEncrypted)
+                    mdcryptExt = "Secure Markdown files (*.mdcrypt)|*.mdcrypt|";
+
+                sd.Filter =
+                    $"{mdcryptExt}Markdown files (*.md)|*.md|Markdown files (*.markdown)|*.markdown|All files (*.*)|*.*";
 
                 bool? result = null;
                 try
@@ -593,7 +599,7 @@ Do you want to View in Browser now?
                 var fd = new OpenFileDialog
                 {
                     DefaultExt = ".md",
-                    Filter = "Markdown files (*.md,*.markdown)|*.md;*.markdown|" +
+                    Filter = "Markdown files (*.md,*.markdown,*.mdcrypt)|*.md;*.markdown;*.mdcrypt|" +
                              "Html files (*.htm,*.html)|*.htm;*.html|" +
                              "Javascript files (*.js)|*.js|" +
                              "Typescript files (*.ts)|*.ts|" +

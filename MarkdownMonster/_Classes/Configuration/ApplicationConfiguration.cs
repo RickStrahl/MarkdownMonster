@@ -409,7 +409,7 @@ namespace MarkdownMonster
 	        {"mdcrypt", "markdown"},
             {"json", "json"},
 		    {"html", "html"},
-			{ "htm", "html" },
+			{"htm", "html" },
 
 		    {"cs", "csharp"},
 		    {"js", "javascript"},

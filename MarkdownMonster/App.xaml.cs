@@ -27,6 +27,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +37,6 @@ using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
 using Westwind.Utilities;
-
 
 namespace MarkdownMonster
 {
@@ -65,7 +65,7 @@ namespace MarkdownMonster
             //}
             //catch {  /* fails not supported on Windows 7 and older */ }
 
-            initialStartDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            initialStartDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);            
         }
 
         public App()
@@ -81,6 +81,7 @@ namespace MarkdownMonster
                 return;
             }
 
+            
             SplashScreen splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
             splashScreen.Show(true);
             
@@ -98,6 +99,7 @@ namespace MarkdownMonster
 #endif
             // This has to be here for AppInsights not in OnStartup
             mmApp.ApplicationStart();
+            
         }
 
 
@@ -372,5 +374,6 @@ namespace MarkdownMonster
             }
         }
     }
-    
+
+   
 }

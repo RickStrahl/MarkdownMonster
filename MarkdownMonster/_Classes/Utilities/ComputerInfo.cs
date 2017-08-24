@@ -285,6 +285,13 @@ namespace MarkdownMonster
                     rk.SetValue(null, "Markdown Monster");
                 }
             }
+            if (!TryGetRegistryKey("Software\\Classes\\.mdcrypt", null, out value, true))
+            {
+                using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.mdcrypt"))
+                {
+                    rk.SetValue(null, "Markdown Monster");
+                }
+            }
         }
 
         public static void EnsureSystemPath(bool uninstall = false)
