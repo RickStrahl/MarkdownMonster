@@ -86,6 +86,7 @@
     <Compile Include="mmAppTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="SupportFiles\SampleMarkdown.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
