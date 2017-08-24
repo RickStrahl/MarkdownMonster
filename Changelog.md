@@ -14,6 +14,9 @@
 * **Save Encrypted .mdcrypt Extension Default**  
 When you save files as encrypted files, Markdown Monster now defaults to the new `.mdcrypt` extension to signify an encrypted file. MM still can open plain `.md` files that are encrypted, but the explicit extension makes it easy to see that the file requires a password to open.
 
+* **Addin AddMenuItem() method**  
+You can now create new menu items from an addin more easily by using the new `Addin.AddMenuItem()` method. Allows insertion of a menu item before or after an existing item by name or caption.
+
 * **Addin OnInstall() and OnUninstall() methods**  
 Addins now get a couple of additional methods to handle post installation and pre-uninstallation tasks. These methods allow installation and removal of additional resources.
 
