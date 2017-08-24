@@ -5,11 +5,20 @@
 
 
 
-> #### Upgrades: Explicitly uninstall pre-1.4.10 Installations! 
+> #### Upgrades: Uninstall pre-1.4.10 Versions! 
 > If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall using Programs and Features** before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges.
 
+### 1.5.8
+*<small>not released yet</small>*
+
+* **Save Encrypted .mdcrypt Extension Default**  
+When you save files as encrypted files, Markdown Monster now defaults to the new `.mdcrypt` extension to signify an encrypted file. MM still can open plain `.md` files that are encrypted, but the explicit extension makes it easy to see that the file requires a password to open.
+
+* **Addin OnInstall() and OnUninstall() methods**  
+Addins now get a couple of additional methods to handle post installation and pre-uninstallation tasks. These methods allow installation and removal of additional resources.
+
 ### 1.5.5
-*<small>August 16th</small>*
+*<small>August 16th, 2017</small>*
 
 * **New Context Menu in Preview Browser**  
 The preview browser now provides a few options to show content in an external browser, and show source code in an editor window (with live HTML preview of the HTML text).
