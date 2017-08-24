@@ -157,8 +157,8 @@ namespace MarkdownMonster.Windows
             var addin = button.DataContext as AddinItem;
             if (addin == null)
                 return;
-            
-            if (AddinManager.Current.UninstallAddin(addin.id))
+                        
+            if ( AddinManager.Current.UninstallAddin(addin.id))
             {
                 ShowStatus(addin.name + 
                     " marked for deletion. Please restart Markdown Monster to finalize un-install.", 

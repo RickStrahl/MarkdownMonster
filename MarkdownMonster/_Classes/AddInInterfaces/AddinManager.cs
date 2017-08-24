@@ -491,7 +491,7 @@ namespace MarkdownMonster.AddIns
                 }
             }
 
-        }        
+        }
 
         #endregion
 
@@ -564,6 +564,8 @@ namespace MarkdownMonster.AddIns
                 string fname = Path.GetFileName(file).ToLower();
                 if (fname.EndsWith("addin.dll"))
                     LoadAddinClasses(file,addinId);
+
+                AddIns.FirstOrDefault(a => a.Id == addinId)?.OnInstall();                
             }
 
             return true;
@@ -838,12 +840,11 @@ namespace MarkdownMonster.AddIns
                     }
                 }
 
-                
                 return result;
             }
             catch (Exception ex)
             {
-                this.ErrorMessage = ex.Message;
+                ErrorMessage = ex.Message;
                 result.IsError = true;
                 return result;
             }
@@ -876,6 +877,9 @@ namespace MarkdownMonster.AddIns
         /// <returns></returns>
         public bool UninstallAddin(string addinId, string addinPath = null)
         {
+            // try to fire uninstall code if addin is loaded
+            AddIns.FirstOrDefault(a => a.Id == addinId)?.OnUninstall();
+
             if (string.IsNullOrEmpty(addinPath))
                 addinPath = mmApp.Configuration.AddinsFolder;
 

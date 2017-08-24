@@ -254,6 +254,25 @@ namespace MarkdownMonster.AddIns
         {
             return null;           
         }
+
+
+        /// <summary>
+        /// Called after the addin is initially installed. Use this
+        /// method to install additional resources or add additional
+        /// one time configuration.
+        /// </summary>
+        public virtual void OnInstall()
+        {            
+        }
+
+
+        /// <summary>
+        /// Called after the addin has been uninstalled. Allows
+        /// for additional cleanup.
+        /// </summary>
+        public virtual void OnUninstall()
+        {            
+        }
         #endregion
 
         #region Helper Methods
