@@ -22,7 +22,9 @@
 */
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Westwind.Utilities;
@@ -282,7 +284,7 @@ namespace MarkdownMonster.AddIns
         /// a number of methods for getting access to the editor document
         /// </summary>
         /// <returns></returns>
-        protected MarkdownDocumentEditor GetMarkdownEditor()
+        public MarkdownDocumentEditor GetMarkdownEditor()
         {
             return Model.Window.GetActiveMarkdownEditor();
         }
@@ -296,7 +298,7 @@ namespace MarkdownMonster.AddIns
         /// the edtor using the GetSelectedText() and SetSelectedText().
         /// </summary>
         /// <returns></returns>
-        protected internal MarkdownDocument GetMarkdownDocument()
+        public MarkdownDocument GetMarkdownDocument()
         {
             var editor =  Model.Window.GetActiveMarkdownEditor();
             return editor?.MarkdownDocument;
@@ -306,7 +308,7 @@ namespace MarkdownMonster.AddIns
         /// Returns the active live markdown text from the editor
         /// </summary>
         /// <returns></returns>
-        protected string GetMarkdown()
+        public string GetMarkdown()
         {
             var editor = Model.Window.GetActiveMarkdownEditor();
             return editor?.GetMarkdown();
@@ -317,7 +319,7 @@ namespace MarkdownMonster.AddIns
         /// Sets all the text in the markdown editor
         /// </summary>
         /// <param name="markdownText"></param>
-        protected void SetMarkdown(string markdownText)
+        public void SetMarkdown(string markdownText)
         {
             var editor = Model.Window.GetActiveMarkdownEditor();
             editor?.SetMarkdown(markdownText);
@@ -328,7 +330,7 @@ namespace MarkdownMonster.AddIns
         /// Gets the active selection from the editor
         /// </summary>
         /// <returns></returns>
-        protected string GetSelection()
+        public string GetSelection()
         {
             return Model.ActiveEditor?.AceEditor.getselection(false) ?? string.Empty;
         }
@@ -337,7 +339,7 @@ namespace MarkdownMonster.AddIns
         /// Sets the active selection from the editor
         /// </summary>
         /// <param name="text"></param>
-        protected void SetSelection(string text)
+        public void SetSelection(string text)
         {
             var editor = Model.Window.GetActiveMarkdownEditor();
             if (editor == null)
@@ -357,7 +359,7 @@ namespace MarkdownMonster.AddIns
         /// <summary>
         /// Brings the editor to focus
         /// </summary>
-        protected void SetEditorFocus()
+        public void SetEditorFocus()
         {
             Model.Window.Activate();
             Model.ActiveEditor?.SetEditorFocus();
@@ -368,7 +370,7 @@ namespace MarkdownMonster.AddIns
         /// Refreshes the Html Preview Window if active
         /// </summary>
         /// <param name="keepScrollPosition"></param>
-        protected void RefreshPreview(bool keepScrollPosition=true)
+        public void RefreshPreview(bool keepScrollPosition=true)
         {
             Model.Window.PreviewMarkdownAsync(keepScrollPosition: keepScrollPosition);
         }
@@ -378,7 +380,7 @@ namespace MarkdownMonster.AddIns
         /// against the editor.
         /// </summary>
         /// <param name="action">Name of the Editor action to perform</param>
-        protected void ExecuteEditCommand(string action)
+        public void ExecuteEditCommand(string action)
         {
             var editor = Model.Window.GetActiveMarkdownEditor();
             editor?.ProcessEditorUpdateCommand(action);
@@ -390,7 +392,7 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         /// <param name="filename">File to open</param>
         /// <returns>The TabItem instance representing the opened tab</returns>
-        protected TabItem OpenTab(string filename)
+        public TabItem OpenTab(string filename)
         {
             return Model.Window.OpenTab(filename);                        
         }
@@ -401,7 +403,7 @@ namespace MarkdownMonster.AddIns
         /// the tab collection via Model.Window.TabControl.
         /// </summary>
         /// <param name="tab"></param>
-        protected void CloseTab(TabItem tab)
+        public void CloseTab(TabItem tab)
         {
             Model.Window.CloseTab(tab);
         }
@@ -411,7 +413,7 @@ namespace MarkdownMonster.AddIns
         /// filename
         /// </summary>
         /// <param name="filename"></param>
-        protected void CloseTab(string filename)
+        public void CloseTab(string filename)
         {
             Model.Window.CloseTab(filename);
         }
@@ -422,7 +424,7 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         /// <param name="message">Message to display</param>
         /// <param name="timeoutMs">optional timeout in milliseconds</param>
-        protected void ShowStatus(string message, int timeoutMs = 0)
+        public void ShowStatus(string message, int timeoutMs = 0)
         {            
             Model.Window.ShowStatus(message, timeoutMs);            
         }
@@ -434,11 +436,85 @@ namespace MarkdownMonster.AddIns
         /// <param name="icon"></param>
         /// <param name="color"></param>
         /// <param name="spin"></param>
-        protected void SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon icon, Color color,bool spin = false)
+        public void SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon icon, Color color,bool spin = false)
         {
             Model.Window.SetStatusIcon(icon, color,spin);
             
             
+        }
+        #endregion
+
+        #region UI Shell Operations
+
+        /// <summary>
+        /// Allows insertion of a menu item 
+        /// </summary>
+        /// <param name="mitem">The menu item to insert</param>
+        /// <param name="menuItemName">Name of the menuitem element (optional - use either menuItemName or menuItemText)</param>
+        /// <param name="menuItemText">Text of the menuitem element (optional - use either menuItemName or menuItemText)</param>
+        /// <param name="mode">0 - insert after, 1 - insert before, 2 - replace</param>
+        public bool AddMenuItem(MenuItem mitem, string menuItemName = null, string menuItemText = null, int mode = 0)
+        {
+            // find the menu item to in
+            var menuItem = GetChildMenuItem(Model.Window.MainMenu, menuItemName, menuItemText);
+            if (menuItem == null)
+                return false;
+
+            ItemsControl parent = menuItem.Parent as ItemsControl;
+            if (parent == null)
+                return false;
+
+            int idx;
+            if (mode == 0)
+            {
+                idx = parent.Items.IndexOf(menuItem);
+                idx++;
+            }
+            else
+            {
+                idx = parent.Items.IndexOf(menuItem);
+            }
+
+            parent.Items.Insert(idx, mitem);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Use this to find a menu item either by control name or by 
+        /// caption text.
+        /// 
+        /// Pass either menuItemName OR menuItemText parameter. If both are
+        /// passed menuItemName takes precendence.
+        /// </summary>
+        /// <param name="mitem"></param>
+        /// <param name="menuItemName"></param>
+        /// <param name="menuItemText"></param>
+        /// <returns></returns>
+        public MenuItem GetChildMenuItem(ItemsControl mitem, string menuItemName = null, string menuItemText = null)        
+        {
+            foreach (var control in mitem.Items)
+            {                
+                var menuItem = control as MenuItem;
+                if (menuItem == null)
+                    continue;
+
+
+                if (!string.IsNullOrEmpty(menuItemName) && menuItemName == menuItem.Name)
+                    return menuItem;
+
+                if (!string.IsNullOrEmpty(menuItemText) && menuItemName == menuItem.Header?.ToString())
+                    return menuItem;
+
+                if (menuItem.Items != null)
+                {
+                    menuItem = GetChildMenuItem(menuItem, menuItemName, menuItemText);
+                    if (menuItem != null)
+                        return menuItem;
+                }
+            }
+
+            return null;
         }
         #endregion
 
@@ -451,6 +527,7 @@ namespace MarkdownMonster.AddIns
             return Id ?? Name ?? "no name";
         }
 
-        
+      
+
     }   
 }
