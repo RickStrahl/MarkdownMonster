@@ -489,15 +489,29 @@ var te = window.textEditor = {
         if (pos > 0)
             text = text.substr(0, pos - 1);
 
-        // strip of front matter
-        if (text.substr(0, 4) === "---\r" || text.substr(0, 4) === "---\n") {
-            pos = text.indexOf("\n---\n");
-            if (pos < 0)
-                pos = text.indexOf("\n---\r\n");
-            if (pos > -1) {
-                pos += 6;
-                text = text.substr(pos);
-            }
+        // strip off front matter.
+		if (text.substr(0, 4) === "---\r"
+			|| text.substr(0, 4) === "---\n"
+			|| text.substr(0, 4) === "...\r"
+			|| text.substr(0, 4) === "...\n") {
+			var pos1 = text.indexOf("\n---\n");
+			if (pos1 < 0)
+				pos1 = text.indexOf("\n---\r\n");
+
+			var pos2 = text.indexOf("\n...\n");
+			if (pos2 < 0)
+				pos2 = text.indexOf("\n...\r\n");
+
+			// Find which ending comes first.
+			if (pos1 > -1 && pos2 > -1)
+				pos = Math.min(pos1, pos2);
+			else
+				pos = Math.max(pos1, pos2);
+
+			if (pos > -1) {
+				pos += 6;
+				text = text.substr(pos);
+			}
         }
 
         var regExWords = /\s+/gi;

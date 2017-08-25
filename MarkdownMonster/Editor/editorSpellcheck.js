@@ -204,9 +204,9 @@ var sc = window.spellcheck = {
                     setTimeout(function (line, isLast) {
                         var lineText = lines[line];
                         
-                        if (isFrontMatter && lineText == "---") 
+						if (isFrontMatter && (lineText == "---" || lineText == "...")) 
                             isFrontMatter = false;                                                                                                                               
-                        if (line == 0 && lineText == "---") 
+						if (line == 0 && (lineText == "---" || lineText == "...")) 
                             isFrontMatter = true;                            
 
 

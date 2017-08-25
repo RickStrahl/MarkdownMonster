@@ -168,9 +168,17 @@ namespace MarkdownMonster
 
 
                     // Front Matter Title
-                    if (lines.Length > 2 && lines[0] == "---")
+                    if (lines.Length > 2 && (lines[0] == "---" || lines[0] == "..."))
                     {
-                        var block = mmFileUtils.ExtractString(CurrentText, "---", "---", returnDelimiters: true);
+						var start = lines[0];
+						string end = "---";
+
+						var endBlock1 = CurrentText.IndexOf("---", 3);
+						var endBlock2 = CurrentText.IndexOf("...", 3);
+						if (endBlock2 > -1 && (endBlock2 == -1 || endBlock2 < endBlock1))
+							end = "...";
+
+						var block = mmFileUtils.ExtractString(CurrentText, start, end, returnDelimiters: true);
                         if (!string.IsNullOrEmpty(block))
                         {
                             title = StringUtils.ExtractString(block, "title: ", "\n").Trim();
