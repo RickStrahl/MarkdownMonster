@@ -121,8 +121,13 @@ namespace MarkdownMonster.Windows
                     {
                         var installedAddin = AddinManager.Current.AddIns.FirstOrDefault(ai => ai.Id == addin.id);
                         if (installedAddin != null)
-                        {
+                        {                            
                             installedAddin.OnApplicationStart();
+
+                            // trigger parser addins to refresh MarkdownParsers if they are provided
+                            if (installedAddin.GetMarkdownParser() != null)
+                                mmApp.Model.OnPropertyChanged(nameof(AppModel.MarkdownParserColumnWidth));                            
+
                             AddinManager.Current.InitializeAddinsUi(Owner as MainWindow,
                                 new List<MarkdownMonsterAddin>() {installedAddin});
                             ShowStatus(addin.name + "  addin installed.", 6000);

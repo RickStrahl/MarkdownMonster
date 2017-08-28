@@ -290,11 +290,10 @@ namespace MarkdownMonster
                 if (!AddinManager.Current.AddinsLoadingComplete)
                     return null;
 
-                _parserNames = MarkdownParserFactory.GetParserNames();
-                return _parserNames;
+                var parsers = MarkdownParserFactory.GetParserNames();
+                return parsers;
             }
-        }
-        private List<string> _parserNames;
+        }        
 
         /// <summary>
         /// Returns the width of the column containing
@@ -305,10 +304,8 @@ namespace MarkdownMonster
             get
             {
                 if (MarkdownParserFactory.GetParserNames().Count > 1)
-                {
                     return 180;
-                }
-                
+
                 return 0;
             }
         }

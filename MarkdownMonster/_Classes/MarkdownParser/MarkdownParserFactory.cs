@@ -49,15 +49,11 @@ namespace MarkdownMonster
         /// </summary>
         /// <returns></returns>
         public static List<string> GetParserNames()
-        {
-            
+        {            
             var parserStrings = new List<string>()
             {
-                {DefaultMarkdownParserName}
+                DefaultMarkdownParserName                
             };
-
-            if (AddinManager.Current.AddIns.Count == 0)
-                return parserStrings;
 
             foreach (var addin in AddinManager.Current.AddIns)
             {
