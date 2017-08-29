@@ -16,37 +16,12 @@
 
              
                 <!-- Mah Base Accent and AppTheme setting -->
-                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />-->
                 <ResourceDictionary Source="Styles/MahLightAccents.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
 
                 <ResourceDictionary Source="Styles/Buttons.xaml"/>
 
-                <!-- load this dynamically in OnStartup for dark theme -->
-                <!--<ResourceDictionary Source="Styles/MahMenuCustomizations.xaml"/>-->
-                
-                <!--<ResourceDictionary Source="Styles/DragablzGeneric.xaml"/>-->
-                <!--<ResourceDictionary Source="Styles/DragablzGenericLight.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
-
-
-            <!--<Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MahAppsTabablzControlStyle}">--><!--
-            <Style x:Key="MarkdownMonsterTrapezoidDragableTabItemStyle"
-                   TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource TrapezoidDragableTabItemStyle}">
-                <Setter Property="ContextMenu" Value="{DynamicResource TabItemContextMenu}" />
-            </Style>
-
-            <Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource {x:Type dragablz:TabablzControl}}">
-                <Setter Property="ItemContainerStyle" Value="{StaticResource MarkdownMonsterTrapezoidDragableTabItemStyle}" />
-                <Setter Property="AdjacentHeaderItemOffset" Value="-12" />
-                <Setter Property="ShowDefaultAddButton" Value="True" />
-                <Setter Property="ShowDefaultCloseButton" Value="True" />
-            </Style>
-
-            <SolidColorBrush x:Key="BlueItem" Color="#70B8FF" />
-            <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
-            <SolidColorBrush x:Key="HeadlineColor" Color="LightSteelBlue" />-->
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>
