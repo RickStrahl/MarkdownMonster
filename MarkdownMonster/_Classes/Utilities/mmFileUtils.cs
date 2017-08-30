@@ -23,10 +23,33 @@ namespace MarkdownMonster
 		/// <returns>filename or null if file doesn't exist</returns>
 		public static string FixupDocumentFilename(string file)
         {
+            if (file == null)
+                return null;
+
+            file = file.Replace("/", "\\");
+
+            if (File.Exists(file))
+                return file;
+           
+            var newFile = Path.Combine(App.initialStartDirectory, file);
+            if (File.Exists(newFile))
+                return newFile;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Normalizes a potentially relative pathname to a base path name.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="basePath"></param>
+        /// <returns>Normalized file name, or null if the file is not found</returns>
+        public static string NormalizeFilename(string file, string basePath)
+        {
             if (File.Exists(file))
                 return file;
 
-            var newFile = Path.Combine(App.initialStartDirectory, file);
+            var newFile = Path.Combine(basePath, file);
             if (File.Exists(newFile))
                 return newFile;
 

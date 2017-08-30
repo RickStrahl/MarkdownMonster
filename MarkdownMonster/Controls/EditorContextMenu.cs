@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using MarkdownMonster.Windows;
+using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
@@ -56,7 +60,11 @@ namespace MarkdownMonster
 
             foreach (var sg in suggestions)
             {
-                var mi = new MenuItem { Header = sg };
+                var mi = new MenuItem
+                {
+                    Header = sg,
+                    FontWeight = FontWeights.Bold
+                };
                 mi.Click += (o, args) => model.ActiveEditor.AceEditor.replaceSpellRange(range, sg);
                 ContextMenu.Items.Add(mi);
             }
@@ -79,20 +87,23 @@ namespace MarkdownMonster
             Show();
         }
 
+        /// <summary>
+        /// Adds Copy/Cut/Paste Context menu options
+        /// </summary>
         public void AddCopyPaste()
         {
             var selText = Model.ActiveEditor?.AceEditor?.getselection(false);
             var model = Model;
 
-            var miCopy = new MenuItem() { Header = "Copy" };
+            var miCopy = new MenuItem() { Header = "Copy", InputGestureText = "ctrl-c" };
             miCopy.Click += (o, args) => Clipboard.SetText(selText);
             ContextMenu.Items.Add(miCopy);
 
-            var miCut = new MenuItem { Header = "Cut" };
+            var miCut = new MenuItem { Header = "Cut", InputGestureText = "ctrl-x" };
             miCut.Click += (o, args) => model.ActiveEditor.SetSelection("");
             ContextMenu.Items.Add(miCut);
 
-            var miPaste = new MenuItem() { Header = "Paste" };
+            var miPaste = new MenuItem() { Header = "Paste", InputGestureText = "ctrl-v" };
             miPaste.Click += (o, args) => model.ActiveEditor?.SetSelection(Clipboard.GetText());
             ContextMenu.Items.Add(miPaste);
 
@@ -107,6 +118,45 @@ namespace MarkdownMonster
 
             if (ContextMenu.Items.Count > 0)
                 ContextMenu.Items.Add(new Separator());
+        }
+
+        public void AddEditorContext()
+        {
+            var model = Model;
+            var line = Model.ActiveEditor.GetCurrentLine();
+
+            var pos = Model.ActiveEditor.GetCursorPosition();
+            if (pos.Y == -1)
+                return;
+            
+            // Check for images ![](imageUrl)
+            var matches = Regex.Matches(line, @"!\[.*?\]\(.*?\)", RegexOptions.IgnoreCase);
+            if (matches.Count > 0)
+            {
+                foreach (Match match in matches)
+                {
+                    string val= match.Value;
+                    if (match.Index <= pos.X && match.Index + val.Length > pos.X)
+                    {
+                        var mi = new MenuItem
+                        {
+                            Header = "Edit in Image Editor"
+                        };
+                        mi.Click += (o, args) =>
+                        {
+                            var image = StringUtils.ExtractString(val, "(", ")");
+                            image = mmFileUtils.NormalizeFilename(image,Path.GetDirectoryName(model.ActiveDocument.Filename));
+                            mmFileUtils.OpenImageInImageEditor(image);
+                        };
+                        ContextMenu.Items.Add(mi);
+                    }
+
+
+                    if (ContextMenu.Items.Count > 0)
+                        ContextMenu.Items.Add(new Separator());
+                }
+            }            
+
         }
     }
 }

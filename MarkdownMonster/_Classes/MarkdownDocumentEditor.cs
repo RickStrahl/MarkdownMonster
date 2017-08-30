@@ -1077,6 +1077,7 @@ namespace MarkdownMonster
         {
             var cm = new EditorContextMenu();
             cm.ClearMenu();
+            cm.AddEditorContext();
             cm.AddCopyPaste();
             cm.Show();
         }
@@ -1384,7 +1385,20 @@ namespace MarkdownMonster
 		{
 			return MarkdownDocument?.Filename ?? base.ToString();
 		}
-	}
+
+        public Point GetCursorPosition()
+        {
+            dynamic pos = AceEditor.getCursorPosition(false);
+            if (pos == null)
+                return new Point {X = -1, Y = -1};
+            var pt = new Point()
+            {
+                X = pos.column,
+                Y = pos.row
+            };
+            return pt;
+        }
+    }
 
 
 }
