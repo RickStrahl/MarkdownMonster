@@ -8,6 +8,19 @@
 > #### Upgrades: Uninstall pre-1.4.10 Versions! 
 > If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall using Programs and Features** before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges.
 
+### 1.5.10
+*<small>not released yet</small>*
+
+* **Updated Editor Context Menu**  
+The Editor's context menu has been updated to forward all menu handling to WPF rather than HTML based menu display. Currently the new menu handles Copy/Cut/Paste and spellchecking duties only, but additional menu options/features can now be added more easily.
+
+* **Fix: Addin Markdown Parsers now are selectable immediately**  
+When installing an addin that exposes a new Markdown Parser is now visible and selectable immediately from the Markdown parser selection drop down on the toolbar.
+
+* **Fix: Pandoc Addin FrontMatter Support Change**  
+The Pandoc Addin now handles YAML Frontmatter using Pandoc's native rendering, which works differently than the default [Markdig](https://github.com/lunet-io/markdig) parser. Pandoc picks out the `title` property from the YAML and automatically injects a `<h1>` tag with the title into the document which is not the case with the defaut Markdig parser. The reason for the change is to ensure you get to see the raw Pandoc output that you will see if the document is explicitly run through Pandoc.
+
+
 ### 1.5.8
 *<small>August 24th, 2017</small>*
 
