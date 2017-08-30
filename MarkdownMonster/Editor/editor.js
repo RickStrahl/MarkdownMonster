@@ -13,6 +13,7 @@ var te = window.textEditor = {
     aff: null,
     isDirty: false,
     mousePos: { column: 0, row: 0 },
+    spellcheck: null,
 
     initialize: function() {
 
@@ -543,7 +544,7 @@ var te = window.textEditor = {
         // use COM object        
         return te.mm.textbox.CheckSpelling(word,editorSettings.dictionary,false);
     },
-    suggestSpelling: function (word, maxCount) {
+    suggestSpelling: function (word, maxCount, range) {
         if (!editorSettings.enableSpellChecking)
             return null;
 
@@ -552,7 +553,7 @@ var te = window.textEditor = {
             return spellcheck.dictionary.suggest(word);
         
         // use COM object
-        var words = te.mm.textbox.GetSuggestions(word, editorSettings.dictionary, false);       
+        var words = te.mm.textbox.GetSuggestions(word, editorSettings.dictionary, false, range);       
         if (!words)
             return [];
 
@@ -564,6 +565,13 @@ var te = window.textEditor = {
     },
     addWordSpelling: function (word) {        
         te.mm.textbox.AddWordToDictionary(word, editorSettings.dictionary);
+        if (sc)
+            sc.spellCheck(true);
+    },
+    replaceSpellRange: function(range, text) {
+        te.editor.getSession().replace(range, text); 
+        if (sc)
+            sc.spellCheck(true);
     },
     onblur: function () {
         te.mm.textbox.lostfocus();
@@ -643,7 +651,6 @@ window.onmousewheel = function(e) {
 //                 1);
 
 //             te.setselection(''); // collapse selection
-
 //             return false;
 //         } else {
 //         }
@@ -655,9 +662,11 @@ window.onmousewheel = function(e) {
 window.oncontextmenu = function (e) {
     e.preventDefault();
     e.cancelBubble = true;
-    return false;
-}
+    
+    te.mm.textbox.EditorContextMenu();
 
+    return navigator.userAgent.indexOf("Trident") > -1 ? false : true;
+}
 
 // This function is global and called by the parent
 // to pass in the form object and pass back the text

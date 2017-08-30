@@ -691,8 +691,6 @@ namespace MarkdownMonster
 
         #endregion
 
-        #region HTML Document functions
-
         /// <summary>
         /// Returns the editor's vertical scroll position
         /// </summary>
@@ -761,7 +759,6 @@ namespace MarkdownMonster
             ctm.PlacementTarget = Window.PreviewBrowser;
             ctm.IsOpen = true;
         }
-        #endregion  
 
         #region Callback functions from the Html Editor
 
@@ -1076,6 +1073,14 @@ namespace MarkdownMonster
             }
         }
 
+        public void EditorContextMenu()
+        {
+            var cm = new EditorContextMenu();
+            cm.ClearMenu();
+            cm.AddCopyPaste();
+            cm.Show();
+        }
+
         public string EditorSelectionOperation(string action, string text)
         {
             if (action == "image")
@@ -1347,19 +1352,20 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Returns spelling suggestions for an individual word
+        /// Shows spell check context menu options
         /// </summary>
         /// <param name="text"></param>
         /// <param name="language"></param>
         /// <param name="reload"></param>
         /// <returns></returns>
-        public string GetSuggestions(string text, string language = "EN_US", bool reload = false)
+        public void GetSuggestions(string text, string language = "EN_US", bool reload = false, object range = null)
         {
-            var hun = GetSpellChecker(language, reload); 
+            var hun = GetSpellChecker(language, reload);
 
-            var sugg = hun.Suggest(text).Take(10).ToArray();
+            var sugg = hun.Suggest(text).Take(10);
 
-            return JsonConvert.SerializeObject(sugg);            
+            var cm = new EditorContextMenu();
+            cm.ShowSpellcheckWords(sugg,range);            
         }
 
         /// <summary>

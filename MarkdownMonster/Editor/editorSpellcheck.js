@@ -38,6 +38,7 @@ var sc = window.spellcheck = {
     enable: function () {
         editorSettings.enableSpellChecking = true;
         sc.spellCheck = spellCheck;
+        te.spellcheck = sc;
         
         // You also need to load in typo.js and jquery.js
         // You should configure these classes.                        
@@ -195,9 +196,6 @@ var sc = window.spellcheck = {
 
                     var line = i;                    
 
-                //for (var line in lines) {
-                    // Clear the gutter.
-                    //session.removeGutterDecoration(i, "misspelled");
                     lineCount++;                    
 
                     // setTimeout to free up processor in between lines
@@ -218,8 +216,6 @@ var sc = window.spellcheck = {
                                 isCodeBlock = false;
                         
                         }
-                        //isCodeBlock = !isCodeBlock;                            
-                        
                         if (!isCodeBlock && !isFrontMatter) {
 
                             // Check spelling of this line.
@@ -251,13 +247,6 @@ var sc = window.spellcheck = {
 
 
         function showSuggestions(e) {
-            var $list = $("#spellfixes");
-
-            // avoid multiple popups - in ActiveX control for 
-            // some reason it fires twice
-            if ($list.is(":visible"))
-                return;
-
             var markers = te.editor.session.getMarkers(true);
             if (!markers || markers.length == 0)
                 return;
@@ -288,74 +277,8 @@ var sc = window.spellcheck = {
             // pick the mispelled word out of the attached range value
             var misspelledWord = matched.range.misspelled;
 
-
-            //var sug = dictionary.suggest(misspelledWord, 10);
-            var sug = te.suggestSpelling(misspelledWord, 8);
-            if (!sug || sug.length < 1)
-                return;
-
-            var $item;
-            for (var i = 1; i <= sug.length; i++) {
-                $item = $("<div>").text(sug[i-1]);
-                $item.data("range", matched.range);
-                $list.append($item);
-            }           
-            $item = $("<div class='separator'></div>" +
-                      "<div style='text-align:right'>+ add</div>");
-            $list.append($item);
-
-            // No good way to close via other events so add a button to close
-            $item = $("<div style='text-align:right'>x close</div>");
-            $list.append($item);
-
-	        $list
-		        .data("misspelled", misspelledWord)
-		        .show()
-		        .css({ left: e.clientX, top: e.clientY });
-    //            .mouseleave(function(e) {
-    //                $list.hide();
-    //                $list.html("");
-				//});
-
-			   // clicking anywhere will close the popup
-	           $(document).bind("click.suggestionsdoc", hideSuggestions);
-            
-                setTimeout(function () {
-                    if (e.clientY + $list.height() > document.documentElement.clientHeight)
-                        $list.css({ top: e.clientY - $list.height() });
-                    if (e.clientX + $list.width() > document.documentElement.clientWidth)
-                        $list.css({ left: e.clientX - $list.width() });
-                }, 1);
-        }
-
-		function hideSuggestions() {
-			var $list = $("#spellfixes");
-			$list.hide();
-			$list.html("");
-			$(document).unbind("click.suggestionsdoc");			
-		}
-
-        // <div id="spellfixes"> 
-        //    <div>word</div>
-        //    <div>word2</div>
-        // </div>
-        function clickSuggestion() {
-            var $el = $(this);
-            var $list = $("#spellfixes");
-
-            var text = $el.text();
-            
-            if (text && text.trim() == "+ add") {
-                var word = $list.data("misspelled");
-                te.addWordSpelling(word);
-                sc.contentModified = true;
-            }
-            else if (text && text.trim() != "x close") {
-                var range = $el.data("range");
-                te.editor.getSession().replace(range, text);
-            }
-
-	        hideSuggestions();            
+            // show suggested spellings in WPF Context Menu
+            te.suggestSpelling(misspelledWord, 8, matched.range);
         }
     }
 }

@@ -54,11 +54,16 @@
             <Separator/>
             <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Click="Button_CopyFoldername" />
         </ContextMenu>
+        
         <ContextMenu x:Key="ContextMenuRecentFiles">
             <MenuItem Header="Recent Files go here..."/>
         </ContextMenu>
-       
+
     </Window.Resources>
+    <Window.ContextMenu>
+        <ContextMenu Name="EditorContextMenu">
+        </ContextMenu>
+    </Window.ContextMenu>
 
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>

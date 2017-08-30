@@ -142,6 +142,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\EditorContextMenu.cs" />
     <Compile Include="Windows\EmojiWindow.xaml.cs">
       <DependentUpon>EmojiWindow.xaml</DependentUpon>
     </Compile>
