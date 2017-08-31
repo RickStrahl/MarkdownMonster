@@ -19,13 +19,13 @@ You can now right click over an image embedded into a Markdown document and use 
 You can now hover over an image embedded in Markdown and use **Edit Image Link** to reopen the image in the Image Embedding Dialog.
 
 * **Support for Pandoc YAML headers ending in `...`***  
-Thanks to a fix in the Markdig Pandoc parser, Pandoc alternate style YAML headers that end in `...` rather than `---` are now stripped from rendered Mardkdown output. Additional fixes for spellcheck exclusions and Weblog Publishing are forth coming in future updates.
+Thanks to a fix in the Markdig Pandoc parser, Pandoc alternate style YAML headers that end in `...` rather than `---` are now stripped from rendered Markdown output. Additional adjustments for spellcheck exclusions and Weblog Publishing are forthcoming in future updates.
 
 * **Fix: Addin Markdown Parsers now are selectable immediately**  
 When installing an addin that exposes a new Markdown Parser is now visible and selectable immediately from the Markdown parser selection drop down on the toolbar.
 
 * **Fix: Pandoc Addin FrontMatter Support Change**  
-The Pandoc Addin now handles YAML Frontmatter using Pandoc's native rendering, which works differently than the default [Markdig](https://github.com/lunet-io/markdig) parser. Pandoc picks out the `title` property from the YAML and automatically injects a `<h1>` tag with the title into the document which is not the case with the defaut Markdig parser. The reason for the change is to ensure you get to see the raw Pandoc output that you will see if the document is explicitly run through Pandoc.
+The Pandoc Addin now handles YAML FrontMatter using Pandoc's native rendering, which works differently than the default [Markdig](https://github.com/lunet-io/markdig) parser. Pandoc picks out the `title` property from the YAML and automatically injects a `<h1>` tag with the title into the document which is not the case with the default Markdig parser. The reason for the change is to ensure you get to see the raw Pandoc output that you will see if the document is explicitly run through Pandoc.
 
 
 ### 1.5.8
