@@ -82,6 +82,7 @@ namespace MarkdownMonster
             ContextMenu.Items.Add(mi2);
 
             ContextMenu.Items.Add(new Separator());
+            AddEditorContext();
             AddCopyPaste();
 
             Show();
@@ -94,24 +95,31 @@ namespace MarkdownMonster
         {
             var selText = Model.ActiveEditor?.AceEditor?.getselection(false);
             var model = Model;
-
-            var miCopy = new MenuItem() {Header = "Copy", InputGestureText = "ctrl-c"};
-            miCopy.Click += (o, args) => Clipboard.SetText(selText);
-            ContextMenu.Items.Add(miCopy);
-
-            var miCut = new MenuItem {Header = "Cut", InputGestureText = "ctrl-x"};
+            
+            var miCut = new MenuItem { Header = "Cut" };
             miCut.Click += (o, args) => model.ActiveEditor.SetSelection("");
             ContextMenu.Items.Add(miCut);
 
-            var miPaste = new MenuItem() {Header = "Paste", InputGestureText = "ctrl-v"};
+            var miCopy = new MenuItem() {Header = "Copy"};
+            miCopy.Click += (o, args) => Clipboard.SetText(selText);
+            ContextMenu.Items.Add(miCopy);
+
+            var miCopyHtml = new MenuItem() { Header = "Copy As Html" };          
+            miCopyHtml.Command = Model.CopyAsHtmlCommand;            
+            ContextMenu.Items.Add(miCopyHtml);
+   
+            var miPaste = new MenuItem() {Header = "Paste"};
             miPaste.Click += (o, args) => model.ActiveEditor?.SetSelection(Clipboard.GetText());
             ContextMenu.Items.Add(miPaste);
 
             if (string.IsNullOrEmpty(selText))
             {
                 miCopy.IsEnabled = false;
+                miCopyHtml.IsEnabled = false;
                 miCut.IsEnabled = false;
             }
+            if (Model.ActiveEditor?.EditorSyntax != "markdown")
+                miCopyHtml.IsEnabled = false;
 
             if (!Clipboard.ContainsText())
                 miPaste.IsEnabled = false;

@@ -61,7 +61,7 @@
 
     </Window.Resources>
     <Window.ContextMenu>
-        <ContextMenu Name="EditorContextMenu">
+        <ContextMenu Name="EditorContextMenu" MinWidth="175">
         </ContextMenu>
     </Window.ContextMenu>
 
@@ -182,8 +182,8 @@
                           ToolTip="Pastes HTML from your clipboard as Markdown text" 
                           InputGestureText="ctrl-shift-v"                          
                           />
-                <MenuItem Header="Copy Markdown Selection as Html" IsEnabled="{Binding IsEditorActive}"
-                          Click="Button_CopyMarkdownAsHtml" 
+                <MenuItem Header="Copy Markdown Selection as Html" IsEnabled="{Binding IsEditorActive}"                          
+                          Command="{Binding CopyAsHtmlCommand}"
                           ToolTip="Copies the selected markdown from the editor as HTML to the clipboard"
                           InputGestureText="ctrl-shift-c" />
                 <Separator />

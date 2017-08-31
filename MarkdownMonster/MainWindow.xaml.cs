@@ -1678,23 +1678,24 @@ namespace MarkdownMonster
 			PreviewMarkdownAsync(editor, true);
 		}
 
-		internal void Button_CopyMarkdownAsHtml(object sender, RoutedEventArgs e)
-		{
-			var editor = GetActiveMarkdownEditor();
-			if (editor == null)
-				return;
+		//internal void Button_CopyMarkdownAsHtml(object sender, RoutedEventArgs e)
+		//{
+		//	var editor = GetActiveMarkdownEditor();
+		//	if (editor == null)
+		//		return;
 
-			var markdown = editor.GetSelection();
-			var html = editor.RenderMarkdown(markdown);
+		//	var markdown = editor.GetSelection();
+		//	var html = editor.RenderMarkdown(markdown);
 
-			if (!string.IsNullOrEmpty(html))
-			{
-				Clipboard.SetText(html);
-				ShowStatus("Html has been pasted to the clipboard.", 4000);
-			}
-			editor.SetEditorFocus();
-			editor.Window.PreviewMarkdownAsync();
-		}
+		//	if (!string.IsNullOrEmpty(html))
+		//	{			    
+  //              // copy to clipboard as html
+		//	    ClipboardHelper.CopyToClipboard(html, html);				
+		//		ShowStatus("Html has been pasted to the clipboard.", mmApp.Configuration.StatusTimeout);
+		//	}
+		//	editor.SetEditorFocus();
+		//	editor.Window.PreviewMarkdownAsync();
+		//}
 
 		#endregion
 

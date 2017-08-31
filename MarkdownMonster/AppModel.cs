@@ -330,46 +330,9 @@ namespace MarkdownMonster
 
         #region Commands
 
-        public CommandBase PreviewBrowserCommand { get; set; }
-
         public CommandBase SaveCommand { get; set; }
-
-        public CommandBase SaveAsCommand { get; set; }
-
-        public CommandBase SaveAsHtmlCommand { get; set; }
-
-        public CommandBase ToolbarInsertMarkdownCommand { get; set; }
-
-        public CommandBase SettingsCommand { get; set; }
-
-        public CommandBase TabItemClosedCmd  { get; set; }
-
-        public CommandBase DistractionFreeModeCommand { get; set; }
-        public CommandBase PresentationModeCommand { get; set; }
-
-        public CommandBase NewDocumentCommand { get; set; }
-
-        public CommandBase OpenDocumentCommand { get; set; }
-
-        public CommandBase CloseActiveDocumentCommand { get; set; }
-
-        public CommandBase ViewInExternalBrowserCommand { get; set; }
-
-        public CommandBase PrintPreviewCommand { get; set; }
-
-        public CommandBase ViewHtmlSourceCommand { get; set; }
-
-		public CommandBase ShowFolderBrowserCommand { get; set; }
-
-        public CommandBase HelpCommand { get; set; }
-
-        public CommandBase GeneratePdfCommand { get; set; }
-
-        public CommandBase CommitToGitCommand { get; set; }
-
-        public CommandBase WordWrapCommand { get; set; }
-
-        private void CreateCommands()
+        
+        public void Command_Save()
         {
             // SAVE COMMAND
             SaveCommand = new CommandBase((s, e) =>
@@ -395,8 +358,12 @@ namespace MarkdownMonster
 
                 return this.ActiveDocument.IsDirty;
             });
+        }
+        
+        public CommandBase SaveAsCommand { get; set; }
 
-            // SAVEAS COMMAND
+        public void Command_SaveAs()
+        {            
             SaveAsCommand = new CommandBase((parameter, e) =>
             {
                 bool isEncrypted = parameter != null && parameter.ToString() == "Secure";
@@ -410,7 +377,7 @@ namespace MarkdownMonster
 
                 var filename = doc.MarkdownDocument.Filename;
                 var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
-              
+
                 if (filename == "untitled")
                 {
                     folder = mmApp.Configuration.LastFolder;
@@ -434,9 +401,9 @@ namespace MarkdownMonster
 
 
                 SaveFileDialog sd = new SaveFileDialog
-                {                    
+                {
                     FilterIndex = 1,
-                    InitialDirectory=folder,
+                    InitialDirectory = folder,
                     FileName = filename,
                     CheckFileExists = false,
                     OverwritePrompt = false,
@@ -474,7 +441,7 @@ namespace MarkdownMonster
                     {
                         Owner = Window
                     };
-                    bool? pwdResult = pwdDialog.ShowDialog();                            
+                    bool? pwdResult = pwdDialog.ShowDialog();
                 }
 
                 if (result != null && result.Value)
@@ -483,7 +450,7 @@ namespace MarkdownMonster
                     if (!doc.SaveDocument())
                     {
                         MessageBox.Show(Window, $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
-                            "Unable to save Document",MessageBoxButton.OK,MessageBoxImage.Warning);
+                            "Unable to save Document", MessageBoxButton.OK, MessageBoxImage.Warning);
                         SaveAsCommand.Execute(tab);
                         return;
                     }
@@ -494,12 +461,142 @@ namespace MarkdownMonster
                 Window.SetWindowTitle();
                 Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
-            {                
+            {
                 if (ActiveDocument == null)
                     return false;
 
                 return true;
-            });            
+            });
+        }
+        
+
+        public CommandBase PreviewBrowserCommand { get; set; }
+
+        public void Command_PreviewBrowser()
+        {            
+            PreviewBrowserCommand = new CommandBase((s, e) =>
+            {
+                var tab = Window.TabControl.SelectedItem as TabItem;
+                if (tab == null)
+                    return;
+
+                var editor = tab.Tag as MarkdownDocumentEditor;
+
+                Configuration.IsPreviewVisible = IsPreviewBrowserVisible;
+
+                if (!IsPreviewBrowserVisible && IsPresentationMode)
+                    PresentationModeCommand.Execute(null);
+
+
+                Window.ShowPreviewBrowser(!IsPreviewBrowserVisible);
+                if (IsPreviewBrowserVisible)
+                    Window.PreviewMarkdown(editor);
+
+            }, null);
+
+            // SHOW FILE BROWSER COMMAND
+            ShowFolderBrowserCommand = new CommandBase((s, e) =>
+            {
+                mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
+
+                mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+
+            });
+        }
+
+
+
+        public CommandBase SaveAsHtmlCommand { get; set; }
+
+        public CommandBase ToolbarInsertMarkdownCommand { get; set; }
+
+        public CommandBase SettingsCommand { get; set; }
+
+        public CommandBase TabItemClosedCmd  { get; set; }
+
+        public CommandBase DistractionFreeModeCommand { get; set; }
+        public CommandBase PresentationModeCommand { get; set; }
+
+        public CommandBase NewDocumentCommand { get; set; }
+
+        public CommandBase OpenDocumentCommand { get; set; }
+
+        public CommandBase CloseActiveDocumentCommand { get; set; }
+
+        public CommandBase ViewInExternalBrowserCommand { get; set; }
+
+        public CommandBase PrintPreviewCommand { get; set; }
+
+        public CommandBase ViewHtmlSourceCommand { get; set; }
+
+		public CommandBase ShowFolderBrowserCommand { get; set; }
+
+        public CommandBase HelpCommand { get; set; }
+
+        public CommandBase GeneratePdfCommand { get; set; }
+
+        public CommandBase CommitToGitCommand { get; set; }
+
+
+        public CommandBase WordWrapCommand { get; set; }
+
+        public void Command_WordWrap()
+        {
+
+            // WORD WRAP COMMAND
+            WordWrapCommand = new CommandBase((parameter, command) =>
+            {
+                //MessageBox.Show("alt-z WPF");
+                mmApp.Model.Configuration.EditorWrapText = !mmApp.Model.Configuration.EditorWrapText;
+                mmApp.Model.ActiveEditor?.SetWordWrap(mmApp.Model.Configuration.EditorWrapText);
+            }, 
+            (p, c) => IsEditorActive);
+        }
+
+
+
+
+        public CommandBase CopyAsHtmlCommand { get; set; }
+
+        public void Command_CopyAsHtml()
+        {
+            CopyAsHtmlCommand = new CommandBase((parameter, command) =>
+            {
+                if (ActiveEditor == null)
+                    return;
+
+                var editor = ActiveEditor;
+                if (editor == null)
+                    return;
+
+                var markdown = editor.GetSelection();
+                var html = editor.RenderMarkdown(markdown);
+
+                if (!string.IsNullOrEmpty(html))
+                {
+                    // copy to clipboard as html
+                    ClipboardHelper.CopyHtmlToClipboard(html, html);
+                    Window.ShowStatus("Html has been pasted to the clipboard.", mmApp.Configuration.StatusTimeout);
+                }
+                editor.SetEditorFocus();
+                editor.Window.PreviewMarkdownAsync();
+            }, (p, c) => IsEditorActive);
+
+        }
+
+
+
+
+
+        private void CreateCommands()
+        {
+            Command_Save();
+            Command_SaveAs();
+            Command_PreviewBrowser();
+
+            Command_WordWrap();
+            Command_CopyAsHtml();
+            
 
             // SAVEASHTML COMMAND
             SaveAsHtmlCommand = new CommandBase((s, e) =>
@@ -658,11 +755,15 @@ Do you want to View in Browser now?
             {
                 Caption = "_Close Document",
                 ToolTip = "Closes the active tab and asks to save the document."
-            };        
-                        
+            };
 
-            // COMMIT TO GIT Command
-            CommitToGitCommand = new CommandBase(async (s, e) =>
+
+
+           
+
+
+        // COMMIT TO GIT Command
+        CommitToGitCommand = new CommandBase(async (s, e) =>
             {
                 string file = ActiveDocument?.Filename;
                 if (string.IsNullOrEmpty(file))
@@ -686,43 +787,7 @@ Do you want to View in Browser now?
             }, (s, e) => IsEditorActive);
 
 
-            // PREVIEW BUTTON COMMAND
-            PreviewBrowserCommand = new CommandBase((s, e) =>
-            {
-                var tab = Window.TabControl.SelectedItem as TabItem;
-                if (tab == null)
-                    return;
-
-                var editor = tab.Tag as MarkdownDocumentEditor;
-
-                Configuration.IsPreviewVisible = IsPreviewBrowserVisible;
-
-                if (!IsPreviewBrowserVisible && IsPresentationMode)
-                    PresentationModeCommand.Execute(null);
-                    
-
-                Window.ShowPreviewBrowser(!IsPreviewBrowserVisible);
-                if (IsPreviewBrowserVisible)
-                    Window.PreviewMarkdown(editor);
-
-            }, null);
-
-            // SHOW FILE BROWSER COMMAND
-            ShowFolderBrowserCommand = new CommandBase((s, e) =>
-            {
-                mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
-
-                mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
-
-            });
-        
-            // WORD WRAP COMMAND
-            WordWrapCommand = new CommandBase((parameter, command) =>
-                {
-                    //MessageBox.Show("alt-z WPF");
-                    mmApp.Model.Configuration.EditorWrapText = !mmApp.Model.Configuration.EditorWrapText;
-                    mmApp.Model.ActiveEditor?.SetWordWrap(mmApp.Model.Configuration.EditorWrapText);
-                },(p, c) => IsEditorActive);
+            
         
             // MARKDOWN EDIT COMMANDS TOOLBAR COMMAND
             ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>

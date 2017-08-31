@@ -969,7 +969,7 @@ namespace MarkdownMonster
                 }
                 else if (key == "ctrl-shift-c")
                 {
-                    Window.Button_CopyMarkdownAsHtml(WebBrowser, null);
+                    Window.Model.CopyAsHtmlCommand.Execute(WebBrowser);
                 }
                 else if (key == "ctrl-shift-down")
                 {
@@ -1391,7 +1391,7 @@ namespace MarkdownMonster
             var sugg = hun.Suggest(text).Take(10);
 
             var cm = new EditorContextMenu();
-            cm.ShowSpellcheckSuggestions(sugg,range);            
+            cm.ShowSpellcheckSuggestions(sugg,range);               
         }
 
         /// <summary>
