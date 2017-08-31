@@ -54,10 +54,9 @@ namespace MarkdownMonster.Test
 		[TestMethod]
 		public void YamlExtractionRegExTest()
 		{
-			Regex YamlExtractionRegex = new Regex("^---\n.*?^---\n", RegexOptions.Multiline | RegexOptions.Singleline);
 			string markdown = STR_postWithMetaData;
 
-			var match = YamlExtractionRegex.Match(markdown);
+			var match = MarkdownUtilities.YamlExtractionRegex.Match(markdown);
 
 			Assert.IsTrue(match.Success);
 		}
@@ -130,8 +129,7 @@ namespace MarkdownMonster.Test
 			};
 		}
 
-		public static string STR_postWithMetaData = @"
----
+		public static string STR_postWithMetaData = @"---
 title: 'Tip: Create a Visual Studio Menu option to Open a Command Window'
 abstract: 'This is the abstract for this blog post... '
 keywords: Menu,External Tools, Command Line

@@ -204,10 +204,11 @@ var sc = window.spellcheck = {
                     setTimeout(function (line, isLast) {
                         var lineText = lines[line];
                         
-						if (isFrontMatter && (lineText == "---" || lineText == "...")) 
-                            isFrontMatter = false;                                                                                                                               
-						if (line == 0 && (lineText == "---" || lineText == "...")) 
-                            isFrontMatter = true;                            
+						var trimText = lineText.trim();
+						if (isFrontMatter && (trimText == "---" || trimText == "..."))
+							isFrontMatter = false;
+						if (line == 0 && trimText == "---")
+							isFrontMatter = true;                       
 
 
                         if (lineText && lineText.length > 2 && lineText.substr(0, 3) === "```") {

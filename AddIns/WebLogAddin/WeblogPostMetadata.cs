@@ -179,11 +179,7 @@ namespace WeblogAddin
         /// </summary>
         [YamlIgnore]
         public string RawMarkdownBody { get; set; }
-        
-
-
-        static readonly Regex YamlExtractionRegex = new Regex("^---[\n,\r\n].*?^---[\n,\r\n]", RegexOptions.Singleline | RegexOptions.Multiline);
-		
+        		
         /// <summary>
         /// Strips the Markdown Meta data from the message and populates
         /// the post structure with the meta data values.
@@ -212,7 +208,7 @@ namespace WeblogAddin
 
             string extractedYaml = null;
             //var match = YamlExtractionRegex.Match(markdown);
-            var match = YamlExtractionRegex.Match(markdown);
+            var match = MarkdownUtilities.YamlExtractionRegex.Match(markdown);
             if (match.Success)
                 extractedYaml = match.Value;
 
@@ -290,7 +286,7 @@ namespace WeblogAddin
             CustomFields = customFields;
 
             string extractedYaml = null;
-            var match = YamlExtractionRegex.Match(markdown);
+            var match = MarkdownUtilities.YamlExtractionRegex.Match(markdown);
             if (match.Success)
                 extractedYaml = match.Value;
 

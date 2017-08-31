@@ -37,7 +37,6 @@ using System.Text.RegularExpressions;
 using Markdig;
 using Markdig.Renderers;
 using Westwind.Utilities;
-using MarkdownMonster.ParserExtensions;
 
 namespace MarkdownMonster
 {
@@ -109,7 +108,7 @@ namespace MarkdownMonster
                 builder = builder.UseAbbreviations();
 
 			if (options.StripYamlFrontMatter)
-				builder = builder.UsePandocYamlFrontMatter();
+				builder = builder.UseYamlFrontMatter();
             if (options.EmojiAndSmiley)
                 builder = builder.UseEmojiAndSmiley();
             if (options.MediaLinks)

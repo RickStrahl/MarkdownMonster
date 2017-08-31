@@ -57,13 +57,14 @@ This is some text
 
 		/// <summary>
 		/// Tests the ability to parse front matter that
-		/// begins with <c>...</c> and ends with <c>---</c>
+		/// begins with <c>---</c> and ends with <c>---</c>
+        /// and has trailing whitespace after the YAML fence
 		/// </summary>
 		[TestMethod]
-		public void YamlDotOpenDashCloseTest()
+		public void YamlDashOpenDashCloseWithSpacesTest()
 		{
-			var lead = "...";
-			var trail = "---";
+			var lead = "---  ";
+			var trail = "--- ";
 			YamlFrontMatterParseHasHeaderTest(lead, trail);
 			YamlFrontMatterParseHasHorizontalRuleTest(lead, trail);
 			YamlFrontMatterParseHasContentTest(lead, trail);
@@ -71,15 +72,17 @@ This is some text
 			YamlFrontMatterParseHasNoAuthorTest(lead, trail);
 		}
 
-		/// <summary>
-		/// Tests the ability to parse front matter that
-		/// begins with <c>...</c> and ends with <c>...</c>
-		/// </summary>
-		[TestMethod]
-		public void YamlDotOpenDotCloseTest()
+        /// <summary>
+        /// Tests the ability to parse front matter that
+        /// begins with <c>---</c> and ends with <c>...</c>
+        /// and has trailing whitespace after the YAML fence
+        /// </summary>
+        [TestMethod]
+		public void YamlDashOpenDotCloseWithSpacesTest()
 		{
-			var lead = "...";
-			var trail = "...";
+            // Should fail
+			var lead = "--- ";
+			var trail = "...  ";
 			YamlFrontMatterParseHasHeaderTest(lead, trail);
 			YamlFrontMatterParseHasHorizontalRuleTest(lead, trail);
 			YamlFrontMatterParseHasContentTest(lead, trail);
@@ -87,87 +90,87 @@ This is some text
 			YamlFrontMatterParseHasNoAuthorTest(lead, trail);
 		}
 
-		/// <summary>
-		/// Tests that the header (h1) following the YAML front matter
-		/// appears in the generated HTML
-		/// </summary>
-		/// <param name="lead">The leading characters.</param>
-		/// <param name="trail">The closing characters.</param>
-		/// [DataTestMethod]
-		/// [DataRow("---", "---")]
-		/// [DataRow("---", "...")]
-		/// [DataRow("...", "---")]
-		/// [DataRow("...", "...")]
-		public void YamlFrontMatterParseHasHeaderTest(string lead, string trail)
+        /// <summary>
+        /// Tests that the header (h1) following the YAML front matter
+        /// appears in the generated HTML
+        /// </summary>
+        /// <param name="lead">The leading characters.</param>
+        /// <param name="trail">The closing characters.</param>
+        /// [DataTestMethod]
+        /// [DataRow("---", "---")]
+        /// [DataRow("---", "...")]
+        /// [DataRow("---  ", "--- ")]
+        /// [DataRow("--- ", "...  ")]
+        public void YamlFrontMatterParseHasHeaderTest(string lead, string trail)
 		{
 			string html = CreateMarkdownPermutation(lead, trail);
 			Assert.IsTrue(html.Contains("Heading 1"));
 		}
 
-		/// <summary>
-		/// Tests that the horizontal rule following the YAML front matter
-		/// appears in the generated HTML. This ensures that the separator
-		/// is not read as part of the front matter.
-		/// </summary>
-		/// <param name="lead">The leading characters.</param>
-		/// <param name="trail">The closing characters.</param>
-		/// [DataTestMethod]
-		/// [DataRow("---", "---")]
-		/// [DataRow("---", "...")]
-		/// [DataRow("...", "---")]
-		/// [DataRow("...", "...")]
-		public void YamlFrontMatterParseHasHorizontalRuleTest(string lead, string trail)
+        /// <summary>
+        /// Tests that the horizontal rule following the YAML front matter
+        /// appears in the generated HTML. This ensures that the separator
+        /// is not read as part of the front matter.
+        /// </summary>
+        /// <param name="lead">The leading characters.</param>
+        /// <param name="trail">The closing characters.</param>
+        /// [DataTestMethod]
+        /// [DataRow("---", "---")]
+        /// [DataRow("---", "...")]
+        /// [DataRow("---  ", "--- ")]
+        /// [DataRow("--- ", "...  ")]
+        public void YamlFrontMatterParseHasHorizontalRuleTest(string lead, string trail)
 		{
 			string html = CreateMarkdownPermutation(lead, trail);
 			Assert.IsTrue(html.Contains("<hr"));
 		}
 
-		/// <summary>
-		/// Tests that the body content following the YAML front matter
-		/// appears in the generated HTML
-		/// </summary>
-		/// <param name="lead">The leading characters.</param>
-		/// <param name="trail">The closing characters.</param>
-		/// [DataTestMethod]
-		/// [DataRow("---", "---")]
-		/// [DataRow("---", "...")]
-		/// [DataRow("...", "---")]
-		/// [DataRow("...", "...")]
-		public void YamlFrontMatterParseHasContentTest(string lead, string trail)
+        /// <summary>
+        /// Tests that the body content following the YAML front matter
+        /// appears in the generated HTML
+        /// </summary>
+        /// <param name="lead">The leading characters.</param>
+        /// <param name="trail">The closing characters.</param>
+        /// [DataTestMethod]
+        /// [DataRow("---", "---")]
+        /// [DataRow("---", "...")]
+        /// [DataRow("---  ", "--- ")]
+        /// [DataRow("--- ", "...  ")]
+        public void YamlFrontMatterParseHasContentTest(string lead, string trail)
 		{
 			string html = CreateMarkdownPermutation(lead, trail);
 			Assert.IsTrue(html.Contains("This is some text"));
 		}
 
-		/// <summary>
-		/// Tests that the YAML front matter 'title' does not
-		/// appear in the generated HTML
-		/// </summary>
-		/// <param name="lead">The leading characters.</param>
-		/// <param name="trail">The closing characters.</param>
-		/// [DataTestMethod]
-		/// [DataRow("---", "---")]
-		/// [DataRow("---", "...")]
-		/// [DataRow("...", "---")]
-		/// [DataRow("...", "...")]
-		public void YamlFrontMatterParseHasNoTitleTest(string lead, string trail)
+        /// <summary>
+        /// Tests that the YAML front matter 'title' does not
+        /// appear in the generated HTML
+        /// </summary>
+        /// <param name="lead">The leading characters.</param>
+        /// <param name="trail">The closing characters.</param>
+        /// [DataTestMethod]
+        /// [DataRow("---", "---")]
+        /// [DataRow("---", "...")]
+        /// [DataRow("---  ", "--- ")]
+        /// [DataRow("--- ", "...  ")]
+        public void YamlFrontMatterParseHasNoTitleTest(string lead, string trail)
 		{
 			string html = CreateMarkdownPermutation(lead, trail);
 			Assert.IsFalse(html.Contains("title"));
 		}
 
-		/// <summary>
-		/// Tests that the YAML front matter 'author' does not
-		/// appear in the generated HTML
-		/// </summary>
-		/// <param name="lead">The leading characters.</param>
-		/// <param name="trail">The closing characters.</param>
-		/// [DataTestMethod]
-		/// [DataRow("---", "---")]
-		/// [DataRow("---", "...")]
-		/// [DataRow("...", "---")]
-		/// [DataRow("...", "...")]
-		public void YamlFrontMatterParseHasNoAuthorTest(string lead, string trail)
+        /// <summary>
+        /// Tests that the YAML front matter 'author' does not
+        /// appear in the generated HTML
+        /// </summary>
+        /// <param name="lead">The leading characters.</param>
+        /// <param name="trail">The closing characters.</param>
+        /// [DataTestMethod]
+        /// [DataRow("---", "---")]
+        /// [DataRow("---", "...")]
+        /// [DataRow("---  ", "--- ")]
+        /// [DataRow("--- ", "...  ")]
+        public void YamlFrontMatterParseHasNoAuthorTest(string lead, string trail)
 		{
 			string html = CreateMarkdownPermutation(lead, trail);
 			Assert.IsFalse(html.Contains("author"));
