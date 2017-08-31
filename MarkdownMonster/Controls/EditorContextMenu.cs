@@ -50,7 +50,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="suggestions"></param>
         /// <param name="range"></param>
-        public void ShowSpellcheckWords(IEnumerable<string> suggestions, object range)
+        public void ShowSpellcheckSuggestions(IEnumerable<string> suggestions, object range)
         {
             if (suggestions == null)
                 return;
@@ -95,15 +95,15 @@ namespace MarkdownMonster
             var selText = Model.ActiveEditor?.AceEditor?.getselection(false);
             var model = Model;
 
-            var miCopy = new MenuItem() { Header = "Copy", InputGestureText = "ctrl-c" };
+            var miCopy = new MenuItem() {Header = "Copy", InputGestureText = "ctrl-c"};
             miCopy.Click += (o, args) => Clipboard.SetText(selText);
             ContextMenu.Items.Add(miCopy);
 
-            var miCut = new MenuItem { Header = "Cut", InputGestureText = "ctrl-x" };
+            var miCut = new MenuItem {Header = "Cut", InputGestureText = "ctrl-x"};
             miCut.Click += (o, args) => model.ActiveEditor.SetSelection("");
             ContextMenu.Items.Add(miCut);
 
-            var miPaste = new MenuItem() { Header = "Paste", InputGestureText = "ctrl-v" };
+            var miPaste = new MenuItem() {Header = "Paste", InputGestureText = "ctrl-v"};
             miPaste.Click += (o, args) => model.ActiveEditor?.SetSelection(Clipboard.GetText());
             ContextMenu.Items.Add(miPaste);
 
@@ -126,17 +126,17 @@ namespace MarkdownMonster
             var line = Model.ActiveEditor.GetCurrentLine();
 
             var pos = Model.ActiveEditor.GetCursorPosition();
-            if (pos.Y == -1)
+            if (pos.row == -1)
                 return;
-            
+
             // Check for images ![](imageUrl)
             var matches = Regex.Matches(line, @"!\[.*?\]\(.*?\)", RegexOptions.IgnoreCase);
             if (matches.Count > 0)
             {
                 foreach (Match match in matches)
                 {
-                    string val= match.Value;
-                    if (match.Index <= pos.X && match.Index + val.Length > pos.X)
+                    string val = match.Value;
+                    if (match.Index <= pos.column && match.Index + val.Length > pos.column)
                     {
                         var mi = new MenuItem
                         {
@@ -145,18 +145,34 @@ namespace MarkdownMonster
                         mi.Click += (o, args) =>
                         {
                             var image = StringUtils.ExtractString(val, "(", ")");
-                            image = mmFileUtils.NormalizeFilename(image,Path.GetDirectoryName(model.ActiveDocument.Filename));
+                            image = mmFileUtils.NormalizeFilename(image,
+                                Path.GetDirectoryName(model.ActiveDocument.Filename));
                             mmFileUtils.OpenImageInImageEditor(image);
                         };
                         ContextMenu.Items.Add(mi);
-                    }
 
+                        var mi2 = new MenuItem
+                        {
+                            Header = "Edit Image Link"
+                        };
+                        mi2.Click += (o, args) =>
+                        {
+                            Model.ActiveEditor.AceEditor.SetSelectionRange(pos.row, match.Index, pos.row,
+                                match.Index + val.Length, pos);
+                            Model.ActiveEditor.EditorSelectionOperation("image", val);
+                        };
+                        ContextMenu.Items.Add(mi2);
+                    }
 
                     if (ContextMenu.Items.Count > 0)
                         ContextMenu.Items.Add(new Separator());
+
+                    return;
                 }
-            }            
+            }
 
         }
+
+
     }
 }

@@ -31,6 +31,7 @@
 */
 #endregion
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -689,6 +690,29 @@ namespace MarkdownMonster
             AceEditor?.findAndReplaceTextInCurrentLine(search, replace);
         }
 
+
+        public AcePosition GetCursorPosition()
+        {
+            dynamic pos = AceEditor.getCursorPosition(false);
+            if (pos == null)
+                return new AcePosition { row = -1, column = -1 };
+            var pt = new AcePosition()
+            {
+                row = pos.row,
+                column = pos.column
+            };
+            return pt;
+        }
+
+        public void SetSelectionRange(AcePosition start, AcePosition end)
+        {
+            AceEditor?.SetSelectionRange(start.row, start.column, end.row, end.column);
+        }
+        public void SetSelectionRange(int startRow, int startColumn, int endRow, int endColumn)
+        {
+            AceEditor?.SetSelectionRange(startRow, startColumn, endRow, endColumn);
+        }
+
         #endregion
 
         /// <summary>
@@ -1092,7 +1116,8 @@ namespace MarkdownMonster
                 var form = new PasteImageWindow(Window)
                 {
                     Image = link,
-                    ImageText = label
+                    ImageText = label,
+                    MarkdownFile = MarkdownDocument.Filename
                 };
                 form.SetImagePreview();
                
@@ -1366,7 +1391,7 @@ namespace MarkdownMonster
             var sugg = hun.Suggest(text).Take(10);
 
             var cm = new EditorContextMenu();
-            cm.ShowSpellcheckWords(sugg,range);            
+            cm.ShowSpellcheckSuggestions(sugg,range);            
         }
 
         /// <summary>
@@ -1386,19 +1411,13 @@ namespace MarkdownMonster
 			return MarkdownDocument?.Filename ?? base.ToString();
 		}
 
-        public Point GetCursorPosition()
-        {
-            dynamic pos = AceEditor.getCursorPosition(false);
-            if (pos == null)
-                return new Point {X = -1, Y = -1};
-            var pt = new Point()
-            {
-                X = pos.column,
-                Y = pos.row
-            };
-            return pt;
-        }
     }
 
 
+    [DebuggerDisplay("Row: {row},Col: {column}")]
+    public class AcePosition
+    {
+        public int row { get; set; }
+        public int column { get; set; }
+    }
 }

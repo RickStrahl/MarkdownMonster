@@ -15,7 +15,10 @@
 The Editor's context menu has been updated to forward all menu handling to WPF rather than HTML based menu display. Currently the new menu handles Copy/Cut/Paste and spellchecking duties only, but additional menu options/features can now be added more easily.
 
 * **Edit in Image Editor Context Menu**  
-You can now hover over an image embedded into a Markdown document and use the Context menu to select **Edit in Image Editor** to open the document for editing in your configured image editor.
+You can now right click over an image embedded into a Markdown document and use the Context menu to select **Edit in Image Editor** to open the document for editing in your configured image editor.
+
+* **Edit Image Link Context Menu**  
+You can now hover over an image embedded in Markdown and use **Edit Image Link** to reopen the image in the Image Embedding Dialog.
 
 * **Fix: Addin Markdown Parsers now are selectable immediately**  
 When installing an addin that exposes a new Markdown Parser is now visible and selectable immediately from the Markdown parser selection drop down on the toolbar.

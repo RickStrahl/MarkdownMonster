@@ -307,7 +307,7 @@ var te = window.textEditor = {
         var doc = te.editor.session.getDocument();
         var lines = doc.getAllLines();
 
-        var offsetToPos = function(offset) {
+        function offsetToPos(offset) {
             var row = 0, col = 0;
             var pos = 0;
             while (row < lines.length && pos + lines[row].length < offset) {
@@ -351,6 +351,14 @@ var te = window.textEditor = {
         
          te.editor.selection.moveTo(pos.row, pos.column);
     },
+    setSelectionRange: function (startRow, startColumn, endRow, endColumn) {
+        var sel = te.editor.getSelection();
+        var range = sel.getRange();
+        range.setStart({ row: startRow, column: startColumn });
+        range.setEnd({ row: endRow, column: endColumn });
+        sel.setSelectionRange(range);       
+    },
+
     moveCursorLeft: function (count) {
         if (!count)
             count = 1;
@@ -546,22 +554,10 @@ var te = window.textEditor = {
     },
     suggestSpelling: function (word, maxCount, range) {
         if (!editorSettings.enableSpellChecking)
-            return null;
+            return;       
 
-        // use typo
-        if (spellcheck.dictionary)
-            return spellcheck.dictionary.suggest(word);
-        
-        // use COM object
-        var words = te.mm.textbox.GetSuggestions(word, editorSettings.dictionary, false, range);       
-        if (!words)
-            return [];
-
-        words = JSON.parse(words);
-        if (words.length > maxCount)
-            words = words.slice(0, maxCount);
-
-        return words;
+        // show suggestions in WPF
+        te.mm.textbox.GetSuggestions(word, editorSettings.dictionary, false, range);
     },
     addWordSpelling: function (word) {        
         te.mm.textbox.AddWordToDictionary(word, editorSettings.dictionary);
@@ -631,6 +627,8 @@ window.onmousewheel = function(e) {
 };
 
 
+// Let browser navigate events handle drop operations
+// in the WPF host application
 // handle file browser dragged files dropped
 // window.ondrop =
 // 	function (e) {
@@ -659,9 +657,11 @@ window.onmousewheel = function(e) {
 // window.ondragstart = function (e) {    
 //     e.dataTransfer.effectAllowed = 'all';  
 // }
+
+// pass context popup to WPF for handling there
 window.oncontextmenu = function (e) {
-    e.preventDefault();
-    e.cancelBubble = true;
+    //e.preventDefault();
+    //e.cancelBubble = true;
     
     te.mm.textbox.EditorContextMenu();
 

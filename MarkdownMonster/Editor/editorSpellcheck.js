@@ -86,39 +86,11 @@ var sc = window.spellcheck = {
 
         sc.firstpass = false;
 
-
-        // handle clicking on a mispelled word
-        //te.editor.on('dblclick', showSuggestions);
-        var ctxNoShow = false;
-        $(document).on("contextmenu", function (e) {
-            if (ctxNoShow)
-                e.preventDefault();
-        });
         te.editor.on('mousedown', function (e) {
-            if (e.domEvent.which == 3) {                
+            if (e.domEvent.which == 3)
                 showSuggestions(e);
-                // allow context rightclick after a second
-                setTimeout(function () { ctxNoShow = false; }, 1000);
-            }
         });
-	    $("#spellfixes") // handle the click on the selected item
-			.on("click", "div", clickSuggestion);
 
-	    //var keydownFunc = function(e) {
-		   // alert('keydown'); //e.key + " " + e.keyCode);
-		   // if (e.key == ']') {
-			  //  var $misspelled = $(e.target).find(".misspelled");
-			  //  //if ($misspelled.length < 1) return;
-			  //  alert($misspelled.length + " " + $(e.target).html());
-			  //  showSuggestions(e);
-			  //  //alert($misspelled.html());
-			  //  e.preventDefault();
-		   // }
-	    //};	
-			
-		// can't access the marker
-	    //$(document).on("click", ".misspelled", function() { alert('here we go'); });
-		
         return;
 
 
@@ -269,10 +241,6 @@ var sc = window.spellcheck = {
 
             if (!matched)
                 return;
-
-            // keep context menu from popping up
-            e.preventDefault();
-            ctxNoShow = true;
 
             // pick the mispelled word out of the attached range value
             var misspelledWord = matched.range.misspelled;
