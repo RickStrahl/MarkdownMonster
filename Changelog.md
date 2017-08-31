@@ -3,12 +3,10 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-
-
-> #### Upgrades: Uninstall pre-1.4.10 Versions! 
+> #### Upgrades: Explicitly uninstall pre-1.4.10 Versions! 
 > If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall using Programs and Features** before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges.
 
-### 1.5.10
+### 1.5.12
 *<small>not released yet</small>*
 
 * **Updated Editor Context Menu**  
@@ -19,6 +17,9 @@ You can now right click over an image embedded into a Markdown document and use 
 
 * **Edit Image Link Context Menu**  
 You can now hover over an image embedded in Markdown and use **Edit Image Link** to reopen the image in the Image Embedding Dialog.
+
+* **Support for Pandoc YAML headers ending in `...`***  
+Thanks to a fix in the Markdig Pandoc parser, Pandoc alternate style YAML headers that end in `...` rather than `---` are now stripped from rendered Mardkdown output. Additional fixes for spellcheck exclusions and Weblog Publishing are forth coming in future updates.
 
 * **Fix: Addin Markdown Parsers now are selectable immediately**  
 When installing an addin that exposes a new Markdown Parser is now visible and selectable immediately from the Markdown parser selection drop down on the toolbar.
