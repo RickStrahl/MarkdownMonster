@@ -45,8 +45,6 @@ namespace MarkdownMonster
             return html;
         }
 
-        static readonly Regex YamlExtractionRegex = new Regex(@"^(?:-{3}|\.{3})[\n,\r\n].*?^(?:-{3}|\.{3})[\n,\r\n]", RegexOptions.Singleline | RegexOptions.Multiline | RegexOptions.Compiled);
-
         /// <summary>
         /// Strips 
         /// </summary>
@@ -55,7 +53,7 @@ namespace MarkdownMonster
         public string StripFrontMatter(string markdown)
         {
             string extractedYaml = null;
-            var match = YamlExtractionRegex.Match(markdown);
+            var match = MarkdownUtilities.YamlExtractionRegex.Match(markdown);
             if (match.Success)
                 extractedYaml = match.Value;
 

@@ -490,29 +490,10 @@ var te = window.textEditor = {
             text = text.substr(0, pos - 1);
 
         // strip off front matter.
-		if (text.substr(0, 4) === "---\r"
-			|| text.substr(0, 4) === "---\n"
-			|| text.substr(0, 4) === "...\r"
-			|| text.substr(0, 4) === "...\n") {
-			var pos1 = text.indexOf("\n---\n");
-			if (pos1 < 0)
-				pos1 = text.indexOf("\n---\r\n");
-
-			var pos2 = text.indexOf("\n...\n");
-			if (pos2 < 0)
-				pos2 = text.indexOf("\n...\r\n");
-
-			// Find which ending comes first.
-			if (pos1 > -1 && pos2 > -1)
-				pos = Math.min(pos1, pos2);
-			else
-				pos = Math.max(pos1, pos2);
-
-			if (pos > -1) {
-				pos += 6;
-				text = text.substr(pos);
-			}
-        }
+        var frontMatterExp = /^---[ \t]*$[^]+?^(---|...)[ \t]*$/m;
+        var match = frontMatterExp.exec(text);
+        if (match && match.index == 0)
+            text = text.substr(match[0].length);
 
         var regExWords = /\s+/gi;
         var wordCount = text.replace(regExWords, ' ').split(' ').length;                
