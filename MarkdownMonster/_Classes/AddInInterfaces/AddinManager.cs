@@ -144,6 +144,8 @@ namespace MarkdownMonster.AddIns
                             };                    
                         menuItem.Command = new CommandBase(xAction,cxAction);                    
                         mitem.Command = menuItem.Command;
+
+                        addin.Model.Window.MenuAddins.Items.Add(mitem);
                     
                         // if an icon is provided also add to toolbar
                         if (menuItem.FontawesomeIcon != FontAwesomeIcon.None || menuItem.IconImageSource != null)

@@ -37,6 +37,7 @@ using System.Text.RegularExpressions;
 using Markdig;
 using Markdig.Renderers;
 using Westwind.Utilities;
+using MarkdownMonster.ParserExtensions;
 
 namespace MarkdownMonster
 {
@@ -73,7 +74,8 @@ namespace MarkdownMonster
 
             var htmlWriter = new StringWriter();
             var renderer = CreateRenderer(htmlWriter);
-            Markdown.Convert(markdown, renderer, Pipeline);
+
+			Markdown.Convert(markdown, renderer, Pipeline);
             var html = htmlWriter.ToString();
             
             html = ParseFontAwesomeIcons(html);
@@ -106,8 +108,8 @@ namespace MarkdownMonster
             if (options.Abbreviations)
                 builder = builder.UseAbbreviations();
 
-            if (options.StripYamlFrontMatter)
-                builder = builder.UseYamlFrontMatter();
+			if (options.StripYamlFrontMatter)
+				builder = builder.UsePandocYamlFrontMatter();
             if (options.EmojiAndSmiley)
                 builder = builder.UseEmojiAndSmiley();
             if (options.MediaLinks)

@@ -194,6 +194,9 @@
     <Compile Include="_Classes\Configuration\FolderBrowserConfiguration.cs" />
     <Compile Include="_Classes\Configuration\MarkdownOptionsConfiguration.cs" />
     <Compile Include="_Classes\Configuration\WindowPositionConfiguration.cs" />
+    <Compile Include="_Classes\MarkdownParser\ParserExtensions\MarkdownParserExtensions.cs" />
+    <Compile Include="_Classes\MarkdownParser\ParserExtensions\PandocFrontMatterExtension.cs" />
+    <Compile Include="_Classes\MarkdownParser\ParserExtensions\PandocFrontMatterParser.cs" />
     <Compile Include="_Classes\Utilities\DebounceDispatcher.cs" />
     <Compile Include="_Classes\Utilities\DispatcherExtensions.cs" />
     <Compile Include="_Classes\MarkdownEditorSimple.cs" />

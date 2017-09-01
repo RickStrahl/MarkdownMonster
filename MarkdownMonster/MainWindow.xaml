@@ -18,7 +18,7 @@
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"		
 		FontSize="13"
-        Height="740" Width="1100" 
+        Height="740" Width="1100"  
         MinWidth="800" MinHeight="600" 
         WindowTransitionsEnabled="False">
     <Window.InputBindings>
@@ -135,7 +135,7 @@
               Margin="0" 
               FontSize="{Binding Path=FontSize,ElementName=MainApplicationWindow}"
               HorizontalAlignment="Stretch">
-            <MenuItem Header="_File">
+            <MenuItem Header="_File" Name="MenuFile" x:FieldModifier="public" >
                 <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding NewDocumentCommand}" InputGestureText="ctrl-n"/>
                 <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Click="Button_Handler" />
                 <Separator/>
@@ -144,15 +144,21 @@
                 <MenuItem Name="ButtonRecentFiles" Header="Recent Documents">
                 </MenuItem>
                 <Separator/>
+                
                 <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding SaveCommand}"  
                           InputGestureText="ctrl+s"/>
                 <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding SaveAsCommand}"  
                           InputGestureText="ctrl+shift+s"/>
-                <MenuItem Name="ButtonSaveAsSecureFile" Header="Save As _Encrypted File" Command="{Binding SaveAsCommand}" CommandParameter="Secure"  />
+
+                <Separator />
                 
-				<MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" />
-				<MenuItem Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding GeneratePdfCommand}" />
+                <MenuItem Name="ButtonSaveAsSecureFile" Header="Save As _Encrypted File" Command="{Binding SaveAsCommand}" CommandParameter="Secure"  />
+                <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" />
+                <MenuItem x:Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding GeneratePdfCommand}"
+                           />
+                
                 <Separator/>
+                
                 <MenuItem Header="View in Web _Browser" Name="ButtonViewInWebBrowser"                          
                           Command="{Binding ViewInExternalBrowserCommand}"
                           InputGestureText="alt-v-b"
@@ -197,9 +203,9 @@
                           Click="Button_Handler"
                           InputGestureText="ctrl-h" />
             </MenuItem>
-            <MenuItem Header="_Tools"> 
-                <!--<MenuItem Name="MenuAddins" Header="Add-ins" />-->
+            <MenuItem Header="_Tools">                 
                 <MenuItem Name="MenuAddinManager" Header="_Add-in Manager" Click="Button_Handler" />
+                <MenuItem Name="MenuAddins" Header="Add-ins" />
                 <Separator/>
                 <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler" />
                 <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>
@@ -253,7 +259,7 @@
                           IsChecked="{Binding IsFullScreen}"
                           InputGestureText="alt-shift-enter" 
                           IsEnabled="{Binding IsEditorActive}" />
-                <MenuItem Name="ButtonPresentationMode" 
+                <MenuItem Name="ButtonPresentationMode"
                           Header="Toggle Presentation Mode"                         
                           ToolTip="Displays the preview in full screen mode"
                           Command="{Binding PresentationModeCommand}"

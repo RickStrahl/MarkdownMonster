@@ -74,7 +74,7 @@ namespace MarkdownMonster
 
         #region Front Matter Parsing
 
-        static readonly Regex YamlExtractionRegex = new Regex("^---[\n,\r\n].*?^---[\n,\r\n]", RegexOptions.Singleline | RegexOptions.Multiline);
+        static readonly Regex YamlExtractionRegex = new Regex(@"^(?:-{3}|\.{3})[\n,\r\n].*?^(?:-{3}|\.{3})[\n,\r\n]", RegexOptions.Singleline | RegexOptions.Multiline | RegexOptions.Compiled);
 
         /// <summary>
         /// Strips 
