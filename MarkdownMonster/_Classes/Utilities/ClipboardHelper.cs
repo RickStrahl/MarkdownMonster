@@ -126,8 +126,8 @@ EndSelection:<<<<<<<<4";
         /// this method returns the rendered HTML rather than the innerText of the
         /// HTML content.
         /// </summary>
-        /// <returns></returns>
-        public static string GetHtmlClipboardText()
+        /// <returns>HTML or null on failure</returns>
+        public static string GetHtmlFromClipboard()
         {
             var html = Clipboard.GetData(DataFormats.Html) as string;
             return StringUtils.ExtractString(html, "<!--StartFragment-->", "<!--EndFragment-->");            
