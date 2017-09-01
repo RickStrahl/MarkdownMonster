@@ -25,7 +25,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -40,7 +39,6 @@ using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -56,6 +54,7 @@ namespace MarkdownMonster
     {
 
         #region Top Level Model Properties
+
         /// <summary>
         /// An instance of the main application WPF form
         /// </summary>
@@ -90,12 +89,12 @@ namespace MarkdownMonster
         {
             get { return _activeDocument; }
             set
-            {                
+            {
                 if (value == _activeDocument)
                     return;
 
                 _activeDocument = value;
-          
+
                 OnPropertyChanged(nameof(ActiveDocument));
                 OnPropertyChanged(nameof(ActiveEditor));
                 OnPropertyChanged(nameof(IsEditorActive));
@@ -110,8 +109,9 @@ namespace MarkdownMonster
                 Window.ToolbarEdit.IsEnabled = IsEditorActive;
             }
         }
+
         private MarkdownDocument _activeDocument;
-      
+
 
         /// <summary>
         /// Gives a list of all the open documents as Markdown document instances
@@ -126,10 +126,13 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(OpenDocuments));
             }
         }
+
         private List<MarkdownDocument> _openDocuments;
+
         #endregion
 
         #region Display Modes
+
         /// <summary>
         /// Determines whether the preview browser is visible or not
         /// </summary>
@@ -154,6 +157,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(IsFullScreen));
             }
         }
+
         private bool _isFullScreen = false;
 
 
@@ -167,6 +171,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(IsPresentationMode));
             }
         }
+
         private bool _isPresentationMode;
 
 
@@ -183,6 +188,7 @@ namespace MarkdownMonster
                 return false;
             }
         }
+
         #endregion
 
 
@@ -198,8 +204,9 @@ namespace MarkdownMonster
             {
                 if (_renderThemeNames == null || _renderThemeNames.Count < 1)
                 {
-                    var directories = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "PreviewThemes"));
-                    foreach (string dir in directories.OrderBy( d => d))
+                    var directories =
+                        Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "PreviewThemes"));
+                    foreach (string dir in directories.OrderBy(d => d))
                     {
                         var dirName = Path.GetFileName(dir);
 
@@ -207,26 +214,27 @@ namespace MarkdownMonster
                             continue;
 
                         _renderThemeNames.Add(dirName);
-                    }                    
+                    }
                 }
 
                 return _renderThemeNames;
             }
         }
+
         private readonly List<string> _renderThemeNames = new List<string>();
 
 
-  
-        
+
+
 
         public List<PreviewSyncModeItem> PreviewSyncModeItems
         {
             get
-            {                
+            {
                 if (_previewSyncModeItems != null)
                     return _previewSyncModeItems;
 
-                _previewSyncModeItems = ( (PreviewSyncMode[])Enum.GetValues(typeof(PreviewSyncMode)))
+                _previewSyncModeItems = ((PreviewSyncMode[]) Enum.GetValues(typeof(PreviewSyncMode)))
                     .Select(e =>
                     {
                         var item = new PreviewSyncModeItem
@@ -236,12 +244,12 @@ namespace MarkdownMonster
                         };
 
                         if (e == PreviewSyncMode.PreviewToEditor)
-                            item.Icon = FontAwesomeIcon.ArrowCircleLeft;                        
+                            item.Icon = FontAwesomeIcon.ArrowCircleLeft;
                         else if (e == PreviewSyncMode.EditorAndPreview)
                             item.Icon = FontAwesomeIcon.Exchange;
                         else if (e == PreviewSyncMode.None)
                             item.Icon = FontAwesomeIcon.Ban;
-                        else  
+                        else
                             item.Icon = FontAwesomeIcon.ArrowCircleRight;
 
                         char c = (char) ((int) item.Icon);
@@ -249,12 +257,13 @@ namespace MarkdownMonster
 
                         return item;
                     })
-                    .ToList();                
+                    .ToList();
                 return _previewSyncModeItems;
             }
         }
+
         private List<PreviewSyncModeItem> _previewSyncModeItems;
-        
+
 
         /// <summary>
         /// A list of Ace Editor themes retrieved from the Editor script folder
@@ -265,21 +274,23 @@ namespace MarkdownMonster
             {
                 if (_editorThemeNames == null || _editorThemeNames.Count < 1)
                 {
-                    var files = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Editor\\Scripts\\Ace"),"theme-*.js");
+                    var files = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Editor\\Scripts\\Ace"),
+                        "theme-*.js");
                     foreach (string file in files.OrderBy(d => d))
                     {
                         var fileName = Path.GetFileNameWithoutExtension(file);
                         fileName = fileName.Replace("theme-", "");
-                        
+
                         _editorThemeNames.Add(fileName);
-                    }                    
+                    }
                 }
                 return _editorThemeNames;
             }
         }
+
         private readonly List<string> _editorThemeNames = new List<string>();
 
-    
+
         /// <summary>
         /// List of registered Markdown Parsers
         /// </summary>
@@ -293,7 +304,7 @@ namespace MarkdownMonster
                 var parsers = MarkdownParserFactory.GetParserNames();
                 return parsers;
             }
-        }        
+        }
 
         /// <summary>
         /// Returns the width of the column containing
@@ -309,6 +320,7 @@ namespace MarkdownMonster
                 return 0;
             }
         }
+
         #endregion
 
         #region Initialization
@@ -331,8 +343,8 @@ namespace MarkdownMonster
         #region Commands
 
         public CommandBase SaveCommand { get; set; }
-        
-        public void Command_Save()
+
+        void Command_Save()
         {
             // SAVE COMMAND
             SaveCommand = new CommandBase((s, e) =>
@@ -359,11 +371,11 @@ namespace MarkdownMonster
                 return this.ActiveDocument.IsDirty;
             });
         }
-        
+
         public CommandBase SaveAsCommand { get; set; }
 
-        public void Command_SaveAs()
-        {            
+        void Command_SaveAs()
+        {
             SaveAsCommand = new CommandBase((parameter, e) =>
             {
                 bool isEncrypted = parameter != null && parameter.ToString() == "Secure";
@@ -449,7 +461,8 @@ namespace MarkdownMonster
                     doc.MarkdownDocument.Filename = sd.FileName;
                     if (!doc.SaveDocument())
                     {
-                        MessageBox.Show(Window, $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
+                        MessageBox.Show(Window,
+                            $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
                             "Unable to save Document", MessageBoxButton.OK, MessageBoxImage.Warning);
                         SaveAsCommand.Execute(tab);
                         return;
@@ -468,12 +481,12 @@ namespace MarkdownMonster
                 return true;
             });
         }
-        
+
 
         public CommandBase PreviewBrowserCommand { get; set; }
 
-        public void Command_PreviewBrowser()
-        {            
+        void Command_PreviewBrowser()
+        {
             PreviewBrowserCommand = new CommandBase((s, e) =>
             {
                 var tab = Window.TabControl.SelectedItem as TabItem;
@@ -494,111 +507,14 @@ namespace MarkdownMonster
 
             }, null);
 
-            // SHOW FILE BROWSER COMMAND
-            ShowFolderBrowserCommand = new CommandBase((s, e) =>
-            {
-                mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
 
-                mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
-
-            });
         }
-
 
 
         public CommandBase SaveAsHtmlCommand { get; set; }
 
-        public CommandBase ToolbarInsertMarkdownCommand { get; set; }
-
-        public CommandBase SettingsCommand { get; set; }
-
-        public CommandBase TabItemClosedCmd  { get; set; }
-
-        public CommandBase DistractionFreeModeCommand { get; set; }
-        public CommandBase PresentationModeCommand { get; set; }
-
-        public CommandBase NewDocumentCommand { get; set; }
-
-        public CommandBase OpenDocumentCommand { get; set; }
-
-        public CommandBase CloseActiveDocumentCommand { get; set; }
-
-        public CommandBase ViewInExternalBrowserCommand { get; set; }
-
-        public CommandBase PrintPreviewCommand { get; set; }
-
-        public CommandBase ViewHtmlSourceCommand { get; set; }
-
-		public CommandBase ShowFolderBrowserCommand { get; set; }
-
-        public CommandBase HelpCommand { get; set; }
-
-        public CommandBase GeneratePdfCommand { get; set; }
-
-        public CommandBase CommitToGitCommand { get; set; }
-
-
-        public CommandBase WordWrapCommand { get; set; }
-
-        public void Command_WordWrap()
+        void Command_SaveAsHtml()
         {
-
-            // WORD WRAP COMMAND
-            WordWrapCommand = new CommandBase((parameter, command) =>
-            {
-                //MessageBox.Show("alt-z WPF");
-                mmApp.Model.Configuration.EditorWrapText = !mmApp.Model.Configuration.EditorWrapText;
-                mmApp.Model.ActiveEditor?.SetWordWrap(mmApp.Model.Configuration.EditorWrapText);
-            }, 
-            (p, c) => IsEditorActive);
-        }
-
-
-
-
-        public CommandBase CopyAsHtmlCommand { get; set; }
-
-        public void Command_CopyAsHtml()
-        {
-            CopyAsHtmlCommand = new CommandBase((parameter, command) =>
-            {
-                if (ActiveEditor == null)
-                    return;
-
-                var editor = ActiveEditor;
-                if (editor == null)
-                    return;
-
-                var markdown = editor.GetSelection();
-                var html = editor.RenderMarkdown(markdown);
-
-                if (!string.IsNullOrEmpty(html))
-                {
-                    // copy to clipboard as html
-                    ClipboardHelper.CopyHtmlToClipboard(html, html);
-                    Window.ShowStatus("Html has been pasted to the clipboard.", mmApp.Configuration.StatusTimeout);
-                }
-                editor.SetEditorFocus();
-                editor.Window.PreviewMarkdownAsync();
-            }, (p, c) => IsEditorActive);
-
-        }
-
-
-
-
-
-        private void CreateCommands()
-        {
-            Command_Save();
-            Command_SaveAs();
-            Command_PreviewBrowser();
-
-            Command_WordWrap();
-            Command_CopyAsHtml();
-            
-
-            // SAVEASHTML COMMAND
             SaveAsHtmlCommand = new CommandBase((s, e) =>
             {
                 var tab = Window.TabControl?.SelectedItem as TabItem;
@@ -610,21 +526,23 @@ namespace MarkdownMonster
 
                 SaveFileDialog sd = new SaveFileDialog
                 {
-                    Filter = "Html files (Html only) (*.html)|*.html|Html files (Html and dependencies in a folder)|*.html",
+                    Filter =
+                        "Html files (Html only) (*.html)|*.html|Html files (Html and dependencies in a folder)|*.html",
                     FilterIndex = 1,
                     InitialDirectory = folder,
-                    FileName = Path.ChangeExtension(doc.MarkdownDocument.Filename,"html"),
+                    FileName = Path.ChangeExtension(doc.MarkdownDocument.Filename, "html"),
                     CheckFileExists = false,
                     OverwritePrompt = false,
                     CheckPathExists = true,
-                    RestoreDirectory = true                    
+                    RestoreDirectory = true
                 };
 
                 bool? result = null;
                 try
                 {
                     result = sd.ShowDialog();
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     mmApp.Log("Unable to save html file: " + doc.MarkdownDocument.Filename, ex);
                     MessageBox.Show(
@@ -633,12 +551,13 @@ namespace MarkdownMonster
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
-                
+
                 if (result != null && result.Value)
                 {
                     if (sd.FilterIndex != 2)
                     {
-                        var html = doc.RenderMarkdown(doc.GetMarkdown(), mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
+                        var html = doc.RenderMarkdown(doc.GetMarkdown(),
+                            mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
 
                         if (!doc.MarkdownDocument.WriteFile(sd.FileName, html))
                         {
@@ -657,8 +576,8 @@ For now, you can use 'View in Web Browser' to view the document in your favorite
 
 Do you want to View in Browser now?
 ";
-                        var mbResult = MessageBox.Show(msg, 
-                            mmApp.ApplicationName, 
+                        var mbResult = MessageBox.Show(msg,
+                            mmApp.ApplicationName,
                             MessageBoxButton.YesNo,
                             MessageBoxImage.Asterisk,
                             MessageBoxResult.Yes);
@@ -680,13 +599,206 @@ Do you want to View in Browser now?
 
                 return true;
             });
+        }
+
+
+        public CommandBase ToolbarInsertMarkdownCommand { get; set; }
+
+        void Command_ToolbarInsertMarkdown()
+        {
+            ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>
+            {
+                string action = s as string;
+
+                var editor = Window.GetActiveMarkdownEditor();
+                editor?.ProcessEditorUpdateCommand(action);
+            }, null);
+
+
+        }
+
+
+        public CommandBase SettingsCommand { get; set; }
+
+        void Command_Settings()
+        {
+            // Settings
+            SettingsCommand = new CommandBase((s, e) =>
+            {
+                var file = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json");
+
+                // save settings first so we're looking at current setting
+                Configuration.Write();
+
+                string fileText = File.ReadAllText(file);
+                if (!fileText.StartsWith("//"))
+                {
+                    fileText = "// Reference: http://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm\r\n" +
+                               fileText;
+                    File.WriteAllText(file, fileText);
+                }
+
+                Window.OpenTab(file, syntax: "json");
+            }, null);
+        }
+
+
+
+        public CommandBase DistractionFreeModeCommand { get; set; }
+
+        void Command_DistractionFreeMode()
+        {
+            DistractionFreeModeCommand = new CommandBase((s, e) =>
+            {
+                GridLength glToolbar = new GridLength(0);
+                GridLength glMenu = new GridLength(0);
+                GridLength glStatus = new GridLength(0);
+
+                GridLength glFileBrowser = new GridLength(0);
+
+                if (Window.ToolbarGridRow.Height == glToolbar)
+                {
+                    Window.SaveSettings();
+
+                    glToolbar = GridLength.Auto;
+                    glMenu = GridLength.Auto;
+                    glStatus = GridLength.Auto;
+
+                    //mmApp.Configuration.WindowPosition.IsTabHeaderPanelVisible = true;
+                    Window.TabControl.IsHeaderPanelVisible = true;
+
+                    IsPreviewBrowserVisible = true;
+                    Window.PreviewMarkdown();
+
+                    Window.WindowState = mmApp.Configuration.WindowPosition.WindowState;
+
+                    IsFullScreen = false;
+
+                    Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+                }
+                else
+                {
+                    var tokens = mmApp.Configuration.DistractionFreeModeHideOptions.ToLower()
+                        .Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (tokens.All(d => d != "menu"))
+                        glMenu = GridLength.Auto;
+
+                    if (tokens.All(d => d != "toolbar"))
+                        glToolbar = GridLength.Auto;
+
+                    if (tokens.All(d => d != "statusbar"))
+                        glStatus = GridLength.Auto;
+
+                    if (tokens.Any(d => d == "tabs"))
+                        Window.TabControl.IsHeaderPanelVisible = false;
+
+                    if (tokens.Any(d => d == "preview"))
+                    {
+                        IsPreviewBrowserVisible = false;
+                        Window.ShowPreviewBrowser(hide: true);
+                    }
+
+                    mmApp.Configuration.WindowPosition.WindowState = Window.WindowState;
+                    if (tokens.Any(d => d == "maximized"))
+                        Window.WindowState = WindowState.Maximized;
+
+                    Window.ShowFolderBrowser(true);
+
+                    IsFullScreen = true;
+                }
+
+                // toolbar     
+                Window.MainMenuGridRow.Height = glMenu;
+                Window.ToolbarGridRow.Height = glToolbar;
+                Window.StatusBarGridRow.Height = glStatus;
+            }, null);
+        }
+
+
+        public CommandBase PresentationModeCommand { get; set; }
+
+        void Command_PresentationMode()
+        {
+            // PRESENTATION MODE
+            PresentationModeCommand = new CommandBase((s, e) =>
+            {
+                if (IsFullScreen)
+                    DistractionFreeModeCommand.Execute(null);
+
+                GridLength gl = new GridLength(0);
+                if (Window.WindowGrid.RowDefinitions[1].Height == gl)
+                {
+                    gl = GridLength.Auto; // toolbar height
+
+                    Window.MainWindowEditorColumn.Width = new GridLength(1, GridUnitType.Star);
+                    Window.MainWindowSeparatorColumn.Width = new GridLength(0);
+                    Window.MainWindowPreviewColumn.Width =
+                        new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+
+                    Window.PreviewMarkdown();
+
+                    Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+
+                    IsPresentationMode = false;
+                }
+                else
+                {
+                    Window.SaveSettings();
+
+                    mmApp.Configuration.WindowPosition.SplitterPosition =
+                        Convert.ToInt32(Window.MainWindowPreviewColumn.Width.Value);
+
+                    // don't allow presentation mode for non-Markdown documents
+                    var editor = Window.GetActiveMarkdownEditor();
+                    if (editor != null)
+                    {
+                        var file = editor.MarkdownDocument.Filename.ToLower();
+                        var ext = Path.GetExtension(file);
+                        if (file != "untitled" && ext != ".md" && ext != ".htm" && ext != ".html")
+                        {
+                            // don't allow presentation mode for non markdown files
+                            IsPresentationMode = false;
+                            IsPreviewBrowserVisible = false;
+                            Window.ShowPreviewBrowser(true);
+                            return;
+                        }
+                    }
+
+                    Window.ShowPreviewBrowser();
+                    Window.ShowFolderBrowser(true);
+
+                    Window.MainWindowEditorColumn.Width = gl;
+                    Window.MainWindowSeparatorColumn.Width = gl;
+                    Window.MainWindowPreviewColumn.Width = new GridLength(1, GridUnitType.Star);
+
+                    IsPresentationMode = true;
+                    IsPreviewBrowserVisible = true;
+                }
+
+                Window.WindowGrid.RowDefinitions[1].Height = gl;
+                //Window.WindowGrid.RowDefinitions[3].Height = gl;  
+            }, null);
+        }
+
+
+        public CommandBase NewDocumentCommand { get; set; }
+
+        void Command_NewDocument()
+        {
 
             // NEW DOCUMENT COMMAND (ctrl-n)
             NewDocumentCommand = new CommandBase((s, e) =>
             {
                 Window.OpenTab("untitled");
             });
+        }
 
+
+        public CommandBase OpenDocumentCommand { get; set; }
+
+        void Command_OpenDocument()
+        {
             // OPEN DOCUMENT COMMAND
             OpenDocumentCommand = new CommandBase((s, e) =>
             {
@@ -741,6 +853,13 @@ Do you want to View in Browser now?
                     //Window.AddRecentFile(file);
                 }
             });
+        }
+
+
+        public CommandBase CloseActiveDocumentCommand { get; set; }
+
+        void Command_CloseActiveDocument()
+        {
 
             // CLOSE ACTIVE DOCUMENT COMMAND
             CloseActiveDocumentCommand = new CommandBase((s, e) =>
@@ -758,12 +877,101 @@ Do you want to View in Browser now?
             };
 
 
+        }
 
-           
+        public CommandBase ViewInExternalBrowserCommand { get; set; }
+
+        void Command_ViewInExternalBrowser()
+        {
+            // EXTERNAL BROWSER VIEW
+            ViewInExternalBrowserCommand = new CommandBase((p, e) =>
+            {
+                if (ActiveDocument == null) return;
+                mmFileUtils.ShowExternalBrowser(ActiveDocument.HtmlRenderFilename);
+            }, (p, e) => IsPreviewBrowserVisible);
+        }
+
+        public CommandBase ViewHtmlSourceCommand { get; set; }
+
+        void Command_ViewHtmlSource()
+        {
+            ViewHtmlSourceCommand = new CommandBase((p, e) =>
+            {
+                if (ActiveDocument == null) return;
+                Window.OpenTab(ActiveDocument.HtmlRenderFilename);
+            }, (p, e) => IsPreviewBrowserVisible);
+        }
 
 
-        // COMMIT TO GIT Command
-        CommitToGitCommand = new CommandBase(async (s, e) =>
+        public CommandBase PrintPreviewCommand { get; set; }
+
+        void Command_PrintePreview()
+        {
+            // PRINT PREVIEW
+            PrintPreviewCommand = new CommandBase((s, e) =>
+            {
+                dynamic dom = Window.PreviewBrowser.Document;
+                dom.execCommand("print", true, null);
+            }, (s, e) => IsPreviewBrowserVisible);
+
+        }
+
+
+        public CommandBase ShowFolderBrowserCommand { get; set; }
+
+
+        void Command_ShowFolderBrowser()
+        {
+            // SHOW FILE BROWSER COMMAND
+            ShowFolderBrowserCommand = new CommandBase((s, e) =>
+            {
+                mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
+
+                mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+
+            });
+        }
+
+
+        public CommandBase HelpCommand { get; set; }
+
+        void Command_Help()
+        {
+            // F1 Help Command - Pass option CommandParameter="TopicId"
+            HelpCommand = new CommandBase((topicId, e) =>
+            {
+                string url = mmApp.Urls.DocumentationBaseUrl;
+
+                if (topicId != null)
+                    url = mmApp.GetDocumentionUrl(topicId as string);
+
+                ShellUtils.GoUrl(url);
+            });
+        }
+
+        public CommandBase GeneratePdfCommand { get; set; }
+
+        void Command_GeneratePdf()
+        {
+            // PDF GENERATION PREVIEW
+            GeneratePdfCommand = new CommandBase((s, e) =>
+            {
+                var form = new GeneratePdfWindow()
+                {
+                    Owner = mmApp.Model.Window
+                };
+                form.Show();
+            }, (s, e) => IsPreviewBrowserVisible);
+        }
+
+
+        public CommandBase CommitToGitCommand { get; set; }
+
+
+        void Command_CommitToGit()
+        {
+            // COMMIT TO GIT Command
+            CommitToGitCommand = new CommandBase(async (s, e) =>
             {
                 string file = ActiveDocument?.Filename;
                 if (string.IsNullOrEmpty(file))
@@ -785,216 +993,97 @@ Do you want to View in Browser now?
                     Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
                 }
             }, (s, e) => IsEditorActive);
+        }
 
 
-            
-        
-            // MARKDOWN EDIT COMMANDS TOOLBAR COMMAND
-            ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>
-            {
-                string action = s as string;
-                
-                var editor = Window.GetActiveMarkdownEditor();                
-                editor?.ProcessEditorUpdateCommand(action);
-            }, null);
+        public CommandBase WordWrapCommand { get; set; }
 
-            // Settings
-            SettingsCommand = new CommandBase((s, e) =>
-            {
-                var file = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json");
+        void Command_WordWrap()
+        {
 
-                // save settings first so we're looking at current setting
-                Configuration.Write();
-
-                string fileText = File.ReadAllText(file);
-                if (!fileText.StartsWith("//"))
+            // WORD WRAP COMMAND
+            WordWrapCommand = new CommandBase((parameter, command) =>
                 {
-                    fileText = "// Reference: http://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm\r\n" +
-                               fileText;
-                    File.WriteAllText(file, fileText);
+                    //MessageBox.Show("alt-z WPF");
+                    mmApp.Model.Configuration.EditorWrapText = !mmApp.Model.Configuration.EditorWrapText;
+                    mmApp.Model.ActiveEditor?.SetWordWrap(mmApp.Model.Configuration.EditorWrapText);
+                },
+                (p, c) => IsEditorActive);
+        }
+
+        public CommandBase CopyAsHtmlCommand { get; set; }
+
+        void Command_CopyAsHtml()
+        {
+            CopyAsHtmlCommand = new CommandBase((parameter, command) =>
+            {
+                if (ActiveEditor == null)
+                    return;
+
+                var editor = ActiveEditor;
+                if (editor == null)
+                    return;
+
+                var markdown = editor.GetSelection();
+                var html = editor.RenderMarkdown(markdown);
+
+                if (!string.IsNullOrEmpty(html))
+                {
+                    // copy to clipboard as html
+                    ClipboardHelper.CopyHtmlToClipboard(html, html);
+                    Window.ShowStatus("Html has been pasted to the clipboard.", mmApp.Configuration.StatusTimeout);
                 }
+                editor.SetEditorFocus();
+                editor.Window.PreviewMarkdownAsync();
+            }, (p, c) => IsEditorActive);
 
-                Window.OpenTab(file, syntax: "json");
-            }, null);
-
-            // DISTRACTION FREE MODE
-            DistractionFreeModeCommand = new CommandBase((s, e) =>
-            {
-                GridLength glToolbar = new GridLength(0);
-                GridLength glMenu = new GridLength(0);
-                GridLength glStatus = new GridLength(0);
-
-                GridLength glFileBrowser = new GridLength(0);
-	            
-                if ( Window.ToolbarGridRow.Height == glToolbar)
-                {
-                    Window.SaveSettings();
-
-                    glToolbar = GridLength.Auto;
-                    glMenu = GridLength.Auto;
-                    glStatus = GridLength.Auto;
-
-                    //mmApp.Configuration.WindowPosition.IsTabHeaderPanelVisible = true;
-                    Window.TabControl.IsHeaderPanelVisible = true;
-
-                    IsPreviewBrowserVisible = true;
-                    Window.PreviewMarkdown();
-
-                    Window.WindowState = mmApp.Configuration.WindowPosition.WindowState;
-                    
-                    IsFullScreen = false;
-
-                    Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
-                }
-                else
-                {
-                    var tokens = mmApp.Configuration.DistractionFreeModeHideOptions.ToLower().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                   
-                    if (tokens.All(d => d != "menu"))
-                        glMenu = GridLength.Auto;
-
-                    if (tokens.All(d => d != "toolbar"))
-                        glToolbar = GridLength.Auto;
-
-                    if (tokens.All(d => d != "statusbar"))
-                        glStatus = GridLength.Auto;
-
-                    if (tokens.Any(d => d == "tabs"))
-                        Window.TabControl.IsHeaderPanelVisible = false;
-
-                    if (tokens.Any(d => d == "preview"))
-                    {
-                        IsPreviewBrowserVisible = false;
-                        Window.ShowPreviewBrowser(hide: true);
-                    }
-
-                    mmApp.Configuration.WindowPosition.WindowState = Window.WindowState;
-                    if (tokens.Any(d => d == "maximized"))
-                        Window.WindowState = WindowState.Maximized;
-
-                    Window.ShowFolderBrowser(true);
-
-                    IsFullScreen = true;                
-                }
-
-                // toolbar     
-                Window.MainMenuGridRow.Height = glMenu;
-                Window.ToolbarGridRow.Height = glToolbar;
-                Window.StatusBarGridRow.Height = glStatus;
-            }, null);
-
-            // PRESENTATION MODE
-            PresentationModeCommand = new CommandBase((s, e) =>
-            {
-                if (IsFullScreen)
-                    DistractionFreeModeCommand.Execute(null);
-
-                GridLength gl = new GridLength(0);
-                if (Window.WindowGrid.RowDefinitions[1].Height == gl)
-                {
-                    gl = GridLength.Auto; // toolbar height
-
-                    Window.MainWindowEditorColumn.Width = new GridLength(1, GridUnitType.Star);
-                    Window.MainWindowSeparatorColumn.Width = new GridLength(0);
-                    Window.MainWindowPreviewColumn.Width = new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
-
-                    Window.PreviewMarkdown();
-
-                    Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
-
-                    IsPresentationMode = false;
-                }
-                else
-                {
-                    Window.SaveSettings();
-
-                    mmApp.Configuration.WindowPosition.SplitterPosition =
-                        Convert.ToInt32(Window.MainWindowPreviewColumn.Width.Value);
-
-                    // don't allow presentation mode for non-Markdown documents
-                    var editor = Window.GetActiveMarkdownEditor();
-                    if (editor != null)
-                    {                       
-                        var file = editor.MarkdownDocument.Filename.ToLower();
-                        var ext = Path.GetExtension(file);
-                        if (file != "untitled" && ext != ".md" && ext != ".htm" && ext != ".html")
-                        {
-                            // don't allow presentation mode for non markdown files
-                            IsPresentationMode = false;
-                            IsPreviewBrowserVisible = false;
-                            Window.ShowPreviewBrowser(true);
-                            return;
-                        }
-                    }
-                    
-                    Window.ShowPreviewBrowser();
-                    Window.ShowFolderBrowser(true);
-
-                    Window.MainWindowEditorColumn.Width = gl;
-                    Window.MainWindowSeparatorColumn.Width = gl;
-                    Window.MainWindowPreviewColumn.Width = new GridLength(1,GridUnitType.Star);
-                    
-                    IsPresentationMode = true;
-                    IsPreviewBrowserVisible = true;                    
-                }
-
-                Window.WindowGrid.RowDefinitions[1].Height = gl;
-                //Window.WindowGrid.RowDefinitions[3].Height = gl;  
-            }, null);
-
-            // EXTERNAL BROWSER VIEW
-            ViewInExternalBrowserCommand = new CommandBase((p, e) =>
-            {
-                if (ActiveDocument == null) return;
-                mmFileUtils.ShowExternalBrowser(ActiveDocument.HtmlRenderFilename);                
-            }, (p, e) => IsPreviewBrowserVisible);
-
-            ViewHtmlSourceCommand = new CommandBase((p, e) =>
-            {
-                if (ActiveDocument == null) return;
-                Window.OpenTab(ActiveDocument.HtmlRenderFilename);
-            }, (p, e) => IsPreviewBrowserVisible);
+        }
 
 
-            // PRINT PREVIEW
-            PrintPreviewCommand = new CommandBase((s, e) =>
-            {
-                dynamic dom = Window.PreviewBrowser.Document;
-                dom.execCommand("print",true,null);
-            }, (s, e) => IsPreviewBrowserVisible);
 
-            // PDF GENERATION PREVIEW
-            GeneratePdfCommand = new CommandBase((s, e) =>
-            {
-                var form = new GeneratePdfWindow()
-                {
-                    Owner = mmApp.Model.Window
-                };
-                form.Show();		        
-            }, (s, e) => IsPreviewBrowserVisible);
+        private void CreateCommands()
+        {
+            Command_Save();
+            Command_SaveAs();
+            Command_PreviewBrowser();
+            Command_SaveAsHtml();
 
-            // F1 Help Command - Pass option CommandParameter="TopicId"
-            HelpCommand = new CommandBase((topicId, e) =>
-            {
-                string url = mmApp.Urls.DocumentationBaseUrl;
+            Command_DistractionFreeMode();
+            Command_PresentationMode();
 
-                if (topicId != null)
-                    url = mmApp.GetDocumentionUrl(topicId as string);
+            Command_ToolbarInsertMarkdown();
+            Command_Settings();
 
-                ShellUtils.GoUrl(url);
-            }, (s, e) => IsPreviewBrowserVisible);            
+
+            Command_NewDocument();
+            Command_OpenDocument();
+            Command_CloseActiveDocument();
+
+            Command_ViewInExternalBrowser();
+            Command_ViewHtmlSource();
+            Command_PrintePreview();
+
+            Command_ShowFolderBrowser();
+            Command_Help();
+
+            Command_GeneratePdf();
+            Command_CommitToGit();
+            Command_WordWrap();
+            Command_CopyAsHtml();
         }
 
         #endregion
 
         #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        
+
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
 
     }
