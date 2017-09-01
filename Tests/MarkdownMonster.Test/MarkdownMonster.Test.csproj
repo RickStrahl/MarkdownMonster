@@ -74,6 +74,7 @@
     <Compile Include="BugReportTests.cs" />
     <Compile Include="ComputerInfoTests.cs" />
     <Compile Include="FolderStructureTests.cs" />
+    <Compile Include="FrontMatterTests.cs" />
     <Compile Include="HtmlToPdfGenerationTests.cs" />
     <Compile Include="MarkdownDocumentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
