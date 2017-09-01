@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="AddinManagerTest.cs" />
     <Compile Include="BugReportTests.cs" />
+    <Compile Include="ClipBoardHelperTests.cs" />
     <Compile Include="ComputerInfoTests.cs" />
     <Compile Include="FolderStructureTests.cs" />
     <Compile Include="HtmlToPdfGenerationTests.cs" />

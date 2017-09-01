@@ -18,6 +18,9 @@ You can now right click over an image embedded into a Markdown document and use 
 * **Edit Image Link Context Menu**  
 You can now hover over an image embedded in Markdown and use **Edit Image Link** to reopen the image in the Image Embedding Dialog.
 
+* **Copy Selection as HTML now formats Clipboard as HTML Data Type**  
+You can now use Copy as HTML from the Edit or Context menus to export your Markdown selections to HTML (as before). In addition the new behavior adds the text using HTML Clipboard formatting so you can more easily paste the HTML into rich text editors (like Outlook or Gmail's editor for example) with formatting intact. Text editors still see the raw HTML output.
+
 * **Support for Pandoc YAML headers ending in `...`***  
 Thanks to a fix in the Markdig Pandoc parser, Pandoc alternate style YAML headers that end in `...` rather than `---` are now stripped from rendered Markdown output. Additional adjustments for spellcheck exclusions and Weblog Publishing are forthcoming in future updates.
 

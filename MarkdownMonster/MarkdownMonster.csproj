@@ -195,6 +195,7 @@
     <Compile Include="_Classes\Configuration\FolderBrowserConfiguration.cs" />
     <Compile Include="_Classes\Configuration\MarkdownOptionsConfiguration.cs" />
     <Compile Include="_Classes\Configuration\WindowPositionConfiguration.cs" />
+    <Compile Include="_Classes\Utilities\ClipboardHelper.cs" />
     <Compile Include="_Classes\Utilities\DebounceDispatcher.cs" />
     <Compile Include="_Classes\Utilities\DispatcherExtensions.cs" />
     <Compile Include="_Classes\MarkdownEditorSimple.cs" />
