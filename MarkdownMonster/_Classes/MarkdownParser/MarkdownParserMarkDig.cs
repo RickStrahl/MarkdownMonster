@@ -73,6 +73,7 @@ namespace MarkdownMonster
 
             var htmlWriter = new StringWriter();
             var renderer = CreateRenderer(htmlWriter);
+
             Markdown.Convert(markdown, renderer, Pipeline);
             var html = htmlWriter.ToString();
             
