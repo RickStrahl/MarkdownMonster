@@ -170,31 +170,31 @@ var te = window.textEditor = {
                     sc.contentModified = true;                  
             });
 
-        // special selections for images code and links
-        te.editor.on('mousedown', function (e) {
-            if (e.domEvent.which != 3) return;
+  //      // special selections for images code and links
+  //      te.editor.on('mousedown', function (e) {
+  //          if (e.domEvent.which != 3) return;
 
-            var text = te.getselection();
-            var markdown = null;
-            var handled = false;
-            if (text.startsWith("![") && text.endsWith(")")) {
-                markdown = te.editorSelectionOperation("image", text);
-                handled = true;
-            } else if (text.startsWith("[") && text.endsWith(")")) {
-                markdown = te.editorSelectionOperation("link", text);
-                handled = true;
-            } else if (text.startsWith("```") && text.endsWith("```")) {
-                markdown = te.editorSelectionOperation("code", text);
-                handled = true;     
-            }
-            if (handled) {
-                e.preventDefault();
-				e.stopPropagation();
-				return false;
-            }
-            if (markdown != null)
-                te.setselection(markdown);
-		});
+  //          var text = te.getselection();
+  //          var markdown = null;
+  //          var handled = false;
+  //          if (text.startsWith("![") && text.endsWith(")")) {
+  //              markdown = te.editorSelectionOperation("image", text);
+  //              handled = true;
+  //          } else if (text.startsWith("[") && text.endsWith(")")) {
+  //              markdown = te.editorSelectionOperation("link", text);
+  //              handled = true;
+  //          } else if (text.startsWith("```") && text.endsWith("```")) {
+  //              markdown = te.editorSelectionOperation("code", text);
+  //              handled = true;     
+  //          }
+  //          if (handled) {
+  //              e.preventDefault();
+		//		e.stopPropagation();
+		//		return false;
+  //          }
+  //          if (markdown != null)
+  //              te.setselection(markdown);
+		//});
 
 	    
 		
@@ -655,8 +655,8 @@ window.onmousewheel = function(e) {
 
 // pass context popup to WPF for handling there
 window.oncontextmenu = function (e) {
-    //e.preventDefault();
-    //e.cancelBubble = true;
+    e.preventDefault();
+    e.cancelBubble = true;
     
     te.mm.textbox.EditorContextMenu();
 
