@@ -7,7 +7,7 @@
 > If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall using Programs and Features** before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges.
 
 ### 1.5.12
-*<small>not released yet</small>*
+*<small>September 1st, 2017</small>*
 
 * **Updated Editor Context Menu**  
 The Editor's context menu has been updated to forward all menu handling to WPF rather than HTML based menu display. Currently the new menu handles Copy/Cut/Paste and spellchecking duties only, but additional menu options/features can now be added more easily.
