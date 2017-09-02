@@ -90,14 +90,7 @@ namespace MarkdownMonster
 
         protected virtual MarkdownPipelineBuilder CreatePipelineBuilder()
         {
-            var builder = new MarkdownPipelineBuilder()
-                .UseEmphasisExtras()
-                .UsePipeTables()
-                .UseGridTables()
-                .UseFooters()
-                .UseFootnotes()
-                .UseCitations();
-
+            var builder = new MarkdownPipelineBuilder();
 
             var options = mmApp.Configuration.MarkdownOptions;
             if (options.AutoLinks)
@@ -124,6 +117,21 @@ namespace MarkdownMonster
 
             if (_usePragmaLines)
                 builder = builder.UsePragmaLines();
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(options.MarkdigExtensions))
+                {
+                    builder = builder.Configure(options.MarkdigExtensions);
+                }
+            }
+            catch(ArgumentException ex)
+            {
+                // One or more of the extension options is invalid. 
+                // Processing of the extensions stopped at this point.
+                // Log an error.
+                mmApp.Log(ex);
+            }
 
             return builder;
         }
