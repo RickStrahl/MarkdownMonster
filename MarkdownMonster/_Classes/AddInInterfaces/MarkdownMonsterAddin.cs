@@ -257,6 +257,19 @@ namespace MarkdownMonster.AddIns
             return null;           
         }
 
+        /// <summary>
+        /// If this addin wants to provide a custom Markdown Parser this method can 
+        /// be overriden to do it.
+        /// </summary>
+        /// <param name="usePragmaLines">If true, pragma line ids should be added into the document
+        /// to support preview synchronization</param>
+        /// <param name="force">Forces the parser to be reloaded - otherwise previously loaded instance can be used</param>
+        /// <returns>IMarkdownParser instance or null. Passed the instance is used for parsing</returns>
+        public virtual IMarkdownParser GetMarkdownParser(bool usePragmaLines, bool force)
+        {
+            // Existing parsers use the older method, so default to calling that.
+            return this.GetMarkdownParser();
+        }
 
         /// <summary>
         /// Called after the addin is initially installed. Use this
