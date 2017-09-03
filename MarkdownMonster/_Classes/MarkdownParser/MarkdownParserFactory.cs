@@ -35,7 +35,7 @@ namespace MarkdownMonster
             {
                 var addin = AddinManager.Current.AddIns.FirstOrDefault(a => a.Name == parserAddinId || a.Id == parserAddinId);
                 if (addin != null)
-                    parser = addin.GetMarkdownParser();
+                    parser = addin.GetMarkdownParser(usePragmaLines: usePragmaLines, force: forceLoad);
             }
             
             CurrentParser = parser ?? (parser = new MarkdownParserMarkdig(usePragmaLines: usePragmaLines, force: forceLoad));
