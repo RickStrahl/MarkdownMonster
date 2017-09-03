@@ -269,9 +269,10 @@ namespace MarkdownMonster.AddIns
         public virtual IMarkdownParser GetMarkdownParser(bool usePragmaLines, bool force)
         {
             // Existing parsers use the older method, so default to calling that.
-#pragma warning disable 612
+#pragma warning disable CS0618 // Type or member is obsolete
             return GetMarkdownParser();
-#pragma warning restore 612
+#pragma warning restore CS0618 // Type or member is obsolete
+
         }
 
         /// <summary>
