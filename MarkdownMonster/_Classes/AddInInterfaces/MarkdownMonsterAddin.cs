@@ -252,6 +252,7 @@ namespace MarkdownMonster.AddIns
         /// be overriden to do it.
         /// </summary>
         /// <returns>IMarkdownParser instance or null. Passed the instance is used for parsing</returns>
+        [Obsolete("Please use the GetMarkdownDownParser(bool usePragmaLines, bool force) overload.")]
         public virtual IMarkdownParser GetMarkdownParser()
         {
             return null;           
@@ -268,7 +269,9 @@ namespace MarkdownMonster.AddIns
         public virtual IMarkdownParser GetMarkdownParser(bool usePragmaLines, bool force)
         {
             // Existing parsers use the older method, so default to calling that.
-            return this.GetMarkdownParser();
+#pragma warning disable 612
+            return GetMarkdownParser();
+#pragma warning restore 612
         }
 
         /// <summary>
@@ -542,5 +545,5 @@ namespace MarkdownMonster.AddIns
 
       
 
-    }   
+    }    
 }
