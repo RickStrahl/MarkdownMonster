@@ -71,6 +71,21 @@ namespace MarkdownMonster
         /// Renders all links as external links with `target='top'`
         /// </summary>
         public bool RenderLinksAsExternal { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Markdig extensions to be enabled.
+        /// </summary>
+        public string MarkdigExtensions
+        {
+            get { return _markdigExtensions; }
+            set
+            {
+                if (value == _markdigExtensions) return;
+                _markdigExtensions = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _markdigExtensions = "emphasisextras+pipetables+gridtables+footers+footnotes+citations+attributes";
         
         #endregion
 
