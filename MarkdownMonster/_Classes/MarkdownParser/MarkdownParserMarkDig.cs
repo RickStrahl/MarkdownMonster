@@ -122,15 +122,13 @@ namespace MarkdownMonster
             {
                 if (!string.IsNullOrWhiteSpace(options.MarkdigExtensions))
                 {
-                    builder = builder.Configure(options.MarkdigExtensions);
+                    builder = builder.Configure(options.MarkdigExtensions.Replace(",","+"));
                 }
             }
             catch(ArgumentException ex)
             {
                 // One or more of the extension options is invalid. 
-                // Processing of the extensions stopped at this point.
-                // Log an error.
-                mmApp.Log(ex);
+                mmApp.Log("Failed to load Markdig extensions: " + options.MarkdigExtensions + "\r\n" + ex.Message,ex);
             }
 
             return builder;

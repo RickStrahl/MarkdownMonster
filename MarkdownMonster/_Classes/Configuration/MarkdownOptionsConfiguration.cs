@@ -80,12 +80,12 @@ namespace MarkdownMonster
             get { return _markdigExtensions; }
             set
             {
-                if (value == _markdigExtensions) return;
+                if (value == _markdigExtensions) return;                
                 _markdigExtensions = value;
                 OnPropertyChanged();
             }
         }
-        private string _markdigExtensions = "emphasisextras+pipetables+gridtables+footers+footnotes+citations+attributes";
+        private string _markdigExtensions = "emphasisextras,pipetables,gridtables,footers,footnotes,citations,attributes";
         
         #endregion
 
