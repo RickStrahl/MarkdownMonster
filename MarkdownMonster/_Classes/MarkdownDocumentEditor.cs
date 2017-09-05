@@ -1160,9 +1160,30 @@ namespace MarkdownMonster
                     }
                 }
             } 
-            else if (action == "link")
+            else if (action == "hyperlink")
             {
-                MessageBox.Show("Link to Edit", text);
+                string label = StringUtils.ExtractString(text, "[", "]");
+                string link = StringUtils.ExtractString(text, "](", ")");
+
+                var form = new PasteHref()
+                {
+                    Owner = Window,
+                    Link = link,
+                    LinkText = label,
+                    MarkdownFile = MarkdownDocument.Filename
+                };                
+
+                bool? res = form.ShowDialog();
+                if (res != null && res.Value)
+                {
+                    string html = $"[{form.LinkText}]({form.Link})";
+                    if (!string.IsNullOrEmpty(html))
+                    {
+                        SetSelection(html);
+                        PreviewMarkdownCallback();
+                    }
+                }
+
             }
             else if (action == "code")
             {

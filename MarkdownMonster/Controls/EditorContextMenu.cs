@@ -128,6 +128,9 @@ namespace MarkdownMonster
                 ContextMenu.Items.Add(new Separator());
         }
 
+        /// <summary>
+        /// Adds context sensitive links for Image Links, Hyper Links
+        /// </summary>
         public void AddEditorContext()
         {
             var model = Model;
@@ -137,8 +140,66 @@ namespace MarkdownMonster
             if (pos.row == -1)
                 return;
 
+            CheckForImageLink(line, pos);
+            CheckForHyperLink(line, pos);
+
+
+            if (ContextMenu.Items.Count > 0)            
+                ContextMenu.Items.Add(new Separator());                
+            
+        }
+
+
+        static readonly Regex HrefRegex = new Regex(@"(?<!\!)\[.*?\]\(.*?\)", RegexOptions.IgnoreCase);
+
+        private bool CheckForHyperLink(string line, AcePosition pos)
+        {
+            var matches = HrefRegex.Matches(line);
+            if (matches.Count > 0)
+            {
+                foreach (Match match in matches)
+                {
+                    string val = match.Value;
+                    if (match.Index <= pos.column && match.Index + val.Length > pos.column)
+                    {                     
+                        var mi2 = new MenuItem
+                        {
+                            Header = "Edit Hyperlink"
+                        };
+                        mi2.Click += (o, args) =>
+                        {
+                            Model.ActiveEditor.AceEditor.SetSelectionRange(pos.row, match.Index, pos.row,
+                                match.Index + val.Length, pos);
+                            Model.ActiveEditor.EditorSelectionOperation("hyperlink", val);
+                        };
+                        ContextMenu.Items.Add(mi2);
+
+                        var mi = new MenuItem
+                        {
+                            Header = "Remove Hyperlink"
+                        };
+                        mi.Click += (o, args) =>
+                        {
+                            Model.ActiveEditor.AceEditor.SetSelectionRange(pos.row, match.Index, pos.row,
+                                match.Index + val.Length, pos);
+                            string text = StringUtils.ExtractString(val, "[", "]");
+                            Model.ActiveEditor.SetSelection(text);
+                        };
+                        ContextMenu.Items.Add(mi);
+
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        static readonly Regex ImageRegex = new Regex(@"!\[.*?\]\(.*?\)", RegexOptions.IgnoreCase);
+
+        private bool CheckForImageLink(string line, AcePosition pos)
+        {   
             // Check for images ![](imageUrl)
-            var matches = Regex.Matches(line, @"!\[.*?\]\(.*?\)", RegexOptions.IgnoreCase);
+            var matches = ImageRegex.Matches(line);
             if (matches.Count > 0)
             {
                 foreach (Match match in matches)
@@ -154,7 +215,7 @@ namespace MarkdownMonster
                         {
                             var image = StringUtils.ExtractString(val, "(", ")");
                             image = mmFileUtils.NormalizeFilename(image,
-                                Path.GetDirectoryName(model.ActiveDocument.Filename));
+                                Path.GetDirectoryName(Model.ActiveDocument.Filename));
                             mmFileUtils.OpenImageInImageEditor(image);
                         };
                         ContextMenu.Items.Add(mi);
@@ -170,17 +231,14 @@ namespace MarkdownMonster
                             Model.ActiveEditor.EditorSelectionOperation("image", val);
                         };
                         ContextMenu.Items.Add(mi2);
+
+                        return true;
                     }
 
-                    if (ContextMenu.Items.Count > 0)
-                        ContextMenu.Items.Add(new Separator());
-
-                    return;
                 }
             }
 
+            return false;
         }
-
-
     }
 }
