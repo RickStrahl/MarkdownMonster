@@ -1,10 +1,8 @@
 <img src="https://github.com/RickStrahl/MarkdownMonster/raw/master/Art/MarkdownMonster_Icon_128.png" align="right"/>
 
 # Markdown Monster Change Log 
-<small>[download latest version](https://markdownmonster.west-wind.com) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
+<small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-> #### Upgrades: Explicitly uninstall pre-1.4.10 Versions! 
-> If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall using Programs and Features** before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges.
 
 ### 1.6
 *<small>September 6th, 2017</small>*
