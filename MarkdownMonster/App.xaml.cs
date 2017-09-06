@@ -340,12 +340,7 @@ namespace MarkdownMonster
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
 
         }
-
-        protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
-        {
-            base.OnSessionEnding(e);
-        }
-
+        
         /// <summary>
         /// Loads all addins asynchronously without loading the
         /// addin UI  -handled in Window Load to ensure Window is up)
