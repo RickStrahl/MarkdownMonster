@@ -6,8 +6,11 @@
 > #### Upgrades: Explicitly uninstall pre-1.4.10 Versions! 
 > If you have versions **prior to 1.4.10** installed, we recommend you do a **full uninstall using Programs and Features** before updating Markdown Monster. Because the install location changed, the new low rights installer can run into permission problems updating in the old **Program Files** location. A manual Uninstall/Re-install ensures that files get moved to **%LocalAppData%** which doesn't require admin privileges.
 
-### 1.5.15
-*<small>not released yet</small>*
+### 1.6
+*<small>September 6th, 2017</small>*
+
+* **Version Rollup Release**   
+This release is a version rollup release that combines all the recent additions into a point release.
 
 * **Edit and Remove Hyperlink Context Menu Options**  
 Added menu options to edit hyper links in the link editor or to remove the hyperlink and just retain the text of the link.
