@@ -18,6 +18,9 @@ Added menu options to edit hyper links in the link editor or to remove the hyper
 * **Fix: Command Refactoring**  
 The various Command objects used to define menu options have been refactored in the code with seperate configuration wrapper methods to make it easier to find and edit the menu options.
 
+* **Fix: Addin Loading Issue**  
+Looks like a regression bug slipped through in 1.5.12 that would not allow loading of certain addins (Gist, Pandoc addins specifically).
+
 ### 1.5.12
 *<small>September 1st, 2017</small>*
 
