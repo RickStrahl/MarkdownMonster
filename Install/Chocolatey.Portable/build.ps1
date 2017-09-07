@@ -8,9 +8,20 @@ cd "$PSScriptRoot"
 
 copy ..\builds\currentrelease\MarkdownMonsterPortable.zip .\tools
 
+$sha = get-filehash -path ".\tools\MarkdownMonsterPortable.zip" -Algorithm SHA256  | select -ExpandProperty "Hash"
+write-host $sha
+
+$filetext = @"
+`VERIFICATION
+`MarkdownMonster.Portable.zip
+`SHA256 Checksum Value: $sha
+"@
+out-file -filepath .\tools\Verification.txt -inputobject $filetext
+
+
 del *.nupkg
 
-# Create .nupkg from .nuspec
+# Create .nupkg from .nuspec    
 choco pack
 
 choco uninstall "MarkdownMonster.Portable"
