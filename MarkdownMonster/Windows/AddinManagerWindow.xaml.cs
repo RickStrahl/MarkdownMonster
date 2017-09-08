@@ -42,15 +42,19 @@ namespace MarkdownMonster.Windows
         }
         private ObservableCollection<AddinItem> _addinList;
 
+        private Brush oldBgColor;
+
         public AddinManagerWindow()
         {
             InitializeComponent();
             mmApp.SetThemeWindowOverride(this);
 
             Loaded += AddinManagerWindow_Loaded;
-            DataContext = this;            
+            DataContext = this;
+
+            oldBgColor = StatusText.Background;
         }
-        
+
 
         public AddinItem ActiveAddin
         {
@@ -68,6 +72,12 @@ namespace MarkdownMonster.Windows
         {
             // fill and sort as data is filled out
             var addinList = await AddinManager.Current.GetAddinListAsync();
+            if (addinList == null)
+            {
+                AddinList = new ObservableCollection<AddinItem>();
+                ShowStatus("Unable to load addin list.", mmApp.Configuration.StatusTimeout, Brushes.Red);
+                return;
+            }
             AddinList = new ObservableCollection<AddinItem>(addinList);
 
             if (AddinList.Count > 0)
@@ -176,15 +186,14 @@ namespace MarkdownMonster.Windows
 
         private Timer timer;
 
-        public void ShowStatus(string message = null, int milliSeconds = 0)
+        public void ShowStatus(string message = null, int milliSeconds = 0, Brush color = null)
         {
             if (message == null)
             {
                 message = "Ready";                
             }
 
-            Brush oldBgColor = StatusText.Background;
-            StatusBar.Background = Brushes.SteelBlue;
+            StatusBar.Background = color ?? Brushes.SteelBlue;
 
             StatusText.Text = message;
 
@@ -197,7 +206,7 @@ namespace MarkdownMonster.Windows
                         return;
                     window.Dispatcher.Invoke(() =>
                     {
-                        window.ShowStatus(null, 0);
+                        window.ShowStatus();
                         StatusBar.Background = oldBgColor;
                     });
                 }, this, milliSeconds, Timeout.Infinite);
