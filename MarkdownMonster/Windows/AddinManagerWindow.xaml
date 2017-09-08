@@ -12,6 +12,7 @@
         TitlebarHeight="35"                                                                                          
         Title="Markdown Monster Addin Manager"
         TitleCharacterCasing="Normal" ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterOwner"                      
         Height="730" Width="1100" MinWidth="900" MinHeight="500">
     <Window.Resources>
         
