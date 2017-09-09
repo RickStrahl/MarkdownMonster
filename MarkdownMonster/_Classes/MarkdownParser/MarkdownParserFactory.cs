@@ -57,7 +57,7 @@ namespace MarkdownMonster
 
             foreach (var addin in AddinManager.Current.AddIns)
             {
-                var parser = addin.GetMarkdownParser();
+                var parser = addin.GetMarkdownParser(false,false);
                 if (parser != null)
                     parserStrings.Add(addin.Name ?? addin.Id);
             }

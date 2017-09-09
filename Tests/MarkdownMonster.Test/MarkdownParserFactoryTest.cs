@@ -104,7 +104,7 @@ namespace MarkdownMonster.Test
             Name = "CustomParser";
         }
 
-        public override IMarkdownParser GetMarkdownParser()
+        public override IMarkdownParser GetMarkdownParser(bool usePragmaLines, bool force)
         {
             return new CustomParser();
         }
