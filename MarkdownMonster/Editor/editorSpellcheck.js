@@ -51,10 +51,16 @@ var sc = window.spellcheck = {
 
         var typoLastAccess = new Date().getSeconds();
 
+
         if (sc.firstpass) {
             // Make red underline for gutter and words.
-			$("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</script>")
-				.appendTo("head");
+            $("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</script>")
+                .appendTo("head");
+            te.editor.on('mousedown',
+                function (e) {
+                    if (e.domEvent.which === 3)
+                        showSuggestions(e);
+                });
         }
 
         if (te.mm) //te.dic && te.aff) {  
@@ -83,13 +89,9 @@ var sc = window.spellcheck = {
                 });
             });
         }
-
+      
         sc.firstpass = false;
 
-        te.editor.on('mousedown', function (e) {
-            if (e.domEvent.which == 3)
-                showSuggestions(e);
-        });
 
         return;
 

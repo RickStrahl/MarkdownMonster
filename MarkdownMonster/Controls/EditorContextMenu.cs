@@ -28,11 +28,7 @@ namespace MarkdownMonster
         /// </summary>
         public void ClearMenu()
         {
-            if (ContextMenu != null)
-            {
-                MenuItem t;
-                ContextMenu.Items.Clear();
-            }
+            ContextMenu?.Items.Clear();
         }
 
         public void Show()
@@ -75,10 +71,7 @@ namespace MarkdownMonster
                 Header = "Add to dictionary",
                 HorizontalContentAlignment = HorizontalAlignment.Right
             };
-            mi2.Click += (o, args) =>
-            {
-                model.ActiveEditor.AceEditor.addWordSpelling(((dynamic) range).misspelled);
-            };
+            mi2.Click += (o, args) => model.ActiveEditor.AceEditor.addWordSpelling(((dynamic)range).misspelled);           
             ContextMenu.Items.Add(mi2);
 
             ContextMenu.Items.Add(new Separator());
