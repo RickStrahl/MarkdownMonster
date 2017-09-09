@@ -84,15 +84,7 @@ namespace MarkdownMonster.Windows
                 ActiveAddin = AddinList[0];
         }
 
-        private void ListViewAddins_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void ListViewAddins_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
