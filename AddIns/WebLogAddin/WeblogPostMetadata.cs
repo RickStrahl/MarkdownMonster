@@ -293,9 +293,9 @@ namespace WeblogAddin
             if (!string.IsNullOrEmpty(extractedYaml))
                 markdown = markdown.Replace(extractedYaml, "");
             else
-                markdown = "\r\n" + markdown.Trim();
+                markdown = markdown.Trim();
 
-            markdown = "---\r\n" + yaml + "---" +                 
+            markdown = "---\r\n" + yaml + "---\r\n" +                 
                 markdown;
 
             // strip out old meta data
