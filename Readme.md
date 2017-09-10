@@ -1,7 +1,12 @@
 # Markdown Monster
+[![NuGet](https://img.shields.io/chocolatey/v/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
+![](https://img.shields.io/chocolatey/dt/markdownmonster.svg)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/MarkdownMonster/MarkdownMonster)
+
 #### An extensible Markdown Editor, Viewer and Weblog Publisher for Windows
 
 ![Markdown Monster Image](Art/MarkdownMonster.png)
+
 
 ## Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
@@ -16,7 +21,7 @@
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[License](#license)**
-* <a href="https://gitter.im/MarkdownMonster/MarkdownMonster"><img src="https://camo.githubusercontent.com/a05bc0f4476f07cf58e83b4d3f36cdaec0a86f7d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769747465722d4a6f696e253230436861742d677265656e2e7376673f7374796c653d666c61742d737175617265" /></a>
+
 
 If you like what you see please consider :star: **starring this repo** (top left of this page). Please help spread the word.
 
