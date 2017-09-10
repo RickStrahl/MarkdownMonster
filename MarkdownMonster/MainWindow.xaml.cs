@@ -488,7 +488,7 @@ namespace MarkdownMonster
 			}
 
 
-			if (mmApp.Configuration.RememberLastDocumentsLength > 0)
+			if (mmApp.Configuration.RememberLastDocumentsLength > 0 && mmApp.Configuration.UseSingleWindow)
 			{
 				//var selectedDoc = conf.RecentDocuments.FirstOrDefault();
 				TabItem selectedTab = null;
