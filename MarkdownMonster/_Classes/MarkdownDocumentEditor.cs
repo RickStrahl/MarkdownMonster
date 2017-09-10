@@ -31,6 +31,7 @@
 */
 #endregion
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -108,7 +109,8 @@ namespace MarkdownMonster
             if (AceEditor == null)
             {
                 WebBrowser.LoadCompleted += OnDocumentCompleted;
-                WebBrowser.Navigate(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm")));
+                WebBrowser.Navigate(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm")));                      
+               
                 //WebBrowser.Navigate("http://localhost:8080/editor.htm");
             }
 
@@ -698,8 +700,8 @@ namespace MarkdownMonster
                 return new AcePosition { row = -1, column = -1 };
             var pt = new AcePosition()
             {
-                row = pos.row,
-                column = pos.column
+                row = (int) pos.row,
+                column = (int) pos.column
             };
             return pt;
         }
@@ -760,8 +762,16 @@ namespace MarkdownMonster
         public void SetEditorFocus()
         {            
             AceEditor?.setfocus(true);
+        }
 
 
+        /// <summary>
+        /// Force focus away from the Markdown Editor by focusing
+        /// on one of the controls in the Window
+        /// </summary>
+        public void SetMarkdownMonsterWindowFocus()
+        {
+            Window.ComboBoxPreviewSyncModes.Focus();            
         }
 
         public void ExecEditorCommand(string action, object parm = null)
@@ -1097,14 +1107,6 @@ namespace MarkdownMonster
             }
         }
 
-        public void EditorContextMenu()
-        {
-            var cm = new EditorContextMenu();
-            cm.ClearMenu();
-            cm.AddEditorContext();
-            cm.AddCopyPaste();
-            cm.Show();
-        }
 
         public string EditorSelectionOperation(string action, string text)
         {
@@ -1295,64 +1297,6 @@ namespace MarkdownMonster
 		    }
 	    }
 
-#if false
-		/// <summary>
-		/// Fired by the browser when a file is dropped. This method
-		/// looks at the filename dropped and if it's an image handles
-		/// it. Otherwise an error is displayed and recommended to 
-		/// drop files on the header since we cannot capture the filename
-		/// of the originally dropped files.
-		/// </summary>
-		/// <param name="hexData"></param>
-		/// <param name="filename"></param>
-		/// <returns></returns>
-		public bool xxFileDropOperation(string hexData, string filename)
-        {
-            var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);            
-
-            var ext = Path.GetExtension(filename.ToLower());
-
-            if (ext != ".jpg" && ext != ".jpeg" && ext != ".png" && ext != ".gif")
-            {
-                ShowMessage(
-                    "To open or embed dropped files in Markdown Monster, please drop files onto the header area of the window.\r\n\r\n" +
-                    "You can drop text files to open and edit, or images to embed at the cursor position in the open document.",
-                    "Please drop files on the Window Header", "Warning", "Ok");
-                return false;
-            }
-
-            var sd = new SaveFileDialog
-            {
-                Filter =
-                    "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
-                FilterIndex = 1,
-                Title = "Save dropped Image as",
-                InitialDirectory = docPath,
-                FileName = filename,
-                CheckFileExists = false,
-                OverwritePrompt = true,
-                CheckPathExists = true,
-                RestoreDirectory = true
-            };
-            var result = sd.ShowDialog();
-            if (result == null || !result.Value)
-                return true;
-
-            string relFilePath = FileUtils.GetRelativePath(sd.FileName, docPath);
-
-
-            var tokens = hexData.Split(',');
-            var prefix = tokens[0];
-            var data = tokens[1];
-
-
-            var bytes = Convert.FromBase64String(data);
-            File.WriteAllBytes(sd.FileName, bytes);
-
-            SetSelectionAndFocus($"\r\n![]({relFilePath.Replace("\\", "/")})\r\n");
-            return true;
-        }
-#endif
 #endregion
 
 #region SpellChecking interactions
@@ -1407,13 +1351,28 @@ namespace MarkdownMonster
         /// <returns></returns>
         public void GetSuggestions(string text, string language = "EN_US", bool reload = false, object range = null)
         {
-            var hun = GetSpellChecker(language, reload);
+            IEnumerable<string> suggestions = null;
 
-            var sugg = hun.Suggest(text).Take(10);
+            if (!string.IsNullOrEmpty(text) && range != null)           
+            {
+                var hun = GetSpellChecker(language, reload);
+                suggestions = hun.Suggest(text).Take(10);
+            }
 
             var cm = new EditorContextMenu();
-            cm.ShowSpellcheckSuggestions(sugg,range);               
+            cm.ShowContextMenuAll(suggestions,range);               
         }
+
+        /// <summary>
+        /// Shows the Editor Context Menu at the current position
+        /// 
+        /// called from editor
+        /// </summary>
+        public void EditorContextMenu()
+        {
+            AceEditor?.showSuggestions(false);            
+        }
+        
 
         /// <summary>
         /// Adds a new word to add-on the dictionary for a given locale

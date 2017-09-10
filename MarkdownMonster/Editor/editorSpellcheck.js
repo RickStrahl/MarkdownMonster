@@ -38,6 +38,7 @@ var sc = window.spellcheck = {
     enable: function () {
         editorSettings.enableSpellChecking = true;
         sc.spellCheck = spellCheck;
+        
         te.spellcheck = sc;
         
         // You also need to load in typo.js and jquery.js
@@ -56,11 +57,6 @@ var sc = window.spellcheck = {
             // Make red underline for gutter and words.
             $("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</script>")
                 .appendTo("head");
-            te.editor.on('mousedown',
-                function (e) {
-                    if (e.domEvent.which === 3)
-                        showSuggestions(e);
-                });
         }
 
         if (te.mm) //te.dic && te.aff) {  
@@ -221,35 +217,5 @@ var sc = window.spellcheck = {
         }
 
 
-        function showSuggestions(e) {
-            var markers = te.editor.session.getMarkers(true);
-            if (!markers || markers.length == 0)
-                return;
-
-            var pos = e.getDocumentPosition();
-            var matched = null;
-
-            // look for a misspelled marker  that matches our
-            // current document location
-            for (var id in markers) {
-                var marker = markers[id];
-                if (marker.clazz != "misspelled")
-                    continue;
-
-                if (pos.row >= marker.range.start.row && pos.row <= marker.range.end.row &&
-                    pos.column >= marker.range.start.column && pos.column <= marker.range.end.column) {
-                    matched = marker;
-                }
-            };
-
-            if (!matched)
-                return;
-
-            // pick the mispelled word out of the attached range value
-            var misspelledWord = matched.range.misspelled;
-
-            // show suggested spellings in WPF Context Menu
-            te.suggestSpelling(misspelledWord, 8, matched.range);
-        }
     }
 }

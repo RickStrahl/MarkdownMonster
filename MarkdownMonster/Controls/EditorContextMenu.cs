@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
@@ -21,6 +22,12 @@ namespace MarkdownMonster
         {
             Model = mmApp.Model;
             ContextMenu = Model.Window.EditorContextMenu;
+            ContextMenu.Closed += ContextMenu_Closed;
+        }
+
+        private void ContextMenu_Closed(object sender, RoutedEventArgs e)
+        {
+            Model.ActiveEditor?.SetEditorFocus();
         }
 
         /// <summary>
@@ -33,52 +40,72 @@ namespace MarkdownMonster
 
         public void Show()
         {
+            
             if (ContextMenu != null)
             {
+                Model.ActiveEditor.SetMarkdownMonsterWindowFocus();
+
+                ContextMenu.PlacementTarget = Model.ActiveEditor.WebBrowser;
                 ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-                ContextMenu.PlacementTarget = Model.Window;
+
+                ContextMenu.Focus();
                 ContextMenu.IsOpen = true;
+                
+                var item = ContextMenu.Items[0] as MenuItem;
+                item.Focus();                
             }
         }
+
+        public void ShowContextMenuAll(IEnumerable<string> suggestions, object range)
+        {
+            ClearMenu();
+            var model = Model;
+
+            SpellcheckSuggestions(suggestions, range);
+            AddEditorContext();
+            AddCopyPaste();
+
+            Show();
+        }
+
 
         /// <summary>
         /// Adds spell check words to the context menu.
         /// </summary>
         /// <param name="suggestions"></param>
         /// <param name="range"></param>
-        public void ShowSpellcheckSuggestions(IEnumerable<string> suggestions, object range)
+        public void SpellcheckSuggestions(IEnumerable<string> suggestions, object range)
         {
-            if (suggestions == null)
+            if (suggestions == null || range == null)
                 return;
 
-            ClearMenu();
             var model = Model;
 
-            foreach (var sg in suggestions)
-            {
-                var mi = new MenuItem
+            bool hasSuggestions = false;
+                foreach (var sg in suggestions)
                 {
-                    Header = sg,
-                    FontWeight = FontWeights.Bold
-                };
-                mi.Click += (o, args) => model.ActiveEditor.AceEditor.replaceSpellRange(range, sg);
-                ContextMenu.Items.Add(mi);
-            }
+                    var mi = new MenuItem
+                    {
+                        Header = sg,
+                        FontWeight = FontWeights.Bold
+                    };
+                    mi.Click += (o, args) => model.ActiveEditor.AceEditor.replaceSpellRange(range, sg);
+                    ContextMenu.Items.Add(mi);
+                    hasSuggestions = true;
+                }
 
-            ContextMenu.Items.Add(new Separator());
-            var mi2 = new MenuItem()
+            if (hasSuggestions)
             {
-                Header = "Add to dictionary",
-                HorizontalContentAlignment = HorizontalAlignment.Right
-            };
-            mi2.Click += (o, args) => model.ActiveEditor.AceEditor.addWordSpelling(((dynamic)range).misspelled);           
-            ContextMenu.Items.Add(mi2);
-
-            ContextMenu.Items.Add(new Separator());
-            AddEditorContext();
-            AddCopyPaste();
-
-            Show();
+                ContextMenu.Items.Add(new Separator());
+                var mi2 = new MenuItem()
+                {
+                    Header = "Add to dictionary",
+                    HorizontalContentAlignment = HorizontalAlignment.Right
+                };
+                mi2.Click += (o, args) => model.ActiveEditor.AceEditor.addWordSpelling(((dynamic)range).misspelled);                
+                ContextMenu.Items.Add(mi2);
+                ContextMenu.Items.Add(new Separator());
+            }
         }
 
         /// <summary>

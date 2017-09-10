@@ -338,8 +338,8 @@ var te = window.textEditor = {
         range.setEnd(pos);
         sel.setSelectionRange(range);
     },
-    getCursorPosition: function (ignored) { // returns {row: y, column: x}        
-        return te.editor.getCursorPosition();
+    getCursorPosition: function (ignored) { // returns {row: y, column: x}               
+        return te.editor.selection.getCursor();        
     },
 
     setCursorPosition: function(row, column) { // col and also be pos: { row: y, column: x }  
@@ -547,12 +547,46 @@ var te = window.textEditor = {
         // use COM object        
         return te.mm.textbox.CheckSpelling(word,editorSettings.dictionary,false);
     },
-    suggestSpelling: function (word, maxCount, range) {
-        if (!editorSettings.enableSpellChecking)
-            return;       
+    showSuggestions: function (e) {
+        try {
+            var markers = te.editor.session.getMarkers(true);
+            if (!markers || markers.length === 0)
+                return;
 
-        // show suggestions in WPF
-        te.mm.textbox.GetSuggestions(word, editorSettings.dictionary, false, range);
+            var pos = e && e.getDocumentPosition ? e.getDocumentPosition() : te.editor.selection.getCursor();
+
+            var matched = null;
+
+            // look for a misspelled marker that matches our
+            // current document location
+            for (var id in markers) {
+                var marker = markers[id];
+                if (marker.clazz != "misspelled")
+                    continue;
+
+                if (pos.row >= marker.range.start.row &&
+                    pos.row <= marker.range.end.row &&
+                    pos.column >= marker.range.start.column &&
+                    pos.column <= marker.range.end.column) {
+                    matched = marker;
+                    break;
+                }
+            };
+
+            var range = null;
+            var misspelledWord = null;
+            if (matched) {
+                range = matched.range;
+                misspelledWord = matched.range.misspelled;
+            }
+
+            // show suggested spellings in WPF Context Menu
+            //te.suggestSpelling(misspelledWord, 8, range);
+            te.mm.textbox.GetSuggestions(misspelledWord, editorSettings.dictionary, false, range);
+
+        } catch (error) {
+            alert(error.message);
+        }
     },
     addWordSpelling: function (word) {        
         te.mm.textbox.AddWordToDictionary(word, editorSettings.dictionary);
@@ -657,8 +691,8 @@ window.onmousewheel = function(e) {
 window.oncontextmenu = function (e) {
     e.preventDefault();
     e.cancelBubble = true;
-    
-    te.mm.textbox.EditorContextMenu();
+
+    te.showSuggestions(e);
 
     return navigator.userAgent.indexOf("Trident") > -1 ? false : true;
 }
