@@ -41,31 +41,43 @@ Markdown Monster provides many useful features:
 * Gentle, optional toolbar support for Markdown newbies
 * Inline spell checking
 * Line and Word counts
-* Dark and Light Themes
-* Easily customizable HTML preview templates
-* Customizable editor and editor themes
+
+#### Image Features
+* Smartly select and embed images from disk or URL
+* Paste images from Clipboard at cursor
+* Drag images from the built-in Folder Browser
+* Drag images from Explorer
+* Edit images in your image editor of choice
+* Easily capture screen shots and embed captured images
+* PNG image compression for embedded images
+
+#### Editing Features
+* Easy link embedding from clipboard
+* Embed code snippets and see highlighted syntax coloring
+* Text Snippet Expansion with C# Code via [Snippets Addin](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
+
+#### Output and Selections
 * Save Markdown output as raw or packaged HTML
 * Paste HTML text as Markdown
 * Copy Markdown selection as HTML
-* Open rendered output in Browser
-* Save rendered output as HTML and PDF documents
-* Print rendered output to printer or PDF documents
+* Open rendered output in your favorite Browser
+* Save rendered output to HTML
+* Save rendered output to PDF
+* Print rendered output to the Printer
 
-#### Editing Features
-* Smartly select and embed images from disk or URL
-* Paste images from Clipboard at cursor
-* Easily capture screen shots and embed captured images
-* Embed code snippets and see highlighted syntax coloring
-* Text Snippet Expansion with C# Code via [Snippets Addin](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
+#### Theme Support
+* Dark and Light Themes
+* Easily customizable HTML preview templates
+* Customizable editor and editor themes
+* Support for many editor sytnax languages
 
 #### File Operations
 * Editor remembers open documents by default (optional)
 * Auto-Save and Auto-Backup support
 * Integrated file and folder browser
 * Save files with encryption
-* Drag and drop from Explorer and Folder Browser
+* Drag and drop documents from Explorer and Folder Browser
 * Open Command Window or Explorer for active document
-* Open images for editing with a right click
 * Commit and push active document to Git
 
 #### Weblog Publisher
@@ -75,10 +87,9 @@ Markdown Monster provides many useful features:
 * Supports MetaWebLog, Wordpress and Medium (limited)
 * Download and edit existing posts
 * Very fast publish and download process
-* Publish to and remember multiple blogs
+* Support for multiple blogs
 * Custom Metadata field support
 * Optional Dropbox and OneDrive shared post storage
-
 
 #### Non Markdown Features
 * HTML file editing with live preview
