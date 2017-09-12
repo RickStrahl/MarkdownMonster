@@ -5,7 +5,7 @@
 
 
 ### 1.6.2
-*<small>not released yet</small>*
+*<small>September 10th, 2017</small>*
 
 * **Keyboard support for Context Menu**  
 You can now pop up the context menu via keyboard using the Windows context menu key (or equivalent). The menu is now cursor navigable. This brings spell checking and various edit operations to keyboard only use.
