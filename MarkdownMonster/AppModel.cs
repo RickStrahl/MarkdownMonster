@@ -96,7 +96,7 @@ namespace MarkdownMonster
                 _activeDocument = value;
 
                 OnPropertyChanged(nameof(ActiveDocument));
-                OnPropertyChanged(nameof(ActiveEditor));
+                OnPropertyChanged(nameof(ActiveEditor));                
                 OnPropertyChanged(nameof(IsEditorActive));
 
                 Dispatcher.CurrentDispatcher.InvokeAsync(() =>
@@ -887,8 +887,10 @@ Do you want to View in Browser now?
             ViewInExternalBrowserCommand = new CommandBase((p, e) =>
             {
                 if (ActiveDocument == null) return;
+
+                ActiveDocument.RenderHtmlToFile();
                 mmFileUtils.ShowExternalBrowser(ActiveDocument.HtmlRenderFilename);
-            }, (p, e) => IsPreviewBrowserVisible);
+            }, (p, e) =>  IsEditorActive);
         }
 
         public CommandBase ViewHtmlSourceCommand { get; set; }
@@ -898,8 +900,9 @@ Do you want to View in Browser now?
             ViewHtmlSourceCommand = new CommandBase((p, e) =>
             {
                 if (ActiveDocument == null) return;
+                ActiveDocument.RenderHtmlToFile();
                 Window.OpenTab(ActiveDocument.HtmlRenderFilename);
-            }, (p, e) => IsPreviewBrowserVisible);
+            }, (p, e) => IsEditorActive);
         }
 
 
