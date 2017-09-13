@@ -600,15 +600,7 @@ namespace MarkdownMonster
 						doc.LastEditorLineNumber = 0;
 
 					config.OpenDocuments.Add(doc);
-				}
-
-				//foreach (var item in TabControl.GetOrderedHeaders())
-				//{
-				//    var tab = item.Content as TabItem;
-				//    var doc = tab.Tag as MarkdownDocumentEditor;
-				//    if (doc != null)
-				//        config.OpenDocuments.Add(doc.MarkdownDocument);
-				//}
+				}	
 			}
 			config.Write();
 		}
