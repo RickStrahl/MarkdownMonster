@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster", "MarkdownMonster\MarkdownMonster.csproj", "{CB4EAB0E-1796-476E-83A0-20DA826E1C02}"
 EndProject
@@ -30,6 +30,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MarkdownMonsterWeb", "MarkdownMonsterWeb\", "{6AB5E445-9660-454B-BF02-506000EED978}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6"
+		ProjectReferences = ""
 		Debug.AspNetCompiler.VirtualPath = "/localhost_1863"
 		Debug.AspNetCompiler.PhysicalPath = "MarkdownMonsterWeb\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_1863\"
@@ -138,5 +139,8 @@ Global
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
 		{6AB5E445-9660-454B-BF02-506000EED978} = {D99D7B57-1FA8-43F4-99D5-DA37D316F960}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0295A474-5FDB-4E74-89E4-048C0F088903}
 	EndGlobalSection
 EndGlobal

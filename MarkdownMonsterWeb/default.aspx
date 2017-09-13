@@ -33,6 +33,9 @@
             background: #333;
             background: linear-gradient(to bottom, #393939, #222);
         }
+        #Carousel2 .carousel-inner > .item {
+            margin: 5px 11%;
+        }
     </style>
     
         
@@ -148,7 +151,7 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Paste Images from Clipboard
+                                        Paste images from Clipboard
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
@@ -215,7 +218,7 @@
 
                 <h3>Better Markdown Editing for Windows</h3>
                 <p>
-                    Markdown is everywhere and many of us are using Markdown for all sorts
+                    Markdown is everywhere these days and it's used for all sorts
                     of different purposes. Wouldn't it be nice if you have an editor that can keep 
                     up with <strong>all</strong> of those scenarios?
                 </p>
@@ -227,32 +230,29 @@
 	                Inline spell-checking and word counts keep your content streamlined unobtrusively.
 				</p>
 				<p>
-                    You can export Markdown to HTML by saving to disk or by exporting text selections of Markdown
-					generated HTML directly to the clipboard. The HTML preview can display syntax colored code snippets 
-					for most common coding languages, and it can easily be customized with HTML and CSS template to match 
-					your own sites and preferences. You can choose from a number of editor and preview themes and you 
-					can even use Vim or EMacs type conventions. Both the editor and preview can be customized with 
-					themes that are extensible with Web technologies. Other convenience features let you browse for and 
-					select files using the built-in folder browser, jump to the current folder in Explorer or the Terminal,
-					print the current document's HTML output, and more.
+                    You can export Markdown to HTML by saving to disk or by copy Markdown text selections as
+					HTML directly to the clipboard. The HTML preview can display syntax colored code snippets 
+					for most common coding languages, and can easily be customized with HTML and CSS template to match 
+					your own sites. You can choose from a number of editor and preview themes and you 
+					can even use Vim or EMacs type conventions. Other convenience features let you browse for and 
+					select files in the built-in folder browser, jump to the current folder in Explorer or Terminal,
+                    commit to Git and more.
                 </p>
 
                 <h3>Weblog Publishing</h3>
                 <p>
                     Markdown Monster can also publish your Markdown directly to your Weblog. If your Weblog supports 
-					WordPress, MetaWeblog or Medium APIs you can publish your documents with one click. You can also 
+					WordPress, MetaWeblog or Medium, you can publish your documents with one click. You can also 
 					edit and republish, or download existing posts and even convert existing posts from HTML to Markdown.
                  </p>
                 
                 <h3>Extensible via .NET Addins</h3>
                  <p>
-                    In addition to building an attractive and highly functional Markdown editor, we
-                    also wanted to make sure <b>the editor is highly extensible</b>, so you can plug in custom features
-                    of your own. Markdown Monster includes an easy addin model that makes it easy to build
+                    We also wanted to make sure <b>the editor is highly extensible</b>, so you can add custom features
+                    of your own. Markdown Monster includes an addin model that makes it easy to build
                     extensions that let you hook into the UI, the editor behavior and the publishing
-                    process. We also provide some useful .NET Scripting and Text Templating addins that
-					let you automate many tasks without creating a full addin. We use this same add-in API 
-					to build some of Markdown Monster's internal features so the sky's the limit. Find out more about 
+                    process. We also provide useful .NET Scripting and Text Templating addins that
+					let you automate many tasks without creating an addin. Find out more about 
                     <a href="http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm" target="top">
                     creating an addin with .NET</a>.
                 </p>                
@@ -328,6 +328,110 @@
                             <span class="glyphicon glyphicon-chevron-right"></span>
                         </a>
                     </div>
+
+                    
+                    <h4>What our Users say</h4>
+                    <p>
+                    We work hard at building an editor that you love to use, and that provides you with the features you need.
+                    Your <a href="https://github.com/rickstrahl/MarkdownMonster/issues">feedback matters</a> and we'd love to
+                    hear your suggestions and see you get involved. 
+                    </p>
+                    <p style="margin-bottom: 14px;">But don't take our word for it - here is what some of 
+                    our users are saying about Markdown Monster:
+                    </p>
+
+                    <!-- Tweets  -->  
+                    <div id="Carousel2" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#Carousel" data-slide-to="0" class="active"></li>
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" >
+                                                    
+                            <div class="item active">
+                                <img src="Images/Tweets/atlantabass.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/honeycutt.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/Anaerin.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+
+							<div class="item">
+                                <img src="Images/Tweets/sstranger.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/DougHennig.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/_bron_.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/James_Willock2.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>	
+                            
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/dbVaughan.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <img src="Images/Tweets/ArthurZ.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>	
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/vmoench.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>	
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/James_Willock.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                                                      
+                        
+                        </div>
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#Carousel2" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#Carousel2" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                    
+                    <small>Want to share your excitement for Markdown Monster? Tweet to <a href="https://twitter.com/markdownmonstr">@markdownmonstr</a> and tell us how Markdown Monster improves your world.</small>
+
                 </div>
                 
                 
@@ -521,6 +625,12 @@
             $("#Carousel").carousel({
                 interval: false
             });
+
+
+            $("#Carousel2").carousel({
+                interval: 8000
+         });
+
 
             //Enable swiping...
             $(".carousel-inner").swipe({

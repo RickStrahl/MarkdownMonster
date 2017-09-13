@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" %>
+<%@ Register TagPrefix="ww" Namespace="Westwind.Web.MarkdownControl" Assembly="Westwind.Web.MarkdownControl" %>
 
 <%
     //WestWindSiteUtils.LogInfo("/WebMonitor/default.aspx");	
@@ -47,8 +48,33 @@
                 <li><a href="#loadtesting">Load Testing</a></li>
                 <li><a href="#commandline">Command Line Operation</a></li>
             </ul>
-
-            <a name="capturing"></a>
+            
+            <ww:Markdown runat="server" id="md1">
+<a name="capturing"></a>                
+### Request Capturing
+                
+Effective URL and load testing testing starts with capturing or creating
+URL sessions that can be managed and saved easily. WebSurge makes this process as
+easy as possible to remove as much friction from the process as possible to 
+encourage frequent creation of sessions to run tests on.
+                
+WebSurge lets you capture or enter full HTTP request data in a number
+of different ways:
+                
+* Built in HTTP Proxy Capture
+* Manual entry of HTTP Request through the UI
+* HTTP Request Traces in a Text File
+                
+### Using the HTTP Proxy Capture Tool
+                
+The easiest ways to capture URLs that make up an HTTP session is by using
+the built in URL capture tool. It uses an HTTP proxy to monitor your HTTP
+requests on your machine and automatically captures the request data into
+HTTP session files.
+Using the capture tool (File | Capture Session or click the Capture Button on 
+the Session View) brings up the capture form which looks like this:                
+            </ww:Markdown>
+            
             <h3>Request Capturing</h3>
             <p>
                 Effective URL and load testing testing starts with capturing or creating

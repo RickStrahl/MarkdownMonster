@@ -1,4 +1,4 @@
-﻿/// <reference path="jquery.js" />
+﻿/// <reference path="../bower_components/jquery/dist/jquery.js" />
 /*
 ww.jQuery.js  
 Version 1.26 - 2/2/2016
@@ -49,7 +49,7 @@ http://en.wikipedia.org/wiki/MIT_License
                     if (self.accepts)
                         xhr.setRequestHeader("Accept", self.accepts);
                 },
-                success: function success(result, status) {
+                success: function success(result, status) {                    
                     var errorException = null;
                     if (self.evalResult) {
                         try {
@@ -229,8 +229,12 @@ http://en.wikipedia.org/wiki/MIT_License
             ecb = null;
         }
 
+        var verb = "POST";
+        if (!parm)
+            verb = "GET";
+
         var opt = {
-            method: "POST",
+            method: verb,
             contentType: "application/json",
             accepts: "application/json",
             noPostEncoding: false
@@ -238,7 +242,7 @@ http://en.wikipedia.org/wiki/MIT_License
         $.extend(opt, options);
 
         var http = new HttpClient(opt);
-        http.evalResult = true;
+        http.evalResult = true;        
         if (parm !== null && !opt.noPostEncoding && (opt.method === "POST" || opt.method === "PUT" || opt.method == "PATCH"))
             ser = JSON.stringify(parm);
 
