@@ -4,6 +4,16 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
+### 1.6.4
+*<small>not released yet</small>*
+
+* **Drag and Drop Files from Folder Browser**  
+You can now drag non image files into the editor to open them. This is in addition to double clicking or enter/space selection of files. Images are treated special and are either opened in image editor, or embedded as images inside of markdown documents.
+
+* **Fix: Open In External Browser Disabled**  
+Fixed issue where Open in External Browser would not work open documents when the preview browser was not active. Also fixed so that rendered HTML output does not use pragma line mapping.
+
+
 ### 1.6.2
 *<small>September 10th, 2017</small>*
 
