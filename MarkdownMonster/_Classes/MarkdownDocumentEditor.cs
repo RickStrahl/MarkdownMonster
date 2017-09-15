@@ -91,17 +91,17 @@ namespace MarkdownMonster
         public MarkdownDocumentEditor(WebBrowser browser)
         {
             WebBrowser = browser;
-            WebBrowser.Navigating += WebBrowser_NavigatingAndDroppingFiles;		
+            WebBrowser.Navigating += WebBrowser_NavigatingAndDroppingFiles;        
         }
 
-		
+        
 
-		/// <summary>
-		/// Loads a new document into the active editor using 
-		/// MarkdownDocument instance.
-		/// </summary>
-		/// <param name="mdDoc"></param>
-		public void LoadDocument(MarkdownDocument mdDoc = null)
+        /// <summary>
+        /// Loads a new document into the active editor using 
+        /// MarkdownDocument instance.
+        /// </summary>
+        /// <param name="mdDoc"></param>
+        public void LoadDocument(MarkdownDocument mdDoc = null)
         {            
             if (mdDoc != null)
                 MarkdownDocument = mdDoc;
@@ -1237,7 +1237,7 @@ namespace MarkdownMonster
 
             string file = e.Uri.LocalPath;
 
-            EmbedDroppedFileAsImage(file);
+            EmbedDroppedFileAsImage(file);            
         }
 
 		/// <summary>
@@ -1299,7 +1299,7 @@ namespace MarkdownMonster
 
 #endregion
 
-#region SpellChecking interactions
+        #region SpellChecking interactions
         static Hunspell GetSpellChecker(string language = "EN_US", bool reload = false)
         {
             if (reload || _spellChecker == null)

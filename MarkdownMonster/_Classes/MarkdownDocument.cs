@@ -366,7 +366,8 @@ namespace MarkdownMonster
 
         public MarkdownDocument()
         {
-            
+            AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
+            AutoSaveDocuments = mmApp.Configuration.AutoSaveDocuments;
         }
 
         /// <summary>
@@ -610,9 +611,12 @@ namespace MarkdownMonster
                     if (string.IsNullOrEmpty(filename))
                         filename = BackupFilename;
 
-                    if (Filename == "untitled" || Filename.Contains("saved.bak"))
+                    if (Filename.Contains("saved.bak"))
                         return;
 
+                    if (Filename == "untitled")
+                        filename = Path.Combine(Path.GetTempPath(), "untitled.saved.md");
+          
                     try
                     {
                         File.WriteAllText(filename, CurrentText, Encoding);
@@ -635,9 +639,9 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(filename))
             {
                 if (Filename == "untitled")
-                    return;
-
-                filename = BackupFilename;
+                    filename = Path.Combine(Path.GetTempPath(), "untitled.saved.md");
+                else
+                    filename = BackupFilename;
             }
             
             try
@@ -653,7 +657,11 @@ namespace MarkdownMonster
         /// <returns></returns>
         public bool HasBackupFile()
         {
-            return Filename != "untitled" && File.Exists(BackupFilename);
+            string filename = BackupFilename;
+            if (Filename == "untitled")
+                filename = Path.Combine(Path.GetTempPath(), "untitled.saved.md");
+
+            return File.Exists(filename);
         }
 
         #endregion

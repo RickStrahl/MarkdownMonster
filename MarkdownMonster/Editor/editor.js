@@ -659,30 +659,46 @@ window.onmousewheel = function(e) {
 // Let browser navigate events handle drop operations
 // in the WPF host application
 // handle file browser dragged files dropped
-// window.ondrop =
-// 	function (e) {
-// 		// these don't really have any effect'
-// 		//e.stopPropagation();
-// 		//e.preventDefault();		    
-//         var file = e.dataTransfer.getData('text');	    
+// *** Don't Remove! Explorer dragging captures navigation
+//     this captures requests from Filebrowser
+ window.ondrop =
+ 	function (e) {
+ 		// these don't really have any effect'
+ 		//e.stopPropagation();
+ 		//e.preventDefault();		    
+         var file = e.dataTransfer.getData('text');	    
 
 
-//         // image file names dropped from FolderBrowser
-//         if (file && /(.png|.jpg|.gif|.jpeg|.bmp|.svg)$/i.test(file)) {
-//             //// IE will *ALWAYS* drop the file text but selects the drops text
-//             //// delay and the collapse selection and let
-//             //// WPF paste the image expansion
-//             setTimeout(function() {
-//                     te.mm.textbox.EmbedDroppedFileAsImage(file);
-//                 },
-//                 1);
+         // image file names dropped from FolderBrowser
+         //if (file && /(.png|.jpg|.gif|.jpeg|.bmp|.svg)$/i.test(file)) {
+         if (file && /\..\w*$/.test(file)) { 
+             //// IE will *ALWAYS* drop the file text but selects the drops text
+             //// delay and the collapse selection and let
+             //// WPF paste the image expansion
+             setTimeout(function () {
+                     // embed the image or open the file
+                     te.mm.textbox.EmbedDroppedFileAsImage(file);
+                 },
+                 1);
 
-//             te.setselection(''); // collapse selection
-//             return false;
-//         } else {
-//         }
-	
-//     };
+             te.setselection(''); // collapse and remove file name dragged into doc
+
+             return false;
+         } 
+      //   // any file with an extension - try to open it if supported
+      //   if (file && /\..\w*$/.test(file)) {             
+	     //    //// IE will *ALWAYS* drop the file text but selects the drops text
+	     //    //// delay and the collapse selection and let
+	     //    //// WPF paste the image expansion
+	     //    setTimeout(function () {
+	     //            te.mm.textbox.OpenDroppedFile(file);
+	     //        },
+	     //        1);
+
+	     //    te.setselection(''); // collapse selection
+	     //    return false;
+	     //} 
+     };
 // window.ondragstart = function (e) {    
 //     e.dataTransfer.effectAllowed = 'all';  
 // }
