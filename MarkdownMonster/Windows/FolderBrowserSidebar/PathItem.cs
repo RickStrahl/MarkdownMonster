@@ -1,7 +1,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
 
@@ -54,7 +56,21 @@ namespace MarkdownMonster.Windows
 		}
 		private bool _isFolder;
 
-		public string EditName
+
+	    public bool IsFile
+	    {
+	        get { return _isFile; }
+	        set
+	        {
+	            if (value == _isFile) return;
+	            _isFile = value;
+	            OnPropertyChanged();
+	        }
+	    }
+	    private bool _isFile;
+
+
+        public string EditName
 		{
 			get { return _editName; }
 			set
@@ -127,7 +143,23 @@ namespace MarkdownMonster.Windows
 			}
 			set { _files = value; }
 		}
-		private ObservableCollection<PathItem> _files;
+
+	    
+
+	    public ImageSource Icon
+	    {
+	        get { return _icon; }
+	        set
+	        {
+	            if (Equals(value, _icon)) return;
+	            _icon = value;
+	            OnPropertyChanged(nameof(Icon));
+	        }
+	    }
+	    private ImageSource _icon;
+
+
+        private ObservableCollection<PathItem> _files;
 
 		public override string ToString()
 		{

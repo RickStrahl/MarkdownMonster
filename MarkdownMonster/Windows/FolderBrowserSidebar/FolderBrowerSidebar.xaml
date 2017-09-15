@@ -13,7 +13,9 @@
 		<!--DataType="{x:Type local:PathItem}"-->
 		<HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
 			<StackPanel MouseDown="TreeViewItem_MouseDoubleClick">
-				<TextBlock Name="TextFileOrFolderName" Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding Icon}" Height="15" Width="Auto" Margin="5,0,5,0" Visibility="{Binding IsFile, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Name="TextFileOrFolderName" Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
 				           Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
 						   MouseEnter="TextFileOrFolderName_MouseEnter" MouseLeave="TextFileOrFolderName_MouseLeave"						   
 				>
@@ -28,9 +30,10 @@
 						</Style>
 					</TextBlock.Style>
 				</TextBlock>
+                </StackPanel>
 
-				<TextBox Name="TextEditFileItem" 
-				         Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="6,5,10,5"
+                <TextBox Name="TextEditFileItem" 
+				         Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="6,2,10,2"
 				         Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<TextBox.Style>
 						<Style TargetType="TextBox">

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MarkdownMonster.Test
@@ -44,5 +46,15 @@ namespace MarkdownMonster.Test
 					WriteChildFiles(fileItem, level + 1);				
 			}
 		}
-	}
+
+	    [TestMethod]
+	    public void GetAssociatedIcons()
+	    {
+	        var icons = new AssociatedIcons();
+	        var icon = icons.GetIconFromFile(@"c:\temp\test.mdd");
+
+	        Assert.IsNotNull(icon, "Icon should not be null");
+
+	    }
+    }
 }

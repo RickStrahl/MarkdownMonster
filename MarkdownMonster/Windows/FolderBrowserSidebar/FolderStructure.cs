@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.IO.Path;
+﻿using System.IO;
+using MarkdownMonster.Utilities;
+
 
 namespace MarkdownMonster.Windows
 {
 	public class FolderStructure
 	{
+	    private AssociatedIcons icons = new AssociatedIcons();
 
 		/// <summary>
 		/// Gets a folder hierarchy
@@ -79,7 +76,13 @@ namespace MarkdownMonster.Windows
 			{
 				foreach (var file in files)
 				{
-					activeItem.Files.Add(new PathItem {FullPath = file, Parent = activeItem, IsFolder = false});
+
+				    var item = new PathItem {FullPath = file, Parent = activeItem, IsFolder = false, IsFile = true};
+				    if (mmApp.Configuration.FolderBrowser.ShowIcons)
+				        item.Icon = icons.GetIconFromFile(file);
+
+
+				    activeItem.Files.Add(item);
 				}
 			}
 

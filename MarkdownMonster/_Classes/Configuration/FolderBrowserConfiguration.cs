@@ -57,7 +57,15 @@ namespace MarkdownMonster.Configuration
 				OnPropertyChanged(nameof(FolderPath));
 			}
 		}
-		private string _folderPath;
+	    private string _folderPath;
+
+
+	    /// <summary>
+	    /// Determines whether icons are displayed in folder browser        
+	    /// </summary>
+	    public bool ShowIcons { get; set; } = true;
+
+	    
 
 
 

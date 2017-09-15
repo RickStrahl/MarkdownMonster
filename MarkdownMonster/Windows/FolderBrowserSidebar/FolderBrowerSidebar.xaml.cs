@@ -91,7 +91,7 @@ namespace MarkdownMonster.Windows
         private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)
         {
             var context = Resources["FileContextMenu"] as ContextMenu;
-            context.DataContext = TreeFolderBrowser;            
+            context.DataContext = TreeFolderBrowser;                       
         }
 
         #endregion
@@ -104,7 +104,7 @@ namespace MarkdownMonster.Windows
             if (doc != null)
                 FolderPath = System.IO.Path.GetDirectoryName(doc.Filename);
 
-            TreeFolderBrowser.Focus();
+            SetTreeFromFolder(FolderPath, true);
         }
 
         private void ButtonSelectFolder_Click(object sender, RoutedEventArgs e)
@@ -692,7 +692,7 @@ namespace MarkdownMonster.Windows
                 var selected = TreeFolderBrowser.SelectedItem as PathItem;
 
                 // only drag image files
-                if (selected == null || !selected.IsImage)
+                if (selected == null || selected.IsFolder)
                     return;
 
                 var mousePos = e.GetPosition(null);
