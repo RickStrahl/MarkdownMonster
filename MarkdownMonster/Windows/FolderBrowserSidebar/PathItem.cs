@@ -36,6 +36,7 @@ namespace MarkdownMonster.Windows
 				OnPropertyChanged(nameof(DisplayName));
 				OnPropertyChanged(nameof(IsImage));
 				OnPropertyChanged(nameof(IsNotImage));
+			    OnPropertyChanged(nameof(Icon));
 			}
 		}
 		private string _fullPath;

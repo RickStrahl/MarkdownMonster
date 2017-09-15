@@ -22,14 +22,13 @@ namespace MarkdownMonster.Utilities
     /// </summary>
     public class AssociatedIcons
     {
-        Dictionary<string,ImageSource> Icons = new Dictionary<string,ImageSource>();
+        private Dictionary<string,ImageSource> Icons = new Dictionary<string,ImageSource>();
 
         public static ImageSource DefaultIcon = null;
 
         static AssociatedIcons()
         {
-            DefaultIcon = new BitmapImage(new Uri("pack://application:,,,/Assets/defaulticon.png", UriKind.RelativeOrAbsolute));
-            WindowUtilities.DoEvents();
+            DefaultIcon = new BitmapImage(new Uri("pack://application:,,,/Assets/defaulticon.png", UriKind.RelativeOrAbsolute));            
         }
 
         /// <summary>
@@ -51,8 +50,9 @@ namespace MarkdownMonster.Utilities
             
             try
             {
-                var icn = Icon.ExtractAssociatedIcon(filename);                
-                Icons.Add(ext, icn.ToImageSource());
+                var icn = Icon.ExtractAssociatedIcon(filename);                                
+                icon = icn.ToImageSource();
+                Icons.Add(ext, icon);
             }
             catch
             {
@@ -87,5 +87,17 @@ namespace MarkdownMonster.Utilities
 
             return wpfBitmap;
         }
+
+        static Dictionary<string, string> ExtensionToImageMappings { get; } = new Dictionary<string, string>() {
+            {  "cs", "csharp" },
+            {  "txt", "txt" },
+            { "prg", "foxpro" },
+            { "jpg", "image" },
+            { "png", "image" },
+            { "gif", "image" },
+            { "bmp", "image" }
+        };
     }
+
+
 }
