@@ -10,10 +10,10 @@
 Files in the folder browser are now displayed with their associated application icons to make it easier to navigate the tree and recognize files.
 
 * **Drag and Drop Files from Folder Browser**  
-You can now drag non image files into the editor to open them. This is in addition to double clicking or enter/space selection of files. Images are treated special and are either opened in image editor, or embedded as images inside of markdown documents.
+You can now drag non-image files into the editor to open them. This is in addition to context menu options, double clicking, enter/space selection of files. Images are treated special and are either opened in image editor, viewed with the default viewer, or when dragged into the document are embedded as images inside of markdown documents.
 
 * **Slow Double Click Editing of Filenames in Folder Browser**  
-You can now do a slow double click in the Folder browser (in addition to F2) to rename files in the folder browser.
+You can now do a slow double click (Explorer style) in the Folder browser to edit and rename filenames in the folder browser. This is in addition to the F2 hotkey and context menu options.
 
 * **Fix: Spellchecker Performance Tweaks**   
 Fixed a number of event leaks in the spell checker logic that would reattach spell check events multiple times. This fix speeds up editing documents when loaded for long periods. Checker now also is more efficient about refreshing spell check info to have less impact while typing.
