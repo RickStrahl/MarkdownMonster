@@ -77,72 +77,7 @@ li {
 b, strong { 
 	font-weight: 600;
 }
-blockquote {
-    background: #f9f9f9;
-    font-size: 1em;
-    opacity: 0.85;
-    padding: 8px 20px 10px;
-    margin: 1.2em;
-    border-left: 4px #ddd solid;
-}
-blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 0;
-}
-hr {
-    margin: 12px 0;    
-}
-.figure .caption, figure figcaption {
-    font-size: 0.8em;
-    font-style: italic;
-    margin-top: 0;
-}
-code {
-    color: #555;
-    padding: 2px 5px;
-    font-weight: bold;
-    background: #eee;    
-}
-pre {
-    font-family: menlo,consolas,monospace;
-    font-weight: normal;    
-    font-size: 87%;
-    line-height: 1.40;
-    margin: 7px 0;
-    padding: 0;
-    border: 1px solid silver;
-    border-radius: 5px;
-    overflow-x: auto;    
-    max-width: 98%;
-    white-space:  pre;
-    word-break: normal;
-    word-wrap: normal;    
-}
-pre code {
-    white-space: pre;    
-}
-table {
-    width: 100%;
-    overflow: auto;
-    display: block;
-    border-spacing: 0;
-    border-collapse: collapse;
-    margin: 15px 0;
-    border-color: gray;
-}
-td, th {
-    border: 1px solid #ddd;
-    padding: 6px 13px;
-    display: table-cell;
-    vertical-align: inherit;
-}
-th {
-    font-weight: bold;
-    color: white; 
-    background: #555;
-}
-tbody>tr:nth-child(even) {
-    background: #eee;
-}
+
 
 
 /* hidden display, but still part of document flow */
@@ -253,7 +188,7 @@ blockquote {
     background: #f9f9f9;
     font-size: 1em;
     opacity: 0.85;
-    padding: 2px 20px 15px;
+    padding: 10px 20px;
     margin: 30px 20px;
     border-left: 4px #ddd solid;
 }
