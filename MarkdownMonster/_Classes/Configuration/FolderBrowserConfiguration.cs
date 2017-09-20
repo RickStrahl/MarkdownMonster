@@ -64,10 +64,7 @@ namespace MarkdownMonster.Configuration
 	    /// Determines whether icons are displayed in folder browser        
 	    /// </summary>
 	    public bool ShowIcons { get; set; } = true;
-
-	    
-
-
+        
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

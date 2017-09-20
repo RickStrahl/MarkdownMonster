@@ -1837,7 +1837,7 @@ namespace MarkdownMonster
 			StatusIcon.Icon = icon;
 			StatusIcon.Foreground = new SolidColorBrush(color);
 			if (spin)
-				StatusIcon.SpinDuration = 30;
+				StatusIcon.SpinDuration = 3;            
 
 			StatusIcon.Spin = spin;
 		}

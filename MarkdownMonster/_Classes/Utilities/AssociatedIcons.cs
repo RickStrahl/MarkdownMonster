@@ -41,17 +41,30 @@ namespace MarkdownMonster.Utilities
             if (string.IsNullOrEmpty(filename))
                 return DefaultIcon;
 
-            var ext = Path.GetExtension(filename);
-            if (string.IsNullOrEmpty(ext))
-                return DefaultIcon;
-            
-            if (Icons.TryGetValue(ext.ToLower(), out ImageSource icon))
+            // check 'special files' files first
+            var justFile = Path.GetFileName(filename);
+            string key = null;
+
+            if (Icons.TryGetValue(justFile.ToLower(), out ImageSource icon))
                 return icon;
-            
-            // check for extensions
-            if (!IconUtilities.ExtensionToImageMappings.TryGetValue(ext, out string imageKey))
-                imageKey = ext.Substring(1);
-        
+            if (IconUtilities.ExtensionToImageMappings.TryGetValue(justFile, out string imageKey))
+                key = justFile.ToLower();
+            else
+            {
+                // Check extensions next
+                var ext = Path.GetExtension(filename);
+                if (string.IsNullOrEmpty(ext))
+                    return DefaultIcon;
+
+                key = ext.ToLower();
+                if (Icons.TryGetValue(ext, out icon))
+                    return icon;
+
+                // check for extensions
+                if (!IconUtilities.ExtensionToImageMappings.TryGetValue(ext, out imageKey))
+                    imageKey = ext.Substring(1);
+            }
+
             try
             {
                 var imagePath  = Path.Combine(Environment.CurrentDirectory, "Editor", "fileicons", imageKey + ".png");
@@ -64,7 +77,7 @@ namespace MarkdownMonster.Utilities
             {
                 icon = DefaultIcon;                
             }
-            Icons.Add(ext.ToLower(), icon);
+            Icons.Add(key, icon);
 
             return icon;
         }
@@ -99,7 +112,9 @@ namespace MarkdownMonster.Utilities
 
             // special files
             { "package.json", "npm" },
+            { "package-lock.json", "package" },
             { "bower.json", "package" },
+            { "license.txt", "license" },
 
             { "license","license" },
             { ".lic" , "license" },
@@ -112,6 +127,7 @@ namespace MarkdownMonster.Utilities
             { ".mdcrypt", "md" },
             { ".package.json", "package" },
             { ".bower.json", "package" },
+            { ".paket", "package" },
             {  ".cs", "csharp" },
             {  ".vb", "vb" },
             {  ".fs", "fs" },
@@ -157,7 +173,7 @@ namespace MarkdownMonster.Utilities
             { ".xml", "xml" },
             { ".xsd", "xml" },
             { ".xsl", "xml" },
-            { "", "xml" },
+            { "xaml", "xml" },
             { ".config", "config" },
             { ".manifest", "config" },
             { ".conf", "config" },
@@ -174,7 +190,9 @@ namespace MarkdownMonster.Utilities
             { ".ico", "image" },
             { ".bmp", "image" },
             { ".eps", "image" },
-            { ".svg", "image" },
+            { ".svg", "svg" },
+            { ".psd", "image" },
+            { ".cdr", "image" },
             { ".woff", "font" },
             { ".woff2", "font" },
             { ".otf", "font" },
@@ -190,18 +208,13 @@ namespace MarkdownMonster.Utilities
             { ".exe", "bat" },
             { ".bat", "bat" },
             { ".cmd", "bat" },
-            { ".sh", "bat" }
+            { ".sh", "bat" },
+            { ".zip", ".zip" }
             
         };
     }
 
-
-    public class FileIconAssociation
-    {
-        public string Extension { get; set; }
-        public string IconFile { get; set; }
-        public bool IsFilename { get; set; }
-    }
+    
 
 
 }

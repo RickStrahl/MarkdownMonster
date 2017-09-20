@@ -169,10 +169,14 @@ namespace MarkdownMonster.Windows
 
         private void SetTreeFromFolder(string folder, bool setFocus = false)
         {
+            mmApp.Model.Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Spinner, Colors.Orange, true);
+            mmApp.Model.Window.ShowStatus($"Retrieving files for folder {folder}...");
+
             Dispatcher.InvokeAsync(() =>
             {
                 ActivePathItem = FolderStructure.GetFilesAndFolders(folder);
                 WindowUtilities.DoEvents();
+                mmApp.Model.Window.ShowStatus();
 
                 if (TreeFolderBrowser.HasItems)
                     SetTreeViewSelectionByIndex(0);

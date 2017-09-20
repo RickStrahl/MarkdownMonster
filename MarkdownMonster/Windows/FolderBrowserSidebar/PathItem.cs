@@ -27,8 +27,8 @@ namespace MarkdownMonster.Windows
 		
 		public string FullPath
 		{
-			get { return _fullPath; }
-			set
+			get => _fullPath;
+		    set
 			{
 				if (value == _fullPath) return;
 				_fullPath = value;
@@ -46,8 +46,8 @@ namespace MarkdownMonster.Windows
 		
 		public bool IsFolder
 		{
-			get { return _isFolder; }
-			set
+			get => _isFolder;
+		    set
 			{
 				if (value == _isFolder) return;
 				_isFolder = value;
@@ -60,7 +60,7 @@ namespace MarkdownMonster.Windows
 
 	    public bool IsFile
 	    {
-	        get { return _isFile; }
+	        get => _isFile;
 	        set
 	        {
 	            if (value == _isFile) return;
@@ -73,8 +73,8 @@ namespace MarkdownMonster.Windows
 
         public string EditName
 		{
-			get { return _editName; }
-			set
+			get => _editName;
+            set
 			{
 				if (value == _editName) return;
 				_editName = value;
@@ -88,8 +88,8 @@ namespace MarkdownMonster.Windows
 
 		public bool IsEditing
 		{
-			get { return _isEditing; }
-			set
+			get => _isEditing;
+		    set
 			{
 				if (value == _isEditing) return;
 				_isEditing = value;
@@ -99,16 +99,13 @@ namespace MarkdownMonster.Windows
 		}
 		private bool _isEditing = false;
 
-		public bool IsNotEditing
-		{
-			get { return !_isEditing; }			
-		}
+		public bool IsNotEditing => !_isEditing;
 
 
-		public bool IsSelected
+	    public bool IsSelected
 		{
-			get { return _isSelected; }
-			set
+			get => _isSelected;
+	        set
 			{
 				if (value == _isSelected) return;
 				_isSelected = value;
@@ -142,14 +139,14 @@ namespace MarkdownMonster.Windows
 					_files = new ObservableCollection<PathItem>();
 				return _files;
 			}
-			set { _files = value; }
+			set => _files = value;
 		}
 
 	    
 
 	    public ImageSource Icon
 	    {
-	        get { return _icon; }
+	        get => _icon;
 	        set
 	        {
 	            if (Equals(value, _icon)) return;

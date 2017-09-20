@@ -435,6 +435,7 @@ namespace MarkdownMonster
 		    {"php", "php"},
 		    {"go", "golang"},
 		    {"cshtml", "razor"},
+            {"vbhtml", "razor" },
 		    {"r", "r"},
 		    {"mak", "makefile"},
 
@@ -443,10 +444,12 @@ namespace MarkdownMonster
 		    {"wsdl", "xml"},
 		    {"config", "xml"},
 		    {"csproj", "xml"},
+            {"sln", "xml" },
 		    {"nuspec", "xml"},
 
 		    {"yaml", "yaml"},
-		    {"txt", "text"},
+	        {"yml", "yaml"},
+            {"txt", "text"},
 		    {"log", "text"}
 	    };
 
