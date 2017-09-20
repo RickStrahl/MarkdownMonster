@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.6.4
-*<small>not released yet</small>*
+*<small>September 20th, 2017</small>*
 
 * **File Icons for Folder Browser**   
 Files in the folder browser are now displayed with their associated application icons to make it easier to navigate the tree and recognize files.
@@ -14,6 +14,9 @@ You can now drag non image files into the editor to open them. This is in additi
 
 * **Slow Double Click Editing of Filenames in Folder Browser**  
 You can now do a slow double click in the Folder browser (in addition to F2) to rename files in the folder browser.
+
+* **Fix: Spellchecker Performance Tweaks**   
+Fixed a number of event leaks in the spell checker logic that would reattach spell check events multiple times. This fix speeds up editing documents when loaded for long periods. Checker now also is more efficient about refreshing spell check info to have less impact while typing.
 
 * **Fix: Open In External Browser Disabled**  
 Fixed issue where Open in External Browser would not work open documents when the preview browser was not active. Also fixed so that rendered HTML output does not use pragma line mapping.
