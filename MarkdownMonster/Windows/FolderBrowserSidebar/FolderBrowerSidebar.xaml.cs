@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -15,7 +16,15 @@ using System.Windows.Threading;
 using MarkdownMonster.Annotations;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Westwind.Utilities;
+using ContextMenu = System.Windows.Controls.ContextMenu;
+using DataFormats = System.Windows.DataFormats;
+using DataObject = System.Windows.DataObject;
+using DragDropEffects = System.Windows.DragDropEffects;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MessageBox = System.Windows.MessageBox;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using TextBox = System.Windows.Controls.TextBox;
+using TreeView = System.Windows.Controls.TreeView;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace MarkdownMonster.Windows
@@ -238,18 +247,18 @@ namespace MarkdownMonster.Windows
             else if (e.Key == Key.F2)
             {
                 if (!selected.IsEditing)
-                    MenuRenameFile_Click(null, null);
+                    MenuRenameFile_Click(sender, null);
             }
             else if (e.Key == Key.Delete)
             {
                 if (!selected.IsEditing)
-                    MenuDeleteFile_Click(null, null);
+                    MenuDeleteFile_Click(sender, null);
             }
             else if (e.Key == Key.N)
             {
                 if (!selected.IsEditing)
                 {
-                    MenuAddFile_Click(null, null);
+                    MenuAddFile_Click(sender, null);
                     e.Handled = true;
                 }
             }
@@ -519,7 +528,17 @@ namespace MarkdownMonster.Windows
             // Start Editing the file name
             selected.EditName = selected.DisplayName;
             selected.IsEditing = true;
+
+
+            var tvItem = GetTreeviewItem(selected);            
+            if (tvItem != null)            
+            {
+                var tb = WindowUtilities.FindVisualChild<TextBox>(tvItem);
+                tb?.Focus();
+            }
         }
+
+        
 
         private async void MenuCommitGit_Click(object sender, RoutedEventArgs e)
         {
@@ -676,6 +695,31 @@ namespace MarkdownMonster.Windows
 
         }
 
+        private DateTime LastClickTime;
+        private PathItem LastItem;
+
+        private void TextFileOrFolderName_MouseUpToEdit(object sender, MouseButtonEventArgs e)
+        {
+            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+            var t = DateTime.Now;
+
+            
+            if (t > LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime + 20) && t < LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime + 800))
+            {                
+                if (selected == LastItem)
+                    MenuRenameFile_Click(null, null);
+            }
+            LastItem = selected;
+            LastClickTime = t;
+        }
+
+        private void TextEditFileItem_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+            if (selected != null)
+                selected.IsEditing = false;
+        }
+
         #region Drag Operations
 
         private System.Windows.Point startPoint;
@@ -713,5 +757,7 @@ namespace MarkdownMonster.Windows
         }
 
         #endregion
+
+        
     }
 }

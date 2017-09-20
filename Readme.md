@@ -7,7 +7,6 @@
 
 ![Markdown Monster Image](Art/MarkdownMonster.png)
 
-
 ## Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
 * **[Download](http://markdownmonster.west-wind.com/download.aspx)**
@@ -21,7 +20,6 @@
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[License](#license)**
-
 
 If you like what you see please consider :star: **starring this repo** (top left of this page). Please help spread the word.
 

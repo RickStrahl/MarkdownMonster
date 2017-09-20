@@ -8,10 +8,20 @@
 <html>
 <head>
     <title>Download Markdown Monster</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />    
+    <meta name="description" content="Download Markdown Monster: A better Markdown Editor and Weblog Publisher for Windows" />
+    <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Writing,Documentation,Windows,Download" />
     
-    <meta name="description" content="West Wind Markdown Monster: An easy to use and extensible Markdown editor for Windows" />
-    <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Writing,Documentation" />
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9492219-14"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments) };
+        gtag('js', new Date());
+
+        gtag('config', 'UA-9492219-14');
+    </script>
+  
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/application.css" rel="stylesheet" />
@@ -100,8 +110,12 @@
                                 <div class="small">  
                                     <p>
                                     Markdown Monster can be downloaded and evaluated for free, but a <a href="https://store.west-wind.com/product/order/markdown_monster">reasonably priced license</a>
-                                    must be purchased for continued use. Licenses are per-user, rather than per-machine, so you can use 
-                                    Markdown Monster on as many computers you wish with your license. 
+                                    must be purchased for continued use. Licenses are per-user, so you can use 
+                                    Markdown Monster on as many computers you wish with your license.
+                                    </p>
+                                    <p>
+                                    Want a <b>free license</b>? Contributors who help out with code, feature suggestions, 
+                                    documentation or promotion qualify for a free license.
                                     </p>
                                     <p>
                                     This download provides a fully functional, non-limited version that includes all of 
@@ -302,18 +316,7 @@
         &copy; West Wind Technologies, 2000-<%= DateTime.Now.Year %>
     </nav> 
     
-    <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments);
-            }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', 'UA-9492219-10', 'west-wind.com');
-        ga('send', 'pageview');
-
-    </script>  
 </body>
 
 </html>

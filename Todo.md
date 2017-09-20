@@ -10,10 +10,10 @@
     * Link to Open Office for missing stuff
 
 ### Mid Term
-* [x] ~~Add File Encryption as an Option~~
 * [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
 
 ### Bugs
+* [ ] Fix Folder Browser Rename/Delete file occasional locking issues.
 * [ ] Fix Markdown List display where new bullet auto creates
 
 ### Consideration
@@ -21,5 +21,8 @@
 * [ ] reveal.js presentations
 * [ ] Research **R Markdown**, **AsciiDoc**
 * [x] ~~Export/Copy/Weblog Publish to Clipboard with Images embedded~~
+* [ ] Custom simplified WebLog Publishing API that allows for minimal post send, edit, get, list operations.
+
+So this is a type of text processing that occurs when you overdo it.
 
 ### Notes

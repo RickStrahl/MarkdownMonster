@@ -7,8 +7,14 @@
 ### 1.6.4
 *<small>not released yet</small>*
 
+* **File Icons for Folder Browser**   
+Files in the folder browser are now displayed with their associated application icons to make it easier to navigate the tree and recognize files.
+
 * **Drag and Drop Files from Folder Browser**  
 You can now drag non image files into the editor to open them. This is in addition to double clicking or enter/space selection of files. Images are treated special and are either opened in image editor, or embedded as images inside of markdown documents.
+
+* **Slow Double Click Editing of Filenames in Folder Browser**  
+You can now do a slow double click in the Folder browser (in addition to F2) to rename files in the folder browser.
 
 * **Fix: Open In External Browser Disabled**  
 Fixed issue where Open in External Browser would not work open documents when the preview browser was not active. Also fixed so that rendered HTML output does not use pragma line mapping.

@@ -28,7 +28,7 @@ namespace MarkdownMonster.Utilities
 
         static AssociatedIcons()
         {
-            DefaultIcon = new BitmapImage(new Uri("pack://application:,,,/Assets/defaulticon.png", UriKind.RelativeOrAbsolute));            
+            DefaultIcon = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor", "fileicons", "default_file.png")));            
         }
 
         /// <summary>
@@ -44,20 +44,27 @@ namespace MarkdownMonster.Utilities
             var ext = Path.GetExtension(filename);
             if (string.IsNullOrEmpty(ext))
                 return DefaultIcon;
-
+            
             if (Icons.TryGetValue(ext.ToLower(), out ImageSource icon))
                 return icon;
             
+            // check for extensions
+            if (!IconUtilities.ExtensionToImageMappings.TryGetValue(ext, out string imageKey))
+                imageKey = ext.Substring(1);
+        
             try
             {
-                var icn = Icon.ExtractAssociatedIcon(filename);                                
-                icon = icn.ToImageSource();
-                Icons.Add(ext, icon);
+                var imagePath  = Path.Combine(Environment.CurrentDirectory, "Editor", "fileicons", imageKey + ".png");
+                if (File.Exists(imagePath))                
+                    icon = new BitmapImage(new Uri(imagePath));                                    
+               else
+                    icon = DefaultIcon;            
             }
             catch
             {
                 icon = DefaultIcon;                
             }
+            Icons.Add(ext.ToLower(), icon);
 
             return icon;
         }
@@ -88,15 +95,112 @@ namespace MarkdownMonster.Utilities
             return wpfBitmap;
         }
 
-        static Dictionary<string, string> ExtensionToImageMappings { get; } = new Dictionary<string, string>() {
-            {  "cs", "csharp" },
-            {  "txt", "txt" },
-            { "prg", "foxpro" },
-            { "jpg", "image" },
-            { "png", "image" },
-            { "gif", "image" },
-            { "bmp", "image" }
+        public static Dictionary<string, string> ExtensionToImageMappings { get; } = new Dictionary<string, string>() {
+
+            // special files
+            { "package.json", "npm" },
+            { "bower.json", "package" },
+
+            { "license","license" },
+            { ".lic" , "license" },
+            { ".gitignore", "git" },
+            { ".gitattributes", "git" },
+            {  ".npmignore", "npm" },
+            { ".editorconfig", "editorconfig" },
+            { ".md", "md" },
+            { ".markdown", "md" },
+            { ".mdcrypt", "md" },
+            { ".package.json", "package" },
+            { ".bower.json", "package" },
+            {  ".cs", "csharp" },
+            {  ".vb", "vb" },
+            {  ".fs", "fs" },
+            {  ".nuspec", "nuget" },
+            {  ".nupkg", "nuget" },
+            { ".ts", "ts" },
+            { ".js", "js" },
+            { ".json", "json" },            
+            {  ".tsconfig", "ts" },
+            { ".html", "html" },
+            { ".htm", "html" },
+            { ".css", "css" },
+            { ".less", "css" },
+            { ".scss", "css" },
+            {  ".txt", "txt" },
+            {  ".log", "txt" },
+            { ".cshtml", "razor" },
+            { ".vbhtml", "razor" },
+            { ".aspx", "aspx" },
+            { ".asax", "aspx" },
+            { ".asp", "aspx" },
+            { ".php","php" },
+            { ".py", "py" },
+            { ".prg", "prg" },
+            { ".fxp", "prg" },
+            { ".vcx", "prg" },
+            { ".vct", "prg" },
+            { ".scx", "prg" },
+            { ".sct", "prg" },
+            { ".dbf", "prg" },
+            { ".fpt", "prg" },
+            { ".cdx", "prg" },
+            { ".dbc", "prg" },
+            { ".dbt", "prg" },
+            { ".java", "java" },
+            { ".sql", "sql" },            
+            { ".diff", "diff" },
+            { ".merge", "diff" },
+            { ".pdf", "pdf" },
+            { ".h", "h" },
+            { ".cpp", "cpp" },
+            { ".c", "cpp" },
+            { ".xml", "xml" },
+            { ".xsd", "xml" },
+            { ".xsl", "xml" },
+            { "", "xml" },
+            { ".config", "config" },
+            { ".manifest", "config" },
+            { ".conf", "config" },
+            { ".appx", "config" },
+            { ".yaml", "yaml" },
+            { ".yml", "yaml" },
+            { ".cer", "cert" },
+            { ".pfx", "cert" },
+            { ".key", "key" },
+            { ".png", "image" },
+            { ".jpg", "image" },
+            { ".jpeg", "image" },
+            { ".gif", "image" },
+            { ".ico", "image" },
+            { ".bmp", "image" },
+            { ".eps", "image" },
+            { ".svg", "image" },
+            { ".woff", "font" },
+            { ".woff2", "font" },
+            { ".otf", "font" },
+            { ".eot", "font" },
+            { ".ttf", "font" },
+            { ".mp3", "audio" },
+            { ".wmv", "audio" },
+            { ".wav", "audio" },
+            { ".aiff", "audio" },
+            { ".mpeg", "video" },
+            { ".ps1","ps1" },
+            { ".dll", "bat" },
+            { ".exe", "bat" },
+            { ".bat", "bat" },
+            { ".cmd", "bat" },
+            { ".sh", "bat" }
+            
         };
+    }
+
+
+    public class FileIconAssociation
+    {
+        public string Extension { get; set; }
+        public string IconFile { get; set; }
+        public bool IsFilename { get; set; }
     }
 
 

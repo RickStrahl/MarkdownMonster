@@ -47,6 +47,31 @@ namespace MarkdownMonster.Windows
         }
 
         /// <summary>
+        /// Finds a particular type of control in the children of a top level control
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            if (obj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+                {
+                    var child = VisualTreeHelper.GetChild(obj, i);
+                    if (child is T)
+                    {
+                        return (T)child;
+                    }
+
+                    T childItem = FindVisualChild<T>(child);
+                    if (childItem != null) return childItem;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Creates a keyboard shortcut from a 
         /// </summary>
         /// <param name="ksc"></param>

@@ -17,37 +17,39 @@
                     <Image Source="{Binding Icon}" Height="15" Width="Auto" Margin="5,0,5,0" Visibility="{Binding IsFile, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <TextBlock Name="TextFileOrFolderName" Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
 				           Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
-						   MouseEnter="TextFileOrFolderName_MouseEnter" MouseLeave="TextFileOrFolderName_MouseLeave"						   
-				>
-					<TextBlock.Style>
-						<Style TargetType="TextBlock">
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding IsFolder}"
+						   MouseEnter="TextFileOrFolderName_MouseEnter" 
+                           MouseLeave="TextFileOrFolderName_MouseLeave" 				
+                           MouseUp="TextFileOrFolderName_MouseUpToEdit" >
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsFolder}"
 								             Value="True">
-									<Setter Property="FontWeight" Value="SemiBold"/>
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</TextBlock.Style>
-				</TextBlock>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBox Name="TextEditFileItem"
+                            Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="6,2,10,2"                            
+                            Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                             LostFocus="TextEditFileItem_LostFocus">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                        <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+                                        <Setter Property="Background" Value="#444" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
                 </StackPanel>
 
-                <TextBox Name="TextEditFileItem" 
-				         Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="6,2,10,2"
-				         Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
-					<TextBox.Style>
-						<Style TargetType="TextBox">
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding IsEditing}" Value="True">
-									<Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
-									<Setter Property="Background" Value="#444" />
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</TextBox.Style>
-				</TextBox>
-
-			</StackPanel>
+            </StackPanel>
 		</HierarchicalDataTemplate>
 		<ContextMenu x:Key="FileContextMenu" Name="PathItemContextMenu">
 			<MenuItem Name="MenuAddFile" Header="_New File" Click="MenuAddFile_Click" InputGestureText="N"/>
@@ -142,7 +144,7 @@
 				  ItemsSource="{Binding ActivePathItem.Files}"  
 				  ContextMenu="{StaticResource FileContextMenu}">
 			<TreeView.Resources>
-				<Style TargetType="{x:Type TreeViewItem}">
+				<Style  TargetType="{x:Type TreeViewItem}">
 					<Setter Property="IsSelected" Value="{Binding Path=IsSelected,Mode=TwoWay}" />
 				</Style>
 			</TreeView.Resources>
