@@ -86,7 +86,8 @@ Markdown Monster provides many useful features:
 * Download and edit existing posts
 * Very fast publish and download process
 * Support for multiple blogs
-* Custom Metadata field support
+* YAML metadata support
+* Custom metadata field POST support
 * Optional Dropbox and OneDrive shared post storage
 
 #### Non Markdown Features
