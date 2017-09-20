@@ -7,7 +7,7 @@
 *<small>September 20th, 2017</small>*
 
 * **File Icons for Folder Browser**   
-Files in the folder browser are now displayed with their associated application icons to make it easier to navigate the tree and recognize files.
+Files in the folder browser are now displayed with their associated application icons to make it easier to navigate the tree and recognize files. Additional icons can be added by adding a png file for the file extension in the `Editor\fileicons` folder.
 
 * **Drag and Drop Files from Folder Browser**  
 You can now drag non-image files into the editor to open them. This is in addition to context menu options, double clicking, enter/space selection of files. Images are treated special and are either opened in image editor, viewed with the default viewer, or when dragged into the document are embedded as images inside of markdown documents.
