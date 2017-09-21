@@ -53,16 +53,17 @@ namespace MarkdownMonster.Utilities
             {
                 // Check extensions next
                 var ext = Path.GetExtension(filename);
+
                 if (string.IsNullOrEmpty(ext))
                     return DefaultIcon;
 
                 key = ext.ToLower();
-                if (Icons.TryGetValue(ext, out icon))
+                if (Icons.TryGetValue(key, out icon))
                     return icon;
 
                 // check for extensions
-                if (!IconUtilities.ExtensionToImageMappings.TryGetValue(ext, out imageKey))
-                    imageKey = ext.Substring(1);
+                if (!IconUtilities.ExtensionToImageMappings.TryGetValue(key, out imageKey))
+                    imageKey = key.Substring(1);
             }
 
             try
@@ -110,33 +111,41 @@ namespace MarkdownMonster.Utilities
 
         public static Dictionary<string, string> ExtensionToImageMappings { get; } = new Dictionary<string, string>() {
 
-            // special files
+                      // Whole Files
             { "package.json", "npm" },
             { "package-lock.json", "package" },
             { "bower.json", "package" },
             { "license.txt", "license" },
 
+            // dev config files
             { "license","license" },
             { ".lic" , "license" },
             { ".gitignore", "git" },
             { ".gitattributes", "git" },
-            {  ".npmignore", "npm" },
+            { ".npmignore", "npm" },
             { ".editorconfig", "editorconfig" },
+
+            // Common
             { ".md", "md" },
             { ".markdown", "md" },
             { ".mdcrypt", "md" },
-            { ".package.json", "package" },
-            { ".bower.json", "package" },
-            { ".paket", "package" },
+
+            // .NET
             {  ".cs", "csharp" },
             {  ".vb", "vb" },
             {  ".fs", "fs" },
             {  ".nuspec", "nuget" },
             {  ".nupkg", "nuget" },
-            { ".ts", "ts" },
-            { ".js", "js" },
-            { ".json", "json" },            
-            {  ".tsconfig", "ts" },
+            {  ".csproj", "csproj" },
+            {  ".sln", "sln" },
+           
+
+            // Packages
+            { ".package.json", "package" },
+            { ".bower.json", "package" },
+            { ".paket", "package" },
+            
+            // HTML/CSS
             { ".html", "html" },
             { ".htm", "html" },
             { ".css", "css" },
@@ -144,6 +153,19 @@ namespace MarkdownMonster.Utilities
             { ".scss", "css" },
             {  ".txt", "txt" },
             {  ".log", "txt" },
+            { ".ts", "ts" },
+            { ".js", "js" },
+            { ".json", "json" },
+            {  ".tsconfig", "ts" },
+
+            // office docs
+            {  ".ppt", "ppt" },
+            {  ".docx", "docx" },
+            {  ".one", "onenote" },
+            {  ".onenote", "onenote" },
+            { ".pdf", "pdf" },
+
+            // Scripts
             { ".cshtml", "razor" },
             { ".vbhtml", "razor" },
             { ".aspx", "aspx" },
@@ -151,6 +173,8 @@ namespace MarkdownMonster.Utilities
             { ".asp", "aspx" },
             { ".php","php" },
             { ".py", "py" },
+
+            // Foxpro
             { ".prg", "prg" },
             { ".fxp", "prg" },
             { ".vcx", "prg" },
@@ -162,18 +186,24 @@ namespace MarkdownMonster.Utilities
             { ".cdx", "prg" },
             { ".dbc", "prg" },
             { ".dbt", "prg" },
+
+            //Languages
             { ".java", "java" },
-            { ".sql", "sql" },            
+            { ".sql", "sql" },
             { ".diff", "diff" },
             { ".merge", "diff" },
-            { ".pdf", "pdf" },
             { ".h", "h" },
             { ".cpp", "cpp" },
             { ".c", "cpp" },
+
+            // Text Formats
             { ".xml", "xml" },
             { ".xsd", "xml" },
             { ".xsl", "xml" },
-            { "xaml", "xml" },
+            { ".xaml", "xml" },
+
+
+            // Configuration
             { ".config", "config" },
             { ".manifest", "config" },
             { ".conf", "config" },
@@ -183,6 +213,8 @@ namespace MarkdownMonster.Utilities
             { ".cer", "cert" },
             { ".pfx", "cert" },
             { ".key", "key" },
+
+            // Images
             { ".png", "image" },
             { ".jpg", "image" },
             { ".jpeg", "image" },
@@ -198,11 +230,15 @@ namespace MarkdownMonster.Utilities
             { ".otf", "font" },
             { ".eot", "font" },
             { ".ttf", "font" },
+
+            // Media
             { ".mp3", "audio" },
             { ".wmv", "audio" },
             { ".wav", "audio" },
             { ".aiff", "audio" },
             { ".mpeg", "video" },
+
+            // Shell
             { ".ps1","ps1" },
             { ".dll", "bat" },
             { ".exe", "bat" },
@@ -210,7 +246,7 @@ namespace MarkdownMonster.Utilities
             { ".cmd", "bat" },
             { ".sh", "bat" },
             { ".zip", ".zip" }
-            
+
         };
     }
 

@@ -105,8 +105,14 @@ a {
     padding: 5px 10% 15px 12%;
 }
 h4 {
-    font-size: 1.5em;
+    font-size: 1.35em;
+    color: #555;
 }
+h5 {
+    font-size: 1.2em ;
+    color: #676767;
+}
+
 .content {
     padding: 0 6%;
 }

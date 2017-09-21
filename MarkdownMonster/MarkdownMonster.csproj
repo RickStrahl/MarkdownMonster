@@ -469,7 +469,7 @@
     <None Include="Editor\fileicons\vsix.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Editor\fileicons\word.png">
+    <None Include="Editor\fileicons\docx.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Editor\fileicons\yaml.png">

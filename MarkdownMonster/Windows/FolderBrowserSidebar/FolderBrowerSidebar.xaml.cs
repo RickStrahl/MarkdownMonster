@@ -107,6 +107,33 @@ namespace MarkdownMonster.Windows
 
         #region Folder Button and Text Handling
 
+        private void SetTreeFromFolder(string folder, bool setFocus = false)
+        {
+            mmApp.Model.Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Spinner, Colors.Orange, true);
+            mmApp.Model.Window.ShowStatus($"Retrieving files for folder {folder}...");
+
+            Dispatcher.InvokeAsync(() =>
+            {
+                // just get the top level folder first
+                ActivePathItem = FolderStructure.GetFilesAndFolders(folder,nonRecursive: true);
+                WindowUtilities.DoEvents();
+
+                // get all folders next
+                ActivePathItem = FolderStructure.GetFilesAndFolders(folder);
+                WindowUtilities.DoEvents();
+
+                mmApp.Model.Window.ShowStatus();
+
+                if (TreeFolderBrowser.HasItems)
+                    SetTreeViewSelectionByIndex(0);
+
+
+                if (setFocus)
+                    TreeFolderBrowser.Focus();
+
+            }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+        }
+
         private void ButtonUseCurrentFolder_Click(object sender, RoutedEventArgs e)
         {
             var doc = mmApp.Model.ActiveDocument;
@@ -165,27 +192,6 @@ namespace MarkdownMonster.Windows
         {
             mmApp.Model.Window.ShowFolderBrowser(hide: true);
             mmApp.Model.ActiveEditor?.SetEditorFocus();
-        }
-
-        private void SetTreeFromFolder(string folder, bool setFocus = false)
-        {
-            mmApp.Model.Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Spinner, Colors.Orange, true);
-            mmApp.Model.Window.ShowStatus($"Retrieving files for folder {folder}...");
-
-            Dispatcher.InvokeAsync(() =>
-            {
-                ActivePathItem = FolderStructure.GetFilesAndFolders(folder);
-                WindowUtilities.DoEvents();
-                mmApp.Model.Window.ShowStatus();
-
-                if (TreeFolderBrowser.HasItems)
-                    SetTreeViewSelectionByIndex(0);
-
-
-                if (setFocus)
-                    TreeFolderBrowser.Focus();
-
-            }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
 
         private void SetTreeViewSelectionByIndex(int index)

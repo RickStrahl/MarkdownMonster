@@ -15,7 +15,7 @@ namespace MarkdownMonster.Windows
 		/// <param name="parentPathItem"></param>
 		/// <param name="skipFolders"></param>
 		/// <returns></returns>
-		public PathItem GetFilesAndFolders(string baseFolder, PathItem parentPathItem = null, string skipFolders = "node_modules,bower_components,packages,testresults,bin,obj")
+		public PathItem GetFilesAndFolders(string baseFolder, PathItem parentPathItem = null, string skipFolders = "node_modules,bower_components,packages,testresults,bin,obj", bool nonRecursive = false)
 		{
 			if (string.IsNullOrEmpty(baseFolder) || !Directory.Exists(baseFolder))
 				return new PathItem();
@@ -60,8 +60,12 @@ namespace MarkdownMonster.Windows
 							continue;
 					}
 
-
-					GetFilesAndFolders(folder, activeItem, skipFolders);
+				    if (!nonRecursive)
+				        GetFilesAndFolders(folder, activeItem, skipFolders);
+				    else
+				    {				        
+				        activeItem.Files.Add(new PathItem { FullPath = folder, IsFolder = true, Parent = activeItem } );
+				    }
 				}			
 			}
 
@@ -72,6 +76,13 @@ namespace MarkdownMonster.Windows
 			}
 			catch { }
 
+		    if (folders == null && nonRecursive)
+		    {
+		        foreach (var folder in folders)
+		        {
+		            
+		        }
+		    }
 			if (files != null)
 			{
 				foreach (var file in files)
