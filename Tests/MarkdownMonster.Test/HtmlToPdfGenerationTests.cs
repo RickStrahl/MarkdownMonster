@@ -13,7 +13,7 @@ namespace MarkdownMonster.Test
 	public class HtmlToPdfGenerationTests
 	{
 		// Use this file so we have some resource dependencies
-		private const string SourceMdFile = "c:\\program files (x86)\\Markdown Monster\\SampleMarkdown.md";
+		private string SourceMdFile = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"SampleMarkdown.md");
 
 		private string GeneratedHtmlFile;
 		private readonly string OutputPdfFile;

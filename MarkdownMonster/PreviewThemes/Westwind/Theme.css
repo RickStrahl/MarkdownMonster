@@ -17,34 +17,35 @@ html, body {
 
 h1,h2,h3,h4,h5,h6, .byline,.content-title {
   color: #535353;
-  font-weight: 600;
-  xfont-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
+  font-weight: bold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
 }
 h1 {
     font-size: 1.7em;
-    font-weight: 700;
     padding-bottom: 10px;
     margin-bottom: 15px;
     color: steelblue;
     border-bottom: 1px solid #eee;
 }
 h2
-{        
+{    
+    color: Steelblue;
     font-size: 1.45em;         
 }
 h3
-{    
-    font-size: 1.3em;    
+{
+    color: steelblue;
+    font-size: 1.3em;
+    font-weight: 800;    
     margin-top: 15px;
 }
 h4
 {
-    color: #656565;
+    color: #2D2A2A;
     font-size: 1.1em;       
     margin-top: 14px;
 }
-h5, h6 {
-    color: #656565;
+h5, h6 { 
     font-size: 1em;
 }
 table {
@@ -120,7 +121,6 @@ b, strong {
     scrollbar-face-color: #ddd;
     -ms-overflow-style: -ms-autohiding-scrollbar !important;
 } 
-
 
 blockquote {
     background: #f9f9f9;

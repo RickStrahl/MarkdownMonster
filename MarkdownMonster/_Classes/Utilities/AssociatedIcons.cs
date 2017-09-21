@@ -116,6 +116,7 @@ namespace MarkdownMonster.Utilities
             { "package-lock.json", "package" },
             { "bower.json", "package" },
             { "license.txt", "license" },
+            { "favicon.ico", "favicon" },
 
             // dev config files
             { "license","license" },
@@ -149,7 +150,7 @@ namespace MarkdownMonster.Utilities
             { ".html", "html" },
             { ".htm", "html" },
             { ".css", "css" },
-            { ".less", "css" },
+            { ".less", "less" },
             { ".scss", "css" },
             {  ".txt", "txt" },
             {  ".log", "txt" },
@@ -171,7 +172,10 @@ namespace MarkdownMonster.Utilities
             { ".aspx", "aspx" },
             { ".asax", "aspx" },
             { ".asp", "aspx" },
+            { ".jsx", "react" },
             { ".php","php" },
+            { ".rails", "rails" },
+            { ".rhtml", "rails" },
             { ".py", "py" },
 
             // Foxpro
@@ -225,6 +229,8 @@ namespace MarkdownMonster.Utilities
             { ".svg", "svg" },
             { ".psd", "image" },
             { ".cdr", "image" },
+
+            // Fonts
             { ".woff", "font" },
             { ".woff2", "font" },
             { ".otf", "font" },

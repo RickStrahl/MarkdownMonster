@@ -84,11 +84,9 @@ a {
 .background {
     background: #222222;
 }
-.hidable {
-    
+.hidable {    
 }
-.hidable-xs {
-    
+.hidable-xs {    
 }
 #ContentContainer {
     xmargin: 0 auto !important;

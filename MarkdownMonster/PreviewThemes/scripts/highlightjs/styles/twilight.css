@@ -48,7 +48,11 @@ based on dark.css by Vladimir Epifanov
   color: #8f8f8f;
 }
 
-.hljs-title,
+.hljs-title {  
+  color: #C78C3B;
+}
+
+
 .hljs-name,
 .hljs-selector-id,
 .hljs-selector-class,

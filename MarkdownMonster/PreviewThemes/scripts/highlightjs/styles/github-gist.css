@@ -27,13 +27,8 @@
 
 .hljs-keyword,
 .hljs-selector-tag,
-.hljs-tag,
 .hljs-type {
-  color: firebrick;
-}
-
-.hljs-built_in {
-    color: brown;
+  color: #a71d5d;
 }
 
 .hljs-literal,
