@@ -18,11 +18,11 @@
     </script>
     
     <meta name="description" content="Markdown Monster: An easy to use Markdown Editor and Weblog Publishing tool for Windows. Create Markdown with a low key interface that gets out of your way, but provides advanced features to help you be more productive." />
-    <meta name="keywords" content="markdown, windows, markdown editor,text editor,documentation,weblog,publishing,screen capture,writing,documentation,open source,extensible,addins,wpf,dotnet" />
+    <meta name="keywords" content="markdown, windows, markdown editor,text editor,documentation,weblog,publishing,screen capture,writing,documentation,open source,extensible,addins,wpf,dotnet,westwind,rick strahl" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
-    <meta name="company" content="West Wind Technologies - http://west-wind.com"/>
-    <meta name="author" content="Rick Strahl, West Wind Technologies  - http://weblog.west-wind.com"/>
+    <meta name="company" content="West Wind Technologies - https://west-wind.com"/>
+    <meta name="author" content="Rick Strahl, West Wind Technologies  - https://weblog.west-wind.com"/>
 
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
@@ -34,6 +34,9 @@
     <meta content="favicon.png" itemprop="image">
     
     <style>
+        @media(max-width: 970px) {
+            .banner a { padding: 15px 5px; }
+        }
         #ActionButtons {
             width: 100%;
             margin: 20px auto 40px;
@@ -43,6 +46,7 @@
             background: #333;
             background: linear-gradient(to bottom, #393939, #222);
         }
+        #Carousel .carousel-inner > img { height: 845px; }
         #Carousel2 .carousel-inner > .item {
             margin: 5px 11%;
         }
@@ -67,7 +71,7 @@
             <img src="Images/MarkdownMonster_Icon_32.png"
                 style="height: 28px;"
                 alt="Markdown Monster" />
-            <span class="hidable-xs">West Wind Markdown Monster</span>
+            <span class="hidable-xs">Markdown Monster</span>
         </span>
         <nav id="TopMenu" class="right">
             <a href="./" class="active">
@@ -83,12 +87,13 @@
             <a href="http://store.west-wind.com/product/order/markdown_monster">                
                 Buy
             </a>                 
-            <a href="https://support.west-wind.com/Thread4NM0M17RC.wwt" class="hidable">                
+            <a href="https://support.west-wind.com/Thread4NM0M17RC.wwt" class="hidable" >                
                 Support
             </a>
             <a href="docs/">                
                 Docs
             </a>
+            <a href="https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md" class="hidable">What's new</a>
             <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog">                
                 Blog
             </a>
@@ -139,7 +144,7 @@
                     </div>
     
                     <div class="top-bullet-box">
-                        <h4 style="color: #ffd281;">Extensible Markdown Editing and Weblog Publishing</h4>
+                        <h4 style="color: #ffd281;">Markdown Editing and Weblog Publishing on Windows</h4>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="bullet-box-items">
@@ -195,15 +200,15 @@
                                     </div>  
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Pandoc rendering &amp; doc conversion
+                                        Pandoc rendering &amp; conversion
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Template expansion with snippets
+                                        Template text expansion
                                     </div>   
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Extend with .NET snippets & addins
+                                        .NET based scripting & addins
                                     </div>
 
                                 </div>
@@ -226,47 +231,32 @@
                     </a>
                 </div>
 
-                <h3>Better Markdown Editing for Windows</h3>
-                <p>
-                    Markdown is everywhere these days and it's used for all sorts
-                    of different purposes. Wouldn't it be nice if you have an editor that can keep 
-                    up with <strong>all</strong> of those scenarios?
-                </p>
-                <p>                    
-                    Markdown Monster is a Markdown editor and viewer that lets you edit Markdown with syntax highlighting
-                    and fast text entry. A collapsible, synced, live preview lets you see your output as you type.
-					You can easily embed images, links, emojis and code as text or by using our gentle UI
-					helpers that simplify many operations. You can also paste and drag images directly into the editor.
-	                Inline spell-checking and word counts keep your content streamlined unobtrusively.
-				</p>
-				<p>
-                    You can export Markdown to HTML by saving to disk or by copy Markdown text selections as
-					HTML directly to the clipboard. The HTML preview can display syntax colored code snippets 
-					for most common coding languages, and can easily be customized with HTML and CSS template to match 
-					your own sites. You can choose from a number of editor and preview themes and you 
-					can even use Vim or EMacs type conventions. Other convenience features let you browse for and 
-					select files in the built-in folder browser, jump to the current folder in Explorer or Terminal,
-                    commit to Git and more.
-                </p>
-
-                <h3>Weblog Publishing</h3>
-                <p>
-                    Markdown Monster can also publish your Markdown directly to your Weblog. If your Weblog supports 
-					WordPress, MetaWeblog or Medium, you can publish your documents with one click. You can also 
-					edit and republish, or download existing posts and even convert existing posts from HTML to Markdown.
-                 </p>
+            <h3>Better Markdown Editing for Windows</h3>
+            <p>
+                Markdown is everywhere these days and it's used for all sorts
+                of different purposes. Wouldn't it be nice if you have an editor that can keep 
+                up with <strong>all</strong> of those scenarios?
+            </p>
                 
-                <h3>Extensible via .NET Addins</h3>
-                 <p>
-                    We also wanted to make sure <b>the editor is highly extensible</b>, so you can add custom features
-                    of your own. Markdown Monster includes an addin model that makes it easy to build
-                    extensions that let you hook into the UI, the editor behavior and the publishing
-                    process. We also provide useful .NET Scripting and Text Templating addins that
-					let you automate many tasks without creating an addin. Find out more about 
-                    <a href="http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm" target="top">
-                    creating an addin with .NET</a>.
-                </p>                
-
+            <p>                    
+                Markdown Monster is a Markdown editor and viewer that lets you edit Markdown with syntax highlighting
+                and fast text entry. A collapsible, synced, live preview lets you see your output as you type.
+                You can easily embed images, links, emojis and code as text or by using our gentle UI
+                helpers that simplify many operations. You can also paste and drag images directly into the editor.
+                Inline spell-checking and word counts keep your content streamlined unobtrusively.
+            </p>
+                
+                
+            <p>
+                You can export Markdown to HTML by saving to disk or by copying Markdown selections as
+                HTML directly to the clipboard. The HTML preview can display syntax colored code snippets 
+                for most common coding languages, and can easily be customized with HTML and CSS template to match 
+                your own sites. You can choose from a light and dark theme, and choose individual editor and  
+                preview themes. You can even use Vim or EMacs type conventions. Other convenience features let you browse for and 
+                select files in the built-in folder browser, jump to the current folder in Explorer or Terminal,
+                commit to Git and more.
+            </p>
+                
                 <div class="content" style="padding: 0 0 20px">
                     <%-- <h2>Ready to get started?</h2>
                 <p>
@@ -275,7 +265,7 @@
                     simple and easy to use, and that's the way it should be
                     to make it quick and easy to test your Web sites.
                 </p>--%>
-                    <div id="Carousel" class="carousel slide" data-ride="carousel">
+                    <div id="Carousel" class="carousel slide" data-ride="carousel" style="margin-right: -7%; margin-left: -7%">
                         <!-- Indicators -->
                         <ol class="carousel-indicators">
                             <li data-target="#Carousel" data-slide-to="0" class="active"></li>
@@ -338,6 +328,29 @@
                             <span class="glyphicon glyphicon-chevron-right"></span>
                         </a>
                     </div>
+                
+
+             
+
+                <h4>Weblog Publishing</h4>
+                <p>
+                    Markdown Monster can also publish your Markdown directly to your Weblog. If your blog supports 
+					WordPress, MetaWeblog or Medium, you can publish your documents with one click. You can also 
+					edit and republish, or download existing posts and even convert existing posts from HTML to Markdown.
+                 </p>
+                
+                <h4>Extensible via .NET Addins</h4>
+                 <p>
+                    We also wanted to make sure <b>the editor is highly extensible</b>, so you can add custom features
+                    of your own. Markdown Monster includes an addin model that makes it easy to build
+                    extensions that let you hook into the UI, the editor behavior and the publishing
+                    process. We also provide useful .NET Scripting and Text Templating addins that
+					let you automate many tasks without creating an addin. Find out more about 
+                    <a href="http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm" target="top">
+                    creating an addin with .NET</a>.
+                </p>                
+
+
 
                     
                     <h4>What our Users say</h4>
@@ -351,7 +364,7 @@
                     </p>
 
                     <!-- Tweets  -->  
-                    <div id="Carousel2" class="carousel slide" data-ride="carousel">
+                    <div id="Carousel2" class="carousel slide" data-ride="carousel" style="margin-right: -7%; margin-left: -7%">
                         <!-- Indicators -->
                         <ol class="carousel-indicators">
                             <li data-target="#Carousel" data-slide-to="0" class="active"></li>
@@ -510,8 +523,8 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Html Editing with Live Preview
-                                    </div>   
+                                        Yaml Meta Data Support
+                                    </div>                                                                      
 									<div>
 										<i class="fa fa-check-circle"></i>
 										Integrated Folder Browser
@@ -653,6 +666,10 @@
                 },
                 //Default is 75px, set to 0 for demo so any distance triggers swipe
                 threshold: 0
+            });
+
+            $(".carousel-inner img").click(function() {
+                window.open(this.src);
             });
         });
     </script>
