@@ -357,25 +357,23 @@ namespace MarkdownMonster
 	    protected override void OnClosing(CancelEventArgs e)
 		{
 			base.OnClosing(e);
-
-			Hide();
-
+		
 			AddinManager.Current.RaiseOnApplicationShutdown();
 
 			bool isNewVersion = CheckForNewVersion(false, false);
-
 			mmApp.Configuration.ApplicationUpdates.AccessCount++;
 
 			SaveSettings();
 
 			if (!CloseAllTabs())
-			{
-				Show();
+			{				
 				e.Cancel = true;
 				return;
 			}
 
-			Top -= 10000;
+		    Hide();
+
+            Top -= 10000;
 
 			if (mmApp.Configuration.UseSingleWindow)
 			{
