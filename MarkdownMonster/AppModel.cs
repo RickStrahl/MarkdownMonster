@@ -87,7 +87,7 @@ namespace MarkdownMonster
         /// </summary>
         public MarkdownDocument ActiveDocument
         {
-            get { return _activeDocument; }
+            get => _activeDocument;
             set
             {
                 if (value == _activeDocument)
@@ -118,16 +118,31 @@ namespace MarkdownMonster
         /// </summary>
         public List<MarkdownDocument> OpenDocuments
         {
-            get { return _openDocuments; }
+            get => _openDocuments;
             set
             {
                 if (Equals(value, _openDocuments)) return;
                 _openDocuments = value;
-                OnPropertyChanged(nameof(OpenDocuments));
+                OnPropertyChanged(nameof(OpenDocuments));                
             }
         }
 
         private List<MarkdownDocument> _openDocuments;
+
+        
+        /// <summary>
+        /// Determines whether there are open tabs
+        /// </summary>
+        public bool IsTabOpen
+        {
+            get { return Window.TabControl.Items.Count > 0; }
+        }
+        public bool IsNoTabOpen
+        {
+            get { return Window.TabControl.Items.Count < 1; }
+        }
+
+        private bool _isTabOpen;
 
         #endregion
 
@@ -138,7 +153,7 @@ namespace MarkdownMonster
         /// </summary>
         public bool IsPreviewBrowserVisible
         {
-            get { return Configuration.IsPreviewVisible; }
+            get => Configuration.IsPreviewVisible;
             set
             {
                 if (value == Configuration.IsPreviewVisible) return;
@@ -149,7 +164,7 @@ namespace MarkdownMonster
 
         public bool IsFullScreen
         {
-            get { return _isFullScreen; }
+            get => _isFullScreen;
             set
             {
                 if (value == _isFullScreen) return;
@@ -163,7 +178,7 @@ namespace MarkdownMonster
 
         public bool IsPresentationMode
         {
-            get { return _isPresentationMode; }
+            get => _isPresentationMode;
             set
             {
                 if (_isPresentationMode == value) return;

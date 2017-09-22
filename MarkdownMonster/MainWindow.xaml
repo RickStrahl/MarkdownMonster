@@ -480,7 +480,57 @@
             </ToolBarPanel>
         </StackPanel>
 
-        <Grid Name="ContentGrid" Grid.Row="2">
+
+        <Grid Grid.Row="2" HorizontalAlignment="Center"  VerticalAlignment="Center" 
+              Visibility="{Binding IsNoTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Image Source="Assets/MarkdownMonster.png" 
+                   Opacity="0.10"
+                   Width="1000" Grid.Column="0" 
+                   VerticalAlignment="Center" Grid.Row="0" Panel.ZIndex="0"/>
+
+            <TextBlock  FontSize="16" Grid.Row="0" Panel.ZIndex="10"
+                        VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-100,0,0" >                
+                <Run FontSize="43" Foreground="#FFFFF2BF" FontWeight="Bold">Markdown Monster</Run>
+                <LineBreak />
+                <Run FontSize="20" FontWeight="SemiBold">Better Markdown Editing for Windows</Run>
+                <LineBreak />
+                
+                <LineBreak />
+                <Run>Here are a few things you can do:</Run>
+                <LineBreak />
+                <LineBreak />            
+                
+                <Run FontSize="20" FontWeight="Light">Start</Run>
+                <LineBreak />
+                <Hyperlink  Command="{Binding NewDocumentCommand}">  New Document</Hyperlink> - ctrl-n
+                <LineBreak />                                
+                <Hyperlink  Command="{Binding OpenDocumentCommand}">  Open Document...</Hyperlink> - ctrl-o
+                <LineBreak />                                
+                <!--<Hyperlink  Command="{Binding ShowFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
+                <LineBreak />-->
+                <LineBreak/>
+                
+                <Run FontSize="20" FontWeight="Light">Settings</Run>
+                <LineBreak />
+                <Hyperlink  Command="{Binding SettingsCommand}">  Configure Markdown Monster Settings</Hyperlink>
+                <LineBreak />
+                <LineBreak />
+                
+                <!--<Run FontSize="20" FontWeight="SemiBold">Recent</Run>
+                <LineBreak />
+                
+                <Run Name="RecentPlaceHolder">                    
+                </Run>-->
+            </TextBlock>
+        </Grid>
+
+        <Grid Name="ContentGrid" Grid.Row="2"  Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
 				<ColumnDefinition Name="FolderBrowserColumn" Width="0" />
 	            <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="0" />
@@ -505,19 +555,20 @@
 				</GridSplitter.Template>
 			</GridSplitter>
 
-			
-			<dragablz:TabablzControl x:Name="TabControl" Grid.Column="2"
+
+            <dragablz:TabablzControl x:Name="TabControl" Grid.Column="2"
                                      Margin="0,5,0,0"
                                      FontSize="13"
                                      Background="#222"
                                      BorderThickness="0"
-                                     ShowDefaultCloseButton="True"
+                                     ShowDefaultCloseButton="True"                                     
                                      ShowDefaultAddButton="False"
                                      SelectionChanged="TabControl_SelectionChanged" />
+            
 
             <GridSplitter Grid.Column="3"                                                                        
                           HorizontalAlignment="Center"                          
-                          BorderThickness="0" IsTabStop="False"
+                          BorderThickness="0" IsTabStop="False"                          
                           VerticalAlignment="Stretch">
                 <GridSplitter.Template>
                     <ControlTemplate TargetType="{x:Type GridSplitter}">
@@ -529,8 +580,7 @@
             </GridSplitter>
 
             <WebBrowser Grid.Column="4" Name="PreviewBrowser"
-                        VerticalAlignment="Stretch"  SizeChanged="PreviewBrowser_SizeChanged"
-                        HorizontalAlignment="Stretch"  >
+                        VerticalAlignment="Stretch"  SizeChanged="PreviewBrowser_SizeChanged">
                 <WebBrowser.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />

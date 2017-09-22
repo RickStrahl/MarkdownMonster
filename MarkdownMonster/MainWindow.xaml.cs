@@ -361,12 +361,14 @@ namespace MarkdownMonster
 			AddinManager.Current.RaiseOnApplicationShutdown();
 
 			bool isNewVersion = CheckForNewVersion(false, false);
+
 			mmApp.Configuration.ApplicationUpdates.AccessCount++;
 
 			SaveSettings();
 
 			if (!CloseAllTabs())
-			{				
+			{
+				//Show();
 				e.Cancel = true;
 				return;
 			}
@@ -778,6 +780,7 @@ namespace MarkdownMonster
 
 	            SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
 
+                
 	            tab.ToolTip = doc.Filename;
 	        }
 
@@ -827,8 +830,12 @@ namespace MarkdownMonster
 	        if (rebindTabHeaders)
 	            BindTabHeaders();
 
+	        // force bindings to change
+	        Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
+	        Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
 
-	        return tab;
+
+            return tab;
 	    }
 
 	    /// <summary>
@@ -933,8 +940,7 @@ namespace MarkdownMonster
 				return false;
 
 			bool returnValue = true;
-
-            tab.Background = Brushes.Green;
+            
             tab.Padding = new Thickness(200);
 
 			var doc = editor.MarkdownDocument;
@@ -983,7 +989,10 @@ namespace MarkdownMonster
 			if (rebindTabHeaders)
 				BindTabHeaders();
 
-			return returnValue; // close
+		    Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
+		    Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
+
+            return returnValue; // close
 		}
 
 		/// <summary>

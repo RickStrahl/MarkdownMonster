@@ -3,6 +3,14 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.6.6
+*<small>not released yet</small>*
+
+* **New Startup Page**  
+Add startup page when no tabs are open. Page allows New and open document and access to Folder Browser.
+
+* 
+
 ### 1.6.5
 *<small>September 20th, 2017</small>*
 

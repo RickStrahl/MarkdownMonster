@@ -61,11 +61,11 @@
 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
                     <Label>Title:</Label>
-                    <TextBox Text="{Binding ActivePostMetadata.Title}"  Style="{StaticResource HeaderStyle}" />
+                    <TextBox Text="{Binding ActivePostMetadata.Title}"  Style="{StaticResource HeaderStyle}" SpellCheck.IsEnabled="True"/>
 
                     <Label Margin="0,10,0,0"  IsEnabled="{Binding IsAbstractVisible}">Abstract:</Label>
                     <TextBox TextWrapping="Wrap" Height="100"
-                	Text="{Binding ActivePostMetadata.Abstract}" IsEnabled="{Binding IsAbstractVisible}"   />
+                	Text="{Binding ActivePostMetadata.Abstract}" IsEnabled="{Binding IsAbstractVisible}" SpellCheck.IsEnabled="True"   />
 
                     <Label Margin="0,10,0,0" IsEnabled="{Binding IsCategoriesVisible}">Categories:</Label>
                     <TextBox  Text="{Binding ActivePostMetadata.Categories}" IsEnabled="{Binding IsCategoriesVisible}"  />
