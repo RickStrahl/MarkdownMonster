@@ -224,6 +224,9 @@ namespace WeblogAddin
         {
             get
             {
+                if (_WeblogNames.Count == 0)
+                    LoadWebLognames();
+
                 return _WeblogNames;
             }
             set

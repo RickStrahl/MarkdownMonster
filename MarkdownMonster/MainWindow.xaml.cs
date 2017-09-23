@@ -1455,21 +1455,12 @@ namespace MarkdownMonster
 				var editor = GetActiveMarkdownEditor();
 				editor.MarkdownDocument.CurrentText = markdown;
 				PreviewMarkdown();
-			}
-			else if (button == ButtonNewWeblogPost)
-			{
-				AddinManager.Current.RaiseOnNotifyAddin("newweblogpost", null);
-			}
+			}		    
 			else if (button == ButtonExit)
 			{
 				Close();
 			}
-			else if (button == MenuAddinManager)
-			{
-				var form = new AddinManagerWindow();
-				form.Owner = this;
-				form.Show();
-			}
+			
 			else if (button == MenuOpenConfigFolder)
 			{
 				ShellUtils.GoUrl(mmApp.Configuration.CommonFolder);
@@ -1749,7 +1740,25 @@ namespace MarkdownMonster
 			PreviewMarkdownAsync();
 		}
 
-		private void MarkdownParserName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	    private void AppTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	    {
+	        if (DateTime.UtcNow < mmApp.Started.AddSeconds(7))
+	            return;
+
+	        if (MessageBox.Show(
+	                "Application theme changes require that you restart.\r\n\r\nDo you want to restart Markdown Monster?",
+	                "Theme Change", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) ==
+	            MessageBoxResult.Yes)
+	        {
+	            mmApp.Configuration.Write();
+	            Close();
+	            mmFileUtils.ExecuteProcess(Path.Combine(Environment.CurrentDirectory, "MarkdownMonster.exe"), "");                
+	        }
+
+
+	    }
+
+	    private void MarkdownParserName_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (mmApp.Configuration != null && !string.IsNullOrEmpty(mmApp.Configuration.MarkdownOptions.MarkdownParserName))
 			{
@@ -1945,6 +1954,6 @@ namespace MarkdownMonster
 			}
 		}
 
-		#endregion
+        #endregion
 	}
 }

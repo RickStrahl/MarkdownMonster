@@ -52,6 +52,8 @@ namespace MarkdownMonster
     /// </summary>
     public class AppModel : INotifyPropertyChanged
     {
+     
+        
 
         #region Top Level Model Properties
 
@@ -204,6 +206,11 @@ namespace MarkdownMonster
             }
         }
 
+        /// <summary>
+        /// Commands
+        /// </summary>
+        public AppCommands Commands { get; } 
+
         #endregion
 
 
@@ -342,14 +349,17 @@ namespace MarkdownMonster
 
         public AppModel(MainWindow window)
         {
-
+            
             Configuration = mmApp.Configuration;
             _openDocuments = new List<MarkdownDocument>();
             Window = window;
 
+            Commands = new AppCommands(this);
             CreateCommands();
 
             mmApp.Model = this;
+            
+
         }
 
         #endregion

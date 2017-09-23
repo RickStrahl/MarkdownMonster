@@ -9,6 +9,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"					  
         TitlebarHeight="35"
         Name="MainApplicationWindow"                      
@@ -41,6 +42,12 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <ObjectDataProvider x:Key="ApplicationThemeEnums"
+                            MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:Themes"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
 
         <ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
             <MenuItem Header="_Close Document" Command="{Binding DataContext.CloseActiveDocumentCommand}" />
@@ -142,7 +149,7 @@
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File" Name="MenuFile" x:FieldModifier="public" >
                 <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding NewDocumentCommand}" InputGestureText="ctrl-n"/>
-                <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Click="Button_Handler" />
+                <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Command="{Binding Commands.NewWeblogPostCommand}" />
                 <Separator/>
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding OpenDocumentCommand}"  InputGestureText="ctrl-o"/>
                 <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
@@ -209,7 +216,7 @@
                           InputGestureText="ctrl-h" />
             </MenuItem>
             <MenuItem Header="_Tools">                 
-                <MenuItem Name="MenuAddinManager" Header="_Add-in Manager" Click="Button_Handler" />
+                <MenuItem Name="MenuAddinManager" Header="_Add-in Manager" Command="{Binding Commands.AddinManagerCommand}"/>
                 <MenuItem Name="MenuAddins" Header="Add-ins" />
                 <Separator/>
                 <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler" />
@@ -490,13 +497,13 @@
             </Grid.RowDefinitions>
 
             <Image Source="Assets/MarkdownMonster.png" 
-                   Opacity="0.10"
+                   Opacity="0.12"
                    Width="1000" Grid.Column="0" 
                    VerticalAlignment="Center" Grid.Row="0" Panel.ZIndex="0"/>
 
             <TextBlock  FontSize="16" Grid.Row="0" Panel.ZIndex="10"
-                        VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-100,0,0" >                
-                <Run FontSize="43" Foreground="#FFFFF2BF" FontWeight="Bold">Markdown Monster</Run>
+                        VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-140,0,0" >                
+                <Run FontSize="43" Foreground="#999" FontWeight="Bold">Markdown Monster</Run>
                 <LineBreak />
                 <Run FontSize="20" FontWeight="SemiBold">Better Markdown Editing for Windows</Run>
                 <LineBreak />
@@ -509,7 +516,9 @@
                 <Run FontSize="20" FontWeight="Light">Start</Run>
                 <LineBreak />
                 <Hyperlink  Command="{Binding NewDocumentCommand}">  New Document</Hyperlink> - ctrl-n
-                <LineBreak />                                
+                <LineBreak />                                                
+                <Hyperlink  Command="{Binding Commands.NewWeblogPostCommand}">  New Weblog Post</Hyperlink>
+                <LineBreak />
                 <Hyperlink  Command="{Binding OpenDocumentCommand}">  Open Document...</Hyperlink> - ctrl-o
                 <LineBreak />                                
                 <!--<Hyperlink  Command="{Binding ShowFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
@@ -519,6 +528,8 @@
                 <Run FontSize="20" FontWeight="Light">Settings</Run>
                 <LineBreak />
                 <Hyperlink  Command="{Binding SettingsCommand}">  Configure Markdown Monster Settings</Hyperlink>
+                <LineBreak />
+                <Hyperlink  Command="{Binding Commands.AddinManagerCommand}">  Load Addin Manager</Hyperlink>
                 <LineBreak />
                 <LineBreak />
                 
@@ -609,8 +620,9 @@
                             <ColumnDefinition Width="100"/>
                             <!-- Markdown Parser column, width = 150 -->
                             <ColumnDefinition Width="{Binding MarkdownParserColumnWidth}"/>
-                            <ColumnDefinition Width="130" />
-                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
@@ -642,6 +654,17 @@
 
             </StatusBarItem>
             <StatusBarItem Grid.Column="6">
+                <ComboBox  HorizontalAlignment="Right"  Width="70" ToolTip="Application Themes"  
+                           Name="ComboBoxAppTheme"
+                           IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
+                           SelectedValue="{Binding Configuration.ApplicationTheme}"   
+                           ItemsSource="{Binding Source={StaticResource ApplicationThemeEnums}}"
+                           SelectionChanged="AppTheme_SelectionChanged"
+                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"                           
+                />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="7">
+                
                 <ComboBox  HorizontalAlignment="Right"  Width="125" ToolTip="Editor Themes"
                            SelectedItem="{Binding Configuration.EditorTheme}"
                            IsSynchronizedWithCurrentItem="True"                            
@@ -649,7 +672,7 @@
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="7">
+            <StatusBarItem Grid.Column="8">
                 <ComboBox  HorizontalAlignment="Right"  Width="125"
                            ToolTip="Preview rendering Themes"
                            SelectedItem="{Binding Configuration.RenderTheme}" 
@@ -659,7 +682,7 @@
                            SelectionChanged="RenderTheme_SelectionChanged" />
 
             </StatusBarItem>
-            <StatusBarItem Grid.Column="8">
+            <StatusBarItem Grid.Column="9">
                 <ComboBox  HorizontalAlignment="Right"  Width="44" ToolTip="Preview sync mode"  
                            Name="ComboBoxPreviewSyncModes"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
@@ -673,11 +696,13 @@
                 </ComboBox>
             </StatusBarItem>
 
-            <StatusBarItem Grid.Column="9">
+            <StatusBarItem Grid.Column="10">
                 <Button Name="ButtonStatusEncrypted" Margin="0,0,15,0" Click="Button_Handler" 
                     ToolTip="Encrypted"
-                    fa:Awesome.Content="Lock" Visibility="{Binding ActiveDocument.IsEncrypted, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    BorderThickness="0"                    
+                    fa:Awesome.Content="Lock" 
+                    Visibility="{Binding ActiveDocument.IsEncrypted, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    BorderThickness="0" 
+                    IsEnabled="{Binding IsEditorActive}"                   
                     TextElement.FontSize="12"
                     TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
             </StatusBarItem>

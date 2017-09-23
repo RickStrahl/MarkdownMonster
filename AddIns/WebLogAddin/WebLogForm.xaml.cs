@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -54,12 +55,22 @@ namespace WeblogAddin
 
         private void WebLogStart_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-			//Model.LoadWebLognames();
+            //Model.LoadWebLognames();
 
-			var editor = Model.AppModel.ActiveEditor;
-	        if (editor == null)
-		        return;
+            
+            // Code bindings
+            ComboWeblogType.ItemsSource = Enum.GetValues(typeof(WeblogTypes)).Cast<WeblogTypes>();
 
+            var editor = Model.AppModel.ActiveEditor;
+
+            if (editor == null)
+            {
+                Model.ActivePostMetadata.Abstract = "NEW POST";
+                DataContext = Model;
+                Debug.WriteLine(Model.ActivePostMetadata.Abstract + " Names Count: " + Model.WeblogNames.Count);
+                return;
+            }
+		        
 	        var markdown = editor.GetMarkdown();
 	        Model.ActivePostMetadata = WeblogPostMetadata.GetPostConfigFromMarkdown(markdown, Model.ActivePost, Model.ActiveWeblogInfo);
 	        
@@ -72,9 +83,6 @@ namespace WeblogAddin
             if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))
                 Model.ActivePostMetadata.WeblogName = lastBlog;
 	        
-			// Code bindings
-	        ComboWeblogType.ItemsSource = Enum.GetValues(typeof(WeblogTypes)).Cast<WeblogTypes>();
-
 			// have to do this here otherwise MetadataCustomFields is not updating in model
 	        DataContext = Model;
 		}
