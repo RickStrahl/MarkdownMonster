@@ -14,7 +14,7 @@
 		<HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
 			<StackPanel MouseDown="TreeViewItem_MouseDoubleClick">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding Icon}" Height="15" Width="Auto" Margin="5,0,5,0" Visibility="{Binding IsFile, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <Image Source="{Binding Icon}"  Height="16" Width="Auto" Margin="5,0,5,0" Visibility="{Binding IsFile, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <TextBlock Name="TextFileOrFolderName" Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
 				           Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
 						   MouseEnter="TextFileOrFolderName_MouseEnter" 
