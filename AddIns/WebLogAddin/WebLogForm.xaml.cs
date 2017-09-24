@@ -55,8 +55,6 @@ namespace WeblogAddin
 
         private void WebLogStart_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            //Model.LoadWebLognames();
-
             
             // Code bindings
             ComboWeblogType.ItemsSource = Enum.GetValues(typeof(WeblogTypes)).Cast<WeblogTypes>();
@@ -65,9 +63,7 @@ namespace WeblogAddin
 
             if (editor == null)
             {
-                Model.ActivePostMetadata.Abstract = "NEW POST";
                 DataContext = Model;
-                Debug.WriteLine(Model.ActivePostMetadata.Abstract + " Names Count: " + Model.WeblogNames.Count);
                 return;
             }
 		        
