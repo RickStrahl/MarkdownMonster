@@ -1853,7 +1853,7 @@ namespace MarkdownMonster
 			StatusIcon.Icon = icon;
 			StatusIcon.Foreground = new SolidColorBrush(color);
 			if (spin)
-				StatusIcon.SpinDuration = 3;            
+				StatusIcon.SpinDuration = 1;            
 
 			StatusIcon.Spin = spin;
 		}

@@ -84,7 +84,7 @@ namespace MarkdownMonster.Windows
         /// <summary>
         /// Internal value
         /// </summary>
-        private FolderStructure FolderStructure { get; set; } = new FolderStructure();
+        private FolderStructure FolderStructure { get; } = new FolderStructure();
         
         #region Initialization
 

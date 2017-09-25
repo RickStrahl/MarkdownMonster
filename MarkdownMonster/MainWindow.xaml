@@ -488,20 +488,46 @@
         </StackPanel>
 
 
-        <Grid Grid.Row="2" HorizontalAlignment="Center"  VerticalAlignment="Center" 
-              Visibility="{Binding IsNoTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+        
 
+        <Grid Name="ContentGrid" Grid.Row="2"  >
+            <Grid.ColumnDefinitions>
+				<ColumnDefinition Name="FolderBrowserColumn" Width="0" />
+	            <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="0" />
+                <ColumnDefinition Name="MainWindowEditorColumn" Width="*"  />
+                <ColumnDefinition Name="MainWindowSeparatorColumn" Width="0" controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}" />
+                <ColumnDefinition Name="MainWindowPreviewColumn"  Width="0"  controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}" />
+            </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+            <localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
+            </localwindows:FolderBrowerSidebar>
 
-            <Image Source="Assets/MarkdownMonster.png" 
+			<GridSplitter Grid.Column="1"                               
+			              HorizontalAlignment="Center"                          
+			              BorderThickness="0" IsTabStop="False"
+			              VerticalAlignment="Stretch">
+				<GridSplitter.Template>
+					<ControlTemplate TargetType="{x:Type GridSplitter}">
+						<Grid Background="Transparent">
+							<Image Source="Assets/vsizegrip.png" Height="30" VerticalAlignment="Center" />
+						</Grid>
+					</ControlTemplate>
+				</GridSplitter.Template>
+			</GridSplitter>
+
+            <Grid Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center" 
+                  Visibility="{Binding IsNoTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}"  >
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Image Source="Assets/MarkdownMonster.png" 
                    Opacity="0.12"
                    Width="1000" Grid.Column="0" 
                    VerticalAlignment="Center" Grid.Row="0" Panel.ZIndex="0"/>
 
-            <TextBlock  FontSize="16" Grid.Row="0" Panel.ZIndex="10"
+                <TextBlock  FontSize="16" Grid.Row="0" Panel.ZIndex="10"
                         VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-140,0,0" >                
                 <Run FontSize="43" Foreground="#999" FontWeight="Bold">Markdown Monster</Run>
                 <LineBreak />
@@ -538,34 +564,8 @@
                 
                 <Run Name="RecentPlaceHolder">                    
                 </Run>-->
-            </TextBlock>
-        </Grid>
-
-        <Grid Name="ContentGrid" Grid.Row="2"  Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-				<ColumnDefinition Name="FolderBrowserColumn" Width="0" />
-	            <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="0" />
-				<ColumnDefinition Name="MainWindowEditorColumn" Width="*" />
-                <ColumnDefinition Name="MainWindowSeparatorColumn" Width="0" />
-                <ColumnDefinition Name="MainWindowPreviewColumn"  Width="0" />
-            </Grid.ColumnDefinitions>
-
-		<localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
-		</localwindows:FolderBrowerSidebar>
-
-			<GridSplitter Grid.Column="1"                               
-			              HorizontalAlignment="Center"                          
-			              BorderThickness="0" IsTabStop="False"
-			              VerticalAlignment="Stretch">
-				<GridSplitter.Template>
-					<ControlTemplate TargetType="{x:Type GridSplitter}">
-						<Grid Background="Transparent">
-							<Image Source="Assets/vsizegrip.png" Height="30" VerticalAlignment="Center" />
-						</Grid>
-					</ControlTemplate>
-				</GridSplitter.Template>
-			</GridSplitter>
-
+                </TextBlock>
+            </Grid>
 
             <dragablz:TabablzControl x:Name="TabControl" Grid.Column="2"
                                      Margin="0,5,0,0"
@@ -574,13 +574,16 @@
                                      BorderThickness="0"
                                      ShowDefaultCloseButton="True"                                     
                                      ShowDefaultAddButton="False"
-                                     SelectionChanged="TabControl_SelectionChanged" />
+                                     SelectionChanged="TabControl_SelectionChanged" 
+                                     Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}" />
             
 
-            <GridSplitter Grid.Column="3"                                                                        
+            <GridSplitter Grid.Column="4"                                                                        
                           HorizontalAlignment="Center"                          
                           BorderThickness="0" IsTabStop="False"                          
-                          VerticalAlignment="Stretch">
+                          VerticalAlignment="Stretch" 
+                          
+                          >
                 <GridSplitter.Template>
                     <ControlTemplate TargetType="{x:Type GridSplitter}">
                         <Grid Background="Transparent">
@@ -592,6 +595,7 @@
 
             <WebBrowser Grid.Column="4" Name="PreviewBrowser"
                         VerticalAlignment="Stretch"  SizeChanged="PreviewBrowser_SizeChanged">
+
                 <WebBrowser.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
