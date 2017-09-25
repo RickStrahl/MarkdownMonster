@@ -24,11 +24,12 @@ namespace MarkdownMonster.Utilities
     {
         private Dictionary<string,ImageSource> Icons = new Dictionary<string,ImageSource>();
 
-        public static ImageSource DefaultIcon = null;
+        public static ImageSource DefaultIcon;
+
 
         static AssociatedIcons()
         {
-            DefaultIcon = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor", "fileicons", "default_file.png")));            
+            DefaultIcon = new BitmapImage(new Uri("pack://application:,,,/MarkdownMonster;component/Assets/default_file.png"));         
         }
 
         /// <summary>
