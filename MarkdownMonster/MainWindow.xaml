@@ -42,6 +42,8 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <localwindows:BooleanToCollapsedVisibilityConverter x:Key="BooleanToCollapsedVisibilityConverter" />
+        
         <ObjectDataProvider x:Key="ApplicationThemeEnums"
                             MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -493,10 +495,10 @@
         <Grid Name="ContentGrid" Grid.Row="2"  >
             <Grid.ColumnDefinitions>
 				<ColumnDefinition Name="FolderBrowserColumn" Width="0" />
-	            <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="0" />
+                <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="0" />
                 <ColumnDefinition Name="MainWindowEditorColumn" Width="*"  />
-                <ColumnDefinition Name="MainWindowSeparatorColumn" Width="0" controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}" />
-                <ColumnDefinition Name="MainWindowPreviewColumn"  Width="0"  controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}" />
+                <ColumnDefinition Name="MainWindowSeparatorColumn" Width="0" />
+                <ColumnDefinition Name="MainWindowPreviewColumn"  Width="0"   />
             </Grid.ColumnDefinitions>
 
             <localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
@@ -576,13 +578,12 @@
                                      ShowDefaultAddButton="False"
                                      SelectionChanged="TabControl_SelectionChanged" 
                                      Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            
 
-            <GridSplitter Grid.Column="4"                                                                        
+            <GridSplitter Grid.Column="3"                                                                        
                           HorizontalAlignment="Center"                          
-                          BorderThickness="0" IsTabStop="False"                          
-                          VerticalAlignment="Stretch" 
-                          
+                          BorderThickness="0" IsTabStop="False"
+                          VerticalAlignment="Stretch"
+                          Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}"
                           >
                 <GridSplitter.Template>
                     <ControlTemplate TargetType="{x:Type GridSplitter}">
@@ -594,8 +595,9 @@
             </GridSplitter>
 
             <WebBrowser Grid.Column="4" Name="PreviewBrowser"
-                        VerticalAlignment="Stretch"  SizeChanged="PreviewBrowser_SizeChanged">
-
+                        VerticalAlignment="Stretch"  SizeChanged="PreviewBrowser_SizeChanged"                        
+                        Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+                
                 <WebBrowser.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />

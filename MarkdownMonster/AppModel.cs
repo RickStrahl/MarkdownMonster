@@ -137,13 +137,25 @@ namespace MarkdownMonster
         /// </summary>
         public bool IsTabOpen
         {
-            get { return Window.TabControl.Items.Count > 0; }
+            get
+            {
+                return  Window.TabControl.Items.Count > 0;
+            }
         }
         public bool IsNoTabOpen
         {
-            get { return Window.TabControl.Items.Count < 1; }
+            get
+            {
+                bool value = Window.TabControl.Items.Count < 1;
+                if (value)
+                {
+                    var zeroWidth = new GridLength(0);
+                    Window.MainWindowPreviewColumn.Width = zeroWidth;
+                    Window.MainWindowSeparatorColumn.Width = zeroWidth;
+                }
+                return value;
+            }
         }
-
         private bool _isTabOpen;
 
         #endregion
