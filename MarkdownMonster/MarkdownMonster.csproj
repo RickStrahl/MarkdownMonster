@@ -343,7 +343,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Resource Include="Assets\defaulticon.png" />
     <None Include="Editor\fileicons\config.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -359,9 +358,7 @@
     <None Include="Editor\fileicons\data.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Editor\fileicons\default_file.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Resource Include="Assets\default_file.png" />
     <None Include="Editor\fileicons\folder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

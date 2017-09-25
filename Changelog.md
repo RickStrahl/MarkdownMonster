@@ -9,7 +9,8 @@
 * **New Startup Page**  
 Add startup page when no tabs are open. Page allows New and open document and access to Folder Browser.
 
-* 
+* **Application Theme Selector on Statusbar**   
+You can now switch the application theme between **Light** and **Dark** themes using a dropdown on the status bar. Selection optionally prompts to restart for changes to be applied.
 
 ### 1.6.5
 *<small>September 20th, 2017</small>*
