@@ -7,10 +7,13 @@
 *<small>not released yet</small>*
 
 * **New Startup Page**  
-Add startup page when no tabs are open. Page allows New and open document and access to Folder Browser.
+Add startup page that links to common operations when no tabs are open in the editor. 
 
 * **Application Theme Selector on Statusbar**   
 You can now switch the application theme between **Light** and **Dark** themes using a dropdown on the status bar. Selection optionally prompts to restart for changes to be applied.
+
+* **Spellcheck for Weblog Posting Dialog**  
+You now get spellchecking when posting new Weblog posts for abstract and title.
 
 ### 1.6.5
 *<small>September 20th, 2017</small>*

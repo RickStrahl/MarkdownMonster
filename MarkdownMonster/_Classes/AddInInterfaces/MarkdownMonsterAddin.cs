@@ -128,7 +128,7 @@ namespace MarkdownMonster.AddIns
         /// <remarks>
         /// Fires very early in the load cycle and therefore has no access
         /// to the App Model or UI. If you require access to Model or UI
-        /// override OnWindowLoaded instead.
+        /// override `OnWindowLoaded()` instead.
         /// </remarks>
         public virtual void OnApplicationStart()
         {
@@ -136,9 +136,12 @@ namespace MarkdownMonster.AddIns
         }
 
         /// <summary>
-        /// Fired when the main application window has been loaded
-        /// Use this event to attach any behaviors/events etc. that
-        /// need access to the window and hydrated Model data
+        /// Fired when the main application window has been loaded and the
+        /// main Markdown Monster Application Model is available. 
+        ///
+        /// Use this method to ensure that Model and UI are available, 
+        /// often in combination with `OnApplicationStart()` and `GetMarkdownParser()`
+        /// which fire before the Model or UI are active.
         /// </summary>
         public virtual void OnWindowLoaded()
         {
