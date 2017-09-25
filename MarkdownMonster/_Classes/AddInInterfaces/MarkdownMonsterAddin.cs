@@ -123,8 +123,13 @@ namespace MarkdownMonster.AddIns
         /// Called when the application starts and after the AddinManager
         /// has initialized.
         /// 
-        /// Use this handler to add new menu items to the Addin Toolbar         
+        /// Use this handler to add new menu items to the Addin Toolbar.                       
         /// </summary>
+        /// <remarks>
+        /// Fires very early in the load cycle and therefore has no access
+        /// to the App Model or UI. If you require access to Model or UI
+        /// override OnWindowLoaded instead.
+        /// </remarks>
         public virtual void OnApplicationStart()
         {
           
@@ -133,7 +138,7 @@ namespace MarkdownMonster.AddIns
         /// <summary>
         /// Fired when the main application window has been loaded
         /// Use this event to attach any behaviors/events etc. that
-        /// need access to the window
+        /// need access to the window and hydrated Model data
         /// </summary>
         public virtual void OnWindowLoaded()
         {
