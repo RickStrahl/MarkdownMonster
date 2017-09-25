@@ -45,10 +45,12 @@
                                  >
             <dragablz:TabablzControl.Resources>
                 <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                    <Setter Property="controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
                     <Setter Property="FontSize" Value="14" />
                     <Setter Property="Padding" Value="5,3,5,5" />
                 </Style>
                 <Style x:Key="HeaderStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                    <Setter Property="controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
                     <Setter Property="FontSize" Value="17" />
                     <Setter Property="FontWeight" Value="Bold" />
                     <Setter Property="Foreground" Value="SteelBlue" />
