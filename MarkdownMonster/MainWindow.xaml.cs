@@ -131,7 +131,9 @@ namespace MarkdownMonster
 			InitializeComponent();
 
 			Model = new AppModel(this);
-			DataContext = Model;
+		    AddinManager.Current.RaiseOnModelLoaded(Model);
+
+            DataContext = Model;
             
 			InitializePreviewBrowser();
             

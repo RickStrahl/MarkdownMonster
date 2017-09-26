@@ -305,13 +305,13 @@ namespace MarkdownMonster.AddIns
             }
         }
 
-        public void RaiseOnModelLoaded()
+        public void RaiseOnModelLoaded(AppModel model)
         {
             foreach (var addin in AddIns)
             {
                 try
                 {
-                    addin?.OnModelLoaded();
+                    addin?.OnModelLoaded(model);
                 }
                 catch (Exception ex)
                 {
