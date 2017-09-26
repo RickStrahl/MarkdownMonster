@@ -517,6 +517,17 @@
 				</GridSplitter.Template>
 			</GridSplitter>
 
+
+            <dragablz:TabablzControl x:Name="TabControl" Grid.Column="2"
+                                     Margin="0,5,0,0"
+                                     FontSize="13"
+                                     Background="#222"
+                                     BorderThickness="0"
+                                     ShowDefaultCloseButton="True"                                     
+                                     ShowDefaultAddButton="False"
+                                     SelectionChanged="TabControl_SelectionChanged" 
+                                     Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            
             <Grid Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"  
                   Visibility="{Binding IsNoTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}"  >
 
@@ -584,15 +595,7 @@
                 
             </Grid>
 
-            <dragablz:TabablzControl x:Name="TabControl" Grid.Column="2"
-                                     Margin="0,5,0,0"
-                                     FontSize="13"
-                                     Background="#222"
-                                     BorderThickness="0"
-                                     ShowDefaultCloseButton="True"                                     
-                                     ShowDefaultAddButton="False"
-                                     SelectionChanged="TabControl_SelectionChanged" 
-                                     Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}" />
+   
 
             <GridSplitter Grid.Column="3"                                                                        
                           HorizontalAlignment="Center"                          

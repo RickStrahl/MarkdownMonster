@@ -1773,6 +1773,10 @@ namespace MarkdownMonster
 	        if (DateTime.UtcNow < mmApp.Started.AddSeconds(7))
 	            return;
 
+
+	        if (mmApp.Configuration.ApplicationTheme == Themes.Default)
+	            mmApp.Configuration.ApplicationTheme = Themes.Dark;
+
 	        if (MessageBox.Show(
 	                "Application theme changes require that you restart.\r\n\r\nDo you want to restart Markdown Monster?",
 	                "Theme Change", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) ==
@@ -1781,9 +1785,7 @@ namespace MarkdownMonster
 	            mmApp.Configuration.Write();
 	            Close();
 	            mmFileUtils.ExecuteProcess(Path.Combine(Environment.CurrentDirectory, "MarkdownMonster.exe"), "");                
-	        }
-
-
+	        }            
 	    }
 
 	    private void MarkdownParserName_SelectionChanged(object sender, SelectionChangedEventArgs e)
