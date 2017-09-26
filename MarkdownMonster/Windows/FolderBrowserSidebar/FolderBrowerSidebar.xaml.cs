@@ -131,14 +131,14 @@ namespace MarkdownMonster.Windows
                 if (setFocus)
                     TreeFolderBrowser.Focus();
 
-            }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+            }, DispatcherPriority.ApplicationIdle);
         }
 
         private void ButtonUseCurrentFolder_Click(object sender, RoutedEventArgs e)
         {
             var doc = mmApp.Model.ActiveDocument;
             if (doc != null)
-                FolderPath = System.IO.Path.GetDirectoryName(doc.Filename);
+                FolderPath = Path.GetDirectoryName(doc.Filename);
 
             SetTreeFromFolder(FolderPath, true);
         }
@@ -151,7 +151,7 @@ namespace MarkdownMonster.Windows
             {
                 folder = mmApp.Model.ActiveDocument?.Filename;
                 if (string.IsNullOrEmpty(folder))
-                    folder = System.IO.Path.GetDirectoryName(folder);
+                    folder = Path.GetDirectoryName(folder);
                 else
                     folder = KnownFolders.GetPath(KnownFolder.Libraries);
             }
@@ -302,9 +302,9 @@ namespace MarkdownMonster.Windows
             if (fileItem == null)
                 return;
 
-            string oldFilename = System.IO.Path.GetFileName(fileItem.FullPath);
-            string oldPath = System.IO.Path.GetDirectoryName(fileItem.FullPath);
-            string newPath = System.IO.Path.Combine(oldPath, fileItem.EditName);
+            string oldFilename = Path.GetFileName(fileItem.FullPath);
+            string oldPath = Path.GetDirectoryName(fileItem.FullPath);
+            string newPath = Path.Combine(oldPath, fileItem.EditName);
 
             if (newPath != fileItem.FullPath)
             {
@@ -434,8 +434,9 @@ namespace MarkdownMonster.Windows
                 //File.Delete(selected.FullPath);
 
                 // Recyle Bin Code can handle both files and directories
-                mmFileUtils.MoveToRecycleBin(selected.FullPath);
-
+                if (!mmFileUtils.MoveToRecycleBin(selected.FullPath))
+                    return;
+                
                 var parent = selected.Parent;
 
                 var file = parent?.Files?.FirstOrDefault(fl => fl.FullPath == selected.FullPath);
@@ -678,6 +679,14 @@ namespace MarkdownMonster.Windows
 
             overImage = selected.FullPath;
 
+            if (string.IsNullOrEmpty(overImage))
+                return;
+           
+            var ext = Path.GetExtension(overImage).ToLower();
+            if (ext != ".jpg" && ext != ".png" && ext != ".gif" && ext != ".jpeg")
+                return;
+
+
             Dispatcher.Delay(600, imageFile =>
             {
                 if (string.IsNullOrEmpty(overImage) || overImage != (string) imageFile)
@@ -685,7 +694,15 @@ namespace MarkdownMonster.Windows
 
                 try
                 {
-                    ImagePreview.Source = new BitmapImage(new Uri((string) imageFile));
+                    
+                    var bmp = new BitmapImage();
+                    bmp.BeginInit();
+                    bmp.CacheOption = BitmapCacheOption.OnLoad;
+                    bmp.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                    bmp.UriSource = new Uri((string)imageFile);
+                    bmp.EndInit();
+
+                    ImagePreview.Source = bmp;
                     PopupImagePreview.IsOpen = true;
                 }
                 catch

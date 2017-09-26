@@ -202,14 +202,36 @@ namespace MarkdownMonster
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         static extern uint GetLongPathName(string ShortPath, StringBuilder sb, int buffer);
 
-		/// <summary>
-		/// Retrieves the editor syntax for a file based on extension for use in the editor
-		/// 
-		/// Unknown file types returning null
-		/// </summary>
-		/// <param name="filename"></param>
-		/// <returns></returns>
-		public static string GetEditorSyntaxFromFileType(string filename)
+
+        /// <summary>
+        /// Returns a compact path with elipsis from a long path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static string GetCompactPath(string path, int length = 70)
+        {
+
+            if (string.IsNullOrEmpty(path))
+                return path;
+
+            StringBuilder sb = new StringBuilder(length + 1);
+            PathCompactPathEx(sb, path, 70, 0);
+            return sb.ToString();
+        }
+
+        [DllImport("shlwapi.dll", CharSet = CharSet.Auto)]
+        static extern bool PathCompactPathEx([Out] StringBuilder pszOut, string szPath, int cchMax, int dwFlags);
+
+
+        /// <summary>
+        /// Retrieves the editor syntax for a file based on extension for use in the editor
+        /// 
+        /// Unknown file types returning null
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static string GetEditorSyntaxFromFileType(string filename)
 	    {
 		    if (string.IsNullOrEmpty(filename))
 			    return null;
