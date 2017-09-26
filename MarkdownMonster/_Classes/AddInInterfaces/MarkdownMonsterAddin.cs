@@ -135,9 +135,22 @@ namespace MarkdownMonster.AddIns
           
         }
 
+
+        /// <summary>
+        /// Fired when the application has Initialized the Model. This happens
+        /// after OnApplicationStart() but before OnWindowLoaded() and allows
+        /// you to access the Model before initial data binding of the Window 
+        /// occurs.
+        /// </summary>
+        /// <param name="model">Instance of the Markdown Monster Application Model</param>
+        public virtual void OnModelLoaded(AppModel model)
+        {            
+        }
+
         /// <summary>
         /// Fired when the main application window has been loaded and the
         /// main Markdown Monster Application Model is available. 
+        /// Access the Window with mmApp.Model.Window.
         ///
         /// Use this method to ensure that Model and UI are available, 
         /// often in combination with `OnApplicationStart()` and `GetMarkdownParser()`

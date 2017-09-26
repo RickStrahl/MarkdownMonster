@@ -15,6 +15,9 @@ You can now switch the application theme between **Light** and **Dark** themes u
 * **Spellcheck for Weblog Posting Dialog**  
 You now get spellchecking when posting new Weblog posts for abstract and title.
 
+* **MarkdownMonsterAddin.OnModelLoaded() Handler**  
+Added another lifecycle event that notifies you when the App model is ready to be accessed. This event is fired before the form has fully rendered the model so it allows you to intercept the model before the initial form is rendered.  This event fires after `OnApplicationStarted()` (which has no model access) and before `OnWindowLoaded()` which fires once the form is active and all Addins have loaded.
+
 ### 1.6.5
 *<small>September 20th, 2017</small>*
 

@@ -305,6 +305,21 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+        public void RaiseOnModelLoaded()
+        {
+            foreach (var addin in AddIns)
+            {
+                try
+                {
+                    addin?.OnModelLoaded();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::OnModelLoaded Error: " + ex.GetBaseException().Message);
+                }
+            }
+        }
+
         public void RaiseOnWindowLoaded()
         {
             foreach (var addin in AddIns)
@@ -315,7 +330,7 @@ namespace MarkdownMonster.AddIns
                 }
                 catch (Exception ex)
                 {
-                    mmApp.Log(addin.Id + "::AddIn::OnApplicationStart Error: " + ex.GetBaseException().Message);
+                    mmApp.Log(addin.Id + "::AddIn::OnWindowLoaded Error: " + ex.GetBaseException().Message);
                 }
             }
         }
