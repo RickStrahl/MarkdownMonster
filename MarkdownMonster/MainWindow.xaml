@@ -20,7 +20,7 @@
         ResizeMode="CanResizeWithGrip"		
 		FontSize="13"
         Height="740" Width="1100"  
-        MinWidth="800" MinHeight="600" 
+        MinWidth="800" MinHeight="640" 
         WindowTransitionsEnabled="False">
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt+Shift"
@@ -517,7 +517,7 @@
 				</GridSplitter.Template>
 			</GridSplitter>
 
-            <Grid Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center" 
+            <Grid Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"  
                   Visibility="{Binding IsNoTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}"  >
 
                 <Grid.RowDefinitions>
@@ -525,35 +525,36 @@
                 </Grid.RowDefinitions>
 
                 <Image Source="Assets/MarkdownMonster.png" 
-                   Opacity="0.12"
-                   Width="1000" Grid.Column="0" 
-                   VerticalAlignment="Center" Grid.Row="0" Panel.ZIndex="0"/>
+                   Opacity="0.08" 
+                   Width="Auto" 
+                   VerticalAlignment="Center" 
+                   Grid.Row="0" Panel.ZIndex="0"/>
 
                 <TextBlock  FontSize="16" Grid.Row="0" Panel.ZIndex="10"
-                        VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-140,0,0" >                
-                <Run FontSize="43" Foreground="#999" FontWeight="Bold">Markdown Monster</Run>
+                        VerticalAlignment="Center" HorizontalAlignment="Center" >                
+                <Run FontSize="44" Foreground="#9F9F9F" FontWeight="Bold">Markdown Monster</Run>
                 <LineBreak />
                 <Run FontSize="20" FontWeight="SemiBold">Better Markdown Editing for Windows</Run>
                 <LineBreak />
                 
                 <LineBreak />
                 <Run>Here are a few things you can do:</Run>
-                <LineBreak />
-                <LineBreak />            
-                
-                <Run FontSize="20" FontWeight="Light">Start</Run>
+                <LineBreak />          
+                <LineBreak />          
+                    
+                <Run FontSize="20" FontWeight="DemiBold">Start</Run>
                 <LineBreak />
                 <Hyperlink  Command="{Binding NewDocumentCommand}">  New Document</Hyperlink> - ctrl-n
                 <LineBreak />                                                
                 <Hyperlink  Command="{Binding Commands.NewWeblogPostCommand}">  New Weblog Post</Hyperlink>
                 <LineBreak />
                 <Hyperlink  Command="{Binding OpenDocumentCommand}">  Open Document...</Hyperlink> - ctrl-o
-                <LineBreak />                                
-                <!--<Hyperlink  Command="{Binding ShowFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
-                <LineBreak />-->
+                <LineBreak />             
+                <Hyperlink  Command="{Binding ShowFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
+                <LineBreak />
                 <LineBreak/>
                 
-                <Run FontSize="20" FontWeight="Light">Settings</Run>
+                <Run FontSize="20" FontWeight="DemiBold" >Settings</Run>
                 <LineBreak />
                 <Hyperlink  Command="{Binding SettingsCommand}">  Configure Markdown Monster Settings</Hyperlink>
                 <LineBreak />
@@ -561,12 +562,26 @@
                 <LineBreak />
                 <LineBreak />
                 
-                <!--<Run FontSize="20" FontWeight="SemiBold">Recent</Run>
-                <LineBreak />
                 
-                <Run Name="RecentPlaceHolder">                    
-                </Run>-->
+                <Run FontSize="20" FontWeight="DemiBold">Recent</Run>
+                <LineBreak />                    
+                    <StackPanel Name="StartPageRecentItems">       
+                        <ItemsControl ItemsSource="{Binding Window.RecentDocumentList}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="0,3,0,0">
+                                        
+                                        
+                                        <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding Filename}"  >
+                                            <TextBlock Text="{Binding DisplayFilename}"    />
+                                        </Hyperlink>
+                                    </TextBlock>                                    
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>                        
+                    </StackPanel>
                 </TextBlock>
+                
             </Grid>
 
             <dragablz:TabablzControl x:Name="TabControl" Grid.Column="2"

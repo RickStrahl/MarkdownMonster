@@ -32,6 +32,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -65,37 +67,66 @@ using WebBrowser = System.Windows.Controls.WebBrowser;
 
 namespace MarkdownMonster
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : MetroWindow
-	{
-		public AppModel Model { get; set; }
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : MetroWindow
+    {
+        public AppModel Model { get; set; }
 
-		private NamedPipeManager PipeManager { get; set; }
+        private NamedPipeManager PipeManager { get; set; }
 
-		public IntPtr Hwnd
-		{
-			get
-			{
-				if (_hwnd == IntPtr.Zero)
-					_hwnd = new WindowInteropHelper(this).EnsureHandle();
+        public IntPtr Hwnd
+        {
+            get
+            {
+                if (_hwnd == IntPtr.Zero)
+                    _hwnd = new WindowInteropHelper(this).EnsureHandle();
 
-				return _hwnd;
-			}
-		}
+                return _hwnd;
+            }
+        }
 
-		private IntPtr _hwnd = IntPtr.Zero;
+        private IntPtr _hwnd = IntPtr.Zero;
 
-		private DateTime invoked = DateTime.MinValue;
+        private DateTime invoked = DateTime.MinValue;
 
-		/// <summary>
-		/// Handles WebBrowser configuration: DPI Awareness mainly!
-		/// </summary>
-		private WebBrowserHostUIHandler wbHandler;
+        /// <summary>
+        /// Handles WebBrowser configuration: DPI Awareness mainly!
+        /// </summary>
+        private WebBrowserHostUIHandler wbHandler;
 
 
-		public MainWindow()
+        public List<RecentDocumentListItem> RecentDocumentList
+        {
+            get
+            {
+
+                var list = Model.Configuration.RecentDocuments.Take(5);
+                var docs = new List<RecentDocumentListItem>();
+                foreach (var doc in list)
+                {
+                    docs.Add(new RecentDocumentListItem
+                    {
+                        Filename = doc,
+                        DisplayFilename = mmFileUtils.GetCompactPath(doc, 70)
+                    });
+                }                    
+                return docs;
+            }
+     
+        }
+
+        public class RecentDocumentListItem
+        {
+            public string Filename { get; set; }
+            public string DisplayFilename { get; set; }
+        }
+
+
+
+
+        public MainWindow()
 		{
 			InitializeComponent();
 
@@ -452,21 +483,16 @@ namespace MarkdownMonster
 				{
 					Header = file,
 				};
-
-				mi.Click += (object s, RoutedEventArgs ev) =>
-				{
-					OpenTab(file, rebindTabHeaders: true);
-
-					// TODO: Check this and make sure we get recent file added from tab of new tab selection
-					//AddRecentFile(file);
-				};
-				context.Items.Add(mi);
+			    mi.Command = Model.Commands.OpenRecentDocumentCommand;
+                mi.CommandParameter = file;
+	            context.Items.Add(mi);
 
 				var mi2 = new MenuItem()
 				{
 					Header = file,
 				};
-				mi2.Click += (object s, RoutedEventArgs ev) => OpenTab(file, rebindTabHeaders: true);
+			    mi2.Command = Model.Commands.OpenRecentDocumentCommand;
+			    mi2.CommandParameter = file;                
 				ButtonRecentFiles.Items.Add(mi2);
 			}
 			ToolbarButtonRecentFiles.ContextMenu = context;
@@ -989,7 +1015,7 @@ namespace MarkdownMonster
 			if (rebindTabHeaders)
 				BindTabHeaders();
 
-		    Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
+            Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
 		    Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
 
             return returnValue; // close
@@ -1156,6 +1182,8 @@ namespace MarkdownMonster
 			{
 			    if (folder == null)
 			        folder = FolderBrowser.FolderPath;
+			    if (folder == null)
+			        folder = mmApp.Configuration.LastFolder;
 
 			    Dispatcher.InvokeAsync(() =>
 			    {
