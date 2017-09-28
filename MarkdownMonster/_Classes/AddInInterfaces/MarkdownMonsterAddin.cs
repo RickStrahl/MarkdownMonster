@@ -32,7 +32,8 @@ using Westwind.Utilities;
 namespace MarkdownMonster.AddIns
 {
     /// <summary>
-    /// Addin Base class that exposes core functionality to the addin
+    /// Addin Base class that exposes core functionality to the addin.
+    ///     
     /// </summary>
     public abstract class MarkdownMonsterAddin : IMarkdownMonsterAddin
     {
@@ -144,7 +145,8 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         /// <param name="model">Instance of the Markdown Monster Application Model</param>
         public virtual void OnModelLoaded(AppModel model)
-        {            
+        {
+            Model = model;
         }
 
         /// <summary>
