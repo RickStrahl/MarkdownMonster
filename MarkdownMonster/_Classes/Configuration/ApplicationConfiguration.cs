@@ -672,8 +672,15 @@ namespace MarkdownMonster
             var commonFolder = CommonFolder;
             var cfFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");
             if (File.Exists(cfFile))
+            {
                 commonFolder = File.ReadAllText(cfFile);
-	        if (string.IsNullOrWhiteSpace(commonFolder))
+                if (!Directory.Exists(commonFolder))
+                {
+                    commonFolder = InternalCommonFolder;
+                    File.Delete(cfFile);
+                }
+            }
+            if (string.IsNullOrWhiteSpace(commonFolder))
 	        {
 		        commonFolder = CommonFolder;
 		        File.Delete(cfFile);
