@@ -536,7 +536,7 @@
                 </Grid.RowDefinitions>
 
                 <Image Source="Assets/MarkdownMonster.png" 
-                   Opacity="0.08" 
+                   Opacity="0.06" 
                    Width="Auto" 
                    VerticalAlignment="Center" 
                    Grid.Row="0" Panel.ZIndex="0"/>
@@ -725,8 +725,7 @@
                     ToolTip="Encrypted"
                     fa:Awesome.Content="Lock" 
                     Visibility="{Binding ActiveDocument.IsEncrypted, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    BorderThickness="0" 
-                    IsEnabled="{Binding IsEditorActive}"                   
+                    BorderThickness="0"                     
                     TextElement.FontSize="12"
                     TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
             </StatusBarItem>

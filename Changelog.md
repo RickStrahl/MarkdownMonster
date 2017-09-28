@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.6.6
-*<small>not released yet</small>*
+*<small>Sept. 28th, 2017</small>*
 
 * **New Startup Page**  
 Add startup page that links to common operations when no tabs are open in the editor. 
@@ -13,7 +13,7 @@ Add startup page that links to common operations when no tabs are open in the ed
 You can now switch the application theme between **Light** and **Dark** themes using a dropdown on the status bar. Selection optionally prompts to restart for changes to be applied.
 
 * **Spellcheck for Weblog Posting Dialog**  
-You now get spellchecking when posting new Weblog posts for abstract and title.
+You now get spellchecking when posting new Weblog posts for abstract and title text.
 
 * **MarkdownMonsterAddin.OnModelLoaded() Handler**  
 Added another lifecycle event that notifies you when the App model is ready to be accessed. This event is fired before the form has fully rendered the model so it allows you to intercept the model before the initial form is rendered.  This event fires after `OnApplicationStarted()` (which has no model access) and before `OnWindowLoaded()` which fires once the form is active and all Addins have loaded.
