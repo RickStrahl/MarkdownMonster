@@ -50,7 +50,7 @@ namespace MarkdownMonster
 
         public void Execute(object parameter)
         {
-            if (PreviewExecute(parameter))
+            if (PreviewExecute(parameter) && CanExecute(parameter))
                 _execute?.Invoke(parameter, this);
         }    
         
