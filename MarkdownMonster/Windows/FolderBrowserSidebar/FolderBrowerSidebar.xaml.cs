@@ -287,6 +287,12 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+                HandleSelection();
+        }
+
         void HandleSelection()
         {
             var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
@@ -392,12 +398,6 @@ namespace MarkdownMonster.Windows
                         mmApp.Model.Window.OpenTab(file);
                 }
             }
-        }
-
-        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount == 2)
-                HandleSelection();
         }
 
         #endregion
@@ -731,7 +731,8 @@ namespace MarkdownMonster.Windows
             var t = DateTime.Now;
 
             
-            if (t > LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime + 20) && t < LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime + 800))
+            if (t >= LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime + 20) &&
+                t <= LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime + SystemInformation.DoubleClickTime))
             {                
                 if (selected == LastItem)
                     MenuRenameFile_Click(null, null);
