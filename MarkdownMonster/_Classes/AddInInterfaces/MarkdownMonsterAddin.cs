@@ -203,6 +203,15 @@ namespace MarkdownMonster.AddIns
 
 
         /// <summary>
+        /// Called after the document has been saved.
+        /// </summary>
+        /// <param name="doc"></param>
+        public virtual void OnAfterSaveDocument(MarkdownDocument doc)
+        {
+            
+        }
+
+        /// <summary>
         /// An optional command string that is fired into addins         
         /// 
         /// You can override this method to capture commands that are not
@@ -226,15 +235,6 @@ namespace MarkdownMonster.AddIns
         public virtual string OnEditorCommand(string command, string input)
         {
             return null;
-        }
-
-        /// <summary>
-        /// Called after the document has been saved.
-        /// </summary>
-        /// <param name="doc"></param>
-        public virtual void OnAfterSaveDocument(MarkdownDocument doc)
-        {
-            
         }
 
         /// <summary>

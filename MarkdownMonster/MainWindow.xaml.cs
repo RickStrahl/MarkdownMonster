@@ -638,8 +638,7 @@ namespace MarkdownMonster
 			var tab = TabControl.SelectedItem as TabItem;
 			if (tab == null)
 				return false;
-
-			var md = tab.Content;
+			
 			var editor = tab.Tag as MarkdownDocumentEditor;
 			var doc = editor?.MarkdownDocument;
 			if (doc == null)

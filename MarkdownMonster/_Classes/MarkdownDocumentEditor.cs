@@ -211,10 +211,12 @@ namespace MarkdownMonster
         /// If there's no active filename a file save dialog
         /// If there's no active filename a file save dialog
         /// is popped up. 
-        /// </summary>1
+        /// </summary>
+        /// <param name="isEncrypted"></param>
+        /// <param name="forceSave">By default if document is not dirty text is not saved - 
+        /// if true document is always saved regardless of dirty status</param>
         public bool SaveDocument(bool isEncrypted = false)
-        {
-
+        {            
             if (MarkdownDocument == null || AceEditor == null || 
                !AddinManager.Current.RaiseOnBeforeSaveDocument(MarkdownDocument))
                 return false;
@@ -235,6 +237,7 @@ namespace MarkdownMonster
                     return false;
                 }
             }
+
 
             if (!MarkdownDocument.Save())
                 return false;
