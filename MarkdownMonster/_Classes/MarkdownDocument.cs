@@ -807,8 +807,8 @@ namespace MarkdownMonster
                 mmApp.Configuration.RenderTheme = "Dharkan";
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
-            var html = themeHtml.Replace("{$themePath}", themePath)
-                .Replace("{$docPath}", docPath)
+            var html = themeHtml.Replace("{$themePath}", "file:///" + themePath)
+                .Replace("{$docPath}", "file:///" + docPath)
                 .Replace("{$markdownHtml}", markdownHtml);
 
             if (!WriteFile(filename, html))
