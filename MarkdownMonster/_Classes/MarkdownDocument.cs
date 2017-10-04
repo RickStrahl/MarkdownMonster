@@ -53,7 +53,7 @@ namespace MarkdownMonster
     /// [ComVisible] is important as we access this from JavaScript
     /// </summary>
     [ComVisible(true)]
-    public class MarkdownDocument : INotifyPropertyChanged
+    public partial class MarkdownDocument : INotifyPropertyChanged
     {
         private const string ENCRYPTION_PREFIX = "__ENCRYPTED__";
 
@@ -807,8 +807,8 @@ namespace MarkdownMonster
                 mmApp.Configuration.RenderTheme = "Dharkan";
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
-            var html = themeHtml.Replace("{$themePath}", themePath)
-                .Replace("{$docPath}", docPath)
+            var html = themeHtml.Replace("{$themePath}", FixThemePath( themePath) )
+                .Replace("{$docPath}", FixThemePath( docPath) )
                 .Replace("{$markdownHtml}", markdownHtml);
 
             if (!WriteFile(filename, html))
