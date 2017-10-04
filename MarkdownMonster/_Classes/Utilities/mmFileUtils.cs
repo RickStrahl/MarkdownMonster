@@ -447,7 +447,7 @@ namespace MarkdownMonster
 	    /// <param name="arguments"></param>
 	    /// <param name="timeoutMs">Timeout of the process in milliseconds. Pass -1 to wait forever. Pass 0 to not wait.</param>
 	    /// <returns></returns>
-	    public static int ExecuteProcess(string executable, string arguments =  null, int timeoutMs = 60000, ProcessWindowStyle windowStyle= ProcessWindowStyle.Hidden)
+	    public static int ExecuteProcess(string executable, string arguments =  null, int timeoutMs = 0, ProcessWindowStyle windowStyle= ProcessWindowStyle.Hidden)
 	    {
 		    Process process;
 
