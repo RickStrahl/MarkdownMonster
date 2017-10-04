@@ -22,16 +22,18 @@ h1,h2,h3,h4,h5,h6, .byline,.content-title {
   margin-bottom: 16px;    
   color: #333; 
   font-weight: 600;
+  line-height: 1.25;
 }
 h1 {
     padding-bottom: 0.3em;
     font-size: 1.8em;
     line-height: 1.2;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 16px;   
+    border-bottom: 1px solid #eaecef;
+    margin-bottom: 16px;       
 }
 h2 {
-    font-size: 1.6em;
+    font-size: 1.5em;
+    padding-bottom: 0.3em;
     border-bottom: 1px solid #eee;
 }
 h3 {
@@ -39,7 +41,7 @@ h3 {
     font-size: 1.3em;    
 }
 h4 {
-    font-size: 1.1em;
+    font-size: 1.05em;
 }
 h5, h6 { 
     font-size: 1em;
