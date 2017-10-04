@@ -3,6 +3,20 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.6.7
+*<small>Oct. 4th, 2017</small>*
+
+
+* **Fix: External Preview freezes MM in background**   
+When previewing the Markdown Preview in an external browser Markdown Monster would hang for 60 seconds. Regression bug due to an API change. Fixed.
+
+* **Fix: External Browser Preview not using CSS in FireFox**  
+When previewing rendered content using FireFox, the rendered HTML fails to apply the CSS Stylesheet. Firefox requires `file:///` moniker in order to find embedded resources and doesn't work of raw OS filenames. Fixed.
+
+* **Minor Preview Theme Updates**  
+Added a Westwind preview theme that matches West Wind site. Handful of small adjustments to the Github theme to more closely match Githubs styling especially for headers and lists.
+
+
 ### 1.6.6
 *<small>Sept. 28th, 2017</small>*
 
