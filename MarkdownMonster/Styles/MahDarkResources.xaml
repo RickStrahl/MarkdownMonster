@@ -20,6 +20,21 @@
         <Setter Property="ShowDefaultCloseButton" Value="True" />
     </Style>
 
+    <Style TargetType="{x:Type Hyperlink}">
+        <Setter Property="Foreground" Value="#009DE0" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="Firebrick" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <SolidColorBrush x:Key="BlueItem" Color="#70B8FF" />
     <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
     <SolidColorBrush x:Key="HeadlineColor" Color="LightSteelBlue" />
