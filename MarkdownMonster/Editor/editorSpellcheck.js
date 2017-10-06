@@ -50,9 +50,6 @@ var sc = window.spellcheck = {
         sc.contentModified = true;
         var currentlySpellchecking = false;
 
-        var typoLastAccess = new Date().getSeconds();
-
-
         if (sc.firstpass) {
             // Make red underline for gutter and words.
             $("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</script>")
@@ -104,13 +101,16 @@ var sc = window.spellcheck = {
         }
 
         // Check the spelling of a line, and return [start, end]-pairs for misspelled words.
-        function misspelled(line) {
-            // split lineby word boundaries
+        // skipWord - a word to skip translating most likely because we're on it
+        function misspelled(line, skipWord) {            
+            // split line by word boundaries
             var words = line.split(/[\s,(,),\[,\],<,>,:,",=,?,!,.,;,\,|]/g);
             var i = 0;
             var bads = [];
             for (var wordIndex in words) {
                 var word = words[wordIndex] + "";
+                if (word && word == skipWord)
+                    continue;
 
                 // only use words without special characters
                 if (word.length > 1 &&                                     
@@ -147,8 +147,6 @@ var sc = window.spellcheck = {
                 var Range = ace.require('ace/range').Range;
 
                 var lines = session.getDocument().getAllLines();
-                
-                
                 var isCodeBlock = false;
                 var isFrontMatter = false;
 
@@ -161,9 +159,10 @@ var sc = window.spellcheck = {
                 var lineCount = topRow;
 
                 //console.log(topRow, bottomRow, lines.length);
+
+                var curPos = te.getCursorPosition();
                 
                 for (var i = topRow; i < bottomRow; i++) {
-
                     var line = i;                    
 
                     lineCount++;                    
@@ -188,9 +187,12 @@ var sc = window.spellcheck = {
                         
                         }
                         if (!isCodeBlock && !isFrontMatter) {
+                            var skipWord = null;
+                            if (curPos.row === line)                                 
+                                skipWord = te.editor.session.getTextRange(te.editor.session.getAWordRange(curPos.row, curPos.column));                            
 
                             // Check spelling of this line.
-                            var misspellings = misspelled(lineText);
+                            var misspellings = misspelled(lineText, skipWord);
 
                             //// Add markers and gutter markings.
                             //if (misspellings.length > 0) {
@@ -200,7 +202,7 @@ var sc = window.spellcheck = {
                                 j = j * 1;
                                 var range = new Range(line * 1, misspellings[j][0], line * 1, misspellings[j][1]);
                                 var marker =
-                                    session.addMarker(range, "misspelled", "typo", true);
+                                    session.addMarker(range, "misspelled", "mm", true);
                                 var word = misspellings[j][2];
                                 range.misspelled = word;
 								sc.markers[sc.markers.length] = marker;
