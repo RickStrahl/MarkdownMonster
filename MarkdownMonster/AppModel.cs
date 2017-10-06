@@ -791,8 +791,11 @@ Do you want to View in Browser now?
                     if (editor != null)
                     {
                         var file = editor.MarkdownDocument.Filename.ToLower();
-                        var ext = Path.GetExtension(file);
-                        if (file != "untitled" && ext != ".md" && ext != ".htm" && ext != ".html")
+                        var ext = Path.GetExtension(file).Replace(".", "");
+
+                        Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
+                        mappedTo = mappedTo ?? string.Empty;
+                        if (file != "untitled" && mappedTo != "markdown" && mappedTo != "html")
                         {
                             // don't allow presentation mode for non markdown files
                             IsPresentationMode = false;

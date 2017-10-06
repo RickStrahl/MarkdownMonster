@@ -1223,7 +1223,10 @@ namespace MarkdownMonster
 
 				string renderedHtml = null;
 
-				if (string.IsNullOrEmpty(ext) || ext == "md" || ext=="mdcrypt" || ext == "markdown" || ext == "html" || ext == "htm")
+                // only show preview for Markdown and HTML documents
+			    Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
+			    mappedTo = mappedTo ?? string.Empty;
+                if (string.IsNullOrEmpty(ext) || mappedTo == "markdown" || mappedTo == "html")
 				{
 					dynamic dom = null;
 					if (!showInBrowser)
@@ -1240,7 +1243,7 @@ namespace MarkdownMonster
 						}
 					}
 
-					if (ext == "html" || ext == "htm")
+					if (mappedTo == "html")
 					{
 						if (!editor.MarkdownDocument.WriteFile(editor.MarkdownDocument.HtmlRenderFilename,
 								editor.MarkdownDocument.CurrentText))
