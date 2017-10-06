@@ -1224,8 +1224,8 @@ namespace MarkdownMonster
 				string renderedHtml = null;
 
                 // only show preview for Markdown and HTML documents
-			    Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
-			    mappedTo = mappedTo ?? string.Empty;
+                Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
+                mappedTo = mappedTo ?? string.Empty;
                 if (string.IsNullOrEmpty(ext) || mappedTo == "markdown" || mappedTo == "html")
 				{
 					dynamic dom = null;

@@ -412,7 +412,9 @@ namespace MarkdownMonster
 	    public Dictionary<string, string> EditorExtensionMappings { get; set; } = new Dictionary<string, string>
 	    {
 		    {"md", "markdown"},
+            {"markdown", "markdown" },
 	        {"mdcrypt", "markdown"},
+
             {"json", "json"},
 		    {"html", "html"},
 			{"htm", "html" },
