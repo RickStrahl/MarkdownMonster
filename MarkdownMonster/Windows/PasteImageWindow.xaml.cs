@@ -217,85 +217,89 @@ namespace MarkdownMonster.Windows
                     IsMemoryImage = false;
                     return;
                 }
-            }
-
-            if (!string.IsNullOrEmpty(imagePath))
-            {
-                TextImage.Text = imagePath;
-                IsMemoryImage = false;
-                return;
-            }
-
-
-            string initialFolder = null;
-            if (!string.IsNullOrEmpty(Document.Filename) && Document.Filename != "untitled")
-                initialFolder = Path.GetDirectoryName(Document.Filename);
-
-            var sd = new SaveFileDialog
-            {
-                Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
-                FilterIndex = 1,
-                Title = "Save Image from Clipboard as",
-                InitialDirectory = initialFolder,
-                CheckFileExists = false,
-                OverwritePrompt = true,
-                CheckPathExists = true,
-                RestoreDirectory = true
-            };
-            var result = sd.ShowDialog();
-            if (result != null && result.Value)
-            {
-                imagePath = sd.FileName;
-
-                try
+            
+                if (!string.IsNullOrEmpty(imagePath))
                 {
-                    var ext = Path.GetExtension(imagePath)?.ToLower();
-
-                    using (var fileStream = new FileStream(imagePath, FileMode.Create))
-                    {
-                        BitmapEncoder encoder = null;
-                        if (ext == ".png")
-                            encoder = new PngBitmapEncoder();
-                        else if (ext == ".jpg")
-                            encoder = new JpegBitmapEncoder();
-                        else if (ext == ".gif")
-                            encoder = new GifBitmapEncoder();
-
-                        encoder.Frames.Add(BitmapFrame.Create(ImagePreview.Source as BitmapSource));
-                        encoder.Save(fileStream);
-
-                        if (ext == ".png")
-                            mmFileUtils.OptimizePngImage(sd.FileName, 5); // async
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message, mmApp.ApplicationName);
+                    TextImage.Text = imagePath;
+                    IsMemoryImage = false;
                     return;
                 }
 
-                string relPath = Path.GetDirectoryName(sd.FileName);
-                if (initialFolder != null)
+
+                string initialFolder = null;
+                if (!string.IsNullOrEmpty(Document.Filename) && Document.Filename != "untitled")
+                    initialFolder = Path.GetDirectoryName(Document.Filename);
+
+                var sd = new SaveFileDialog
                 {
+                    Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                    FilterIndex = 1,
+                    Title = "Save Image from Clipboard as",
+                    InitialDirectory = initialFolder,
+                    CheckFileExists = false,
+                    OverwritePrompt = true,
+                    CheckPathExists = true,
+                    RestoreDirectory = true
+                };
+                var result = sd.ShowDialog();
+                if (result != null && result.Value)
+                {
+                    imagePath = sd.FileName;
+
                     try
                     {
-                        relPath = FileUtils.GetRelativePath(sd.FileName, initialFolder);
+                        var ext = Path.GetExtension(imagePath)?.ToLower();
+
+                        if (ext == ".jpg" || ext == ".jpeg")
+                            ImageUtils.SaveJpeg(bitMap, imagePath, mmApp.Configuration.JpegImageCompressionLevel);                        
+                        
+                        else
+                        {
+                            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                            {
+                                BitmapEncoder encoder = null;
+                                if (ext == ".png")
+                                    encoder = new PngBitmapEncoder();
+                                else if (ext == ".gif")
+                                    encoder = new GifBitmapEncoder();
+
+                                encoder.Frames.Add(BitmapFrame.Create(ImagePreview.Source as BitmapSource));
+                                encoder.Save(fileStream);
+
+                                if (ext == ".png")
+                                    mmFileUtils.OptimizePngImage(sd.FileName, 5); // async
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
-                        mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}", ex);
+                        MessageBox.Show("Couldn't save file: \r\n" + ex.Message, mmApp.ApplicationName);
+                        return;
                     }
-                    imagePath = relPath;
+
+                    string relPath = Path.GetDirectoryName(sd.FileName);
+                    if (initialFolder != null)
+                    {
+                        try
+                        {
+                            relPath = FileUtils.GetRelativePath(sd.FileName, initialFolder);
+                        }
+                        catch (Exception ex)
+                        {
+                            mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}", ex);
+                        }
+                        imagePath = relPath;
+                    }
+
+                    if (imagePath.Contains(":\\"))
+                        imagePath = "file:///" + imagePath;
+
+                    imagePath = imagePath.Replace("\\", "/");
+
+                    this.Image = imagePath;
+                    IsMemoryImage = false;
+
                 }
-
-                if (imagePath.Contains(":\\"))
-                    imagePath = "file:///" + imagePath;
-
-                imagePath = imagePath.Replace("\\", "/");
-
-                this.Image = imagePath;
-                IsMemoryImage = false;
-
             }
         }
 
@@ -454,7 +458,7 @@ namespace MarkdownMonster.Windows
 
                     if (mbres.Equals(MessageBoxResult.Yes))
                     {
-                        string newImageFileName = System.IO.Path.Combine(mdPath, System.IO.Path.GetFileName(fd.FileName));
+                        string newImageFileName = Path.Combine(mdPath, System.IO.Path.GetFileName(fd.FileName));
                         var sd = new SaveFileDialog
                         {
                             Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",

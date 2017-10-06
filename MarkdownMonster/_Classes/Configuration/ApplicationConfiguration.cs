@@ -316,6 +316,12 @@ namespace MarkdownMonster
 		/// </summary>
 		public string ImageViewer { get; set;  }
 
+
+        /// <summary>
+        /// Jpeg Image Compression level from 50 to 100. Defaults 80.
+        /// </summary>
+        public int JpegImageCompressionLevel { get; set; } = 80;
+
         /// <summary>
         /// Web Browser Preview Executable - use this to force 
         /// a specific browser since Windows seems to not be able

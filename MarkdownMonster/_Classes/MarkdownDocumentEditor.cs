@@ -33,6 +33,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -1064,13 +1065,22 @@ namespace MarkdownMonster
                         {
                             File.Delete(imagePath);
 
-                            var format = ImageUtils.GetImageFormatFromFilename(imagePath);
-                            bitMap.Save(imagePath, format);
-                            bitMap.Dispose();
+                            if (ext == ".jpg" || ext == ".jpeg")
+                            {
+                                using (var bmp = new Bitmap(bitMap))
+                                {
+                                    ImageUtils.SaveJpeg(bmp, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
+                                }
+                            }
+                            else
+                            {
+                                var format = ImageUtils.GetImageFormatFromFilename(imagePath);
+                                bitMap.Save(imagePath, format);
+                                bitMap.Dispose();
 
-
-                            if (ext == ".png")
-                                mmFileUtils.OptimizePngImage(sd.FileName, 5); // async                            
+                                if (ext == ".png")
+                                    mmFileUtils.OptimizePngImage(sd.FileName, 5); // async                            
+                            }
                         }
                         catch (Exception ex)
                         {
