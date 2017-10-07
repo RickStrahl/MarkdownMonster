@@ -455,7 +455,7 @@ namespace MarkdownMonster
                     InitialDirectory = folder,
                     FileName = filename,
                     CheckFileExists = false,
-                    OverwritePrompt = false,
+                    OverwritePrompt = true,
                     CheckPathExists = true,
                     RestoreDirectory = true
                 };
@@ -569,7 +569,7 @@ namespace MarkdownMonster
                     InitialDirectory = folder,
                     FileName = Path.ChangeExtension(doc.MarkdownDocument.Filename, "html"),
                     CheckFileExists = false,
-                    OverwritePrompt = false,
+                    OverwritePrompt = true,
                     CheckPathExists = true,
                     RestoreDirectory = true
                 };
