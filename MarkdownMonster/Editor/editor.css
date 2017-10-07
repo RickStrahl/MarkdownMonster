@@ -29,8 +29,11 @@ html, body {
     padding-left: 0;                        
 }    
 .ace_cursor { 
-    width: 2px !important;
-    height: 1em !important;
+    border-left: 2px solid !important;
+}
+.ace_overwrite-cursors .ace_cursor {   
+    border-left: none !important;
+    border-bottom: 1px solid !important;
 }
 .ace_text-input {
 	margin: 0 !important;
