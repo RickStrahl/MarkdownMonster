@@ -3,9 +3,23 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.6.8
+*<small>not released yet</small>*
+
+* **Add JpegImageCompressionLevel for Pasted or Captured Images**  
+There's a new `JpegImageCompressionLevel` configuration option that lets you specify what compression level Jpeg images are saved with. Values are 0 to 100 where 100 is the highest fidelity and 0 the lowest. The default is 80 which is typically just above the level where artifacts become noticeable in most pictures.
+
+* **Fix: Custom extension mapping to Markdown and HTML Files**  
+Fixed logic for extensions mapped to Markdown and HTML so that the Preview window properly shows when files with custom extensions are edited.
+
+* **Fix: Overwrite Cursor not Visible**  
+The overwrite (insert) cursor formatting only showed a dot previously. Fixed to display an underline cursor.
+
+* **Don't spellcheck active Word in Editor**  
+Changed spell check behavior to not spellcheck the word directly under the cursor as it may not be completely typed out yet resulting in annoying spell check errors. Spellcheck now ignores the current until you move off.
+
 ### 1.6.7
 *<small>Oct. 4th, 2017</small>*
-
 
 * **Fix: External Preview freezes MM in background**   
 When previewing the Markdown Preview in an external browser Markdown Monster would hang for 60 seconds. Regression bug due to an API change. Fixed.
@@ -14,7 +28,7 @@ When previewing the Markdown Preview in an external browser Markdown Monster wou
 When previewing rendered content using FireFox, the rendered HTML fails to apply the CSS Stylesheet. Firefox requires `file:///` moniker in order to find embedded resources and doesn't work of raw OS filenames. Fixed.
 
 * **Minor Preview Theme Updates**  
-Added a Westwind preview theme that matches West Wind site. Handful of small adjustments to the Github theme to more closely match Githubs styling especially for headers and lists.
+Added a Westwind preview theme that matches West Wind site. Handful of small adjustments to the Github theme to more closely match Github's styling especially for headers and lists.
 
 
 ### 1.6.6
