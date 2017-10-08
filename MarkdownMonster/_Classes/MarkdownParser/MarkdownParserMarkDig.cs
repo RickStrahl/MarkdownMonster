@@ -45,16 +45,16 @@ namespace MarkdownMonster
     /// Wrapper around the CommonMark.NET parser that provides a cached
     /// instance of the Markdown parser. Hooks up custom processing.
     /// </summary>
-    public class  MarkdownParserMarkdig : MarkdownParserBase
+    public class MarkdownParserMarkdig : MarkdownParserBase
     {
         public static MarkdownPipeline Pipeline;
 
         private readonly bool _usePragmaLines;
 
-        public MarkdownParserMarkdig(bool usePragmaLines = false, bool force = false)
+        public MarkdownParserMarkdig( bool usePragmaLines = false, bool force = false )
         {
             _usePragmaLines = usePragmaLines;
-            if (force || Pipeline == null)
+            if( force || Pipeline == null )
             {
                 var builder = CreatePipelineBuilder();
                 Pipeline = builder.Build();
@@ -66,77 +66,96 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>        
-        public override string Parse(string markdown)
+        public override string Parse( string markdown )
         {
-            if (string.IsNullOrEmpty(markdown))
+            if( string.IsNullOrEmpty( markdown ) )
                 return string.Empty;
 
             var htmlWriter = new StringWriter();
-            var renderer = CreateRenderer(htmlWriter);
+            var renderer = CreateRenderer( htmlWriter );
 
-            Markdown.Convert(markdown, renderer, Pipeline);
+            Markdown.Convert( markdown, renderer, Pipeline );
             var html = htmlWriter.ToString();
-            
-            html = ParseFontAwesomeIcons(html);
 
-            if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
-                html = ParseExternalLinks(html);
+            html = ParseFontAwesomeIcons( html );
 
-            if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
-                html = ParseScript(html);  
-                      
+            if( mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal )
+                html = ParseExternalLinks( html );
+
+            if( !mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags )
+                html = ParseScript( html );
+
             return html;
         }
 
-        protected virtual MarkdownPipelineBuilder CreatePipelineBuilder()
+        protected virtual MarkdownPipelineBuilder BuildPipeline( MarkdownOptionsConfiguration options, MarkdownPipelineBuilder builder )
         {
-            var builder = new MarkdownPipelineBuilder();
-
-            var options = mmApp.Configuration.MarkdownOptions;
-            if (options.AutoLinks)
+            //var options = mmApp.Configuration.MarkdownOptions;
+            if( options.AutoLinks )
                 builder = builder.UseAutoLinks();
-            if (options.AutoHeaderIdentifiers)
+            if( options.AutoHeaderIdentifiers )
                 builder = builder.UseAutoIdentifiers();
-            if (options.Abbreviations)
+            if( options.Abbreviations )
                 builder = builder.UseAbbreviations();
 
-            if (options.StripYamlFrontMatter)
+            if( options.StripYamlFrontMatter )
                 builder = builder.UseYamlFrontMatter();
-            if (options.EmojiAndSmiley)
+            if( options.EmojiAndSmiley )
                 builder = builder.UseEmojiAndSmiley();
-            if (options.MediaLinks)
+            if( options.MediaLinks )
                 builder = builder.UseMediaLinks();
-            if (options.ListExtras)
+            if( options.ListExtras )
                 builder = builder.UseListExtras();
-            if (options.Figures)
+            if( options.Figures )
                 builder = builder.UseFigures();
-            if (options.GithubTaskLists)
+            if( options.GithubTaskLists )
                 builder = builder.UseTaskLists();
-            if (options.SmartyPants)
-                builder = builder.UseSmartyPants();            
+            if( options.SmartyPants )
+                builder = builder.UseSmartyPants();
 
-            if (_usePragmaLines)
+            if( _usePragmaLines )
                 builder = builder.UsePragmaLines();
 
             try
             {
-                if (!string.IsNullOrWhiteSpace(options.MarkdigExtensions))
+                if( !string.IsNullOrWhiteSpace( options.MarkdigExtensions ) )
                 {
-                    builder = builder.Configure(options.MarkdigExtensions.Replace(",","+"));
+                    builder = builder.Configure( options.MarkdigExtensions.Replace( ",", "+" ) );
                 }
             }
-            catch(ArgumentException ex)
+            catch( ArgumentException ex )
             {
                 // One or more of the extension options is invalid. 
-                mmApp.Log("Failed to load Markdig extensions: " + options.MarkdigExtensions + "\r\n" + ex.Message,ex);
+                mmApp.Log( "Failed to load Markdig extensions: " + options.MarkdigExtensions + "\r\n" + ex.Message, ex );
             }
 
             return builder;
         }
 
-        protected virtual IMarkdownRenderer CreateRenderer(TextWriter writer)
+        protected virtual MarkdownPipelineBuilder CreatePipelineBuilder()
         {
-            return new HtmlRenderer(writer);
+            // ******
+            var options = mmApp.Configuration.MarkdownOptions;
+            var builder = new MarkdownPipelineBuilder();
+
+            // ******
+            try
+            {
+                builder = BuildPipeline( options, builder );
+            }
+            catch( ArgumentException ex )
+            {
+                mmApp.Log( $"Failed to build pipeline: {ex.Message}", ex );
+            }
+
+            // ******
+            return builder;
+        }
+
+
+        protected virtual IMarkdownRenderer CreateRenderer( TextWriter writer )
+        {
+            return new HtmlRenderer( writer );
         }
     }
 }

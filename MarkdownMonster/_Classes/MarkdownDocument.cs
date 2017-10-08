@@ -807,15 +807,24 @@ namespace MarkdownMonster
                 mmApp.Configuration.RenderTheme = "Dharkan";
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
-            var html = themeHtml.Replace("{$themePath}", "file:///" + themePath)
-                .Replace("{$docPath}", "file:///" + docPath)
-                .Replace("{$markdownHtml}", markdownHtml);
+            //var html = themeHtml.Replace("{$themePath}", "file:///" + themePath)
+            //    .Replace("{$docPath}", "file:///" + docPath)
+            //    .Replace("{$markdownHtml}", markdownHtml);
+            var html = UpdateThemeHtml( themeHtml, themePath, docPath, markdownHtml );
 
-            if (!WriteFile(filename, html))
+            if( !WriteFile(filename, html))
                 return null;
 
             return html;
         }
+
+        public static Func<string, string, string, string, string> UpdateThemeHtml = ( themeHtml, themePath, docPath, markdownHtml ) => {
+            var html = themeHtml.Replace( "{$themePath}", "file:///" + themePath )
+                .Replace( "{$docPath}", "file:///" + docPath )
+                .Replace( "{$markdownHtml}", markdownHtml );
+            return html;
+        };
+
         #endregion
 
         #region INotifyPropertyChanged
