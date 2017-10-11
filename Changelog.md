@@ -18,6 +18,9 @@ The overwrite (insert) cursor formatting only showed a dot previously. Fixed to 
 * **Don't spellcheck active Word in Editor**  
 Changed spell check behavior to not spellcheck the word directly under the cursor as it may not be completely typed out yet resulting in annoying spell check errors. Spellcheck now ignores the current until you move off.
 
+* **Fix: Delete in Folder Browser**   
+Delete from the folder browser would not work under some circumstances due to a byte alignment issue. Fixed.
+
 ### 1.6.7
 *<small>Oct. 4th, 2017</small>*
 
