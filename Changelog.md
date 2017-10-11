@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.6.8
-*<small>not released yet</small>*
+*<small>Oct. 11th, 2017</small>*
 
 * **Add JpegImageCompressionLevel for Pasted or Captured Images**  
 There's a new `JpegImageCompressionLevel` configuration option that lets you specify what compression level Jpeg images are saved with. Values are 0 to 100 where 100 is the highest fidelity and 0 the lowest. The default is 80 which is typically just above the level where artifacts become noticeable in most pictures.
