@@ -54,13 +54,13 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Returns a machine specific encryption key that can be used for passwords
-        /// and other settings. 
-        /// 
+        /// and other settings.
+        ///
         /// If the Configuration.UseMachineEcryptionKeyForPasswords flag
         /// is false, no machine specific information is added to the key.
         /// Do this if you want to share your encrypted configuration settings
         /// in cloud based folders like DropBox, OneDrive, etc.
-        /// </summary>      
+        /// </summary>
         public static string EncryptionMachineKey
         {
             get
@@ -111,7 +111,7 @@ namespace MarkdownMonster
 		internal static string Signature { get; } = "S3VwdWFfMTAw";
 		internal static string PostFix { get; set;  } = "*~~*";
 
-        
+
         /// <summary>
         /// Application related Urls used throughout the application
         /// </summary>
@@ -120,14 +120,14 @@ namespace MarkdownMonster
 
 	    #region Initialization and Shutdown
 
-        
+
         /// <summary>
         /// Static constructor to initialize configuration
         /// </summary>
         static mmApp()
-        {            
+        {
             Configuration = new ApplicationConfiguration();
-            Configuration.Initialize();            
+            Configuration.Initialize();
         }
 
         public static void ApplicationStart()
@@ -138,7 +138,7 @@ namespace MarkdownMonster
             try
             {
                 if (Configuration.SendTelemetry &&
-                    Telemetry.UseApplicationInsights && 
+                    Telemetry.UseApplicationInsights &&
                     AppInsights == null)
                 {
                     AppInsights = new TelemetryClient {InstrumentationKey = Telemetry.Key};
@@ -157,6 +157,7 @@ namespace MarkdownMonster
                 LogToLogfile("Application Insights initialization failure: " + ex.GetBaseException().Message);
             }
         }
+
         public static void Shutdown(bool errorShutdown = false)
         {
             if (Configuration.SendTelemetry &&  Telemetry.UseApplicationInsights && AppInsights != null)
@@ -165,7 +166,7 @@ namespace MarkdownMonster
 				t.Properties.Add("usage", Configuration.ApplicationUpdates.AccessCount.ToString());
 	            t.Properties.Add("registered", UnlockKey.IsRegistered().ToString());
 				t.Properties.Add("version", GetVersion());
-	            t.Properties.Add("dotnetversion", ComputerInfo.GetDotnetVersion());                
+	            t.Properties.Add("dotnetversion", ComputerInfo.GetDotnetVersion());
                 t.Stop();
 
                 try
@@ -180,7 +181,7 @@ namespace MarkdownMonster
                 AppInsights = null;
             }
             else
-            {                
+            {
                 SendTelemetry("shutdown");
             }
         }
@@ -196,13 +197,13 @@ namespace MarkdownMonster
         /// Handles an Application level exception by logging the error
         /// to log, and displaying an error message to the user.
         /// Also sends the error to server if enabled.
-        /// 
-        /// Returns true if application should continue, false to exit.        
+        ///
+        /// Returns true if application should continue, false to exit.
         /// </summary>
         /// <param name="ex"></param>
         /// <returns></returns>
         public static bool HandleApplicationException(Exception ex)
-        {            
+        {
             Log("Last Resort Handler", ex, unhandledException: true);
 
             var msg = $"Yikes! Something went wrong...\r\n\r\n{ex.Message}\r\n\r\n" +
@@ -223,7 +224,7 @@ namespace MarkdownMonster
             return true;
         }
 
-        
+
 
         /// <summary>
         /// Logs exceptions in the applications
@@ -257,11 +258,11 @@ namespace MarkdownMonster
         {
             string version = GetVersion();
 			string winVersion = null;
-			 
+
             string exMsg = string.Empty;
             if (ex != null)
             {
-               
+
                 winVersion = ComputerInfo.GetWindowsVersion() +
                                  " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
                                  " - NET " + ComputerInfo.GetDotnetVersion() + " - " +
@@ -278,7 +279,7 @@ Markdown Monster v{version}
 
 
 ";
-                SendBugReport(ex, msg);                
+                SendBugReport(ex, msg);
             }
 
             if (Telemetry.UseApplicationInsights)
@@ -293,7 +294,7 @@ Markdown Monster v{version}
                             {"exmsg",ex.Message },
                             {"exsource", ex.Source },
                             {"extrace", ex.StackTrace },
-                            {"severity", unhandledException ? "unhandled" : ""},                            
+                            {"severity", unhandledException ? "unhandled" : ""},
                             {"version", version},
                             {"winversion", winVersion },
                             {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
@@ -315,7 +316,7 @@ Markdown Monster v{version}
             var text = msg + exMsg;
 
             LogToLogfile(text);
-                  
+
         }
 
         /// <summary>
@@ -329,7 +330,7 @@ Markdown Monster v{version}
 
         /// <summary>
         /// Logs directly to the text file - use this if you don't want to have
-        /// public log trail and only log diagnostics.        
+        /// public log trail and only log diagnostics.
         /// </summary>
         /// <param name="text"></param>
         public static void LogToLogfile(string text)
@@ -537,7 +538,7 @@ Markdown Monster v{version}
         /// <summary>
         /// Sets the light or dark theme for a form. Call before
         /// InitializeComponents().
-        /// 
+        ///
         /// We only support the dark theme now so this no longer relevant
         /// but left in place in case we decide to support other themes.
         /// </summary>
@@ -557,7 +558,7 @@ Markdown Monster v{version}
                 // now set the Green accent and light theme
                 ThemeManager.ChangeAppStyle(Application.Current,
                     ThemeManager.GetAccent("MahLight"),
-                    ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1                
+                    ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1
             }
             else
             {
@@ -569,9 +570,9 @@ Markdown Monster v{version}
                 // now set the highlight accent and dark theme
                 ThemeManager.ChangeAppStyle(Application.Current,
                     ThemeManager.GetAccent("Blue"),
-                    ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1     
+                    ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
 
-                
+
             }
 
             if (window != null)
@@ -601,9 +602,9 @@ Markdown Monster v{version}
             {
                 // Need to fix this to show the accent color when switching
                 window.WindowTitleBrush = (SolidColorBrush) window.FindResource("AccentColorBrush");
-                window.NonActiveWindowTitleBrush = window.WindowTitleBrush;                
+                window.NonActiveWindowTitleBrush = window.WindowTitleBrush;
 
-                window.BorderBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#ccc");                
+                window.BorderBrush = (SolidColorBrush) new BrushConverter().ConvertFrom("#ccc");
             }
         }
         #endregion

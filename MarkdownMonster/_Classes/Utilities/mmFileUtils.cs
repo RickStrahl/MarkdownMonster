@@ -585,21 +585,20 @@ namespace MarkdownMonster
 
         #region Recycle Bin Deletion
         // Credit: http://stackoverflow.com/a/3282450/11197
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct SHFILEOPSTRUCT
+        {
+            public IntPtr hwnd;
+            [MarshalAs(UnmanagedType.U4)] public int wFunc;
+            public string pFrom;
+            public string pTo;
+            public short fFlags;
+            [MarshalAs(UnmanagedType.Bool)] public bool fAnyOperationsAborted;
+            public IntPtr hNameMappings;
+            public string lpszProgressTitle;
+        }
 
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
-	    public struct SHFILEOPSTRUCT
-	    {
-		    public IntPtr hwnd;
-		    [MarshalAs(UnmanagedType.U4)] public int wFunc;
-		    public string pFrom;
-		    public string pTo;
-		    public short fFlags;
-		    [MarshalAs(UnmanagedType.Bool)] public bool fAnyOperationsAborted;
-		    public IntPtr hNameMappings;
-		    public string lpszProgressTitle;
-	    }
-
-	    [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
 	    public static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
 
 	    public const int FO_DELETE = 3;
@@ -609,7 +608,7 @@ namespace MarkdownMonster
 	    public static bool MoveToRecycleBin(string filename)
 	    {
 		    var shf = new SHFILEOPSTRUCT();
-		    shf.wFunc = FO_DELETE;
+            shf.wFunc = FO_DELETE;
 		    shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
 		    shf.pFrom = filename + '\0'; // required!
 		    int result =SHFileOperation(ref shf);
