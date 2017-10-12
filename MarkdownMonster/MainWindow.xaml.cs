@@ -2,15 +2,15 @@
 
 /*
  **************************************************************
- *  Author: Rick Strahl 
+ *  Author: Rick Strahl
  *          © West Wind Technologies, 2016
  *          http://www.west-wind.com/
- * 
+ *
  * Created: 04/28/2016
  *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -19,7 +19,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- **************************************************************  
+ **************************************************************
 */
 
 #endregion
@@ -111,10 +111,10 @@ namespace MarkdownMonster
                         Filename = doc,
                         DisplayFilename = mmFileUtils.GetCompactPath(doc, 70)
                     });
-                }                    
+                }
                 return docs;
             }
-     
+
         }
 
         public class RecentDocumentListItem
@@ -134,17 +134,17 @@ namespace MarkdownMonster
 		    AddinManager.Current.RaiseOnModelLoaded(Model);
 
             DataContext = Model;
-            
+
 			InitializePreviewBrowser();
-            
+
 			TabControl.ClosingItemCallback = TabControlDragablz_TabItemClosing;
 
 			Loaded += OnLoaded;
 			Drop += MainWindow_Drop;
-			AllowDrop = true;			
+			AllowDrop = true;
 			Activated += OnActivated;
 
-            
+
 
 			// Singleton App startup - server code that listens for other instances
 			if (mmApp.Configuration.UseSingleWindow)
@@ -211,11 +211,11 @@ namespace MarkdownMonster
 			var left = Left;
 			Left = 300000;
 
-			// force controls to realign - required because of WebBrowser control weirdness            
+			// force controls to realign - required because of WebBrowser control weirdness
 			Dispatcher.InvokeAsync(() =>
 			{
 				//TabControl.InvalidateVisual();
-				Left = left;				
+				Left = left;
 
 				mmApp.SetWorkingSet(10000000, 5000000);
 			}, DispatcherPriority.Background);
@@ -243,12 +243,12 @@ namespace MarkdownMonster
 	        if (args == null)
 	        {
                 // read fixed up command line args
-	            args = App.commandArgs; 
+	            args = App.commandArgs;
 
 	            if (args == null || args.Length == 0) // no args, only command line
 	                return;
 	        }
-	        
+
 	        foreach (var fileArgs in args)
 	        {
 	            var file = fileArgs;
@@ -256,7 +256,7 @@ namespace MarkdownMonster
                     continue;
 
 	            file = file.TrimEnd('\\');
-	            
+
 	            try
 	            {
                     // FAIL: This fails at runtime not in debugger when value is .\ trimmed to . VERY WEIRD
@@ -264,7 +264,7 @@ namespace MarkdownMonster
 	            }
 	            catch
 	            {
-	                mmApp.Log("Fullpath CommandLine failed: " + file);                    
+	                mmApp.Log("Fullpath CommandLine failed: " + file);
 	            }
 
 	            if (File.Exists(file))
@@ -278,7 +278,7 @@ namespace MarkdownMonster
 	                if (File.Exists(file))
 	                    OpenTab(mdFile: file, batchOpen: true);
 	                else if (Directory.Exists(file))
-	                    ShowFolderBrowser(false, file);	                
+	                    ShowFolderBrowser(false, file);
 	            }
 	        }
 	    }
@@ -390,7 +390,7 @@ namespace MarkdownMonster
 	    protected override void OnClosing(CancelEventArgs e)
 		{
 			base.OnClosing(e);
-		
+
 			AddinManager.Current.RaiseOnApplicationShutdown();
 
 			bool isNewVersion = CheckForNewVersion(false, false);
@@ -425,7 +425,7 @@ namespace MarkdownMonster
 				displayCount = 2;
 			else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
 				displayCount = 4;
-			
+
 			if (!isNewVersion &&
 			    mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
 			    !UnlockKey.IsRegistered())
@@ -463,7 +463,7 @@ namespace MarkdownMonster
 
 		/// <summary>
 		/// Creates the Recent Items Context list
-		/// </summary>        
+		/// </summary>
 		private void RecentDocumentsContextList()
 		{
 			var context = Resources["ContextMenuRecentFiles"] as ContextMenu;
@@ -494,7 +494,7 @@ namespace MarkdownMonster
 					Header = file,
 				};
 			    mi2.Command = Model.Commands.OpenRecentDocumentCommand;
-			    mi2.CommandParameter = file;                
+			    mi2.CommandParameter = file;
 				ButtonRecentFiles.Items.Add(mi2);
 			}
 			ToolbarButtonRecentFiles.ContextMenu = context;
@@ -553,14 +553,14 @@ namespace MarkdownMonster
 
 			}
 
-			Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;			
+			Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;
 
 			ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
 
             // force background so we have a little more contrast
 		    if (mmApp.Configuration.ApplicationTheme == Themes.Light)
 		    {
-		        ContentGrid.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#eee");		       
+		        ContentGrid.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#eee");
 		        ToolbarPanelMain.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#D5DAE8");
             }
 		    else
@@ -582,7 +582,9 @@ namespace MarkdownMonster
 				config.WindowPosition.Top = Convert.ToInt32(Top);
 				config.WindowPosition.Width = Convert.ToInt32(Width);
 				config.WindowPosition.Height = Convert.ToInt32(Height);
-				config.WindowPosition.SplitterPosition = Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
+
+			    if (MainWindowPreviewColumn.Width.IsAbsolute)
+				    config.WindowPosition.SplitterPosition = Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
 			}
 
 			if (WindowState != WindowState.Minimized)
@@ -590,7 +592,9 @@ namespace MarkdownMonster
 
 			if (FolderBrowserColumn.Width.Value > 20)
 			{
-				config.FolderBrowser.WindowWidth = Convert.ToInt32(FolderBrowserColumn.Width.Value);
+			    if(FolderBrowserColumn.Width.IsAbsolute)
+				    config.FolderBrowser.WindowWidth = Convert.ToInt32(FolderBrowserColumn.Width.Value);
+
 				config.FolderBrowser.Visible = true;
 			}
 			else
@@ -628,7 +632,7 @@ namespace MarkdownMonster
 						doc.LastEditorLineNumber = 0;
 
 					config.OpenDocuments.Add(doc);
-				}	
+				}
 			}
 			config.Write();
 		}
@@ -638,7 +642,7 @@ namespace MarkdownMonster
 			var tab = TabControl.SelectedItem as TabItem;
 			if (tab == null)
 				return false;
-			
+
 			var editor = tab.Tag as MarkdownDocumentEditor;
 			var doc = editor?.MarkdownDocument;
 			if (doc == null)
@@ -679,10 +683,10 @@ namespace MarkdownMonster
 	    /// <param name="rebindTabHeaders">
 	    /// Rebinds the headers which should be done whenever a new Tab is
 	    /// manually opened and added but not when opening in batch.
-	    /// 
+	    ///
 	    /// Checks to see if multiple tabs have the same filename open and
 	    /// if so displays partial path.
-	    /// 
+	    ///
 	    /// New Tabs are opened at the front of the tab list at index 0
 	    /// </param>
 	    /// <returns></returns>
@@ -807,7 +811,7 @@ namespace MarkdownMonster
 
 	            SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
 
-                
+
 	            tab.ToolTip = doc.Filename;
 	        }
 
@@ -867,7 +871,7 @@ namespace MarkdownMonster
 
 	    /// <summary>
 		/// Binds all Tab Headers
-		/// </summary>        
+		/// </summary>
 		void BindTabHeaders()
 		{
 			var tabList = new List<TabItem>();
@@ -899,8 +903,8 @@ namespace MarkdownMonster
 		/// <summary>
 		/// Binds the tab header to an expression
 		/// </summary>
-		/// <param name="tab"></param>   
-		/// <param name="document"></param>     
+		/// <param name="tab"></param>
+		/// <param name="document"></param>
 		/// <param name="propertyPath"></param>
 		private void SetTabHeaderBinding(TabItem tab, MarkdownDocument document,
 			string propertyPath = "FilenameWithIndicator")
@@ -951,7 +955,7 @@ namespace MarkdownMonster
 		}
 
 		/// <summary>
-		/// Closes a tab and ask for confirmation if the tab doc 
+		/// Closes a tab and ask for confirmation if the tab doc
 		/// is dirty.
 		/// </summary>
 		/// <param name="tab"></param>
@@ -967,7 +971,7 @@ namespace MarkdownMonster
 				return false;
 
 			bool returnValue = true;
-            
+
             tab.Padding = new Thickness(200);
 
 			var doc = editor.MarkdownDocument;
@@ -986,7 +990,7 @@ namespace MarkdownMonster
 				}
 				if (res == MessageBoxResult.No)
 				{
-					// close but don't save 
+					// close but don't save
 				}
 				else
 				{
@@ -1023,14 +1027,14 @@ namespace MarkdownMonster
 		}
 
 		/// <summary>
-		/// Closes a tab and ask for confirmation if the tab doc 
+		/// Closes a tab and ask for confirmation if the tab doc
 		/// is dirty.
 		/// </summary>
 		/// <param name="filename">
-		/// The absolute path to the file opened in the tab that 
+		/// The absolute path to the file opened in the tab that
 		/// is going to be closed
 		/// </param>
-		/// <returns>true if tab can close, false if it should stay open or 
+		/// <returns>true if tab can close, false if it should stay open or
 		/// filename not opened in any tab</returns>
 		public bool CloseTab(string filename)
 		{
@@ -1105,7 +1109,7 @@ namespace MarkdownMonster
 		/// <summary>
 		/// Sets the Window Title followed by Markdown Monster (registration status)
 		/// by default the filename is used and it's updated whenever tabs are changed.
-		/// 
+		///
 		/// Generally just call this when you need to have the title updated due to
 		/// file name change that doesn't change the active tab.
 		/// </summary>
@@ -1176,7 +1180,7 @@ namespace MarkdownMonster
 
 				FolderBrowserColumn.Width = new GridLength(0);
 				FolderBrowserSeparatorColumn.Width = new GridLength(0);
-                
+
     			mmApp.Configuration.FolderBrowser.Visible = false;
 			}
 			else
@@ -1325,7 +1329,7 @@ namespace MarkdownMonster
 									}
 									catch
 									{
-										// Refresh doesn't fire Navigate event again so 
+										// Refresh doesn't fire Navigate event again so
 										// the page is not getting initiallized properly
 										//PreviewBrowser.Refresh(true);
 										PreviewBrowser.Tag = "EDITORSCROLL";
@@ -1417,7 +1421,7 @@ namespace MarkdownMonster
 		}
 
 		/// <summary>
-		/// Check to see if the window is visible in the bounds of the 
+		/// Check to see if the window is visible in the bounds of the
 		/// virtual screen space. If not adjust to main monitor off 0 position.
 		/// </summary>
 		/// <returns></returns>
@@ -1426,7 +1430,7 @@ namespace MarkdownMonster
 			var virtualScreenHeight = SystemParameters.VirtualScreenHeight;
 			var virtualScreenWidth = SystemParameters.VirtualScreenWidth;
 
-			
+
 			if (Left > virtualScreenWidth - 150)
 				Left = 20;
 			if (Top > virtualScreenHeight - 150)
@@ -1440,7 +1444,7 @@ namespace MarkdownMonster
 			if (Width > virtualScreenWidth)
 				Width = virtualScreenWidth - 40;
 			if (Height > virtualScreenHeight)
-				Height = virtualScreenHeight - 40;			
+				Height = virtualScreenHeight - 40;
 		}
 
 		#endregion
@@ -1487,12 +1491,12 @@ namespace MarkdownMonster
 				var editor = GetActiveMarkdownEditor();
 				editor.MarkdownDocument.CurrentText = markdown;
 				PreviewMarkdown();
-			}		    
+			}
 			else if (button == ButtonExit)
 			{
 				Close();
 			}
-			
+
 			else if (button == MenuOpenConfigFolder)
 			{
 				ShellUtils.GoUrl(mmApp.Configuration.CommonFolder);
@@ -1641,7 +1645,7 @@ namespace MarkdownMonster
 			}
 		}
 
-		
+
 
 		private void Button_CommandWindow(object sender, RoutedEventArgs e)
 		{
@@ -1649,11 +1653,11 @@ namespace MarkdownMonster
 			if (editor == null)
 				return;
 
-			
+
 			string path = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
 			mmFileUtils.OpenTerminal(path);
 		}
-        
+
 	    private void Button_OpenExplorer(object sender, RoutedEventArgs e)
 		{
 			var editor = GetActiveMarkdownEditor();
@@ -1710,9 +1714,9 @@ namespace MarkdownMonster
 		//	var html = editor.RenderMarkdown(markdown);
 
 		//	if (!string.IsNullOrEmpty(html))
-		//	{			    
+		//	{
   //              // copy to clipboard as html
-		//	    ClipboardHelper.CopyToClipboard(html, html);				
+		//	    ClipboardHelper.CopyToClipboard(html, html);
 		//		ShowStatus("Html has been pasted to the clipboard.", mmApp.Configuration.StatusTimeout);
 		//	}
 		//	editor.SetEditorFocus();
@@ -1788,8 +1792,8 @@ namespace MarkdownMonster
 	        {
 	            mmApp.Configuration.Write();
 	            Close();
-	            mmFileUtils.ExecuteProcess(Path.Combine(Environment.CurrentDirectory, "MarkdownMonster.exe"), "");                
-	        }            
+	            mmFileUtils.ExecuteProcess(Path.Combine(Environment.CurrentDirectory, "MarkdownMonster.exe"), "");
+	        }
 	    }
 
 	    private void MarkdownParserName_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1804,13 +1808,13 @@ namespace MarkdownMonster
 
 
 		private void HandleNamedPipe_OpenRequest(string filesToOpen)
-		{		 
+		{
             Dispatcher.Invoke(() =>
 			{
 				if (!string.IsNullOrEmpty(filesToOpen))
 				{
                     var parms = StringUtils.GetLines(filesToOpen.Trim());
-                    
+
 				    OpenFilesFromCommandLine(parms);
 
 
@@ -1821,10 +1825,10 @@ namespace MarkdownMonster
 					//    {
 					//        var ext = Path.GetExtension(file);
 
-					//        if (string.IsNullOrEmpty(ext))					        
-					//            ShowFolderBrowser(false, file);					        
+					//        if (string.IsNullOrEmpty(ext))
+					//            ShowFolderBrowser(false, file);
      //                       else
-     //                           lastTab = OpenTab(file.Trim());                            
+     //                           lastTab = OpenTab(file.Trim());
 					//    }
 					//}
 					//if (lastTab != null)
@@ -1859,7 +1863,7 @@ namespace MarkdownMonster
 			}
 
 			StatusText.Text = message;
-            
+
 			if (milliSeconds > 0)
 			{
                 debounce.Debounce(milliSeconds,(win) =>
@@ -1887,7 +1891,7 @@ namespace MarkdownMonster
 			StatusIcon.Icon = icon;
 			StatusIcon.Foreground = new SolidColorBrush(color);
 			if (spin)
-				StatusIcon.SpinDuration = 1;            
+				StatusIcon.SpinDuration = 1;
 
 			StatusIcon.Spin = spin;
 		}
@@ -1928,7 +1932,7 @@ namespace MarkdownMonster
 			// wbhandle has additional browser initialization code
 			// using the WebBrowserHostUIHandler
 			PreviewBrowser.LoadCompleted += PreviewBrowserOnLoadCompleted;
-			//PreviewBrowser.Navigate("about:blank");            
+			//PreviewBrowser.Navigate("about:blank");
 		}
 
 
