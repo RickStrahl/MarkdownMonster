@@ -75,7 +75,8 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Westwind.Utilities">
-      <HintPath>..\..\MarkdownMonster\bin\Release\Westwind.Utilities.dll</HintPath>
+      <HintPath>..\..\packages\Westwind.Utilities.3.0.2\lib\net45\Westwind.Utilities.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="YamlDotNet, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">

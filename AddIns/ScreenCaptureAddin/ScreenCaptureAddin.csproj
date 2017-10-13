@@ -62,7 +62,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
     <Reference Include="Westwind.Utilities">
-      <HintPath>..\..\MarkdownMonster\bin\Release\Westwind.Utilities.dll</HintPath>
+      <HintPath>..\..\packages\Westwind.Utilities.3.0.2\lib\net45\Westwind.Utilities.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
