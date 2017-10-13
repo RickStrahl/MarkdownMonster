@@ -45,7 +45,7 @@ namespace MarkdownMonster
     /// Wrapper around the CommonMark.NET parser that provides a cached
     /// instance of the Markdown parser. Hooks up custom processing.
     /// </summary>
-    public class  MarkdownParserMarkdig : MarkdownParserBase
+    public class MarkdownParserMarkdig : MarkdownParserBase
     {
         public static MarkdownPipeline Pipeline;
 
@@ -76,23 +76,31 @@ namespace MarkdownMonster
 
             Markdown.Convert(markdown, renderer, Pipeline);
             var html = htmlWriter.ToString();
-            
+
             html = ParseFontAwesomeIcons(html);
 
             if (mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal)
                 html = ParseExternalLinks(html);
 
             if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
-                html = ParseScript(html);  
-                      
+                html = ParseScript(html);
+
             return html;
         }
 
-        protected virtual MarkdownPipelineBuilder CreatePipelineBuilder()
+        /// <summary>
+        /// Builds the Markdig processing pipeline and returns a builder.
+        /// Use this method to override any custom pipeline addins you want to
+        /// add or append. 
+        /// 
+        /// Note you can also add addins using options.MarkdigExtensions which
+        /// use MarkDigs extension syntax using commas instead of +.
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        protected virtual MarkdownPipelineBuilder BuildPipeline(MarkdownOptionsConfiguration options, MarkdownPipelineBuilder builder)
         {
-            var builder = new MarkdownPipelineBuilder();
-
-            var options = mmApp.Configuration.MarkdownOptions;
             if (options.AutoLinks)
                 builder = builder.UseAutoLinks();
             if (options.AutoHeaderIdentifiers)
@@ -113,7 +121,7 @@ namespace MarkdownMonster
             if (options.GithubTaskLists)
                 builder = builder.UseTaskLists();
             if (options.SmartyPants)
-                builder = builder.UseSmartyPants();            
+                builder = builder.UseSmartyPants();
 
             if (_usePragmaLines)
                 builder = builder.UsePragmaLines();
@@ -122,13 +130,36 @@ namespace MarkdownMonster
             {
                 if (!string.IsNullOrWhiteSpace(options.MarkdigExtensions))
                 {
-                    builder = builder.Configure(options.MarkdigExtensions.Replace(",","+"));
+                    builder = builder.Configure(options.MarkdigExtensions.Replace(",", "+"));
                 }
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 // One or more of the extension options is invalid. 
-                mmApp.Log("Failed to load Markdig extensions: " + options.MarkdigExtensions + "\r\n" + ex.Message,ex);
+                mmApp.Log("Failed to load Markdig extensions: " + options.MarkdigExtensions + "\r\n" + ex.Message, ex);
+            }
+
+            return builder;
+        }
+
+
+        /// <summary>
+        /// Create the entire Markdig pipeline and return the completed
+        /// ready to process builder.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual MarkdownPipelineBuilder CreatePipelineBuilder()
+        {
+            var options = mmApp.Configuration.MarkdownOptions;
+            var builder = new MarkdownPipelineBuilder();
+
+            try
+            {
+                builder = BuildPipeline(options, builder);
+            }
+            catch (ArgumentException ex)
+            {
+                mmApp.Log($"Failed to build pipeline: {ex.Message}", ex);
             }
 
             return builder;
