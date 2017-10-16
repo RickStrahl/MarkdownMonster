@@ -404,7 +404,7 @@ namespace MarkdownMonster
                 form.Image = link;
 
                 bool? res = form.ShowDialog();
-                if (res != null && res.Value)
+                if (res != null && res.Value && form.Image != null)
                 {
                     var image = form.Image;
                     if (!image.StartsWith("data:image/"))
