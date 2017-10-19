@@ -3,6 +3,26 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.7.0
+*<small>Oct. 19th, 2017</small>*
+
+* **Version Rollup Release**   
+This release is a version rollup release that combines all the recent additions into a point release.
+
+* **Cleanup Project References for built-in Addins**  
+Fixed project references in the provided WebLog and ScreenCapture addins to use package references. The references are marked to not copy local, and are used in lieu of referencing current assemblies in the main MM project. This was causing bad project references when cloning at times. Fixed.
+
+* **Remove Web Project from main Markdown Monster Solution**  
+Removed the Web project from the main project as that was causing version issues when the Web Roslyn tooling versions are out of sync. Web Project now separate. 
+
+* **Fix: Addin notification for `OnDocumentActivated()`**   
+The addin notification previously fired after the preview was updated, causing potential problems for addins that modify output and want to display the updated information in the preview. Fixed.
+
+* **Fix: Save Image Crash**  
+Fixed issue where trying to save an empty image from the Embed Image dialog would crash MM. Checks to not allow saving with no image, and safeguard if save does make it through without a memory image.
+
+* **Fix: Windows Settings Crash in Zoomed scenearios**  
+In some situations when MM is running with maximized window or in Distraction Free mode, the window settings values were indeterminate causing a startup crash in MM. Fixed.
 
 ### 1.6.8
 *<small>Oct. 11th, 2017</small>*
