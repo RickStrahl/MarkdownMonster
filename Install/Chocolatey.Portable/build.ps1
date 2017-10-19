@@ -4,9 +4,9 @@
 #           Release has been checked in to GitHub Repo
 #   Builds: ChocolateyInstall.ps1 file with download URL and sha256 embedded
 
-cd "$PSScriptRoot" 
+Set-Location "$PSScriptRoot" 
 
-copy ..\builds\currentrelease\MarkdownMonsterPortable.zip .\tools
+Copy-Item ..\builds\currentrelease\MarkdownMonsterPortable.zip .\tools
 
 $sha = get-filehash -path ".\tools\MarkdownMonsterPortable.zip" -Algorithm SHA256  | select -ExpandProperty "Hash"
 write-host $sha
@@ -19,7 +19,7 @@ $filetext = @"
 out-file -filepath .\tools\Verification.txt -inputobject $filetext
 
 
-del *.nupkg
+Remove-Item *.nupkg
 
 # Create .nupkg from .nuspec    
 choco pack
