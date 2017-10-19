@@ -1074,9 +1074,6 @@ namespace MarkdownMonster
 			if (editor == null)
 				return;
 
-			if (mmApp.Configuration.IsPreviewVisible)
-				PreviewMarkdown();
-
 			SetWindowTitle();
 
 			foreach (var doc in Model.OpenDocuments)
@@ -1089,7 +1086,10 @@ namespace MarkdownMonster
 
 			AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
 
-			Model.ActiveEditor.RestyleEditor();
+		    if (mmApp.Configuration.IsPreviewVisible)
+		        PreviewMarkdown();
+
+            Model.ActiveEditor.RestyleEditor();
 
 			editor.WebBrowser.Focus();
 			editor.SetEditorFocus();
