@@ -22,10 +22,18 @@ $(document).ready(function() {
     $(document).on("click","a",
         function(e) {
             var url = this.href;
+            var hash = this.hash;
+            
             if (url.substr(0, 4) === "http" &&
                 te.mmEditor.NavigateExternalUrl(url)) {
                     e.preventDefault();
                     return false;                
+            }
+            if (hash) {                
+                var sel = hash + ",[name='" + hash.substr(1) + "']";
+                var $el = $(sel);
+                $("html").scrollTop($el.offset().top - 100);
+                return false;
             }
         });
 });
