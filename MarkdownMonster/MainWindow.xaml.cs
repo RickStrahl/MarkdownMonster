@@ -539,17 +539,20 @@ namespace MarkdownMonster
 						if (tab == null)
 							continue;
 
-						if (doc.IsActive)
-							selectedTab = tab;
-					}
+					    if (doc.IsActive) { 			    
+					        selectedTab = tab;
+					        // have to explicitly notify initial activation
+					        // since we surpress it on all tabs during startup
+					        AddinManager.Current.RaiseOnDocumentActivated(doc);
+                        }
 				}
 
-				if (selectedTab != null)
-					TabControl.SelectedItem = selectedTab;
-				else
-					TabControl.SelectedIndex = 0;
+			    if (selectedTab != null)
+			        TabControl.SelectedItem = selectedTab;                
+			    else
+			        TabControl.SelectedIndex = 0;
 
-				batchTabAction = false;
+			    batchTabAction = false;
 
 			}
 
