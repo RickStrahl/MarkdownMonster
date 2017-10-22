@@ -173,6 +173,26 @@ namespace WebLogAddin.MetaWebLogApi
         }
 
         /// <summary>
+        /// Retrieves a se
+        /// </summary>
+        /// <param name="numberOfPosts"></param>
+        /// <returns></returns>
+        public IEnumerable<Post> GetRecentPosts(int numberOfPosts = 20)
+        {
+            try
+            {
+                var wrapper = GetWrapper();
+                return wrapper.GetRecentPosts(numberOfPosts);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = "Unable to download posts Posts: " + ex.GetBaseException().Message;
+                return null;
+            }
+
+        }
+
+        /// <summary>
         /// Parses each of the images in the document and posts them to the server.
         /// Updates the HTML with the returned Image Urls
         /// </summary>
@@ -278,10 +298,9 @@ namespace WebLogAddin.MetaWebLogApi
         /// <returns></returns>
         MetaWeblogWrapper GetWrapper()            
         {
-            var type = WeblogInfo.Type;
 
             MetaWeblogWrapper wrapper;
-            if (type == WeblogTypes.MetaWeblogApi)
+            if (WeblogInfo.Type == WeblogTypes.MetaWeblogApi)
                 wrapper = new MetaWeblogWrapper(WeblogInfo.ApiUrl,
                     WeblogInfo.Username,
                     mmApp.DecryptString(WeblogInfo.Password),

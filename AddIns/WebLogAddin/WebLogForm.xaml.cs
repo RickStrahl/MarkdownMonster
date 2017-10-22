@@ -209,12 +209,7 @@ namespace WeblogAddin
         {
             WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
 
-            var wrapper = new MetaWeblogWrapper(weblogInfo.ApiUrl,
-                weblogInfo.Username,
-                mmApp.DecryptString(weblogInfo.Password),
-                weblogInfo.BlogId);
-
-
+            var client = new MetaWebLogWordpressApiClient(weblogInfo);
             Model.Configuration.LastWeblogAccessed = weblogInfo.Name;
 
             Dispatcher.Invoke(() =>
@@ -231,7 +226,7 @@ namespace WeblogAddin
             {
                 bool result = await Task.Run(() =>
                 {
-                    posts = wrapper.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
+                    posts = client.GetRecentPosts(Model.NumberOfPostsToRetrieve).ToList();
                     return false;
                 });
             }
