@@ -47,6 +47,8 @@ using System.Security;
 
 namespace MarkdownMonster
 {
+    using AddIns;
+
     /// <summary>
     /// Class that wraps the Active Markdown document used in the
     /// editor.
@@ -811,7 +813,9 @@ namespace MarkdownMonster
                 .Replace("{$docPath}", "file:///" + docPath)
                 .Replace("{$markdownHtml}", markdownHtml);
 
-            if (!WriteFile(filename, html))
+            html = AddinManager.Current.RaiseOnUpdateTheme( html, markdownHtml );
+
+            if( !WriteFile(filename, html))
                 return null;
 
             return html;
