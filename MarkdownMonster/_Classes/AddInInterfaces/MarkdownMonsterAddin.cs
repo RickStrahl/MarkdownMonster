@@ -105,10 +105,10 @@ namespace MarkdownMonster.AddIns
         /// 
         /// If this were a delegate it's signature would be:
         /// 
-        /// delegate string UpdateThemeDelegate( string themeHtml, string  markdownHtml );
+        /// delegate string AfterRenderPreviewDelegate( string themeHtml, string  markdownHtml );
         /// </summary>
 
-        public Func<string, string, string> UpdateTheme = null;
+        public Func<string, string, string> AfterRenderPreview = null;
 
         /// <summary>
         /// Called when the Menu or Toolbar button is clicked

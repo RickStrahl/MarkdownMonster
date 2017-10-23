@@ -813,7 +813,7 @@ namespace MarkdownMonster
                 .Replace("{$docPath}", "file:///" + docPath)
                 .Replace("{$markdownHtml}", markdownHtml);
 
-            html = AddinManager.Current.RaiseOnUpdateTheme( html, markdownHtml );
+            html = AddinManager.Current.RaiseAfterRenderPreview( html, markdownHtml );
 
             if( !WriteFile(filename, html))
                 return null;
