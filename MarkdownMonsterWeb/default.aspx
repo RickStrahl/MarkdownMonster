@@ -350,9 +350,6 @@
                     creating an addin with .NET</a>.
                 </p>                
 
-
-
-                    
                     <h4>What our Users say</h4>
                     <p>
                     We work hard at building an editor that you love to use, and that provides you with the features you need.
@@ -375,6 +372,12 @@
                                                     
                             <div class="item active">
                                 <img src="Images/Tweets/atlantabass.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/Cook.png" />
                                 <div class="carousel-caption">
                                 </div>
                             </div>
@@ -434,13 +437,7 @@
                                 <div class="carousel-caption">
                                 </div>
                             </div>	
-                            
-                            <div class="item">
-                                <img src="Images/Tweets/James_Willock.png" />
-                                <div class="carousel-caption">
-                                </div>
-                            </div>
-                                                      
+                  
                         
                         </div>
 

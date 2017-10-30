@@ -3,6 +3,13 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+
+### 1.7.1
+*<small>not released yet</small>*
+
+* **Fix: #Hash navigation in Preview**  
+Due to browser limitiations related to local file URLs and base tags, native #Hash navigation doesn't work in the preview browser or when viewing in an external browser with a local file system URL. Added logic in the page to intercept hash navigation and explicitly navigate the document to the specified element on the page.
+
 ### 1.7.0
 *<small>Oct. 19th, 2017</small>*
 
