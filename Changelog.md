@@ -10,6 +10,9 @@
 * **Fix: #Hash navigation in Preview**  
 Due to browser limitiations related to local file URLs and base tags, native #Hash navigation doesn't work in the preview browser or when viewing in an external browser with a local file system URL. Added logic in the page to intercept hash navigation and explicitly navigate the document to the specified element on the page.
 
+* **Fix: Installer Unicode Paths**  
+Fix Unicode support in the installer that was causing problems when using file paths that contain extended Unicode characters. Fixed by compiling with the proper Unicode version of Inno Installer.
+
 ### 1.7.0
 *<small>Oct. 19th, 2017</small>*
 

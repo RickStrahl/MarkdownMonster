@@ -533,18 +533,21 @@ namespace MarkdownMonster
 					if (doc.Filename == null)
 						continue;
 
-					if (File.Exists(doc.Filename))
-					{
-						var tab = OpenTab(doc.Filename, selectTab: false, batchOpen: true, initialLineNumber: doc.LastEditorLineNumber);
-						if (tab == null)
-							continue;
+				    if (File.Exists(doc.Filename))
+				    {
+				        var tab = OpenTab(doc.Filename, selectTab: false, batchOpen: true,
+				            initialLineNumber: doc.LastEditorLineNumber);
+				        if (tab == null)
+				            continue;
 
-					    if (doc.IsActive) { 			    
-					        selectedTab = tab;
-					        // have to explicitly notify initial activation
-					        // since we surpress it on all tabs during startup
-					        AddinManager.Current.RaiseOnDocumentActivated(doc);
-                        }
+				        if (doc.IsActive)
+				        {
+				            selectedTab = tab;
+				            // have to explicitly notify initial activation
+				            // since we surpress it on all tabs during startup
+				            AddinManager.Current.RaiseOnDocumentActivated(doc);
+				        }
+				    }
 				}
 
 			    if (selectedTab != null)
