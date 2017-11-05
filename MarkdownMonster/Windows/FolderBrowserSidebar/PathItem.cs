@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -121,7 +121,7 @@ namespace MarkdownMonster.Windows
 
 			get
 			{
-				if (mmFileUtils.GetImageMediaTypeFromFilename(FullPath) == "application/image")
+				if (ImageUtils.GetImageMediaTypeFromFilename(FullPath) == "application/image")
 					return false;
 
 				return true;

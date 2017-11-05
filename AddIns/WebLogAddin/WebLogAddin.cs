@@ -379,8 +379,8 @@ namespace WeblogAddin
 
         public void CreateNewPostOnDisk(string title, string postFilename, string weblogName)
         {
-            string filename = mmFileUtils.SafeFilename(postFilename);
-            string titleFilename = mmFileUtils.SafeFilename(title);
+            string filename = FileUtils.SafeFilename(postFilename);
+            string titleFilename = FileUtils.SafeFilename(title);
 
             var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), titleFilename.Replace(" ","-"));
             if (!Directory.Exists(folder))
@@ -443,7 +443,7 @@ namespace WeblogAddin
 
         public void CreateDownloadedPostOnDisk(Post post, string weblogName)
         {
-            string filename = mmFileUtils.SafeFilename(post.Title);
+            string filename = FileUtils.SafeFilename(post.Title);
 
             var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,
                 "Downloaded",weblogName,

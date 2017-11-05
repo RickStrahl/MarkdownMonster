@@ -437,7 +437,7 @@ namespace MarkdownMonster
                     {
                         filename = match.Groups["Header"].Value;
                         if (!string.IsNullOrEmpty(filename))
-                            filename = mmFileUtils.SafeFilename(filename);
+                            filename = FileUtils.SafeFilename(filename);
                     }
                 }
 

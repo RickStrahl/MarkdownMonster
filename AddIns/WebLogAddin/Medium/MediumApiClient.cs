@@ -11,6 +11,7 @@ using MarkdownMonster;
 using Newtonsoft.Json;
 using WeblogAddin;
 using WebLogAddin.MetaWebLogApi;
+using Westwind.Utilities;
 using Westwind.Utilities.InternetTools;
 using File = System.IO.File;
 
@@ -165,7 +166,7 @@ namespace WebLogAddin.Medium
         {
             // base folder name for uploads - just the folder name of the image
             var baseName = Path.GetFileName(basePath);
-            baseName = mmFileUtils.SafeFilename(baseName).Replace(" ", "-");
+            baseName = FileUtils.SafeFilename(baseName).Replace(" ", "-");
 
             var doc = new HtmlDocument();
             doc.LoadHtml(post.content);

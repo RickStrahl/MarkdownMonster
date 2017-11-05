@@ -56,38 +56,7 @@ namespace MarkdownMonster
             return null;
         }
 
-        /// <summary>
-        /// Returns a safe filename from a string by stripping out
-        /// illegal characters
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="replace"></param>
-        /// <returns></returns>
-        public static string SafeFilename(string fileName, string replace = "")
-        {
-            string file = Path.GetInvalidFileNameChars()
-                .Aggregate(fileName.Trim(), 
-                           (current, c) => current.Replace(c.ToString(), replace)  );
-
-            file = file.Replace("#", "");
-            return file;
-        }
-
-        /// <summary>
-        /// Returns a safe filename in CamelCase
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public static string CamelCaseSafeFilename(string filename)
-        {
-            if (string.IsNullOrEmpty(filename))
-                return filename;
-
-            string fname = Path.GetFileNameWithoutExtension(filename);
-            string ext = Path.GetExtension(filename);           
-
-            return StringUtils.ToCamelCase(SafeFilename(fname) ) + ext;
-        }
+        
 
         /// <summary>
         /// Creates an SHA256 checksum of a file
@@ -313,31 +282,7 @@ namespace MarkdownMonster
 		#endregion
 
 		#region Image Utilities
-		/// <summary>
-		/// Returns the image media type for a give file extension based
-		/// on a filename or url passed in.
-		/// </summary>
-		/// <param name="file"></param>
-		/// <returns></returns>
-		public static string GetImageMediaTypeFromFilename(string file)
-        {
-            if (string.IsNullOrEmpty(file))
-                return file;
-
-            string ext = Path.GetExtension(file).ToLower();
-            if (ext == ".jpg" || ext == ".jpeg")
-                return "image/jpeg";
-            if (ext == ".png")
-                return "image/png";
-            if (ext == ".gif")
-                return "image/gif";
-            if (ext == ".bmp")
-                return "image/bmp";
-            if (ext == ".tif" || ext == ".tiff")
-                return "image/tiff";
-
-            return "application/image";
-        }
+	
 
         /// <summary>
         /// Tries to optimize png images in the background

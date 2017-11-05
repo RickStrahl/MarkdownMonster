@@ -619,7 +619,7 @@ namespace MarkdownMonster.Windows
                 {
                     var bytes = File.ReadAllBytes(fullPath);
                     var bytestring = Convert.ToBase64String(bytes);
-                    var mediaFormat = mmFileUtils.GetImageMediaTypeFromFilename(fullPath);
+                    var mediaFormat = ImageUtils.GetImageMediaTypeFromFilename(fullPath);
                     Image = $"data:{mediaFormat};base64," + bytestring;
                 }
             }

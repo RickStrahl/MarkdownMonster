@@ -140,7 +140,7 @@ namespace WeblogAddin
                 if (value == _newTitle) return;
                 _newTitle = value;                
                 OnPropertyChanged(nameof(NewTitle));
-                NewFilename = mmFileUtils.SafeFilename(StringUtils.ToCamelCase(value)) + ".md";                
+                NewFilename = FileUtils.SafeFilename(StringUtils.ToCamelCase(value)) + ".md";                
             }
         }
 

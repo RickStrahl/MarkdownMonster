@@ -37,7 +37,7 @@ namespace WebLogAddin.MetaWebLogApi
 
         public override string ToString()
         {
-            return this.description;
+            return description;
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Windows;
 using HtmlAgilityPack;
 using MarkdownMonster;
 using WeblogAddin;
+using Westwind.Utilities;
 
 namespace WebLogAddin.MetaWebLogApi
 {
@@ -207,7 +208,7 @@ namespace WebLogAddin.MetaWebLogApi
             
             // base folder name for uploads - just the folder name of the image
             var baseName = Path.GetFileName(basePath);
-            baseName = mmFileUtils.SafeFilename(baseName).Replace(" ", "-");
+            baseName = FileUtils.SafeFilename(baseName).Replace(" ", "-");
 
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
@@ -230,11 +231,12 @@ namespace WebLogAddin.MetaWebLogApi
 
                             if (System.IO.File.Exists(imgFile))
                             {
+                                var uploadFilename = FileUtils.SafeFilename(Path.GetFileName(imgFile),spaceReplacement:"-");
                                 var media = new MediaObject()
                                 {
-                                    Type = mmFileUtils.GetImageMediaTypeFromFilename(imgFile),
+                                    Type = ImageUtils.GetImageMediaTypeFromFilename(imgFile),
                                     Bits = System.IO.File.ReadAllBytes(imgFile),
-                                    Name = baseName + "/" + Path.GetFileName(imgFile)
+                                    Name = baseName + "/" + uploadFilename
                                 };
                                 var mediaResult = wrapper.NewMediaObject(media);
                                 img.Attributes["src"].Value = mediaResult.URL;
