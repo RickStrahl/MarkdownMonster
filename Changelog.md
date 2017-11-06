@@ -4,14 +4,17 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-### 1.7.1
+### 1.7.2
 *<small>not released yet</small>*
 
 * **Fix: #Hash navigation in Preview**  
-Due to browser limitiations related to local file URLs and base tags, native #Hash navigation doesn't work in the preview browser or when viewing in an external browser with a local file system URL. Added logic in the page to intercept hash navigation and explicitly navigate the document to the specified element on the page.
+Due to browser limitations related to local file URLs and base tags, native #Hash navigation doesn't work in the preview browser or when viewing in an external browser with a local file system URL. Added logic in the page to intercept hash navigation and explicitly navigate the document to the specified element on the page.
 
 * **Fix: Installer Unicode Paths**  
 Fix Unicode support in the installer that was causing problems when using file paths that contain extended Unicode characters. Fixed by compiling with the proper Unicode version of Inno Installer.
+
+* **Fix: Image Upload with Spaces**  
+Fix previously broken image upload when image names contain spaces or other encoded characters.
 
 ### 1.7.0
 *<small>Oct. 19th, 2017</small>*
