@@ -28,11 +28,15 @@ namespace MarkdownMonster.Windows
 
             if (UnlockKey.IsRegistered())
             {
-                LabelIsRegistered.Text = "This copy is registered.";
+                LabelIsRegistered.Text = "This copy is already registered. Only fill out to clear or reset.";
+                LabelIsRegistered.FontWeight = FontWeights.DemiBold;
                 LabelIsRegistered.Foreground = new SolidColorBrush(Colors.LightGreen);
             }
             else
+            {
                 LabelIsRegistered.Text = "This copy is not registered.";
+                LabelIsRegistered.FontWeight = FontWeights.Normal;
+            }
 
             Loaded += (s, e) =>
             {
@@ -66,6 +70,11 @@ namespace MarkdownMonster.Windows
         private void Exit_Click(object sender, MouseButtonEventArgs e)
         {
             this.Close();
+        }
+
+        private void Purchase_Click(object sender, RoutedEventArgs e)
+        {
+            ShellUtils.GoUrl("https://store.west-wind.com/product/order/markdown_monster");
         }
     }
 }

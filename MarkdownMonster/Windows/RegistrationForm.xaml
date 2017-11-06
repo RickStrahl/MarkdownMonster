@@ -7,7 +7,13 @@
         
         mc:Ignorable="d" FontSize="17"
         Background="black" Foreground="WhiteSmoke"
-        Title="Product Registration" Height="380" Width="740" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" WindowStyle="None">
+        Title="Product Registration" 
+        Height="420" 
+        Width="740" 
+        ResizeMode="NoResize" 
+        ShowInTaskbar="False" 
+        WindowStartupLocation="CenterOwner" 
+        WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -22,6 +28,14 @@
                 Thank you for registering your copy of West Wind Markdown Monster.
                 <LineBreak/>
                 <LineBreak/>
+                You can  
+                <Button Content="purchase a registratrion key" 
+                        Click="Purchase_Click"  TextBlock.BaselineOffset="19.5"
+                        Style="{DynamicResource LinkButtonStyle}">                     
+                </Button>                
+                in our online store if you don't have one.
+                <LineBreak/>
+                <LineBreak/>
                 Please enter your Registration Key below:
             </TextBlock>
             <PasswordBox Name="TextRegKey" Margin="15,5,20,0" ></PasswordBox>
@@ -32,6 +46,7 @@
                     HorizontalAlignment="Center"  Click="Register_Click"
                     Style="{DynamicResource LinkButtonStyle}">
             </Button>
+           
         </StackPanel>
         <TextBlock Grid.Column="2" Text="x" FontFamily="Arial Black"  MouseDown="Exit_Click"
                    Padding="5,5" />
