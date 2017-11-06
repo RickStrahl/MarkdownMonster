@@ -44,7 +44,17 @@ namespace WebLogAddin.MetaWebLogApi
         {
             WeblogInfo = weblogInfo;
         }
-        
+
+
+        /// <summary>
+        /// Sends a complete post to a server. Parses the post and sends 
+        /// embedded images as media attachments.
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="basePath"></param>
+        /// <param name="sendAsDraft"></param>
+        /// <param name="markdown"></param>
+        /// <returns></returns>
         public bool PublishCompletePost(Post post,  
             string basePath = null, 
             bool sendAsDraft = false,
@@ -220,7 +230,9 @@ namespace WebLogAddin.MetaWebLogApi
                 {
                     foreach (HtmlNode img in images)
                     {
-                        string imgFile = img.Attributes["src"]?.Value as string;
+                        string imgFile = img.Attributes["src"]?.Value;
+                        imgFile = StringUtils.UrlDecode(imgFile);                        
+
                         if (imgFile == null)
                             continue;
 
@@ -231,7 +243,7 @@ namespace WebLogAddin.MetaWebLogApi
 
                             if (System.IO.File.Exists(imgFile))
                             {
-                                var uploadFilename = FileUtils.SafeFilename(Path.GetFileName(imgFile),spaceReplacement:"-");
+                                var uploadFilename = Path.GetFileName(imgFile);
                                 var media = new MediaObject()
                                 {
                                     Type = ImageUtils.GetImageMediaTypeFromFilename(imgFile),
