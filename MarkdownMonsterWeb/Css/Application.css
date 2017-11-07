@@ -14,16 +14,23 @@ h2, h3,h4,h5 {
 a {
     font-weight: bold;
 }
-.banner {
+.banner {    
     background: #535353;
     color: #e1e1e1;
     border-bottom: solid 4px black;    
     overflow: auto;
 }
-    .banner.active {
-        color: white;
-        font-weight: bolder;
-    }
+.banner-bottom {
+    font-size: 8pt !important;
+    padding: 10px ;    
+    margin: 0;
+    border-top: solid black 4px;
+    border-bottom: none;    
+}
+.banner.active  {
+    color: white;
+    font-weight: bolder;
+}
 
 .banner-title {
     display: inline-block;    

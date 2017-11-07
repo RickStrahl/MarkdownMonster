@@ -1,27 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MarkdownMonster", ".", "{7317F3D8-C90A-45A7-BB7B-32F9DCDFFC28}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MarkdownMonsterWeb(1)", ".", "{6AB5E445-9660-454B-BF02-506000EED978}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_38903"
-		Debug.AspNetCompiler.PhysicalPath = "..\MarkdownMonster\"
+		Debug.AspNetCompiler.PhysicalPath = "..\MarkdownMonsterWeb\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_38903\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_38903"
-		Release.AspNetCompiler.PhysicalPath = "..\MarkdownMonster\"
+		Release.AspNetCompiler.PhysicalPath = "..\MarkdownMonsterWeb\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_38903\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "38903"
-		SlnRelativePath = "..\MarkdownMonster\"
+		SlnRelativePath = "..\MarkdownMonsterWeb\"
 	EndProjectSection
 EndProject
 Global
@@ -29,10 +29,13 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7317F3D8-C90A-45A7-BB7B-32F9DCDFFC28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7317F3D8-C90A-45A7-BB7B-32F9DCDFFC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB5E445-9660-454B-BF02-506000EED978}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F812AB9-7E74-4A44-9202-B87D6CC7B3B7}
 	EndGlobalSection
 EndGlobal

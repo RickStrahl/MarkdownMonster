@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" %>
+<%@ Register TagPrefix="ww" Namespace="Westwind.Web.MarkdownControl" Assembly="Westwind.Web.MarkdownControl" %>
 <%@ Import Namespace="System.Net" %>
 
 <%
@@ -50,8 +51,8 @@
         <div id="TopMenu" class="right">
             <a href="./">Home</a>            
             <a href="download.aspx" class="active">Download</a>
-            <a href="http://store.west-wind.com/product/order/markdown_monster">Buy</a>
-            <a href="docs/" class="hidable">Docs</a>
+            <a href="http://store.west-wind.com/product/order/markdown_monster" title="Purchase Markdown Monster">Buy</a>
+            <a href="docs/" class="hidable" title="Documentation">Docs</a>
             <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog">                
                 Blog
             </a>
@@ -114,7 +115,7 @@
                                     Markdown Monster on as many computers you wish with your license.
                                     </p>
                                     <p>
-                                    Want a <b>free license</b>? Contributors who help out with code, feature suggestions, 
+                                    Want a <a href="#Contribute">free license</a>? Contributors who help out with code, feature suggestions, 
                                     documentation or promotion qualify for a free license.
                                     </p>
                                     <p>
@@ -213,89 +214,68 @@
             <h5 class="panel-title">Licensing</h5>
             </div>
             <div class="panel-body">
-                <p>
-                    Although we provide the <a href="https://github.com/RickStrahl/MarkdownMonster">source in the open</a>,
-                    Markdown Monster is licensed software.
-                </p>
 
+     <ww:Markdown runat="server" id="license" NormalizeWhiteSpace="true">
+#### License
 
-                <p>
-                    Markdown Monster can be downloaded and evaluated for free, but <a href="https://store.west-wind.com/product/order/markdown_monster">
-                    a reasonably priced license</a> must be purchased for continued use. Licenses are per-user, 
-                    rather than per-machine, so a licensed user can use Markdown Monster on as many 
-                    computers as desired.
-                </p>
-                <p>
-                    Thanks for playing fair.
-                </p>
-                <p>
+Although we provide the <a href="https://github.com/RickStrahl/MarkdownMonster">source in the open</a>,
+Markdown Monster is licensed software.
 
-                    <a href="https://store.west-wind.com/product/order/markdown_monster" class="btn btn-lg btn-primary">
-                        <i class="fa  fa-credit-card"></i>
-                        Purchase
-                    </a>
-                </p>
+Markdown Monster can be downloaded and evaluated for free, but [a reasonably priced license](https://store.west-wind.com/product/order/markdown_monster) 
+must be purchased for continued use. Licenses are <b>per user</b>, rather than per machine, 
+so a licensed user can use Markdown Monster on as many computers as needed. An [organizational license](https://store.west-wind.com/product/markdown_monster_site) is also available 
+to use Markdown Monster for an unlimited number of installations within a single organization. Each individual user requires 
+a separate license, unless an organizational license  is used in which case the license is limited to members of licensed organization.                  
                 
-                <hr />
+Licenses are valid for the major version for which it was purchased such as v1.0 to v1.99.                    
+                
+                    
+Thanks for playing fair.
 
-                <p>                    
-                    <h4>License</h4>                        
-                    Markdown Monster can be downloaded and evaluated for free, but a license must be purchased for continued
-                    use. Licenses are per user, rather than per machine, so a licensed user can use Markdown Monster on as many computers
-                    as needed. An organizational license is also available to use Markdown Monster for an unlimited number of installations 
-                    within a single organization. Each individual user requires a separate license, unless an organizational license 
-                    is used in which case the license is limited to members of licensed organization.                  
-                </p>
-                
-                <p>
-                    Licenses are valid for the major version for which it was purchased such as v1.0 to v1.99.                    
-                </p>
-                
-	            <a name="Contribute"></a>
-                <h3>Contribute - Get a Free License</h3>
-                <p>Contributors that provide valuable feedback with quality bug reports and enhancement requests, 
-				   or help out with code via Pull Requests, or support Markdown Monster in a significant 
-					way are all eligible for a free license.
-				   <br />
-                
-	            <p>
-		            Microsoft employees and Microsoft MVPs as well as employees of any company 
-		            offering free tools to the MS MVP program also qualify for a free license.
-	            </p>
-				<p>   
-					<a href="http://west-wind.com/contact/" target="top">Contact Rick for more info</a>
-					or - just as likely - I'll be contacting you.
-                </p>
-                <p>
-					
-                    <h4>No Warranty</h4>
-                    You expressly acknowledge and agree that use of the licensed application is at your sole risk and that
-                    the entire risk as to satisfactory quality, performance, accuracy and effort is with you. To the maximum
-                    extent permitted by applicable law, the license application and any services performed or provided by
-                    the licensed application ("services") are provided "as is" and "as available," with all faults and without
-                    warranty of any kind, and application provider hereby disclaims all warranties and conditions with respect
-                    to the licensed application and any services, either express, implied or statutory, including, but not
-                    limited to, the implied warranties and/or conditions of merchantability, of satisfactory quality, of
-                    fitness for a particular purpose, of accuracy, of quiet enjoyment, and non-infringement of third party
-                    rights. Application provider does not warrant against interference with your enjoyment of the licensed
-                    application, that the functions contained in, or services performed or provided by, the licensed application
-                    will meet your requirements, that the operation of the licensed application or services will be uninterrupted
-                    or error-free, or that effects in the licensed application or services will be corrected. No oral or
-                    written information or advice given by application provider or its authorized representative shall create
-                    a warranty. Should the licensed application or services prove defective, you assume the entire cost
-                    of all necessary servicing, repair or correction.                     
-                </p>
+<a href="https://store.west-wind.com/product/order/markdown_monster" class="btn btn-lg btn-primary">
+    <i class="fa  fa-credit-card"></i>
+    Purchase
+</a>
 
-                <p>
-                    <h4>LIMITATION OF LIABILITY</h4>
-                    IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THIS PROGRAM AND DOCUMENTATION, BE LIABLE
-                    FOR ANY COMMERCIAL, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY
-                    TO USE THE PROGRAM INCLUDING, BUT NOT LIMITED TO, LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR
-                    LOSSES SUSTAINED BY YOU OR LOSSES SUSTAINED BY THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE
-                    WITH ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES
-                </p>
+---
+         
+<a name="Contribute"></a>
+#### Contribute - Get a Free License
+Contributors that provide valuable feedback with quality bug reports or enhancement requests, 
+help out with code via Pull Requests, help promote Markdown Monster, or support Markdown Monster in
+any other significant way are all eligible for a free license.
+				   
+<b>Microsoft employees</b> and <b>Microsoft MVPs</b> as well as employees of any company offering free tools to 
+the Microsoft MVP program also qualify for a free license.
+	            
+<a href="http://west-wind.com/contact/" target="top">Contact Rick for more info</a>
+or - just as likely - I'll be contacting you.
+                	
+#### No Warranty
+You expressly acknowledge and agree that use of the licensed application is at your sole risk and that
+the entire risk as to satisfactory quality, performance, accuracy and effort is with you. To the maximum
+extent permitted by applicable law, the license application and any services performed or provided by
+the licensed application ("services") are provided "as is" and "as available," with all faults and without
+warranty of any kind, and application provider hereby disclaims all warranties and conditions with respect
+to the licensed application and any services, either express, implied or statutory, including, but not
+limited to, the implied warranties and/or conditions of merchantability, of satisfactory quality, of
+fitness for a particular purpose, of accuracy, of quiet enjoyment, and non-infringement of third party
+rights. Application provider does not warrant against interference with your enjoyment of the licensed
+application, that the functions contained in, or services performed or provided by, the licensed application
+will meet your requirements, that the operation of the licensed application or services will be uninterrupted
+or error-free, or that effects in the licensed application or services will be corrected. No oral or
+written information or advice given by application provider or its authorized representative shall create
+a warranty. Should the licensed application or services prove defective, you assume the entire cost
+of all necessary servicing, repair or correction.                     
                 
-
+#### LIMITATION OF LIABILITY
+IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THIS PROGRAM AND DOCUMENTATION, BE LIABLE
+FOR ANY COMMERCIAL, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY
+TO USE THE PROGRAM INCLUDING, BUT NOT LIMITED TO, LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR
+LOSSES SUSTAINED BY YOU OR LOSSES SUSTAINED BY THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE
+WITH ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES
+                                
+</ww:Markdown>
 
             </div>
             

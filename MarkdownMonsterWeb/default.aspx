@@ -626,11 +626,11 @@
         </div><!-- flex -->
     </div>
 
-    <nav class="banner" style="font-size: 8pt; padding: 10px; height: 80px; margin: 0; border-top: solid black 4px; border-bottom: none;">
+    <nav class="banner banner-bottom" >
         <div class="right">
             created by:<br />
             <a href="http://west-wind.com/" style="padding: 0;">
-                <img src="/Images/wwToolbarLogo.png" style="width: 350px;" />
+                <img src="Images/wwToolbarLogo.png" style="width: 150px;" />
             </a>
         </div>
         &copy; West Wind Technologies, <%= DateTime.Now.Year %>
