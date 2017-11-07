@@ -925,7 +925,7 @@ namespace MarkdownMonster
             // run this one sync to avoid Browser default Open File popup!
             if (key == "ctrl-o")
             {
-                Window.Model.OpenDocumentCommand.Execute(Window);
+                Window.Model.Commands.OpenDocumentCommand.Execute(Window);
                 return;
             }
 

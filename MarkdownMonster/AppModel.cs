@@ -194,7 +194,7 @@ namespace MarkdownMonster
         {
             get => _isPresentationMode;
             set
-            {
+            {                
                 if (_isPresentationMode == value) return;
                 _isPresentationMode = value;
                 OnPropertyChanged(nameof(IsPresentationMode));
@@ -546,7 +546,7 @@ namespace MarkdownMonster
 
 
         }
-
+        
 
         public CommandBase SaveAsHtmlCommand { get; set; }
 
@@ -834,67 +834,7 @@ Do you want to View in Browser now?
             });
         }
 
-
-        public CommandBase OpenDocumentCommand { get; set; }
-
-        void Command_OpenDocument()
-        {
-            // OPEN DOCUMENT COMMAND
-            OpenDocumentCommand = new CommandBase((s, e) =>
-            {
-                var fd = new OpenFileDialog
-                {
-                    DefaultExt = ".md",
-                    Filter = "Markdown files (*.md,*.markdown,*.mdcrypt)|*.md;*.markdown;*.mdcrypt|" +
-                             "Html files (*.htm,*.html)|*.htm;*.html|" +
-                             "Javascript files (*.js)|*.js|" +
-                             "Typescript files (*.ts)|*.ts|" +
-                             "Json files (*.json)|*.json|" +
-                             "Css files (*.css)|*.css|" +
-                             "Xml files (*.xml,*.config)|*.xml;*.config|" +
-                             "C# files (*.cs)|*.cs|" +
-                             "C# Razor files (*.cshtml)|*.cshtml|" +
-                             "Foxpro files (*.prg)|*.prg|" +
-                             "Powershell files (*.ps1)|*.ps1|" +
-                             "Php files (*.php)|*.php|" +
-                             "Python files (*.py)|*.py|" +
-                             "All files (*.*)|*.*",
-                    CheckFileExists = true,
-                    RestoreDirectory = true,
-                    Multiselect = true,
-                    Title = "Open Markdown File"
-                };
-
-                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
-                    fd.InitialDirectory = mmApp.Configuration.LastFolder;
-
-                bool? res = null;
-                try
-                {
-                    res = fd.ShowDialog();
-                }
-                catch (Exception ex)
-                {
-                    mmApp.Log("Unable to open file.", ex);
-                    MessageBox.Show(
-                        $@"Unable to open file:\r\n\r\n" + ex.Message,
-                        "An error occurred trying to open a file",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                    return;
-                }
-                if (res == null || !res.Value)
-                    return;
-
-                foreach (var file in fd.FileNames)
-                {
-                    // TODO: Check AddRecentFile and make sure Tab Selection works
-                    Window.OpenTab(file, rebindTabHeaders: true);
-                    //Window.AddRecentFile(file);
-                }
-            });
-        }
-
+        
 
         public CommandBase CloseActiveDocumentCommand { get; set; }
 
@@ -915,8 +855,7 @@ Do you want to View in Browser now?
                 Caption = "_Close Document",
                 ToolTip = "Closes the active tab and asks to save the document."
             };
-
-
+            
         }
 
         public CommandBase ViewInExternalBrowserCommand { get; set; }
@@ -1099,7 +1038,7 @@ Do you want to View in Browser now?
 
 
             Command_NewDocument();
-            Command_OpenDocument();
+            
             Command_CloseActiveDocument();
 
             Command_ViewInExternalBrowser();

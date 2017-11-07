@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
+using Microsoft.Win32;
 
 namespace MarkdownMonster
 {
@@ -18,6 +20,7 @@ namespace MarkdownMonster
             Model = model;
 
             // File Operations
+            OpenDocument();
             NewWeblogPost();
 
 
@@ -27,8 +30,73 @@ namespace MarkdownMonster
             // Misc
             OpenSampleMarkdown();
             OpenRecentDocument();
+
+            
         }
-        
+
+        public CommandBase OpenDocumentCommand { get; set; }
+
+        void OpenDocument()
+        {
+            // OPEN DOCUMENT COMMAND
+            OpenDocumentCommand = new CommandBase((s, e) =>
+            {
+                var fd = new OpenFileDialog
+                {
+                    DefaultExt = ".md",
+                    Filter = "Markdown files (*.md,*.markdown,*.mdcrypt)|*.md;*.markdown;*.mdcrypt|" +
+                             "Html files (*.htm,*.html)|*.htm;*.html|" +
+                             "Javascript files (*.js)|*.js|" +
+                             "Typescript files (*.ts)|*.ts|" +
+                             "Json files (*.json)|*.json|" +
+                             "Css files (*.css)|*.css|" +
+                             "Xml files (*.xml,*.config)|*.xml;*.config|" +
+                             "C# files (*.cs)|*.cs|" +
+                             "C# Razor files (*.cshtml)|*.cshtml|" +
+                             "Foxpro files (*.prg)|*.prg|" +
+                             "Powershell files (*.ps1)|*.ps1|" +
+                             "Php files (*.php)|*.php|" +
+                             "Python files (*.py)|*.py|" +
+                             "All files (*.*)|*.*",
+                    CheckFileExists = true,
+                    RestoreDirectory = true,
+                    Multiselect = true,
+                    Title = "Open Markdown File"
+                };
+
+                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
+                    fd.InitialDirectory = mmApp.Configuration.LastFolder;
+
+                bool? res = null;
+                try
+                {
+                    res = fd.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log("Unable to open file.", ex);
+                    MessageBox.Show(
+                        $@"Unable to open file:\r\n\r\n" + ex.Message,
+                        "An error occurred trying to open a file",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                    return;
+                }
+                if (res == null || !res.Value)
+                    return;
+
+                foreach (var file in fd.FileNames)
+                {
+                    // TODO: Check AddRecentFile and make sure Tab Selection works
+                    Model.Window.OpenTab(file, rebindTabHeaders: true);
+                    //Window.AddRecentFile(file);
+                }
+                
+            });
+        }
+
+
+
         public CommandBase NewWeblogPostCommand { get; set; }
 
         void NewWeblogPost()
@@ -39,6 +107,8 @@ namespace MarkdownMonster
                 AddinManager.Current.RaiseOnNotifyAddin("newweblogpost", null);
             });
         }
+
+
 
 
 
@@ -65,7 +135,7 @@ namespace MarkdownMonster
             {
                 string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
                 File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"), tempFile, true);
-                Model.Window.OpenTab(tempFile);
+                Model.Window.OpenTab(tempFile, rebindTabHeaders: true);
             });
         }
 
@@ -80,7 +150,7 @@ namespace MarkdownMonster
                 if (parm == null)
                     return;
 
-                Model.Window.OpenTab(parm);
+                Model.Window.OpenTab(parm, rebindTabHeaders: true);
             },(p,c)=> true);
         }
 
