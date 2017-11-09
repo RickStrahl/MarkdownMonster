@@ -169,6 +169,23 @@ var te = window.textEditor = {
                 if (sc)
                     sc.contentModified = true;                  
             });
+        var changeScrollTop = debounce(function () {
+                var firstRow = te.editor.renderer.getFirstVisibleRow();
+                var lastRow = te.editor.renderer.getLastVisibleRow();
+                var curRow = te.getLineNumber();            
+                if (curRow < firstRow || curRow > lastRow) {
+                    if (firstRow < 3)
+                        te.setselpositionfrommouse({ row: 0, column: 0 });
+                    else                        
+                        te.setselpositionfrommouse({ row: firstRow + 3, column: 0 });
+                    
+                    setTimeout(function() {                        
+                        te.mm.textbox.PreviewMarkdownCallback();
+                    }, 10);                    
+                }
+            },
+            50);
+        te.editor.session.on("changeScrollTop", changeScrollTop);
 
   //      // special selections for images code and links
   //      te.editor.on('mousedown', function (e) {
