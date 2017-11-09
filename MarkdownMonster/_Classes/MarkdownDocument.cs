@@ -341,11 +341,11 @@ namespace MarkdownMonster
         }
         private SecureString _password;
 
-        
-        [JsonIgnore]
+
         /// <summary>
         /// Determines whether the file is encrypted
         /// </summary>
+        [JsonIgnore]        
         public bool IsEncrypted => _password != null;
 
         /// <summary>

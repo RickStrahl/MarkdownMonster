@@ -213,9 +213,7 @@ namespace MarkdownMonster
         /// If there's no active filename a file save dialog
         /// is popped up. 
         /// </summary>
-        /// <param name="isEncrypted"></param>
-        /// <param name="forceSave">By default if document is not dirty text is not saved - 
-        /// if true document is always saved regardless of dirty status</param>
+        /// <param name="isEncrypted">Determines if the file is using local encryption</param>        
         public bool SaveDocument(bool isEncrypted = false)
         {            
             if (MarkdownDocument == null || AceEditor == null || 

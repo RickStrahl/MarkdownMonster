@@ -156,7 +156,7 @@ namespace MarkdownMonster
                 return value;
             }
         }
-        private bool _isTabOpen;
+        
 
         #endregion
 
