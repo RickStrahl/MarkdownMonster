@@ -4,8 +4,18 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-### 1.7.2
+### 1.7.3
 *<small>not released yet</small>*
+
+* **Add Scroll Sync to Preview**  
+Editor syncing now works when scrolling without having to explicitly click into the document to capture the current mouse position. Scrolling now moves the preview selection to near the top of the editor content (4 lines down).
+
+* **Duplicate Filename Tab Header Display**  
+Fix tab header display for duplicated file names (ie. display multiple files named `Readme.md`). Tab now shows filename plus last folder part (ie. `Readme.md - MarkdownMonster` or `Readme.md - MyProject`) to differentiate multiple files with the same name. 
+
+
+### 1.7.2
+*<small>November 5th, 2017</small>*
 
 * **Fix: #Hash navigation in Preview**  
 Due to browser limitations related to local file URLs and base tags, native #Hash navigation doesn't work in the preview browser or when viewing in an external browser with a local file system URL. Added logic in the page to intercept hash navigation and explicitly navigate the document to the specified element on the page.
