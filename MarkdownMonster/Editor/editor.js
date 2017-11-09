@@ -175,9 +175,9 @@ var te = window.textEditor = {
                 var curRow = te.getLineNumber();            
                 if (curRow < firstRow || curRow > lastRow) {
                     if (firstRow < 3)
-                        te.setselpositionfrommouse({ row: 0, column: 0 });
+                        te.setCursorPosition(0, 0);
                     else                        
-                        te.setselpositionfrommouse({ row: firstRow + 3, column: 0 });
+                        te.setCursorPosition(firstRow + 3, 0);
                     
                     setTimeout(function() {                        
                         te.mm.textbox.PreviewMarkdownCallback();
@@ -365,8 +365,8 @@ var te = window.textEditor = {
             pos = row;
         else
             pos = { column: column, row: row };
-        
-         te.editor.selection.moveTo(pos.row, pos.column);
+
+        te.editor.gotoLine(pos.row, pos.column, true);        
     },
     setSelectionRange: function (startRow, startColumn, endRow, endColumn) {
         var sel = te.editor.getSelection();
