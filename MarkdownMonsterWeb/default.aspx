@@ -7,15 +7,6 @@
 <html>
 <head>
     <title>Markdown Monster - A better Markdown Editor for Windows</title>
-    <!-- Global Site Tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9492219-14"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments) };
-        gtag('js', new Date());
-
-        gtag('config', 'UA-9492219-14');
-    </script>
     
     <meta name="description" content="Markdown Monster: An easy to use Markdown Editor and Weblog Publishing tool for Windows. Create Markdown with a low key interface that gets out of your way, but provides advanced features to help you be more productive." />
     <meta name="keywords" content="markdown, windows, markdown editor,text editor,documentation,weblog,publishing,screen capture,writing,documentation,open source,extensible,addins,wpf,dotnet,westwind,rick strahl" />
@@ -27,16 +18,13 @@
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/application.css" rel="stylesheet" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
 
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <meta content="favicon.png" itemprop="image">
     
-    <style>
-        @media(max-width: 970px) {
-            .banner a { padding: 15px 5px; }
-        }
+    <style>       
         #ActionButtons {
             width: 100%;
             margin: 20px auto 40px;
@@ -67,7 +55,7 @@
 </head>
 <body>
     <div class="banner">
-        <span class="banner-title hidable" style="cursor: pointer;" onclick="window.location = './';">
+        <span class="banner-title" style="cursor: pointer;" onclick="window.location = './';">
             <img src="Images/MarkdownMonster_Icon_32.png"
                 style="height: 28px;"
                 alt="Markdown Monster" />
@@ -81,19 +69,18 @@
                 Video
             </a>
             <%--<a href="features.aspx">Features</a>--%>
-            <a href="download.aspx" class="hidable-xs">                
+            <a href="download.aspx" class="hidable" title="Download Markdown Monster">                
                 Download
             </a>
-            <a href="http://store.west-wind.com/product/order/markdown_monster">                
+            <a href="purchase.aspx" title="Purchase Markdown Monster">                
                 Buy
             </a>                 
-            <a href="https://support.west-wind.com/Thread4NM0M17RC.wwt" class="hidable" >                
+            <a href="https://support.west-wind.com/Thread4NM0M17RC.wwt" class="hidable" title="Support for Markdown Monster">                
                 Support
             </a>
-            <a href="docs/">                
+            <a href="docs/" title="Markdown Monster Documentation">                
                 Docs
-            </a>
-            <a href="https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md" class="hidable">What's new</a>
+            </a>            
             <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog">                
                 Blog
             </a>
@@ -546,7 +533,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" >
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">Get it</h5>
@@ -558,7 +545,7 @@
                                     </p>
                                     <div style="margin: 21px 10px;">
                                         <a href="download.aspx" style="display: block; margin-bottom: 15px;">
-                                            <img src="/images/download.gif" class="boxshadow roundbox">
+                                            <img src="images/download.gif" class="boxshadow roundbox">
                                         </a>
                                     </div>
                                     
@@ -580,19 +567,25 @@
                                         </div>
                                     </div>
                                  
-
+                                    <p>
+                                        <i class="fa fa-newspaper-o" style="color: gold"></i>
+                                        <a href="https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md">
+                                            
+                                            Check out what's new
+                                        </a>
+                                    </p>
 
                                     <b>Requirements
                                     </b>
                                     <p>
                                         <ul>
-                                            <li>Windows Vista or newer, 2008 or newer</li>
-                                            <li>.NET Framework 4.6 or later (<a href="http://smallestdotnet.com">check</a> or <a href="https://www.microsoft.com/net/download/framework">download</a>)</li">
-                                            <li>Internet Explorer 11 or 10</li>
+                                            <li>Windows 7 or newer, 2008 or newer</li>
+                                            <li>.NET Framework 4.6 or later<br />
+                                                (<a href="http://smallestdotnet.com">check</a> or <a href="https://www.microsoft.com/net/download/framework">download</a>)</li">
+                                            <li>Internet Explorer 11</li>
                                         </ul>
-                                    <p>
-										&nbsp;</p>
-                                    <div style="margin-top: 15px">                                        
+                                   
+                                    <div style="margin-top: 10px">                                        
                                        <a style="font-size: 1.4em" href="http://twitter.com/MarkdownMonstr"><i class="fa fa-twitter"></i>
                                            Follow us on Twitter
                                        </a>
@@ -624,17 +617,19 @@
            
         </div> 
         </div><!-- flex -->
+        
+        <nav class="banner banner-bottom" >
+            <div class="right">
+                created by:<br />
+                <a href="http://west-wind.com/" style="padding: 0;">
+                    <img src="Images/wwToolbarLogo.png" style="width: 150px;" />
+                </a>
+            </div>
+            &copy; West Wind Technologies, <%= DateTime.Now.Year %>
+        </nav>
     </div>
 
-    <nav class="banner banner-bottom" >
-        <div class="right">
-            created by:<br />
-            <a href="http://west-wind.com/" style="padding: 0;">
-                <img src="Images/wwToolbarLogo.png" style="width: 150px;" />
-            </a>
-        </div>
-        &copy; West Wind Technologies, <%= DateTime.Now.Year %>
-    </nav>
+    
 
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="Css/js/bootstrap.min.js"></script>
@@ -670,6 +665,19 @@
             });
         });
     </script>
+<% if (!Request.Url.ToString().Contains("localhost"))
+   { %>
+
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9492219-14"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments) };
+        gtag('js', new Date());
+
+        gtag('config', 'UA-9492219-14');
+    </script>
+<% } %>
 </body>
 </html>
 <script runat="server">

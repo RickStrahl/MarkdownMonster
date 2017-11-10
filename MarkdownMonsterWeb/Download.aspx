@@ -11,18 +11,7 @@
     <title>Download Markdown Monster</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />    
     <meta name="description" content="Download Markdown Monster: A better Markdown Editor and Weblog Publisher for Windows" />
-    <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Writing,Documentation,Windows,Download" />
-    
-    <!-- Global Site Tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9492219-14"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments) };
-        gtag('js', new Date());
-
-        gtag('config', 'UA-9492219-14');
-    </script>
-  
+    <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Writing,Documentation,Windows,Download" />  
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/application.css" rel="stylesheet" />
@@ -51,7 +40,7 @@
         <div id="TopMenu" class="right">
             <a href="./">Home</a>            
             <a href="download.aspx" class="active">Download</a>
-            <a href="http://store.west-wind.com/product/order/markdown_monster" title="Purchase Markdown Monster">Buy</a>
+            <a href="purchase.aspx" title="Purchase Markdown Monster">Buy</a>
             <a href="docs/" class="hidable" title="Documentation">Docs</a>
             <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog">                
                 Blog
@@ -281,22 +270,37 @@ WITH ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE P
             
 
         </div>
-        <div class="clearfix"></div>            
+        <div class="clearfix"></div>      
+            
+        
     </div>
-        <div style="height: 50px;"></div>
-   </div>
-
-    <nav class="banner" style="font-size: 8pt; padding: 10px; height: 80px; border-top: solid black 4px;border-bottom: none;">
+        
+    <nav class="banner banner-bottom" style="font-size: 8pt; padding: 10px; height: 80px; border-top: solid black 4px;border-bottom: none;">
         <div class="right">
             created by:<br />
             <a href="http://west-wind.com/" style="padding: 0;">
-                <img src="/Images/wwToolbarLogo.png" style="width: 150px;" />
+                <img src="Images/wwToolbarLogo.png" style="width: 150px;" />
             </a>
         </div>
-        &copy; West Wind Technologies, 2000-<%= DateTime.Now.Year %>
+        &copy; West Wind Technologies, 2015-<%= DateTime.Now.Year %>
     </nav> 
-    
+   </div>
 
+   
+    
+<% if (!Request.Url.ToString().Contains("localhost"))
+   { %>
+
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9492219-14"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments) };
+        gtag('js', new Date());
+
+        gtag('config', 'UA-9492219-14');
+    </script>
+<% } %>
 </body>
 
 </html>

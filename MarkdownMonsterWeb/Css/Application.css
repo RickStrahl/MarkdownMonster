@@ -25,7 +25,8 @@ a {
     padding: 10px ;    
     margin: 0;
     border-top: solid black 4px;
-    border-bottom: none;    
+    border-bottom: none;  
+    margin-top: 25px;
 }
 .banner.active  {
     color: white;
@@ -200,6 +201,9 @@ h5 {
     width: 200px;
     margin: 0 5px;
     border: lightgreen 2px solid;
+}
+@media(max-width: 970px) {
+    .banner a { padding: 15px 5px; }
 }
 @media(max-width: 768px) {
     #ActionButtons .btn {
