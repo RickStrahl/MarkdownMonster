@@ -119,7 +119,7 @@ function scrollToPragmaLine(lineno) {
 
 
     setTimeout(function () {
-        if (lineno < 2) {
+        if (lineno < 3) {
             $("html").scrollTop(0);
             return;
         }
@@ -151,8 +151,8 @@ function scrollToPragmaLine(lineno) {
             setTimeout(function () { $el.removeClass("line-highlight"); }, 1800);
 
             te.codeScrolled = new Date().getTime();
-            if (lineno > 2)
-                $("html").scrollTop($el.offset().top - 100); 
+            if (lineno > 3)
+                $("html").scrollTop($el.offset().top - 150); 
         }
         catch(ex) {  }
     },80);

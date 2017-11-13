@@ -184,7 +184,7 @@ var te = window.textEditor = {
                     }, 10);                    
                 }
             },
-            50);
+            10);
         te.editor.session.on("changeScrollTop", changeScrollTop);
 
   //      // special selections for images code and links
