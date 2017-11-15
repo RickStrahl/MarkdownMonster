@@ -91,6 +91,24 @@ namespace MarkdownMonster.AddIns
 
         #region Event Handlers
 
+        /////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Allows plugings to intercept the html used for the preview, to
+        /// examine or further manipulate it, e.g. insert a style
+        /// block in the head.
+        /// 
+        /// Why a Func&lt;&gt; rather than a virtual method? A matter of
+        /// coding style; rather than override a method and forward the
+        /// arguments to some other code, the plugin can just set the
+        /// UpdateTheme member to where ever the theme html needs to be
+        /// looked at. A virtual method would work too.
+        /// 
+        /// If this were a delegate it's signature would be:
+        /// 
+        /// delegate string AfterRenderPreviewDelegate( string themeHtml, string  markdownHtml );
+        /// </summary>
+
+        public Func<string, string, string> ModifyPreviewHtml = null;
 
         /// <summary>
         /// Called when the Menu or Toolbar button is clicked
