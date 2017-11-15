@@ -4,8 +4,8 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-### 1.7.3
-*<small>not released yet</small>*
+### 1.7.4
+*<small>November 15th, 2017</small>*
 
 * **Add Scroll Sync to Preview**  
 Editor syncing now works when scrolling without having to explicitly click into the document to capture the current mouse position. Scrolling now moves the preview selection to near the top of the editor content (4 lines down).
@@ -13,6 +13,11 @@ Editor syncing now works when scrolling without having to explicitly click into 
 * **Duplicate Filename Tab Header Display**  
 Fix tab header display for duplicated file names (ie. display multiple files named `Readme.md`). Tab now shows filename plus last folder part (ie. `Readme.md - MarkdownMonster` or `Readme.md - MyProject`) to differentiate multiple files with the same name. 
 
+* **Fix: Image File Names with Spaces**   
+When saving images with spaces in filenames on the Image Dialog, via clipboard pasting or drag and drop operations, the image file name is now embedded with spaces encoded as `%20`. Although Browsers support HTML with spaces, CommonMark (and MarkDig) does not support it, so url encoding the file - while ugly - fixes this problem.
+
+* **Fix: Recent File Menu Flash**   
+Fix UI issue where selecting a file off the recent menu drop down causes the menu to fade in a funky way that fades in and out. Menu is not hidden immediately before opening the new tab to avoid the ugly behavior.
 
 ### 1.7.2
 *<small>November 5th, 2017</small>*

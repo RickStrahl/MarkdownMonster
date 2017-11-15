@@ -1,13 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using FontAwesome.WPF;
+﻿using System.Windows;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
 using Westwind.Utilities;
