@@ -307,17 +307,17 @@ namespace MarkdownMonster.AddIns
         /// A string.
         /// </returns>
 
-        public string RaiseAfterRenderPreview( string html, string markdownHtml )
+        public string RaiseModifyPreviewHtml( string html, string markdownHtml )
         {
             foreach( var addin in AddIns )
             {
                 try
                 {
-                    html = addin?.AfterRenderPreview?.Invoke( html, markdownHtml ) ?? html;
+                    html = addin?.ModifyPreviewHtml?.Invoke( html, markdownHtml ) ?? html;
                 }
                 catch( Exception ex )
                 {
-                    mmApp.Log( addin.Id + "::AddIn::OnUpdateTheme Error: " + ex.GetBaseException().Message );
+                    mmApp.Log( addin.Id + "::AddIn::ModifyPreviewHtml Error: " + ex.GetBaseException().Message );
                 }
             }
 

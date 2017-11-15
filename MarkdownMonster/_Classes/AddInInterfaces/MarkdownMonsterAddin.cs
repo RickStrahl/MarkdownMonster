@@ -108,7 +108,7 @@ namespace MarkdownMonster.AddIns
         /// delegate string AfterRenderPreviewDelegate( string themeHtml, string  markdownHtml );
         /// </summary>
 
-        public Func<string, string, string> AfterRenderPreview = null;
+        public Func<string, string, string> ModifyPreviewHtml = null;
 
         /// <summary>
         /// Called when the Menu or Toolbar button is clicked
