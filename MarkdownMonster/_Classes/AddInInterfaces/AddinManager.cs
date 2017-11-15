@@ -286,10 +286,45 @@ namespace MarkdownMonster.AddIns
             }
         }
 
-        
+
 
 
         #region Raise Events
+
+        /////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Raises the update theme event.
+        /// </summary>
+        ///
+        /// <param name="html">
+        /// The HTML.
+        /// </param>
+        /// <param name="markdownHtml">
+        /// The markdown HTML.
+        /// </param>
+        ///
+        /// <returns>
+        /// A string.
+        /// </returns>
+
+        public string RaiseModifyPreviewHtml( string html, string markdownHtml )
+        {
+            foreach( var addin in AddIns )
+            {
+                try
+                {
+                    html = addin?.ModifyPreviewHtml?.Invoke( html, markdownHtml ) ?? html;
+                }
+                catch( Exception ex )
+                {
+                    mmApp.Log( addin.Id + "::AddIn::ModifyPreviewHtml Error: " + ex.GetBaseException().Message );
+                }
+            }
+
+            return html;
+        }
+
+
         public void RaiseOnApplicationStart()
         {
             foreach (var addin in AddIns)
