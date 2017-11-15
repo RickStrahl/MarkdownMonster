@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
@@ -141,17 +143,30 @@ namespace MarkdownMonster
 
 
         public CommandBase OpenRecentDocumentCommand { get; set; }
-        
+
         void OpenRecentDocument()
         {
             OpenRecentDocumentCommand = new CommandBase((parameter, command) =>
             {
+                // hide to avoid weird fade behavior
+                var context = Model.Window.Resources["ContextMenuRecentFiles"] as ContextMenu;
+                if (context != null)
+                    context.Visibility = Visibility.Hidden;
+
+                WindowUtilities.DoEvents();
+
                 var parm = parameter as string;
                 if (parm == null)
                     return;
 
                 Model.Window.OpenTab(parm, rebindTabHeaders: true);
-            },(p,c)=> true);
+                if (context != null)
+                {
+                    WindowUtilities.DoEvents();
+                    context.Visibility = Visibility.Visible;
+                }
+
+            }, (p, c) => true);
         }
 
 
