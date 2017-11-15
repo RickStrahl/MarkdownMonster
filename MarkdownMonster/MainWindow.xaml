@@ -457,15 +457,23 @@
                                  
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
-                        <Button Name ="ButtonImage" Margin="7,0"  ToolTip="Insert image from disk or the clipboard (alt-i). You can also paste images from the clipboard directly into the document."                              
+                        <Button Name ="ButtonImage" Margin="7,0"                              
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
-                                CommandParameter="image" 
+                                CommandParameter="image"                                
                                 fa:Awesome.Content="Image"
-                                 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                />
+                                >
+                            <Button.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Insert an image from disk or the clipboard (alt-i).
+                                        <LineBreak/>
+                                        You can also paste images from the clipboard into the document.
+                                    </TextBlock>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
 
-						<Button Name ="ButtonCode"  
+                        <Button Name ="ButtonCode"  
 								ToolTip="Format selected text as code (alt-c)"
                                 Command="{Binding ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="code"                                
