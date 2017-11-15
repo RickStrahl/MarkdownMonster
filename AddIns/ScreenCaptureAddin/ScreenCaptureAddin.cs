@@ -130,7 +130,7 @@ namespace SnagItAddin
             if (relPath.Contains(":\\"))
                 relPath = "file:///" + relPath.Replace("\\", "/");
 
-            string replaceText = "![](" + relPath + ")";
+            string replaceText = "![](" + relPath.Replace(" ","%20") + ")";
 
             mmApp.Configuration.LastImageFolder = SnagIt.CapturePath;
 
@@ -186,7 +186,7 @@ namespace SnagItAddin
             if (relPath.Contains(":\\")) // full path
                 relPath = "file:///" + relPath;
 
-            string replaceText = "![](" + relPath + ")";
+            string replaceText = "![](" + relPath.Replace(" ","%20") + ")";
 
             // Push the new text into the Editor's Selection
             SetSelection(replaceText);

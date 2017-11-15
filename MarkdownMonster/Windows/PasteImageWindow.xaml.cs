@@ -296,7 +296,7 @@ namespace MarkdownMonster.Windows
 
                     imagePath = imagePath.Replace("\\", "/");
 
-                    this.Image = imagePath;
+                    Image = imagePath;
                     IsMemoryImage = false;
 
                 }

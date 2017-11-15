@@ -406,7 +406,7 @@ namespace MarkdownMonster
                 {
                     var image = form.Image;
                     if (!image.StartsWith("data:image/"))
-                        html = $"![{form.ImageText}]({form.Image})";
+                        html = $"![{form.ImageText}]({image.Replace(" ","%20")})";
                     else
                     {
                         var id = "image_ref_" + DataUtils.GenerateUniqueId();
@@ -1106,7 +1106,7 @@ namespace MarkdownMonster
                         else
                             imagePath = imagePath.Replace("\\", "/");
 
-                        SetSelection($"![]({imagePath})");
+                        SetSelection($"![]({imagePath.Replace(" ","%20") })");
                         PreviewMarkdownCallback(); // force a preview refresh
                     }
                 }
@@ -1141,7 +1141,7 @@ namespace MarkdownMonster
                 {
                     var image = form.Image;
                     if (!image.StartsWith("data:image/"))
-                        html = $"![{form.ImageText}]({form.Image})";
+                        html = $"![{form.ImageText}]({image.Replace(" ","%20")})";
                     else
                     {
                         var id = "image_ref_" + DataUtils.GenerateUniqueId();
