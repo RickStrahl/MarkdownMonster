@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using HtmlAgilityPack;
 using MarkdownMonster;
+using MarkdownMonster.Windows;
 using WeblogAddin;
 using Westwind.Utilities;
 
@@ -262,7 +263,9 @@ namespace WebLogAddin.MetaWebLogApi
                                         FeatureImageId = mediaResult.Id;
                                 }
                             }
+                           
                         }
+						WindowUtilities.DoEvents();
                     }
 
                     html = doc.DocumentNode.OuterHtml;
