@@ -16,8 +16,8 @@ Preview sync default changed to **Editor -> Preview** to avoid potential sync ji
 * **Weblog Publishing Updated**  
 Minor tweaks to the Weblog download feature and HTML to Markdown conversion. Small UI updates in the download UI and better UI responsiveness when uploading posts to a blog.
 
-* **Switch back default 32 bit Operation**   
-When we moved to the `%LocalAppData%` Markdown Monster went back to running in 64 bit mode. While this works fine, performance has been noticably more sluggish in 64 bit mode. This release goes back to favoring 32 bit mode which improves overall performance of the editor and preview operations.
+* **Switch back 32 bit**   
+When we moved to Markdown Monster to the `%LocalAppData%` folder recently, Markdown Monster temporarily went back to running in 64 bit mode. While this works fine, performance was noticeably more sluggish in 64 bit mode, so we're going back to forcing Markdown Monster to run in 32 bit mode which has overall responsiveness of the UI considerably.
 
 ### 1.7.4
 *<small>November 15th, 2017</small>*
