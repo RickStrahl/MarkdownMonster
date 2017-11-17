@@ -278,10 +278,10 @@
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Download Posts</TextBlock>
                             </StackPanel>
                         </Button>
-                        <Label Grid.Column="1" Margin="20,0,0,0" Height="30" HorizontalAlignment="Right">Search:</Label>
+                        <Label Grid.Column="1" Margin="20,0,0,0" HorizontalAlignment="Right">Search:</Label>
                         <TextBox Grid.Column="2" Margin="5,0,0,0"
                                  Text="{Binding PostListSearch, UpdateSourceTrigger=PropertyChanged}"
-                                 Height="30"/>
+                                 />
                     </Grid>
 
                     <ListBox Grid.Row="4" Name="ListViewPosts" 
