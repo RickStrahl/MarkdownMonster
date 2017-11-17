@@ -483,7 +483,7 @@ namespace MarkdownMonster
 				}
 				var mi = new MenuItem()
 				{
-					Header = file,
+					Header = file.Replace("_","__"),
 				};
 			    mi.Command = Model.Commands.OpenRecentDocumentCommand;
                 mi.CommandParameter = file;
