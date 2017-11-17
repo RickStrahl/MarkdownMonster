@@ -64,7 +64,6 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         public bool AddinsLoadingComplete { get; set; }
 
-
         /// <summary>
         /// Add in manager error message  - set when loading addins
         /// if there is a failure.
@@ -98,7 +97,7 @@ namespace MarkdownMonster.AddIns
         public void InitializeAddinsUi(MainWindow window, List<MarkdownMonsterAddin> addins = null)
         {
             if (addins == null)
-                addins = this.AddIns;
+                addins = AddIns;
 
             foreach (var addin in addins)
             {
@@ -290,41 +289,9 @@ namespace MarkdownMonster.AddIns
 
 
         #region Raise Events
+        
 
-        /////////////////////////////////////////////////////////////////////////////
-        /// <summary>
-        /// Raises the update theme event.
-        /// </summary>
-        ///
-        /// <param name="html">
-        /// The HTML.
-        /// </param>
-        /// <param name="markdownHtml">
-        /// The markdown HTML.
-        /// </param>
-        ///
-        /// <returns>
-        /// A string.
-        /// </returns>
-
-        public string RaiseModifyPreviewHtml( string html, string markdownHtml )
-        {
-            foreach( var addin in AddIns )
-            {
-                try
-                {
-                    html = addin?.ModifyPreviewHtml?.Invoke( html, markdownHtml ) ?? html;
-                }
-                catch( Exception ex )
-                {
-                    mmApp.Log( addin.Id + "::AddIn::ModifyPreviewHtml Error: " + ex.GetBaseException().Message );
-                }
-            }
-
-            return html;
-        }
-
-
+        
         public void RaiseOnApplicationStart()
         {
             foreach (var addin in AddIns)
@@ -461,6 +428,9 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+      
+
+
         public string RaiseOnSaveImage(object image)
         {
             string url = null;
@@ -493,6 +463,24 @@ namespace MarkdownMonster.AddIns
                     mmApp.Log(addin.Id + "::AddIn::OnDocumentActivated Error: " + ex.GetBaseException().Message);
                 }
             }
+        }
+
+
+        public string RaiseOnModifyPreviewHtml(string html, string markdownHtml )
+        {
+            foreach (var addin in AddIns)
+            {
+                try
+                {
+                    html = addin?.OnModifyPreviewHtml(html, markdownHtml) ?? html;
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::ModifyPreviewHtml Error: " + ex.GetBaseException().Message);
+                }
+            }
+
+            return html;
         }
 
         public void RaiseOnNotifyAddin(string command, object parameter)
@@ -684,7 +672,7 @@ namespace MarkdownMonster.AddIns
             }
             catch (Exception ex)
             {
-                this.ErrorMessage = ex.Message;
+                ErrorMessage = ex.Message;
                 return null;
             }
 
