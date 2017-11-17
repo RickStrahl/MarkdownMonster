@@ -4,6 +4,21 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
+### 1.7.5
+*<small>not released yet</small>*
+
+* **Addin OnModifyPreviewHtml() added**  
+Added `MarkdownMonsterAddin.OnModifyPreviewHtml()` which is allows addins to modify the preview output html used for displaying the preview. Thanks to Jim McClain for providing the PR for this addition.
+
+* **Change Preview Sync Default**  
+Preview sync default changed to **Editor -> Preview** to avoid potential sync jitter issues with the **Both** mode.
+
+* **Weblog Publishing Updated**  
+Minor tweaks to the Weblog download feature and HTML to Markdown conversion. Small UI updates in the download UI and better UI responsiveness when uploading posts to a blog.
+
+* **Switch back default 32 bit Operation**   
+When we moved to the `%LocalAppData%` Markdown Monster went back to running in 64 bit mode. While this works fine, performance has been noticably more sluggish in 64 bit mode. This release goes back to favoring 32 bit mode which improves overall performance of the editor and preview operations.
+
 ### 1.7.4
 *<small>November 15th, 2017</small>*
 
