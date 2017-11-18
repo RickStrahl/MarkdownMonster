@@ -19,7 +19,7 @@
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner" FontSize="15"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="800" Height="750" MinHeight="750" MinWidth="600">
+        Width="800" Height="790" MinHeight="780" MinWidth="600">
     <Window.Resources>
         <windows:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -96,19 +96,18 @@
 		                        Foreground="Firebrick" 
 								ToolTip="Remove the selected Custom Field"
 								Click="ButtonDeleteCustomField_Click"/>
-						<Button Name="ButtonCustomFieldHelp" 
+                        <Button Name="ButtonCustomFieldHelp" 
 								fa:Awesome.Content="InfoCircle" 
 								Foreground="SteelBlue"
 								ToolTip="More info on Custom Fields"
 								Click="ButtonCustomFieldHelp_Click"/>
-
-					</StackPanel>
+                    </StackPanel>
 
 	                <!--<Line Margin="0,8,0,0" Height="3" Width="300" Fill="white"/>-->
 
 	                <ListBox Name="ListCustomFields" IsSynchronizedWithCurrentItem="True"
 	                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-	                         Height="57"
+	                         Height="70"
 	                         ItemsSource="{Binding MetadataCustomFields}"
 	                         Visibility="{Binding MetadataHasCustomFields,Converter={StaticResource BooleanToVisibilityConverter}}">
 		                <ListBox.ItemTemplate>
@@ -278,8 +277,8 @@
                                 <TextBlock Margin="10,0,0,0" FontSize="14">Download Posts</TextBlock>
                             </StackPanel>
                         </Button>
-                        <Label Grid.Column="1" Margin="20,0,0,0" HorizontalAlignment="Right">Search:</Label>
-                        <TextBox Grid.Column="2" Margin="5,0,0,0"
+                        <Label Grid.Column="1" Margin="20,0,0,0" HorizontalAlignment="Right" Height="35">Search:</Label>
+                        <TextBox Grid.Column="2" Margin="5,0,0,0" Height="35"
                                  Text="{Binding PostListSearch, UpdateSourceTrigger=PropertyChanged}"
                                  />
                     </Grid>

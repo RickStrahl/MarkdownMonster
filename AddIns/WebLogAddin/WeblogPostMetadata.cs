@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -333,10 +333,10 @@ namespace WeblogAddin
             var lines = StringUtils.GetLines(markdown, 40);
             if (lines.Length > 2 && lines[0] == "---")
             {
-                var block = mmFileUtils.ExtractString(meta.MarkdownBody, "---", "\n---", returnDelimiters: true);
+                var block = StringUtils.ExtractString(meta.MarkdownBody, "---", "\n---", returnDelimiters: true);
                 if (!string.IsNullOrEmpty(block))
                 {
-                    meta = WeblogPostMetadata.GetPostYamlConfigFromMarkdown(markdown, post, weblogInfo);
+                    meta = GetPostYamlConfigFromMarkdown(markdown, post, weblogInfo);
                     meta.RawMarkdownBody = markdown;
                     if (string.IsNullOrEmpty(meta.WeblogName))
                         meta.WeblogName = WeblogAddinConfiguration.Current.LastWeblogAccessed;
