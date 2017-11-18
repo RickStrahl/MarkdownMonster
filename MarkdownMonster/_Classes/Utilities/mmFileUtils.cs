@@ -39,12 +39,13 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Normalizes a potentially relative pathname to a base path name.
+        /// Normalizes a potentially relative pathname to a base path name if the
+        /// exact filename doesn't exist by prepending the base path explicitly.
         /// </summary>
         /// <param name="file"></param>
         /// <param name="basePath"></param>
         /// <returns>Normalized file name, or null if the file is not found</returns>
-        public static string NormalizeFilename(string file, string basePath)
+        public static string NormalizeFilenameWithBasePath(string file, string basePath)
         {
             if (File.Exists(file))
                 return file;
@@ -223,66 +224,39 @@ namespace MarkdownMonster
 
 		#endregion
 
-	    #region String Utilities
-		/// <summary>
-		/// Extracts a string from between a pair of delimiters. Only the first 
-		/// instance is found.
-		/// </summary>
-		/// <param name="source">Input String to work on</param>
-		/// <param name="beginDelim">Beginning delimiter</param>
-		/// <param name="endDelim">ending delimiter</param>
-		/// <param name="caseSensitive">Determines whether the search for delimiters is case sensitive</param>
-		/// <param name="allowMissingEndDelimiter"></param>
-		/// <param name="returnDelimiters"></param>
-		/// <returns>Extracted string or ""</returns>
-		public static string ExtractString(string source,
-            string beginDelim,
-            string endDelim,
-            bool caseSensitive = false,
-            bool allowMissingEndDelimiter = false,
-            bool returnDelimiters = false)
+	    #region Type Utilities       
+
+        /// <summary>
+        /// Safely converts a double to an integer
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="failValue"></param>
+        /// <returns></returns>
+        public static int TryConvertToInt32(double value, int failValue = 0)
         {
-            int at1, at2;
-
-            if (string.IsNullOrEmpty(source))
-                return string.Empty;
-
-            if (caseSensitive)
+            if (double.IsNaN(value) || double.IsNegativeInfinity(value) || double.IsPositiveInfinity(value))
             {
-                at1 = source.IndexOf(beginDelim);
-                if (at1 == -1)
-                    return string.Empty;
-
-                at2 = source.IndexOf(endDelim, at1 + beginDelim.Length);                
-            }
-            else
-            {
-                //string Lower = source.ToLower();
-                at1 = source.IndexOf(beginDelim, 0, source.Length, StringComparison.OrdinalIgnoreCase);
-                if (at1 == -1)
-                    return string.Empty;
-                
-                at2 = source.IndexOf(endDelim, at1 + beginDelim.Length, StringComparison.OrdinalIgnoreCase);                
+                mmApp.Log("Double to Int Conversion failed: " + value + " - failValue: " + failValue);
+                return failValue;                
             }
 
-            if (allowMissingEndDelimiter && at2 < 0)
-                return source.Substring(at1 + beginDelim.Length);
-
-            if (at1 > -1 && at2 > 1)
+            try
             {
-                if (!returnDelimiters)
-                    return source.Substring(at1 + beginDelim.Length, at2 - at1 - beginDelim.Length);
-
-                return source.Substring(at1, at2 - at1 + endDelim.Length);
+                return Convert.ToInt32(value);
             }
+            catch(Exception ex)
+            {
+                mmApp.Log("Double to Int Conversion failed: " + value + " - failValue: " + failValue +
+                         "\r\n" + ex.GetBaseException().Message +
+                         "\r\n" + ex.StackTrace);
+                return failValue;
+            }
+        }        
+        #endregion
 
-            return string.Empty;
-        }
 
-		#endregion
+        #region Image Utilities
 
-		#region Image Utilities
-	
 
         /// <summary>
         /// Tries to optimize png images in the background
