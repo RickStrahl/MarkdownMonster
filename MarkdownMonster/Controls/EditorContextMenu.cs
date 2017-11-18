@@ -234,7 +234,7 @@ namespace MarkdownMonster
                         mi.Click += (o, args) =>
                         {
                             var image = StringUtils.ExtractString(val, "(", ")");
-                            image = mmFileUtils.NormalizeFilename(image,
+                            image = mmFileUtils.NormalizeFilenameWithBasePath(image,
                                 Path.GetDirectoryName(Model.ActiveDocument.Filename));
                             mmFileUtils.OpenImageInImageEditor(image);
                         };

@@ -180,7 +180,7 @@ namespace MarkdownMonster
                         if (endBlock2 > -1 && (endBlock2 == -1 || endBlock2 < endBlock1))
                             end = "...";
 
-                        var block = mmFileUtils.ExtractString(CurrentText, start, end, returnDelimiters: true);
+                        var block = StringUtils.ExtractString(CurrentText, start, end, returnDelimiters: true);
                         if (!string.IsNullOrEmpty(block))
                         {
                             title = StringUtils.ExtractString(block, "title: ", "\n").Trim();
