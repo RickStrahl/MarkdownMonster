@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-### 1.7.5
+### 1.7.6
 *<small>not released yet</small>*
 
 * **Addin OnModifyPreviewHtml() added**  
@@ -17,7 +17,7 @@ Preview sync default changed to **Editor -> Preview** to avoid potential sync ji
 Minor tweaks to the Weblog download feature and HTML to Markdown conversion. Small UI updates in the download UI and better UI responsiveness when uploading posts to a blog.
 
 * **Switch back 32 bit**   
-When we moved to Markdown Monster to the `%LocalAppData%` folder recently, Markdown Monster temporarily went back to running in 64 bit mode. While this works fine, performance was noticeably more sluggish in 64 bit mode, so we're going back to forcing Markdown Monster to run in 32 bit mode which has overall responsiveness of the UI considerably.
+When we moved to Markdown Monster to the `%LocalAppData%` folder recently, Markdown Monster temporarily went back to running in 64 bit mode. While this worked fine, performance was noticeably more sluggish in 64 bit mode, so we're going back to forcing Markdown Monster to run in 32 bit mode which has overall responsiveness of the UI considerably.
 
 * **Fix: Recent Menu Files with `_` in Name**  
 Fixed issue files that have underscores in filenames in the Recent menu, where underscores were treated as shortcut keys by WPF.
