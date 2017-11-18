@@ -610,8 +610,7 @@ namespace MarkdownMonster
             CommonFolder = InternalCommonFolder;
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-
-            PreviewSyncMode = PreviewSyncMode.EditorAndPreview;
+            PreviewSyncMode = PreviewSyncMode.EditorToPreview;
 
             AutoSaveBackups = true;
             AutoSaveDocuments = false;
