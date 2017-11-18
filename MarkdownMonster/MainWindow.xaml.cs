@@ -573,6 +573,7 @@ namespace MarkdownMonster
 		        ContentGrid.Background = (SolidColorBrush) new BrushConverter().ConvertFromString("#333");
 		}
 
+  
 		/// <summary>
 		/// Save active settings of the UI that are persisted in the configuration
 		/// </summary>
@@ -584,13 +585,13 @@ namespace MarkdownMonster
 
 			if (WindowState == WindowState.Normal)
 			{
-				config.WindowPosition.Left = Convert.ToInt32(Left);
-				config.WindowPosition.Top = Convert.ToInt32(Top);
-				config.WindowPosition.Width = Convert.ToInt32(Width);
-				config.WindowPosition.Height = Convert.ToInt32(Height);
+				config.WindowPosition.Left = mmFileUtils.TryConvertToInt32(Left);
+				config.WindowPosition.Top = mmFileUtils.TryConvertToInt32(Top);
+				config.WindowPosition.Width = mmFileUtils.TryConvertToInt32(Width,900);
+				config.WindowPosition.Height = mmFileUtils.TryConvertToInt32(Height,700);
 
 			    if (MainWindowPreviewColumn.Width.IsAbsolute)
-				    config.WindowPosition.SplitterPosition = Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
+				    config.WindowPosition.SplitterPosition = mmFileUtils.TryConvertToInt32(MainWindowPreviewColumn.Width.Value, 600);
 			}
 
 			if (WindowState != WindowState.Minimized)
@@ -599,7 +600,7 @@ namespace MarkdownMonster
 			if (FolderBrowserColumn.Width.Value > 20)
 			{
 			    if(FolderBrowserColumn.Width.IsAbsolute)
-				    config.FolderBrowser.WindowWidth = Convert.ToInt32(FolderBrowserColumn.Width.Value);
+				    config.FolderBrowser.WindowWidth = mmFileUtils.TryConvertToInt32(FolderBrowserColumn.Width.Value,220);
 
 				config.FolderBrowser.Visible = true;
 			}
