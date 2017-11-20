@@ -892,7 +892,7 @@ Do you want to View in Browser now?
             // PRINT PREVIEW
             PrintPreviewCommand = new CommandBase((s, e) =>
             {
-                dynamic dom = Window.PreviewBrowser.Document;
+                dynamic dom = Window.PreviewBrowser.WebBrowser.Document;
                 dom.execCommand("print", true, null);
             }, (s, e) => IsPreviewBrowserVisible);
 

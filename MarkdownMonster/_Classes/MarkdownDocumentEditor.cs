@@ -790,9 +790,9 @@ namespace MarkdownMonster
         {
             //MessageBox.Show("Preview Context Menu Fired" + position.Top + " - " + position.Left);
 
-            var ctm = Window.PreviewBrowser.ContextMenu;            
+            var ctm = Window.PreviewBrowser.WebBrowser.ContextMenu;            
             ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-            ctm.PlacementTarget = Window.PreviewBrowser;
+            ctm.PlacementTarget = Window.PreviewBrowser.WebBrowser;
             ctm.IsOpen = true;
         }
 
@@ -871,7 +871,7 @@ namespace MarkdownMonster
             if (!dontGetMarkdown)
                 GetMarkdown();                        
 
-            Window.PreviewMarkdownAsync(keepScrollPosition: true);
+            Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true);
         }
 
         /// <summary>
@@ -985,17 +985,17 @@ namespace MarkdownMonster
                 }
                 else if (key == "ctrl-shift-down")
                 {
-                    if (Window.PreviewBrowser.IsVisible)
+                    if (Window.PreviewBrowser.WebBrowser.IsVisible)
                     {
-                        dynamic dom = Window.PreviewBrowser.Document;
+                        dynamic dom = Window.PreviewBrowser.WebBrowser.Document;
                         dom.documentElement.scrollTop += 150;
                     }
                 }
                 else if (key == "ctrl-shift-up")
                 {
-                    if (Window.PreviewBrowser.IsVisible)
+                    if (Window.PreviewBrowser.WebBrowser.IsVisible)
                     {
-                        dynamic dom = Window.PreviewBrowser.Document;
+                        dynamic dom = Window.PreviewBrowser.WebBrowser.Document;
                         dom.documentElement.scrollTop -= 150;
                     }
                 }

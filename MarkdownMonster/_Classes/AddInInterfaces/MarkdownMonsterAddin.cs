@@ -583,8 +583,5 @@ namespace MarkdownMonster.AddIns
         {
             return Id ?? Name ?? "no name";
         }
-
-      
-
     }    
 }

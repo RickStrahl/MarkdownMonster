@@ -91,12 +91,6 @@ namespace MarkdownMonster
 
         private DateTime invoked = DateTime.MinValue;
 
-        /// <summary>
-        /// Handles WebBrowser configuration: DPI Awareness mainly!
-        /// </summary>
-        private WebBrowserHostUIHandler wbHandler;
-
-
         public List<RecentDocumentListItem> RecentDocumentList
         {
             get
@@ -123,8 +117,10 @@ namespace MarkdownMonster
             public string DisplayFilename { get; set; }
         }
 
-
-
+        /// <summary>
+        /// Manages the Preview Rendering in a WebBrowser Control
+        /// </summary>
+        public PreviewWebBrowser PreviewBrowser; 
 
         public MainWindow()
 		{
@@ -134,8 +130,6 @@ namespace MarkdownMonster
 		    AddinManager.Current.RaiseOnModelLoaded(Model);
 
             DataContext = Model;
-
-			InitializePreviewBrowser();
 
 			TabControl.ClosingItemCallback = TabControlDragablz_TabItemClosing;
 
@@ -159,8 +153,7 @@ namespace MarkdownMonster
 			// Override some of the theme defaults (dark header specifically)
 			mmApp.SetThemeWindowOverride(this);
 
-			// Forces WebBrowser to be DPI aware and not display script errors
-			wbHandler = new WebBrowserHostUIHandler(PreviewBrowser);
+		    PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);	
 		}
 
 		#region Opening and Closing
@@ -362,7 +355,7 @@ namespace MarkdownMonster
 							}
 
 							if (tab == selectedTab)
-								PreviewMarkdown(editor, keepScrollPosition: true);
+							    PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition: true);
 						}
 					}
 				}
@@ -858,8 +851,8 @@ namespace MarkdownMonster
 	        {
 	            TabControl.SelectedItem = tab;
 
-	            if (showPreviewIfActive && PreviewBrowser.Width > 5)
-	                PreviewMarkdown(); //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
+	            if (showPreviewIfActive && PreviewWebBrowserControl.Width > 5)
+	                PreviewBrowser.PreviewMarkdown(); //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
 	            SetWindowTitle();
 	        }
 
@@ -1017,8 +1010,8 @@ namespace MarkdownMonster
 
 			if (TabControl.Items.Count == 0)
 			{
-				PreviewBrowser.Visibility = Visibility.Hidden;
-				PreviewBrowser.Navigate("about:blank");
+				PreviewWebBrowserControl.Visibility = Visibility.Hidden;
+				PreviewWebBrowserControl.Navigate("about:blank");
 				Model.ActiveDocument = null;
 				Title = "Markdown Monster" +
 				        (UnlockKey.Unlocked ? "" : " (unregistered)");
@@ -1094,7 +1087,7 @@ namespace MarkdownMonster
 			AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
 
 		    if (mmApp.Configuration.IsPreviewVisible)
-		        PreviewMarkdown();
+		        PreviewBrowser.PreviewMarkdown();
 
             Model.ActiveEditor.RestyleEditor();
 
@@ -1136,267 +1129,100 @@ namespace MarkdownMonster
 			        (UnlockKey.Unlocked ? "" : " (unregistered)");
 		}
 
-		#endregion
+        #endregion
 
-		#region Worker Functions
+        #region Preview and UI Visibility Helpers
 
-		/// <summary>
-		/// Shows or hides the preview browser
-		/// </summary>
-		/// <param name="hide"></param>
-		public void ShowPreviewBrowser(bool hide = false, bool refresh = false)
-		{
-			if (!hide)
-			{
-				PreviewBrowser.Visibility = Visibility.Visible;
+        public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false,
+            bool showInBrowser = false)
+        {
+            PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition, showInBrowser);
+        }
 
-				MainWindowSeparatorColumn.Width = new GridLength(12);
-				if (!refresh)
-				{
-					if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
-						mmApp.Configuration.WindowPosition.SplitterPosition = 600;
-
-					if (!Model.IsPresentationMode)
-						MainWindowPreviewColumn.Width =
-							new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
-				}
-			}
-			else
-			{
-				if (MainWindowPreviewColumn.Width.Value > 100)
-					mmApp.Configuration.WindowPosition.SplitterPosition =
-						Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
-
-				MainWindowSeparatorColumn.Width = new GridLength(0);
-				MainWindowPreviewColumn.Width = new GridLength(0);
-
-				PreviewBrowser.Navigate("about:blank");
-			}
-		}
-
-		/// <summary>
-		/// Shows or hides the File Browser
-		/// </summary>
-		/// <param name="hide"></param>
-		public void ShowFolderBrowser(bool hide = false, string folder = null)
-		{
-			if (hide)
-			{
-				if (FolderBrowserColumn.Width.Value > 20)
-					mmApp.Configuration.FolderBrowser.WindowWidth = Convert.ToInt32(FolderBrowserColumn.Width.Value);
-
-				FolderBrowserColumn.Width = new GridLength(0);
-				FolderBrowserSeparatorColumn.Width = new GridLength(0);
-
-    			mmApp.Configuration.FolderBrowser.Visible = false;
-			}
-			else
-			{
-			    if (folder == null)
-			        folder = FolderBrowser.FolderPath;
-			    if (folder == null)
-			        folder = mmApp.Configuration.LastFolder;
-
-			    Dispatcher.InvokeAsync(() =>
-			    {
-			        if (string.IsNullOrEmpty(folder) && Model.ActiveDocument != null)
-			            folder = Path.GetDirectoryName(Model.ActiveDocument.Filename);
-
-			        FolderBrowser.FolderPath = folder;
-			    });
-
-				FolderBrowserColumn.Width = new GridLength(mmApp.Configuration.FolderBrowser.WindowWidth);
-				FolderBrowserSeparatorColumn.Width = new GridLength(14);
-				mmApp.Configuration.FolderBrowser.Visible = true;
-			}
-		}
-
-		// IMPORTANT: for browser COM CSE errors which can happen with script errors
-		[HandleProcessCorruptedStateExceptions]
-		[MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-		public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false,
-			bool showInBrowser = false)
-		{
-			try
-			{
-				// only render if the preview is actually visible and rendering in Preview Browser
-				if (!Model.IsPreviewBrowserVisible && !showInBrowser)
-					return;
-
-				if (editor == null)
-					editor = GetActiveMarkdownEditor();
-
-				if (editor == null)
-					return;
-
-				var doc = editor.MarkdownDocument;
-				var ext = Path.GetExtension(doc.Filename).ToLower().Replace(".", "");
-
-				string renderedHtml = null;
-
-                // only show preview for Markdown and HTML documents
-                Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
-                mappedTo = mappedTo ?? string.Empty;
-                if (string.IsNullOrEmpty(ext) || mappedTo == "markdown" || mappedTo == "html")
-				{
-					dynamic dom = null;
-					if (!showInBrowser)
-					{
-						if (keepScrollPosition)
-						{
-							dom = PreviewBrowser.Document;
-							editor.MarkdownDocument.LastEditorLineNumber = dom.documentElement.scrollTop;
-						}
-						else
-						{
-							ShowPreviewBrowser(false, false);
-							editor.MarkdownDocument.LastEditorLineNumber = 0;
-						}
-					}
-
-					if (mappedTo == "html")
-					{
-						if (!editor.MarkdownDocument.WriteFile(editor.MarkdownDocument.HtmlRenderFilename,
-								editor.MarkdownDocument.CurrentText))
-							// need a way to clear browser window
-							return;
-					}
-					else
-					{
-					    bool usePragma = !showInBrowser && mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.None;
-                        renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: usePragma,
-							            renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
-						if (renderedHtml == null)
-						{
-							SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
-							ShowStatus($"Access denied: {Path.GetFileName(editor.MarkdownDocument.Filename)}", 5000);
-							// need a way to clear browser window
-
-							return;
-						}
-
-						renderedHtml = StringUtils.ExtractString(renderedHtml,
-							"<!-- Markdown Monster Content -->",
-							"<!-- End Markdown Monster Content -->");
-					}
-
-					if (showInBrowser)
-					{
-					    var url = editor.MarkdownDocument.HtmlRenderFilename;
-					    mmFileUtils.ShowExternalBrowser(url);
-					    return;
-					}
-					else
-					{
-						PreviewBrowser.Cursor = Cursors.None;
-						PreviewBrowser.ForceCursor = true;
-
-						// if content contains <script> tags we must do a full page refresh
-						bool forceRefresh = renderedHtml != null && renderedHtml.Contains("<script ");
+        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false)
+        {
+            PreviewBrowser.PreviewMarkdownAsync(editor, keepScrollPosition);
+        }
 
 
-						if (keepScrollPosition && !mmApp.Configuration.AlwaysUsePreviewRefresh && !forceRefresh)
-						{
-							string browserUrl = PreviewBrowser.Source.ToString().ToLower();
-							string documentFile = "file:///" +
-							                      editor.MarkdownDocument.HtmlRenderFilename.Replace('\\', '/')
-								                      .ToLower();
-							if (browserUrl == documentFile)
-							{
-								dom = PreviewBrowser.Document;
-								//var content = dom.getElementById("MainContent");
+        /// <summary>
+        /// Shows or hides the preview browser
+        /// </summary>
+        /// <param name="hide"></param>
+        public void ShowPreviewBrowser(bool hide = false, bool refresh = false)
+        {
+            if (!hide)
+            {
+                PreviewWebBrowserControl.Visibility = Visibility.Visible;
+
+                MainWindowSeparatorColumn.Width = new GridLength(12);
+                if (!refresh)
+                {
+                    if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
+                        mmApp.Configuration.WindowPosition.SplitterPosition = 600;
+
+                    if (!Model.IsPresentationMode)
+                        MainWindowPreviewColumn.Width =
+                            new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+                }
+            }
+            else
+            {
+                if (MainWindowPreviewColumn.Width.Value > 100)
+                    mmApp.Configuration.WindowPosition.SplitterPosition =
+                        Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
+
+                MainWindowSeparatorColumn.Width = new GridLength(0);
+                MainWindowPreviewColumn.Width = new GridLength(0);
+
+                PreviewWebBrowserControl.Navigate("about:blank");
+            }
+        }
+
+        /// <summary>
+        /// Shows or hides the File Browser
+        /// </summary>
+        /// <param name="hide"></param>
+        public void ShowFolderBrowser(bool hide = false, string folder = null)
+        {
+            if (hide)
+            {
+                if (FolderBrowserColumn.Width.Value > 20)
+                    mmApp.Configuration.FolderBrowser.WindowWidth = Convert.ToInt32(FolderBrowserColumn.Width.Value);
+
+                FolderBrowserColumn.Width = new GridLength(0);
+                FolderBrowserSeparatorColumn.Width = new GridLength(0);
+
+                mmApp.Configuration.FolderBrowser.Visible = false;
+            }
+            else
+            {
+                if (folder == null)
+                    folder = FolderBrowser.FolderPath;
+                if (folder == null)
+                    folder = mmApp.Configuration.LastFolder;
+
+                Dispatcher.InvokeAsync(() =>
+                {
+                    if (string.IsNullOrEmpty(folder) && Model.ActiveDocument != null)
+                        folder = Path.GetDirectoryName(Model.ActiveDocument.Filename);
+
+                    FolderBrowser.FolderPath = folder;
+                });
+
+                FolderBrowserColumn.Width = new GridLength(mmApp.Configuration.FolderBrowser.WindowWidth);
+                FolderBrowserSeparatorColumn.Width = new GridLength(14);
+                mmApp.Configuration.FolderBrowser.Visible = true;
+            }
+        }
+        #endregion
+
+        #region Worker Functions
 
 
-								if (string.IsNullOrEmpty(renderedHtml))
-									PreviewMarkdown(editor, false, false); // fully reload document
-								else
-								{
-									try
-									{
-										// explicitly update the document with JavaScript code
-										// much more efficient and non-jumpy and no wait cursor
-										var window = dom.parentWindow;
-										window.updateDocumentContent(renderedHtml);
-
-										try
-										{
-											// scroll preview to selected line
-											if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
-											    mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
-											{
-												int lineno = editor.GetLineNumber();
-												if (lineno > -1)
-													window.scrollToPragmaLine(lineno);
-											}
-										}
-										catch
-										{
-/* ignore scroll error */
-										}
-									}
-									catch
-									{
-										// Refresh doesn't fire Navigate event again so
-										// the page is not getting initiallized properly
-										//PreviewBrowser.Refresh(true);
-										PreviewBrowser.Tag = "EDITORSCROLL";
-										PreviewBrowser.Navigate(new Uri(editor.MarkdownDocument.HtmlRenderFilename));
-									}
-								}
-
-								return;
-							}
-						}
-
-						PreviewBrowser.Tag = "EDITORSCROLL";
-						PreviewBrowser.Navigate(new Uri(editor.MarkdownDocument.HtmlRenderFilename));
-						return;
-					}
-				}
-
-				// not a markdown or HTML document to preview
-				ShowPreviewBrowser(true, keepScrollPosition);
-			}
-			catch (Exception ex)
-			{
-				mmApp.Log("PreviewMarkdown failed (Exception captured - continuing)", ex);
-			}
-		}
 
 
-		public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false)
-		{
-			if (!mmApp.Configuration.IsPreviewVisible)
-				return;
-
-			var current = DateTime.UtcNow;
-
-			// prevent multiple stacked refreshes
-			if (invoked == DateTime.MinValue) // || current.Subtract(invoked).TotalMilliseconds > 4000)
-			{
-				invoked = current;
-
-				Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
-					new Action(() =>
-					{
-						try
-						{
-							PreviewMarkdown(editor, keepScrollPosition);
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Preview Markdown Async Exception: " + ex.Message);
-						}
-						finally
-						{
-							invoked = DateTime.MinValue;
-						}
-					}));
-			}
-		}
-
-
-		public MarkdownDocumentEditor GetActiveMarkdownEditor()
+        public MarkdownDocumentEditor GetActiveMarkdownEditor()
 		{
 			var tab = TabControl?.SelectedItem as TabItem;
 			return tab?.Tag as MarkdownDocumentEditor;
@@ -1497,7 +1323,7 @@ namespace MarkdownMonster
 				OpenTab("untitled");
 				var editor = GetActiveMarkdownEditor();
 				editor.MarkdownDocument.CurrentText = markdown;
-				PreviewMarkdown();
+			    PreviewBrowser.PreviewMarkdown();
 			}
 			else if (button == ButtonExit)
 			{
@@ -1708,28 +1534,9 @@ namespace MarkdownMonster
 
 			editor.SetSelection(markdown);
 			editor.SetEditorFocus();
-			PreviewMarkdownAsync(editor, true);
-		}
 
-		//internal void Button_CopyMarkdownAsHtml(object sender, RoutedEventArgs e)
-		//{
-		//	var editor = GetActiveMarkdownEditor();
-		//	if (editor == null)
-		//		return;
-
-		//	var markdown = editor.GetSelection();
-		//	var html = editor.RenderMarkdown(markdown);
-
-		//	if (!string.IsNullOrEmpty(html))
-		//	{
-  //              // copy to clipboard as html
-		//	    ClipboardHelper.CopyToClipboard(html, html);
-		//		ShowStatus("Html has been pasted to the clipboard.", mmApp.Configuration.StatusTimeout);
-		//	}
-		//	editor.SetEditorFocus();
-		//	editor.Window.PreviewMarkdownAsync();
-		//}
-
+            PreviewBrowser.PreviewMarkdownAsync(editor, true);
+		}        
 		#endregion
 
 		#region Miscelleaneous Events
@@ -1775,12 +1582,12 @@ namespace MarkdownMonster
 				editor?.RestyleEditor();
 			}
 
-			PreviewMarkdownAsync();
+		    PreviewBrowser.PreviewMarkdownAsync();
 		}
 
 		private void RenderTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			PreviewMarkdownAsync();
+		    PreviewBrowser.PreviewMarkdownAsync();
 		}
 
 	    private void AppTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1809,7 +1616,7 @@ namespace MarkdownMonster
 			{
 				MarkdownParserFactory.GetParser(parserAddinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName,
 					forceLoad: true);
-				PreviewMarkdownAsync();
+			    PreviewBrowser.PreviewMarkdownAsync();
 			}
 		}
 
@@ -1823,24 +1630,6 @@ namespace MarkdownMonster
                     var parms = StringUtils.GetLines(filesToOpen.Trim());
 
 				    OpenFilesFromCommandLine(parms);
-
-
-					//TabItem lastTab = null;
-					//foreach (var file in parms)
-					//{
-					//    if (!string.IsNullOrEmpty(file))
-					//    {
-					//        var ext = Path.GetExtension(file);
-
-					//        if (string.IsNullOrEmpty(ext))
-					//            ShowFolderBrowser(false, file);
-     //                       else
-     //                           lastTab = OpenTab(file.Trim());
-					//    }
-					//}
-					//if (lastTab != null)
-					//	Dispatcher.InvokeAsync(() => TabControl.SelectedItem = lastTab);
-					//BindTabHeaders();
 				}
 
 				Topmost = true;
@@ -1930,75 +1719,6 @@ namespace MarkdownMonster
 			return await this.ShowMessageAsync(title, message, style, settings);
 		}
 
-		#endregion
-
-		#region Preview Browser Operation
-
-		private void InitializePreviewBrowser()
-		{
-			// wbhandle has additional browser initialization code
-			// using the WebBrowserHostUIHandler
-			PreviewBrowser.LoadCompleted += PreviewBrowserOnLoadCompleted;
-			//PreviewBrowser.Navigate("about:blank");
-		}
-
-
-		private void PreviewBrowserOnLoadCompleted(object sender, NavigationEventArgs e)
-		{
-			string url = e.Uri.ToString();
-			if (!url.Contains("_MarkdownMonster_Preview"))
-				return;
-
-			bool shouldScrollToEditor = PreviewBrowser.Tag != null && PreviewBrowser.Tag.ToString() == "EDITORSCROLL";
-			PreviewBrowser.Tag = null;
-
-			dynamic window = null;
-			MarkdownDocumentEditor editor = null;
-			try
-			{
-				editor = GetActiveMarkdownEditor();
-				dynamic dom = PreviewBrowser.Document;
-				window = dom.parentWindow;
-				dom.documentElement.scrollTop = editor.MarkdownDocument.LastEditorLineNumber;
-
-				window.initializeinterop(editor);
-
-				if (shouldScrollToEditor)
-				{
-					try
-					{
-						// scroll preview to selected line
-						if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
-						    mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
-						{
-							int lineno = editor.GetLineNumber();
-							if (lineno > -1)
-								window.scrollToPragmaLine(lineno);
-						}
-					}
-					catch
-					{
-						/* ignore scroll error */
-					}
-				}
-			}
-			catch
-			{
-				// try again
-				Task.Delay(500).ContinueWith(t =>
-				{
-					try
-					{
-						window.initializeinterop(editor);
-					}
-					catch
-					{
-						//mmApp.Log("Preview InitializeInterop failed: " + url, ex);
-					}
-				});
-			}
-		}
-
-        #endregion
+		#endregion		
 	}
 }

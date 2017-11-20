@@ -620,7 +620,7 @@
                 </GridSplitter.Template>
             </GridSplitter>
 
-            <WebBrowser Grid.Column="4" Name="PreviewBrowser"
+            <WebBrowser Grid.Column="4" Name="PreviewWebBrowserControl" 
                         VerticalAlignment="Stretch"  SizeChanged="PreviewBrowser_SizeChanged"                        
                         Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
                 
