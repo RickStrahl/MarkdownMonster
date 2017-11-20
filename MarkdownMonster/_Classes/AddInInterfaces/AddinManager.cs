@@ -36,6 +36,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
+using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
@@ -112,7 +113,7 @@ namespace MarkdownMonster.AddIns
                             Header = addInMenuItem.Caption,
                             Name=StringUtils.ToCamelCase(addInMenuItem.Caption)
                         };
-
+                        
                         Action<object, ICommand> xAction = (s, c) =>
                         {
                             try
@@ -152,11 +153,19 @@ namespace MarkdownMonster.AddIns
                         {
                             var hasConfigMenu = addInMenuItem.ExecuteConfiguration != null;
 
+                            Brush colorBrush;
+                            if (string.IsNullOrEmpty(addInMenuItem.FontawesomeIconColor))
+                                colorBrush = mmApp.Model.Window.Foreground;
+                            else
+                            {                                
+                                colorBrush = new BrushConverter().ConvertFrom(addInMenuItem.FontawesomeIconColor) as Brush;
+                            }
+
                             var titem = new Button();
 
                             var source  = addInMenuItem.IconImageSource ??
-                                          ImageAwesome.CreateImageSource(addInMenuItem.FontawesomeIcon, addin.Model.Window.Foreground); 
-                        
+                                          ImageAwesome.CreateImageSource(addInMenuItem.FontawesomeIcon, colorBrush); 
+                            
                             titem.Content = new Image()
                             {
                                 Source = source,
@@ -168,7 +177,7 @@ namespace MarkdownMonster.AddIns
                                 Width = addInMenuItem.IconImageSource == null ? 18 : 19,                           
                                 Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
                             };
-
+                            addInMenuItem.MenuItemButton = titem;
                         
 
                             if (addInMenuItem.Execute != null)
@@ -223,7 +232,9 @@ namespace MarkdownMonster.AddIns
                                     };
                                     if (addInMenuItem.ExecuteConfiguration != null)
                                         configMenuItem.Click += (s, e) => addInMenuItem.ExecuteConfiguration?.Invoke(s);
-                                
+
+                                    addInMenuItem.ConfigurationMenuItem = configMenuItem;
+
                                     ctxm.Items.Add(configMenuItem);                                
                                 };
 
