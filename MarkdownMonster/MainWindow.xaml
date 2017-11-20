@@ -320,7 +320,7 @@
 				<StackPanel Orientation="Horizontal">
 					<ToolBar Name="ToolbarFile"  FontSize="17">
 						<Button Name="ToolButtonOpenFile" Margin="7,0,0,0"  Command="{Binding Commands.OpenDocumentCommand}" ToolTip="Open Markdown file (ctrl-o)"                                
-                                fa:Awesome.Content="FolderOpen"
+                                fa:Awesome.Content="FolderOpen" 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
                         <Button Name="ToolbarButtonRecentFiles" Margin="0,0" Click="Button_Handler" ToolTip="Recent Markdown files"
