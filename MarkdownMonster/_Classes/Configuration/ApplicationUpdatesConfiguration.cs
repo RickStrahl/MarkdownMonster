@@ -10,12 +10,6 @@ namespace MarkdownMonster
     /// </summary>
     public class ApplicationUpdatesConfiguration
     {
-        ///// <summary>
-        ///// Url to check version info from
-        ///// </summary>
-        //[JsonIgnore]
-        //public string UpdateCheckUrl { get; }
-
         /// <summary>
         /// Last date and time when an update check was performed
         /// </summary>
@@ -26,8 +20,6 @@ namespace MarkdownMonster
         /// </summary>
         public int  UpdateFrequency { get; set; }
 
-
-        
         /// <summary>
         /// Keeps track how many times MM was run. Use in Telemetry
         /// for informational info.
@@ -53,7 +45,7 @@ namespace MarkdownMonster
 
         public ApplicationUpdatesConfiguration()
         {                        
-            UpdateFrequency = 7;
+            UpdateFrequency = 10;
             // prevent immediate update check for at least a day on new install
             LastUpdateCheck = DateTime.UtcNow.AddDays((UpdateFrequency -1) * -1 ); 
             FirstRun = true;            
