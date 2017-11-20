@@ -639,10 +639,9 @@ namespace MarkdownMonster
             PreviewHttpLinksExternal = true;
 
             UseMachineEncryptionKeyForPasswords = true;
-
 	        
-			TerminalCommand = "cmd.exe";
-			TerminalCommandArgs = "/k \"cd {0}\"";
+			TerminalCommand = "powershell.exe";
+			TerminalCommandArgs = "-noexit -command \"cd '{0}'\"";
             OpenFolderCommand = "explorer.exe";
 
             WebBrowserPreviewExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),@"Google\Chrome\Application\chrome.exe");
