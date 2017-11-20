@@ -501,13 +501,13 @@ namespace MarkdownMonster.AddIns
         /// Allows insertion of a menu item 
         /// </summary>
         /// <param name="mitem">The menu item to insert</param>
-        /// <param name="menuItemName">Name of the menuitem element (optional - use either menuItemName or menuItemText)</param>
-        /// <param name="menuItemText">Text of the menuitem element (optional - use either menuItemName or menuItemText)</param>
+        /// <param name="menuItemNameForInsertionAfter">Name of the main menuitem element to insert before or after - find in MainWindow.xaml or with Debug Tools</param>
+        /// <param name="menuItemTextForInsertionAfter">Text of the menuitem element to insert bfore or after (use if there's is no explicit Name for the item)</param>
         /// <param name="mode">0 - insert after, 1 - insert before, 2 - replace</param>
-        public bool AddMenuItem(MenuItem mitem, string menuItemName = null, string menuItemText = null, int mode = 0)
+        public bool AddMenuItem(MenuItem mitem, string menuItemNameForInsertionAfter = null, string menuItemTextForInsertionAfter = null, int mode = 0)
         {
             // find the menu item to in
-            var menuItem = GetChildMenuItem(Model.Window.MainMenu, menuItemName, menuItemText);
+            var menuItem = GetChildMenuItem(Model.Window.MainMenu, menuItemNameForInsertionAfter, menuItemTextForInsertionAfter);
             if (menuItem == null)
                 return false;
 
@@ -516,16 +516,22 @@ namespace MarkdownMonster.AddIns
                 return false;
 
             int idx;
-            if (mode == 0)
+            if (mode == 1)
             {
                 idx = parent.Items.IndexOf(menuItem);
-                idx++;
+            }
+            else if (mode == 2)
+            {
+                idx = parent.Items.IndexOf(menuItem);
+                parent.Items[idx] = mitem;                
+                return true;
             }
             else
             {
                 idx = parent.Items.IndexOf(menuItem);
+                idx++;
+            
             }
-
             parent.Items.Insert(idx, mitem);
 
             return true;

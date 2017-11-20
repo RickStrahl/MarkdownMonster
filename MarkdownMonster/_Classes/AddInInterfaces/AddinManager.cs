@@ -103,20 +103,21 @@ namespace MarkdownMonster.AddIns
             {
                 addin.Model = window.Model;                
 
-                foreach (var menuItem in addin.MenuItems)
+                foreach (var addInMenuItem in addin.MenuItems)
                 {
                     try
                     {
-                        var mitem = new MenuItem()
+                        var mitem = new MenuItem
                         {
-                            Header = menuItem.Caption,                        
+                            Header = addInMenuItem.Caption,
+                            Name=StringUtils.ToCamelCase(addInMenuItem.Caption)
                         };
 
                         Action<object, ICommand> xAction = (s, c) =>
                         {
                             try
                             {
-                                menuItem.Execute?.Invoke(mitem);
+                                addInMenuItem.Execute?.Invoke(mitem);
                             }
                             catch (Exception ex)
                             {
@@ -128,12 +129,12 @@ namespace MarkdownMonster.AddIns
                             }
                         };
                         Func<object, ICommand, bool> cxAction = null;
-                        if (menuItem.CanExecute != null)
+                        if (addInMenuItem.CanExecute != null)
                             cxAction = (s, e) =>
                             {
                                 try
                                 {
-                                    return menuItem.CanExecute.Invoke(s);
+                                    return addInMenuItem.CanExecute.Invoke(s);
                                 }
                                 catch (Exception ex)
                                 {
@@ -141,39 +142,39 @@ namespace MarkdownMonster.AddIns
                                     return true;
                                 }
                             };                    
-                        menuItem.Command = new CommandBase(xAction,cxAction);                    
-                        mitem.Command = menuItem.Command;
+                        addInMenuItem.Command = new CommandBase(xAction,cxAction);                    
+                        mitem.Command = addInMenuItem.Command;
 
                         addin.Model.Window.MenuAddins.Items.Add(mitem);
                     
                         // if an icon is provided also add to toolbar
-                        if (menuItem.FontawesomeIcon != FontAwesomeIcon.None || menuItem.IconImageSource != null)
+                        if (addInMenuItem.FontawesomeIcon != FontAwesomeIcon.None || addInMenuItem.IconImageSource != null)
                         {
-                            var hasConfigMenu = menuItem.ExecuteConfiguration != null;
+                            var hasConfigMenu = addInMenuItem.ExecuteConfiguration != null;
 
                             var titem = new Button();
 
-                            var source  = menuItem.IconImageSource ??
-                                          ImageAwesome.CreateImageSource(menuItem.FontawesomeIcon, addin.Model.Window.Foreground); 
+                            var source  = addInMenuItem.IconImageSource ??
+                                          ImageAwesome.CreateImageSource(addInMenuItem.FontawesomeIcon, addin.Model.Window.Foreground); 
                         
                             titem.Content = new Image()
                             {
                                 Source = source,
-                                ToolTip = menuItem.Caption + 
-                                          (!string.IsNullOrEmpty(menuItem.KeyboardShortcut) ?
-                                              $" ({menuItem.KeyboardShortcut})" :
+                                ToolTip = addInMenuItem.Caption + 
+                                          (!string.IsNullOrEmpty(addInMenuItem.KeyboardShortcut) ?
+                                              $" ({addInMenuItem.KeyboardShortcut})" :
                                               string.Empty),
-                                Height = menuItem.IconImageSource == null ? 18 : 19,
-                                Width = menuItem.IconImageSource == null ? 18 : 19,                           
+                                Height = addInMenuItem.IconImageSource == null ? 18 : 19,
+                                Width = addInMenuItem.IconImageSource == null ? 18 : 19,                           
                                 Margin = new Thickness(5, 0, hasConfigMenu ? 0 : 5, 0)
                             };
 
                         
 
-                            if (menuItem.Execute != null)
+                            if (addInMenuItem.Execute != null)
                             {
-                                titem.Command = menuItem.Command;
-                                AddKeyboardShortcut(menuItem, addin);
+                                titem.Command = addInMenuItem.Command;
+                                AddKeyboardShortcut(addInMenuItem, addin);
                             }
                         
                             addin.Model.Window.ToolbarAddIns.Visibility = Visibility.Visible;
@@ -194,7 +195,7 @@ namespace MarkdownMonster.AddIns
                                         Width = 8,
                                         Margin = new Thickness(0, 0, 0, 0),
                                     },
-                                    ToolTip = menuItem.Caption + " Configuration",                                
+                                    ToolTip = addInMenuItem.Caption + " Configuration",                                
                                 };
 
                                 var ctxm = new ContextMenu();
@@ -209,19 +210,19 @@ namespace MarkdownMonster.AddIns
                                     ctxm.Items.Clear();
                                     var configMenuItem = new MenuItem()
                                     {
-                                        Header = menuItem.Caption
+                                        Header = addInMenuItem.Caption
                                     };
-                                    configMenuItem.Command = menuItem.Command;                                
-                                    if (menuItem.CanExecute != null)
-                                        configMenuItem.IsEnabled = menuItem.CanExecute.Invoke(sender);
+                                    configMenuItem.Command = addInMenuItem.Command;                                
+                                    if (addInMenuItem.CanExecute != null)
+                                        configMenuItem.IsEnabled = addInMenuItem.CanExecute.Invoke(sender);
                                     ctxm.Items.Add(configMenuItem);
 
                                     configMenuItem = new MenuItem()
                                     {
-                                        Header = menuItem.Caption + " Configuration",
+                                        Header = addInMenuItem.Caption + " Configuration",
                                     };
-                                    if (menuItem.ExecuteConfiguration != null)
-                                        configMenuItem.Click += (s, e) => menuItem.ExecuteConfiguration?.Invoke(s);
+                                    if (addInMenuItem.ExecuteConfiguration != null)
+                                        configMenuItem.Click += (s, e) => addInMenuItem.ExecuteConfiguration?.Invoke(s);
                                 
                                     ctxm.Items.Add(configMenuItem);                                
                                 };
@@ -233,7 +234,7 @@ namespace MarkdownMonster.AddIns
                             {
                                 if (arg.PropertyName == "ActiveDocument" || arg.PropertyName == "ActiveEditor")
                                 {
-                                    menuItem.Command?.InvalidateCanExecute();
+                                    addInMenuItem.Command?.InvalidateCanExecute();
 
                                     // this shouldn't be necessary but it looks if the Command bindings work correctly
                                     //var item = addin.Model.Window.ToolbarAddIns.Items[toolIndex] as Button;
