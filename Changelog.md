@@ -3,9 +3,16 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.7.7
+
+* **Change Default Terminal Client to Powershell**  
+Updated the default Terminal Client to use Powershell instead of Command. Also updated documentation to fix disk drive navigation in Command mode (not Powershell) by using parameters: `"/k cd /D \"{0}\""` for Command shell args.
+
+* **Refactor Preview Rendering**   
+Internal change that modifies the internal rendering logic for the preview into an isolated class. This will make it easier to add alternate browser rendering targets in alternate windows.
 
 ### 1.7.6
-*<small>not released yet</small>*
+*<small>November 19th, 2017</small>*
 
 * **Addin OnModifyPreviewHtml() added**  
 Added `MarkdownMonsterAddin.OnModifyPreviewHtml()` which is allows addins to modify the preview output html used for displaying the preview. Thanks to Jim McClain for providing the PR for this addition.
@@ -16,7 +23,7 @@ Preview sync default changed to **Editor -> Preview** to avoid potential sync ji
 * **Weblog Publishing Updated**  
 Minor tweaks to the Weblog download feature and HTML to Markdown conversion. Small UI updates in the download UI and better UI responsiveness when uploading posts to a blog.
 
-* **Switch back 32 bit**   
+* **Switch back to 32 bit**   
 When we moved to Markdown Monster to the `%LocalAppData%` folder recently, Markdown Monster temporarily went back to running in 64 bit mode. While this worked fine, performance was noticeably more sluggish in 64 bit mode, so we're going back to forcing Markdown Monster to run in 32 bit mode which has overall responsiveness of the UI considerably.
 
 * **Addin Icon Interface Enhancements**   
@@ -940,5 +947,4 @@ Fix importing from Wordpress blogs where the **Read More** option is active (for
 <i><small>November 4th, 2016</small></i>
 
 * **RTM Release**  
-We're happy to announce that Markdown Monster has gone to RTM! 
-
+We're happy to announce that Markdown Monster has gone to RTM!
