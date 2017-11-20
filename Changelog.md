@@ -19,6 +19,9 @@ Minor tweaks to the Weblog download feature and HTML to Markdown conversion. Sma
 * **Switch back 32 bit**   
 When we moved to Markdown Monster to the `%LocalAppData%` folder recently, Markdown Monster temporarily went back to running in 64 bit mode. While this worked fine, performance was noticeably more sluggish in 64 bit mode, so we're going back to forcing Markdown Monster to run in 32 bit mode which has overall responsiveness of the UI considerably.
 
+* **Addin Icon Interface Enhancements**   
+Add better icon and image icon options to make it easier to create icons and modify the icon after loading if necessary. Added `FontawesomeIconColor` property to allow specifying a color, and simplify the loader logic for loading image icons. There's a new `Addin.AddinMenuItem.MenuItemButton` property that gives you access to the actual menu button that was created for customization.
+
 * **Fix: Recent Menu Files with `_` in Name**  
 Fixed issue files that have underscores in filenames in the Recent menu, where underscores were treated as shortcut keys by WPF.
 
