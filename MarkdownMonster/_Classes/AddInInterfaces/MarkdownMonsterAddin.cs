@@ -445,7 +445,7 @@ namespace MarkdownMonster.AddIns
         /// <returns>The TabItem instance representing the opened tab</returns>
         public TabItem OpenTab(string filename)
         {
-            return Model.Window.OpenTab(filename);                        
+            return Model.Window.OpenTab(filename, rebindTabHeaders: true);
         }
 
 

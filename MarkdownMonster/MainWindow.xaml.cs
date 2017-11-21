@@ -274,7 +274,8 @@ namespace MarkdownMonster
 	                    ShowFolderBrowser(false, file);
 	            }
 	        }
-	    }
+	        BindTabHeaders();
+        }
 
 	    protected override void OnContentRendered(EventArgs e)
 		{
@@ -549,6 +550,7 @@ namespace MarkdownMonster
 			        TabControl.SelectedIndex = 0;
 
 			    batchTabAction = false;
+			    BindTabHeaders();
 
 			}
 
@@ -872,7 +874,7 @@ namespace MarkdownMonster
 	    /// <summary>
 		/// Binds all Tab Headers
 		/// </summary>
-		void BindTabHeaders()
+		public void BindTabHeaders()
 		{
 			var tabList = new List<TabItem>();
 			foreach (TabItem tb in TabControl.Items)

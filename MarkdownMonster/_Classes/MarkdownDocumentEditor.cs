@@ -1304,7 +1304,7 @@ namespace MarkdownMonster
 		    }
 		    else if (mmApp.AllowedFileExtensions.Contains($",{ext},"))
 		    {
-			    Window.OpenTab(file);
+                Window.OpenTab(file, rebindTabHeaders: true);
 		    }
 	    }
 

@@ -359,7 +359,7 @@ namespace MarkdownMonster.Windows
             string format = mmFileUtils.GetEditorSyntaxFromFileType(file);
             if (!string.IsNullOrEmpty(format))
             {
-                mmApp.Model.Window.OpenTab(file);
+                mmApp.Model.Window.OpenTab(file, rebindTabHeaders: true);
                 return;
             }
 
@@ -395,7 +395,7 @@ namespace MarkdownMonster.Windows
                             "Unable to open this file. Do you want to open it as a text document in the editor?",
                             mmApp.ApplicationName,
                             MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                        mmApp.Model.Window.OpenTab(file);
+                        mmApp.Model.Window.OpenTab(file, rebindTabHeaders: true);
                 }
             }
         }
@@ -644,7 +644,7 @@ namespace MarkdownMonster.Windows
             if (selected.IsFolder)
                 ShellUtils.GoUrl(selected.FullPath);
             else
-                mmApp.Model.Window.OpenTab(selected.FullPath);
+                mmApp.Model.Window.OpenTab(selected.FullPath,rebindTabHeaders: true);
         }
 
         private void MenuShowImage_Click(object sender, RoutedEventArgs e)
