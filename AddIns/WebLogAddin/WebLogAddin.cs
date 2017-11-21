@@ -137,9 +137,8 @@ namespace WeblogAddin
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool SendPost(WeblogInfo weblogInfo, bool sendAsDraft = false)
+        public async Task<bool> SendPost(WeblogInfo weblogInfo, bool sendAsDraft = false)
         {
-
             var editor = Model.ActiveEditor;
             if (editor == null)
                 return false;
@@ -153,8 +152,6 @@ namespace WeblogAddin
 
             // start by retrieving the current Markdown from the editor
             string markdown = editor.GetMarkdown();
-
-
 
             // Retrieve Meta data from post and clean up the raw markdown
             // so we render without the config data
@@ -230,8 +227,12 @@ namespace WeblogAddin
                 client.FeaturedImageUrl = meta.FeaturedImageUrl;
                 client.FeatureImageId = meta.FeaturedImageId;
 
-                if (!client.PublishCompletePost(WeblogModel.ActivePost, basePath,
-                    sendAsDraft, markdown))
+                var result = await Task.Run<bool>(() => client.PublishCompletePost(WeblogModel.ActivePost, basePath,
+                    sendAsDraft, markdown));
+
+                //if (!client.PublishCompletePost(WeblogModel.ActivePost, basePath,
+                //    sendAsDraft, markdown))
+                if (!result)
                 {
                     mmApp.Log($"Error sending post to Weblog at {weblogInfo.ApiUrl}: " + client.ErrorMessage);
                     MessageBox.Show("Error sending post to Weblog: " + client.ErrorMessage,

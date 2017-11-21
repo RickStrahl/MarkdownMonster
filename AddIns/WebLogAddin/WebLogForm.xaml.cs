@@ -99,7 +99,7 @@ namespace WeblogAddin
 
 	        GetCustomFieldsFromObservableCollection();
 
-			SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Upload, Colors.Orange, true);
+			SetStatusIcon(FontAwesomeIcon.CircleOutlineNotch, Colors.Orange, true);
 
 
             if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))
@@ -111,9 +111,10 @@ namespace WeblogAddin
                 return;
             }
 
+            var editor = Model.AppModel.ActiveEditor;
             // Update the Markdown document first
             string markdown =  Model.ActivePostMetadata.SetPostYaml();
-            Model.AppModel.ActiveEditor.SetMarkdown(markdown);
+            editor.SetMarkdown(markdown);
             
             WeblogAddinConfiguration.Current.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
 
@@ -121,15 +122,21 @@ namespace WeblogAddin
             
             try
             {
-                await Dispatcher.InvokeAsync(() =>
-                {
-                    // Then send the post - it will re-read the new values
-                    if (Model.Addin.SendPost(Model.ActiveWeblogInfo, Model.ActivePostMetadata.PostStatus == "draft"))
-                        Close();
-                    else
-                        window.ShowStatus("Failed to upload blog post.", 5000);
+                bool result = await Model.Addin.SendPost(Model.ActiveWeblogInfo, Model.ActivePostMetadata.PostStatus == "draft");
+                if (result)
+                    Close();
+                else
+                    window.ShowStatus("Failed to upload blog post.", 5000);
 
-                }, System.Windows.Threading.DispatcherPriority.Background);                
+                //await Dispatcher.InvokeAsync(() =>
+                //{
+                //    // Then send the post - it will re-read the new values
+                //    if (Model.Addin.SendPost(Model.ActiveWeblogInfo, Model.ActivePostMetadata.PostStatus == "draft"))
+                //        Close();
+                //    else
+                //        window.ShowStatus("Failed to upload blog post.", 5000);
+
+                //}, System.Windows.Threading.DispatcherPriority.Background);                
             }
             finally
             {
@@ -310,7 +317,7 @@ namespace WeblogAddin
             StatusIcon.Icon = icon;
             StatusIcon.Foreground = new SolidColorBrush(color);
             if (spin)
-                StatusIcon.SpinDuration = 1;
+                StatusIcon.SpinDuration = 2;
             StatusIcon.Spin = spin;
         }
 
