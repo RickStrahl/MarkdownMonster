@@ -4,12 +4,19 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.7.7
+*<small>not released yet</small>*
 
 * **Change Default Terminal Client to Powershell**  
 Updated the default Terminal Client to use Powershell instead of Command. Also updated documentation to fix disk drive navigation in Command mode (not Powershell) by using parameters: `"/k cd /D \"{0}\""` for Command shell args.
 
 * **Refactor Preview Rendering**   
 Internal change that modifies the internal rendering logic for the preview into an isolated class. This will make it easier to add alternate browser rendering targets in alternate windows.
+
+* **Async WebLog Uploads**   
+We've updated the Weblog uploader to run asynchronously without locking the UI thread. While Weblog publishing can be blazing fast if the server responds qiuckly, for some sites uploads were blocking the UI hard (the main WordPress site in particular). This update works around the synchronous Xmp-Rpc library explicitly creating a task based wrapper.
+
+* **Fix: Duplicate Tab Names not displaying Path correctly**  
+When multiple files with the same name are open, MM displays the last path segment to differentiate the documents. This code was not universally working with various locations not properly updating the tab headers.
 
 ### 1.7.6
 *<small>November 19th, 2017</small>*

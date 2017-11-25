@@ -1,3 +1,6 @@
+### Using Gists for Bug Reports and general Purpose Web Pages
+Did you know that Github Gists support Markdown? You can use Gist to create one off HTML pages in Markdown. They're great for posting detailed bug reports or ideas that you can link on Twitter and other social media. Markdown Monster's Gist Integration Addin can also help with editing and updating and managing of Gists easily.
+
 ### 3 ways to Image Embedding
 Did you know you can get images into @MarkdownMonstr docs in 3 ways: Image dialog, paste image into doc, drag images from Explorer.
 
