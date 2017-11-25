@@ -24,7 +24,8 @@ namespace MarkdownMonster
         /// <param name="parserAddinId">optional addin id that checks for a registered Markdown parser</param>
         /// <returns>Mardown Parser Interface</returns>
         public static IMarkdownParser GetParser(bool usePragmaLines = false,
-                                                bool forceLoad = false, string parserAddinId = null)
+                                                bool forceLoad = false,
+                                                string parserAddinId = null)
         {
             if (!forceLoad && CurrentParser != null)
                 return CurrentParser;
@@ -38,7 +39,7 @@ namespace MarkdownMonster
                     parser = addin.GetMarkdownParser(usePragmaLines, forceLoad);
             }
             
-            CurrentParser = parser ?? (parser = new MarkdownParserMarkdig(usePragmaLines: usePragmaLines, force: forceLoad));
+            CurrentParser = parser ?? (parser = new MarkdownParserMarkdig(usePragmaLines: usePragmaLines));
 
             return CurrentParser;
         }

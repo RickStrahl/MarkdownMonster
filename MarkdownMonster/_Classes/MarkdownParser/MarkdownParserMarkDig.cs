@@ -47,18 +47,14 @@ namespace MarkdownMonster
     /// </summary>
     public class MarkdownParserMarkdig : MarkdownParserBase
     {
-        public static MarkdownPipeline Pipeline;
+        protected MarkdownPipeline Pipeline;
+        protected bool UsePragmaLines;
 
-        private readonly bool _usePragmaLines;
-
-        public MarkdownParserMarkdig(bool usePragmaLines = false, bool force = false)
+        public MarkdownParserMarkdig(bool usePragmaLines = false)
         {
-            _usePragmaLines = usePragmaLines;
-            if (force || Pipeline == null)
-            {
-                var builder = CreatePipelineBuilder();
-                Pipeline = builder.Build();
-            }
+            UsePragmaLines = usePragmaLines;
+            var builder = CreatePipelineBuilder();
+            Pipeline = builder.Build();            
         }
 
         /// <summary>
@@ -123,7 +119,7 @@ namespace MarkdownMonster
             if (options.SmartyPants)
                 builder = builder.UseSmartyPants();
 
-            if (_usePragmaLines)
+            if (UsePragmaLines)
                 builder = builder.UsePragmaLines();
 
             try
