@@ -290,7 +290,10 @@ namespace MarkdownMonster.Windows
         private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
+            {
+                LastClickTime = DateTime.MinValue;
                 HandleSelection();
+            }
         }
 
         void HandleSelection()
