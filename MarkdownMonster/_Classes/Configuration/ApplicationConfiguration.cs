@@ -92,7 +92,24 @@ namespace MarkdownMonster
         }
         private PreviewSyncMode _previewSyncMode;
 
-        
+
+
+        /// <summary>
+        /// Determines whether the internal or external window previewer are
+        /// used
+        /// </summary>
+        public PreviewModes PreviewMode
+        {
+            get { return _PreviewMode; }
+            set
+            {
+                if (value == _PreviewMode) return;
+                _PreviewMode = value;
+                OnPropertyChanged(nameof(PreviewMode));
+            }
+        }
+        private PreviewModes _PreviewMode = PreviewModes.InternalPreview;
+
         /// <summary>
         /// If set to true causes Http links in the Previewer
         /// to be opened in the default system Web Browser
@@ -109,6 +126,7 @@ namespace MarkdownMonster
         }
         private bool _previewHttpLinksExternal;
 
+        
         /// <summary>
         /// String that holds any of the following as a comma delimited string
         /// in all lower case:
@@ -742,6 +760,11 @@ namespace MarkdownMonster
         GitHub
     }
 
+    public enum PreviewModes
+    {
+        InternalPreview,
+        ExternalPreviewWindow
+    }
 
     public enum PreviewSyncMode
     {

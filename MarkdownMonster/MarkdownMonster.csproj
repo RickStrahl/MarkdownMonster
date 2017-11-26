@@ -143,6 +143,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\EditorContextMenu.cs" />
+    <Compile Include="Windows\PreviewBrowser\IPreviewBrowser.cs" />
+    <Compile Include="Windows\PreviewBrowser\PreviewBrowserWindow.xaml.cs">
+      <DependentUpon>PreviewBrowserWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_Classes\PreviewWebBrowser.cs" />
     <Compile Include="Windows\EmojiWindow.xaml.cs">
       <DependentUpon>EmojiWindow.xaml</DependentUpon>
@@ -328,6 +332,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PasteHref.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PreviewBrowser\PreviewBrowserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

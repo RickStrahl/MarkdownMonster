@@ -70,7 +70,7 @@ namespace MarkdownMonster
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : MetroWindow , IPreviewBrowser
     {
         public AppModel Model { get; set; }
 
@@ -120,7 +120,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Manages the Preview Rendering in a WebBrowser Control
         /// </summary>
-        public PreviewWebBrowser PreviewBrowser; 
+        public PreviewWebBrowser PreviewBrowser {get; set;} 
 
         public MainWindow()
 		{
@@ -137,9 +137,7 @@ namespace MarkdownMonster
 			Drop += MainWindow_Drop;
 			AllowDrop = true;
 			Activated += OnActivated;
-
-
-
+            
 			// Singleton App startup - server code that listens for other instances
 			if (mmApp.Configuration.UseSingleWindow)
 			{
@@ -153,9 +151,15 @@ namespace MarkdownMonster
 			// Override some of the theme defaults (dark header specifically)
 			mmApp.SetThemeWindowOverride(this);
 
-		    PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);	
+		    //PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);
+
+		    PreviewWindow = new PreviewBrowserWindow();
+		    PreviewWindow.Show();
+
+		    PreviewBrowser = new PreviewWebBrowser(PreviewWindow.Browser);
 		}
 
+        private PreviewBrowserWindow PreviewWindow;
 		#region Opening and Closing
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
@@ -1155,17 +1159,24 @@ namespace MarkdownMonster
         {
             if (!hide)
             {
-                PreviewWebBrowserControl.Visibility = Visibility.Visible;
-
-                MainWindowSeparatorColumn.Width = new GridLength(12);
-                if (!refresh)
+                if (Model.Configuration.PreviewMode == PreviewModes.InternalPreview)
                 {
-                    if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
-                        mmApp.Configuration.WindowPosition.SplitterPosition = 600;
+                    PreviewWebBrowserControl.Visibility = Visibility.Visible;
 
-                    if (!Model.IsPresentationMode)
-                        MainWindowPreviewColumn.Width =
-                            new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+                    MainWindowSeparatorColumn.Width = new GridLength(12);
+                    if (!refresh)
+                    {
+                        if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
+                            mmApp.Configuration.WindowPosition.SplitterPosition = 600;
+
+                        if (!Model.IsPresentationMode)
+                            MainWindowPreviewColumn.Width =
+                                new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+                    }
+                }
+                else
+                {
+                    
                 }
             }
             else
