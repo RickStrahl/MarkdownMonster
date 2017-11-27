@@ -32,8 +32,8 @@ namespace MarkdownMonster
             // Misc
             OpenSampleMarkdown();
             OpenRecentDocument();
+            PreviewModes();
 
-            
         }
 
         public CommandBase OpenDocumentCommand { get; set; }
@@ -166,6 +166,26 @@ namespace MarkdownMonster
                     context.Visibility = Visibility.Visible;
                 }
 
+            }, (p, c) => true);
+        }
+
+
+        public CommandBase PreviewModesCommand { get; set; }
+
+        void PreviewModes()
+        {
+            PreviewModesCommand = new CommandBase((parameter, command) =>
+            {
+                string action = parameter as string;
+                if (string.IsNullOrEmpty(action))
+                    return;
+
+                if (action == "ExternalPreviewWindow")
+                    Model.Configuration.PreviewMode = MarkdownMonster.PreviewModes.ExternalPreviewWindow;
+                else
+                    Model.Configuration.PreviewMode = MarkdownMonster.PreviewModes.InternalPreview;
+
+                Model.Window.ShowPreviewBrowser();
             }, (p, c) => true);
         }
 

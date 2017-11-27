@@ -120,7 +120,28 @@ namespace MarkdownMonster
         /// <summary>
         /// Manages the Preview Rendering in a WebBrowser Control
         /// </summary>
-        public PreviewWebBrowser PreviewBrowser {get; set;} 
+        public PreviewWebBrowser PreviewBrowser {get; set;}
+
+        
+
+        public PreviewBrowserWindow PreviewBrowserWindow
+        {
+            set { _previewBrowserWindow = value; }
+            get
+            {
+                if (_previewBrowserWindow == null || _previewBrowserWindow.IsClosed)
+                {
+                    _previewBrowserWindow = new PreviewBrowserWindow()
+                    {
+                        Owner = this
+                    };
+                    _previewBrowserWindow.Show();
+                }
+
+                return _previewBrowserWindow;
+            }
+        }
+        private PreviewBrowserWindow _previewBrowserWindow;
 
         public MainWindow()
 		{
@@ -150,13 +171,8 @@ namespace MarkdownMonster
 
 			// Override some of the theme defaults (dark header specifically)
 			mmApp.SetThemeWindowOverride(this);
-
-		    //PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);
-
-		    PreviewWindow = new PreviewBrowserWindow();
-		    PreviewWindow.Show();
-
-		    PreviewBrowser = new PreviewWebBrowser(PreviewWindow.Browser);
+		   
+		    PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);
 		}
 
         private PreviewBrowserWindow PreviewWindow;
@@ -388,6 +404,10 @@ namespace MarkdownMonster
 	    protected override void OnClosing(CancelEventArgs e)
 		{
 			base.OnClosing(e);
+
+		    PreviewBrowserWindow?.Close();
+		    PreviewBrowserWindow = null;
+
 
 			AddinManager.Current.RaiseOnApplicationShutdown();
 
@@ -1157,13 +1177,20 @@ namespace MarkdownMonster
         /// <param name="hide"></param>
         public void ShowPreviewBrowser(bool hide = false, bool refresh = false)
         {
-            if (!hide)
+            if (!hide && Model.Configuration.PreviewMode != PreviewModes.None)
             {
                 if (Model.Configuration.PreviewMode == PreviewModes.InternalPreview)
                 {
                     PreviewWebBrowserControl.Visibility = Visibility.Visible;
+                    PreviewBrowserWindow?.Close();
 
-                    MainWindowSeparatorColumn.Width = new GridLength(12);
+                    if (PreviewBrowser.WebBrowser != PreviewWebBrowserControl)
+                    {
+                        PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);                        
+                        PreviewMarkdownAsync();
+                    }
+
+                        MainWindowSeparatorColumn.Width = new GridLength(12);
                     if (!refresh)
                     {
                         if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
@@ -1174,21 +1201,42 @@ namespace MarkdownMonster
                                 new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
                     }
                 }
-                else
-                {
-                    
+                else if(Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
+                {                   
+                    if (PreviewBrowser.WebBrowser != PreviewBrowserWindow.Browser)
+                    {
+                        PreviewBrowser = new PreviewWebBrowser(PreviewBrowserWindow.Browser);
+                        PreviewMarkdownAsync();
+                    }
+                    PreviewBrowserWindow.Show();
+
+                    if (MainWindowPreviewColumn.Width.Value > 100)
+                        mmApp.Configuration.WindowPosition.SplitterPosition =
+                            Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
+
+                    MainWindowSeparatorColumn.Width = new GridLength(0);
+                    MainWindowPreviewColumn.Width = new GridLength(0);
+
+                    PreviewWebBrowserControl.Navigate("about:blank");
                 }
             }
             else
             {
-                if (MainWindowPreviewColumn.Width.Value > 100)
-                    mmApp.Configuration.WindowPosition.SplitterPosition =
-                        Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
+                if (Model.Configuration.PreviewMode == PreviewModes.InternalPreview)
+                {
+                    if (MainWindowPreviewColumn.Width.Value > 100)
+                        mmApp.Configuration.WindowPosition.SplitterPosition =
+                            Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
 
-                MainWindowSeparatorColumn.Width = new GridLength(0);
-                MainWindowPreviewColumn.Width = new GridLength(0);
+                    MainWindowSeparatorColumn.Width = new GridLength(0);
+                    MainWindowPreviewColumn.Width = new GridLength(0);
 
-                PreviewWebBrowserControl.Navigate("about:blank");
+                    PreviewWebBrowserControl.Navigate("about:blank");
+                }
+                else if (Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
+                {
+                    PreviewBrowserWindow?.Close();
+                }
             }
         }
 
@@ -1595,12 +1643,12 @@ namespace MarkdownMonster
 				editor?.RestyleEditor();
 			}
 
-		    PreviewBrowser.PreviewMarkdownAsync();
+		    PreviewBrowser?.PreviewMarkdownAsync();
 		}
 
 		private void RenderTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-		    PreviewBrowser.PreviewMarkdownAsync();
+		    PreviewBrowser?.PreviewMarkdownAsync();
 		}
 
 	    private void AppTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1629,7 +1677,7 @@ namespace MarkdownMonster
 			{
 				MarkdownParserFactory.GetParser(parserAddinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName,
 					forceLoad: true);
-			    PreviewBrowser.PreviewMarkdownAsync();
+                PreviewBrowser?.PreviewMarkdownAsync();
 			}
 		}
 

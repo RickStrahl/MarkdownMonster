@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using MarkdownMonster.Annotations;
@@ -14,7 +14,12 @@ namespace MarkdownMonster
         public int Left { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        
+
+        public int PreviewTop { get; set; }
+        public int PreviewLeft { get; set; }
+        public int PreviewHeight { get; set; } = 700;
+        public int PreviewWidth { get; set; } = 1000;
+
         /// <summary>
         /// X offset to the position of the splitter
         /// </summary>

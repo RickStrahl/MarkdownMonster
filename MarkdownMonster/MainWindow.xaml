@@ -42,6 +42,7 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <localwindows:InvertedBooleanConverter  x:Key="InvertedBooleanConverter" />
         <localwindows:BooleanToCollapsedVisibilityConverter x:Key="BooleanToCollapsedVisibilityConverter" />
         
         <ObjectDataProvider x:Key="ApplicationThemeEnums"
@@ -93,14 +94,33 @@
                 />
 
                 <ToggleButton Name="ToolButtonPreview"  Foreground="{StaticResource BlueItem}"
-                                Margin="2,0"
+                                Margin="2,0,0,0"
                                 IsChecked="{Binding IsPreviewBrowserVisible}"
                                 Command="{Binding PreviewBrowserCommand}"                                  
                                 ToolTip="open/hide the HTML Preview Pane (alt-v-p)"
                                 fa:Awesome.Content="Globe"
-                                TextElement.FontSize="16"
+                                TextElement.FontSize="16"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
                 </ToggleButton>
+
+                <Button 
+                        Margin="-10,0,0,0"
+						ToolTip="Preview Modes"                                
+				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				         
+				        TextElement.FontSize="11" 
+				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+				>
+                    <i:Interaction.Behaviors>
+                        <local:DropDownButtonBehavior />
+                    </i:Interaction.Behaviors>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem IsChecked="{Binding IsExternalPreview, Converter={StaticResource InvertedBooleanConverter}}" Header="Internal Preview" CommandParameter="InternalPreview" Command="{Binding Commands.PreviewModesCommand}" />
+                            <MenuItem IsChecked="{Binding Configuration.IsExternalPreview}" CommandParameter="ExternalPreviewWindow" Header="External Preview Window"  Command="{Binding Commands.PreviewModesCommand}"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+
+                </Button>
 
                 <Button Command="{Binding ShowFolderBrowserCommand}" 
                         Margin="2,0"

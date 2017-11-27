@@ -763,7 +763,8 @@ namespace MarkdownMonster
     public enum PreviewModes
     {
         InternalPreview,
-        ExternalPreviewWindow
+        ExternalPreviewWindow,
+        None
     }
 
     public enum PreviewSyncMode

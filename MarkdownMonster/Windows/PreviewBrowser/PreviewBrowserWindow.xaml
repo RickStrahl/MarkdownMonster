@@ -6,8 +6,13 @@
         
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="PreviewBrowserWindow" Height="300" Width="300">
-    <Grid>
+        TitleCharacterCasing="Normal"
+        Title="Markdown Monster Preview"
+        ResizeMode="CanResize"  
+        Icon="..\..\Assets\MarkdownMonster_Icon_256.png"
+        WindowTransitionsEnabled="False"                 
+        Height="700" Width="1000">
+    <Grid Margin="1">
         <WebBrowser Name="Browser" />
     </Grid>
 </controls:MetroWindow>

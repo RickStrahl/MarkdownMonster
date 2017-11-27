@@ -45,7 +45,7 @@ namespace MarkdownMonster
             
             InitializePreviewBrowser();
             
-            wbHandler = new WebBrowserHostUIHandler(browser);
+            wbHandler = new WebBrowserHostUIHandler(browser);            
         }
         
 

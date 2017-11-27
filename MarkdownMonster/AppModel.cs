@@ -176,6 +176,22 @@ namespace MarkdownMonster
             }
         }
 
+        
+
+        public bool IsExternalPreview
+        {
+            get => Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow;
+            set
+            {
+                OnPropertyChanged(nameof(IsExternalPreview));
+                if (value)
+                    Configuration.PreviewMode = PreviewModes.ExternalPreviewWindow;
+                else
+                    Configuration.PreviewMode = PreviewModes.InternalPreview;
+            }
+        }
+        
+
         public bool IsFullScreen
         {
             get => _isFullScreen;

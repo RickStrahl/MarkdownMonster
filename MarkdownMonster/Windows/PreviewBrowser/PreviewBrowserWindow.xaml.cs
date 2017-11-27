@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +24,21 @@ namespace MarkdownMonster.Windows
 
         public PreviewWebBrowser PreviewBrowser;
 
+        public bool IsClosed { get; set; }
 
         public PreviewBrowserWindow()
         {
             InitializeComponent();
 
+            mmApp.SetThemeWindowOverride(this);
+
             PreviewBrowser = new PreviewWebBrowser(Browser);
+
+            var config = mmApp.Model.Configuration.WindowPosition;
+            Left = config.PreviewLeft;
+            Top = config.PreviewTop;
+            Width = config.PreviewWidth;
+            Height = config.PreviewHeight;
         }
 
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor, bool keepScrollPosition)
@@ -41,5 +51,18 @@ namespace MarkdownMonster.Windows
             PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition);
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            IsClosed = true;
+
+            var config = mmApp.Model.Configuration.WindowPosition;
+
+            config.PreviewLeft = Convert.ToInt32(Left);
+            config.PreviewTop = Convert.ToInt32(Top);
+            config.PreviewWidth = Convert.ToInt32(Width);
+            config.PreviewHeight = Convert.ToInt32(Height);
+        }
+
+        
     }
 }
