@@ -6,6 +6,9 @@
 ### 1.7.8
 *<small>not released yet</small>*
 
+* **Add External Preview Window**   
+You can now toggle between the internal Preview window pane or an external window that can be moved independently of the main Markdown Monster window. This often requested feature allows you to move the preview window to a separate monitor or moving it to a small docked Window.
+
 * **Change Default Terminal Client to Powershell**  
 Updated the default Terminal Client to use Powershell instead of Command. Also updated documentation to fix disk drive navigation in Command mode (not Powershell) by using parameters: `"/k cd /D \"{0}\""` for Command shell args.
 
