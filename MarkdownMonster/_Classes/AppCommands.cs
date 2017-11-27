@@ -185,6 +185,8 @@ namespace MarkdownMonster
                 else
                     Model.Configuration.PreviewMode = MarkdownMonster.PreviewModes.InternalPreview;
 
+                Model.IsPreviewBrowserVisible = true;
+
                 Model.Window.ShowPreviewBrowser();
             }, (p, c) => true);
         }

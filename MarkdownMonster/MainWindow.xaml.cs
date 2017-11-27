@@ -1780,6 +1780,7 @@ namespace MarkdownMonster
 			return await this.ShowMessageAsync(title, message, style, settings);
 		}
 
-		#endregion		
-	}
+        #endregion
+
+    }
 }

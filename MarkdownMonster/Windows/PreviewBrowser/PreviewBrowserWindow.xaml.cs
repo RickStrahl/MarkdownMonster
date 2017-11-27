@@ -26,6 +26,8 @@ namespace MarkdownMonster.Windows
 
         public bool IsClosed { get; set; }
 
+        public AppModel Model { get; set; }
+
         public PreviewBrowserWindow()
         {
             InitializeComponent();
@@ -34,11 +36,23 @@ namespace MarkdownMonster.Windows
 
             PreviewBrowser = new PreviewWebBrowser(Browser);
 
+            SetWindowPositionFromConfig();
+
+            Model = mmApp.Model;
+            DataContext = Model;
+        }
+
+        public void SetWindowPositionFromConfig()
+        {
             var config = mmApp.Model.Configuration.WindowPosition;
+
             Left = config.PreviewLeft;
             Top = config.PreviewTop;
             Width = config.PreviewWidth;
             Height = config.PreviewHeight;
+
+
+            FixMonitorPosition();
         }
 
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor, bool keepScrollPosition)
@@ -61,8 +75,40 @@ namespace MarkdownMonster.Windows
             config.PreviewTop = Convert.ToInt32(Top);
             config.PreviewWidth = Convert.ToInt32(Width);
             config.PreviewHeight = Convert.ToInt32(Height);
+
         }
 
-        
+
+        /// <summary>
+        /// Check to see if the window is visible in the bounds of the
+        /// virtual screen space. If not adjust to main monitor off 0 position.
+        /// </summary>
+        /// <returns></returns>
+        void FixMonitorPosition()
+        {
+            var virtualScreenHeight = SystemParameters.VirtualScreenHeight;
+            var virtualScreenWidth = SystemParameters.VirtualScreenWidth;
+
+
+            if (Left > virtualScreenWidth - 250)
+                Left = 20;
+            if (Top > virtualScreenHeight - 250)
+                Top = 20;
+
+            if (Left < SystemParameters.VirtualScreenLeft)
+                Left = SystemParameters.VirtualScreenLeft;
+            if (Top < SystemParameters.VirtualScreenTop)
+                Top = SystemParameters.VirtualScreenTop;
+
+            if (Width > virtualScreenWidth)
+                Width = virtualScreenWidth - 40;
+            if (Height > virtualScreenHeight)
+                Height = virtualScreenHeight - 40;
+        }
+
+        private void Button_Handler(object sender, RoutedEventArgs e)
+        {
+            Model.Window.Button_Handler(Model.Window.MenuItemPreviewConfigureSync, null);
+        }
     }
 }

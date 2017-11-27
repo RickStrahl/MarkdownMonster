@@ -11,9 +11,21 @@
         ResizeMode="CanResize"  
         Icon="..\..\Assets\MarkdownMonster_Icon_256.png"
         WindowTransitionsEnabled="False"                 
-        Height="700" Width="1000">
+        Height="700" Width="1000" MinHeight="600" MinWidth="800">
     <Grid Margin="1">
-        <WebBrowser Name="Browser" />
+        <WebBrowser Name="Browser">
+            <WebBrowser.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
+                    <MenuItem Header="View Html Source" Command="{Binding ViewHtmlSourceCommand}" />
+                    <MenuItem Header="Configure Preview Syncing" Click="Button_Handler" Name="MenuItemPreviewConfigureSync"/>
+                    <Separator/>
+                    <MenuItem Header="Hide HTML Preview" 
+                              Command="{Binding PreviewBrowserCommand}"  IsCheckable="True"
+                              IsChecked="{Binding IsPreviewBrowserVisible}" />
+                </ContextMenu>
+            </WebBrowser.ContextMenu>
+        </WebBrowser>
     </Grid>
 </controls:MetroWindow>
 

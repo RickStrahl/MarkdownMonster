@@ -176,21 +176,46 @@ namespace MarkdownMonster
             }
         }
 
-        
 
+        /// <summary>
+        /// Determines whether the preview is shown in an Exteranl Browser Window
+        /// </summary>
         public bool IsExternalPreview
         {
-            get => Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow;
+            get { return Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow; }
             set
             {
-                OnPropertyChanged(nameof(IsExternalPreview));
                 if (value)
                     Configuration.PreviewMode = PreviewModes.ExternalPreviewWindow;
                 else
-                    Configuration.PreviewMode = PreviewModes.InternalPreview;
+                {
+                    Configuration.PreviewMode = PreviewModes.InternalPreview;                    
+                }
+                OnPropertyChanged(nameof(IsExternalPreview));
+                OnPropertyChanged(nameof(IsInternalPreview));                                
             }
-        }
-        
+        }        
+
+
+        /// <summary>
+        /// Determines whether the preview is shown in the Internal Preview Pane
+        /// </summary>
+        public bool IsInternalPreview
+        {
+            get { return Configuration.PreviewMode == PreviewModes.InternalPreview; }
+            set
+            {
+                if (value)
+                    Configuration.PreviewMode = PreviewModes.InternalPreview;
+                else                
+                    Configuration.PreviewMode = PreviewModes.ExternalPreviewWindow;
+
+                OnPropertyChanged(nameof(IsInternalPreview));
+                OnPropertyChanged(nameof(IsExternalPreview));                
+            }
+        }        
+
+
 
         public bool IsFullScreen
         {

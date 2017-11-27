@@ -115,8 +115,10 @@
                     </i:Interaction.Behaviors>
                     <Button.ContextMenu>
                         <ContextMenu>
-                            <MenuItem IsChecked="{Binding IsExternalPreview, Converter={StaticResource InvertedBooleanConverter}}" Header="Internal Preview" CommandParameter="InternalPreview" Command="{Binding Commands.PreviewModesCommand}" />
-                            <MenuItem IsChecked="{Binding Configuration.IsExternalPreview}" CommandParameter="ExternalPreviewWindow" Header="External Preview Window"  Command="{Binding Commands.PreviewModesCommand}"/>
+                            <MenuItem Header="Internal Preview" CommandParameter="InternalPreview" Command="{Binding Commands.PreviewModesCommand}"
+                                      IsCheckable="True" IsChecked="{Binding IsInternalPreview}"/>
+                            <MenuItem CommandParameter="ExternalPreviewWindow" Header="External Preview Window"  Command="{Binding Commands.PreviewModesCommand}"
+                                      IsCheckable="True" IsChecked="{Binding IsExternalPreview}"/>
                         </ContextMenu>
                     </Button.ContextMenu>
 
@@ -263,7 +265,13 @@
                           InputGestureText="alt-v-p"
                           IsChecked="{Binding IsPreviewBrowserVisible}"
                           Command="{Binding PreviewBrowserCommand}"
-                           IsEnabled="{Binding IsEditorActive}"/>
+                          IsEnabled="{Binding IsEditorActive}">
+                </MenuItem>
+                <MenuItem Header="Internal Preview" IsCheckable="True" IsChecked="{Binding IsInternalPreview}"  Command="{Binding Commands.PreviewModesCommand}" CommandParameter="InternalPreview"/>
+                <MenuItem Header="External Preview" IsCheckable="True" IsChecked="{Binding IsExternalPreview}" Command="{Binding Commands.PreviewModesCommand}" CommandParameter="ExternalPreviewWindow"/>
+                
+                <Separator/>
+                
                 <MenuItem Header="View in Web _Browser" 
                           Command="{Binding ViewInExternalBrowserCommand}"
                           InputGestureText="alt-v-b"
@@ -648,7 +656,7 @@
                     <ContextMenu>
                         <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
                         <MenuItem Header="View Html Source" Command="{Binding ViewHtmlSourceCommand}" />
-                        <MenuItem Header="Configure Preview Syncing" Click="Button_Handler" Name="MenuItemPreviewConfigureSync"/>
+                        <MenuItem  Header="Configure Preview Syncing" Click="Button_Handler" Name="MenuItemPreviewConfigureSync"/>
                         <Separator/>
                         <MenuItem Header="Hide HTML Preview" 
                                   Command="{Binding PreviewBrowserCommand}"  IsCheckable="True"
