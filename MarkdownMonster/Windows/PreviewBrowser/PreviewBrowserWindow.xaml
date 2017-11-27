@@ -8,11 +8,21 @@
         mc:Ignorable="d"
         TitleCharacterCasing="Normal"
         Title="Markdown Monster Preview"
-        ResizeMode="CanResize"  
+        BorderThickness="0" 
+        GlowBrush="Black"                       
+        ResizeMode="CanResizeWithGrip"  
         Icon="..\..\Assets\MarkdownMonster_Icon_256.png"
         WindowTransitionsEnabled="False"                 
-        Height="700" Width="1000" MinHeight="600" MinWidth="800">
+        Height="700" Width="900" MinHeight="600" MinWidth="500">
     <Grid Margin="1">
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
         <WebBrowser Name="Browser">
             <WebBrowser.ContextMenu>
                 <ContextMenu>
@@ -26,6 +36,12 @@
                 </ContextMenu>
             </WebBrowser.ContextMenu>
         </WebBrowser>
+
+        <StatusBar  Grid.Row ="1"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Stretch">
+            <CheckBox Name="CheckPreviewAlwaysOnTop" Content="Always on top"  IsChecked="{Binding Configuration.WindowPosition.PreviewAlwaysOntop}" FontSize="13" Margin="5,5" Click="CheckPreviewAlwaysOnTop_Click"/>
+            <CheckBox Name="CheckPreviewDocked" Content="Docked to main window" IsChecked="{Binding Configuration.WindowPosition.PreviewDocked}" Margin="20,5" FontSize="13" Click="CheckPreviewDocked_Click"/>
+        </StatusBar>
     </Grid>
 </controls:MetroWindow>
 

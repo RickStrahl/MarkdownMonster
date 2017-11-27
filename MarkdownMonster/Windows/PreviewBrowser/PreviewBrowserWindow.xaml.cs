@@ -36,10 +36,10 @@ namespace MarkdownMonster.Windows
 
             PreviewBrowser = new PreviewWebBrowser(Browser);
 
-            SetWindowPositionFromConfig();
-
             Model = mmApp.Model;
             DataContext = Model;
+
+            SetWindowPositionFromConfig();
         }
 
         public void SetWindowPositionFromConfig()
@@ -51,18 +51,11 @@ namespace MarkdownMonster.Windows
             Width = config.PreviewWidth;
             Height = config.PreviewHeight;
 
+            Topmost = config.PreviewAlwaysOntop;
+            if (config.PreviewDocked)
+                AttachDockingBehavior();
 
             FixMonitorPosition();
-        }
-
-        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor, bool keepScrollPosition)
-        {
-            PreviewBrowser.PreviewMarkdownAsync(editor, keepScrollPosition);
-        }
-
-        public void PreviewMarkdown(MarkdownDocumentEditor editor, bool keepScrollPosition, bool showInBrowser)
-        {
-            PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -76,6 +69,7 @@ namespace MarkdownMonster.Windows
             config.PreviewWidth = Convert.ToInt32(Width);
             config.PreviewHeight = Convert.ToInt32(Height);
 
+            AttachDockingBehavior(true);
         }
 
 
@@ -110,5 +104,70 @@ namespace MarkdownMonster.Windows
         {
             Model.Window.Button_Handler(Model.Window.MenuItemPreviewConfigureSync, null);
         }
+
+
+        #region AlwaysOnTop and Docking Behaviors
+        public void AttachDockingBehavior(bool turnOn = true)
+        {
+            if (turnOn)
+            {
+                Model.Window.LocationChanged += Window_LocationChanged;
+                Model.Window.SizeChanged += Window_SizeChanged;
+                DockToMainWindow();
+                FixMonitorPosition();
+            }
+            else
+            {
+                Model.Window.LocationChanged -= Window_LocationChanged;
+                Model.Window.SizeChanged -= Window_SizeChanged;
+            }
+        }
+
+
+        public void DockToMainWindow()
+        {
+            Left = Model.Window.Left + Model.Window.Width + 5;
+            Top = Model.Window.Top;
+            Height = Model.Window.Height;
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            DockToMainWindow();
+        }
+
+        private void Window_LocationChanged(object sender, EventArgs e)
+        {
+            DockToMainWindow();
+        }
+
+
+        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor, bool keepScrollPosition)
+        {
+            PreviewBrowser.PreviewMarkdownAsync(editor, keepScrollPosition);
+        }
+
+        public void PreviewMarkdown(MarkdownDocumentEditor editor, bool keepScrollPosition, bool showInBrowser)
+        {
+            PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition);
+        }
+
+
+        private void CheckPreviewAlwaysOnTop_Click(object sender, RoutedEventArgs e)
+        {
+            if (Model.Configuration.WindowPosition.PreviewAlwaysOntop)
+                Topmost = true;
+            else
+                Topmost = false;
+        }
+
+        private void CheckPreviewDocked_Click(object sender, RoutedEventArgs e)
+        {
+            if (Model.Configuration.WindowPosition.PreviewDocked)
+                AttachDockingBehavior();
+            else
+                AttachDockingBehavior(false);
+        }
+        #endregion
     }
 }

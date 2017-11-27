@@ -18,7 +18,35 @@ namespace MarkdownMonster
         public int PreviewTop { get; set; }
         public int PreviewLeft { get; set; }
         public int PreviewHeight { get; set; } = 700;
-        public int PreviewWidth { get; set; } = 1000;
+        public int PreviewWidth { get; set; } = 1000;        
+
+
+        public bool PreviewAlwaysOntop
+        {
+            get { return _PreviewAlwaysOntop; }
+            set
+            {
+                if (value == _PreviewAlwaysOntop) return;
+                _PreviewAlwaysOntop = value;
+                OnPropertyChanged(nameof(PreviewAlwaysOntop));
+            }
+        }
+        private bool _PreviewAlwaysOntop;
+
+
+        public bool PreviewDocked
+        {
+            get { return _PreviewDocked; }
+            set
+            {
+                if (value == _PreviewDocked) return;
+                _PreviewDocked = value;
+                OnPropertyChanged(nameof(PreviewDocked));
+            }
+        }
+        private bool _PreviewDocked;
+
+
 
         /// <summary>
         /// X offset to the position of the splitter
