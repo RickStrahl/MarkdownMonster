@@ -38,10 +38,10 @@ namespace MarkdownMonster.Windows
 
             Model = mmApp.Model;
             DataContext = Model;
-
+        
             SetWindowPositionFromConfig();
         }
-
+        
         public void SetWindowPositionFromConfig()
         {
             var config = mmApp.Model.Configuration.WindowPosition;
