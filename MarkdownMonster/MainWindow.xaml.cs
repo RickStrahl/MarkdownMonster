@@ -162,18 +162,21 @@ namespace MarkdownMonster
 			// Singleton App startup - server code that listens for other instances
 			if (mmApp.Configuration.UseSingleWindow)
 			{
-				// Listen for other instances launching and pick up
-				// forwarded command line arguments
-				PipeManager = new NamedPipeManager("MarkdownMonster");
-				PipeManager.StartServer();
-				PipeManager.ReceiveString += HandleNamedPipe_OpenRequest;
+			    new TaskFactory().StartNew( () =>
+			    {
+			        // Listen for other instances launching and pick up
+			        // forwarded command line arguments
+			        PipeManager = new NamedPipeManager("MarkdownMonster");
+			        PipeManager.StartServer();
+			        PipeManager.ReceiveString += HandleNamedPipe_OpenRequest;
+			    });                
 			}
 
 			// Override some of the theme defaults (dark header specifically)
 			mmApp.SetThemeWindowOverride(this);
-		   
-		    PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);
-		}
+
+            PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);
+        }
 
         private PreviewBrowserWindow PreviewWindow;
 		#region Opening and Closing
@@ -181,13 +184,13 @@ namespace MarkdownMonster
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			RestoreSettings();
-
             RecentDocumentsContextList();
+
 			ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
 
             OpenFilesFromCommandLine();
-
-		    if (mmApp.Configuration.ApplicationUpdates.FirstRun)
+            
+            if (mmApp.Configuration.ApplicationUpdates.FirstRun)
 			{
 				if (TabControl.Items.Count == 0)
 				{
@@ -484,12 +487,13 @@ namespace MarkdownMonster
 		/// </summary>
 		private void RecentDocumentsContextList()
 		{
-			var context = Resources["ContextMenuRecentFiles"] as ContextMenu;
-			if (context == null)
+			var contextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
+			if (contextMenu == null)
 				return;
-
-			context.Items.Clear();
+            
+		    contextMenu.Items.Clear();
 			ButtonRecentFiles.Items.Clear();
+
 
 			List<string> badFiles = new List<string>();
 			foreach (string file in mmApp.Configuration.RecentDocuments)
@@ -505,7 +509,7 @@ namespace MarkdownMonster
 				};
 			    mi.Command = Model.Commands.OpenRecentDocumentCommand;
                 mi.CommandParameter = file;
-	            context.Items.Add(mi);
+	            contextMenu.Items.Add(mi);
 
 				var mi2 = new MenuItem()
 				{
@@ -515,7 +519,7 @@ namespace MarkdownMonster
 			    mi2.CommandParameter = file;
 				ButtonRecentFiles.Items.Add(mi2);
 			}
-			ToolbarButtonRecentFiles.ContextMenu = context;
+			ToolbarButtonRecentFiles.ContextMenu = contextMenu;
 
 			foreach (var file in badFiles)
 				mmApp.Configuration.RecentDocuments.Remove(file);
@@ -878,7 +882,8 @@ namespace MarkdownMonster
 	            TabControl.SelectedItem = tab;
 
 	            if (showPreviewIfActive && PreviewWebBrowserControl.Width > 5)
-	                PreviewBrowser.PreviewMarkdown(); //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
+	                PreviewBrowser.PreviewMarkdownAsync();
+
 	            SetWindowTitle();
 	        }
 

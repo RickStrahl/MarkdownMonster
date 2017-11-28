@@ -131,8 +131,8 @@ namespace MarkdownMonster
             if (mmApp.Configuration.DisableHardwareAcceleration)
                 RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
 
+            // always set directory tocurrent location
             var dir = Assembly.GetExecutingAssembly().Location;
-
             Directory.SetCurrentDirectory(Path.GetDirectoryName(dir));
 
             ThemeCustomizations();
