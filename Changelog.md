@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.7.8
-*<small>not released yet</small>*
+*<small>November 28th, 2017</small>*
 
 * **Add External Preview Window**   
 You can now toggle between the internal Preview window pane or an external window that can be moved independently of the main Markdown Monster window. This often requested feature allows you to move the preview window to a separate monitor or moving it to a small docked Window.
@@ -14,6 +14,9 @@ Updated the default Terminal Client to use Powershell instead of Command. Also u
 
 * **Refactor Preview Rendering**   
 Internal change that modifies the internal rendering logic for the preview into an isolated class. This will make it easier to add alternate browser rendering targets in alternate windows.
+
+* **Minor Improvements for Startup Speed**   
+Refactored various bits of startup code and changed initial preview behavior to be slightly delayed for faster 'to first cursor' operation.
 
 * **Async WebLog Uploads**   
 We've updated the Weblog uploader to run asynchronously without locking the UI thread. While Weblog publishing can be blazing fast if the server responds qiuckly, for some sites uploads were blocking the UI hard (the main WordPress site in particular). This update works around the synchronous Xmp-Rpc library explicitly creating a task based wrapper.
