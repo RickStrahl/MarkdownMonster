@@ -7,27 +7,27 @@
         mc:Ignorable="d"
         FontSize="16"
         WindowStyle="None" Background="Black" Foreground="WhiteSmoke"
-        Title="Markdown Monster Registration" Height="406.333" Width="700" 
+        Title="Markdown Monster Registration" Height="406.333" Width="727" 
         Icon="..\Assets\MarkdownMonster_Icon_256.png"  
         WindowStartupLocation="CenterOwner" ShowInTaskbar="True" ResizeMode="NoResize">
     <StackPanel Orientation="Horizontal">
         <Image Source="../Assets/MarkdownMonster.png" Margin="0,30" Width="300" VerticalAlignment="Top" />
-        <StackPanel Width="355" Margin="20,0,0,0">
-            <TextBlock Margin="0,35,0,0" Foreground="Cornsilk">You've been using the free version of</TextBlock>
-            <TextBlock FontSize="30" FontWeight="Bold" Margin="25,14,0,14">Markdown Monster</TextBlock>
-            <TextBlock TextWrapping="Wrap" Margin="0,3,20,0" Foreground="Cornsilk" HorizontalAlignment="Stretch" >
-                
-                <Run Name="RunUsage" Text="Started x times" FontWeight="Bold" FontSize="17"/>
-                <LineBreak/><Run/><LineBreak/>
+        <StackPanel Width="355" Margin="45,0,0,0">
+            <TextBlock HorizontalAlignment="Center" Margin="0,35,0,0" Foreground="Cornsilk" FontSize="17">You've been using the free version of</TextBlock>
+            <TextBlock HorizontalAlignment="Center" FontSize="34" FontWeight="Bold" Margin="0,14,0,14">Markdown Monster</TextBlock>
+            <TextBlock Name="RunUsage"  HorizontalAlignment="Center" Text="Started x times" FontWeight="Bold" FontSize="17"/>
+            <TextBlock TextWrapping="Wrap" Margin="0,20,0,0" Foreground="Cornsilk" HorizontalAlignment="Stretch" >
                 <Run Text="Markdown Monster can be evaluated for free, but a license is required for continued use. "/>                
                 <LineBreak/><Run/><LineBreak/>
                
                 <Run Text="Thanks for playing fair."/></TextBlock>
-                <Button Margin="25,40,41,30" Content="Register your Copy" FontSize="30" FontWeight="Bold" IsDefault="True"
-                        Click="Register_Click" 
-                        Style="{DynamicResource LinkButtonStyle}" Width="Auto">
+            <Button  Name="ButtonRegister" 
+                    HorizontalAlignment="Center" Margin="0,40,0,20"
+                            Content="Register your Copy" FontSize="30" FontWeight="Bold" IsDefault="True"
+                            Click="Register_Click" 
+                            Style="{DynamicResource LinkButtonStyle}" Width="Auto">
             </Button>
-
+            <TextBlock Name="ShutdownTimer" HorizontalAlignment="Center" Width="Auto" />
         </StackPanel>
         <TextBlock Text="x" FontWeight="Medium" MouseDown="Exit_Click"       
                    Padding="0,5" Width="13"  FontSize="22" RenderTransformOrigin="0.5,0.5">
