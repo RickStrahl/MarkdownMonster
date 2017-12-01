@@ -591,9 +591,7 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Sets line number gutter on and off. Separated out from Restyle Editor to 
-        /// allow line number config to be set separately from main editor settings
-        /// for specialty file editing.
+        /// Enables or disables the display of invisible characters.
         /// </summary>
         /// <param name="show"></param>
         public void SetShowInvisibles(bool? show = null)
