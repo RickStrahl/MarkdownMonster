@@ -9,7 +9,7 @@
 
 ## Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
-* **[Download](http://markdownmonster.west-wind.com/download.aspx)**
+* **[Download Installer](http://markdownmonster.west-wind.com/download.aspx)**
 * **[Install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)**
 * **[What's New](Changelog.md)** (change log)
 * **[Video: Getting Started with Markdown Monster](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
