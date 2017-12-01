@@ -30,19 +30,12 @@ using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Navigation;
 using System.Windows.Threading;
 using Dragablz;
 using FontAwesome.WPF;
@@ -51,14 +44,11 @@ using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
-using Application = System.Windows.Application;
 using Binding = System.Windows.Data.Binding;
 using Clipboard = System.Windows.Clipboard;
 using ContextMenu = System.Windows.Controls.ContextMenu;
-using Cursors = System.Windows.Input.Cursors;
 using DataFormats = System.Windows.DataFormats;
 using DragEventArgs = System.Windows.DragEventArgs;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MenuItem = System.Windows.Controls.MenuItem;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -111,18 +101,13 @@ namespace MarkdownMonster
 
         }
 
-        public class RecentDocumentListItem
-        {
-            public string Filename { get; set; }
-            public string DisplayFilename { get; set; }
-        }
 
         /// <summary>
         /// Manages the Preview Rendering in a WebBrowser Control
         /// </summary>
         public PreviewWebBrowser PreviewBrowser {get; set;}
 
-        
+        private PreviewBrowserWindow PreviewWindow;
 
         public PreviewBrowserWindow PreviewBrowserWindow
         {
@@ -135,7 +120,7 @@ namespace MarkdownMonster
                     {
                         Owner = this
                     };
-                    _previewBrowserWindow.Show();
+                    //_previewBrowserWindow.Show();
                 }
 
                 return _previewBrowserWindow;
@@ -178,7 +163,7 @@ namespace MarkdownMonster
             PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);
         }
 
-        private PreviewBrowserWindow PreviewWindow;
+        
 		#region Opening and Closing
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
@@ -209,6 +194,7 @@ namespace MarkdownMonster
 			}
 
 			BindTabHeaders();
+		    SetWindowTitle();
 
 			if (mmApp.Configuration.IsPreviewVisible)
 			{
@@ -296,9 +282,8 @@ namespace MarkdownMonster
 	                else if (Directory.Exists(file))
 	                    ShowFolderBrowser(false, file);
 	            }
-	        }
-	        BindTabHeaders();
-        }
+	        }            
+	    }
 
 	    protected override void OnContentRendered(EventArgs e)
 		{
@@ -408,10 +393,9 @@ namespace MarkdownMonster
 		{
 			base.OnClosing(e);
 
-		    PreviewBrowserWindow?.Close();
-		    PreviewBrowserWindow = null;
-
-
+		    _previewBrowserWindow?.Close();
+            _previewBrowserWindow = null;
+            
 			AddinManager.Current.RaiseOnApplicationShutdown();
 
 			bool isNewVersion = CheckForNewVersion(false, false);
@@ -1187,7 +1171,10 @@ namespace MarkdownMonster
                 if (Model.Configuration.PreviewMode == PreviewModes.InternalPreview)
                 {
                     PreviewWebBrowserControl.Visibility = Visibility.Visible;
-                    PreviewBrowserWindow?.Close();
+
+                    if (_previewBrowserWindow != null && PreviewBrowserWindow.Visibility == Visibility.Visible)
+                        PreviewBrowserWindow.Close();
+                        
 
                     if (PreviewBrowser.WebBrowser != PreviewWebBrowserControl)
                     {
@@ -1213,6 +1200,7 @@ namespace MarkdownMonster
                         PreviewBrowser = new PreviewWebBrowser(PreviewBrowserWindow.Browser);
                         PreviewMarkdownAsync();
                     }
+
                     PreviewBrowserWindow.Show();
 
                     if (MainWindowPreviewColumn.Width.Value > 100)
@@ -1240,7 +1228,8 @@ namespace MarkdownMonster
                 }
                 else if (Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
                 {
-                    PreviewBrowserWindow?.Close();
+                    if (_previewBrowserWindow != null)
+                        PreviewBrowserWindow.Close();
                 }
             }
         }
@@ -1696,6 +1685,7 @@ namespace MarkdownMonster
                     var parms = StringUtils.GetLines(filesToOpen.Trim());
 
 				    OpenFilesFromCommandLine(parms);
+				    BindTabHeaders();
 				}
 
 				Topmost = true;
@@ -1787,5 +1777,12 @@ namespace MarkdownMonster
 
         #endregion
 
+    }
+
+
+    public class RecentDocumentListItem
+    {
+        public string Filename { get; set; }
+        public string DisplayFilename { get; set; }
     }
 }
