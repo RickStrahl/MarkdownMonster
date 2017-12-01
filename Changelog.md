@@ -7,7 +7,10 @@
 *<small>not released yet</small>*
 
 * **Fix: Window Title on first Load**  
-The Window title on first load wasn't showing the active file name until switching tabs. 
+The Window title on first load wasn't showing the active file name until switching tabs.
+
+* **Fix: Create new File/Folder in Folder Browser when in Empty Folder**  
+Fixed issue where the New File/Folder options would not work in an empty folder.
 
 * **Fix: Preview Window Flash**   
 Fixed errand preview window refresh when switching tabs and during shutdown.
