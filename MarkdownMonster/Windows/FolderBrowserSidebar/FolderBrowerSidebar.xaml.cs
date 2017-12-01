@@ -465,7 +465,15 @@ namespace MarkdownMonster.Windows
         {
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
             if (selected == null || selected.Parent == null)
-                return;
+            {
+                // No files/folders
+                selected = new PathItem()
+                {
+                    IsFolder = true,
+                    FullPath = FolderPath                     
+                };
+                ActivePathItem = selected;
+            }
 
             string path;
             if (!selected.IsFolder)
@@ -501,7 +509,15 @@ namespace MarkdownMonster.Windows
         {
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
             if (selected == null || selected.Parent == null)
-                return;
+            {
+                // No files/folders
+                selected = new PathItem()
+                {
+                    IsFolder = true,
+                    FullPath = FolderPath
+                };
+                ActivePathItem = selected;
+            }
 
             string path;
             if (!selected.IsFolder)
