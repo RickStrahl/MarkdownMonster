@@ -9,5 +9,6 @@ var editorSettings = {
   "showPrintMargin": false,
   "tabSpaces": 4,
   "theme": "twilight",
-  "wrapText": true  
+  "wrapText": true,
+  "showInvisibles": false
 };

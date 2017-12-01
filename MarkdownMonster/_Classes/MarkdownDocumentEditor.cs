@@ -141,6 +141,7 @@ namespace MarkdownMonster
 					AceEditor?.setlanguage(EditorSyntax);
                 RestyleEditor(true);
                 SetShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
+                SetShowInvisibles(mmApp.Configuration.EditorShowInvisibles);
 
 
                 if (InitialLineNumber > 0)
@@ -587,6 +588,20 @@ namespace MarkdownMonster
                 show = mmApp.Configuration.EditorShowLineNumbers;
 
             AceEditor?.setShowLineNumbers(show.Value);
+        }
+
+        /// <summary>
+        /// Sets line number gutter on and off. Separated out from Restyle Editor to 
+        /// allow line number config to be set separately from main editor settings
+        /// for specialty file editing.
+        /// </summary>
+        /// <param name="show"></param>
+        public void SetShowInvisibles(bool? show = null)
+        {
+            if (show == null)
+                show = mmApp.Configuration.EditorShowInvisibles;
+
+            AceEditor?.setShowInvisibles(show.Value);
         }
 
         /// <summary>

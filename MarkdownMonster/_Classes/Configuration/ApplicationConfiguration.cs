@@ -264,6 +264,21 @@ namespace MarkdownMonster
         }
         private bool _EditorShowLineNumbers = false;
 
+        /// <summary>
+        /// Determines whether the editor should show invisible characters.
+        /// Default is <see langword="false" />.
+        /// </summary>
+        public bool EditorShowInvisibles
+        {
+            get { return _EditorShowInvisibles; }
+            set
+            {
+                if (_EditorShowInvisibles == value) return;
+                _EditorShowInvisibles = value;
+                OnPropertyChanged(nameof(EditorShowInvisibles));
+            }
+        }
+        private bool _EditorShowInvisibles = false;
 
         /// <summary>
         /// Determines whether the editor wraps text or extends lines
