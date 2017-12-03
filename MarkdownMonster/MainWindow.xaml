@@ -321,8 +321,13 @@
                           Header="Line _Numbers"                         
                           Click="Button_Handler"
                           IsCheckable="True"
-                          IsChecked="{Binding Configuration.EditorShowLineNumbers}"
-                />
+                          IsChecked="{Binding Configuration.EditorShowLineNumbers}" />
+
+                <MenuItem Name="ButtonShowInvisibles" 
+                          Header="Show Invisible Characters"
+                          Click="Button_Handler"
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.EditorShowInvisibles}" />
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Name="MenuDocumentation" Header="Documentation" Command="{Binding HelpCommand}" InputGestureText="F1" />

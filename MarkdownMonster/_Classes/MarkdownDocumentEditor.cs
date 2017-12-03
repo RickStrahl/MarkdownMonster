@@ -141,6 +141,7 @@ namespace MarkdownMonster
 					AceEditor?.setlanguage(EditorSyntax);
                 RestyleEditor(true);
                 SetShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
+                SetShowInvisibles(mmApp.Configuration.EditorShowInvisibles);
 
 
                 if (InitialLineNumber > 0)
@@ -587,6 +588,18 @@ namespace MarkdownMonster
                 show = mmApp.Configuration.EditorShowLineNumbers;
 
             AceEditor?.setShowLineNumbers(show.Value);
+        }
+
+        /// <summary>
+        /// Enables or disables the display of invisible characters.
+        /// </summary>
+        /// <param name="show"></param>
+        public void SetShowInvisibles(bool? show = null)
+        {
+            if (show == null)
+                show = mmApp.Configuration.EditorShowInvisibles;
+
+            AceEditor?.setShowInvisibles(show.Value);
         }
 
         /// <summary>

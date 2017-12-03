@@ -1467,7 +1467,12 @@ namespace MarkdownMonster
 			    Model.ActiveEditor?.SetWordWrap(Model.Configuration.EditorWrapText);
 			}
             else if (button == ButtonLineNumbers)
-			{   Model.ActiveEditor?.SetShowLineNumbers(Model.Configuration.EditorShowLineNumbers);
+			{
+			    Model.ActiveEditor?.SetShowLineNumbers(Model.Configuration.EditorShowLineNumbers);
+			}
+            else if (button == ButtonShowInvisibles)
+			{
+			    Model.ActiveEditor?.SetShowInvisibles(Model.Configuration.EditorShowInvisibles);
 			}
             else if (button == ButtonStatusEncrypted)
 			{

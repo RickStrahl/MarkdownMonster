@@ -46,6 +46,7 @@ var te = window.textEditor = {
         editor.setReadOnly(false);
         editor.setHighlightActiveLine(editorSettings.highlightActiveLine);
         editor.setShowPrintMargin(editorSettings.showPrintMargin);
+        editor.setShowInvisibles(editorSettings.showInvisibles);
 
         //te.settheme(editorSettings.theme, editorSettings.fontSize, editorSettings.wrapText);
         editor.setTheme("ace/theme/" + editorSettings.theme);
@@ -499,6 +500,9 @@ var te = window.textEditor = {
     },
     setShowLineNumbers: function(showLineNumbers) { 
         te.editor.renderer.setShowGutter(showLineNumbers);  
+    },
+    setShowInvisibles: function (showInvisibles) { 
+        te.editor.renderer.setShowInvisibles(showInvisibles);  
     },
     setWordWrap: function (enable) {
         te.editor.session.setUseWrapMode(enable);
