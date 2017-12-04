@@ -32,7 +32,7 @@ namespace MarkdownMonster.Windows
             RunUsage.Text = $"{accessCount} times";
 
             if (accessCount > 200)
-                RunUsage.Foreground = Brushes.LightCoral;
+                RunUsage.Foreground = Brushes.Red;
             else if (accessCount > 120)
                 RunUsage.Foreground = Brushes.Firebrick;
             else if (accessCount > 50)
@@ -47,18 +47,19 @@ namespace MarkdownMonster.Windows
         private void Exit_Click(object sender, MouseButtonEventArgs e)
         {
             var accessCount = mmApp.Configuration.ApplicationUpdates.AccessCount;
-            if (accessCount > 50)
+            if (accessCount > 70)
             {
-                int w = accessCount / 20;
-                if (w > 10)
-                    w = 10;
-                
-                for (int i = 0; i < w; i++)
-                {                    
-                    ShutdownTimer.Text = $"Shutdown Timer: {w - i} seconds left";
-                    WindowUtilities.DoEvents();
-                    Thread.Sleep(1000);
-                }                
+                Register_Click(null, null);
+
+                //int w = accessCount / 20;
+                //if (w > 10)
+                //    w = 10;
+                //for (int i = 0; i < w; i++)
+                //{                    
+                //    ShutdownTimer.Text = $"Shutdown Timer: {w - i} seconds left";
+                //    WindowUtilities.DoEvents();
+                //    Thread.Sleep(1000);
+                //}                
             }
 
             Close();

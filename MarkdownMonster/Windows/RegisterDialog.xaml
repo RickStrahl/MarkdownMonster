@@ -20,7 +20,7 @@
                 <Run Text="Markdown Monster can be evaluated for free, but a license is required for continued use. "/>                
                 <LineBreak/><Run/><LineBreak/>
                
-                <Run Text="Thanks for playing fair."/></TextBlock>
+                <Run Text="Thank you for playing fair."/></TextBlock>
             <Button  Name="ButtonRegister" 
                     HorizontalAlignment="Center" Margin="0,40,0,20"
                             Content="Register your Copy" FontSize="30" FontWeight="Bold" IsDefault="True"
