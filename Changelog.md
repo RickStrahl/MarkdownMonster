@@ -3,8 +3,17 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.7.9
-*<small>not released yet</small>*
+### 1.8.0
+*<small>December 4th, 2017</small>*
+
+* **Version Rollup Release**   
+This release is a version rollup release that combines all the recent additions into a point release.
+
+* **Show Invisible Characters in Editor**   
+Option on the Tools menu and the configuration to turn on displaying of invisible characters (spaces, tabs, line breaks etc.). Thanks to a PR from [Thomas Freudenberg](https://github.com/thoemmi). 
+
+* **Auto-install Snippets Template Expansion Addin**   
+In new installations Markdown Monster now installs the Snippets addin by default. This addin is useful for creating text expansions (macro strings) that can include embedded code snippets. Supports simple `{{C# Code}}` expansions or Razor syntax scripting.
 
 * **Fix: Window Title on first Load**  
 The Window title on first load wasn't showing the active file name until switching tabs.
