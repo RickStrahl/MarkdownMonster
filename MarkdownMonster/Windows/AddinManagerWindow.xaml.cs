@@ -102,60 +102,30 @@ namespace MarkdownMonster.Windows
             if (addin == null)
                 return;
 
-            ShowStatus("Downloading and installing " + addin.name + " Addin...");
-
-
+            ShowStatus($"Downloading and installing {addin.name} Addin...");
+            
             var url = addin.gitVersionUrl.Replace("version.json","addin.zip");
             var result = AddinManager.Current.DownloadAndInstallAddin(url, mmApp.Configuration.AddinsFolder, addin);
             if (result.IsError)
-                ShowStatus(addin.name + "  installation  failed.", 6000);
-            else
+                ShowStatus(AddinManager.Current.ErrorMessage, 6000);
+            else if (result.NeedsRestart)
             {
-                addin.isInstalled = true;
-                addin.isEnabled = true;
-                addin.installedVersion = addin.version;
-
-                if (!result.ExistingAddin)
+                string msg = addin.name +
+                             " addin has been installed.\r\n\r\nYou need to restart Markdown Monster to finalize the addin installation.";
+                ShowStatus(msg, 6000);
+                if (MessageBox.Show(msg + "\r\n\r\nDo you want to restart Markdown Monster?", "Addin Installed",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    if (!AddinManager.Current.InstallAddin(addin.id))
-                        ShowStatus(addin.name + "  installation  failed.", 6000);
-                    else
+                    Owner.Close();
+                    Process.Start(new ProcessStartInfo()
                     {
-                        var installedAddin = AddinManager.Current.AddIns.FirstOrDefault(ai => ai.Id == addin.id);
-                        if (installedAddin != null)
-                        {                            
-                            installedAddin.OnApplicationStart();
-
-                            // trigger parser addins to refresh MarkdownParsers if they are provided
-                            if (installedAddin.GetMarkdownParser(false, false) != null)
-                                mmApp.Model.OnPropertyChanged(nameof(AppModel.MarkdownParserColumnWidth));                            
-
-                            AddinManager.Current.InitializeAddinsUi(Owner as MainWindow,
-                                new List<MarkdownMonsterAddin>() {installedAddin});
-                            ShowStatus(addin.name + "  addin installed.", 6000);
-                        }
-                    }
+                        FileName = Assembly.GetEntryAssembly().Location,
+                    });
                 }
-                else
-                {
-                    string msg = addin.name +
-                                 " addin has been installed.\r\n\r\nYou need to restart Markdown Monster to finalize the addin installation.";
-                    ShowStatus(msg, 6000);
-                    if (MessageBox.Show(msg + "\r\n\r\nDo you want to restart Markdown Monster?", "Addin Installed",
-                            MessageBoxButton.YesNo,
-                            MessageBoxImage.Question) == MessageBoxResult.Yes)
-                    {
-                        Owner.Close();
-                        Process.Start(new ProcessStartInfo()
-                        {
-                            FileName = Assembly.GetEntryAssembly().Location,
-                        });
-                    }
-                }
-
-                
-                //AddinManager.Current.LoadAddins();
             }
+            else
+                ShowStatus($"Addin {addin.name} has been installed", 6000);
         }
 
         private void ButtonUnInstall_Click(object sender, RoutedEventArgs e)

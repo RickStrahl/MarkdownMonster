@@ -37,6 +37,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Media;
+using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
@@ -296,13 +297,8 @@ namespace MarkdownMonster.AddIns
                     addin.Model.Window.InputBindings.Add(kb);
             }
         }
-
-
-
-
-        #region Raise Events
         
-
+        #region Raise Events
         
         public void RaiseOnApplicationStart()
         {
@@ -892,6 +888,41 @@ namespace MarkdownMonster.AddIns
                     }
                 }
 
+
+                addin.isInstalled = true;
+                addin.isEnabled = true;
+                addin.installedVersion = addin.version;
+                result.NeedsRestart = false;
+
+
+                if (!result.ExistingAddin)
+                {
+                    if (!InstallAddin(addin.id))
+                        ErrorMessage = addin.name + "  installation  failed.";
+                    else
+                    {
+                        var installedAddin = AddIns.FirstOrDefault(ai => ai.Id == addin.id);
+                        if (installedAddin != null)
+                        {
+                            installedAddin.OnApplicationStart();
+
+                            // trigger parser addins to refresh MarkdownParsers if they are provided
+                            if (installedAddin.GetMarkdownParser(false, false) != null)
+                                mmApp.Model.OnPropertyChanged(nameof(AppModel.MarkdownParserColumnWidth));
+
+                            InitializeAddinsUi(mmApp.Model.Window,
+                                new List<MarkdownMonsterAddin>()
+                                {
+                                    installedAddin
+                                });                            
+                        }
+                    }
+                }
+                else
+                {
+                    result.NeedsRestart = true;
+                }
+
                 return result;
             }
             catch (Exception ex)
@@ -912,13 +943,17 @@ namespace MarkdownMonster.AddIns
             /// <summary>
             /// Determines if an error occurred during download/install
             /// </summary>
-            public bool IsError = false;
+            public bool IsError;
 
             /// <summary>
             /// If true an existing addin was updated
             /// </summary>
             public bool ExistingAddin = true;
 
+            /// <summary>
+            /// Determines if the addin needs a restart to install
+            /// </summary>
+            public bool NeedsRestart;
         }
 
         /// <summary>

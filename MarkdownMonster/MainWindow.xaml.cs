@@ -190,6 +190,22 @@ namespace MarkdownMonster
 				        mmApp.Log("Handled: Unable to copy file to temp folder.", ex);
 				    }
 				}
+
+                // Add Snippets Addin
+			    Dispatcher.Delay(3000, p =>
+			    {
+			        var url = "https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin/raw/master/Build/addin.zip";
+                    var addin = new AddinItem
+			        {
+			            id = "Snippets"
+			        };
+			        try
+			        {
+			            AddinManager.Current.DownloadAndInstallAddin(url, Path.Combine(mmApp.Configuration.AddinsFolder), addin);
+			        }
+                    catch { }
+			    });
+
 				mmApp.Configuration.ApplicationUpdates.FirstRun = false;
 			}
 
@@ -232,7 +248,7 @@ namespace MarkdownMonster
 					AddinManager.Current.InitializeAddinsUi(this);
 					AddinManager.Current.RaiseOnWindowLoaded();
 				}, DispatcherPriority.ApplicationIdle);
-			});
+			});            
 		}
 
 
@@ -587,7 +603,8 @@ namespace MarkdownMonster
 		public void SaveSettings()
 		{
 			var config = mmApp.Configuration;
-			config.IsPreviewVisible = Model.IsPreviewBrowserVisible;
+            if (Model != null)
+			    config.IsPreviewVisible = Model.IsPreviewBrowserVisible;
 			config.WindowPosition.IsTabHeaderPanelVisible = true;
 
 			if (WindowState == WindowState.Normal)
@@ -650,6 +667,8 @@ namespace MarkdownMonster
 			}
 			config.Write();
 		}
+
+        
 
 		public bool SaveFile(bool secureSave = false)
 		{
