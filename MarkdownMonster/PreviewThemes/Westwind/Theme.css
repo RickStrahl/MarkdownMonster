@@ -115,11 +115,14 @@ b, strong {
     line-height: 1.5em;
     padding: 5px 20px 5px 10px !important;
     margin: 0;
+
     scrollbar-track-color: Whitesmoke;
     scrollbar-arrow-color: silver;   
     scrollbar-base-color: #ddd;
     scrollbar-face-color: #ddd;
     -ms-overflow-style: -ms-autohiding-scrollbar !important;
+
+
 } 
 
 blockquote {

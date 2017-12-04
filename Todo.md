@@ -20,7 +20,6 @@
 * [ ] Check out ReverseMarkdown C# source - needs adjustments (lists, spacing)
 * [ ] reveal.js presentations
 * [ ] Research **R Markdown**, **AsciiDoc**
-* [x] ~~Export/Copy/Weblog Publish to Clipboard with Images embedded~~
 * [ ] Custom simplified WebLog Publishing API that allows for minimal post send, edit, get, list operations.
 
 So this is a type of text processing that occurs when you overdo it.
