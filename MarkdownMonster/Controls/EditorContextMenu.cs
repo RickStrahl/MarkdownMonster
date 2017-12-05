@@ -40,7 +40,7 @@ namespace MarkdownMonster
 
         public void Show()
         {
-            
+
             if (ContextMenu != null)
             {
                 Model.ActiveEditor.SetMarkdownMonsterWindowFocus();
@@ -50,9 +50,9 @@ namespace MarkdownMonster
 
                 ContextMenu.Focus();
                 ContextMenu.IsOpen = true;
-                
+
                 var item = ContextMenu.Items[0] as MenuItem;
-                item.Focus();                
+                item.Focus();
             }
         }
 
@@ -82,30 +82,30 @@ namespace MarkdownMonster
             var model = Model;
 
             bool hasSuggestions = false;
-                foreach (var sg in suggestions)
+            foreach (var sg in suggestions)
+            {
+                var mi = new MenuItem
                 {
-                    var mi = new MenuItem
-                    {
-                        Header = sg,
-                        FontWeight = FontWeights.Bold
-                    };
-                    mi.Click += (o, args) => model.ActiveEditor.AceEditor.replaceSpellRange(range, sg);
-                    ContextMenu.Items.Add(mi);
-                    hasSuggestions = true;
-                }
+                    Header = sg,
+                    FontWeight = FontWeights.Bold
+                };
+                mi.Click += (o, args) => model.ActiveEditor.AceEditor.replaceSpellRange(range, sg);
+                ContextMenu.Items.Add(mi);
+                hasSuggestions = true;
+            }
 
             if (hasSuggestions)
+                ContextMenu.Items.Add(new Separator());
+
+            var mi2 = new MenuItem()
             {
-                ContextMenu.Items.Add(new Separator());
-                var mi2 = new MenuItem()
-                {
-                    Header = "Add to dictionary",
-                    HorizontalContentAlignment = HorizontalAlignment.Right
-                };
-                mi2.Click += (o, args) => model.ActiveEditor.AceEditor.addWordSpelling(((dynamic)range).misspelled);                
-                ContextMenu.Items.Add(mi2);
-                ContextMenu.Items.Add(new Separator());
-            }
+                Header = "Add to dictionary",
+                HorizontalContentAlignment = HorizontalAlignment.Right
+            };
+            mi2.Click += (o, args) => model.ActiveEditor.AceEditor.addWordSpelling(((dynamic)range).misspelled);
+            ContextMenu.Items.Add(mi2);
+            ContextMenu.Items.Add(new Separator());
+
         }
 
         /// <summary>
@@ -115,20 +115,20 @@ namespace MarkdownMonster
         {
             var selText = Model.ActiveEditor?.AceEditor?.getselection(false);
             var model = Model;
-            
+
             var miCut = new MenuItem { Header = "Cut" };
             miCut.Click += (o, args) => model.ActiveEditor.SetSelection("");
             ContextMenu.Items.Add(miCut);
 
-            var miCopy = new MenuItem() {Header = "Copy"};
+            var miCopy = new MenuItem() { Header = "Copy" };
             miCopy.Click += (o, args) => Clipboard.SetText(selText);
             ContextMenu.Items.Add(miCopy);
 
-            var miCopyHtml = new MenuItem() { Header = "Copy As Html" };          
-            miCopyHtml.Command = Model.CopyAsHtmlCommand;            
+            var miCopyHtml = new MenuItem() { Header = "Copy As Html" };
+            miCopyHtml.Command = Model.CopyAsHtmlCommand;
             ContextMenu.Items.Add(miCopyHtml);
-   
-            var miPaste = new MenuItem() {Header = "Paste"};
+
+            var miPaste = new MenuItem() { Header = "Paste" };
             miPaste.Click += (o, args) => model.ActiveEditor?.SetSelection(Clipboard.GetText());
             ContextMenu.Items.Add(miPaste);
 
@@ -164,9 +164,9 @@ namespace MarkdownMonster
             CheckForHyperLink(line, pos);
 
 
-            if (ContextMenu.Items.Count > 0)            
-                ContextMenu.Items.Add(new Separator());                
-            
+            if (ContextMenu.Items.Count > 0)
+                ContextMenu.Items.Add(new Separator());
+
         }
 
 
@@ -181,7 +181,7 @@ namespace MarkdownMonster
                 {
                     string val = match.Value;
                     if (match.Index <= pos.column && match.Index + val.Length > pos.column)
-                    {                     
+                    {
                         var mi2 = new MenuItem
                         {
                             Header = "Edit Hyperlink"
@@ -217,7 +217,7 @@ namespace MarkdownMonster
         static readonly Regex ImageRegex = new Regex(@"!\[.*?\]\(.*?\)", RegexOptions.IgnoreCase);
 
         private bool CheckForImageLink(string line, AcePosition pos)
-        {   
+        {
             // Check for images ![](imageUrl)
             var matches = ImageRegex.Matches(line);
             if (matches.Count > 0)

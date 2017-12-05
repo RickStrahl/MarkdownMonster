@@ -1375,13 +1375,15 @@ namespace MarkdownMonster
         /// <returns></returns>
         public void GetSuggestions(string text, string language = "EN_US", bool reload = false, object range = null)
         {
-            IEnumerable<string> suggestions = null;
+            List<string> suggestions = null;
 
             if (!string.IsNullOrEmpty(text) && range != null)           
             {
                 var hun = GetSpellChecker(language, reload);
-                suggestions = hun.Suggest(text).Take(10);
+                suggestions = hun.Suggest(text).Take(10).ToList();
             }
+
+            Debug.WriteLine($"{suggestions} - {suggestions?.Count}");
 
             var cm = new EditorContextMenu();
             cm.ShowContextMenuAll(suggestions,range);               
