@@ -109,9 +109,8 @@ var te = window.textEditor = {
             "ctrl-`": function () { te.specialkey("ctrl-`"); },
             
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
-            "ctrl-i": function() { te.specialkey("ctrl-i"); },
-
-
+            "ctrl-i": function () { te.specialkey("ctrl-i"); },
+            
             "shift-del": te.deleteCurrentLine,
 
             // take over Zoom keys and manually zoom
@@ -125,9 +124,13 @@ var te = window.textEditor = {
             },
             //"alt-shift-enter": function() { te.specialkey("alt-shift-enter")},
             "ctrl-shift-down": function() { te.specialkey("ctrl-shift-down"); },
-            "ctrl-shift-up": function() { te.specialkey("ctrl-shift-up"); },
+            "ctrl-shift-up": function () { te.specialkey("ctrl-shift-up"); },
+
+            // Paste as Markdown/From Html
             "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
-            "ctrl-shift-v": function() { te.specialkey("ctrl-shift-v"); },
+            "ctrl-shift-v": function () { te.specialkey("ctrl-shift-v"); },
+
+            // Capture paste operation in WPF to handle Images
             "ctrl-v": function() { te.mm.textbox.PasteOperation(); }
         });
 
@@ -382,9 +385,8 @@ var te = window.textEditor = {
         range.setEnd({ row: endRow, column: endColumn });
         sel.setSelectionRange(range);       
     },
-    deleteCurrentLine: function () {
-        var sel = te.editor.getSelection();        
-        sel.selectLine();
+    deleteCurrentLine: function () {        
+        te.editor.selection.selectLine();
         te.editor.removeLines();        
     },
     moveCursorLeft: function (count) {

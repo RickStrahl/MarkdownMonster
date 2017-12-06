@@ -6,8 +6,14 @@
 ### 1.8.1
 *<small>not released yet</small>*
 
-* **Fix: Multi-screen Selection Issue fixed**  
+* **Shift-Del to delete current Line**   
+Added support for `Shift-Delete` to support removing the current line like Visual Studio/Code.
+
+* **Fix: Multi-page Selection Issue fixed**  
 Fixed regression bug caused by recent addition of scroll syncing from editor to preview. Code fix now checks if a selection is active, and if it is doesn't scroll preview.
+
+* **Fix: Add to Dictionary for SpellCheck when no matches**   
+Fixed issue where if there are no items to display for spell check suggestions the **Add to Dictionary** menu option wasn't showing. Fixed now the **Add to Dictionary** menu shows to allow adding unmatched words.
 
 ### 1.8.0
 *<small>December 4th, 2017</small>*
