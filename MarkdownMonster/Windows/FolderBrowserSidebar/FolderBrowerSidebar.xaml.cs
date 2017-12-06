@@ -341,6 +341,15 @@ namespace MarkdownMonster.Windows
                             File.Move(fileItem.FullPath, newPath);
                         else
                             File.WriteAllText(newPath, "");
+
+                        // check if tab was open and if so rename the tab
+                        var tab = mmApp.Model.Window.GetTabFromFilename(fileItem.FullPath);
+                        if (tab != null)
+                        {
+                            var doc = (MarkdownDocumentEditor) tab.Tag;
+                            doc.MarkdownDocument.Load(newPath);
+                            mmApp.Model.Window.BindTabHeaders();
+                        }
                     }
                     catch
                     {

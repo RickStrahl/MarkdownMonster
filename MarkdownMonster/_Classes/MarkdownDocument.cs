@@ -393,6 +393,7 @@ namespace MarkdownMonster
                 return false;
             }
 
+            Filename = filename;
             UpdateCrc();
             GetFileEncoding();
             
@@ -414,8 +415,6 @@ namespace MarkdownMonster
                 OriginalText = CurrentText;
                 AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
                 AutoSaveDocuments = mmApp.Configuration.AutoSaveDocuments;
-
-                Filename = filename;
             }
             catch
             {                

@@ -903,10 +903,25 @@ namespace MarkdownMonster
             return tab;
 	    }
 
-	    /// <summary>
-		/// Binds all Tab Headers
-		/// </summary>
-		public void BindTabHeaders()
+        /// <summary>
+        /// Retrieves an open tab based on its filename.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public TabItem GetTabFromFilename(string filename)
+        {
+            var tabList = new List<TabItem>();
+            foreach (TabItem tb in TabControl.Items)
+                tabList.Add(tb);
+
+            return tabList
+                .FirstOrDefault(tb => ((MarkdownDocumentEditor)tb.Tag).MarkdownDocument.Filename.ToLower() == filename.ToLower());
+        }
+
+        /// <summary>
+        /// Binds all Tab Headers
+        /// </summary>
+        public void BindTabHeaders()
 		{
 			var tabList = new List<TabItem>();
 			foreach (TabItem tb in TabControl.Items)
