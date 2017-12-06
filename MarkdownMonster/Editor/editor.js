@@ -174,7 +174,7 @@ var te = window.textEditor = {
                 // if there is a selection don't set cursor position
                 // or preview. Mouseup will scroll to position at end
                 // of selection
-                var sel = te.getSelectedText();
+                var sel = te.getselection();
                 if (sel && sel.length > 0)
                     return;
 

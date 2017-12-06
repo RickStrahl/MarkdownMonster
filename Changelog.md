@@ -3,6 +3,12 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.8.1
+*<small>not released yet</small>*
+
+* **Fix: Multi-screen Selection Issue fixed**  
+Fixed regression bug caused by recent addition of scroll syncing from editor to preview. Code fix now checks if a selection is active, and if it is doesn't scroll preview.
+
 ### 1.8.0
 *<small>December 4th, 2017</small>*
 
