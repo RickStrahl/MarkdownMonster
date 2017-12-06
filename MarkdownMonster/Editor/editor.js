@@ -171,6 +171,13 @@ var te = window.textEditor = {
                     sc.contentModified = true;                  
             });
         var changeScrollTop = debounce(function () {
+                // if there is a selection don't set cursor position
+                // or preview. Mouseup will scroll to position at end
+                // of selection
+                var sel = te.getSelectedText();
+                if (sel && sel.length > 0)
+                    return;
+
                 var firstRow = te.editor.renderer.getFirstVisibleRow();
                 var lastRow = te.editor.renderer.getLastVisibleRow();
                 var curRow = te.getLineNumber();            
