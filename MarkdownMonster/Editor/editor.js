@@ -109,11 +109,10 @@ var te = window.textEditor = {
             "ctrl-`": function () { te.specialkey("ctrl-`"); },
             
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
-            "ctrl-i": function () { te.specialkey("ctrl-i"); },
-            
-            
-            
-            
+            "ctrl-i": function() { te.specialkey("ctrl-i"); },
+
+
+            "shift-del": te.deleteCurrentLine,
 
             // take over Zoom keys and manually zoom
             "ctrl--": function() {
@@ -383,7 +382,11 @@ var te = window.textEditor = {
         range.setEnd({ row: endRow, column: endColumn });
         sel.setSelectionRange(range);       
     },
-
+    deleteCurrentLine: function () {
+        var sel = te.editor.getSelection();        
+        sel.selectLine();
+        te.editor.removeLines();        
+    },
     moveCursorLeft: function (count) {
         if (!count)
             count = 1;
