@@ -266,6 +266,12 @@ namespace MarkdownMonster
             return true;
         }
 
+        public struct MarkupMarkdownResult
+        {
+            public string Html;
+            public int CursorMovement;
+        }
+
         /// <summary>
         /// Takes action on the selected string in the editor using
         /// predefined commands.
@@ -274,31 +280,60 @@ namespace MarkdownMonster
         /// <param name="input"></param>
         /// <param name="style"></param>
         /// <returns></returns>
-        public string MarkupMarkdown(string action, string input, string style = null)
+        public MarkupMarkdownResult MarkupMarkdown(string action, string input, string style = null)
         {
+            var result = new MarkupMarkdownResult();
+
             if (string.IsNullOrEmpty(action))
-                return input;
+            {
+                result.Html = input;
+                return result;
+            }
 
             action = action.ToLower();
 
             // check for insert actions that don't require a pre selection
-            if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action, new string[] { "image", "href", "code", "emoji" }))
-                return null;
+            //if (string.IsNullOrEmpty(input) && !StringUtils.Inlist(action,
+            //    new string[] {
+            //        "image", "href", "code", "emoji",
+            //        "h1", "h2", "h3", "h4", "h5",
+                    
+            //    }))
+            //    return null;
 
             string html = input;
+            int cursorMovement = 0;
 
             if (action == "bold")
+            {
                 html = "**" + input + "**";
+                cursorMovement = -2;
+            }            
             else if (action == "italic")
+            {
                 html = "*" + input + "*";
+                cursorMovement = -1;
+            }
             else if (action == "small")
+            {
                 html = "<small>" + input + "</small>";
+                cursorMovement = -7;
+            }
             else if (action == "underline")
+            {
                 html = "<u>" + input + "</u>";
+                cursorMovement = -4;
+            }
             else if (action == "strikethrough")
+            {
                 html = "~~" + input + "~~";
+                cursorMovement = -2;
+            }
             else if (action == "inlinecode")
+            {
                 html = "`" + input + "`";
+                cursorMovement = -1;
+            }
             else if (action == "h1")
                 html = "# " + input;
             else if (action == "h2")
@@ -319,6 +354,9 @@ namespace MarkdownMonster
                     sb.AppendLine("> " + line);
                 }
                 html = sb.ToString();
+
+                if (string.IsNullOrEmpty(input))
+                   html = html.TrimEnd() + " ";  // strip off LF
             }
             else if (action == "list")
             {
@@ -329,6 +367,9 @@ namespace MarkdownMonster
                     sb.AppendLine("* " + line);
                 }
                 html = sb.ToString();
+
+                if (string.IsNullOrEmpty(input))
+                    html = html.TrimEnd() + " ";  // strip off LF
             }
             else if (action == "numberlist")
             {
@@ -341,6 +382,9 @@ namespace MarkdownMonster
                     sb.AppendLine($"{ct}. " + line);
                 }
                 html = sb.ToString();
+
+                if (string.IsNullOrEmpty(input))
+                    html = html.TrimEnd() + " ";  // strip off LF
             }
             else if (action == "emoji")
             {
@@ -348,10 +392,8 @@ namespace MarkdownMonster
                 form.Owner = Window;
                 form.ShowDialog();
 
-                if (form.Cancelled)
-                    return input;
-
-                html = form.EmojiString;
+                if (!form.Cancelled)
+                    html = form.EmojiString;
             }
             else if (action == "href")
             {
@@ -457,7 +499,12 @@ namespace MarkdownMonster
                     html = addinAction;
             }
 
-            return html;
+
+            if (string.IsNullOrEmpty(input))
+                result.CursorMovement = cursorMovement;
+            result.Html = html;
+
+            return result;
         }
 
 
@@ -484,10 +531,19 @@ namespace MarkdownMonster
 
             string html = AceEditor.getselection(false);
             
-            string newhtml = MarkupMarkdown(action, html);
+            var result  = MarkupMarkdown(action, html);
 
-            if (!string.IsNullOrEmpty(newhtml) && newhtml != html)            
-                SetSelectionAndFocus(newhtml);                            
+            
+            if (!string.IsNullOrEmpty(result.Html) && html != result.Html)
+                SetSelectionAndFocus(result.Html);
+            else
+                SetEditorFocus();
+
+            if (result.CursorMovement != 0)
+                MoveCursorPosition(result.CursorMovement);
+
+            //if (result.CursorMovement != 0)
+            //    Window.Dispatcher.InvokeAsync(() => MoveCursorPosition(result.CursorMovement),DispatcherPriority.ApplicationIdle);
         }
 
         /// <summary>
@@ -719,6 +775,14 @@ namespace MarkdownMonster
                 column = (int) pos.column
             };
             return pt;
+        }
+
+        public void MoveCursorPosition(int column, int row = 0)
+        {
+            if (column > 0)
+                AceEditor.moveCursorRight(column);
+            else if (column < 0)
+                AceEditor.moveCursorLeft(column * -1);
         }
 
         public void SetSelectionRange(AcePosition start, AcePosition end)
