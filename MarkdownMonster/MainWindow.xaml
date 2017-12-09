@@ -27,17 +27,19 @@
                     Key="Return"
                     Command="{Binding  DistractionFreeModeCommand}" />
         <KeyBinding Key="F11" Command="{Binding PresentationModeCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="P"
-                    Command="{Binding PrintPreviewCommand}" />
+        <KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding PrintPreviewCommand}" />
         
-        <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAsCommand}" />
-        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewDocumentCommand }"  />
+        <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Commands.SaveAsCommand}" />
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding Commands.NewDocumentCommand }"  />
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding Commands.OpenDocumentCommand }"    />
-        <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
+        <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  CloseActiveDocumentCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding CloseActiveDocumentCommand}" />
         <KeyBinding Modifiers="Alt" Key="Z" Command="{Binding WordWrapCommand}" />
         <KeyBinding Key="F1" Command="{Binding HelpCommand}" />
+        
+        <!-- Commands that are handled in the Markdown Editor because they are not working here -->
+        <!--<KeyBinding Modifiers="Ctrl+Shift" Key="Z" Command="{Binding Commands.RemoveMarkdownFormattingCommand}" />-->        
     </Window.InputBindings>
 
     <Window.Resources>
@@ -172,7 +174,7 @@
               FontSize="{Binding Path=FontSize,ElementName=MainApplicationWindow}"
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File" Name="MenuFile" x:FieldModifier="public" >
-                <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding NewDocumentCommand}" InputGestureText="ctrl-n"/>
+                <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding Commands.NewDocumentCommand}" InputGestureText="ctrl-n"/>
                 <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Command="{Binding Commands.NewWeblogPostCommand}" />
                 <Separator/>
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="ctrl-o"/>
@@ -181,15 +183,15 @@
                 </MenuItem>
                 <Separator/>
                 
-                <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding SaveCommand}"  
+                <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding Commands.SaveCommand}"  
                           InputGestureText="ctrl+s"/>
-                <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding SaveAsCommand}"  
+                <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding Commands.SaveAsCommand}"  
                           InputGestureText="ctrl+shift+s"/>
 
                 <Separator />
                 
-                <MenuItem Name="ButtonSaveAsSecureFile" Header="Save As _Encrypted File" Command="{Binding SaveAsCommand}" CommandParameter="Secure"  />
-                <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding SaveAsHtmlCommand}" />
+                <MenuItem Name="ButtonSaveAsSecureFile" Header="Save As _Encrypted File" Command="{Binding Commands.SaveAsCommand}" CommandParameter="Secure"  />
+                <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding Commands.SaveAsHtmlCommand}" />
                 <MenuItem x:Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding GeneratePdfCommand}"
                            />
                 
@@ -217,6 +219,10 @@
                           Command="{Binding CopyAsHtmlCommand}"
                           ToolTip="Copies the selected markdown from the editor as HTML to the clipboard"
                           InputGestureText="ctrl-shift-c" />
+                <MenuItem Header="Remove Markdown _Formatting" IsEnabled="{Binding IsEditorActive}" 
+                          Command="{Binding Commands.RemoveMarkdownFormattingCommand}"
+                          ToolTip="Removes Markdown formatting from a selection." 
+                          InputGestureText="ctrl-shift-z" />
                 <Separator />
                 <MenuItem Name="Button_Spellcheck" Header="Toggle _Spellchecking" Click="ButtonSpellCheck_Click" />
                 <Separator />
@@ -377,12 +383,12 @@
 
 						<Separator/>
 
-						<Button Name="ToolButtonNewFile" Margin="7,0,0,0" Command="{Binding NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
+						<Button Name="ToolButtonNewFile" Margin="7,0,0,0" Command="{Binding Commands.NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
                                 fa:Awesome.Content="PlusCircle"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
-                        <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding SaveCommand}" 
+                        <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding Commands.SaveCommand}" 
 								ToolTip="Save active document (ctrl-s)"                                
                                 fa:Awesome.Content="CheckCircleOutline"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
@@ -394,14 +400,14 @@
 
                     <ToolBar FontWeight="Light" Name="ToolbarEdit" FontSize="17">
                         <Button Name="ButtonBold" Margin="7,0"  ToolTip="Bold (ctrl-b)"                                   
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="bold"                                
                                 fa:Awesome.Content="Bold"
                                 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
                         <Button Name ="ButtonItalic" Margin="7,0" ToolTip="Italic (ctrl-i)" 
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="italic"
                                 fa:Awesome.Content="Italic" 
                                 
@@ -409,7 +415,7 @@
 
                        
                         <Button Name ="ButtonStrikeThrough" Margin="7,0" ToolTip="Strikethrough" 
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="strikethrough"
                                 fa:Awesome.Content="Strikethrough" 
                                 
@@ -417,7 +423,7 @@
 
                         <Button Name ="ButtonInlineCode" Margin="5,-4,7,0"
 								ToolTip="Inline code inside of a paragraph (ctrl-`)" 
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="inlinecode"  
                                 FontWeight="Medium"  
 								TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
@@ -425,7 +431,7 @@
                                                                
                         
                         <!--<Button Name="ButtonFontAwesome" Margin="7,0" ToolTip="Insert FontAwesome Icon"
-                                Command="{Binding ToolbarInsertMarkdownCommand}" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand}" 
                                 CommandParameter="fontawesome"
                                 fa:Awesome.Content="FontAwesome" IsEnabled="False"
                                 Height="24" Width="24"
@@ -436,21 +442,21 @@
                         <Separator />
 
                         <Button Name="ButtonQuote" Margin="7,0" ToolTip="Quote text (ctrl-q)"
-                                Command="{Binding ToolbarInsertMarkdownCommand }"  
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  
                                 CommandParameter="quote"
                                 fa:Awesome.Content="QuoteLeft"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                 />
 
                         <Button Name ="ButtonList" Margin="7,0" ToolTip="Ordered List (ctrl-l)"
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="list"
                                 fa:Awesome.Content="ListUl"                                                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                 />
 
                         <Button Name ="ButtonNumberList" Margin="7,0" ToolTip="Turns lines to ordered list (ctrl-l)"
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="numberlist"
                                 fa:Awesome.Content="ListOl"								                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
@@ -459,39 +465,39 @@
                         <Separator />
 
                         <Button Name ="ButtonH1" Margin="3,0" ToolTip="H1 Text"
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h1" Content="H1" FontWeight="Bold"                                
                                 />
 
                         <Button Name ="ButtonH2" Margin="3,0" ToolTip="H2 Text"
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h2" Content="H2" FontWeight="Bold"                                
                                 />
 
                         <Button Name ="ButtonH3" Margin="3,0" ToolTip="H2 Text"
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h3" Content="H3" FontWeight="Bold"                                
                                 />
                         <Button Name ="ButtonH4" Margin="3,0" ToolTip="H4 Text"
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h4" Content="H4" FontWeight="Bold"                                
                                 />
                         <Button Name ="ButtonH5" Margin="3,0" ToolTip="H5 Text"
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h5" Content="H5" FontWeight="Bold"                                
                                 />
                         <Separator />
 
 
                         <Button Name ="ButtonLink" Margin="7,0" ToolTip="Insert link (ctrl-k)"
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="href" 
                                 fa:Awesome.Content="ExternalLink"
                                  
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
                         <Button Name ="ButtonImage" Margin="7,0"                              
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="image"                                
                                 fa:Awesome.Content="Image"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
@@ -508,7 +514,7 @@
 
                         <Button Name ="ButtonCode"  
 								ToolTip="Format selected text as code (alt-c)"
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="code"                                
                                 FontWeight="Medium" 
 								Width="27" Margin="0,0,0,0"
@@ -516,7 +522,7 @@
 
 						<Button Name="ButtonEmoji" Margin="7,0" 
 								ToolTip="Insert emoji (ctrl-j)"
-                                Command="{Binding ToolbarInsertMarkdownCommand }" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="emoji"
                                 fa:Awesome.Content="SmileOutline"                                                           
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
@@ -596,7 +602,7 @@
                     
                 <Run FontSize="20" FontWeight="DemiBold">Start</Run>
                 <LineBreak />
-                <Hyperlink  Command="{Binding NewDocumentCommand}">  New Document</Hyperlink> - ctrl-n
+                <Hyperlink  Command="{Binding Commands.NewDocumentCommand}">  New Document</Hyperlink> - ctrl-n
                 <LineBreak />                                                
                 <Hyperlink  Command="{Binding Commands.NewWeblogPostCommand}">  New Weblog Post</Hyperlink>
                 <LineBreak />

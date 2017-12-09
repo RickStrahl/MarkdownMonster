@@ -43,6 +43,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Windows.Threading;
+using Markdig;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
@@ -794,8 +795,6 @@ namespace MarkdownMonster
             AceEditor?.SetSelectionRange(startRow, startColumn, endRow, endColumn);
         }
 
-        #endregion
-
         /// <summary>
         /// Returns the editor's vertical scroll position
         /// </summary>
@@ -834,6 +833,28 @@ namespace MarkdownMonster
             catch
             { }
         }
+
+
+        /// <summary>
+        /// Removes markdown formatting from the editor selection.
+        /// Non-markdown files don't do anything.
+        /// </summary>
+        public bool RemoveMarkdownFormatting()
+        {            
+            if (EditorSyntax != "markdown")
+                return false;
+
+            var markdown = GetSelection();
+
+            if (string.IsNullOrEmpty(markdown))
+                return false;
+
+            var text = Markdown.ToPlainText(markdown);
+            SetSelectionAndFocus(text);
+
+            return true;
+        }
+        #endregion
 
         /// <summary>
         /// Focuses the Markdown editor in the Window
@@ -1009,11 +1030,11 @@ namespace MarkdownMonster
             {
                 if (key == "ctrl-s")
                 {
-                    Window.Model.SaveCommand.Execute(Window);
+                    Window.Model.Commands.SaveCommand.Execute(Window);
                 }
                 else if (key == "ctrl-n")
                 {
-                    Window.Model.NewDocumentCommand.Execute(Window);
+                    Window.Model.Commands.NewDocumentCommand.Execute(Window);
                 }
                 
                 else if (key == "ctrl-p")
@@ -1022,35 +1043,35 @@ namespace MarkdownMonster
                 }                
                 else if (key == "ctrl-b")
                 {
-                    Window.Model.ToolbarInsertMarkdownCommand.Execute("bold");
+                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("bold");
                 }
                 else if (key == "ctrl-i")
                 {
-                    Window.Model.ToolbarInsertMarkdownCommand.Execute("italic");
+                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("italic");
                 }
                 else if (key == "ctrl-`")
                 {
-                    Window.Model.ToolbarInsertMarkdownCommand.Execute("inlinecode");
+                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("inlinecode");
                 }
                 else if (key == "ctrl-l")
                 {
-                    Window.Model.ToolbarInsertMarkdownCommand.Execute("list");
+                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("list");
                 }
                 else if (key == "ctrl-j")
                 {
-                    Window.Model.ToolbarInsertMarkdownCommand.Execute("emoji");
+                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("emoji");
                 }
                 else if (key == "ctrl-k")
                 {
-                    Window.Model.ToolbarInsertMarkdownCommand.Execute("href");
+                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("href");
                 }
                 else if (key == "alt-i")
                 {
-                    Window.Model.ToolbarInsertMarkdownCommand.Execute("image");
+                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("image");
                 }
                 else if (key == "alt-c")
                 {
-                    Window.Model.ToolbarInsertMarkdownCommand.Execute("code");
+                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("code");
                 }
                 else if (key == "ctrl-shift-v")
                 {
@@ -1059,6 +1080,10 @@ namespace MarkdownMonster
                 else if (key == "ctrl-shift-c")
                 {
                     Window.Model.CopyAsHtmlCommand.Execute(WebBrowser);
+                }
+                else if (key == "ctrl-shift-z")
+                {
+                    Window.Model.Commands.RemoveMarkdownFormattingCommand.Execute(WebBrowser);
                 }
                 else if (key == "ctrl-shift-down")
                 {

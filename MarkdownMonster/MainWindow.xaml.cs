@@ -837,7 +837,7 @@ namespace MarkdownMonster
 	                if (e.PropertyName == "IsDirty")
 	                {
 	                    //CommandManager.InvalidateRequerySuggested();
-	                    Model.SaveCommand.InvalidateCanExecute();
+	                    Model.Commands.SaveCommand.InvalidateCanExecute();
 	                }
 	            };
 	            editor.MarkdownDocument = doc;
@@ -1044,7 +1044,7 @@ namespace MarkdownMonster
 				else
 				{
 					if (doc.Filename == "untitled")
-						Model.SaveAsCommand.Execute(ButtonSaveAsFile);
+						Model.Commands.SaveAsCommand.Execute(ButtonSaveAsFile);
 					else if (!SaveFile())
 						returnValue = false;
 				}

@@ -620,6 +620,7 @@ namespace MarkdownMonster
           
                     try
                     {
+                        Debug.WriteLine($"Saving: " + Path.GetFileName(filename) + " ({DateTime.Now})");
                         File.WriteAllText(filename, CurrentText, Encoding);
                     }
                     catch

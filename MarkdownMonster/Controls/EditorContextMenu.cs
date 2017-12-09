@@ -116,19 +116,19 @@ namespace MarkdownMonster
             var selText = Model.ActiveEditor?.AceEditor?.getselection(false);
             var model = Model;
 
-            var miCut = new MenuItem { Header = "Cut" };
+            var miCut = new MenuItem { Header = "Cut", InputGestureText="ctrl-x" };
             miCut.Click += (o, args) => model.ActiveEditor.SetSelection("");
             ContextMenu.Items.Add(miCut);
 
-            var miCopy = new MenuItem() { Header = "Copy" };
+            var miCopy = new MenuItem() { Header = "Copy", InputGestureText="ctrl-c" };
             miCopy.Click += (o, args) => Clipboard.SetText(selText);
             ContextMenu.Items.Add(miCopy);
 
-            var miCopyHtml = new MenuItem() { Header = "Copy As Html" };
+            var miCopyHtml = new MenuItem() { Header = "Copy As Html", InputGestureText="ctrl-shift-c" };
             miCopyHtml.Command = Model.CopyAsHtmlCommand;
             ContextMenu.Items.Add(miCopyHtml);
 
-            var miPaste = new MenuItem() { Header = "Paste" };
+            var miPaste = new MenuItem() { Header = "Paste", InputGestureText="ctrl-v"};
             miPaste.Click += (o, args) => model.ActiveEditor?.SetSelection(Clipboard.GetText());
             ContextMenu.Items.Add(miPaste);
 
@@ -138,11 +138,25 @@ namespace MarkdownMonster
                 miCopyHtml.IsEnabled = false;
                 miCut.IsEnabled = false;
             }
-            if (Model.ActiveEditor?.EditorSyntax != "markdown")
-                miCopyHtml.IsEnabled = false;
+            else { 
+                if (Model.ActiveEditor?.EditorSyntax != "markdown")
+                    miCopyHtml.IsEnabled = false;
+                else
+                {
+                    ContextMenu.Items.Add(new Separator());
+                    var miRemoveFormatting = new MenuItem
+                    {
+                        Header = "Remove Markdown Formatting",
+                        InputGestureText = "ctrl-shift-z"
+                    };
+                    miRemoveFormatting.Command = Model.Commands.RemoveMarkdownFormattingCommand;
+                    ContextMenu.Items.Add(miRemoveFormatting);
+                }
+            }
 
             if (!Clipboard.ContainsText())
                 miPaste.IsEnabled = false;
+
 
             if (ContextMenu.Items.Count > 0)
                 ContextMenu.Items.Add(new Separator());

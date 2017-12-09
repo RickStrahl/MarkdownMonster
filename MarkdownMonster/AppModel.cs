@@ -419,147 +419,7 @@ namespace MarkdownMonster
 
 
         #region Commands
-
-        public CommandBase SaveCommand { get; set; }
-
-        void Command_Save()
-        {
-            // SAVE COMMAND
-            SaveCommand = new CommandBase((s, e) =>
-            {
-                var tab = Window.TabControl?.SelectedItem as TabItem;
-                if (tab == null)
-                    return;
-                var doc = tab.Tag as MarkdownDocumentEditor;
-
-                if (doc.MarkdownDocument.Filename == "untitled")
-                    SaveAsCommand.Execute(tab);
-                else if (!doc.SaveDocument())
-                {
-                    SaveAsCommand.Execute(tab);
-                }
-
-                Window.PreviewMarkdown(doc, keepScrollPosition: true);
-
-            }, (s, e) =>
-            {
-                if (ActiveDocument == null)
-                    return false;
-
-                return this.ActiveDocument.IsDirty;
-            });
-        }
-
-        public CommandBase SaveAsCommand { get; set; }
-
-        void Command_SaveAs()
-        {
-            SaveAsCommand = new CommandBase((parameter, e) =>
-            {
-                bool isEncrypted = parameter != null && parameter.ToString() == "Secure";
-
-                var tab = Window.TabControl?.SelectedItem as TabItem;
-                if (tab == null)
-                    return;
-                var doc = tab.Tag as MarkdownDocumentEditor;
-                if (doc == null)
-                    return;
-
-                var filename = doc.MarkdownDocument.Filename;
-                var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
-
-                if (filename == "untitled")
-                {
-                    folder = mmApp.Configuration.LastFolder;
-
-                    var match = Regex.Match(doc.GetMarkdown(), @"^# (\ *)(?<Header>.+)", RegexOptions.Multiline);
-
-                    if (match.Success)
-                    {
-                        filename = match.Groups["Header"].Value;
-                        if (!string.IsNullOrEmpty(filename))
-                            filename = FileUtils.SafeFilename(filename);
-                    }
-                }
-
-                if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
-                {
-                    folder = mmApp.Configuration.LastFolder;
-                    if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
-                        folder = KnownFolders.GetPath(KnownFolder.Libraries);
-                }
-
-
-                SaveFileDialog sd = new SaveFileDialog
-                {
-                    FilterIndex = 1,
-                    InitialDirectory = folder,
-                    FileName = filename,
-                    CheckFileExists = false,
-                    OverwritePrompt = true,
-                    CheckPathExists = true,
-                    RestoreDirectory = true
-                };
-
-                var mdcryptExt = string.Empty;
-                if (isEncrypted)
-                    mdcryptExt = "Secure Markdown files (*.mdcrypt)|*.mdcrypt|";
-
-                sd.Filter =
-                    $"{mdcryptExt}Markdown files (*.md)|*.md|Markdown files (*.markdown)|*.markdown|All files (*.*)|*.*";
-
-                bool? result = null;
-                try
-                {
-                    result = sd.ShowDialog();
-                }
-                catch (Exception ex)
-                {
-                    mmApp.Log("Unable to save file: " + doc.MarkdownDocument.Filename, ex);
-                    MessageBox.Show(
-                        $@"Unable to open file:\r\n\r\n" + ex.Message,
-                        "An error occurred trying to open a file",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-
-                if (!isEncrypted)
-                    doc.MarkdownDocument.Password = null;
-                else
-                {
-                    var pwdDialog = new FilePasswordDialog(doc.MarkdownDocument, false)
-                    {
-                        Owner = Window
-                    };
-                    bool? pwdResult = pwdDialog.ShowDialog();
-                }
-
-                if (result != null && result.Value)
-                {
-                    doc.MarkdownDocument.Filename = sd.FileName;
-                    if (!doc.SaveDocument())
-                    {
-                        MessageBox.Show(Window,
-                            $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
-                            "Unable to save Document", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        SaveAsCommand.Execute(tab);
-                        return;
-                    }
-                }
-
-                mmApp.Configuration.LastFolder = folder;
-
-                Window.SetWindowTitle();
-                Window.PreviewMarkdown(doc, keepScrollPosition: true);
-            }, (s, e) =>
-            {
-                if (ActiveDocument == null)
-                    return false;
-
-                return true;
-            });
-        }
-
+        
 
         public CommandBase PreviewBrowserCommand { get; set; }
 
@@ -589,108 +449,18 @@ namespace MarkdownMonster
         }
         
 
-        public CommandBase SaveAsHtmlCommand { get; set; }
 
-        void Command_SaveAsHtml()
-        {
-            SaveAsHtmlCommand = new CommandBase((s, e) =>
-            {
-                var tab = Window.TabControl?.SelectedItem as TabItem;
-                var doc = tab?.Tag as MarkdownDocumentEditor;
-                if (doc == null)
-                    return;
+        //public CommandBase ToolbarInsertMarkdownCommand { get; set; }
 
-                var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
-
-                SaveFileDialog sd = new SaveFileDialog
-                {
-                    Filter =
-                        "Html files (Html only) (*.html)|*.html|Html files (Html and dependencies in a folder)|*.html",
-                    FilterIndex = 1,
-                    InitialDirectory = folder,
-                    FileName = Path.ChangeExtension(doc.MarkdownDocument.Filename, "html"),
-                    CheckFileExists = false,
-                    OverwritePrompt = true,
-                    CheckPathExists = true,
-                    RestoreDirectory = true
-                };
-
-                bool? result = null;
-                try
-                {
-                    result = sd.ShowDialog();
-                }
-                catch (Exception ex)
-                {
-                    mmApp.Log("Unable to save html file: " + doc.MarkdownDocument.Filename, ex);
-                    MessageBox.Show(
-                        $@"Unable to open file:\r\n\r\n" + ex.Message,
-                        "An error occurred trying to open a file",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-
-                if (result != null && result.Value)
-                {
-                    if (sd.FilterIndex != 2)
-                    {
-                        var html = doc.RenderMarkdown(doc.GetMarkdown(),
-                            mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
-
-                        if (!doc.MarkdownDocument.WriteFile(sd.FileName, html))
-                        {
-                            MessageBox.Show(Window,
-                                $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
-                                "Unable to save Document", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            SaveAsHtmlCommand.Execute(null);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        string msg = @"This feature is not available yet.
-
-For now, you can use 'View in Web Browser' to view the document in your favorite Web Browser and use 'Save As...' to save the Html document with all CSS and Image dependencies.
-
-Do you want to View in Browser now?
-";
-                        var mbResult = MessageBox.Show(msg,
-                            mmApp.ApplicationName,
-                            MessageBoxButton.YesNo,
-                            MessageBoxImage.Asterisk,
-                            MessageBoxResult.Yes);
-
-                        if (mbResult == MessageBoxResult.Yes)
-                            Window.Model.ViewInExternalBrowserCommand.Execute(null);
-                    }
-                }
-
-                Window.PreviewMarkdown(doc, keepScrollPosition: true);
-            }, (s, e) =>
-            {
-                if (ActiveDocument == null || ActiveEditor == null)
-                    return false;
-                if (ActiveDocument.Filename == "untitled")
-                    return true;
-                if (ActiveEditor.EditorSyntax != "markdown")
-                    return false;
-
-                return true;
-            });
-        }
-
-
-        public CommandBase ToolbarInsertMarkdownCommand { get; set; }
-
-        void Command_ToolbarInsertMarkdown()
-        {
-            ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>
-            {
-                string action = s as string;
-                var editor = Window.GetActiveMarkdownEditor();
-                editor?.ProcessEditorUpdateCommand(action);
-            }, null);
-        }
+        //void Command_ToolbarInsertMarkdown()
+        //{
+        //    ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>
+        //    {
+        //        string action = s as string;
+        //        var editor = Window.GetActiveMarkdownEditor();
+        //        editor?.ProcessEditorUpdateCommand(action);
+        //    }, null);
+        //}
         
         public CommandBase SettingsCommand { get; set; }
 
@@ -858,18 +628,6 @@ Do you want to View in Browser now?
             }, null);
         }
 
-
-        public CommandBase NewDocumentCommand { get; set; }
-
-        void Command_NewDocument()
-        {
-
-            // NEW DOCUMENT COMMAND (ctrl-n)
-            NewDocumentCommand = new CommandBase((s, e) =>
-            {
-                Window.OpenTab("untitled");
-            });
-        }
 
         
 
@@ -1062,19 +820,11 @@ Do you want to View in Browser now?
 
         private void CreateCommands()
         {
-            Command_Save();
-            Command_SaveAs();
-            Command_PreviewBrowser();
-            Command_SaveAsHtml();
-
+            Command_PreviewBrowser();            
             Command_DistractionFreeMode();
             Command_PresentationMode();
-
-            Command_ToolbarInsertMarkdown();
-            Command_Settings();
-
-
-            Command_NewDocument();
+            
+            Command_Settings();            
             
             Command_CloseActiveDocument();
 
