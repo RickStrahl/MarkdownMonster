@@ -3,7 +3,7 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.8.1
+### 1.8.2
 *<small>not released yet</small>*
 
 * **Shift-Del to delete current Line**   
@@ -14,6 +14,9 @@ Fixed regression bug caused by recent addition of scroll syncing from editor to 
 
 * **Fix: Add to Dictionary for SpellCheck when no matches**   
 Fixed issue where if there are no items to display for spell check suggestions the **Add to Dictionary** menu option wasn't showing. Fixed now the **Add to Dictionary** menu shows to allow adding unmatched words.
+
+* **Fix: Links to #Hash Ids**  
+Links to hash tags as IDs wasn't working. Change preview script to navigate both `name` and `id` refs in the document.
 
 ### 1.8.0
 *<small>December 4th, 2017</small>*

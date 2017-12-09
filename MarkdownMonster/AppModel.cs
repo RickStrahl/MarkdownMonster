@@ -687,15 +687,11 @@ Do you want to View in Browser now?
             ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>
             {
                 string action = s as string;
-
                 var editor = Window.GetActiveMarkdownEditor();
                 editor?.ProcessEditorUpdateCommand(action);
             }, null);
-
-
         }
-
-
+        
         public CommandBase SettingsCommand { get; set; }
 
         void Command_Settings()
