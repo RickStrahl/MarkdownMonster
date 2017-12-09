@@ -32,7 +32,6 @@
 #endregion
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -619,8 +618,7 @@ namespace MarkdownMonster
                         filename = Path.Combine(Path.GetTempPath(), "untitled.saved.md");
           
                     try
-                    {
-                        Debug.WriteLine($"Saving: " + Path.GetFileName(filename) + " ({DateTime.Now})");
+                    {                        
                         File.WriteAllText(filename, CurrentText, Encoding);
                     }
                     catch

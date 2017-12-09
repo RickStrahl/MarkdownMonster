@@ -1686,10 +1686,9 @@ namespace MarkdownMonster
 
 	    private void AppTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
 	    {
-	        if (DateTime.UtcNow < mmApp.Started.AddSeconds(7))
+	        if (DateTime.UtcNow < mmApp.Started.AddSeconds(5))
 	            return;
-
-
+            
 	        if (mmApp.Configuration.ApplicationTheme == Themes.Default)
 	            mmApp.Configuration.ApplicationTheme = Themes.Dark;
 

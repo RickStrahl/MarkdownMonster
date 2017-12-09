@@ -14,7 +14,7 @@
         mc:Ignorable="d"        
         Icon="MarkdownMonster_Icon_128.png"
         Title="Markdown Monster Weblog Publishing" 
-        TitleCaps="False"  
+        TitleCharacterCasing="Normal" 
         TitlebarHeight="35"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner" FontSize="15"
@@ -24,9 +24,8 @@
         <windows:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 		<windows:StringComparisonToBooleanConverter x:Key="StringComparisonToBooleanConverter" />
-		<ContextMenu x:Key="BlogsContextMenu" Name="BlogsContextMenu">
+        <ContextMenu x:Key="BlogsContextMenu" Name="BlogsContextMenu">
         </ContextMenu>
-        
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.HelpCommand}" CommandParameter="_4rg0r0hmd.htm"/>
@@ -41,8 +40,7 @@
 
         <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" FontSize="14" 
                                  BorderThickness="0" ShowDefaultCloseButton="False"  
-                                 ShowDefaultAddButton="False" 
-                                 >
+                                 ShowDefaultAddButton="False" >
             <dragablz:TabablzControl.Resources>
                 <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
                     <Setter Property="controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
@@ -288,8 +286,10 @@
                              MouseDoubleClick="ListViewPosts_MouseDoubleClick" 
                              ItemsSource="{Binding PostList}"
                              KeyDown="ListViewPosts_KeyDown" HorizontalContentAlignment="Stretch">
+
                         <ListBox.ItemTemplate>
                             <DataTemplate>
+                                
                                 <Grid HorizontalAlignment="Stretch" Background="#10FFFFFF">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
