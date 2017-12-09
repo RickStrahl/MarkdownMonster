@@ -142,12 +142,22 @@
 		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"
 		          PreviewMouseMove="TreeFolderBrowser_MouseMove"
 				  ItemsSource="{Binding ActivePathItem.Files}"  
+                  BorderThickness="0"
 				  ContextMenu="{StaticResource FileContextMenu}">
 			<TreeView.Resources>
-				<Style  TargetType="{x:Type TreeViewItem}">
-					<Setter Property="IsSelected" Value="{Binding Path=IsSelected,Mode=TwoWay}" />
-				</Style>
-			</TreeView.Resources>
+                <Style  TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsSelected" Value="{Binding Path=IsSelected,Mode=TwoWay}" />
+                </Style>
+
+                <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                 Color="Steelblue" />
+			    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+			                     Color="#eee" />
+			    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+			                     Color="Gray" />
+			    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+			                     Color="#eee" />-->
+            </TreeView.Resources>
 		</TreeView>
 
 		<Popup Name="PopupImagePreview" Grid.Row="3" Placement="Mouse" Margin="10" >

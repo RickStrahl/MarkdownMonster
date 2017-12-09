@@ -43,4 +43,18 @@
     <Style TargetType="{x:Type controls:MetroWindow}" BasedOn="{x:Null}">
         <Setter Property="BorderBrush" Value="#999999" />
     </Style>
+
+    <!-- TreeView Item High-->
+    <Style TargetType="{x:Type TreeView}">
+        <Style.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                 Color="#206CBF" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                 Color="#eee" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                 Color="Gray" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                 Color="#eee" />
+        </Style.Resources>
+    </Style>
 </ResourceDictionary>
