@@ -130,6 +130,8 @@ var te = window.textEditor = {
             "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
             "ctrl-shift-v": function () { te.specialkey("ctrl-shift-v"); },
 
+            "ctrl-shift-z": function () { te.specialkey("ctrl-shift-z"); },
+
             // Capture paste operation in WPF to handle Images
             "ctrl-v": function() { te.mm.textbox.PasteOperation(); }
         });
