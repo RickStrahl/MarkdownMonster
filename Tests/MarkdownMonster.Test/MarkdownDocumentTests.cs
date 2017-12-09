@@ -106,5 +106,15 @@ namespace MarkdownMonster.Test
 
             File.Delete(saveFile);
         }
+
+        [TestMethod]
+        public void RemoveMarkdown()
+        {
+            var md = "This is **bold** text and an [Image ![](image.png)](link.html) as text.";
+
+            var txt = Markdig.Markdown.ToPlainText(md);
+            Console.WriteLine(txt);
+            Assert.IsTrue(txt.Contains("is bold text"));
+        }
     }
 }
