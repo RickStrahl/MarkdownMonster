@@ -48,13 +48,15 @@
     <Style TargetType="{x:Type TreeView}">
         <Style.Resources>
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                 Color="#206CBF" />
+                                 Color="#007ACB" />
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
-                                 Color="#eee" />
+                                 Color="White" />
             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-                                 Color="Gray" />
+                                 Color="#3F3F46" />
             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
-                                 Color="#eee" />
+                                 Color="White" />
         </Style.Resources>
     </Style>
+
+
 </ResourceDictionary>

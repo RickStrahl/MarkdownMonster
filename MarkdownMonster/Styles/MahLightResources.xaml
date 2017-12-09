@@ -22,7 +22,7 @@
 
     <SolidColorBrush x:Key="BlueItem" Color="#0173C6" />
     <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
-    <SolidColorBrush x:Key="HeadlineColor" Color="SteelBlue" />
+    <SolidColorBrush x:Key="HeadlineColor" Color="#4D6081" />
 
     <!-- this doesn't work-->
     <Style TargetType="{x:Type controls:MetroWindow}" BasedOn="{x:Null}">
