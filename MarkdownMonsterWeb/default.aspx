@@ -356,8 +356,14 @@
 
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner" >
-                                                    
+                               
                             <div class="item active">
+                                <img src="Images/Tweets/angrypets.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+
+                            <div class="item">
                                 <img src="Images/Tweets/atlantabass.png" />
                                 <div class="carousel-caption">
                                 </div>

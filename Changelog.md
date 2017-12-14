@@ -21,6 +21,12 @@ Fixed issue where if there are no items to display for spell check suggestions t
 * **Fix: Links to #Hash Ids**  
 Links to hash tags as IDs wasn't working. Change preview script to navigate both `name` and `id` refs in the document.
 
+* **Fix: Shift-Del - Delete Line only when no selection**   
+Fixed behavior, so that if a selection is active, Shift-Del only deletes the actual selection. Only if there's no selection does Shift-Del delete the entire line (behavior matches VS and VS Code now).
+
+* **Fix: Crashes related to File Save Operations failing**   
+Fixed issue where async save operations would interfere with various file checks (for encryption and auto-save operations). Fixed with single code path and lock to prevent thread cross talk.
+
 ### 1.8.0
 *<small>December 4th, 2017</small>*
 

@@ -72,7 +72,7 @@ namespace MarkdownMonster
             try
             {
                 byte[] checkSum;
-                using (FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     var md = new MD5CryptoServiceProvider();
                     checkSum = md.ComputeHash(stream);

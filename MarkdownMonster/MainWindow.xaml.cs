@@ -1592,19 +1592,7 @@ namespace MarkdownMonster
 				return;
 			Process.Start("explorer.exe", "/select,\"" + editor.MarkdownDocument.Filename + "\"");
 		}
-
-		private void Button_CopyFoldername(object sender, RoutedEventArgs e)
-		{
-			var editor = GetActiveMarkdownEditor();
-			if (editor == null)
-				return;
-
-			if (editor.MarkdownDocument.Filename == "untitled")
-				return;
-
-			string path = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
-			Clipboard.SetText(path);
-		}
+	
 
 		internal void Button_PasteMarkdownFromHtml(object sender, RoutedEventArgs e)
 		{

@@ -456,13 +456,18 @@ namespace MarkdownMonster
 
                     File.WriteAllText(filename, fileText, Encoding);
                     OriginalText = CurrentText;
+                    if (Dispatcher != null)
+                        // need dispatcher in order to handle the 
+                        // hooked up OnPropertyChanged events that fire
+                        // on the UI which otherwise fail.
+                        Dispatcher.InvokeAsync(() => { IsDirty = false; });
+                    else
+                        IsDirty = false;
 
                     UpdateCrc(filename);
 
                     if (!noBackupFileCleanup)
                         CleanupBackupFile();
-
-                    IsDirty = false;
 
                     _IsSaving = false;
                 }                
@@ -473,38 +478,6 @@ namespace MarkdownMonster
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Determines whether the file on disk is encrypted
-        /// </summary>
-        /// <param name="filename">Optional filename - if not specified Filename is used</param>
-        /// <returns></returns>
-        public bool IsFileEncrypted(string filename = null)
-        {
-            filename = filename ?? Filename;
-
-            if (string.IsNullOrEmpty(filename))
-                return false;
-
-            
-            using (var fs = File.OpenRead(Filename))
-            {
-                int count;
-                var bytes = new char[ENCRYPTION_PREFIX.Length];
-
-                using (var sr = new StreamReader(fs))
-                {
-                    count = sr.Read(bytes, 0, bytes.Length);
-                }
-                if (count == ENCRYPTION_PREFIX.Length)
-                {
-                    if (new string(bytes) == ENCRYPTION_PREFIX)
-                        return true;
-                }
-            }
-
-            return false;
         }
 
         /// <summary>
@@ -541,7 +514,7 @@ namespace MarkdownMonster
                 try
                 {
                     File.WriteAllText(filename, html, Encoding.UTF8);
-                    written = 10;
+                    written = 10;                    
                 }              
                 catch(Exception ex)
                 {
@@ -572,7 +545,7 @@ namespace MarkdownMonster
             {
                 if (_IsSaving)
                     return;
-
+    
                 Task.Run(() =>
                 {                    
                     filename = Filename;
@@ -580,27 +553,7 @@ namespace MarkdownMonster
                     if (filename == "untitled")
                         return;
 
-                    try
-                    {
-                        lock (_SaveLock)
-                        {
-                            File.WriteAllText(filename, CurrentText, Encoding);
-                            OriginalText = CurrentText;
-                            UpdateCrc(filename);
-
-                            if (Dispatcher != null)
-                                // need dispatcher in order to handle the 
-                                // hooked up OnPropertyChanged events that fire
-                                // on the UI which otherwise fail.
-                                Dispatcher.InvokeAsync(() => { IsDirty = false; });
-                            else
-                                IsDirty = false;
-                        }
-                    }
-                    catch
-                    {
-                        /* ignore save error, write next cycle */
-                    }
+                    Save(filename,true);                    
                 });                
             }
             else if (AutoSaveBackups)
@@ -667,6 +620,40 @@ namespace MarkdownMonster
         #endregion
 
         #region File Information Manipulation
+
+        /// <summary>
+        /// Determines whether the file on disk is encrypted
+        /// </summary>
+        /// <param name="filename">Optional filename - if not specified Filename is used</param>
+        /// <returns></returns>
+        public bool IsFileEncrypted(string filename = null)
+        {
+            filename = filename ?? Filename;
+
+            if (string.IsNullOrEmpty(filename))
+                return false;
+
+            lock (_SaveLock)
+            {
+                using (var fs = File.OpenRead(Filename))
+                {
+                    int count;
+                    var bytes = new char[ENCRYPTION_PREFIX.Length];
+
+                    using (var sr = new StreamReader(fs))
+                    {
+                        count = sr.Read(bytes, 0, bytes.Length);
+                    }
+                    if (count == ENCRYPTION_PREFIX.Length)
+                    {
+                        if (new string(bytes) == ENCRYPTION_PREFIX)
+                            return true;
+                    }
+                }
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Stores the CRC of the file as currently exists on disk

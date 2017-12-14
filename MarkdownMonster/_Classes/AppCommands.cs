@@ -7,7 +7,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
+using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
@@ -44,9 +46,7 @@ namespace MarkdownMonster
 
             // Miscellaneous
             OpenAddinManager();
-
-
-
+            CopyFolderToClipboard();
         }
 
         #region Files And File Management
@@ -478,6 +478,38 @@ Do you want to View in Browser now?
                 editor?.ProcessEditorUpdateCommand(action);
             }, null);
         }
+        #endregion
+
+        #region Open Document Operations
+
+        public CommandBase CopyFolderToClipboardCommand { get; set; }
+
+        void CopyFolderToClipboard()
+        {
+            CopyFolderToClipboardCommand = new CommandBase((parameter, command) =>
+            {
+                var editor = Model.ActiveEditor;
+                if (editor == null)
+                    return;
+
+                if (editor.MarkdownDocument.Filename == "untitled")
+                    return;
+
+                string path = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
+
+                try
+                {
+                    Clipboard.SetText(path);
+                    Model.Window.ShowStatus($"Path copied to clipboard: {path}", 6000);
+                }
+                catch
+                {
+                    Model.Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                    Model.Window.ShowStatus("Clipboard failure: Failed copy foldername to clipboard.", 6000);
+                }
+            }, (p, c) => true);
+        }
+
         #endregion
 
 

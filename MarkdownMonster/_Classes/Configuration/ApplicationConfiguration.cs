@@ -174,8 +174,8 @@ namespace MarkdownMonster
         /// specified. 0 turns this feature off.
         /// </summary>
         public bool AutoSaveBackups { get; set; }
-
-
+        
+        
         /// <summary>
         /// Determines whether the Preview browser always does a full 
         /// refresh when the preview is updated. Normally MM tries to

@@ -64,7 +64,7 @@
             <MenuItem Name="ContextCommitToGit" Header="Commit and Push to _Git"
                       Command="{Binding DataContext.CommitToGitCommand}"   />
             <Separator/>
-            <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Click="Button_CopyFoldername" />
+            <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Command="{Binding DataContext.Commands.CopyFolderToClipboardCommand}" />
         </ContextMenu>
         
         <ContextMenu x:Key="ContextMenuRecentFiles">
@@ -260,7 +260,10 @@
                 <Separator/>
                 <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Command="{Binding CommitToGitCommand}" IsEnabled="{Binding IsEditorActive}" 
                           ToolTip="Commits the open document to Git and tries to push to the active remote branch." />
-                <MenuItem Name="MenuCopyFoldername" Header="Copy Foldername" ToolTip="Copy the document's foldername to the Clipboard" Click="Button_CopyFoldername"  IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="MenuCopyFoldername" Header="Copy Foldername" 
+                          ToolTip="Copy the document's foldername to the Clipboard" 
+                          Command="{Binding Commands.CopyFolderToClipboardCommand}"
+                          IsEnabled="{Binding IsEditorActive}" />
                 <Separator/>
                 <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
             </MenuItem>

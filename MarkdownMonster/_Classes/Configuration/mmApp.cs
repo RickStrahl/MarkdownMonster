@@ -163,7 +163,14 @@ namespace MarkdownMonster
             if (Configuration.SendTelemetry &&  Telemetry.UseApplicationInsights && AppInsights != null)
             {
                 var t = AppRunTelemetry.Telemetry;
-				t.Properties.Add("usage", Configuration.ApplicationUpdates.AccessCount.ToString());
+
+                // multi-instance shutdown - ignore
+                if (t.Properties.ContainsKey("usage"))
+                {
+                    return;
+                }
+
+                t.Properties.Add("usage", Configuration.ApplicationUpdates.AccessCount.ToString());
 	            t.Properties.Add("registered", UnlockKey.IsRegistered().ToString());
 				t.Properties.Add("version", GetVersion());
 	            t.Properties.Add("dotnetversion", ComputerInfo.GetDotnetVersion());
