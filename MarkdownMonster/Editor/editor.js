@@ -110,7 +110,8 @@ var te = window.textEditor = {
             
             "ctrl-b": function() { te.specialkey("ctrl-b"); },
             "ctrl-i": function () { te.specialkey("ctrl-i"); },
-            
+
+            // delete line
             "shift-del": te.deleteCurrentLine,
 
             // take over Zoom keys and manually zoom
@@ -130,6 +131,7 @@ var te = window.textEditor = {
             "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
             "ctrl-shift-v": function () { te.specialkey("ctrl-shift-v"); },
 
+            // remove markdown formatting
             "ctrl-shift-z": function () { te.specialkey("ctrl-shift-z"); },
 
             // Capture paste operation in WPF to handle Images
@@ -198,35 +200,6 @@ var te = window.textEditor = {
             },
             10);
         te.editor.session.on("changeScrollTop", changeScrollTop);
-
-  //      // special selections for images code and links
-  //      te.editor.on('mousedown', function (e) {
-  //          if (e.domEvent.which != 3) return;
-
-  //          var text = te.getselection();
-  //          var markdown = null;
-  //          var handled = false;
-  //          if (text.startsWith("![") && text.endsWith(")")) {
-  //              markdown = te.editorSelectionOperation("image", text);
-  //              handled = true;
-  //          } else if (text.startsWith("[") && text.endsWith(")")) {
-  //              markdown = te.editorSelectionOperation("link", text);
-  //              handled = true;
-  //          } else if (text.startsWith("```") && text.endsWith("```")) {
-  //              markdown = te.editorSelectionOperation("code", text);
-  //              handled = true;     
-  //          }
-  //          if (handled) {
-  //              e.preventDefault();
-		//		e.stopPropagation();
-		//		return false;
-  //          }
-  //          if (markdown != null)
-  //              te.setselection(markdown);
-		//});
-
-	    
-		
         return editor;
     },
     initializeeditor: function() {
@@ -387,7 +360,13 @@ var te = window.textEditor = {
         range.setEnd({ row: endRow, column: endColumn });
         sel.setSelectionRange(range);       
     },
-    deleteCurrentLine: function () {        
+    deleteCurrentLine: function () {
+        var sel = te.getselection();
+        if (sel) {
+            te.setselection("");
+            return;
+        }
+
         te.editor.selection.selectLine();
         te.editor.removeLines();        
     },
@@ -694,8 +673,8 @@ window.onmousewheel = function(e) {
 // Let browser navigate events handle drop operations
 // in the WPF host application
 // handle file browser dragged files dropped
-// *** Don't Remove! Explorer dragging captures navigation
-//     this captures requests from Filebrowser
+// *** Don't Remove! Explorer dragging captures navigation event in WPF
+//     This captures requests from the Filebrowser
  window.ondrop =
  	function (e) {
  		// these don't really have any effect'
@@ -713,27 +692,13 @@ window.onmousewheel = function(e) {
              setTimeout(function () {
                      // embed the image or open the file
                      te.mm.textbox.EmbedDroppedFileAsImage(file);
-                 },
-                 1);
+                 }, 1);
 
              te.setselection(''); // collapse and remove file name dragged into doc
 
              return false;
-         } 
-      //   // any file with an extension - try to open it if supported
-      //   if (file && /\..\w*$/.test(file)) {             
-	     //    //// IE will *ALWAYS* drop the file text but selects the drops text
-	     //    //// delay and the collapse selection and let
-	     //    //// WPF paste the image expansion
-	     //    setTimeout(function () {
-	     //            te.mm.textbox.OpenDroppedFile(file);
-	     //        },
-	     //        1);
-
-	     //    te.setselection(''); // collapse selection
-	     //    return false;
-	     //} 
-     };
+         }  
+    };
 // window.ondragstart = function (e) {    
 //     e.dataTransfer.effectAllowed = 'all';  
 // }
@@ -771,6 +736,10 @@ function status(msg) {
         setTimeout(function() { $("#message").fadeOut() }, 5000);
     }
 }
+
+
+
+/* ** Helpers  ** */
 
 function debounce(func, wait, immediate) {
     var timeout;
