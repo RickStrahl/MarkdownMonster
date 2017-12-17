@@ -639,17 +639,6 @@ namespace MarkdownMonster
 
 			if (mmApp.Configuration.RememberLastDocumentsLength > 0)
 			{
-				var documents = TabControl.GetOrderedHeaders().Select(itm =>
-				{
-					var item = itm.Content as TabItem;
-					var editor = item?.Tag as MarkdownDocumentEditor;
-
-					if (editor == null)
-						return null;
-
-					return new {Editor = editor, Document = editor.MarkdownDocument};
-				});
-
 				foreach (var recentDocument in config.RecentDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength))
 				{
 					var editor = getTabItemByFileName(recentDocument)?.Tag as MarkdownDocumentEditor;

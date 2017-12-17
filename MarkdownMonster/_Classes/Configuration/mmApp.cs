@@ -48,8 +48,8 @@ namespace MarkdownMonster
 
         public static DateTime Started { get; set; }
 
-        public static string AllowedFileExtensions =
-            ",.md,.markdown,.txt,.htm,.html,.xml,.json,.js,.ts,.css,.ps1,.bat,.cs,.prg,.config,";
+        public static string AllowedFileExtensions { get; } =
+            ",.md,.markdown,.txt,.htm,.html,.xml,.json,.js,.ts,.css,.ps1,.bat,.cs,.prg,.config,.ini";
 
 
         /// <summary>
