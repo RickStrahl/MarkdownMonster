@@ -753,20 +753,30 @@ namespace MarkdownMonster.Windows
         private DateTime LastClickTime;
         private PathItem LastItem;
 
+        /// <summary>
+        /// Handle edit click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextFileOrFolderName_MouseUpToEdit(object sender, MouseButtonEventArgs e)
         {
-            var selected = TreeFolderBrowser.SelectedItem as PathItem;
-            var t = DateTime.Now;
+            // only 
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                var t = DateTime.Now;
 
-            
-            if (t >= LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime + 20) &&
-                t <= LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime + SystemInformation.DoubleClickTime))
-            {                
-                if (selected == LastItem)
-                    MenuRenameFile_Click(null, null);
+                if (LastItem == selected)
+                {
+                    if (t >= LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime + 100) &&
+                        t <= LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime * 2 + 100))
+                    {
+                            MenuRenameFile_Click(null, null);
+                    }
+                }
+                LastItem = selected;
+                LastClickTime = t;
             }
-            LastItem = selected;
-            LastClickTime = t;
         }
 
         private void TextEditFileItem_LostFocus(object sender, RoutedEventArgs e)

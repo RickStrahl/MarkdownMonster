@@ -29,7 +29,7 @@ namespace MarkdownMonster.Utilities
 
         static AssociatedIcons()
         {
-            DefaultIcon = new BitmapImage(new Uri("pack://application:,,,/MarkdownMonster;component/Assets/default_file.png"));         
+            DefaultIcon = new BitmapImage(new Uri("pack://application:,,,/MarkdownMonster;component/Assets/default_file.png"));            
         }
 
         /// <summary>
@@ -41,6 +41,8 @@ namespace MarkdownMonster.Utilities
         {
             if (string.IsNullOrEmpty(filename))
                 return DefaultIcon;
+
+            // TODO: add folder
 
             // check 'special files' files first
             var justFile = Path.GetFileName(filename);
@@ -112,12 +114,13 @@ namespace MarkdownMonster.Utilities
 
         public static Dictionary<string, string> ExtensionToImageMappings { get; } = new Dictionary<string, string>() {
 
-                      // Whole Files
+            // Whole Files
             { "package.json", "npm" },
             { "package-lock.json", "package" },
             { "bower.json", "package" },
             { "license.txt", "license" },
             { "favicon.ico", "favicon" },
+            { "folder.folder", "folder" }, // special case
 
             // dev config files
             { "license","license" },

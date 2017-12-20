@@ -6,7 +6,7 @@ namespace MarkdownMonster.Windows
 {
 	public class FolderStructure
 	{
-	    private AssociatedIcons icons = new AssociatedIcons();
+	    private static AssociatedIcons icons = new AssociatedIcons();
 
 		/// <summary>
 		/// Gets a folder hierarchy
@@ -24,21 +24,26 @@ namespace MarkdownMonster.Windows
 
 			if (parentPathItem == null)
 			{
-				activeItem = new PathItem
-				{					
-					FullPath = baseFolder,
-					IsFolder = true
-				};
-				parentPathItem = activeItem;				
+                activeItem = new PathItem
+                {
+                    FullPath = baseFolder,
+                    IsFolder = true
+                };
+			    if (mmApp.Configuration.FolderBrowser.ShowIcons)
+			        activeItem.Icon = icons.GetIconFromFile("folder.folder"); // special case
+                parentPathItem = activeItem;				
 			}			
 			else
 			{
 				activeItem = new PathItem { FullPath=baseFolder, IsFolder = true, Parent = parentPathItem};
-				parentPathItem.Files.Add(activeItem);				
+			    if (mmApp.Configuration.FolderBrowser.ShowIcons)
+			        activeItem.Icon = icons.GetIconFromFile("folder.folder"); // special case
+
+                parentPathItem.Files.Add(activeItem);				
 			}
 
 
-			string[] folders = null;
+            string[] folders = null;
 			
 			try
 			{
@@ -63,8 +68,17 @@ namespace MarkdownMonster.Windows
 				    if (!nonRecursive)
 				        GetFilesAndFolders(folder, activeItem, skipFolders);
 				    else
-				    {				        
-				        activeItem.Files.Add(new PathItem { FullPath = folder, IsFolder = true, Parent = activeItem } );
+				    {
+				        var folderPath = new PathItem
+				        {
+				            FullPath = folder,
+				            IsFolder = true,
+				            Parent = activeItem
+				        };
+				        if (mmApp.Configuration.FolderBrowser.ShowIcons)
+				            folderPath.Icon = icons.GetIconFromFile("folder.folder"); // special case
+
+                        activeItem.Files.Add(folderPath);
 				    }
 				}			
 			}

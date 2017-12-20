@@ -51,7 +51,7 @@ namespace MarkdownMonster.Windows
 			{
 				if (value == _isFolder) return;
 				_isFolder = value;
-				OnPropertyChanged();
+                OnPropertyChanged();
 				OnPropertyChanged(nameof(DisplayName));				
 			}
 		}
@@ -150,7 +150,7 @@ namespace MarkdownMonster.Windows
 	        set
 	        {
 	            if (Equals(value, _icon)) return;
-	            _icon = value;
+	            _icon = value;	     
 	            OnPropertyChanged(nameof(Icon));
 	        }
 	    }

@@ -12,6 +12,9 @@ Added menu option and Ctrl-Shift-Z shortcut to remove Markdown formatting from a
 * **Shift-Del to delete current Line**   
 Added support for `Shift-Delete` to support removing the current line like Visual Studio/Code.
 
+* **Add Folder Icons to Folder Browser**   
+The folder browser now displays folder icons in addition to the expand/collapse arrows to avoid confusion over indentation level.
+
 * **Fix: Multi-page Selection Issue fixed**  
 Fixed regression bug caused by recent addition of scroll syncing from editor to preview. Code fix now checks if a selection is active, and if it is doesn't scroll preview.
 
