@@ -3,8 +3,8 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.8.3
-*<small>not released yet</small>*
+### 1.8.4
+*<small>December 20th, 2017</small>*
 
 * **Remove Markdown Formatting**  
 Added menu option and Ctrl-Shift-Z shortcut to remove Markdown formatting from a selection of text in a Markdown document.
