@@ -42,9 +42,15 @@ namespace MarkdownMonster.Windows
 
 
 
-        public DataTable TableData
+        public ObservableCollection<ObservableCollection<string>> TableData
         {
-            get { return _tableData; }
+            get
+            {
+                if (_tableData == null)
+                    _tableData = new ObservableCollection<ObservableCollection<string>>();
+
+                return _tableData;
+            }
             set
             {
                 if (Equals(value, _tableData)) return;
@@ -52,7 +58,7 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged();
             }
         }
-        private DataTable _tableData;
+        private ObservableCollection<ObservableCollection<string>> _tableData;
 
         public string TableHeaders
         {
@@ -99,66 +105,34 @@ namespace MarkdownMonster.Windows
 
         private void CreateTable()
         {
-            var cols = TableHeaders.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-            TableData = new DataTable();
-            foreach (var col in cols)
-            {
-                TableData.Columns.Add(StringUtils.RandomString(5,false));
-            }                        
+            //var cols = TableHeaders.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            
+            //foreach (var col in cols)
+            //{
+            //    TableData.Columns.Add(StringUtils.RandomString(5,false));
+            //}                        
         }
 
         private void CreateInitialTableData()
         {
             TableHeaders = "Column1,Column2,Column3";
-            CreateTable();
             
-            var row = TableData.NewRow();
-            row[0] = "Column1";
-            row[1] = "Column2";
-            row[2] = "Column3";
-            TableData.Rows.Add(row);
-
-            row = TableData.NewRow();
-            row[0] = "Column 4";
-            row[1] = "Column 5";
-            row[2] = "Column 6";
-            TableData.Rows.Add(row);
-
+            TableData.Clear();
+            TableData.Add(new ObservableCollection<string>
+            {
+                "Column 1",
+                "Column 2",
+                "Column 3",
+            });
+            TableData.Add(new ObservableCollection<string>
+            {
+                "Column 4",
+                "Column 5",
+                "Column 6",
+            });
             BindTable();
         }
-
-        private void SetTableHtmlFromData()
-        {
-            var headers = TableHeaders.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-            StringBuilder sb = new StringBuilder();
-
-            string line = "| ";
-            foreach (var header in headers)
-            {
-                line += $"{header} | ";
-            }
-
-            sb.AppendLine(line.Trim());
-
-            sb.Append("|");
-            for (int i = 0; i < line.Length + 4 * headers.Length; i++ ) 
-                sb.Append("-");
-            sb.AppendLine("|");
-            
-            foreach (DataRow row in TableData.Rows)
-            {
-                line = "| ";
-                foreach (DataColumn col in TableData.Columns)
-                {
-                    line += $"{row[col]} | ";
-                }
-
-                sb.AppendLine(line.Trim());
-            }
-
-            TableHtml = sb.ToString();
-        }
+        
 
 
         private void BindTable()
@@ -169,18 +143,14 @@ namespace MarkdownMonster.Windows
             
             var headers = TableHeaders.Split(new char [] { ',', ';'}, StringSplitOptions.RemoveEmptyEntries );
             DataGridTableContent.Columns.Clear();
-
             
-            for (int i = 0; i < TableData.Columns.Count; i++)
-
-            {
-                var fieldname = TableData.Columns[i].ColumnName;
-
+            for (int i = 0; i < TableData.Count; i++)
+            {                
                 var header = headers[i];
-                var binding = new Binding(fieldname);
+                var binding = new Binding($"[{i}]");
                 binding.Mode = System.Windows.Data.BindingMode.OneWay;
 
-                var binding2 = new Binding(fieldname);
+                var binding2 = new Binding($"[{i}]");
                 binding2.Mode = System.Windows.Data.BindingMode.Default;
                 
                 var col = new DataGridTextColumn();
@@ -211,9 +181,9 @@ namespace MarkdownMonster.Windows
         {
             if (sender == ButtonOk)
             {
-                SetTableHtmlFromData();
+                var parser = new TableParser();
+                TableHtml = parser.ParseDataToHtml(TableData, TableHeaders);                
                 Close();
-
             }
             else
             {

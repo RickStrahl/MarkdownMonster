@@ -150,6 +150,7 @@
     <Compile Include="Windows\TableEditor\TableEditor.xaml.cs">
       <DependentUpon>TableEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\TableEditor\TableParser.cs" />
     <Compile Include="_Classes\PreviewWebBrowser.cs" />
     <Compile Include="Windows\EmojiWindow.xaml.cs">
       <DependentUpon>EmojiWindow.xaml</DependentUpon>

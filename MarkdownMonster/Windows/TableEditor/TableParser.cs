@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -10,69 +11,78 @@ namespace MarkdownMonster.Windows
 {
     public class TableParser
     {
+
+
         public string TableHeaders { get; set; }
-        public DataTable TableData { get; set; }
 
-        public DataTable CreateDataTable(string columnHeaders)
+        /// <summary>
+        /// Maximum column width that's to be padded.
+        /// If greater values are rendering ragged
+        /// </summary>
+        public int MaxColumnWidth { get; set; } = 50;
+
+
+        private ObservableCollection<ObservableCollection<string>> _tableData;
+
+        public ObservableCollection<ObservableCollection<string>> TableData
         {
-            var cols = columnHeaders.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-            var tableData = new DataTable();
-            foreach (var col in cols)
+            get
             {
-                tableData.Columns.Add(StringUtils.RandomString(5, false));
+                if (_tableData == null)
+                    _tableData = new ObservableCollection<ObservableCollection<string>>();
+                return _tableData;
             }
-
-            TableData = tableData;
-            TableHeaders = columnHeaders;
-
-            return tableData;
+            set { _tableData = value; }
         }
-
+        
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="tableData"></param>
         /// <returns></returns>
-        public string ParseDataTableToHtml(DataTable table = null, string tableHeaders=null)
+        public string ParseDataToHtml(ObservableCollection<ObservableCollection<string>> tableData = null, string tableHeaders=null)
         {
-            if (table == null)
-                table = TableData;
+            if (tableData == null)
+                tableData = TableData;
 
-            if (table == null)
+            if (tableData == null || tableData.Count < 1)
                 return string.Empty;
 
-            StringBuilder sb = new StringBuilder();
-            if (string.IsNullOrEmpty(tableHeaders))
-            {                
-                foreach (DataColumn col in table.Columns)
-                    sb.Append(col.ColumnName + ",");
-
-                tableHeaders = sb.ToString().TrimEnd(new char[] {',', ' '});
+            for (int i = tableData.Count-1; i > -1; i--)
+            {
+                if (tableData[i] == null || tableData[i].Count == 0)
+                    tableData.Remove(tableData[i]);
             }
 
-            var headers = tableHeaders.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+            var columnInfo = GetColumnInfo(tableData, tableHeaders);         
 
+            StringBuilder sb = new StringBuilder();                        
             sb.Clear();
 
-            string line = "| ";
-            foreach (var header in headers)
+            string line = "\n| ";
+            for (int i = 0; i < columnInfo.Count; i++)
             {
-                line += $"{header} | ";
+                var colInfo = columnInfo[i];                
+                line += $"{colInfo.Title.PadRight(colInfo.MaxWidth)} | ";
             }
+            sb.AppendLine(line.TrimEnd());
 
-            sb.AppendLine(line.Trim());
-
+            
             sb.Append("|");
-            for (int i = 0; i < line.Length + 4 * headers.Length; i++)
+            for (int i = 0; i < line.Length-4; i++)
                 sb.Append("-");
             sb.AppendLine("|");
 
-            foreach (DataRow row in table.Rows)
+            foreach (var row in tableData)
             {
                 line = "| ";
-                foreach (DataColumn col in table.Columns)
+                for (int i = 0; i < row.Count; i++)
                 {
-                    line += $"{row[col]} | ";
+                    string col = row[i];
+                    col = col.Replace("\n", "<br>").Replace("\r", "");
+
+                    var colInfo = columnInfo[i];
+                    line += col.PadRight(colInfo.MaxWidth) + " | ";
                 }
 
                 sb.AppendLine(line.Trim());
@@ -81,6 +91,38 @@ namespace MarkdownMonster.Windows
             return sb.ToString();
         }
 
+        public List<ColumnInfo> GetColumnInfo(ObservableCollection<ObservableCollection<string>> data, string tableHeaders)
+        {
+            var cols = new List<ColumnInfo>();
+            var headers = tableHeaders.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
 
+            for (int i = 0; i < headers.Length; i++)
+            {
+                var header = headers[i];
+                var colInfo = new ColumnInfo
+                {
+                    Title = header,
+                    MaxWidth = header.Length
+                };
+               
+
+
+                var maxWidth = data.Max(d => d[i].Length);
+                if (maxWidth > colInfo.MaxWidth)
+                    colInfo.MaxWidth = maxWidth;
+                if (colInfo.MaxWidth > MaxColumnWidth)
+                    colInfo.MaxWidth = MaxColumnWidth;
+
+                cols.Add(colInfo);
+            }
+
+            return cols;
+        }
+    }
+
+    public class ColumnInfo
+    {
+        public string Title;
+        public int MaxWidth;        
     }
 }

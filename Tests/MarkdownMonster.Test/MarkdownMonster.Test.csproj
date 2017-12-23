@@ -89,6 +89,7 @@
     <Compile Include="ClipboardTests.cs" />
     <Compile Include="MarkdownParserFactoryTest.cs" />
     <Compile Include="mmAppTests.cs" />
+    <Compile Include="TableEditorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

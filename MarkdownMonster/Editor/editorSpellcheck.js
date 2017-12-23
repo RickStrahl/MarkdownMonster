@@ -15,7 +15,7 @@ var sc = window.spellcheck = {
     spellCheck: function() {},
     dictionary: null, // Typo instance
     markers: [],
-    excludedWords: ",div,span,td,th,tr,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,http,https,---,--,----",
+    excludedWords: ",div,span,td,th,tr,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,http,https,---,--",
     clearMarkers: function() {
         for (var i in sc.markers) {
             te.editor.session.removeMarker(sc.markers[i]);
@@ -109,7 +109,7 @@ var sc = window.spellcheck = {
             var bads = [];
             for (var wordIndex in words) {
                 var word = words[wordIndex] + "";
-                if (word && word == skipWord)
+                if (word && (word == skipWord || word.indexOf("--") > -1))
                     continue;
 
                 // only use words without special characters
@@ -187,6 +187,8 @@ var sc = window.spellcheck = {
                         
                         }
                         if (!isCodeBlock && !isFrontMatter) {
+
+                            // skip word we're typing right now
                             var skipWord = null;
                             if (curPos.row === line)                                 
                                 skipWord = te.editor.session.getTextRange(te.editor.session.getAWordRange(curPos.row, curPos.column));                            
