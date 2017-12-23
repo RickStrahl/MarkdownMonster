@@ -39,12 +39,12 @@ namespace MarkdownMonster.Windows
         }
         
 
-        public ObservableCollection<ObservableCollection<ColumnText>> TableData
+        public ObservableCollection<ObservableCollection<CellContent>> TableData
         {
             get
             {
                 if (_tableData == null)
-                    _tableData = new ObservableCollection<ObservableCollection<ColumnText>>();
+                    _tableData = new ObservableCollection<ObservableCollection<CellContent>>();
 
                 return _tableData;
             }
@@ -55,7 +55,7 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<ObservableCollection<ColumnText>> _tableData;
+        private ObservableCollection<ObservableCollection<CellContent>> _tableData;
 
         public string TableHeaders
         {
@@ -115,17 +115,23 @@ namespace MarkdownMonster.Windows
             TableHeaders = "Column1,Column2,Column3";
             
             TableData.Clear();
-            TableData.Add(new ObservableCollection<ColumnText>
+            TableData.Add(new ObservableCollection<CellContent>
             {
-                new ColumnText("Column 1"),
-                new ColumnText("Column 2"),
-                new ColumnText("Column 3")
+                new CellContent("Header 1"),
+                new CellContent("Header 2"),
+                new CellContent("Header 3")
             });
-            TableData.Add(new ObservableCollection<ColumnText>
+            TableData.Add(new ObservableCollection<CellContent>
             {
-                new ColumnText("Column 4"),
-                new ColumnText("Column 5"),
-                new ColumnText("Column 6")
+                new CellContent("Column 1"),
+                new CellContent("Column 2"),
+                new CellContent("Column 3")
+            });
+            TableData.Add(new ObservableCollection<CellContent>
+            {
+                new CellContent("Column 4"),
+                new CellContent("Column 5"),
+                new CellContent("Column 6")
             });
             BindTable();
         }
@@ -134,31 +140,36 @@ namespace MarkdownMonster.Windows
 
         private void BindTable()
         {
-            var editStyle = DataGridTableContent.Resources["GridTextboxStyle"] as Style;
-            var displayStyle = DataGridTableContent.Resources["GridTextblockStyle"] as Style;
-            
-            
-            var headers = TableHeaders.Split(new char [] { ',', ';'}, StringSplitOptions.RemoveEmptyEntries );
-            DataGridTableContent.Columns.Clear();
-            
-            for (int i = 0; i < TableData[0].Count; i++)
-            {                
-                var header = headers[i];
-                //var binding = new Binding($"[{i}]");
-                //binding.Mode = System.Windows.Data.BindingMode.OneWay;
+            DataGridTableEditor.TableSource = TableData;
 
-                var binding2 = new Binding($"[{i}].Text");
-                binding2.Mode = System.Windows.Data.BindingMode.TwoWay;
+
+            //var editStyle = DataGridTableContent.Resources["GridTextboxStyle"] as Style;
+            //var displayStyle = DataGridTableContent.Resources["GridTextblockStyle"] as Style;
+            
+            
+            //var headers = TableHeaders.Split(new char [] { ',', ';'}, StringSplitOptions.RemoveEmptyEntries );
+            //DataGridTableContent.Columns.Clear();
+            
+            //for (int i = 0; i < TableData[0].Count; i++)
+            //{                
+            //    var header = headers[i];
+            //    var column = TableData[0][i];
                 
-                var col = new DataGridTextColumn();
-                col.Binding = binding2;
-                col.Header = header;
-                col.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-                col.EditingElementStyle = editStyle;
-                col.ElementStyle = displayStyle;
+            //    var binding = new Binding("Text")
+            //    {
+            //        Source = column,
+            //        Mode = System.Windows.Data.BindingMode.TwoWay
+            //    };
 
-                DataGridTableContent.Columns.Add(col);                
-            }
+            //    var col = new DataGridTextColumn();
+            //    col.Binding = binding;
+            //    col.Header = header;
+            //    col.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+            //    col.EditingElementStyle = editStyle;
+            //    col.ElementStyle = displayStyle;
+
+            //    DataGridTableContent.Columns.Add(col);                
+            //}
         }
 
         private void Column_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)

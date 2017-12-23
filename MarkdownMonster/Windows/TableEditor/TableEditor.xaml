@@ -9,6 +9,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:si="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:mmwindows="clr-namespace:MarkdownMonster.Windows"
         mc:Ignorable="d"
         Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Embed Link"
@@ -19,35 +20,44 @@
         FontSize="15"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="900" Height="700">
-
     <Grid Margin="30,20">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel>
-            <Label>Enter comma-delimited list of table headers:</Label>
-            <TextBox Name="TextLinkText" Grid.Column="0"  Text="{Binding TableHeaders}"  
-                     HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  FontSize="15" 
-                     ToolTip="Set the link text for the link."/>
-        </StackPanel>
 
 
-        <DataGrid Name="DataGridTableContent"                   
+
+        <mmwindows:GridTable x:Name="DataGridTableEditor" Grid.Row="0">
+            <mmwindows:GridTable.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="Padding" Value="8"/>
+                    <Setter Property="Margin" Value="0,0,-1,-1"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                    <Setter Property="AcceptsReturn" Value="True"/>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                    <!--<Setter Property="mmwindows:Ex.SelectOnEntry" Value="True"/>-->
+                </Style>
+            </mmwindows:GridTable.Resources>
+        </mmwindows:GridTable>
+
+        <!--<DataGrid Name="DataGridTableContent"                   
                   ItemsSource="{Binding TableData}"  Grid.Row="1"
                   Background="#555"                     
                   CanUserAddRows="True" CanUserReorderColumns="True"
                   Margin="0,15" BorderThickness="1" BorderBrush="#999"                  
                   IsReadOnly="False"  AutoGenerateColumns="False">
             
-            <!--<DataGrid.CellStyle>
+            --><!--<DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     --><!--<Setter Property="IsTabStop" Value="False" />-->
                     <!--<Setter Property="Focusable" Value="False" />--><!--
                 </Style>
-            </DataGrid.CellStyle>-->
+            </DataGrid.CellStyle>--><!--
 
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
@@ -73,10 +83,10 @@
                 </ResourceDictionary>
             </DataGrid.Resources>
 
-        </DataGrid>
+        </DataGrid>-->
 
-        
-        <StackPanel Orientation="Horizontal" Grid.Row="2">
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
             <Button Name="ButtonOk" Margin="0,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"  IsDefault="True"
                     Click="Button_Click">
                 <StackPanel Orientation="Horizontal">

@@ -147,6 +147,7 @@
     <Compile Include="Windows\PreviewBrowser\PreviewBrowserWindow.xaml.cs">
       <DependentUpon>PreviewBrowserWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\TableEditor\GridTable.cs" />
     <Compile Include="Windows\TableEditor\TableEditor.xaml.cs">
       <DependentUpon>TableEditor.xaml</DependentUpon>
     </Compile>

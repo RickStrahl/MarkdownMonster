@@ -25,14 +25,14 @@ namespace MarkdownMonster.Windows
         public int MaxColumnWidth { get; set; } = 40;
 
 
-        private ObservableCollection<ObservableCollection<ColumnText>> _tableData;
+        private ObservableCollection<ObservableCollection<CellContent>> _tableData;
 
-        public ObservableCollection<ObservableCollection<ColumnText>> TableData
+        public ObservableCollection<ObservableCollection<CellContent>> TableData
         {
             get
             {
                 if (_tableData == null)
-                    _tableData = new ObservableCollection<ObservableCollection<ColumnText>>();
+                    _tableData = new ObservableCollection<ObservableCollection<CellContent>>();
                 return _tableData;
             }
             set { _tableData = value; }
@@ -43,7 +43,7 @@ namespace MarkdownMonster.Windows
         /// </summary>
         /// <param name="tableData"></param>
         /// <returns></returns>
-        public string ParseDataToHtml(ObservableCollection<ObservableCollection<ColumnText>> tableData = null, string tableHeaders=null)
+        public string ParseDataToHtml(ObservableCollection<ObservableCollection<CellContent>> tableData = null, string tableHeaders=null)
         {
             if (tableData == null)
                 tableData = TableData;
@@ -94,7 +94,7 @@ namespace MarkdownMonster.Windows
             return sb + "\n";
         }
 
-        public List<ColumnInfo> GetColumnInfo(ObservableCollection<ObservableCollection<ColumnText>> data, string tableHeaders)
+        public List<ColumnInfo> GetColumnInfo(ObservableCollection<ObservableCollection<CellContent>> data, string tableHeaders)
         {
             var cols = new List<ColumnInfo>();
             var headers = tableHeaders.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
@@ -127,60 +127,6 @@ namespace MarkdownMonster.Windows
         public int MaxWidth;        
     }
 
-    public class ColumnText : INotifyPropertyChanged
-    {
-        public string Text 
-        {
-            get { return _text; }
-            set
-            {
-                if (value == _text) return;
-                _text = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _text;
 
-        
-
-        public int Row
-        {
-            get { return _row; }
-            set
-            {
-                if (value == _row) return;
-                _row = value;
-                OnPropertyChanged();
-            }
-        }
-        private int _row;
-
-        
-
-        public int Column
-        {
-            get { return _column; }
-            set
-            {
-                if (value == _column) return;
-                _column = value;
-                OnPropertyChanged();
-            }
-        }
-        private int _column;
-
-        public ColumnText(string text)
-        {
-            Text = text;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
 
 }
