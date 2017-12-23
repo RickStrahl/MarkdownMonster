@@ -387,6 +387,16 @@ namespace MarkdownMonster
                 if (string.IsNullOrEmpty(input))
                     html = html.TrimEnd() + " ";  // strip off LF
             }
+            else if (action == "table")
+            {
+                var form = new TableEditor();
+                form.Owner = Window;
+                form.ShowDialog();
+
+                if (!form.Cancelled)
+                    html = form.TableHtml;
+            }
+
             else if (action == "emoji")
             {
                 var form = new EmojiWindow();

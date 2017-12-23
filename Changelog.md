@@ -6,7 +6,7 @@
 ### 1.8.4
 *<small>December 20th, 2017</small>*
 
-* **Remove Markdown Formatting**  
+* **Remove Markdown Formatting**   
 Added menu option and Ctrl-Shift-Z shortcut to remove Markdown formatting from a selection of text in a Markdown document.
 
 * **Shift-Del to delete current Line**   

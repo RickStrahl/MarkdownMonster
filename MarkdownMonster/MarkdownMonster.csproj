@@ -147,6 +147,9 @@
     <Compile Include="Windows\PreviewBrowser\PreviewBrowserWindow.xaml.cs">
       <DependentUpon>PreviewBrowserWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\TableEditor\TableEditor.xaml.cs">
+      <DependentUpon>TableEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_Classes\PreviewWebBrowser.cs" />
     <Compile Include="Windows\EmojiWindow.xaml.cs">
       <DependentUpon>EmojiWindow.xaml</DependentUpon>
@@ -347,6 +350,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\TableEditor\TableEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -524,6 +531,12 @@
     <None Include="PreviewThemes\Scripts\highlightjs\styles\vs2015.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="Editor\table-editor.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Editor\table-editor.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="PreviewThemes\Westwind\Theme.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -981,6 +994,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1290,7 +1290,7 @@ namespace MarkdownMonster
 
                 FolderBrowserColumn.Width = new GridLength(mmApp.Configuration.FolderBrowser.WindowWidth);
                 FolderBrowserSeparatorColumn.Width = new GridLength(14);
-                mmApp.Configuration.FolderBrowser.Visible = true;
+                mmApp.Configuration.FolderBrowser.Visible = true;                
             }
         }
         #endregion

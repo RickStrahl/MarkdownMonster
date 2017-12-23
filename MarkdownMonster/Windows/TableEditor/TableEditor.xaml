@@ -1,0 +1,98 @@
+﻿<controls:MetroWindow  x:Class="MarkdownMonster.Windows.TableEditor"                      
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:si="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        mc:Ignorable="d"
+        Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
+        Title="Embed Link"
+        TitleCharacterCasing="Normal"
+        TitlebarHeight="35"                       
+        WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
+        WindowStartupLocation="CenterOwner" 
+        FontSize="15"
+        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
+        Width="900" Height="700">
+
+    <Grid Margin="30,20">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <Label>Enter comma-delimited list of table headers:</Label>
+            <TextBox Name="TextLinkText" Grid.Column="0"  Text="{Binding TableHeaders}"  
+                     HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  FontSize="15" 
+                     ToolTip="Set the link text for the link."/>
+        </StackPanel>
+
+
+        <DataGrid Name="DataGridTableContent"                   
+                  ItemsSource="{Binding TableData}"  Grid.Row="1"
+                  Background="#555"                     
+                  Margin="0,15" BorderThickness="1" BorderBrush="#999"
+                  
+                  IsReadOnly="False"  AutoGenerateColumns="False">
+            
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <!--<Setter Property="IsTabStop" Value="False" />-->
+                    <!--<Setter Property="Focusable" Value="False" />-->
+                </Style>
+            </DataGrid.CellStyle>
+            
+            
+
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#444" />
+                    <Setter Property="BorderBrush" Value="#222" />
+                    <Setter Property="Padding" Value="7" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.Resources>
+                <ResourceDictionary>
+                    <Style TargetType="TextBlock"  x:Key="GridTextblockStyle">
+                        <Setter Property="TextWrapping" Value="Wrap" />
+                        <Setter Property="Padding" Value="10" />
+                    </Style>
+                    <Style TargetType="TextBox"  x:Key="GridTextboxStyle">
+                        <Setter Property="TextWrapping" Value="Wrap" />
+                        <Setter Property="Padding" Value="10" />
+                    </Style>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
+                                     Color="SteelBlue"/>
+                </ResourceDictionary>
+            </DataGrid.Resources>
+
+        </DataGrid>
+
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <Button Name="ButtonOk" Margin="0,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"  IsDefault="True"
+                    Click="Button_Click">
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome  Icon="Upload"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                    <TextBlock Margin="10,0,0,0" FontSize="14">Paste Table</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button Name="ButtonCancel" Margin="10,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" IsCancel="True"
+                    Click="Button_Click">
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
+                    <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>
