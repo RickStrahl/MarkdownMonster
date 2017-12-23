@@ -101,6 +101,8 @@ namespace MarkdownMonster.Windows
                     Grid.SetRow(columnText, rowCount);
                     columnCounter++;
 
+                    columnText.SpellCheck.IsEnabled = true;
+
                     columnText.KeyUp += KeyUpAndDownHandler;
                 }
                 rowCount++;

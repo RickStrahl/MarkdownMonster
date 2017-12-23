@@ -143,6 +143,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\EditorContextMenu.cs" />
+    <Compile Include="Controls\SelectOnEntryExtension.cs" />
     <Compile Include="Windows\PreviewBrowser\IPreviewBrowser.cs" />
     <Compile Include="Windows\PreviewBrowser\PreviewBrowserWindow.xaml.cs">
       <DependentUpon>PreviewBrowserWindow.xaml</DependentUpon>

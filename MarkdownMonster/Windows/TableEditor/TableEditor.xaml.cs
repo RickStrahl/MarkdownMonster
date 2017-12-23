@@ -38,7 +38,6 @@ namespace MarkdownMonster.Windows
             }
         }
         
-
         public ObservableCollection<ObservableCollection<CellContent>> TableData
         {
             get
@@ -56,6 +55,21 @@ namespace MarkdownMonster.Windows
             }
         }
         private ObservableCollection<ObservableCollection<CellContent>> _tableData;
+
+
+        
+
+        public bool EmbedAsHtml
+        {
+            get { return _embedAsHtml; }
+            set
+            {
+                if (value == _embedAsHtml) return;
+                _embedAsHtml = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _embedAsHtml;
 
         public string TableHeaders
         {

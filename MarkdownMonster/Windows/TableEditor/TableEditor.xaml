@@ -10,98 +10,106 @@
         xmlns:si="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:mmwindows="clr-namespace:MarkdownMonster.Windows"
+        xmlns:controls1="clr-namespace:MarkdownMonster.Controls"
         mc:Ignorable="d"
         Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
-        Title="Embed Link"
+        Title="Table Editor"
         TitleCharacterCasing="Normal"
         TitlebarHeight="35"                       
-        WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
+        WindowStyle="SingleBorderWindow" ResizeMode="CanResize"                      
         WindowStartupLocation="CenterOwner" 
         FontSize="15"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="900" Height="700">
-    <Grid Margin="30,20">
+    <Grid Margin="0,00">
 
         <Grid.RowDefinitions>
-            
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <ToolBarPanel>
+            <StackPanel Orientation="Horizontal">
+                <ToolBar FontWeight="Normal" Padding="0,2,0,2">
+                    <Button Name="ButtonOk"  IsDefault="True"  Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Foreground="#1F9B3C" />
+                            <TextBlock>Embed Table</TextBlock>
+                        </StackPanel>
+                    </Button>
 
+                    <Button Name="ButtonCancel"  IsDefault="True"  Click="Button_Click"  >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="Times"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Foreground="Firebrick" />
+                            <TextBlock>Cancel</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+                <ToolBar>
+                    <Button Name="ButtonInsertRow"   Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="PlusCircle"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                             />
+                            <TextBlock>Add Row</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ButtonDeleteRow"    Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="TimesCircle"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                            />
+                            <TextBlock>Delete Row</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+                <ToolBar>
+                    <Button Name="ButtonInsertColumn"   Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="PlusCircle"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                            />
+                            <TextBlock>Add Column</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ButtonDeleteColumn"    Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="TimesCircle"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                            />
+                            <TextBlock>Delete Column</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+            </StackPanel>
+        </ToolBarPanel>
 
-        <mmwindows:GridTable x:Name="DataGridTableEditor" Grid.Row="0">
-            <mmwindows:GridTable.Resources>
-                <Style TargetType="TextBox">
-                    <Setter Property="Padding" Value="8"/>
-                    <Setter Property="Margin" Value="0,0,-1,-1"/>
-                    <Setter Property="BorderThickness" Value="1"/>
-                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    <Setter Property="VerticalAlignment" Value="Stretch"/>
-                    <Setter Property="AcceptsReturn" Value="True"/>
-                    <Setter Property="TextWrapping" Value="Wrap"/>
-                    <!--<Setter Property="mmwindows:Ex.SelectOnEntry" Value="True"/>-->
-                </Style>
-            </mmwindows:GridTable.Resources>
-        </mmwindows:GridTable>
+        <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"  Grid.Row="1"
+                       Margin="20,30">
+            <mmwindows:GridTable x:Name="DataGridTableEditor" >
+                <mmwindows:GridTable.Resources>
 
-        <!--<DataGrid Name="DataGridTableContent"                   
-                  ItemsSource="{Binding TableData}"  Grid.Row="1"
-                  Background="#555"                     
-                  CanUserAddRows="True" CanUserReorderColumns="True"
-                  Margin="0,15" BorderThickness="1" BorderBrush="#999"                  
-                  IsReadOnly="False"  AutoGenerateColumns="False">
-            
-            --><!--<DataGrid.CellStyle>
-                <Style TargetType="{x:Type DataGridCell}">
-                    --><!--<Setter Property="IsTabStop" Value="False" />-->
-                    <!--<Setter Property="Focusable" Value="False" />--><!--
-                </Style>
-            </DataGrid.CellStyle>--><!--
-
-            <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="DataGridColumnHeader">
-                    <Setter Property="Background" Value="#444" />
-                    <Setter Property="BorderBrush" Value="#222" />
-                    <Setter Property="Padding" Value="7" />
-                </Style>
-            </DataGrid.ColumnHeaderStyle>
-
-            <DataGrid.Resources>
-                <ResourceDictionary>
-                    <Style TargetType="TextBlock"  x:Key="GridTextblockStyle">
-                        <Setter Property="TextWrapping" Value="Wrap" />
-                        <Setter Property="Padding" Value="10" />
+                    <Style TargetType="TextBox"  BasedOn="{StaticResource MetroTextBox}">
+                        <Setter Property="Padding" Value="8"/>
+                        <Setter Property="Margin" Value="0,0,0,0"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                        <Setter Property="AcceptsReturn" Value="True"/>
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                        <Setter Property="controls1:Ex.SelectOnEntry" Value="True"/>
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
                     </Style>
-                    <Style TargetType="TextBox"  x:Key="GridTextboxStyle">
-                        <Setter Property="AcceptsReturn" Value="True" />
-                        <Setter Property="TextWrapping" Value="Wrap" />
-                        <Setter Property="Padding" Value="10" />
-                    </Style>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
-                                     Color="SteelBlue"/>
-                </ResourceDictionary>
-            </DataGrid.Resources>
+                </mmwindows:GridTable.Resources>
+            </mmwindows:GridTable>
+        </ScrollViewer>
 
-        </DataGrid>-->
-
-
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
-            <Button Name="ButtonOk" Margin="0,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"  IsDefault="True"
-                    Click="Button_Click">
-                <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome  Icon="Upload"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                    <TextBlock Margin="10,0,0,0" FontSize="14">Paste Table</TextBlock>
-                </StackPanel>
-            </Button>
-
-            <Button Name="ButtonCancel" Margin="10,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" IsCancel="True"
-                    Click="Button_Click">
-                <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
-                    <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
-                </StackPanel>
-            </Button>
-        </StackPanel>
+        <CheckBox IsChecked="{Binding EmbedAsHtml}" Grid.Row="2" Margin="20,10,10,10">Embed as HTML</CheckBox>
     </Grid>
 </controls:MetroWindow>
