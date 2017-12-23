@@ -39,12 +39,12 @@ namespace MarkdownMonster.Windows
         }
         
 
-        public ObservableCollection<ObservableCollection<string>> TableData
+        public ObservableCollection<ObservableCollection<ColumnText>> TableData
         {
             get
             {
                 if (_tableData == null)
-                    _tableData = new ObservableCollection<ObservableCollection<string>>();
+                    _tableData = new ObservableCollection<ObservableCollection<ColumnText>>();
 
                 return _tableData;
             }
@@ -55,7 +55,7 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<ObservableCollection<string>> _tableData;
+        private ObservableCollection<ObservableCollection<ColumnText>> _tableData;
 
         public string TableHeaders
         {
@@ -115,17 +115,17 @@ namespace MarkdownMonster.Windows
             TableHeaders = "Column1,Column2,Column3";
             
             TableData.Clear();
-            TableData.Add(new ObservableCollection<string>
+            TableData.Add(new ObservableCollection<ColumnText>
             {
-                "Column 1",
-                "Column 2",
-                "Column 3",
+                new ColumnText("Column 1"),
+                new ColumnText("Column 2"),
+                new ColumnText("Column 3")
             });
-            TableData.Add(new ObservableCollection<string>
+            TableData.Add(new ObservableCollection<ColumnText>
             {
-                "Column 4",
-                "Column 5",
-                "Column 6",
+                new ColumnText("Column 4"),
+                new ColumnText("Column 5"),
+                new ColumnText("Column 6")
             });
             BindTable();
         }
@@ -141,19 +141,19 @@ namespace MarkdownMonster.Windows
             var headers = TableHeaders.Split(new char [] { ',', ';'}, StringSplitOptions.RemoveEmptyEntries );
             DataGridTableContent.Columns.Clear();
             
-            for (int i = 0; i < TableData.Count; i++)
+            for (int i = 0; i < TableData[0].Count; i++)
             {                
                 var header = headers[i];
-                var binding = new Binding($"[{i}]");
-                binding.Mode = System.Windows.Data.BindingMode.OneWay;
+                //var binding = new Binding($"[{i}]");
+                //binding.Mode = System.Windows.Data.BindingMode.OneWay;
 
-                var binding2 = new Binding($"[{i}]");
+                var binding2 = new Binding($"[{i}].Text");
                 binding2.Mode = System.Windows.Data.BindingMode.TwoWay;
                 
                 var col = new DataGridTextColumn();
                 col.Binding = binding2;
                 col.Header = header;
-                col.Width = new DataGridLength(80, DataGridLengthUnitType.Star);
+                col.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
                 col.EditingElementStyle = editStyle;
                 col.ElementStyle = displayStyle;
 

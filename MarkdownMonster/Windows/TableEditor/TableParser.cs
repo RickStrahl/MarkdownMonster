@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using MarkdownMonster.Annotations;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
@@ -22,14 +25,14 @@ namespace MarkdownMonster.Windows
         public int MaxColumnWidth { get; set; } = 40;
 
 
-        private ObservableCollection<ObservableCollection<string>> _tableData;
+        private ObservableCollection<ObservableCollection<ColumnText>> _tableData;
 
-        public ObservableCollection<ObservableCollection<string>> TableData
+        public ObservableCollection<ObservableCollection<ColumnText>> TableData
         {
             get
             {
                 if (_tableData == null)
-                    _tableData = new ObservableCollection<ObservableCollection<string>>();
+                    _tableData = new ObservableCollection<ObservableCollection<ColumnText>>();
                 return _tableData;
             }
             set { _tableData = value; }
@@ -40,7 +43,7 @@ namespace MarkdownMonster.Windows
         /// </summary>
         /// <param name="tableData"></param>
         /// <returns></returns>
-        public string ParseDataToHtml(ObservableCollection<ObservableCollection<string>> tableData = null, string tableHeaders=null)
+        public string ParseDataToHtml(ObservableCollection<ObservableCollection<ColumnText>> tableData = null, string tableHeaders=null)
         {
             if (tableData == null)
                 tableData = TableData;
@@ -78,11 +81,11 @@ namespace MarkdownMonster.Windows
                 line = "| ";
                 for (int i = 0; i < row.Count; i++)
                 {
-                    string col = row[i];
-                    col = col.Replace("\n", "<br>").Replace("\r", "");
+                    var col = row[i];
+                    col.Text = col.Text.Replace("\n", "<br>").Replace("\r", "");
 
                     var colInfo = columnInfo[i];
-                    line += col.PadRight(colInfo.MaxWidth) + " | ";
+                    line += col.Text.PadRight(colInfo.MaxWidth) + " | ";
                 }
 
                 sb.AppendLine(line.Trim());
@@ -91,7 +94,7 @@ namespace MarkdownMonster.Windows
             return sb + "\n";
         }
 
-        public List<ColumnInfo> GetColumnInfo(ObservableCollection<ObservableCollection<string>> data, string tableHeaders)
+        public List<ColumnInfo> GetColumnInfo(ObservableCollection<ObservableCollection<ColumnText>> data, string tableHeaders)
         {
             var cols = new List<ColumnInfo>();
             var headers = tableHeaders.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
@@ -105,7 +108,7 @@ namespace MarkdownMonster.Windows
                     MaxWidth = header.Length
                 };
                
-                var maxWidth = data.Max(d => d[i].Length);
+                var maxWidth = data.Max(d => d[i].Text.Length);
                 if (maxWidth > colInfo.MaxWidth)
                     colInfo.MaxWidth = maxWidth;
                 if (colInfo.MaxWidth > MaxColumnWidth)
@@ -123,4 +126,61 @@ namespace MarkdownMonster.Windows
         public string Title;
         public int MaxWidth;        
     }
+
+    public class ColumnText : INotifyPropertyChanged
+    {
+        public string Text 
+        {
+            get { return _text; }
+            set
+            {
+                if (value == _text) return;
+                _text = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _text;
+
+        
+
+        public int Row
+        {
+            get { return _row; }
+            set
+            {
+                if (value == _row) return;
+                _row = value;
+                OnPropertyChanged();
+            }
+        }
+        private int _row;
+
+        
+
+        public int Column
+        {
+            get { return _column; }
+            set
+            {
+                if (value == _column) return;
+                _column = value;
+                OnPropertyChanged();
+            }
+        }
+        private int _column;
+
+        public ColumnText(string text)
+        {
+            Text = text;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
 }

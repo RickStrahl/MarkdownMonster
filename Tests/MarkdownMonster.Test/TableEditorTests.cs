@@ -40,13 +40,13 @@ namespace MarkdownMonster.Test
             Console.WriteLine(html);
         }
 
-        ObservableCollection<ObservableCollection<string>> GetTableData()
+        ObservableCollection<ObservableCollection<ColumnText>> GetTableData()
         {
             var parser = new TableParser();
             var data = parser.TableData;
-            data.Add(new ObservableCollection<string> { "Column 1", "Column 2 Text", "Column 3" });
-            data.Add(new ObservableCollection<string> { "Column 4 and a bottle of Russian rum", "Column 5 Text", "Column 5.5" });
-            data.Add(new ObservableCollection<string> { "Column 6", "Column 7 Text", "Column 8" });
+            data.Add(new ObservableCollection<ColumnText> { new ColumnText("Column 1"), new ColumnText("Column 2 Text"), new ColumnText("Column 3") });
+            data.Add(new ObservableCollection<ColumnText> { new ColumnText("Column 4 and a bottle of Russian rum"), new ColumnText("Column 5 Text"), new ColumnText("Column 5.5") });
+            data.Add(new ObservableCollection<ColumnText> { new ColumnText("Column 6"), new ColumnText("Column 7 Text"), new ColumnText("Column 8") });
 
             return data;
         }
