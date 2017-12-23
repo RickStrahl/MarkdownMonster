@@ -19,7 +19,7 @@ namespace MarkdownMonster.Windows
         /// Maximum column width that's to be padded.
         /// If greater values are rendering ragged
         /// </summary>
-        public int MaxColumnWidth { get; set; } = 50;
+        public int MaxColumnWidth { get; set; } = 40;
 
 
         private ObservableCollection<ObservableCollection<string>> _tableData;
@@ -88,7 +88,7 @@ namespace MarkdownMonster.Windows
                 sb.AppendLine(line.Trim());
             }
 
-            return sb.ToString();
+            return sb + "\n";
         }
 
         public List<ColumnInfo> GetColumnInfo(ObservableCollection<ObservableCollection<string>> data, string tableHeaders)
@@ -105,8 +105,6 @@ namespace MarkdownMonster.Windows
                     MaxWidth = header.Length
                 };
                
-
-
                 var maxWidth = data.Max(d => d[i].Length);
                 if (maxWidth > colInfo.MaxWidth)
                     colInfo.MaxWidth = maxWidth;

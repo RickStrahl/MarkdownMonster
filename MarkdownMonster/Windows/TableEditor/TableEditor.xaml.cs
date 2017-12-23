@@ -37,10 +37,7 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged();
             }
         }
-
-
-
-
+        
 
         public ObservableCollection<ObservableCollection<string>> TableData
         {
@@ -151,7 +148,7 @@ namespace MarkdownMonster.Windows
                 binding.Mode = System.Windows.Data.BindingMode.OneWay;
 
                 var binding2 = new Binding($"[{i}]");
-                binding2.Mode = System.Windows.Data.BindingMode.Default;
+                binding2.Mode = System.Windows.Data.BindingMode.TwoWay;
                 
                 var col = new DataGridTextColumn();
                 col.Binding = binding2;

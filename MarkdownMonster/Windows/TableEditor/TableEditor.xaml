@@ -38,18 +38,16 @@
         <DataGrid Name="DataGridTableContent"                   
                   ItemsSource="{Binding TableData}"  Grid.Row="1"
                   Background="#555"                     
-                  Margin="0,15" BorderThickness="1" BorderBrush="#999"
-                  
+                  CanUserAddRows="True" CanUserReorderColumns="True"
+                  Margin="0,15" BorderThickness="1" BorderBrush="#999"                  
                   IsReadOnly="False"  AutoGenerateColumns="False">
             
-            <DataGrid.CellStyle>
+            <!--<DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
-                    <!--<Setter Property="IsTabStop" Value="False" />-->
-                    <!--<Setter Property="Focusable" Value="False" />-->
+                    --><!--<Setter Property="IsTabStop" Value="False" />-->
+                    <!--<Setter Property="Focusable" Value="False" />--><!--
                 </Style>
-            </DataGrid.CellStyle>
-            
-            
+            </DataGrid.CellStyle>-->
 
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
@@ -66,6 +64,7 @@
                         <Setter Property="Padding" Value="10" />
                     </Style>
                     <Style TargetType="TextBox"  x:Key="GridTextboxStyle">
+                        <Setter Property="AcceptsReturn" Value="True" />
                         <Setter Property="TextWrapping" Value="Wrap" />
                         <Setter Property="Padding" Value="10" />
                     </Style>

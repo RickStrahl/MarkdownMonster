@@ -45,7 +45,7 @@ namespace MarkdownMonster.Test
             var parser = new TableParser();
             var data = parser.TableData;
             data.Add(new ObservableCollection<string> { "Column 1", "Column 2 Text", "Column 3" });
-            data.Add(new ObservableCollection<string> { "Column 4.1111 item", "Column 5 Text", "Column 5.5" });
+            data.Add(new ObservableCollection<string> { "Column 4 and a bottle of Russian rum", "Column 5 Text", "Column 5.5" });
             data.Add(new ObservableCollection<string> { "Column 6", "Column 7 Text", "Column 8" });
 
             return data;
