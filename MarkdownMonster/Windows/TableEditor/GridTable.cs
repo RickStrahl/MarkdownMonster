@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using MarkdownMonster.Annotations;
 
 namespace MarkdownMonster.Windows
@@ -23,6 +24,10 @@ namespace MarkdownMonster.Windows
     /// </summary>
     public class GridTable : Grid
     {
+        public Window ParentWindow { get; set; }
+        public AppModel AppModel { get; set; }
+
+
         public GridTable()
         {
             VerticalAlignment = VerticalAlignment.Top;
@@ -35,6 +40,7 @@ namespace MarkdownMonster.Windows
             set { SetValue(TableSourceProperty, value); }
         }
 
+        
         // Using a DependencyProperty as the backing store for TableSource.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TableSourceProperty =
             DependencyProperty.Register("TableSource", typeof(ObservableCollection<ObservableCollection<CellContent>>), typeof(GridTable), new PropertyMetadata(null, TableSourceChanged));
@@ -54,10 +60,12 @@ namespace MarkdownMonster.Windows
         }
 
         private void RepopulateChildren(ObservableCollection<ObservableCollection<CellContent>> data)
-        {
+        {            
             Children.Clear();
             RowDefinitions.Clear();
             ColumnDefinitions.Clear();
+            
+            var contextMenu = ParentWindow.Resources["ColumnContextMenu"] as ContextMenu;
 
             //var rect = new Rectangle { Fill = Brushes.Gray };
             //Grid.SetColumnSpan(rect, 10000);
@@ -73,6 +81,7 @@ namespace MarkdownMonster.Windows
                 var columnText = NewTextBox();
                 columnText.Background = new BrushConverter().ConvertFromString("#777") as Brush;
                 columnText.Tag = new TablePosition { Column = columnCounter, Row = 0};
+                columnText.ContextMenu = contextMenu;
 
                 var binding = new Binding("Text") { Source = header };
                 columnText.SetBinding(TextBox.TextProperty, binding);
@@ -96,6 +105,7 @@ namespace MarkdownMonster.Windows
                     columnText.Tag = new TablePosition { Column = columnCounter, Row = rowCount };
                     var binding = new Binding("Text") { Source = column, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, Mode = BindingMode.TwoWay };
                     columnText.SetBinding(TextBox.TextProperty, binding);
+                    columnText.ContextMenu = contextMenu;
                     Children.Add(columnText);
                     Grid.SetColumn(columnText, columnCounter);
                     Grid.SetRow(columnText, rowCount);
@@ -139,34 +149,94 @@ namespace MarkdownMonster.Windows
             {
                 var textBox = o as TextBox;
                 var pos = textBox.Tag as TablePosition;
-                SelectColumn(pos.Row - 1, pos.Column + 1);
+
+                SelectColumn(pos.Row - 1, pos.Column);
             }
             else if (args.Key == Key.Down)
             {
                 var textBox = o as TextBox;
                 var pos = textBox.Tag as TablePosition;
-                SelectColumn(pos.Row + 1, pos.Column + 1);
+
+                SelectColumn(pos.Row + 1, pos.Column);
             }         
         }
 
+        #region Helpers
+
         public void SelectColumn(int row, int col)
         {
-            var data = this.TableSource;
-            if (data.Count < 1)
-                return;
-            var colCount = data[0].Count;
+            // needs to run out of band so that any previous rendering has occurred.
+            Dispatcher.InvokeAsync(() =>
+            {
+                var data = TableSource;
+                if (data.Count < 1)
+                    return;
 
-            var skipBy = row * colCount + col - 1;
-            if (skipBy < 0)
-                return;
+                var colCount = data[0].Count;
 
-            var newText = Children.OfType<TextBox>()
-                .Skip(skipBy)
-                .FirstOrDefault();
+                var skipBy = row * colCount + col;
+                if (skipBy < 0)
+                    return;
 
-            newText?.Focus();
+                var newText = Children.OfType<TextBox>()
+                    .Skip(skipBy)
+                    .FirstOrDefault();
+
+                newText?.Focus();
+            },DispatcherPriority.Normal);
         }
- 
+
+        public void AddColumn(int currentRow, int currentColumn, ColumnInsertLocation insertLocation)
+        {
+            foreach (var row in TableSource)
+            {
+                var newCell = new CellContent(string.Empty);
+                if (insertLocation == ColumnInsertLocation.Right)
+                {
+                    row.Insert(currentColumn + 1, newCell);
+                    RepopulateChildren(TableSource);
+                    SelectColumn(currentRow, currentColumn + 1);
+                }
+                else
+                {
+                    row.Insert(currentColumn, newCell);
+                    RepopulateChildren(TableSource);
+                    SelectColumn(currentRow, currentColumn);
+                }
+            }
+        }
+
+        public void AddRow(int currentRow, int currentColumn, RowInsertLocation insertLocation)
+        {
+            var row = TableSource[currentRow] as ObservableCollection<CellContent>;
+            if (row == null)
+                return;
+
+            var newCell = new CellContent(string.Empty);
+            if (insertLocation == RowInsertLocation.Below)
+            {
+                var newRow = new ObservableCollection<CellContent>();
+                for (int i = 0; i < row.Count; i++)
+                    newRow.Add(new CellContent(string.Empty));
+
+                TableSource.Insert(currentRow + 1, newRow);
+                RepopulateChildren(TableSource);
+                SelectColumn(currentRow + 1, 0);
+            }
+            else
+            {
+                var newRow = new ObservableCollection<CellContent>();
+                for (int i = 0; i < row.Count; i++)
+                    newRow.Add(new CellContent(string.Empty));
+
+                TableSource.Insert(currentRow, newRow);
+                RepopulateChildren(TableSource);
+                SelectColumn(currentRow, 0);
+            }
+        }
+
+
+
 
         public TextBox NewTextBox() //(int rowIndex, int columnIndex)
         {
@@ -177,6 +247,7 @@ namespace MarkdownMonster.Windows
             };
             return text;
         }
+        #endregion
     }
 
     public class CellContent : INotifyPropertyChanged
@@ -241,4 +312,15 @@ namespace MarkdownMonster.Windows
         public int Column;
     }
 
+    public enum ColumnInsertLocation
+    {
+        Left,
+        Right
+    }
+
+    public enum RowInsertLocation
+    {
+        Above,
+        Below
+    }
 }

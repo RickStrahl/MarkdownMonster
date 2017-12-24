@@ -21,6 +21,17 @@
         FontSize="15"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="900" Height="700">
+    <Window.Resources>
+        <ContextMenu x:Key="ColumnContextMenu">
+            <MenuItem Name="MenuInsertRowBelow" Header="Insert Row Below" Click="Button_Click" />
+            <MenuItem Name="MenuInsertRowAbove" Header="Insert Row Above" Click="Button_Click" />
+            <MenuItem Name="MenuDeleteRow" Header="Delete Row" Click="Button_Click"  />
+            <Separator />
+            <MenuItem Name="MenuInsertColumnRight" Header="Insert Column Right" Click="Button_Click" />
+            <MenuItem Name="MenuInsertColumnLeft" Header="Insert Column Left" Click="Button_Click"/>
+            <MenuItem Name="MenuDeleteColumn" Header="Delete Column" Click="Button_Click" />
+        </ContextMenu>
+    </Window.Resources>
     <Grid Margin="0,00">
 
         <Grid.RowDefinitions>
@@ -77,7 +88,7 @@
                             <TextBlock>Add Column</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Name="ButtonDeleteColumn"    Click="Button_Click">
+                    <Button Name="ButtonDeleteColumnRight"    Click="Button_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,2,5,0" Icon="TimesCircle"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
@@ -93,7 +104,6 @@
                        Margin="20,30">
             <mmwindows:GridTable x:Name="DataGridTableEditor" >
                 <mmwindows:GridTable.Resources>
-
                     <Style TargetType="TextBox"  BasedOn="{StaticResource MetroTextBox}">
                         <Setter Property="Padding" Value="8"/>
                         <Setter Property="Margin" Value="0,0,0,0"/>

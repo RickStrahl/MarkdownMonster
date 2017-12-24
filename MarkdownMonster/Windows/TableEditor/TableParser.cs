@@ -25,6 +25,7 @@ namespace MarkdownMonster.Windows
         public int MaxColumnWidth { get; set; } = 40;
 
 
+
         private ObservableCollection<ObservableCollection<CellContent>> _tableData;
 
         public ObservableCollection<ObservableCollection<CellContent>> TableData

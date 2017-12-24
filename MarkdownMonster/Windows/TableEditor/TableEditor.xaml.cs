@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using MahApps.Metro.Controls;
 using MarkdownMonster.Annotations;
 using Microsoft.Win32;
@@ -154,6 +155,8 @@ namespace MarkdownMonster.Windows
 
         private void BindTable()
         {
+            DataGridTableEditor.ParentWindow = this;
+            DataGridTableEditor.AppModel = mmApp.Model;
             DataGridTableEditor.TableSource = TableData;
 
 
@@ -201,16 +204,39 @@ namespace MarkdownMonster.Windows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            var name = (sender as Control).Name;
+            var focusedTextBox = FocusManager.GetFocusedElement(this) as TextBox;
+
             if (sender == ButtonOk)
             {
                 var parser = new TableParser();
                 TableHtml = parser.ParseDataToHtml(TableData, TableHeaders);                
                 Close();
             }
-            else
+            else if(sender == ButtonCancel)
             {
                 Cancelled = true;
                 Close();
+            }            
+            else if (sender == ButtonInsertColumn || "MenuInsertColumnRight" == name)
+            {
+                var pos = focusedTextBox.Tag as TablePosition;
+                DataGridTableEditor.AddColumn(pos.Row, pos.Column, ColumnInsertLocation.Right);
+            }
+            else if (sender == ButtonInsertColumn || "MenuInsertColumnLeft" == name)
+            {
+                var pos = focusedTextBox.Tag as TablePosition;
+                DataGridTableEditor.AddColumn(pos.Row, pos.Column, ColumnInsertLocation.Left);
+            }
+            else if (sender == ButtonInsertRow || "MenuInsertRowBelow" == name)
+            {
+                var pos = focusedTextBox.Tag as TablePosition;
+                DataGridTableEditor.AddRow(pos.Row, pos.Column, RowInsertLocation.Below);
+            }
+            else if (sender == ButtonInsertRow || "MenuInsertRowAbove" == name)
+            {
+                var pos = focusedTextBox.Tag as TablePosition;
+                DataGridTableEditor.AddRow(pos.Row, pos.Column, RowInsertLocation.Above);
             }
         }
 
