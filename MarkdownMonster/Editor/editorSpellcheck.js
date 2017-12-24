@@ -15,7 +15,7 @@ var sc = window.spellcheck = {
     spellCheck: function() {},
     dictionary: null, // Typo instance
     markers: [],
-    excludedWords: ",div,span,td,th,tr,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,http,https,---,--",
+    excludedWords: ",div,span,td,th,tr,thead,tbody,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,http,https,---,--",
     clearMarkers: function() {
         for (var i in sc.markers) {
             te.editor.session.removeMarker(sc.markers[i]);
