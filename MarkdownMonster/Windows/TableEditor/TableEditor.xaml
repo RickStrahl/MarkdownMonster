@@ -88,7 +88,7 @@
                             <TextBlock>Add Column</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Name="ButtonDeleteColumnRight"    Click="Button_Click">
+                    <Button Name="ButtonDeleteColumn"    Click="Button_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,2,5,0" Icon="TimesCircle"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 

@@ -174,6 +174,13 @@ namespace MarkdownMonster.Windows
 
                 var colCount = data[0].Count;
 
+                if (row < 0)
+                    row = 0;
+                if (row >= TableSource.Count)
+                    row = TableSource.Count - 1;
+               if (col < 0)
+                    col = 0;
+               
                 var skipBy = row * colCount + col;
                 if (skipBy < 0)
                     return;
@@ -235,8 +242,30 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        public void DeleteRow(int currentRow, int currentColumn)
+        {
+            var row = TableSource[currentRow] as ObservableCollection<CellContent>;
+            if (row == null)
+                return;
+
+            TableSource.Remove(row);
+            RepopulateChildren(TableSource);
+            SelectColumn(currentRow, currentColumn);
+        }
 
 
+
+        public void DeleteColumn(int currentRow, int currentColumn)
+        {
+            foreach (var row in TableSource)
+            {
+                var item = row[currentColumn];
+                row.Remove(item);
+            }
+
+            RepopulateChildren(TableSource);
+            SelectColumn(currentRow, currentColumn);
+        }
 
         public TextBox NewTextBox() //(int rowIndex, int columnIndex)
         {
@@ -248,6 +277,7 @@ namespace MarkdownMonster.Windows
             return text;
         }
         #endregion
+
     }
 
     public class CellContent : INotifyPropertyChanged

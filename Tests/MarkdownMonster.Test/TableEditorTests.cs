@@ -18,11 +18,10 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void ColumnInfoTest()
         {
-            var colHeaders = "Column 1,Column 2,Column 3";
             var data = GetTableData();
 
             var parser = new TableParser();
-            var colInfo = parser.GetColumnInfo(data, colHeaders);
+            var colInfo = parser.GetColumnInfo(data);
 
             Assert.IsNotNull(colInfo);
             Console.WriteLine(JsonSerializationUtils.Serialize(colInfo));
@@ -31,13 +30,31 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void DataToHtmlTest()
         {
-            var colHeaders = "Column 1,Column 2,Column 3";            
             var data = GetTableData();
             
             var parser = new TableParser();
-            string html = parser.ParseDataToHtml(data,colHeaders);
+            string html = parser.ParseDataToHtml(data);
 
             Console.WriteLine(html);
+        }
+
+
+        [TestMethod]
+        public void ParseMarkdownToDataTest()
+        {
+            string md = @"
+| Column1              | Column2  | Column3  |
+|--------------------------------------------|
+| Header 1             | Header 2 | Header 3 |
+| Custom Table Content | Column 2 | Column 3 |
+| Column 4             | Column 5 | Column 6 |
+";
+
+            var parser = new TableParser();
+            var data = parser.ParseMarkdownToData(md);
+
+            Assert.IsTrue(data.Count == 4, "Table should have returned 4 rows");
+            Assert.IsTrue(data[1][1].Text == "Header 2");
         }
 
         ObservableCollection<ObservableCollection<CellContent>> GetTableData()

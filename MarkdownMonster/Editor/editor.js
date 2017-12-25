@@ -114,6 +114,9 @@ var te = window.textEditor = {
             // delete line
             "shift-del": te.deleteCurrentLine,
 
+            // try to move between tabs
+            "ctrl-tab": function () { te.specialkey("ctrl-tab"); },
+
             // take over Zoom keys and manually zoom
             "ctrl--": function() {
                 te.specialkey("ctrl--");

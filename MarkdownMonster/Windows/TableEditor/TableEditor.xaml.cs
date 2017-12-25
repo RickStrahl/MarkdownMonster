@@ -7,13 +7,14 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using MahApps.Metro.Controls;
 using MarkdownMonster.Annotations;
 using Microsoft.Win32;
 using Westwind.Utilities;
 using Binding = System.Windows.Data.Binding;
+using Control = System.Windows.Controls.Control;
 using MessageBox = System.Windows.MessageBox;
 using TextBox = System.Windows.Controls.TextBox;
 
@@ -24,7 +25,7 @@ namespace MarkdownMonster.Windows
     /// </summary>
     public partial class TableEditor : MetroWindow, INotifyPropertyChanged
     {
-        public bool Cancelled { get; set; }
+        public bool Cancelled { get; set; } = true;
         private string _tableHtml;
 
         public string TableHtml
@@ -72,17 +73,6 @@ namespace MarkdownMonster.Windows
         }
         private bool _embedAsHtml;
 
-        public string TableHeaders
-        {
-            get { return _TableHeaders; }
-            set
-            {
-                if (value == _TableHeaders) return;
-                _TableHeaders = value;
-                OnPropertyChanged(nameof(TableHeaders));
-            }
-        }
-        private string _TableHeaders = "";
 
         public CommandBase ColumnKeyCommand { get; set; }
 
@@ -98,9 +88,15 @@ namespace MarkdownMonster.Windows
             if (tableHtml == null)
                 CreateInitialTableData();
             else
-                ParseTableData(tableHtml);
+            {
+                var parser = new TableParser();
+                TableData = parser.ParseMarkdownToData(tableHtml);
+            }
 
-           
+            DataGridTableEditor.ParentWindow = this;
+            DataGridTableEditor.AppModel = mmApp.Model;
+            DataGridTableEditor.TableSource = TableData;
+
             ColumnKeyCommand = new CommandBase((parameter, command) =>
             {
                Debug.WriteLine("column key pressed.");                
@@ -127,7 +123,6 @@ namespace MarkdownMonster.Windows
 
         private void CreateInitialTableData()
         {
-            TableHeaders = "Column1,Column2,Column3";
             
             TableData.Clear();
             TableData.Add(new ObservableCollection<CellContent>
@@ -147,47 +142,12 @@ namespace MarkdownMonster.Windows
                 new CellContent("Column 4"),
                 new CellContent("Column 5"),
                 new CellContent("Column 6")
-            });
-            BindTable();
+            });            
         }
         
 
 
-        private void BindTable()
-        {
-            DataGridTableEditor.ParentWindow = this;
-            DataGridTableEditor.AppModel = mmApp.Model;
-            DataGridTableEditor.TableSource = TableData;
-
-
-            //var editStyle = DataGridTableContent.Resources["GridTextboxStyle"] as Style;
-            //var displayStyle = DataGridTableContent.Resources["GridTextblockStyle"] as Style;
-            
-            
-            //var headers = TableHeaders.Split(new char [] { ',', ';'}, StringSplitOptions.RemoveEmptyEntries );
-            //DataGridTableContent.Columns.Clear();
-            
-            //for (int i = 0; i < TableData[0].Count; i++)
-            //{                
-            //    var header = headers[i];
-            //    var column = TableData[0][i];
-                
-            //    var binding = new Binding("Text")
-            //    {
-            //        Source = column,
-            //        Mode = System.Windows.Data.BindingMode.TwoWay
-            //    };
-
-            //    var col = new DataGridTextColumn();
-            //    col.Binding = binding;
-            //    col.Header = header;
-            //    col.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            //    col.EditingElementStyle = editStyle;
-            //    col.ElementStyle = displayStyle;
-
-            //    DataGridTableContent.Columns.Add(col);                
-            //}
-        }
+    
 
         private void Column_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -210,7 +170,9 @@ namespace MarkdownMonster.Windows
             if (sender == ButtonOk)
             {
                 var parser = new TableParser();
-                TableHtml = parser.ParseDataToHtml(TableData, TableHeaders);                
+                TableHtml = parser.ParseDataToHtml(TableData);
+                Cancelled = false;
+                DialogResult = true; 
                 Close();
             }
             else if(sender == ButtonCancel)
@@ -237,6 +199,16 @@ namespace MarkdownMonster.Windows
             {
                 var pos = focusedTextBox.Tag as TablePosition;
                 DataGridTableEditor.AddRow(pos.Row, pos.Column, RowInsertLocation.Above);
+            }
+            else if (sender == ButtonDeleteRow || "MenuDeleteRow" == name)
+            {
+                var pos = focusedTextBox.Tag as TablePosition;
+                DataGridTableEditor.DeleteRow(pos.Row, pos.Column);
+            }
+            else if (sender == ButtonDeleteColumn || "MenuDeleteColumn" == name)
+            {
+                var pos = focusedTextBox.Tag as TablePosition;
+                DataGridTableEditor.DeleteColumn(pos.Row, pos.Column);
             }
         }
 

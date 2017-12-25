@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -64,6 +65,7 @@ namespace MarkdownMonster
             SpellcheckSuggestions(suggestions, range);
             AddEditorContext();
             AddCopyPaste();
+            
 
             Show();
         }
@@ -168,14 +170,15 @@ namespace MarkdownMonster
         public void AddEditorContext()
         {
             var model = Model;
-            var line = Model.ActiveEditor.GetCurrentLine();
+            var lineText = Model.ActiveEditor.GetCurrentLine();
 
             var pos = Model.ActiveEditor.GetCursorPosition();
             if (pos.row == -1)
                 return;
 
-            CheckForImageLink(line, pos);
-            CheckForHyperLink(line, pos);
+            CheckForImageLink(lineText, pos);
+            CheckForHyperLink(lineText, pos);
+            CheckForTable(lineText, pos);
 
 
             if (ContextMenu.Items.Count > 0)
@@ -270,6 +273,70 @@ namespace MarkdownMonster
                     }
 
                 }
+            }
+
+            return false;
+        }
+
+        private bool CheckForTable(string line, AcePosition pos)
+        {
+            if (string.IsNullOrEmpty(line))
+                return false;
+
+            if (line.Trim().StartsWith("|") && line.Trim().EndsWith("|") )
+            {
+                var mi = new MenuItem
+                {
+                    Header = "Edit Table"
+                };
+                mi.Click += (o, args) =>
+                {
+                    var editor = Model.ActiveEditor;
+
+                    var lineText = editor.GetCurrentLine();
+                    if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|")))
+                        return;
+
+                    var startPos = editor.GetCursorPosition();
+                    var row = startPos.row;
+                    var startRow = row;
+                    for (int i = row - 1; i > -1; i--)
+                    {
+                        lineText = editor.GetLine(i);
+                        if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|")))
+                        {
+                            startRow = i +1;
+                            break;
+                        }
+                    }
+                    
+                    var endRow = startPos.row;
+                    for (int i = row + 1; i < 99999999; i++)
+                    {
+                        lineText = editor.GetLine(i);
+                        if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|")))
+                        {
+                            endRow = i -1;
+                            break;
+                        }
+                    }
+
+                    if (endRow == startRow)
+                        return;
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = startRow; i <= endRow; i++)
+                    {
+                        sb.AppendLine(editor.GetLine(i));                        
+                    }
+
+                    // select the entire table
+                    Model.ActiveEditor.AceEditor.SetSelectionRange(startRow -1 , 0, endRow + 1,0, pos);
+                                
+                    Model.ActiveEditor.EditorSelectionOperation("table", sb.ToString());
+                };
+                ContextMenu.Items.Add(mi);
+                return true;
             }
 
             return false;

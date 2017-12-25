@@ -465,7 +465,7 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                 />
 
-                        <Button Name ="ButtonTableEditor" Margin="7,0" ToolTip="Allows editing of table in a grid"
+                        <Button Name ="ButtonTableEditor" Margin="7,0" ToolTip="Opens the interactive table editor"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="table"
                                 fa:Awesome.Content="Table"								                                

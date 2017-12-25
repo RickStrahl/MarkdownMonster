@@ -519,6 +519,113 @@ namespace MarkdownMonster
         }
 
 
+        /// <summary>
+        /// Fired from Editor Menu when items are selected
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public string EditorSelectionOperation(string action, string text)
+        {
+            if (action == "image")
+            {
+                string label = StringUtils.ExtractString(text, "![", "]");
+                string link = StringUtils.ExtractString(text, "](", ")");
+
+                var form = new PasteImageWindow(Window)
+                {
+                    Image = link,
+                    ImageText = label,
+                    MarkdownFile = MarkdownDocument.Filename
+                };
+                form.SetImagePreview();
+               
+                bool? res = form.ShowDialog();
+                string html = null;
+
+                if (res != null && res.Value)
+                {
+                    var image = form.Image;
+                    if (!image.StartsWith("data:image/"))
+                        html = $"![{form.ImageText}]({image.Replace(" ","%20")})";
+                    else
+                    {
+                        var id = "image_ref_" + DataUtils.GenerateUniqueId();
+
+                        dynamic pos = AceEditor.getCursorPosition(false);
+                        dynamic scroll = AceEditor.getscrolltop(false);
+
+                        // the ID tag
+                        html = $"\r\n\r\n[{id}]: {image}\r\n";
+
+                        // set selction position to bottom of document
+                        AceEditor.gotoBottom(false);
+                        SetSelection(html);
+
+                        // reset the selection point
+                        AceEditor.setcursorposition(pos); //pos.column,pos.row);
+
+                        if (scroll != null)
+                            AceEditor.setscrolltop(scroll);
+
+                        WindowUtilities.DoEvents();
+                        html = $"![{form.ImageText}][{id}]";
+                    }
+
+                    if (!string.IsNullOrEmpty(html))
+                    {
+                        SetSelection(html);
+                        PreviewMarkdownCallback();
+                    }
+                }
+            } 
+            else if (action == "hyperlink")
+            {
+                string label = StringUtils.ExtractString(text, "[", "]");
+                string link = StringUtils.ExtractString(text, "](", ")");
+
+                var form = new PasteHref()
+                {
+                    Owner = Window,
+                    Link = link,
+                    LinkText = label,
+                    MarkdownFile = MarkdownDocument.Filename
+                };                
+
+                bool? res = form.ShowDialog();
+                if (res != null && res.Value)
+                {
+                    string html = $"[{form.LinkText}]({form.Link})";
+                    if (!string.IsNullOrEmpty(html))
+                    {
+                        SetSelection(html);
+                        PreviewMarkdownCallback();
+                    }
+                }
+
+            }
+            else if (action == "table")
+            {
+                var form = new TableEditor(text);
+                var res = form.ShowDialog();
+
+                if (res != null && res.Value)
+                {
+                    if (!string.IsNullOrEmpty(form.TableHtml))
+                    {
+                        SetSelection(form.TableHtml.TrimEnd()+"\n");
+                        PreviewMarkdownCallback();
+                    }
+                }
+            }
+            else if (action == "code")
+            {
+                MessageBox.Show("Link to Edit", text);
+            }
+            return null;
+        }
+
+
         public bool IsPreviewToEditorSync()
         {
             var mode = mmApp.Configuration.PreviewSyncMode;
@@ -729,6 +836,16 @@ namespace MarkdownMonster
         public string GetCurrentLine()
         {
             return AceEditor?.getCurrentLine(false);
+        }
+
+        /// <summary>
+        /// Retrieves the text for the given line
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        public string GetLine(int rowNumber)
+        {
+            return AceEditor?.getLine(rowNumber);
         }
 
 
@@ -1230,92 +1347,6 @@ namespace MarkdownMonster
             }
         }
 
-
-        public string EditorSelectionOperation(string action, string text)
-        {
-            if (action == "image")
-            {
-                string label = StringUtils.ExtractString(text, "![", "]");
-                string link = StringUtils.ExtractString(text, "](", ")");
-
-                var form = new PasteImageWindow(Window)
-                {
-                    Image = link,
-                    ImageText = label,
-                    MarkdownFile = MarkdownDocument.Filename
-                };
-                form.SetImagePreview();
-               
-                bool? res = form.ShowDialog();
-                string html = null;
-
-                if (res != null && res.Value)
-                {
-                    var image = form.Image;
-                    if (!image.StartsWith("data:image/"))
-                        html = $"![{form.ImageText}]({image.Replace(" ","%20")})";
-                    else
-                    {
-                        var id = "image_ref_" + DataUtils.GenerateUniqueId();
-
-                        dynamic pos = AceEditor.getCursorPosition(false);
-                        dynamic scroll = AceEditor.getscrolltop(false);
-
-                        // the ID tag
-                        html = $"\r\n\r\n[{id}]: {image}\r\n";
-
-                        // set selction position to bottom of document
-                        AceEditor.gotoBottom(false);
-                        SetSelection(html);
-
-                        // reset the selection point
-                        AceEditor.setcursorposition(pos); //pos.column,pos.row);
-
-                        if (scroll != null)
-                            AceEditor.setscrolltop(scroll);
-
-                        WindowUtilities.DoEvents();
-                        html = $"![{form.ImageText}][{id}]";
-                    }
-
-                    if (!string.IsNullOrEmpty(html))
-                    {
-                        SetSelection(html);
-                        PreviewMarkdownCallback();
-                    }
-                }
-            } 
-            else if (action == "hyperlink")
-            {
-                string label = StringUtils.ExtractString(text, "[", "]");
-                string link = StringUtils.ExtractString(text, "](", ")");
-
-                var form = new PasteHref()
-                {
-                    Owner = Window,
-                    Link = link,
-                    LinkText = label,
-                    MarkdownFile = MarkdownDocument.Filename
-                };                
-
-                bool? res = form.ShowDialog();
-                if (res != null && res.Value)
-                {
-                    string html = $"[{form.LinkText}]({form.Link})";
-                    if (!string.IsNullOrEmpty(html))
-                    {
-                        SetSelection(html);
-                        PreviewMarkdownCallback();
-                    }
-                }
-
-            }
-            else if (action == "code")
-            {
-                MessageBox.Show("Link to Edit", text);
-            }
-            return null;
-        }
 
         public void FindAndReplaceText(string search, string replace)
         {

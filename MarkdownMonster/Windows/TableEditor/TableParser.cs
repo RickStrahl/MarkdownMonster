@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -44,7 +45,7 @@ namespace MarkdownMonster.Windows
         /// </summary>
         /// <param name="tableData"></param>
         /// <returns></returns>
-        public string ParseDataToHtml(ObservableCollection<ObservableCollection<CellContent>> tableData = null, string tableHeaders=null)
+        public string ParseDataToHtml(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
         {
             if (tableData == null)
                 tableData = TableData;
@@ -58,7 +59,7 @@ namespace MarkdownMonster.Windows
                     tableData.Remove(tableData[i]);
             }
 
-            var columnInfo = GetColumnInfo(tableData, tableHeaders);         
+            var columnInfo = GetColumnInfo(tableData);         
 
             StringBuilder sb = new StringBuilder();                        
             sb.Clear();
@@ -77,7 +78,7 @@ namespace MarkdownMonster.Windows
                 sb.Append("-");
             sb.AppendLine("|");
 
-            foreach (var row in tableData)
+            foreach (var row in tableData.Skip(1))
             {
                 line = "| ";
                 for (int i = 0; i < row.Count; i++)
@@ -95,14 +96,56 @@ namespace MarkdownMonster.Windows
             return sb + "\n";
         }
 
-        public List<ColumnInfo> GetColumnInfo(ObservableCollection<ObservableCollection<CellContent>> data, string tableHeaders)
+        /// <summary>
+        /// Parses a table represented as Markdown into an Observable collection
+        /// </summary>
+        /// <param name="tableMarkdown"></param>
+        /// <returns></returns>
+        public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownToData(string tableMarkdown)
         {
-            var cols = new List<ColumnInfo>();
-            var headers = tableHeaders.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+            var data = new ObservableCollection<ObservableCollection<CellContent>>();
+            if (string.IsNullOrEmpty(tableMarkdown))
+                return data;
 
-            for (int i = 0; i < headers.Length; i++)
+            var lines = StringUtils.GetLines(tableMarkdown.Trim());
+            foreach (var row in lines)
             {
-                var header = headers[i];
+                if (row.Length == 0)
+                    continue;
+                if (row.StartsWith("|---"))
+                    continue;
+
+                var cols = row.Trim('|').Split('|');
+                var columnData = new ObservableCollection<CellContent>();
+                foreach (var col in cols)
+                    columnData.Add(new CellContent(col.Trim()));
+
+                data.Add(columnData);
+            }
+
+
+            return data;
+        }
+
+
+        /// <summary>
+        /// Retrieves information about each of the columns in the table including
+        /// max width and title. Looks at the first row of the table data.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="tableHeaders"></param>
+        /// <returns></returns>
+        public List<ColumnInfo> GetColumnInfo(ObservableCollection<ObservableCollection<CellContent>> data)
+        {
+            var headers = new List<ColumnInfo>();
+            if (data == null || data.Count < 1)
+                return headers;
+
+            var cols = data[0];
+
+            for (int i = 0; i < cols.Count; i++)
+            {
+                var header = cols[i].Text;
                 var colInfo = new ColumnInfo
                 {
                     Title = header,
@@ -115,13 +158,14 @@ namespace MarkdownMonster.Windows
                 if (colInfo.MaxWidth > MaxColumnWidth)
                     colInfo.MaxWidth = MaxColumnWidth;
 
-                cols.Add(colInfo);
+                headers.Add(colInfo);
             }
 
-            return cols;
+            return headers;
         }
     }
 
+    [DebuggerDisplay("{Title} - {MaxWidth}")]
     public class ColumnInfo
     {
         public string Title;
