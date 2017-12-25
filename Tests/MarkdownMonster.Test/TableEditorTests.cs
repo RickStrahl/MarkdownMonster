@@ -28,15 +28,32 @@ namespace MarkdownMonster.Test
         }
 
         [TestMethod]
-        public void DataToHtmlTest()
+        public void DataToMarkdownTest()
         {
             var data = GetTableData();
             
             var parser = new TableParser();
+            string html = parser.ParseDataToMarkdown(data);
+
+            Console.WriteLine(html);
+
+            Assert.IsTrue(html.Contains("| Column 8   |"));
+        }
+
+
+        [TestMethod]
+        public void DataToHtmlTest()
+        {
+            var data = GetTableData();
+
+            var parser = new TableParser();
             string html = parser.ParseDataToHtml(data);
 
             Console.WriteLine(html);
+
+            Assert.IsTrue(html.Contains("<td>Column 5 Text</td>"));
         }
+
 
 
         [TestMethod]

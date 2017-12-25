@@ -170,7 +170,11 @@ namespace MarkdownMonster.Windows
             if (sender == ButtonOk)
             {
                 var parser = new TableParser();
-                TableHtml = parser.ParseDataToHtml(TableData);
+                if (!EmbedAsHtml)
+                    TableHtml = parser.ParseDataToMarkdown(TableData);
+                else
+                    TableHtml = parser.ParseDataToHtml(TableData);
+
                 Cancelled = false;
                 DialogResult = true; 
                 Close();

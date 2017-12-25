@@ -468,7 +468,7 @@
                         <Button Name ="ButtonTableEditor" Margin="7,0" ToolTip="Opens the interactive table editor"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="table"
-                                fa:Awesome.Content="Table"								                                
+                                fa:Awesome.Content="Th"								                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                         />
 

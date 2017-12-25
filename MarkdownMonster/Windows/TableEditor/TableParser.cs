@@ -45,7 +45,7 @@ namespace MarkdownMonster.Windows
         /// </summary>
         /// <param name="tableData"></param>
         /// <returns></returns>
-        public string ParseDataToHtml(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
+        public string ParseDataToMarkdown(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
         {
             if (tableData == null)
                 tableData = TableData;
@@ -97,11 +97,70 @@ namespace MarkdownMonster.Windows
         }
 
         /// <summary>
-        /// Parses a table represented as Markdown into an Observable collection
+        /// Takes the input collection and parses it into an HTML string. First row is considered to be the
+        /// header of the table.
         /// </summary>
-        /// <param name="tableMarkdown"></param>
+        /// <param name="tableData"></param>
         /// <returns></returns>
-        public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownToData(string tableMarkdown)
+        public string ParseDataToHtml(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
+        {
+            if (tableData == null)
+                tableData = TableData;
+
+            if (tableData == null || tableData.Count < 1)
+                return string.Empty;
+
+            for (int i = tableData.Count - 1; i > -1; i--)
+            {
+                if (tableData[i] == null || tableData[i].Count == 0)
+                    tableData.Remove(tableData[i]);
+            }
+
+            var columnInfo = GetColumnInfo(tableData);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Clear();
+            
+            sb.AppendLine("\n<table>");
+            sb.AppendLine("<thead>");
+            sb.AppendLine("\t<tr>");
+
+            for (int i = 0; i < columnInfo.Count; i++)
+            {
+                var colInfo = columnInfo[i];
+                sb.AppendLine($"\t\t<th>{HtmlUtils.HtmlEncode(colInfo.Title.Trim())}</th>");
+            }
+
+            sb.AppendLine("\t</tr>");
+            sb.AppendLine("</thead>");
+
+            sb.AppendLine("<tbody>");
+            foreach (var row in tableData.Skip(1))
+            {
+                sb.AppendLine("\t<tr>");
+                for (int i = 0; i < row.Count; i++)
+                {
+                    var col = row[i];
+                    col.Text = col.Text.Replace("\n", "<br>").Replace("\r", "");                    
+                    sb.AppendLine($"\t\t<td>{HtmlUtils.HtmlEncode(col.Text.Trim())}</td>");
+                }
+
+                sb.AppendLine("\t</tr>");
+            }
+
+            sb.AppendLine("</tbody>");
+            sb.AppendLine("</table>\n");
+
+            return sb.ToString();
+        }
+
+
+        /// <summary>
+            /// Parses a table represented as Markdown into an Observable collection
+            /// </summary>
+            /// <param name="tableMarkdown"></param>
+            /// <returns></returns>
+            public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownToData(string tableMarkdown)
         {
             var data = new ObservableCollection<ObservableCollection<CellContent>>();
             if (string.IsNullOrEmpty(tableMarkdown))
