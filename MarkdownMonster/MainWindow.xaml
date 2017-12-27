@@ -36,7 +36,7 @@
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  CloseActiveDocumentCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding CloseActiveDocumentCommand}" />
         <KeyBinding Modifiers="Alt" Key="Z" Command="{Binding WordWrapCommand}" />
-        <KeyBinding Key="F1" Command="{Binding HelpCommand}" />
+        <KeyBinding Key="F1" Command="{Binding Commands.HelpCommand}" />
         
         <!-- Commands that are handled in the Markdown Editor because they are not working here -->
         <!--<KeyBinding Modifiers="Ctrl+Shift" Key="Z" Command="{Binding Commands.RemoveMarkdownFormattingCommand}" />-->        

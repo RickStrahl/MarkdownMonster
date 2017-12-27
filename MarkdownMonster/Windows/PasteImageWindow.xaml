@@ -17,7 +17,7 @@
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="620" Height="320" MinWidth="600" MinHeight="320">
     <Window.InputBindings>
-        <KeyBinding Key="F1" Command="{Binding AppModel.HelpCommand}" CommandParameter="_4s01ezteq.htm"/>
+        <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4s01ezteq.htm"/>
     </Window.InputBindings>
     <Grid Name="PageGrid">
         <Grid.RowDefinitions>

@@ -18,7 +18,7 @@
         Width="603.57" Height="306.403">
 
     <Window.InputBindings>
-        <KeyBinding Key="F1" Command="{Binding AppModel.HelpCommand}" CommandParameter="_4xs10gaui.htm"/>
+        <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xs10gaui.htm"/>
     </Window.InputBindings>
     <StackPanel Margin="30,20">
 

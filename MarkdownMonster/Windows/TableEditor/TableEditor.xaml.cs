@@ -73,6 +73,7 @@ namespace MarkdownMonster.Windows
         }
         private bool _embedAsHtml;
 
+        public AppModel AppModel { get; set; }
 
         public ObservableCollection<string> TableModes { get; set; } = new ObservableCollection<string> { "Pipe Table", "Grid Table", "HTML Table" };
 
@@ -94,10 +95,12 @@ namespace MarkdownMonster.Windows
         public TableEditor(string tableHtml = null)
         {
             InitializeComponent();
-            
-            mmApp.SetThemeWindowOverride(this);
-            Owner = mmApp.Model.Window;
 
+            AppModel = mmApp.Model;
+
+            mmApp.SetThemeWindowOverride(this);
+            Owner = AppModel.Window;
+            
             var data = new List<string[]>();
 
             if (tableHtml == null)

@@ -32,6 +32,9 @@
             <MenuItem Name="MenuDeleteColumn" Header="Delete Column" Click="Button_Click" />
         </ContextMenu>
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_53a0pfz0t.htm"/>
+    </Window.InputBindings>
     <Grid Margin="0,00">
 
         <Grid.RowDefinitions>

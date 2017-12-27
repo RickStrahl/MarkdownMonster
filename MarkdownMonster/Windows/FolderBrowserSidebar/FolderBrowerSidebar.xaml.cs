@@ -282,7 +282,7 @@ namespace MarkdownMonster.Windows
             }
             else if (e.Key == Key.F1)
             {
-                mmApp.Model.HelpCommand.Execute("_4xs10gaui.htm");
+                mmApp.Model.Commands.HelpCommand.Execute("_4xs10gaui.htm");
                 e.Handled = true;
             }
         }

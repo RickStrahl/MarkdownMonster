@@ -1239,6 +1239,22 @@ namespace MarkdownMonster
                         dom.documentElement.scrollTop -= 150;
                     }
                 }
+                else if (key == "ctrl-tab")
+                {
+                    var idx = Window.TabControl.SelectedIndex;
+                    idx++;
+                    if (idx > Window.TabControl.Items.Count -1)
+                        idx = 0;
+                    Window.TabControl.SelectedIndex = idx;
+                }
+                else if (key == "ctrl-shift-tab")
+                {
+                    var idx = Window.TabControl.SelectedIndex;
+                    idx--;
+                    if (idx < 0)
+                        idx = Window.TabControl.Items.Count - 1;
+                    Window.TabControl.SelectedIndex = idx;
+                }
                 // zooming
                 else if (key == "ctrl-=")
                 {

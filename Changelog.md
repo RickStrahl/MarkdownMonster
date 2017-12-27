@@ -6,17 +6,17 @@
 ### 1.8.8
 *<small>not released yet</small>*
 
-* **New two-way Table Editor**  
+* **[New two-way Table Editor](https://markdownmonster.west-wind.com/docs/_53a0pfz0t.htm)**  
 Added table editor dialog that allows for creation of Markdown (and Html) tables interactively. A new dialog provides column based data entry with tabbable fields along with the ability to easily add and delete rows and columns. Output can be generated as either Markdown or HTML and you can use the Editor context menu's 'Edit Table' option to edit or reformat a table.
 
 * **New .mdown, .mkd and .mkdn Extension Mapping**   
 Added additional Markdown extensions to be recognized by Markdown Monster as markdown text.
 
-* **Add Ctrl-Tab for moving between open Document Tabs**   
-You can now use Ctrl-Tab to flip across the open editor windows on the editor pane.
+* **Add `Ctrl-Tab` and `Ctrl-Shift-Tab`  for moving between open Document Tabs**   
+You can now use `Ctrl-Tab` and `Ctrl-Shift-Tab` to flip more easily across the open editor windows on the editor pane.
 
 * **Paste Code Dialog Picks up Code from ClipBoard**   
-The Paste Code Dialog (alt-c) now tries to pick up code from the clipboard and displays it for editing and then pasting. Workflow: Copy code to clipboard from some app, switch to MM, press `alt-c`, type sytnax code (ie. css, html, csharp) press enter. Faster workflow then pasting and manually adding backticks and language code to code block.
+The Paste Code Dialog (alt-c) now tries to pick up code from the clipboard and displays it for editing and then pasting - if no code selection is active in the editor. This can provide an optimized workflow: Copy code to clipboard from code editor, switch to MM, press `alt-c`, type sytnax code (ie. css, html, csharp), press enter and code is pasted properly into markdown. 
 
 ### 1.8.4
 *<small>December 20th, 2017</small>*

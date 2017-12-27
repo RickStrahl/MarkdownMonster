@@ -709,22 +709,7 @@ namespace MarkdownMonster
             });
         }
 
-
-        public CommandBase HelpCommand { get; set; }
-
-        void Command_Help()
-        {
-            // F1 Help Command - Pass option CommandParameter="TopicId"
-            HelpCommand = new CommandBase((topicId, e) =>
-            {
-                string url = mmApp.Urls.DocumentationBaseUrl;
-
-                if (topicId != null)
-                    url = mmApp.GetDocumentionUrl(topicId as string);
-
-                ShellUtils.GoUrl(url);
-            });
-        }
+        
 
         public CommandBase GeneratePdfCommand { get; set; }
 
@@ -833,8 +818,7 @@ namespace MarkdownMonster
             Command_PrintePreview();
 
             Command_ShowFolderBrowser();
-            Command_Help();
-
+            
             Command_GeneratePdf();
             Command_CommitToGit();
             Command_WordWrap();

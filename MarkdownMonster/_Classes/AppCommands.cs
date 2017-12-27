@@ -46,6 +46,7 @@ namespace MarkdownMonster
 
             // Miscellaneous
             OpenAddinManager();
+            Help();
             CopyFolderToClipboard();
         }
 
@@ -528,6 +529,25 @@ Do you want to View in Browser now?
                 form.Show();
             });
         }
+
+
+        public CommandBase HelpCommand { get; set; }
+
+        void Help()
+        {
+            HelpCommand = new CommandBase((topicId, command) =>
+            {
+                string url = mmApp.Urls.DocumentationBaseUrl;
+
+                if (topicId != null)
+                    url = mmApp.GetDocumentionUrl(topicId as string);
+
+                ShellUtils.GoUrl(url);
+            }, (p, c) => true);
+        }
+
+       
+
         #endregion
     }
 }

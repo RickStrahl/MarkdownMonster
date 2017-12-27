@@ -117,6 +117,8 @@ var te = window.textEditor = {
             // try to move between tabs
             "ctrl-tab": function () { te.specialkey("ctrl-tab"); },
 
+            "ctrl-shift-tab": function () { te.specialkey("ctrl-shift-tab"); },
+
             // take over Zoom keys and manually zoom
             "ctrl--": function() {
                 te.specialkey("ctrl--");
