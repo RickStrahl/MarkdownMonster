@@ -1,7 +1,7 @@
 html, body {
     font-family: medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;    
     font-style: normal;
-    font-size: 21px;
+    font-size: 20px;
     line-height: 1.6;    
     -webkit-font-smoothing: antialiased;
     height: 100%;
@@ -104,7 +104,7 @@ td, th {
     border: 1px solid #ddd;
     padding: 6px 13px;
     display: table-cell;
-    vertical-align: inherit;
+    vertical-align: top;
 }
 
 th {

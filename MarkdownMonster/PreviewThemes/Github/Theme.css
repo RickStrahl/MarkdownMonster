@@ -102,7 +102,7 @@ td, th {
     border: 1px solid #ddd;
     padding: 6px 13px;
     display: table-cell;
-    vertical-align: inherit;
+    vertical-align: top;
 }
 th {
     font-weight: bold;

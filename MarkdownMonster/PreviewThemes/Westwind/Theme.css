@@ -49,11 +49,12 @@ h5, h6 {
     font-size: 1em;
 }
 table {
-    margin: 20px 0;    
+    margin: 20px 0;
 }
 th, td {
     padding: 5px 9px;
     border-bottom: 1px solid #eee;
+    vertical-align: top;
 }
 th {
     background: #eee    
@@ -182,7 +183,7 @@ td, th {
     border: 1px solid #ddd;
     padding: 6px 13px;
     display: table-cell;
-    vertical-align: inherit;
+    vertical-align: top;
 }
 th {
     font-weight: bold;
