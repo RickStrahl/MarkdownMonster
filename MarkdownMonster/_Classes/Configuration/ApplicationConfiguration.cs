@@ -447,7 +447,10 @@ namespace MarkdownMonster
 		    {"md", "markdown"},
             {"markdown", "markdown" },
 	        {"mdcrypt", "markdown"},
-
+	        {"mdown", "markdown" },
+	        {"mkd", "markdown" },
+	        {"mkdn", "markdown" },
+	        
             {"json", "json"},
 		    {"html", "html"},
 			{"htm", "html" },
