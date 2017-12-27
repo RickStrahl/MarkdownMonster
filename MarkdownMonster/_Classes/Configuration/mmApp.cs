@@ -49,8 +49,7 @@ namespace MarkdownMonster
         public static DateTime Started { get; set; }
 
         public static string AllowedFileExtensions { get; } =
-            ",.md,.markdown,.txt,.htm,.html,.xml,.json,.js,.ts,.css,.ps1,.bat,.cs,.prg,.config,.ini";
-
+            ",.md,.markdown,.mdown,.mkd,.mkdn,.txt,.htm,.html,.xml,.json,.js,.ts,.css,.ps1,.bat,.cs,.prg,.config,.ini";
 
         /// <summary>
         /// Returns a machine specific encryption key that can be used for passwords

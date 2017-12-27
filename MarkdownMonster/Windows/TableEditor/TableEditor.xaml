@@ -20,7 +20,7 @@
         WindowStartupLocation="CenterOwner" 
         FontSize="15"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="900" Height="700">
+        Width="1020" Height="700">
     <Window.Resources>
         <ContextMenu x:Key="ColumnContextMenu">
             <MenuItem Name="MenuInsertRowBelow" Header="Insert Row Below" Click="Button_Click" />
@@ -61,13 +61,50 @@
                         </StackPanel>
                     </Button>
                 </ToolBar>
+
                 <ToolBar>
-                    <Button Name="ButtonInsertRow"   Click="Button_Click">
+                    <TextBlock Margin="0,3,0,5">Insert:</TextBlock>
+                    <Button Name="ButtonInsertRowBelow"   Click="Button_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="PlusCircle"                                             
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="ArrowCircleOutlineDown"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                              />
-                            <TextBlock>Add Row</TextBlock>
+                            <TextBlock>Row Below</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ButtonInsertRowAbove"   Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="ArrowCircleOutlineUp"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                            />
+                            <TextBlock>Row Above</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ButtonInsertColumnRight"   Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="ArrowCircleOutlineRight"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                            />
+                            <TextBlock>Column Right</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ButtonInsertColumnLeft"   Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="ArrowCircleOutlineLeft"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                            />
+                            <TextBlock>Column Left</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                </ToolBar>
+                <ToolBar>
+                    <Button Name="ButtonDeleteColumn"    Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="TimesCircle"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                            />
+                            <TextBlock>Delete Column</TextBlock>
                         </StackPanel>
                     </Button>
                     <Button Name="ButtonDeleteRow"    Click="Button_Click">
@@ -76,24 +113,6 @@
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                             />
                             <TextBlock>Delete Row</TextBlock>
-                        </StackPanel>
-                    </Button>
-                </ToolBar>
-                <ToolBar>
-                    <Button Name="ButtonInsertColumn"   Click="Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="PlusCircle"                                             
-                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                            />
-                            <TextBlock>Add Column</TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Name="ButtonDeleteColumn"    Click="Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="TimesCircle"                                             
-                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                            />
-                            <TextBlock>Delete Column</TextBlock>
                         </StackPanel>
                     </Button>
                 </ToolBar>

@@ -338,6 +338,67 @@ namespace MarkdownMonster
                 ContextMenu.Items.Add(mi);
                 return true;
             }
+            else if (line.Trim().StartsWith("<td>") && line.Trim().EndsWith("</td>") ||
+                     line.Trim().StartsWith("<tr>") && line.Trim().EndsWith("</tr>") ||
+                     line.Trim().StartsWith("<th>") && line.Trim().EndsWith("</th>") ||
+                     line.Trim() == "<table>" || line.Trim() == "<thead>")
+            {
+                var mi = new MenuItem
+                {
+                    Header = "Edit Table"
+                };
+                mi.Click += (o, args) =>
+                {
+                    var editor = Model.ActiveEditor;
+
+                    var lineText = editor.GetCurrentLine();
+
+                    var startPos = editor.GetCursorPosition();
+                    var row = startPos.row;
+                    var startRow = -1;
+                    
+                    for (int i = row - 1; i > -1; i--)
+                    {
+                        lineText = editor.GetLine(i);
+                        if (lineText.Trim() == "<table>")
+                        {
+                            startRow = i;
+                            break;
+                        }
+                    }
+
+                    if (startRow == -1)
+                        return;
+
+                    var endRow = startRow;
+                    for (int i = row + 1; i < 99999999; i++)
+                    {
+                        lineText = editor.GetLine(i);
+                        if (lineText.Trim() == "</table>")
+                        {
+                            startRow = i;
+                            break;
+                        }
+                    }
+
+                    if (endRow == startRow)
+                        return;
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = startRow; i <= endRow; i++)
+                    {
+                        sb.AppendLine(editor.GetLine(i));
+                    }
+
+                    MessageBox.Show(sb.ToString());
+                    // select the entire table
+                    Model.ActiveEditor.AceEditor.SetSelectionRange(startRow - 1, 0, endRow + 1, 0, pos);
+
+                    Model.ActiveEditor.EditorSelectionOperation("table", sb.ToString());
+                };
+                ContextMenu.Items.Add(mi);
+                return true;
+            }
 
             return false;
         }

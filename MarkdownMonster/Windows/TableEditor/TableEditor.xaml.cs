@@ -81,7 +81,7 @@ namespace MarkdownMonster.Windows
             InitializeComponent();
             
             mmApp.SetThemeWindowOverride(this);
-
+            Owner = mmApp.Model.Window;
 
             var data = new List<string[]>();
 
@@ -128,21 +128,19 @@ namespace MarkdownMonster.Windows
             TableData.Add(new ObservableCollection<CellContent>
             {
                 new CellContent("Header 1"),
-                new CellContent("Header 2"),
-                new CellContent("Header 3")
+                new CellContent("Header 2"),                
             });
             TableData.Add(new ObservableCollection<CellContent>
             {
                 new CellContent("Column 1"),
-                new CellContent("Column 2"),
-                new CellContent("Column 3")
+                new CellContent("Column 2"),                
             });
-            TableData.Add(new ObservableCollection<CellContent>
-            {
-                new CellContent("Column 4"),
-                new CellContent("Column 5"),
-                new CellContent("Column 6")
-            });            
+            //TableData.Add(new ObservableCollection<CellContent>
+            //{
+            //    new CellContent("Column 3"),
+            //    new CellContent("Column 4"),
+            
+            //});            
         }
         
 
@@ -165,8 +163,7 @@ namespace MarkdownMonster.Windows
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var name = (sender as Control).Name;
-            var focusedTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-
+            
             if (sender == ButtonOk)
             {
                 var parser = new TableParser();
@@ -183,23 +180,34 @@ namespace MarkdownMonster.Windows
             {
                 Cancelled = true;
                 Close();
-            }            
-            else if (sender == ButtonInsertColumn || "MenuInsertColumnRight" == name)
+            }
+
+
+            var focusedTextBox = FocusManager.GetFocusedElement(this) as TextBox;
+            if (focusedTextBox == null)
+                return;
+            
+            if (sender == ButtonInsertColumnRight || "MenuInsertColumnRight" == name)
             {
                 var pos = focusedTextBox.Tag as TablePosition;
                 DataGridTableEditor.AddColumn(pos.Row, pos.Column, ColumnInsertLocation.Right);
             }
-            else if (sender == ButtonInsertColumn || "MenuInsertColumnLeft" == name)
+            else if (sender == ButtonInsertColumnLeft || "MenuInsertColumnLeft" == name)
             {
                 var pos = focusedTextBox.Tag as TablePosition;
                 DataGridTableEditor.AddColumn(pos.Row, pos.Column, ColumnInsertLocation.Left);
             }
-            else if (sender == ButtonInsertRow || "MenuInsertRowBelow" == name)
+            else if (sender == ButtonDeleteColumn || "MenuDeleteColumn" == name)
+            {
+                var pos = focusedTextBox.Tag as TablePosition;
+                DataGridTableEditor.DeleteColumn(pos.Row, pos.Column);
+            }
+            else if (sender == ButtonInsertRowBelow || "MenuInsertRowBelow" == name)
             {
                 var pos = focusedTextBox.Tag as TablePosition;
                 DataGridTableEditor.AddRow(pos.Row, pos.Column, RowInsertLocation.Below);
             }
-            else if (sender == ButtonInsertRow || "MenuInsertRowAbove" == name)
+            else if (sender == ButtonInsertRowAbove || "MenuInsertRowAbove" == name)
             {
                 var pos = focusedTextBox.Tag as TablePosition;
                 DataGridTableEditor.AddRow(pos.Row, pos.Column, RowInsertLocation.Above);
@@ -209,11 +217,7 @@ namespace MarkdownMonster.Windows
                 var pos = focusedTextBox.Tag as TablePosition;
                 DataGridTableEditor.DeleteRow(pos.Row, pos.Column);
             }
-            else if (sender == ButtonDeleteColumn || "MenuDeleteColumn" == name)
-            {
-                var pos = focusedTextBox.Tag as TablePosition;
-                DataGridTableEditor.DeleteColumn(pos.Row, pos.Column);
-            }
+            
         }
 
         
