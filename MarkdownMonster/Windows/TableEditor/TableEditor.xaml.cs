@@ -74,6 +74,21 @@ namespace MarkdownMonster.Windows
         private bool _embedAsHtml;
 
 
+        public ObservableCollection<string> TableModes { get; set; } = new ObservableCollection<string> { "Pipe Table", "Grid Table", "HTML Table" };
+
+        public string TableMode
+        {
+            get { return _tableMode; }
+            set
+            {
+                if (value == _tableMode) return;
+                _tableMode = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _tableMode = "Pipe Table";
+
+
         public CommandBase ColumnKeyCommand { get; set; }
 
         public TableEditor(string tableHtml = null)
@@ -167,10 +182,13 @@ namespace MarkdownMonster.Windows
             if (sender == ButtonOk)
             {
                 var parser = new TableParser();
-                if (!EmbedAsHtml)
-                    TableHtml = parser.ParseDataToMarkdown(TableData);
-                else
+                
+                if (TableMode == "Grid Table")
+                    TableHtml = parser.ParseDataToGridTableMarkdown(TableData);
+                else if(TableMode == "HTML Table")
                     TableHtml = parser.ParseDataToHtml(TableData);
+                else
+                    TableHtml = parser.ParseDataToPipeTableMarkdown(TableData);
 
                 Cancelled = false;
                 DialogResult = true; 
@@ -181,7 +199,6 @@ namespace MarkdownMonster.Windows
                 Cancelled = true;
                 Close();
             }
-
 
             var focusedTextBox = FocusManager.GetFocusedElement(this) as TextBox;
             if (focusedTextBox == null)

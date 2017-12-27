@@ -139,6 +139,9 @@
             </mmwindows:GridTable>
         </ScrollViewer>
 
-        <CheckBox IsChecked="{Binding EmbedAsHtml}" Grid.Row="2" Margin="20,10,10,10">Embed as HTML</CheckBox>
+        <StackPanel Grid.Row="2"  Orientation="Horizontal" Margin="10">
+            <TextBlock Margin="0,2,10,0">generate as:</TextBlock>
+            <ComboBox Name="ComboTableMode" ItemsSource="{Binding TableModes}" SelectedItem="{Binding TableMode, Mode=TwoWay}"  Width="300"/>
+        </StackPanel>
     </Grid>
 </controls:MetroWindow>

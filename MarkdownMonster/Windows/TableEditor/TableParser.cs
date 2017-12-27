@@ -45,7 +45,7 @@ namespace MarkdownMonster.Windows
         /// </summary>
         /// <param name="tableData"></param>
         /// <returns></returns>
-        public string ParseDataToMarkdown(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
+        public string ParseDataToPipeTableMarkdown(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
         {
             if (tableData == null)
                 tableData = TableData;
@@ -92,6 +92,92 @@ namespace MarkdownMonster.Windows
 
                 sb.AppendLine(line.Trim());
             }
+
+            return sb + "\n";
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tableData"></param>
+        /// <returns></returns>
+        public string ParseDataToGridTableMarkdown(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
+        {
+            if (tableData == null)
+                tableData = TableData;
+
+            if (tableData == null || tableData.Count < 1)
+                return string.Empty;
+
+            for (int i = tableData.Count - 1; i > -1; i--)
+            {
+                if (tableData[i] == null || tableData[i].Count == 0)
+                    tableData.Remove(tableData[i]);
+            }
+
+            var columnInfo = GetColumnInfo(tableData);
+            for (int i = 0; i < columnInfo.Count; i++)
+            {
+                var colInf = columnInfo[i];
+                for (int j = 0; j < tableData.Count; j++)
+                {                    
+                    var col = tableData[j][i];                    
+                    col.Lines = col.Text.Split('\n');
+                    var maxWidth = col.Lines.Max(c => c.Length);
+                    if (maxWidth > columnInfo[i].MaxWidth)
+                        columnInfo[i].MaxWidth = maxWidth;
+                }
+            }
+            
+            StringBuilder sb = new StringBuilder();
+            sb.Clear();
+            string separatorLine = "+-";
+            string line = "| ";
+            for (int i = 0; i < columnInfo.Count; i++)
+            {
+                var colInfo = columnInfo[i];
+                line += $"{colInfo.Title.PadRight(colInfo.MaxWidth)} | ";
+                separatorLine += "-".PadRight(colInfo.MaxWidth,'-') + "-+-";
+            }
+            separatorLine = separatorLine.TrimEnd('-');
+
+            sb.AppendLine(separatorLine);
+            sb.AppendLine(line.TrimEnd());
+            sb.AppendLine(separatorLine.Replace("-", "="));
+
+            foreach (var row in tableData.Skip(1))
+            {
+                int rowLines = row.Max(s => StringUtils.GetLines(s.Text).Length);
+
+                
+                foreach (var col in row)
+                {
+                    var list = new List<string>();
+                    list.AddRange(col.Lines);
+                    for (int i = col.Lines.Length; i < rowLines; i++)
+                        list.Add(string.Empty);
+                    col.Lines = list.ToArray();
+                }
+            }
+
+            
+            foreach (var row in tableData.Skip(1))
+            {
+                for (int j = 0; j < row[0].Lines.Length; j++)
+                {
+                    line = "| ";
+                    for (int i = 0; i < row.Count; i++)
+                    {
+                        var col = row[i];
+                        line += col.Lines[j].PadRight(columnInfo[i].MaxWidth) + " | ";
+                    }
+
+                    sb.AppendLine(line.Trim());
+                }
+
+                sb.AppendLine(separatorLine);
+            }
+
 
             return sb + "\n";
         }
@@ -162,9 +248,13 @@ namespace MarkdownMonster.Windows
             /// <returns></returns>
             public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownToData(string tableMarkdown)
         {
+            
             var data = new ObservableCollection<ObservableCollection<CellContent>>();
             if (string.IsNullOrEmpty(tableMarkdown))
                 return data;
+
+            if (tableMarkdown.Trim().StartsWith("+-") && tableMarkdown.Trim().EndsWith("-+"))
+                return ParseMarkdownGridTableToData(tableMarkdown);
 
             var lines = StringUtils.GetLines(tableMarkdown.Trim());
             foreach (var row in lines)
@@ -186,6 +276,77 @@ namespace MarkdownMonster.Windows
             return data;
         }
 
+
+        public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownGridTableToData(string tableMarkdown)
+        {
+            var data = new ObservableCollection<ObservableCollection<CellContent>>();
+            if (string.IsNullOrEmpty(tableMarkdown))
+                return data;
+
+            var lines = StringUtils.GetLines(tableMarkdown.Trim());
+            
+            // loop through rows
+            for (var index = 0; index < lines.Length; index++)
+            {
+             
+                var rowText = lines[index];
+                if (rowText.Length == 0)
+                    continue;                
+
+                if (rowText.StartsWith("+--") || rowText.StartsWith("+=="))
+                {
+                    var columnData = new ObservableCollection<CellContent>();
+
+                    // goto next 'column line'
+                    index++;
+                    if (index >= lines.Length)
+                        break;
+                    rowText = lines[index];
+
+                    var cellText = new List<StringBuilder>();
+                    string[] cols = new string[0];
+
+                    while (true)
+                    {
+                        cols = rowText.Trim('|').Split('|');
+                        
+                        for (var i = 0; i < cols.Length; i++)
+                            cellText.Add(new StringBuilder());
+                        
+                        for (var i = 0; i < cols.Length; i++)
+                        {
+                            var col = cols[i];
+                            cellText[i].AppendLine(col.Trim());
+                        }
+
+                        // get the next line of this column
+                        if (lines[index + 1].StartsWith("|"))
+                        {
+                            index++;
+                            rowText = lines[index];
+                        }
+                        else
+                            break;
+                    }
+
+                    
+                    if (cols.Length == 0)
+                        continue;
+
+                    // collect multiple lines per column
+                    for (var i = 0; i < cols.Length; i++)
+                    {
+                        cellText[i].Length -= 2; // strip off trailing \r\n
+                        var ctext = cellText[i].ToString().Replace("\r","");                        
+                        columnData.Add(new CellContent(ctext));
+                    }
+
+                    data.Add(columnData);
+                }                
+            }
+
+            return data;
+        }
 
         /// <summary>
         /// Retrieves information about each of the columns in the table including
@@ -228,7 +389,7 @@ namespace MarkdownMonster.Windows
     public class ColumnInfo
     {
         public string Title;
-        public int MaxWidth;        
+        public int MaxWidth;
     }
 
 
