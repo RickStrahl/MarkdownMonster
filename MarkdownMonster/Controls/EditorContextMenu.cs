@@ -283,7 +283,9 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(line))
                 return false;
 
-            if (line.Trim().StartsWith("|") && line.Trim().EndsWith("|") )
+            if (line.Trim().StartsWith("|") && line.Trim().EndsWith("|") ||
+                line.Trim().StartsWith("+-") && line.Trim().EndsWith("-+"))
+
             {
                 var mi = new MenuItem
                 {
@@ -294,7 +296,8 @@ namespace MarkdownMonster
                     var editor = Model.ActiveEditor;
 
                     var lineText = editor.GetCurrentLine();
-                    if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|")))
+                    if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|") ||
+                          lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
                         return;
 
                     var startPos = editor.GetCursorPosition();
@@ -303,7 +306,8 @@ namespace MarkdownMonster
                     for (int i = row - 1; i > -1; i--)
                     {
                         lineText = editor.GetLine(i);
-                        if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|")))
+                        if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|") ||
+                              lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
                         {
                             startRow = i +1;
                             break;
@@ -314,7 +318,8 @@ namespace MarkdownMonster
                     for (int i = row + 1; i < 99999999; i++)
                     {
                         lineText = editor.GetLine(i);
-                        if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|")))
+                        if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|") ||
+                              lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
                         {
                             endRow = i -1;
                             break;

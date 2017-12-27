@@ -33,7 +33,7 @@ namespace MarkdownMonster.Test
             var data = GetTableData();
             
             var parser = new TableParser();
-            string html = parser.ParseDataToPipeTableMarkdown(data);
+            string html = parser.ToPipeTableMarkdown(data);
 
             Console.WriteLine(html);
 
@@ -46,7 +46,7 @@ namespace MarkdownMonster.Test
             var data = GetTableData();
 
             var parser = new TableParser();
-            string html = parser.ParseDataToGridTableMarkdown(data);
+            string html = parser.ToGridTableMarkdown(data);
 
             Console.WriteLine(html);
 
@@ -54,12 +54,12 @@ namespace MarkdownMonster.Test
         }
 
         [TestMethod]
-        public void DataToHtmlTest()
+        public void DataToTableHtmlTest()
         {
             var data = GetTableData();
 
             var parser = new TableParser();
-            string html = parser.ParseDataToHtml(data);
+            string html = parser.ToTableHtml(data);
 
             Console.WriteLine(html);
 
@@ -82,8 +82,11 @@ namespace MarkdownMonster.Test
             var parser = new TableParser();
             var data = parser.ParseMarkdownToData(md);
 
+            Console.WriteLine(data.Count);
+            Console.WriteLine(parser.ToPipeTableMarkdown(data));
+
             Assert.IsTrue(data.Count == 4, "Table should have returned 4 rows");
-            Assert.IsTrue(data[1][1].Text == "Header 2");
+            Assert.IsTrue(data[1][1].Text == "Column 2");
         }
 
         [TestMethod]
@@ -110,13 +113,79 @@ namespace MarkdownMonster.Test
             var data = parser.ParseMarkdownToData(md);
 
             Console.WriteLine(data.Count);
-            Console.WriteLine(parser.ParseDataToGridTableMarkdown(data));
+            Console.WriteLine(parser.ToGridTableMarkdown(data));
 
             Assert.IsTrue(data.Count == 5, "Table should have returned 5 rows");
             Assert.IsTrue(data[2][0].Text.Contains("\nand a bottle of"));
 
             
         }
+
+        [TestMethod]
+        public void ParseComplexMarkdownGridTableToDataTest()
+        {
+            string md = @"
++-----------------------------------+-----------------------------------+
+| Attribute                         | Function                          |
++===================================+===================================+
+| **display: flex**                 | Top level attribute that enables  |
+|                                   | Flexbox formatting on the         |
+|                                   | container it is applied to.       |
+|                                   |                                   |
+|                                   | **display:flex**                  |
++-----------------------------------+-----------------------------------+
+| **flex-direction**                | Determines horizontal (row) or    |
+|                                   | vertical (column) flow direction  |
+|                                   | elements in the container.        |
+|                                   |                                   |
+|                                   | **row,column**                    |
++-----------------------------------+-----------------------------------+
+| **flex-wrap**                     | Determines how content wraps when |
+|                                   | the content overflows the         |
+|                                   | container.                        |
+|                                   |                                   |
+|                                   | **wrap, nowrap, wrap-reverse**    |
++-----------------------------------+-----------------------------------+
+| **flex-flow**                     | Combination of flex-direction and |
+|                                   | flex-wrap as a single attribute.  |
+|                                   |                                   |
+|                                   | **flex-flow: row nowrap**         |
++-----------------------------------+-----------------------------------+
+| **justify-content**               | Aligns content along the flex     |
+|                                   | flow direction.                   |
+|                                   |                                   |
+|                                   | **flex-start, flex-end, center,   |
+|                                   | space-between, space-around**     |
++-----------------------------------+-----------------------------------+
+| **align-items**                   | Like align-content but aligns     |
+|                                   | content along the perpendicular   |
+|                                   | axis.                             |
+|                                   |                                   |
+|                                   | **flex-start, flex-end, center,   |
+|                                   | stretch, baseline**               |
++-----------------------------------+-----------------------------------+
+| **align-content**                 | Aligns multi-line content so that |
+|                                   | multiple lines of content line up |
+|                                   | when wrapping.                    |
+|                                   |                                   |
+|                                   | **flex-start, flex-end, center,   |
+|                                   | space-between, space-around,      |
+|                                   | stretch**                         |
++-----------------------------------+-----------------------------------+
+";
+
+            var parser = new TableParser();
+            var data = parser.ParseMarkdownToData(md);
+
+            Console.WriteLine(data.Count);
+            Console.WriteLine(parser.ToGridTableMarkdown(data));
+
+            Assert.IsTrue(data.Count == 8, "Table should have returned 8 rows");
+            Assert.IsTrue(data[2][0].Text.Contains("**flex-direction**"));
+
+
+        }
+
 
         ObservableCollection<ObservableCollection<CellContent>> GetTableData()
         {

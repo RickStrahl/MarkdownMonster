@@ -13,7 +13,7 @@
         xmlns:controls1="clr-namespace:MarkdownMonster.Controls"
         mc:Ignorable="d"
         Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
-        Title="Table Editor"
+        Title="Table Editor (Preview)"
         TitleCharacterCasing="Normal"
         TitlebarHeight="35"                       
         WindowStyle="SingleBorderWindow" ResizeMode="CanResize"                      

@@ -106,6 +106,8 @@ namespace MarkdownMonster.Windows
             {
                 var parser = new TableParser();
                 TableData = parser.ParseMarkdownToData(tableHtml);
+                if (tableHtml.StartsWith("+"))
+                    TableMode = "Grid Table";
             }
 
             DataGridTableEditor.ParentWindow = this;
@@ -184,11 +186,11 @@ namespace MarkdownMonster.Windows
                 var parser = new TableParser();
                 
                 if (TableMode == "Grid Table")
-                    TableHtml = parser.ParseDataToGridTableMarkdown(TableData);
+                    TableHtml = parser.ToGridTableMarkdown(TableData);
                 else if(TableMode == "HTML Table")
-                    TableHtml = parser.ParseDataToHtml(TableData);
+                    TableHtml = parser.ToTableHtml(TableData);
                 else
-                    TableHtml = parser.ParseDataToPipeTableMarkdown(TableData);
+                    TableHtml = parser.ToPipeTableMarkdown(TableData);
 
                 Cancelled = false;
                 DialogResult = true; 

@@ -45,7 +45,7 @@ namespace MarkdownMonster.Windows
         /// </summary>
         /// <param name="tableData"></param>
         /// <returns></returns>
-        public string ParseDataToPipeTableMarkdown(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
+        public string ToPipeTableMarkdown(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
         {
             if (tableData == null)
                 tableData = TableData;
@@ -101,7 +101,7 @@ namespace MarkdownMonster.Windows
         /// </summary>
         /// <param name="tableData"></param>
         /// <returns></returns>
-        public string ParseDataToGridTableMarkdown(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
+        public string ToGridTableMarkdown(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
         {
             if (tableData == null)
                 tableData = TableData;
@@ -188,7 +188,7 @@ namespace MarkdownMonster.Windows
         /// </summary>
         /// <param name="tableData"></param>
         /// <returns></returns>
-        public string ParseDataToHtml(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
+        public string ToTableHtml(ObservableCollection<ObservableCollection<CellContent>> tableData = null)
         {
             if (tableData == null)
                 tableData = TableData;

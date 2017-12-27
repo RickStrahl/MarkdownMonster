@@ -15,6 +15,9 @@ Added additional Markdown extensions to be recognized by Markdown Monster as mar
 * **Add Ctrl-Tab for moving between open Document Tabs**   
 You can now use Ctrl-Tab to flip across the open editor windows on the editor pane.
 
+* **Paste Code Dialog Picks up Code from ClipBoard**   
+The Paste Code Dialog (alt-c) now tries to pick up code from the clipboard and displays it for editing and then pasting. Workflow: Copy code to clipboard from some app, switch to MM, press `alt-c`, type sytnax code (ie. css, html, csharp) press enter. Faster workflow then pasting and manually adding backticks and language code to code block.
+
 ### 1.8.4
 *<small>December 20th, 2017</small>*
 

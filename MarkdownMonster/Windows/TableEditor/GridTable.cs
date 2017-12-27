@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -280,6 +281,7 @@ namespace MarkdownMonster.Windows
 
     }
 
+    [DebuggerDisplay("{Text} {Row}:{Column} ")]
     public class CellContent : INotifyPropertyChanged
     {
         public string Text
@@ -308,8 +310,7 @@ namespace MarkdownMonster.Windows
         }
         private int _row;
 
-
-
+        
         public int Column
         {
             get { return _column; }
@@ -321,6 +322,8 @@ namespace MarkdownMonster.Windows
             }
         }
         private int _column;
+
+        public string[] Lines { get; set; }
 
         public CellContent(string text)
         {
