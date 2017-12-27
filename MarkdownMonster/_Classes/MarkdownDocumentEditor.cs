@@ -490,7 +490,19 @@ namespace MarkdownMonster
             {
                 var form = new PasteCode();
                 form.Owner = Window;
-                form.Code = input;
+                if (!string.IsNullOrEmpty(input))
+                    form.Code = input;
+                else
+                {
+                    // use clipboard text if we think it contains code
+                    string clipText = Clipboard.GetText(TextDataFormat.Text);
+                    if (!string.IsNullOrEmpty(clipText) &&
+                        clipText.Contains("{") ||
+                        clipText.Contains("/>") ||
+                        clipText.Contains("="))
+                        form.Code = clipText;
+                }
+
                 form.CodeLanguage = "csharp";
                 bool? res = form.ShowDialog();
 
@@ -500,7 +512,6 @@ namespace MarkdownMonster
                            form.Code.Trim() + "\r\n" +
                            "```\r\n";
                 }
-
             }
             else
             {

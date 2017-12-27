@@ -95,7 +95,7 @@ namespace MarkdownMonster.Windows
 
         private void PasteCode_Loaded(object sender, RoutedEventArgs e)
         {
-            this.ComboBackground = TextCodeLanguage.Background;
+            ComboBackground = TextCodeLanguage.Background;
 
             DataContext = this;
             WebBrowserCode.Focus();  
