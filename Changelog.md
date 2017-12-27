@@ -15,7 +15,6 @@ Added additional Markdown extensions to be recognized by Markdown Monster as mar
 * **Add Ctrl-Tab for moving between open Document Tabs**   
 You can now use Ctrl-Tab to flip across the open editor windows on the editor pane.
 
-
 ### 1.8.4
 *<small>December 20th, 2017</small>*
 
