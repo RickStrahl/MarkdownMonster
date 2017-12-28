@@ -39,7 +39,7 @@ namespace MarkdownMonster.Windows
             }
             set { _tableData = value; }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -53,30 +53,45 @@ namespace MarkdownMonster.Windows
             if (tableData == null || tableData.Count < 1)
                 return string.Empty;
 
-            for (int i = tableData.Count-1; i > -1; i--)
+            for (int i = tableData.Count - 1; i > -1; i--)
             {
                 if (tableData[i] == null || tableData[i].Count == 0)
                     tableData.Remove(tableData[i]);
             }
 
-            var columnInfo = GetColumnInfo(tableData);         
+            var columnInfo = GetColumnInfo(tableData);
 
-            StringBuilder sb = new StringBuilder();                        
+            StringBuilder sb = new StringBuilder();
             sb.Clear();
 
             string line = "\n| ";
+            string separator = "|";
             for (int i = 0; i < columnInfo.Count; i++)
             {
-                var colInfo = columnInfo[i];                
-                line += $"{colInfo.Title.PadRight(colInfo.MaxWidth)} | ";
-            }
-            sb.AppendLine(line.TrimEnd());
+                var colInfo = columnInfo[i];
+                string title = colInfo.Title;
+                title = title.Replace(":", "");
+                line += $"{title.PadRight(colInfo.MaxWidth)} | ";
 
-            
-            sb.Append("|");
-            for (int i = 0; i < line.Length-4; i++)
-                sb.Append("-");
-            sb.AppendLine("|");
+                if (colInfo.Title.StartsWith(":"))
+                    separator += ":" + "-".PadRight(colInfo.MaxWidth, '-');
+                else
+                    separator += "-" + "-".PadRight(colInfo.MaxWidth, '-');
+
+                if (colInfo.Title.EndsWith(":"))
+                    separator += ":|";
+                else
+                    separator += "-|";
+            }
+
+            sb.AppendLine(line.TrimEnd());
+            sb.AppendLine(separator);
+
+
+            //sb.Append("|");
+            //for (int i = 0; i < line.Length-4; i++)
+            //    sb.Append("-");
+            //sb.AppendLine("|");
 
             foreach (var row in tableData.Skip(1))
             {
@@ -120,15 +135,15 @@ namespace MarkdownMonster.Windows
             {
                 var colInf = columnInfo[i];
                 for (int j = 0; j < tableData.Count; j++)
-                {                    
-                    var col = tableData[j][i];                    
+                {
+                    var col = tableData[j][i];
                     col.Lines = col.Text.Split('\n');
                     var maxWidth = col.Lines.Max(c => c.Length);
                     if (maxWidth > columnInfo[i].MaxWidth)
                         columnInfo[i].MaxWidth = maxWidth;
                 }
             }
-            
+
             StringBuilder sb = new StringBuilder();
             sb.Clear();
             string separatorLine = "+-";
@@ -137,8 +152,9 @@ namespace MarkdownMonster.Windows
             {
                 var colInfo = columnInfo[i];
                 line += $"{colInfo.Title.PadRight(colInfo.MaxWidth)} | ";
-                separatorLine += "-".PadRight(colInfo.MaxWidth,'-') + "-+-";
+                separatorLine += "-".PadRight(colInfo.MaxWidth, '-') + "-+-";
             }
+
             separatorLine = separatorLine.TrimEnd('-');
 
             sb.AppendLine(separatorLine);
@@ -149,7 +165,7 @@ namespace MarkdownMonster.Windows
             {
                 int rowLines = row.Max(s => StringUtils.GetLines(s.Text).Length);
 
-                
+
                 foreach (var col in row)
                 {
                     var list = new List<string>();
@@ -160,7 +176,7 @@ namespace MarkdownMonster.Windows
                 }
             }
 
-            
+
             foreach (var row in tableData.Skip(1))
             {
                 for (int j = 0; j < row[0].Lines.Length; j++)
@@ -206,7 +222,7 @@ namespace MarkdownMonster.Windows
 
             StringBuilder sb = new StringBuilder();
             sb.Clear();
-            
+
             sb.AppendLine("\n<table>");
             sb.AppendLine("<thead>");
             sb.AppendLine("\t<tr>");
@@ -227,7 +243,7 @@ namespace MarkdownMonster.Windows
                 for (int i = 0; i < row.Count; i++)
                 {
                     var col = row[i];
-                    col.Text = col.Text.Replace("\n", "<br>").Replace("\r", "");                    
+                    col.Text = col.Text.Replace("\n", "<br>").Replace("\r", "");
                     sb.AppendLine($"\t\t<td>{HtmlUtils.HtmlEncode(col.Text.Trim())}</td>");
                 }
 
@@ -242,13 +258,13 @@ namespace MarkdownMonster.Windows
 
 
         /// <summary>
-            /// Parses a table represented as Markdown into an Observable collection
-            /// </summary>
-            /// <param name="tableMarkdown"></param>
-            /// <returns></returns>
-            public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownToData(string tableMarkdown)
+        /// Parses a table represented as Markdown into an Observable collection
+        /// </summary>
+        /// <param name="tableMarkdown"></param>
+        /// <returns></returns>
+        public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownToData(string tableMarkdown)
         {
-            
+
             var data = new ObservableCollection<ObservableCollection<CellContent>>();
             if (string.IsNullOrEmpty(tableMarkdown))
                 return data;
@@ -261,8 +277,24 @@ namespace MarkdownMonster.Windows
             {
                 if (row.Length == 0)
                     continue;
-                if (row.StartsWith("|---"))
+                if (row.StartsWith("|--") || row.StartsWith("| --") ||
+                    row.StartsWith("|:-")  || row.StartsWith("| :-"))
+                {
+                    if (!row.Contains(":"))
+                        continue;
+
+                    var headerCols = row.Split(new[] {'|'},StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < headerCols.Length; i++)
+                    {
+                        var sepLine = headerCols[i].Trim();
+                        if (sepLine.StartsWith(":"))
+                            data[0][i].Text = ":" + data[0][i].Text;
+                        if (sepLine.EndsWith(":"))
+                            data[0][i].Text = data[0][i].Text + ":";
+                    }
+
                     continue;
+                }
 
                 var cols = row.Trim('|').Split('|');
                 var columnData = new ObservableCollection<CellContent>();
@@ -277,21 +309,22 @@ namespace MarkdownMonster.Windows
         }
 
 
-        public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownGridTableToData(string tableMarkdown)
+        public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownGridTableToData(
+            string tableMarkdown)
         {
             var data = new ObservableCollection<ObservableCollection<CellContent>>();
             if (string.IsNullOrEmpty(tableMarkdown))
                 return data;
 
             var lines = StringUtils.GetLines(tableMarkdown.Trim());
-            
+
             // loop through rows
             for (var index = 0; index < lines.Length; index++)
             {
-             
+
                 var rowText = lines[index];
                 if (rowText.Length == 0)
-                    continue;                
+                    continue;
 
                 if (rowText.StartsWith("+--") || rowText.StartsWith("+=="))
                 {
@@ -309,10 +342,10 @@ namespace MarkdownMonster.Windows
                     while (true)
                     {
                         cols = rowText.Trim('|').Split('|');
-                        
+
                         for (var i = 0; i < cols.Length; i++)
                             cellText.Add(new StringBuilder());
-                        
+
                         for (var i = 0; i < cols.Length; i++)
                         {
                             var col = cols[i];
@@ -329,7 +362,7 @@ namespace MarkdownMonster.Windows
                             break;
                     }
 
-                    
+
                     if (cols.Length == 0)
                         continue;
 
@@ -337,12 +370,12 @@ namespace MarkdownMonster.Windows
                     for (var i = 0; i < cols.Length; i++)
                     {
                         cellText[i].Length -= 2; // strip off trailing \r\n
-                        var ctext = cellText[i].ToString().Replace("\r","");                        
+                        var ctext = cellText[i].ToString().Replace("\r", "");
                         columnData.Add(new CellContent(ctext));
                     }
 
                     data.Add(columnData);
-                }                
+                }
             }
 
             return data;
@@ -371,7 +404,7 @@ namespace MarkdownMonster.Windows
                     Title = header,
                     MaxWidth = header.Length
                 };
-               
+
                 var maxWidth = data.Max(d => d[i].Text.Length);
                 if (maxWidth > colInfo.MaxWidth)
                     colInfo.MaxWidth = maxWidth;
