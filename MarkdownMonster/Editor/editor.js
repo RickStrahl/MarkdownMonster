@@ -360,7 +360,7 @@ var te = window.textEditor = {
     },
     setSelectionRange: function (startRow, startColumn, endRow, endColumn) {
         var sel = te.editor.getSelection();
-        var range = sel.getRange();
+        var range = sel.getRange();        
         range.setStart({ row: startRow, column: startColumn });
         range.setEnd({ row: endRow, column: endColumn });
         sel.setSelectionRange(range);       
@@ -368,7 +368,7 @@ var te = window.textEditor = {
     deleteCurrentLine: function () {
         var sel = te.getselection();
         if (sel) {
-            te.setselection("");
+            document.execCommand('cut');
             return;
         }
 
