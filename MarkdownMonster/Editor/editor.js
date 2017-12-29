@@ -168,7 +168,7 @@ var te = window.textEditor = {
         // always have mouse position available when drop or paste
         te.editor.on("mousemove",
             function(e) {
-                te.mousePos = e.getDocumentPosition();
+                te.mousePos = e.getDocumentPosition();                
             });
         te.editor.on("mouseup",
             function () {
@@ -181,6 +181,49 @@ var te = window.textEditor = {
                 if (sc)
                     sc.contentModified = true;                  
             });
+        // used to force mouse position to whatever the existing cursor position is
+        // when dragging from explorer. Without this files are always dropped at the
+        // end of the document. With this it's dropped at the current cursor position
+        // (better but not optimal)
+        window.ondragover = function (e) {            
+            te.mousePos = te.editor.getCursorPosition();            
+        }
+        // Let browser navigate events handle drop operations
+        // in the WPF host application
+        // handle file browser dragged files dropped
+        // *** Don't Remove! Explorer dragging captures navigation event in WPF
+        //     This captures requests from the Filebrowser
+        window.ondrop =
+            function (e) {
+                // these don't really have any effect'
+                //e.stopPropagation();
+                //e.preventDefault();		    
+                var file = e.dataTransfer.getData('text');
+
+                console.log('ondrop');
+
+                // image file names dropped from FolderBrowser
+                //if (file && /(.png|.jpg|.gif|.jpeg|.bmp|.svg)$/i.test(file)) {
+                if (file && /\..\w*$/.test(file)) {
+                    //// IE will *ALWAYS* drop the file text but selects the drops text
+                    //// delay and the collapse selection and let
+                    //// WPF paste the image expansion
+                    setTimeout(function () {
+                        // embed the image or open the file
+                        te.mm.textbox.EmbedDroppedFileAsImage(file);
+                    }, 1);
+
+                    te.setselection(''); // collapse and remove file name dragged into doc
+
+                    return false;
+                }
+            };
+        // this doesn't fire
+        //te.editor.on("dragover",
+        //    function (e) {                
+        //        alert('drag over');
+        //        te.mousePos = e.getDocumentPosition();
+        //    });
         var changeScrollTop = debounce(function () {
                 // if there is a selection don't set cursor position
                 // or preview. Mouseup will scroll to position at end
@@ -675,38 +718,15 @@ window.onmousewheel = function(e) {
 };
 
 
-// Let browser navigate events handle drop operations
-// in the WPF host application
-// handle file browser dragged files dropped
-// *** Don't Remove! Explorer dragging captures navigation event in WPF
-//     This captures requests from the Filebrowser
- window.ondrop =
- 	function (e) {
- 		// these don't really have any effect'
- 		//e.stopPropagation();
- 		//e.preventDefault();		    
-         var file = e.dataTransfer.getData('text');	    
 
-
-         // image file names dropped from FolderBrowser
-         //if (file && /(.png|.jpg|.gif|.jpeg|.bmp|.svg)$/i.test(file)) {
-         if (file && /\..\w*$/.test(file)) { 
-             //// IE will *ALWAYS* drop the file text but selects the drops text
-             //// delay and the collapse selection and let
-             //// WPF paste the image expansion
-             setTimeout(function () {
-                     // embed the image or open the file
-                     te.mm.textbox.EmbedDroppedFileAsImage(file);
-                 }, 1);
-
-             te.setselection(''); // collapse and remove file name dragged into doc
-
-             return false;
-         }  
-    };
-// window.ondragstart = function (e) {    
-//     e.dataTransfer.effectAllowed = 'all';  
-// }
+//window.ondragover = function (e) {
+//    te.mousePos = e.getDocumentPosition(); 
+//    console.log('ondragover');
+//}
+ //window.ondragstart = function (e) {    
+ //    e.dataTransfer.effectAllowed = 'all';  
+ //    console.log('ondragstart');
+ //}
 
 // pass context popup to WPF for handling there
 window.oncontextmenu = function (e) {

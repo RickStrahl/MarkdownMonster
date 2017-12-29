@@ -13,6 +13,12 @@ The folder browser now has an icon to show and re-select recently opened folders
 * **Fix Shift-Delete Behavior**   
 Fix additional issue with `Shift-Del` operation when text is selected which now properly **cuts** selected text to the clipboard. Previous behavior just removed the selection.
 
+* **Fix incorrect Drag Behavior and Scrollbar Interaction in Folder Browser**   
+Fix funky drag behavior when an item is selected and trying to scroll the scrollbar on the file list. Fixed by explicitly checking for the item being selected being dragged rather than the entire tree.
+
+* **Partial Fix: Drag images from Explorer**   
+Images dragged from Windows Explorer now drop at the current cursor position in the editor (not the dragged mouse position). Due to security limitations Drag and Drop into the browser control from external doesn't translate the mouse position into the control so the only relevant place we can drop is at the last known cursor position. Previously images dropped at the end of the document.
+
 ### 1.8.8
 *<small>December 28th, 2017</small>*
 
