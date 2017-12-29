@@ -816,7 +816,6 @@ namespace MarkdownMonster.Windows
             {
                 var selected = TreeFolderBrowser.SelectedItem as PathItem;
 
-
                 // Only allow the items to be dragged
                 var src = e.OriginalSource as TextBlock;
                 if (src == null)
