@@ -49,6 +49,8 @@ namespace MarkdownMonster.Windows
 
                 _folderPath = value;
 
+                mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
+
                 OnPropertyChanged(nameof(FolderPath));
                 OnPropertyChanged(nameof(ActivePathItem));
             }
@@ -141,6 +143,17 @@ namespace MarkdownMonster.Windows
                 FolderPath = Path.GetDirectoryName(doc.Filename);
 
             SetTreeFromFolder(FolderPath, true);
+        }
+
+        private void ButtonRecentFolders_Click(object sender, RoutedEventArgs e)
+        {
+            var ctx = new ContextMenu();
+            mmApp.Configuration.FolderBrowser.RecentFolderContextMenu(ctx);
+            if (ctx.Items.Count > 0)
+            {
+                ButtonRecentFolders.ContextMenu = ctx;
+                ButtonRecentFolders.ContextMenu.IsOpen = true;
+            }
         }
 
         private void ButtonSelectFolder_Click(object sender, RoutedEventArgs e)
@@ -823,7 +836,5 @@ namespace MarkdownMonster.Windows
         }
 
         #endregion
-
-
     }
 }

@@ -40,9 +40,7 @@ namespace MarkdownMonster.Utilities
         public ImageSource GetIconFromFile(string filename)
         {
             if (string.IsNullOrEmpty(filename))
-                return DefaultIcon;
-
-            // TODO: add folder
+                return DefaultIcon;            
 
             // check 'special files' files first
             var justFile = Path.GetFileName(filename);
