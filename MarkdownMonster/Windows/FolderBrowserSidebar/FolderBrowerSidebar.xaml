@@ -14,7 +14,20 @@
 		<HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
 			<StackPanel MouseDown="TreeViewItem_MouseDoubleClick">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding Icon}"  Height="16" Width="Auto" Margin="5,0,5,0" />
+                    <Image Height="16" Width="Auto" Margin="5,0,5,0" >
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                        <Setter Property="Source" Value="{Binding OpenIcon}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsExpanded}" Value="False">
+                                        <Setter Property="Source" Value="{Binding Icon}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
                     <TextBlock Name="TextFileOrFolderName" Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
 				           Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
 						   MouseEnter="TextFileOrFolderName_MouseEnter" 
@@ -146,6 +159,7 @@
 			<TreeView.Resources>
                 <Style  TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />
                 </Style>
 
                 <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"

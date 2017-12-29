@@ -64,7 +64,7 @@ namespace MarkdownMonster.Windows
             {
                 if (Equals(value, _activePath)) return;
                 _activePath = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(ActivePathItem));
             }
         }
 
@@ -85,7 +85,7 @@ namespace MarkdownMonster.Windows
         /// Internal value
         /// </summary>
         private FolderStructure FolderStructure { get; } = new FolderStructure();
-        
+
         #region Initialization
 
         public FolderBrowerSidebar()
@@ -100,7 +100,7 @@ namespace MarkdownMonster.Windows
         private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)
         {
             var context = Resources["FileContextMenu"] as ContextMenu;
-            context.DataContext = TreeFolderBrowser;                       
+            context.DataContext = TreeFolderBrowser;
         }
 
         #endregion
@@ -448,7 +448,7 @@ namespace MarkdownMonster.Windows
                 // Recyle Bin Code can handle both files and directories
                 if (!mmFileUtils.MoveToRecycleBin(selected.FullPath))
                     return;
-                
+
                 var parent = selected.Parent;
 
                 var file = parent?.Files?.FirstOrDefault(fl => fl.FullPath == selected.FullPath);
@@ -479,7 +479,7 @@ namespace MarkdownMonster.Windows
                 selected = new PathItem()
                 {
                     IsFolder = true,
-                    FullPath = FolderPath                     
+                    FullPath = FolderPath
                 };
                 ActivePathItem = selected;
             }
@@ -569,15 +569,15 @@ namespace MarkdownMonster.Windows
             selected.IsEditing = true;
 
 
-            var tvItem = GetTreeviewItem(selected);            
-            if (tvItem != null)            
+            var tvItem = GetTreeviewItem(selected);
+            if (tvItem != null)
             {
                 var tb = WindowUtilities.FindVisualChild<TextBox>(tvItem);
                 tb?.Focus();
             }
         }
 
-        
+
 
         private async void MenuCommitGit_Click(object sender, RoutedEventArgs e)
         {
@@ -603,7 +603,7 @@ namespace MarkdownMonster.Windows
             if (result)
                 model.Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", 6000);
             else
-            {              
+            {
                 model.Window.ShowStatus(error, 7000);
                 model.Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Red);
             }
@@ -709,7 +709,7 @@ namespace MarkdownMonster.Windows
 
             if (string.IsNullOrEmpty(overImage))
                 return;
-           
+
             var ext = Path.GetExtension(overImage).ToLower();
             if (ext != ".jpg" && ext != ".png" && ext != ".gif" && ext != ".jpeg")
                 return;
@@ -722,7 +722,7 @@ namespace MarkdownMonster.Windows
 
                 try
                 {
-                    
+
                     var bmp = new BitmapImage();
                     bmp.BeginInit();
                     bmp.CacheOption = BitmapCacheOption.OnLoad;
@@ -760,7 +760,7 @@ namespace MarkdownMonster.Windows
         /// <param name="e"></param>
         private void TextFileOrFolderName_MouseUpToEdit(object sender, MouseButtonEventArgs e)
         {
-            // only 
+            // only
             if (e.ChangedButton == MouseButton.Left)
             {
                 var selected = TreeFolderBrowser.SelectedItem as PathItem;
@@ -824,6 +824,6 @@ namespace MarkdownMonster.Windows
 
         #endregion
 
-        
+
     }
 }

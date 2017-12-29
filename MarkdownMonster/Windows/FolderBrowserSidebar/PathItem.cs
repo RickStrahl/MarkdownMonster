@@ -24,7 +24,7 @@ namespace MarkdownMonster.Windows
 				return path;
 			}
 		}
-		
+
 		public string FullPath
 		{
 			get => _fullPath;
@@ -43,7 +43,7 @@ namespace MarkdownMonster.Windows
 
 
 		public PathItem Parent { get; set; }
-		
+
 		public bool IsFolder
 		{
 			get => _isFolder;
@@ -52,7 +52,7 @@ namespace MarkdownMonster.Windows
 				if (value == _isFolder) return;
 				_isFolder = value;
                 OnPropertyChanged();
-				OnPropertyChanged(nameof(DisplayName));				
+				OnPropertyChanged(nameof(DisplayName));
 			}
 		}
 		private bool _isFolder;
@@ -65,13 +65,27 @@ namespace MarkdownMonster.Windows
 	        {
 	            if (value == _isFile) return;
 	            _isFile = value;
-	            OnPropertyChanged();
+	            OnPropertyChanged(nameof(IsFile));
 	        }
 	    }
 	    private bool _isFile;
 
 
-        public string EditName
+
+
+	    public bool IsExpanded
+	    {
+	        get { return _isExpanded; }
+	        set
+	        {
+	            if (value == _isExpanded) return;
+	            _isExpanded = value;
+	            OnPropertyChanged(nameof(IsExpanded));
+	        }
+	    }
+	    private bool _isExpanded;
+
+	    public string EditName
 		{
 			get => _editName;
             set
@@ -114,7 +128,7 @@ namespace MarkdownMonster.Windows
 		}
 		private bool _isSelected;
 
-		
+
 
 		public bool IsImage
 		{
@@ -142,7 +156,7 @@ namespace MarkdownMonster.Windows
 			set => _files = value;
 		}
 
-	    
+
 
 	    public ImageSource Icon
 	    {
@@ -150,12 +164,30 @@ namespace MarkdownMonster.Windows
 	        set
 	        {
 	            if (Equals(value, _icon)) return;
-	            _icon = value;	     
+	            _icon = value;
 	            OnPropertyChanged(nameof(Icon));
 	        }
 	    }
 	    private ImageSource _icon;
 
+	    public ImageSource OpenIcon
+	    {
+	        get
+	        {
+                if (_openicon == null)
+                    return Icon;
+
+	            return _openicon;
+	        }
+	        set
+	        {
+	            if (Equals(value, _openicon)) return;
+	            _openicon = value;
+	            OnPropertyChanged(nameof(OpenIcon));
+	        }
+	    }
+
+	    private ImageSource _openicon;
 
         private ObservableCollection<PathItem> _files;
 
@@ -171,5 +203,11 @@ namespace MarkdownMonster.Windows
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
+
+	    public void SetFolderIcon()
+	    {
+	        Icon = FolderStructure.icons.GetIconFromFile("folder.folder"); // special case
+	        OpenIcon = FolderStructure.icons.GetIconFromFile("folder.openfolder"); // special case
+        }
 	}
 }

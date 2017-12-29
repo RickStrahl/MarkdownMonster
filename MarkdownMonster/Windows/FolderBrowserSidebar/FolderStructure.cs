@@ -6,7 +6,7 @@ namespace MarkdownMonster.Windows
 {
 	public class FolderStructure
 	{
-	    private static AssociatedIcons icons = new AssociatedIcons();
+	    internal static AssociatedIcons icons = new AssociatedIcons();
 
 		/// <summary>
 		/// Gets a folder hierarchy
@@ -30,21 +30,25 @@ namespace MarkdownMonster.Windows
                     IsFolder = true
                 };
 			    if (mmApp.Configuration.FolderBrowser.ShowIcons)
-			        activeItem.Icon = icons.GetIconFromFile("folder.folder"); // special case
-                parentPathItem = activeItem;				
-			}			
+			    {
+			        activeItem.SetFolderIcon();
+			        
+			    }
+
+			    parentPathItem = activeItem;
+			}
 			else
 			{
 				activeItem = new PathItem { FullPath=baseFolder, IsFolder = true, Parent = parentPathItem};
 			    if (mmApp.Configuration.FolderBrowser.ShowIcons)
-			        activeItem.Icon = icons.GetIconFromFile("folder.folder"); // special case
+			        activeItem.SetFolderIcon();
 
-                parentPathItem.Files.Add(activeItem);				
+                parentPathItem.Files.Add(activeItem);
 			}
 
 
             string[] folders = null;
-			
+
 			try
 			{
 				folders = Directory.GetDirectories(baseFolder);
@@ -76,11 +80,11 @@ namespace MarkdownMonster.Windows
 				            Parent = activeItem
 				        };
 				        if (mmApp.Configuration.FolderBrowser.ShowIcons)
-				            folderPath.Icon = icons.GetIconFromFile("folder.folder"); // special case
+				            folderPath.SetFolderIcon();
 
                         activeItem.Files.Add(folderPath);
 				    }
-				}			
+				}
 			}
 
 			string[] files = null;
@@ -94,7 +98,7 @@ namespace MarkdownMonster.Windows
 		    {
 		        foreach (var folder in folders)
 		        {
-		            
+
 		        }
 		    }
 			if (files != null)
@@ -114,6 +118,6 @@ namespace MarkdownMonster.Windows
 			return activeItem;
 		}
 
-		
+
 	}
 }
