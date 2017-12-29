@@ -3,12 +3,19 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+
+### 1.8.9
+*<small>not released yet</small>*
+
+* **Fix Shift-Delete Behavior**   
+Fix additional issue with `Shift-Del` operation when text is selected which now properly **cuts** selected text to the clipboard. Previous behavior just removed the selection.
+
 ### 1.8.8
 *<small>December 28th, 2017</small>*
 
 * **[New two-way Table Editor](https://markdownmonster.west-wind.com/docs/_53a0pfz0t.htm)**  
 Added table editor dialog that allows for creation of Markdown (and Html) tables interactively. A new dialog provides column based data entry with tabbable fields along with the ability to easily add and delete rows and columns. Output can be generated as either Markdown or HTML and you can use the Editor context menu's 'Edit Table' option to edit or reformat a table.
-
+ 
 * **New .mdown, .mkd and .mkdn Extension Mapping**   
 Added additional Markdown extensions to be recognized by Markdown Monster as markdown text.
 

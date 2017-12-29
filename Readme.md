@@ -66,7 +66,8 @@ Markdown Monster provides many useful features:
 * Print rendered output to the printer
 
 #### Theme Support
-* Dark and Light Themes
+* Dark and Light application themes
+* Separate Application, Editor and Preview Themes
 * Support for many editor themes
 * Customizable HTML preview themes
 * Customizable preview HTML syntax coloring themes

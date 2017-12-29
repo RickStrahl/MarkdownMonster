@@ -759,10 +759,36 @@ namespace MarkdownMonster
         /// <summary>
         /// Backs up configuration data to a backup file in the CommonFolder.
         /// Filename includes backup date and time
-        /// </summary>        
-        public void Backup()
+        /// </summary>
+        /// <returns>
+        /// Backup file name
+        /// </returns>        
+        public string Backup()
         {
-            Write(Path.Combine(CommonFolder, $"markdownmonster-backup-{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.json"));
+            var filename = Path.Combine(CommonFolder, $"markdownmonster-backup-{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.json");
+            Write(filename);
+            return filename;
+        }
+
+        /// <summary>
+        /// Resets configuration settings by deleting the configuration file and
+        /// then exits the application.
+        /// </summary>
+        public void Reset(bool noExit = false)
+        {
+            // now create new default config and write out then delete
+            // file will be recreated on next restart
+            File.Delete(Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json"));
+            File.Delete(Path.Combine(mmApp.Configuration.CommonFolder, "CommonFolderLocation.txt"));
+
+            try
+            {
+                Directory.Delete(mmApp.Configuration.AddinsFolder, true);
+            }
+            catch { }
+
+            if (!noExit)
+                Environment.Exit(0);
         }
 
         /// <summary>
@@ -791,6 +817,8 @@ namespace MarkdownMonster
 
          
         #endregion
+
+        
     }
     
 

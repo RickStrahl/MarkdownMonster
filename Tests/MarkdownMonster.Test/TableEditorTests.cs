@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -31,7 +31,7 @@ namespace MarkdownMonster.Test
         public void DataToMarkdownPipeTableTest()
         {
             var data = GetTableData();
-            
+
             var parser = new TableParser();
             string html = parser.ToPipeTableMarkdown(data);
 
@@ -117,14 +117,12 @@ namespace MarkdownMonster.Test
 
             Assert.IsTrue(data.Count == 5, "Table should have returned 5 rows");
             Assert.IsTrue(data[2][0].Text.Contains("\nand a bottle of"));
-
-            
         }
 
         [TestMethod]
         public void ParseComplexMarkdownGridTableToDataTest()
         {
-            string md = @"
+            var md = @"
 +-----------------------------------+-----------------------------------+
 | Attribute                         | Function                          |
 +===================================+===================================+
