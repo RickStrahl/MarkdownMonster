@@ -296,10 +296,17 @@ namespace MarkdownMonster
                 WindowUtilities.DoEvents();
 
                 var parm = parameter as string;
-                if (parm == null)
+                if (string.IsNullOrEmpty(parm))
                     return;
 
-                Model.Window.OpenTab(parm, rebindTabHeaders: true);
+                if (Directory.Exists(parm))
+                {
+                    Model.Window.FolderBrowser.FolderPath = parm;
+                    Model.Window.ShowFolderBrowser();
+                }
+                else
+                    Model.Window.OpenTab(parm, rebindTabHeaders: true);
+
                 if (context != null)
                 {
                     WindowUtilities.DoEvents();

@@ -147,8 +147,10 @@ namespace MarkdownMonster.Windows
 
         private void ButtonRecentFolders_Click(object sender, RoutedEventArgs e)
         {
-            var ctx = new ContextMenu();
-            mmApp.Configuration.FolderBrowser.RecentFolderContextMenu(ctx);
+            var ctx = Resources["RecentFoldersContextMenu"] as ContextMenu;
+            ctx.Items.Clear();
+
+            mmApp.Configuration.FolderBrowser.UpdatedRecentFolderContextMenu(ctx);
             if (ctx.Items.Count > 0)
             {
                 ButtonRecentFolders.ContextMenu = ctx;
@@ -813,6 +815,12 @@ namespace MarkdownMonster.Windows
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 var selected = TreeFolderBrowser.SelectedItem as PathItem;
+
+
+                // Only allow the items to be dragged
+                var src = e.OriginalSource as TextBlock;
+                if (src == null)
+                    return;
 
                 // only drag image files
                 if (selected == null || selected.IsFolder)

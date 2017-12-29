@@ -70,7 +70,6 @@
         <ContextMenu x:Key="ContextMenuRecentFiles">
             <MenuItem Header="Recent Files go here..."/>
         </ContextMenu>
-
     </Window.Resources>
     <Window.ContextMenu>
         <ContextMenu Name="EditorContextMenu" MinWidth="175">
@@ -179,9 +178,7 @@
                 <Separator/>
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="ctrl-o"/>
                 <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
-                <MenuItem Name="ButtonRecentFiles" Header="Recent Documents">
-                </MenuItem>
-                <Separator/>
+                <MenuItem Name="ButtonRecentFiles" Header="Recent Documents" Click="Button_Handler"/>
                 
                 <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding Commands.SaveCommand}"  
                           InputGestureText="ctrl+s"/>
@@ -373,9 +370,9 @@
                                         TextElement.FontSize="11"
                                         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                  >
-                            <i:Interaction.Behaviors>
+                            <!--<i:Interaction.Behaviors>
                                 <local:DropDownButtonBehavior />
-                            </i:Interaction.Behaviors>
+                            </i:Interaction.Behaviors>-->
                         </Button>
 
 

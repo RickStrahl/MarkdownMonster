@@ -168,10 +168,7 @@ namespace MarkdownMonster
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			RestoreSettings();
-            RecentDocumentsContextList();
-
-			ButtonRecentFiles.ContextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
+			RestoreSettings();            
 
             OpenFilesFromCommandLine();
             
@@ -467,8 +464,7 @@ namespace MarkdownMonster
 		{
 			Dispatcher.InvokeAsync(() =>
 				{
-					mmApp.Configuration.AddRecentFile(file);
-					RecentDocumentsContextList();
+					mmApp.Configuration.AddRecentFile(file);				
 					mmApp.Configuration.LastFolder = Path.GetDirectoryName(file);
 
 					if (!noConfigWrite)
@@ -483,9 +479,10 @@ namespace MarkdownMonster
 		}
 
 		/// <summary>
-		/// Creates the Recent Items Context list
+		/// Creates/Updates the Recent Items Context list
+		/// from recent file and recent folder configuration
 		/// </summary>
-		private void RecentDocumentsContextList()
+		public void UpdateRecentDocumentsContextMenu()
 		{
 			var contextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
 			if (contextMenu == null)
@@ -493,7 +490,6 @@ namespace MarkdownMonster
             
 		    contextMenu.Items.Clear();
 			ButtonRecentFiles.Items.Clear();
-
 
 			List<string> badFiles = new List<string>();
 			foreach (string file in mmApp.Configuration.RecentDocuments)
@@ -523,6 +519,26 @@ namespace MarkdownMonster
 
 			foreach (var file in badFiles)
 				mmApp.Configuration.RecentDocuments.Remove(file);
+
+		    if (mmApp.Configuration.FolderBrowser.RecentFolders.Count >0)
+		    {
+		        contextMenu.Items.Add(new MenuItem
+		        {
+		            IsEnabled = false,
+		            Header = "——————— Recent Folders ———————"
+                });
+		        foreach (var folder in mmApp.Configuration.FolderBrowser.RecentFolders.Take(7))
+		        {
+		            var mi = new MenuItem()
+		            {
+		                Header = folder.Replace("_", "__"),
+		            };
+		            mi.Command = Model.Commands.OpenRecentDocumentCommand;
+		            mi.CommandParameter = folder;
+		            contextMenu.Items.Add(mi);
+                }
+            }
+
 		}
 
 		void RestoreSettings()
@@ -1402,6 +1418,18 @@ namespace MarkdownMonster
 				var editor = GetActiveMarkdownEditor();
 				editor.MarkdownDocument.CurrentText = markdown;
 			    PreviewBrowser.PreviewMarkdown();
+			}
+            else if (button == ButtonRecentFiles)
+			{
+                var mi = button as MenuItem;
+			    UpdateRecentDocumentsContextMenu();
+                mi.IsSubmenuOpen = true;
+			}
+            else if (button == ToolbarButtonRecentFiles)
+			{
+			    var mi =  button as Button;
+                UpdateRecentDocumentsContextMenu();
+			    mi.ContextMenu.IsOpen = true;
 			}
 			else if (button == ButtonExit)
 			{

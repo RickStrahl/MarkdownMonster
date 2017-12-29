@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -74,15 +75,17 @@ namespace MarkdownMonster.Configuration
             if (string.IsNullOrEmpty(folder))
                 return;
 
-	        var existing = RecentFolders.FirstOrDefault(f => f.ToLower().Contains(folder.ToLower()));
-	        if (existing != null)
-	            RecentFolders.Remove(existing);
-
+	        folder = folder.TrimEnd('\\');
+            
+	        var matchList = RecentFolders.Where(f => f.ToLower().Contains(folder.ToLower()) || !Directory.Exists(f)).ToList();
+	        for (var index = 0; index < matchList.Count; index++)	        	            
+	            RecentFolders.Remove(matchList[index]);
+            
 	        RecentFolders.Insert(0, folder);
             RecentFolders = RecentFolders.Take(mmApp.Configuration.RecentDocumentsLength).ToList();
 	    }
 
-	    public void RecentFolderContextMenu(ContextMenu contextMenu)
+	    public void UpdatedRecentFolderContextMenu(ContextMenu contextMenu)
 	    {
 	        contextMenu.Items.Clear();
 
@@ -90,24 +93,13 @@ namespace MarkdownMonster.Configuration
 	        {
 	            var mi = new MenuItem()
 	            {
-	                Header = folder
-	            };
-                mi.Click += Mi_Click;
+	                Header = folder,
+                    Command = mmApp.Model.Commands.OpenRecentDocumentCommand,
+                    CommandParameter = folder
+	            };                
 	            contextMenu.Items.Add(mi);
-	        }
-
-
-	    }
-
-        private void Mi_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            var menuItem = sender as MenuItem;
-            if (menuItem == null)
-                return;
-
-            var folder = menuItem.Header as string;
-            mmApp.Model.Window.FolderBrowser.FolderPath = folder;
-        }
+	        }            
+	    }        
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -63,7 +63,7 @@
 
             </StackPanel>
 		</HierarchicalDataTemplate>
-		<ContextMenu x:Key="FileContextMenu" Name="PathItemContextMenu">
+		<ContextMenu x:Key="FileContextMenu">
 			<MenuItem Name="MenuAddFile" Header="_New File" Click="MenuAddFile_Click" InputGestureText="N"/>
 			<MenuItem Name="MenuAddFolder" Header="New Folder" Click="MenuAddDirectory_Click" />
 			<Separator/>
@@ -90,7 +90,7 @@
 			<MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
 			<MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
         </ContextMenu>
-        <ContextMenu x:Key="RecentFoldersContextMenu" Name="PathItemContextMenu">
+        <ContextMenu x:Key="RecentFoldersContextMenu" >
         </ContextMenu>
 	</UserControl.Resources>
 	
