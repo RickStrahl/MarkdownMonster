@@ -628,7 +628,7 @@ namespace MarkdownMonster.Windows
             if (selected == null || selected.IsFolder)
                 ShellUtils.GoUrl(folder);
             else
-                Process.Start("explorer.exe", "/select,\"" + folder + "\"");
+                mmFileUtils.OpenFileInExplorer(folder);
         }
 
         private void MenuOpenTerminal_Click(object sender, RoutedEventArgs e)

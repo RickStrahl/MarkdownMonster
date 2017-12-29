@@ -261,7 +261,7 @@ namespace MarkdownMonster
 	        if (args == null)
 	        {
                 // read fixed up command line args
-	            args = App.commandArgs;
+	            args = App.CommandArgs;
 
 	            if (args == null || args.Length == 0) // no args, only command line
 	                return;
@@ -291,7 +291,7 @@ namespace MarkdownMonster
 	                ShowFolderBrowser(false, file);
 	            else
 	            {
-	                file = Path.Combine(App.initialStartDirectory, file);
+	                file = Path.Combine(App.InitialStartDirectory, file);
 	                file = Path.GetFullPath(file);
 	                if (File.Exists(file))
 	                    OpenTab(mdFile: file, batchOpen: true);
@@ -1537,6 +1537,22 @@ namespace MarkdownMonster
 						MessageBoxButton.OK,
 						MessageBoxImage.Information);
 			}
+            else if(button == MenuResetConfiguration)
+		    {
+		        if (MessageBox.Show("This operation will reset all of your configuration settings and shut down Markdown Monster.\r\n\r\nAre you sure?",
+		                "Reset Configuration Settings",
+		                MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No) == MessageBoxResult.Yes)
+		        {
+		            mmApp.Configuration.Backup();
+		            mmApp.Configuration.Reset();
+		        }
+		    }
+            else if (button == MenuBackupConfiguration)
+			{
+			    string filename = mmApp.Configuration.Backup();
+			    ShowStatus($"Configuration backed up to: {Path.GetFileName(filename)}",6000);
+			    mmFileUtils.OpenFileInExplorer(filename);
+			}
 		}
 
 
@@ -1579,7 +1595,8 @@ namespace MarkdownMonster
 			var editor = GetActiveMarkdownEditor();
 			if (editor == null)
 				return;
-			Process.Start("explorer.exe", "/select,\"" + editor.MarkdownDocument.Filename + "\"");
+
+		    mmFileUtils.OpenFileInExplorer(editor.MarkdownDocument.Filename);
 		}
 	
 

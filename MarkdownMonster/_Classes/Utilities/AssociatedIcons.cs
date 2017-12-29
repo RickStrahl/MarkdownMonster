@@ -121,6 +121,7 @@ namespace MarkdownMonster.Utilities
             { "license.txt", "license" },
             { "favicon.ico", "favicon" },
             { "folder.folder", "folder" }, // special case
+            { "folder.openfolder", "folder-open" }, // special case
 
             // dev config files
             { "license","license" },

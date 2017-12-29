@@ -227,7 +227,7 @@ namespace MarkdownMonster
         {
             dynamic value = null;
 
-            string installFolder = App.initialStartDirectory;
+            string installFolder = App.InitialStartDirectory;
             //.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
 
             if (uninstall)
@@ -300,7 +300,7 @@ namespace MarkdownMonster
             {
                 using (var sk = Registry.CurrentUser.OpenSubKey("Environment", true))
                 {
-                    string mmFolder = Path.Combine(App.initialStartDirectory,"Markdown Monster");
+                    string mmFolder = Path.Combine(App.InitialStartDirectory,"Markdown Monster");
                     string path = sk.GetValue("Path").ToString();
 
                     if (uninstall)

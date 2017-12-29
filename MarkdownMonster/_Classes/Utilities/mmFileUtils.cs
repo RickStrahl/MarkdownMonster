@@ -31,7 +31,7 @@ namespace MarkdownMonster
             if (File.Exists(file))
                 return file;
            
-            var newFile = Path.Combine(App.initialStartDirectory, file);
+            var newFile = Path.Combine(App.InitialStartDirectory, file);
             if (File.Exists(newFile))
                 return newFile;
 
@@ -358,6 +358,11 @@ namespace MarkdownMonster
 		    }
 		    return true;
 	    }
+
+        public static void OpenFileInExplorer(string filename)
+        {
+            Process.Start("explorer.exe", "/select,\"" + filename + "\"");
+        }
 
 	    /// <summary>
 	    /// Executes a process with given command line parameters

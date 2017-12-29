@@ -351,6 +351,8 @@
                 <MenuItem Name="MenuRegister" Header="Register Copy" Click="Button_Handler"/>
                 <Separator  />
                 <MenuItem Name="MenuShowErrorLog" Header="Show Error Log" Click="Button_Handler"/>
+                <MenuItem Name="MenuResetConfiguration" Header="Reset Settings to Default" Click="Button_Handler"/>
+                <MenuItem Name="MenuBackupConfiguration" Header="Backup Configuration Settings" Click="Button_Handler"/>
                 <Separator  />
                 <MenuItem Name="ButtonAbout" Header="_About" Click="Button_Handler"/>
             </MenuItem>
@@ -697,8 +699,8 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="4"  />
-                            <ColumnDefinition Width="230"  />
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"  />
+                            <ColumnDefinition Width="Auto"/>
                             <!-- Markdown Parser column, width = 150 -->
                             <ColumnDefinition Width="{Binding MarkdownParserColumnWidth}"/>
                             <ColumnDefinition Width="Auto" />
@@ -714,7 +716,7 @@
                 <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="1">
-                <TextBlock Width="375" Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
+                <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
             </StatusBarItem>
             <Separator Grid.Column="2" />
             <StatusBarItem Grid.Column="3">
