@@ -86,9 +86,16 @@ namespace MarkdownMonster
 
                 if ((CommandArgs[0].ToLower() == "reset" || CommandArgs[0].ToLower() == "-reset"))
                 {
-                    mmApp.Configuration = new ApplicationConfiguration();
-                    mmApp.Configuration.Write();
-                    System.IO.Directory.Delete(mmApp.Configuration.AddinsFolder,true);
+                    // load old config and backup
+                    mmApp.Configuration.Backup();                    
+
+                    // now create new default config and write out then delete
+                    // file will be recreated on next restart
+                    File.Delete(Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json"));
+                    File.Delete(Path.Combine(mmApp.Configuration.CommonFolder, "CommonFolderLocation.txt"));
+
+                    Directory.Delete(mmApp.Configuration.AddinsFolder,true);
+
                     Environment.Exit(0);
                     return;
                 }

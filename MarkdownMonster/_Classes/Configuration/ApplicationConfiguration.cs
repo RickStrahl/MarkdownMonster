@@ -707,6 +707,7 @@ namespace MarkdownMonster
         }
 
 
+        
         #region Configuration Settings
 
         protected override IConfigurationProvider OnCreateDefaultProvider(string sectionName, object configData)
@@ -753,6 +754,30 @@ namespace MarkdownMonster
                 File.Delete(commonFolderFile);
 
             return base.Write();
+        }
+
+        /// <summary>
+        /// Backs up configuration data to a backup file in the CommonFolder.
+        /// Filename includes backup date and time
+        /// </summary>        
+        public void Backup()
+        {
+            Write(Path.Combine(CommonFolder, $"markdownmonster-backup-{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.json"));
+        }
+
+        /// <summary>
+        /// Writes the configuration data to the specified filename.
+        /// </summary>
+        /// <param name="filename"></param>
+        public void Write(string filename)
+        {
+            string configData = WriteAsString();
+            File.WriteAllText(filename, configData);
+        }
+
+        public override string WriteAsString()
+        {
+            return JsonConvert.SerializeObject(this,Formatting.Indented);
         }
         #endregion
 
