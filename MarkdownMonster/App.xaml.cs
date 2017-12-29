@@ -1,15 +1,15 @@
 ﻿#region License
 /*
  **************************************************************
- *  Author: Rick Strahl 
+ *  Author: Rick Strahl
  *          © West Wind Technologies, 2016
  *          http://www.west-wind.com/
- * 
+ *
  * Created: 04/28/2016
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -18,7 +18,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- **************************************************************  
+ **************************************************************
 */
 #endregion
 
@@ -37,6 +37,7 @@ using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
 using Westwind.Utilities;
+using Westwind.Utilities.Configuration;
 
 namespace MarkdownMonster
 {
@@ -47,13 +48,13 @@ namespace MarkdownMonster
     {
         public static Mutex Mutex { get; set; }
 
-        public static string initialStartDirectory;
+        public static string InitialStartDirectory;
 
-        public static string[] commandArgs;
+        public static string[] CommandArgs;
 
         // Flag to indicate that app shouldn't start
         // Need this so OnStartup doesn't fire
-        static bool noStart = false;
+        static bool _noStart = false;
 
 
         static App()
@@ -61,35 +62,47 @@ namespace MarkdownMonster
             //try
             //{   // Multi-Monitor DPI awareness for screen captures
             //    // requires [assembly: DisableDpiAwareness] set in assemblyinfo
-            //    bool res = WindowUtilities.SetPerMonitorDpiAwareness(ProcessDpiAwareness.Process_Per_Monitor_DPI_Aware);                
+            //    bool res = WindowUtilities.SetPerMonitorDpiAwareness(ProcessDpiAwareness.Process_Per_Monitor_DPI_Aware);
             //}
             //catch {  /* fails not supported on Windows 7 and older */ }
 
-            initialStartDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);            
+            InitialStartDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
 
         public App()
         {
             // Get just the command arguments
-            commandArgs = Environment.GetCommandLineArgs().Skip(1).ToArray();
+            CommandArgs = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
-            if (commandArgs.Length > 0 && (commandArgs[0].ToLower() == "uninstall" || commandArgs[0].ToLower() == "-uninstall"))
+            if (CommandArgs.Length > 0)
             {
-                noStart = true;
-                UninstallSettings();
-                Environment.Exit(0);
-                return;
+                if (  (CommandArgs[0].ToLower() == "uninstall" || CommandArgs[0].ToLower() == "-uninstall"))
+                {
+                    _noStart = true;
+                    UninstallSettings();
+                    Environment.Exit(0);
+                    return;
+                }
+
+                if ((CommandArgs[0].ToLower() == "reset" || CommandArgs[0].ToLower() == "-reset"))
+                {
+                    mmApp.Configuration = new ApplicationConfiguration();
+                    mmApp.Configuration.Write();
+                    System.IO.Directory.Delete(mmApp.Configuration.AddinsFolder,true);
+                    Environment.Exit(0);
+                    return;
+                }
             }
 
-            
+
             SplashScreen splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
             splashScreen.Show(true);
-            
+
 			// Singleton launch marshalls subsequent launches to the singleton instance
 			// via named pipes communication
 	        CheckCommandLineForSingletonLaunch(splashScreen);
 
-            // We have to manage assembly loading for Addins 
+            // We have to manage assembly loading for Addins
 	        AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 #if !DEBUG
@@ -99,14 +112,14 @@ namespace MarkdownMonster
 #endif
             // This has to be here for AppInsights not in OnStartup
             mmApp.ApplicationStart();
-            
+
         }
 
 
-       
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            if (noStart)
+            if (_noStart)
                 return;
 
             var dotnetVersion = ComputerInfo.GetDotnetVersion();
@@ -157,7 +170,7 @@ namespace MarkdownMonster
 		/// Checks to see if app is already running and if it is pushes
 		/// parameters via NamedPipes to existing running application
 		/// and exits this instance.
-		/// 
+		///
 		/// Otherwise app just continues
 		/// </summary>
 		/// <param name="splashScreen"></param>
@@ -167,9 +180,9 @@ namespace MarkdownMonster
             string filesToOpen = " ";
             StringBuilder sb = new StringBuilder();
 
-            for (int i = 0; i < commandArgs.Length; i++)
+            for (int i = 0; i < CommandArgs.Length; i++)
             {
-                string file = commandArgs[i];
+                string file = CommandArgs[i];
                 if (string.IsNullOrEmpty(file))
                     continue;
 
@@ -178,10 +191,10 @@ namespace MarkdownMonster
                 sb.AppendLine(file);
 
                 // write fixed up path arguments
-                commandArgs[i] = file;
+                CommandArgs[i] = file;
             }
             filesToOpen = sb.ToString();
-            
+
 
             if (!mmApp.Configuration.UseSingleWindow)
                 return;
@@ -191,11 +204,11 @@ namespace MarkdownMonster
 		    if (isOnlyInstance)
 			    return;
 
-            noStart = true;
-		    
+            _noStart = true;
+
 		    var manager = new NamedPipeManager("MarkdownMonster");
 		    manager.Write(filesToOpen);
-	        
+
             splashScreen.Close(TimeSpan.MinValue);
 
 		    // Shut down application
@@ -215,12 +228,12 @@ namespace MarkdownMonster
             Console.WriteLine("Markdown Monster settings uninstalled from registry");
             MessageBox.Show("Markdown Monster settings uninstalled from registry");
 
-            noStart = true;
+            _noStart = true;
             Environment.Exit(0);
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {            
+        {
             // missing resources are... missing
             if (args.Name.Contains(".resources"))
                 return null;
@@ -236,7 +249,7 @@ namespace MarkdownMonster
             //           worked before either.
             string filename = args.Name.Split(',')[0] + ".dll".ToLower();
 
-            
+
             // try load the assembly from install path (this should always be automatic)
             try
             {
@@ -245,7 +258,7 @@ namespace MarkdownMonster
             }
             catch
             { }
-            
+
             // try load from install addins folder
             string asmFile = FindFileInPath(filename, ".\\Addins");
             if (!string.IsNullOrEmpty(asmFile))
@@ -292,11 +305,11 @@ namespace MarkdownMonster
         {
             if (!mmApp.HandleApplicationException(e.Exception as Exception))
                 Environment.Exit(1);
-            
+
             e.Handled = true;
         }
 
-        
+
         public static string UserDataPath { get; internal set; }
         public static string VersionCheckUrl { get; internal set; }
 
@@ -328,19 +341,15 @@ namespace MarkdownMonster
                 var dragablzLightStyles = new Uri("Styles/DragablzGenericLight.xaml", UriKind.RelativeOrAbsolute);
                 Current.Resources.MergedDictionaries.Add(
                     new ResourceDictionary() { Source = dragablzLightStyles });
-                
+
                 resourceUri = new Uri("Styles/MahLightResources.xaml", UriKind.RelativeOrAbsolute);
                 Current.Resources.MergedDictionaries.Add(
                     new ResourceDictionary() { Source = resourceUri });
             }
-            
-
-
 
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
-
         }
-        
+
         /// <summary>
         /// Loads all addins asynchronously without loading the
         /// addin UI  -handled in Window Load to ensure Window is up)
@@ -370,5 +379,5 @@ namespace MarkdownMonster
         }
     }
 
-   
+
 }
