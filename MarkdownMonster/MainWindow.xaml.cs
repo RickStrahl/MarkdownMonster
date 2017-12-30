@@ -966,15 +966,44 @@ namespace MarkdownMonster
 			if (document == null || tab == null)
 				return;
 
+		   
 			try
-			{
-				var headerBinding = new Binding
-				{
-					Source = document,
-					Path = new PropertyPath(propertyPath),
-					Mode = BindingMode.OneWay
-				};
-				BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
+			{                
+			    var grid = new Grid();
+                tab.Header = grid;
+			    var col1 = new ColumnDefinition {Width = new GridLength(20)};
+			    var col2 = new ColumnDefinition {Width = GridLength.Auto};
+                grid.ColumnDefinitions.Add(col1);
+			    grid.ColumnDefinitions.Add(col2);
+
+			    var img = new Image()
+			    {
+			        Source = FolderStructure.icons.GetIconFromFile(document.Filename),
+                    Height=15,
+                    Margin = new Thickness(0,0,5,0)
+
+			    };
+			    img.SetValue(Grid.ColumnProperty, 0);
+			    grid.Children.Add(img);
+
+
+			    var textBlock = new TextBlock()
+			    {
+			        Height = 17,
+			    };
+			    textBlock.SetValue(Grid.ColumnProperty, 1);
+
+                var headerBinding = new Binding
+			    {
+			        Source = document,
+			        Path = new PropertyPath(propertyPath),
+			        Mode = BindingMode.OneWay
+			    };
+			    
+                BindingOperations.SetBinding(textBlock, TextBlock.TextProperty, headerBinding);
+			    grid.Children.Add(textBlock);
+
+			    //BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
 			}
 			catch (Exception ex)
 			{

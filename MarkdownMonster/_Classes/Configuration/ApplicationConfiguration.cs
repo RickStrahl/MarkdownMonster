@@ -494,7 +494,7 @@ namespace MarkdownMonster
 		    {"yaml", "yaml"},
 	        {"yml", "yaml"},
             {"txt", "text"},
-		    {"log", "text"}
+		    {"log", "text"}	        
 	    };
 
 		/// <summary>
