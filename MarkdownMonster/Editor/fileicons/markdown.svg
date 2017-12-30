@@ -44,7 +44,7 @@
      inkscape:measure-start="0,0"
      inkscape:measure-end="0,0"
      inkscape:zoom="7.375"
-     inkscape:cx="-5.762712"
+     inkscape:cx="-6.3050849"
      inkscape:cy="16"
      inkscape:window-x="3454"
      inkscape:window-y="1078"
@@ -57,16 +57,16 @@
      y="3.8399658"
      width="29.734238"
      height="23.913477"
-     style="fill:#333333;stroke:#3771c8;stroke-width:1.65709651;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     style="fill:#282828;stroke:#0173c7;stroke-width:1.65709651;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
      id="rect4" />
   <polygon
      points="16.818,11.364 16.818,20.636 14.091,20.636 14.091,15.318 11.364,18.727 8.636,15.318 8.636,20.636 5.909,20.636 5.909,11.364 8.636,11.364 11.364,14.773 14.091,11.364 "
-     style="fill:#3771d0;fill-opacity:1"
+     style="fill:#0173c7;fill-opacity:1"
      id="polygon6"
      transform="matrix(1.2801974,0,0,1.3772684,-3.6955788,-5.8492818)" />
   <polygon
      points="21.591,11.364 24.318,11.364 24.318,16.136 27.045,16.136 22.955,20.636 18.864,16.136 21.591,16.136 "
-     style="fill:#e9ddaf"
+     style="fill:#f6f7d2;fill-opacity:1"
      id="polygon8"
      transform="matrix(1.3713576,0,0,1.4357641,-7.499984,-6.3784345)" />
 </svg>

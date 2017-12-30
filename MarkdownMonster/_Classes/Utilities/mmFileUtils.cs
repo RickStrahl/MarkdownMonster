@@ -361,7 +361,10 @@ namespace MarkdownMonster
 
         public static void OpenFileInExplorer(string filename)
         {
-            Process.Start("explorer.exe", "/select,\"" + filename + "\"");
+            if (Directory.Exists(filename))
+                ShellUtils.GoUrl(filename);
+            else
+                Process.Start("explorer.exe", $"/select,\"{filename}\"");
         }
 
 	    /// <summary>

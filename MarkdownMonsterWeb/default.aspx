@@ -197,11 +197,9 @@
                                         <i class="fa fa-check" style="color: lightgreen"></i>
                                         .NET based scripting & addins
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-                        
                         
                        
                     </div>
@@ -210,6 +208,7 @@
 
             
             <article class="content" >
+
                 <div class="right created-by">
                     <div style="font-size: xx-small">created by:</div>
                     <a href="http://west-wind.com">
@@ -268,6 +267,12 @@
                                 </div>
                             </div>
                             
+                            <div class="item">
+                                <img src="Images/screenshot_light.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+
                             <div class="item">
                                 <img src="Images/CodeSnippetInEditor.png" />
                                 <div class="carousel-caption">
@@ -489,8 +494,13 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Built in screen captures
+                                        Built in screen capture
                                     </div>
+                                    <div>
+                                        <i class="fa fa-check-circle"></i>
+                                        Two-way Table Editor
+                                    </div>
+                                    
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Import Html into Markdown
