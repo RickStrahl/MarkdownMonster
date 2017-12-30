@@ -176,12 +176,14 @@ namespace MarkdownMonster
             if (pos.row == -1)
                 return;
 
+            var contextCount = ContextMenu.Items.Count;
+
             CheckForImageLink(lineText, pos);
             CheckForHyperLink(lineText, pos);
             CheckForTable(lineText, pos);
 
 
-            if (ContextMenu.Items.Count > 0)
+            if (ContextMenu.Items.Count > contextCount)
                 ContextMenu.Items.Add(new Separator());
 
         }

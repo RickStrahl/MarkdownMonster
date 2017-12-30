@@ -48,7 +48,7 @@ namespace MarkdownMonster.Utilities
 
             if (Icons.TryGetValue(justFile.ToLower(), out ImageSource icon))
                 return icon;
-            if (IconUtilities.ExtensionToImageMappings.TryGetValue(justFile, out string imageKey))
+            if (IconUtilities.ExtensionToImageMappings.TryGetValue(justFile.ToLower(), out string imageKey))
                 key = justFile.ToLower();
             else
             {
@@ -120,6 +120,7 @@ namespace MarkdownMonster.Utilities
             { "favicon.ico", "favicon" },
             { "folder.folder", "folder" }, // special case
             { "folder.openfolder", "folder-open" }, // special case
+            { "untitled","md" },
             
             // dev config files
             { "license","license" },
@@ -130,6 +131,7 @@ namespace MarkdownMonster.Utilities
             { ".editorconfig", "editorconfig" },
 
             // Common
+            
             { ".md", "md" },
             { ".markdown", "md" },
             { ".mdcrypt", "md" },
@@ -254,7 +256,7 @@ namespace MarkdownMonster.Utilities
             { ".bat", "bat" },
             { ".cmd", "bat" },
             { ".sh", "bat" },
-            { ".zip", ".zip" }
+            { ".zip", "zip" }
 
         };
     }

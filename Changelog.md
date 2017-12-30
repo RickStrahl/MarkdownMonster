@@ -8,7 +8,10 @@
 *<small>not released yet</small>*
 
 * **Add Recent Folder List in Folder Browser**   
-The folder browser now has an icon to show and re-select recently opened folders.
+The folder browser now has an icon to show and re-select recently opened folders. Recent folders are also shown on the Recent Files drop down.
+
+* **File Tab Icons**  
+Added icons to the tabs for each of the open files in the editor.
 
 * **Fix Shift-Delete Behavior**   
 Fix additional issue with `Shift-Del` operation when text is selected which now properly **cuts** selected text to the clipboard. Previous behavior just removed the selection.

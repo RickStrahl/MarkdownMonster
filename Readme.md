@@ -26,9 +26,15 @@ If you like what you see please consider :star: **starring this repo** (top righ
 > ### Please report any Issues you run into
 > If you run into a problem with Markdown Monster, please let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature request here on GitHub. We want to know what doesn't work and get it fixed. **Help us make Markdown Monster better**!
 
-Here's what Markdown Monster looks like:
+Here's what Markdown Monster looks like using the default **Dark Theme**:
 
 ![Markdown Monster Screen Shot](ScreenShot.png)
+
+and here is the **Light Theme**:
+
+![Markdown Monster Screen Shot](ScreenShot_Light.png)
+
+> In addition you can customize both the editor and preview themes individually. The screen shots above use different editor and preview themes for example. 
 
 ## Features
 Markdown Monster provides many useful features:

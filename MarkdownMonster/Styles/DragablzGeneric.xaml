@@ -1111,7 +1111,11 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter Content="{TemplateBinding ContentControl.Content}" 
-                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"                                                  
+                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" 
+                                                  ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" 
+                                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
+                                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
+                                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"                                                  
                                                   Margin="{TemplateBinding Control.Padding}"
                                                   x:Name="contentPresenter" />
                                 <Thumb Grid.Column="0" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" 
@@ -1148,6 +1152,9 @@
                              <Setter Property="Padding" Value="5,2,10,8"/>
                             <Setter Property="Margin" Value="0 0 0 0"/>
                             <Setter Property="LongBasePenBrush" Value="{StaticResource TabItem.Selected.Background}" TargetName="Trapezoid"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -979,18 +979,15 @@ namespace MarkdownMonster
 			    var img = new Image()
 			    {
 			        Source = FolderStructure.icons.GetIconFromFile(document.Filename),
-                    Height=15,
-                    Margin = new Thickness(0,0,5,0)
+                    Height=16,
+                    Margin = new Thickness(0,1,5,0)
 
 			    };
 			    img.SetValue(Grid.ColumnProperty, 0);
 			    grid.Children.Add(img);
 
 
-			    var textBlock = new TextBlock()
-			    {
-			        Height = 17,
-			    };
+			    var textBlock = new TextBlock();
 			    textBlock.SetValue(Grid.ColumnProperty, 1);
 
                 var headerBinding = new Binding
