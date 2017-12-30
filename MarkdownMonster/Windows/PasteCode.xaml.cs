@@ -23,6 +23,8 @@ namespace MarkdownMonster.Windows
     public partial class PasteCode : MetroWindow
     {
 
+        public AppModel AppModel { get; set; }
+
         public string Code { get; set; }        
         public string CodeLanguage { get; set; }
         public Dictionary<string,string> LanguageNames { get; set; }
@@ -82,6 +84,7 @@ namespace MarkdownMonster.Windows
 
             InitializeComponent();
 
+            AppModel = mmApp.Model;
           
             mmApp.SetThemeWindowOverride(this);            
 

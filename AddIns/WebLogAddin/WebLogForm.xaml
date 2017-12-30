@@ -197,10 +197,9 @@
 
 
 
-            <controls:MetroTabItem Header="New Blog Entry " Margin="0,0,5,0" 
+            <controls:MetroTabItem Margin="0,0,5,0" Header="New Weblog Entry"
                                    FontSize="16" CloseButtonEnabled="False"                                  
                                    controls:ControlsHelper.HeaderFontSize="16">
-
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
                     <Label>Title:</Label>
                     <TextBox Text="{Binding NewTitle, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource HeaderStyle}"    />
