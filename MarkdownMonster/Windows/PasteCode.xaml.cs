@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
@@ -25,8 +26,24 @@ namespace MarkdownMonster.Windows
 
         public AppModel AppModel { get; set; }
 
-        public string Code { get; set; }        
-        public string CodeLanguage { get; set; }
+
+        public string Code
+        {
+            get { return _code; }
+            set
+            {
+                _code = StringUtils.NormalizeIndentation(value);
+            }
+        }
+        private string _code;
+        
+
+        public string CodeLanguage
+        {
+            get { return mmApp.Configuration.DefaultCodeSyntax; }
+            set { mmApp.Configuration.DefaultCodeSyntax = value; }
+        }
+
         public Dictionary<string,string> LanguageNames { get; set; }
 
         private MarkdownEditorSimple editor;
@@ -38,7 +55,7 @@ namespace MarkdownMonster.Windows
 
             LanguageNames = new Dictionary<string, string>()
             {
-                {"csharp", "C#"},
+                {"csharp", "CSharp"},
                 {"html", "Html"},
                 {"css", "Css"},
                 {"javascript", "JavaScript"},
@@ -101,7 +118,8 @@ namespace MarkdownMonster.Windows
             ComboBackground = TextCodeLanguage.Background;
 
             DataContext = this;
-            WebBrowserCode.Focus();  
+            WebBrowserCode.Focus();
+            
 
             editor = new MarkdownEditorSimple(WebBrowserCode, Code, CodeLanguage);
             editor.IsDirtyAction = () =>
@@ -169,6 +187,8 @@ namespace MarkdownMonster.Windows
             ((ComboBox) sender).Background = this.ComboBackground;
 
         }
+
+        
         
     }
 }
