@@ -338,6 +338,11 @@ namespace MarkdownMonster
         /// </summary>
         public object EditorKeyboardHandler { get; set; }
 
+        /// <summary>
+        /// Default code syntax displayed in the Paste Code dialog
+        /// </summary>
+        public string DefaultCodeSyntax { get; set; }
+
 
         /// <summary>
         /// Image editor used to edit images. Empty uses system default editor
@@ -671,6 +676,8 @@ namespace MarkdownMonster
             EditorEnableSpellcheck = true;
             EditorDictionary = "EN_US";
             EditorKeyboardHandler = "default";  // vim,emacs
+
+            DefaultCodeSyntax = "csharp";
 
             PreviewHttpLinksExternal = true;
 

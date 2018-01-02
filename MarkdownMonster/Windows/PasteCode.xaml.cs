@@ -80,7 +80,7 @@ namespace MarkdownMonster.Windows
 
                 {"txt", "Text - plain text, no formatting" }                
             };
-            CodeLanguage = "cs";
+            CodeLanguage = mmApp.Configuration.DefaultCodeSyntax;
 
             InitializeComponent();
 
