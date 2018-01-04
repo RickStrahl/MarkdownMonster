@@ -75,7 +75,7 @@
                             <dd><%= ReleaseDate %></dd>
 
                             <dt>File size:</dt>
-                            <dd>9.5 mb</dd>
+                            <dd>10 mb</dd>
                        </dl> 
                                                                         
                     </div>
@@ -91,15 +91,19 @@
 	                    </a>
                         
 						
-                        <div class="small" style="margin-top: 10px">alternates: <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip" title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> | 
-                                                                                <a href="https://west-wind.com/files/MarkdownMonsterPortable.zip" title="Fully self contained folder structure for Markdown Monster that can run without installation. Adds some limitations: No .md file association, no global command line access and Addins may not install if running out of a non-privileged folder.">Portable Zip</a> </div>
+                        <div class="small" style="margin-top: 10px">alternates: 
+                            <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip" title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> | 
+                            <a href="https://west-wind.com/files/MarkdownMonsterPortable.zip" title="Fully self contained folder structure for Markdown Monster that can run without installation. Adds some limitations: No .md file association, no global command line access and Addins may not install if running out of a non-privileged folder.">Portable Zip</a> | 
+                            <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe" title="Latest pre-release installer that might be slightly ahead of the current release version.">Latest pre-Release</a>
+                        </div> 
                         <div style="margin-top: 15px;">
                             <div class="fa fa-info-circle" style="font-size: 280%; color: steelblue; float: left;"></div>
                             <div style="margin-left: 50px;">
                                 
                                 <div class="small">  
                                     <p>
-                                    Markdown Monster can be downloaded and evaluated for free, but a <a href="https://store.west-wind.com/product/order/markdown_monster">reasonably priced license</a>
+                                    Markdown Monster can be downloaded and evaluated for free, but a 
+                                    <a href="https://store.west-wind.com/product/order/markdown_monster">reasonably priced license</a>
                                     must be purchased for continued use. Licenses are per-user, so you can use 
                                     Markdown Monster on as many computers you wish with your license.
                                     </p>

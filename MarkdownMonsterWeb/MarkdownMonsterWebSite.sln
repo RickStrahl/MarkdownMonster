@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MarkdownMonsterWeb(1)", ".", "{6AB5E445-9660-454B-BF02-506000EED978}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_38903"
 		Debug.AspNetCompiler.PhysicalPath = "..\MarkdownMonsterWeb\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_38903\"
@@ -36,6 +36,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7F812AB9-7E74-4A44-9202-B87D6CC7B3B7}
+		SolutionGuid = {83596817-6D19-4806-A72E-A476C9AF9827}
 	EndGlobalSection
 EndGlobal

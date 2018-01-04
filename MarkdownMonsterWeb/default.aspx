@@ -38,6 +38,28 @@
         #Carousel2 .carousel-inner > .item {
             margin: 5px 11%;
         }
+        #ShareBox {
+                    flex-direction: row;
+                    padding: 0 20px;
+                    height: 50px;
+                    background: #252525;
+
+                    display: flex;
+                    flex-direction: row;                    
+                }
+                .share-buttons {
+                    display: inline;
+                    font-size: 35px;
+                    padding: 0;                    
+                }
+                .share-buttons li {
+                    display: inline;
+                    list-style: none;
+                    padding-right: 20px;
+                }
+                    .share-buttons a {
+                        text-decoration: none;
+                    }
     </style>
     
         
@@ -52,6 +74,14 @@
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="639">
+
+    <meta name="twitter:card" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterMonsterBigger.png">
+    <meta name="twitter:site" content="@markdownmonstr">
+    <meta name="twitter:title" content="Markdown Monster - a better Markdown Editor and Weblog Publisher for Windows">
+    <meta name="twitter:description" content="Markdown Monster is an interactive Markdown Editor dedicated to optimizing Markdown content creation with a capable sytnax highlighted editor, live preview, inline spell-checking and many out of your way helpers that facilitate embedding images, links, code, tables, emojiis and more.">
+    <meta name="twitter:creator" content="@markdownmonstr">
+    <meta name="twitter:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterMonsterBigger.png">
+    <meta name="twitter:domain" content="markdownmonster.west-wind.com">
 </head>
 <body>
     <div class="banner">
@@ -203,21 +233,48 @@
                         
                        
                     </div>
+
+                     
+                            
+            <div id="ShareBox">
+                    <div style="flex: none; align-self: center;margin-right: 20px;">Share on:</div>    
+                    <div class="pull-left" style="flex: none">  
+                    
+                    <ul class="share-buttons" style="flex: none">
+                         <li>
+                            <a href="https://twitter.com/intent/tweet?source=https://markdownmonster.west-wind.com/&amp;text=Check out Markdown Monster - A better better Markdown Editor and Weblog Publisher for Windows: https://markdownmonster.west-wind.com" target="_blank" title="Tweet">
+                                <i class="fa fa-twitter-square"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://markdownmonster.west-wind.com/&amp;t=Markdown Monster - A better better Markdown Editor and Weblog Publisher for Windows" target="_blank" title="Share on Facebook">
+                                <i class="fa fa-facebook-square"></i>
+                            </a>
+                        </li>                       
+                        <li>
+                            <a href="http://www.reddit.com/submit?url=https://markdownmonster.west-wind.com/&amp;title=Markdown Monster - A better better Markdown Editor and Weblog Publisher for Windows" target="_blank" title="Submit to Reddit">
+                                <i class="fa fa-reddit-square"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            </header>
-
-            
-            <article class="content" >
-
-                <div class="right created-by">
+                <div class="right created-by" style="margin-bottom: 2px; flex: 1 1 auto;align-self: flex-end">
                     <div style="font-size: xx-small">created by:</div>
                     <a href="http://west-wind.com">
                         <img src="/Images/wwToolbarLogo.png" 
                             style="height: 30px" alt="West Wind Technologies" />
                     </a>
                 </div>
+            </div>
 
-            <h3>Better Markdown Editing for Windows</h3>
+                
+</div>
+            </header>
+
+            <article class="content" >
+           
+
+            <h3 style="clear: both">Better Markdown Editing for Windows</h3>
             <p>
                 Markdown is everywhere these days and it's used for all sorts
                 of different purposes. Wouldn't it be nice if you have an editor that can keep 
