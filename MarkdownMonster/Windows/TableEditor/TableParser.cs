@@ -98,9 +98,12 @@ namespace MarkdownMonster.Windows
                 line = "| ";
                 for (int i = 0; i < row.Count; i++)
                 {
+                    if (i >= columnInfo.Count)
+                        break;
+
                     var col = row[i];
                     col.Text = col.Text.Replace("\n", "<br>").Replace("\r", "");
-
+                    
                     var colInfo = columnInfo[i];
                     line += col.Text.PadRight(colInfo.MaxWidth) + " | ";
                 }
@@ -133,6 +136,9 @@ namespace MarkdownMonster.Windows
             var columnInfo = GetColumnInfo(tableData);
             for (int i = 0; i < columnInfo.Count; i++)
             {
+                if (i >= columnInfo.Count)
+                    break;
+
                 var colInf = columnInfo[i];
                 for (int j = 0; j < tableData.Count; j++)
                 {
@@ -277,13 +283,14 @@ namespace MarkdownMonster.Windows
             {
                 if (row.Length == 0)
                     continue;
+                
                 if (row.StartsWith("|--") || row.StartsWith("| --") ||
                     row.StartsWith("|:-")  || row.StartsWith("| :-"))
                 {
                     if (!row.Contains(":"))
                         continue;
 
-                    var headerCols = row.Split(new[] {'|'},StringSplitOptions.RemoveEmptyEntries);
+                    var headerCols = row.TrimEnd().Split(new[] {'|'},StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < headerCols.Length; i++)
                     {
                         var sepLine = headerCols[i].Trim();
@@ -296,7 +303,7 @@ namespace MarkdownMonster.Windows
                     continue;
                 }
 
-                var cols = row.Trim('|').Split('|');
+                var cols = row.TrimEnd().Trim('|').Split('|');
                 var columnData = new ObservableCollection<CellContent>();
                 foreach (var col in cols)
                     columnData.Add(new CellContent(col.Trim()));
@@ -341,7 +348,7 @@ namespace MarkdownMonster.Windows
 
                     while (true)
                     {
-                        cols = rowText.Trim('|').Split('|');
+                        cols = rowText.TrimEnd().Trim('|').Split('|');
 
                         for (var i = 0; i < cols.Length; i++)
                             cellText.Add(new StringBuilder());

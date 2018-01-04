@@ -1,3 +1,6 @@
+### Right Click To Edit Images, Links and Tables
+Did you know you can right click on Image tags to preview or edit the image in your favorite image editor? You can also right click on a table and open the table editor, on a link and edit and update or remove the link.
+
 ### Using Gists for Bug Reports and general Purpose Web Pages
 Did you know that Github Gists support Markdown? You can use Gist to create one off HTML pages in Markdown. They're great for posting detailed bug reports or ideas that you can link on Twitter and other social media. Markdown Monster's Gist Integration Addin can also help with editing and updating and managing of Gists easily.
 
@@ -11,7 +14,6 @@ Markdown Monster is iterating very quickly. Don't want to see new version checks
 
 ### FontAwesome Icons
 Did you know that you can easily embed FontAwesome icons into Markdown documents with @MarkdownMonstr? Simply embed @icon-iconname into your documents and MM renders the icon for you. For more sophisticated use cases you can also use raw HTML.
-
 
 ### Snippet Add-in
 Did you know the Snippet Addin can turn an expansion key into expanded text? Turn short phrases like `fa-` into an expanded font-awesome HTML string, turn `signature` into your name, company and logo signature. It's easy...
