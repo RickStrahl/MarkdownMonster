@@ -35,8 +35,12 @@ $tf*/
 packages*/
 _preview.html
 
+Upload.ps1
+Upload_Latest.ps1
+
 /InstallerFiles/*.iw9
-/InstallerFiles/Upload.bat
+/InstallerFiles/Upload.ps1
+/InstallerFiles/Upload_Latest.ps1
 WebEssentials-Settings.json
 InstallerFiles/FilesToInstall/AppData/Html/_preview.json
 /MightyMarkdown/Install/Distribution
