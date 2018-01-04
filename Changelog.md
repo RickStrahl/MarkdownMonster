@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-### 1.8.9
+### 1.8.10
 *<small>not released yet</small>*
 
 * **Add Recent Folder List in Folder Browser**   
