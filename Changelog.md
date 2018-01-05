@@ -10,6 +10,12 @@
 * **Add Recent Folder List in Folder Browser**   
 The folder browser now has an icon to show and re-select recently opened folders. Recent folders are also shown on the Recent Files drop down.
 
+* **Auto-Complete for Folder Browser Path Textbox**   
+The Folder Browser's path selection textbox now auto-completes paths as you type them for easier path selection.
+
+* **Add Folder Navigation to Folder Browser**   
+Added a few features to make the folder browser more navigation friendly. You can now double-click on folders to open a folder as the top level folder in the folder browser. A new Open Folder Browser here context option is also available. A new parent folder `..` node is now added to allow navigating back up the tree by double clicking on this node.
+
 * **File Tab Icons**  
 Added icons to the tabs for each of the open files in the editor.
 
@@ -21,6 +27,10 @@ Fix funky drag behavior when an item is selected and trying to scroll the scroll
 
 * **Partial Fix: Drag images from Explorer**   
 Images dragged from Windows Explorer now drop at the current cursor position in the editor (not the dragged mouse position). Due to security limitations Drag and Drop into the browser control from external doesn't translate the mouse position into the control so the only relevant place we can drop is at the last known cursor position. Previously images dropped at the end of the document.
+
+* **Fix: Table Reformatting if Column Count exceeds Columns defined**  
+Fixed issue where if a table row had more columns than the header defines the table would blow up on rendering. Common scenario when 'editing' a table and then repasting it. Fixed trailing whitespace (which caused extra columns) and fixed so that extra columns if provided are ignored.
+
 
 ### 1.8.8
 *<small>December 28th, 2017</small>*
@@ -35,7 +45,7 @@ Added additional Markdown extensions to be recognized by Markdown Monster as mar
 You can now use `Ctrl-Tab` and `Ctrl-Shift-Tab` to flip more easily across the open editor windows on the editor pane.
 
 * **Paste Code Dialog Picks up Code from ClipBoard**   
-The Paste Code Dialog (alt-c) now tries to pick up code from the clipboard and displays it for editing and then pasting - if no code selection is active in the editor. This can provide an optimized workflow: Copy code to clipboard from code editor, switch to MM, press `alt-c`, type sytnax code (ie. css, html, csharp), press enter and code is pasted properly into markdown. 
+The Paste Code Dialog (alt-c) now tries to pick up code from the clipboard and displays it for editing and then pasting - if no code selection is active in the editor. This can provide an optimized workflow: Copy code to clipboard from code editor, switch to MM, press `alt-c`, type syntax code (ie. css, html, csharp), press enter and code is pasted properly into markdown. 
 
 ### 1.8.4
 *<small>December 20th, 2017</small>*

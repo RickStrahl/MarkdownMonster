@@ -270,10 +270,13 @@ namespace MarkdownMonster.Windows
                 return;
             }
 
-            var combo = sender as ComboBox;
+            HandleFolderPathTextAutoComplete(sender as ComboBox);
+        }
+
+        private void HandleFolderPathTextAutoComplete(ComboBox combo)
+        {         
             if (combo == null)
                 return;
-
 
             var typed = combo.Text;
             if (string.IsNullOrEmpty(typed))
@@ -975,7 +978,16 @@ namespace MarkdownMonster.Windows
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
-       
+
+        private void ComboFolderPath_DropDownOpened(object sender, EventArgs e)
+        {
+            var combo = sender as ComboBox;
+            if (combo == null || combo.Items.Count > 0)
+                return;
+
+            // Force the dialog to update
+            HandleFolderPathTextAutoComplete(combo);
+
+        }
     }
 }

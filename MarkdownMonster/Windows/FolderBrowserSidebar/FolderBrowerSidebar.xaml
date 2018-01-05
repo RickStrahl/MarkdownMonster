@@ -6,12 +6,14 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:local="clr-namespace:MarkdownMonster.Windows"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
              mc:Ignorable="d" MinWidth="215"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-		<local:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+        <local:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
 
-		<!--DataType="{x:Type local:PathItem}"-->
+        <!--DataType="{x:Type local:PathItem}"-->
 		<HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
 			<StackPanel MouseDown="TreeViewItem_MouseDoubleClick">
                 <StackPanel Orientation="Horizontal">
@@ -148,27 +150,32 @@
 			         Name="ButtonRefreshFolder" BorderThickness="0"  FontSize="12"
 			         ToolTip="Refresh Folder" 
 			         Click="ButtonRefreshFolder_Click" />
-			<Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
+            <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
 			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="5"  
 			         Name="ButtonClosePanel" BorderThickness="0" FontSize="12"
 			         ToolTip="Close Folder Browser Panel" 
 			         Click="ButtonClosePanel_Click" />
-
-		</Grid>
-
+        </Grid>
 
 
-        <ComboBox Grid.Row="1" Name="ComboFolderPath" Text="{Binding FolderPath,UpdateSourceTrigger=LostFocus}"
-	             Opacity="0.60" FontWeight="Medium"
-	             ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"
-                 
-	             BorderThickness="0"  
-                 PreviewKeyUp="ComboFolderPath_PreviewKeyDown"                 
-                 IsEditable="True" 	    IsTextSearchEnabled="True"
-                
+
+        <ComboBox Grid.Row="1"
+                 x:Name="ComboFolderPath" 
+                 Text="{Binding FolderPath,UpdateSourceTrigger=LostFocus}"
+	             Opacity="0.60" FontWeight="Medium"                            
+	             ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"                 
+	             BorderThickness="0"      IsTextSearchEnabled="False"                                                      
                  MaxDropDownHeight="275"
-                 controls:TextBoxHelper.Watermark="Folder Browser Path"
-	             />
+                 controls:TextBoxHelper.Watermark="Folder Browser Path" >
+            <!--<ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="mmcontrols:FileSystemAutoCompleteBehavior.IsFolderDropdownAlwaysVisible" Value="False"/>
+                </Style>
+            </ComboBox.Style>-->
+            <i:Interaction.Behaviors>
+                <mmcontrols:FileSystemAutoCompleteBehavior />
+            </i:Interaction.Behaviors>
+        </ComboBox>
 
         <TreeView Grid.Row="3" Name="TreeFolderBrowser"
 				  ItemTemplate="{StaticResource FolderTemplate}" 
