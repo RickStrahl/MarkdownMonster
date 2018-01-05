@@ -120,6 +120,9 @@ namespace MarkdownMonster.Windows
         {
             var context = Resources["FileContextMenu"] as ContextMenu;
             context.DataContext = TreeFolderBrowser;
+
+            // Load explicitly here to fire *after* behavior has attached
+            ComboFolderPath.PreviewKeyUp += ComboFolderPath_PreviewKeyDown; 
         }
 
         #endregion
@@ -265,78 +268,11 @@ namespace MarkdownMonster.Windows
         {
             if (e.Key == Key.Enter || e.Key == Key.Tab)
             {
+                ((ComboBox)sender).IsDropDownOpen = false;
                 TreeFolderBrowser.Focus();
-                e.Handled = true;
+                e.Handled = true;                
                 return;
-            }
-
-            HandleFolderPathTextAutoComplete(sender as ComboBox);
-        }
-
-        private void HandleFolderPathTextAutoComplete(ComboBox combo)
-        {         
-            if (combo == null)
-                return;
-
-            var typed = combo.Text;
-            if (string.IsNullOrEmpty(typed))
-                return;
-
-            var path = System.IO.Path.GetDirectoryName(typed);
-            if (string.IsNullOrEmpty(path))
-                return;
-
-            // Capture selection - we have to reset it after we've
-            // updated the items
-            TextBox textBox = (TextBox) (combo.Template.FindName("PART_EditableTextBox", combo));
-            var selStart = textBox.SelectionStart;
-            var selLength = textBox.SelectionLength;
-                        
-            combo.Items.Clear();
-            
-            string[] folders = { };
-            try
-            {
-                folders = Directory.GetDirectories(path);
-            }
-            catch
-            {
-                return;
-            }
-
-            // strip out partials that don't match last part typed
-            var typedPart = Path.GetFileName(typed);
-
-            if (!string.IsNullOrEmpty(typedPart))
-            {
-                typedPart = typedPart.ToLower();
-                var foldersList = new List<string>();
-                foreach (var folder in folders)
-                {
-                    var folderPart = Path.GetFileName(folder);
-                    //Debug.WriteLine($"{typedPart} - {folderPart} - {typed} - {folder}");
-                    if (folderPart.ToLower().Contains(typedPart))
-                        foldersList.Add(folder);
-                }
-                
-                folders = foldersList.ToArray();
-            }
-
-            foreach (var folder in folders)
-                combo.Items.Add(folder);
-
-            if (combo.Items.Count > 0)
-                combo.IsDropDownOpen = true;
-            else
-                combo.IsDropDownOpen = false;
-
-            combo.Text = typed;
-            
-            textBox.SelectionStart = selStart;
-            textBox.SelectionLength = selLength;
-            Debug.WriteLine($"{textBox.Text} - {textBox.SelectionStart} {textBox.SelectionLength} - {selStart} {selLength}");
-
-            inputFolderPath = path.ToLower();
+            }            
         }
         #endregion
 
@@ -786,11 +722,11 @@ namespace MarkdownMonster.Windows
 
             string clipText = null;
             if (selected == null)            
-                clipText = FolderPath;                            
-            else 
-            
+                clipText = FolderPath;
+            else if (selected.FullPath == "..")
+                clipText = Path.GetDirectoryName(FolderPath);
+            else             
                 clipText = selected.FullPath;
-
 
             if (!string.IsNullOrEmpty(clipText))
             {
@@ -937,6 +873,18 @@ namespace MarkdownMonster.Windows
             startPoint = e.GetPosition(null);
         }
 
+     
+
+        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem item = sender as TreeViewItem;
+            if (item != null)
+            {
+                item.Focus();
+                e.Handled = true;
+            }
+        }
+
         private void TreeFolderBrowser_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -979,15 +927,7 @@ namespace MarkdownMonster.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ComboFolderPath_DropDownOpened(object sender, EventArgs e)
-        {
-            var combo = sender as ComboBox;
-            if (combo == null || combo.Items.Count > 0)
-                return;
 
-            // Force the dialog to update
-            HandleFolderPathTextAutoComplete(combo);
-
-        }
+      
     }
 }
