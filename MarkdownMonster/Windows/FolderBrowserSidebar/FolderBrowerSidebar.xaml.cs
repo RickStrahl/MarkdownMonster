@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -16,6 +18,7 @@ using System.Windows.Threading;
 using MarkdownMonster.Annotations;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Westwind.Utilities;
+using ComboBox = System.Windows.Controls.ComboBox;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using DataFormats = System.Windows.DataFormats;
 using DataObject = System.Windows.DataObject;
@@ -55,8 +58,22 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged(nameof(ActivePathItem));
             }
         }
-
         private string _folderPath;
+
+        
+
+        //public ObservableCollection<string> FolderAutoCompletionList
+        //{
+        //    get { return _folderAutoCompletionList; }
+        //    set
+        //    {
+        //        if (Equals(value, _folderAutoCompletionList)) return;
+        //        _folderAutoCompletionList = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+
+        //private ObservableCollection<string> _folderAutoCompletionList = new ObservableCollection<string>();
 
 
         public PathItem ActivePathItem
@@ -117,11 +134,17 @@ namespace MarkdownMonster.Windows
             Dispatcher.InvokeAsync(() =>
             {
                 // just get the top level folder first
-                ActivePathItem = FolderStructure.GetFilesAndFolders(folder,nonRecursive: true);
+                ActivePathItem = null;
+                WindowUtilities.DoEvents();
+
+                var items   = FolderStructure.GetFilesAndFolders(folder,nonRecursive: true);                
+                ActivePathItem = items;
+                
                 WindowUtilities.DoEvents();
 
                 // get all folders next
-                ActivePathItem = FolderStructure.GetFilesAndFolders(folder);
+                items = FolderStructure.GetFilesAndFolders(folder);
+                ActivePathItem = items;
                 WindowUtilities.DoEvents();
 
                 mmApp.Model.Window.ShowStatus();
@@ -238,14 +261,80 @@ namespace MarkdownMonster.Windows
                 .ContainerFromItem(item);
         }
 
-        private void TextFolderPath_KeyDown(object sender, KeyEventArgs e)
+        private void ComboFolderPath_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter || e.Key == Key.Tab)
             {
                 TreeFolderBrowser.Focus();
+                e.Handled = true;
+                return;
             }
-        }
 
+            var combo = sender as ComboBox;
+            if (combo == null)
+                return;
+
+
+            var typed = combo.Text;
+            if (string.IsNullOrEmpty(typed))
+                return;
+
+            var path = System.IO.Path.GetDirectoryName(typed);
+            if (string.IsNullOrEmpty(path))
+                return;
+
+            // Capture selection - we have to reset it after we've
+            // updated the items
+            TextBox textBox = (TextBox) (combo.Template.FindName("PART_EditableTextBox", combo));
+            var selStart = textBox.SelectionStart;
+            var selLength = textBox.SelectionLength;
+                        
+            combo.Items.Clear();
+            
+            string[] folders = { };
+            try
+            {
+                folders = Directory.GetDirectories(path);
+            }
+            catch
+            {
+                return;
+            }
+
+            // strip out partials that don't match last part typed
+            var typedPart = Path.GetFileName(typed);
+
+            if (!string.IsNullOrEmpty(typedPart))
+            {
+                typedPart = typedPart.ToLower();
+                var foldersList = new List<string>();
+                foreach (var folder in folders)
+                {
+                    var folderPart = Path.GetFileName(folder);
+                    //Debug.WriteLine($"{typedPart} - {folderPart} - {typed} - {folder}");
+                    if (folderPart.ToLower().Contains(typedPart))
+                        foldersList.Add(folder);
+                }
+                
+                folders = foldersList.ToArray();
+            }
+
+            foreach (var folder in folders)
+                combo.Items.Add(folder);
+
+            if (combo.Items.Count > 0)
+                combo.IsDropDownOpen = true;
+            else
+                combo.IsDropDownOpen = false;
+
+            combo.Text = typed;
+            
+            textBox.SelectionStart = selStart;
+            textBox.SelectionLength = selLength;
+            Debug.WriteLine($"{textBox.Text} - {textBox.SelectionStart} {textBox.SelectionLength} - {selStart} {selLength}");
+
+            inputFolderPath = path.ToLower();
+        }
         #endregion
 
 
@@ -260,7 +349,7 @@ namespace MarkdownMonster.Windows
             if (e.Key == Key.Enter || e.Key == Key.Tab)
             {
                 if (!selected.IsEditing)
-                    HandleSelection();
+                    HandleItemSelection();
                 else
                     RenameFileOrFolder();
             }
@@ -307,17 +396,24 @@ namespace MarkdownMonster.Windows
             if (e.ClickCount == 2)
             {
                 LastClickTime = DateTime.MinValue;
-                HandleSelection();
+                HandleItemSelection();
             }
         }
 
-        void HandleSelection()
+        private string inputFolderPath = string.Empty;
+
+        void HandleItemSelection        ()
         {
             var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
-            if (fileItem == null || fileItem.IsFolder)
+            if (fileItem == null)
                 return;
 
-            OpenFile(fileItem.FullPath);
+            if (fileItem.FullPath == "..")           
+                FolderPath = Path.GetDirectoryName(FolderPath.Trim('\\'));
+            else if (fileItem.IsFolder)
+                FolderPath = fileItem.FullPath;
+            else
+                OpenFile(fileItem.FullPath);
         }
 
         void RenameFileOrFolder()
@@ -373,7 +469,7 @@ namespace MarkdownMonster.Windows
                             MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
 
-                    HandleSelection();
+                    HandleItemSelection();
                 }
             }
 
@@ -428,14 +524,6 @@ namespace MarkdownMonster.Windows
         }
 
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         #region Context Menu Actions
 
@@ -646,6 +734,18 @@ namespace MarkdownMonster.Windows
                 mmFileUtils.OpenFileInExplorer(folder);
         }
 
+        private void MenuOpenFolderBrowserHere_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+            if (selected == null)
+                return;
+
+            if (selected.FullPath == "..")
+                FolderPath = Path.GetDirectoryName(FolderPath.TrimEnd('\\'));           
+            else
+                FolderPath = selected.FullPath;
+        }
+
         private void MenuOpenTerminal_Click(object sender, RoutedEventArgs e)
         {
             string folder = FolderPath;
@@ -675,6 +775,26 @@ namespace MarkdownMonster.Windows
                 mmApp.Model.Window.ShowStatus("Unable to open file " + selected.FullPath, 4000);
                 mmApp.Model.Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Red);
             }
+        }
+
+        private void MenuCopyPathToClipboard_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+
+            string clipText = null;
+            if (selected == null)            
+                clipText = FolderPath;                            
+            else 
+            
+                clipText = selected.FullPath;
+
+
+            if (!string.IsNullOrEmpty(clipText))
+            {
+                System.Windows.Clipboard.SetText(clipText);
+                mmApp.Model.Window.ShowStatus($"Path '{clipText}' has been copied to the Clipboard.",6000);
+            }
+
         }
 
 
@@ -709,6 +829,8 @@ namespace MarkdownMonster.Windows
         }
 
         #endregion
+
+        #region Items and Item Selection
 
         private string overImage;
 
@@ -801,6 +923,8 @@ namespace MarkdownMonster.Windows
                 selected.IsEditing = false;
         }
 
+        #endregion
+
         #region Drag Operations
 
         private System.Windows.Point startPoint;
@@ -843,5 +967,15 @@ namespace MarkdownMonster.Windows
         }
 
         #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+       
     }
 }

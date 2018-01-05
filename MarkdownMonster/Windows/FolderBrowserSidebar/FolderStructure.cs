@@ -15,15 +15,17 @@ namespace MarkdownMonster.Windows
 		/// <param name="parentPathItem"></param>
 		/// <param name="skipFolders"></param>
 		/// <returns></returns>
-		public PathItem GetFilesAndFolders(string baseFolder, PathItem parentPathItem = null, string skipFolders = "node_modules,bower_components,packages,testresults,bin,obj", bool nonRecursive = false)
+		public PathItem GetFilesAndFolders(string baseFolder, PathItem parentPathItem = null, string skipFolders = ".git,node_modules,bower_components,packages,testresults,bin,obj", bool nonRecursive = false)
 		{
-			if (string.IsNullOrEmpty(baseFolder) || !Directory.Exists(baseFolder))
+			if (string.IsNullOrEmpty(baseFolder) || !Directory.Exists(baseFolder) || baseFolder.Length < 5)
 				return new PathItem();
 
 			PathItem activeItem;
+            bool isRootFolder = false;
 
 			if (parentPathItem == null)
 			{
+                isRootFolder = true;
                 activeItem = new PathItem
                 {
                     FullPath = baseFolder,
@@ -115,9 +117,19 @@ namespace MarkdownMonster.Windows
 				}
 			}
 
-			return activeItem;
-		}
+		    if (activeItem.FullPath.Length > 5 && isRootFolder )
+		    {
+		        var parentFolder = new PathItem
+		        {
+		            IsFolder = true,
+		            FullPath = ".."
+		        };
+		        parentFolder.SetFolderIcon();
+		        activeItem.Files.Insert(0, parentFolder);
+		    }
 
 
+		    return activeItem;
+		}        
 	}
 }
