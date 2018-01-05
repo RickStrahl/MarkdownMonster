@@ -48,9 +48,9 @@ namespace MarkdownMonster.Controls
 
         public static bool GetIsFolderDropdownAlwaysVisible(ComboBox combo)
         {
-            return (bool) combo.GetValue(IsFolderDropdownAlwaysVisibleProperty);
+            return (bool)combo.GetValue(IsFolderDropdownAlwaysVisibleProperty);
         }
-        
+
         // Using a DependencyProperty as the backing store for IsFolderDropdownAlwaysVisible.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsFolderDropdownAlwaysVisibleProperty =
             DependencyProperty.Register("IsFolderDropdownAlwaysVisible",
@@ -58,39 +58,49 @@ namespace MarkdownMonster.Controls
                 typeof(ComboBox),
                 new PropertyMetadata(true));
 
+        private ComboBox SourceComboBox;
 
         protected override void OnAttached()
         {
             base.OnAttached();
-            
-            AssociatedObject.AddHandler(ComboBox.PreviewKeyUpEvent,
-                new System.Windows.Input.KeyEventHandler(FileSystemAutoCompleteComboBox_PreviewKeyUp),
-                true);
 
+            SourceComboBox = AssociatedObject;           
             
             AssociatedObject.IsEditable = true;
             AssociatedObject.IsTextSearchEnabled = true;
 
             AssociatedObject.DropDownOpened += AssociatedObject_DropDownOpened;
+
+            // Need to delay attaching the text handler
+            AssociatedObject.Loaded += AssociatedObject_Loaded;
+        }
+
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)(AssociatedObject.Template.FindName("PART_EditableTextBox", AssociatedObject));
+            textBox.PreviewKeyUp += TextBox_PreviewKeyUp;
         }
 
         protected override void OnDetaching()
         {
-            base.OnDetaching();
-            AssociatedObject.RemoveHandler(ComboBox.PreviewKeyUpEvent, new System.Windows.Input.KeyEventHandler(FileSystemAutoCompleteComboBox_PreviewKeyUp));
+            TextBox textBox = (TextBox)(AssociatedObject.Template.FindName("PART_EditableTextBox", AssociatedObject));
+            textBox.PreviewKeyUp -= TextBox_PreviewKeyUp;
 
+            base.OnDetaching();
+            //AssociatedObject.RemoveHandler(ComboBox.PreviewKeyUpEvent, new System.Windows.Input.KeyEventHandler(FileSystemAutoCompleteComboBox_PreviewKeyUp));
         }
+
 
         /// <summary>
         /// Handle any keys and check against paths
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FileSystemAutoCompleteComboBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        private void TextBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            HandleFolderPathTextAutoComplete(sender as ComboBox);
+            HandleFolderPathTextAutoComplete(SourceComboBox);
         }
-
+        
 
         /// <summary>
         /// When the ComboBox opens initially make sure there are items to display
@@ -121,7 +131,13 @@ namespace MarkdownMonster.Controls
             if (string.IsNullOrEmpty(typed))
                 return;
 
-            var path = System.IO.Path.GetDirectoryName(typed);
+            string path = null;
+            try
+            {
+                path = System.IO.Path.GetDirectoryName(typed);
+            }
+            catch { }
+
             if (string.IsNullOrEmpty(path))
                 return;
 
