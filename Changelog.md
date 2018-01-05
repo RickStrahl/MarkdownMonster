@@ -4,17 +4,17 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-### 1.8.10
+### 1.8.12
 *<small>not released yet</small>*
 
 * **Add Recent Folder List in Folder Browser**   
 The folder browser now has an icon to show and re-select recently opened folders. Recent folders are also shown on the Recent Files drop down.
 
 * **Auto-Complete for Folder Browser Path Textbox**   
-The Folder Browser's path selection textbox now auto-completes paths as you type them for easier path selection.
+The Folder Browser's path selection entry combobox now auto-completes paths as you type them for easier path selection.
 
 * **Add Folder Navigation to Folder Browser**   
-Added a few features to make the folder browser more navigation friendly. You can now double-click on folders to open a folder as the top level folder in the folder browser. A new Open Folder Browser here context option is also available. A new parent folder `..` node is now added to allow navigating back up the tree by double clicking on this node.
+Added a few features to make the folder browser more navigation friendly. You can now **double-click on folders** to re-open the folder browser as the top level folder in the folder browser. A new **Open Folder Browser** here context option is also available. A new **parent folder `..` node** is now added to allow navigating back up the tree by double clicking on this node.
 
 * **File Tab Icons**  
 Added icons to the tabs for each of the open files in the editor.
