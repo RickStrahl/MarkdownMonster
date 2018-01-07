@@ -177,7 +177,6 @@
 	             Visibility="Collapsed"
 	             Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
                  BorderThickness="0.2"
-                 controls:TextBoxHelper.ClearTextButton="True"
                  controls:TextBoxHelper.SelectAllOnFocus="True"
 	             Opacity="0.7"
                  LostFocus="TextSearch_LostFocus"

@@ -3,6 +3,7 @@
 ### Immediate
 * [ ] Addin Enabled/Disabled
 * [ ] Master Configuration Form
+* [ ] Markdown Document Outline
 * [ ] Spell checker Dictionary Downloads
     * Store dictionaries online
     * Show what's installed

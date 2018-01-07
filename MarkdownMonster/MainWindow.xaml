@@ -60,7 +60,8 @@
             <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document" Click="ButtonCloseAllTabs_Click"/>
             <Separator/>
             <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
-            <MenuItem Name="ContextOpenInFolder" Header="Open _Folder" Click="Button_OpenExplorer" />
+            <MenuItem Name="ContextOpenInFolder" Header="Open _Folder in Explorer" Click="Button_OpenExplorer" />
+            <MenuItem Name="ContextOpenInFolderBrowser" Header="Open Folder in Folder _Browser" Click="Button_OpenFolderBrowser" />
             <MenuItem Name="ContextCommitToGit" Header="Commit and Push to _Git"
                       Command="{Binding DataContext.CommitToGitCommand}"   />
             <Separator/>

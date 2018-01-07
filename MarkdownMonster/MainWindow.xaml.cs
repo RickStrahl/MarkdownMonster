@@ -1652,9 +1652,18 @@ namespace MarkdownMonster
 
 		    mmFileUtils.OpenFileInExplorer(editor.MarkdownDocument.Filename);
 		}
-	
 
-		internal void Button_PasteMarkdownFromHtml(object sender, RoutedEventArgs e)
+
+        private void Button_OpenFolderBrowser(object sender, RoutedEventArgs e)
+        {
+            var editor = GetActiveMarkdownEditor();
+            if (editor == null)
+                return;
+
+            ShowFolderBrowser(folder: Path.GetDirectoryName(editor.MarkdownDocument.Filename));
+        }
+
+        internal void Button_PasteMarkdownFromHtml(object sender, RoutedEventArgs e)
 		{
 			var editor = GetActiveMarkdownEditor();
 			if (editor == null)
@@ -1862,7 +1871,6 @@ namespace MarkdownMonster
 		}
 
         #endregion
-
     }
 
 
