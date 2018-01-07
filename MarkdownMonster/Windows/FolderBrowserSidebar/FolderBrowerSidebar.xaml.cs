@@ -45,6 +45,8 @@ namespace MarkdownMonster.Windows
             {
                 if (value == _folderPath) return;
 
+                SearchText = null;
+
                 if (string.IsNullOrEmpty(value))
                     ActivePathItem = new PathItem();
                 else if (value != _folderPath)
@@ -153,21 +155,14 @@ namespace MarkdownMonster.Windows
                 WindowUtilities.DoEvents();
 
                 var items   = FolderStructure.GetFilesAndFolders(folder,nonRecursive: true, searchText:searchText);                
-                ActivePathItem = items;                
-                
-                WindowUtilities.DoEvents();
+                ActivePathItem = items;
 
-                // get all folders next
-                //items = FolderStructure.GetFilesAndFolders(folder,searchText:searchText);
-                //ActivePathItem = items;
-                //WindowUtilities.DoEvents();
-
+                WindowUtilities.DoEvents();                
                 mmApp.Model.Window.ShowStatus();
 
                 if (TreeFolderBrowser.HasItems)
                     SetTreeViewSelectionByIndex(0);
-
-
+                
                 if (setFocus)
                     TreeFolderBrowser.Focus();
 
@@ -509,6 +504,37 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        #endregion
+
+        #region Search Textbox
+
+        private void TextSearch_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ((TextBox)sender).Visibility = Visibility.Collapsed;
+        }
+
+        private DebounceDispatcher debounceTimer = new DebounceDispatcher();
+
+        private void TextSearch_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            debounceTimer.Debounce(500, (p) =>
+            {
+                //if (string.IsNullOrEmpty(FolderPath))
+                //    ActivePathItem = new PathItem();
+                //else
+                //{
+                   FolderStructure.SetSearchVisibility(SearchText, ActivePathItem);
+                    ////var items = FolderStructure.GetFilesAndFolders(folder, nonRecursive: true, searchText: SearchText);
+
+                    //var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                    //if (selected == null || !selected.IsFolder && !selected.IsExpanded)
+                    //    SetTreeFromFolder(FolderPath, false, SearchText);
+
+                //}
+            });
+
+
+        }
         #endregion
 
         #region Context Menu Actions
@@ -974,18 +1000,5 @@ namespace MarkdownMonster.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void TextSearch_LostFocus(object sender, RoutedEventArgs e)
-        {            
-            ((TextBox) sender).Visibility = Visibility.Collapsed;
-        }
-
-        private void TextSearch_PreviewKeyUp(object sender, KeyEventArgs e)
-        {
-            if (string.IsNullOrEmpty(FolderPath))
-                ActivePathItem = new PathItem();
-            else 
-                SetTreeFromFolder(FolderPath, false, SearchText);
-
-        }
     }
 }

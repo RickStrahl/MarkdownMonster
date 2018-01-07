@@ -73,9 +73,22 @@ namespace MarkdownMonster.Windows
 	    private bool _isFile;
 
 
+	    
+	    public bool IsVisible
+	    {
+	        get { return _isVisible; }
+	        set
+	        {
+	            if (value == _isVisible) return;
+	            _isVisible = value;
+	            OnPropertyChanged();
+	        }
+	    }
+
+	    private bool _isVisible = true;
 
 
-	    public bool IsExpanded
+        public bool IsExpanded
 	    {
 	        get { return _isExpanded; }
 	        set

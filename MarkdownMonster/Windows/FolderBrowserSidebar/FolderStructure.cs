@@ -114,7 +114,6 @@ namespace MarkdownMonster.Windows
 			{
 				foreach (var file in files)
 				{
-
 				    var item = new PathItem {FullPath = file, Parent = activeItem, IsFolder = false, IsFile = true};
 				    if (mmApp.Configuration.FolderBrowser.ShowIcons)
 				        item.Icon = icons.GetIconFromFile(file);
@@ -136,6 +135,37 @@ namespace MarkdownMonster.Windows
 
 
 		    return activeItem;
-		}        
+		}
+
+        /// <summary>
+        /// Sets visibility of all items in the path item tree
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="pathItem"></param>
+	    public void SetSearchVisibility(string searchText, PathItem pathItem)
+	    {
+	        searchText = searchText?.ToLower();
+
+            if (pathItem.Files.Count == 1 && pathItem.Files[0] == PathItem.Empty)
+                return;
+
+	        foreach (var pi in pathItem.Files)
+	        {                
+	            if (string.IsNullOrEmpty(searchText) || pi.FullPath == "..")
+	            {
+	                pi.IsVisible = true;
+                    continue;
+	            }
+
+	            if (Path.GetFileName(pi.DisplayName).ToLower().Contains(searchText))
+                    pi.IsVisible = true;
+                else
+                    pi.IsVisible = false;
+
+	            if (pi.IsFolder)
+	                SetSearchVisibility(searchText, pi);
+	        }
+            
+	    }
 	}
 }

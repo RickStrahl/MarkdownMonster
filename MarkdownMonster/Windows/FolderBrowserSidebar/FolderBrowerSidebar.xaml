@@ -15,7 +15,7 @@
 
         <!--DataType="{x:Type local:PathItem}"-->
 		<HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
-			<StackPanel MouseDown="TreeViewItem_MouseDoubleClick">
+            <StackPanel MouseDown="TreeViewItem_MouseDoubleClick" >
                 <StackPanel Orientation="Horizontal">
                     <Image Height="16" Width="Auto" Margin="5,0,5,0" >
                         <Image.Style>
@@ -191,7 +191,7 @@
 		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"                  
 		          PreviewMouseMove="TreeFolderBrowser_MouseMove"
                   
-                  TreeViewItem.Expanded="TreeFolderBrowser_Expanded"
+                  TreeViewItem.Expanded="TreeFolderBrowser_Expanded"                  
 
 				  ItemsSource="{Binding ActivePathItem.Files}"  
                   BorderThickness="0"
@@ -215,6 +215,7 @@
                 <Style TargetType="{x:Type TreeViewItem}">
                     <!-- We have to select the item which is right-clicked on -->
                     <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
+                    <Setter Property="Visibility" Value="{Binding IsVisible,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>
