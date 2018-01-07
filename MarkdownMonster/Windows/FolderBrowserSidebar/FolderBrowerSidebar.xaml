@@ -166,18 +166,22 @@
 	             ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"                 
 	             BorderThickness="0"                                                                       
                  MaxDropDownHeight="275"
-                 controls:TextBoxHelper.Watermark="Folder Browser Path" 
-                  
-                  >
-            <!--<ComboBox.Style>
-                <Style TargetType="{x:Type ComboBox}">
-                    <Setter Property="mmcontrols:FileSystemAutoCompleteBehavior.IsFolderDropdownAlwaysVisible" Value="False"/>
-                </Style>
-            </ComboBox.Style>-->
+                 controls:TextBoxHelper.Watermark="Folder Browser Path">
             <i:Interaction.Behaviors>
                 <mmcontrols:FileSystemAutoCompleteBehavior />
             </i:Interaction.Behaviors>
         </ComboBox>
+
+
+        <TextBox x:Name="TextSearch"  Grid.Row="2" 
+	             Visibility="Collapsed"
+	             Text="{Binding SearchText}" 
+                 BorderThickness="0.2"
+                 controls:TextBoxHelper.ClearTextButton="True"
+                 controls:TextBoxHelper.SelectAllOnFocus="True"
+	             Opacity="0.7"
+                 LostFocus="TextSearch_LostFocus"
+	             controls:TextBoxHelper.Watermark="Search Folder" />
 
         <TreeView Grid.Row="3" Name="TreeFolderBrowser"
 				  ItemTemplate="{StaticResource FolderTemplate}" 
@@ -221,5 +225,6 @@
 			</Border>
 		</Popup>
 
-	</Grid>
+
+    </Grid>
 </UserControl>
