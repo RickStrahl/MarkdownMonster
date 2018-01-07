@@ -146,7 +146,7 @@ namespace MarkdownMonster
 
                     AppRunTelemetry =
                         AppInsights.StartOperation<RequestTelemetry>(
-                            $"App Run - {GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
+                            $"{GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
                     AppRunTelemetry.Telemetry.Start();
                 }
             }
@@ -173,6 +173,7 @@ namespace MarkdownMonster
 	            t.Properties.Add("registered", UnlockKey.IsRegistered().ToString());
 				t.Properties.Add("version", GetVersion());
 	            t.Properties.Add("dotnetversion", ComputerInfo.GetDotnetVersion());
+                t.Properties.Add("culture", CultureInfo.CurrentUICulture.IetfLanguageTag);
                 t.Stop();
 
                 try
