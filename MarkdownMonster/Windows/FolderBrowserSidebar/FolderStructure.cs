@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using MarkdownMonster.Utilities;
 
 
@@ -15,9 +16,9 @@ namespace MarkdownMonster.Windows
 		/// <param name="parentPathItem"></param>
 		/// <param name="skipFolders"></param>
 		/// <returns></returns>
-		public PathItem GetFilesAndFolders(string baseFolder, PathItem parentPathItem = null, string skipFolders = ".git,node_modules,bower_components,packages,testresults,bin,obj", bool nonRecursive = false)
+		public PathItem GetFilesAndFolders(string baseFolder, PathItem parentPathItem = null, string skipFolders = ".git,node_modules,bower_components,packages,testresults,bin,obj", bool nonRecursive = false, string searchText = null)
 		{
-			if (string.IsNullOrEmpty(baseFolder) || !Directory.Exists(baseFolder) || baseFolder.Length < 5)
+			if (string.IsNullOrEmpty(baseFolder) || !Directory.Exists(baseFolder) )
 				return new PathItem();
 
 			PathItem activeItem;
@@ -33,8 +34,7 @@ namespace MarkdownMonster.Windows
                 };
 			    if (mmApp.Configuration.FolderBrowser.ShowIcons)
 			    {
-			        activeItem.SetFolderIcon();
-			        
+			        activeItem.SetFolderIcon();			        
 			    }
 
 			    parentPathItem = activeItem;
@@ -54,6 +54,9 @@ namespace MarkdownMonster.Windows
 			try
 			{
 				folders = Directory.GetDirectories(baseFolder);
+
+			    if (!string.IsNullOrEmpty(searchText))
+			        folders = folders.Where(s => Path.GetFileName(s.ToLower()).Contains(searchText.ToLower())).ToArray();
 			}
 			catch { }
 
@@ -71,9 +74,9 @@ namespace MarkdownMonster.Windows
 							continue;
 					}
 
-				    if (!nonRecursive)
-				        GetFilesAndFolders(folder, activeItem, skipFolders);
-				    else
+				    if (!nonRecursive)				        
+                        GetFilesAndFolders(folder, activeItem, skipFolders);
+                    else
 				    {
 				        var folderPath = new PathItem
 				        {
@@ -83,6 +86,7 @@ namespace MarkdownMonster.Windows
 				        };
 				        if (mmApp.Configuration.FolderBrowser.ShowIcons)
 				            folderPath.SetFolderIcon();
+				        folderPath.Files.Add(PathItem.Empty);
 
                         activeItem.Files.Add(folderPath);
 				    }
@@ -93,15 +97,18 @@ namespace MarkdownMonster.Windows
 			try
 			{
 				files = Directory.GetFiles(baseFolder);
-			}
-			catch { }
+			    if (!string.IsNullOrEmpty(searchText))
+			        files = files.Where(s =>
+                        Path.GetFileName(s.ToLower()).Contains(searchText.ToLower())).ToArray();
+            }
+            catch { }
 
 		    if (folders == null && nonRecursive)
 		    {
-		        foreach (var folder in folders)
-		        {
+		        //foreach (var folder in folders)
+		        //{
 
-		        }
+		        //}
 		    }
 			if (files != null)
 			{
@@ -111,8 +118,7 @@ namespace MarkdownMonster.Windows
 				    var item = new PathItem {FullPath = file, Parent = activeItem, IsFolder = false, IsFile = true};
 				    if (mmApp.Configuration.FolderBrowser.ShowIcons)
 				        item.Icon = icons.GetIconFromFile(file);
-
-
+                    
 				    activeItem.Files.Add(item);
 				}
 			}

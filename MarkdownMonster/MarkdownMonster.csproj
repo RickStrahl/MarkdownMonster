@@ -143,6 +143,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\EditorContextMenu.cs" />
+    <Compile Include="Controls\ComboBoxAutoCompleteBehavior.cs" />
     <Compile Include="Controls\FileSystemAutoCompleteBehavior.cs" />
     <Compile Include="Controls\SelectOnEntryExtension.cs" />
     <Compile Include="Windows\PreviewBrowser\IPreviewBrowser.cs" />

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,7 @@ namespace MarkdownMonster.Windows
 	/// <summary>
 	/// Represents a file or folder in the Folder Browser side panel control.
 	/// </summary>
+	[DebuggerDisplay("{FullPath}")]
 	public class PathItem : INotifyPropertyChanged
 	{
 		public string DisplayName
@@ -187,6 +189,8 @@ namespace MarkdownMonster.Windows
 	        }
 	    }
 
+	    public static PathItem Empty { get; } = new PathItem();
+
 	    private ImageSource _openicon;
 
         private ObservableCollection<PathItem> _files;
@@ -199,7 +203,7 @@ namespace MarkdownMonster.Windows
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		[NotifyPropertyChangedInvocator]
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}

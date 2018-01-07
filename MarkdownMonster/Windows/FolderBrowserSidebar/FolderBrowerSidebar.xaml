@@ -175,12 +175,14 @@
 
         <TextBox x:Name="TextSearch"  Grid.Row="2" 
 	             Visibility="Collapsed"
-	             Text="{Binding SearchText}" 
+	             Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
                  BorderThickness="0.2"
                  controls:TextBoxHelper.ClearTextButton="True"
                  controls:TextBoxHelper.SelectAllOnFocus="True"
 	             Opacity="0.7"
                  LostFocus="TextSearch_LostFocus"
+                 PreviewKeyUp="TextSearch_PreviewKeyUp"
+
 	             controls:TextBoxHelper.Watermark="Search Folder" />
 
         <TreeView Grid.Row="3" Name="TreeFolderBrowser"
@@ -189,6 +191,8 @@
 		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"                  
 		          PreviewMouseMove="TreeFolderBrowser_MouseMove"
                   
+                  TreeViewItem.Expanded="TreeFolderBrowser_Expanded"
+
 				  ItemsSource="{Binding ActivePathItem.Files}"  
                   BorderThickness="0"
 				  ContextMenu="{StaticResource FileContextMenu}">
