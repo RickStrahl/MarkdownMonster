@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using MarkdownMonster.Annotations;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Westwind.Utilities;
+using CheckBox = System.Windows.Controls.CheckBox;
 using ComboBox = System.Windows.Controls.ComboBox;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using DataFormats = System.Windows.DataFormats;
@@ -46,6 +47,8 @@ namespace MarkdownMonster.Windows
                 if (value == _folderPath) return;
 
                 SearchText = null;
+                SearchSubTrees = false;
+                SearchPanel.Visibility = Visibility.Collapsed;
 
                 if (string.IsNullOrEmpty(value))
                     ActivePathItem = new PathItem();
@@ -53,6 +56,8 @@ namespace MarkdownMonster.Windows
                     SetTreeFromFolder(value, _folderPath != null, SearchText);
 
                 _folderPath = value;
+                
+
 
                 mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
 
@@ -75,6 +80,20 @@ namespace MarkdownMonster.Windows
             }
         }
         private string _searchText;
+
+        
+
+        public bool SearchSubTrees
+        {
+            get { return _searchSubTrees; }
+            set
+            {
+                if (value == _searchSubTrees) return;
+                _searchSubTrees = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _searchSubTrees;
 
         //public ObservableCollection<string> FolderAutoCompletionList
         //{
@@ -154,7 +173,7 @@ namespace MarkdownMonster.Windows
                 ActivePathItem = null;
                 WindowUtilities.DoEvents();
 
-                var items   = FolderStructure.GetFilesAndFolders(folder,nonRecursive: true, searchText:searchText);                
+                var items   = FolderStructure.GetFilesAndFolders(folder,nonRecursive: true);                
                 ActivePathItem = items;
 
                 WindowUtilities.DoEvents();                
@@ -242,6 +261,17 @@ namespace MarkdownMonster.Windows
             mmApp.Model.ActiveEditor?.SetEditorFocus();
         }
 
+        private void ComboFolderPath_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) // || e.Key == Key.Tab && (Keyboard.Modifiers & ModifierKeys.Shift) != (ModifierKeys.Shift) )
+            {
+                ((ComboBox)sender).IsDropDownOpen = false;
+                TreeFolderBrowser.Focus();
+                e.Handled = true;                
+                return;
+            }            
+        }
+
         private void SetTreeViewSelectionByIndex(int index)
         {
             TreeViewItem item = (TreeViewItem) TreeFolderBrowser
@@ -271,16 +301,6 @@ namespace MarkdownMonster.Windows
                 .ContainerFromItem(item);
         }
 
-        private void ComboFolderPath_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter) // || e.Key == Key.Tab && (Keyboard.Modifiers & ModifierKeys.Shift) != (ModifierKeys.Shift) )
-            {
-                ((ComboBox)sender).IsDropDownOpen = false;
-                TreeFolderBrowser.Focus();
-                e.Handled = true;                
-                return;
-            }            
-        }
         #endregion
 
 
@@ -330,23 +350,30 @@ namespace MarkdownMonster.Windows
                     e.Handled = true;
                 }
             }
-            else if (e.Key == Key.F1)
+            
+        }
+
+        private void FolderBrowserGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F1)
             {
                 mmApp.Model.Commands.HelpCommand.Execute("_4xs10gaui.htm");
                 e.Handled = true;
             }
             else if (e.Key == Key.F && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                if (TextSearch.Visibility == Visibility.Collapsed)
+                if (SearchPanel.Visibility == Visibility.Collapsed)
                 {
-                    TextSearch.Visibility = Visibility.Visible;
+                    SearchPanel.Visibility = Visibility.Visible;
                     TextSearch.Focus();
                 }
                 else
-                    TextSearch.Visibility = Visibility.Collapsed;
+                {
+                    SearchPanel.Visibility = Visibility.Collapsed;
+                    TextSearch.Text = string.Empty;
+                }
             }
         }
-
         private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
@@ -370,18 +397,16 @@ namespace MarkdownMonster.Windows
             
             if (selected.Files == null || selected.Files.Count == 1 && selected.Files[0] == PathItem.Empty)
             {
-                var subfolder = FolderStructure.GetFilesAndFolders(selected.FullPath, nonRecursive: true,parentPathItem: selected);                
+                var subfolder = FolderStructure.GetFilesAndFolders(selected.FullPath, nonRecursive: true,parentPathItem: selected);
+                
                 selected.Files.Clear();
                 foreach(var pi in subfolder.Files)
                     selected.Files.Add(pi);
 
+                // have to force OPC to make the new files visible
                 selected.OnPropertyChanged(nameof(PathItem.Files));
-            }
-            
-
-        }
-
-        private string inputFolderPath = string.Empty;
+            }            
+        }   
 
         void HandleItemSelection        ()
         {
@@ -506,35 +531,36 @@ namespace MarkdownMonster.Windows
 
         #endregion
 
-        #region Search Textbox
-
-        private void TextSearch_LostFocus(object sender, RoutedEventArgs e)
-        {
-            ((TextBox)sender).Visibility = Visibility.Collapsed;
-        }
-
+        #region Search Textbox        
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
         private void TextSearch_PreviewKeyUp(object sender, KeyEventArgs e)
         {
-            debounceTimer.Debounce(500, (p) =>
+            debounceTimer.Debounce(300, (p) =>
             {
-                //if (string.IsNullOrEmpty(FolderPath))
-                //    ActivePathItem = new PathItem();
-                //else
-                //{
-                   FolderStructure.SetSearchVisibility(SearchText, ActivePathItem);
-                    ////var items = FolderStructure.GetFilesAndFolders(folder, nonRecursive: true, searchText: SearchText);
-
-                    //var selected = TreeFolderBrowser.SelectedItem as PathItem;
-                    //if (selected == null || !selected.IsFolder && !selected.IsExpanded)
-                    //    SetTreeFromFolder(FolderPath, false, SearchText);
-
-                //}
+                FolderStructure.SetSearchVisibility(SearchText, ActivePathItem, SearchSubTrees);
             });
 
 
         }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            FolderStructure.SetSearchVisibility(SearchText, ActivePathItem, SearchSubTrees);
+        }
+
+        private void Button_CloseSearch_Click(object sender, RoutedEventArgs e)
+        {
+            SearchPanel.Visibility = Visibility.Collapsed;
+            TreeFolderBrowser.Focus();
+        }
+
+        private void MenuFindFiles_Click(object sender, RoutedEventArgs e)
+        {
+            SearchPanel.Visibility = Visibility.Visible;
+            TextSearch.Focus();
+        }
+
         #endregion
 
         #region Context Menu Actions
@@ -1000,5 +1026,9 @@ namespace MarkdownMonster.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void MenuOpenInExplorer_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

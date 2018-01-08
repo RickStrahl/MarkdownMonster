@@ -38,6 +38,7 @@
     <SolidColorBrush x:Key="BlueItem" Color="#70B8FF" />
     <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
     <SolidColorBrush x:Key="HeadlineColor" Color="LightSteelBlue" />
+    <SolidColorBrush x:Key="FolderBrowserHeaderBackground" Color="#555"/>
 
     <!-- this doesn't work-->
     <Style TargetType="{x:Type controls:MetroWindow}" BasedOn="{x:Null}">

@@ -72,6 +72,7 @@
 			<Separator/>
 			<MenuItem Name="MenuDeleteFile" Header="Delete" InputGestureText="Del" Click="MenuDeleteFile_Click" />
 			<MenuItem Name="MenuRenameFile" Header="Rename"  InputGestureText="F2" Click="MenuRenameFile_Click" />
+		    <MenuItem Name="MenuFindFiles" Header="Find Files" Click="MenuFindFiles_Click" InputGestureText="ctrl-f" />
 			<Separator/>
 			<MenuItem Name="MenuOpenImage" Header="Show Image" 
 					  Visibility="{Binding SelectedItem.IsImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
@@ -91,75 +92,119 @@
             <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Click="MenuCommitGit_Click" InputGestureText="G"/>
 		    <MenuItem Name="MenuCopyPathToClipBoard" Header="Copy to Path to Clipboard" Click="MenuCopyPathToClipboard_Click" />
             <Separator/>
-
-		    <MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
+            <MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
             <MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
             <Separator />
 		    <MenuItem Name="MenuOpenFolderBrowserHere"
 		              Visibility="{Binding SelectedItem.IsFolder, Converter={StaticResource BooleanToVisibilityConverter}}" 
 		              Header="Open Folder Browser here" 
 		              Click="MenuOpenFolderBrowserHere_Click" />
-	
+		    
+
         </ContextMenu>
         <ContextMenu x:Key="RecentFoldersContextMenu" >
         </ContextMenu>
 	</UserControl.Resources>
-	
-	<Grid Name="GridFolderBrowser">
 
-		
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-		    <RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Name="ImagePreviewColumn"  Height="Auto"/>
-		</Grid.RowDefinitions>
 
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-			    <ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			
-			<TextBlock Height="Auto" 
-					   Text="FILES"
+    <Grid PreviewKeyDown="FolderBrowserGrid_PreviewKeyDown">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Name="SearchPanel" Visibility="Collapsed">
+            <Grid Background="{StaticResource  FolderBrowserHeaderBackground}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Height="Auto" 
+                           Text="SEARCH" 
+                           FontWeight="Medium" FontSize="11"  Padding="7,5,2,5" />
+
+                <Button fa:Awesome.Content="Remove" Grid.Column="1" Background="Transparent"
+                        Foreground="{DynamicResource BlueItem}" Padding="5,0,5,0"
+                        Name="ButtonCloseSearchPanel" BorderThickness="0"  FontSize="12"
+                        ToolTip="Close Search"
+                        Click="Button_CloseSearch_Click" />
+            </Grid>
+
+            <TextBox x:Name="TextSearch"  Margin="10,10,10,5"             
+             Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
+             BorderThickness="0.3"
+             controls:TextBoxHelper.SelectAllOnFocus="True"
+             Opacity="0.7"             
+             PreviewKeyUp="TextSearch_PreviewKeyUp"
+
+             controls:TextBoxHelper.Watermark="Search Folder" />
+            <CheckBox IsChecked="{Binding SearchSubTrees}"
+                      Click="CheckBox_Click" Content="Search subtrees"                      
+                      Margin="17,0,10,10">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="0.85" ScaleY="0.85" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+        </StackPanel>
+
+        <Grid Name="GridFolderBrowser" Grid.Row="1" >
+
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Name="ImagePreviewColumn"  Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Background="{StaticResource  FolderBrowserHeaderBackground}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Height="Auto" 
+					   Text="FILES"  
 					   FontWeight="Medium" FontSize="11"  Padding="7,5,2,5" />
 
-            <Button Content="…" Grid.Column="1" Background="Transparent"
+                <Button Content="…" Grid.Column="1" Background="Transparent"
 			        Foreground="{DynamicResource BlueItem}" Padding="5,0,5,0"
 			        Name="ButtonSelecttFolder" BorderThickness="0"  FontSize="12"
 			        ToolTip="Browse for Folder" 
 			        Click="ButtonSelectFolder_Click" />
-            <Button fa:Awesome.Content="History" Grid.Column="2" Background="Transparent"
+                <Button fa:Awesome.Content="History" Grid.Column="2" Background="Transparent"
                     Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" 
                     Name="ButtonRecentFolders" BorderThickness="0"  FontSize="12"
                     ToolTip="Recent Folders" 
                     Click="ButtonRecentFolders_Click" />
-			<Button  fa:Awesome.Content="LocationArrow" Background="Transparent" 
+                <Button  fa:Awesome.Content="LocationArrow" Background="Transparent" 
 			         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="3"  
 					 Name="ButtonUseCurrentFolder" BorderThickness="0" FontSize="12"
 			         ToolTip="Set Folder to Active Document's Folder" 
 			         Click="ButtonUseCurrentFolder_Click" />
-			<Button  fa:Awesome.Content="Refresh" Background="Transparent" 
+                <Button  fa:Awesome.Content="Refresh" Background="Transparent" 
 			         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="4"  
 			         Name="ButtonRefreshFolder" BorderThickness="0"  FontSize="12"
 			         ToolTip="Refresh Folder" 
 			         Click="ButtonRefreshFolder_Click" />
-            <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
+                <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
 			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="5"  
 			         Name="ButtonClosePanel" BorderThickness="0" FontSize="12"
 			         ToolTip="Close Folder Browser Panel" 
 			         Click="ButtonClosePanel_Click" />
-        </Grid>
+            </Grid>
 
 
 
-        <ComboBox Grid.Row="1"
+            <ComboBox Grid.Row="1"
                  x:Name="ComboFolderPath" 
                  Text="{Binding FolderPath,UpdateSourceTrigger=LostFocus}"
 	             Opacity="0.60" FontWeight="Medium"                            
@@ -167,68 +212,48 @@
 	             BorderThickness="0"                                                                       
                  MaxDropDownHeight="275"
                  controls:TextBoxHelper.Watermark="Folder Browser Path">
-            <i:Interaction.Behaviors>
-                <mmcontrols:FileSystemAutoCompleteBehavior />
-            </i:Interaction.Behaviors>
-        </ComboBox>
+                <i:Interaction.Behaviors>
+                    <mmcontrols:FileSystemAutoCompleteBehavior />
+                </i:Interaction.Behaviors>
+            </ComboBox>
 
 
-        <TextBox x:Name="TextSearch"  Grid.Row="2" 
-	             Visibility="Collapsed"
-	             Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
-                 BorderThickness="0.2"
-                 controls:TextBoxHelper.SelectAllOnFocus="True"
-	             Opacity="0.7"
-                 LostFocus="TextSearch_LostFocus"
-                 PreviewKeyUp="TextSearch_PreviewKeyUp"
 
-	             controls:TextBoxHelper.Watermark="Search Folder" />
-
-        <TreeView Grid.Row="3" Name="TreeFolderBrowser"
+            <TreeView Grid.Row="3" Name="TreeFolderBrowser"
 				  ItemTemplate="{StaticResource FolderTemplate}" 
-				  KeyDown="TreeView_Keyup" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+				  KeyDown="TreeView_Keyup" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
 		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"                  
-		          PreviewMouseMove="TreeFolderBrowser_MouseMove"
-                  
+		          PreviewMouseMove="TreeFolderBrowser_MouseMove"                  
                   TreeViewItem.Expanded="TreeFolderBrowser_Expanded"                  
-
+                  
 				  ItemsSource="{Binding ActivePathItem.Files}"  
                   BorderThickness="0"
 				  ContextMenu="{StaticResource FileContextMenu}">
-			<TreeView.Resources>
-                <Style  TargetType="{x:Type TreeViewItem}">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
-                    <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />
-                </Style>
+                <TreeView.Resources>
+                </TreeView.Resources>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <!-- We have to select the item which is right-clicked on -->
+                        <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
+                        <Setter Property="Visibility" Value="{Binding IsVisible,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
 
-                <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                 Color="Steelblue" />
-			    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
-			                     Color="#eee" />
-			    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-			                     Color="Gray" />
-			    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
-			                     Color="#eee" />-->
-            </TreeView.Resources>
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}">
-                    <!-- We have to select the item which is right-clicked on -->
-                    <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
-                    <Setter Property="Visibility" Value="{Binding IsVisible,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}" />
-                </Style>
-            </TreeView.ItemContainerStyle>
-        </TreeView>
-
-		<Popup Name="PopupImagePreview" Grid.Row="3" Placement="Mouse" Margin="10" >
-			<Border BorderThickness="1" BorderBrush="#676767" >
-				<Image Name="ImagePreview" Height="Auto" Width="Auto" 
+            <Popup Name="PopupImagePreview" Grid.Row="3" Placement="Mouse" Margin="10" >
+                <Border BorderThickness="1" BorderBrush="#676767" >
+                    <Image Name="ImagePreview" Height="Auto" Width="Auto" 
 				   MinHeight="50"
 				   MinWidth="50"	
 				   MaxHeight="470"
 				   MaxWidth="570" />
-			</Border>
-		</Popup>
+                </Border>
+            </Popup>
 
 
+        </Grid>
     </Grid>
 </UserControl>

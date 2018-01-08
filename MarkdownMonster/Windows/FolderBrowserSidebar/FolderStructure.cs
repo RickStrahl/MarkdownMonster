@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using MarkdownMonster.Utilities;
 
@@ -16,7 +17,7 @@ namespace MarkdownMonster.Windows
 		/// <param name="parentPathItem"></param>
 		/// <param name="skipFolders"></param>
 		/// <returns></returns>
-		public PathItem GetFilesAndFolders(string baseFolder, PathItem parentPathItem = null, string skipFolders = ".git,node_modules,bower_components,packages,testresults,bin,obj", bool nonRecursive = false, string searchText = null)
+		public PathItem GetFilesAndFolders(string baseFolder, PathItem parentPathItem = null, string skipFolders = ".git,node_modules,bower_components,packages,testresults,bin,obj", bool nonRecursive = false)
 		{
 			if (string.IsNullOrEmpty(baseFolder) || !Directory.Exists(baseFolder) )
 				return new PathItem();
@@ -35,9 +36,7 @@ namespace MarkdownMonster.Windows
 			    if (mmApp.Configuration.FolderBrowser.ShowIcons)
 			    {
 			        activeItem.SetFolderIcon();			        
-			    }
-
-			    parentPathItem = activeItem;
+			    }                
 			}
 			else
 			{
@@ -53,10 +52,7 @@ namespace MarkdownMonster.Windows
 
 			try
 			{
-				folders = Directory.GetDirectories(baseFolder);
-
-			    if (!string.IsNullOrEmpty(searchText))
-			        folders = folders.Where(s => Path.GetFileName(s.ToLower()).Contains(searchText.ToLower())).ToArray();
+				folders = Directory.GetDirectories(baseFolder);			   
 			}
 			catch { }
 
@@ -64,7 +60,7 @@ namespace MarkdownMonster.Windows
 			{
 				foreach (var folder in folders)
 				{
-					var name = System.IO.Path.GetFileName(folder);
+					var name = Path.GetFileName(folder);
 					if (!string.IsNullOrEmpty(name))
 					{
 						if (name.StartsWith("."))
@@ -96,20 +92,10 @@ namespace MarkdownMonster.Windows
 			string[] files = null;
 			try
 			{
-				files = Directory.GetFiles(baseFolder);
-			    if (!string.IsNullOrEmpty(searchText))
-			        files = files.Where(s =>
-                        Path.GetFileName(s.ToLower()).Contains(searchText.ToLower())).ToArray();
+				files = Directory.GetFiles(baseFolder);			    
             }
             catch { }
 
-		    if (folders == null && nonRecursive)
-		    {
-		        //foreach (var folder in folders)
-		        //{
-
-		        //}
-		    }
 			if (files != null)
 			{
 				foreach (var file in files)
@@ -142,28 +128,54 @@ namespace MarkdownMonster.Windows
         /// </summary>
         /// <param name="searchText"></param>
         /// <param name="pathItem"></param>
-	    public void SetSearchVisibility(string searchText, PathItem pathItem)
+	    public void SetSearchVisibility(string searchText, PathItem pathItem, bool recursive)
 	    {
-	        searchText = searchText?.ToLower();
+            if (searchText == null)
+                searchText = string.Empty;
+	        searchText = searchText.ToLower();
 
-            if (pathItem.Files.Count == 1 && pathItem.Files[0] == PathItem.Empty)
-                return;
+
+            // no items below
+	        if (pathItem.Files.Count == 1 && pathItem.Files[0] == PathItem.Empty)
+	        {
+                if (!recursive)
+	                return;
+
+                // load items
+	            var files = GetFilesAndFolders(pathItem.FullPath, pathItem, nonRecursive: !recursive).Files;
+	            pathItem.Files.Clear();
+	            foreach (var file in files)
+	                pathItem.Files.Add(file);
+
+                // required so change is detected by tree
+	            //pathItem.OnPropertyChanged(nameof(PathItem.Files));
+	        }
 
 	        foreach (var pi in pathItem.Files)
 	        {                
-	            if (string.IsNullOrEmpty(searchText) || pi.FullPath == "..")
+	            if (string.IsNullOrEmpty(searchText) || pi.FullPath == "..")	            
+	            {
+	                pi.IsVisible = true;                                  
+	            }
+                else if (pi.DisplayName.ToLower().Contains(searchText))
 	            {
 	                pi.IsVisible = true;
-                    continue;
-	            }
+	                var parent = pi.Parent;
 
-	            if (Path.GetFileName(pi.DisplayName).ToLower().Contains(searchText))
-                    pi.IsVisible = true;
-                else
+	                while (parent != null)
+	                {
+	                    parent.IsExpanded = true;
+	                    parent.OnPropertyChanged(nameof(PathItem.IsExpanded));
+	                    parent.IsVisible = true;
+
+                        parent = parent.Parent;
+	                }
+                }
+	            else
                     pi.IsVisible = false;
 
-	            if (pi.IsFolder)
-	                SetSearchVisibility(searchText, pi);
+	            if (pi.IsFolder && recursive)
+	                SetSearchVisibility(searchText, pi, recursive);
 	        }
             
 	    }
