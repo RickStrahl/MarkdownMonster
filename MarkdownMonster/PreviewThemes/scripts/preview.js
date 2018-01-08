@@ -108,10 +108,12 @@ function highlightCode() {
         });
 }
 
-function updateDocumentContent(html) {    
-    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();    
-    $("#MainContent").html(html);
-    highlightCode();
+function updateDocumentContent(html) {
+    setTimeout(function() {        
+        te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();    
+        $("#MainContent").html(html);
+        highlightCode();
+    },1);
 }
 
 function scrollToPragmaLine(lineno) {
