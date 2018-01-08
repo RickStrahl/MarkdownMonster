@@ -35,7 +35,7 @@
 * [x] Ctrl-Tab to switch documents
 * [x] Can't the save-as dialog stay open on the same folder rather than always defaulting back to something
 * [ ] Undocking tabs? :smiley:
-* [x] ~~Could you somehow support Grammarly? ~~
+* [x] ~~Could you somehow support Grammarly?~~
 
 #### Bugs 
 
