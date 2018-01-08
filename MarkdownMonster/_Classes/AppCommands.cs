@@ -148,7 +148,6 @@ namespace MarkdownMonster
                 }
 
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
-
             }, (s, e) =>
             {
                 if (Model.ActiveDocument == null)
@@ -253,10 +252,9 @@ namespace MarkdownMonster
                         SaveAsCommand.Execute(tab);
                         return;
                     }
+                    mmApp.Configuration.LastFolder = Path.GetDirectoryName(sd.FileName);
                 }
-
-                mmApp.Configuration.LastFolder = folder;
-
+                
                 Model.Window.SetWindowTitle();
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>

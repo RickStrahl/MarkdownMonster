@@ -465,7 +465,6 @@ namespace MarkdownMonster
 			Dispatcher.InvokeAsync(() =>
 				{
 					mmApp.Configuration.AddRecentFile(file);				
-					mmApp.Configuration.LastFolder = Path.GetDirectoryName(file);
 
 					if (!noConfigWrite)
 						mmApp.Configuration.Write();
