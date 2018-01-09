@@ -10,11 +10,23 @@
 * **Add Recent Folder List in Folder Browser**   
 The folder browser now has an icon to show and re-select recently opened folders. Recent folders are also shown on the Recent Files drop down.
 
+* **Add Find Files in Folder Browser**  
+You can now press Ctrl-F in the Folder Browser to open a search box that will search files in the current folder, or optionally down the folder hierarchy (which can be potentially slow if the tree is deep).
+
+* **Folder Browser Support for %EnvVar% in Paths**   
+When entering paths directly into the folder browser path dialog you can now use environment variables in the format of `%envVar%`. So, `%appData% or 
+
 * **Auto-Complete for Folder Browser Path Textbox**   
 The Folder Browser's path selection entry combobox now auto-completes paths as you type them for easier path selection.
 
 * **Add Folder Navigation to Folder Browser**   
 Added a few features to make the folder browser more navigation friendly. You can now **double-click on folders** to re-open the folder browser as the top level folder in the folder browser. A new **Open Folder Browser** here context option is also available. A new **parent folder `..` node** is now added to allow navigating back up the tree by double clicking on this node.
+
+* **Improved Folder Browser Performance**   
+The folder browser now lazy loads sub-folders, rather than loading entire folder hierarchies up front. As a result the Folder browser should load most folders much more quickly. Still slow with large numbers of files in a single folder (500+ files).
+
+* **Open in Folder Browser from Document Tabs**  
+There's a new context menu option to open the document's current folder in the folder browser.
 
 * **File Tab Icons**  
 Added icons to the tabs for each of the open files in the editor.
@@ -31,6 +43,11 @@ Images dragged from Windows Explorer now drop at the current cursor position in 
 * **Fix: Table Reformatting if Column Count exceeds Columns defined**  
 Fixed issue where if a table row had more columns than the header defines the table would blow up on rendering. Common scenario when 'editing' a table and then repasting it. Fixed trailing whitespace (which caused extra columns) and fixed so that extra columns if provided are ignored.
 
+* **Fix: Drag Images into 'Untitled' Documents**  
+Fix bug where dragged images from the folder browser into 'Untitled' documents would not do anything. Fix now works and prompts for images in the last saved image folder. 
+
+* **Fix: Folder Browser Icons when Adding/Renaming**   
+Fix folder browser when adding or renaming files so that file icons are appropriately updated. Also fixed tab icon and re-opening the renamed file if it was already open in the editor with proper filename and icon.
 
 ### 1.8.8
 *<small>December 28th, 2017</small>*
