@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -124,72 +125,73 @@ namespace MarkdownMonster
                         mmFileUtils.ShowExternalBrowser(url);
                         return;
                     }
-                    else
+
+                    WebBrowser.Cursor = Cursors.None;
+                    WebBrowser.ForceCursor = true;
+
+                    // if content contains <script> tags we must do a full page refresh
+                    bool forceRefresh = renderedHtml != null && renderedHtml.Contains("<script ");
+
+
+                    if (keepScrollPosition && !mmApp.Configuration.AlwaysUsePreviewRefresh && !forceRefresh)
                     {
-                        WebBrowser.Cursor = Cursors.None;
-                        WebBrowser.ForceCursor = true;
-
-                        // if content contains <script> tags we must do a full page refresh
-                        bool forceRefresh = renderedHtml != null && renderedHtml.Contains("<script ");
-
-
-                        if (keepScrollPosition && !mmApp.Configuration.AlwaysUsePreviewRefresh && !forceRefresh)
+                        string browserUrl = WebBrowser.Source.ToString().ToLower();
+                        string documentFile = "file:///" +
+                                              editor.MarkdownDocument.HtmlRenderFilename.Replace('\\', '/')
+                                                  .ToLower();
+                        if (browserUrl == documentFile)
                         {
-                            string browserUrl = WebBrowser.Source.ToString().ToLower();
-                            string documentFile = "file:///" +
-                                                  editor.MarkdownDocument.HtmlRenderFilename.Replace('\\', '/')
-                                                      .ToLower();
-                            if (browserUrl == documentFile)
+                            dom = WebBrowser.Document;
+                            //var content = dom.getElementById("MainContent");
+
+
+                            if (string.IsNullOrEmpty(renderedHtml))
+                                PreviewMarkdown(editor, false, false); // fully reload document
+                            else
                             {
-                                dom = WebBrowser.Document;
-                                //var content = dom.getElementById("MainContent");
-
-
-                                if (string.IsNullOrEmpty(renderedHtml))
-                                    PreviewMarkdown(editor, false, false); // fully reload document
-                                else
+                                try
                                 {
+                                    // explicitly update the document with JavaScript code
+                                    // much more efficient and non-jumpy and no wait cursor
+                                    var window = dom.parentWindow;
+                                    window.updateDocumentContent(renderedHtml);
+                                    
                                     try
                                     {
-                                        // explicitly update the document with JavaScript code
-                                        // much more efficient and non-jumpy and no wait cursor
-                                        var window = dom.parentWindow;
-                                        window.updateDocumentContent(renderedHtml);
-
-                                        try
+                                        // scroll preview to selected line
+                                        if (mmApp.Configuration.PreviewSyncMode ==
+                                            PreviewSyncMode.EditorAndPreview ||
+                                            mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
                                         {
-                                            // scroll preview to selected line
-                                            if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
-                                                mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
-                                            {
-                                                int lineno = editor.GetLineNumber();
-                                                if (lineno > -1)
-                                                    window.scrollToPragmaLine(lineno);
-                                            }
-                                        }
-                                        catch
-                                        {
-                                            /* ignore scroll error */
+                                            int lineno = editor.GetLineNumber();
+                                            if (lineno > -1)
+                                                window.scrollToPragmaLine(lineno);
                                         }
                                     }
                                     catch
                                     {
-                                        // Refresh doesn't fire Navigate event again so
-                                        // the page is not getting initiallized properly
-                                        //PreviewBrowser.Refresh(true);
-                                        WebBrowser.Tag = "EDITORSCROLL";
-                                        WebBrowser.Navigate(new Uri(editor.MarkdownDocument.HtmlRenderFilename));
+                                        /* ignore scroll error */
                                     }
                                 }
+                                catch
+                                {
+                                    // Refresh doesn't fire Navigate event again so
+                                    // the page is not getting initiallized properly
+                                    //PreviewBrowser.Refresh(true);
+                                    WebBrowser.Tag = "EDITORSCROLL";
 
-                                return;
+
+                                    WebBrowser.Navigate(new Uri(editor.MarkdownDocument.HtmlRenderFilename));
+                                }
                             }
-                        }
 
-                        WebBrowser.Tag = "EDITORSCROLL";
-                        WebBrowser.Navigate(new Uri(editor.MarkdownDocument.HtmlRenderFilename));
-                        return;
+                            return;
+                        }
                     }
+
+                    WebBrowser.Tag = "EDITORSCROLL";
+                    WebBrowser.Navigate(new Uri(editor.MarkdownDocument.HtmlRenderFilename));
+                    return;
                 }
 
                 // not a markdown or HTML document to preview
@@ -197,7 +199,8 @@ namespace MarkdownMonster
             }
             catch (Exception ex)
             {
-                mmApp.Log("PreviewMarkdown failed (Exception captured - continuing)", ex);
+                //mmApp.Log("PreviewMarkdown failed (Exception captured - continuing)", ex);
+                Debug.WriteLine("PreviewMarkdown failed (Exception captured - continuing)", ex);
             }
         }
 
@@ -224,7 +227,7 @@ namespace MarkdownMonster
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Preview Markdown Async Exception: " + ex.Message);
+                            Debug.WriteLine("Preview Markdown Async Exception: " + ex.Message);
                         }
                         finally
                         {

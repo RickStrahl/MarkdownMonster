@@ -98,9 +98,6 @@ var scroll = debounce(function (event) {
 },100);
 window.onscroll = scroll;
 
-
-
-
 function highlightCode() {
     $("pre code")
         .each(function (i, block) {
@@ -109,16 +106,15 @@ function highlightCode() {
 }
 
 function updateDocumentContent(html) {
-    setTimeout(function() {        
-        te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();    
+    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();   
+    setTimeout(function () { 
         $("#MainContent").html(html);
         highlightCode();
-    },1);
+    });
 }
 
 function scrollToPragmaLine(lineno) {
     if (typeof lineno !== "number" || lineno < 0) return;
-
 
     setTimeout(function () {
         if (lineno < 3) {
