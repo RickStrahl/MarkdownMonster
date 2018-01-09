@@ -117,6 +117,19 @@
                     </i:Interaction.Behaviors>
                     <Button.ContextMenu>
                         <ContextMenu>
+
+                            <MenuItem Header="Toggle Html _Preview Window"
+                                      IsCheckable="True" 
+                                      InputGestureText="alt-v-p"
+                                      IsChecked="{Binding IsPreviewBrowserVisible}"
+                                      Command="{Binding PreviewBrowserCommand}"
+                                      IsEnabled="{Binding IsEditorActive}">
+                            </MenuItem>
+                            <MenuItem Header="View in Web _Browser" 
+                                      Command="{Binding ViewInExternalBrowserCommand}"
+                                      InputGestureText="alt-v-b"
+                                      IsEnabled="{Binding IsEditorActive}" />
+                            <Separator/>                             
                             <MenuItem Header="Internal Preview" CommandParameter="InternalPreview" Command="{Binding Commands.PreviewModesCommand}"
                                       IsCheckable="True" IsChecked="{Binding IsInternalPreview}"/>
                             <MenuItem CommandParameter="ExternalPreviewWindow" Header="External Preview Window"  Command="{Binding Commands.PreviewModesCommand}"

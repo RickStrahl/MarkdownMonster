@@ -1,14 +1,16 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using MarkdownMonster.Utilities;
+using Westwind.Utilities;
 
 
 namespace MarkdownMonster.Windows
 {
 	public class FolderStructure
 	{
-	    internal static AssociatedIcons icons = new AssociatedIcons();
+	    internal static AssociatedIcons IconList = new AssociatedIcons();
 
 		/// <summary>
 		/// Gets a folder hierarchy
@@ -21,6 +23,8 @@ namespace MarkdownMonster.Windows
 		{
 			if (string.IsNullOrEmpty(baseFolder) || !Directory.Exists(baseFolder) )
 				return new PathItem();
+
+		    baseFolder = ExpandPathEnvironmentVars(baseFolder);
 
 			PathItem activeItem;
             bool isRootFolder = false;
@@ -35,14 +39,14 @@ namespace MarkdownMonster.Windows
                 };
 			    if (mmApp.Configuration.FolderBrowser.ShowIcons)
 			    {
-			        activeItem.SetFolderIcon();			        
+			        activeItem.SetIcon();			        
 			    }                
 			}
 			else
 			{
 				activeItem = new PathItem { FullPath=baseFolder, IsFolder = true, Parent = parentPathItem};
 			    if (mmApp.Configuration.FolderBrowser.ShowIcons)
-			        activeItem.SetFolderIcon();
+			        activeItem.SetIcon();
 
                 parentPathItem.Files.Add(activeItem);
 			}
@@ -81,7 +85,7 @@ namespace MarkdownMonster.Windows
 				            Parent = activeItem
 				        };
 				        if (mmApp.Configuration.FolderBrowser.ShowIcons)
-				            folderPath.SetFolderIcon();
+				            folderPath.SetIcon();
 				        folderPath.Files.Add(PathItem.Empty);
 
                         activeItem.Files.Add(folderPath);
@@ -102,7 +106,7 @@ namespace MarkdownMonster.Windows
 				{
 				    var item = new PathItem {FullPath = file, Parent = activeItem, IsFolder = false, IsFile = true};
 				    if (mmApp.Configuration.FolderBrowser.ShowIcons)
-				        item.Icon = icons.GetIconFromFile(file);
+				        item.Icon = IconList.GetIconFromFile(file);
                     
 				    activeItem.Files.Add(item);
 				}
@@ -115,11 +119,10 @@ namespace MarkdownMonster.Windows
 		            IsFolder = true,
 		            FullPath = ".."
 		        };
-		        parentFolder.SetFolderIcon();
+		        parentFolder.SetIcon();
 		        activeItem.Files.Insert(0, parentFolder);
 		    }
-
-
+            
 		    return activeItem;
 		}
 
@@ -129,12 +132,11 @@ namespace MarkdownMonster.Windows
         /// <param name="searchText"></param>
         /// <param name="pathItem"></param>
 	    public void SetSearchVisibility(string searchText, PathItem pathItem, bool recursive)
-	    {
+        {
             if (searchText == null)
                 searchText = string.Empty;
 	        searchText = searchText.ToLower();
-
-
+            
             // no items below
 	        if (pathItem.Files.Count == 1 && pathItem.Files[0] == PathItem.Empty)
 	        {
@@ -155,7 +157,8 @@ namespace MarkdownMonster.Windows
 	        {                
 	            if (string.IsNullOrEmpty(searchText) || pi.FullPath == "..")	            
 	            {
-	                pi.IsVisible = true;                                  
+	                pi.IsVisible = true;
+                    pi.IsExpanded = false;
 	            }
                 else if (pi.DisplayName.ToLower().Contains(searchText))
 	            {
@@ -179,5 +182,25 @@ namespace MarkdownMonster.Windows
 	        }
             
 	    }
-	}
+
+
+	    public static string ExpandPathEnvironmentVars(string path)
+	    {
+	        string result = path;
+	        while (path.Contains("%"))
+	        {
+	            var extract = StringUtils.ExtractString(result, "%", "%");
+	            if (string.IsNullOrEmpty(extract))
+	                return result;
+
+	            var env = Environment.GetEnvironmentVariable(extract);
+	            if (!string.IsNullOrEmpty(env))
+	                result = result.Replace("%" + extract + "%", env);
+	            else
+	                return result;
+	        }
+
+	        return result;
+	    }
+    }
 }

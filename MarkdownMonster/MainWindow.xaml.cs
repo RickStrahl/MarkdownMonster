@@ -977,7 +977,7 @@ namespace MarkdownMonster
 
 			    var img = new Image()
 			    {
-			        Source = FolderStructure.icons.GetIconFromFile(document.Filename),
+			        Source = FolderStructure.IconList.GetIconFromFile(document.Filename),
                     Height=16,
                     Margin = new Thickness(0,1,5,0)
 

@@ -221,10 +221,17 @@ namespace MarkdownMonster.Windows
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-	    public void SetFolderIcon()
+	    public void SetIcon(string explicitIconName = null)
 	    {
-	        Icon = FolderStructure.icons.GetIconFromFile("folder.folder"); // special case
-	        OpenIcon = FolderStructure.icons.GetIconFromFile("folder.openfolder"); // special case
-        }
+	        if (!string.IsNullOrEmpty(explicitIconName))
+	            Icon = FolderStructure.IconList.GetIconFromFile(explicitIconName);
+            if (!IsFolder)
+	            Icon = FolderStructure.IconList.GetIconFromFile(FullPath);
+            else
+            {
+                Icon = FolderStructure.IconList.GetIconFromFile("folder.folder"); // special case
+                OpenIcon = FolderStructure.IconList.GetIconFromFile("folder.openfolder"); // special case
+            }
+        }	
 	}
 }
