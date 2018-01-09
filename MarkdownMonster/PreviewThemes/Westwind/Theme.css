@@ -1,25 +1,28 @@
 html, body {
-    color: #333;    
-    font-family:  -apple-system, BlinkMacSystemFont,"Segoe UI", Helvetica,  Helvetica, Arial, sans-serif;        
+    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont,"Segoe UI", Helvetica, Helvetica, Arial, sans-serif;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
-    
-    height: 100%;    
+    height: 100%;
     line-height: 1.5em;
-    padding: 5px 20px 5px 10px !important;
     margin: 0;
     scrollbar-track-color: Whitesmoke;
-    scrollbar-arrow-color: silver;   
+    scrollbar-arrow-color: silver;
     scrollbar-base-color: #ddd;
     scrollbar-face-color: #ddd;
     -ms-overflow-style: -ms-autohiding-scrollbar !important;
-} 
-
-h1,h2,h3,h4,h5,h6, .byline,.content-title {
-  color: #535353;
-  font-weight: bold;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
 }
+
+#MainContent {
+    margin: 20px;
+}
+
+h1, h2, h3, h4, h5, h6, .byline, .content-title {
+    color: #535353;
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
+}
+
 h1 {
     font-size: 1.7em;
     padding-bottom: 10px;
@@ -27,56 +30,66 @@ h1 {
     color: steelblue;
     border-bottom: 1px solid #eee;
 }
-h2
-{    
+
+h2 {
     color: Steelblue;
-    font-size: 1.45em;         
+    font-size: 1.45em;
 }
-h3
-{
+
+h3 {
     color: steelblue;
     font-size: 1.3em;
-    font-weight: 800;    
+    font-weight: 800;
     margin-top: 15px;
 }
-h4
-{
+
+h4 {
     color: #2D2A2A;
-    font-size: 1.1em;       
+    font-size: 1.1em;
     margin-top: 14px;
 }
-h5, h6 { 
+
+h5, h6 {
     font-size: 1em;
 }
+
 table {
     margin: 20px 0;
 }
+
 th, td {
     padding: 5px 9px;
     border-bottom: 1px solid #eee;
     vertical-align: top;
 }
+
 th {
-    background: #eee    
+    background: #eee
 }
+
 p {
-	margin: 10px 0 10px 0;
+    margin: 10px 0 10px 0;
 }
+
 a {
     font-weight: 600;
 }
+
 img {
-	max-width: 100%;
+    max-width: 100%;
 }
+
 ul {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
 li {
-	margin-bottom: 6px;
+    margin-bottom: 6px;
 }
-b, strong { 
-	font-weight: 600;
+
+b, strong {
+    font-weight: 600;
 }
 
 
@@ -85,9 +98,11 @@ b, strong {
 .hidden {
     display: none;
 }
+
 .hidden-nowidth {
-    width: 0;    
+    width: 0;
 }
+
 .visually-hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -96,35 +111,16 @@ b, strong {
     overflow: hidden;
     padding: 0;
     position: absolute;
-    width: 1px; 
+    width: 1px;
 }
 
 
-    @media(min-width: 1080px) {
-        html, body {
-            font-size: 1.06em;
-        }
-    }
-
+@media(min-width: 1080px) {
     html, body {
-    color: #333;    
-    font-family:  -apple-system, BlinkMacSystemFont,"Segoe UI", Helvetica,  Helvetica, Arial, sans-serif;        
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    
-    height: 100%;    
-    line-height: 1.5em;
-    padding: 5px 20px 5px 10px !important;
-    margin: 0;
+        font-size: 1.06em;
+    }
+}
 
-    scrollbar-track-color: Whitesmoke;
-    scrollbar-arrow-color: silver;   
-    scrollbar-base-color: #ddd;
-    scrollbar-face-color: #ddd;
-    -ms-overflow-style: -ms-autohiding-scrollbar !important;
-
-
-} 
 
 blockquote {
     background: #f9f9f9;
@@ -135,41 +131,46 @@ blockquote {
     border-left: 4px #ddd solid;
 }
 
-blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 0;
-}
+    blockquote h3, blockquote h4, blockquote h5 {
+        margin-top: 0;
+    }
+
 hr {
-    margin: 12px 0;    
+    margin: 12px 0;
 }
+
 .figure .caption, figure figcaption {
     font-size: 0.8em;
     font-style: italic;
     margin-top: 0;
 }
+
 code {
     color: #555;
     padding: 2px 5px;
     font-weight: bold;
-    background: #eee;    
+    background: #eee;
 }
+
 pre {
     font-family: menlo,consolas,monospace;
-    font-weight: normal;    
+    font-weight: normal;
     font-size: 87%;
     line-height: 1.40;
-    margin: 7px 0;
+    margin: 7px -20px 7px -20px !important;
     padding: 0;
     border: 1px solid silver;
-    border-radius: 5px;
-    overflow-x: auto;    
-    max-width: 98%;
-    white-space:  pre;
+    border-radius: 0;
+    overflow-x: auto;
+    white-space: pre;
     word-break: normal;
-    word-wrap: normal;    
+    word-wrap: normal;
 }
-pre code {
-    white-space: pre;    
-}
+
+    pre code {
+        white-space: pre;
+    }
+
 table {
     width: 100%;
     overflow: auto;
@@ -179,31 +180,36 @@ table {
     margin: 15px 0;
     border-color: gray;
 }
+
 td, th {
     border: 1px solid #ddd;
     padding: 6px 13px;
     display: table-cell;
     vertical-align: top;
 }
+
 th {
     font-weight: bold;
-    color: white; 
-    background: #555;
+    color: white;
+    background: #444;
 }
-tbody>tr:nth-child(even) {
+
+tbody > tr:nth-child(even) {
     background: #eee;
 }
 
 .line-highlight {
     background: #e9f5ff !important;
 }
-p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.line-highlight {    
+
+p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.line-highlight {
     border-radius: 4px;
     margin-left: -10px;
     margin-right: -10px;
     padding-left: 10px;
     padding-right: 10px;
 }
+
 code.line-highlight {
     background: #555 !important;
 }
@@ -214,9 +220,11 @@ code.line-highlight {
 .hidden {
     display: none;
 }
+
 .hidden-nowidth {
-    width: 0;    
+    width: 0;
 }
+
 .visually-hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -225,15 +233,16 @@ code.line-highlight {
     overflow: hidden;
     padding: 0;
     position: absolute;
-    width: 1px; 
+    width: 1px;
 }
+
 .line-highlight {
     background: #f5f5f5;
     border-radius: 3px;
 }
 
-@media(min-width: 1080px){
-    html,body{
+@media(min-width: 1080px) {
+    html, body {
         font-size: 1.06em;
     }
 }
