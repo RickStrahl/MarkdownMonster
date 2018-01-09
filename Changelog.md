@@ -6,7 +6,7 @@
 
 
 ### 1.8.12
-*<small>not released yet</small>*
+*<small>January 9th, 2018</small>*
 
 * **Add Recent Folder List in Folder Browser**   
 The folder browser now has an icon to show and re-select recently opened folders. Recent folders are also shown on the Recent Files drop down.
