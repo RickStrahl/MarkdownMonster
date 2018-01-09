@@ -349,7 +349,7 @@ namespace MarkdownMonster.Windows
                 if (!selected.IsEditing)
                     MenuDeleteFile_Click(sender, null);
             }
-            else if (e.Key == Key.N)
+            else if (e.Key == Key.N && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 if (!selected.IsEditing)
                 {
@@ -357,7 +357,7 @@ namespace MarkdownMonster.Windows
                     e.Handled = true;
                 }
             }
-            else if (e.Key == Key.G)
+            else if (e.Key == Key.G && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 if (!selected.IsEditing)
                 {
@@ -618,7 +618,6 @@ namespace MarkdownMonster.Windows
                     MessageBoxImage.Question) != MessageBoxResult.Yes)
                 return;
 
-
             try
             {
                 //Directory.Delete(selected.FullPath, true);
@@ -628,14 +627,20 @@ namespace MarkdownMonster.Windows
                 if (!mmFileUtils.MoveToRecycleBin(selected.FullPath))
                     return;
 
-                var parent = selected.Parent;
+                var parent = selected.Parent;              
 
                 var file = parent?.Files?.FirstOrDefault(fl => fl.FullPath == selected.FullPath);
                 if (file != null)
+                {
+                    var tab = Window.GetTabFromFilename(file.FullPath);
+                    if (tab != null)
+                        Window.CloseTab(tab,dontPromptForSave:true);
+
                     selected.Parent?.Files.Remove(file);
+                }
 
                 // Delay required to overcome editor focus after MsgBox
-                Dispatcher.Delay(700, (s) =>
+                Dispatcher.Delay(700, s =>
                 {
                     TreeFolderBrowser.Focus();
                     SetTreeViewSelectionByItem(parent);
@@ -739,6 +744,7 @@ namespace MarkdownMonster.Windows
             SetTreeViewSelectionByItem(item);
         }
 
+
         private void MenuRenameFile_Click(object sender, RoutedEventArgs e)
         {
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
@@ -757,7 +763,6 @@ namespace MarkdownMonster.Windows
                 tb?.Focus();
             }
         }
-
 
 
         private async void MenuCommitGit_Click(object sender, RoutedEventArgs e)
