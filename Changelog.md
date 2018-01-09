@@ -6,7 +6,8 @@
 
 
 ### 1.8.12
-*<small>January 9th, 2018</small>*
+ *<small>January 9th, 2018</small>* 
+ ##### File System and Folder Browser Update
 
 * **Add Recent Folder List in Folder Browser**   
 The folder browser now has an icon to show and re-select recently opened folders. Recent folders are also shown on the Recent Files drop down.
@@ -15,7 +16,7 @@ The folder browser now has an icon to show and re-select recently opened folders
 You can now press Ctrl-F in the Folder Browser to open a search box that will search files in the current folder, or optionally down the folder hierarchy (which can be potentially slow if the tree is deep).
 
 * **Folder Browser Support for %EnvVar% in Paths**   
-When entering paths directly into the folder browser path dialog you can now use environment variables in the format of `%envVar%`. So, `%appData% or 
+When entering paths directly into the folder browser path dialog you can now use environment variables in the format of `%envVar%`. So, `%appData%, %programfiles%, %tmp% all expand to full paths.
 
 * **Auto-Complete for Folder Browser Path Textbox**   
 The Folder Browser's path selection entry combobox now auto-completes paths as you type them for easier path selection.
@@ -24,7 +25,7 @@ The Folder Browser's path selection entry combobox now auto-completes paths as y
 Added a few features to make the folder browser more navigation friendly. You can now **double-click on folders** to re-open the folder browser as the top level folder in the folder browser. A new **Open Folder Browser** here context option is also available. A new **parent folder `..` node** is now added to allow navigating back up the tree by double clicking on this node.
 
 * **Improved Folder Browser Performance**   
-The folder browser now lazy loads sub-folders, rather than loading entire folder hierarchies up front. As a result the Folder browser should load most folders much more quickly. Still slow with large numbers of files in a single folder (500+ files).
+The folder browser now lazy loads sub-folders, rather than loading entire folder hierarchies up front. As a result the Folder browser should load most folders much more quickly. Still slow with very large numbers of files in a single folder (500+ files).
 
 * **Open in Folder Browser from Document Tabs**  
 There's a new context menu option to open the document's current folder in the folder browser.
@@ -35,12 +36,6 @@ Added icons to the tabs for each of the open files in the editor.
 * **Fix Shift-Delete Behavior**   
 Fix additional issue with `Shift-Del` operation when text is selected which now properly **cuts** selected text to the clipboard. Previous behavior just removed the selection.
 
-* **Fix incorrect Drag Behavior and Scrollbar Interaction in Folder Browser**   
-Fix funky drag behavior when an item is selected and trying to scroll the scrollbar on the file list. Fixed by explicitly checking for the item being selected being dragged rather than the entire tree.
-
-* **Partial Fix: Drag images from Explorer**   
-Images dragged from Windows Explorer now drop at the current cursor position in the editor (not the dragged mouse position). Due to security limitations Drag and Drop into the browser control from external doesn't translate the mouse position into the control so the only relevant place we can drop is at the last known cursor position. Previously images dropped at the end of the document.
-
 * **Fix: Table Reformatting if Column Count exceeds Columns defined**  
 Fixed issue where if a table row had more columns than the header defines the table would blow up on rendering. Common scenario when 'editing' a table and then repasting it. Fixed trailing whitespace (which caused extra columns) and fixed so that extra columns if provided are ignored.
 
@@ -50,8 +45,16 @@ Fix bug where dragged images from the folder browser into 'Untitled' documents w
 * **Fix: Folder Browser Icons when Adding/Renaming**   
 Fix folder browser when adding or renaming files so that file icons are appropriately updated. Also fixed tab icon and re-opening the renamed file if it was already open in the editor with proper filename and icon.
 
+* **Partial Fix: Drag images from Explorer**   
+Images dragged from Windows Explorer now drop at the current cursor position in the editor (not the dragged mouse position). Due to security limitations Drag and Drop into the browser control from external doesn't translate the mouse position into the control so the only relevant place we can drop is at the last known cursor position. Previously images dropped at the end of the document.
+
+* **Fix: Incorrect Drag Behavior and Scrollbar Interaction in Folder Browser**   
+Fix funky drag behavior when an item is selected and trying to scroll the scrollbar on the file list. Fixed by explicitly checking for the item being selected being dragged rather than the entire tree.
+
 ### 1.8.8
 *<small>December 28th, 2017</small>*
+##### Table Editor Update
+
 
 * **[New two-way Table Editor](https://markdownmonster.west-wind.com/docs/_53a0pfz0t.htm)**  
 Added table editor dialog that allows for creation of Markdown (and Html) tables interactively. A new dialog provides column based data entry with tabbable fields along with the ability to easily add and delete rows and columns. Output can be generated as either Markdown or HTML and you can use the Editor context menu's 'Edit Table' option to edit or reformat a table.
@@ -67,6 +70,7 @@ The Paste Code Dialog (alt-c) now tries to pick up code from the clipboard and d
 
 ### 1.8.4
 *<small>December 20th, 2017</small>*
+#### Editor Features Update
 
 * **Remove Markdown Formatting**   
 Added menu option and Ctrl-Shift-Z shortcut to remove Markdown formatting from a selection of text in a Markdown document.
@@ -94,6 +98,7 @@ Fixed issue where async save operations would interfere with various file checks
 
 ### 1.8.0
 *<small>December 4th, 2017</small>*
+##### Version Rollup Release
 
 * **Version Rollup Release**   
 This release is a version rollup release that combines all the recent additions into a point release.
