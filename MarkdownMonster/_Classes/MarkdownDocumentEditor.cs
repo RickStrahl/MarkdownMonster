@@ -95,9 +95,7 @@ namespace MarkdownMonster
             WebBrowser = browser;
             WebBrowser.Navigating += WebBrowser_NavigatingAndDroppingFiles;        
         }
-
         
-
         /// <summary>
         /// Loads a new document into the active editor using 
         /// MarkdownDocument instance.
@@ -1024,8 +1022,6 @@ namespace MarkdownMonster
 
         public void PreviewContextMenu(dynamic position)
         {
-            //MessageBox.Show("Preview Context Menu Fired" + position.Top + " - " + position.Left);
-
             var ctm = Window.PreviewBrowser.WebBrowser.ContextMenu;            
             ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
             ctm.PlacementTarget = Window.PreviewBrowser.WebBrowser;
@@ -1268,11 +1264,7 @@ namespace MarkdownMonster
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);
         }
-
-	    public void DropOperation(string uri)
-	    {
-		    
-	    }
+        
 
         /// <summary>
         /// Handle pasting and handle images
@@ -1421,64 +1413,66 @@ namespace MarkdownMonster
             EmbedDroppedFileAsImage(file);            
         }
 
-		/// <summary>
-		/// Embeds a dropped file as an image. If not an image no action is taken
-		/// </summary>
-		/// <param name="file"></param>
-	    public void EmbedDroppedFileAsImage(string file)
-	    {
-		    //NavigatingCancelEventArgs e;
-		    string ext = Path.GetExtension(file).ToLower();
+        /// <summary>
+        /// Embeds a dropped file as an image. If not an image no action is taken
+        /// </summary>
+        /// <param name="file"></param>
+        public void EmbedDroppedFileAsImage(string file)
+        {
+            //NavigatingCancelEventArgs e;
+            string ext = Path.GetExtension(file).ToLower();
 
-		    if (ext == ".png" || ext == ".gif" || ext == ".jpg" || ext == ".jpeg" || ext == ".svg")
-		    {
-			    var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+            if (ext == ".png" || ext == ".gif" || ext == ".jpg" || ext == ".jpeg" || ext == ".svg")
+            {
+                var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+                if (string.IsNullOrEmpty(docPath))
+                    docPath = mmApp.Configuration.LastImageFolder;
 
-			    // if lower than 1 level down off base path ask to save the file
-			    string relFilePath = FileUtils.GetRelativePath(file, docPath);
-			    if (relFilePath.StartsWith("..\\..") || relFilePath.Contains(":\\"))
-			    {
-				    var sd = new SaveFileDialog
-				    {
-					    Filter =
-						    "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
-					    FilterIndex = 1,
-					    Title = "Save dropped Image as",
-					    InitialDirectory = docPath,
-					    FileName = Path.GetFileName(file),
-					    CheckFileExists = false,
-					    OverwritePrompt = true,
-					    CheckPathExists = true,
-					    RestoreDirectory = true
-				    };
-				    var result = sd.ShowDialog();
-				    if (result == null || !result.Value)
-					    return;
+                // if lower than 1 level down off base path ask to save the file
+                string relFilePath = FileUtils.GetRelativePath(file, docPath);
+                if (relFilePath.StartsWith("..\\..") || relFilePath.Contains(":\\"))
+                {
+                    var sd = new SaveFileDialog
+                    {
+                        Filter =
+                            "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                        FilterIndex = 1,
+                        Title = "Save dropped Image as",
+                        InitialDirectory = docPath,
+                        FileName = Path.GetFileName(file),
+                        CheckFileExists = false,
+                        OverwritePrompt = true,
+                        CheckPathExists = true,
+                        RestoreDirectory = true
+                    };
+                    var result = sd.ShowDialog();
+                    if (result == null || !result.Value)
+                        return;
 
-				    relFilePath = FileUtils.GetRelativePath(sd.FileName, docPath);
+                    relFilePath = FileUtils.GetRelativePath(sd.FileName, docPath);
 
-				    File.Copy(file, sd.FileName, true);
-			    }
+                    File.Copy(file, sd.FileName, true);
+                }
 
-			    if (!relFilePath.Contains(":\\"))
-				    relFilePath = relFilePath.Replace("\\", "/");
-			    else
-				    relFilePath = "file:///" + relFilePath;
+                if (!relFilePath.Contains(":\\"))
+                    relFilePath = relFilePath.Replace("\\", "/");
+                else
+                    relFilePath = "file:///" + relFilePath;
 
-			    AceEditor.setselpositionfrommouse(false);
+                AceEditor.setselpositionfrommouse(false);
 
-			    Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\r\n![]({relFilePath})\r\n"),
-				    DispatcherPriority.ApplicationIdle);
+                Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\r\n![]({relFilePath})\r\n"),
+                    DispatcherPriority.ApplicationIdle);
 
-			    Window.Activate();
-		    }
-		    else if (mmApp.AllowedFileExtensions.Contains($",{ext},"))
-		    {
+                Window.Activate();
+            }
+            else if (mmApp.AllowedFileExtensions.Contains($",{ext},"))
+            {
                 Window.OpenTab(file, rebindTabHeaders: true);
-		    }
-	    }
+            }
+        }
 
-#endregion
+        #endregion
 
         #region SpellChecking interactions
         static Hunspell GetSpellChecker(string language = "EN_US", bool reload = false)
