@@ -130,8 +130,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Westwind.Utilities, Version=3.0.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Westwind.Utilities.3.0.9\lib\net45\Westwind.Utilities.dll</HintPath>
+    <Reference Include="Westwind.Utilities, Version=3.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Utilities.3.0.10\lib\net45\Westwind.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -144,6 +144,7 @@
     </ApplicationDefinition>
     <Compile Include="Controls\EditorContextMenu.cs" />
     <Compile Include="Controls\ComboBoxAutoCompleteBehavior.cs" />
+    <Compile Include="Controls\ElementHelper.cs" />
     <Compile Include="Controls\FileSystemAutoCompleteBehavior.cs" />
     <Compile Include="Controls\SelectOnEntryExtension.cs" />
     <Compile Include="Windows\PreviewBrowser\IPreviewBrowser.cs" />

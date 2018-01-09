@@ -4,6 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
+
 ### 1.8.12
 *<small>not released yet</small>*
 
@@ -1076,3 +1077,7 @@ Fix importing from Wordpress blogs where the **Read More** option is active (for
 
 * **RTM Release**  
 We're happy to announce that Markdown Monster has gone to RTM!
+
+
+
+

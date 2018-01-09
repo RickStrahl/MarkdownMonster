@@ -12,6 +12,7 @@
 
 ### Mid Term
 * [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
+* [ ] Image Previews and file preview in a **Preview Tab**
 
 ### Bugs
 * [ ] Fix Folder Browser Rename/Delete file occasional locking issues.
