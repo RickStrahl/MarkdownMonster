@@ -31,10 +31,12 @@
 */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Controls
 {
@@ -61,7 +63,7 @@ namespace MarkdownMonster.Controls
             if (string.IsNullOrEmpty(typed))
                 return;
 
-            Debug.WriteLine($"Combo: {typed}");
+            typed = ExpandPathEnvironmentVariables(typed);
 
             string path = null;
             try
@@ -125,6 +127,25 @@ namespace MarkdownMonster.Controls
             textBox.SelectionStart = selStart;
             textBox.SelectionLength = selLength;
 
-        }        
+        }
+
+        public static string ExpandPathEnvironmentVariables(string path)
+        {
+            string result = path;
+            while (path.Contains("%"))
+            {
+                var extract = StringUtils.ExtractString(result, "%", "%");
+                if (string.IsNullOrEmpty(extract))
+                    return result;
+
+                var env = Environment.GetEnvironmentVariable(extract);
+                if (!string.IsNullOrEmpty(env))
+                    result = result.Replace("%" + extract + "%", env);
+                else
+                    return result;
+            }
+
+            return result;
+        }
     }
 }
