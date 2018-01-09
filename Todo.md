@@ -37,8 +37,7 @@
 
 #### Bugs 
 
-* [ ] Drag & Drop of images does not work when one creates a new file and that file hasn't been saved yet (which makes sense, I guess... but it is very confusing and there should be a message that indicates why nothing happens)
-
+* [x] Drag & Drop of images does not work when one creates a new file and that file hasn't been saved yet
 * [x] When adding a new file to the tree, it should show the right icon when setting the file extension
 * [ ] Can I somehow see what the current zoom level is?
 * [x] When right-clicking to delete in the tree, it should delete the item I clicked on, even if a different one is selected (right now, you can accidently delete a different one if an item in the tree is selected, and then you right-click on a DIFFERENT one and pick "Delete")
