@@ -1043,7 +1043,7 @@ namespace MarkdownMonster
 		/// with path additions.
 		/// </param>
 		/// <returns>true if tab can close, false if it should stay open</returns>
-		public bool CloseTab(TabItem tab, bool rebindTabHeaders = true)
+		public bool CloseTab(TabItem tab, bool rebindTabHeaders = true, bool dontPromptForSave = false)
 		{
 			var editor = tab?.Tag as MarkdownDocumentEditor;
 			if (editor == null)
@@ -1057,7 +1057,7 @@ namespace MarkdownMonster
 
 			doc.CleanupBackupFile();
 
-			if (doc.IsDirty)
+			if (doc.IsDirty && !dontPromptForSave)
 			{
 				var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n" +
 				                          "Do you want to save changes?",
