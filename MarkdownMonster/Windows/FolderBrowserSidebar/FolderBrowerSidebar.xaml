@@ -66,44 +66,6 @@
 
             </StackPanel>
 		</HierarchicalDataTemplate>
-		<ContextMenu x:Key="FileContextMenu">
-			<MenuItem Name="MenuAddFile" Header="_New File" Click="MenuAddFile_Click" InputGestureText="ctrl-n"/>
-			<MenuItem Name="MenuAddFolder" Header="New Folder" Click="MenuAddDirectory_Click" />
-			<Separator/>
-			<MenuItem Name="MenuDeleteFile" Header="Delete" InputGestureText="Del" Click="MenuDeleteFile_Click" />
-			<MenuItem Name="MenuRenameFile" Header="Rename"  InputGestureText="F2" Click="MenuRenameFile_Click" />
-		    <MenuItem Name="MenuFindFiles" Header="Find Files" Click="MenuFindFiles_Click" InputGestureText="ctrl-f" />
-			<Separator/>
-			<MenuItem Name="MenuOpenImage" Header="Show Image" 
-					  Visibility="{Binding SelectedItem.IsImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
-					  Click="MenuShowImage_Click" />
-			<MenuItem Name="MenuEditImage" Header="Edit Image" 
-			          Visibility="{Binding SelectedItem.IsImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
-					  Click="MenuEditImage_Click" />
-
-			<MenuItem Name="MenuOpenInEditor" Header="Open in Editor" Click="MenuOpenInEditor_Click" 
-			          Visibility="{Binding SelectedItem.IsNotImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
-			          IsEnabled="{Binding SelectedItem.IsFolder,Converter={StaticResource InvertedBooleanConverter}}"						  
-			/>
-            <MenuItem Name="MenuOpenWithShell"
-			          Visibility="{Binding SelectedItem.IsNotImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
-					  Header="Open with Shell" 
-					  Click="MenuOpenWithShell_Click" />
-            <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Click="MenuCommitGit_Click" InputGestureText="ctrl-g"/>
-		    <MenuItem Name="MenuCopyPathToClipBoard" Header="Copy to Path to Clipboard" Click="MenuCopyPathToClipboard_Click" />
-            <Separator/>
-            <MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
-            <MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
-            <Separator />
-		    <MenuItem Name="MenuOpenFolderBrowserHere"
-		              Visibility="{Binding SelectedItem.IsFolder, Converter={StaticResource BooleanToVisibilityConverter}}" 
-		              Header="Open Folder Browser here" 
-		              Click="MenuOpenFolderBrowserHere_Click" />
-		    
-
-        </ContextMenu>
-        <ContextMenu x:Key="RecentFoldersContextMenu" >
-        </ContextMenu>
 	</UserControl.Resources>
 
 
@@ -218,24 +180,57 @@
             </ComboBox>
 
 
-
+            <!--ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening"-->
             <TreeView Grid.Row="3" Name="TreeFolderBrowser"
 				  ItemTemplate="{StaticResource FolderTemplate}" 
 				  KeyDown="TreeView_Keyup" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"                  
+		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"                                         
 		          PreviewMouseMove="TreeFolderBrowser_MouseMove"                  
                   TreeViewItem.Expanded="TreeFolderBrowser_Expanded"                  
                   
 				  ItemsSource="{Binding ActivePathItem.Files}"  
                   BorderThickness="0"
-				  ContextMenu="{StaticResource FileContextMenu}">
-                <TreeView.Resources>
-                </TreeView.Resources>
+                >
+                <TreeView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Name="MenuAddFile" Header="_New File" Click="MenuAddFile_Click" InputGestureText="ctrl-n"/>
+                        <MenuItem Name="MenuAddFolder" Header="New Folder" Click="MenuAddDirectory_Click" />
+                        <Separator/>
+                        <MenuItem Name="MenuDeleteFile" Header="Delete" InputGestureText="Del" Click="MenuDeleteFile_Click" />
+                        <MenuItem Name="MenuRenameFile" Header="Rename"  InputGestureText="F2" Click="MenuRenameFile_Click" />
+                        <MenuItem Name="MenuFindFiles" Header="Find Files" Click="MenuFindFiles_Click" InputGestureText="ctrl-f" />
+                        <Separator/>
+                        <MenuItem Name="MenuOpenImage" Header="Show Image" 
+                                  Visibility="{Binding SelectedItem.IsImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                  Click="MenuShowImage_Click" />
+                        <MenuItem Name="MenuEditImage" Header="Edit Image" 
+                                  Visibility="{Binding SelectedItem.IsImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                  Click="MenuEditImage_Click" />
+
+                        <MenuItem Name="MenuOpenInEditor" Header="Open in Editor" Click="MenuOpenInEditor_Click" 
+			          Visibility="{Binding SelectedItem.IsNotImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
+			          IsEnabled="{Binding SelectedItem.IsFolder,Converter={StaticResource InvertedBooleanConverter}}" />
+                        <MenuItem Name="MenuOpenWithShell"
+			          Visibility="{Binding SelectedItem.IsNotImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
+					  Header="Open with Shell" 
+					  Click="MenuOpenWithShell_Click" />
+                        <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Click="MenuCommitGit_Click" InputGestureText="ctrl-g"/>
+                        <MenuItem Name="MenuCopyPathToClipBoard" Header="Copy to Path to Clipboard" Click="MenuCopyPathToClipboard_Click" />
+                        <Separator/>
+                        <MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
+                        <MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
+                        <Separator />
+                        <MenuItem Name="MenuOpenFolderBrowserHere"
+		              Visibility="{Binding SelectedItem.IsFolder, Converter={StaticResource BooleanToVisibilityConverter}}" 
+		              Header="Open Folder Browser here" 
+		              Click="MenuOpenFolderBrowserHere_Click" />
+                    </ContextMenu>
+                </TreeView.ContextMenu>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <!-- We have to select the item which is right-clicked on -->
-                        <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
+                        <EventSetter Event="TreeViewItem.PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>
                         <Setter Property="Visibility" Value="{Binding IsVisible,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />

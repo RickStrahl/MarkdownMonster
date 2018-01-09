@@ -1,36 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Controls;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Westwind.Utilities;
-using CheckBox = System.Windows.Controls.CheckBox;
-using ComboBox = System.Windows.Controls.ComboBox;
-using ContextMenu = System.Windows.Controls.ContextMenu;
-using DataFormats = System.Windows.DataFormats;
-using DataObject = System.Windows.DataObject;
-using DragDropEffects = System.Windows.DragDropEffects;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using MessageBox = System.Windows.MessageBox;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using TextBox = System.Windows.Controls.TextBox;
-using TreeView = System.Windows.Controls.TreeView;
-using UserControl = System.Windows.Controls.UserControl;
+
 
 namespace MarkdownMonster.Windows
 {
@@ -70,9 +56,7 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged(nameof(ActivePathItem));
             }
         }
-
         private string _folderPath;
-
 
 
         public string SearchText
@@ -103,19 +87,6 @@ namespace MarkdownMonster.Windows
 
         private bool _searchSubTrees;
 
-        //public ObservableCollection<string> FolderAutoCompletionList
-        //{
-        //    get { return _folderAutoCompletionList; }
-        //    set
-        //    {
-        //        if (Equals(value, _folderAutoCompletionList)) return;
-        //        _folderAutoCompletionList = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //private ObservableCollection<string> _folderAutoCompletionList = new ObservableCollection<string>();
-
 
         public PathItem ActivePathItem
         {
@@ -127,7 +98,6 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged(nameof(ActivePathItem));
             }
         }
-
         private PathItem _activePath;
 
         public string SelectedFile
@@ -162,14 +132,10 @@ namespace MarkdownMonster.Windows
         {
             AppModel = mmApp.Model;
             Window = AppModel.Window;
-
-            var context = Resources["FileContextMenu"] as ContextMenu;
-            context.DataContext = TreeFolderBrowser;
-
+            
             // Load explicitly here to fire *after* behavior has attached
             ComboFolderPath.PreviewKeyUp += ComboFolderPath_PreviewKeyDown;
         }
-
         #endregion
 
         #region Folder Button and Text Handling
@@ -423,6 +389,14 @@ namespace MarkdownMonster.Windows
                 // have to force OPC to make the new files visible
                 selected.OnPropertyChanged(nameof(PathItem.Files));
             }
+        }
+
+
+        private void TreeViewItem_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var item = ElementHelper.FindVisualTreeParent<TreeViewItem>(e.OriginalSource as FrameworkElement);            
+            if (item != null)                         
+                item.IsSelected = true;            
         }
 
         void HandleItemSelection()
@@ -988,8 +962,8 @@ namespace MarkdownMonster.Windows
 
                 if (LastItem == selected)
                 {
-                    if (t >= LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime + 100) &&
-                        t <= LastClickTime.AddMilliseconds(SystemInformation.DoubleClickTime * 2 + 100))
+                    if (t >= LastClickTime.AddMilliseconds(System.Windows.Forms.SystemInformation.DoubleClickTime + 100) &&
+                        t <= LastClickTime.AddMilliseconds(System.Windows.Forms.SystemInformation.DoubleClickTime * 2 + 100))
                     {
                         MenuRenameFile_Click(null, null);
                     }
@@ -1021,17 +995,6 @@ namespace MarkdownMonster.Windows
             startPoint = e.GetPosition(null);
         }
 
-
-
-        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            TreeViewItem item = sender as TreeViewItem;
-            if (item != null)
-            {
-                item.Focus();
-                e.Handled = true;
-            }
-        }
 
         private void TreeFolderBrowser_MouseMove(object sender, MouseEventArgs e)
         {
