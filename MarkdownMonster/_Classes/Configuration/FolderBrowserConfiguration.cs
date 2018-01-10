@@ -85,8 +85,11 @@ namespace MarkdownMonster.Configuration
             RecentFolders = RecentFolders.Take(mmApp.Configuration.RecentDocumentsLength).ToList();
 	    }
 
-	    public void UpdatedRecentFolderContextMenu(ContextMenu contextMenu)
+	    public void UpdateRecentFolderContextMenu(ContextMenu contextMenu)
 	    {
+            if (contextMenu == null)
+	            contextMenu = new ContextMenu();
+
 	        contextMenu.Items.Clear();
 
 	        foreach (var folder in RecentFolders)

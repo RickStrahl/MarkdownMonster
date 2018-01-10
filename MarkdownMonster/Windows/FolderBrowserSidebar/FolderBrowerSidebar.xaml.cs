@@ -173,16 +173,14 @@ namespace MarkdownMonster.Windows
         }
 
         private void ButtonRecentFolders_Click(object sender, RoutedEventArgs e)
-        {
-            var ctx = Resources["RecentFoldersContextMenu"] as ContextMenu;
-            ctx.Items.Clear();
+        {            
+            if (ButtonRecentFolders.ContextMenu == null)
+                ButtonRecentFolders.ContextMenu = new ContextMenu();
 
-            mmApp.Configuration.FolderBrowser.UpdatedRecentFolderContextMenu(ctx);
-            if (ctx.Items.Count > 0)
-            {
-                ButtonRecentFolders.ContextMenu = ctx;
+            mmApp.Configuration.FolderBrowser.UpdateRecentFolderContextMenu(ButtonRecentFolders.ContextMenu);
+            if (ButtonRecentFolders.ContextMenu.Items.Count > 0)                            
                 ButtonRecentFolders.ContextMenu.IsOpen = true;
-            }
+            
         }
 
         private void ButtonSelectFolder_Click(object sender, RoutedEventArgs e)
