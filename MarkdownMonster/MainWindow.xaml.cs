@@ -1319,7 +1319,7 @@ namespace MarkdownMonster
                 if (folder == null)
                     folder = FolderBrowser.FolderPath;
                 if (folder == null)
-                    folder = mmApp.Configuration.LastFolder;
+                    folder = mmApp.Configuration.FolderBrowser.FolderPath;
 
                 Dispatcher.InvokeAsync(() =>
                 {

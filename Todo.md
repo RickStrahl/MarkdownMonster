@@ -4,15 +4,16 @@
 * [ ] Addin Enabled/Disabled
 * [ ] Master Configuration Form
 * [ ] Markdown Document Outline
+
+
+### Mid Term
+* [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
+* [ ] Image Previews and file preview in a **Preview Tab**
 * [ ] Spell checker Dictionary Downloads
     * Store dictionaries online
     * Show what's installed
     * Show whats available
     * Link to Open Office for missing stuff
-
-### Mid Term
-* [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
-* [ ] Image Previews and file preview in a **Preview Tab**
 
 ### Bugs
 * [ ] Fix Folder Browser Rename/Delete file occasional locking issues.

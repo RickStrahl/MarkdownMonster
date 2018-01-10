@@ -181,7 +181,7 @@
 
 
             <!--ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening"-->
-            <TreeView Grid.Row="3" Name="TreeFolderBrowser"
+            <TreeView Grid.Row="3" x:Name="TreeFolderBrowser"
 				  ItemTemplate="{StaticResource FolderTemplate}" 
 				  KeyDown="TreeView_Keyup" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
@@ -190,10 +190,9 @@
                   TreeViewItem.Expanded="TreeFolderBrowser_Expanded"                  
                   
 				  ItemsSource="{Binding ActivePathItem.Files}"  
-                  BorderThickness="0"
-                >
+                  BorderThickness="0" ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening">
                 <TreeView.ContextMenu>
-                    <ContextMenu>
+                    <!--<ContextMenu Opened="ContextMenu_Opened" >
                         <MenuItem Name="MenuAddFile" Header="_New File" Click="MenuAddFile_Click" InputGestureText="ctrl-n"/>
                         <MenuItem Name="MenuAddFolder" Header="New Folder" Click="MenuAddDirectory_Click" />
                         <Separator/>
@@ -205,6 +204,7 @@
                                   Visibility="{Binding SelectedItem.IsImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                   Click="MenuShowImage_Click" />
                         <MenuItem Name="MenuEditImage" Header="Edit Image" 
+                                  IsEnabled="{Binding SelectedItem.IsImage}"                                 
                                   Visibility="{Binding SelectedItem.IsImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                   Click="MenuEditImage_Click" />
 
@@ -215,17 +215,20 @@
 			          Visibility="{Binding SelectedItem.IsNotImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
 					  Header="Open with Shell" 
 					  Click="MenuOpenWithShell_Click" />
-                        <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Click="MenuCommitGit_Click" InputGestureText="ctrl-g"/>
-                        <MenuItem Name="MenuCopyPathToClipBoard" Header="Copy to Path to Clipboard" Click="MenuCopyPathToClipboard_Click" />
                         <Separator/>
                         <MenuItem Name="MenuOpenTerminal" Header="Open Folder in Terminal" Click="MenuOpenTerminal_Click" />
                         <MenuItem Name="MenuOpenInExplorer" Header="Open Folder in Explorer" Click="MenuOpenInExplorer_Click" />
                         <Separator />
+                        <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Click="MenuCommitGit_Click" InputGestureText="ctrl-g"/>
+                        <MenuItem Name="MenuCopyPathToClipBoard" Header="Copy Path to Clipboard" Click="MenuCopyPathToClipboard_Click" />
+                        <Separator/>
+                       
                         <MenuItem Name="MenuOpenFolderBrowserHere"
 		              Visibility="{Binding SelectedItem.IsFolder, Converter={StaticResource BooleanToVisibilityConverter}}" 
 		              Header="Open Folder Browser here" 
 		              Click="MenuOpenFolderBrowserHere_Click" />
-                    </ContextMenu>
+                    </ContextMenu>-->
+                    <ContextMenu />
                 </TreeView.ContextMenu>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">

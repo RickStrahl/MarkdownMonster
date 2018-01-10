@@ -139,7 +139,8 @@ namespace MarkdownMonster.Windows
 				if (value == _isSelected) return;
 				_isSelected = value;
 				OnPropertyChanged(nameof(IsSelected));
-			}
+			    OnPropertyChanged(nameof(IsImage));
+            }
 		}
 		private bool _isSelected;
 
@@ -152,7 +153,6 @@ namespace MarkdownMonster.Windows
 			{
 				if (ImageUtils.GetImageMediaTypeFromFilename(FullPath) == "application/image")
 					return false;
-
 				return true;
 			}
 		}
