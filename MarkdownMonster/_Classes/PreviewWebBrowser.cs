@@ -250,7 +250,7 @@ namespace MarkdownMonster
         private void PreviewBrowserOnLoadCompleted(object sender, NavigationEventArgs e)
         {
             string url = e.Uri.ToString();
-            if (!url.Contains("_MarkdownMonster_Preview"))
+            if (!url.Contains("_MarkdownMonster_Preview") && !url.Contains("__untitled.htm"))
                 return;
 
             bool shouldScrollToEditor = WebBrowser.Tag != null && WebBrowser.Tag.ToString() == "EDITORSCROLL";
