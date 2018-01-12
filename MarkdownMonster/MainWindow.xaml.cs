@@ -168,9 +168,9 @@ namespace MarkdownMonster
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			RestoreSettings();            
+            RestoreSettings();
 
-            OpenFilesFromCommandLine();
+		    OpenFilesFromCommandLine();
             
             if (mmApp.Configuration.ApplicationUpdates.FirstRun)
 			{
@@ -282,10 +282,15 @@ namespace MarkdownMonster
 	                mmApp.Log("Fullpath CommandLine failed: " + file);
 	            }
 
-	            if (File.Exists(file))
+	            Topmost = true;
+	            WindowUtilities.DoEvents();
+
+                if (File.Exists(file))
 	                OpenTab(mdFile: file, batchOpen: true);
 	            else if (Directory.Exists(file))
-	                ShowFolderBrowser(false, file);
+	            {	              
+	                ShowFolderBrowser(false, file);	             
+	            }
 	            else
 	            {
 	                file = Path.Combine(App.InitialStartDirectory, file);
@@ -295,7 +300,9 @@ namespace MarkdownMonster
 	                else if (Directory.Exists(file))
 	                    ShowFolderBrowser(false, file);
 	            }
-	        }            
+
+	            Dispatcher.Delay(800, s => { Topmost = false; });
+            }            
 	    }
 
 	    protected override void OnContentRendered(EventArgs e)

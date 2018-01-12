@@ -50,7 +50,7 @@ namespace MarkdownMonster
 
         public static string InitialStartDirectory;
 
-        public static string[] CommandArgs;
+        public static string[] CommandArgs { get; set; }
 
         // Flag to indicate that app shouldn't start
         // Need this so OnStartup doesn't fire
