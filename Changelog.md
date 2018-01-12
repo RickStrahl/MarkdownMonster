@@ -7,6 +7,12 @@
 ### 1.8.14
 *<small>not released yet</small>*
 
+* **Folder Browser Bug Fixes**  
+Fix a number of small folder browser inconsistencies related to adding new files and renaming. 
+
+* **Fix: Command Line Startup with Folder**  
+Fix bug where command line startup with a folder name would not open the folder in the folder browser properly.
+
 
 ### 1.8.12
  *<small>January 9th, 2018</small>* 
