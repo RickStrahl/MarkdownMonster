@@ -49,9 +49,10 @@
                     </TextBlock>
 
                     <TextBox Name="TextEditFileItem"
-                            Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Padding="6,0,10,0" Margin="0"                            
+                            Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            Padding="6,0,10,0" Margin="0"                            
                             Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" 
-                             LostFocus="TextEditFileItem_LostFocus">
+                            LostFocus="TextEditFileItem_LostFocus">
                         <TextBox.Style>
                             <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
                                 <Style.Triggers>

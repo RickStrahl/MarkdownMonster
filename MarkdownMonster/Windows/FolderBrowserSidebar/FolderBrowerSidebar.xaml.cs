@@ -280,9 +280,7 @@ namespace MarkdownMonster.Windows
         #region TreeView Selection Handling
 
         private void TreeView_Keyup(object sender, KeyEventArgs e)
-        {
-            Debug.WriteLine("Tree: Key: " + e.Key);
-
+        {            
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
 
             // this works without a selection
@@ -298,15 +296,13 @@ namespace MarkdownMonster.Windows
 
             if (selected == null)
                 return;
-
             
-
             if (e.Key == Key.Enter || e.Key == Key.Tab)
             {
                 if (!selected.IsEditing)
                     HandleItemSelection();
                 else
-                    RenameFileOrFolder();
+                    RenameOrCreateFileOrFolder();
                 e.Handled = true;                
             }
             else if (e.Key == Key.Escape)
@@ -336,9 +332,7 @@ namespace MarkdownMonster.Windows
         }
 
         private void FolderBrowserGrid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            Debug.WriteLine("Grid Key: " + e.Key);
-
+        {            
             if (e.Key == Key.F1)
             {
                 AppModel.Commands.HelpCommand.Execute("_4xs10gaui.htm");
@@ -417,7 +411,7 @@ namespace MarkdownMonster.Windows
                 OpenFile(fileItem.FullPath);
         }
 
-        void RenameFileOrFolder()
+        void RenameOrCreateFileOrFolder        ()
         {
             var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
             if (fileItem == null)
@@ -635,7 +629,7 @@ namespace MarkdownMonster.Windows
         private void MenuAddFile_Click(object sender, RoutedEventArgs e)
         {
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
-            if (selected == null || selected.Parent == null)
+            if (selected == null)
             {
                 // No files/folders
                 selected = new PathItem()
@@ -646,8 +640,8 @@ namespace MarkdownMonster.Windows
                 ActivePathItem = selected;
             }
 
-            string path;
-            if (!selected.IsFolder)
+            string path;            
+            if (!selected.IsFolder || selected.FullPath == "..")
                 path = Path.Combine(Path.GetDirectoryName(selected.FullPath), "NewFile.md");
             else
             {
@@ -667,7 +661,9 @@ namespace MarkdownMonster.Windows
             };
             item.SetIcon();
 
-            if (!selected.IsFolder)
+            if (selected.FullPath == "..")
+                item.Parent = ActivePathItem; // current path
+            else if (!selected.IsFolder)
                 item.Parent = selected.Parent;
             else
                 item.Parent = selected;
@@ -1103,6 +1099,9 @@ namespace MarkdownMonster.Windows
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
             if (selected != null)
             {
+                 if (selected.IsEditing) // this should be ahndled by Key ops in treeview
+                     RenameOrCreateFileOrFolder();
+
                 if (selected.DisplayName == "NewFile.md")
                 {
                     selected.Parent.Files.Remove(selected);
@@ -1170,7 +1169,5 @@ namespace MarkdownMonster.Windows
         }
         #endregion        
     }
-
-
 
 }
