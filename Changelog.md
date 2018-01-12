@@ -4,6 +4,9 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
+### 1.8.14
+*<small>not released yet</small>*
+
 
 ### 1.8.12
  *<small>January 9th, 2018</small>* 

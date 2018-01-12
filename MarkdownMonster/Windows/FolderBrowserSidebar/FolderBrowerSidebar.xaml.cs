@@ -281,11 +281,25 @@ namespace MarkdownMonster.Windows
 
         private void TreeView_Keyup(object sender, KeyEventArgs e)
         {
+            Debug.WriteLine("Tree: Key: " + e.Key);
+
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
+
+            // this works without a selection
+            if (e.Key == Key.N && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                if (selected == null || !selected.IsEditing)
+                {
+                    MenuAddFile_Click(sender, null);
+                    e.Handled = true;
+                }
+                return;
+            }
+
             if (selected == null)
                 return;
 
-            Debug.WriteLine("Tree: Key: " + e.Key);
+            
 
             if (e.Key == Key.Enter || e.Key == Key.Tab)
             {
@@ -309,15 +323,7 @@ namespace MarkdownMonster.Windows
             {
                 if (!selected.IsEditing)
                     MenuDeleteFile_Click(sender, null);
-            }
-            else if (e.Key == Key.N && Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                if (!selected.IsEditing)
-                {
-                    MenuAddFile_Click(sender, null);
-                    e.Handled = true;
-                }
-            }
+            }            
             else if (e.Key == Key.G && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 if (!selected.IsEditing)
@@ -331,6 +337,8 @@ namespace MarkdownMonster.Windows
 
         private void FolderBrowserGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            Debug.WriteLine("Grid Key: " + e.Key);
+
             if (e.Key == Key.F1)
             {
                 AppModel.Commands.HelpCommand.Execute("_4xs10gaui.htm");
@@ -349,6 +357,7 @@ namespace MarkdownMonster.Windows
                     TextSearch.Text = string.Empty;
                 }
             }
+            
         }
 
         private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -764,6 +773,120 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        private void TreeFolderBrowser_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var tv = sender as TreeView;
+            if (tv == null)
+                return;
+            var cm = tv.ContextMenu;
+
+            var pathItem = TreeFolderBrowser.SelectedItem as PathItem;
+            if (pathItem == null)
+                return;
+
+            cm.Items.Clear();
+
+            var ci = new MenuItem();
+            ci.Header = "_New File";
+            ci.InputGestureText = "ctrl-n";        
+            ci.Click += MenuAddFile_Click;
+            cm.Items.Add(ci);
+
+            ci = new MenuItem();
+            ci.Header = "New Folder";        
+            ci.Click += MenuAddDirectory_Click;
+            cm.Items.Add(ci);
+
+            cm.Items.Add(new Separator());
+
+            ci = new MenuItem();
+
+            ci.Header = "Delete";
+            ci.InputGestureText = "Del";            
+            ci.Click += MenuDeleteFile_Click;
+            cm.Items.Add(ci);
+
+            ci = new MenuItem();
+            ci.Header = "Rename";
+            ci.InputGestureText = "F2";
+            ci.Click += MenuRenameFile_Click;
+            cm.Items.Add(ci);
+
+            ci = new MenuItem();
+            ci.Header = "Find Files";
+            ci.InputGestureText = "ctrl-f";        
+            ci.Click += MenuFindFiles_Click;
+            cm.Items.Add(ci);
+
+            cm.Items.Add(new Separator());
+
+            if (pathItem.IsImage)
+            {
+                ci = new MenuItem();
+                ci.Header = "Show Image";            
+                ci.Click += MenuShowImage_Click;
+                cm.Items.Add(ci);
+
+                ci = new MenuItem();
+                ci.Header = "Edit Image";            
+                ci.Click += MenuEditImage_Click;
+                cm.Items.Add(ci);
+            }
+            else
+            {
+                if (pathItem.IsFile)
+                {
+                    ci = new MenuItem();
+                    ci.Header = "Open in Editor";                
+                    ci.Click += MenuOpenInEditor_Click;
+                    cm.Items.Add(ci);
+                }
+
+                ci = new MenuItem();
+                ci.Header = "Open with Shell";            
+                ci.Click += MenuOpenWithShell_Click;
+                cm.Items.Add(ci);
+            }
+
+            cm.Items.Add(new Separator());
+
+            ci = new MenuItem();            
+            ci.Header = "Open Folder in Terminal";            
+            ci.Click += MenuOpenTerminal_Click;
+            cm.Items.Add(ci);
+
+            ci = new MenuItem();
+            ci.Header = "Open Folder in Explorer";
+            ci.Click += MenuOpenInExplorer_Click;
+            cm.Items.Add(ci);
+
+            cm.Items.Add(new Separator());
+
+            ci = new MenuItem();
+            ci.Header = "Commit File to _Git and Push";
+            ci.InputGestureText = "ctrl-g";        
+            ci.Click += MenuCommitGit_Click;
+            cm.Items.Add(ci);
+
+            ci = new MenuItem();
+            ci.Header = "Copy Path to Clipboard";
+            ci.Click += MenuCopyPathToClipboard_Click;
+            cm.Items.Add(ci);
+            
+            if (pathItem.IsFolder)
+            {
+                cm.Items.Add(new Separator());
+
+                ci = new MenuItem();
+                ci.Header = "Open Folder Browser here";            
+                ci.Click += MenuOpenFolderBrowserHere_Click;
+                cm.Items.Add(ci);
+            }
+
+            cm.IsOpen = true;
+
+        }
+
         #endregion
 
 
@@ -980,6 +1103,12 @@ namespace MarkdownMonster.Windows
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
             if (selected != null)
             {
+                if (selected.DisplayName == "NewFile.md")
+                {
+                    selected.Parent.Files.Remove(selected);
+                    return;
+                }
+
                 selected.IsEditing = false;
                 selected.SetIcon();
             }
@@ -1031,6 +1160,7 @@ namespace MarkdownMonster.Windows
 
         #endregion
 
+        #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -1038,120 +1168,9 @@ namespace MarkdownMonster.Windows
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        private void TreeFolderBrowser_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            var tv = sender as TreeView;
-            if (tv == null)
-                return;
-            var cm = tv.ContextMenu;
-
-            var pathItem = TreeFolderBrowser.SelectedItem as PathItem;
-            if (pathItem == null)
-                return;
-
-            cm.Items.Clear();
-
-            var ci = new MenuItem();
-            ci.Header = "_New File";
-            ci.InputGestureText = "ctrl-n";        
-            ci.Click += MenuAddFile_Click;
-            cm.Items.Add(ci);
-
-            ci = new MenuItem();
-            ci.Header = "New Folder";        
-            ci.Click += MenuAddDirectory_Click;
-            cm.Items.Add(ci);
-
-            cm.Items.Add(new Separator());
-
-            ci = new MenuItem();
-
-            ci.Header = "Delete";
-            ci.InputGestureText = "Del";            
-            ci.Click += MenuDeleteFile_Click;
-            cm.Items.Add(ci);
-
-            ci = new MenuItem();
-            ci.Header = "Rename";
-            ci.InputGestureText = "F2";
-            ci.Click += MenuRenameFile_Click;
-            cm.Items.Add(ci);
-
-            ci = new MenuItem();
-            ci.Header = "Find Files";
-            ci.InputGestureText = "ctrl-f";        
-            ci.Click += MenuFindFiles_Click;
-            cm.Items.Add(ci);
-
-            cm.Items.Add(new Separator());
-
-            if (pathItem.IsImage)
-            {
-                ci = new MenuItem();
-                ci.Header = "Show Image";            
-                ci.Click += MenuShowImage_Click;
-                cm.Items.Add(ci);
-
-                ci = new MenuItem();
-                ci.Header = "Edit Image";            
-                ci.Click += MenuEditImage_Click;
-                cm.Items.Add(ci);
-            }
-            else
-            {
-                if (pathItem.IsFile)
-                {
-                    ci = new MenuItem();
-                    ci.Header = "Open in Editor";                
-                    ci.Click += MenuOpenInEditor_Click;
-                    cm.Items.Add(ci);
-                }
-
-                ci = new MenuItem();
-                ci.Header = "Open with Shell";            
-                ci.Click += MenuOpenWithShell_Click;
-                cm.Items.Add(ci);
-            }
-
-            cm.Items.Add(new Separator());
-
-            ci = new MenuItem();            
-            ci.Header = "Open Folder in Terminal";            
-            ci.Click += MenuOpenTerminal_Click;
-            cm.Items.Add(ci);
-
-            ci = new MenuItem();
-            ci.Header = "Open Folder in Explorer";
-            ci.Click += MenuOpenInExplorer_Click;
-            cm.Items.Add(ci);
-
-            cm.Items.Add(new Separator());
-
-            ci = new MenuItem();
-            ci.Header = "Commit File to _Git and Push";
-            ci.InputGestureText = "ctrl-g";        
-            ci.Click += MenuCommitGit_Click;
-            cm.Items.Add(ci);
-
-            ci = new MenuItem();
-            ci.Header = "Copy Path to Clipboard";
-            ci.Click += MenuCopyPathToClipboard_Click;
-            cm.Items.Add(ci);
-            
-            if (pathItem.IsFolder)
-            {
-                cm.Items.Add(new Separator());
-
-                ci = new MenuItem();
-                ci.Header = "Open Folder Browser here";            
-                ci.Click += MenuOpenFolderBrowserHere_Click;
-                cm.Items.Add(ci);
-            }
-
-            cm.IsOpen = true;
-
-        }
-
+        #endregion        
     }
+
+
+
 }

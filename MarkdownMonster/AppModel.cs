@@ -447,20 +447,7 @@ namespace MarkdownMonster
 
 
         }
-        
-
-
-        //public CommandBase ToolbarInsertMarkdownCommand { get; set; }
-
-        //void Command_ToolbarInsertMarkdown()
-        //{
-        //    ToolbarInsertMarkdownCommand = new CommandBase((s, e) =>
-        //    {
-        //        string action = s as string;
-        //        var editor = Window.GetActiveMarkdownEditor();
-        //        editor?.ProcessEditorUpdateCommand(action);
-        //    }, null);
-        //}
+  
         
         public CommandBase SettingsCommand { get; set; }
 
@@ -469,20 +456,51 @@ namespace MarkdownMonster
             // Settings
             SettingsCommand = new CommandBase((s, e) =>
             {
-                var file = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json");
-
-                // save settings first so we're looking at current setting
-                Configuration.Write();
-
-                string fileText = File.ReadAllText(file);
-                if (!fileText.StartsWith("//"))
+                try
                 {
-                    fileText = "// Reference: http://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm\r\n" +
-                               fileText;
-                    File.WriteAllText(file, fileText);
-                }
+                    var file = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json");
 
-                Window.OpenTab(file, syntax: "json");
+                    // save settings first so we're looking at current setting
+                    Configuration.Write();
+
+                    string fileText = File.ReadAllText(file);
+                    if (!fileText.StartsWith("//"))
+                    {
+                        fileText = "// Reference: http://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm\r\n" +
+                                   fileText;
+                        File.WriteAllText(file, fileText);
+                    }
+
+                    Window.OpenTab(file, syntax: "json");
+                }
+                catch
+                {
+                    if (mmApp.Configuration.CommonFolder != mmApp.Configuration.InternalCommonFolder)
+                    {
+                        mmApp.Configuration.CommonFolder = mmApp.Configuration.InternalCommonFolder;
+                        Command_Settings();
+                    }
+                    else
+                    {
+                        var msg = $@"We couldn't load the configuration file.
+
+Please check that the configuration folder for Markdown Monster exists. The default location is:
+
+{FileUtils.ExpandPathEnvironmentVariables("%appdata%\\Markdown Monster")}
+
+and that the file contains `markdownmonster.json`. You should also remove `commonfolderlocation.txt` if it exists and points at an invalid location.
+
+If all this fails shut down Markdown Monster, rename or delete `MarkdownMonster.json` and `commonfolderlocation.txt` (if it exists) and restart Markdown Monster.
+
+We're now shutting down the application.
+";
+                        MessageBox.Show(msg, mmApp.ApplicationName, MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+
+                        App.Current.Shutdown();
+                    }
+
+                }
             }, null);
         }
 

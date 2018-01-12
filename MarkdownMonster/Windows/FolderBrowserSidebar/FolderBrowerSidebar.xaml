@@ -11,6 +11,7 @@
              mc:Ignorable="d" MinWidth="215"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
+
         <local:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
 
         <!--DataType="{x:Type local:PathItem}"-->
@@ -69,8 +70,7 @@
     </UserControl.Resources>
 
 
-    <Grid PreviewKeyDown="FolderBrowserGrid_PreviewKeyDown">
-
+    <Grid Name="FolderBrowserMainGrid" PreviewKeyDown="FolderBrowserGrid_PreviewKeyDown">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -100,7 +100,7 @@
              BorderThickness="0.3"
              controls:TextBoxHelper.SelectAllOnFocus="True"
              Opacity="0.7"             
-             PreviewKeyUp="TextSearch_PreviewKeyUp"
+             PreviewKeyDown="TextSearch_PreviewKeyUp"
 
              controls:TextBoxHelper.Watermark="Search Folder" />
             <CheckBox IsChecked="{Binding SearchSubTrees}"

@@ -742,21 +742,19 @@ namespace MarkdownMonster
 	            return null;
 
 	        var tab = new TabItem();
-
-	        tab.Margin = new Thickness(0, 0, 3, 0);
-	        tab.Padding = new Thickness(2, 0, 7, 2);
+	        //tab.Margin = new Thickness(0, 0, 3, 0);
+	        //tab.Padding = new Thickness(2, 0, 7, 2);
 	        tab.Background = Background;
 
 	        ControlsHelper.SetHeaderFontSize(tab, 13F);
 
 	        var webBrowser = new WebBrowser
 	        {
-	            Visibility = Visibility.Hidden,
-	            Margin = new Thickness(-4, 0, 0, 0)
+                // hide initially so there's less flicker
+	            Visibility = Visibility.Hidden,	                            
 	        };
 	        tab.Content = webBrowser;
-
-
+	        
 	        if (editor == null)
 	        {
 	            editor = new MarkdownDocumentEditor(webBrowser)
