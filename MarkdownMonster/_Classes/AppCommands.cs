@@ -48,6 +48,7 @@ namespace MarkdownMonster
             OpenAddinManager();
             Help();
             CopyFolderToClipboard();
+            Command_TabControlFileList();
         }
 
         #region Files And File Management
@@ -551,7 +552,21 @@ Do you want to View in Browser now?
             }, (p, c) => true);
         }
 
-       
+
+        /// <summary>
+        /// This command handles Open Document clicks from a context
+        /// menu.
+        /// </summary>
+        public CommandBase TabControlFileListCommand { get; set; }
+
+        void Command_TabControlFileList()
+        {
+            TabControlFileListCommand = new CommandBase((parameter, command) =>
+                {
+                    Model.Window.OpenTab(parameter as string);
+                }, (p, c) => true);
+        }
+
 
         #endregion
     }

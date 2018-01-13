@@ -5,7 +5,8 @@
     xmlns:local="http://dragablz.net/winfx/xaml/dragablz"
     xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
     xmlns:converters="clr-namespace:Dragablz.Converters;assembly=Dragablz"    
-    xmlns:themes="clr-namespace:Dragablz.Themes;assembly=Dragablz">
+    xmlns:themes="clr-namespace:Dragablz.Themes;assembly=Dragablz"
+    xmlns:fa="http://schemas.fontawesome.io/icons/">
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:EqualityToVisibilityConverter x:Key="EqualityToVisibilityConverter" />
@@ -193,10 +194,11 @@
         <GradientStop Color="#F1F1F1" Offset="0.0"/>
         <GradientStop Color="#eFeFeF" Offset="0.5"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="TabItem.Selected.Foreground" Color="#222"/>
+    <SolidColorBrush x:Key="TabItem.Selected.Foreground" Color="#222222"/>
     <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#dddddd"/>
     <SolidColorBrush x:Key="Button.Static.Foreground" Color="#eeeeee"/>
-    <SolidColorBrush x:Key="Button.Static.Background" Color="#222222"/>    
+    <SolidColorBrush x:Key="Button.Static.Background" Color="#444444"/>
+    
     <SolidColorBrush x:Key="Button.Static.Border" Color="Black"/>
     <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
     <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
@@ -661,9 +663,18 @@
             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
             <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"
                        Margin="0 1 0 0" />
-            <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="0" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" 
+
+
+            <!-- RAS: Added drop down button-->
+            <Button Grid.Column="1" x:Name="PART_WindowListButton" Command="{x:Static mm:MainWindow.TabWindowListCommand}"
+                    Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" 
+                    Height="25" Width="16" Margin="3,4,3,0" Background="#eee"
+                    fa:Awesome.Content="CaretDown"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" />
+
+            <!--<ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="0" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" 
                        Width="36" Height="20"
-                       Margin="1 0 0 0" />
+                       Margin="1 0 0 0" />-->
         </Grid>
     </ControlTemplate>
 

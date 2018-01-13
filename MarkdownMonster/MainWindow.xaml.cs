@@ -33,7 +33,9 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -42,6 +44,7 @@ using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
 using Binding = System.Windows.Data.Binding;
@@ -65,6 +68,10 @@ namespace MarkdownMonster
         public AppModel Model { get; set; }
 
         private NamedPipeManager PipeManager { get; set; }
+
+
+      
+
 
         public IntPtr Hwnd
         {
@@ -128,9 +135,15 @@ namespace MarkdownMonster
         }
         private PreviewBrowserWindow _previewBrowserWindow;
 
+        public static CommandBase TabWindowListCommand { get; set; }
+        
+
         public MainWindow()
 		{
 			InitializeComponent();
+
+		    TabWindowListCommand = new CommandBase(CreateFileContextMenu, (p, c) => true);
+            
 
 			Model = new AppModel(this);
 		    AddinManager.Current.RaiseOnModelLoaded(Model);
@@ -163,15 +176,15 @@ namespace MarkdownMonster
             PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);
         }
 
-        
-		#region Opening and Closing
+
+        #region Opening and Closing
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
             RestoreSettings();
 
 		    OpenFilesFromCommandLine();
-            
+
             if (mmApp.Configuration.ApplicationUpdates.FirstRun)
 			{
 				if (TabControl.Items.Count == 0)
@@ -1798,6 +1811,57 @@ namespace MarkdownMonster
 				Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }),DispatcherPriority.ApplicationIdle);
 			});
 		}
+
+        /// <summary>
+        /// This method expects a parameter of a control that the context
+        /// menu is attached to to display.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="command"></param>
+        private void CreateFileContextMenu(object parameter, ICommand command)
+        {
+            var button = parameter as FrameworkElement;
+            if (button == null) return;
+            
+            button.ContextMenu = GenerateContextMenuFromOpenTabs(button.ContextMenu);
+
+            button.ContextMenu.IsOpen = true;
+            button.ContextMenu.ContextMenu.Closed += (o, args) => button.ContextMenu.Items.Clear();
+        }
+
+        private ContextMenu GenerateContextMenuFromOpenTabs(ContextMenu ctx = null)
+        {
+            if (ctx == null)
+                ctx = new ContextMenu();
+
+            var icons = new AssociatedIcons();
+            foreach (TabItem tab in TabControl.Items)
+            {
+                var doc = tab.Tag as MarkdownDocumentEditor;
+                if (doc == null) continue;
+
+                var filename = doc.MarkdownDocument.FilenamePathWithIndicator;
+                var icon = icons.GetIconFromFile(doc.MarkdownDocument.Filename);
+
+                var sp = new StackPanel {Orientation = Orientation.Horizontal};
+                sp.Children.Add(new Image
+                {
+                    Source = icon,
+                    Width = 16,
+                    Height = 16,
+                    Margin = new Thickness(0, 0, 20, 0)
+                });
+                sp.Children.Add(new TextBlock {Text = filename});
+
+                var mi = new MenuItem();
+                mi.Header = sp;
+                mi.Command = Model.Commands.TabControlFileListCommand;
+                mi.CommandParameter = doc.MarkdownDocument.Filename;
+                ctx.Items.Add(mi);
+            }
+
+            return ctx;
+        }
 
         #endregion
 
