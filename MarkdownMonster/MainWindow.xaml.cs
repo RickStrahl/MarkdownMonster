@@ -135,14 +135,14 @@ namespace MarkdownMonster
         }
         private PreviewBrowserWindow _previewBrowserWindow;
 
-        public static CommandBase TabWindowListCommand { get; set; }
+        
         
 
         public MainWindow()
 		{
 			InitializeComponent();
 
-		    TabWindowListCommand = new CommandBase(CreateFileContextMenu, (p, c) => true);
+		    
             
 
 			Model = new AppModel(this);
@@ -1031,7 +1031,7 @@ namespace MarkdownMonster
 		/// </summary>
 		private bool batchTabAction = false;
 
-		private bool CloseAllTabs(TabItem allExcept = null)
+        public bool CloseAllTabs(TabItem allExcept = null)
 		{
 			batchTabAction = true;
 			for (int i = TabControl.Items.Count - 1; i > -1; i--)
@@ -1626,18 +1626,7 @@ namespace MarkdownMonster
 			}
 		}
 
-
-		private void ButtonCloseAllTabs_Click(object sender, RoutedEventArgs e)
-		{
-			TabItem except = null;
-
-			var menuItem = sender as MenuItem;
-			if (menuItem != null && menuItem.Name == "MenuCloseAllButThisTab")
-				except = TabControl.SelectedItem as TabItem;
-
-			CloseAllTabs(except);
-			BindTabHeaders();
-		}
+        
 
 		private void ButtonSpellCheck_Click(object sender, RoutedEventArgs e)
 		{
@@ -1812,31 +1801,19 @@ namespace MarkdownMonster
 			});
 		}
 
-        /// <summary>
-        /// This method expects a parameter of a control that the context
-        /// menu is attached to to display.
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <param name="command"></param>
-        private void CreateFileContextMenu(object parameter, ICommand command)
+       
+
+        public List<MenuItem> GenerateContextMenuItemsFromOpenTabs(ContextMenu ctx = null)
         {
-            var button = parameter as FrameworkElement;
-            if (button == null) return;
-            
-            button.ContextMenu = GenerateContextMenuFromOpenTabs(button.ContextMenu);
-
-            button.ContextMenu.IsOpen = true;
-            button.ContextMenu.ContextMenu.Closed += (o, args) => button.ContextMenu.Items.Clear();
-        }
-
-        private ContextMenu GenerateContextMenuFromOpenTabs(ContextMenu ctx = null)
-        {
-            if (ctx == null)
-                ctx = new ContextMenu();
-
+            var menuItems = new List<MenuItem>();
             var icons = new AssociatedIcons();
-            foreach (TabItem tab in TabControl.Items)
+            var selectedTab = TabControl.SelectedItem as TabItem;
+            
+            var headers = TabControl.GetOrderedHeaders();
+            foreach (var hd in headers)
             {
+                var tab = hd.Content as TabItem;
+
                 var doc = tab.Tag as MarkdownDocumentEditor;
                 if (doc == null) continue;
 
@@ -1857,10 +1834,16 @@ namespace MarkdownMonster
                 mi.Header = sp;
                 mi.Command = Model.Commands.TabControlFileListCommand;
                 mi.CommandParameter = doc.MarkdownDocument.Filename;
-                ctx.Items.Add(mi);
+                if (tab == selectedTab)
+                {
+                    mi.FontWeight = FontWeights.Bold;
+                    mi.Foreground = Brushes.SteelBlue;
+                }
+
+                menuItems.Add(mi);
             }
 
-            return ctx;
+            return menuItems;
         }
 
         #endregion

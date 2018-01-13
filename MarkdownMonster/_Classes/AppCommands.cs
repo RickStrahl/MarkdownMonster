@@ -43,12 +43,17 @@ namespace MarkdownMonster
 
             // Editor Commands
             ToolbarInsertMarkdown();
+            CloseActiveDocument();
+            CloseAllDocuments();
+            
+
 
             // Miscellaneous
             OpenAddinManager();
             Help();
             CopyFolderToClipboard();
-            Command_TabControlFileList();
+            TabControlFileList();
+            ShowActiveTabsList();
         }
 
         #region Files And File Management
@@ -485,6 +490,95 @@ Do you want to View in Browser now?
                 editor?.ProcessEditorUpdateCommand(action);
             }, null);
         }
+
+        public CommandBase CloseActiveDocumentCommand { get; set; }
+
+        void CloseActiveDocument()
+        {            
+            CloseActiveDocumentCommand = new CommandBase((s, e) =>
+            {
+                var tab = Model.Window.TabControl.SelectedItem as TabItem;
+                if (tab == null)
+                    return;
+
+                if (Model.Window.CloseTab(tab))
+                    Model.Window.TabControl.Items.Remove(tab);
+            }, null)
+            {
+                Caption = "_Close Document",
+                ToolTip = "Closes the active tab and asks to save the document."
+            };
+        }
+
+
+        public CommandBase CloseAllDocumentsCommand { get; set; }
+
+        void CloseAllDocuments()
+        {
+            CloseAllDocumentsCommand = new CommandBase((parameter, command) =>
+            {
+                var parm = parameter as string;
+                TabItem except = null;
+
+                if (parm != null && parm == "AllBut")
+                    except = Model.Window.TabControl.SelectedItem as TabItem;
+
+                Model.Window.CloseAllTabs(except);
+                Model.Window.BindTabHeaders();
+
+            }, (p, c) => true);
+        }
+
+
+        /// <summary>
+        /// This command handles Open Document clicks from a context
+        /// menu.
+        /// </summary>
+        public CommandBase TabControlFileListCommand { get; set; }
+
+        void TabControlFileList()
+        {
+            TabControlFileListCommand = new CommandBase((parameter, command) =>
+            {
+                var tab = Model.Window.GetTabFromFilename(parameter as string);
+                tab.IsSelected = true;
+            }, (p, c) => true);
+        }
+
+
+        public CommandBase WindowMenuCommand { get; set; }
+
+        void ShowActiveTabsList()
+        {
+            WindowMenuCommand = new CommandBase((parameter, command) =>
+            {
+                var mi = Model.Window.WindowMenu;
+                mi.Items.Clear();
+
+                mi.Items.Add(new MenuItem { Header = "_Close Document", Command= Model.Commands.CloseActiveDocumentCommand  });
+                mi.Items.Add(new MenuItem { Header = "Close _All Documents", Command = Model.Commands.CloseAllDocumentsCommand });
+                mi.Items.Add(new MenuItem { Header = "Close All _But This Document", Command = Model.Commands.CloseAllDocumentsCommand, CommandParameter="AllBut" });
+                
+                var menuItems = Model.Window.GenerateContextMenuItemsFromOpenTabs();
+                if (menuItems.Count < 1)
+                    return;
+
+                mi.Items.Add(new Separator());
+                foreach (var menu in menuItems)
+                {
+                 
+                    mi.Items.Add(menu);
+                }
+
+                mi.IsSubmenuOpen = true;
+                
+                mi.SubmenuClosed += (s,e) => ((MenuItem)s).Items.Clear();
+            }, (p, c) => true);
+        }
+
+        
+
+
         #endregion
 
         #region Open Document Operations
@@ -552,21 +646,30 @@ Do you want to View in Browser now?
             }, (p, c) => true);
         }
 
+        #endregion
 
-        /// <summary>
-        /// This command handles Open Document clicks from a context
-        /// menu.
-        /// </summary>
-        public CommandBase TabControlFileListCommand { get; set; }
+        #region Static Menus Accessed from Control Templates
 
-        void Command_TabControlFileList()
+        public static CommandBase TabWindowListCommand { get; }
+
+        static AppCommands()
         {
-            TabControlFileListCommand = new CommandBase((parameter, command) =>
-                {
-                    Model.Window.OpenTab(parameter as string);
-                }, (p, c) => true);
-        }
+            TabWindowListCommand = new CommandBase( (parameter, command)=>
+            {
+                var button = parameter as FrameworkElement;
+                if (button == null) return;
 
+                var menuItems = mmApp.Model.Window.GenerateContextMenuItemsFromOpenTabs();
+
+                button.ContextMenu = new ContextMenu();
+                foreach (var mi in menuItems)
+                    button.ContextMenu.Items.Add(mi);
+
+                button.ContextMenu.IsOpen = true;
+                button.ContextMenu.Closed += (o, args) => button.ContextMenu.Items.Clear();
+            },
+            (p, c) => true);
+        }
 
         #endregion
     }

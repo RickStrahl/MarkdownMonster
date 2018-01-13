@@ -666,7 +666,7 @@
 
 
             <!-- RAS: Added drop down button-->
-            <Button Grid.Column="1" x:Name="PART_WindowListButton" Command="{x:Static mm:MainWindow.TabWindowListCommand}"
+            <Button Grid.Column="1" x:Name="PART_WindowListButton" Command="{x:Static mm:AppCommands.TabWindowListCommand}"
                     Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" 
                     Height="25" Width="16" Margin="3,4,3,0" Background="#eee"
                     fa:Awesome.Content="CaretDown"

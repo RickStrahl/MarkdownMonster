@@ -55,9 +55,9 @@
         </ObjectDataProvider>
 
         <ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
-            <MenuItem Header="_Close Document" Command="{Binding DataContext.CloseActiveDocumentCommand}" />
-            <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Click="ButtonCloseAllTabs_Click"/>
-            <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document" Click="ButtonCloseAllTabs_Click"/>
+            <MenuItem Header="_Close Document" Command="{Binding DataContext.Commands.CloseActiveDocumentCommand}" />
+            <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}"/>
+            <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document"  Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}" CommandParameter="AllBut" />
             <Separator/>
             <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
             <MenuItem Name="ContextOpenInFolder" Header="Open _Folder in Explorer" Click="Button_OpenExplorer" />
@@ -214,8 +214,8 @@
                           IsEnabled="{Binding IsEditorActive}" />
 				<MenuItem Name="ButtonPrintPreview" Header="_Print Output" Command="{Binding PrintPreviewCommand}" InputGestureText="ctrl-p"/>
                 <Separator />
-                <MenuItem Header="_Close Document" Command="{Binding CloseActiveDocumentCommand}" InputGestureText="ctrl-w"/>
-                <MenuItem Header="Close _All Documents"  Click="ButtonCloseAllTabs_Click"  IsEnabled="{Binding IsEditorActive}"/>
+                <MenuItem Header="_Close Document" Command="{Binding Commands.CloseActiveDocumentCommand}" InputGestureText="ctrl-w"/>
+                <MenuItem Header="Close _All Documents" Command="{Binding Commands.CloseAllDocumentsCommand}"  IsEnabled="{Binding IsEditorActive}"/>
 
                 <Separator />
                 <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
@@ -349,6 +349,11 @@
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.EditorShowInvisibles}" />
             </MenuItem>
+
+            <!-- generated dynamically by command -->
+            <MenuItem Name="WindowMenu" Header="Window" Command="{Binding Commands.WindowMenuCommand}" />
+
+
             <MenuItem Header="_Help">
                 <MenuItem Name="MenuDocumentation" Header="Documentation" Command="{Binding Commands.HelpCommand}" InputGestureText="F1" />
                 <MenuItem Name="MenuMarkdownBasics" Header="Markdown Basics"   Click="Button_Handler"/>

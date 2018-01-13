@@ -647,29 +647,7 @@ We're now shutting down the application.
         }
 
 
-        
-
-        public CommandBase CloseActiveDocumentCommand { get; set; }
-
-        void Command_CloseActiveDocument()
-        {
-
-            // CLOSE ACTIVE DOCUMENT COMMAND
-            CloseActiveDocumentCommand = new CommandBase((s, e) =>
-            {
-                var tab = Window.TabControl.SelectedItem as TabItem;
-                if (tab == null)
-                    return;
-
-                if (Window.CloseTab(tab))
-                    Window.TabControl.Items.Remove(tab);
-            }, null)
-            {
-                Caption = "_Close Document",
-                ToolTip = "Closes the active tab and asks to save the document."
-            };
-            
-        }
+                
 
         public CommandBase ViewInExternalBrowserCommand { get; set; }
 
@@ -829,8 +807,6 @@ We're now shutting down the application.
             
             Command_Settings();            
             
-            Command_CloseActiveDocument();
-
             Command_ViewInExternalBrowser();
             Command_ViewHtmlSource();
             Command_PrintePreview();
