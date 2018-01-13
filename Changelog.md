@@ -10,6 +10,9 @@
 * **Add Open Documents Dropdown for Tab Overflow**  
 Changed the tab layout so when there are more tabs than can be displayed, a dropdown shows a menu with all open files that can be selected.
 
+* **PDF Generation Enhancements**   
+Added option to not generator a Table of Contents. Print PDF asynchronously so UI doesn't freeze up. Cleaner error messages. Fix headers/title by removing the right header and rendering only a single header. Add option to copy last used command line. Cleaned up the Save As PDF form UI.
+
 * **Folder Browser Bug Fixes**  
 Fix a number of small folder browser inconsistencies related to adding new files and renaming. 
 
