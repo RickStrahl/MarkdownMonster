@@ -4,8 +4,11 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-### 1.8.14
+### 1.8.15
 *<small>not released yet</small>*
+
+* **Add Open Documents Dropdown for Tab Overflow**  
+Changed the tab layout so when there are more tabs than can be displayed, a dropdown shows a menu with all open files that can be selected.
 
 * **Folder Browser Bug Fixes**  
 Fix a number of small folder browser inconsistencies related to adding new files and renaming. 
