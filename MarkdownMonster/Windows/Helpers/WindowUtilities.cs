@@ -47,6 +47,22 @@ namespace MarkdownMonster.Windows
         }
 
         /// <summary>
+        /// Forces lost focus on the active control in a Window so that the a toolbar click 
+        /// works properly accepting the last controls value input.
+        /// </summary>
+        /// <param name="window"></param>
+        public static void FixFocus(Window window, System.Windows.Controls.Control control)
+        {
+            var ctl = FocusManager.GetFocusedElement(window);
+            if (ctl == null)
+                return;
+
+            control.Focus();
+            DoEvents();
+            ctl.Focus();
+        }
+
+        /// <summary>
         /// Finds a particular type of control in the children of a top level control
         /// </summary>
         /// <typeparam name="T"></typeparam>
