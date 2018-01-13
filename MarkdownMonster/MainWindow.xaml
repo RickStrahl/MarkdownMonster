@@ -351,7 +351,7 @@
             </MenuItem>
 
             <!-- generated dynamically by command -->
-            <MenuItem Name="WindowMenu" Header="Window" Command="{Binding Commands.WindowMenuCommand}" />
+            <MenuItem Name="WindowMenu" Header="_Window" Command="{Binding Commands.WindowMenuCommand}" />
 
 
             <MenuItem Header="_Help">

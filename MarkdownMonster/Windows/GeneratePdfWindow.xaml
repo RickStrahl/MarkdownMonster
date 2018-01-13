@@ -9,112 +9,160 @@
         mc:Ignorable="d"
 		Icon="../Assets/MarkdownMonster_Icon_256.png"   
 		TitleCharacterCasing="Normal"
+        ResizeMode="NoResize"
 		WindowStartupLocation="CenterOwner"					 
-		FontSize="15"
-        Title="Save As Pdf File" Height="510" Width="500">
-	<Grid>
+		FontSize="15"                      
+        Title="Save As Pdf File" Height="520" Width="575">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Style TargetType="Control">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.4"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--<Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="15" />
+        </Style>-->
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_53u1b1dsc.htm"/>
+    </Window.InputBindings>
+    <Grid>
 
 		<Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<StackPanel Margin="30,15">
-			<TextBlock >Document Title: (optional)</TextBlock>
-			<TextBox Text="{Binding PdfGenerator.Title}"/>
+        <ToolBarPanel>
+            <StackPanel Orientation="Horizontal">
+                <ToolBar FontWeight="Normal" Padding="0,5,0,5" >
 
-			<Label Margin="0,10,0,0">Footer Text: (optional - ie. 'Page [page] to [topage]')</Label>
-			<TextBox Text="{Binding PdfGenerator.FooterText}"/>
+                    <Button Name="ButtonGeneratePdf"                       
+                            HorizontalAlignment="Left" IsDefault="True"  
+                            Click="ButtonGeneratePdf_Click"   >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Check" Margin="5,4,5,0" 
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Foreground="LightGreen"  />
+                            <TextBlock>Generate PDF File</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ButtonCancel" 
+                            HorizontalAlignment="Left"
+                            IsCancel="True" Click="ButtonCancel_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Remove" Margin="5,4,5,0" 
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                              
+                                            Foreground="DarkRed"/>
+                            <TextBlock>Exit</TextBlock>
+                        </StackPanel>
+                    </Button>
 
-			<Grid Margin="0,10,0,0">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
+                <Separator />
 
-				<StackPanel>
-					<Label>Page Size</Label>
-					<ComboBox
-						Name="TextPageSize" 						
+                <Button Name="ButtonCopyLastCommandToClipboard"                                                         
+                            ToolTip="Copy last execution command to clipboard"                        
+                            IsEnabled="{Binding PdfGenerator.HasExecutionCommandLine}"
+                            Click="ButtonCopyLastCommandToClipboard_Click"   >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Clipboard" Margin="5,4,5,0" 
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                              
+                                            />
+                            <TextBlock>Copy Commandline</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ButtonHelpCopyLastCommandToClipboard"       Margin="5,0,0,0"                 
+                            HorizontalAlignment="Left" IsDefault="True"   fa:Awesome.Content="QuestionCircle" Foreground="SteelBlue"
+                            ToolTip="Documentation for Save As PDF"
+                            Command="{Binding Model.Commands.HelpCommand}" CommandParameter="_53u1b1dsc.htm"
+                            Click="ButtonCopyLastCommandToClipboard_Click" />
+                </ToolBar>
+
+               
+            </StackPanel>
+        </ToolBarPanel>
+
+        <StackPanel Margin="30,25" Grid.Row="1">
+            <TextBlock >Document Title: (optional)</TextBlock>
+            <TextBox Name="TextTitle" Text="{Binding PdfGenerator.Title}" FontSize="14"  />
+
+            <Label Margin="0,10,0,0">Footer Text: (optional - ie. 'Page [page] of [topage]')</Label>
+            <TextBox Text="{Binding PdfGenerator.FooterText}" FontSize="14" />
+
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <Label>Page Size</Label>
+                    <ComboBox
+						Name="TextPageSize" FontSize="14" 						
 						SelectedValue="{Binding PdfGenerator.PageSize}" >
-					</ComboBox>
-				</StackPanel>
+                    </ComboBox>
+                </StackPanel>
 
-				<StackPanel Grid.Column="1" Margin="10,0,0,0">
-					<Label>Page Orientation</Label>
-					<ComboBox
+                <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                    <Label>Page Orientation</Label>
+                    <ComboBox FontSize="14"
 						Name="TextPageOrientation" 						
 						SelectedValue="{Binding PdfGenerator.Orientation}" >
-					</ComboBox>
-				</StackPanel>
+                    </ComboBox>
+                </StackPanel>
 
-				<StackPanel Grid.Column="2" Margin="10,0,0,0">
-					<Label>Image DPI</Label>
-					<TextBox Text="{Binding PdfGenerator.ImageDpi}" />
-				</StackPanel>
-			</Grid>
+                <StackPanel Grid.Column="2" Margin="10,0,0,0">
+                    <Label>Image DPI</Label>
+                    <TextBox Text="{Binding PdfGenerator.ImageDpi}" />
+                </StackPanel>
+            </Grid>
 
-			<StackPanel Margin="0,30,0,0">
-				<TextBlock>Margins: (in millimeters - 0 uses default)</TextBlock>
+            <StackPanel Margin="0,30,0,0">
+                <TextBlock>Margins: (in millimeters - 0 uses default)</TextBlock>
 
-			<StackPanel Margin="25,10,0,0" Orientation="Horizontal">
-				<TextBlock Width="60" >Left:</TextBlock>
-				<TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginLeft}"/>
+                <StackPanel Margin="25,10,0,0" Orientation="Horizontal">
+                    <TextBlock Width="60" >Left:</TextBlock>
+                    <TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginLeft}"/>
 
-				<TextBlock  Width="60" Margin="20,0,0,0">Right:</TextBlock>
-				<TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginRight}"/>
-			</StackPanel>
+                    <TextBlock  Width="60" Margin="20,0,0,0">Right:</TextBlock>
+                    <TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginRight}"/>
+                </StackPanel>
 
-			<StackPanel Margin="25,10,0,0" Orientation="Horizontal">
-				<TextBlock Width="60" >Top:</TextBlock>
-				<TextBox Width="50"  Text="{Binding PdfGenerator.Margins.MarginTop}"/>
+                <StackPanel Margin="25,10,0,0" Orientation="Horizontal">
+                    <TextBlock Width="60" >Top:</TextBlock>
+                    <TextBox Width="50"  Text="{Binding PdfGenerator.Margins.MarginTop}"/>
 
-				<TextBlock Width="60" Margin="20,0,0,0">Bottom:</TextBlock>
-				<TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginBottom}"/>
-			</StackPanel>
+                    <TextBlock Width="60" Margin="20,0,0,0">Bottom:</TextBlock>
+                    <TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginBottom}"/>
+                </StackPanel>
 
-			<StackPanel Margin="0,30,0,0" Orientation="Horizontal">
-				</StackPanel>
-			</StackPanel>
+                <StackPanel Margin="0,30,0,0" Orientation="Horizontal">
+                </StackPanel>
+            </StackPanel>
 
-			<CheckBox 
-				IsChecked="{Binding PdfGenerator.DisplayPdfAfterGeneration}"				
-				Content="Display PDF after generation"
-				/>
-						
-		
 
-			<StackPanel  Orientation="Horizontal" Margin="0,30,0,20">
-				<Button Name="ButtonGeneratePdf"  Height="40" 
-						FontSize="15" Width="175" 
-						HorizontalAlignment="Left"  
-						Click="ButtonGeneratePdf_Click"   >
-					<StackPanel Orientation="Horizontal">
-						<fa:FontAwesome Icon="Check" 
-										FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-										Foreground="LightGreen" FontSize="20" />
-						<TextBlock Margin="10,0,0,0" FontSize="14">Generate PDF File</TextBlock>
-					</StackPanel>
-				</Button>
+            <CheckBox Name="CheckGenerateTableOfContents"
+                IsChecked="{Binding PdfGenerator.GenerateTableOfContents}"				
+                Content="Generate Table of Contents"
+            />
+ 
+            <CheckBox Margin="0 7 0 0"
+                    IsChecked="{Binding PdfGenerator.DisplayPdfAfterGeneration}"				
+                    Content="Display PDF after generation"
+                />
 
-				<Button Name="ButtonCancel" Margin="10,0,0,0" 
-						Height="40" FontSize="15" 
-						Width="175" HorizontalAlignment="Left" 
-						IsCancel="True" Click="ButtonCancel_Click" >
-					<StackPanel Orientation="Horizontal">
-						<fa:FontAwesome Icon="Remove" 
-										FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
-										FontSize="20"
-										Foreground="DarkRed"/>
-						<TextBlock Margin="10,0,0,0" FontSize="14">Exit</TextBlock>
-					</StackPanel>
-				</Button>
-			</StackPanel>
-	
-		</StackPanel>
+            <Separator Margin="0,10" />
+            <TextBox Name="TextMessage" FontFamily="Consolas" Margin="0,5,0,0"  
+                       Height="150" Padding="7"  BorderThickness="0" IsReadOnly="True"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto" />
+        </StackPanel>
 
-		<StatusBar  Grid.Row="1" Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="12"
+        <StatusBar  Grid.Row="2" Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="14"
 		            Background="{Binding Window.Background}">
 			<StatusBar.ItemsPanel>
 				<ItemsPanelTemplate>

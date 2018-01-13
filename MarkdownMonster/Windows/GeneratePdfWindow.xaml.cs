@@ -28,8 +28,14 @@ namespace MarkdownMonster.Windows
 	{
 		public string OutputFile { get; set; }
 
-		
-		public HtmlToPdfGeneration PdfGenerator
+
+        public AppModel Model {  get;  }
+
+	    private double initialHeight = 0;
+	  
+
+
+        public HtmlToPdfGeneration PdfGenerator
 		{
 			get => _pdfGenerator;
 			set
@@ -45,22 +51,33 @@ namespace MarkdownMonster.Windows
 		public GeneratePdfWindow()
 		{
 			InitializeComponent();
-
-			DataContext = this;
-
 			Loaded += GeneratePdfWindow_Loaded;
-		}
 
-		private void GeneratePdfWindow_Loaded(object sender, RoutedEventArgs e)
+		    Model = mmApp.Model;
+
+		    DataContext = this;
+            initialHeight = Height;
+
+        }
+
+        private void GeneratePdfWindow_Loaded(object sender, RoutedEventArgs e)
 		{
 			TextPageSize.ItemsSource = Enum.GetValues(typeof(PdfPageSizes));
 			TextPageOrientation.ItemsSource = Enum.GetValues(typeof(PdfPageOrientation));
-			ButtonGeneratePdf.Focus();
-
+            TextTitle.Focus();
 		}
 
-		private void ButtonGeneratePdf_Click(object sender, RoutedEventArgs e)
+		private async void ButtonGeneratePdf_Click(object sender, RoutedEventArgs e)
 		{
+		    WindowUtilities.FixFocus(this,TextMessage);
+            
+            PdfGenerator.ExecutionOutputText = string.Empty;
+		    TextMessage.Background = Brushes.Transparent;
+            TextMessage.Text = string.Empty;
+            Height = initialHeight;
+
+		    WindowUtilities.DoEvents();
+
 			var document = mmApp.Model.ActiveDocument; 
 
 			if (!SaveFile())
@@ -75,17 +92,34 @@ namespace MarkdownMonster.Windows
 			// render the document to the normal output location
 			document.RenderHtmlToFile();
 
-			PdfGenerator.DisplayPdfAfterGeneration = true;
-			bool result = PdfGenerator.GeneratePdfFromHtml(document.HtmlRenderFilename, OutputFile);
+            
+		    bool result = await Task.Run(() =>
+		    {
+		        PdfGenerator.DisplayPdfAfterGeneration = true;
+		        bool res = PdfGenerator.GeneratePdfFromHtml(document.HtmlRenderFilename, OutputFile);
+		        return res;
+		    });
 
-			ButtonGeneratePdf.IsEnabled = true;			
+			ButtonGeneratePdf.IsEnabled = true;
 
-			if (!result)
-			{
-				MessageBox.Show("Failed to create PDF document.\r\n\r\n" + PdfGenerator.ErrorMessage,
-					"PDF Generator Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+		    
+            if (!result)
+            {
 
-				ShowStatus("PDF document created.", 6000);
+                if (string.IsNullOrEmpty(PdfGenerator.ExecutionOutputText))
+                {
+                    TextMessage.Background = Brushes.Firebrick;
+                    if (Height < 600)
+                        Height = 660;
+
+			        TextMessage.Text = "Failed to create PDF document.\r\n\r\n" + PdfGenerator.ErrorMessage;
+			    }
+			    
+
+                //MessageBox.Show("Failed to create PDF document.\r\n\r\n" + PdfGenerator.ErrorMessage,
+                //	"PDF Generator Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                ShowStatus("PDF document was not created.", 6000);
 				SetStatusIcon(FontAwesomeIcon.Warning,Colors.Firebrick);
 				return;
 			}
@@ -94,7 +128,13 @@ namespace MarkdownMonster.Windows
 			SetStatusIcon();
 		}
 
-		private bool SaveFile()
+	    private void ButtonCopyLastCommandToClipboard_Click(object sender, RoutedEventArgs e)
+	    {
+	        Clipboard.SetText(PdfGenerator.FullExecutionCommand);
+	        ShowStatus("Command line has been copied to the clipboard", 6000);
+	    }
+
+	    private bool SaveFile()
 		{
 			var document = mmApp.Model.ActiveDocument;
 
@@ -126,7 +166,7 @@ namespace MarkdownMonster.Windows
 			return true;
 		}
 
-		private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+	    private void ButtonCancel_Click(object sender, RoutedEventArgs e)
 		{
 			Close();
 		}
@@ -166,7 +206,7 @@ namespace MarkdownMonster.Windows
 			StatusIcon.Icon = icon;
 			StatusIcon.Foreground = new SolidColorBrush(color);
 			if (spin)
-				StatusIcon.SpinDuration = 30;
+				StatusIcon.SpinDuration = 3;
 
 			StatusIcon.Spin = spin;
 		}

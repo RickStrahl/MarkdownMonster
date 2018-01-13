@@ -64,16 +64,51 @@ namespace MarkdownMonster
 
 		public int ImageDpi { get; set; } = 300;
 
+        public bool GenerateTableOfContents { get; set; } = true;
+        
+        public bool DisplayPdfAfterGeneration { get; set; } = true;
 
 
+	    
 
-		public bool DisplayPdfAfterGeneration { get; set; } = true;
+	    public string ExecutionOutputText
+	    {
+	        get { return _executionOutputText; }
+	        set
+	        {
+	            if (value == _executionOutputText) return;
+	            _executionOutputText = value;
+	            OnPropertyChanged();
+	        }
+	    }
+	    private string _executionOutputText;
 
-		public string ExecutionOutputText { get; set; }
+        
+	    public string FullExecutionCommand
+	    {
+	        get { return _fullExecutionCommand; }
+	        set
+	        {
+	            if (value == _fullExecutionCommand) return;
+	            _fullExecutionCommand = value;
+	            OnPropertyChanged();
+	            OnPropertyChanged(nameof(HasExecutionCommandLine));
+            }
+	    }
+	    private string _fullExecutionCommand;
 
-		public string FullExecutionCommand { get; set; }
+	    
 
-		public PdfPageMargins Margins { get; set; } = new PdfPageMargins();
+	    public bool HasExecutionCommandLine
+	    {
+	        get { return !string.IsNullOrEmpty(FullExecutionCommand); }	    
+	    }
+	    public bool HasExecutionOutput
+	    {
+	        get { return !string.IsNullOrEmpty(FullExecutionCommand); }
+	    }
+
+        public PdfPageMargins Margins { get; set; } = new PdfPageMargins();
 
 
 
@@ -107,10 +142,9 @@ namespace MarkdownMonster
 			}
 
 			if (!string.IsNullOrEmpty(Title))
-			{
-				
+			{				
 				sb.Append($"--header-left \"{Title}\" ");
-				sb.Append($"--header-right \"[subsection]\" ");
+				//sb.Append($"--header-right \"[subsection]\" ");
 				sb.Append("--header-spacing 3 ");
 			}
 
@@ -123,7 +157,13 @@ namespace MarkdownMonster
 			if (Margins.MarginBottom > 0)
 				sb.Append($"--margin-bottom {Margins.MarginBottom} ");
 
-			// in and out files
+		    if (!GenerateTableOfContents)
+		    {
+		        sb.Append($"--no-outline ");
+                sb.Append($"--outline-depth 3 ");
+		    }
+
+		    // in and out files
 			sb.Append($"\"{sourceHtmlFileOrUri}\" \"{outputPdfFile}\" ");
 
 			string exe = "wkhtmltopdf.exe";
@@ -162,7 +202,7 @@ namespace MarkdownMonster
 			return true;
 		}
 
-		public int ExecuteWkProcess(string parms)
+		public int ExecuteWkProcess(string parms, bool copyCommandLineToClipboard = false)
 		{
 			string exe = "wkhtmltopdf.exe";
 			if (!string.IsNullOrEmpty(ExecutionPath))
@@ -171,6 +211,8 @@ namespace MarkdownMonster
 			StringBuilder output = new StringBuilder();
 
 			FullExecutionCommand = "\"" + exe + "\" " + parms;
+		    if (copyCommandLineToClipboard)
+		        Clipboard.SetText(FullExecutionCommand);
 
 			using (Process process = new Process())
 			{
