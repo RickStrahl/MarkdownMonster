@@ -842,4 +842,6 @@ We're now shutting down the application.
         public FontAwesomeIcon Icon { get; set; }
         public string IconString { get; set; }
     }
+
+    
 }

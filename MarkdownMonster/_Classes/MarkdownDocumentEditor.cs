@@ -735,15 +735,18 @@ namespace MarkdownMonster
                         {
                         }
 
+                        var fontSize = mmApp.Configuration.EditorFontSize *  ((decimal) mmApp.Configuration.EditorZoomLevel / 100) * dpiRatio;
+                        Debug.WriteLine(fontSize + " " + (int) fontSize + "  " +  mmApp.Configuration.EditorFontSize  + " * " +  mmApp.Configuration.EditorZoomLevel + " * " + dpiRatio);
+
                         AceEditor.settheme(
                             mmApp.Configuration.EditorTheme,
                             mmApp.Configuration.EditorFont,
-                            mmApp.Configuration.EditorFontSize * dpiRatio,
+                            fontSize,
                             mmApp.Configuration.EditorWrapText,
                             mmApp.Configuration.EditorHighlightActiveLine,
                             mmApp.Configuration.EditorKeyboardHandler);
 
-                        if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
+                        if (EditorSyntax == "markdown" || EditorSyntax == "text")
                             AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck,
                                 mmApp.Configuration.EditorDictionary);
                         else
@@ -1254,12 +1257,12 @@ namespace MarkdownMonster
                 // zooming
                 else if (key == "ctrl-=")
                 {
-                    mmApp.Configuration.EditorFontSize++;
+                    mmApp.Configuration.EditorZoomLevel += 2;
                     RestyleEditor();
                 }
                 else if (key == "ctrl--")
                 {
-                    mmApp.Configuration.EditorFontSize--;
+                    mmApp.Configuration.EditorZoomLevel -= 2;                    
                     RestyleEditor();
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);

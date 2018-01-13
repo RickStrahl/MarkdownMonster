@@ -726,6 +726,7 @@
                             <ColumnDefinition Width="4"  />
                             <ColumnDefinition Width="Auto"  />
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <!-- Markdown Parser column, width = 150 -->
                             <ColumnDefinition Width="{Binding MarkdownParserColumnWidth}"/>
                             <ColumnDefinition Width="Auto" />
@@ -744,14 +745,44 @@
                 <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
             </StatusBarItem>
             <Separator Grid.Column="2" />
-            <StatusBarItem Grid.Column="3">
-                <TextBlock  Name="StatusStats" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
+
+            <StatusBarItem  Grid.Column="3">
+                <ComboBox Name="StatusZoomLevel"
+                          Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                          IsEditable="True" 
+                          IsSynchronizedWithCurrentItem="True"
+                          MouseDoubleClick="StatusZoomLevel_MouseDoubleClick"  
+                          SelectionChanged="StatusZoomLevel_SelectionChanged"
+                          PreviewTextInput="StatusZoomLevel_PreviewTextInput"                          
+                          Text="{Binding Configuration.EditorZoomLevel,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='0\\%'}">
+                    <ComboBox.ToolTip>
+                        <TextBlock>
+                            Editor font size zoom level.
+                            <LineBreak /> 
+                            Also use the mouse wheel or ctrl-+ and ctrl-- to zoom.
+                            <LineBreak />
+                            Double click to reset to 100%.
+                        </TextBlock>
+                    </ComboBox.ToolTip>
+                    <ComboBoxItem>20</ComboBoxItem>
+                    <ComboBoxItem>50</ComboBoxItem>
+                    <ComboBoxItem>75</ComboBoxItem>
+                    <ComboBoxItem>100</ComboBoxItem>
+                    <ComboBoxItem>125</ComboBoxItem>
+                    <ComboBoxItem>150</ComboBoxItem>
+                    <ComboBoxItem>200</ComboBoxItem>
+                    <ComboBoxItem>400</ComboBoxItem>
+                </ComboBox>
             </StatusBarItem>
             <StatusBarItem Grid.Column="4">
+                <TextBlock  Name="StatusStats" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
+            </StatusBarItem>
+          
+            <StatusBarItem Grid.Column="5" Margin="8,0,8,0">
                 <TextBlock  Name="StatusEncoding" x:FieldModifier="public" HorizontalAlignment="Left"
                             ToolTip="Document Encoding"></TextBlock>
             </StatusBarItem>
-            <StatusBarItem Grid.Column="5">
+            <StatusBarItem Grid.Column="6">
                 <ComboBox  HorizontalAlignment="Right"  
                            ToolTip="Registered Markdown Parsers" Width="{Binding MarkdownParserColumnWidth}"
                            SelectedItem="{Binding Configuration.MarkdownOptions.MarkdownParserName}" 
@@ -761,7 +792,7 @@
                            SelectionChanged="MarkdownParserName_SelectionChanged" />
 
             </StatusBarItem>
-            <StatusBarItem Grid.Column="6">
+            <StatusBarItem Grid.Column="7">
                 <ComboBox  HorizontalAlignment="Right"  Width="70" ToolTip="Application Themes"  
                            Name="ComboBoxAppTheme"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
@@ -771,7 +802,7 @@
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"                           
                 />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="7">
+            <StatusBarItem Grid.Column="8">
                 
                 <ComboBox  HorizontalAlignment="Right"  Width="125" ToolTip="Editor Themes"
                            SelectedItem="{Binding Configuration.EditorTheme}"
@@ -780,7 +811,7 @@
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="8">
+            <StatusBarItem Grid.Column="9">
                 <ComboBox  HorizontalAlignment="Right"  Width="125"
                            ToolTip="Preview rendering Themes"
                            SelectedItem="{Binding Configuration.RenderTheme}" 
@@ -790,7 +821,7 @@
                            SelectionChanged="RenderTheme_SelectionChanged" />
 
             </StatusBarItem>
-            <StatusBarItem Grid.Column="9">
+            <StatusBarItem Grid.Column="10">
                 <ComboBox  HorizontalAlignment="Right"  Width="44" ToolTip="Preview sync mode"  
                            Name="ComboBoxPreviewSyncModes"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
@@ -804,7 +835,7 @@
                 </ComboBox>
             </StatusBarItem>
 
-            <StatusBarItem Grid.Column="10">
+            <StatusBarItem Grid.Column="11">
                 <Button Name="ButtonStatusEncrypted" Margin="0,0,15,0" Click="Button_Handler" 
                     ToolTip="Encrypted"
                     fa:Awesome.Content="Lock" 

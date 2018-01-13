@@ -227,10 +227,25 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(EditorFontSize));
             }
         }
-
         private int _EditorFontSize;
 
 
+        /// <summary>
+        /// Zoom level percentage on top of the EditorFontSize
+        /// </summary>
+        public int EditorZoomLevel
+        {
+            get { return _editorZoomLevel; }
+            set
+            {
+                if (value == _editorZoomLevel) return;
+                _editorZoomLevel = value;
+                OnPropertyChanged(nameof(EditorZoomLevel));
+                _editorZoomLevel = value;
+            }
+        }
+
+        private int _editorZoomLevel = 100;
 
         /// <summary>
         /// Determines whether the active line is highlighted in the editor
