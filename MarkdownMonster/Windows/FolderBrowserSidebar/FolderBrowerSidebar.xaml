@@ -58,7 +58,6 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsEditing}" Value="True">
                                         <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
-                                        <Setter Property="Background" Value="#444" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
