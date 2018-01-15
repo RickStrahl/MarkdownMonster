@@ -27,7 +27,7 @@
         </Style>-->
     </Window.Resources>
     <Window.InputBindings>
-        <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_53u1b1dsc.htm"/>
+        <KeyBinding Key="F1" Command="{Binding Model.Commands.HelpCommand}" CommandParameter="_53u1b1dsc.htm"/>
     </Window.InputBindings>
     <Grid>
 
@@ -78,8 +78,8 @@
                     <Button Name="ButtonHelpCopyLastCommandToClipboard"       Margin="5,0,0,0"                 
                             HorizontalAlignment="Left" IsDefault="True"   fa:Awesome.Content="QuestionCircle" Foreground="SteelBlue"
                             ToolTip="Documentation for Save As PDF"
-                            Command="{Binding Model.Commands.HelpCommand}" CommandParameter="_53u1b1dsc.htm"
-                            Click="ButtonCopyLastCommandToClipboard_Click" />
+                            Command="{Binding Model.Commands.HelpCommand}" CommandParameter="_53u1b1dsc.htm"/>
+                            
                 </ToolBar>
 
                
