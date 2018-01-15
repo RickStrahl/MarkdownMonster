@@ -414,9 +414,9 @@ namespace MarkdownMonster.Windows
         void RenameOrCreateFileOrFolder        ()
         {
             var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
-            if (fileItem == null)
+            if (string.IsNullOrEmpty(fileItem?.EditName) )
                 return;
-
+                       
             string oldFilename = Path.GetFileName(fileItem.FullPath);
             string oldPath = Path.GetDirectoryName(fileItem.FullPath);
             string newPath = Path.Combine(oldPath, fileItem.EditName);
@@ -1102,7 +1102,7 @@ namespace MarkdownMonster.Windows
                  if (selected.IsEditing) // this should be ahndled by Key ops in treeview
                      RenameOrCreateFileOrFolder();
 
-                if (selected.DisplayName == "NewFile.md")
+                if (selected.DisplayName == "NewFile.md" || selected.DisplayName == "NewFolder")
                 {
                     selected.Parent.Files.Remove(selected);
                     return;
