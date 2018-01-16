@@ -1267,7 +1267,29 @@ namespace MarkdownMonster
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);
         }
-        
+
+
+        public void FindAndReplaceText(string search, string replace)
+        {
+            AceEditor?.findAndReplaceText(search, replace);
+        }
+
+        /// <summary>
+        /// Allows the PreviewBrowser to navigate to a URL for external links
+        /// so links open in the default browser rather than IE.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>true if handled (navigated) false if passed through and expected to navigate</returns>
+        public bool NavigateExternalUrl(string url)
+        {
+            if (mmApp.Configuration.PreviewHttpLinksExternal &&  !string.IsNullOrEmpty(url))
+            {
+                ShellUtils.GoUrl(url);
+                return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Handle pasting and handle images
@@ -1284,7 +1306,7 @@ namespace MarkdownMonster
 
                     if (!string.IsNullOrEmpty(imagePath))
                     {
-                        SetSelection($"![]({imagePath})");
+                        SetSelection($"![]({imagePath.Replace(" ","%20")})");
                         PreviewMarkdownCallback(); // force a preview refresh
                         return;
                     }
@@ -1369,53 +1391,6 @@ namespace MarkdownMonster
             }
         }
 
-
-        public void FindAndReplaceText(string search, string replace)
-        {
-            AceEditor?.findAndReplaceText(search, replace);
-        }
-
-        /// <summary>
-        /// Allows the PreviewBrowser to navigate to a URL for external links
-        /// so links open in the default browser rather than IE.
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns>true if handled (navigated) false if passed through and expected to navigate</returns>
-        public bool NavigateExternalUrl(string url)
-        {
-            if (mmApp.Configuration.PreviewHttpLinksExternal &&  !string.IsNullOrEmpty(url))
-            {
-                ShellUtils.GoUrl(url);
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Handle dropping of files 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void WebBrowser_NavigatingAndDroppingFiles(object sender, NavigatingCancelEventArgs e)
-        {
-			var url = e.Uri.ToString().ToLower();
-
-            if (url.Contains("editor.htm") || url.Contains("editorsimple.htm"))
-                return; // continue navigating
-
-            // otherwise we either handle or don't allow
-            e.Cancel = true;
-
-            // if it's a URL or ??? don't navigate
-            if (!e.Uri.IsFile)
-                return;
-
-            string file = e.Uri.LocalPath;
-
-            EmbedDroppedFileAsImage(file);            
-        }
-
         /// <summary>
         /// Embeds a dropped file as an image. If not an image no action is taken
         /// </summary>
@@ -1464,7 +1439,7 @@ namespace MarkdownMonster
 
                 AceEditor.setselpositionfrommouse(false);
 
-                Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\r\n![]({relFilePath})\r\n"),
+                Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\r\n![]({relFilePath.Replace(" ","%20")})\r\n"),
                     DispatcherPriority.ApplicationIdle);
 
                 Window.Activate();
@@ -1473,6 +1448,30 @@ namespace MarkdownMonster
             {
                 Window.OpenTab(file, rebindTabHeaders: true);
             }
+        }
+
+        /// <summary>
+        /// Handle dropping of files 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WebBrowser_NavigatingAndDroppingFiles(object sender, NavigatingCancelEventArgs e)
+        {
+			var url = e.Uri.ToString().ToLower();
+
+            if (url.Contains("editor.htm") || url.Contains("editorsimple.htm"))
+                return; // continue navigating
+
+            // otherwise we either handle or don't allow
+            e.Cancel = true;
+
+            // if it's a URL or ??? don't navigate
+            if (!e.Uri.IsFile)
+                return;
+
+            string file = e.Uri.LocalPath;
+
+            EmbedDroppedFileAsImage(file);            
         }
 
         #endregion
