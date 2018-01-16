@@ -5,19 +5,22 @@
 
 
 ### 1.8.15
-*<small>not released yet</small>*
+*<small>January 16th, 2018</small>*
 
 * **Add Open Documents Dropdown for Tab Overflow**  
 Changed the tab layout so when there are more tabs than can be displayed, a dropdown shows a menu with all open files that can be selected.
 
+* **Add Window Menu to show all open Documents**   
+Add standard Window menu to show all open documents and allow manipulation of the open documents (Close open tab, Close all, Close all but).
+
 * **Editor Zoom Level Improvements**  
-Changed the Editor zoom level settings to use both a default size and zoom-level. The zoom-level is a percentage of the default size - both values are saved. There's now a zoom level indicator on the status bar that allows quickly adjusting to common values. Double clicking resets to 100%.
+Changed the Editor zoom level settings to use both a default size and zoom-level percentage. There's now a percentage zoom level indicator on the status bar that allows quickly adjusting to common values or typing in a percentage value. Double clicking resets to 100%.
 
 * **PDF Generation Enhancements**   
 Added option to not generator a Table of Contents. Print PDF asynchronously so UI doesn't freeze up. Cleaner error messages. Fix headers/title by removing the right header and rendering only a single header. Add option to copy last used command line. Cleaned up the Save As PDF form UI.
 
-* **Folder Browser Bug Fixes**  
-Fix a number of small folder browser inconsistencies related to adding new files and renaming. 
+* **Fix: Folder Browser Bug Fixes**  
+Fix a number of small folder browser inconsistencies related to adding new files and renaming. Fix edit color theme on light application theme.
 
 * **Fix: Command Line Startup with Folder**  
 Fix bug where command line startup with a folder name would not open the folder in the folder browser properly.
