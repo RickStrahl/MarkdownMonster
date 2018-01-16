@@ -753,7 +753,8 @@
                           IsSynchronizedWithCurrentItem="True"
                           MouseDoubleClick="StatusZoomLevel_MouseDoubleClick"  
                           SelectionChanged="StatusZoomLevel_SelectionChanged"
-                          PreviewTextInput="StatusZoomLevel_PreviewTextInput"                          
+                          PreviewTextInput="StatusZoomLevel_PreviewTextInput"  
+                          ItemStringFormat="0\\%"
                           Text="{Binding Configuration.EditorZoomLevel,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='0\\%'}">
                     <ComboBox.ToolTip>
                         <TextBlock>

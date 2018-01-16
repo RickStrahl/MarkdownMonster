@@ -240,12 +240,12 @@ namespace MarkdownMonster
             {
                 if (value == _editorZoomLevel) return;
                 _editorZoomLevel = value;
-                OnPropertyChanged(nameof(EditorZoomLevel));
+                OnPropertyChanged(nameof(EditorZoomLevel));                
                 _editorZoomLevel = value;
             }
         }
-
         private int _editorZoomLevel = 100;
+        
 
         /// <summary>
         /// Determines whether the active line is highlighted in the editor

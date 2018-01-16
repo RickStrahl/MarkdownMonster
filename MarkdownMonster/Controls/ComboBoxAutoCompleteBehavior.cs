@@ -106,9 +106,7 @@ namespace MarkdownMonster.Controls
         private void TextBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Escape || e.Key == Key.Enter || e.Key == Key.Tab || e.Key == Key.LeftShift)
-                return;
-
-            Debug.WriteLine($"kEY UP: {e.Key} - {e.KeyStates}");
+                return;            
             UpdateAutoCompleteItems(SourceComboBox);
         }
         

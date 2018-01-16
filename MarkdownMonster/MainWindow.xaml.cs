@@ -142,8 +142,6 @@ namespace MarkdownMonster
 		{
 			InitializeComponent();
 
-            // not working in XAML due to XML formatting
-		    StatusZoomLevel.ItemStringFormat = "{0}\\%";
             
             Model = new AppModel(this);
 		    AddinManager.Current.RaiseOnModelLoaded(Model);
@@ -1930,12 +1928,12 @@ namespace MarkdownMonster
         private void StatusZoomLevel_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             var text = StatusZoomLevel.Text;
-            text = text.Replace("%","");
-     
+            text = text.Replace("%", "");
             if (int.TryParse(text, out int num))
+            {
                 Model.Configuration.EditorZoomLevel = num;
-
-            Model.ActiveEditor?.RestyleEditor();
+                Model.ActiveEditor?.RestyleEditor();
+            }
         }
 
         private void StatusZoomLevel_SelectionChanged(object sender, SelectionChangedEventArgs e)

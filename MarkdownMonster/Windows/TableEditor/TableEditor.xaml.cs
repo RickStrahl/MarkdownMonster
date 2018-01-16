@@ -119,7 +119,7 @@ namespace MarkdownMonster.Windows
 
             ColumnKeyCommand = new CommandBase((parameter, command) =>
             {
-               Debug.WriteLine("column key pressed.");                
+                            
             }, (p, c) => true);
 
             

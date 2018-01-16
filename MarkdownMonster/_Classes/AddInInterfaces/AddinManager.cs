@@ -767,7 +767,6 @@ namespace MarkdownMonster.AddIns
                         {
                             // not using async here so we can wait for final list result          
                             // before returning
-                            Debug.WriteLine(ai.gitVersionUrl);
                             var dl = HttpUtils.JsonRequest<AddinItem>(new HttpRequestSettings
                             {
                                 Url = ai.gitVersionUrl
