@@ -50,11 +50,23 @@ namespace MarkdownMonster
         }
         
 
+        
         // IMPORTANT: for browser COM CSE errors which can happen with script errors
+
+        /// <summary>
+        /// Renders the current document or passed in HTML in the Web Browser preview
+        /// or external preview
+        /// </summary>
+        /// <param name="editor">An instance of the active document editor</param>
+        /// <param name="keepScrollPosition">True if scroll position should be maintained if possible</param>
+        /// <param name="showInBrowser">If true renders in an external browser.</param>
+        /// <param name="renderedHtml">Optional - pass in an HTML string. If null active document is rendered to HTML</param>
         [HandleProcessCorruptedStateExceptions]
         [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-        public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false,
-            bool showInBrowser = false)
+        public void PreviewMarkdown(MarkdownDocumentEditor editor = null,
+            bool keepScrollPosition = false,
+            bool showInBrowser = false,
+            string renderedHtml = null)
         {
             try
             {
@@ -70,12 +82,20 @@ namespace MarkdownMonster
 
                 var doc = editor.MarkdownDocument;
                 var ext = Path.GetExtension(doc.Filename).ToLower().Replace(".", "");
+                
+                string mappedTo = "markdown";
+                if (!string.IsNullOrEmpty(renderedHtml))
+                {
+                    mappedTo = "html";
+                    ext = null;
+                }
+                else
+                {
+                    // only show preview for Markdown and HTML documents
+                    Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out mappedTo);
+                    mappedTo = mappedTo ?? string.Empty;
+                }
 
-                string renderedHtml = null;
-
-                // only show preview for Markdown and HTML documents
-                Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
-                mappedTo = mappedTo ?? string.Empty;
                 if (string.IsNullOrEmpty(ext) || mappedTo == "markdown" || mappedTo == "html")
                 {
                     dynamic dom = null;
@@ -95,20 +115,25 @@ namespace MarkdownMonster
 
                     if (mappedTo == "html")
                     {
-                        if (!editor.MarkdownDocument.WriteFile(editor.MarkdownDocument.HtmlRenderFilename,
-                                editor.MarkdownDocument.CurrentText))
+                        if (string.IsNullOrEmpty(renderedHtml))
+                            renderedHtml = editor.MarkdownDocument.CurrentText;
+
+                        if (!editor.MarkdownDocument.WriteFile(editor.MarkdownDocument.HtmlRenderFilename,renderedHtml))
                             // need a way to clear browser window
                             return;
                     }
                     else
                     {
                         bool usePragma = !showInBrowser && mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.None;
-                        renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: usePragma,
-                                        renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
+                        if (string.IsNullOrEmpty(renderedHtml))
+                            renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: usePragma,
+                                renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
+
                         if (renderedHtml == null)
                         {
                             Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
-                            Window.ShowStatus($"Access denied: {Path.GetFileName(editor.MarkdownDocument.Filename)}", 5000);
+                            Window.ShowStatus($"Access denied: {Path.GetFileName(editor.MarkdownDocument.Filename)}",
+                                5000);
                             // need a way to clear browser window
 
                             return;
@@ -155,7 +180,7 @@ namespace MarkdownMonster
                                     // much more efficient and non-jumpy and no wait cursor
                                     var window = dom.parentWindow;
                                     window.updateDocumentContent(renderedHtml);
-                                    
+
                                     try
                                     {
                                         // scroll preview to selected line
@@ -206,7 +231,7 @@ namespace MarkdownMonster
 
         private DateTime invoked = DateTime.MinValue;
 
-        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false)
+        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null)
         {
             if (!mmApp.Configuration.IsPreviewVisible)
                 return;
@@ -223,7 +248,7 @@ namespace MarkdownMonster
                     {
                         try
                         {
-                            PreviewMarkdown(editor, keepScrollPosition);
+                            PreviewMarkdown(editor, keepScrollPosition, renderedHtml: renderedHtml);
                         }
                         catch (Exception ex)
                         {

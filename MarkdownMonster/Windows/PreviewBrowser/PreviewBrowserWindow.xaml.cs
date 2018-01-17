@@ -142,16 +142,15 @@ namespace MarkdownMonster.Windows
         }
 
 
-        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor, bool keepScrollPosition)
+        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor, bool keepScrollPosition, string renderedHtml = null)
         {
-            PreviewBrowser.PreviewMarkdownAsync(editor, keepScrollPosition);
+            PreviewBrowser.PreviewMarkdownAsync(editor, keepScrollPosition, renderedHtml);
         }
 
-        public void PreviewMarkdown(MarkdownDocumentEditor editor, bool keepScrollPosition, bool showInBrowser)
+        public void PreviewMarkdown(MarkdownDocumentEditor editor, bool keepScrollPosition, bool showInBrowser, string renderedHtml = null)
         {
-            PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition);
+            PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition,showInBrowser,renderedHtml);
         }
-
 
         private void CheckPreviewAlwaysOnTop_Click(object sender, RoutedEventArgs e)
         {
