@@ -336,16 +336,42 @@ namespace MarkdownMonster
 
 		    return true;
 	    }
-		#endregion
 
-	    #region Shell Operations
-	    /// <summary>
-	    /// Opens the configured image editor. If command can't be executed
-	    /// the function returns false
-	    /// </summary>
-	    /// <param name="folder"></param>
-	    /// <returns>false if process couldn't be started - most likely invalid link</returns>
-	    public static bool OpenTerminal(string folder)
+        /// <summary>
+        /// Returns the image media type for a give file extension based
+        /// on a filename or url passed in.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static string GetImageMediaTypeFromFilename(string file)
+        {
+            if (string.IsNullOrEmpty(file))
+                return file;
+
+            string ext = Path.GetExtension(file).ToLower();
+            if (ext == ".jpg" || ext == ".jpeg")
+                return "image/jpeg";
+            if (ext == ".png")
+                return "image/png";
+            if (ext == ".gif")
+                return "image/gif";
+            if (ext == ".bmp")
+                return "image/bmp";
+            if (ext == ".tif" || ext == ".tiff")
+                return "image/tiff";
+
+            return "application/image";
+        }
+        #endregion
+
+        #region Shell Operations
+        /// <summary>
+        /// Opens the configured image editor. If command can't be executed
+        /// the function returns false
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns>false if process couldn't be started - most likely invalid link</returns>
+        public static bool OpenTerminal(string folder)
 	    {
 		    try
 		    {
