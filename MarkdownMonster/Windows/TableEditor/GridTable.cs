@@ -46,6 +46,8 @@ namespace MarkdownMonster.Windows
         public static readonly DependencyProperty TableSourceProperty =
             DependencyProperty.Register("TableSource", typeof(ObservableCollection<ObservableCollection<CellContent>>), typeof(GridTable), new PropertyMetadata(null, TableSourceChanged));
 
+        internal bool PreventRecursiveUpdates { get; set; } = false;
+
         private static void TableSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var table = d as GridTable;
@@ -55,13 +57,23 @@ namespace MarkdownMonster.Windows
 
             table.RepopulateChildren(data);
 
-            data.CollectionChanged += (s, e2) => { table.RepopulateChildren(data); };
+            data.CollectionChanged += (s, e2) =>
+            {
+                if (!table.PreventRecursiveUpdates)
+                    table.RepopulateChildren(data);
+            };
             foreach (var row in data)
-                row.CollectionChanged += (s, e2) => { table.RepopulateChildren(data); };
+                row.CollectionChanged += (s, e2) =>
+                {
+                    if (!table.PreventRecursiveUpdates)
+                        table.RepopulateChildren(data);
+                };
         }
 
         private void RepopulateChildren(ObservableCollection<ObservableCollection<CellContent>> data)
-        {            
+        {
+            Debug.WriteLine("RepopulateChildren called");
+
             Children.Clear();
             RowDefinitions.Clear();
             ColumnDefinitions.Clear();
@@ -89,9 +101,7 @@ namespace MarkdownMonster.Windows
 
                 Children.Add(columnText);
                 Grid.SetColumn(columnText, columnCounter);
-                columnCounter++;
-
-                columnText.KeyUp += KeyUpAndDownHandler;
+                columnCounter++;                
             }
 
             var rowCount = 1;
@@ -102,8 +112,9 @@ namespace MarkdownMonster.Windows
 
                 foreach (var column in row)
                 {
-                    var columnText = NewTextBox();                    
+                    var columnText = NewTextBox();
                     columnText.Tag = new TablePosition { Column = columnCounter, Row = rowCount };
+
                     var binding = new Binding("Text") { Source = column, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, Mode = BindingMode.TwoWay };
                     columnText.SetBinding(TextBox.TextProperty, binding);
                     columnText.ContextMenu = contextMenu;
@@ -112,9 +123,6 @@ namespace MarkdownMonster.Windows
                     Grid.SetRow(columnText, rowCount);
                     columnCounter++;
 
-                    columnText.SpellCheck.IsEnabled = true;
-
-                    columnText.KeyUp += KeyUpAndDownHandler;
                 }
                 rowCount++;
             }
@@ -196,22 +204,29 @@ namespace MarkdownMonster.Windows
 
         public void AddColumn(int currentRow, int currentColumn, ColumnInsertLocation insertLocation)
         {
+            PreventRecursiveUpdates = true;
+
             foreach (var row in TableSource)
             {
                 var newCell = new CellContent(string.Empty);
                 if (insertLocation == ColumnInsertLocation.Right)
                 {
-                    row.Insert(currentColumn + 1, newCell);
-                    RepopulateChildren(TableSource);
-                    SelectColumn(currentRow, currentColumn + 1);
+                    row.Insert(currentColumn + 1, newCell);                                                     
                 }
                 else
                 {
-                    row.Insert(currentColumn, newCell);
-                    RepopulateChildren(TableSource);
-                    SelectColumn(currentRow, currentColumn);
+                    row.Insert(currentColumn, newCell);                                        
                 }
             }
+
+            PreventRecursiveUpdates = false;
+
+            RepopulateChildren(TableSource);
+
+            if (insertLocation == ColumnInsertLocation.Right)
+                SelectColumn(currentRow, currentColumn + 1);
+            else
+                SelectColumn(currentRow, currentColumn);
         }
 
         public void AddRow(int currentRow, int currentColumn, RowInsertLocation insertLocation)
@@ -219,6 +234,8 @@ namespace MarkdownMonster.Windows
             var row = TableSource[currentRow] as ObservableCollection<CellContent>;
             if (row == null)
                 return;
+
+            PreventRecursiveUpdates = true;
 
             var newCell = new CellContent(string.Empty);
             if (insertLocation == RowInsertLocation.Below)
@@ -228,8 +245,6 @@ namespace MarkdownMonster.Windows
                     newRow.Add(new CellContent(string.Empty));
 
                 TableSource.Insert(currentRow + 1, newRow);
-                RepopulateChildren(TableSource);
-                SelectColumn(currentRow + 1, 0);
             }
             else
             {
@@ -238,9 +253,19 @@ namespace MarkdownMonster.Windows
                     newRow.Add(new CellContent(string.Empty));
 
                 TableSource.Insert(currentRow, newRow);
-                RepopulateChildren(TableSource);
-                SelectColumn(currentRow, 0);
             }
+
+
+            PreventRecursiveUpdates = false;
+
+            RepopulateChildren(TableSource);
+
+            if (insertLocation == RowInsertLocation.Below)
+                SelectColumn(currentRow + 1, 0);
+            else
+                SelectColumn(currentRow, 0);
+
+
         }
 
         public void DeleteRow(int currentRow, int currentColumn)
@@ -270,12 +295,15 @@ namespace MarkdownMonster.Windows
 
         public TextBox NewTextBox() //(int rowIndex, int columnIndex)
         {
-            var text = new TextBox();
-            text.GotFocus += (s, e) =>
-            {
+            var tb = new TextBox();
 
-            };
-            return text;
+            tb.KeyUp += KeyUpAndDownHandler;
+
+            //columnText.SpellCheck.IsEnabled = true; // VERY SLOW - use events instead
+            tb.GotFocus += (s, args) => { tb.SpellCheck.IsEnabled = true; };
+            tb.LostFocus += (s, args) => { tb.SpellCheck.IsEnabled = false; };
+
+            return tb;
         }
         #endregion
 

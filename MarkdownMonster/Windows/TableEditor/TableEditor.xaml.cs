@@ -14,6 +14,7 @@ using MarkdownMonster.Annotations;
 using Microsoft.Win32;
 using Westwind.Utilities;
 using Binding = System.Windows.Data.Binding;
+using Clipboard = System.Windows.Clipboard;
 using Control = System.Windows.Controls.Control;
 using MessageBox = System.Windows.MessageBox;
 using TextBox = System.Windows.Controls.TextBox;
@@ -126,10 +127,6 @@ namespace MarkdownMonster.Windows
             DataContext = this;
         }
 
-        private void ParseTableData(string tableHtml)
-        {
-         
-        }
 
         private void CreateTable()
         {
@@ -204,11 +201,17 @@ namespace MarkdownMonster.Windows
                 Cancelled = true;
                 Close();
             }
+            else if (sender == ButtonPasteHtml)
+            {
+                CreateTableFromClipboardHtml();
+            }
+
+
 
             var focusedTextBox = FocusManager.GetFocusedElement(this) as TextBox;
             if (focusedTextBox == null)
                 return;
-            
+
             if (sender == ButtonInsertColumnRight || "MenuInsertColumnRight" == name)
             {
                 var pos = focusedTextBox.Tag as TablePosition;
@@ -239,7 +242,46 @@ namespace MarkdownMonster.Windows
                 var pos = focusedTextBox.Tag as TablePosition;
                 DataGridTableEditor.DeleteRow(pos.Row, pos.Column);
             }
-            
+
+        }
+
+        public void CreateTableFromClipboardHtml(string html = null)
+        {
+            if (string.IsNullOrEmpty(html))
+            {
+                html = ClipboardHelper.GetHtmlFromClipboard();
+                if (string.IsNullOrEmpty(html))
+                    html = Clipboard.GetText();
+            }
+
+            var parser = new TableParser();
+
+            ObservableCollection<ObservableCollection<CellContent>> data = null;
+            if (html.Contains("<tr>"))
+            {
+                data = parser.ParseHtmlToData(html);
+            }
+            else if (html.Contains("-|-") || html.Contains("- | -") || html.Contains(""))
+            {
+                data = parser.ParseMarkdownToData(html);
+            }
+            else if (html.Contains("-|-") || html.Contains("- | -") || html.Contains(""))
+            {
+                data = parser.ParseMarkdownToData(html);
+            }
+            else if (html.Contains("-+-"))
+            {
+                data = parser.ParseMarkdownGridTableToData(html);
+            }
+
+            if (data == null || data.Count < 1)
+            {
+                AppModel.Window.ShowStatus("No HTML Table to process found...", 6000);
+                return;
+            }
+
+            TableData = data;
+            DataGridTableEditor.TableSource = TableData;
         }
 
         

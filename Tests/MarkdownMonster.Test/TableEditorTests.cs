@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -87,6 +87,26 @@ namespace MarkdownMonster.Test
 
             Assert.IsTrue(data.Count == 4, "Table should have returned 4 rows");
             Assert.IsTrue(data[1][1].Text == "Column 2");
+        }
+
+        [TestMethod]
+        public void ParseMarkdownPipeTableToDataTest2()
+        {
+            string md = @"
+a  | b 
+--|--
+0  | 1 
+3  | 4
+";
+
+            var parser = new TableParser();
+            var data = parser.ParseMarkdownToData(md);
+
+            Console.WriteLine(data.Count);
+            Console.WriteLine(parser.ToPipeTableMarkdown(data));
+
+            Assert.IsTrue(data.Count == 3, "Table should have returned 3 rows");
+            Assert.IsTrue(data[1][1].Text == "1");
         }
 
         [TestMethod]
@@ -184,6 +204,130 @@ namespace MarkdownMonster.Test
 
         }
 
+        [TestMethod]
+        public void SimpleHtmlTableToData()
+        {
+            string html = @"
+<table>
+<thead>
+<tr>
+    <th>Column1</th>
+    <th>Column2</th>
+    <th>Column3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>Column1 Row 1</td>
+    <td>Column2 Row 1</td>
+    <td>Column3 Row 1</td>
+</tr>
+<tr>
+    <td>Column1 Row 2</td>
+    <td>Column2 Row 2</td>
+    <td>Column3 Row 2</td>
+</tr>
+<tr>
+    <td>Column1 Row 3</td>
+    <td>Column2 Row 3</td>
+    <td>Column3 Row 3</td>
+</tr>
+</tbody>
+</html>
+";
+
+            var parser = new TableParser();
+            var data = parser.ParseHtmlToData(html);
+
+            Assert.IsNotNull(data);
+
+            Console.WriteLine(data.Count);
+            Console.WriteLine(parser.ToGridTableMarkdown(data));
+
+        }
+
+
+        [TestMethod]
+        public void SimpleHtmlTableNoHeaderToData()
+        {
+            string html = @"
+<table>
+<tbody>
+<tr>
+    <td>Column1</td>
+    <td>Column2</td>
+    <td>Column3</td>
+</tr>
+<tr>
+    <td>Column1 Row 1</td>
+    <td>Column2 Row 1</td>
+    <td>Column3 Row 1</td>
+</tr>
+<tr>
+    <td>Column1 Row 2</td>
+    <td>Column2 Row 2</td>
+    <td>Column3 Row 2</td>
+</tr>
+<tr>
+    <td>Column1 Row 3</td>
+    <td>Column2 Row 3</td>
+    <td>Column3 Row 3</td>
+</tr>
+</tbody>
+</html>
+";
+
+            var parser = new TableParser();
+            var data = parser.ParseHtmlToData(html);
+
+            Assert.IsNotNull(data);
+
+            Console.WriteLine(data.Count);
+            Console.WriteLine(parser.ToGridTableMarkdown(data));
+
+        }
+
+        [TestMethod]
+        public void SimpleHtmlTableWithBasicMarkupToData()
+        {
+            string html = @"
+<table>
+<tr>
+    <th>Column1</th>
+    <th>Column2</th>
+    <th>Column3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>Column1 Row 1</td>
+    <td>Column2 Row 1</td>
+    <td>Column3 Row 1</td>
+</tr>
+<tr>
+    <td><img src=""https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_32.png"" />Column1 <b>RowBold</b> 2<img src=""https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_32.png""/></td>
+    <td><a href=""https://west-wind.com"">Column2</a> <a href=""http://google.com"">Row 2</a></td>
+    <td>Column3 Row 2</td>
+</tr>
+<tr>
+    <td>Column1 Row 3</td>
+    <td>Column2 Row 3</td>
+    <td>Column3 Row 3</td>
+</tr>
+</table>
+";
+
+            var parser = new TableParser();
+            var data = parser.ParseHtmlToData(html);
+
+            Assert.IsNotNull(data);
+
+            Console.WriteLine(data.Count);
+            Console.WriteLine(parser.ToGridTableMarkdown(data));
+
+        }
+
+
 
         ObservableCollection<ObservableCollection<CellContent>> GetTableData()
         {
@@ -197,6 +341,8 @@ namespace MarkdownMonster.Test
 
             return data;
         }
+
+
 
 
 

@@ -63,6 +63,16 @@
                             <TextBlock>Cancel</TextBlock>
                         </StackPanel>
                     </Button>
+
+
+                    <Button Name="ButtonPasteHtml" Click="Button_Click" ToolTip="Paste a table from clipboard from HTML or Pipe or Grid Tables"  >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="Paste"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                             />
+                            <TextBlock>Paste from Clipboard</TextBlock>
+                        </StackPanel>
+                    </Button>
                 </ToolBar>
 
                 <ToolBar>

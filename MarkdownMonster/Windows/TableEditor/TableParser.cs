@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
 
@@ -264,33 +265,47 @@ namespace MarkdownMonster.Windows
 
 
         /// <summary>
-        /// Parses a table represented as Markdown into an Observable collection
+        /// Parses a table represented as Markdown or HTML into an Observable collection
         /// </summary>
         /// <param name="tableMarkdown"></param>
         /// <returns></returns>
         public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownToData(string tableMarkdown)
         {
-
             var data = new ObservableCollection<ObservableCollection<CellContent>>();
             if (string.IsNullOrEmpty(tableMarkdown))
                 return data;
 
             if (tableMarkdown.Trim().StartsWith("+-") && tableMarkdown.Trim().EndsWith("-+"))
                 return ParseMarkdownGridTableToData(tableMarkdown);
+            if (tableMarkdown.Contains("<table>") && tableMarkdown.Contains("</table>"))
+                return ParseHtmlToData(tableMarkdown);
 
+            return ParseMarkdownPipeTableToData(tableMarkdown);
+        }
+
+
+        /// <summary>
+        /// Parses a Markdown Pipe Table to an Observable Data Collection
+        /// </summary>
+        /// <param name="tableMarkdown"></param>
+        /// <returns></returns>
+        ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownPipeTableToData(string tableMarkdown)
+        {
+            var data = new ObservableCollection<ObservableCollection<CellContent>>();
             var lines = StringUtils.GetLines(tableMarkdown.Trim());
             foreach (var row in lines)
             {
                 if (row.Length == 0)
                     continue;
-                
+
                 if (row.StartsWith("|--") || row.StartsWith("| --") ||
-                    row.StartsWith("|:-")  || row.StartsWith("| :-"))
+                    row.StartsWith("|:-") || row.StartsWith("| :-") ||
+                    row.StartsWith("--"))
                 {
                     if (!row.Contains(":"))
                         continue;
 
-                    var headerCols = row.TrimEnd().Split(new[] {'|'},StringSplitOptions.RemoveEmptyEntries);
+                    var headerCols = row.TrimEnd().Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < headerCols.Length; i++)
                     {
                         var sepLine = headerCols[i].Trim();
@@ -310,12 +325,16 @@ namespace MarkdownMonster.Windows
 
                 data.Add(columnData);
             }
-
-
+            
             return data;
         }
 
 
+        /// <summary>
+        /// Parses a Markdown Grid table to a Data Observable Collection
+        /// </summary>
+        /// <param name="tableMarkdown"></param>
+        /// <returns></returns>
         public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownGridTableToData(
             string tableMarkdown)
         {
@@ -386,6 +405,96 @@ namespace MarkdownMonster.Windows
             }
 
             return data;
+        }
+
+        public ObservableCollection<ObservableCollection<CellContent>> ParseHtmlToData(string html)
+        {
+            var data = new ObservableCollection<ObservableCollection<CellContent>>();
+            if (string.IsNullOrEmpty(html))
+                return data;
+
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            var headerRow = doc.DocumentNode.SelectSingleNode("//tr");
+            if (headerRow == null)
+                return data;
+      
+            var headerColumns = new ObservableCollection<CellContent>();
+            var headerCols = headerRow.SelectNodes("th");
+            if ( headerCols == null)
+                headerCols = headerRow.SelectNodes("td");
+            if (headerCols == null)
+                return data;
+
+            foreach (var node in headerCols)
+                headerColumns.Add(new CellContent(node.InnerText));
+
+            data.Add(headerColumns);
+            
+            var nodes = doc.DocumentNode.SelectNodes("//tr");
+            foreach (var trNode in nodes.Skip(1))
+            {
+                var rowColumns = new ObservableCollection<CellContent>();
+                var cols = trNode.SelectNodes("td");
+                foreach (var node in cols)
+                {
+                    string text;
+                    var nodeHtml = node.InnerHtml;
+                    if (!nodeHtml.Contains("<"))
+                        text  = node.InnerText;
+                    else
+                    {
+                        text = nodeHtml
+                            .Replace("<b>", "**")
+                            .Replace("</b>", "**")
+                            .Replace("<i>", "*")
+                            .Replace("</i>", "*");
+
+                        // convert links and images
+                        if (text.Contains("<"))
+                            text = ParseLinkAndImage(text);                                               
+                    }
+
+                    rowColumns.Add(new CellContent(text));
+                }
+
+                data.Add(rowColumns);
+            }
+
+            return data;
+        }
+
+        string ParseLinkAndImage(string html)
+        {
+            if (!html.Contains("<"))
+                return html;
+
+            // Pipe Tables don't support Markdown Links (but do support images. WTF?)
+            //string href = "x";
+            //while (!string.IsNullOrEmpty(href))
+            //{
+            //    href = StringUtils.ExtractString(html, "<a ", "</a>", returnDelimiters: true);
+            //    if (string.IsNullOrEmpty(href))
+            //        break;
+
+            //    var link = StringUtils.ExtractString(href, "href=\"", "\"");
+            //    var text = StringUtils.ExtractString(href, ">", "</a>");
+            //    html = html.Replace(href, $"[{text}]({link}]");
+            //}
+
+            string img = "x";
+            while (!string.IsNullOrEmpty(img))
+            {
+                img = StringUtils.ExtractString(html, "<img ", ">", returnDelimiters: true);
+                if (string.IsNullOrEmpty(img))
+                    break;
+
+                var src = StringUtils.ExtractString(img, "src=\"", "\"");
+                html = html.Replace(img, $"![]({src})");
+            }
+
+            return html;
         }
 
         /// <summary>

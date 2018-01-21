@@ -383,7 +383,7 @@ namespace MarkdownMonster
                         lineText = editor.GetLine(i);
                         if (lineText.Trim() == "</table>")
                         {
-                            startRow = i;
+                            endRow = i;
                             break;
                         }
                     }
