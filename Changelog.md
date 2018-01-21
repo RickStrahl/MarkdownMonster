@@ -4,6 +4,16 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
+### 1.8.16
+*<small>not released yet</small>*
+
+* **Add Table Editor support for Paste Table**   
+You can now paste a table from HTML, or Pipe or Grid Tables into the table editor. Note if the table is heavily formatted it'll likely end up as mostly HTML, but simple formatted tables with links, images and simple markup are converted. 
+
+* **Edit Table in Editor now also supports HTML Tables**  
+The editor context menu now allows editing of HTML Tables inside of the table editor. Inside of a table in the editor, right click (or use the Windows dropdow key with the cursor selected inside of table) to open the table in the editor. Support for complex HTML inside of cells is limited to plain text, links, images, bold and italic.
+
+
 ### 1.8.15
 *<small>January 16th, 2018</small>*
 
