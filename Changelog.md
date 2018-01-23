@@ -17,7 +17,7 @@ The editor context menu now allows editing of HTML Tables inside of the table ed
 Reworked the custom layout used to edit table rows that makes rebinding of table rows and columns much more efficiently than previously.
 
 * **Start Screen Improvements**  
-Fix recent file list on the Start Screen to refresh and accurately show recent files. Also tweaked the layout of the Recent Files list to be more easily readable and added tooltips to links to get full file names..
+Fix recent file list on the Start Screen to refresh and accurately show recent files. Also tweaked the layout of the Recent Files list to be more easily readable and added tooltips to links to get full file names.
 
 
 ### 1.8.15
