@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
@@ -100,5 +101,66 @@ public class StringComparisonInvertedToBooleanConverter : IValueConverter
         {
             throw new NotImplementedException();
         }        
+    }
+
+    public class FileNameFromPathConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string path = value as string;
+            if (string.IsNullOrEmpty(path))
+                return value;
+
+            return Path.GetFileName(path);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class FolderNameFromPathConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string path = value as string;
+            if (string.IsNullOrEmpty(path))
+                return value;
+
+            var folder = Path.GetDirectoryName(path);
+            folder = Path.GetFileName(folder);
+            //var folder = mmFileUtils.GetCompactPath(Path.GetDirectoryName(path),40);
+            return folder;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ShortFileNameDisplayConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string path = value as string;
+            if (string.IsNullOrEmpty(path))
+                return value;
+
+           int size = System.Convert.ToInt32(parameter);
+            if (size < 1)
+                size = 70;
+
+            return mmFileUtils.GetCompactPath(path, size);
+
+            //string folder = Path.GetFileName(Path.GetDirectoryName(path));
+            //return $"{Path.GetFileName(path)}  –  {folder}";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

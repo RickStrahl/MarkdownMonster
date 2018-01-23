@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -69,10 +70,6 @@ namespace MarkdownMonster
 
         private NamedPipeManager PipeManager { get; set; }
 
-
-      
-
-
         public IntPtr Hwnd
         {
             get
@@ -88,25 +85,7 @@ namespace MarkdownMonster
 
         private DateTime invoked = DateTime.MinValue;
 
-        public List<RecentDocumentListItem> RecentDocumentList
-        {
-            get
-            {
 
-                var list = Model.Configuration.RecentDocuments.Take(5);
-                var docs = new List<RecentDocumentListItem>();
-                foreach (var doc in list)
-                {
-                    docs.Add(new RecentDocumentListItem
-                    {
-                        Filename = doc,
-                        DisplayFilename = mmFileUtils.GetCompactPath(doc, 70)
-                    });
-                }
-                return docs;
-            }
-
-        }
 
 
         /// <summary>
@@ -172,13 +151,14 @@ namespace MarkdownMonster
 			mmApp.SetThemeWindowOverride(this);
 
             PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);
-        }
-
-
+		}
+       
         #region Opening and Closing
 
-		private void OnLoaded(object sender, RoutedEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs e)
 		{
+
+
             RestoreSettings();
 
 		    OpenFilesFromCommandLine();

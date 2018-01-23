@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -427,7 +428,7 @@ namespace MarkdownMonster
         /// List of recently opened files. Files opened and selected are
         /// added to the beginning of the list.
         /// </summary>
-        public List<string> RecentDocuments
+        public ObservableCollection<string> RecentDocuments
         {
             get { return _recentDocuments; }
             set
@@ -435,9 +436,33 @@ namespace MarkdownMonster
                 if (value == _recentDocuments) return;
                 _recentDocuments = value;
                 OnPropertyChanged(nameof(RecentDocuments));
+                OnPropertyChanged(nameof(RecentDocumentList));
             }
         }
-        private List<string> _recentDocuments = new List<string>();
+        private ObservableCollection<string> _recentDocuments = new ObservableCollection<string>();
+
+
+        /// <summary>
+        /// Internal property used to display the recent document list
+        /// </summary>
+        [JsonIgnore]
+        public ObservableCollection<RecentDocumentListItem> RecentDocumentList
+        {
+            get
+            {
+                var list = RecentDocuments.Take(5);
+                var docs = new ObservableCollection<RecentDocumentListItem>();
+                foreach (var doc in list)
+                {
+                    docs.Add(new RecentDocumentListItem
+                    {
+                        Filename = doc,
+                        DisplayFilename = mmFileUtils.GetCompactPath(doc, 70)
+                    });
+                }
+                return docs;
+            }
+        }
 
 
         /// <summary>
@@ -725,7 +750,11 @@ namespace MarkdownMonster
             OnPropertyChanged(nameof(RecentDocuments));
 
             if (RecentDocuments.Count > RecentDocumentsLength)
-                RecentDocuments = RecentDocuments.Take(RecentDocumentsLength).ToList();            
+            {
+                RecentDocuments.Clear();
+                foreach (var recent in RecentDocuments.Take(RecentDocumentsLength))
+                    RecentDocuments.Add(recent);
+            }
         }
 
 

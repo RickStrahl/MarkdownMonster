@@ -20,7 +20,7 @@
         ResizeMode="CanResizeWithGrip"		
 		FontSize="13"
         Height="740" Width="1100"  
-        MinWidth="800" MinHeight="640" 
+        MinWidth="800" MinHeight="700" 
         WindowTransitionsEnabled="False">
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt+Shift"
@@ -46,7 +46,10 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <localwindows:InvertedBooleanConverter  x:Key="InvertedBooleanConverter" />
         <localwindows:BooleanToCollapsedVisibilityConverter x:Key="BooleanToCollapsedVisibilityConverter" />
-        
+        <localwindows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
+        <localwindows:FolderNameFromPathConverter x:Key="FolderNameFromPathConverter" />
+
+
         <ObjectDataProvider x:Key="ApplicationThemeEnums"
                             MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -625,52 +628,51 @@
                    VerticalAlignment="Center" 
                    Grid.Row="0" Panel.ZIndex="0"/>
 
-                <TextBlock  FontSize="16" Grid.Row="0" Panel.ZIndex="10"
-                        VerticalAlignment="Center" HorizontalAlignment="Center" >                
-                <Run FontSize="44" Foreground="#9F9F9F" FontWeight="Bold">Markdown Monster</Run>
+                <TextBlock  FontSize="14" Grid.Row="0" Panel.ZIndex="10"
+                        VerticalAlignment="Center" HorizontalAlignment="Center" 
+                        LineHeight="22" LineStackingStrategy="MaxHeight">                
+                <Run FontSize="48" Foreground="#9F9F9F" FontWeight="Bold">Markdown Monster</Run>
                 <LineBreak />
-                <Run FontSize="20" FontWeight="SemiBold">Better Markdown Editing for Windows</Run>
-                <LineBreak />
-                
-                <LineBreak />
-                <Run>Here are a few things you can do:</Run>
-                <LineBreak />          
-                <LineBreak />          
-                    
-                <Run FontSize="20" FontWeight="DemiBold">Start</Run>
+                <Run FontSize="22" FontWeight="SemiBold">Better Markdown Editing for Windows</Run>
+       
+                <TextBlock Margin="0,10,0,10" Text="" />
+                <LineBreak/>
+
+                <Run FontSize="22" FontWeight="DemiBold">Start</Run>
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.NewDocumentCommand}">  New Document</Hyperlink> - ctrl-n
-                <LineBreak />                                                
-                <Hyperlink  Command="{Binding Commands.NewWeblogPostCommand}">  New Weblog Post</Hyperlink>
+                <LineBreak />
+                <Hyperlink Command="{Binding Commands.NewWeblogPostCommand}">  New Weblog Post</Hyperlink>
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.OpenDocumentCommand}">  Open Document...</Hyperlink> - ctrl-o
                 <LineBreak />             
-                <Hyperlink  Command="{Binding ShowFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
-                <LineBreak />
-                <LineBreak/>
+                <Hyperlink  FontSize="15" Command="{Binding ShowFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
                 
-                <Run FontSize="20" FontWeight="DemiBold" >Settings</Run>
+                <LineBreak />
+                <LineBreak />
+
+                <Run FontSize="22" FontWeight="DemiBold" >Settings</Run>
                 <LineBreak />
                 <Hyperlink  Command="{Binding SettingsCommand}">  Configure Markdown Monster Settings</Hyperlink>
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.AddinManagerCommand}">  Load Addin Manager</Hyperlink>
                 <LineBreak />
                 <LineBreak />
-                
-                
-                <Run FontSize="20" FontWeight="DemiBold">Recent</Run>
+                                
+                <Run FontSize="22" FontWeight="DemiBold">Recent Files</Run>
                 <LineBreak />                    
                     <StackPanel Name="StartPageRecentItems">       
-                        <ItemsControl ItemsSource="{Binding Window.RecentDocumentList}">
+                        <ItemsControl ItemsSource="{Binding Configuration.RecentDocuments}">
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Margin="0,3,0,0">
-                                        
-                                        
-                                        <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding Filename}"  >
-                                            <TextBlock Text="{Binding DisplayFilename}"    />
-                                        </Hyperlink>
-                                    </TextBlock>                                    
+                                <DataTemplate>                                    
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock  Width="320" ToolTip="{Binding .}">
+                                            <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding Filename}"  >
+                                                <TextBlock Text="{Binding ., Converter={StaticResource FileNameFromPathConverter }}"    />
+                                            </Hyperlink>
+                                        </TextBlock>                                    
+                                        <TextBlock Text="{Binding ., Converter={StaticResource FolderNameFromPathConverter }}" Opacity="0.70" FontSize="13"  />                                        
+                                    </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>                        

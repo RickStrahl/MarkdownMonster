@@ -186,7 +186,7 @@ namespace MarkdownMonster
                 return path;
 
             StringBuilder sb = new StringBuilder(length + 1);
-            PathCompactPathEx(sb, path, 70, 0);
+            PathCompactPathEx(sb, path, length +1, 0);
             return sb.ToString();
         }
 
