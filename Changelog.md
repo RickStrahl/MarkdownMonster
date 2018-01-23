@@ -13,6 +13,12 @@ You can now paste a table from HTML, or Pipe or Grid Tables into the table edito
 * **Edit Table in Editor now also supports HTML Tables**  
 The editor context menu now allows editing of HTML Tables inside of the table editor. Inside of a table in the editor, right click (or use the Windows dropdow key with the cursor selected inside of table) to open the table in the editor. Support for complex HTML inside of cells is limited to plain text, links, images, bold and italic.
 
+* **Performance improvements in Table Editor**  
+Reworked the custom layout used to edit table rows that makes rebinding of table rows and columns much more efficiently than previously.
+
+* **Start Screen Improvements**  
+Fix recent file list on the Start Screen to refresh and accurately show recent files. Also tweaked the layout of the Recent Files list to be more easily readable and added tooltips to links to get full file names..
+
 
 ### 1.8.15
 *<small>January 16th, 2018</small>*
