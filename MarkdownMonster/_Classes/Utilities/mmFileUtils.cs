@@ -470,6 +470,12 @@ namespace MarkdownMonster
         /// <returns>true or false. If false message parameter is set.</returns>
         public static bool CommitFileToGit(string filename, bool push, out string message)
         {
+            if (!mmApp.Model.ActiveDocument.Save())
+            {
+                message = "Couldn't save file.";
+                return false;
+            }
+
             //  git commit --only Build.ps1 -m "Updating documentation for readme.md."
             //  git push origin
 
