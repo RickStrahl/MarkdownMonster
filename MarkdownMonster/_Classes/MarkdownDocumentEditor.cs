@@ -1240,19 +1240,49 @@ namespace MarkdownMonster
                 }
                 else if (key == "ctrl-tab")
                 {
-                    var idx = Window.TabControl.SelectedIndex;
-                    idx++;
-                    if (idx > Window.TabControl.Items.Count -1)
-                        idx = 0;
-                    Window.TabControl.SelectedIndex = idx;
+                    var tab = Window.TabControl.SelectedItem;
+                    var tabs = Window.TabControl.GetOrderedHeaders().ToList();                    
+                    var selIndex = 0;
+                    bool found = false;
+                    foreach (var t in tabs)
+                    {
+                        selIndex++;
+                        if (t.Content == tab)
+                        {
+                            found = true;                         
+                            if (selIndex >= tabs.Count)
+                                selIndex = 0;
+                            break;
+                        }                        
+                    }
+                    if (!found)
+                        return;
+                    
+                    Window.TabControl.SelectedItem = tabs[selIndex].Content;
                 }
+
                 else if (key == "ctrl-shift-tab")
                 {
-                    var idx = Window.TabControl.SelectedIndex;
-                    idx--;
-                    if (idx < 0)
-                        idx = Window.TabControl.Items.Count - 1;
-                    Window.TabControl.SelectedIndex = idx;
+                    var tab = Window.TabControl.SelectedItem;
+                    var tabs = Window.TabControl.GetOrderedHeaders().ToList();
+                    var selIndex = 0;
+                    bool found = false;
+                    foreach (var t in tabs)
+                    {                        
+                        if (t.Content == tab)
+                        {
+                            found = true;
+                            selIndex--;
+                            if (selIndex < 0)
+                                selIndex = tabs.Count-1;                            
+                            break;
+                        }
+                        selIndex++;
+                    }
+                    if (!found)
+                        return;
+
+                    Window.TabControl.SelectedItem = tabs[selIndex].Content;
                 }
                 // zooming
                 else if (key == "ctrl-=")
