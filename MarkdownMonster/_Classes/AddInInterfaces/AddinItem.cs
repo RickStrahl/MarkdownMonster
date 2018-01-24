@@ -24,6 +24,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 using MarkdownMonster.Annotations;
@@ -35,6 +36,7 @@ namespace MarkdownMonster.AddIns
     /// Detail about an individual external add in 
     /// that is listed in the Addin Manager
     /// </summary>
+    [DebuggerDisplay("{id} {name}")]
     public class AddinItem : INotifyPropertyChanged
     {        
         /// <summary>

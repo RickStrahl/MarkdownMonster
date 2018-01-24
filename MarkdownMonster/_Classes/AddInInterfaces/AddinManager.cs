@@ -791,10 +791,11 @@ namespace MarkdownMonster.AddIns
                                             versionFile, typeof(AddinItem), false)
                                         as AddinItem;
 
-                                    ai.installedVersion = addinItem.version;                                                                        
-                                    if (addinItem != null && addinItem.version.CompareTo(ai.version) < 0)
+                                    if (addinItem != null)
                                     {
-                                        ai.updateAvailable = true;                                        
+                                        ai.installedVersion = addinItem.version;
+                                        if (addinItem.version.CompareTo(ai.version) < 0)
+                                            ai.updateAvailable = true;
                                     }
                                 }
                             }
@@ -810,7 +811,6 @@ namespace MarkdownMonster.AddIns
                         }
                     });
             
-
             return addinList
                 .Where(ai => ai.updated > new DateTime(2016, 1, 1))
                 .OrderBy(ai => ai.isInstalled ? 0 : 1)  
