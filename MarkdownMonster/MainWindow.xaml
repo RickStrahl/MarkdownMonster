@@ -707,6 +707,8 @@
                         <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
                         <MenuItem Header="View Html Source" Command="{Binding ViewHtmlSourceCommand}" />
                         <MenuItem  Header="Configure Preview Syncing" Click="Button_Handler" Name="MenuItemPreviewConfigureSync"/>
+                        <Separator />
+                        <MenuItem Header="Edit Preview Theme" Command="{Binding Commands.EditPreviewThemeCommand}"/>
                         <Separator/>
                         <MenuItem Header="Hide HTML Preview" 
                                   Command="{Binding PreviewBrowserCommand}"  IsCheckable="True"

@@ -45,8 +45,9 @@ namespace MarkdownMonster
             ToolbarInsertMarkdown();
             CloseActiveDocument();
             CloseAllDocuments();
-            
 
+            // Preview Browser
+            EditPreviewTheme();
 
             // Miscellaneous
             OpenAddinManager();
@@ -54,6 +55,8 @@ namespace MarkdownMonster
             CopyFolderToClipboard();
             TabControlFileList();
             ShowActiveTabsList();
+
+            
         }
 
         #region Files And File Management
@@ -576,8 +579,22 @@ Do you want to View in Browser now?
             }, (p, c) => true);
         }
 
-        
+        #endregion
 
+        #region Preview
+
+        public CommandBase EditPreviewThemeCommand { get; set; }
+
+        void EditPreviewTheme()
+        {
+            EditPreviewThemeCommand = new CommandBase((parameter, command) =>
+            {                
+                var path = Path.Combine(App.InitialStartDirectory, "PreviewThemes",Model.Configuration.RenderTheme);
+                mmFileUtils.OpenFileInExplorer(path);
+
+                mmFileUtils.ShowExternalBrowser("https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm");
+            }, (p, c) => true);
+        }
 
         #endregion
 
