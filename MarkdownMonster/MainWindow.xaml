@@ -505,7 +505,7 @@
                                 CommandParameter="h2" Content="H2" FontWeight="Bold"                                
                                 />
 
-                        <Button Name ="ButtonH3" Margin="3,0" ToolTip="H2 Text"
+                        <Button Name ="ButtonH3" Margin="3,0" ToolTip="H3 Text"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="h3" Content="H3" FontWeight="Bold"                                
                                 />
