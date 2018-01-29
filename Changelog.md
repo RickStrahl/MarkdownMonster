@@ -3,8 +3,13 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.9.1
+*<small>not released yet</small>*
 
-### 1.9
+* **Added Edit Preview Template in Preview Browser**  
+You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser. The link also opens the Preview Theme Editing documentation.
+
+### 1.9.0
 *<small>January 24, 2018</small>*
 #### Version Rollup Release
 

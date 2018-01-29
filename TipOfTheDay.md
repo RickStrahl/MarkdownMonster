@@ -1,3 +1,11 @@
+### Distraction Free Mode
+Did you know you can use Distraction Free mode in Markdown Monster to zoom the editor? Click on the Zoom icon in the window toolbar on the top right or ALT-SHIFT-ENTER to toggle. Also configurable via `DistractionFreeModeHideOptions`. #markdown
+https://video.twimg.com/tweet_video/DUu5z0gVQAA0dGt.mp4
+
+### Viewer Mode
+Did you know you can zoom the HTML preview in Markdown Monster? Press F11 or click on the full screen icon in the upper right window corner to toggle full screen mode to read through long documents. #markdown
+https://video.twimg.com/tweet_video/DUgIJB_U0AMomcE.mp4
+
 ### Right Click To Edit Images, Links and Tables
 Did you know you can right click on Image tags to preview or edit the image in your favorite image editor? You can also right click on a table and open the table editor, on a link and edit and update or remove the link.
 
