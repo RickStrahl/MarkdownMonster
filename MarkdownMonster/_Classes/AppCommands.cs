@@ -40,6 +40,11 @@ namespace MarkdownMonster
             // Settings
             PreviewModes();
             RemoveMarkdownFormatting();
+            WordWrap();
+            DistractionFreeMode();
+            PresentationMode();
+            PreviewBrowser();
+
 
             // Editor Commands
             ToolbarInsertMarkdown();
@@ -476,6 +481,201 @@ Do you want to View in Browser now?
                 }
             }, (p, c) => true);
         }
+
+
+
+        public CommandBase DistractionFreeModeCommand { get; set; }
+
+        void DistractionFreeMode()
+        {
+
+            var Window = Model.Window;
+
+            DistractionFreeModeCommand = new CommandBase((s, e) =>
+            {
+                GridLength glToolbar = new GridLength(0);
+                GridLength glMenu = new GridLength(0);
+                GridLength glStatus = new GridLength(0);
+
+                GridLength glFileBrowser = new GridLength(0);
+
+                if (Window.ToolbarGridRow.Height == glToolbar)
+                {
+                    Window.SaveSettings();
+
+                    glToolbar = GridLength.Auto;
+                    glMenu = GridLength.Auto;
+                    glStatus = GridLength.Auto;
+
+                    //mmApp.Configuration.WindowPosition.IsTabHeaderPanelVisible = true;
+                    Window.TabControl.IsHeaderPanelVisible = true;
+
+                    Model.IsPreviewBrowserVisible = true;
+                    Window.PreviewMarkdown();
+
+                    Window.WindowState = mmApp.Configuration.WindowPosition.WindowState;
+
+                    Model.IsFullScreen = false;
+
+                    Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+                }
+                else
+                {
+                    var tokens = mmApp.Configuration.DistractionFreeModeHideOptions.ToLower()
+                        .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (tokens.All(d => d != "menu"))
+                        glMenu = GridLength.Auto;
+
+                    if (tokens.All(d => d != "toolbar"))
+                        glToolbar = GridLength.Auto;
+
+                    if (tokens.All(d => d != "statusbar"))
+                        glStatus = GridLength.Auto;
+
+                    if (tokens.Any(d => d == "tabs"))
+                        Window.TabControl.IsHeaderPanelVisible = false;
+
+                    if (tokens.Any(d => d == "preview"))
+                    {
+                        Model.IsPreviewBrowserVisible = false;
+                        Window.ShowPreviewBrowser(hide: true);
+                    }
+
+                    mmApp.Configuration.WindowPosition.WindowState = Window.WindowState;
+                    if (tokens.Any(d => d == "maximized"))
+                        Window.WindowState = WindowState.Maximized;
+
+                    Window.ShowFolderBrowser(true);
+
+                    Model.IsFullScreen = true;
+                }
+
+                // toolbar     
+                Window.MainMenuGridRow.Height = glMenu;
+                Window.ToolbarGridRow.Height = glToolbar;
+                Window.StatusBarGridRow.Height = glStatus;
+            }, null);
+        }
+
+
+        public CommandBase PresentationModeCommand { get; set; }
+
+        void PresentationMode()
+        {
+            var window = Model.Window;
+
+            // PRESENTATION MODE
+            PresentationModeCommand = new CommandBase((s, e) =>
+            {
+                if (Model.IsFullScreen)
+                    DistractionFreeModeCommand.Execute(null);
+
+                GridLength gl = new GridLength(0);
+                if (window.WindowGrid.RowDefinitions[1].Height == gl)
+                {
+                    gl = GridLength.Auto; // toolbar height
+
+                    window.MainWindowEditorColumn.Width = new GridLength(1, GridUnitType.Star);
+                    window.MainWindowSeparatorColumn.Width = new GridLength(0);
+                    window.MainWindowPreviewColumn.Width =
+                        new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+
+                    window.PreviewMarkdown();
+
+                    window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+
+                    Model.IsPresentationMode = false;
+                }
+                else
+                {
+                    window.SaveSettings();
+
+                    mmApp.Configuration.WindowPosition.SplitterPosition =
+                        Convert.ToInt32(window.MainWindowPreviewColumn.Width.Value);
+
+                    // don't allow presentation mode for non-Markdown documents
+                    var editor = window.GetActiveMarkdownEditor();
+                    if (editor != null)
+                    {
+                        var file = editor.MarkdownDocument.Filename.ToLower();
+                        var ext = Path.GetExtension(file).Replace(".", "");
+
+                        Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
+                        mappedTo = mappedTo ?? string.Empty;
+                        if (file != "untitled" && mappedTo != "markdown" && mappedTo != "html")
+                        {
+                            // don't allow presentation mode for non markdown files
+                            Model.IsPresentationMode = false;
+                            Model.IsPreviewBrowserVisible = false;
+                            window.ShowPreviewBrowser(true);
+                            return;
+                        }
+                    }
+
+                    window.ShowPreviewBrowser();
+                    window.ShowFolderBrowser(true);
+
+                    window.MainWindowEditorColumn.Width = gl;
+                    window.MainWindowSeparatorColumn.Width = gl;
+                    window.MainWindowPreviewColumn.Width = new GridLength(1, GridUnitType.Star);
+
+                    Model.IsPresentationMode = true;
+                    Model.IsPreviewBrowserVisible = true;
+                }
+
+                window.WindowGrid.RowDefinitions[1].Height = gl;
+                //Window.WindowGrid.RowDefinitions[3].Height = gl;  
+            }, null);
+        }
+
+
+
+        public CommandBase PreviewBrowserCommand { get; set; }
+
+        void PreviewBrowser()
+        {
+            var window = Model.Window;
+            var config                = Model.Configuration;
+
+            PreviewBrowserCommand = new CommandBase((s, e) =>
+            {
+                var tab = window.TabControl.SelectedItem as TabItem;
+                if (tab == null)
+                    return;
+
+                var editor = tab.Tag as MarkdownDocumentEditor;
+
+                config.IsPreviewVisible = Model.IsPreviewBrowserVisible;
+
+                if (!Model.IsPreviewBrowserVisible && Model.IsPresentationMode)
+                    PresentationModeCommand.Execute(null);
+
+
+                window.ShowPreviewBrowser(!Model.IsPreviewBrowserVisible);
+                if (Model.IsPreviewBrowserVisible)
+                    window.PreviewMarkdown(editor);
+
+            }, null);
+
+
+        }
+
+        public CommandBase WordWrapCommand { get; set; }
+
+        void WordWrap()
+        {
+
+            // WORD WRAP COMMAND
+            WordWrapCommand = new CommandBase((parameter, command) =>
+                {
+                    //MessageBox.Show("alt-z WPF");
+                    Model.Configuration.EditorWrapText = !mmApp.Model.Configuration.EditorWrapText;
+                    Model.ActiveEditor?.SetWordWrap(mmApp.Model.Configuration.EditorWrapText);
+                },
+                (p, c) => Model.IsEditorActive);
+        }
+
 
 
         #endregion

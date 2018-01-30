@@ -210,7 +210,7 @@ namespace MarkdownMonster
 			Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
 			if (Model.IsPresentationMode)
 			{
-				Model.PresentationModeCommand.Execute(ToolButtonPresentationMode);
+				Model.Commands.PresentationModeCommand.Execute(ToolButtonPresentationMode);
 				Model.IsPreviewBrowserVisible = true;
 			}
 

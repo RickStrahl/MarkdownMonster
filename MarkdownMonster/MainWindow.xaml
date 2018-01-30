@@ -25,17 +25,17 @@
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt+Shift"
                     Key="Return"
-                    Command="{Binding  DistractionFreeModeCommand}" />
-        <KeyBinding Key="F11" Command="{Binding PresentationModeCommand}"/>
+                    Command="{Binding  Commands.DistractionFreeModeCommand}" />
+        <KeyBinding Key="F11" Command="{Binding Commands.PresentationModeCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding PrintPreviewCommand}" />
         
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Commands.SaveAsCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding Commands.NewDocumentCommand }"  />
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding Commands.OpenDocumentCommand }"    />
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
-        <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  CloseActiveDocumentCommand}" />
-        <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding CloseActiveDocumentCommand}" />
-        <KeyBinding Modifiers="Alt" Key="Z" Command="{Binding WordWrapCommand}" />
+        <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  Commands.CloseActiveDocumentCommand}" />
+        <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding Commands.CloseActiveDocumentCommand}" />
+        <KeyBinding Modifiers="Alt" Key="Z" Command="{Binding Commands.WordWrapCommand}" />
         <KeyBinding Key="F1" Command="{Binding Commands.HelpCommand}" />
         
         <!-- Commands that are handled in the Markdown Editor because they are not working here -->
@@ -101,7 +101,7 @@
                 <ToggleButton Name="ToolButtonPreview"  Foreground="{StaticResource BlueItem}"
                                 Margin="2,0,0,0"
                                 IsChecked="{Binding IsPreviewBrowserVisible}"
-                                Command="{Binding PreviewBrowserCommand}"                                  
+                                Command="{Binding Commands.PreviewBrowserCommand}"                                  
                                 ToolTip="open/hide the HTML Preview Pane (alt-v-p)"
                                 fa:Awesome.Content="Globe"
                                 TextElement.FontSize="16"                                
@@ -125,7 +125,7 @@
                                       IsCheckable="True" 
                                       InputGestureText="alt-v-p"
                                       IsChecked="{Binding IsPreviewBrowserVisible}"
-                                      Command="{Binding PreviewBrowserCommand}"
+                                      Command="{Binding Commands.PreviewBrowserCommand}"
                                       IsEnabled="{Binding IsEditorActive}">
                             </MenuItem>
                             <MenuItem Header="View in Web _Browser" 
@@ -153,7 +153,7 @@
                 <ToggleButton Name="ToolButtonFullScreen"   Foreground="{StaticResource BlueItem}"
 				              Margin="2,0"
                                       IsChecked="{Binding IsFullScreen}"
-                                      Command="{Binding DistractionFreeModeCommand}"                                                 
+                                      Command="{Binding Commands.DistractionFreeModeCommand}"                                                 
                                       ToolTip="toggle distraction free edit mode (alt-shift-enter). configure with: 'DistractionFreeModeHideOptions' setting."
                                  fa:Awesome.Content="ArrowsAlt"
                                 TextElement.FontSize="16"
@@ -162,7 +162,7 @@
                 <ToggleButton Name="ToolButtonPresentationMode"   Foreground="{StaticResource BlueItem}"
                               Margin="2,0"
                                       IsChecked="{Binding IsPresentationMode}"
-                                      Command="{Binding PresentationModeCommand}"                                                 
+                                      Command="{Binding Commands.PresentationModeCommand}"                                                 
                                       ToolTip="toggle presentation mode (F11)"
                                  fa:Awesome.Content="Desktop"
                                 TextElement.FontSize="16"
@@ -287,7 +287,7 @@
                           IsCheckable="True" 
                           InputGestureText="alt-v-p"
                           IsChecked="{Binding IsPreviewBrowserVisible}"
-                          Command="{Binding PreviewBrowserCommand}"
+                          Command="{Binding Commands.PreviewBrowserCommand}"
                           IsEnabled="{Binding IsEditorActive}">
                 </MenuItem>
                 <MenuItem Header="Internal Preview" IsCheckable="True" IsChecked="{Binding IsInternalPreview}"  Command="{Binding Commands.PreviewModesCommand}" CommandParameter="InternalPreview"/>
@@ -318,7 +318,7 @@
 	                      />
                 <MenuItem Name="ButtonDistractionFreeMode" 
                           Header="Toggle Distraction Free Mode"                         
-                          Command="{Binding DistractionFreeModeCommand}"
+                          Command="{Binding Commands.DistractionFreeModeCommand}"
                           ToolTip="Displays the editor in full screen mode"
                           IsCheckable="True"
                           IsChecked="{Binding IsFullScreen}"
@@ -327,7 +327,7 @@
                 <MenuItem Name="ButtonPresentationMode"
                           Header="Toggle Presentation Mode"                         
                           ToolTip="Displays the preview in full screen mode"
-                          Command="{Binding PresentationModeCommand}"
+                          Command="{Binding Commands.PresentationModeCommand}"
                           IsCheckable="True"
                           IsChecked="{Binding IsPresentationMode}"
                           InputGestureText="F11" 
@@ -335,7 +335,7 @@
                 <Separator />
                 <MenuItem Name="ButtonWordWrap" 
                           Header="_Word Wrap"      
-                          Command="{Binding WordWrapCommand}"                                                                   
+                          Command="{Binding Commands.WordWrapCommand}"                                                                   
                           IsCheckable="True"
                           InputGestureText="alt-z"
                           IsChecked="{Binding Configuration.EditorWrapText, Mode=OneWay}" />
@@ -711,7 +711,7 @@
                         <MenuItem Header="Edit Preview Theme" Command="{Binding Commands.EditPreviewThemeCommand}"/>
                         <Separator/>
                         <MenuItem Header="Hide HTML Preview" 
-                                  Command="{Binding PreviewBrowserCommand}"  IsCheckable="True"
+                                  Command="{Binding Commands.PreviewBrowserCommand}"  IsCheckable="True"
                                   IsChecked="{Binding IsPreviewBrowserVisible}" />
                     </ContextMenu>
                 </WebBrowser.ContextMenu>

@@ -419,34 +419,7 @@ namespace MarkdownMonster
 
 
         #region Commands
-        
-
-        public CommandBase PreviewBrowserCommand { get; set; }
-
-        void Command_PreviewBrowser()
-        {
-            PreviewBrowserCommand = new CommandBase((s, e) =>
-            {
-                var tab = Window.TabControl.SelectedItem as TabItem;
-                if (tab == null)
-                    return;
-
-                var editor = tab.Tag as MarkdownDocumentEditor;
-
-                Configuration.IsPreviewVisible = IsPreviewBrowserVisible;
-
-                if (!IsPreviewBrowserVisible && IsPresentationMode)
-                    PresentationModeCommand.Execute(null);
-
-
-                Window.ShowPreviewBrowser(!IsPreviewBrowserVisible);
-                if (IsPreviewBrowserVisible)
-                    Window.PreviewMarkdown(editor);
-
-            }, null);
-
-
-        }
+       
   
         
         public CommandBase SettingsCommand { get; set; }
@@ -505,146 +478,6 @@ We're now shutting down the application.
         }
 
 
-
-        public CommandBase DistractionFreeModeCommand { get; set; }
-
-        void Command_DistractionFreeMode()
-        {
-            DistractionFreeModeCommand = new CommandBase((s, e) =>
-            {
-                GridLength glToolbar = new GridLength(0);
-                GridLength glMenu = new GridLength(0);
-                GridLength glStatus = new GridLength(0);
-
-                GridLength glFileBrowser = new GridLength(0);
-
-                if (Window.ToolbarGridRow.Height == glToolbar)
-                {
-                    Window.SaveSettings();
-
-                    glToolbar = GridLength.Auto;
-                    glMenu = GridLength.Auto;
-                    glStatus = GridLength.Auto;
-
-                    //mmApp.Configuration.WindowPosition.IsTabHeaderPanelVisible = true;
-                    Window.TabControl.IsHeaderPanelVisible = true;
-
-                    IsPreviewBrowserVisible = true;
-                    Window.PreviewMarkdown();
-
-                    Window.WindowState = mmApp.Configuration.WindowPosition.WindowState;
-
-                    IsFullScreen = false;
-
-                    Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
-                }
-                else
-                {
-                    var tokens = mmApp.Configuration.DistractionFreeModeHideOptions.ToLower()
-                        .Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
-
-                    if (tokens.All(d => d != "menu"))
-                        glMenu = GridLength.Auto;
-
-                    if (tokens.All(d => d != "toolbar"))
-                        glToolbar = GridLength.Auto;
-
-                    if (tokens.All(d => d != "statusbar"))
-                        glStatus = GridLength.Auto;
-
-                    if (tokens.Any(d => d == "tabs"))
-                        Window.TabControl.IsHeaderPanelVisible = false;
-
-                    if (tokens.Any(d => d == "preview"))
-                    {
-                        IsPreviewBrowserVisible = false;
-                        Window.ShowPreviewBrowser(hide: true);
-                    }
-
-                    mmApp.Configuration.WindowPosition.WindowState = Window.WindowState;
-                    if (tokens.Any(d => d == "maximized"))
-                        Window.WindowState = WindowState.Maximized;
-
-                    Window.ShowFolderBrowser(true);
-
-                    IsFullScreen = true;
-                }
-
-                // toolbar     
-                Window.MainMenuGridRow.Height = glMenu;
-                Window.ToolbarGridRow.Height = glToolbar;
-                Window.StatusBarGridRow.Height = glStatus;
-            }, null);
-        }
-
-
-        public CommandBase PresentationModeCommand { get; set; }
-
-        void Command_PresentationMode()
-        {
-            // PRESENTATION MODE
-            PresentationModeCommand = new CommandBase((s, e) =>
-            {
-                if (IsFullScreen)
-                    DistractionFreeModeCommand.Execute(null);
-
-                GridLength gl = new GridLength(0);
-                if (Window.WindowGrid.RowDefinitions[1].Height == gl)
-                {
-                    gl = GridLength.Auto; // toolbar height
-
-                    Window.MainWindowEditorColumn.Width = new GridLength(1, GridUnitType.Star);
-                    Window.MainWindowSeparatorColumn.Width = new GridLength(0);
-                    Window.MainWindowPreviewColumn.Width =
-                        new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
-
-                    Window.PreviewMarkdown();
-
-                    Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
-
-                    IsPresentationMode = false;
-                }
-                else
-                {
-                    Window.SaveSettings();
-
-                    mmApp.Configuration.WindowPosition.SplitterPosition =
-                        Convert.ToInt32(Window.MainWindowPreviewColumn.Width.Value);
-
-                    // don't allow presentation mode for non-Markdown documents
-                    var editor = Window.GetActiveMarkdownEditor();
-                    if (editor != null)
-                    {
-                        var file = editor.MarkdownDocument.Filename.ToLower();
-                        var ext = Path.GetExtension(file).Replace(".", "");
-
-                        Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
-                        mappedTo = mappedTo ?? string.Empty;
-                        if (file != "untitled" && mappedTo != "markdown" && mappedTo != "html")
-                        {
-                            // don't allow presentation mode for non markdown files
-                            IsPresentationMode = false;
-                            IsPreviewBrowserVisible = false;
-                            Window.ShowPreviewBrowser(true);
-                            return;
-                        }
-                    }
-
-                    Window.ShowPreviewBrowser();
-                    Window.ShowFolderBrowser(true);
-
-                    Window.MainWindowEditorColumn.Width = gl;
-                    Window.MainWindowSeparatorColumn.Width = gl;
-                    Window.MainWindowPreviewColumn.Width = new GridLength(1, GridUnitType.Star);
-
-                    IsPresentationMode = true;
-                    IsPreviewBrowserVisible = true;
-                }
-
-                Window.WindowGrid.RowDefinitions[1].Height = gl;
-                //Window.WindowGrid.RowDefinitions[3].Height = gl;  
-            }, null);
-        }
 
 
                 
@@ -754,21 +587,6 @@ We're now shutting down the application.
         }
 
 
-        public CommandBase WordWrapCommand { get; set; }
-
-        void Command_WordWrap()
-        {
-
-            // WORD WRAP COMMAND
-            WordWrapCommand = new CommandBase((parameter, command) =>
-                {
-                    //MessageBox.Show("alt-z WPF");
-                    mmApp.Model.Configuration.EditorWrapText = !mmApp.Model.Configuration.EditorWrapText;
-                    mmApp.Model.ActiveEditor?.SetWordWrap(mmApp.Model.Configuration.EditorWrapText);
-                },
-                (p, c) => IsEditorActive);
-        }
-
         public CommandBase CopyAsHtmlCommand { get; set; }
 
         void Command_CopyAsHtml()
@@ -801,10 +619,6 @@ We're now shutting down the application.
 
         private void CreateCommands()
         {
-            Command_PreviewBrowser();            
-            Command_DistractionFreeMode();
-            Command_PresentationMode();
-            
             Command_Settings();            
             
             Command_ViewInExternalBrowser();
@@ -814,8 +628,7 @@ We're now shutting down the application.
             Command_ShowFolderBrowser();
             
             Command_GeneratePdf();
-            Command_CommitToGit();
-            Command_WordWrap();
+            Command_CommitToGit();            
             Command_CopyAsHtml();
         }
 
