@@ -541,6 +541,33 @@ namespace MarkdownMonster.AddIns
 
         }
 
+        /// <summary>
+        /// Checks all addins for a custom Preview Browser control to be used 
+        /// for previewing documents. First match wins. Returns null if
+        /// no custom controls are found.
+        /// 
+        /// This allows overriding the default preview browser.       
+        /// </summary>
+        /// <returns></returns>
+        public IPreviewBrowser RaiseGetPreviewBrowserControl()
+        {
+            foreach (var addin in AddIns)
+            {
+                try
+                {
+                    var preview = addin?.GetPreviewBrowserUserControl();
+                    if (preview != null)
+                        return preview;
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log(addin.Id + "::AddIn::GetPreviewBrowserControl Error: " + ex.GetBaseException().Message);
+                }
+            }
+
+            return null;
+        }
+
         #endregion
 
         #region Addin Manager

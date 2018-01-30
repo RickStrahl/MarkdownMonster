@@ -19,13 +19,7 @@ namespace MarkdownMonster.Windows
 
         IPreviewBrowser PreviewBrowser { get; set; }
 
-        //public bool IsVisible
-        //{
-        //    get { return Browser.Visibility == Visibility.Visible; }
-        //}
-
-
-        public PreviewBrowserWindow()
+         public PreviewBrowserWindow()
         {
             InitializeComponent();
 
@@ -42,10 +36,11 @@ namespace MarkdownMonster.Windows
         
         void LoadInternalPreviewBrowser()
         {
+            PreviewBrowser = AddinManager.Current.RaiseGetPreviewBrowserControl();
+            if (PreviewBrowser == null)
+                PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
 
-            // TODO: Need to dynamically load this
-            PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
-            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
+            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);            
         }
 
 

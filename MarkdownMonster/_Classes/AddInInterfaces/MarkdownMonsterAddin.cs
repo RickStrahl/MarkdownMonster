@@ -294,15 +294,6 @@ namespace MarkdownMonster.AddIns
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual IPreviewBrowser GetPreviewBrowserUserControl()
-        {
-            return null;
-        }
-
-        /// <summary>
         /// If this addin wants to provide a custom Markdown Parser this method can 
         /// be overriden to do it.
         /// </summary>
@@ -317,6 +308,16 @@ namespace MarkdownMonster.AddIns
             return GetMarkdownParser();
 #pragma warning restore CS0618 // Type or member is obsolete
 
+        }
+
+        /// <summary>
+        /// Allows returning a WPF control that implements IPreviewBrowser and 
+        /// that handles previewing the output from documents.
+        /// </summary>
+        /// <returns></returns>
+        public virtual IPreviewBrowser GetPreviewBrowserUserControl()
+        {
+            return null;
         }
 
         /// <summary>

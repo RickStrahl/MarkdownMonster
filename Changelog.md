@@ -9,6 +9,9 @@
 * **Added Edit Preview Template in Preview Browser**  
 You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser. The link also opens the Preview Theme Editing documentation.
 
+* **Refactored the Preview Browser to allow pluggable Preview Controls**  
+Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster.
+
 ### 1.9.0
 *<small>January 24, 2018</small>*
 #### Version Rollup Release

@@ -151,18 +151,10 @@ namespace MarkdownMonster
 			mmApp.SetThemeWindowOverride(this);
 
 
-		    LoadInternalPreviewBrowser();
+		    LoadPreviewBrowser();
 
 		}
 
-        void LoadInternalPreviewBrowser()
-        {
-            // TODO: Need to dynamically load this
-            
-            PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
-            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
-        }
-        
         #region Opening and Closing
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -1251,7 +1243,7 @@ namespace MarkdownMonster
                     // check if we're already active - if not assign and preview immediately
                     if (!(PreviewBrowser is PreviewBrowserWebBrowserControl))
                     {
-                        LoadInternalPreviewBrowser();
+                        LoadPreviewBrowser();
                         PreviewBrowser.PreviewMarkdownAsync();
 
                         if (_previewBrowserWindow != null && PreviewBrowserWindow.Visibility == Visibility.Visible)
@@ -1320,7 +1312,7 @@ namespace MarkdownMonster
                         _previewBrowserWindow = null;
 
                         // reset preview browser to internal so it's not null
-                        LoadInternalPreviewBrowser();
+                        LoadPreviewBrowser();
                     }
                 }
                 
@@ -1363,13 +1355,19 @@ namespace MarkdownMonster
                 mmApp.Configuration.FolderBrowser.Visible = true;                
             }
         }
+
+        public void LoadPreviewBrowser()
+        {            
+            PreviewBrowser = AddinManager.Current.RaiseGetPreviewBrowserControl();
+            if (PreviewBrowser == null)
+                PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
+
+            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
+        }
+
         #endregion
 
         #region Worker Functions
-
-
-
-
         public MarkdownDocumentEditor GetActiveMarkdownEditor()
 		{
 			var tab = TabControl?.SelectedItem as TabItem;
@@ -1870,16 +1868,13 @@ namespace MarkdownMonster
 
 			if (milliSeconds > 0)
 			{
+                // debounce rather than delay so if something else displays
+                // a message the delay timer is 'reset'
                 debounce.Debounce(milliSeconds,(win) =>
                 {
                         var window = win as MainWindow;
                         window.ShowStatus(null, 0);
                 }, this);
-                //            Dispatcher.DelayWithPriority(milliSeconds, (win) =>
-                //{
-                //	var window = win as MainWindow;
-                //	window.ShowStatus(null, 0);
-                //}, this);
             }
 			WindowUtilities.DoEvents();
 		}
