@@ -774,8 +774,7 @@ namespace ScreenCaptureAddin
                     //If the message is WM_MOUSEWHEEL, the high-order word of mouseData member is the wheel delta. 
                     //One wheel click is defined as WHEEL_DELTA, which is 120. 
                     //(value >> 16) & 0xffff; retrieves the high-order word from the given 32-bit value
-                    mouseDelta = (short) ((mouseHookStruct.mouseData >> 16) & 0xffff);
-                    //TODO: X BUTTONS (I havent them so was unable to test)
+                    mouseDelta = (short) ((mouseHookStruct.mouseData >> 16) & 0xffff);                    
                     //If the message is WM_XBUTTONDOWN, WM_XBUTTONUP, WM_XBUTTONDBLCLK, WM_NCXBUTTONDOWN, WM_NCXBUTTONUP, 
                     //or WM_NCXBUTTONDBLCLK, the high-order word specifies which X button was pressed or released, 
                     //and the low-order word is reserved. This value can be one or more of the following values. 

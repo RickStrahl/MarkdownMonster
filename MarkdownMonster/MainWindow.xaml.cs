@@ -158,6 +158,7 @@ namespace MarkdownMonster
         void LoadInternalPreviewBrowser()
         {
             // TODO: Need to dynamically load this
+            
             PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
             PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
         }
@@ -1095,9 +1096,8 @@ namespace MarkdownMonster
 			if (TabControl.Items.Count == 0)
 			{
 				PreviewBrowserContainer.Visibility = Visibility.Hidden;
+			    PreviewBrowser.Navigate("about:blank");
 
-                //TODO: Navigate inside of container
-			    ((IPreviewBrowser) PreviewBrowserContainer.Children[0]).Navigate("about:blank");
 				Model.ActiveDocument = null;
 				Title = "Markdown Monster" +
 				        (UnlockKey.Unlocked ? "" : " (unregistered)");
@@ -1255,7 +1255,10 @@ namespace MarkdownMonster
                         PreviewBrowser.PreviewMarkdownAsync();
 
                         if (_previewBrowserWindow != null && PreviewBrowserWindow.Visibility == Visibility.Visible)
+                        {
                             PreviewBrowserWindow.Close();
+                            _previewBrowserWindow = null;
+                        }
                     }
 
                     MainWindowSeparatorColumn.Width = new GridLength(12);
@@ -1272,7 +1275,9 @@ namespace MarkdownMonster
                 else if(Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
                 {
                     // make sure it's visible
-                    PreviewBrowserWindow.Show();
+                    //bool visible = PreviewBrowserWindow.Visibility == Visibility.Visible;
+                    PreviewBrowserWindow.Show();                        
+                    
 
                     // check if we're already active - if not assign and preview immediately
                     if (!(PreviewBrowser is PreviewBrowserWindow))
@@ -1280,6 +1285,7 @@ namespace MarkdownMonster
                         PreviewBrowser = PreviewBrowserWindow;
                         PreviewBrowser.PreviewMarkdownAsync();
                     }
+                    
 
                     if (MainWindowPreviewColumn.Width.Value > 100)
                         mmApp.Configuration.WindowPosition.SplitterPosition =
@@ -1309,8 +1315,12 @@ namespace MarkdownMonster
                 else if (Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
                 {
                     if (_previewBrowserWindow != null)
+                    {
                         PreviewBrowserWindow.Close();
+                        _previewBrowserWindow = null;                        
+                    }
                 }
+                PreviewBrowser = null;
             }
         }
 

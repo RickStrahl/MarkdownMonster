@@ -19,7 +19,7 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
-    public class PreviewWebBrowserHandler : IPreviewBrowser
+    public class IEWebBrowserPreviewHandler : IPreviewBrowser
     {
         /// <summary>
         /// Instance of the Web Browser control that hosts ACE Editor
@@ -50,7 +50,7 @@ namespace MarkdownMonster
 
         private bool _isVisible;
 
-        public PreviewWebBrowserHandler(WebBrowser browser)
+        public IEWebBrowserPreviewHandler(WebBrowser browser)
         {
             WebBrowser = browser;
             Model = mmApp.Model;
@@ -150,7 +150,7 @@ namespace MarkdownMonster
 
                             return;
                         }
-
+                            
                         renderedHtml = StringUtils.ExtractString(renderedHtml,
                             "<!-- Markdown Monster Content -->",
                             "<!-- End Markdown Monster Content -->");
@@ -254,10 +254,8 @@ namespace MarkdownMonster
             if (invoked == DateTime.MinValue) // || current.Subtract(invoked).TotalMilliseconds > 4000)
             {
                 invoked = current;
-
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
-                    new Action(() =>
-                    {
+                Application.Current.Dispatcher.InvokeAsync(
+                    () => {
                         try
                         {
                             PreviewMarkdown(editor, keepScrollPosition, renderedHtml: renderedHtml);
@@ -270,7 +268,7 @@ namespace MarkdownMonster
                         {
                             invoked = DateTime.MinValue;
                         }
-                    }));
+                    }, DispatcherPriority.ApplicationIdle);
             }
         }
 

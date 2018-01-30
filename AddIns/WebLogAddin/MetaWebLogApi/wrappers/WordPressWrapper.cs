@@ -154,8 +154,7 @@ namespace WebLogAddin.MetaWebLogApi
         /// <param name="comment_id"></param>
         /// <returns></returns>
         public bool DeleteComment(string comment_id)
-        {
-            //todo: make validation better - add clearer error handling
+        {            
             try
             {
                 var comment = GetComment(comment_id); ;

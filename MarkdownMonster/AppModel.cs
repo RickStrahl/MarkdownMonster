@@ -511,13 +511,9 @@ We're now shutting down the application.
 
         void Command_PrintePreview()
         {
-            // TODO: Fix Print Preview - forward to Control
-            // PRINT PREVIEW
-            //PrintPreviewCommand = new CommandBase((s, e) =>
-            //{
-            //    dynamic dom = Window.PreviewBrowser.WebBrowser.Document;
-            //    dom.execCommand("print", true, null);
-            //}, (s, e) => IsPreviewBrowserVisible);
+            PrintPreviewCommand = new CommandBase(
+                (p, e) =>  Window.PreviewBrowser.ExecuteCommand("PrintPreview"),
+                (p, e) => IsEditorActive);
 
         }
 

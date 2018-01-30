@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
+using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.AddIns
@@ -290,6 +291,15 @@ namespace MarkdownMonster.AddIns
         public virtual IMarkdownParser GetMarkdownParser()
         {
             return null;           
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual IPreviewBrowser GetPreviewBrowserUserControl()
+        {
+            return null;
         }
 
         /// <summary>

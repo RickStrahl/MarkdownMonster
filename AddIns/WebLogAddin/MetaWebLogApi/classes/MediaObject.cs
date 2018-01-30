@@ -19,8 +19,6 @@
 		/// The byte array of the Media Object itself.
 		/// 
 		/// </summary>
-        public byte[] Bits { get; set; }
-
-        //todo: add method to get byte[] from file etc... make it easier for user
+        public byte[] Bits { get; set; }        
 	}
 }

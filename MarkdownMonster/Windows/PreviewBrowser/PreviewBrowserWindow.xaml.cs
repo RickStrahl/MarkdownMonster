@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using MahApps.Metro.Controls;
+using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows.PreviewBrowser;
 
 namespace MarkdownMonster.Windows
@@ -16,7 +17,7 @@ namespace MarkdownMonster.Windows
 
         public AppModel Model { get; set; }
 
-        public IPreviewBrowser PreviewBrowser { get;  }
+        IPreviewBrowser PreviewBrowser { get; set; }
 
         //public bool IsVisible
         //{
@@ -35,11 +36,18 @@ namespace MarkdownMonster.Windows
         
             SetWindowPositionFromConfig();
 
-            // TODO: Need to dynamically load this                
-            PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
-            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
+            LoadInternalPreviewBrowser();
 
         }
+        
+        void LoadInternalPreviewBrowser()
+        {
+
+            // TODO: Need to dynamically load this
+            PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
+            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
+        }
+
 
         public void SetWindowPositionFromConfig()
         {
@@ -123,6 +131,7 @@ namespace MarkdownMonster.Windows
             Top = Model.Window.Top;
             Height = Model.Window.Height;
         }
+        
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {

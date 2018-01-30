@@ -23,24 +23,8 @@
         </Grid.RowDefinitions>
 
 
-        <Grid Grid.Column="4" Name="PreviewBrowserContainer">
+        <Grid Grid.Row="0"  Name="PreviewBrowserContainer">
         </Grid>
-
-        <!--<WebBrowser Name="Browser">
-            <WebBrowser.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
-                    <MenuItem Header="View Html Source" Command="{Binding ViewHtmlSourceCommand}" />
-                    <MenuItem Header="Configure Preview Syncing" Command="{Binding Commands.PreviewBrowserSyncCommand}"/>
-                    <Separator />
-                    <MenuItem Header="Edit Preview Theme" Command="{Binding Commands.EditPreviewThemeCommand}"/>
-                    <Separator/>
-                    <MenuItem Header="Hide HTML Preview" 
-                              Command="{Binding Commands.PreviewBrowserCommand}"  IsCheckable="True"
-                              IsChecked="{Binding IsPreviewBrowserVisible}" />
-                </ContextMenu>
-            </WebBrowser.ContextMenu>
-        </WebBrowser>-->
 
         <StatusBar  Grid.Row ="1"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
                     HorizontalAlignment="Stretch">

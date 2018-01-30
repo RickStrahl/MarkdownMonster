@@ -16,7 +16,12 @@ using System.Windows.Shapes;
 namespace MarkdownMonster.Windows.PreviewBrowser
 {
     /// <summary>
-    /// Interaction logic for PreviewBrowserWebBrowserControl.xaml
+    /// This is the actual IE WebBrowser control that handles all rendering for the IE 
+    /// Web Browser control. All other implementations of IPreviewBrowser, simply 
+    /// proxy into this control for Navigate, PreviewMarkdown operations.
+    /// 
+    /// This class in turn forwards all handling of the actual rendering to the PreviewBrowserHandler
+    /// which is an IE handler
     /// </summary>
     public partial class PreviewBrowserWebBrowserControl : UserControl, IPreviewBrowser
     {
@@ -25,7 +30,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         public MainWindow Window { get; set; }
 
-        public PreviewWebBrowserHandler PreviewBrowserHandler;
+        public IEWebBrowserPreviewHandler PreviewBrowserHandler;
 
         public PreviewBrowserWebBrowserControl()
         {
@@ -34,13 +39,13 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             Model = mmApp.Model;
             this.Window = Model.Window;
 
-            PreviewBrowserHandler = new PreviewWebBrowserHandler(WebBrowser);
+            PreviewBrowserHandler = new IEWebBrowserPreviewHandler(WebBrowser);
 
             Loaded += PreviewBrowserWebBrowserControl_Loaded;
 
             DataContext = Model;
         }
-        
+
         private void PreviewBrowserWebBrowserControl_Loaded(object sender, RoutedEventArgs e)
         {
             
@@ -55,9 +60,6 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                         mmApp.Configuration.WindowPosition.SplitterPosition = width;                
             }
         }
-
-        
-
 
 
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null)
@@ -84,7 +86,13 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                 ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
                 ctm.PlacementTarget = WebBrowser;
                 ctm.IsOpen = true;
-            }            
+            }
+
+            if (command == "PrintPreview")
+            {
+                dynamic dom = WebBrowser.Document;
+                dom.execCommand("print", true, null);
+            }
         }
     }
 }
