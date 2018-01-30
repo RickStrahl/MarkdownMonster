@@ -806,7 +806,9 @@ Do you want to View in Browser now?
         {
             PreviewSyncModeCommand = new CommandBase((parameter, command) =>
             {
+                
                 Model.Window.ComboBoxPreviewSyncModes.Focus();
+                WindowUtilities.DoEvents();
                 Model.Window.ComboBoxPreviewSyncModes.IsDropDownOpen = true;
             }, (p, c) => true);
         }
