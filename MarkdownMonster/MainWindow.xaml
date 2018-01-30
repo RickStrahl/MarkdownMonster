@@ -378,6 +378,7 @@
         </Menu>
 
         
+        
         <StackPanel Grid.Row="1">
 			<ToolBarPanel Name="ToolbarPanelMain" >
 				<StackPanel Orientation="Horizontal">
@@ -701,24 +702,6 @@
             <Grid Grid.Column="4" Name="PreviewBrowserContainer">
             </Grid>
 
-            <!--<WebBrowser Grid.Column="4" Name="PreviewWebBrowserControl" 
-                        VerticalAlignment="Stretch"  SizeChanged="PreviewBrowser_SizeChanged"                        
-                        Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
-                
-                <WebBrowser.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
-                        <MenuItem Header="View Html Source" Command="{Binding ViewHtmlSourceCommand}" />
-                        <MenuItem  Header="Configure Preview Syncing" Click="Button_Handler" Name="MenuItemPreviewConfigureSync"/>
-                        <Separator />
-                        <MenuItem Header="Edit Preview Theme" Command="{Binding Commands.EditPreviewThemeCommand}"/>
-                        <Separator/>
-                        <MenuItem Header="Hide HTML Preview" 
-                                  Command="{Binding Commands.PreviewBrowserCommand}"  IsCheckable="True"
-                                  IsChecked="{Binding IsPreviewBrowserVisible}" />
-                    </ContextMenu>
-                </WebBrowser.ContextMenu>
-            </WebBrowser>-->
         </Grid>
 
 
