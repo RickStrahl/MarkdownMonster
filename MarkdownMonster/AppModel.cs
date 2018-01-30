@@ -52,8 +52,6 @@ namespace MarkdownMonster
     /// </summary>
     public class AppModel : INotifyPropertyChanged
     {
-     
-        
 
         #region Top Level Model Properties
 
@@ -513,12 +511,13 @@ We're now shutting down the application.
 
         void Command_PrintePreview()
         {
+            // TODO: Fix Print Preview - forward to Control
             // PRINT PREVIEW
-            PrintPreviewCommand = new CommandBase((s, e) =>
-            {
-                dynamic dom = Window.PreviewBrowser.WebBrowser.Document;
-                dom.execCommand("print", true, null);
-            }, (s, e) => IsPreviewBrowserVisible);
+            //PrintPreviewCommand = new CommandBase((s, e) =>
+            //{
+            //    dynamic dom = Window.PreviewBrowser.WebBrowser.Document;
+            //    dom.execCommand("print", true, null);
+            //}, (s, e) => IsPreviewBrowserVisible);
 
         }
 

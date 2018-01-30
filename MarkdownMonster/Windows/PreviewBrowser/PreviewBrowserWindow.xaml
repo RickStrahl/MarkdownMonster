@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        
+        xmlns:localwindows="clr-namespace:MarkdownMonster.Windows"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         TitleCharacterCasing="Normal"
@@ -23,21 +23,24 @@
         </Grid.RowDefinitions>
 
 
-        <WebBrowser Name="Browser">
+        <Grid Grid.Column="4" Name="PreviewBrowserContainer">
+        </Grid>
+
+        <!--<WebBrowser Name="Browser">
             <WebBrowser.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
                     <MenuItem Header="View Html Source" Command="{Binding ViewHtmlSourceCommand}" />
-                    <MenuItem Header="Configure Preview Syncing" Click="Button_Handler" Name="MenuItemPreviewConfigureSync"/>
+                    <MenuItem Header="Configure Preview Syncing" Command="{Binding Commands.PreviewBrowserSyncCommand}"/>
                     <Separator />
                     <MenuItem Header="Edit Preview Theme" Command="{Binding Commands.EditPreviewThemeCommand}"/>
                     <Separator/>
                     <MenuItem Header="Hide HTML Preview" 
-                              Command="{Binding PreviewBrowserCommand}"  IsCheckable="True"
+                              Command="{Binding Commands.PreviewBrowserCommand}"  IsCheckable="True"
                               IsChecked="{Binding IsPreviewBrowserVisible}" />
                 </ContextMenu>
             </WebBrowser.ContextMenu>
-        </WebBrowser>
+        </WebBrowser>-->
 
         <StatusBar  Grid.Row ="1"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
                     HorizontalAlignment="Stretch">

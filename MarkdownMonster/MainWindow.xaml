@@ -698,7 +698,10 @@
                 </GridSplitter.Template>
             </GridSplitter>
 
-            <WebBrowser Grid.Column="4" Name="PreviewWebBrowserControl" 
+            <Grid Grid.Column="4" Name="PreviewBrowserContainer">
+            </Grid>
+
+            <!--<WebBrowser Grid.Column="4" Name="PreviewWebBrowserControl" 
                         VerticalAlignment="Stretch"  SizeChanged="PreviewBrowser_SizeChanged"                        
                         Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
                 
@@ -715,7 +718,7 @@
                                   IsChecked="{Binding IsPreviewBrowserVisible}" />
                     </ContextMenu>
                 </WebBrowser.ContextMenu>
-            </WebBrowser>
+            </WebBrowser>-->
         </Grid>
 
 

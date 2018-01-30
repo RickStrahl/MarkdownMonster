@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="MarkdownMonster.Windows.PreviewBrowser.PreviewBrowserWebBrowserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MarkdownMonster.Windows.PreviewBrowser"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <WebBrowser Grid.Column="4" Name="WebBrowser" 
+                    VerticalAlignment="Stretch"  SizeChanged="PreviewBrowserWebBrowserControl_SizeChanged"                        
+                    Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+            <WebBrowser.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
+                    <MenuItem Header="View Html Source" Command="{Binding ViewHtmlSourceCommand}" />
+                    <MenuItem  Header="Configure Preview Syncing" Command="{Binding Commands.PreviewBrowserSyncCommmand}" />
+                    <Separator />
+                    <MenuItem Header="Edit Preview Theme" Command="{Binding Commands.EditPreviewThemeCommand}"/>
+                    <Separator/>
+                    <MenuItem Header="Hide HTML Preview" 
+                              Command="{Binding Commands.PreviewBrowserCommand}"  IsCheckable="True"
+                              IsChecked="{Binding IsPreviewBrowserVisible}" />
+                </ContextMenu>
+            </WebBrowser.ContextMenu>
+        </WebBrowser>
+    </Grid>
+</UserControl>

@@ -50,18 +50,23 @@ namespace MarkdownMonster
             ToolbarInsertMarkdown();
             CloseActiveDocument();
             CloseAllDocuments();
+            ShowActiveTabsList();
+
 
             // Preview Browser
             EditPreviewTheme();
+            PreviewSyncMode();
 
             // Miscellaneous
             OpenAddinManager();
             Help();
             CopyFolderToClipboard();
             TabControlFileList();
-            ShowActiveTabsList();
+
 
             
+
+
         }
 
         #region Files And File Management
@@ -793,6 +798,18 @@ Do you want to View in Browser now?
                 mmFileUtils.OpenFileInExplorer(path);
 
                 mmFileUtils.ShowExternalBrowser("https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm");
+            }, (p, c) => true);
+        }
+
+
+        public CommandBase PreviewSyncModeCommand { get; set; }
+
+        void PreviewSyncMode()
+        {
+            PreviewSyncModeCommand = new CommandBase((parameter, command) =>
+            {
+                Model.Window.ComboBoxPreviewSyncModes.Focus();
+                Model.Window.ComboBoxPreviewSyncModes.IsDropDownOpen = true;
             }, (p, c) => true);
         }
 

@@ -1023,13 +1023,7 @@ namespace MarkdownMonster
             // nothing to do at the moment             
         }
 
-        public void PreviewContextMenu(dynamic position)
-        {
-            var ctm = Window.PreviewBrowser.WebBrowser.ContextMenu;            
-            ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-            ctm.PlacementTarget = Window.PreviewBrowser.WebBrowser;
-            ctm.IsOpen = true;
-        }
+        
 
         #region Callback functions from the Html Editor
 
@@ -1221,23 +1215,7 @@ namespace MarkdownMonster
                 else if (key == "ctrl-shift-z")
                 {
                     Window.Model.Commands.RemoveMarkdownFormattingCommand.Execute(WebBrowser);
-                }
-                else if (key == "ctrl-shift-down")
-                {
-                    if (Window.PreviewBrowser.WebBrowser.IsVisible)
-                    {
-                        dynamic dom = Window.PreviewBrowser.WebBrowser.Document;
-                        dom.documentElement.scrollTop += 150;
-                    }
-                }
-                else if (key == "ctrl-shift-up")
-                {
-                    if (Window.PreviewBrowser.WebBrowser.IsVisible)
-                    {
-                        dynamic dom = Window.PreviewBrowser.WebBrowser.Document;
-                        dom.documentElement.scrollTop -= 150;
-                    }
-                }
+                }               
                 else if (key == "ctrl-tab")
                 {
                     var tab = Window.TabControl.SelectedItem;

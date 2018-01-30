@@ -19,7 +19,7 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
-    public class PreviewWebBrowser 
+    public class PreviewWebBrowserHandler : IPreviewBrowser
     {
         /// <summary>
         /// Instance of the Web Browser control that hosts ACE Editor
@@ -38,7 +38,19 @@ namespace MarkdownMonster
 
         public AppModel Model { get; set; }
 
-        public PreviewWebBrowser(WebBrowser browser)
+        
+
+        public bool IsVisible
+        {
+            get { return this.WebBrowser.Visibility == Visibility.Visible; }
+            set { _isVisible = value; }
+        }
+
+      
+
+        private bool _isVisible;
+
+        public PreviewWebBrowserHandler(WebBrowser browser)
         {
             WebBrowser = browser;
             Model = mmApp.Model;
@@ -262,6 +274,15 @@ namespace MarkdownMonster
             }
         }
 
+        public void Navigate(string url)
+        {
+            WebBrowser.Navigate(new Uri(url));
+        }
+
+        public void ExecuteCommand(string command, params dynamic[] args)
+        {
+            MessageBox.Show("PreviewBrowser Command not implemented: " + command);
+        }
 
 
         private void InitializePreviewBrowser()
@@ -326,6 +347,8 @@ namespace MarkdownMonster
                     }
                 });
             }
-        }        
+        }
+
+
     }
 }

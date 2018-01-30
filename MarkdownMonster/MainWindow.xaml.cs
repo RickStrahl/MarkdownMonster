@@ -47,6 +47,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
+using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
 using Binding = System.Windows.Data.Binding;
 using Clipboard = System.Windows.Clipboard;
@@ -64,7 +65,8 @@ namespace MarkdownMonster
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow , IPreviewBrowser
+    public partial class MainWindow : MetroWindow
+        //, IPreviewBrowser
     {
         public AppModel Model { get; set; }
 
@@ -84,16 +86,14 @@ namespace MarkdownMonster
         private IntPtr _hwnd = IntPtr.Zero;
 
         private DateTime invoked = DateTime.MinValue;
-
-
-
+        
 
         /// <summary>
         /// Manages the Preview Rendering in a WebBrowser Control
         /// </summary>
-        public PreviewWebBrowser PreviewBrowser {get; set;}
+        public IPreviewBrowser PreviewBrowser {get; set;}
 
-        private PreviewBrowserWindow PreviewWindow;
+        //private PreviewBrowserWindow PreviewWindow;
 
         public PreviewBrowserWindow PreviewBrowserWindow
         {
@@ -150,7 +150,12 @@ namespace MarkdownMonster
 			// Override some of the theme defaults (dark header specifically)
 			mmApp.SetThemeWindowOverride(this);
 
-            PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);
+
+            // TODO: Need to dynamically load this
+		    PreviewBrowser = new PreviewBrowserWebBrowserControl() {Name = "PreviewBrowser"};		     
+            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
+
+		    
 		}
        
         #region Opening and Closing
@@ -884,7 +889,7 @@ namespace MarkdownMonster
 	        {
 	            TabControl.SelectedItem = tab;
 
-	            if (showPreviewIfActive && PreviewWebBrowserControl.Width > 5)
+	            if (showPreviewIfActive && PreviewBrowserContainer.Width > 5)
 	                PreviewBrowser.PreviewMarkdownAsync();
 
 	            SetWindowTitle();
@@ -1085,8 +1090,10 @@ namespace MarkdownMonster
 
 			if (TabControl.Items.Count == 0)
 			{
-				PreviewWebBrowserControl.Visibility = Visibility.Hidden;
-				PreviewWebBrowserControl.Navigate("about:blank");
+				PreviewBrowserContainer.Visibility = Visibility.Hidden;
+
+                //TODO: Navigate inside of container
+			    ((IPreviewBrowser) PreviewBrowserContainer.Children[0]).Navigate("about:blank");
 				Model.ActiveDocument = null;
 				Title = "Markdown Monster" +
 				        (UnlockKey.Unlocked ? "" : " (unregistered)");
@@ -1214,10 +1221,19 @@ namespace MarkdownMonster
             PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition, showInBrowser, renderedHtml);
         }
 
+        
+
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null)
         {
             PreviewBrowser.PreviewMarkdownAsync(editor, keepScrollPosition,renderedHtml);
         }
+
+        public void Navigate(string url)
+        {
+            PreviewBrowser.Navigate(url);
+        }
+
+        
 
 
         /// <summary>
@@ -1230,19 +1246,19 @@ namespace MarkdownMonster
             {
                 if (Model.Configuration.PreviewMode == PreviewModes.InternalPreview)
                 {
-                    PreviewWebBrowserControl.Visibility = Visibility.Visible;
+                    PreviewBrowserContainer.Visibility = Visibility.Visible;
 
                     if (_previewBrowserWindow != null && PreviewBrowserWindow.Visibility == Visibility.Visible)
                         PreviewBrowserWindow.Close();
                         
+                    // TODO: Make sure Preveiw Browser is loaded
+                    //if (PreviewBrowser.WebBrowser != PreviewWebBrowserControl)
+                    //{
+                    //    PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);                        
+                    //    PreviewMarkdownAsync();
+                    //}
 
-                    if (PreviewBrowser.WebBrowser != PreviewWebBrowserControl)
-                    {
-                        PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);                        
-                        PreviewMarkdownAsync();
-                    }
-
-                        MainWindowSeparatorColumn.Width = new GridLength(12);
+                    MainWindowSeparatorColumn.Width = new GridLength(12);
                     if (!refresh)
                     {
                         if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
@@ -1254,12 +1270,13 @@ namespace MarkdownMonster
                     }
                 }
                 else if(Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
-                {                   
-                    if (PreviewBrowser.WebBrowser != PreviewBrowserWindow.Browser)
-                    {
-                        PreviewBrowser = new PreviewWebBrowser(PreviewBrowserWindow.Browser);
-                        PreviewMarkdownAsync();
-                    }
+                {
+                    // TODO: Figure out how to load the preview here if it's not loaded yet
+                    //if (PreviewBrowser.WebBrowser != PreviewBrowserWindow.Browser)
+                    //{
+                    //    PreviewBrowser = new PreviewWebBrowser(PreviewBrowserWindow.Browser);
+                    //    PreviewMarkdownAsync();
+                    //}
 
                     PreviewBrowserWindow.Show();
 
@@ -1270,7 +1287,7 @@ namespace MarkdownMonster
                     MainWindowSeparatorColumn.Width = new GridLength(0);
                     MainWindowPreviewColumn.Width = new GridLength(0);
 
-                    PreviewWebBrowserControl.Navigate("about:blank");
+                    ((IPreviewBrowser)PreviewBrowserContainer.Children[0]).Navigate("about:blank"); 
                 }
             }
             else
@@ -1284,7 +1301,7 @@ namespace MarkdownMonster
                     MainWindowSeparatorColumn.Width = new GridLength(0);
                     MainWindowPreviewColumn.Width = new GridLength(0);
 
-                    PreviewWebBrowserControl.Navigate("about:blank");
+                    ((IPreviewBrowser) PreviewBrowserContainer.Children[0]).Navigate("about:blank");
                 }
                 else if (Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
                 {
@@ -1553,11 +1570,6 @@ namespace MarkdownMonster
 			        Owner = this
 			    };
 			    dialog.ShowDialog();
-			}
-            else if (button == MenuItemPreviewConfigureSync)
-			{
-			    ComboBoxPreviewSyncModes.Focus();
-                ComboBoxPreviewSyncModes.IsDropDownOpen = true;
 			}
 			//else if (button == ButtonRefreshBrowser)
 			//{
