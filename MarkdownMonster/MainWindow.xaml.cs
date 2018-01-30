@@ -1173,7 +1173,7 @@ namespace MarkdownMonster
 			AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
 
 		    if (mmApp.Configuration.IsPreviewVisible)
-		        PreviewBrowser.PreviewMarkdown();
+		        PreviewBrowser?.PreviewMarkdown();
 
             Model.ActiveEditor.RestyleEditor();
 
@@ -1222,17 +1222,17 @@ namespace MarkdownMonster
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false,
             bool showInBrowser = false, string renderedHtml = null)
         {
-            PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition, showInBrowser, renderedHtml);
+            PreviewBrowser?.PreviewMarkdown(editor, keepScrollPosition, showInBrowser, renderedHtml);
         }        
 
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null)
         {
-            PreviewBrowser.PreviewMarkdownAsync(editor, keepScrollPosition,renderedHtml);
+            PreviewBrowser?.PreviewMarkdownAsync(editor, keepScrollPosition,renderedHtml);
         }
 
         public void Navigate(string url)
         {
-            PreviewBrowser.Navigate(url);
+            PreviewBrowser?.Navigate(url);
         }
 
         
@@ -1317,10 +1317,13 @@ namespace MarkdownMonster
                     if (_previewBrowserWindow != null)
                     {
                         PreviewBrowserWindow.Close();
-                        _previewBrowserWindow = null;                        
+                        _previewBrowserWindow = null;
+
+                        // reset preview browser to internal so it's not null
+                        LoadInternalPreviewBrowser();
                     }
                 }
-                PreviewBrowser = null;
+                
             }
         }
 
