@@ -151,13 +151,17 @@ namespace MarkdownMonster
 			mmApp.SetThemeWindowOverride(this);
 
 
-            // TODO: Need to dynamically load this
-		    PreviewBrowser = new PreviewBrowserWebBrowserControl() {Name = "PreviewBrowser"};		     
-            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
+		    LoadInternalPreviewBrowser();
 
-		    
 		}
-       
+
+        void LoadInternalPreviewBrowser()
+        {
+            // TODO: Need to dynamically load this
+            PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
+            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
+        }
+        
         #region Opening and Closing
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -1219,9 +1223,7 @@ namespace MarkdownMonster
             bool showInBrowser = false, string renderedHtml = null)
         {
             PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition, showInBrowser, renderedHtml);
-        }
-
-        
+        }        
 
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null)
         {
@@ -1234,8 +1236,6 @@ namespace MarkdownMonster
         }
 
         
-
-
         /// <summary>
         /// Shows or hides the preview browser
         /// </summary>
@@ -1247,16 +1247,16 @@ namespace MarkdownMonster
                 if (Model.Configuration.PreviewMode == PreviewModes.InternalPreview)
                 {
                     PreviewBrowserContainer.Visibility = Visibility.Visible;
+                    
+                    // check if we're already active - if not assign and preview immediately
+                    if (!(PreviewBrowser is PreviewBrowserWebBrowserControl))
+                    {
+                        LoadInternalPreviewBrowser();
+                        PreviewBrowser.PreviewMarkdownAsync();
 
-                    if (_previewBrowserWindow != null && PreviewBrowserWindow.Visibility == Visibility.Visible)
-                        PreviewBrowserWindow.Close();
-                        
-                    // TODO: Make sure Preveiw Browser is loaded
-                    //if (PreviewBrowser.WebBrowser != PreviewWebBrowserControl)
-                    //{
-                    //    PreviewBrowser = new PreviewWebBrowser(PreviewWebBrowserControl);                        
-                    //    PreviewMarkdownAsync();
-                    //}
+                        if (_previewBrowserWindow != null && PreviewBrowserWindow.Visibility == Visibility.Visible)
+                            PreviewBrowserWindow.Close();
+                    }
 
                     MainWindowSeparatorColumn.Width = new GridLength(12);
                     if (!refresh)
@@ -1271,14 +1271,15 @@ namespace MarkdownMonster
                 }
                 else if(Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
                 {
-                    // TODO: Figure out how to load the preview here if it's not loaded yet
-                    //if (PreviewBrowser.WebBrowser != PreviewBrowserWindow.Browser)
-                    //{
-                    //    PreviewBrowser = new PreviewWebBrowser(PreviewBrowserWindow.Browser);
-                    //    PreviewMarkdownAsync();
-                    //}
-
+                    // make sure it's visible
                     PreviewBrowserWindow.Show();
+
+                    // check if we're already active - if not assign and preview immediately
+                    if (!(PreviewBrowser is PreviewBrowserWindow))
+                    {
+                        PreviewBrowser = PreviewBrowserWindow;
+                        PreviewBrowser.PreviewMarkdownAsync();
+                    }
 
                     if (MainWindowPreviewColumn.Width.Value > 100)
                         mmApp.Configuration.WindowPosition.SplitterPosition =
@@ -1287,6 +1288,7 @@ namespace MarkdownMonster
                     MainWindowSeparatorColumn.Width = new GridLength(0);
                     MainWindowPreviewColumn.Width = new GridLength(0);
 
+                    // clear the preview
                     ((IPreviewBrowser)PreviewBrowserContainer.Children[0]).Navigate("about:blank"); 
                 }
             }
@@ -1301,6 +1303,7 @@ namespace MarkdownMonster
                     MainWindowSeparatorColumn.Width = new GridLength(0);
                     MainWindowPreviewColumn.Width = new GridLength(0);
 
+                    // clear the preview
                     ((IPreviewBrowser) PreviewBrowserContainer.Children[0]).Navigate("about:blank");
                 }
                 else if (Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)

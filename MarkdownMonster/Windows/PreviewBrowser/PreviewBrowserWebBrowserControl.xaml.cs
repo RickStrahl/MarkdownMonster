@@ -56,13 +56,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
         }
 
-        public void PreviewContextMenu(dynamic position)
-        {
-            var ctm = WebBrowser.ContextMenu;
-            ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-            ctm.PlacementTarget = WebBrowser;
-            ctm.IsOpen = true;
-        }
+        
 
 
 
@@ -83,10 +77,14 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         public void ExecuteCommand(string command, params dynamic[] args)
         {
-            if (command == "PreviewContextMenu")
-                PreviewContextMenu;
 
-            
+            if (command == "PreviewContextMenu")
+            {
+                var ctm = WebBrowser.ContextMenu;
+                ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
+                ctm.PlacementTarget = WebBrowser;
+                ctm.IsOpen = true;
+            }            
         }
     }
 }

@@ -36,7 +36,7 @@ namespace MarkdownMonster.Windows
             SetWindowPositionFromConfig();
 
             // TODO: Need to dynamically load this                
-            IPreviewBrowser PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
+            PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
             PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
 
         }
@@ -136,7 +136,7 @@ namespace MarkdownMonster.Windows
 
         #region IPreviewBrowser
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null)
-        {
+        {            
             PreviewBrowser.PreviewMarkdownAsync(editor, keepScrollPosition, renderedHtml);
         }
 
@@ -153,7 +153,7 @@ namespace MarkdownMonster.Windows
 
         public void ExecuteCommand(string command, params dynamic[] args)
         {
-            MessageBox.Show("Preview Execute Command not implemented: " + command);
+            PreviewBrowser.ExecuteCommand(command, args);
         }
         #endregion
 

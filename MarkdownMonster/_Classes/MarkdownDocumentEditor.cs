@@ -1022,8 +1022,11 @@ namespace MarkdownMonster
         {
             // nothing to do at the moment             
         }
+        public void PreviewContextMenu(dynamic position)
+        {
+            Window.PreviewBrowser.ExecuteCommand("PreviewContextMenu");
+        }
 
-        
 
         #region Callback functions from the Html Editor
 
