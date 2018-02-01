@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -345,10 +346,13 @@ namespace MarkdownMonster
                 ContextMenu.Items.Add(mi);
                 return true;
             }
-            else if (line.Trim().StartsWith("<td>") && line.Trim().EndsWith("</td>") ||
-                     line.Trim().StartsWith("<tr>") && line.Trim().EndsWith("</tr>") ||
-                     line.Trim().StartsWith("<th>") && line.Trim().EndsWith("</th>") ||
-                     line.Trim() == "<table>" || line.Trim() == "<thead>")
+            else if (line.Trim().StartsWith("<td ",StringComparison.InvariantCultureIgnoreCase)  ||
+                     line.Trim().StartsWith("<tr ", StringComparison.InvariantCultureIgnoreCase) ||
+                     line.Trim().StartsWith("<th ", StringComparison.InvariantCultureIgnoreCase) ||
+                     line.Trim().StartsWith("<table>", StringComparison.InvariantCultureIgnoreCase) ||
+                     line.Trim().StartsWith("<table ", StringComparison.InvariantCultureIgnoreCase) ||
+                     line.Trim().Equals("<thead>", StringComparison.InvariantCultureIgnoreCase) ||
+                     line.Trim().Equals("<tbody>", StringComparison.InvariantCultureIgnoreCase) )
             {
                 var mi = new MenuItem
                 {
@@ -367,8 +371,7 @@ namespace MarkdownMonster
                     for (int i = row - 1; i > -1; i--)
                     {
                         lineText = editor.GetLine(i);
-                        if (lineText.Trim() == "<table>")
-                        {
+                        if (lineText.Trim().StartsWith("<table", StringComparison.InvariantCultureIgnoreCase))                        {
                             startRow = i;
                             break;
                         }
@@ -381,7 +384,7 @@ namespace MarkdownMonster
                     for (int i = row + 1; i < 99999999; i++)
                     {
                         lineText = editor.GetLine(i);
-                        if (lineText.Trim() == "</table>")
+                        if (lineText.Trim().Equals("</table>", StringComparison.InvariantCultureIgnoreCase))
                         {
                             endRow = i;
                             break;
@@ -396,8 +399,7 @@ namespace MarkdownMonster
                     {
                         sb.AppendLine(editor.GetLine(i));
                     }
-
-                    MessageBox.Show(sb.ToString());
+                    
                     // select the entire table
                     Model.ActiveEditor.AceEditor.SetSelectionRange(startRow - 1, 0, endRow + 1, 0, pos);
 

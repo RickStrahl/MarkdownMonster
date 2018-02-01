@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -277,13 +278,14 @@ namespace MarkdownMonster.Windows
 
             if (tableMarkdown.Trim().StartsWith("+-") && tableMarkdown.Trim().EndsWith("-+"))
                 return ParseMarkdownGridTableToData(tableMarkdown);
-            if (tableMarkdown.Contains("<table>") && tableMarkdown.Contains("</table>"))
+            if (tableMarkdown.IndexOf("<table",StringComparison.InvariantCultureIgnoreCase) > -1 &&
+                tableMarkdown.IndexOf("</table>",StringComparison.InvariantCultureIgnoreCase) > -1)
                 return ParseHtmlToData(tableMarkdown);
-
+            
             return ParseMarkdownPipeTableToData(tableMarkdown);
         }
 
-
+        
         /// <summary>
         /// Parses a Markdown Pipe Table to an Observable Data Collection
         /// </summary>
