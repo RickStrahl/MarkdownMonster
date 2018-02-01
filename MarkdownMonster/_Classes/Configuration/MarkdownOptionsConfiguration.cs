@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using MarkdownMonster.Annotations;
 
@@ -65,6 +65,11 @@ namespace MarkdownMonster
         /// quotes to curly quotes, triple dots to elipsis etc.
         /// </summary>
         public bool SmartyPants { get; set; }
+
+        /// <summary>
+        /// Renders Mermaid and Nonoml markup 
+        /// </summary>
+        public bool Diagrams { get; set; }
 
 
         /// <summary>
@@ -137,6 +142,7 @@ namespace MarkdownMonster
         }
 
         
+
 
         private string _markdownParserName;
 

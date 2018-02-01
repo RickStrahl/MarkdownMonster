@@ -794,6 +794,15 @@ namespace MarkdownMonster
                 mmApp.Configuration.RenderTheme = "Dharkan";
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
+            
+            if (markdownHtml.Contains(" class=\"mermaid\""))
+            {
+                markdownHtml +=@"
+<script src=""https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.1.2/mermaid.min.js""></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+";
+            }
+
             var html = themeHtml.Replace("{$themePath}", "file:///" + themePath)
                 .Replace("{$docPath}", "file:///" + docPath)
                 .Replace("{$markdownHtml}", markdownHtml);

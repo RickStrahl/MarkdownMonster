@@ -118,6 +118,8 @@ namespace MarkdownMonster
                 builder = builder.UseTaskLists();
             if (options.SmartyPants)
                 builder = builder.UseSmartyPants();
+            if(options.Diagrams)
+                builder = builder.UseDiagrams();
 
             if (UsePragmaLines)
                 builder = builder.UsePragmaLines();
