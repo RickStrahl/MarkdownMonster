@@ -28,6 +28,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using MarkdownMonster.Windows;
+using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.AddIns
@@ -54,6 +55,11 @@ namespace MarkdownMonster.AddIns
         /// Includes access to Configuration and the Main Window
         /// </summary>
         public AppModel Model { get; set; }
+
+        /// <summary>
+        /// Determines whether this addin is enabled
+        /// </summary>
+        public bool IsEnabled { get; set; } = true;
 
         /// <summary>
         /// List of menu items that are used to extend MM

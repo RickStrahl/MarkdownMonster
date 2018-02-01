@@ -573,17 +573,38 @@
 
         <Grid Name="ContentGrid" Grid.Row="2"  >
             <Grid.ColumnDefinitions>
-				<ColumnDefinition Name="FolderBrowserColumn" Width="0" />
-                <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="0" />
-                <ColumnDefinition Name="MainWindowEditorColumn" Width="*"  />
-                <ColumnDefinition Name="MainWindowSeparatorColumn" Width="0" />
-                <ColumnDefinition Name="MainWindowPreviewColumn"  Width="0"   />
+                <ColumnDefinition Name="FolderBrowserColumn" Width="0"  x:FieldModifier="public" />
+                <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="0" x:FieldModifier="public" />
+                <ColumnDefinition Name="MainWindowEditorColumn" Width="*"   x:FieldModifier="public" />
+                <ColumnDefinition Name="MainWindowSeparatorColumn" Width="0"  x:FieldModifier="public" />
+                <ColumnDefinition Name="MainWindowPreviewColumn"  Width="0"   x:FieldModifier="public"  />
             </Grid.ColumnDefinitions>
 
-            <localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
-            </localwindows:FolderBrowerSidebar>
 
-			<GridSplitter Grid.Column="1"                               
+
+            <controls:MetroTabControl x:Name="SidebarContainer" 
+                                        Margin="0,5,0,0"
+                                        FontSize="13"
+                                        Background="#222"
+                                        TabStripPlacement="Bottom"
+                                        BorderThickness="0">
+               
+                <TabItem Name="TabFolderBrowser"
+                         Margin="0,0,5,0" Visibility="Collapsed" Header=" Files and Folders "
+                         controls:ControlsHelper.HeaderFontSize="14">
+                    <!--<TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text=" Files and Folder " />
+                        </StackPanel>
+                    </TabItem.Header>-->
+                    <localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
+                    </localwindows:FolderBrowerSidebar>
+                </TabItem>
+            </controls:MetroTabControl>
+                
+            
+
+            <GridSplitter Grid.Column="1"                               
 			              HorizontalAlignment="Center"                          
 			              BorderThickness="0" IsTabStop="False"
 			              VerticalAlignment="Stretch">
@@ -604,8 +625,7 @@
                                      BorderThickness="0"
                                      ShowDefaultCloseButton="True"                                     
                                      ShowDefaultAddButton="False"
-                                     SelectionChanged="TabControl_SelectionChanged" 
-                                     
+                                     SelectionChanged="TabControl_SelectionChanged"                                      
                                      Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <!--<dragablz:TabablzControl.Resources>
 

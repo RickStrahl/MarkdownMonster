@@ -12,6 +12,7 @@
         GlowBrush="Black"                       
         ResizeMode="CanResizeWithGrip"  
         Icon="..\..\Assets\MarkdownMonster_Icon_256.png"
+        Visibility="Hidden"
         WindowTransitionsEnabled="False"                 
         Height="700" Width="900" MinHeight="600" MinWidth="500">
     <Grid>

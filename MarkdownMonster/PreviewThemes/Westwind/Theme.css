@@ -17,16 +17,17 @@ html, body {
     margin: 20px;
 }
 
-h1, h2, h3, h4, h5, h6, .byline, .content-title {
-    color: #535353;
-    font-weight: bold;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
+h1, h2, h3, h4, h5, h6, .byline, .content-title 
+{
+    /*font-family: Trebuchet,'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+    font-weight: 600;
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
 }
 
 h1 {
     font-size: 1.7em;
     padding-bottom: 10px;
-    margin-bottom: 15px;
     color: steelblue;
     border-bottom: 1px solid #eee;
 }
@@ -39,14 +40,11 @@ h2 {
 h3 {
     color: steelblue;
     font-size: 1.3em;
-    font-weight: 800;
-    margin-top: 15px;
 }
 
 h4 {
     color: #2D2A2A;
     font-size: 1.1em;
-    margin-top: 14px;
 }
 
 h5, h6 {
@@ -146,30 +144,40 @@ hr {
 }
 
 code {
+    background: #eee;
     color: #555;
     padding: 2px 5px;
-    font-weight: bold;
-    background: #eee;
+    font-weight: 600;
+    font-family: consolas,monospace;
+    border-radius: 3px;
 }
 
 pre {
-    font-family: menlo,consolas,monospace;
+    font-family: consolas,monospace;
+    font-size: 0.875em !important;   
     font-weight: normal;
-    font-size: 87%;
-    line-height: 1.40;
-    margin: 7px -20px 7px -20px !important;
+    line-height: 1.45;
+
+    background: #333;
+    color: #eee;
+    
+    overflow-x: auto;           
+    margin: 7px 0 !important;   
     padding: 0;
     border: 1px solid silver;
-    border-radius: 0;
-    overflow-x: auto;
+    border-radius: 4px;
+    
     white-space: pre;
     word-break: normal;
-    word-wrap: normal;
+    word-wrap: normal; 
 }
 
-    pre code {
-        white-space: pre;
-    }
+pre code {
+    white-space: pre;
+    color: #f5f5f5 !important;
+    font-weight: normal;
+    padding: 0.8em !important;
+}
 
 table {
     width: 100%;

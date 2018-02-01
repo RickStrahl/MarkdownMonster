@@ -26,21 +26,19 @@ namespace MarkdownMonster.Windows
             mmApp.SetThemeWindowOverride(this);
 
             Model = mmApp.Model;
-            DataContext = Model;
-        
-            SetWindowPositionFromConfig();
-
+            DataContext = Model;        
+            
             LoadInternalPreviewBrowser();
-
+            SetWindowPositionFromConfig();
         }
-        
+
         void LoadInternalPreviewBrowser()
         {
             PreviewBrowser = AddinManager.Current.RaiseGetPreviewBrowserControl();
             if (PreviewBrowser == null)
-                PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
+                PreviewBrowser = new IEWebBrowserControl() { Name = "PreviewBrowser" };
 
-            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);            
+            PreviewBrowserContainer.Children.Add(PreviewBrowser as UIElement);            
         }
 
 

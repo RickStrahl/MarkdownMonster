@@ -118,12 +118,13 @@ namespace MarkdownMonster
         
 
         public MainWindow()
-		{
-			InitializeComponent();
+		{            
+            InitializeComponent();
 
             
             Model = new AppModel(this);
 		    AddinManager.Current.RaiseOnModelLoaded(Model);
+            AddinManager.Current.AddinsLoaded = OnAddinsLoaded;
 
             DataContext = Model;
 
@@ -148,18 +149,15 @@ namespace MarkdownMonster
 			}
 
 			// Override some of the theme defaults (dark header specifically)
-			mmApp.SetThemeWindowOverride(this);
-
-
-		    LoadPreviewBrowser();
-
+			mmApp.SetThemeWindowOverride(this);            
 		}
+
 
         #region Opening and Closing
 
         private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-
+		    LoadPreviewBrowser();
 
             RestoreSettings();
 
@@ -240,6 +238,16 @@ namespace MarkdownMonster
 				}, DispatcherPriority.ApplicationIdle);
 			});            
 		}
+
+
+
+        private void OnAddinsLoaded()
+        {
+            // Check to see if we are using another preview browser and load
+            // that instead
+            LoadPreviewBrowser();
+        }
+
 
 
         /// <summary>
@@ -951,6 +959,33 @@ namespace MarkdownMonster
 			}
 		}
 
+        /// <summary>
+        /// Adds a new panel to the sidebar
+        /// </summary>
+        /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
+        public void AddSidebarPanelTabItem(TabItem tabItem = null)
+        {
+            if (tabItem != null)
+            {
+                ControlsHelper.SetHeaderFontSize(tabItem, 14);
+                SidebarContainer.Items.Add(tabItem);
+            }
+
+            if (SidebarContainer.Items.Count > 1)
+            {
+                foreach (var item in SidebarContainer.Items)
+                {
+                    var tbItem = item as TabItem;
+                    tbItem.Visibility = Visibility.Visible;                    
+                }
+            }
+            else
+            {
+                if(SidebarContainer.Items.Count == 1)
+                    ((TabItem) SidebarContainer.Items[0]).Visibility = Visibility.Visible;
+            }
+        }
+
 		/// <summary>
 		/// Binds the tab header to an expression
 		/// </summary>
@@ -962,7 +997,6 @@ namespace MarkdownMonster
 		{
 			if (document == null || tab == null)
 				return;
-
 		   
 			try
 			{                
@@ -1241,16 +1275,18 @@ namespace MarkdownMonster
                     PreviewBrowserContainer.Visibility = Visibility.Visible;
                     
                     // check if we're already active - if not assign and preview immediately
-                    if (!(PreviewBrowser is PreviewBrowserWebBrowserControl))
+                    if (!(PreviewBrowser is IPreviewBrowser))
                     {
                         LoadPreviewBrowser();
-                        PreviewBrowser.PreviewMarkdownAsync();
+                        return;
+                    }
 
-                        if (_previewBrowserWindow != null && PreviewBrowserWindow.Visibility == Visibility.Visible)
-                        {
-                            PreviewBrowserWindow.Close();
-                            _previewBrowserWindow = null;
-                        }
+                    if (_previewBrowserWindow != null && PreviewBrowserWindow.Visibility == Visibility.Visible)
+                    {
+                        PreviewBrowserWindow.Close();
+                        _previewBrowserWindow = null;
+                        LoadPreviewBrowser();
+                        return;
                     }
 
                     MainWindowSeparatorColumn.Width = new GridLength(12);
@@ -1268,9 +1304,8 @@ namespace MarkdownMonster
                 {
                     // make sure it's visible
                     //bool visible = PreviewBrowserWindow.Visibility == Visibility.Visible;
-                    PreviewBrowserWindow.Show();                        
+                    PreviewBrowserWindow.Show();
                     
-
                     // check if we're already active - if not assign and preview immediately
                     if (!(PreviewBrowser is PreviewBrowserWindow))
                     {
@@ -1302,7 +1337,7 @@ namespace MarkdownMonster
                     MainWindowPreviewColumn.Width = new GridLength(0);
 
                     // clear the preview
-                    ((IPreviewBrowser) PreviewBrowserContainer.Children[0]).Navigate("about:blank");
+                    ((IPreviewBrowser) PreviewBrowserContainer.Children[0]).Navigate("about:blank");                    
                 }
                 else if (Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
                 {
@@ -1310,9 +1345,10 @@ namespace MarkdownMonster
                     {
                         PreviewBrowserWindow.Close();
                         _previewBrowserWindow = null;
-
+                        PreviewBrowser = null;
+                        
                         // reset preview browser to internal so it's not null
-                        LoadPreviewBrowser();
+                        //LoadPreviewBrowser();
                     }
                 }
                 
@@ -1358,16 +1394,28 @@ namespace MarkdownMonster
 
         public void LoadPreviewBrowser()
         {            
-            PreviewBrowser = AddinManager.Current.RaiseGetPreviewBrowserControl();
-            if (PreviewBrowser == null)
-                PreviewBrowser = new PreviewBrowserWebBrowserControl() { Name = "PreviewBrowser" };
+            var previewBrowser = AddinManager.Current.RaiseGetPreviewBrowserControl();
+            if (previewBrowser == null || PreviewBrowser != previewBrowser)
+            {
+                if (previewBrowser == null)
+                    PreviewBrowser = new IEWebBrowserControl() { Name = "PreviewBrowser" };
+                else
+                    PreviewBrowser = previewBrowser;
 
-            PreviewBrowserContainer.Children.Add(PreviewBrowser as PreviewBrowserWebBrowserControl);
+                PreviewBrowserContainer.Children.Clear();
+                PreviewBrowserContainer.Children.Add(PreviewBrowser as UIElement);
+
+                ShowPreviewBrowser();
+            }
+
+            // show or hide
+            PreviewMarkdownAsync();
         }
 
         #endregion
 
         #region Worker Functions
+
         public MarkdownDocumentEditor GetActiveMarkdownEditor()
 		{
 			var tab = TabControl?.SelectedItem as TabItem;

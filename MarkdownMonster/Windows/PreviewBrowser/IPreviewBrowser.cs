@@ -1,4 +1,4 @@
-﻿namespace MarkdownMonster.Windows
+﻿namespace MarkdownMonster.Windows.PreviewBrowser
 {
     public interface IPreviewBrowser
     {

@@ -76,6 +76,30 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\MarkdownMonster.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <WarningLevel>2</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dragablz, Version=0.0.3.197, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dragablz.0.0.3.197\lib\net45\Dragablz.dll</HintPath>
@@ -150,10 +174,11 @@
     <Compile Include="Controls\ElementHelper.cs" />
     <Compile Include="Controls\FileSystemAutoCompleteBehavior.cs" />
     <Compile Include="Controls\SelectOnEntryExtension.cs" />
-    <Compile Include="Windows\PreviewBrowser\IPreviewBrowser.cs" />
-    <Compile Include="Windows\PreviewBrowser\PreviewBrowserWebBrowserControl.xaml.cs">
-      <DependentUpon>PreviewBrowserWebBrowserControl.xaml</DependentUpon>
+    <Compile Include="Windows\PreviewBrowser\IEWebBrowserControl.cs">
+      <DependentUpon>IEWebBrowserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PreviewBrowser\IEWebBrowserEditorHandler.cs" />
+    <Compile Include="Windows\PreviewBrowser\IPreviewBrowser.cs" />
     <Compile Include="Windows\PreviewBrowser\PreviewBrowserWindow.xaml.cs">
       <DependentUpon>PreviewBrowserWindow.xaml</DependentUpon>
     </Compile>
@@ -162,7 +187,7 @@
       <DependentUpon>TableEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\TableEditor\TableParser.cs" />
-    <Compile Include="_Classes\PreviewWebBrowser.cs" />
+    <Compile Include="Windows\PreviewBrowser\IEWebBrowserPreviewHandler.cs" />
     <Compile Include="Windows\EmojiWindow.xaml.cs">
       <DependentUpon>EmojiWindow.xaml</DependentUpon>
     </Compile>
@@ -269,7 +294,6 @@
     <None Include="SampleMarkdown.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="Windows\Helpers\WebBrowserHostUIHandler.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -350,7 +374,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\PreviewBrowser\PreviewBrowserWebBrowserControl.xaml">
+    <Page Include="Windows\PreviewBrowser\IEWebBrowserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

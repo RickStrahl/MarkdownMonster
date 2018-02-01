@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,10 +11,9 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using FontAwesome.WPF;
-using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
-namespace MarkdownMonster
+namespace MarkdownMonster.Windows.PreviewBrowser
 {
     public class IEWebBrowserPreviewHandler : IPreviewBrowser
     {
@@ -29,7 +25,7 @@ namespace MarkdownMonster
         public dynamic BrowserPreview { get; set; }
 
 
-        WebBrowserHostUIHandler wbHandler;
+        IEWebBrowserEditorHandler wbHandler;
         
         /// <summary>
         /// Reference back to the main Markdown Monster window that 
@@ -37,9 +33,7 @@ namespace MarkdownMonster
         public MainWindow Window { get; set; }
 
         public AppModel Model { get; set; }
-
         
-
         public bool IsVisible
         {
             get { return this.WebBrowser.Visibility == Visibility.Visible; }
@@ -58,7 +52,7 @@ namespace MarkdownMonster
             
             InitializePreviewBrowser();
             
-            wbHandler = new WebBrowserHostUIHandler(browser);            
+            wbHandler = new IEWebBrowserEditorHandler(browser);            
         }
         
 

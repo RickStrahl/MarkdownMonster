@@ -462,7 +462,8 @@ Do you want to View in Browser now?
 
                 Model.IsPreviewBrowserVisible = true;
 
-                Model.Window.ShowPreviewBrowser();
+                Model.Window.ShowPreviewBrowser();                
+                Model.Window.PreviewMarkdownAsync();
             }, (p, c) => true);
         }
 
@@ -656,8 +657,8 @@ Do you want to View in Browser now?
 
 
                 window.ShowPreviewBrowser(!Model.IsPreviewBrowserVisible);
-                //if (Model.IsPreviewBrowserVisible)
-                //    window.PreviewMarkdown(editor);
+                if (Model.IsPreviewBrowserVisible)
+                    window.PreviewMarkdownAsync(editor);
 
             }, null);
 

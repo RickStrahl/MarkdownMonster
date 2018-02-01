@@ -16,35 +16,33 @@ html, body {
 } 
 
 h1,h2,h3,h4,h5,h6, .byline,.content-title {
-  color: #535353;
+  color: #555;
   font-weight: 600;
-  xfont-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
 }
+
 h1 {
     font-size: 1.7em;
-    font-weight: 700;
     padding-bottom: 10px;
-    margin-bottom: 15px;
-    color: steelblue;
     border-bottom: 1px solid #eee;
 }
-h2
-{        
-    font-size: 1.45em;         
+
+h2 {
+    font-size: 1.45em;
 }
-h3
-{    
-    font-size: 1.3em;    
-    margin-top: 15px;
+
+h3 {    
+    font-size: 1.3em;
 }
-h4
-{
-    color: #656565;
-    font-size: 1.1em;       
-    margin-top: 14px;
+
+h4 {
+    color: #2D2A2A;
+    font-size: 1.1em;
 }
+
 h5, h6 {
-    color: #656565;
     font-size: 1em;
 }
 table {

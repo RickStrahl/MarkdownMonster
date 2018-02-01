@@ -40,6 +40,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.Windows;
+using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.AddIns
@@ -65,6 +66,8 @@ namespace MarkdownMonster.AddIns
         /// Set after addins have completed load
         /// </summary>
         public bool AddinsLoadingComplete { get; set; }
+
+        public Action AddinsLoaded { get; set; }
 
         /// <summary>
         /// Add in manager error message  - set when loading addins

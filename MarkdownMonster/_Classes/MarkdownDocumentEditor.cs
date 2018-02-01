@@ -86,8 +86,18 @@ namespace MarkdownMonster
 
         public dynamic AceEditor { get; set; }
         public string EditorSyntax { get; set; }
-        public int InitialLineNumber
-        { get; set; }
+        public int InitialLineNumber { get; set; }
+
+
+        /// <summary>
+        /// Optional identifier that lets you specify what type of
+        /// document we're dealing with.
+        /// 
+        /// Can be used by Addins to create customer editors or handle
+        /// displaying the document a different way.
+        /// </summary>
+        public string Identifier { get; set; } = "MarkdownDocument";
+
 
         #region Loading And Initialization
         public MarkdownDocumentEditor(WebBrowser browser)

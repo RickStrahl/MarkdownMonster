@@ -46,6 +46,8 @@ namespace MarkdownMonster
     /// </summary>
     public partial class App : System.Windows.Application
     {
+        public Action AddinsLoadingCompleted;
+
         public static Mutex Mutex { get; set; }
 
         public static string InitialStartDirectory;
@@ -349,6 +351,8 @@ namespace MarkdownMonster
             mmApp.SetTheme(mmApp.Configuration.ApplicationTheme, App.Current.MainWindow as MetroWindow);
         }
 
+        
+
         /// <summary>
         /// Loads all addins asynchronously without loading the
         /// addin UI  -handled in Window Load to ensure Window is up)
@@ -357,9 +361,13 @@ namespace MarkdownMonster
         {
             try
             {
-                AddinManager.Current.LoadAddins(Path.Combine(Environment.CurrentDirectory, "AddIns"));
+                AddinManager.Current.LoadAddins(Path.Combine(App.InitialStartDirectory, "AddIns"));
                 AddinManager.Current.LoadAddins(mmApp.Configuration.AddinsFolder);
+
                 AddinManager.Current.AddinsLoadingComplete = true;
+                AddinManager.Current.AddinsLoaded?.Invoke();
+                
+
                 //Model.OnPropertyChanged(nameof(AppModel.MarkdownParserNames));
                 //Model.OnPropertyChanged(nameof(AppModel.MarkdownParserColumnWidth));
                 try

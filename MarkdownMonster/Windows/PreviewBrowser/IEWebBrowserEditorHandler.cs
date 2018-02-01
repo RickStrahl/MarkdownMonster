@@ -6,15 +6,15 @@ using System.Windows.Navigation;
 using IDataObject = System.Runtime.InteropServices.ComTypes.IDataObject;
 using WebBrowser = System.Windows.Controls.WebBrowser;
 
-namespace MarkdownMonster.Windows
+namespace MarkdownMonster.Windows.PreviewBrowser
 {
-    public class WebBrowserHostUIHandler : Native.IDocHostUIHandler
-    {
+    public class IEWebBrowserEditorHandler    : Native.IDocHostUIHandler
+    { 
         private const uint E_NOTIMPL = 0x80004001;
         private const uint S_OK = 0;
         private const uint S_FALSE = 1;
 
-        public WebBrowserHostUIHandler(WebBrowser browser)
+        public IEWebBrowserEditorHandler(WebBrowser browser)
         {
             if (browser == null)
                 throw new ArgumentNullException("browser");
@@ -283,5 +283,7 @@ namespace MarkdownMonster.Windows
         ENABLE_ACTIVEX_INACTIVATE_MODE = 0x20000000,
         DPI_AWARE = 0x40000000
     }
+
+
 
 }
