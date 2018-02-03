@@ -143,6 +143,9 @@ JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
 * Simple interface, easy to implement
 * Access UI, menu and active documents
 * Access document and application lifecycle events
+* Add Custom Markdown Parsers
+* Replace the Preview Rendering Engine
+* Add Tabs to the Browser Sidebar
 * Published addins available:
     * [Snippets: Scripted Text Expansions](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
     * [Commander: C# based Script Automation](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
