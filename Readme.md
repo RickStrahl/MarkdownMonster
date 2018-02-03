@@ -7,19 +7,34 @@
 
 ![Markdown Monster Image](Art/MarkdownMonster.png)
 
+## Installation
+You can download Markdown Monster and use the self-contained installer:
+
+* **[Download Installer](http://markdownmonster.west-wind.com/download.aspx)**
+
+Or you can you use [Chocolatey](https://chocolatey.org/) to install from the Windows Comand Line:
+
+```ps
+c:\> choco install markdownmonster
+```
+To update to the latest version:
+```ps
+c:\> choco upgrade markdownmonster
+```
+
 ## Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
-* **[Download Installer](http://markdownmonster.west-wind.com/download.aspx)**
-* **[Install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster)**
 * **[What's New](Changelog.md)** (change log)
 * **[Video: Getting Started with Markdown Monster](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
-* **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
-* **[Documentation](https://markdownmonster.west-wind.com/docs/)**
-* **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
+* **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
+* **[License](#license)**
+
 * **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
 * **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
-* **[License](#license)**
+
+* **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
+* **[Documentation](https://markdownmonster.west-wind.com/docs/)**
 
 If you like what you see please consider :star: **starring this repo** (top right corner of this page). Please help spread the word.
 
