@@ -3,9 +3,20 @@
 ![](https://img.shields.io/chocolatey/dt/markdownmonster.svg)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/MarkdownMonster/MarkdownMonster)
 
-#### An extensible Markdown Editor, Viewer and Weblog Publisher for Windows
-
 ![Markdown Monster Image](Art/MarkdownMonster.png)
+
+Markdown Monster is an easy to use and extensible Markdown Editor, Viewer and Weblog Publisher for Windows. Our goal is to provide the best Markdown specific editor for Windows and make it as easy as possible to create Markdown documents. We provide a core editor and previewer, and a number of non-intrusive helpers to help embed content like images, links, tables, code and more into your documents with minimal effort.
+
+Here's what Markdown Monster looks like using the default **Dark Theme**:
+
+![Markdown Monster Screen Shot](ScreenShot.png)
+
+and here is the **Light Theme**:
+
+![Markdown Monster Screen Shot](ScreenShot_Light.png)
+
+#### Customizable
+Markdown Monster is highly customizable and you can adjust the main window theme, the editor and preview themes using plain HTML/CSS based templates. You can also use our Snippets and Commander addins to automate Markdown Monster, or create full blown addins that can access and update active documents as well as add new UI features to the application.
 
 ## Installation
 You can download Markdown Monster and use the self-contained installer:
@@ -43,15 +54,6 @@ c:\> choco upgrade markdownmonster
 > ### Please report any Issues you run into!
 > If you run into a problem with Markdown Monster, **please** let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature request here on GitHub. We want to know what doesn't work and get it fixed. **Help us make Markdown Monster better**!
 
-Here's what Markdown Monster looks like using the default **Dark Theme**:
-
-![Markdown Monster Screen Shot](ScreenShot.png)
-
-and here is the **Light Theme**:
-
-![Markdown Monster Screen Shot](ScreenShot_Light.png)
-
-> In addition you can customize both the editor and preview themes individually. The screen shots above use different editor and preview themes for example. 
 
 ## Features
 Markdown Monster provides many useful features:
