@@ -351,29 +351,23 @@ namespace WeblogAddin
 
             if (string.IsNullOrEmpty(meta.WeblogName))
                 meta.WeblogName = "Name of registered blog to post to";
-            
-  
-            string post =
+
+            bool hasFrontMatter = meta.MarkdownBody.TrimStart().StartsWith("---\n") || meta.MarkdownBody.TrimStart().StartsWith("---\r");
+            string post;
+
+            if (hasFrontMatter)
+                post = meta.MarkdownBody;
+            else
+                post =
                 $@"# {meta.Title}
 
 {meta.MarkdownBody}
 ";
+            meta.RawMarkdownBody = post;
+            meta.MarkdownBody = post;
 
-            if (WeblogAddinConfiguration.Current.AddFrontMatterToNewBlogPost)
-            {
-
-                post = String.Format(WeblogAddinConfiguration.Current.FrontMatterTemplate,
-                           meta.Title, DateTime.Now) +
-                       post;
-            }
-            else
-            {
-                meta.RawMarkdownBody = post;
-                meta.MarkdownBody = post;
-
-                // Add Yaml data to post
+            if(!hasFrontMatter)
                 post = meta.SetPostYaml();
-            }
             
             return post;
         }
