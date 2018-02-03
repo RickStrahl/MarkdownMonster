@@ -319,6 +319,9 @@ namespace MarkdownMonster.AddIns
         /// <summary>
         /// Allows returning a WPF control that implements IPreviewBrowser and 
         /// that handles previewing the output from documents.
+        /// 
+        /// This control should return an IPreviewBrowser interface implemented
+        /// on a WPF UIControl (UserControl most likely).
         /// </summary>
         /// <returns></returns>
         public virtual IPreviewBrowser GetPreviewBrowserUserControl()

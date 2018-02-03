@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>MarkdownMonster.Portable</id>
-    <version>1.8.0</version>
+    <version>1.9.2</version>
     <title>Markdown Monster Portable Install</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
     <owners>West Wind Technologies</owners>

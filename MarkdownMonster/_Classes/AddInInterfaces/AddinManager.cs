@@ -564,7 +564,9 @@ namespace MarkdownMonster.AddIns
                 }
                 catch (Exception ex)
                 {
-                    mmApp.Log(addin.Id + "::AddIn::GetPreviewBrowserControl Error: " + ex.GetBaseException().Message);
+                    string msg = addin.Id + "::AddIn::GetPreviewBrowserControl Error: " + ex.GetBaseException().Message;
+                    mmApp.Log(msg);
+                    mmApp.Model.Window.ShowStatus(msg,6000);
                 }
             }
 
