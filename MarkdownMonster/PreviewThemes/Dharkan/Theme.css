@@ -16,7 +16,7 @@ html, body {
 } 
 
 h1,h2,h3,h4,h5,h6, .byline,.content-title {
-  color: #555;
+  color: #444;
   font-weight: 600;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
   margin-top: 1.2em;
@@ -38,7 +38,6 @@ h3 {
 }
 
 h4 {
-    color: #2D2A2A;
     font-size: 1.1em;
 }
 
@@ -65,15 +64,18 @@ a {
 img {
 	max-width: 100%;
 }
-ul {
-    margin-top: 10px;
-    margin-bottom: 10px;
+
+ul, ol {
+    list-style: disc;
+    margin: 1.6em 0;
 }
+
 li {
-	margin-bottom: 6px;
+    margin: 0.7em 0.2em 0.7em 1.2em;
 }
-b, strong { 
-	font-weight: 600;
+
+b, strong {
+    font-weight: 600;
 }
 
 

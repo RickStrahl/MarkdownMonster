@@ -9,9 +9,13 @@ var isDebug = false;
 // to pass in the form object and pass back the text
 // editor instance that allows the parent to make
 // calls into this component
-function initializeinterop(editor) {    
-    te.mmEditor = editor;    
-    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();
+function initializeinterop(editor) {
+    if (window.dotnetProxy) {
+        te.mmEditor = window.dotnetProxy;        
+    } else
+        te.mmEditor = editor;
+
+    te.isPreviewEditorSync = te.mmEditor.isPreviewToEditorSync();
     scroll();    
 }
 
@@ -25,7 +29,7 @@ $(document).ready(function() {
             var hash = this.hash;
             
             if (url.substr(0, 4) === "http" &&
-                te.mmEditor.NavigateExternalUrl(url)) {
+                te.mmEditor.navigateExternalUrl(url)) {
                     e.preventDefault();
                     return false;                
             }
@@ -40,7 +44,7 @@ $(document).ready(function() {
 
 $(document).on("contextmenu",
     function() {
-        te.mmEditor.PreviewContextMenu({ Top: 1, Left: 1 });
+        te.mmEditor.previewContextMenu({ Top: 1, Left: 1 });
 
         // inside of WebBrowser control don't show context menu
         return navigator.userAgent.indexOf("Trident") > -1 ? false : true;
@@ -94,7 +98,7 @@ var scroll = debounce(function (event) {
 
     id = id.replace("pragma-line-", "");
     
-    te.mmEditor.GotoLine((id * 1) - 1);
+    te.mmEditor.gotoLine((id * 1) - 1);
 },100);
 window.onscroll = scroll;
 
@@ -105,8 +109,8 @@ function highlightCode() {
         });
 }
 
-function updateDocumentContent(html) {
-    te.isPreviewEditorSync = te.mmEditor.IsPreviewToEditorSync();   
+function updateDocumentContent(html) {    
+    te.isPreviewEditorSync = te.mmEditor.isPreviewToEditorSync();   
     setTimeout(function () { 
         $("#MainContent").html(html);
         highlightCode();
