@@ -3,14 +3,20 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.9.1
-*<small>not released yet</small>*
+### 1.9.2
+*<small>February 2nd, 2018</small>*
 
 * **Added Edit Preview Template in Preview Browser**  
 You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser. The link also opens the Preview Theme Editing documentation.
 
 * **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
-Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster.
+Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control.
+
+* **Fix: Weblog Post Download with FrontMatter Header**  
+Fix issue where Weblog posts that contain FrontMatter headers would doulbe up the FrontMatter and title headers. Fix checks for FrontMatter in downloaded post and if found just display the raw post retrieved with the original FrontMatter and Markdown formatting.
+
+* **Fix: Table Importer with HTML Tables**  
+Fix table importer context menu to find tables inside of the Editor. Fix import behavior if table uses upper case tag names.
 
 
 ### 1.9.0
