@@ -36,10 +36,12 @@ c:\> choco upgrade markdownmonster
 * **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
 * **[Documentation](https://markdownmonster.west-wind.com/docs/)**
 
-If you like what you see please consider :star: **starring this repo** (top right corner of this page). Please help spread the word.
+> ### Show your Support
+> If you like what you see here, please consider **starring this repo** (click the :star: in the top right corner of this page). If you have a favorite feature in Markdown Monster, it'd be awesome if you could tweet about it and mention [@markdownmonstr](https://twitter.com/markdownmonstr). Please help us spread the word. 
 
-> ### Please report any Issues you run into
-> If you run into a problem with Markdown Monster, please let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature request here on GitHub. We want to know what doesn't work and get it fixed. **Help us make Markdown Monster better**!
+
+> ### Please report any Issues you run into!
+> If you run into a problem with Markdown Monster, **please** let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature request here on GitHub. We want to know what doesn't work and get it fixed. **Help us make Markdown Monster better**!
 
 Here's what Markdown Monster looks like using the default **Dark Theme**:
 
