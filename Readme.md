@@ -18,6 +18,9 @@ and here is the **Light Theme**:
 #### Customizable
 Markdown Monster is highly customizable and you can adjust the main window theme, the editor and preview themes using plain HTML/CSS based templates. You can also use our Snippets and Commander addins to automate Markdown Monster, or create full blown addins that can access and update active documents as well as add new UI features to the application.
 
+#### Weblog Publishing
+Wish you could write your blog posts in Markdown for your WordPress, Medium, MetaWeblogApi or West Wind's custom blog posting API blog engine? You can use Markdown Monster to write your posts in Markdown and publish the generated HTML content directly to your blog in seconds.
+
 ## Installation
 You can download Markdown Monster and use the self-contained installer:
 
