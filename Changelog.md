@@ -12,6 +12,9 @@ You can now directly jump to the Preview template that's active and edit the HTM
 * **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
 Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control.
 
+* **Addin Support for adding SideBar Tab Items**  
+Addins can now implement a `AddSidebarPanelTabItem()` method to add a new sidebar panel which becomes a tabbed item alongside the File and Folder Browser. This allows for custom list panels for additional functionality like Git interaction, custom documentation solutions and document navigation and so on.
+
 * **Fix: Weblog Post Download with FrontMatter Header**  
 Fix issue where Weblog posts that contain FrontMatter headers would doulbe up the FrontMatter and title headers. Fix checks for FrontMatter in downloaded post and if found just display the raw post retrieved with the original FrontMatter and Markdown formatting.
 
