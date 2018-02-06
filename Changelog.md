@@ -3,14 +3,17 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.9.2
-*<small>February 2nd, 2018</small>*
+
+### 1.9.3
+*<small>not released yet</small>*
+
+* **Fix up spaces in Editor Markup Operations**   
+Editor markup operations like the bold, italic, underscore, small etc. now automatically handle fixing up leading spaces so if you select ` selected words ` (not the leading and trailing spaces that are selected) the tag is updated as ` **selected words** ` (space before and after the `**`) effectively transposing the unintended spaces in the markup.
 
 * **Added Edit Preview Template in Preview Browser**  
 You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser. The link also opens the Preview Theme Editing documentation.
 
-* **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
-Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
+* **Refactored the Preview Browser to allow pluggable Preview Controls via Addins** Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
 
 * **Addin Support for adding SideBar Tab Items**  
 Addins can now implement a `AddSidebarPanelTabItem()` method to add a new sidebar panel which becomes a tabbed item alongside the File and Folder Browser. This allows for custom list panels for additional functionality like Git interaction, custom documentation solutions and document navigation and so on.
