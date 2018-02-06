@@ -315,33 +315,33 @@ namespace MarkdownMonster
 
             if (action == "bold")
             {
-                html = "**" + input + "**";
+                html = wrapValue(input, "**", "**",stripSpaces: true);
                 cursorMovement = -2;
-            }            
+            }
             else if (action == "italic")
             {
-                html = "*" + input + "*";
-                cursorMovement = -1;
+                html = wrapValue(input, "*", "*", stripSpaces: true);
+                cursorMovement = -1;                
             }
             else if (action == "small")
             {
-                html = "<small>" + input + "</small>";
+                html = wrapValue(input, "<small>", "</small>", stripSpaces: true);
                 cursorMovement = -7;
             }
             else if (action == "underline")
             {
-                html = "<u>" + input + "</u>";
+                html = wrapValue(input, "<u>", "</u>", stripSpaces: true);                
                 cursorMovement = -4;
             }
             else if (action == "strikethrough")
             {
-                html = "~~" + input + "~~";
+                html = wrapValue(input, "~~", "~~", stripSpaces: true);
                 cursorMovement = -2;
             }
             else if (action == "inlinecode")
             {
-                html = "`" + input + "`";
-                cursorMovement = -1;
+                html = wrapValue(input, "`", "`", stripSpaces: true);
+                cursorMovement = -1;                
             }
             else if (action == "h1")
                 html = "# " + input;
@@ -535,6 +535,33 @@ namespace MarkdownMonster
             result.Html = html;
 
             return result;
+        }
+
+        /// <summary>
+        /// Wraps a string with beginning and ending delimiters.
+        /// Fixes up accidental leading and trailing spaces.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="delim1"></param>
+        /// <param name="delim2"></param>
+        /// <param name="stripSpaces"></param>
+        /// <returns></returns>
+        public string wrapValue(string input, string delim1, string delim2, bool stripSpaces = true)
+        {
+            if (!stripSpaces)
+                return delim1 + input + delim2;
+
+            if (input.StartsWith(" "))
+                input = " " + delim1 + input.TrimStart();
+            else
+                input = delim1 + input;
+
+            if (input.EndsWith(" "))
+                input = input.TrimEnd() + delim2 + " ";
+            else
+                input += delim2;
+
+            return input;
         }
 
 
