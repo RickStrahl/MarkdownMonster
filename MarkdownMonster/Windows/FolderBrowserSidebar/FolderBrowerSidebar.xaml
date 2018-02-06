@@ -183,7 +183,7 @@
             <!--ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening"-->
             <TreeView Grid.Row="3" x:Name="TreeFolderBrowser"
 				  ItemTemplate="{StaticResource FolderTemplate}" 
-				  KeyDown="TreeView_Keyup" 
+				  KeyDown="TreeView_Keydown" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
 		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"                                         
 		          PreviewMouseMove="TreeFolderBrowser_MouseMove"                  

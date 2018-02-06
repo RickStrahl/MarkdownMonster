@@ -279,7 +279,11 @@ namespace MarkdownMonster.Windows
 
         #region TreeView Selection Handling
 
-        private void TreeView_Keyup(object sender, KeyEventArgs e)
+        private string searchFilter = string.Empty;
+        private DateTime searchFilterLast = DateTime.MinValue;
+
+
+        private void TreeView_Keydown(object sender, KeyEventArgs e)
         {            
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
 
@@ -328,6 +332,57 @@ namespace MarkdownMonster.Windows
                     e.Handled = true;
                 }
             }
+
+            
+
+            if (e.Key >= Key.A && e.Key <= Key.Z ||
+                e.Key >= Key.D0 && e.Key <= Key.D9 ||
+                e.Key == Key.OemPeriod ||
+                e.Key == Key.Space ||
+                e.Key == Key.Separator ||
+                e.Key == Key.OemMinus &&                
+                (!Keyboard.IsKeyDown(Key.LeftCtrl) && !Keyboard.IsKeyDown(Key.LeftAlt)))
+            {
+                //Debug.WriteLine("Treeview TreeDown: " + e.Key + " shfit: " + Keyboard.IsKeyDown(Key.LeftShift));
+                var keyConverter = new KeyConverter();
+
+                string k;
+
+                if (e.Key == Key.OemPeriod)
+                    k = ".";
+                else if (e.Key == Key.OemMinus && Keyboard.IsKeyDown(Key.LeftShift))
+                    k = "_";
+                else if (e.Key == Key.OemMinus)
+                    k = "-";
+                else if (e.Key == Key.Space)
+                    k = " ";
+                else
+                    k = keyConverter.ConvertToString(e.Key);
+
+                if (searchFilterLast > DateTime.Now.AddSeconds(-1.2))
+                    searchFilter += k.ToLower();
+                else
+                    searchFilter = k.ToLower();
+
+                Window.ShowStatus("Search Filter: " + searchFilter);
+
+                var lowerFilter = searchFilter.ToLower();
+
+                var parentPath = selected.Parent as PathItem;
+                if (parentPath == null)
+                    parentPath = ActivePathItem; // root
+
+                var item = parentPath.Files.FirstOrDefault(sf => sf.DisplayName.ToLower().StartsWith(lowerFilter));
+                if (item != null)
+                    item.IsSelected = true;
+
+
+                searchFilterLast = DateTime.Now;
+            }
+
+
+
+
 
         }
 
