@@ -364,11 +364,11 @@ namespace MarkdownMonster.Windows
                 else
                     searchFilter = k.ToLower();
 
-                Window.ShowStatus("Search Filter: " + searchFilter);
+                Window.ShowStatus("File search filter: " + searchFilter, 2000);
 
                 var lowerFilter = searchFilter.ToLower();
 
-                var parentPath = selected.Parent as PathItem;
+                var parentPath = selected.Parent;
                 if (parentPath == null)
                     parentPath = ActivePathItem; // root
 
@@ -379,10 +379,6 @@ namespace MarkdownMonster.Windows
 
                 searchFilterLast = DateTime.Now;
             }
-
-
-
-
 
         }
 
