@@ -1625,6 +1625,10 @@ namespace MarkdownMonster
 			{
 			    Model.ActiveEditor?.SetShowInvisibles(Model.Configuration.EditorShowInvisibles);
 			}
+            else if (button == ButtonScrollPastEnd)
+            {
+                Model.ActiveEditor?.SetScrollPastEnd(Model.Configuration.EditorScrollPastEnd);
+            }
             else if (button == ButtonStatusEncrypted)
 			{
 			    var dialog = new FilePasswordDialog(Model.ActiveDocument,false)

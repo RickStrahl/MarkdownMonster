@@ -4933,6 +4933,7 @@ var BidiHandler = function(session) {
     this.charWidths = [];
     this.EOL = "\xAC";
     this.showInvisibles = true;
+    this.scrollPastEnd = false;
     this.isRtlDir = false;
     this.line = "";
     this.wrapIndent = 0;
@@ -5066,7 +5067,16 @@ var BidiHandler = function(session) {
         this.showInvisibles = showInvisibles;
         this.currentRow = null;
     };
+  
+    this.getScrollPastEnd = function () {
+      return this.scrollPastEnd;
+    };
 
+    this.setScrollPastEnd = function (scrollPastEnd) {
+      this.scrollPastEnd = scrollPastEnd;
+      this.currentRow = null;
+    };
+  
     this.setEolChar = function(eolChar) {
         this.EOL = eolChar; 
     };
@@ -13622,6 +13632,13 @@ Editor.$uid = 0;
         return this.renderer.getShowInvisibles();
     };
 
+    this.setScrollPastEnd = function (scrollPastEnd) {
+      this.renderer.setScrollPastEnd(scrollPastEnd);
+    };
+    this.getScrollPastEnd = function () {
+      return this.renderer.getScrollPastEnd();
+    };
+
     this.setDisplayIndentGuides = function(display) {
         this.renderer.setDisplayIndentGuides(display);
     };
@@ -15307,7 +15324,17 @@ var Text = function(parentEl) {
         this.$computeTabString();
         return true;
     };
+    
+    this.scrollPastEnd = false;
+    this.setScrollPastEnd = function (scrollPastEnd) {
+      if (this.scrollPastEnd == scrollPastEnd)
+        return false;
 
+      this.scrollPastEnd = scrollPastEnd;
+      this.$computeTabString();
+      return true;
+    };
+  
     this.displayIndentGuides = true;
     this.setDisplayIndentGuides = function(display) {
         if (this.displayIndentGuides == display)
@@ -17024,7 +17051,16 @@ var VirtualRenderer = function(container, theme) {
     this.getShowInvisibles = function() {
         return this.getOption("showInvisibles");
     };
-    this.getDisplayIndentGuides = function() {
+  
+    this.setScrollPastEnd = function (scrollPastEnd) {
+      this.setOption("scrollPastEnd", scrollPastEnd);
+      this.session.$bidiHandler.setScrollPastEnd(scrollPastEnd);
+    };
+    this.getScrollPastEnd = function () {
+      return this.getOption("scrollPastEnd");
+    };
+  
+    this.getDisplayIndentGuides = function () {
         return this.getOption("displayIndentGuides");
     };
 

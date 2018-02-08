@@ -351,6 +351,12 @@
                           Click="Button_Handler"
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.EditorShowInvisibles}" />
+                
+                <MenuItem Name="ButtonScrollPastEnd"
+                          Header="Mouse Wheel Scroll Past End"
+                          Click="Button_Handler"
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.EditorScrollPastEnd}" />
             </MenuItem>
 
             <!-- generated dynamically by command -->
