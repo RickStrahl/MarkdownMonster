@@ -297,6 +297,23 @@ namespace MarkdownMonster
         private bool _EditorShowInvisibles = false;
 
         /// <summary>
+        /// Determines whether the edittor should scroll past the last line using the mouse wheel.
+        /// Default is <see langword="false"/>
+        /// </summary>
+        public bool EditorScrollPastEnd
+        {
+            get { return _EditorScrollPastEnd; }
+            set
+            {
+                if (_EditorScrollPastEnd == value) return;
+                _EditorScrollPastEnd = value;
+                OnPropertyChanged(nameof(EditorScrollPastEnd));
+            }
+        }
+
+        private bool _EditorScrollPastEnd = false;
+
+        /// <summary>
         /// Determines whether the editor wraps text or extends lines
         /// out. Default is false.
         /// </summary>

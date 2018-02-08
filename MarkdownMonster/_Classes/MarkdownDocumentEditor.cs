@@ -151,7 +151,7 @@ namespace MarkdownMonster
                 RestyleEditor(true);
                 SetShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
                 SetShowInvisibles(mmApp.Configuration.EditorShowInvisibles);
-
+                SetScrollPastEnd(mmApp.Configuration.EditorScrollPastEnd);
 
                 if (InitialLineNumber > 0)
                 {
@@ -823,6 +823,15 @@ namespace MarkdownMonster
                 show = mmApp.Configuration.EditorShowInvisibles;
 
             AceEditor?.setShowInvisibles(show.Value);
+        }
+
+
+        public void SetScrollPastEnd(bool? scroll = null)
+        {
+            if (scroll == null)
+                scroll = mmApp.Configuration.EditorScrollPastEnd;
+
+            AceEditor?.setScrollPastEnd(scroll.Value);
         }
 
         /// <summary>

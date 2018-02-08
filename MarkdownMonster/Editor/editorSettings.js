@@ -10,5 +10,6 @@ var editorSettings = {
   "tabSpaces": 4,
   "theme": "twilight",
   "wrapText": true,
-  "showInvisibles": false
+  "showInvisibles": false,
+  "scrollPastEnd": true
 };

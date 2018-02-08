@@ -47,6 +47,7 @@ var te = window.textEditor = {
         editor.setHighlightActiveLine(editorSettings.highlightActiveLine);
         editor.setShowPrintMargin(editorSettings.showPrintMargin);
         editor.setShowInvisibles(editorSettings.showInvisibles);
+        editor.setScrollPastEnd(editorSettings.scrollPastEnd);
 
         //te.settheme(editorSettings.theme, editorSettings.fontSize, editorSettings.wrapText);
         editor.setTheme("ace/theme/" + editorSettings.theme);
@@ -544,6 +545,9 @@ var te = window.textEditor = {
     },
     setShowInvisibles: function (showInvisibles) { 
         te.editor.renderer.setShowInvisibles(showInvisibles);  
+    },
+    setScrollPastEnd: function (scrollPastEnd) {
+      te.editor.renderer.setScrollPastEnd(scrollPastEnd);
     },
     setWordWrap: function (enable) {
         te.editor.session.setUseWrapMode(enable);
