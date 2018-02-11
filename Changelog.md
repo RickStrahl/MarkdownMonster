@@ -10,6 +10,12 @@
 * **Fix up spaces in Editor Markup Operations**   
 Editor markup operations like the bold, italic, underscore, small etc. now automatically handle fixing up leading spaces so if you select ` selected words ` (not the leading and trailing spaces that are selected) the tag is updated as ` **selected words** ` (space before and after the `**`) effectively transposing the unintended spaces in the markup.
 
+* **Keyboard Auto Search for starting Letters in Folder Browser**  
+You can now type in a few letters to jump to the first matching file similar to the way Explorer finds files.
+
+* **Fix: Sort Order in Folder Browser**  
+Fix sort order to work with lower case sorting so folders or files that start with `_` sort to the top and lower and upper case file names are not mixed up in sorting.
+
 * **Added Edit Preview Template in Preview Browser**  
 You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser. The link also opens the Preview Theme Editing documentation.
 

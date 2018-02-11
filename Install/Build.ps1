@@ -38,9 +38,9 @@ catch{ }
 
 "Writing Version File for: " + $version
 $versionFilePath = ".\builds\currentrelease\MarkdownMonster_Version_Template.xml"
-$versionFile = Get-Content -Path $versionFilePath
+$versionFile = Get-Content -Path $versionFilePath  
 
-$versionFile = $versionFile.Replace("{{version}}",$version).Replace("{{date}}",[System.DateTime]::Now.ToString("MMMM d, yyyy"))
+$versionFile = $versionFile.Replace("{{version}}",$version).Replace("{{preview-version}}",$version).Replace("{{date}}",[System.DateTime]::Now.ToString("MMMM d, yyyy"))
 $versionFile
 ""
 

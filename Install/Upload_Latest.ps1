@@ -4,8 +4,7 @@ Set-ExecutionPolicy Bypass -Scope CurrentUser
 
 $uid= Read-Host -Prompt 'Username' 
 $pwd=Read-Host -Prompt 'Password' -AsSecureString
-$pwd = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
-       [Runtime.InteropServices.Marshal]::SecureStringToBSTR($pwd))
+$pwd = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($pwd))
 
 if(!$pwd) {Exit;}
 
