@@ -345,6 +345,7 @@ namespace WeblogAddin
                 meta = new WeblogPostMetadata()
                 {
                     Title = "Post Title",
+                    MarkdownBody = string.Empty
                 };
             }
 
@@ -352,7 +353,9 @@ namespace WeblogAddin
             if (string.IsNullOrEmpty(meta.WeblogName))
                 meta.WeblogName = "Name of registered blog to post to";
 
-            bool hasFrontMatter = meta.MarkdownBody.TrimStart().StartsWith("---\n") || meta.MarkdownBody.TrimStart().StartsWith("---\r");
+            bool hasFrontMatter = meta.MarkdownBody != null &&
+                                  (meta.MarkdownBody.TrimStart().StartsWith("---\n") ||
+                                   meta.MarkdownBody.TrimStart().StartsWith("---\r"));
             string post;
 
             if (hasFrontMatter)
