@@ -59,10 +59,11 @@ var te = window.textEditor = {
         session.setUseWrapMode(editorSettings.wrapText);
         session.setOption("indentedSoftWrap", false);
 
-
-        editor.renderer.setShowGutter(editorSettings.showLineNumbers);
+        editor.renderer.setShowGutter(editorSettings.showLineNumbers);        
+        editor.setOption("scrollPastEnd", 0.7); // will have additional scroll  0.7% of screen height
         session.setTabSize(editorSettings.tabSpaces);
-
+        
+        
         session.setNewLineMode("windows");
 
         // disable certain hot keys in editor so we can handle them here        
