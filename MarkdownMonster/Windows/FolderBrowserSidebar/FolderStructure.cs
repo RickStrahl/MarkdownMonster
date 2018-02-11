@@ -62,7 +62,7 @@ namespace MarkdownMonster.Windows
 
 			if (folders != null)
 			{
-				foreach (var folder in folders)
+				foreach (var folder in folders.OrderBy(f=> f.ToLower()))
 				{
 					var name = Path.GetFileName(folder);
 					if (!string.IsNullOrEmpty(name))
@@ -102,7 +102,7 @@ namespace MarkdownMonster.Windows
 
 			if (files != null)
 			{
-				foreach (var file in files)
+				foreach (var file in files.OrderBy(f=> f.ToLower()))
 				{
 				    var item = new PathItem {FullPath = file, Parent = activeItem, IsFolder = false, IsFile = true};
 				    if (mmApp.Configuration.FolderBrowser.ShowIcons)
