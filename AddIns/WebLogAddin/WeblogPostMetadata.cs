@@ -89,6 +89,12 @@ namespace WeblogAddin
         /// </summary>
         public string PostId { get; set; }
 
+
+        /// <summary>
+        /// The date the post was made
+        /// </summary>
+        public DateTime PostDate { get; set; } = DateTime.Now;
+
         ///// <summary>
         ///// Determines whether a post is published or
         ///// a unpublished draft.
@@ -251,6 +257,10 @@ namespace WeblogAddin
             
             if (!string.IsNullOrEmpty(meta.Keywords))
                 post.Tags = meta.Keywords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            post.DateCreated = meta.PostDate;
+            if (post.DateCreated < new DateTime(2000, 1, 1))
+                post.DateCreated = DateTime.Now;
 
             post.mt_excerpt = meta.Abstract;
             post.mt_keywords = meta.Keywords;
