@@ -330,7 +330,7 @@ namespace MarkdownMonster
             }
             else if (action == "underline")
             {
-                html = wrapValue(input, "<u>", "</u>", stripSpaces: true);                
+                html = wrapValue(input, "__", "__", stripSpaces: true);                
                 cursorMovement = -4;
             }
             else if (action == "strikethrough")
