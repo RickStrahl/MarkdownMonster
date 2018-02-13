@@ -511,7 +511,7 @@ namespace MarkdownMonster
                         form.Code = clipText;
                 }
 
-                form.CodeLanguage = "csharp";
+                form.CodeLanguage = mmApp.Configuration.DefaultCodeSyntax;
                 bool? res = form.ShowDialog();
 
                 if (res != null && res.Value)
