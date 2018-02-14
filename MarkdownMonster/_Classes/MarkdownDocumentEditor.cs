@@ -325,12 +325,14 @@ namespace MarkdownMonster
             }
             else if (action == "small")
             {
+                // :-( no markdown spec for this - use HTML
                 html = wrapValue(input, "<small>", "</small>", stripSpaces: true);
                 cursorMovement = -7;
             }
             else if (action == "underline")
             {
-                html = wrapValue(input, "__", "__", stripSpaces: true);                
+                // :-( no markdown spec for this - use HTML
+                html = wrapValue(input, "<u>", "</u>", stripSpaces: true);                
                 cursorMovement = -4;
             }
             else if (action == "strikethrough")
@@ -353,6 +355,8 @@ namespace MarkdownMonster
                 html = "#### " + input;
             else if (action == "h5")
                 html = "##### " + input;
+            else if (action == "h6")
+                html = "###### " + input;
 
             else if (action == "quote")
             {

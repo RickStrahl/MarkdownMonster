@@ -438,12 +438,17 @@
                                 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
-                       
+
+
+                        <Button Name ="ButtonUnderline" Margin="7,0" ToolTip="Strikethrough" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="underline"
+                                fa:Awesome.Content="Underline"                                 
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         <Button Name ="ButtonStrikeThrough" Margin="7,0" ToolTip="Strikethrough" 
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="strikethrough"
-                                fa:Awesome.Content="Strikethrough" 
-                                
+                                fa:Awesome.Content="Strikethrough"                                 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
                         <Button Name ="ButtonInlineCode" Margin="5,-4,7,0"
