@@ -1,3 +1,25 @@
+
+[//]: # (TOC Begin)
+* [Generate PDFs from your Markdown Topics](#generate-pdfs-from-your-markdown-topics)
+* [Distraction Free Mode](#distraction-free-mode)
+* [Viewer Mode](#viewer-mode)
+* [Right Click To Edit Images, Links and Tables](#right-click-to-edit-images-links-and-tables)
+* [Using Gists for Bug Reports and general Purpose Web Pages](#using-gists-for-bug-reports-and-general-purpose-web-pages)
+* [3 ways to Image Embedding](#ways-to-image-embedding)
+* [Changing Update Check Interval](#changing-update-check-interval)
+* [FontAwesome Icons](#fontawesome-icons)
+* [Snippet Add-in](#snippet-add-in)
+* [Portable Version ](#portable-version)
+* [Pasting Images into Content](#pasting-images-into-content)
+* [Build your own Markdown Monster Add-ins](#build-your-own-markdown-monster-add-ins)
+* [Embed Font-Awesome Icons](#embed-font-awesome-icons)
+* [Html Editing](#html-editing)
+
+[//]: # (TOC End)
+
+### Generate PDFs from your Markdown Topics
+Did you know you can generate a PDF file from your Markdown documents in Markdown Monster with just a couple of clicks? Use File -> Save as Pdf.
+
 ### Distraction Free Mode
 Did you know you can use Distraction Free mode in Markdown Monster to zoom the editor? Click on the Zoom icon in the window toolbar on the top right or ALT-SHIFT-ENTER to toggle. Also configurable via `DistractionFreeModeHideOptions`. #markdown
 https://video.twimg.com/tweet_video/DUu5z0gVQAA0dGt.mp4

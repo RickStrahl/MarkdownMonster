@@ -4,8 +4,12 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 
-### 1.9.3
+
+### 1.9.4
 *<small>not released yet</small>*
+
+* **Add Post Date to Weblog Post Meta Data**  
+The Weblog post meta data now stores the original post date, which also allows for modifying the post date to a new date when reposting **if** the Weblog service supports that feature.
 
 * **Fix up spaces in Editor Markup Operations**   
 Editor markup operations like the bold, italic, underscore, small etc. now automatically handle fixing up leading spaces so if you select ` selected words ` (not the leading and trailing spaces that are selected) the tag is updated as ` **selected words** ` (space before and after the `**`) effectively transposing the unintended spaces in the markup.
