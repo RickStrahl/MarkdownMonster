@@ -113,6 +113,9 @@ namespace MarkdownMonster.Windows
         /// </summary>
         private FolderStructure FolderStructure { get; } = new FolderStructure();
 
+        private FileSystemWatcher FileWatcher = null;
+
+
         #region Initialization
 
         public FolderBrowerSidebar()
@@ -160,8 +163,108 @@ namespace MarkdownMonster.Windows
                 if (setFocus)
                     TreeFolderBrowser.Focus();
 
+                AttachFileWatcher(folder);
+
             }, DispatcherPriority.ApplicationIdle);
         }
+
+        #region FileWatcher
+        private void FileWatcher_Renamed(object sender, RenamedEventArgs e)
+        {            
+            var file = e.FullPath;
+            var oldFile = e.OldFullPath;
+
+            var pi = ActivePathItem.Files.FirstOrDefault(f => f.FullPath == oldFile);
+            if (pi == null)
+                return;
+
+            pi.FullPath = file;
+
+            Dispatcher.Invoke(() => pi.Parent.Files.Remove(pi));
+
+            int foundIndex = -1;
+            foreach (var pitem in ActivePathItem.Files)
+            {
+                foundIndex++;
+                if (pitem.IsFolder && !pi.IsFolder || !pitem.IsFolder && pi.IsFolder)
+                    continue;
+
+                if (file.ToLowerInvariant().CompareTo(pitem.FullPath.ToLowerInvariant()) < 0)
+                    break;
+            }
+
+            if (foundIndex == -1) foundIndex = 0;
+
+            Dispatcher.Invoke(() =>  ActivePathItem.Files.Insert(foundIndex, pi));
+        }
+
+        private void FileWatcher_CreateOrDelete(object sender, FileSystemEventArgs e)
+        {
+            var file = e.FullPath;
+            var relativePath = FileUtils.GetRelativePath(file, this.ActivePathItem.FullPath);
+            Debug.WriteLine($"{relativePath} - {e.FullPath}");
+
+            var pathItem = ActivePathItem.Files.FirstOrDefault(f => f.FullPath == file);
+
+            if (e.ChangeType == WatcherChangeTypes.Deleted)
+            {
+                Dispatcher.Invoke(() => { pathItem?.Parent.Files.Remove(pathItem); });
+            }
+            if (e.ChangeType == WatcherChangeTypes.Created)
+            {
+                if (pathItem == null)
+                {
+                    var pi = new PathItem()
+                    {
+                        FullPath = file,
+                        IsFolder = Directory.Exists(file)
+                    };
+                    pi.SetIcon();
+
+                    int foundIndex = -1;
+                    foreach (var pitem in ActivePathItem.Files)
+                    {
+                        foundIndex++;
+                        if (pitem.IsFolder && !pi.IsFolder || !pitem.IsFolder && pi.IsFolder)
+                            continue;
+                        
+                        if (file.ToLowerInvariant().CompareTo( pitem.FullPath.ToLowerInvariant()) < 0)
+                            break;
+                    }
+
+                    if (foundIndex == -1) foundIndex = 0;
+
+                    Dispatcher.Invoke(() => { ActivePathItem.Files.Insert(foundIndex, pi); });                    
+                }
+            }
+        }
+
+        private void AttachFileWatcher(string fullPath)
+        {
+            if(FileWatcher != null)
+                ReleaseFileWatcher();
+
+            FileWatcher = new FileSystemWatcher(fullPath)
+            {
+                IncludeSubdirectories = false,
+                EnableRaisingEvents = true
+            };
+            FileWatcher.Created += FileWatcher_CreateOrDelete;
+            FileWatcher.Deleted += FileWatcher_CreateOrDelete;
+            FileWatcher.Renamed += FileWatcher_Renamed;
+        }
+
+        private void ReleaseFileWatcher()
+        {
+            if (FileWatcher != null)
+            {
+                FileWatcher.Created += FileWatcher_CreateOrDelete;
+                FileWatcher.Deleted += FileWatcher_CreateOrDelete;
+                FileWatcher.Renamed += FileWatcher_Renamed;
+                FileWatcher.Dispose();
+            }
+        }
+        #endregion
 
         private void ButtonUseCurrentFolder_Click(object sender, RoutedEventArgs e)
         {
@@ -437,6 +540,8 @@ namespace MarkdownMonster.Windows
 
                 // have to force OPC to make the new files visible
                 selected.OnPropertyChanged(nameof(PathItem.Files));
+
+                AttachFileWatcher(selected.FullPath);
             }
         }
 
