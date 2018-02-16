@@ -232,10 +232,9 @@ namespace MarkdownMonster
 				Dispatcher.Invoke(() =>
 				{
 					FixMonitorPosition();
-
 					AddinManager.Current.InitializeAddinsUi(this);
-					AddinManager.Current.RaiseOnWindowLoaded();
-				}, DispatcherPriority.ApplicationIdle);
+					AddinManager.Current.RaiseOnWindowLoaded();                   
+				}, DispatcherPriority.ApplicationIdle);			    
 			});            
 		}
 
@@ -496,7 +495,10 @@ namespace MarkdownMonster
 				return;
             
 		    contextMenu.Items.Clear();
-			ButtonRecentFiles.Items.Clear();
+		    ButtonRecentFiles.Items.Clear();
+
+            MenuItem mi = null;
+		    MenuItem mi2 = null;
 
 			List<string> badFiles = new List<string>();
 			foreach (string file in mmApp.Configuration.RecentDocuments)
@@ -506,7 +508,7 @@ namespace MarkdownMonster
 					badFiles.Add(file);
 					continue;
 				}
-				var mi = new MenuItem()
+				mi = new MenuItem()
 				{
 					Header = file.Replace("_","__"),
 				};
@@ -514,12 +516,13 @@ namespace MarkdownMonster
                 mi.CommandParameter = file;
 	            contextMenu.Items.Add(mi);
 
-				var mi2 = new MenuItem()
+				mi2 = new MenuItem()
 				{
-					Header = file,
-				};
+				    Header = file.Replace("_", "__")
+                };
 			    mi2.Command = Model.Commands.OpenRecentDocumentCommand;
 			    mi2.CommandParameter = file;
+
 				ButtonRecentFiles.Items.Add(mi2);
 			}
 			ToolbarButtonRecentFiles.ContextMenu = contextMenu;
@@ -529,20 +532,36 @@ namespace MarkdownMonster
 
 		    if (mmApp.Configuration.FolderBrowser.RecentFolders.Count >0)
 		    {
-		        contextMenu.Items.Add(new MenuItem
+		        mi = new MenuItem
 		        {
 		            IsEnabled = false,
 		            Header = "——————— Recent Folders ———————"
-                });
+		        };
+		        contextMenu.Items.Add(mi);
+		        mi2 = new MenuItem
+		        {
+		            IsEnabled = false,
+		            Header = "——————— Recent Folders ———————"
+		        };
+                ButtonRecentFiles.Items.Add(mi2);
+		        
 		        foreach (var folder in mmApp.Configuration.FolderBrowser.RecentFolders.Take(7))
 		        {
-		            var mi = new MenuItem()
+		            mi = new MenuItem()
 		            {
 		                Header = folder.Replace("_", "__"),
-		            };
-		            mi.Command = Model.Commands.OpenRecentDocumentCommand;
-		            mi.CommandParameter = folder;
+		                Command = Model.Commands.OpenRecentDocumentCommand,
+		                CommandParameter = folder
+                    };
 		            contextMenu.Items.Add(mi);
+
+		            mi2 = new MenuItem()
+		            {
+		                Header = folder.Replace("_", "__"),
+		                Command = Model.Commands.OpenRecentDocumentCommand,
+		                CommandParameter = folder
+		            };
+		            ButtonRecentFiles.Items.Add(mi2);
                 }
             }
 
@@ -1678,9 +1697,8 @@ namespace MarkdownMonster
 			}
 		}
 
-        
 
-		private void ButtonSpellCheck_Click(object sender, RoutedEventArgs e)
+        private void ButtonSpellCheck_Click(object sender, RoutedEventArgs e)
 		{
 			foreach (TabItem tab in TabControl.Items)
 			{
@@ -1999,6 +2017,11 @@ namespace MarkdownMonster
         }
 
         #endregion
+
+        private void ButtonRecentFiles_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+            UpdateRecentDocumentsContextMenu();
+        }
     }
 
 
