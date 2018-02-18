@@ -25,7 +25,7 @@ namespace MarkdownMonster.Test
 		{
 
 			var folderStructure = new FolderStructure();
-			var item = folderStructure.GetFilesAndFolders(@"c:\temp\clienttools");
+			var item = folderStructure.GetFilesAndFolders(@"c:\wwapps\wwclient");
 
 			Assert.IsNotNull(item);
 			Assert.IsTrue(item.Files.Count > 0);
@@ -34,7 +34,46 @@ namespace MarkdownMonster.Test
 			WriteChildFiles(item, 1);
 		}
 
-		private void WriteChildFiles(PathItem item, int level)
+	    [TestMethod]
+	    public void GetFileFlatFolderTest()
+	    {
+
+	        var folderStructure = new FolderStructure();
+	        var item = folderStructure.GetFilesAndFolders(@"c:\wwapps\wwclient",nonRecursive: true);
+
+	        Assert.IsNotNull(item);
+	        Assert.IsTrue(item.Files.Count > 0);
+
+	        Console.WriteLine("+" + item.DisplayName);
+	        WriteChildFiles(item, 1);
+	    }
+
+        [TestMethod]
+        public void MyTestMethod()
+        {
+
+            var folderStructure = new FolderStructure();
+            var item = folderStructure.GetFilesAndFolders(@"c:\wwapps\wwclient", nonRecursive: false);
+
+            Assert.IsNotNull(item);
+            Assert.IsTrue(item.Files.Count > 0);
+
+            Console.WriteLine("+" + item.DisplayName);
+            WriteChildFiles(item, 1);
+
+            var pi = folderStructure.FindPathItemByFilename(item, @"c:\wwapps\wwclient\console\wc.ico");
+
+            Assert.IsNotNull(pi);
+
+            Console.WriteLine(pi);
+            Console.WriteLine(pi.Parent);
+            Console.WriteLine(pi.Parent.Parent);
+
+
+
+        }
+
+        private void WriteChildFiles(PathItem item, int level)
 		{
 			Console.WriteLine("    " + level);
 			foreach (var fileItem in item.Files)

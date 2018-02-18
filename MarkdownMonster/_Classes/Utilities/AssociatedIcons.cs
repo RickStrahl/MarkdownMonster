@@ -29,7 +29,16 @@ namespace MarkdownMonster.Utilities
 
         static AssociatedIcons()
         {
-            DefaultIcon = new BitmapImage(new Uri("pack://application:,,,/MarkdownMonster;component/Assets/default_file.png"));            
+            try
+            {
+                DefaultIcon =
+                    new BitmapImage(
+                        new Uri("pack://application:,,,/MarkdownMonster;component/Assets/default_file.png"));
+            }
+            catch
+            {
+
+            }
         }
 
         /// <summary>

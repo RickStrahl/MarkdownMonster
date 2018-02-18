@@ -112,6 +112,7 @@ namespace MarkdownMonster.Windows
         /// Internal value
         /// </summary>
         private FolderStructure FolderStructure { get; } = new FolderStructure();
+        public object WindowUtilties { get; private set; }
 
         private FileSystemWatcher FileWatcher = null;
 
@@ -120,10 +121,11 @@ namespace MarkdownMonster.Windows
 
         public FolderBrowerSidebar()
         {
+
             InitializeComponent();
             Focusable = true;
             DataContext = this;
-            Loaded += FolderBrowerSidebar_Loaded;
+            Loaded += FolderBrowerSidebar_Loaded;           
         }
 
 
@@ -135,6 +137,99 @@ namespace MarkdownMonster.Windows
             
             // Load explicitly here to fire *after* behavior has attached
             ComboFolderPath.PreviewKeyUp += ComboFolderPath_PreviewKeyDown;
+        }
+        #endregion
+
+        #region FileWatcher
+
+        private void FileWatcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            Debug.WriteLine("Rename: " + e.FullPath + " from " + e.OldFullPath);
+            var file = e.FullPath;
+            var oldFile = e.OldFullPath;
+
+            var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, oldFile);
+            if (pi == null)
+                return;
+
+            pi.FullPath = file;
+            Dispatcher.Invoke(() => pi.Parent.Files.Remove(pi));
+
+            FolderStructure.InsertPathItemInOrder(pi, pi.Parent);
+        }
+
+        private void FileWatcher_CreateOrDelete(object sender, FileSystemEventArgs e)
+        {
+            Debug.WriteLine("Create Or Delete: " + e.FullPath + " " + e.ChangeType);
+            var file = e.FullPath;
+            
+            if (e.ChangeType == WatcherChangeTypes.Deleted)
+            {
+                // TODO:  this is not working
+                
+                mmApp.Model.Window.Dispatcher.Invoke(() =>
+                {
+                    var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, file);
+                    if (pi == null)
+                        return;
+                    
+                    pi.Parent.Files.Remove(pi);
+
+                    Debug.WriteLine("After: " + pi.Parent.Files.Count + " " + file);
+                },DispatcherPriority.ApplicationIdle);
+            }
+
+            if (e.ChangeType == WatcherChangeTypes.Created)
+            {
+                var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, file);
+                if (pi != null) // Already exists in the tree
+                    return;
+
+                // does the path exist?
+                var parentPathItem =
+                    FolderStructure.FindPathItemByFilename(ActivePathItem, Path.GetDirectoryName(file));
+                if (parentPathItem == null) // path is not expanced yet
+                    return;
+
+                bool isFolder = Directory.Exists(file);
+                pi = new PathItem()
+                {
+                    FullPath = file,
+                    IsFolder = isFolder,
+                    IsFile = !isFolder,
+                    Parent = parentPathItem
+                };
+                pi.SetIcon();
+
+                FolderStructure.InsertPathItemInOrder(pi, parentPathItem);
+            }
+
+        }
+
+        private void AttachFileWatcher(string fullPath)
+        {
+            if(FileWatcher != null)
+                ReleaseFileWatcher();
+
+            FileWatcher = new FileSystemWatcher(fullPath)
+            {
+                IncludeSubdirectories = true,
+                EnableRaisingEvents = true
+            };
+            FileWatcher.Created += FileWatcher_CreateOrDelete;
+            FileWatcher.Deleted += FileWatcher_CreateOrDelete;
+            FileWatcher.Renamed += FileWatcher_Renamed;
+        }
+
+        private void ReleaseFileWatcher()
+        {
+            if (FileWatcher != null)
+            {
+                FileWatcher.Created -= FileWatcher_CreateOrDelete;
+                FileWatcher.Deleted -= FileWatcher_CreateOrDelete;
+                FileWatcher.Renamed -= FileWatcher_Renamed;
+                FileWatcher.Dispose();
+            }
         }
         #endregion
 
@@ -151,9 +246,9 @@ namespace MarkdownMonster.Windows
                 ActivePathItem = null;
                 WindowUtilities.DoEvents();
 
-                var items = FolderStructure.GetFilesAndFolders(folder, nonRecursive: true);
+                var items = FolderStructure.GetFilesAndFolders(folder, nonRecursive: false, ignoredFolders: ".git");
                 ActivePathItem = items;
-
+                
                 WindowUtilities.DoEvents();
                 Window.ShowStatus();
 
@@ -167,104 +262,6 @@ namespace MarkdownMonster.Windows
 
             }, DispatcherPriority.ApplicationIdle);
         }
-
-        #region FileWatcher
-        private void FileWatcher_Renamed(object sender, RenamedEventArgs e)
-        {            
-            var file = e.FullPath;
-            var oldFile = e.OldFullPath;
-
-            var pi = ActivePathItem.Files.FirstOrDefault(f => f.FullPath == oldFile);
-            if (pi == null)
-                return;
-
-            pi.FullPath = file;
-
-            Dispatcher.Invoke(() => pi.Parent.Files.Remove(pi));
-
-            int foundIndex = -1;
-            foreach (var pitem in ActivePathItem.Files)
-            {
-                foundIndex++;
-                if (pitem.IsFolder && !pi.IsFolder || !pitem.IsFolder && pi.IsFolder)
-                    continue;
-
-                if (file.ToLowerInvariant().CompareTo(pitem.FullPath.ToLowerInvariant()) < 0)
-                    break;
-            }
-
-            if (foundIndex == -1) foundIndex = 0;
-
-            Dispatcher.Invoke(() =>  ActivePathItem.Files.Insert(foundIndex, pi));
-        }
-
-        private void FileWatcher_CreateOrDelete(object sender, FileSystemEventArgs e)
-        {
-            var file = e.FullPath;
-            var relativePath = FileUtils.GetRelativePath(file, this.ActivePathItem.FullPath);
-            Debug.WriteLine($"{relativePath} - {e.FullPath}");
-
-            var pathItem = ActivePathItem.Files.FirstOrDefault(f => f.FullPath == file);
-
-            if (e.ChangeType == WatcherChangeTypes.Deleted)
-            {
-                Dispatcher.Invoke(() => { pathItem?.Parent.Files.Remove(pathItem); });
-            }
-            if (e.ChangeType == WatcherChangeTypes.Created)
-            {
-                if (pathItem == null)
-                {
-                    var pi = new PathItem()
-                    {
-                        FullPath = file,
-                        IsFolder = Directory.Exists(file)
-                    };
-                    pi.SetIcon();
-
-                    int foundIndex = -1;
-                    foreach (var pitem in ActivePathItem.Files)
-                    {
-                        foundIndex++;
-                        if (pitem.IsFolder && !pi.IsFolder || !pitem.IsFolder && pi.IsFolder)
-                            continue;
-                        
-                        if (file.ToLowerInvariant().CompareTo( pitem.FullPath.ToLowerInvariant()) < 0)
-                            break;
-                    }
-
-                    if (foundIndex == -1) foundIndex = 0;
-
-                    Dispatcher.Invoke(() => { ActivePathItem.Files.Insert(foundIndex, pi); });                    
-                }
-            }
-        }
-
-        private void AttachFileWatcher(string fullPath)
-        {
-            if(FileWatcher != null)
-                ReleaseFileWatcher();
-
-            FileWatcher = new FileSystemWatcher(fullPath)
-            {
-                IncludeSubdirectories = false,
-                EnableRaisingEvents = true
-            };
-            FileWatcher.Created += FileWatcher_CreateOrDelete;
-            FileWatcher.Deleted += FileWatcher_CreateOrDelete;
-            FileWatcher.Renamed += FileWatcher_Renamed;
-        }
-
-        private void ReleaseFileWatcher()
-        {
-            if (FileWatcher != null)
-            {
-                FileWatcher.Created += FileWatcher_CreateOrDelete;
-                FileWatcher.Deleted += FileWatcher_CreateOrDelete;
-                FileWatcher.Renamed += FileWatcher_Renamed;
-                FileWatcher.Dispose();
-            }
-        }
-        #endregion
 
         private void ButtonUseCurrentFolder_Click(object sender, RoutedEventArgs e)
         {
@@ -529,22 +526,16 @@ namespace MarkdownMonster.Windows
             if (selected == null || selected.IsFile || selected.FullPath == "..")
                 return;
 
-            if (selected.Files == null || selected.Files.Count == 1 && selected.Files[0] == PathItem.Empty)
-            {
-                var subfolder =
-                    FolderStructure.GetFilesAndFolders(selected.FullPath, nonRecursive: true, parentPathItem: selected);
-
-                selected.Files.Clear();
-                foreach (var pi in subfolder.Files)
-                    selected.Files.Add(pi);
-
-                // have to force OPC to make the new files visible
-                selected.OnPropertyChanged(nameof(PathItem.Files));
-
-                AttachFileWatcher(selected.FullPath);
+            if (selected.Files != null && selected.Files.Count == 1 && selected.Files[0] == PathItem.Empty)
+            {                
+                var subfolder = FolderStructure.GetFilesAndFolders(selected.FullPath, nonRecursive: true, parentPathItem: selected);
             }
         }
 
+        private void Files_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            return;
+        }
 
         private void TreeViewItem_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {

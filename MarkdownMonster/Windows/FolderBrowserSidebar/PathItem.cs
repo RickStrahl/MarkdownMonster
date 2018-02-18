@@ -13,7 +13,7 @@ namespace MarkdownMonster.Windows
 	/// <summary>
 	/// Represents a file or folder in the Folder Browser side panel control.
 	/// </summary>
-	[DebuggerDisplay("{FullPath}")]
+	[DebuggerDisplay("Path: {FullPath}")]
 	public class PathItem : INotifyPropertyChanged
 	{
 		public string DisplayName

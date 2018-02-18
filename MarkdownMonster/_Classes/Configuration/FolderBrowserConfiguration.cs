@@ -62,7 +62,12 @@ namespace MarkdownMonster.Configuration
 	    private string _folderPath;
 
 
-	    public List<string> RecentFolders { get; set; } = new List<string>();
+	    public string IgnoredFolders { get; set; } = ".git,node_modules";
+
+	    public string IgnoredFileExtensions { get; set; } = ".saved.bak";
+
+
+        public List<string> RecentFolders { get; set; } = new List<string>();
 
 	    /// <summary>
 	    /// Determines whether icons are displayed in folder browser        
