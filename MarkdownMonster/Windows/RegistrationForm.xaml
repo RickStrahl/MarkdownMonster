@@ -29,7 +29,7 @@
                 <LineBreak/>
                 <LineBreak/>
                 You can  
-                <Button Content="purchase a registratrion key" 
+                <Button Content="purchase a registration key" 
                         Click="Purchase_Click"  TextBlock.BaselineOffset="19.5"
                         Style="{DynamicResource LinkButtonStyle}">                     
                 </Button>                
