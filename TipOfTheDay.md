@@ -35,7 +35,17 @@ Did you know you can right click on Image tags to preview or edit the image in y
 Did you know that Github Gists support Markdown? You can use Gist to create one off HTML pages in Markdown. They're great for posting detailed bug reports or ideas that you can link on Twitter and other social media. Markdown Monster's Gist Integration Addin can also help with editing and updating and managing of Gists easily.
 
 ### 3 ways to Image Embedding
-Did you know you can get images into @MarkdownMonstr docs in 3 ways: Image dialog, paste image into doc, drag images from Explorer.
+Did you know there are a ton of ways to get images into @MarkdownMonstr: 
+
+1. Type in Markdown (obviously)
+2. Paste images from clipboard
+3. Embed with Image Dialog
+4. Drag from Explorer
+5. Drag from Folder Browser
+6. Use Screen Capture
+
+https://markdownmonster.west-wind.com/docs/_4s01ezteq.htm #markdown
+
 
 ### Changing Update Check Interval
 Markdown Monster is iterating very quickly. Don't want to see new version checks as frequently? Set the following configuration settings to check less frequently:

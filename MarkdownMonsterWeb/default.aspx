@@ -418,8 +418,15 @@
 
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner" >
-                               
+                              
                             <div class="item active">
+                                <img src="Images/Tweets/JeremyMorgan.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+
+
+                            <div class="item">
                                 <img src="Images/Tweets/angrypets.png" />
                                 <div class="carousel-caption">
                                 </div>
@@ -461,6 +468,12 @@
                                 </div>
                             </div>
                             
+                            <div class="item">
+                                <img src="Images/Tweets/benb.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+
                             <div class="item">
                                 <img src="Images/Tweets/_bron_.png" />
                                 <div class="carousel-caption">
