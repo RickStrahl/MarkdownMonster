@@ -129,6 +129,7 @@ namespace MarkdownMonster.Utilities
             { "favicon.ico", "favicon" },
             { "folder.folder", "folder" }, // special case
             { "folder.openfolder", "folder-open" }, // special case
+            { "kavadocstopic.md", "kavadocs" },
             { "untitled","md" },
             
             // dev config files
