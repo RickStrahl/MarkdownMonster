@@ -82,7 +82,10 @@ var te = window.textEditor = {
             //    te.specialkey("f1");
             //},
             // save
-            "ctrl-s": function() { te.specialkey("ctrl-s"); },
+            "ctrl-s": function () {
+                te.mm.textbox.IsDirty(); // force document to update
+                te.specialkey("ctrl-s");
+            },
             // Open document
             "ctrl-o": function() {
                 te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
