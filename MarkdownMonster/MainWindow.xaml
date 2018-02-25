@@ -189,7 +189,7 @@
               Margin="0" 
               FontSize="{Binding Path=FontSize,ElementName=MainApplicationWindow}"
               HorizontalAlignment="Stretch">
-            <MenuItem Header="_File" Name="MenuFile" x:FieldModifier="public" >
+            <MenuItem Header="_File" Name="MainMenuFile" x:FieldModifier="public" >
                 <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding Commands.NewDocumentCommand}" InputGestureText="ctrl-n"/>
                 <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Command="{Binding Commands.NewWeblogPostCommand}" />
                 <Separator/>
@@ -225,7 +225,7 @@
                 <Separator />
                 <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
             </MenuItem>
-            <MenuItem Header="_Edit">
+            <MenuItem Header="_Edit" Name="MainMenuEdit">
                 <MenuItem Header="Paste Html as Markdown" IsEnabled="{Binding IsEditorActive}" 
                           Click="Button_PasteMarkdownFromHtml" 
                           ToolTip="Pastes HTML from your clipboard as Markdown text" 
@@ -261,7 +261,7 @@
                           Click="Button_Handler"
                           InputGestureText="ctrl-h" />
             </MenuItem>
-            <MenuItem Header="_Tools">                 
+            <MenuItem Header="_Tools" Name="MainMenuTools">                 
                 <MenuItem Name="MenuAddinManager" Header="_Add-in Manager" Command="{Binding Commands.AddinManagerCommand}"/>
                 <MenuItem Name="MenuAddins" Header="Add-ins" />
                 <Separator/>
@@ -283,7 +283,7 @@
                 <Separator/>
                 <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
             </MenuItem>
-            <MenuItem Header="_View">
+            <MenuItem Header="_View" Name="MainMenuView">
                 <MenuItem Name="ButtonHtmlPreview" 
                           Header="Toggle Html _Preview Window"
                           IsCheckable="True" 
@@ -356,10 +356,10 @@
             </MenuItem>
 
             <!-- generated dynamically by command -->
-            <MenuItem Name="WindowMenu" Header="_Window" Command="{Binding Commands.WindowMenuCommand}" />
+            <MenuItem Name="MainMenuWindow" Header="_Window" Command="{Binding Commands.WindowMenuCommand}" />
 
 
-            <MenuItem Header="_Help">
+            <MenuItem Header="_Help" Name="MainMenuHelp">
                 <MenuItem Name="MenuDocumentation" Header="Documentation" Command="{Binding Commands.HelpCommand}" InputGestureText="F1" />
                 <MenuItem Name="MenuMarkdownBasics" Header="Markdown Basics"   Click="Button_Handler"/>
                 <MenuItem Name="MenuCreateAddinDocumentation" Header="Documentation for Creating Addins"   Click="Button_Handler"/>
@@ -591,13 +591,13 @@
 
             <controls:MetroTabControl x:Name="SidebarContainer" 
                                         Margin="0,5,0,0"
-                                        FontSize="13"
+                                        FontSize="13"  x:FieldModifier="public"
                                         Background="#222"
                                         TabStripPlacement="Bottom"
                                         BorderThickness="0">
-               
-                <TabItem Name="TabFolderBrowser"
-                         Margin="0,0,5,0" Visibility="Collapsed" Header=" Files and Folders "
+
+                <TabItem Name="TabFolderBrowser"  x:FieldModifier="public"
+                         Margin="0,0,5,0" Visibility="Collapsed" Header=" Files "
                          controls:ControlsHelper.HeaderFontSize="14">
                     <!--<TabItem.Header>
                         <StackPanel Orientation="Horizontal">

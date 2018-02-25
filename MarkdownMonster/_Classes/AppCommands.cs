@@ -759,7 +759,7 @@ Do you want to View in Browser now?
         {
             WindowMenuCommand = new CommandBase((parameter, command) =>
             {
-                var mi = Model.Window.WindowMenu;
+                var mi = Model.Window.MainMenuWindow;
                 mi.Items.Clear();
 
                 mi.Items.Add(new MenuItem { Header = "_Close Document", Command= Model.Commands.CloseActiveDocumentCommand  });
