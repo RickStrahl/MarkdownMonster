@@ -87,6 +87,27 @@ namespace MarkdownMonster.Windows
             return null;
         }
 
+
+        /// <summary>
+        /// Finds a type of element in the parent chain of an element
+        /// </summary>
+        /// <typeparam name="T">Type of Element to find</typeparam>
+        /// <param name="current">start element</param>
+        /// <returns></returns>
+        public static T FindAnchestor<T>(DependencyObject current)
+            where T : DependencyObject
+        {
+            do
+            {
+                if (current is T) return (T) current;
+
+                current = VisualTreeHelper.GetParent(current);
+            }
+            while (current != null);
+
+            return null;
+        }
+
         /// <summary>
         /// Creates a keyboard shortcut from a 
         /// </summary>
