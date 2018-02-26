@@ -23,7 +23,7 @@ namespace MarkdownMonster.AddIns
         /// Just the file name of the configuraiton file in which to store configuration
         /// settings. This file will be auto-created in the MM Common folder.
         /// </summary>
-        protected virtual string ConfigurationFilename  { get; set;  } = typeof(T).Name + ".json";
+        protected string ConfigurationFilename  { get; set;  } = typeof(T).Name + ".json";
 
         /// <summary>
         /// The current configuration instance. 
@@ -60,7 +60,9 @@ namespace MarkdownMonster.AddIns
             }
 
             return provider;
-        }       
+        }
+
+        
 
         /// <summary>
         /// INotifyPropertyChanged handler implementation
