@@ -1736,6 +1736,7 @@ namespace MarkdownMonster
             if (editor == null)
                 return;
 
+            SidebarContainer.SelectedItem = TabFolderBrowser;
             ShowFolderBrowser(folder: Path.GetDirectoryName(editor.MarkdownDocument.Filename));
         }
 

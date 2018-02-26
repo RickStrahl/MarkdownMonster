@@ -527,7 +527,6 @@ We're now shutting down the application.
             ShowFolderBrowserCommand = new CommandBase((s, e) =>
             {
                 mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
-
                 mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
 
             });

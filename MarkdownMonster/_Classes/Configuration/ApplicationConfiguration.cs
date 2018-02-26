@@ -632,9 +632,18 @@ namespace MarkdownMonster
 
         /// <summary>
         /// By default passwords in addins are encrypted with machine encryption
-        /// keys which means they are not portable. When this option is true
+        /// keys which means they are not portable. When false a fixed password
+        /// is used that is portable which is not as secure.
+        /// 
+        /// Changing this scheme will cause Registration Keys to require
+        /// re-entering passwords.
         /// </summary>
         public bool UseMachineEncryptionKeyForPasswords { get; set; }
+
+        /// <summary>
+        /// Timeout used on Statusbar messages
+        /// </summary>
+        public int StatusMessageTimeout { get; set; } = 6000;
 
         #endregion
 
