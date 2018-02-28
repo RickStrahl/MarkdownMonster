@@ -841,6 +841,20 @@ namespace MarkdownMonster
         #endregion
 
         #region Selection and Line Operations
+
+        /// <summary>
+        /// Replaces the editor's content without completely 
+        /// reloading the document. 
+        /// 
+        /// Leaves scroll position intact.
+        /// </summary>
+        /// <param name="text"></param>
+        public void ReplaceContent(string text)
+        {
+            AceEditor?.replacecontent(text);
+        }
+
+
         /// <summary>
         /// Gets the current selection of the editor
         /// </summary>
@@ -945,6 +959,10 @@ namespace MarkdownMonster
         }
 
 
+        /// <summary>
+        /// REturns the editor's cursor position as row and column values
+        /// </summary>
+        /// <returns></returns>
         public AcePosition GetCursorPosition()
         {
             dynamic pos = AceEditor.getCursorPosition(false);
@@ -956,6 +974,26 @@ namespace MarkdownMonster
                 column = (int) pos.column
             };
             return pt;
+        }
+
+
+        /// <summary>
+        /// Set's the editor's row and column position
+        /// </summary>
+        /// <param name="col"></param>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        public void SetCursorPosition(int col, int row)
+        {
+            AceEditor?.setCursorPosition(row,col);            
+        }
+
+        /// <summary>
+        /// Set's the editor's row and column position
+        /// </summary>
+        public void SetCursorPosition(AcePosition pos)
+        {
+            AceEditor?.setCursorPosition(pos.row, pos.column);
         }
 
         public void MoveCursorPosition(int column, int row = 0)
