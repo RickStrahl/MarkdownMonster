@@ -932,6 +932,52 @@ namespace MarkdownMonster
             return tab;
 	    }
 
+
+        /// <summary>
+        /// Refreshes an already loaded tab with contents of a new (or the same file) file
+        /// by just replacing the document's text.
+        /// 
+        /// If the tab is not found a new tab is opened.
+        /// 
+        /// Note: File must already be open for this to work                
+        /// </summary>
+        /// <param name="editorFile"></param>
+        /// <param name="editor"></param>
+        /// <returns></returns>
+        public TabItem RefreshTabFromFile(string editorFile,            
+            bool maintainScrollPosition = false,
+            bool noPreview = false,
+            bool noFocus = false)
+        {         
+
+            var tab = GetTabFromFilename(editorFile);
+            if (tab == null)
+                return OpenTab(editorFile,rebindTabHeaders:true);
+
+            // load the underlying document
+            var editor = tab.Tag as MarkdownDocumentEditor;
+            editor.MarkdownDocument.Load(editorFile);
+
+            if (!maintainScrollPosition)
+                editor.SetCursorPosition(0,0);
+
+            editor.SetMarkdown(editor.MarkdownDocument.CurrentText);
+            var state = editor.IsDirty(); // force refresh
+            
+
+            if (!noFocus)
+                TabControl.SelectedItem = tab;
+                
+            if (!noPreview)
+                PreviewMarkdownAsync();
+
+            
+
+            return tab;
+        }
+
+    
+
         /// <summary>
         /// Retrieves an open tab based on its filename.
         /// </summary>

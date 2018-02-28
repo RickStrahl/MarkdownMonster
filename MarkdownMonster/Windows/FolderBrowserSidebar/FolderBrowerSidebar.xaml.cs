@@ -143,8 +143,7 @@ namespace MarkdownMonster.Windows
         #region FileWatcher
 
         private void FileWatcher_Renamed(object sender, RenamedEventArgs e)
-        {
-            Debug.WriteLine("Rename: " + e.FullPath + " from " + e.OldFullPath);
+        {            
             var file = e.FullPath;
             var oldFile = e.OldFullPath;
 
@@ -159,8 +158,7 @@ namespace MarkdownMonster.Windows
         }
 
         private void FileWatcher_CreateOrDelete(object sender, FileSystemEventArgs e)
-        {
-            Debug.WriteLine("Create Or Delete: " + e.FullPath + " " + e.ChangeType);
+        {            
             var file = e.FullPath;
             
             if (e.ChangeType == WatcherChangeTypes.Deleted)
@@ -175,7 +173,7 @@ namespace MarkdownMonster.Windows
                     
                     pi.Parent.Files.Remove(pi);
 
-                    Debug.WriteLine("After: " + pi.Parent.Files.Count + " " + file);
+                    //Debug.WriteLine("After: " + pi.Parent.Files.Count + " " + file);
                 },DispatcherPriority.ApplicationIdle);
             }
 
@@ -434,7 +432,7 @@ namespace MarkdownMonster.Windows
             }
 
             
-
+            // search key
             if (e.Key >= Key.A && e.Key <= Key.Z ||
                 e.Key >= Key.D0 && e.Key <= Key.D9 ||
                 e.Key == Key.OemPeriod ||
@@ -510,7 +508,7 @@ namespace MarkdownMonster.Windows
             if (e.ClickCount == 2)
             {
                 LastClickTime = DateTime.MinValue;
-                HandleItemSelection();
+                HandleItemSelection();                
             }
         }
 

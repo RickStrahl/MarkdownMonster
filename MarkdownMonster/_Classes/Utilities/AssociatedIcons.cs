@@ -88,7 +88,9 @@ namespace MarkdownMonster.Utilities
             {
                 icon = DefaultIcon;                
             }
-            Icons.Add(key, icon);
+
+            if (Icons.ContainsKey(key))
+                Icons.Add(key, icon);  
 
             return icon;
         }

@@ -14,12 +14,12 @@ copy ".\MarkdownMonsterPortable.md" ".\Distribution"
 
 "Zipping up setup file..."
 del ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip"
-7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip" ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"
+.\7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip" ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"
 
 "Zipping up portable setup file..."
 del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
-7z a -tzip -r ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\Distribution\*.*"
-7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\MarkdownMonsterPortable.md"
+.\7z a -tzip -r ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\Distribution\*.*"
+.\7z a -tzip ".\Builds\CurrentReleasbuie\MarkdownMonsterPortable.zip" ".\MarkdownMonsterPortable.md"
 
 
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe").FileVersion
