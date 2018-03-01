@@ -760,8 +760,9 @@ namespace MarkdownMonster
 	        string syntax = "markdown",
 	        bool selectTab = true,
 	        bool rebindTabHeaders = false,
-	        bool batchOpen = false,
-	        int initialLineNumber = 0)
+	        bool batchOpen = false,            
+	        int initialLineNumber = 0,
+	        bool readOnly = false)
 	    {
 	        if (mdFile != null && mdFile != "untitled" &&
 	            (!File.Exists(mdFile) ||
@@ -788,7 +789,8 @@ namespace MarkdownMonster
 	            {
 	                Window = this,
 	                EditorSyntax = syntax,
-	                InitialLineNumber = initialLineNumber
+	                InitialLineNumber = initialLineNumber,
+                    IsReadOnly = readOnly
 	            };
 
 	            var doc = new MarkdownDocument()
@@ -947,12 +949,13 @@ namespace MarkdownMonster
         public TabItem RefreshTabFromFile(string editorFile,            
             bool maintainScrollPosition = false,
             bool noPreview = false,
-            bool noFocus = false)
+            bool noFocus = false,
+            bool readOnly = false)
         {         
 
             var tab = GetTabFromFilename(editorFile);
             if (tab == null)
-                return OpenTab(editorFile,rebindTabHeaders:true);
+                return OpenTab(editorFile,rebindTabHeaders:true, readOnly: readOnly);
 
             // load the underlying document
             var editor = tab.Tag as MarkdownDocumentEditor;
@@ -1058,7 +1061,8 @@ namespace MarkdownMonster
 		/// <param name="document"></param>
 		/// <param name="propertyPath"></param>
 		private void SetTabHeaderBinding(TabItem tab, MarkdownDocument document,
-			string propertyPath = "FilenameWithIndicator")
+			string propertyPath = "FilenameWithIndicator",
+		    ImageSource icon = null)
 		{
 			if (document == null || tab == null)
 				return;
@@ -1072,12 +1076,15 @@ namespace MarkdownMonster
                 grid.ColumnDefinitions.Add(col1);
 			    grid.ColumnDefinitions.Add(col2);
 
-			    var img = new Image()
+
+			    if (icon == null)
+			        icon = FolderStructure.IconList.GetIconFromFile(document.Filename);               
+
+                var img = new Image()
 			    {
-			        Source = FolderStructure.IconList.GetIconFromFile(document.Filename),
+			        Source = icon,
                     Height=16,
                     Margin = new Thickness(0,1,5,0)
-
 			    };
 			    img.SetValue(Grid.ColumnProperty, 0);
 			    grid.Children.Add(img);

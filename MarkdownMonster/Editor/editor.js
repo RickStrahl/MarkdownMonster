@@ -303,6 +303,26 @@ var te = window.textEditor = {
         },
             30);
     },
+    setReadOnly: function (status) {
+        if (te.editor.readOnly == status)
+            return;
+        te.editor.setReadOnly(status);
+        //.readOnly = status;        
+        try {
+            if (status) {
+                te.editor.container.style.opacity = 0.80;
+                $(te.editor.container).on("dblclick", te.readOnlyDoubleClick);
+            } else {
+                $(te.editor.container).off("dblclick", te.readOnlyDoubleClick);
+                te.editor.container.style.opacity = 1; // or use svg filter to make it gray            
+            }
+        } catch (ex) {
+            alert(ex.message);
+        }
+    },
+    readOnlyDoubleClick: function () {        
+        te.mm.textbox.NotifyAddins("ReadOnlyEditorDoubleClick",null);
+    },
     // replaces content without completely reloading the document
     // by using clipboard replacement
     // Leaves scroll position intact
