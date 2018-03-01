@@ -15,7 +15,7 @@ The folder browser now displays file system updates in the folder browser. If yo
 * **Folder Browser `IgnoreFolders` and `IgnoreFileExtensions`**  
 Options to filter the folder browser display for certain folder and file extensions. Folders default `.git, node_modules` and extensions to `.saved.bak`. Values can be customized in Settings.
 
-* **Addin Support for adding SideBar Tab Items**  
+* **Addin Support for adding Sidebar Tab Items**  
 Addins can now implement a `AddSidebarPanelTabItem()` method to add a new sidebar panel which becomes a tabbed item alongside the File and Folder Browser. This allows for custom list panels for additional functionality like Git interaction, custom documentation solutions and document navigation and so on.
 
 * **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
@@ -28,7 +28,7 @@ The Weblog post meta data now stores the original post date, which also allows f
 * **Fix up spaces in Editor Markup Operations**   
 Editor markup operations like the bold, italic, underscore, small etc. now automatically handle fixing up leading spaces so if you select ` selected words ` (not the leading and trailing spaces that are selected) the tag is updated as ` **selected words** ` (space before and after the `**`) effectively transposing the unintended spaces in the markup.
 
-* **Addins: Support for ReadOnly Editor**   
+* **Addins: Support for Read Only Editor**   
 You can now open a new editor tab in Read Only mode which can't be edited but can still be viewed and scrolled. Also added a double click handler in read only mode that triggers an `OnNotifyAddin` event for `ReadOnlyDoubleClick` that can be used to take action on the double click (like open a new window).
 
 * **Fix: Quicker Save Behavior**   
@@ -41,7 +41,7 @@ Fix sort order to work with lower case sorting so folders or files that start wi
 You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser. The link also opens the Preview Theme Editing documentation.
 
 * **Fix: Weblog Post Download with FrontMatter Header**  
-Fix issue where Weblog posts that contain FrontMatter headers would doulbe up the FrontMatter and title headers. Fix checks for FrontMatter in downloaded post and if found just display the raw post retrieved with the original FrontMatter and Markdown formatting.
+Fix issue where Weblog posts that contain FrontMatter headers would double up the FrontMatter and title headers. Fix checks for FrontMatter in downloaded post and if found just display the raw post retrieved with the original FrontMatter and Markdown formatting.
 
 * **Fix: Table Importer with HTML Tables**  
 Fix table importer context menu to find tables inside of the Editor. Fix import behavior if table uses upper case tag names.
@@ -52,13 +52,13 @@ Fix table importer context menu to find tables inside of the Editor. Fix import 
 #### Version Rollup Release
 
 * **Version Rollup Release**  
-This release is a version rollup release that combines all the recent additions into a point release.
+This release is a version Rollup release that combines all the recent additions into a point release.
 
 * **Add Table Editor support for Paste Table**   
 You can now paste a table from HTML, or Pipe or Grid Tables into the table editor. Note if the table is heavily formatted it'll likely end up as mostly HTML, but simple formatted tables with links, images and simple markup are converted. 
 
 * **Edit Table in Editor now also supports HTML Tables**  
-The editor context menu now allows editing of HTML Tables inside of the table editor. Inside of a table in the editor, right click (or use the Windows dropdow key with the cursor selected inside of table) to open the table in the editor. Support for complex HTML inside of cells is limited to plain text, links, images, bold and italic.
+The editor context menu now allows editing of HTML Tables inside of the table editor. Inside of a table in the editor, right click (or use the Windows drop down key with the cursor selected inside of table) to open the table in the editor. Support for complex HTML inside of cells is limited to plain text, links, images, bold and italic.
 
 * **Performance improvements in Table Editor**  
 Reworked the custom layout used to edit table rows that makes rebinding of table rows and columns much more efficiently than previously.
@@ -71,7 +71,7 @@ Fix recent file list on the Start Screen to refresh and accurately show recent f
 *<small>January 16th, 2018</small>*
 
 * **Add Open Documents Dropdown for Tab Overflow**  
-Changed the tab layout so when there are more tabs than can be displayed, a dropdown shows a menu with all open files that can be selected.
+Changed the tab layout so when there are more tabs than can be displayed, a drop down shows a menu with all open files that can be selected.
 
 * **Add Window Menu to show all open Documents**   
 Add standard Window menu to show all open documents and allow manipulation of the open documents (Close open tab, Close all, Close all but).
