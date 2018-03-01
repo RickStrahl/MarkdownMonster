@@ -235,7 +235,11 @@ namespace MarkdownMonster.AddIns
         /// You can override this method to capture commands that are not
         /// already handled by the editor.        
         /// </summary>
-        /// <param name="command"></param>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="command">Command Name</param>
+        /// <param name="parameter">Command parameter</param>
         public virtual void OnNotifyAddin(string command, object parameter)
         {
             

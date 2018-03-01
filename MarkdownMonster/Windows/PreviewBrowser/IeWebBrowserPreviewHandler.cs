@@ -110,21 +110,21 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                         if (keepScrollPosition)
                         {
                             dom = WebBrowser.Document;
-                            editor.MarkdownDocument.LastEditorLineNumber = dom.documentElement.scrollTop;
+                            doc.LastEditorLineNumber = dom.documentElement.scrollTop;
                         }
                         else
                         {
                             Window.ShowPreviewBrowser(false, false);
-                            editor.MarkdownDocument.LastEditorLineNumber = 0;
+                            doc.LastEditorLineNumber = 0;
                         }
                     }
 
                     if (mappedTo == "html")
                     {
                         if (string.IsNullOrEmpty(renderedHtml))
-                            renderedHtml = editor.MarkdownDocument.CurrentText;
+                            renderedHtml = doc.CurrentText;
 
-                        if (!editor.MarkdownDocument.WriteFile(editor.MarkdownDocument.HtmlRenderFilename,renderedHtml))
+                        if (!doc.WriteFile(doc.HtmlRenderFilename,renderedHtml))
                             // need a way to clear browser window
                             return;
                     }
@@ -132,13 +132,13 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     {
                         bool usePragma = !showInBrowser && mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.None;
                         if (string.IsNullOrEmpty(renderedHtml))
-                            renderedHtml = editor.MarkdownDocument.RenderHtmlToFile(usePragmaLines: usePragma,
+                            renderedHtml = doc.RenderHtmlToFile(usePragmaLines: usePragma,
                                 renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
 
                         if (renderedHtml == null)
                         {
                             Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
-                            Window.ShowStatus($"Access denied: {Path.GetFileName(editor.MarkdownDocument.Filename)}",
+                            Window.ShowStatus($"Access denied: {Path.GetFileName(doc.Filename)}",
                                 5000);
                             // need a way to clear browser window
 
@@ -152,7 +152,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
                     if (showInBrowser)
                     {
-                        var url = editor.MarkdownDocument.HtmlRenderFilename;
+                        var url = doc.HtmlRenderFilename;
                         mmFileUtils.ShowExternalBrowser(url);
                         return;
                     }
@@ -168,7 +168,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     {
                         string browserUrl = WebBrowser.Source.ToString().ToLower();
                         string documentFile = "file:///" +
-                                              editor.MarkdownDocument.HtmlRenderFilename.Replace('\\', '/')
+                                              doc.HtmlRenderFilename.Replace('\\', '/')
                                                   .ToLower();
                         if (browserUrl == documentFile)
                         {
@@ -212,7 +212,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                     WebBrowser.Tag = "EDITORSCROLL";
 
 
-                                    WebBrowser.Navigate(new Uri(editor.MarkdownDocument.HtmlRenderFilename));
+                                    WebBrowser.Navigate(new Uri(doc.HtmlRenderFilename));
                                 }
                             }
 
@@ -221,7 +221,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     }
 
                     WebBrowser.Tag = "EDITORSCROLL";
-                    WebBrowser.Navigate(new Uri(editor.MarkdownDocument.HtmlRenderFilename));
+                    WebBrowser.Navigate(new Uri(doc.HtmlRenderFilename));
                     return;
                 }
 
