@@ -147,12 +147,14 @@
                 </StackPanel>
 
                 <TextBlock Text="{Binding ActiveAddin.description}" TextWrapping="Wrap" Margin="0,10,0,0"></TextBlock>
+                
+                <Button  Name="ButtonMoreInfo" Margin="0,5,0,8"                        
+                         Content="more info" 
+                         Click="ButtonMoreInfo_Click"
+                         Style="{DynamicResource LinkButtonStyle}" Width="Auto"/>
 
-                <TextBlock Foreground="LightSteelBlue" FontStyle="Italic" 
-                                               Margin="0,5,0,8" 
-                                               Cursor="Arrow">more info</TextBlock>
+                 <Image Source="{Binding ActiveAddin.gitScreenShotUrl}" Margin="0,10,0,0"/>
 
-                <Image Source="{Binding ActiveAddin.gitScreenShotUrl}" Margin="0,10,0,0"/>
             </StackPanel>
         </Grid>
         <StatusBar Grid.Row="1" Name="StatusBar" FontSize="15">

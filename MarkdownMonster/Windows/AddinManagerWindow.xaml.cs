@@ -163,9 +163,9 @@ namespace MarkdownMonster.Windows
             {
                 timer = new Timer((object win) =>
                 {
-                    var window = win as AddinManagerWindow;
-                    if (window == null)
+                    if (!(win is AddinManagerWindow window))
                         return;
+
                     window.Dispatcher.Invoke(() =>
                     {
                         window.ShowStatus();
@@ -175,10 +175,10 @@ namespace MarkdownMonster.Windows
             }
             WindowUtilities.DoEvents();
         }
+      
 
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ButtonMoreInfo_Click(object sender, RoutedEventArgs e)
         {
-            
             if (ActiveAddin == null)
                 return;
 
