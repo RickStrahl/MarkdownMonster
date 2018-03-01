@@ -3,12 +3,11 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-
-### 1.9.5
+### 1.9.6
 *<small>not released yet</small>*
 
-* **Add Post Date to Weblog Post Meta Data**  
-The Weblog post meta data now stores the original post date, which also allows for modifying the post date to a new date when reposting **if** the Weblog service supports that feature.
+* **Keyboard Auto Search for starting Letters in Folder Browser**  
+You can now type in a few letters to jump to the first matching file similar to the way Explorer finds files.
 
 * **Folder Browser File System (File Watcher)**  
 The folder browser now displays file system updates in the folder browser. If you externally add, delete or rename a file the external changes are reflected in the Folder Browser.
@@ -16,22 +15,30 @@ The folder browser now displays file system updates in the folder browser. If yo
 * **Folder Browser `IgnoreFolders` and `IgnoreFileExtensions`**  
 Options to filter the folder browser display for certain folder and file extensions. Folders default `.git, node_modules` and extensions to `.saved.bak`. Values can be customized in Settings.
 
+* **Addin Support for adding SideBar Tab Items**  
+Addins can now implement a `AddSidebarPanelTabItem()` method to add a new sidebar panel which becomes a tabbed item alongside the File and Folder Browser. This allows for custom list panels for additional functionality like Git interaction, custom documentation solutions and document navigation and so on.
+
+* **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
+* Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
+Example: [Chromium Preview Addin (preview)](https://github.com/RickStrahl/ChromiumPreview-MarkdownMonster-Addin)
+
+* **Add Post Date to Weblog Post Meta Data**  
+The Weblog post meta data now stores the original post date, which also allows for modifying the post date to a new date when reposting **if** the Weblog service supports that feature.
+
 * **Fix up spaces in Editor Markup Operations**   
 Editor markup operations like the bold, italic, underscore, small etc. now automatically handle fixing up leading spaces so if you select ` selected words ` (not the leading and trailing spaces that are selected) the tag is updated as ` **selected words** ` (space before and after the `**`) effectively transposing the unintended spaces in the markup.
 
-* **Keyboard Auto Search for starting Letters in Folder Browser**  
-You can now type in a few letters to jump to the first matching file similar to the way Explorer finds files.
+* **Addins: Support for ReadOnly Editor**   
+You can now open a new editor tab in Read Only mode which can't be edited but can still be viewed and scrolled. Also added a double click handler in read only mode that triggers an `OnNotifyAddin` event for `ReadOnlyDoubleClick` that can be used to take action on the double click (like open a new window).
+
+* **Fix: Quicker Save Behavior**   
+Save operations previously were slightly delayed and didn't show the document as saved immediately. Made file save explicit rather than triggering on dirty flag update for much more responsive save.
 
 * **Fix: Sort Order in Folder Browser**  
 Fix sort order to work with lower case sorting so folders or files that start with `_` sort to the top and lower and upper case file names are not mixed up in sorting.
 
 * **Added Edit Preview Template in Preview Browser**  
 You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser. The link also opens the Preview Theme Editing documentation.
-
-* **Refactored the Preview Browser to allow pluggable Preview Controls via Addins** Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
-
-* **Addin Support for adding SideBar Tab Items**  
-Addins can now implement a `AddSidebarPanelTabItem()` method to add a new sidebar panel which becomes a tabbed item alongside the File and Folder Browser. This allows for custom list panels for additional functionality like Git interaction, custom documentation solutions and document navigation and so on.
 
 * **Fix: Weblog Post Download with FrontMatter Header**  
 Fix issue where Weblog posts that contain FrontMatter headers would doulbe up the FrontMatter and title headers. Fix checks for FrontMatter in downloaded post and if found just display the raw post retrieved with the original FrontMatter and Markdown formatting.
