@@ -88,7 +88,17 @@ namespace MarkdownMonster
         public string EditorSyntax { get; set; }
         public int InitialLineNumber { get; set; }
 
+        #region Behavior Properties and Storage
+        /// <summary>
+        /// Determines whether the editor displays as a read-only document
+        /// </summary>
         public bool IsReadOnly { get; set; }
+
+
+        /// <summary>
+        /// Determines if the editor requires an HTML preview window
+        /// </summary>
+        public bool HasHtmlPreview { get; set; }
 
 
         /// <summary>
@@ -100,6 +110,14 @@ namespace MarkdownMonster
         /// </summary>
         public string Identifier { get; set; } = "MarkdownDocument";
 
+        /// <summary>
+        /// Optional storage object that allows you to store additional data
+        /// for the document. Useful for plug-ins that may want to keep things
+        /// with the document for rendering or other purposes.
+        /// </summary>
+        public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
+
+        #endregion
 
         #region Loading And Initialization
         public MarkdownDocumentEditor(WebBrowser browser)

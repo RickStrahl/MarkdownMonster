@@ -309,8 +309,8 @@ var te = window.textEditor = {
         te.editor.setReadOnly(status);
         //.readOnly = status;        
         try {
-            if (status) {
-                te.editor.container.style.opacity = 0.80;
+            if (status) {                
+                te.editor.container.style.opacity = 0.70;                
                 $(te.editor.container).on("dblclick", te.readOnlyDoubleClick);
             } else {
                 $(te.editor.container).off("dblclick", te.readOnlyDoubleClick);

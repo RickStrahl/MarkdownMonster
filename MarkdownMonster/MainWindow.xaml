@@ -19,8 +19,8 @@
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"		
 		FontSize="13"
-        Height="740" Width="1100"  
-        MinWidth="800" MinHeight="700" 
+        Height="700" Width="1000"  
+        MinWidth="800" MinHeight="600" 
         WindowTransitionsEnabled="False">
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt+Shift"
@@ -578,7 +578,7 @@
 
         
 
-        <Grid Name="ContentGrid" Grid.Row="2"  >
+        <Grid Name="ContentGrid" Grid.Row="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Name="FolderBrowserColumn" Width="0"  x:FieldModifier="public" />
                 <ColumnDefinition Name="FolderBrowserSeparatorColumn" Width="0" x:FieldModifier="public" />
@@ -589,7 +589,7 @@
 
 
 
-            <controls:MetroTabControl x:Name="SidebarContainer" 
+            <controls:MetroTabControl x:Name="SidebarContainer"
                                         Margin="0,5,0,0"
                                         FontSize="13"  x:FieldModifier="public"
                                         Background="#222"
@@ -625,7 +625,7 @@
 			</GridSplitter>
 
 
-            <dragablz:TabablzControl x:Name="TabControl" Grid.Column="2"
+            <dragablz:TabablzControl x:Name="TabControl" x:FieldModifier="public" Grid.Column="2"
                                      Margin="0,5,0,0"
                                      FontSize="13"
                                      Background="#222"
@@ -642,8 +642,10 @@
 
                 </dragablz:TabablzControl.Resources>-->
             </dragablz:TabablzControl>
-            
-            <Grid Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"  
+
+            <Grid Grid.Column="2"  
+                  HorizontalAlignment="Center"  
+                  VerticalAlignment="Center"  
                   Visibility="{Binding IsNoTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}"  >
 
                 <Grid.RowDefinitions>
