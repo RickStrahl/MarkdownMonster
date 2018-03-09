@@ -16,48 +16,48 @@ namespace MarkdownMonster.Windows
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return !(bool)value;
+            return !(bool) value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return !(bool)value;
+            return !(bool) value;
         }
     }
 
-[ValueConversion(typeof(bool), typeof(bool))]
-public class StringComparisonToBooleanConverter : IValueConverter
-{
-	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-	{
-		string parm = parameter as string;
-		if (value == null || parm == null)
-			return false;			
-		return parm == value.ToString();
-	}	
+    [ValueConversion(typeof(bool), typeof(bool))]
+    public class StringComparisonToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string parm = parameter as string;
+            if (value == null || parm == null)
+                return false;
+            return parm == value.ToString();
+        }
 
-	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-	{
-		throw new NotImplementedException();
-	}
-}
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
-[ValueConversion(typeof(bool), typeof(bool))]
-public class StringComparisonInvertedToBooleanConverter : IValueConverter
-{
-	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-	{
-		string parm = parameter as string;
-		if (value == null || parm == null)
-			return true;
-		return parm != value.ToString();
-	}
+    [ValueConversion(typeof(bool), typeof(bool))]
+    public class StringComparisonInvertedToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string parm = parameter as string;
+            if (value == null || parm == null)
+                return true;
+            return parm != value.ToString();
+        }
 
-	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-	{
-		throw new NotImplementedException();
-	}
-}
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     /// <summary>
     /// BUILT INTO WPF
@@ -67,19 +67,22 @@ public class StringComparisonInvertedToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is Boolean && (bool)value)
+            if (value is Boolean && (bool) value)
             {
                 return Visibility.Visible;
             }
+
             return Visibility.Collapsed;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
         {
-            if (value is Visibility && (Visibility)value == Visibility.Visible)
+            if (value is Visibility && (Visibility) value == Visibility.Visible)
             {
                 return true;
             }
+
             return false;
         }
     }
@@ -91,16 +94,18 @@ public class StringComparisonInvertedToBooleanConverter : IValueConverter
     /// </summary>
     public class ValueConverterGroup : List<IValueConverter>, IValueConverter
     {
-        
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return this.Aggregate(value, (current, converter) => converter.Convert(current, targetType, parameter, culture));
+            return this.Aggregate(value,
+                (current, converter) => converter.Convert(current, targetType, parameter, culture));
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
-        }        
+        }
     }
 
     public class FileNameFromPathConverter : IValueConverter
@@ -148,7 +153,7 @@ public class StringComparisonInvertedToBooleanConverter : IValueConverter
             if (string.IsNullOrEmpty(path))
                 return value;
 
-           int size = System.Convert.ToInt32(parameter);
+            int size = System.Convert.ToInt32(parameter);
             if (size < 1)
                 size = 70;
 
@@ -156,6 +161,25 @@ public class StringComparisonInvertedToBooleanConverter : IValueConverter
 
             //string folder = Path.GetFileName(Path.GetDirectoryName(path));
             //return $"{Path.GetFileName(path)}  –  {folder}";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal class FontWeightFromBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool boolValue)
+            {
+                if (boolValue)
+                    return FontWeights.SemiBold;
+            }
+
+            return FontWeights.Normal;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

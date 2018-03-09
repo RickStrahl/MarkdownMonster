@@ -583,7 +583,7 @@
                 <ColumnDefinition Name="LeftSidebarColumn"  Width="{Binding WindowLayout.LeftSidebarWidth,Mode=TwoWay}" x:FieldModifier="public" />
                 <ColumnDefinition Name="LeftSidebarSeparatorColumn" Width="{Binding WindowLayout.LeftSidebarSeparatorWidth,Mode=TwoWay}"  x:FieldModifier="public" />
                 <ColumnDefinition Name="MainWindowEditorColumn" Width="*" x:FieldModifier="public" />
-                <ColumnDefinition Name="RightSidebarSeparatorColumn" Width="{Binding WindowLayout.RightSidebarSeparatorWidth,Mode=TwoWay}"  x:FieldModifier="public" />
+                <ColumnDefinition Name="MainWindowSeparatorColumn" Width="{Binding WindowLayout.RightSidebarSeparatorWidth,Mode=TwoWay}"  x:FieldModifier="public" />
                 <ColumnDefinition Name="RightSidebarColumn" Width="{Binding WindowLayout.RightSidebarWidth,Mode=TwoWay}"  x:FieldModifier="public" />
             </Grid.ColumnDefinitions>
 
@@ -627,7 +627,7 @@
             <dragablz:TabablzControl x:Name="TabControl" x:FieldModifier="public" Grid.Column="2"
                                      Margin="0,5,0,0"
                                      FontSize="13"
-                                     Background="#222"
+                                     Background="Transparent"
                                      BorderThickness="0"
                                      ShowDefaultCloseButton="True"                                     
                                      ShowDefaultAddButton="False"

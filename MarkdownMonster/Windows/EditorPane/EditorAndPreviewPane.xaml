@@ -21,11 +21,11 @@
             <ColumnDefinition  Width="{Binding WindowLayout.PreviewWidth,Mode=TwoWay}" />
         </Grid.ColumnDefinitions>
 
-        <WebBrowser x:Name="EditorWebBrowser" >
+        <WebBrowser x:Name="EditorWebBrowser">
         </WebBrowser>
 
         <GridSplitter Grid.Column="1" Name="Separator" x:FieldModifier="public"                              
-                      HorizontalAlignment="Center"                          
+                      HorizontalAlignment="Center"                
                       BorderThickness="0" IsTabStop="False"
                       controls:VisibilityHelper.IsVisible="{Binding IsPreviewBrowserVisible}"
                       VerticalAlignment="Stretch" >

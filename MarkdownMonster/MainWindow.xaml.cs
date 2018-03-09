@@ -1090,10 +1090,20 @@ namespace MarkdownMonster
 			        Source = document,
 			        Path = new PropertyPath(propertyPath),
 			        Mode = BindingMode.OneWay
-			    };
-			    
+			    };			    
                 BindingOperations.SetBinding(textBlock, TextBlock.TextProperty, headerBinding);
-			    grid.Children.Add(textBlock);
+
+			    var fontWeightBinding = new Binding
+			    {
+			        Source = tab,
+			        Path = new PropertyPath("IsSelected"),                     
+			        Mode = BindingMode.OneWay,
+                    Converter = new FontWeightFromBoolConverter()
+			    };
+			    BindingOperations.SetBinding(textBlock, TextBlock.FontWeightProperty, fontWeightBinding);
+
+
+                grid.Children.Add(textBlock);
 
 			    //BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
 			}

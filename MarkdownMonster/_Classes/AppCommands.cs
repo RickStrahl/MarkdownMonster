@@ -581,7 +581,7 @@ Do you want to View in Browser now?
                     gl = GridLength.Auto; // toolbar height
 
                     window.MainWindowEditorColumn.Width = new GridLength(1, GridUnitType.Star);
-                    window.RightSidebarSeparatorColumn.Width = new GridLength(0);
+                    window.MainWindowSeparatorColumn.Width = new GridLength(0);
                     //window.MainWindowPreviewColumn.Width =
                     //    new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
 
@@ -621,7 +621,7 @@ Do you want to View in Browser now?
                     window.ShowFolderBrowser(true);
 
                     window.MainWindowEditorColumn.Width = gl;
-                    window.RightSidebarSeparatorColumn.Width = gl;
+                    window.MainWindowSeparatorColumn.Width = gl;
                     //window.MainWindowPreviewColumn.Width = new GridLength(1, GridUnitType.Star);
 
                     Model.IsPresentationMode = true;
