@@ -583,11 +583,9 @@
                 <ColumnDefinition Name="LeftSidebarColumn"  Width="{Binding WindowLayout.LeftSidebarWidth,Mode=TwoWay}" x:FieldModifier="public" />
                 <ColumnDefinition Name="LeftSidebarSeparatorColumn" Width="{Binding WindowLayout.LeftSidebarSeparatorWidth,Mode=TwoWay}"  x:FieldModifier="public" />
                 <ColumnDefinition Name="MainWindowEditorColumn" Width="*" x:FieldModifier="public" />
-                <ColumnDefinition Name="MainWindowSeparatorColumn" Width="{Binding WindowLayoutRightSidebarWidth,Mode=TwoWay}"  x:FieldModifier="public" />
+                <ColumnDefinition Name="RightSidebarSeparatorColumn" Width="{Binding WindowLayout.RightSidebarSeparatorWidth,Mode=TwoWay}"  x:FieldModifier="public" />
                 <ColumnDefinition Name="RightSidebarColumn" Width="{Binding WindowLayout.RightSidebarWidth,Mode=TwoWay}"  x:FieldModifier="public" />
             </Grid.ColumnDefinitions>
-
-
 
             <controls:MetroTabControl x:Name="SidebarContainer"
                                         Margin="0,5,0,0"

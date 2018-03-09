@@ -147,12 +147,12 @@ namespace MarkdownMonster
             get
             {
                 bool value = Window.TabControl.Items.Count < 1;
-                if (value)
-                {
-                    var zeroWidth = new GridLength(0);
-                    //Window.MainWindowPreviewColumn.Width = zeroWidth;
-                    Window.MainWindowSeparatorColumn.Width = zeroWidth;
-                }
+                //if (value)
+                //{
+                //    var zeroWidth = new GridLength(0);
+                //    //Window.MainWindowPreviewColumn.Width = zeroWidth;
+                //    //Window.RightSidebarSeparatorColumn.Width = zeroWidth;
+                //}
                 return value;
             }
         }

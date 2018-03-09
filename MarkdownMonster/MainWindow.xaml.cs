@@ -1274,6 +1274,8 @@ namespace MarkdownMonster
 		    if (grid != null)
 		        grid.Children.Add(PreviewBrowserContainer);
 
+		    Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
+
             if (mmApp.Configuration.IsPreviewVisible)
 		        PreviewBrowser?.PreviewMarkdown();
 
@@ -1348,7 +1350,8 @@ namespace MarkdownMonster
             {
                 if (Model.Configuration.PreviewMode == PreviewModes.InternalPreview)
                 {
-                    PreviewBrowserContainer.Visibility = Visibility.Visible;
+                    if (Model.Configuration.IsPreviewVisible)
+                        PreviewBrowserContainer.Visibility = Visibility.Visible;
                     
                     // check if we're already active - if not assign and preview immediately
                     if (!(PreviewBrowser is IPreviewBrowser))
@@ -1357,6 +1360,7 @@ namespace MarkdownMonster
                         return;
                     }
 
+                    // close external window if it's open
                     if (_previewBrowserWindow != null && PreviewBrowserWindow.Visibility == Visibility.Visible)
                     {
                         PreviewBrowserWindow.Close();
@@ -1365,7 +1369,7 @@ namespace MarkdownMonster
                         return;
                     }
 
-                    MainWindowSeparatorColumn.Width = new GridLength(12);
+                    //MainWindowSeparatorColumn.Width = new GridLength(12);
                     if (!refresh)
                     {
                         if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
@@ -1456,11 +1460,10 @@ namespace MarkdownMonster
         public void ShowRightSidebar(bool hide)
         {
             var layoutModel = Model.WindowLayout;
-            if (hide)
-            {
-                layoutModel.IsRightSidebarVisible = false;
-                mmApp.Configuration.FolderBrowser.Visible = false;
-            }
+            if (hide)            
+                layoutModel.IsRightSidebarVisible = false;                
+            else
+                layoutModel.IsRightSidebarVisible = true;
         }
 
         public void LoadPreviewBrowser()

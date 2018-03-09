@@ -141,6 +141,8 @@ namespace MarkdownMonster
             // add it to the current editor
             Window.PreviewBrowserContainer.SetValue(Grid.ColumnProperty, 2);
 
+            Window.Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
+
             // add the previewer
             EditorPreviewPane.ContentGrid.Children.Add(Window.PreviewBrowserContainer);
         }
