@@ -116,14 +116,33 @@ namespace MarkdownMonster
         /// with the document for rendering or other purposes.
         /// </summary>
         public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
-
+        
         #endregion
 
+
+        public EditorAndPreviewPane EditorPreviewPane { get; private set; }
+
         #region Loading And Initialization
-        public MarkdownDocumentEditor(WebBrowser browser)
+        public MarkdownDocumentEditor()
         {
-            WebBrowser = browser;
-            WebBrowser.Navigating += WebBrowser_NavigatingAndDroppingFiles;        
+
+            Window = mmApp.Model.Window;
+
+            EditorPreviewPane = new EditorAndPreviewPane();
+
+            WebBrowser = EditorPreviewPane.EditorWebBrowser;            
+            WebBrowser.Visibility = Visibility.Hidden;
+            WebBrowser.Navigating += WebBrowser_NavigatingAndDroppingFiles;
+
+                    
+            // Remove preview browser from old parent if there is one
+            ((Grid) Window.PreviewBrowserContainer.Parent)?.Children.Remove(Window.PreviewBrowserContainer);
+
+            // add it to the current editor
+            Window.PreviewBrowserContainer.SetValue(Grid.ColumnProperty, 2);
+
+            // add the previewer
+            EditorPreviewPane.ContentGrid.Children.Add(Window.PreviewBrowserContainer);
         }
         
         /// <summary>

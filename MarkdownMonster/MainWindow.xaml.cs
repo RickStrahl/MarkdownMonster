@@ -105,27 +105,28 @@ namespace MarkdownMonster
                     _previewBrowserWindow = new PreviewBrowserWindow()
                     {
                         Owner = this
-                    };
-                    //_previewBrowserWindow.Show();
+                    };                    
                 }
 
                 return _previewBrowserWindow;
             }
         }
-        private PreviewBrowserWindow _previewBrowserWindow;
 
-        
-        
+
+        public Grid PreviewBrowserContainer { get; set; }
+        private PreviewBrowserWindow _previewBrowserWindow;
 
         public MainWindow()
 		{            
             InitializeComponent();
+		     
 
-            
             Model = new AppModel(this);
 		    AddinManager.Current.RaiseOnModelLoaded(Model);
-            AddinManager.Current.AddinsLoaded = OnAddinsLoaded;
+            AddinManager.Current.AddinsLoaded = OnAddinsLoaded;            
 
+		    Model.WindowLayout = new MainWindowLayoutModel(this);
+		    
             DataContext = Model;
 
 			TabControl.ClosingItemCallback = TabControlDragablz_TabItemClosing;
@@ -578,8 +579,7 @@ namespace MarkdownMonster
 				Width = conf.WindowPosition.Width;
 				Height = conf.WindowPosition.Height;
 			}
-
-
+            
 			if (mmApp.Configuration.RememberLastDocumentsLength > 0 && mmApp.Configuration.UseSingleWindow)
 			{
 				//var selectedDoc = conf.RecentDocuments.FirstOrDefault();
@@ -655,19 +655,15 @@ namespace MarkdownMonster
 				config.WindowPosition.Top = mmFileUtils.TryConvertToInt32(Top);
 				config.WindowPosition.Width = mmFileUtils.TryConvertToInt32(Width,900);
 				config.WindowPosition.Height = mmFileUtils.TryConvertToInt32(Height,700);
-
-			    if (MainWindowPreviewColumn.Width.IsAbsolute)
-				    config.WindowPosition.SplitterPosition = mmFileUtils.TryConvertToInt32(MainWindowPreviewColumn.Width.Value, 600);
 			}
 
 			if (WindowState != WindowState.Minimized)
 				config.WindowPosition.WindowState = WindowState;
 
-			if (FolderBrowserColumn.Width.Value > 20)
+			if (LeftSidebarColumn.Width.Value > 20)
 			{
-			    if(FolderBrowserColumn.Width.IsAbsolute)
-				    config.FolderBrowser.WindowWidth = mmFileUtils.TryConvertToInt32(FolderBrowserColumn.Width.Value,220);
-
+			    if(LeftSidebarColumn.Width.IsAbsolute)
+				    config.FolderBrowser.WindowWidth = mmFileUtils.TryConvertToInt32(LeftSidebarColumn.Width.Value,220);
 				config.FolderBrowser.Visible = true;
 			}
 			else
@@ -775,23 +771,19 @@ namespace MarkdownMonster
 	        tab.Background = Background;
 
 	        ControlsHelper.SetHeaderFontSize(tab, 13F);
+	       
 
-	        var webBrowser = new WebBrowser
+            if (editor == null)
 	        {
-                // hide initially so there's less flicker
-	            Visibility = Visibility.Hidden,	                            
-	        };
-	        tab.Content = webBrowser;
-	        
-	        if (editor == null)
-	        {
-	            editor = new MarkdownDocumentEditor(webBrowser)
+	            editor = new MarkdownDocumentEditor
 	            {
 	                Window = this,
 	                EditorSyntax = syntax,
 	                InitialLineNumber = initialLineNumber,
                     IsReadOnly = readOnly
 	            };
+
+	            tab.Content = editor.EditorPreviewPane;
 
 	            var doc = new MarkdownDocument()
 	            {
@@ -1258,6 +1250,8 @@ namespace MarkdownMonster
 			if (editor == null)
 				return;
 
+		    var tab = TabControl.SelectedItem as TabItem;
+
 			SetWindowTitle();
 
 			foreach (var doc in Model.OpenDocuments)
@@ -1270,7 +1264,17 @@ namespace MarkdownMonster
 
 			AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
 
-		    if (mmApp.Configuration.IsPreviewVisible)
+
+		    if (PreviewBrowserContainer.Parent != null)
+		        ((Grid)PreviewBrowserContainer.Parent).Children.Remove(PreviewBrowserContainer);
+
+		    editor.EditorPreviewPane.PreviewBrowserContainer.Children.Add(PreviewBrowserContainer);
+
+            var grid = tab.Content as Grid;
+		    if (grid != null)
+		        grid.Children.Add(PreviewBrowserContainer);
+
+            if (mmApp.Configuration.IsPreviewVisible)
 		        PreviewBrowser?.PreviewMarkdown();
 
             Model.ActiveEditor.RestyleEditor();
@@ -1367,9 +1371,9 @@ namespace MarkdownMonster
                         if (mmApp.Configuration.WindowPosition.SplitterPosition < 100)
                             mmApp.Configuration.WindowPosition.SplitterPosition = 600;
 
-                        if (!Model.IsPresentationMode)
-                            MainWindowPreviewColumn.Width =
-                                new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+                        //if (!Model.IsPresentationMode)
+                        //    MainWindowPreviewColumn.Width =
+                        //        new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
                     }
                 }
                 else if(Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
@@ -1384,15 +1388,10 @@ namespace MarkdownMonster
                         PreviewBrowser = PreviewBrowserWindow;
                         PreviewBrowser.PreviewMarkdownAsync();
                     }
-                    
 
-                    if (MainWindowPreviewColumn.Width.Value > 100)
-                        mmApp.Configuration.WindowPosition.SplitterPosition =
-                            Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
 
-                    MainWindowSeparatorColumn.Width = new GridLength(0);
-                    MainWindowPreviewColumn.Width = new GridLength(0);
-
+                    Model.WindowLayout.IsPreviewVisible = false;
+                                        
                     // clear the preview
                     ((IPreviewBrowser)PreviewBrowserContainer.Children[0]).Navigate("about:blank"); 
                 }
@@ -1401,12 +1400,7 @@ namespace MarkdownMonster
             {
                 if (Model.Configuration.PreviewMode == PreviewModes.InternalPreview)
                 {
-                    if (MainWindowPreviewColumn.Width.Value > 100)
-                        mmApp.Configuration.WindowPosition.SplitterPosition =
-                            Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
-
-                    MainWindowSeparatorColumn.Width = new GridLength(0);
-                    MainWindowPreviewColumn.Width = new GridLength(0);
+                    Model.WindowLayout.IsPreviewVisible = false;
 
                     // clear the preview
                     ((IPreviewBrowser) PreviewBrowserContainer.Children[0]).Navigate("about:blank");                    
@@ -1433,14 +1427,10 @@ namespace MarkdownMonster
         /// <param name="hide"></param>
         public void ShowFolderBrowser(bool hide = false, string folder = null)
         {
+            var layoutModel = Model.WindowLayout;
             if (hide)
             {
-                if (FolderBrowserColumn.Width.Value > 20)
-                    mmApp.Configuration.FolderBrowser.WindowWidth = Convert.ToInt32(FolderBrowserColumn.Width.Value);
-
-                FolderBrowserColumn.Width = new GridLength(0);
-                FolderBrowserSeparatorColumn.Width = new GridLength(0);
-
+                layoutModel.IsLeftSidebarVisible = false;               
                 mmApp.Configuration.FolderBrowser.Visible = false;
             }
             else
@@ -1458,9 +1448,18 @@ namespace MarkdownMonster
                     FolderBrowser.FolderPath = folder;
                 });
 
-                FolderBrowserColumn.Width = new GridLength(mmApp.Configuration.FolderBrowser.WindowWidth);
-                FolderBrowserSeparatorColumn.Width = new GridLength(14);
+                layoutModel.IsLeftSidebarVisible = true;                
                 mmApp.Configuration.FolderBrowser.Visible = true;                
+            }
+        }
+
+        public void ShowRightSidebar(bool hide)
+        {
+            var layoutModel = Model.WindowLayout;
+            if (hide)
+            {
+                layoutModel.IsRightSidebarVisible = false;
+                mmApp.Configuration.FolderBrowser.Visible = false;
             }
         }
 
@@ -1473,6 +1472,10 @@ namespace MarkdownMonster
                     PreviewBrowser = new IEWebBrowserControl() { Name = "PreviewBrowser" };
                 else
                     PreviewBrowser = previewBrowser;
+
+                if (PreviewBrowserContainer == null)                
+                    PreviewBrowserContainer = new Grid();
+                
 
                 PreviewBrowserContainer.Children.Clear();
                 PreviewBrowserContainer.Children.Add(PreviewBrowser as UIElement);
@@ -1847,12 +1850,12 @@ namespace MarkdownMonster
 
 		private void PreviewBrowser_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			if (e.NewSize.Width > 100)
-			{
-				int width = Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
-				if (width > 100)
-					mmApp.Configuration.WindowPosition.SplitterPosition = width;
-			}
+			//if (e.NewSize.Width > 100)
+			//{
+			//	int width = Convert.ToInt32(MainWindowPreviewColumn.Width.Value);
+			//	if (width > 100)
+			//		mmApp.Configuration.WindowPosition.SplitterPosition = width;
+			//}
 		}
 
 		private void EditorTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)

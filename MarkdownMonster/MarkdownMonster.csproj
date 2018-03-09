@@ -174,6 +174,9 @@
     <Compile Include="Controls\ElementHelper.cs" />
     <Compile Include="Controls\FileSystemAutoCompleteBehavior.cs" />
     <Compile Include="Controls\SelectOnEntryExtension.cs" />
+    <Compile Include="Windows\EditorPane\EditorAndPreviewPane.xaml.cs">
+      <DependentUpon>EditorAndPreviewPane.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PreviewBrowser\IEWebBrowserControl.cs">
       <DependentUpon>IEWebBrowserControl.xaml</DependentUpon>
     </Compile>
@@ -279,6 +282,7 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
+    <Compile Include="MainWindowLayoutModel.cs" />
     <None Include="PreviewThemes\Scripts\fontawesome\fonts\fontawesome-webfont.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -345,6 +349,10 @@
     <Page Include="Windows\BrowserDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EditorPane\EditorAndPreviewPane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\EmojiWindow.xaml">
       <SubType>Designer</SubType>

@@ -245,10 +245,10 @@ namespace WeblogAddin
         {
             WeblogNames = Configuration.Weblogs.Select(wl => wl.Value.Name).ToList();            
         }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-
-        
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

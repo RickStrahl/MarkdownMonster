@@ -604,7 +604,7 @@ namespace MarkdownMonster
                 if (value == _isPreviewVisible) return;
                 _isPreviewVisible = value;
                 OnPropertyChanged(nameof(IsPreviewVisible));
-            } 
+            }
         }
 
         private bool _isPreviewVisible;

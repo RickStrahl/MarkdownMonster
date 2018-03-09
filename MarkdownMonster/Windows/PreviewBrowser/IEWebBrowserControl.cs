@@ -53,12 +53,12 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         private void PreviewBrowserWebBrowserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-                if (e.NewSize.Width > 100)
-                {
-                    int width = Convert.ToInt32(Window.MainWindowPreviewColumn.Width.Value);
-                    if (width > 100)
-                        mmApp.Configuration.WindowPosition.SplitterPosition = width;                
-            }
+            //    if (e.NewSize.Width > 100)
+            //    {
+            //        int width = Convert.ToInt32(Window.MainWindowPreviewColumn.Width.Value);
+            //        if (width > 100)
+            //            mmApp.Configuration.WindowPosition.SplitterPosition = width;                
+            //}
         }
 
 

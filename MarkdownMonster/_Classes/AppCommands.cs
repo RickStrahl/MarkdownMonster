@@ -582,8 +582,8 @@ Do you want to View in Browser now?
 
                     window.MainWindowEditorColumn.Width = new GridLength(1, GridUnitType.Star);
                     window.MainWindowSeparatorColumn.Width = new GridLength(0);
-                    window.MainWindowPreviewColumn.Width =
-                        new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+                    //window.MainWindowPreviewColumn.Width =
+                    //    new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
 
                     window.PreviewMarkdown();
 
@@ -595,8 +595,8 @@ Do you want to View in Browser now?
                 {
                     window.SaveSettings();
 
-                    mmApp.Configuration.WindowPosition.SplitterPosition =
-                        Convert.ToInt32(window.MainWindowPreviewColumn.Width.Value);
+                    //mmApp.Configuration.WindowPosition.SplitterPosition =
+                    //    Convert.ToInt32(window.MainWindowPreviewColumn.Width.Value);
 
                     // don't allow presentation mode for non-Markdown documents
                     var editor = window.GetActiveMarkdownEditor();
@@ -622,7 +622,7 @@ Do you want to View in Browser now?
 
                     window.MainWindowEditorColumn.Width = gl;
                     window.MainWindowSeparatorColumn.Width = gl;
-                    window.MainWindowPreviewColumn.Width = new GridLength(1, GridUnitType.Star);
+                    //window.MainWindowPreviewColumn.Width = new GridLength(1, GridUnitType.Star);
 
                     Model.IsPresentationMode = true;
                     Model.IsPreviewBrowserVisible = true;
@@ -640,7 +640,7 @@ Do you want to View in Browser now?
         void PreviewBrowser()
         {
             var window = Model.Window;
-            var config                = Model.Configuration;
+            var config = Model.Configuration;
 
             PreviewBrowserCommand = new CommandBase((s, e) =>
             {
@@ -649,6 +649,8 @@ Do you want to View in Browser now?
                     return;
 
                 var editor = tab.Tag as MarkdownDocumentEditor;
+
+                Model.WindowLayout.IsPreviewVisible = Model.IsPreviewBrowserVisible;
 
                 config.IsPreviewVisible = Model.IsPreviewBrowserVisible;
 

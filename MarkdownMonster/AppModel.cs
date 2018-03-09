@@ -110,6 +110,8 @@ namespace MarkdownMonster
             }
         }
 
+        public MainWindowLayoutModel WindowLayout { get; internal set; }
+
         private MarkdownDocument _activeDocument;
 
 
@@ -123,7 +125,7 @@ namespace MarkdownMonster
             {
                 if (Equals(value, _openDocuments)) return;
                 _openDocuments = value;
-                OnPropertyChanged(nameof(OpenDocuments));                
+                OnPropertyChanged(nameof(OpenDocuments));              
             }
         }
 
@@ -148,7 +150,7 @@ namespace MarkdownMonster
                 if (value)
                 {
                     var zeroWidth = new GridLength(0);
-                    Window.MainWindowPreviewColumn.Width = zeroWidth;
+                    //Window.MainWindowPreviewColumn.Width = zeroWidth;
                     Window.MainWindowSeparatorColumn.Width = zeroWidth;
                 }
                 return value;
@@ -171,6 +173,11 @@ namespace MarkdownMonster
                 if (value == Configuration.IsPreviewVisible) return;
                 Configuration.IsPreviewVisible = value;
                 OnPropertyChanged(nameof(IsPreviewBrowserVisible));
+
+                if (value == false)
+                {
+
+                }
             }
         }
 

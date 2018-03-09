@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="MarkdownMonster.Windows.EditorAndPreviewPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:local="clr-namespace:MarkdownMonster.Windows"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
+             mc:Ignorable="d" MinWidth="215"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <local:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+    </UserControl.Resources>
+    <Grid Name="ContentGrid">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="{Binding WindowLayout.PreviewSeparatorWidth,Mode=TwoWay}" />
+            <ColumnDefinition  Width="{Binding WindowLayout.PreviewWidth,Mode=TwoWay}" />
+        </Grid.ColumnDefinitions>
+
+        <WebBrowser x:Name="EditorWebBrowser" >
+        </WebBrowser>
+
+        <GridSplitter Grid.Column="1" Name="Separator" x:FieldModifier="public"                              
+                      HorizontalAlignment="Center"                          
+                      BorderThickness="0" IsTabStop="False"
+                      controls:VisibilityHelper.IsVisible="{Binding IsPreviewBrowserVisible}"
+                      VerticalAlignment="Stretch" >
+            <GridSplitter.Template>
+                <ControlTemplate TargetType="{x:Type GridSplitter}">
+                    <Grid Background="Transparent">
+                        <Image Source="../../Assets/vsizegrip.png" Height="30" VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </GridSplitter.Template>
+        </GridSplitter>
+
+        <Grid  Name="PreviewBrowserContainer"  Grid.Column="2" x:FieldModifier="public" />
+
+    </Grid>
+</UserControl>

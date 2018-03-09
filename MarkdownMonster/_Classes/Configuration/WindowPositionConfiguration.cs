@@ -61,6 +61,11 @@ namespace MarkdownMonster
             }   
         }
         private int _splitterPosition;
+
+        /// <summary>
+        /// Determines the width of the right side bar
+        /// </summary>
+        public int RightSidebardWidth { get; set; }
         
 
         /// <summary>
