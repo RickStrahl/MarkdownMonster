@@ -1360,9 +1360,15 @@ namespace MarkdownMonster
             {
                 if (Model.Configuration.PreviewMode == PreviewModes.InternalPreview)
                 {
-                    if (Model.Configuration.IsPreviewVisible)
-                        PreviewBrowserContainer.Visibility = Visibility.Visible;
                     
+                    if (Model.Configuration.IsPreviewVisible)
+                        Model.WindowLayout.IsPreviewVisible = true; 
+                    else
+                    {
+                        Model.WindowLayout.IsPreviewVisible = false;
+                        return;
+                    }
+
                     // check if we're already active - if not assign and preview immediately
                     if (!(PreviewBrowser is IPreviewBrowser))
                     {

@@ -20,7 +20,7 @@ namespace MarkdownMonster.Windows {
         public MainWindowLayoutModel(MainWindow mainWindow)
         {
             Window = mainWindow;
-            Model = mainWindow.Model;
+            Model = mainWindow.Model;            
 
             if (Model.Configuration != null)
                 PreviewWidth = new GridLength(Model.Configuration.WindowPosition.InternalPreviewWidth);
@@ -143,7 +143,8 @@ namespace MarkdownMonster.Windows {
                 }
             }
         }
-        private bool _isPreviewVisible;
+
+        private bool _isPreviewVisible = true;
 
 
 
