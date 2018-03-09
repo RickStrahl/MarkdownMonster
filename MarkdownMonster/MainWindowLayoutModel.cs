@@ -20,10 +20,12 @@ namespace MarkdownMonster.Windows {
         public MainWindowLayoutModel(MainWindow mainWindow)
         {
             Window = mainWindow;
-            Model = mainWindow.Model;            
+            Model = mainWindow.Model;
+
+            if (Model.Configuration != null)
+                PreviewWidth = new GridLength(Model.Configuration.WindowPosition.InternalPreviewWidth);
         }
-
-
+        
         public bool IsEditorOpen
         {
             get => _isEditorOpen;
@@ -129,10 +131,10 @@ namespace MarkdownMonster.Windows {
                 }
                 else
                 {
-                    if (mmApp.Configuration.WindowPosition.PreviewWidth < 20)
+                    if (mmApp.Configuration.WindowPosition.InternalPreviewWidth < 20)
                         PreviewWidth = new GridLength(350);
                     else
-                        PreviewWidth = new GridLength(mmApp.Configuration.WindowPosition.PreviewWidth);
+                        PreviewWidth = new GridLength(mmApp.Configuration.WindowPosition.InternalPreviewWidth);
 
                     PreviewSeparatorWidth = DefaultSeparatorWidth;
 
@@ -149,10 +151,13 @@ namespace MarkdownMonster.Windows {
         {
             get => _previewWidth;
             set
-            {
+                {
                 if (value.Equals(_previewWidth)) return;
                 _previewWidth = value;
                 OnPropertyChanged();
+
+                if (value.IsAbsolute && value.Value > 20)
+                    Model.Configuration.WindowPosition.InternalPreviewWidth = Convert.ToInt32(_previewWidth.Value);
             }
         }
         private GridLength _previewWidth;

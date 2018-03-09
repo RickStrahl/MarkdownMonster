@@ -15,10 +15,13 @@ namespace MarkdownMonster
         public int Width { get; set; }
         public int Height { get; set; }
 
+        public int InternalPreviewWidth { get; set; }
+
+    
         public int PreviewTop { get; set; }
         public int PreviewLeft { get; set; }
         public int PreviewHeight { get; set; } = 700;
-        public int PreviewWidth { get; set; } = 1000;        
+        public int PreviewWidth { get; set; } = 1000;
 
 
         public bool PreviewAlwaysOntop
@@ -31,6 +34,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(PreviewAlwaysOntop));
             }
         }
+
         private bool _PreviewAlwaysOntop;
 
 
@@ -44,6 +48,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(PreviewDocked));
             }
         }
+
         private bool _PreviewDocked;
 
 
@@ -58,15 +63,16 @@ namespace MarkdownMonster
             {
                 _splitterPosition = value;
                 //Debug.WriteLine(value);
-            }   
+            }
         }
+
         private int _splitterPosition;
 
         /// <summary>
         /// Determines the width of the right side bar
         /// </summary>
         public int RightSidebardWidth { get; set; }
-        
+
 
         /// <summary>
         /// Determines if the tabs are visible
@@ -81,6 +87,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(IsTabHeaderPanelVisible));
             }
         }
+
         private bool _IsTabHeaderPanelVisible = true;
 
 
@@ -89,12 +96,17 @@ namespace MarkdownMonster
         /// </summary>
         public WindowState WindowState { get; set; }
 
+
+        #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }

@@ -656,6 +656,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
+                <!--<ColumnDefinition Width="Auto" />-->
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -670,6 +671,13 @@
                     Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Height="25" Width="16" Margin="5,4,3,0"
                     fa:Awesome.Content="CaretDown" Background="#242424" BorderBrush="#333333"
                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" />
+
+            <!--<Button Grid.Column="2" x:Name="PART_ToggleRightSidebarButton" 
+                    Height="25" Width="16" Margin="5,4,3,0"
+                    fa:Awesome.Content="ArrowCircleRight" Foreground="SteelBlue"  HorizontalAlignment="Right"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" />-->
+
+
             <!--<ScrollBar x:Name="PART_HorizontalScrollBar"
                        AutomationProperties.AutomationId="HorizontalScrollBar" 
                        Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}"

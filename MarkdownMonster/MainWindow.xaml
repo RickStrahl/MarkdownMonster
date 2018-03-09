@@ -794,7 +794,7 @@
             <StatusBarItem Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
                 <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
-                <TextBlock  Name="StatusStatss" x:FieldModifier="public" HorizontalAlignment="Left" Text="{Binding WindowLayout.RightSidebarWidth}"></TextBlock>
+                <TextBlock  Name="StatusStatss" x:FieldModifier="public" HorizontalAlignment="Left" Text="{Binding WindowLayout.PreviewWidth}"></TextBlock>
                 </StackPanel>
             </StatusBarItem>
             <Separator Grid.Column="2" />
