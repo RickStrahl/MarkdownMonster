@@ -240,17 +240,20 @@ var te = window.textEditor = {
             var lastRow = te.editor.renderer.getLastVisibleRow();
             var curRow = te.getLineNumber();
             if (curRow < firstRow || curRow > lastRow) {
-                if (firstRow < 3)
-                    te.setCursorPosition(0, 0);
-                else
-                    te.setCursorPosition(firstRow + 3, 0);
+                //if (firstRow < 3) {
+                //    //te.setCursorPosition(0, 0);
+                //}                
+                //else
+                //    te.setCursorPosition(firstRow + 3, 0);
+                te.setCursorPosition(firstRow + 3, 0);
 
                 setTimeout(function () {
                     te.mm.textbox.PreviewMarkdownCallback();
+                    if (sc)
+                        sc.contentModified = true;
                 }, 10);
             }
-        },
-            10);
+        },10);
         te.editor.session.on("changeScrollTop", changeScrollTop);
         return editor;
     },
