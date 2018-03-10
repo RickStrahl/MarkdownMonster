@@ -244,7 +244,7 @@ namespace MarkdownMonster.Windows
                 ActivePathItem = null;
                 WindowUtilities.DoEvents();
 
-                var items = FolderStructure.GetFilesAndFolders(folder, nonRecursive: false, ignoredFolders: ".git");
+                var items = FolderStructure.GetFilesAndFolders(folder, nonRecursive: true, ignoredFolders: ".git");
                 ActivePathItem = items;
                 
                 WindowUtilities.DoEvents();
