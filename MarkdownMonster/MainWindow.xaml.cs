@@ -351,11 +351,12 @@ namespace MarkdownMonster
 						// do here prior to dialogs so this code doesn't fire recursively
 						doc.UpdateCrc();
 
+					    
 						string filename = doc.FilenamePathWithIndicator.Replace("*", "");
 						string template = filename +
 						                  "\r\n\r\nThis file has been modified by another program.\r\nDo you want to reload it?";
 
-						if (MessageBox.Show(this, template,
+						if (!doc.IsDirty || MessageBox.Show(this, template,
 							    "Reload",
 							    MessageBoxButton.YesNo,
 							    MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -364,17 +365,19 @@ namespace MarkdownMonster
 							{
 								MessageBox.Show(this, "Unable to re-load current document.",
 									"Error re-loading file",
-									MessageBoxButton.OK, MessageBoxImage.Exclamation);
+									MessageBoxButton.OK, MessageBoxImage.Exclamation,MessageBoxResult.No);
 								continue;
 							}
 
 							try
 							{
-								dynamic pos = editor.AceEditor?.getscrolltop(false);
+								//var pos = editor.GetCursorPosition();
+							    int scroll = editor.GetScrollPosition();
 								editor.SetMarkdown(doc.CurrentText);
 								editor.AceEditor?.updateDocumentStats(false);
-								if (pos != null && pos > 0)
-									editor.AceEditor?.setscrolltop(pos);
+
+                                if (scroll > -1)
+							        editor.SetScrollPosition(scroll);
 							}
 							catch (Exception ex)
 							{
