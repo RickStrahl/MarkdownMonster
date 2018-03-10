@@ -354,24 +354,25 @@ namespace MarkdownMonster
 					    
 						string filename = doc.FilenamePathWithIndicator.Replace("*", "");
 						string template = filename +
-						                  "\r\n\r\nThis file has been modified by another program.\r\nDo you want to reload it?";
+						                  "\r\n\r\n" +
+					                      "This file has been modified by another program.\r\n"+
+						                  "Do you want to reload it?";
 
 						if (!doc.IsDirty || MessageBox.Show(this, template,
 							    "Reload",
 							    MessageBoxButton.YesNo,
-							    MessageBoxImage.Question) == MessageBoxResult.Yes)
+							    MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
 						{
 							if (!doc.Load(doc.Filename))
 							{
 								MessageBox.Show(this, "Unable to re-load current document.",
 									"Error re-loading file",
-									MessageBoxButton.OK, MessageBoxImage.Exclamation,MessageBoxResult.No);
+									MessageBoxButton.OK, MessageBoxImage.Exclamation);
 								continue;
 							}
 
 							try
-							{
-								//var pos = editor.GetCursorPosition();
+							{								
 							    int scroll = editor.GetScrollPosition();
 								editor.SetMarkdown(doc.CurrentText);
 								editor.AceEditor?.updateDocumentStats(false);

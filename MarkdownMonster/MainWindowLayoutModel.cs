@@ -1,6 +1,8 @@
 ﻿
 using System;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using MarkdownMonster.Annotations;
@@ -14,8 +16,8 @@ namespace MarkdownMonster.Windows {
         private MainWindow Window;
         private AppModel Model;
 
-        private  GridLength DefaultSeparatorWidth = new GridLength(12);
-        private GridLength ZeroWidth = new GridLength(0);
+        //private  GridLength DefaultSeparatorWidth = new GridLength(12);
+        //private GridLength ZeroWidth = new GridLength(0);
 
         public MainWindowLayoutModel(MainWindow mainWindow)
         {
@@ -41,7 +43,7 @@ namespace MarkdownMonster.Windows {
 
         
 
-        public double EditorWidth
+        public GridLength EditorWidth
         {
             get => _editorWidth;
             set
@@ -51,7 +53,8 @@ namespace MarkdownMonster.Windows {
                 OnPropertyChanged();
             }
         }
-        private double _editorWidth;
+
+        private GridLength _editorWidth = GridLengthHelper.Star;
 
         #endregion
 
@@ -68,12 +71,12 @@ namespace MarkdownMonster.Windows {
                     if (_leftSidebarWidth.Value > 20)
                         mmApp.Configuration.FolderBrowser.WindowWidth = Convert.ToInt32(_leftSidebarWidth.Value);
 
-                    LeftSidebarWidth = ZeroWidth;
-                    LeftSidebarSeparatorWidth = ZeroWidth;                               
+                    LeftSidebarWidth =  GridLengthHelper.Zero;
+                    LeftSidebarSeparatorWidth = GridLengthHelper.Zero;
                 }
                 else
                 {
-                    LeftSidebarSeparatorWidth = DefaultSeparatorWidth;
+                    LeftSidebarSeparatorWidth = GridLengthHelper.WindowSeparator;
                     LeftSidebarWidth = new GridLength(mmApp.Configuration.FolderBrowser.WindowWidth);
                     if (LeftSidebarWidth.Value < 20)
                         LeftSidebarWidth = new GridLength(300);                    
@@ -131,8 +134,8 @@ namespace MarkdownMonster.Windows {
                 {
                     if (PreviewWidth.IsAbsolute) 
                         mmApp.Configuration.WindowPosition.PreviewWidth = Convert.ToInt32(PreviewWidth.Value);                
-                    PreviewWidth = ZeroWidth;
-                    PreviewSeparatorWidth = ZeroWidth;
+                    PreviewWidth = GridLengthHelper.Zero;
+                    PreviewSeparatorWidth = GridLengthHelper.Zero;
                 }
                 else
                 {
@@ -141,7 +144,7 @@ namespace MarkdownMonster.Windows {
                     else
                         PreviewWidth = new GridLength(mmApp.Configuration.WindowPosition.InternalPreviewWidth);
 
-                    PreviewSeparatorWidth = DefaultSeparatorWidth;
+                    PreviewSeparatorWidth = GridLengthHelper.WindowSeparator;
 
                     if (PreviewWidth.IsAbsolute)
                         mmApp.Configuration.WindowPosition.PreviewWidth = Convert.ToInt32(PreviewWidth.Value);
@@ -200,13 +203,13 @@ namespace MarkdownMonster.Windows {
                     if (_rightSidebarWidth.Value > 20)
                         mmApp.Configuration.WindowPosition.RightSidebardWidth = Convert.ToInt32(_rightSidebarWidth.Value);
 
-                    RightSidebarWidth = ZeroWidth;
-                    RightSidebarSeparatorWidth = ZeroWidth;
+                    RightSidebarWidth = GridLengthHelper.Zero;
+                    RightSidebarSeparatorWidth = GridLengthHelper.Zero; 
                 }
                 else
                 {
                     RightSidebarWidth = new GridLength(mmApp.Configuration.WindowPosition.RightSidebardWidth);
-                    RightSidebarSeparatorWidth = new GridLength(DefaultSeparatorWidth.Value);
+                    RightSidebarSeparatorWidth = GridLengthHelper.WindowSeparator;
                 }
 
                 _isRightSidebarVisible = value;
@@ -226,7 +229,7 @@ namespace MarkdownMonster.Windows {
                 OnPropertyChanged();
             }
         }
-        private GridLength _rightSidebarWidth = new GridLength(0);
+        private GridLength _rightSidebarWidth = GridLengthHelper.Zero;
 
 
 
@@ -240,7 +243,7 @@ namespace MarkdownMonster.Windows {
                 OnPropertyChanged();
             }
         }
-        private GridLength _rightSidebarSeparatorWidth = new GridLength(0);
+        private GridLength _rightSidebarSeparatorWidth = GridLengthHelper.Zero;
 
         #endregion
 
@@ -256,7 +259,210 @@ namespace MarkdownMonster.Windows {
 
         #endregion
 
+        #region Major Display Mode Operations
 
+        public void SetDistractionFreeMode(bool hide = false)
+        {
+            GridLength glToolbar = GridLengthHelper.Zero;
+            GridLength glMenu = GridLengthHelper.Zero;
+            GridLength glStatus = GridLengthHelper.Zero; 
+            
+            if (hide)
+            {
+                Window.SaveSettings();
+
+                glToolbar = GridLength.Auto;
+                glMenu = GridLength.Auto;
+                glStatus = GridLength.Auto;
+
+                //mmApp.Configuration.WindowPosition.IsTabHeaderPanelVisible = true;
+                Window.TabControl.IsHeaderPanelVisible = true;
+
+                Model.IsPreviewBrowserVisible = true;
+                Window.PreviewMarkdown();
+
+                Window.WindowState = mmApp.Configuration.WindowPosition.WindowState;
+
+                Model.IsFullScreen = false;
+
+                Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+            }
+            else
+            {
+                // normalize first if we're in presentation mode
+                if (Model.IsPresentationMode)                
+                    SetPresentationMode(hide: true);
+                
+                var tokens = mmApp.Configuration.DistractionFreeModeHideOptions.ToLower()
+                    .Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
+
+                if (tokens.All(d => d != "menu"))
+                    glMenu = GridLength.Auto;
+
+                if (tokens.All(d => d != "toolbar"))
+                    glToolbar = GridLength.Auto;
+
+                if (tokens.All(d => d != "statusbar"))
+                    glStatus = GridLength.Auto;
+
+                if (tokens.Any(d => d == "tabs"))
+                    Window.TabControl.IsHeaderPanelVisible = false;
+
+                if (tokens.Any(d => d == "preview"))
+                {
+                    Model.IsPreviewBrowserVisible = false;
+                    Window.ShowPreviewBrowser(hide: true);
+                }
+
+                mmApp.Configuration.WindowPosition.WindowState = Window.WindowState;
+                if (tokens.Any(d => d == "maximized"))
+                    Window.WindowState = WindowState.Maximized;
+
+                Window.ShowFolderBrowser(true);
+
+                Model.IsFullScreen = true;
+            }
+
+            // toolbar     
+            Window.MainMenuGridRow.Height = glMenu;
+            Window.ToolbarGridRow.Height = glToolbar;
+            Window.StatusBarGridRow.Height = glStatus;
+        }
+
+        public void SetPresentationMode(bool hide = false)
+        {
+            if (Model.IsFullScreen)
+                SetDistractionFreeMode(hide: true);
+
+            var layout = Model.WindowLayout;
+            if (hide)
+            {
+                layout.IsEditorOpen = true;
+                layout.EditorWidth = GridLengthHelper.Star;
+                layout.PreviewWidth = new GridLength(mmApp.Configuration.WindowPosition.InternalPreviewWidth);
+                layout.LeftSidebarSeparatorWidth = GridLengthHelper.WindowSeparator;
+
+                Window.MainWindowEditorColumn.Width = GridLengthHelper.Star;
+                layout.RightSidebarSeparatorWidth = GridLengthHelper.Zero;
+
+                layout.IsLeftSidebarVisible = mmApp.Configuration.FolderBrowser.Visible;
+                //Model.WindowLayout.IsRightSidebarVisible = false;
+
+                layout.PreviewWidth = new GridLength(mmApp.Configuration.WindowPosition.InternalPreviewWidth);
+                layout.EditorWidth = GridLengthHelper.Star;
+
+                // make toolbar visible again
+                Model.Window.ToolbarGridRow.Height = GridLengthHelper.Auto;
+                Window.TabControl.IsHeaderPanelVisible = true;
+                Window.StatusBarGridRow.Height = GridLengthHelper.Auto;
+
+                WindowUtilities.DoEvents();
+
+                //window.MainWindowPreviewColumn.Width =
+                //    new GridLength(mmApp.Configuration.WindowPosition.SplitterPosition);
+
+                Window.PreviewMarkdown();
+
+                WindowUtilities.DoEvents();
+
+                Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+
+                WindowUtilities.DoEvents();
+
+                Model.IsPresentationMode = false;
+            }
+            else
+            {
+                Window.SaveSettings();
+
+                //mmApp.Configuration.WindowPosition.SplitterPosition =
+                //    Convert.ToInt32(window.MainWindowPreviewColumn.Width.Value);
+
+                // don't allow presentation mode for non-Markdown documents
+                var editor = Window.GetActiveMarkdownEditor();
+                if (editor != null)
+                {
+                    var file = editor.MarkdownDocument.Filename.ToLower();
+                    var ext = Path.GetExtension(file).Replace(".", "");
+
+                    Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
+                    mappedTo = mappedTo ?? string.Empty;
+                    if (file != "untitled" && mappedTo != "markdown" && mappedTo != "html")
+                    {
+                        // don't allow presentation mode for non markdown files
+                        Model.IsPresentationMode = false;
+                        Model.IsPreviewBrowserVisible = false;
+                        Window.ShowPreviewBrowser(true);
+                        return;
+                    }
+                }
+
+                layout.IsLeftSidebarVisible = false;
+                layout.IsRightSidebarVisible = false;
+                layout.PreviewWidth = GridLengthHelper.Star;
+                layout.EditorWidth = GridLengthHelper.Zero;
+
+                Model.Window.ToolbarGridRow.Height = GridLengthHelper.Zero;
+                Window.TabControl.IsHeaderPanelVisible = false;
+                Window.StatusBarGridRow.Height = GridLengthHelper.Zero;
+
+                //window.ShowPreviewBrowser();
+                Window.ShowFolderBrowser(true);
+
+                Model.IsPresentationMode = true;
+                Model.IsPreviewBrowserVisible = true;
+            }            
+        }
+
+        #endregion
+
+    }
+
+
+    public class GridLengthHelper
+    {
+        public static GridLength Zero { get; } = new GridLength(0);
+        public static GridLength Star { get; } = new GridLength(0.5, GridUnitType.Star);
+
+        public static GridLength Auto
+        {
+            get => GridLength.Auto;
+        }
+        public static GridLength WindowSeparator { get; } = new GridLength(12);
+
+        public static GridLength FromDouble(double size)
+        {
+            return new GridLength(size);            
+        }
+        public static GridLength FromInt(double size)
+        {
+            return new GridLength(size);
+        }
+
+        /// <summary>
+        /// Converts a GridLength to an Int Value checking for
+        /// IsAbsolute and if not returning -1
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Int value or Int.MinValue if not absolute</returns>
+        public static int ParseInt(GridLength value)
+        {
+            if (value.IsAbsolute)
+                return Convert.ToInt32(value.Value);
+
+            return int.MinValue;            
+        }
+
+
+        public static bool TryParseInt(GridLength value, out int intValue)
+        {
+            intValue = -1;
+            if (!value.IsAbsolute)
+                return false;
+
+            intValue = Convert.ToInt32(value.Value);
+            return true;
+        }
     }
 
 }

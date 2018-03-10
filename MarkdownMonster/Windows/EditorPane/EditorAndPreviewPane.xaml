@@ -16,7 +16,7 @@
     <Grid Name="ContentGrid">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="{Binding WindowLayout.EditorWidth,Mode=TwoWay}" />
             <ColumnDefinition Width="{Binding WindowLayout.PreviewSeparatorWidth,Mode=TwoWay}" />
             <ColumnDefinition  Width="{Binding WindowLayout.PreviewWidth,Mode=TwoWay}" />
         </Grid.ColumnDefinitions>

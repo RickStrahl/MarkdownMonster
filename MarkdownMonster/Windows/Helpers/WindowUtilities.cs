@@ -380,4 +380,5 @@ namespace MarkdownMonster.Windows
         Angular = 1,
         Raw = 2,
     }
+
 }
