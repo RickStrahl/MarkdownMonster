@@ -15,8 +15,15 @@ The folder browser now displays file system updates in the folder browser. If yo
 * **Folder Browser `IgnoreFolders` and `IgnoreFileExtensions`**  
 Options to filter the folder browser display for certain folder and file extensions. Folders default `.git, node_modules` and extensions to `.saved.bak`. Values can be customized in Settings.
 
+* **Main Content Area UI Refactoring**  
+The main content UI area has been refactored to encapsulate the editor and preview pane in a single layout panel. Tabs now stretch across the entire content and preview area to avoid excessive tab crowding especially on small displays. Internally the render logic has been refactored to make the UI easier to manage in code via bindings and simpler property access and allow for more modular layouts that can be driven from Addins including support for adding UI panels.
+
 * **Addin Support for adding Sidebar Tab Items**  
 Addins can now implement a `AddSidebarPanelTabItem()` method to add a new sidebar panel which becomes a tabbed item alongside the File and Folder Browser. This allows for custom list panels for additional functionality like Git interaction, custom documentation solutions and document navigation and so on.
+
+* **Addin Support for a right Tab Sidebar**  
+There's now also a new Right Side bar which can contain tabs to allow another avenue of providing additional UI for documents. Like the left sidebar, you can add tab pages to the layout to add UI.
+
 
 * **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
 * Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
@@ -46,6 +53,11 @@ Fix issue where Weblog posts that contain FrontMatter headers would double up th
 * **Fix: Table Importer with HTML Tables**  
 Fix table importer context menu to find tables inside of the Editor. Fix import behavior if table uses upper case tag names.
 
+* **Fix: Table Modified Dialog Behavior**  
+Fixed prompt behavior when a file was changed when not focused on the editor and returning. Previous behavior **always** popped up a dialog for the file change. New behavior automatically updates the document **if there are not changes pending in the editor**. This avoids numerous dialog popups that are effectively unnecessary.
+
+* **Fix: Scroll Stutter at the top of the Document**  
+Fixed issue where initial scroll operation from the top of the document would get 'stuck' and require explicit cursor or slow scroll movement. Fixed by changing the top window scroll detection logic.
 
 ### 1.9.0
 *<small>January 24, 2018</small>*
