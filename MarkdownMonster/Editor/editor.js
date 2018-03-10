@@ -62,7 +62,7 @@ var te = window.textEditor = {
         editor.renderer.setShowGutter(editorSettings.showLineNumbers);
         editor.setOption("scrollPastEnd", 0.7); // will have additional scroll  0.7% of screen height
         session.setTabSize(editorSettings.tabSpaces);
-
+        editor.$blockScrolling = Infinity;
 
         session.setNewLineMode("windows");
 
@@ -238,10 +238,11 @@ var te = window.textEditor = {
 
             var firstRow = te.editor.renderer.getFirstVisibleRow();
             var lastRow = te.editor.renderer.getLastVisibleRow();
-
             var curRow = te.getLineNumber();
-            
-            if (curRow < firstRow || curRow > lastRow) {
+
+            //console.log(firstRow, lastRow, curRow);
+
+            if (firstRow < 1 || curRow < firstRow || curRow > lastRow) {
                 if (firstRow < 1)
                     te.setCursorPosition(0, 0);                      
                 else
