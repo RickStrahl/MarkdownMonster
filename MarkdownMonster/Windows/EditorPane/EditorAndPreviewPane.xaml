@@ -16,9 +16,9 @@
     <Grid Name="ContentGrid">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding WindowLayout.EditorWidth,Mode=TwoWay}" />
-            <ColumnDefinition Width="{Binding WindowLayout.PreviewSeparatorWidth,Mode=TwoWay}" />
-            <ColumnDefinition  Width="{Binding WindowLayout.PreviewWidth,Mode=TwoWay}" />
+            <ColumnDefinition Name="EditorWebBrowserEditorColumn" Width="{Binding WindowLayout.EditorWidth,Mode=TwoWay}" />
+            <ColumnDefinition Name="EditorWebBrowserSeparatorColumn" Width="{Binding WindowLayout.PreviewSeparatorWidth,Mode=TwoWay}" />
+            <ColumnDefinition Name="EditorWebBrowserPreviewColumn" Width="{Binding WindowLayout.PreviewWidth,Mode=TwoWay}" />
         </Grid.ColumnDefinitions>
 
         <WebBrowser x:Name="EditorWebBrowser">
@@ -28,6 +28,7 @@
                       HorizontalAlignment="Center"                
                       BorderThickness="0" IsTabStop="False"
                       controls:VisibilityHelper.IsVisible="{Binding IsPreviewBrowserVisible}"
+                      MouseDoubleClick="Separator_MouseDoubleClick"
                       VerticalAlignment="Stretch" >
             <GridSplitter.Template>
                 <ControlTemplate TargetType="{x:Type GridSplitter}">
