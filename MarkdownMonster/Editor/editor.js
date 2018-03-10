@@ -227,7 +227,7 @@ var te = window.textEditor = {
         //    function (e) {                
         //        alert('drag over');
         //        te.mousePos = e.getDocumentPosition();
-        //    });
+        //    });        
         var changeScrollTop = debounce(function () {
             // if there is a selection don't set cursor position
             // or preview. Mouseup will scroll to position at end
@@ -238,20 +238,23 @@ var te = window.textEditor = {
 
             var firstRow = te.editor.renderer.getFirstVisibleRow();
             var lastRow = te.editor.renderer.getLastVisibleRow();
+
             var curRow = te.getLineNumber();
+            
             if (curRow < firstRow || curRow > lastRow) {
-                //if (firstRow < 3) {
-                //    //te.setCursorPosition(0, 0);
-                //}                
-                //else
-                //    te.setCursorPosition(firstRow + 3, 0);
-                te.setCursorPosition(firstRow + 3, 0);
+                if (firstRow < 1)
+                    te.setCursorPosition(0, 0);                      
+                else
+                    te.setCursorPosition(firstRow + 3, 0);
+                
 
                 setTimeout(function () {
-                    te.mm.textbox.PreviewMarkdownCallback();
+                    te.mm.textbox.PreviewMarkdownCallback();                                    
+                }, 10);
+                setTimeout(function() {
                     if (sc)
                         sc.contentModified = true;
-                }, 10);
+                },150);
             }
         },10);
         te.editor.session.on("changeScrollTop", changeScrollTop);

@@ -25,7 +25,8 @@ namespace MarkdownMonster.Windows {
             if (Model.Configuration != null)
                 PreviewWidth = new GridLength(Model.Configuration.WindowPosition.InternalPreviewWidth);
         }
-        
+
+        #region Editor Container
         public bool IsEditorOpen
         {
             get => _isEditorOpen;
@@ -52,16 +53,16 @@ namespace MarkdownMonster.Windows {
         }
         private double _editorWidth;
 
+        #endregion
 
-        
+
+        #region LeftSidebar
 
         public bool IsLeftSidebarVisible
         {
             get => _isLeftSidebarVisible;
             set
             {
-                if (value == _isLeftSidebarVisible) return;
-
                 if (!value)
                 {
                     if (_leftSidebarWidth.Value > 20)
@@ -75,15 +76,14 @@ namespace MarkdownMonster.Windows {
                     LeftSidebarSeparatorWidth = DefaultSeparatorWidth;
                     LeftSidebarWidth = new GridLength(mmApp.Configuration.FolderBrowser.WindowWidth);
                     if (LeftSidebarWidth.Value < 20)
-                        LeftSidebarWidth = new GridLength(300);
-                    
+                        LeftSidebarWidth = new GridLength(300);                    
                 }
 
                 _isLeftSidebarVisible = value;
                 OnPropertyChanged(nameof(IsLeftSidebarVisible));
             }
         }
-        private bool _isLeftSidebarVisible;
+        private bool _isLeftSidebarVisible = true;
 
 
 
@@ -113,12 +113,17 @@ namespace MarkdownMonster.Windows {
         }
         private GridLength _leftSidebarSeparatorWidth;
 
+        #endregion
+
+
+        #region Preview Browser
         public bool IsPreviewVisible
         {
             get => _isPreviewVisible;
             set
             {
-                if (value == _isPreviewVisible) return;
+                //if (value == _isPreviewVisible) return;
+
                 _isPreviewVisible = value;
                 OnPropertyChanged();
 
@@ -178,6 +183,10 @@ namespace MarkdownMonster.Windows {
 
         private GridLength _previewSeparatorWidth = new GridLength(12);
 
+        #endregion
+
+        #region Right Sidebar
+
         public bool IsRightSidebarVisible
         {
             get => _isRightSidebarVisible;
@@ -232,6 +241,8 @@ namespace MarkdownMonster.Windows {
             }
         }
         private GridLength _rightSidebarSeparatorWidth = new GridLength(0);
+
+        #endregion
 
         #region INotifyPropertyChanged
 
