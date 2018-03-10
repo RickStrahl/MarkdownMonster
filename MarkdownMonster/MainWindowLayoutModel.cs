@@ -23,6 +23,7 @@ namespace MarkdownMonster.Windows {
         {
             Window = mainWindow;
             Model = mainWindow.Model;            
+            
 
             if (Model.Configuration != null)
                 PreviewWidth = new GridLength(Model.Configuration.WindowPosition.InternalPreviewWidth);
@@ -135,7 +136,7 @@ namespace MarkdownMonster.Windows {
                     if (PreviewWidth.IsAbsolute) 
                         mmApp.Configuration.WindowPosition.PreviewWidth = Convert.ToInt32(PreviewWidth.Value);                
                     PreviewWidth = GridLengthHelper.Zero;
-                    PreviewSeparatorWidth = GridLengthHelper.Zero;
+                    PreviewSeparatorWidth = GridLengthHelper.Zero;                    
                 }
                 else
                 {
@@ -145,10 +146,13 @@ namespace MarkdownMonster.Windows {
                         PreviewWidth = new GridLength(mmApp.Configuration.WindowPosition.InternalPreviewWidth);
 
                     PreviewSeparatorWidth = GridLengthHelper.WindowSeparator;
+                    
 
                     if (PreviewWidth.IsAbsolute)
                         mmApp.Configuration.WindowPosition.PreviewWidth = Convert.ToInt32(PreviewWidth.Value);
                 }
+
+                EditorWidth = GridLengthHelper.Star;
             }
         }
 
@@ -413,8 +417,8 @@ namespace MarkdownMonster.Windows {
                 Model.IsPreviewBrowserVisible = true;
             }            
         }
-
         #endregion
+
 
     }
 

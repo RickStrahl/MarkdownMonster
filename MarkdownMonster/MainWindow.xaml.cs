@@ -1455,7 +1455,7 @@ namespace MarkdownMonster
             if (hide)
             {
                 layoutModel.IsLeftSidebarVisible = false;               
-                mmApp.Configuration.FolderBrowser.Visible = false;
+                mmApp.Configuration.FolderBrowser.Visible = false;                
             }
             else
             {
@@ -1473,7 +1473,8 @@ namespace MarkdownMonster
                 });
 
                 layoutModel.IsLeftSidebarVisible = true;                
-                mmApp.Configuration.FolderBrowser.Visible = true;                
+                mmApp.Configuration.FolderBrowser.Visible = true;
+                SidebarContainer.SelectedIndex = 0; // folder browser tab
             }
         }
 
