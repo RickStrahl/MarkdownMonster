@@ -18,18 +18,20 @@ Options to filter the folder browser display for certain folder and file extensi
 * **Main Content Area UI Refactoring**  
 The main content UI area has been refactored to encapsulate the editor and preview pane in a single layout panel. Tabs now stretch across the entire content and preview area to avoid excessive tab crowding especially on small displays. Internally the render logic has been refactored to make the UI easier to manage in code via bindings and simpler property access and allow for more modular layouts that can be driven from Addins including support for adding UI panels.
 
-* **Addin Support for adding Sidebar Tab Items**  
+* **Addin Support for adding Left Sidebar Tab Items**  
 Addins can now implement a `AddSidebarPanelTabItem()` method to add a new sidebar panel which becomes a tabbed item alongside the File and Folder Browser. This allows for custom list panels for additional functionality like Git interaction, custom documentation solutions and document navigation and so on.
 
-* **Addin Support for a right Tab Sidebar**  
+* **Addin Support for a Right Tab Sidebar**  
 There's now also a new Right Side bar which can contain tabs to allow another avenue of providing additional UI for documents. Like the left sidebar, you can add tab pages to the layout to add UI.
-
 
 * **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
 * Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
 Example: [Chromium Preview Addin (preview)](https://github.com/RickStrahl/ChromiumPreview-MarkdownMonster-Addin)
 
-* **Add Post Date to Weblog Post Meta Data**  
+* **Double Click Editor/Preview Separator to Zoom Preview**  
+You can now double click the separator between the Editor and Preview to zoom the preview for a quick way to browse read/only content. The Sidebar remains on the left of the display to double click and restore the original width.
+
+* **Post Date for Weblog Post Meta Data**  
 The Weblog post meta data now stores the original post date, which also allows for modifying the post date to a new date when reposting **if** the Weblog service supports that feature.
 
 * **Fix up spaces in Editor Markup Operations**   
