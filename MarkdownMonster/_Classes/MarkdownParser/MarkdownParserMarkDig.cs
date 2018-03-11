@@ -100,7 +100,7 @@ namespace MarkdownMonster
             if (options.AutoLinks)
                 builder = builder.UseAutoLinks();
             if (options.AutoHeaderIdentifiers)
-                builder = builder.UseAutoIdentifiers();
+                builder = builder.UseAutoIdentifiers(Markdig.Extensions.AutoIdentifiers.AutoIdentifierOptions.GitHub);
             if (options.Abbreviations)
                 builder = builder.UseAbbreviations();
 
