@@ -114,6 +114,7 @@ namespace MarkdownMonster
 
 
         public Grid PreviewBrowserContainer { get; set; }
+
         private PreviewBrowserWindow _previewBrowserWindow;
 
         public MainWindow()
@@ -1199,7 +1200,6 @@ namespace MarkdownMonster
 
 			if (TabControl.Items.Count == 0)
 			{
-				PreviewBrowserContainer.Visibility = Visibility.Hidden;
 			    PreviewBrowser.Navigate("about:blank");
 
 				Model.ActiveDocument = null;
