@@ -51,6 +51,7 @@ html, body {
     font-weight: bold;
 }
 
+/* Search/Replace Box */
 .ace_button {
     color:#eee !important;    
 }
@@ -60,70 +61,32 @@ html, body {
 .ace_searchbtn_close:hover {
     background-color: brown !important;
 }
-.ace_searchbtn, .ace_replacebtn {
-    font-size: 0.7em;
-    font-family: 'Segoe UI'
-}
-.ace_search.right {
-    border-radius: 0px 0px 0px 5px;
-    border-right: 0 none;
-    right: 0;
-    padding: 10px;
+.ace_search.right {    
     background-color: #444;
     border: 1px solid #222;
     color: white;
 }
 .ace_search {
-    border-top: 0 none;
-    max-width: 325px;
-    overflow: hidden;
-    margin: 0;
-    padding: 4px;
-    padding-right: 6px;
-    padding-bottom: 0;
-    position: absolute;
-    top: 0px;
-    z-index: 99;
-    white-space: normal;    
+    font-size: 0.8em;        
+    padding: 4px;    
 }
 .ace_search_field {
     background-color: #333 !important;
     color: white !important;
     border-right: 1px solid #cbcbcb;
-    border: 0 none;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    float: left;
-    height: 22px !important;
-    outline: 0;
-    padding: 2px 7px 7px 8px !important;
-    width: 215px;
-    margin: 0;
-    font-family: 'Segoe UI';    
-}
-.ace_searchbtn.next, .ace_searchbtn.prev {
-    width: 30px !important;    
+    padding-bottom: 0.75em !important;
 }
 .ace_search_options>span:hover {
     background: #777 !important;
-    border-radius: 2px;
-}
-.ace_search .ace_searchbtn, .ace_search .ace_replacebtn {
-    font-size: 11pt !important;
-}
-.ace_searchbtn.next, .ace_searchbtn.prev {
-    width: 30px !important;
-}
-
-.ace_search_options > span {
-    font-size: 17pt;
+    /*border-radius: 2px;*/
 }
 
 .ace_search_options > span:hover {
     background: #777 !important;
-    border-radius: 2px;
+    /*border-radius: 2px;*/
 }
+
+
 #spellfixes {    
     position: absolute;
     font-family: 'Segoe UI', Arial, sans-serif;    
