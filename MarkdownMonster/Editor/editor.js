@@ -242,7 +242,7 @@ var te = window.textEditor = {
 
             //console.log(firstRow, lastRow, curRow);
 
-            if (firstRow < 1 || curRow < firstRow || curRow > lastRow) {
+            if (curRow < firstRow || curRow > lastRow) {
                 if (firstRow < 1)
                     te.setCursorPosition(0, 0);                      
                 else
