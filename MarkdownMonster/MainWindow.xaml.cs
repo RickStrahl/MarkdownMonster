@@ -985,6 +985,9 @@ namespace MarkdownMonster
         /// <returns></returns>
         public TabItem GetTabFromFilename(string filename)
         {
+            if (string.IsNullOrEmpty(filename))
+                return null;
+
             var tabList = new List<TabItem>();
             foreach (TabItem tb in TabControl.Items)
                 tabList.Add(tb);
@@ -1028,12 +1031,13 @@ namespace MarkdownMonster
         /// Adds a new panel to the sidebar
         /// </summary>
         /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
-        public void AddSidebarPanelTabItem(TabItem tabItem = null)
+        public void AddLeftSidebarPanelTabItem(TabItem tabItem = null)
         {
             if (tabItem != null)
             {
                 ControlsHelper.SetHeaderFontSize(tabItem, 14);
                 SidebarContainer.Items.Add(tabItem);
+                SidebarContainer.SelectedItem = tabItem;
             }
 
             if (SidebarContainer.Items.Count > 1)
@@ -1051,13 +1055,43 @@ namespace MarkdownMonster
             }
         }
 
-		/// <summary>
-		/// Binds the tab header to an expression
-		/// </summary>
-		/// <param name="tab"></param>
-		/// <param name="document"></param>
-		/// <param name="propertyPath"></param>
-		private void SetTabHeaderBinding(TabItem tab, MarkdownDocument document,
+        /// <summary>
+        /// Adds a new panel to the right sidebar
+        /// </summary>
+        /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
+        public void AddRightSidebarPanelTabItem(TabItem tabItem = null)
+        {
+            if (tabItem != null)
+            {
+                ControlsHelper.SetHeaderFontSize(tabItem, 14);
+                RightSidebarContainer.Items.Add(tabItem);
+                RightSidebarContainer.SelectedItem = tabItem;
+            }
+
+            if (RightSidebarContainer.Items.Count > 0)
+            {
+                foreach (var item in RightSidebarContainer.Items)
+                {
+                    var tbItem = item as TabItem;
+                    tbItem.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (RightSidebarContainer.Items.Count == 1)
+                    ((TabItem)RightSidebarContainer.Items[0]).Visibility = Visibility.Visible;
+            }
+
+            ShowRightSidebar();
+        }
+
+        /// <summary>
+        /// Binds the tab header to an expression
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <param name="document"></param>
+        /// <param name="propertyPath"></param>
+        private void SetTabHeaderBinding(TabItem tab, MarkdownDocument document,
 			string propertyPath = "FilenameWithIndicator",
 		    ImageSource icon = null)
 		{
@@ -1478,13 +1512,9 @@ namespace MarkdownMonster
             }
         }
 
-        public void ShowRightSidebar(bool hide)
+        public void ShowRightSidebar(bool hide = false)
         {
-            var layoutModel = Model.WindowLayout;
-            if (hide)            
-                layoutModel.IsRightSidebarVisible = false;                
-            else
-                layoutModel.IsRightSidebarVisible = true;
+            Model.WindowLayout.IsRightSidebarVisible = !hide;
         }
 
         public void LoadPreviewBrowser()
@@ -1901,7 +1931,7 @@ namespace MarkdownMonster
 	    private void AppTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
 	    {
 	        if (DateTime.UtcNow < mmApp.Started.AddSeconds(5))
-	            return;
+	            return;            
             
 	        if (mmApp.Configuration.ApplicationTheme == Themes.Default)
 	            mmApp.Configuration.ApplicationTheme = Themes.Dark;
@@ -1917,7 +1947,23 @@ namespace MarkdownMonster
 	        }
 	    }
 
-	    private void MarkdownParserName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ButtonRecentFiles_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+            UpdateRecentDocumentsContextMenu();
+        }
+
+        private void LeftSidebarExpand_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Model.ShowFolderBrowserCommand.Execute(null);
+        }
+
+        private void RightSidebarExpand_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Model.WindowLayout.IsRightSidebarVisible = true;
+            Model.WindowLayout.RightSidebarWidth = GridLengthHelper.FromInt(300);
+        }
+
+        private void MarkdownParserName_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (mmApp.Configuration != null && !string.IsNullOrEmpty(mmApp.Configuration.MarkdownOptions.MarkdownParserName))
 			{
@@ -2099,9 +2145,9 @@ namespace MarkdownMonster
 
         #endregion
 
-        private void ButtonRecentFiles_SubmenuOpened(object sender, RoutedEventArgs e)
+        private void GridSplitter_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            UpdateRecentDocumentsContextMenu();
+
         }
     }
 

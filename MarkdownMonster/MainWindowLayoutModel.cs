@@ -73,11 +73,11 @@ namespace MarkdownMonster.Windows {
                         mmApp.Configuration.FolderBrowser.WindowWidth = Convert.ToInt32(_leftSidebarWidth.Value);
 
                     LeftSidebarWidth =  GridLengthHelper.Zero;
-                    LeftSidebarSeparatorWidth = GridLengthHelper.Zero;
+                    //LeftSidebarSeparatorWidth = GridLengthHelper.Zero;
                 }
                 else
                 {
-                    LeftSidebarSeparatorWidth = GridLengthHelper.WindowSeparator;
+                    //LeftSidebarSeparatorWidth = GridLengthHelper.WindowSeparator;
                     LeftSidebarWidth = new GridLength(mmApp.Configuration.FolderBrowser.WindowWidth);
                     if (LeftSidebarWidth.Value < 20)
                         LeftSidebarWidth = new GridLength(300);                    
@@ -98,7 +98,19 @@ namespace MarkdownMonster.Windows {
             {
                 if (value.Equals(_leftSidebarWidth)) return;
                 _leftSidebarWidth = value;
+
                 OnPropertyChanged(nameof(LeftSidebarWidth));
+
+                if (_leftSidebarWidth.IsAbsolute && _leftSidebarWidth.Value < 1 && _isLeftSidebarVisible)
+                {
+                    _isLeftSidebarVisible = false;
+                    OnPropertyChanged(nameof(IsLeftSidebarVisible));
+                }
+                else if (_leftSidebarWidth.IsAbsolute && _leftSidebarWidth.Value > 0 && !_isLeftSidebarVisible)
+                {
+                    _isLeftSidebarVisible = true;
+                    OnPropertyChanged(nameof(IsLeftSidebarVisible));
+                }                
             }
         }
         private GridLength _leftSidebarWidth;
@@ -145,7 +157,7 @@ namespace MarkdownMonster.Windows {
                     else
                         PreviewWidth = new GridLength(mmApp.Configuration.WindowPosition.InternalPreviewWidth);
 
-                    PreviewSeparatorWidth = GridLengthHelper.WindowSeparator;
+                    PreviewSeparatorWidth = GridLengthHelper.Auto;
                     
 
                     if (PreviewWidth.IsAbsolute)
@@ -188,7 +200,7 @@ namespace MarkdownMonster.Windows {
             }
         }
 
-        private GridLength _previewSeparatorWidth = new GridLength(12);
+        private GridLength _previewSeparatorWidth = GridLengthHelper.Auto;
 
         #endregion
 
@@ -200,27 +212,29 @@ namespace MarkdownMonster.Windows {
             set
             {
                 if (value == _isRightSidebarVisible) return;
-
                 
                 if (!value)
                 {
                     if (_rightSidebarWidth.Value > 20)
                         mmApp.Configuration.WindowPosition.RightSidebardWidth = Convert.ToInt32(_rightSidebarWidth.Value);
 
-                    RightSidebarWidth = GridLengthHelper.Zero;
-                    RightSidebarSeparatorWidth = GridLengthHelper.Zero; 
+                    RightSidebarWidth = GridLengthHelper.Zero;                    
                 }
                 else
                 {
+                    var width = mmApp.Configuration.WindowPosition.RightSidebardWidth;
+                    if (width < 50)
+                        mmApp.Configuration.WindowPosition.RightSidebardWidth = 300;
+
                     RightSidebarWidth = new GridLength(mmApp.Configuration.WindowPosition.RightSidebardWidth);
-                    RightSidebarSeparatorWidth = GridLengthHelper.WindowSeparator;
                 }
 
                 _isRightSidebarVisible = value;
-                OnPropertyChanged(nameof(IsRightSidebarVisible));            
+                OnPropertyChanged(nameof(IsRightSidebarVisible));
+                OnPropertyChanged(nameof(RightSidebarSeparatorWidth));
             }
         }
-        private bool _isRightSidebarVisible;
+        private bool _isRightSidebarVisible = false;
 
 
         public GridLength RightSidebarWidth
@@ -231,23 +245,42 @@ namespace MarkdownMonster.Windows {
                 if (value.Equals(_rightSidebarWidth)) return;
                 _rightSidebarWidth = value;
                 OnPropertyChanged();
+
+                if (_rightSidebarWidth.IsAbsolute && _rightSidebarWidth.Value < 1 && _isRightSidebarVisible)
+                {
+                    _isRightSidebarVisible = false;
+                    OnPropertyChanged(nameof(IsRightSidebarVisible));
+                }
+                else if (_rightSidebarWidth.IsAbsolute && _rightSidebarWidth.Value > 0 && !_isRightSidebarVisible)
+                {
+                    _isRightSidebarVisible = true;
+                    OnPropertyChanged(nameof(IsRightSidebarVisible));
+                }
             }
         }
+
         private GridLength _rightSidebarWidth = GridLengthHelper.Zero;
 
 
 
         public GridLength RightSidebarSeparatorWidth
         {
-            get => _rightSidebarSeparatorWidth;
+            get
+            {
+                if (Window.RightSidebarContainer.Items.Count < 1)
+                    return GridLengthHelper.Zero;
+
+                return _rightSidebarSeparatorWidth;
+            }
             set
             {
-                if (value.Equals(_rightSidebarSeparatorWidth)) return;
+                //if (value.Equals(_rightSidebarSeparatorWidth)) return;
                 _rightSidebarSeparatorWidth = value;
                 OnPropertyChanged();
             }
         }
-        private GridLength _rightSidebarSeparatorWidth = GridLengthHelper.Zero;
+
+        private GridLength _rightSidebarSeparatorWidth = GridLengthHelper.Auto;
 
         #endregion
 

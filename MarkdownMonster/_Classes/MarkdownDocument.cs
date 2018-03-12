@@ -131,6 +131,10 @@ namespace MarkdownMonster
         {
             get
             {
+
+                if (string.IsNullOrEmpty(Filename))
+                    return Filename;
+
                 return Path.Combine(
                     Path.GetDirectoryName(Filename),
                     Path.GetFileName(Filename) + ".saved.bak");

@@ -49,7 +49,6 @@
         <localwindows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
         <localwindows:FolderNameFromPathConverter x:Key="FolderNameFromPathConverter" />
 
-
         <ObjectDataProvider x:Key="ApplicationThemeEnums" 
                             MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -142,13 +141,13 @@
 
                 </Button>
 
-                <Button Command="{Binding ShowFolderBrowserCommand}" 
+                <!--<Button Command="{Binding ShowFolderBrowserCommand}" 
                         Margin="2,0"
 						ToolTip="show Folder Browser pane (alt-v-f)"                                
-				        fa:Awesome.Content="FilesOutline" Foreground="{StaticResource BlueItem}"				         
+				        fa:Awesome.Content="Bars" Foreground="{StaticResource BlueItem}"				         
 				        TextElement.FontSize="16" 
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-				/>
+				/>-->
 
                 <ToggleButton Name="ToolButtonFullScreen"   Foreground="{StaticResource BlueItem}"
 				              Margin="2,0"
@@ -400,15 +399,14 @@
                             </i:Interaction.Behaviors>-->
                         </Button>
 
-
-						<Button  Margin="7,0,7,0"  Command="{Binding ShowFolderBrowserCommand}" 
+						<!--<Button  Margin="7,0,7,0"  Command="{Binding ShowFolderBrowserCommand}" 
 						         ToolTip="Toggle Folder Browser Pane (alt-v-f)"                                
 						         fa:Awesome.Content="FilesOutline" 			
 								 FontSize="15" 
 						         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-						/>
+						/>-->
 
-						<Separator/>
+						<!--<Separator/>-->
 
 						<Button Name="ToolButtonNewFile" Margin="7,0,0,0" Command="{Binding Commands.NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
                                 fa:Awesome.Content="PlusCircle"                                
@@ -607,22 +605,29 @@
                     </localwindows:FolderBrowerSidebar>
                 </TabItem>
             </controls:MetroTabControl>
-                
-            
+
 
             <GridSplitter Grid.Column="1"                               
 			              HorizontalAlignment="Center"                          
 			              BorderThickness="0" IsTabStop="False"                          
 			              VerticalAlignment="Stretch" >
-				<GridSplitter.Template>
-					<ControlTemplate TargetType="{x:Type GridSplitter}">
-						<Grid Background="Transparent">
-							<Image Source="Assets/vsizegrip.png" Height="30" VerticalAlignment="Center" />
-						</Grid>
-					</ControlTemplate>
-				</GridSplitter.Template>
-			</GridSplitter>
-
+                <GridSplitter.Template>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Grid Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>                
+                            <fa:FontAwesome Icon="bars" Foreground="{DynamicResource BlueItem}"  Width="15" 
+                                    controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsLeftSidebarVisible}"
+                                    HorizontalAlignment="Center" Grid.Column="0" Padding="2,15,0,15" Cursor="Arrow" 
+                                    MouseDown="LeftSidebarExpand_MouseDown"
+                            />
+                            <Image Source="Assets/vsizegrip.png" Height="30" Margin="1,0,1,0" VerticalAlignment="Center" Grid.Row="1"/>
+                        </Grid>
+                    </ControlTemplate>
+                </GridSplitter.Template>
+            </GridSplitter>
 
             <dragablz:TabablzControl x:Name="TabControl" x:FieldModifier="public" Grid.Column="2"
                                      Margin="0,5,0,0"
@@ -633,6 +638,8 @@
                                      ShowDefaultAddButton="False"
                                      SelectionChanged="TabControl_SelectionChanged"                                      
                                      Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+                
+                
                 <!--<dragablz:TabablzControl.Resources>
 
                     <Style TargetType="RepeatButton"  x:Key="TabControlWindowListButtonStyle">
@@ -710,18 +717,25 @@
                 
             </Grid>
 
-   
 
-            <GridSplitter Grid.Column="3"                                                                        
+
+            <GridSplitter Grid.Column="3"  x:Name="RightSidebarContainerSeparator"                                                                   
                           HorizontalAlignment="Center"                          
                           BorderThickness="0" IsTabStop="False"
-                          VerticalAlignment="Stretch"                                                     
-                          Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}"
-                          >
+                          VerticalAlignment="Stretch">
                 <GridSplitter.Template>
                     <ControlTemplate TargetType="{x:Type GridSplitter}">
                         <Grid Background="Transparent">
-                            <Image Source="Assets/vsizegrip.png" Height="30" VerticalAlignment="Center" />
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <fa:FontAwesome Icon="bars" Foreground="{DynamicResource BlueItem}"  Width="15" 
+                                            controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsRightSidebarVisible}"
+                                            HorizontalAlignment="Center" Grid.Column="0" Padding="0,15,5,15" Cursor="Arrow" 
+                                            MouseDown="RightSidebarExpand_MouseDown"
+                            />
+                            <Image Source="Assets/vsizegrip.png" Height="30" Margin="1,0,1,0" VerticalAlignment="Center" Grid.Row="1" />
                         </Grid>
                     </ControlTemplate>
                 </GridSplitter.Template>
@@ -751,15 +765,15 @@
                                       TabStripPlacement="Bottom"
                                       BorderThickness="0">
 
-                <TabItem Name="TestTab"  x:FieldModifier="public"
+                <!--<TabItem Name="TestTab"  x:FieldModifier="public"
                          Margin="0,0,5,0" Visibility="Visible" 
                          controls:ControlsHelper.HeaderFontSize="14">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock   Text="{Binding WindowLayoutModel.RightSidebarWidth.Value}"/>
+                            <TextBlock   Text="{Binding WindowLayout.RightSidebarSeparatorWidth.Value}"/>
                         </StackPanel>
                     </TabItem.Header>
-                </TabItem>
+                </TabItem>-->
             </controls:MetroTabControl>
 
         </Grid>

@@ -33,7 +33,7 @@
             <GridSplitter.Template>
                 <ControlTemplate TargetType="{x:Type GridSplitter}">
                     <Grid Background="Transparent">
-                        <Image Source="../../Assets/vsizegrip.png" Height="30" VerticalAlignment="Center" />
+                        <Image Source="../../Assets/vsizegrip.png" Height="30" Margin="1,0,1,0" VerticalAlignment="Center" />
                     </Grid>
                 </ControlTemplate>
             </GridSplitter.Template>
