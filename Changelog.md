@@ -49,13 +49,14 @@ You can now open a new editor tab in Read Only mode which can't be edited but ca
 * **Edit Preview Template in Preview Browser**  
 You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser using the Preview Browser's context menu. The link also opens the Preview Theme Editing documentation.
 
+* **DisableSplashScreen Configuration Setting**  
+You can now optionally disable the splash screen from firing up when starting Markdown Monster.
 
 * **Fix: Quicker Save Behavior**   
 Save operations previously were slightly delayed and didn't show the document as saved immediately. Made file save explicit rather than triggering on dirty flag update for much more responsive save.
 
 * **Fix: Sort Order in Folder Browser**  
 Fix sort order to work with lower case sorting so folders or files that start with `_` sort to the top and lower and upper case file names are not mixed up in sorting.
-
 
 * **Fix: Weblog Post Download with FrontMatter Header**  
 Fix issue where Weblog posts that contain FrontMatter headers would double up the FrontMatter and title headers. Fix checks for FrontMatter in downloaded post and if found just display the raw post retrieved with the original FrontMatter and Markdown formatting.
