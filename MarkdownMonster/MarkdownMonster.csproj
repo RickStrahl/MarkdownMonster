@@ -585,6 +585,7 @@
     <None Include="Editor\fileicons\kavadocs.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Resource Include="Assets\folder.png" />
     <Content Include="Editor\scripts\Ace\theme-dracula.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

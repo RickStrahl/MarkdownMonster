@@ -84,9 +84,11 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Height="Auto" 
+                
+                    <TextBlock Height="Auto" 
                            Text="SEARCH" 
-                           FontWeight="Medium" FontSize="11"  Padding="7,5,2,5" />
+                           FontWeight="Medium" FontSize="11"  Padding="4,5,2,5" />
+                
 
                 <Button fa:Awesome.Content="Remove" Grid.Column="1" Background="Transparent"
                         Foreground="{DynamicResource BlueItem}" Padding="5,0,5,0"
@@ -133,9 +135,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Height="Auto" 
-					   Text="FILES"  
-					   FontWeight="Medium" FontSize="11"  Padding="7,5,2,5" />
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../Assets/folder.png"  Height="16" Width="16" Margin="5,0,0,0" />
+                    <TextBlock Height="Auto" 
+					   Text="Files"  
+					   FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
+                </StackPanel>
 
                 <Button Content="…" Grid.Column="1" Background="Transparent"
 			        Foreground="{DynamicResource BlueItem}" Padding="5,0,5,0"
