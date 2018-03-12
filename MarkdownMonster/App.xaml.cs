@@ -95,11 +95,15 @@ namespace MarkdownMonster
                 }
             }
 
+            SplashScreen splashScreen = null;
+            if (!mmApp.Configuration.DisableSplashScreen)
+            {
+                splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
+                splashScreen.Show(true);
+            }
 
-            SplashScreen splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
-            splashScreen.Show(true);
 
-			// Singleton launch marshalls subsequent launches to the singleton instance
+            // Singleton launch marshalls subsequent launches to the singleton instance
 			// via named pipes communication
 	        CheckCommandLineForSingletonLaunch(splashScreen);
 
@@ -200,9 +204,8 @@ namespace MarkdownMonster
             if (!mmApp.Configuration.UseSingleWindow)
                 return;
 
-            bool isOnlyInstance;
-		    Mutex = new Mutex(true, @"MarkdownMonster", out isOnlyInstance);
-		    if (isOnlyInstance)
+            Mutex = new Mutex(true, @"MarkdownMonster", out bool isOnlyInstance);
+            if (isOnlyInstance)
 			    return;
 
             _noStart = true;
@@ -210,7 +213,7 @@ namespace MarkdownMonster
 		    var manager = new NamedPipeManager("MarkdownMonster");
 		    manager.Write(filesToOpen);
 
-            splashScreen.Close(TimeSpan.MinValue);
+            splashScreen?.Close(TimeSpan.MinValue);
 
 		    // Shut down application
 		    Environment.Exit(0);
