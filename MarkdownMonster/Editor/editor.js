@@ -228,36 +228,50 @@ var te = window.textEditor = {
         //        alert('drag over');
         //        te.mousePos = e.getDocumentPosition();
         //    });        
-        var changeScrollTop = debounce(function () {
+        var changeScrollTop = debounce(function (e) {
             // if there is a selection don't set cursor position
             // or preview. Mouseup will scroll to position at end
             // of selection
             var sel = te.getselection();
             if (sel && sel.length > 0)
                 return;
-
+            
             var firstRow = te.editor.renderer.getFirstVisibleRow();
-            var lastRow = te.editor.renderer.getLastVisibleRow();
-            var curRow = te.getLineNumber();
+
+            te.setselpositionfrommouse({ row: firstRow + (firstRow > 1 ? 2 : 0), column: 0 });
+
+            setTimeout(function () {
+                te.mm.textbox.PreviewMarkdownCallback();
+            }, 10);
+            setTimeout(function () {
+                if (sc)
+                    sc.contentModified = true;
+            }, 150);
+
+            //var lastRow = te.editor.renderer.getLastVisibleRow();
+            //var curRow = te.getLineNumber();
 
             //console.log(firstRow, lastRow, curRow);
 
-            if (curRow < firstRow || curRow > lastRow) {
-                if (firstRow < 1)
-                    te.setCursorPosition(0, 0);                      
-                else
-                    te.setCursorPosition(firstRow + 3, 0);
-                
+            //if (curRow < firstRow || curRow > lastRow) {
+                //if (firstRow < 1)
+                //    //te.setCursorPosition(0, 0);
+                //    te.setselpositionfrommouse({row: 0, column: 0});
+                //else
+                //    te.setCursorPosition(firstRow + 3, 0);
+                //    te.setselpositionfrommouse({ row: firstRow + 3, column: 0 });
 
-                setTimeout(function () {
-                    te.mm.textbox.PreviewMarkdownCallback();                                    
-                }, 10);
-                setTimeout(function() {
-                    if (sc)
-                        sc.contentModified = true;
-                },150);
-            }
-        },10);
+                //te.setselpositionfrommouse({ row: firstRow + (firstRow > 1 ? 2 :0), column: 0 });                
+
+                //setTimeout(function () {
+                //    te.mm.textbox.PreviewMarkdownCallback();                                    
+                //}, 10);
+                //setTimeout(function() {
+                //    if (sc)
+                //        sc.contentModified = true;
+                //},150);
+            //}
+        },50);
         te.editor.session.on("changeScrollTop", changeScrollTop);
         return editor;
     },
