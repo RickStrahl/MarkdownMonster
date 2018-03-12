@@ -151,7 +151,7 @@ namespace MarkdownMonster
                 {
                     var zeroWidth = new GridLength(0);
                     //Window.MainWindowPreviewColumn.Width = zeroWidth;
-                    Window.RightSidebarSeparatorColumn.Width = zeroWidth;
+                    //Window.RightSidebarSeparatorColumn.Width = zeroWidth;
                 }
                 return value;
             }

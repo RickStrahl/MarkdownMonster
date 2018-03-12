@@ -3,8 +3,8 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.9.6
-*<small>not released yet</small>*
+### 1.9.8
+*<small>March 12th, 2018</small>*
 
 * **Keyboard Auto Search for starting Letters in Folder Browser**  
 You can now type in a few letters to jump to the first matching file similar to the way Explorer finds files.
@@ -21,8 +21,14 @@ The main content UI area has been refactored to encapsulate the editor and previ
 * **Addin Support for adding Left Sidebar Tab Items**  
 Addins can now implement a `AddSidebarPanelTabItem()` method to add a new sidebar panel which becomes a tabbed item alongside the File and Folder Browser. This allows for custom list panels for additional functionality like Git interaction, custom documentation solutions and document navigation and so on.
 
+* **Left and Right Side Bar Hamburger Menu for Slideout Menu**   
+The left sidebar (Folder Browser) and right sidebar - if it has content - now have dedicated hamburger icons on their respective sides to slide out the sidebars when active. This makes the sidebars opening operation more discoverable. Additionally you can now drag to open and close the sidebars. Also remove the open icons from the main toolbar and window control menu since the icons are more logical.
+
 * **Addin Support for a Right Tab Sidebar**  
 There's now also a new Right Side bar which can contain tabs to allow another avenue of providing additional UI for documents. Like the left sidebar, you can add tab pages to the layout to add UI.
+
+* **MarkdownDocumentEditor Identifier and Properties Collections**   
+The MarkdownDocumentEditor instance now has a collection of Properties that can be attached to the editor to allow you to associate custom state to an editor instance. This allows Addins to capture state when a specific tab is activated via `Model.ActiveEditor.Tag.Properties["state"]`. `Identifier` is a new string field that allows adding a custom designation for easy checking.
 
 * **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
 * Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
@@ -40,14 +46,16 @@ Editor markup operations like the bold, italic, underscore, small etc. now autom
 * **Addins: Support for Read Only Editor**   
 You can now open a new editor tab in Read Only mode which can't be edited but can still be viewed and scrolled. Also added a double click handler in read only mode that triggers an `OnNotifyAddin` event for `ReadOnlyDoubleClick` that can be used to take action on the double click (like open a new window).
 
+* **Edit Preview Template in Preview Browser**  
+You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser using the Preview Browser's context menu. The link also opens the Preview Theme Editing documentation.
+
+
 * **Fix: Quicker Save Behavior**   
 Save operations previously were slightly delayed and didn't show the document as saved immediately. Made file save explicit rather than triggering on dirty flag update for much more responsive save.
 
 * **Fix: Sort Order in Folder Browser**  
 Fix sort order to work with lower case sorting so folders or files that start with `_` sort to the top and lower and upper case file names are not mixed up in sorting.
 
-* **Added Edit Preview Template in Preview Browser**  
-You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser. The link also opens the Preview Theme Editing documentation.
 
 * **Fix: Weblog Post Download with FrontMatter Header**  
 Fix issue where Weblog posts that contain FrontMatter headers would double up the FrontMatter and title headers. Fix checks for FrontMatter in downloaded post and if found just display the raw post retrieved with the original FrontMatter and Markdown formatting.
@@ -55,11 +63,14 @@ Fix issue where Weblog posts that contain FrontMatter headers would double up th
 * **Fix: Table Importer with HTML Tables**  
 Fix table importer context menu to find tables inside of the Editor. Fix import behavior if table uses upper case tag names.
 
-* **Fix: Table Modified Dialog Behavior**  
+* **Fix: File Modified Dialog Behavior**  
 Fixed prompt behavior when a file was changed when not focused on the editor and returning. Previous behavior **always** popped up a dialog for the file change. New behavior automatically updates the document **if there are not changes pending in the editor**. This avoids numerous dialog popups that are effectively unnecessary.
 
 * **Fix: Scroll Stutter at the top of the Document**  
 Fixed issue where initial scroll operation from the top of the document would get 'stuck' and require explicit cursor or slow scroll movement. Fixed by changing the top window scroll detection logic.
+
+* **Fix: Find/Replace Box Formatting**   
+Fix styling of the Find/Replace box which was broken after a recent update of Ace Editor. The box now also reverts closer to Ace Editor's default behavior which includes responsive auto-sizing which was previously disabled.
 
 ### 1.9.0
 *<small>January 24, 2018</small>*
