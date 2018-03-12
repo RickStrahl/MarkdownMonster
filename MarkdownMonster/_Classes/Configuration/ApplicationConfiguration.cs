@@ -620,6 +620,7 @@ namespace MarkdownMonster
         /// </summary>
         public bool DisableAddins { get; set; }
 
+        public bool DisableSplashScreen { get; set; }
 
         /// <summary>
         /// If set makes the application not use GPU accelleration.
@@ -685,6 +686,7 @@ namespace MarkdownMonster
         /// Statusbar timeout length
         /// </summary>
         internal int StatusTimeout { get; set; } = 7000;
+        
 
         #endregion
 
