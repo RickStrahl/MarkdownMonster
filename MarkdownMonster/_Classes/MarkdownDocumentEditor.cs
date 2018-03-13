@@ -554,7 +554,7 @@ namespace MarkdownMonster
                         dynamic scroll = AceEditor.getscrolltop(false);
 
                         // the ID tag
-                        html = $"\r\n\r\n[{id}]: {image}\r\n";
+                        html = $"\n\n[{id}]: {image}\n";
 
                         // set selction position to bottom of document
                         AceEditor.gotoBottom(false);
@@ -593,9 +593,9 @@ namespace MarkdownMonster
 
                 if (res != null && res.Value)
                 {
-                    html = "```" + form.CodeLanguage + "\r\n" +
-                           form.Code.Trim() + "\r\n" +
-                           "```\r\n";
+                    html = "```" + form.CodeLanguage + "\n" +
+                           form.Code.Trim() + "\n" +
+                           "```\n";
                 }
             }
             else
@@ -676,7 +676,7 @@ namespace MarkdownMonster
                         dynamic scroll = AceEditor.getscrolltop(false);
 
                         // the ID tag
-                        html = $"\r\n\r\n[{id}]: {image}\r\n";
+                        html = $"\n\n[{id}]: {image}\n";
 
                         // set selction position to bottom of document
                         AceEditor.gotoBottom(false);
@@ -1507,7 +1507,7 @@ namespace MarkdownMonster
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message,
+                            MessageBox.Show("Couldn't copy file to new location: \n" + ex.Message,
                                 mmApp.ApplicationName);
                             return;
                         }
@@ -1521,7 +1521,7 @@ namespace MarkdownMonster
                             }
                             catch (Exception ex)
                             {
-                                mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}", ex);
+                                mmApp.Log($"Failed to get relative path.\nFile: {sd.FileName}, Path: {imagePath}", ex);
                             }
                             imagePath = relPath;
                         }
@@ -1591,7 +1591,7 @@ namespace MarkdownMonster
 
                 AceEditor.setselpositionfrommouse(false);
 
-                Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\r\n![]({relFilePath.Replace(" ","%20")})\r\n"),
+                Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\n![]({relFilePath.Replace(" ","%20")})\n"),
                     DispatcherPriority.ApplicationIdle);
 
                 Window.Activate();

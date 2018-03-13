@@ -37,6 +37,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Annotations;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Westwind.Utilities;
@@ -639,7 +640,7 @@ We're now shutting down the application.
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-
+        [NotifyPropertyChangedInvocator]
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

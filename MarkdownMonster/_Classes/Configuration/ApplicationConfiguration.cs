@@ -196,9 +196,6 @@ namespace MarkdownMonster
         }
         private bool _alwaysUsePreviewRefresh;
 
-
-        
-
         /// <summary>
         /// The font used in the editor. Must be a proportional font
         /// </summary>

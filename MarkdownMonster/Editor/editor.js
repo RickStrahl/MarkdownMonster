@@ -64,7 +64,7 @@ var te = window.textEditor = {
         session.setTabSize(editorSettings.tabSpaces);
         editor.$blockScrolling = Infinity;
 
-        session.setNewLineMode("windows");
+        session.setNewLineMode("unix");
 
         // disable certain hot keys in editor so we can handle them here        
         editor.commands.bindKeys({
