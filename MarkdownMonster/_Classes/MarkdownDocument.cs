@@ -46,6 +46,7 @@ using System.Security;
 
 namespace MarkdownMonster
 {
+    using System.Diagnostics;
     using AddIns;
 
     /// <summary>
@@ -490,14 +491,14 @@ namespace MarkdownMonster
         /// </summary>
         public void Close()
         {
-            if (File.Exists(HtmlRenderFilename))
-            {
-                try
-                {
-                    File.Delete(HtmlRenderFilename);
-                }
-                catch { /* ignore */ }
-            }
+            //if (File.Exists(HtmlRenderFilename))
+            //{
+            //    try
+            //    {
+            //        File.Delete(HtmlRenderFilename);
+            //    }
+            //    catch { /* ignore */ }
+            //}
             CleanupBackupFile();
         }
 
@@ -517,7 +518,7 @@ namespace MarkdownMonster
             {
                 try
                 {
-                    File.WriteAllText(filename, html, Encoding.UTF8);
+                    File.WriteAllText(filename, html, Encoding.UTF8);                    
                     written = 10;                    
                 }              
                 catch(Exception ex)
@@ -812,7 +813,7 @@ namespace MarkdownMonster
                 .Replace("{$markdownHtml}", markdownHtml);
 
             html = AddinManager.Current.RaiseOnModifyPreviewHtml( html, markdownHtml );
-
+            
             if( !WriteFile(filename, html))
                 return null;
 
