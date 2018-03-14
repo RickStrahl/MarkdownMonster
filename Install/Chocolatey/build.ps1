@@ -36,7 +36,7 @@ choco pack
 
 choco uninstall "MarkdownMonster" -f
 
-choco install "MarkdownMonster" -fdv  -y -s ".\"
+choco install "MarkdownMonster" -fd  -y -s ".\"
 #choco install "MarkdownMonster" -fdv  -y -s ".\"
 
 # choco push
