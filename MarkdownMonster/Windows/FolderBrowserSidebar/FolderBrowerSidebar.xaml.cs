@@ -143,18 +143,22 @@ namespace MarkdownMonster.Windows
         #region FileWatcher
 
         private void FileWatcher_Renamed(object sender, RenamedEventArgs e)
-        {            
-            var file = e.FullPath;
-            var oldFile = e.OldFullPath;
+        {
+            mmApp.Model.Window.Dispatcher.Invoke(() =>
+            {
 
-            var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, oldFile);
-            if (pi == null)
-                return;
+                var file = e.FullPath;
+                var oldFile = e.OldFullPath;
 
-            pi.FullPath = file;
-            Dispatcher.Invoke(() => pi.Parent.Files.Remove(pi));
+                var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, oldFile);
+                if (pi == null)
+                    return;
 
-            FolderStructure.InsertPathItemInOrder(pi, pi.Parent);
+                pi.FullPath = file;
+                pi.Parent.Files.Remove(pi);
+
+                FolderStructure.InsertPathItemInOrder(pi, pi.Parent);
+            },DispatcherPriority.ApplicationIdle);
         }
 
         private void FileWatcher_CreateOrDelete(object sender, FileSystemEventArgs e)
@@ -163,8 +167,6 @@ namespace MarkdownMonster.Windows
             
             if (e.ChangeType == WatcherChangeTypes.Deleted)
             {
-                // TODO:  this is not working
-                
                 mmApp.Model.Window.Dispatcher.Invoke(() =>
                 {
                     var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, file);
@@ -179,27 +181,30 @@ namespace MarkdownMonster.Windows
 
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
-                var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, file);
-                if (pi != null) // Already exists in the tree
-                    return;
-
-                // does the path exist?
-                var parentPathItem =
-                    FolderStructure.FindPathItemByFilename(ActivePathItem, Path.GetDirectoryName(file));
-                if (parentPathItem == null) // path is not expanced yet
-                    return;
-
-                bool isFolder = Directory.Exists(file);
-                pi = new PathItem()
+                mmApp.Model.Window.Dispatcher.Invoke(() =>
                 {
-                    FullPath = file,
-                    IsFolder = isFolder,
-                    IsFile = !isFolder,
-                    Parent = parentPathItem
-                };
-                pi.SetIcon();
+                    var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, file);
+                    if (pi != null) // Already exists in the tree
+                        return;
 
-                FolderStructure.InsertPathItemInOrder(pi, parentPathItem);
+                    // does the path exist?
+                    var parentPathItem =
+                        FolderStructure.FindPathItemByFilename(ActivePathItem, Path.GetDirectoryName(file));
+                    if (parentPathItem == null) // path is not expanced yet
+                        return;
+
+                    bool isFolder = Directory.Exists(file);
+                    pi = new PathItem()
+                    {
+                        FullPath = file,
+                        IsFolder = isFolder,
+                        IsFile = !isFolder,
+                        Parent = parentPathItem
+                    };
+                    pi.SetIcon();
+
+                    FolderStructure.InsertPathItemInOrder(pi, parentPathItem);
+                }, DispatcherPriority.ApplicationIdle);
             }
 
         }
@@ -801,6 +806,7 @@ namespace MarkdownMonster.Windows
             {
                 FullPath = path,
                 IsFolder = false,
+                IsFile = true,
                 IsEditing = true,
                 IsSelected = true
             };
