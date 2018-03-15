@@ -1,0 +1,233 @@
+/*Standard HTML styles*/
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body::-webkit-scrollbar, ::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+body {
+    font-size: 12pt;
+    font-family: segoe-ui_normal,Segoe UI,Segoe,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
+    margin: 20px;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+    p code {
+        font-family: Consolas, monospace;
+        padding: 1px 5px;
+        font-weight: 600;
+        border-radius: 3px;
+    }
+
+ul, ol {
+    margin-bottom: 20px;
+    line-height: 1.3em;
+}
+
+li {
+    margin-top: .5em;
+    margin-left: 25px;
+    text-align: left;
+}
+
+img {
+    border: 0;
+}
+
+table {
+    width: 100%;
+    overflow: auto;
+    display: block;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+
+td, th {
+    padding: 6px 13px;
+    display: table-cell;
+    vertical-align: top;
+    line-height: 1.4em;
+    text-align: left;
+}
+
+th {
+    font-weight: bold;
+}
+
+blockquote {
+    padding: 16px 32px 8px 24px;
+    margin: 24px 16px;
+}
+
+h1, h2, h3, h4 {
+    text-align: left;
+}
+
+
+
+
+    pre {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+
+    pre code.hljs {
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-left: 8px;
+        padding-right: 8px;
+        line-height: 1.5em;
+    }
+
+     h1 {
+        font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+        font-weight: 300;
+        font-size: 2.4em;
+        margin-top: 40px;
+        margin-bottom: 30px;
+    }
+
+     h2 {
+        font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+        font-weight: 300;
+        font-size: 1.8em;
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+     h3 {
+        font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+        font-weight: 300;
+        font-size: 1.6em;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+     p {
+        line-height: 1.7;
+        text-align: justify;
+    }
+
+     li {
+        line-height: 1.7;
+    }
+
+     img {
+        max-width: 100%;
+        margin-top: 20px;
+        margin-top: 20px;
+    }
+
+
+
+/* Special markdown features */
+.task-list-item {
+    list-style-type: none;
+}
+.task-list-item-checkbox {
+    margin: 0 0.2em 0.25em -1.6em;
+    vertical-align: middle;
+}
+.task-list-item input[type="checkbox"] {
+    margin: 0 0.2em 0.25em -1.6em;
+    vertical-align: middle;
+}
+
+
+
+
+-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
+    background-color: #6e6e6e;
+    outline: 1px solid #333;
+}
+
+a:link, a:visited, a:hover {
+    color: #1e88e5;
+}
+
+a:active {
+    color: #12eb87;
+}
+
+body {
+    background-color: rgb(30, 30, 30);
+    color: rgb(203, 203, 203);
+}
+
+p code {
+    background-color: #5d5d5d;
+    border: 1px solid black;
+}
+
+table {
+    border-color: lightgray;
+}
+
+td, th {
+    border: 1px solid #444444;
+    color: rgb(203, 203, 203);
+}
+
+th {
+    color: rgb(203, 203, 203);
+    background: #111111;
+}
+
+tbody>tr:nth-child(even) {
+    background: rgb(40, 40, 40);
+}
+
+blockquote {
+    background-color: rgba(30, 136, 229, 0.2);
+    border-left: 8px solid #1e88e5;
+}
+
+ h1,  h2 {
+    color: #1e88e5;
+}
+
+ h3 {
+    color: #1e88e5;
+}
+
+
+
+li.kava-auto-link {
+    background-color: rgba(25,118,210,.05);
+    border-left: 8px solid #1e88e5;
+}
+li.kava-auto-link a:link, li.kava-auto-link a:visited {
+    color: rgb(203, 203, 203);
+}
+
+.kava-recursive-topic {
+    color: red;
+}
+
+
+a.area-link, a.area-link:visited {
+    color: #1e88e5;
+}
+
+figure {
+    color: #1e88e5;
+}
