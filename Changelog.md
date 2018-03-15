@@ -3,8 +3,8 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.9.10
-*<small>March 13th, 2018</small>*
+### 1.9.13
+*<small>March 15th, 2018</small>*
 
 * **Keyboard Auto Search for starting Letters in Folder Browser**  
 You can now type in a few letters to jump to the first matching file similar to the way Explorer finds files.
