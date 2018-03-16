@@ -123,12 +123,12 @@ b, strong {
 
 
 blockquote {
-    background: #f9f9f9;
-    font-size: 1em;
-    opacity: 0.85;
+    background: #f5f5f5;
+    color: #656565;
+    border-left: 8px #aaa solid;
+    border-radius: 4px;
     padding: 10px 20px;
     margin: 30px 20px;
-    border-left: 4px #ddd solid;
 }
 
 blockquote h3, blockquote h4, blockquote h5 {

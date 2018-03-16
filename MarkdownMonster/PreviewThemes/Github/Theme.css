@@ -54,16 +54,9 @@ a,a:visited {
 a:hover {
     text-decoration: underline;
 }
-blockquote {
-    opacity: 0.75;
-    font-size: 1em !important;
-    background: transparent !important;
-    border-width-left: 13px !important;
-    padding-top: 5px !important;
-}
-blockquote h3, blockquote h4 {
-    margin-top: 0 !important;
-}
+
+
+
 pre {
     font-family: Consolas, monospace;
     font-weight: normal;    
@@ -114,16 +107,18 @@ tbody>tr:nth-child(even) {
 img {
     max-width: 100%;
 }
-blockquote {
-    background: #f8f8f8;
-    font-size: 1.1em;
-    padding: 5px 10px 5px 15px;
-    margin: 30px 10px;
-    border-left: 7px #ddd solid;
+
+
+blockquote {    
+    color: #6a737d;
+    font-size: 1rem;
+    border-left: 4px #ddd solid;    
+    padding: 15px 20px;    
+    margin: 14px 2px;
 }
 
 blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 8px;
+    margin-top: 5px !important;
 }
 hr {
     margin: 12px 0;    
