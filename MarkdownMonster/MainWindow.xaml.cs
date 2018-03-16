@@ -1375,13 +1375,21 @@ namespace MarkdownMonster
 
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false,
             bool showInBrowser = false, string renderedHtml = null)
-        {
+        {            
             PreviewBrowser?.PreviewMarkdown(editor, keepScrollPosition, showInBrowser, renderedHtml);
         }        
 
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null)
-        {
+        {            
             PreviewBrowser?.PreviewMarkdownAsync(editor, keepScrollPosition,renderedHtml);
+        }
+
+        public void UpdateDocumentOutline()
+        {
+            if (DocumentOutline == null || DocumentOutline.Visibility != Visibility.Visible) return;
+            if (Model.ActiveEditor == null || Model.ActiveEditor.EditorSyntax != "markdown") return;
+
+            DocumentOutline.RefreshOutline();
         }
 
         public void Navigate(string url)

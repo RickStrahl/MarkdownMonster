@@ -43,15 +43,16 @@
         </Grid>
 
         <ListBox Grid.Row="1" Name="ListOutline" 
+                 
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"                             
                              ItemsSource="{Binding DocumentOutline}"
-                             SelectionChanged="ListOutline_SelectionChanged"
+                             SelectionChanged="ListOutline_SelectionChanged"                                                  
                              HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid HorizontalAlignment="Stretch">
                         <TextBlock Text="{Binding Text}" Padding="5">
-                        </TextBlock>  
+                        </TextBlock>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

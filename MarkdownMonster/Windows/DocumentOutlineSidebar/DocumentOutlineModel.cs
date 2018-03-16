@@ -75,7 +75,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                 {
                     
                     var heading = item as HeadingBlock;
-                    var indent = "".PadRight(heading.Level * 2);
+                    var indent = "".PadRight(heading.Level * 4);
 
                     // underlined format
                     if (line > 0 && (content.StartsWith("---") || content.StartsWith("===")))

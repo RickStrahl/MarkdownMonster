@@ -1242,7 +1242,9 @@ namespace MarkdownMonster
         public void PreviewMarkdownCallback(bool dontGetMarkdown = false)
         {
             if (!dontGetMarkdown)
-                GetMarkdown();                        
+                GetMarkdown();
+
+            Window.UpdateDocumentOutline();
 
             Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true);
         }
