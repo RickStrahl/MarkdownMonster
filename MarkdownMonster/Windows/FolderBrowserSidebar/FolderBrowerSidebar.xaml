@@ -12,8 +12,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
 
-        <local:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
-
         <!--DataType="{x:Type local:PathItem}"-->
         <HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
             <StackPanel MouseDown="TreeViewItem_MouseDoubleClick" >
@@ -77,7 +75,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Name="SearchPanel" Visibility="Collapsed">
-            <Grid Background="{StaticResource  FolderBrowserHeaderBackground}">
+            <Grid Background="{StaticResource  SidebarHeaderBackground}">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -125,7 +123,7 @@
                 <RowDefinition Name="ImagePreviewColumn"  Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Grid Background="{StaticResource  FolderBrowserHeaderBackground}">
+            <Grid Background="{StaticResource  SidebarHeaderBackground}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />

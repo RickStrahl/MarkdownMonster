@@ -151,8 +151,10 @@ namespace MarkdownMonster
 			}
 
 			// Override some of the theme defaults (dark header specifically)
-			mmApp.SetThemeWindowOverride(this);            
-		}
+			mmApp.SetThemeWindowOverride(this);
+		    if (mmApp.Configuration.ApplicationTheme == Themes.Light)
+		        RightSidebarContainer.Background = (SolidColorBrush)Resources["LightThemeTitleBackground"];
+        }
 
 
         #region Opening and Closing
