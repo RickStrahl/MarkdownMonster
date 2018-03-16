@@ -63,10 +63,10 @@ namespace MarkdownMonster
             CopyFolderToClipboard();
             TabControlFileList();
 
-
+            // Sidebar
+            CloseLeftSidebarPanel();
+            CloseRightSidebarPanel();
             
-
-
         }
 
         #region Files And File Management
@@ -785,6 +785,33 @@ Do you want to View in Browser now?
             (p, c) => true);
         }
 
+        #endregion
+
+        #region Sidebar
+
+        public CommandBase CloseLeftSidebarPanelCommand { get; set; }
+
+        void CloseLeftSidebarPanel()
+        {
+            CloseLeftSidebarPanelCommand = new CommandBase((parameter, command) =>
+            {
+                Model.Window.ShowFolderBrowser(hide: true);
+                Model.ActiveEditor?.SetEditorFocus();
+            }, (p, c) => true);
+        }
+
+
+        public CommandBase CloseRightSidebarPanelCommand { get; set; }
+
+        void CloseRightSidebarPanel()
+        {
+            CloseRightSidebarPanelCommand = new CommandBase((parameter, command) =>
+                {
+                    Model.Window.ShowRightSidebar(hide: true);
+                    Model.ActiveEditor?.SetEditorFocus();
+                }, (p, c) => true);
+        }
+        
         #endregion
     }
 }

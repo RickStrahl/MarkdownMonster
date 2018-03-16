@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="MarkdownMonster.Windows.FolderBrowerSidebar"
+﻿<UserControl 
+             x:Class="MarkdownMonster.Windows.FolderBrowerSidebar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,7 +12,6 @@
              mc:Ignorable="d" MinWidth="215"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-
         <!--DataType="{x:Type local:PathItem}"-->
         <HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
             <StackPanel MouseDown="TreeViewItem_MouseDoubleClick" >
@@ -113,8 +113,6 @@
         </StackPanel>
 
         <Grid Name="GridFolderBrowser" Grid.Row="1" >
-
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -164,7 +162,7 @@
 			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="5"  
 			         Name="ButtonClosePanel" BorderThickness="0" FontSize="12"
 			         ToolTip="Close Folder Browser Panel" 
-			         Click="ButtonClosePanel_Click" />
+                         Command="{Binding AppModel.Commands.CloseLeftSidebarPanelCommand}"  /> 			         
             </Grid>
 
 

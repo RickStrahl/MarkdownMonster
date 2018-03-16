@@ -975,8 +975,6 @@ namespace MarkdownMonster
             if (!noPreview)
                 PreviewMarkdownAsync();
 
-            
-
             return tab;
         }
 

@@ -51,6 +51,8 @@ namespace MarkdownMonster.Windows
                 
                 OnPropertyChanged(nameof(FolderPath));
                 OnPropertyChanged(nameof(ActivePathItem));
+
+                
             }
         }
         private string _folderPath;
@@ -124,17 +126,18 @@ namespace MarkdownMonster.Windows
 
             InitializeComponent();
             Focusable = true;
-            DataContext = this;
+            
             Loaded += FolderBrowerSidebar_Loaded;           
         }
 
 
 
         private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)
-        {
+        {            
             AppModel = mmApp.Model;
             Window = AppModel.Window;
-            
+            DataContext = this;
+
             // Load explicitly here to fire *after* behavior has attached
             ComboFolderPath.PreviewKeyUp += ComboFolderPath_PreviewKeyDown;
         }
@@ -331,12 +334,7 @@ namespace MarkdownMonster.Windows
             SetTreeFromFolder(FolderPath, true);
         }
 
-        private void ButtonClosePanel_Click(object sender, RoutedEventArgs e)
-        {
-            Window.ShowFolderBrowser(hide: true);
-            AppModel.ActiveEditor?.SetEditorFocus();
-        }
-
+       
         private void ComboFolderPath_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter

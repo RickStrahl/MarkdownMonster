@@ -593,7 +593,7 @@
                                         BorderThickness="0">
 
                 <controls:MetroTabItem Name="TabFolderBrowser"  x:FieldModifier="public"
-                         Margin="0,0,5,0" Visibility="Collapsed" Header=" Files "
+                         Margin="0,0,5,0" Visibility="Visible" Header=" Files "
                          controls:ControlsHelper.HeaderFontSize="14">
                     <!--<TabItem.Header>
                         <StackPanel Orientation="Horizontal">
@@ -602,7 +602,23 @@
                     </TabItem.Header>-->
                     <localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
                     </localwindows:FolderBrowerSidebar>
+
+
                 </controls:MetroTabItem>
+
+
+                <controls:MetroTabItem Name="TabDocumentOutline"  x:FieldModifier="public"
+                                       Margin="0,0,5,0" Visibility="Visible" Header=" Outline "
+                                       controls:ControlsHelper.HeaderFontSize="14">
+                    <!--<TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text=" Files and Folder " />
+                        </StackPanel>
+                    </TabItem.Header>-->
+                    <localwindows:DocumentOutlineSidebarControl x:Name="DocumentOutline">
+                    </localwindows:DocumentOutlineSidebarControl>
+                </controls:MetroTabItem>
+
             </controls:MetroTabControl>
 
 
