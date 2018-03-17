@@ -121,28 +121,19 @@ namespace MarkdownMonster.Windows
             Model.DocumentOutline = Model.CreateDocumentOutline(md);
         }
 
-
-
-
-        private void ListOutline_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-              
-        }
-
-
         private void ListOutlineItem_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-          
-        }
-
-        
-        private void ListOutlineItem_GotFocus(object sender, RoutedEventArgs e)
-        {
-            var selected = ListOutline.SelectedItem as HeaderItem;
+        {         
+            var selected = ListOutline.SelectedItem as HeaderItem;            
             if (selected == null || Model.AppModel.ActiveEditor == null)
                 return;
 
-            Model.AppModel.ActiveEditor.GotoLine(selected.Line - 1, noRefresh: true);
+            Model.AppModel.ActiveEditor.GotoLine(selected.Line - 1, noRefresh: true);           
+        }
+
+        private void TextBlock_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Space)
+                ListOutlineItem_MouseUp(sender, null);
         }
     }
 }

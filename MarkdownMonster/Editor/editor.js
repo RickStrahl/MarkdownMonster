@@ -388,12 +388,14 @@ var te = window.textEditor = {
                     setTimeout(te.refreshPreview, 10);
         },100);
     },
-    gotoBottom: function (ignored) {
+    gotoBottom: function (noRefresh) {
         setTimeout(function() {
                 var row = te.editor.session.getLength() - 1;
                 var column = te.editor.session.getLine(row).length; // or simply Infinity
-                te.editor.selection.moveTo(row, column);
-                setTimeout(te.refreshPreview, 10);                
+             te.editor.selection.moveTo(row, column);
+
+                if(!noRefresh)
+                    setTimeout(te.refreshPreview, 10);                
             },
             70);
     },

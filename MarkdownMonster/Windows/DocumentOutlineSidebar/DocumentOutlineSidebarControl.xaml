@@ -43,24 +43,23 @@
                      Command="{Binding Commands.CloseLeftSidebarPanelCommand}" />
         </Grid>
 
-        <ListBox Grid.Row="1" Name="ListOutline" 
-                 
+        <ListBox Grid.Row="1" Name="ListOutline"                  
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"                             
-                             ItemsSource="{Binding DocumentOutline}" Focusable="False"
-                             SelectionChanged="ListOutline_SelectionChanged"                                                  
+                             ItemsSource="{Binding DocumentOutline}"  
+                              Focusable="False"
                              HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch" GotFocus="ListOutlineItem_GotFocus" >
-                        <TextBlock Text="{Binding Text}" Padding="5">
-                        </TextBlock>
+                    <Grid MouseUp="ListOutlineItem_MouseUp" KeyDown="TextBlock_KeyDown" >
+                        <TextBlock Text="{Binding Text}" Padding="6" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListItem}">
-                    <!-- We have to select the item which is right-clicked on -->
-                    <EventSetter Event="GotFocus" Handler="ListOutlineItem_GotFocus"/>
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="KeyDown" Handler="TextBlock_KeyDown"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Focusable" Value="True" />
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
