@@ -66,7 +66,8 @@ namespace MarkdownMonster
             // Sidebar
             CloseLeftSidebarPanel();
             CloseRightSidebarPanel();
-            
+            ShowFolderBrowser();
+
         }
 
         #region Files And File Management
@@ -801,6 +802,16 @@ Do you want to View in Browser now?
         }
 
 
+        public CommandBase OpenLeftSidebarPanelCommand { get; set; }
+
+        void OpenLeftSidebarPanel()
+        {
+            OpenLeftSidebarPanelCommand = new CommandBase((parameter, command) =>
+            {
+                Model.Window.ShowLeftSidebar();                
+            }, (p, c) => true);
+        }
+
         public CommandBase CloseRightSidebarPanelCommand { get; set; }
 
         void CloseRightSidebarPanel()
@@ -811,7 +822,21 @@ Do you want to View in Browser now?
                     Model.ActiveEditor?.SetEditorFocus();
                 }, (p, c) => true);
         }
-        
+
+        public CommandBase ShowFolderBrowserCommand { get; set; }
+
+
+        void ShowFolderBrowser()
+        {
+            // SHOW FILE BROWSER COMMAND
+            ShowFolderBrowserCommand = new CommandBase((s, e) =>
+            {
+                mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
+                mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+            });
+        }
+
+
         #endregion
     }
 }

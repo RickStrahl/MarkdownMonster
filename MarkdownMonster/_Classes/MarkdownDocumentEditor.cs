@@ -100,6 +100,8 @@ namespace MarkdownMonster
         /// </summary>
         public bool HasHtmlPreview { get; set; }
 
+  
+
 
         /// <summary>
         /// Optional identifier that lets you specify what type of
@@ -1003,15 +1005,16 @@ namespace MarkdownMonster
         /// <summary>
         /// Goes to the specified line number in the editor
         /// </summary>
-        /// <param name="line"></param>
-        public void GotoLine(int line)
+        /// <param name="line">Editor Line to display</param>
+        /// <param name="noRefresh">Won't refresh the preview after setting</param>
+        public void GotoLine(int line, bool noRefresh = false)
         {
             if (line < 0)
                 line = 0;
 
             try
             {
-                AceEditor?.gotoLine(line);
+                AceEditor?.gotoLine(line, noRefresh);
             }
             catch { }
         }
@@ -1236,6 +1239,7 @@ namespace MarkdownMonster
         }
         
 
+        
         /// <summary>
         /// Callback handler callable from JavaScript editor
         /// </summary>
@@ -1243,10 +1247,11 @@ namespace MarkdownMonster
         {
             if (!dontGetMarkdown)
                 GetMarkdown();
+            
+            Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true);
 
             Window.UpdateDocumentOutline();
-
-            Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true);
+            WindowUtilities.DoEvents();
         }
 
         /// <summary>

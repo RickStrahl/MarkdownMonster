@@ -536,11 +536,14 @@ We're now shutting down the application.
             {
                 mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
                 mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
-
             });
         }
 
-        
+
+
+
+
+
 
         public CommandBase GeneratePdfCommand { get; set; }
 

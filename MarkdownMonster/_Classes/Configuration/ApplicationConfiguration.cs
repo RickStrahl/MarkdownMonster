@@ -603,8 +603,21 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(IsPreviewVisible));
             }
         }
-
         private bool _isPreviewVisible;
+
+
+        public bool IsDocumentOutlineVisible
+        {
+            get { return _IsDocumentOutlineVisible; }
+            set
+            {
+                if (value == _IsDocumentOutlineVisible) return;
+                _IsDocumentOutlineVisible = value;
+                OnPropertyChanged(nameof(IsDocumentOutlineVisible));
+            }
+        }
+        private bool _IsDocumentOutlineVisible;
+
 
 
         /// <summary>

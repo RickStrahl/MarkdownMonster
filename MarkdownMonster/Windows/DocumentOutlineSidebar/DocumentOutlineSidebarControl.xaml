@@ -24,9 +24,10 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal">
-                <Image Source="../../Assets/folder.png"  Height="16" Width="16" Margin="5,0,0,0" />
+                <fa:FontAwesome Icon="Bookmark" Foreground="Goldenrod" Height="16" Width="16" Margin="5,2,0,0" />
+                <!--<TextBlock fa:Awesome.Content="ListOl" Foreground="Khaki"  Height="16" Width="16" Margin="5,0,0,0" />-->
                 <TextBlock Height="Auto" 
-					   Text="Document Outline"  
+					   Text="Document Outline (Preview)"  
 					   FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
             </StackPanel>
 
@@ -45,17 +46,23 @@
         <ListBox Grid.Row="1" Name="ListOutline" 
                  
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"                             
-                             ItemsSource="{Binding DocumentOutline}"
+                             ItemsSource="{Binding DocumentOutline}" Focusable="False"
                              SelectionChanged="ListOutline_SelectionChanged"                                                  
                              HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch">
+                    <Grid HorizontalAlignment="Stretch" GotFocus="ListOutlineItem_GotFocus" >
                         <TextBlock Text="{Binding Text}" Padding="5">
                         </TextBlock>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListItem}">
+                    <!-- We have to select the item which is right-clicked on -->
+                    <EventSetter Event="GotFocus" Handler="ListOutlineItem_GotFocus"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
         </ListBox>
 
     </Grid>

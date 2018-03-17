@@ -334,6 +334,11 @@
                           InputGestureText="F11" 
                           IsEnabled="{Binding IsEditorActive}" />
                 <Separator />
+                <MenuItem Name="ButtonDocumentOutlineVisible" 
+                          Header="Markdown Document Outline"                                                                                             
+                          IsCheckable="True"                          
+                          IsChecked="{Binding Configuration.IsDocumentOutlineVisible, Mode=TwoWay}" />
+
                 <MenuItem Name="ButtonWordWrap" 
                           Header="_Word Wrap"      
                           Command="{Binding Commands.WordWrapCommand}"                                                                   
@@ -590,6 +595,7 @@
                                         FontSize="13" 
                                         x:FieldModifier="public"                                                                                                                                                         
                                         TabStripPlacement="Bottom"
+                                      SelectionChanged="SidebarContainer_SelectionChanged"
                                         BorderThickness="0">
 
                 <controls:MetroTabItem Name="TabFolderBrowser"  x:FieldModifier="public"
@@ -609,6 +615,7 @@
 
                 <controls:MetroTabItem Name="TabDocumentOutline"  x:FieldModifier="public"
                                        Margin="0,0,5,0" Visibility="Visible" Header=" Outline "
+                                       controls:VisibilityHelper.IsVisible="{Binding Configuration.IsDocumentOutlineVisible}"
                                        controls:ControlsHelper.HeaderFontSize="14">
                     <!--<TabItem.Header>
                         <StackPanel Orientation="Horizontal">

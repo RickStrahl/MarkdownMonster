@@ -22,7 +22,7 @@ namespace MarkdownMonster.Utilities
     /// </summary>
     public class AssociatedIcons
     {
-        private Dictionary<string,ImageSource> Icons = new Dictionary<string,ImageSource>();
+        private Dictionary<string, ImageSource> Icons = new Dictionary<string, ImageSource>();
 
         public static ImageSource DefaultIcon;
 
@@ -49,7 +49,7 @@ namespace MarkdownMonster.Utilities
         public ImageSource GetIconFromFile(string filename)
         {
             if (string.IsNullOrEmpty(filename))
-                return DefaultIcon;            
+                return DefaultIcon;
 
             // check 'special files' files first
             var justFile = Path.GetFileName(filename);
@@ -78,19 +78,19 @@ namespace MarkdownMonster.Utilities
 
             try
             {
-                var imagePath  = Path.Combine(Environment.CurrentDirectory, "Editor", "fileicons", imageKey + ".png");
-                if (File.Exists(imagePath))                
-                    icon = new BitmapImage(new Uri(imagePath));                                    
-               else
-                    icon = DefaultIcon;            
+                var imagePath = Path.Combine(Environment.CurrentDirectory, "Editor", "fileicons", imageKey + ".png");
+                if (File.Exists(imagePath))
+                    icon = new BitmapImage(new Uri(imagePath));
+                else
+                    icon = DefaultIcon;
             }
             catch
             {
-                icon = DefaultIcon;                
+                icon = DefaultIcon;
             }
 
             if (Icons.ContainsKey(key))
-                Icons.Add(key, icon);  
+                Icons.Add(key, icon);
 
             return icon;
         }
@@ -121,159 +121,158 @@ namespace MarkdownMonster.Utilities
             return wpfBitmap;
         }
 
-        public static Dictionary<string, string> ExtensionToImageMappings { get; } = new Dictionary<string, string>() {
+        public static Dictionary<string, string> ExtensionToImageMappings { get; } = new Dictionary<string, string>()
+        {
 
             // Whole Files
-            { "package.json", "npm" },
-            { "package-lock.json", "package" },
-            { "bower.json", "package" },
-            { "license.txt", "license" },
-            { "favicon.ico", "favicon" },
-            { "folder.folder", "folder" }, // special case
-            { "folder.openfolder", "folder-open" }, // special case
-            { "kavadocstopic.md", "kavadocs" },
-            { "untitled","md" },
-            
+            {"package.json", "npm"},
+            {"package-lock.json", "package"},
+            {"bower.json", "package"},
+            {"license.txt", "license"},
+            {"favicon.ico", "favicon"},
+            {"folder.folder", "folder"}, // special case
+            {"folder.openfolder", "folder-open"}, // special case
+            {"kavadocstopic.md", "kavadocs"},
+            {"untitled", "md"},
+
             // dev config files
-            { "license","license" },
-            { ".lic" , "license" },
-            { ".gitignore", "git" },
-            { ".gitattributes", "git" },
-            { ".npmignore", "npm" },
-            { ".editorconfig", "editorconfig" },
+            {"license", "license"},
+            {".lic", "license"},
+            {".gitignore", "git"},
+            {".gitattributes", "git"},
+            {".npmignore", "npm"},
+            {".editorconfig", "editorconfig"},
 
             // Common
-            
-            { ".md", "md" },
-            { ".markdown", "md" },
-            { ".mdcrypt", "md" },
+
+            {".md", "md"},
+            {".markdown", "md"},
+            {".mdcrypt", "md"},
 
             // .NET
-            {  ".cs", "csharp" },
-            {  ".vb", "vb" },
-            {  ".fs", "fs" },
-            {  ".nuspec", "nuget" },
-            {  ".nupkg", "nuget" },
-            {  ".csproj", "csproj" },
-            {  ".sln", "sln" },
-           
+            {".cs", "csharp"},
+            {".vb", "vb"},
+            {".fs", "fs"},
+            {".nuspec", "nuget"},
+            {".nupkg", "nuget"},
+            {".csproj", "csproj"},
+            {".sln", "sln"},
+
 
             // Packages
-            { ".package.json", "package" },
-            { ".bower.json", "package" },
-            { ".paket", "package" },
-            
+            {".package.json", "package"},
+            {".bower.json", "package"},
+            {".paket", "package"},
+
             // HTML/CSS
-            { ".html", "html" },
-            { ".htm", "html" },
-            { ".css", "css" },
-            { ".less", "less" },
-            { ".scss", "css" },
-            {  ".txt", "txt" },
-            {  ".log", "txt" },
-            { ".ts", "ts" },
-            { ".js", "js" },
-            { ".json", "json" },
-            {  ".tsconfig", "ts" },
+            {".html", "html"},
+            {".htm", "html"},
+            {".css", "css"},
+            {".less", "less"},
+            {".scss", "css"},
+            {".txt", "txt"},
+            {".log", "txt"},
+            {".ts", "ts"},
+            {".js", "js"},
+            {".json", "json"},
+            {".jsx", "react"},
+            {".vue", "vue"},
+            {".tsconfig", "ts"},
 
             // office docs
-            {  ".ppt", "ppt" },
-            {  ".docx", "docx" },
-            {  ".one", "onenote" },
-            {  ".onenote", "onenote" },
-            { ".pdf", "pdf" },
+            {".ppt", "ppt"},
+            {".docx", "docx"},
+            {".one", "onenote"},
+            {".onenote", "onenote"},
+            {".pdf", "pdf"},
 
             // Scripts
-            { ".cshtml", "razor" },
-            { ".vbhtml", "razor" },
-            { ".aspx", "aspx" },
-            { ".asax", "aspx" },
-            { ".asp", "aspx" },
-            { ".jsx", "react" },
-            { ".php","php" },
-            { ".rails", "rails" },
-            { ".rhtml", "rails" },
-            { ".py", "py" },
+            {".cshtml", "razor"},
+            {".vbhtml", "razor"},
+            {".aspx", "aspx"},
+            {".asax", "aspx"},
+            {".asp", "aspx"},
+            {".php", "php"},
+            {".rails", "rails"},
+            {".rhtml", "rails"},
+            {".py", "py"},
 
             // Foxpro
-            { ".prg", "prg" },
-            { ".fxp", "prg" },
-            { ".vcx", "prg" },
-            { ".vct", "prg" },
-            { ".scx", "prg" },
-            { ".sct", "prg" },
-            { ".dbf", "prg" },
-            { ".fpt", "prg" },
-            { ".cdx", "prg" },
-            { ".dbc", "prg" },
-            { ".dbt", "prg" },
+            {".prg", "prg"},
+            {".fxp", "prg"},
+            {".vcx", "prg"},
+            {".vct", "prg"},
+            {".scx", "prg"},
+            {".sct", "prg"},
+            {".dbf", "prg"},
+            {".fpt", "prg"},
+            {".cdx", "prg"},
+            {".dbc", "prg"},
+            {".dbt", "prg"},
 
             //Languages
-            { ".java", "java" },
-            { ".sql", "sql" },
-            { ".diff", "diff" },
-            { ".merge", "diff" },
-            { ".h", "h" },
-            { ".cpp", "cpp" },
-            { ".c", "cpp" },
+            {".java", "java"},
+            {".sql", "sql"},
+            {".diff", "diff"},
+            {".merge", "diff"},
+            {".h", "h"},
+            {".cpp", "cpp"},
+            {".c", "cpp"},
 
             // Text Formats
-            { ".xml", "xml" },
-            { ".xsd", "xml" },
-            { ".xsl", "xml" },
-            { ".xaml", "xml" },
+            {".xml", "xml"},
+            {".xsd", "xml"},
+            {".xsl", "xml"},
+            {".xaml", "xml"},
 
 
             // Configuration
-            { ".config", "config" },
-            { ".manifest", "config" },
-            { ".conf", "config" },
-            { ".appx", "config" },
-            { ".yaml", "yaml" },
-            { ".yml", "yaml" },
-            { ".cer", "cert" },
-            { ".pfx", "cert" },
-            { ".key", "key" },
+            {".config", "config"},
+            {".manifest", "config"},
+            {".conf", "config"},
+            {".appx", "config"},
+            {".yaml", "yaml"},
+            {".yml", "yaml"},
+            {".cer", "cert"},
+            {".pfx", "cert"},
+            {".key", "key"},
 
             // Images
-            { ".png", "image" },
-            { ".jpg", "image" },
-            { ".jpeg", "image" },
-            { ".gif", "image" },
-            { ".ico", "image" },
-            { ".bmp", "image" },
-            { ".eps", "image" },
-            { ".svg", "svg" },
-            { ".psd", "image" },
-            { ".cdr", "image" },
+            {".png", "image"},
+            {".jpg", "image"},
+            {".jpeg", "image"},
+            {".gif", "image"},
+            {".ico", "image"},
+            {".bmp", "image"},
+            {".eps", "image"},
+            {".svg", "svg"},
+            {".cdr", "image"},
+            {".psd", "psd"},
 
             // Fonts
-            { ".woff", "font" },
-            { ".woff2", "font" },
-            { ".otf", "font" },
-            { ".eot", "font" },
-            { ".ttf", "font" },
+            {".woff", "font"},
+            {".woff2", "font"},
+            {".otf", "font"},
+            {".eot", "font"},
+            {".ttf", "font"},
 
             // Media
-            { ".mp3", "audio" },
-            { ".wmv", "audio" },
-            { ".wav", "audio" },
-            { ".aiff", "audio" },
-            { ".mpeg", "video" },
+            {".mp3", "audio"},
+            {".wmv", "audio"},
+            {".wav", "audio"},
+            {".aiff", "audio"},
+            {".mpeg", "video"},
 
             // Shell
-            { ".ps1","ps1" },
-            { ".dll", "bat" },
-            { ".exe", "bat" },
-            { ".bat", "bat" },
-            { ".cmd", "bat" },
-            { ".sh", "bat" },
-            { ".zip", "zip" }
+            {".ps1", "ps1"},
+            {".dll", "bat"},
+            {".exe", "bat"},
+            {".bat", "bat"},
+            {".cmd", "bat"},
+            {".sh", "bat"},
+            {".zip", "zip"},
+            {".reg", "reg"}
 
         };
     }
-
-    
-
-
 }

@@ -375,7 +375,7 @@ var te = window.textEditor = {
         return fontsize;
     },
 
-    gotoLine: function (line) {
+    gotoLine: function (line, noRefresh) {
         setTimeout(function() {
                 te.editor.scrollToLine(line);
                 var sel = te.editor.getSelection();
@@ -384,7 +384,8 @@ var te = window.textEditor = {
                 range.setEnd({ row: line, column: 0 });
                 sel.setSelectionRange(range);
 
-                setTimeout(te.refreshPreview, 10);
+                if(!noRefresh)
+                    setTimeout(te.refreshPreview, 10);
         },100);
     },
     gotoBottom: function (ignored) {

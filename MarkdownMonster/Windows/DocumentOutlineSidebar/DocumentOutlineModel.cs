@@ -36,8 +36,24 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             set
             {
                 if (value == _DocumentOutline) return;
-                _DocumentOutline = value;
-                OnPropertyChanged(nameof(DocumentOutline));
+
+                if (_DocumentOutline == null)
+                {
+                    _DocumentOutline = new ObservableCollection<HeaderItem>();
+                    OnPropertyChanged(nameof(DocumentOutline));
+                }
+                else if (value == null)
+                {                    
+                    OnPropertyChanged(nameof(DocumentOutline));
+                }
+
+                _DocumentOutline.Clear();
+                if (value != null)
+                {
+                    foreach (var item in value)
+                        _DocumentOutline.Add(item);
+                }                
+                
             }
         }
         private ObservableCollection<HeaderItem> _DocumentOutline;

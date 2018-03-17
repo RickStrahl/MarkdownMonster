@@ -24,14 +24,17 @@ namespace MarkdownMonster.Windows
     {
 
         public DocumentOutlineModel Model { get; set; }
-        public bool IgnoreSelection { get; private set; }
+
+
+        /// <summary>
+        ///  Set this value to UtcNow to avoid next navigation
+        /// </summary>
+        public DateTime IgnoreSelection { get; set; }
 
         public DocumentOutlineSidebarControl()
         {
             InitializeComponent();
-
-            Loaded += DocumentOutlineSidebarControl_Loaded;
-
+            Loaded += DocumentOutlineSidebarControl_Loaded;            
         }
 
         private void DocumentOutlineSidebarControl_Loaded(object sender, RoutedEventArgs e)
@@ -41,19 +44,35 @@ namespace MarkdownMonster.Windows
         }
 
       
-
+        /// <summary>
+        /// Refreshes the document outline if if it is visible
+        /// and 
+        /// </summary>
         public void RefreshOutline()
         {
+            if (!Model.AppModel.Configuration.IsDocumentOutlineVisible) return;
 
             var editor = Model.AppModel.ActiveEditor;
-            if (editor == null)
-                return;
-
-            if (editor.EditorSyntax != "markdown")
+            if (editor == null || editor.EditorSyntax != "markdown")
             {
-                Visibility = Visibility.Collapsed;
+                Model.Window.TabDocumentOutline.Visibility =Visibility.Collapsed;
+                Model.DocumentOutline = null;
+
+                if(Model.Window.SidebarContainer.SelectedItem == Model.Window.TabDocumentOutline)
+                    Model.Window.SidebarContainer.SelectedItem = Model.Window.TabFolderBrowser;
+                
                 return;
             }
+
+
+            
+            // make the tab visible
+            Model.Window.TabDocumentOutline.Visibility = Visibility.Visible;
+            Visibility = Visibility.Visible;
+
+            // if not selected - don't update
+            if (Model.Window.SidebarContainer.SelectedItem != Model.Window.TabDocumentOutline)
+                return;
 
             int line = editor.GetLineNumber();
             var outline = Model.CreateDocumentOutline(editor.MarkdownDocument.CurrentText);
@@ -80,8 +99,10 @@ namespace MarkdownMonster.Windows
             Model.DocumentOutline = outline;
             if (selectedItem != null)
             {
-                IgnoreSelection = true;
-                ListOutline.SelectedItem = selectedItem;
+                IgnoreSelection = DateTime.UtcNow;
+                if(selectedItem != ListOutline.SelectedItem)
+                    ListOutline.SelectedItem = selectedItem;
+
                 ListOutline.ScrollIntoView(selectedItem);
             }
         }
@@ -96,23 +117,32 @@ namespace MarkdownMonster.Windows
                 return;
             }
 
+            IgnoreSelection = DateTime.UtcNow;
             Model.DocumentOutline = Model.CreateDocumentOutline(md);
         }
-                
+
+
+
+
         private void ListOutline_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (IgnoreSelection)
-            {
-                IgnoreSelection = false;
-                return;
-            }
+              
+        }
 
+
+        private void ListOutlineItem_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+          
+        }
+
+        
+        private void ListOutlineItem_GotFocus(object sender, RoutedEventArgs e)
+        {
             var selected = ListOutline.SelectedItem as HeaderItem;
             if (selected == null || Model.AppModel.ActiveEditor == null)
                 return;
 
-            Model.AppModel.ActiveEditor.GotoLine(selected.Line -1);            
-            //ListOutline.SelectedItem = null;
+            Model.AppModel.ActiveEditor.GotoLine(selected.Line - 1, noRefresh: true);
         }
     }
 }

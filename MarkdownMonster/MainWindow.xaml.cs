@@ -1330,6 +1330,7 @@ namespace MarkdownMonster
 		        PreviewBrowser?.PreviewMarkdown();
 
             Model.ActiveEditor.RestyleEditor();
+		    UpdateDocumentOutline();
 
 			editor.WebBrowser.Focus();
 			editor.SetEditorFocus();
@@ -1371,6 +1372,31 @@ namespace MarkdownMonster
 
         #endregion
 
+        #region Document Outline
+        private void SidebarContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selected = SidebarContainer.SelectedItem as TabItem;
+            if (selected == null)
+                return;
+            
+            if (selected.Content is DocumentOutlineSidebarControl)
+            {               
+                Dispatcher.Delay(120, p =>
+                {
+                    if (DocumentOutline.Model?.DocumentOutline == null)
+                        UpdateDocumentOutline();
+                });
+            }       
+                
+        }
+
+        public void UpdateDocumentOutline()
+        {           
+           DocumentOutline.RefreshOutline();
+        }
+        #endregion
+
+
         #region Preview and UI Visibility Helpers
 
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false,
@@ -1384,13 +1410,6 @@ namespace MarkdownMonster
             PreviewBrowser?.PreviewMarkdownAsync(editor, keepScrollPosition,renderedHtml);
         }
 
-        public void UpdateDocumentOutline()
-        {
-            if (DocumentOutline == null || DocumentOutline.Visibility != Visibility.Visible) return;
-            if (Model.ActiveEditor == null || Model.ActiveEditor.EditorSyntax != "markdown") return;
-
-            DocumentOutline.RefreshOutline();
-        }
 
         public void Navigate(string url)
         {
@@ -1520,6 +1539,16 @@ namespace MarkdownMonster
                 mmApp.Configuration.FolderBrowser.Visible = true;
                 SidebarContainer.SelectedIndex = 0; // folder browser tab
             }
+        }
+
+        public void ShowLeftSidebar(bool hide = false)
+        {
+            if (!hide && SidebarContainer.Items.Count == 1)
+            {
+                ShowFolderBrowser();
+                return;
+            }
+            Model.WindowLayout.IsLeftSidebarVisible = !hide;
         }
 
         public void ShowRightSidebar(bool hide = false)
@@ -1963,8 +1992,8 @@ namespace MarkdownMonster
         }
 
         private void LeftSidebarExpand_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Model.ShowFolderBrowserCommand.Execute(null);
+        {            
+            Model.Commands.OpenLeftSidebarPanelCommand.Execute(null);
         }
 
         private void RightSidebarExpand_MouseDown(object sender, MouseButtonEventArgs e)
