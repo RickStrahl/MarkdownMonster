@@ -1,5 +1,6 @@
 ﻿using System;
 using Markdig.Syntax;
+using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Westwind.Utilities;
 
@@ -11,7 +12,8 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void TestStrikeOut()
         {
-            string markdown = "This is **bold** and this is ~~strike out text~~ and this is ~~too~~. This ~~ is text \r\n that continues~~.";
+            string markdown =
+                "This is **bold** and this is ~~strike out text~~ and this is ~~too~~. This ~~ is text \r\n that continues~~.";
 
             var parser = MarkdownParserFactory.GetParser(true);
             string html = parser.Parse(markdown);
@@ -37,7 +39,7 @@ asdkljaslkdjalskdjasd
 
 <b>This is more text</b>";
 
-            var parser = MarkdownParserFactory.GetParser(usePragmaLines: true );
+            var parser = MarkdownParserFactory.GetParser(usePragmaLines: true);
             string html = parser.Parse(markdown);
 
             Console.WriteLine(html);
@@ -65,7 +67,74 @@ I can see that this is working @icon-warning";
         public void MarkdownSyntaxTreeForHeaders()
         {
 
-            string md = @"---
+            string md = MarkdownText;
+            var syntax = Markdig.Markdown.Parse(md);
+            var lines = StringUtils.GetLines(md);
+            bool inFrontMatter = false;
+
+            foreach (var item in syntax)
+            {
+                var line = item.Line;
+                var content = lines[line];
+
+                if (line == 0 && content == "---")
+                {
+                    inFrontMatter = true;
+                    continue;
+                }
+
+                if (inFrontMatter && content == "---")
+                {
+                    inFrontMatter = false;
+                    continue;
+                }
+
+                if (item is HeadingBlock)
+                {
+                    var heading = item as HeadingBlock;
+                    var indent = "".PadRight(heading.Level);
+
+                    // underlined format
+                    if (line > 0 && (content.StartsWith("---") || content.StartsWith("===")))
+                    {
+                        line--;
+                        content = lines[line].TrimStart(' ', '#');
+
+                        // TODO: Need to deal with excluding 
+                    }
+
+                    content = content.TrimStart(' ', '#');
+                    Console.WriteLine($"{indent} {line} {content}");
+                }
+            }
+
+            Assert.IsNotNull(syntax);
+        }
+
+        [TestMethod]
+        public void CreateDocumentOutlineTest()
+        {
+
+            var appModel = new AppModel(null);
+            mmApp.Model = appModel;
+
+            string md = MarkdownText;
+
+            var model = new DocumentOutlineModel();
+            var outline = model.CreateDocumentOutline(md);
+
+            Assert.IsNotNull(outline);
+
+            foreach (var item in outline)
+            {
+                Console.WriteLine($"{StringUtils.Replicate('\t',item.Level)}{item.Text} ({item.Line})");
+            }
+
+            Assert.IsTrue(outline[0].Level == 1 && outline[1].Level == 2);
+        }
+
+
+        const string MarkdownText = @"---
 title: Name
 ---
 # Heading
@@ -102,50 +171,8 @@ as;dlkja;sldkasd asdla;skdasd
 Header
 ------
 
-Header 2
+Header 1
 ========
 ";
-
-            var syntax = Markdig.Markdown.Parse(md);
-            var lines = StringUtils.GetLines(md);
-            bool inFrontMatter = false;
-
-            foreach (var item in syntax)
-            {
-                var line = item.Line;
-                var content = lines[line];
-
-                if (line == 0 && content == "---")
-                {
-                    inFrontMatter = true;
-                    continue;
-                }
-                if (inFrontMatter && content == "---")
-                {
-                    inFrontMatter = false;
-                    continue;
-                }
-
-                if (item is HeadingBlock)
-                {
-                    var heading = item as HeadingBlock;
-                    var indent = "".PadRight(heading.Level);
-                    
-                    // underlined format
-                    if (line > 0 && (content.StartsWith("---") || content.StartsWith("===")))
-                    {                        
-                        line--;
-                        content = lines[line].TrimStart(' ', '#');
-
-                        // TODO: Need to deal with excluding 
-                    }
-
-                    content = content.TrimStart(' ', '#');
-                    Console.WriteLine($"{indent} {line} {content}");
-                }
-            }
-            Assert.IsNotNull(syntax);
-
-        }
     }
 }

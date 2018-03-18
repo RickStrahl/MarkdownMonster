@@ -46,13 +46,16 @@
         <ListBox Grid.Row="1" Name="ListOutline"                  
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"                             
                              ItemsSource="{Binding DocumentOutline}"  
-                              Focusable="False"
+                              Focusable="False" Margin="5"
                              HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid MouseUp="ListOutlineItem_MouseUp" KeyDown="TextBlock_KeyDown" >
-                        <TextBlock Text="{Binding Text}" Padding="6" />
-                    </Grid>
+                    <StackPanel MouseUp="ListOutlineItem_MouseUp" KeyDown="TextBlock_KeyDown" Orientation="Horizontal" >
+                        <fa:FontAwesome Icon="Bookmark" Foreground="SteelBlue" 
+                                        Margin="{Binding Margin}"
+                                        Height="13" Width="13"  />
+                        <TextBlock Text="{Binding Text}" Padding="4"   />
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.ItemContainerStyle>

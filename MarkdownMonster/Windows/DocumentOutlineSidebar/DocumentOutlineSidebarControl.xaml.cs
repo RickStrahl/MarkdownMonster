@@ -64,7 +64,6 @@ namespace MarkdownMonster.Windows
                 return;
             }
 
-
             
             // make the tab visible
             Model.Window.TabDocumentOutline.Visibility = Visibility.Visible;

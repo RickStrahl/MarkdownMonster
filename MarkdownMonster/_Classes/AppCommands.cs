@@ -66,6 +66,7 @@ namespace MarkdownMonster
             // Sidebar
             CloseLeftSidebarPanel();
             CloseRightSidebarPanel();
+            OpenLeftSidebarPanel();
             ShowFolderBrowser();
 
         }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Markdig.Syntax;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
@@ -27,7 +28,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
 
         public MainWindow Window { get; set; }
 
-        private ObservableCollection<HeaderItem> _documentOutline;
+        
 
 
         public ObservableCollection<HeaderItem> DocumentOutline
@@ -57,7 +58,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             }
         }
         private ObservableCollection<HeaderItem> _DocumentOutline;
-
+        
 
 
         public ObservableCollection<HeaderItem> CreateDocumentOutline(string md)
@@ -91,8 +92,6 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                 {
                     
                     var heading = item as HeadingBlock;
-                    var indent = "".PadRight(heading.Level * 4);
-
                     // underlined format
                     if (line > 0 && (content.StartsWith("---") || content.StartsWith("===")))
                     {
@@ -102,7 +101,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
 
                     var headerItem = new HeaderItem()
                     {
-                        Text = $"{indent}{content}",
+                        Text = $"{content}",
                         Level = heading.Level,
                         Line = line
                     };
@@ -129,6 +128,12 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
         public string Text { get; set; }
         public int Line { get; set; }
         public int Level { get; set; }
+
+        public Thickness Margin
+        {
+            get { return new Thickness((Level -1) * 20, 0, 0, 0); }
+        }
+
         public List<HeaderItem> Children { get; set; }
     }
 }
