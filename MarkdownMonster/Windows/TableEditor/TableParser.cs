@@ -504,7 +504,6 @@ namespace MarkdownMonster.Windows
         /// max width and title. Looks at the first row of the table data.
         /// </summary>
         /// <param name="data"></param>
-        /// <param name="tableHeaders"></param>
         /// <returns></returns>
         public List<ColumnInfo> GetColumnInfo(ObservableCollection<ObservableCollection<CellContent>> data)
         {

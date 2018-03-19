@@ -973,7 +973,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Retrieves the text for the given line
         /// </summary>
-        /// <param name="row"></param>
+        /// <param name="rowNumber"></param>
         /// <returns></returns>
         public string GetLine(int rowNumber)
         {
