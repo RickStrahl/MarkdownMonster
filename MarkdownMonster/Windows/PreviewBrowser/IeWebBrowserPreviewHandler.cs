@@ -72,7 +72,8 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null,
             bool keepScrollPosition = false,
             bool showInBrowser = false,
-            string renderedHtml = null)
+            string renderedHtml = null,
+            int editorLineNumber = -1)
         {
             try
             {
@@ -194,9 +195,14 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                             PreviewSyncMode.EditorAndPreview ||
                                             mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
                                         {
-                                            int lineno = editor.GetLineNumber();
-                                            if (lineno > -1)
-                                                window.scrollToPragmaLine(lineno);
+                                            if (editorLineNumber > -1)                                            
+                                                window.scrollToPragmaLine(editorLineNumber);                                            
+                                            else
+                                            {
+                                                int lineno = editor.GetLineNumber();
+                                                if (lineno > -1)
+                                                    window.scrollToPragmaLine(lineno);
+                                            }
                                         }
                                     }
                                     catch
@@ -237,7 +243,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         private DateTime invoked = DateTime.MinValue;
 
-        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null)
+        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null, int editorLineNumber = -1)
         {
             if (!mmApp.Configuration.IsPreviewVisible)
                 return;
@@ -252,7 +258,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     () => {
                         try
                         {
-                            PreviewMarkdown(editor, keepScrollPosition, renderedHtml: renderedHtml);
+                            PreviewMarkdown(editor, keepScrollPosition, false, renderedHtml, editorLineNumber);
                         }
                         catch (Exception ex)
                         {

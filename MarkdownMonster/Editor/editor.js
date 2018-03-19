@@ -236,13 +236,18 @@ var te = window.textEditor = {
             if (sel && sel.length > 0)
                 return;
             
-            var firstRow = te.editor.renderer.getFirstVisibleRow();
+            
 
-            te.setselpositionfrommouse({ row: firstRow + (firstRow > 1 ? 2 : 0), column: 0 });
+            //te.setselpositionfrommouse({ row: firstRow + (firstRow > 1 ? 2 : 0), column: 0 });
 
             setTimeout(function () {
-                te.mm.textbox.PreviewMarkdownCallback();
-            }, 10);
+                var firstRow = te.editor.renderer.getFirstVisibleRow();
+                if (firstRow)
+                    firstRow = firstRow +1;
+
+                // preview and highlight top of display
+                te.mm.textbox.PreviewMarkdownCallback(false,firstRow);
+            }, 5);
             setTimeout(function () {
                 if (sc)
                     sc.contentModified = true;
@@ -494,8 +499,7 @@ var te = window.textEditor = {
     },
     getLineNumber: function(ignored) {
         var selectionRange = te.editor.getSelectionRange();
-        if (!selectionRange) {
-            status("no selection range...");
+        if (!selectionRange) {            
             return -1;
         }
         return Math.floor(selectionRange.start.row);

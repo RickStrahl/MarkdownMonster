@@ -62,12 +62,12 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         }
 
 
-        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null)
+        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null, int editorLineNumber = -1)
         {
-            PreviewBrowserHandler.PreviewMarkdownAsync(editor, keepScrollPosition, renderedHtml);
+            PreviewBrowserHandler.PreviewMarkdownAsync(editor, keepScrollPosition, renderedHtml, editorLineNumber);
         }
 
-        public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false, string renderedHtml = null)
+        public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false, string renderedHtml = null, int editorLineNumber = -1)
         {            
             PreviewBrowserHandler.PreviewMarkdown(editor, keepScrollPosition, showInBrowser, renderedHtml);
         }

@@ -137,12 +137,12 @@ namespace MarkdownMonster.Windows
         }
 
         #region IPreviewBrowser
-        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null)
+        public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null, int editorLineNumber = -1)
         {            
             PreviewBrowser.PreviewMarkdownAsync(editor, keepScrollPosition, renderedHtml);
         }
 
-        public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false, string renderedHtml = null)
+        public void PreviewMarkdown(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, bool showInBrowser = false, string renderedHtml = null, int editorLineNumber = -1)
         {
             PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition,showInBrowser,renderedHtml);
         }

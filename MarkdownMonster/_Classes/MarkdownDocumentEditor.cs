@@ -1243,12 +1243,12 @@ namespace MarkdownMonster
         /// <summary>
         /// Callback handler callable from JavaScript editor
         /// </summary>
-        public void PreviewMarkdownCallback(bool dontGetMarkdown = false)
+        public void PreviewMarkdownCallback(bool dontGetMarkdown = false, int editorLineNumber = -1)
         {
             if (!dontGetMarkdown)
                 GetMarkdown();
             
-            Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true);
+            Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true, editorLineNumber: editorLineNumber);
 
             Window.UpdateDocumentOutline();
             WindowUtilities.DoEvents();
