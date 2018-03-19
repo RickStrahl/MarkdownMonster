@@ -3,8 +3,11 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.9.12
-*<small>March 15th, 2018</small>*
+### 1.9.13
+*<small>March 18th, 2018</small>*
+
+* **Document Outline**  
+There's a new Document Outline feature (preview) that provides a two-way sync between the active document and the outline. The outline shows headers (h1-h4). You can click on bookmark links, and the outline stays in sync when you scroll the document.
 
 * **Keyboard Auto Search for starting Letters in Folder Browser**  
 You can now type in a few letters to jump to the first matching file similar to the way Explorer finds files.
@@ -72,6 +75,13 @@ Fixed issue where initial scroll operation from the top of the document would ge
 
 * **Fix: Find/Replace Box Formatting**   
 Fix styling of the Find/Replace box which was broken after a recent update of Ace Editor. The box now also reverts closer to Ace Editor's default behavior which includes responsive auto-sizing which was previously disabled.
+
+* **Fix: #Hash Links when generating PDF Output**  
+Previously hash links to HTML Anchors or Ids (such as a table of content) were not working in PDF output. Output now properly supports internal document links.
+
+* **Fix: Fix ignored files in Folder Browser**  
+The folder browser now properly ignores on the `ignoreFileExtensions` setting, for new, externally created files that are updated in the browser view.
+
 
 ### 1.9.0
 *<small>January 24, 2018</small>*
