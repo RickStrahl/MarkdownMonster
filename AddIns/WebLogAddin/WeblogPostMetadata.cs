@@ -305,7 +305,7 @@ namespace WeblogAddin
             else
                 markdown = markdown.Trim();
 
-            markdown = "---\n" + yaml + "---\n" +                 
+            markdown = "---\r\n" + yaml + "---\r\n" +                 
                 markdown;
 
             // strip out old meta data

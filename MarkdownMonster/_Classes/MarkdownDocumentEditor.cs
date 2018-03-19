@@ -556,7 +556,7 @@ namespace MarkdownMonster
                         dynamic scroll = AceEditor.getscrolltop(false);
 
                         // the ID tag
-                        html = $"\n\n[{id}]: {image}\n";
+                        html = $"\n\n[{id}]: {image}\r\n";
 
                         // set selction position to bottom of document
                         AceEditor.gotoBottom(false);
@@ -595,9 +595,9 @@ namespace MarkdownMonster
 
                 if (res != null && res.Value)
                 {
-                    html = "```" + form.CodeLanguage + "\n" +
-                           form.Code.Trim() + "\n" +
-                           "```\n";
+                    html = "```" + form.CodeLanguage + "\r\n" +
+                           form.Code.Trim() + "\r\n" +
+                           "```\r\n";
                 }
             }
             else
@@ -678,7 +678,7 @@ namespace MarkdownMonster
                         dynamic scroll = AceEditor.getscrolltop(false);
 
                         // the ID tag
-                        html = $"\n\n[{id}]: {image}\n";
+                        html = $"\r\n\r\n[{id}]: {image}\r\n";
 
                         // set selction position to bottom of document
                         AceEditor.gotoBottom(false);
@@ -735,7 +735,7 @@ namespace MarkdownMonster
                 {
                     if (!string.IsNullOrEmpty(form.TableHtml))
                     {
-                        SetSelection(form.TableHtml.TrimEnd() + "\n");
+                        SetSelection(form.TableHtml.TrimEnd() + "\r\n");
                         PreviewMarkdownCallback();
                     }
                 }
@@ -1598,7 +1598,7 @@ namespace MarkdownMonster
 
                 AceEditor.setselpositionfrommouse(false);
 
-                Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\n![]({relFilePath.Replace(" ","%20")})\n"),
+                Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\r\n![]({relFilePath.Replace(" ","%20")})\r\n"),
                     DispatcherPriority.ApplicationIdle);
 
                 Window.Activate();
