@@ -944,9 +944,12 @@ namespace MarkdownMonster
         /// 
         /// Note: File must already be open for this to work                
         /// </summary>
-        /// <param name="editorFile"></param>
-        /// <param name="editor"></param>
-        /// <returns></returns>
+        /// <param name="editorFile">File name to display int the tab</param>
+        /// <param name="maintainScrollPosition">If possible preserve scroll position if refreshing</param>
+        /// <param name="noPreview">If true don't refresh the preview after updating the file</param>
+        /// <param name="noFocus">if true don't focus the editor</param>
+        /// <param name="readOnly">if true document can't be edited</param>           
+        /// <returns>selected tab item or null</returns>
         public TabItem RefreshTabFromFile(string editorFile,            
             bool maintainScrollPosition = false,
             bool noPreview = false,
@@ -968,7 +971,6 @@ namespace MarkdownMonster
             editor.SetMarkdown(editor.MarkdownDocument.CurrentText);
             var state = editor.IsDirty(); // force refresh
             
-
             if (!noFocus)
                 TabControl.SelectedItem = tab;
                 
@@ -1392,7 +1394,7 @@ namespace MarkdownMonster
 
         public void UpdateDocumentOutline(int editorLineNumber = -1)
         {           
-           DocumentOutline.RefreshOutline(editorLineNumber);
+           DocumentOutline?.RefreshOutline(editorLineNumber);
         }
         #endregion
 

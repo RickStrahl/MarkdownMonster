@@ -49,8 +49,8 @@ namespace MarkdownMonster.Windows
         /// and 
         /// </summary>
         public void RefreshOutline(int editorLineNumber = -1)
-        {
-            if (!Model.AppModel.Configuration.IsDocumentOutlineVisible) return;
+        {            
+            if (Model.AppModel == null || !Model.AppModel.Configuration.IsDocumentOutlineVisible) return;
 
             var editor = Model.AppModel.ActiveEditor;
             if (editor == null || editor.EditorSyntax != "markdown")
