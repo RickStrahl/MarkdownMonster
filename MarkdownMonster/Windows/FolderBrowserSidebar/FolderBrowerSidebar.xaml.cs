@@ -167,6 +167,8 @@ namespace MarkdownMonster.Windows
         private void FileWatcher_CreateOrDelete(object sender, FileSystemEventArgs e)
         {            
             var file = e.FullPath;
+            if (string.IsNullOrEmpty(file))
+                return;
             
             if (e.ChangeType == WatcherChangeTypes.Deleted)
             {
@@ -186,6 +188,14 @@ namespace MarkdownMonster.Windows
             {
                 mmApp.Model.Window.Dispatcher.Invoke(() =>
                 {
+                    // Skip ignored Extensions
+                    string[] extensions = null;
+                    if (!string.IsNullOrEmpty(mmApp.Model.Configuration.FolderBrowser.IgnoredFileExtensions))
+                        extensions = mmApp.Model.Configuration.FolderBrowser.IgnoredFileExtensions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (extensions != null && extensions.Any(ext => file.ToLowerInvariant().EndsWith(ext)))
+                       return;
+                    
                     var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, file);
                     if (pi != null) // Already exists in the tree
                         return;
