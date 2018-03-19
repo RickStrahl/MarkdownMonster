@@ -242,8 +242,8 @@ var te = window.textEditor = {
 
             setTimeout(function () {
                 var firstRow = te.editor.renderer.getFirstVisibleRow();
-                if (firstRow)
-                    firstRow = firstRow +1;
+                if (firstRow > 2)
+                    firstRow+=3;
 
                 // preview and highlight top of display
                 te.mm.textbox.PreviewMarkdownCallback(false,firstRow);
