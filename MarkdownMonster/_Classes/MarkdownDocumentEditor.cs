@@ -556,7 +556,7 @@ namespace MarkdownMonster
                         dynamic scroll = AceEditor.getscrolltop(false);
 
                         // the ID tag
-                        html = $"\n\n[{id}]: {image}\r\n";
+                        html = $"\r\n\r\n[{id}]: {image}\r\n";
 
                         // set selction position to bottom of document
                         AceEditor.gotoBottom(false);
@@ -1516,7 +1516,7 @@ namespace MarkdownMonster
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Couldn't copy file to new location: \n" + ex.Message,
+                            MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message,
                                 mmApp.ApplicationName);
                             return;
                         }
@@ -1530,7 +1530,7 @@ namespace MarkdownMonster
                             }
                             catch (Exception ex)
                             {
-                                mmApp.Log($"Failed to get relative path.\nFile: {sd.FileName}, Path: {imagePath}", ex);
+                                mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}", ex);
                             }
                             imagePath = relPath;
                         }
@@ -1701,7 +1701,7 @@ namespace MarkdownMonster
         /// <param name="lang"></param>
         public void AddWordToDictionary(string word, string lang = "EN_US")
         {
-            File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\",  lang + "_custom.txt"),word  + "\n");
+            File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\",  lang + "_custom.txt"),word  + "\r\n");
             _spellChecker.Add(word);            
         }
         #endregion

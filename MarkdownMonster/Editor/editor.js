@@ -590,11 +590,6 @@ var te = window.textEditor = {
     getDocumentStats: function () {
         var text = te.getvalue();
 
-        // strip off blog post meta data at end of document
-        var pos = text.indexOf("\n<!-- Post Configuration -->");
-        if (pos > 0)
-            text = text.substr(0, pos - 1);
-
         // strip off front matter.
         var frontMatterExp = /^---[ \t]*$[^]+?^(---|...)[ \t]*$/m;
         var match = frontMatterExp.exec(text);
