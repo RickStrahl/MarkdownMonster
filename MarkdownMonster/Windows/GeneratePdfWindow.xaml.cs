@@ -142,6 +142,7 @@ namespace MarkdownMonster.Windows
 			if (!string.IsNullOrEmpty(document.Filename) && document.Filename != "untitled")
 				initialFolder = System.IO.Path.GetDirectoryName(document.Filename);
 
+		    string filename = System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(mmApp.Model.ActiveDocument.Filename), "pdf");
 
 			var sd = new SaveFileDialog
 			{
@@ -149,6 +150,7 @@ namespace MarkdownMonster.Windows
 				FilterIndex = 1,
 				Title = "Save output to PDF file",
 				InitialDirectory = initialFolder,
+                FileName = filename,
 				CheckFileExists = false,
 				OverwritePrompt = true,
 				CheckPathExists = true,
