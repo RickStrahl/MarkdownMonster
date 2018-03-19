@@ -48,6 +48,7 @@
         <localwindows:BooleanToCollapsedVisibilityConverter x:Key="BooleanToCollapsedVisibilityConverter" />
         <localwindows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
         <localwindows:FolderNameFromPathConverter x:Key="FolderNameFromPathConverter" />
+        <localwindows:FullFolderNameFromPathConverter x:Key="FullFolderNameFromPathConverter" />
 
         <ObjectDataProvider x:Key="ApplicationThemeEnums" 
                             MethodName="GetValues" ObjectType="{x:Type System:Enum}">
@@ -338,7 +339,7 @@
                           Header="Markdown Document Outline"                                                                                             
                           IsCheckable="True"                          
                           IsChecked="{Binding Configuration.IsDocumentOutlineVisible, Mode=TwoWay}" />
-
+                <Separator />
                 <MenuItem Name="ButtonWordWrap" 
                           Header="_Word Wrap"      
                           Command="{Binding Commands.WordWrapCommand}"                                                                   
@@ -725,11 +726,16 @@
                                 <DataTemplate>                                    
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock  Width="320" ToolTip="{Binding .}">
-                                            <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding Filename}"  >
+                                            <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding}"  >
                                                 <TextBlock Text="{Binding ., Converter={StaticResource FileNameFromPathConverter }}"    />
                                             </Hyperlink>
                                         </TextBlock>                                    
-                                        <TextBlock Text="{Binding ., Converter={StaticResource FolderNameFromPathConverter }}" Opacity="0.70" FontSize="13"  />                                        
+                                        <TextBlock Opacity="0.85" FontSize="13">                                        
+                                            <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}" 
+                                                       ToolTip="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}">
+                                                <TextBlock Text="{Binding ., Converter={StaticResource FolderNameFromPathConverter }}"    />
+                                            </Hyperlink>
+                                         </TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

@@ -134,9 +134,25 @@ namespace MarkdownMonster.Windows
                 return value;
 
             var folder = Path.GetDirectoryName(path);
-            folder = Path.GetFileName(folder);
-            //var folder = mmFileUtils.GetCompactPath(Path.GetDirectoryName(path),40);
+            folder = Path.GetFileName(folder);            
             return folder;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class FullFolderNameFromPathConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string path = value as string;
+            if (string.IsNullOrEmpty(path))
+                return value;
+
+            return Path.GetDirectoryName(path);            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
