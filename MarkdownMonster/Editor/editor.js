@@ -236,10 +236,6 @@ var te = window.textEditor = {
             if (sel && sel.length > 0)
                 return;
             
-            
-
-            //te.setselpositionfrommouse({ row: firstRow + (firstRow > 1 ? 2 : 0), column: 0 });
-
             setTimeout(function () {
                 var firstRow = te.editor.renderer.getFirstVisibleRow();
                 if (firstRow > 2)
@@ -247,36 +243,12 @@ var te = window.textEditor = {
 
                 // preview and highlight top of display
                 te.mm.textbox.PreviewMarkdownCallback(false,firstRow);
-            }, 5);
+            }, 10);
             setTimeout(function () {
                 if (sc)
                     sc.contentModified = true;
             }, 150);
-
-            //var lastRow = te.editor.renderer.getLastVisibleRow();
-            //var curRow = te.getLineNumber();
-
-            //console.log(firstRow, lastRow, curRow);
-
-            //if (curRow < firstRow || curRow > lastRow) {
-                //if (firstRow < 1)
-                //    //te.setCursorPosition(0, 0);
-                //    te.setselpositionfrommouse({row: 0, column: 0});
-                //else
-                //    te.setCursorPosition(firstRow + 3, 0);
-                //    te.setselpositionfrommouse({ row: firstRow + 3, column: 0 });
-
-                //te.setselpositionfrommouse({ row: firstRow + (firstRow > 1 ? 2 :0), column: 0 });                
-
-                //setTimeout(function () {
-                //    te.mm.textbox.PreviewMarkdownCallback();                                    
-                //}, 10);
-                //setTimeout(function() {
-                //    if (sc)
-                //        sc.contentModified = true;
-                //},150);
-            //}
-        },50);
+        },35);
         te.editor.session.on("changeScrollTop", changeScrollTop);
         return editor;
     },
