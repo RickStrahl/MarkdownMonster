@@ -191,15 +191,15 @@ namespace MarkdownMonster
 
                 if (EditorSyntax != "markdown")
 					AceEditor?.setlanguage(EditorSyntax);
+
                 RestyleEditor(true);
+
                 SetShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
                 SetShowInvisibles(mmApp.Configuration.EditorShowInvisibles);
                 SetReadOnly(IsReadOnly);
 
                 if (InitialLineNumber > 0)
-                {
-                    GotoLine(InitialLineNumber);
-                }
+                    GotoLine(InitialLineNumber);                
 
                 WebBrowser.Visibility = Visibility.Visible;
             }
@@ -1007,14 +1007,15 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="line">Editor Line to display</param>
         /// <param name="noRefresh">Won't refresh the preview after setting</param>
-        public void GotoLine(int line, bool noRefresh = false)
+        /// <param name="noSelection">Only scroll but don't select</param>
+        public void GotoLine(int line, bool noRefresh = false, bool noSelection = false)
         {
             if (line < 0)
                 line = 0;
 
             try
             {
-                AceEditor?.gotoLine(line, noRefresh);
+                AceEditor?.gotoLine(line, noRefresh, noSelection);
             }
             catch { }
         }
@@ -1250,7 +1251,8 @@ namespace MarkdownMonster
             
             Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true, editorLineNumber: editorLineNumber);
 
-            Window.UpdateDocumentOutline();
+            Window.UpdateDocumentOutline(editorLineNumber);
+
             WindowUtilities.DoEvents();
         }
 

@@ -1390,9 +1390,9 @@ namespace MarkdownMonster
                 
         }
 
-        public void UpdateDocumentOutline()
+        public void UpdateDocumentOutline(int editorLineNumber = -1)
         {           
-           DocumentOutline.RefreshOutline();
+           DocumentOutline.RefreshOutline(editorLineNumber);
         }
         #endregion
 

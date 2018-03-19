@@ -352,17 +352,20 @@ var te = window.textEditor = {
         return fontsize;
     },
 
-    gotoLine: function (line, noRefresh) {
+    gotoLine: function (line, noRefresh, noSelection) {
         setTimeout(function() {
-                te.editor.scrollToLine(line);
+            te.editor.scrollToLine(line);
+
+            if (!noSelection) {
                 var sel = te.editor.getSelection();
                 var range = sel.getRange();
                 range.setStart({ row: line, column: 0 });
                 range.setEnd({ row: line, column: 0 });
                 sel.setSelectionRange(range);
-
-                if(!noRefresh)
-                    setTimeout(te.refreshPreview, 10);
+            }
+            if (!noRefresh)
+                setTimeout(te.refreshPreview, 10);
+            
         },100);
     },
     gotoBottom: function (noRefresh) {

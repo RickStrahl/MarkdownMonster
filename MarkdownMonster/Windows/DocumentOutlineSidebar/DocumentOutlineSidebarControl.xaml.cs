@@ -48,7 +48,7 @@ namespace MarkdownMonster.Windows
         /// Refreshes the document outline if if it is visible
         /// and 
         /// </summary>
-        public void RefreshOutline()
+        public void RefreshOutline(int editorLineNumber = -1)
         {
             if (!Model.AppModel.Configuration.IsDocumentOutlineVisible) return;
 
@@ -73,7 +73,10 @@ namespace MarkdownMonster.Windows
             if (Model.Window.SidebarContainer.SelectedItem != Model.Window.TabDocumentOutline)
                 return;
 
-            int line = editor.GetLineNumber();
+            int line = editorLineNumber;
+            if (line < 0)
+                line = editor.GetLineNumber();
+            
             var outline = Model.CreateDocumentOutline(editor.MarkdownDocument.CurrentText);
             HeaderItem selectedItem = null;
             for (var index = 0; index < outline.Count; index++)
@@ -126,7 +129,7 @@ namespace MarkdownMonster.Windows
             if (selected == null || Model.AppModel.ActiveEditor == null)
                 return;
 
-            Model.AppModel.ActiveEditor.GotoLine(selected.Line - 1, noRefresh: true);           
+            Model.AppModel.ActiveEditor.GotoLine(selected.Line - 2, noRefresh: true);           
         }
 
         private void TextBlock_KeyDown(object sender, KeyEventArgs e)
