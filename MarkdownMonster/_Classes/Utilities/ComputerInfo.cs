@@ -131,8 +131,8 @@ namespace MarkdownMonster
         static string DotnetVersion = null;
 
         /// <summary> 
-        /// Returns the framework version as a string 
-        /// 4.x+ versions only
+        /// Returns the framework version installed on the machine
+        ///  as a string  of 4.x.y version
         /// </summary>        
         /// <returns></returns>
         public static string GetDotnetVersion()
@@ -148,7 +148,6 @@ namespace MarkdownMonster
                 DotnetVersion = "4.0";
                 return DotnetVersion;
             }
-
 	        
 			int releaseKey = value;
             Console.WriteLine(value);
