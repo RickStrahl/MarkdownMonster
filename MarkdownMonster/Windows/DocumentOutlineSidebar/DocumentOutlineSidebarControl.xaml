@@ -56,7 +56,7 @@
                              HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel MouseUp="ListOutlineItem_MouseUp" KeyDown="TextBlock_KeyDown" Orientation="Horizontal" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                         <fa:FontAwesome Icon="Bookmark" Foreground="SteelBlue" 
                                         Margin="{Binding Margin}"
                                         Height="13" Width="13"  />
@@ -67,6 +67,7 @@
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="KeyDown" Handler="TextBlock_KeyDown"/>
+                    <EventSetter Event="MouseUp" Handler="ListOutlineItem_MouseUp"/>
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Focusable" Value="True" />
                 </Style>

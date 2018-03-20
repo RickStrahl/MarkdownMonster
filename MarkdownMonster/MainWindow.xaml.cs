@@ -1784,6 +1784,14 @@ namespace MarkdownMonster
 					return;
 				editor.SpecialKey("ctrl-shift-d");
 			}
+            else if (button == ButtonDocumentOutlineVisible)
+			{
+			    if (Model.ActiveEditor != null && Model.ActiveEditor.EditorSyntax == "markdown" &&
+			        Model.Configuration.IsDocumentOutlineVisible)
+			        SidebarContainer.SelectedItem = TabDocumentOutline;
+                else
+			        SidebarContainer.SelectedItem = TabFolderBrowser;
+            }
             else if (button == ButtonWordWrap)
 			{
 			    Model.ActiveEditor?.SetWordWrap(Model.Configuration.EditorWrapText);

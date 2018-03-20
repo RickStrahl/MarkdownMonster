@@ -337,7 +337,8 @@
                 <Separator />
                 <MenuItem Name="ButtonDocumentOutlineVisible" 
                           Header="Markdown Document Outline"                                                                                             
-                          IsCheckable="True"                          
+                          IsCheckable="True"    
+                          Click="Button_Handler"
                           IsChecked="{Binding Configuration.IsDocumentOutlineVisible, Mode=TwoWay}" />
                 <Separator />
                 <MenuItem Name="ButtonWordWrap" 

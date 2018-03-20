@@ -121,7 +121,12 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
         /// <returns></returns>
         public string CreateMarkdownOutline(MarkdownDocument document)
         {
+            bool oldAutoLinks = mmApp.Configuration.MarkdownOptions.AutoLinks;
+            mmApp.Configuration.MarkdownOptions.AutoLinks = true;
+
             string html = document.RenderHtml();
+
+            mmApp.Configuration.MarkdownOptions.AutoLinks = oldAutoLinks;
 
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
