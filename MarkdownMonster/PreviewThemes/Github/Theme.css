@@ -108,6 +108,13 @@ img {
     max-width: 100%;
 }
 
+ul > li > ul > li > ul > li {
+    list-style: disc;
+}
+ul > li > ul > li {
+    list-style: square;
+}
+
 
 blockquote {    
     color: #6a737d;

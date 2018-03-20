@@ -95,6 +95,7 @@
     <Compile Include="BugReportTests.cs" />
     <Compile Include="ClipBoardHelperTests.cs" />
     <Compile Include="ComputerInfoTests.cs" />
+    <Compile Include="DocumentOutlineTests.cs" />
     <Compile Include="FolderStructureTests.cs" />
     <Compile Include="FrontMatterTests.cs" />
     <Compile Include="HtmlToPdfGenerationTests.cs" />

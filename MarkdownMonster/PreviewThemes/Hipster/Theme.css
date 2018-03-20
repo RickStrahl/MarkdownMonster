@@ -77,6 +77,13 @@ tbody>tr:nth-child(even) {
 img {
 	max-width: 100%;
 }
+ul > li > ul > li > ul > li {
+    list-style: disc;
+}
+
+ul > li > ul > li {
+    list-style: square;
+}
 blockquote {
     font-size: 1em;
     background: #fcfcfc;

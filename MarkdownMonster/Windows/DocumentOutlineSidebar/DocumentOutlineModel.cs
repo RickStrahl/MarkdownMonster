@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using HtmlAgilityPack;
 using Markdig.Syntax;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
@@ -17,7 +18,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
     {
         public DocumentOutlineModel()
         {            
-            AppModel = mmApp.Model;
+            AppModel = mmApp.Model;            
             Window = AppModel.Window;
             Commands = AppModel.Commands;            
         }
@@ -111,6 +112,47 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
 
             return list;
         }
+
+
+        /// <summary>
+        /// Creates a Markdown Outline for the active document
+        /// </summary>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public string CreateMarkdownOutline(MarkdownDocument document)
+        {
+            string html = document.RenderHtml();
+
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            StringBuilder sb = new StringBuilder();
+
+            var xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4]";
+            int lastLevel = 0;
+            foreach (var node in doc.DocumentNode.SelectNodes(xpath))
+            {
+                var id = node.Id;
+                var text = node.InnerText.Trim();
+                var textIndent = node.Name.Replace("h", "");
+                if (!int.TryParse(textIndent, out int level))
+                    continue;
+
+                string leadin = null;
+                if (level > lastLevel)
+                    lastLevel++;
+                else if (level < lastLevel)
+                    lastLevel--;
+
+                leadin = StringUtils.Replicate('\t', lastLevel - 1);
+
+                sb.AppendLine($"{leadin}* [{text}](#{id})");
+            }
+
+            return sb.ToString();
+        }
+
+
 
         
         public event PropertyChangedEventHandler PropertyChanged;

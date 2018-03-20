@@ -113,6 +113,13 @@ pre {
 img {
 	max-width: 100%;
 }
+ul > li > ul > li > ul > li {
+    list-style: disc;
+}
+
+ul > li > ul > li {
+    list-style: square;
+}
 blockquote {
     background: #777;
     color: #EEE;

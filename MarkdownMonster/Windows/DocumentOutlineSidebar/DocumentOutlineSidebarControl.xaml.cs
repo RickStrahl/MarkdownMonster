@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MarkdownMonster.Windows.DocumentOutlineSidebar;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
@@ -122,6 +123,47 @@ namespace MarkdownMonster.Windows
 
             IgnoreSelection = DateTime.UtcNow;
             Model.DocumentOutline = Model.CreateDocumentOutline(md);
+        }
+
+        private const string STR_StartDocumentOutline = "<!-- Start Document Outline -->";
+        private const string STR_EndDocumentOutline = "<!-- End Document Outline -->";
+
+        private void ButtonEmbedOutline_Click(object sender, RoutedEventArgs e)
+        {
+            var doc = Model.AppModel.ActiveDocument;
+            if (doc == null)
+                return;
+
+            var editor = Model.AppModel.ActiveEditor;
+
+            // get latest
+            string markdown = editor.GetMarkdown();
+
+            if (doc.CurrentText.Contains(STR_StartDocumentOutline))
+            {
+                if (MessageBox.Show(@"This document already contains a Document Outline/TOC.
+Do you want to replace the existing outline?
+", "Create Document Outline", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) !=
+                    MessageBoxResult.Yes)
+                    return;
+
+                var oldToc = StringUtils.ExtractString(markdown, STR_StartDocumentOutline, STR_EndDocumentOutline,
+                    returnDelimiters: true);
+
+                //editor.ReplaceContent(markdown);
+                editor.FindAndReplaceText(oldToc,"");
+            }
+
+
+            var md = Model.CreateMarkdownOutline(doc);
+
+            if (md != null)
+            {
+                md = STR_StartDocumentOutline + "\r\n" + md.TrimEnd() + "\r\n" + STR_EndDocumentOutline;
+                editor.SetSelectionAndFocus(md);
+            }
+            else
+                Model.Window.ShowStatus("Couldn't create Markdown Outline to embed. Not embedded.",6000);
         }
 
         private void ListOutlineItem_MouseUp(object sender, MouseButtonEventArgs e)

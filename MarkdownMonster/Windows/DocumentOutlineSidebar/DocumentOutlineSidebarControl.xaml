@@ -21,6 +21,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal">
@@ -31,13 +32,18 @@
 					   FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
             </StackPanel>
 
-            <Button  fa:Awesome.Content="Refresh" Background="Transparent" 
+            <Button  fa:Awesome.Content="PencilSquareOutline" Background="Transparent" 
                      Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="4"  
+                     Name="ButtonEmbedOutline" BorderThickness="0" FontSize="12"                     
+                     ToolTip="Generate document outline into Markdown document at cursor position" 
+                     Click="ButtonEmbedOutline_Click" />
+            <!--<Button  fa:Awesome.Content="Refresh" Background="Transparent" 
+                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="5"  
                      Name="ButtonRefresh" BorderThickness="0" FontSize="12"                     
-                     ToolTip="Close Sidebar Panel" 
-                     Click="ButtonRefresh_Click" />
+                     ToolTip="Refresh Outline" 
+                     Click="ButtonRefresh_Click" />-->
             <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
-			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="5"  
+			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="6"  
 			         Name="ButtonClosePanel" BorderThickness="0" FontSize="12"                     
 			         ToolTip="Close Sidebar Panel" 
                      Command="{Binding Commands.CloseLeftSidebarPanelCommand}" />

@@ -504,9 +504,11 @@ var te = window.textEditor = {
             return;
 
         range.start.column = 0;        
-        range.end.column = 2000;
+        range.end.column = 5000;
+
         
-        te.editor.session.replace(range, replace);        
+            te.setselection(replace);                    
+
     },
     findAndReplaceTextInCurrentLine: function (search, replace) {
         var range = te.editor.getSelectionRange();
