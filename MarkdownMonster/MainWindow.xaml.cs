@@ -1332,10 +1332,11 @@ namespace MarkdownMonster
 		        PreviewBrowser?.PreviewMarkdown();
 
             Model.ActiveEditor.RestyleEditor();
-		    UpdateDocumentOutline();
-
+		    
 			editor.WebBrowser.Focus();
 			editor.SetEditorFocus();
+
+		    Dispatcher.InvokeAsync(() => { UpdateDocumentOutline(); },DispatcherPriority.ApplicationIdle); 
 		}
 
 

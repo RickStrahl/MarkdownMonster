@@ -253,6 +253,9 @@ namespace MarkdownMonster.Windows
 
         private void SetTreeFromFolder(string folder, bool setFocus = false, string searchText = null)
         {
+            if (Window == null)
+                return;
+
             Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Spinner, Colors.Orange, true);
             Window.ShowStatus($"Retrieving files for folder {folder}...");
 
