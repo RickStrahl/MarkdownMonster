@@ -265,7 +265,7 @@
     <Compile Include="_Classes\Utilities\mmFileUtils.cs" />
     <Compile Include="Windows\Helpers\WindowUtilities.cs" />
     <Compile Include="_Classes\Configuration\ApplicationUpdater.cs" />
-    <Compile Include="_Classes\NamedPipeManager.cs" />
+    <Compile Include="_Classes\Utilities\NamedPipeManager.cs" />
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>

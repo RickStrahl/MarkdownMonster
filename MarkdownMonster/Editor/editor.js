@@ -353,11 +353,9 @@ var te = window.textEditor = {
     },
 
     // centermode: 0 top, 0.5 center, 1 end
-    gotoLine: function (line, noRefresh, noSelection, centerMode) {
+    gotoLine: function (line, noRefresh, noSelection) {
         setTimeout(function () {
-            if (typeof centerMode !== "Number")
-                centerMode = 0.5;
-            te.editor.scrollToLine(line, centerMode);
+            te.editor.scrollToLine(line);
 
             if (!noSelection) {
                 var sel = te.editor.getSelection();
