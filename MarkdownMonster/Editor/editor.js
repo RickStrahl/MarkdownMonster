@@ -352,9 +352,12 @@ var te = window.textEditor = {
         return fontsize;
     },
 
-    gotoLine: function (line, noRefresh, noSelection) {
-        setTimeout(function() {
-            te.editor.scrollToLine(line);
+    // centermode: 0 top, 0.5 center, 1 end
+    gotoLine: function (line, noRefresh, noSelection, centerMode) {
+        setTimeout(function () {
+            if (typeof centerMode !== "Number")
+                centerMode = 0.5;
+            te.editor.scrollToLine(line, centerMode);
 
             if (!noSelection) {
                 var sel = te.editor.getSelection();
@@ -385,6 +388,7 @@ var te = window.textEditor = {
     setselection: function(text) {
         var range = te.editor.getSelectionRange();
         te.editor.session.replace(range, text);
+        te.editor.renderer.scrollSelectionIntoView();
     },
     getselection: function(ignored) {
         return te.editor.getSelectedText();
@@ -412,7 +416,9 @@ var te = window.textEditor = {
         var range = sel.getRange();
         range.setStart(start);
         range.setEnd(end);
-        sel.setSelectionRange(range);
+        sel.setSelectionRange(range); 
+
+        te.editor.renderer.scrollSelectionIntoView();
     },
     setselpositionfrommouse: function(pos) {
         if (!pos)
@@ -422,7 +428,7 @@ var te = window.textEditor = {
         var range = sel.getRange();
         range.setStart(pos);
         range.setEnd(pos);
-        sel.setSelectionRange(range);
+        sel.setSelectionRange(range);        
     },
     getCursorPosition: function (ignored) { // returns {row: y, column: x}               
         return te.editor.selection.getCursor();        
