@@ -67,6 +67,7 @@ Markdown Monster provides many useful features:
 * Gentle, optional toolbar support for Markdown newbies
 * Inline spell checking
 * Line and Word counts
+* Synced Document Outline
 
 #### Image Features
 * Paste images from Clipboard at cursor
@@ -92,6 +93,7 @@ Markdown Monster provides many useful features:
 * Save rendered output to HTML
 * Save rendered output to PDF
 * Print rendered output to the printer
+* Generate and embed document Table of Contents
 
 #### Theme Support
 * Dark and Light application themes
