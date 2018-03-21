@@ -96,14 +96,12 @@ a {
 }
 .hidable-xs {    
 }
-#ContentContainer {
-    xmargin: 0 auto !important;
-    max-width: 1100px;     
+#ContentContainer {    
+    max-width: 1200px;     
     background: white;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;    
-    margin-bottom: 20px;
-    box-shadow: 4px 4px 6px #535353;
+    margin-bottom: 20px;    
 }
 .top-bullet-box {
     background: #000000;

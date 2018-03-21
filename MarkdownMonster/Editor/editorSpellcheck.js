@@ -1,4 +1,4 @@
-/// <reference path="Ace/ace.js" />
+/// <reference path="scripts/Ace/ace.js" />
 /// <reference path="editorSettings.js" />
 /// <reference path="editor.js" />
 

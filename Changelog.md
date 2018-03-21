@@ -3,11 +3,14 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.9.13
+### 1.9.18
 *<small>March 18th, 2018</small>*
 
 * **Document Outline**  
 There's a new Document Outline feature (preview) that provides a two-way sync between the active document and the outline. The outline shows headers (h1-h4). You can click on bookmark links, and the outline stays in sync when you scroll the document.
+
+* **Table of Content Generator**  
+As part of the Document Outline display, there's an option to generate a TOC and embed it into a Markdown document at the cursor position. The TOC is created a Markdown list with links and can be re-generated on demand.
 
 * **Keyboard Auto Search for starting Letters in Folder Browser**  
 You can now type in a few letters to jump to the first matching file similar to the way Explorer finds files.
