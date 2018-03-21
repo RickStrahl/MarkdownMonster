@@ -4,7 +4,7 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.9.18
-*<small>March 18th, 2018</small>*
+*<small>March 21th, 2018</small>*
 
 * **Document Outline**  
 There's a new Document Outline feature (preview) that provides a two-way sync between the active document and the outline. The outline shows headers (h1-h4). You can click on bookmark links, and the outline stays in sync when you scroll the document.
