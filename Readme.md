@@ -22,9 +22,9 @@ Markdown Monster is highly customizable and you can adjust the main window theme
 Wish you could write your blog posts in Markdown? You can use Markdown Monster to write your posts in Markdown and publish the generated HTML content directly to your Wordpress, Medium, MetaWeblog or West Wind Post API Weblog engine in seconds. You can also use any Git based service for your posts by simply saving the post and its post meta data to disk.
 
 ## Installation
-You can download Markdown Monster and use the self-contained installer:
+You can download Markdown Monster and use the self-contained installer <small>(requires [Chocolatey](https://chocolatey.org/) is installed)</small>:
 
-* **[Download Installer](http://markdownmonster.west-wind.com/download.aspx)**
+* **[Go to the Download Page](http://markdownmonster.west-wind.com/download.aspx)**
 
 Or you can you use [Chocolatey](https://chocolatey.org/) to install from the Windows Comand Line:
 
