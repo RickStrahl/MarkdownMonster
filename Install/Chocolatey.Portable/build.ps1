@@ -26,4 +26,4 @@ choco pack
 
 choco uninstall "MarkdownMonster.Portable"
 
-choco install "MarkdownMonster.Portable" -fdv -y  -s ".\" 
+choco install "MarkdownMonster.Portable" -fd -y  -s ".\" 
