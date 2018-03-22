@@ -77,13 +77,12 @@ pre {
     word-break: normal;
     word-wrap: normal;
 }
-pre code {
+pre>code {
     white-space: pre;
-}
-.hljs {
     background: #eee !important;
-    padding: 16px !important;  
+    padding: 1em !important;
 }
+
 table {
     width: 100%;
     overflow: auto;
