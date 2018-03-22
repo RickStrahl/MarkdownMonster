@@ -60,8 +60,14 @@ a, a:visited {
 li {
 	margin-bottom: 12px;
 	margin-top: 12px;
-}    
+}
 
+code {
+    font-family: Consolas, monospace;
+    color: #333;
+    background: #eee;
+    white-space: pre;
+}
 pre {
     font-family: Consolas, monospace;
     font-weight: normal;
@@ -78,16 +84,10 @@ pre {
     word-wrap: normal;
 }
 
-code {
-    font-family: Consolas, monospace;
-    color: #333;
-    background: #eee;
-    white-space: pre;
-}
-
-.hljs {
+pre>code {
     background: #eee !important;
-    padding: 16px !important;
+    white-space: pre;
+    padding: 1em !important;
 }
 
 table {

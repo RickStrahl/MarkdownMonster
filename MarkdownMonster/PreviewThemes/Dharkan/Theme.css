@@ -162,10 +162,11 @@ pre {
     max-width: 98%;
     white-space:  pre;
     word-break: normal;
-    word-wrap: normal;    
+    word-wrap: normal;
 }
-pre code {
-    white-space: pre;    
+pre>code {
+    white-space: pre;
+    padding: 1em !important;
 }
 table {
     width: 100%;

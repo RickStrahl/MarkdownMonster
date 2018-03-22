@@ -56,7 +56,12 @@ a:hover {
 }
 
 
-
+code {
+    font-family: Consolas, monospace;
+    color: #333;
+    background: #eee;
+    white-space: pre;    
+}
 pre {
     font-family: Consolas, monospace;
     font-weight: normal;    
@@ -70,13 +75,10 @@ pre {
     border-radius: 3px;
     white-space:  pre;
     word-break: normal;
-    word-wrap: normal;        
+    word-wrap: normal;
 }
-code {
-    font-family: Consolas, monospace;
-    color: #333;
-    background: #eee;
-    white-space: pre;    
+pre code {
+    white-space: pre;
 }
 .hljs {
     background: #eee !important;
