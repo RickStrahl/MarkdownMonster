@@ -323,6 +323,7 @@
                                 <div class="carousel-caption">
                                 </div>
                             </div>
+                                        
                             
                             <div class="item">
                                 <img src="Images/screenshot_light.png" />
@@ -425,6 +426,12 @@
                                 </div>
                             </div>
 
+                            <div class="item">
+                                <img src="Images/Tweets/James_M_South.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+
 
                             <div class="item">
                                 <img src="Images/Tweets/angrypets.png" />
@@ -474,31 +481,13 @@
                                 </div>
                             </div>
 
-                            <div class="item">
-                                <img src="Images/Tweets/_bron_.png" />
-                                <div class="carousel-caption">
-                                </div>
-                            </div>
-                            
-                            
+                    
                             <div class="item">
                                 <img src="Images/Tweets/James_Willock2.png" />
                                 <div class="carousel-caption">
                                 </div>
                             </div>	
-                            
-                            
-                            <div class="item">
-                                <img src="Images/Tweets/dbVaughan.png" />
-                                <div class="carousel-caption">
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <img src="Images/Tweets/ArthurZ.png" />
-                                <div class="carousel-caption">
-                                </div>
-                            </div>	
+                                                        
                             
                             <div class="item">
                                 <img src="Images/Tweets/vmoench.png" />
