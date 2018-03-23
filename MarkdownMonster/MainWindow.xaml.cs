@@ -920,7 +920,9 @@ namespace MarkdownMonster
 	                PreviewBrowser.PreviewMarkdownAsync();
 
 	            SetWindowTitle();
-	        }
+            
+                Model.OnPropertyChanged(nameof(AppModel.ActiveEditor));
+            }
 
 	        AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
 
@@ -1996,6 +1998,11 @@ namespace MarkdownMonster
 	            mmFileUtils.ExecuteProcess(Path.Combine(Environment.CurrentDirectory, "MarkdownMonster.exe"), "");
 	        }
 	    }
+
+        private void DocumentType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Model.ActiveEditor?.SetEditorSyntax(Model.ActiveEditor.EditorSyntax);
+        }
 
         private void ButtonRecentFiles_SubmenuOpened(object sender, RoutedEventArgs e)
         {

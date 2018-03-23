@@ -75,10 +75,10 @@ namespace MarkdownMonster
         /// JavaScript editor wrapper instance.
         /// </summary>
         public MarkdownDocumentEditor ActiveEditor
-        {
+        {            
             get
             {
-                var editor = Window.GetActiveMarkdownEditor();
+                var editor = Window.GetActiveMarkdownEditor();                
                 return editor;
             }
         }
@@ -98,7 +98,7 @@ namespace MarkdownMonster
 
                 OnPropertyChanged(nameof(ActiveDocument));
                 OnPropertyChanged(nameof(ActiveEditor));                
-                OnPropertyChanged(nameof(IsEditorActive));
+                OnPropertyChanged(nameof(IsEditorActive));                
 
                 Dispatcher.CurrentDispatcher.InvokeAsync(() =>
                 {
@@ -265,6 +265,9 @@ namespace MarkdownMonster
             }
         }
 
+
+      
+
         /// <summary>
         /// Commands
         /// </summary>
@@ -386,6 +389,25 @@ namespace MarkdownMonster
                 return parsers;
             }
         }
+
+        public List<string> DocumentTypes
+        {
+            get
+            {
+                if (_documentTypes != null)
+                    return _documentTypes;
+
+                _documentTypes = mmApp.Configuration.EditorExtensionMappings
+                        .Select(kv => kv.Value)
+                        .Distinct()
+                        .OrderBy(s=> s.ToLower())
+                        .ToList();
+
+                return _documentTypes;
+            }
+        }
+
+        List<string> _documentTypes = null;
 
         /// <summary>
         /// Returns the width of the column containing

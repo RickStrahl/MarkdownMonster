@@ -32,11 +32,13 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -45,6 +47,7 @@ using System.Windows.Navigation;
 using System.Windows.Threading;
 using Markdig;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Annotations;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -64,7 +67,8 @@ namespace MarkdownMonster
     /// using the low level AceEditor property.
     /// </summary>
     [ComVisible(true)]
-    public class MarkdownDocumentEditor 
+    public class MarkdownDocumentEditor : INotifyPropertyChanged
+
     {
         /// <summary>
         /// Instance of the Web Browser control that hosts ACE Editor
@@ -85,7 +89,20 @@ namespace MarkdownMonster
         public MarkdownDocument MarkdownDocument { get; set; }
 
         public dynamic AceEditor { get; set; }
-        public string EditorSyntax { get; set; }
+        
+
+        public string EditorSyntax
+        {
+            get => _editorSyntax;
+            set
+            {
+                if (value == _editorSyntax) return;
+                _editorSyntax = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _editorSyntax;
+
         public int InitialLineNumber { get; set; }
 
         #region Behavior Properties and Storage
@@ -1751,6 +1768,13 @@ namespace MarkdownMonster
 			return MarkdownDocument?.Filename ?? base.ToString();
 		}
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
 
