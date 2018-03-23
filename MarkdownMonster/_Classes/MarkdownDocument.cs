@@ -774,7 +774,9 @@ namespace MarkdownMonster
         /// <returns></returns>
         public string RenderHtmlToFile(string markdown = null, string filename = null,
                                        bool renderLinksExternal = false, string theme = null,
-                                       bool usePragmaLines = false, bool noFileWrite = false)
+                                       bool usePragmaLines = false,
+                                       bool noFileWrite = false,
+                                       bool removeBaseTag = false)
         {
             string markdownHtml = RenderHtml(markdown, renderLinksExternal, usePragmaLines);
 
@@ -799,6 +801,14 @@ namespace MarkdownMonster
             {
                 themeHtml = File.ReadAllText(themePath + "\\theme.html");
                 themePath = themePath + "\\";
+
+                if (removeBaseTag)
+                {
+                    // strip <base> tag
+                    var extracted = StringUtils.ExtractString(themeHtml, "<base href=\"", "/>", false, false, true);
+                    if (!string.IsNullOrEmpty(extracted))
+                        themeHtml = themeHtml.Replace(extracted, "");
+                }                
             }
             catch (FileNotFoundException)
             {

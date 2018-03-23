@@ -93,19 +93,18 @@ namespace MarkdownMonster.Windows
 
 		    string htmlFilename = System.IO.Path.ChangeExtension(document.Filename, "html");
 
-
 			// render the document with template and return only as string (no output yet)
-		    var html = document.RenderHtmlToFile(filename: htmlFilename, noFileWrite: true);
+		    document.RenderHtmlToFile(filename: htmlFilename, removeBaseTag: true); //, noFileWrite: true);
 
-            // strip <base> tag
-            var extracted = StringUtils.ExtractString(html,"<base href=\"","/>",false,false,true);
-            if(!string.IsNullOrEmpty(extracted))
-                html = html.Replace(extracted,"");
+            //// strip <base> tag
+            //var extracted = StringUtils.ExtractString(html, "<base href=\"", "/>", false, false, true);
+            //if (!string.IsNullOrEmpty(extracted))
+            //    html = html.Replace(extracted, "");
 
-            // now write out the file
-		    File.WriteAllText(htmlFilename, html);
+            //// now write out the file
+            //File.WriteAllText(htmlFilename, html);
 
-		    bool result = await Task.Run(() =>
+            bool result = await Task.Run(() =>
 		    {
 		        PdfGenerator.DisplayPdfAfterGeneration = true;
 		        bool res = PdfGenerator.GeneratePdfFromHtml(htmlFilename, OutputFile);
