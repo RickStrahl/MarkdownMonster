@@ -199,6 +199,7 @@ namespace WebLogAddin.MetaWebLogApi
             catch (Exception ex)
             {
                 ErrorMessage = "Unable to download posts Posts: " + ex.GetBaseException().Message;
+                mmApp.Log("Failed to download recent posts from Weblog", ex);
                 return null;
             }
 
@@ -273,7 +274,8 @@ namespace WebLogAddin.MetaWebLogApi
             }
             catch (Exception ex)
             {
-                ErrorMessage = "Error posting images to Weblog: " + ex.Message;
+                ErrorMessage = "Error posting images to Weblog: " + ex.GetBaseException().Message;
+                mmApp.Log("Failed to post image to Weblog", ex);
                 return null;
             }
 
