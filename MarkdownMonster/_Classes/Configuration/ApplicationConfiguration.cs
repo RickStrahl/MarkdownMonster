@@ -535,6 +535,7 @@ namespace MarkdownMonster
 
 		    {"yaml", "yaml"},
 	        {"yml", "yaml"},
+	        {"diff", "diff" },
             {"txt", "text"},
 		    {"log", "text"}	        
 	    };
