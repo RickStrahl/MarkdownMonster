@@ -760,7 +760,9 @@ namespace MarkdownMonster.Windows
                 if (!mmFileUtils.MoveToRecycleBin(selected.FullPath))
                     return;
 
-                var parent = selected.Parent;              
+                var parent = selected.Parent;
+
+                var index = -1;
 
                 var file = parent?.Files?.FirstOrDefault(fl => fl.FullPath == selected.FullPath);
                 if (file != null)
@@ -769,16 +771,19 @@ namespace MarkdownMonster.Windows
                     if (tab != null)
                         Window.CloseTab(tab,dontPromptForSave:true);
 
-                    selected.Parent?.Files.Remove(file);
+
+
+                    if (parent != null)
+                    {
+                        index = parent.Files.IndexOf(selected);
+                        parent.Files.Remove(file);
+                        if (index > 0)
+                            SetTreeViewSelectionByItem(parent.Files[index]);
+                    }                    
                 }
 
                 // Delay required to overcome editor focus after MsgBox
-                Dispatcher.Delay(700, s =>
-                {
-                    TreeFolderBrowser.Focus();
-                    SetTreeViewSelectionByItem(parent);
-                    TreeFolderBrowser.Focus();
-                });
+                Dispatcher.Delay(700, s => TreeFolderBrowser.Focus());
             }
             catch (Exception ex)
             {
