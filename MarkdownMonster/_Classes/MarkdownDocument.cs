@@ -761,13 +761,20 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Renders the HTML to a file with a related template
+        /// Renders markdown from the current document using the appropriate Theme
+        /// Template and writing an output file. Options allow customization and 
+        /// can avoid writing out a file.
         /// </summary>
         /// <param name="markdown"></param>
         /// <param name="filename"></param>
         /// <param name="renderLinksExternal"></param>
+        /// <param name="theme">The theme to use to render this topic</param>
+        /// <param name="usePragmaLines"></param>
+        /// <param name="noFileWrite"></param>
         /// <returns></returns>
-        public string RenderHtmlToFile(string markdown = null, string filename = null, bool renderLinksExternal = false, string theme = null, bool usePragmaLines = false)
+        public string RenderHtmlToFile(string markdown = null, string filename = null,
+                                       bool renderLinksExternal = false, string theme = null,
+                                       bool usePragmaLines = false, bool noFileWrite = false)
         {
             string markdownHtml = RenderHtml(markdown, renderLinksExternal, usePragmaLines);
 
@@ -813,9 +820,12 @@ namespace MarkdownMonster
                 .Replace("{$markdownHtml}", markdownHtml);
 
             html = AddinManager.Current.RaiseOnModifyPreviewHtml( html, markdownHtml );
-            
-            if( !WriteFile(filename, html))
-                return null;
+
+            if (!noFileWrite)
+            {
+                if (!WriteFile(filename, html))
+                    return null;
+            }
 
             return html;
         }
