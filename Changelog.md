@@ -3,6 +3,12 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.9.20
+*<small>not released yet</small>*
+
+* **Add Syntax Selection Dropdown on Status Bar**  
+The status bar now displays the active syntax scheme and allows you to select a different syntax for a given file.
+
 ### 1.9.18
 *<small>March 21th, 2018</small>*
 

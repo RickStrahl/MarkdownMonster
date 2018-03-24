@@ -70,17 +70,17 @@
     <meta property="og:description" content="Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows.">
     <meta property="og:url" content="https://markdownmonster.west-wind.com">
     
-    <meta property="og:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterMonsterBigger.png">
+    <meta property="og:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="639">
 
-    <meta name="twitter:card" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterMonsterBigger.png">
+    <meta name="twitter:card" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg">
     <meta name="twitter:site" content="@markdownmonstr">
     <meta name="twitter:title" content="Markdown Monster - a better Markdown Editor and Weblog Publisher for Windows">
     <meta name="twitter:description" content="Markdown Monster is an interactive Markdown Editor dedicated to optimizing Markdown content creation with a capable sytnax highlighted editor, live preview, inline spell-checking and many out of your way helpers that facilitate embedding images, links, code, tables, emojiis and more.">
     <meta name="twitter:creator" content="@markdownmonstr">
-    <meta name="twitter:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterMonsterBigger.png">
+    <meta name="twitter:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg">
     <meta name="twitter:domain" content="markdownmonster.west-wind.com">
 </head>
 <body>
@@ -126,10 +126,11 @@
                                
                 
                 <div style="background: black; padding: 0 0;position: relative">
-                    <div style="width: 100%;margin: 0 4%;">
-                        <img src="Images/MarkdownMonsterLogo.jpg" alt="Markdown Monster"  />
+                    <div >
+                        <img src="Images/MarkdownMonsterLogo.jpg" alt="Markdown Monster"  style="max-width: 80%;margin: 0 10% 0 10%;" />
                           <a href="https://github.com/rickstrahl/MarkdownMonster">
-                     <img style="position: absolute; top:0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+                     <img style="position: absolute; top:0; right: 0; border: 0;" 
+                          src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
                  </a>
                         
                         

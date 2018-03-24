@@ -164,11 +164,12 @@ pre {
     line-height: 1.45;
     background: #333;
     color: #eee;
-    overflow-x: auto;
     margin: 7px 0 !important;
     padding: 0;
     border: 1px solid silver;
     border-radius: 4px;
+    
+    overflow-x: auto;
     white-space: pre;
     word-break: normal;
     word-wrap: normal;

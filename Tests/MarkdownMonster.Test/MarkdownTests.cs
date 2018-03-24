@@ -1,4 +1,5 @@
 ﻿using System;
+using Markdig.Helpers;
 using Markdig.Syntax;
 using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,6 +20,17 @@ namespace MarkdownMonster.Test
             string html = parser.Parse(markdown);
 
             Console.WriteLine(html);
+        }
+
+        [TestMethod]
+        public void Urilize()
+        {
+            string text = "This is a test - string-value. This_is_not_right?";
+            var link1 = LinkHelper.UrilizeAsGfm(text);
+            var link2 = LinkHelper.Urilize(text,false);
+            Console.WriteLine(link1);
+            Console.WriteLine(link2);
+
         }
 
         [TestMethod]
