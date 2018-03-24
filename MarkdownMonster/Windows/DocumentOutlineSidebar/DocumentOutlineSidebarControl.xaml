@@ -70,8 +70,14 @@
                     <EventSetter Event="MouseUp" Handler="ListOutlineItem_MouseUp"/>
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Focusable" Value="True" />
+                    <!--<Setter Property="ToolTip" Value="{Binding LinkId}" />-->
                 </Style>
             </ListBox.ItemContainerStyle>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Copy Header Id to Clipboard" Click="MenuItem_CopyHeaderId_Click" />
+                </ContextMenu>
+            </ListBox.ContextMenu>
         </ListBox>
 
     </Grid>

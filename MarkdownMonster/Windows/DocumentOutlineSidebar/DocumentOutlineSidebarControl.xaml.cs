@@ -180,5 +180,14 @@ Do you want to replace the existing outline?
             if (e.Key == Key.Enter || e.Key == Key.Space)
                 ListOutlineItem_MouseUp(sender, null);
         }
+
+        private void MenuItem_CopyHeaderId_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = ListOutline.SelectedItem as HeaderItem;
+            if (selected == null)
+                return;
+
+            Clipboard.SetText("#" + selected.LinkId);
+        }
     }
 }

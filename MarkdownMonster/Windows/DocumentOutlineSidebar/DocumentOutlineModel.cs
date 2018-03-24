@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using HtmlAgilityPack;
+using Markdig.Helpers;
 using Markdig.Syntax;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
@@ -88,10 +89,11 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                     inFrontMatter = false;
                     continue;
                 }
-
+                if (inFrontMatter)
+                    continue;
+                
                 if (item is HeadingBlock)
-                {
-                    
+                {                    
                     var heading = item as HeadingBlock;
                     // underlined format
                     if (line > 0 && (content.StartsWith("---") || content.StartsWith("===")))
@@ -99,19 +101,26 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                         line--;
                         content = lines[line].TrimStart(' ', '#');                        
                     }
-
+                    
                     var headerItem = new HeaderItem()
                     {
                         Text = $"{content}",
                         Level = heading.Level,
-                        Line = line
+                        Line = line,
+                        LinkId = LinkHelper.UrilizeAsGfm(content.TrimEnd())
                     };
+
                     list.Add(headerItem);
                 }
             }
 
+
+            
+            
             return list;
         }
+
+
 
 
         /// <summary>
@@ -175,6 +184,8 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
         public string Text { get; set; }
         public int Line { get; set; }
         public int Level { get; set; }
+
+        public string LinkId { get; set; }
 
         public Thickness Margin
         {
