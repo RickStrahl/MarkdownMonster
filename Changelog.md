@@ -3,11 +3,29 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.9.20
+### 1.9.19
 *<small>not released yet</small>*
 
 * **Add Syntax Selection Dropdown on Status Bar**  
 The status bar now displays the active syntax scheme and allows you to select a different syntax for a given file.
+
+* **Document Outline Context Menu to get Link ID onto Clipboard**  
+There's now a context menu on each document outline item to copy the hash ID to the location in the document. Useful if you need to link to another part of the document.
+
+* **New Markdown Monster Logo**  
+Yup we have a new image logo for the startup banner and about page.
+
+* **Fix: Recent Files Menu Clears**  
+Fixed issue where the Recent Files menu would clear if more than a certain number of files are present.
+
+* **Fix: Weblog Keywords and Categories Trimming**  
+Fixed issue where keywords and categories on posted blog posts where not properly trimmed if spaces were present in the comma-delimited list.
+
+* **Fix: Internal Links for PDF Output**  
+PDF output now can properly display local links inside of the document. Changed behavior of the exported HTML document by exporting to the .md file's folder and removing the `Base` tag which was interfering with local links.
+
+* **Fix: Code Wrapping in the Previewer**   
+Fixed how code displays by overriding default Bootstrap styles that wrap code. Override forces horizontal scrollbars onto code blocks.
 
 ### 1.9.18
 *<small>March 21th, 2018</small>*
