@@ -62,7 +62,6 @@
                         </TextBox.Style>
                     </TextBox>
                 </StackPanel>
-
             </StackPanel>
         </HierarchicalDataTemplate>
     </UserControl.Resources>

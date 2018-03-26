@@ -227,6 +227,9 @@ namespace MarkdownMonster.Windows
             if(FileWatcher != null)
                 ReleaseFileWatcher();
 
+            if (string.IsNullOrEmpty(fullPath))
+                return;
+
             FileWatcher = new FileSystemWatcher(fullPath)
             {
                 IncludeSubdirectories = true,
