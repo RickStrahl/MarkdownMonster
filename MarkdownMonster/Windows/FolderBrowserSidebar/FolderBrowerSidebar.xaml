@@ -9,7 +9,7 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
-             mc:Ignorable="d" MinWidth="215"
+             mc:Ignorable="d" MinWidth="165"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <!--DataType="{x:Type local:PathItem}"-->
