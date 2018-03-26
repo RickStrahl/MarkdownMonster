@@ -244,16 +244,13 @@ namespace MarkdownMonster
 			});            
 		}
 
-
-
         private void OnAddinsLoaded()
         {
             // Check to see if we are using another preview browser and load
             // that instead
-            LoadPreviewBrowser();
+            Dispatcher.Invoke(LoadPreviewBrowser);
         }
-
-
+        
 
         /// <summary>
         /// Opens files from the command line or from an array of strings
@@ -1115,7 +1112,12 @@ namespace MarkdownMonster
 
 
 			    if (icon == null)
-			        icon = FolderStructure.IconList.GetIconFromFile(document.Filename);               
+			    {
+			        icon = FolderStructure.IconList.GetIconFromFile(document.Filename);
+			        if (icon == AssociatedIcons.DefaultIcon)
+			            icon = FolderStructure.IconList.GetIconFromType(Model.ActiveEditor.EditorSyntax);
+                }
+			    
 
                 var img = new Image()
 			    {
@@ -2001,7 +2003,11 @@ namespace MarkdownMonster
 
         private void DocumentType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Model.ActiveEditor?.SetEditorSyntax(Model.ActiveEditor.EditorSyntax);
+            if (Model.ActiveEditor == null)
+                return;
+
+            Model.ActiveEditor.SetEditorSyntax(Model.ActiveEditor.EditorSyntax);
+            SetTabHeaderBinding(TabControl.SelectedItem as TabItem,Model.ActiveEditor.MarkdownDocument);
         }
 
         private void ButtonRecentFiles_SubmenuOpened(object sender, RoutedEventArgs e)
