@@ -89,8 +89,38 @@ namespace MarkdownMonster.Utilities
                 icon = DefaultIcon;
             }
 
-            if (Icons.ContainsKey(key))
+            if (!Icons.ContainsKey(key))
                 Icons.Add(key, icon);
+
+            return icon;
+        }
+
+        public ImageSource GetIconFromType(string doctype)
+        {
+            if (string.IsNullOrEmpty(doctype))
+                return DefaultIcon;
+            
+            var kv = IconUtilities.ExtensionToImageMappings.FirstOrDefault(kval=> kval.Value.Equals(doctype,StringComparison.InvariantCultureIgnoreCase));
+            if (kv.Key == null)
+                return DefaultIcon;
+
+         
+            ImageSource icon = null;
+            try
+            {
+                var imagePath = Path.Combine(Environment.CurrentDirectory, "Editor", "fileicons", doctype + ".png");
+                if (File.Exists(imagePath))
+                    icon = new BitmapImage(new Uri(imagePath));
+                else
+                    icon = DefaultIcon;
+            }
+            catch
+            {
+                icon = DefaultIcon;
+            }
+
+            if (!Icons.ContainsKey(kv.Key))
+                Icons.Add(kv.Key, icon);
 
             return icon;
         }
