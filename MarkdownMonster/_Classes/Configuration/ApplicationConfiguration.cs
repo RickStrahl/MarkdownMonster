@@ -773,12 +773,13 @@ namespace MarkdownMonster
 
             if (RecentDocuments.Count > RecentDocumentsLength)
             {
+                // the hard way to force collection to properly refresh so bindings work properly
+                var recents = RecentDocuments.Take(RecentDocumentsLength);
                 RecentDocuments.Clear();
-                foreach (var recent in RecentDocuments.Take(RecentDocumentsLength))
+                foreach (var recent in recents)
                     RecentDocuments.Add(recent);
             }
         }
-
 
         
         #region Configuration Settings
