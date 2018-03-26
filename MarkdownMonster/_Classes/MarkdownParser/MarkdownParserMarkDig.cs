@@ -135,6 +135,10 @@ namespace MarkdownMonster
             {
                 // One or more of the extension options is invalid. 
                 mmApp.Log("Failed to load Markdig extensions: " + options.MarkdigExtensions + "\r\n" + ex.Message, ex);
+
+                // reset to default
+                options.MarkdigExtensions = MarkdownOptionsConfiguration.STR_DefaultMarkdigExtensions;
+                builder = builder.Configure(options.MarkdigExtensions.Replace(",", "+"));                
             }
 
             return builder;

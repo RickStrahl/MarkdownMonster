@@ -90,8 +90,10 @@ namespace MarkdownMonster
                 OnPropertyChanged();
             }
         }
-        private string _markdigExtensions = "emphasisextras,pipetables,gridtables,footers,footnotes,citations,attributes";
-        
+        private string _markdigExtensions = STR_DefaultMarkdigExtensions;
+
+        internal const string STR_DefaultMarkdigExtensions = "emphasisextras,pipetables,gridtables,footers,footnotes,citations,attributes";
+
         #endregion
 
         #region Miscellaneous Settings
