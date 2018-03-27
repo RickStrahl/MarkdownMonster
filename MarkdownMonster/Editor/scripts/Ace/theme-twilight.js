@@ -11,8 +11,8 @@ width: 1px;\
 background: #191919\
 }\
 .ace-twilight {\
-background: #292929;\
-color: #F8F8F8;\
+background: #2D2D2D;\
+color: #EEEEEE;\
 font-weight: normal;\
 }\
 .ace-twilight .ace_cursor {\
@@ -103,6 +103,17 @@ color: #494949\
 }\
 ace_line.ace_selected {\
     background-color: #777 !important;\
+}\
+            font-weight: bold;\
+}\
+.ace-twilight .ace_heading {\
+font-weight: bold;\
+}\
+.ace-twilight .ace_strong {\
+font-weight: bold !important;\
+}\
+.ace-twilight .ace_emphasis {\
+font-style: italic;\
 }\
 .ace-twilight .ace_indent-guide {\
 background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWMQERFpYLC1tf0PAAgOAnPnhxyiAAAAAElFTkSuQmCC) right repeat-y\

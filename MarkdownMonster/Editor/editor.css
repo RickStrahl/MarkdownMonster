@@ -2,34 +2,14 @@
     top level editor configuration
     Ace Editor style overrides
 */
-html, body {
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-	padding: 0;
-	margin: 0;
-
-	scrollbar-track-color: #535353;
-	scrollbar-arrow-color: silver;
-	scrollbar-base-color: #888;
-	-ms-overflow-style: -ms-autohiding-scrollbar;    
-}
-#Editor {
-	height: 100%; 
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	-webkit-overflow-scrolling: touch;
-}		
-
-.ace_editor, .ace_editor * {        
+.ace_editor, .ace_editor * {
     letter-spacing: 0 !important;
-    background: transparent;           
+    background: transparent;
+    font-weight: normal;
 }
 .ace_content {
     padding-top: 0 !important;
-    padding-left: 0;
-    font-weight: normal;
+    padding-left: 0;    
 }    
 /*.ace_cursor { 
     border-left: 2px solid !important;
@@ -41,14 +21,11 @@ html, body {
 .ace_text-input {
 	margin: 0 !important;
 }
-.ace_strong {
+.ace_strong, .ace_heading {
     font-weight: bold !important;
 }
 .ace_emphasis {
     font-style: italic;
-}
-.ace_heading {
-    font-weight: bold;
 }
 
 /* Search/Replace Box */
