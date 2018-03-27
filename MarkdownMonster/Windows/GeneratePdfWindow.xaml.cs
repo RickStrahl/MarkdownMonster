@@ -105,8 +105,7 @@ namespace MarkdownMonster.Windows
             //File.WriteAllText(htmlFilename, html);
 
             bool result = await Task.Run(() =>
-		    {
-		        PdfGenerator.DisplayPdfAfterGeneration = true;
+		    {		        
 		        bool res = PdfGenerator.GeneratePdfFromHtml(htmlFilename, OutputFile);
 		        File.Delete(htmlFilename);
 		        return res;
