@@ -130,12 +130,12 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
         /// <returns></returns>
         public string CreateMarkdownOutline(MarkdownDocument document)
         {
-            bool oldAutoLinks = mmApp.Configuration.MarkdownOptions.AutoLinks;
-            mmApp.Configuration.MarkdownOptions.AutoLinks = true;
+            bool oldAutoHeaderIdentifiers = mmApp.Configuration.MarkdownOptions.AutoHeaderIdentifiers;
+            mmApp.Configuration.MarkdownOptions.AutoHeaderIdentifiers = true;
 
             string html = document.RenderHtml();
 
-            mmApp.Configuration.MarkdownOptions.AutoLinks = oldAutoLinks;
+            mmApp.Configuration.MarkdownOptions.AutoHeaderIdentifiers = oldAutoHeaderIdentifiers;
 
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
