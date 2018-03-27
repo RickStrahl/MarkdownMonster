@@ -26,8 +26,13 @@ $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$PSScriptRoot\b
 $version = $version.Trim()
 "Initial Version: " + $version
 
-# Remove 4th version tuple if it's 0
-$version = $version.TrimEnd('0','.')
+# Remove last two .0 version tuples if it's 0
+if($version.EndsWith(".0")) {    
+    $version = $version.SubString(0,$version.Length - 2);
+}
+if($version.EndsWith(".0.0")) {
+    $version = $version.SubString(0,$version.Length - 4);
+}
 "Truncated Version: " + $version
 
 "Writing Version File for: " + $version
