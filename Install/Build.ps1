@@ -27,11 +27,13 @@ $version = $version.Trim()
 "Initial Version: " + $version
 
 # Remove last two .0 version tuples if it's 0
-if($version.EndsWith(".0")) {    
-    $version = $version.SubString(0,$version.Length - 2);
-}
 if($version.EndsWith(".0.0")) {
     $version = $version.SubString(0,$version.Length - 4);
+}
+else {
+    if($version.EndsWith(".0")) {    
+        $version = $version.SubString(0,$version.Length - 2);
+    }
 }
 "Truncated Version: " + $version
 

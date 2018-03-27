@@ -463,11 +463,16 @@ Markdown Monster v{version}
         /// Returns a formatted string value for the version.
         /// </summary>
         /// <returns></returns>
-        public static string GetVersionForDisplay()
+        public static string GetVersionForDisplay(string version = null)
         {
-            string version = GetVersion().TrimEnd('0','.');
-            if (!version.Contains("."))
-                version = version + ".0";
+            if (version == null)
+                version = GetVersion();
+
+            if (version.EndsWith(".0.0"))
+                version = version.Substring(0, version.Length - 4);
+            else if (version.EndsWith(".0"))
+                version = version.Substring(0, version.Length - 2);
+            
             return version;
         }
 

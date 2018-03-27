@@ -3,38 +3,23 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.9.19
-*<small>not released yet</small>*
-
-* **Add Syntax Selection Dropdown on Status Bar**  
-The status bar now displays the active syntax scheme and allows you to select a different syntax for a given file.
-
-* **Document Outline Context Menu to get Link ID onto Clipboard**  
-There's now a context menu on each document outline item to copy the hash ID to the location in the document. Useful if you need to link to another part of the document.
-
-* **New Markdown Monster Logo**  
-Yup we have a new image logo for the startup banner and about page.
-
-* **Fix: Recent Files Menu Clears**  
-Fixed issue where the Recent Files menu would clear if more than a certain number of files are present.
-
-* **Fix: Weblog Keywords and Categories Trimming**  
-Fixed issue where keywords and categories on posted blog posts where not properly trimmed if spaces were present in the comma-delimited list.
-
-* **Fix: Internal Links for PDF Output**  
-PDF output now can properly display local links inside of the document. Changed behavior of the exported HTML document by exporting to the .md file's folder and removing the `Base` tag which was interfering with local links.
-
-* **Fix: Code Wrapping in the Previewer**   
-Fixed how code displays by overriding default Bootstrap styles that wrap code. Override forces horizontal scrollbars onto code blocks.
-
-### 1.9.18
-*<small>March 21th, 2018</small>*
+### 1.10
+*<small>March 27th, 2018</small>*
 
 * **Document Outline**  
 There's a new Document Outline feature (preview) that provides a two-way sync between the active document and the outline. The outline shows headers (h1-h4). You can click on bookmark links, and the outline stays in sync when you scroll the document.
 
 * **Table of Content Generator**  
 As part of the Document Outline display, there's an option to generate a TOC and embed it into a Markdown document at the cursor position. The TOC is created a Markdown list with links and can be re-generated on demand.
+
+* **Document Outline Context Menu to get Link ID onto Clipboard**  
+There's now a context menu on each document outline item to copy the hash ID to the location in the document. Useful if you need to link to another part of the document.
+
+* **Fix up spaces in Editor Markup Operations**   
+Editor markup operations like the bold, italic, underscore, small etc. now automatically handle fixing up leading spaces so if you select ` selected words ` (note the leading and/or trailing spaces that are selected) the tag is updated as ` **selected words** ` (space before and after the `**`) effectively transposing the unintended spaces in the markup.
+
+* **Add Syntax Selection Dropdown on Status Bar**  
+The status bar now displays the active syntax scheme and allows you to select a different syntax for a given file.
 
 * **Keyboard Auto Search for starting Letters in Folder Browser**  
 You can now type in a few letters to jump to the first matching file similar to the way Explorer finds files.
@@ -44,6 +29,12 @@ The folder browser now displays file system updates in the folder browser. If yo
 
 * **Folder Browser `IgnoreFolders` and `IgnoreFileExtensions`**  
 Options to filter the folder browser display for certain folder and file extensions. Folders default `.git, node_modules` and extensions to `.saved.bak`. Values can be customized in Settings.
+
+* **Double Click Editor/Preview Separator to Zoom Preview**  
+You can now double click the separator between the Editor and Preview to zoom the preview for a quick way to browse read/only content. The Sidebar remains on the left of the display to double click and restore the original width.
+
+* **Edit Preview Template from Preview Browser**  
+You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser using the Preview Browser's context menu. The link also opens the Preview Theme Editing documentation.
 
 * **Main Content Area UI Refactoring**  
 The main content UI area has been refactored to encapsulate the editor and preview pane in a single layout panel. Tabs now stretch across the entire content and preview area to avoid excessive tab crowding especially on small displays. Internally the render logic has been refactored to make the UI easier to manage in code via bindings and simpler property access and allow for more modular layouts that can be driven from Addins including support for adding UI panels.
@@ -60,36 +51,36 @@ There's now also a new Right Side bar which can contain tabs to allow another av
 * **MarkdownDocumentEditor Identifier and Properties Collections**   
 The MarkdownDocumentEditor instance now has a collection of Properties that can be attached to the editor to allow you to associate custom state to an editor instance. This allows Addins to capture state when a specific tab is activated via `Model.ActiveEditor.Tag.Properties["state"]`. `Identifier` is a new string field that allows adding a custom designation for easy checking.
 
+* **More Markdown Rendering Configuration Options**  
+Added additional configuration switches to the Markdown configuration to allow for more complete Markdown extension support as provided by [MarkDig](https://github.com/lunet-io/markdighttps://github.com/lunet-io/markdig). Added support for [Custom Containers fenced `<div>` blocks](https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/CustomContainerSpecs.md) and [Generic Markdown Attributes](https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/GenericAttributesSpecs.md) and added explicit properties for most of MarkDig's extension features.
+
 * **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
 * Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
 Example: [Chromium Preview Addin (preview)](https://github.com/RickStrahl/ChromiumPreview-MarkdownMonster-Addin)
 
-* **Double Click Editor/Preview Separator to Zoom Preview**  
-You can now double click the separator between the Editor and Preview to zoom the preview for a quick way to browse read/only content. The Sidebar remains on the left of the display to double click and restore the original width.
-
 * **Post Date for Weblog Post Meta Data**  
 The Weblog post meta data now stores the original post date, which also allows for modifying the post date to a new date when reposting **if** the Weblog service supports that feature.
-
-* **Fix up spaces in Editor Markup Operations**   
-Editor markup operations like the bold, italic, underscore, small etc. now automatically handle fixing up leading spaces so if you select ` selected words ` (not the leading and trailing spaces that are selected) the tag is updated as ` **selected words** ` (space before and after the `**`) effectively transposing the unintended spaces in the markup.
 
 * **Addins: Support for Read Only Editor**   
 You can now open a new editor tab in Read Only mode which can't be edited but can still be viewed and scrolled. Also added a double click handler in read only mode that triggers an `OnNotifyAddin` event for `ReadOnlyDoubleClick` that can be used to take action on the double click (like open a new window).
 
-* **Edit Preview Template in Preview Browser**  
-You can now directly jump to the Preview template that's active and edit the HTML/CSS that makes up that template in the Preview Browser using the Preview Browser's context menu. The link also opens the Preview Theme Editing documentation.
-
 * **DisableSplashScreen Configuration Setting**  
 You can now optionally disable the splash screen from firing up when starting Markdown Monster.
 
+* **New Markdown Monster Logo**  
+Yup we have a new image logo for the startup banner and about page.
+
 * **Fix: Quicker Save Behavior**   
-Save operations previously were slightly delayed and didn't show the document as saved immediately. Made file save explicit rather than triggering on dirty flag update for much more responsive save.
+Save operations previously were slightly delayed and didn't show the document as saved immediately. Made file save explicit rather than triggering on dirty flag update for much more responsive save and UI feedback.
 
 * **Fix: Sort Order in Folder Browser**  
 Fix sort order to work with lower case sorting so folders or files that start with `_` sort to the top and lower and upper case file names are not mixed up in sorting.
 
 * **Fix: Weblog Post Download with FrontMatter Header**  
 Fix issue where Weblog posts that contain FrontMatter headers would double up the FrontMatter and title headers. Fix checks for FrontMatter in downloaded post and if found just display the raw post retrieved with the original FrontMatter and Markdown formatting.
+
+* **Fix: Preview Theme Code Block Rendering Wrap**   
+Fixed preview themes so that code blocks do not wrap in the previewer and exported HTML output. Affected Darkhan, Github and Westwind themes.
 
 * **Fix: Table Importer with HTML Tables**  
 Fix table importer context menu to find tables inside of the Editor. Fix import behavior if table uses upper case tag names.
@@ -109,8 +100,20 @@ Previously hash links to HTML Anchors or Ids (such as a table of content) were n
 * **Fix: Fix ignored files in Folder Browser**  
 The folder browser now properly ignores on the `ignoreFileExtensions` setting, for new, externally created files that are updated in the browser view.
 
+* **Fix: Recent Files Menu Clears**  
+Fixed issue where the Recent Files menu would clear if more than a certain number of files are present.
 
-### 1.9.0
+* **Fix: Weblog Keywords and Categories Trimming**  
+Fixed issue where keywords and categories on posted blog posts where not properly trimmed if spaces were present in the comma-delimited list.
+
+* **Fix: Internal Links for PDF Output**  
+PDF output now can properly display local links inside of the document. Changed behavior of the exported HTML document by exporting to the .md file's folder and removing the `Base` tag which was interfering with local links.
+
+* **Fix: Code Wrapping in the Previewer**   
+Fixed how code displays by overriding default Bootstrap styles that wrap code. Override forces horizontal scrollbars onto code blocks.
+
+
+### 1.9
 *<small>January 24, 2018</small>*
 #### Version Rollup Release
 
@@ -129,10 +132,6 @@ Reworked the custom layout used to edit table rows that makes rebinding of table
 * **Start Screen Improvements**  
 Fix recent file list on the Start Screen to refresh and accurately show recent files. Also tweaked the layout of the Recent Files list to be more easily readable and added tooltips to links to get full file names.
 
-
-### 1.8.15
-*<small>January 16th, 2018</small>*
-
 * **Add Open Documents Dropdown for Tab Overflow**  
 Changed the tab layout so when there are more tabs than can be displayed, a drop down shows a menu with all open files that can be selected.
 
@@ -150,11 +149,6 @@ Fix a number of small folder browser inconsistencies related to adding new files
 
 * **Fix: Command Line Startup with Folder**  
 Fix bug where command line startup with a folder name would not open the folder in the folder browser properly.
-
-
-### 1.8.12
- *<small>January 9th, 2018</small>* 
- ##### File System and Folder Browser Update
 
 * **Add Recent Folder List in Folder Browser**   
 The folder browser now has an icon to show and re-select recently opened folders. Recent folders are also shown on the Recent Files drop down.
@@ -198,11 +192,6 @@ Images dragged from Windows Explorer now drop at the current cursor position in 
 * **Fix: Incorrect Drag Behavior and Scrollbar Interaction in Folder Browser**   
 Fix funky drag behavior when an item is selected and trying to scroll the scrollbar on the file list. Fixed by explicitly checking for the item being selected being dragged rather than the entire tree.
 
-### 1.8.8
-*<small>December 28th, 2017</small>*
-##### Table Editor Update
-
-
 * **[New two-way Table Editor](https://markdownmonster.west-wind.com/docs/_53a0pfz0t.htm)**  
 Added table editor dialog that allows for creation of Markdown (and Html) tables interactively. A new dialog provides column based data entry with tabbable fields along with the ability to easily add and delete rows and columns. Output can be generated as either Markdown or HTML and you can use the Editor context menu's 'Edit Table' option to edit or reformat a table.
  
@@ -214,10 +203,6 @@ You can now use `Ctrl-Tab` and `Ctrl-Shift-Tab` to flip more easily across the o
 
 * **Paste Code Dialog Picks up Code from ClipBoard**   
 The Paste Code Dialog (alt-c) now tries to pick up code from the clipboard and displays it for editing and then pasting - if no code selection is active in the editor. This can provide an optimized workflow: Copy code to clipboard from code editor, switch to MM, press `alt-c`, type syntax code (ie. css, html, csharp), press enter and code is pasted properly into markdown. 
-
-### 1.8.4
-*<small>December 20th, 2017</small>*
-#### Editor Features Update
 
 * **Remove Markdown Formatting**   
 Added menu option and Ctrl-Shift-Z shortcut to remove Markdown formatting from a selection of text in a Markdown document.
