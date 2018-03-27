@@ -452,7 +452,7 @@ namespace MarkdownMonster.Windows
 
             
             // search key
-            if (e.Key >= Key.A && e.Key <= Key.Z ||
+            if (!selected.IsEditing && e.Key >= Key.A && e.Key <= Key.Z ||
                 e.Key >= Key.D0 && e.Key <= Key.D9 ||
                 e.Key == Key.OemPeriod ||
                 e.Key == Key.Space ||
