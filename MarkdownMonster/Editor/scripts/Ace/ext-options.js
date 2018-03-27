@@ -719,29 +719,8 @@ var OptionPanel = function(editor, element) {
 exports.OptionPanel = OptionPanel;
 
 });
-
-define("ace/ext/settings_menu",["require","exports","module","ace/ext/options","ace/ext/menu_tools/overlay_page","ace/editor"], function(require, exports, module) {
-"use strict";
-var OptionPanel = require("ace/ext/options").OptionPanel;
-var overlayPage = require('./menu_tools/overlay_page').overlayPage;
-function showSettingsMenu(editor) {
-    if (!document.getElementById('ace_settingsmenu')) {
-        var options = new OptionPanel(editor);
-        options.render();
-        options.container.id = "ace_settingsmenu";
-        overlayPage(editor, options.container, '0', '0', '0');
-        options.container.querySelector("select,input,button,checkbox").focus();
-    }
-}
-module.exports.init = function(editor) {
-    var Editor = require("ace/editor").Editor;
-    Editor.prototype.showSettingsMenu = function() {
-        showSettingsMenu(this);
-    };
-};
-});
                 (function() {
-                    window.require(["ace/ext/settings_menu"], function(m) {
+                    window.require(["ace/ext/options"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;
                         }

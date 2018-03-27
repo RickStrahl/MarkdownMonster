@@ -4,8 +4,7 @@ define("ace/ext/searchbox",["require","exports","module","ace/lib/dom","ace/lib/
 var dom = require("../lib/dom");
 var lang = require("../lib/lang");
 var event = require("../lib/event");
-var searchboxCss = "\
-.ace_search {\
+var searchboxCss = ".ace_search {\
 background-color: #ddd;\
 color: #666;\
 border: 1px solid #cbcbcb;\
@@ -176,7 +175,7 @@ var html = '<div class="ace_search right">\
         <span action="replaceAll" class="ace_searchbtn">All</span>\
     </div>\
     <div class="ace_search_options">\
-        <span action="toggleReplace" class="ace_button" title="Toggel Replace mode"\
+        <span action="toggleReplace" class="ace_button" title="Toggle Replace mode"\
             style="float:left;margin-top:-2px;padding:0 5px;">+</span>\
         <span class="ace_search_counter"></span>\
         <span action="toggleRegexpMode" class="ace_button" title="RegExp Search">.*</span>\
@@ -503,6 +502,10 @@ exports.Search = function(editor, isReplace) {
 
 });
                 (function() {
-                    window.require(["ace/ext/searchbox"], function() {});
+                    window.require(["ace/ext/searchbox"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
                 })();
             

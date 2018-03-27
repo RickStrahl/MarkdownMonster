@@ -7,21 +7,40 @@
     <title>Markdown Monster Editor</title>
 
     <!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js#startOpened,overrideConsole"></script>-->
- 
-    <link rel="stylesheet" type="text/css" href="editor.css" />
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            scrollbar-track-color: #535353;
+            scrollbar-arrow-color: silver;
+            scrollbar-base-color: #888;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
 
-    <script src="scripts/jquery.min.js"></script>
+        #Editor {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
     <script src="scripts/Ace/ace.js" charset="utf-8"></script>
-    <!--<script src="scripts/Ace/ext-language_tools.js" charset="utf-8"></script>-->        
+    <link rel="stylesheet" type="text/css" href="editor.css" />
+    <script src="scripts/jquery.min.js"></script>
 
+    <!--<script src="scripts/Ace/ext-language_tools.js" charset="utf-8"></script>-->
     <!-- make extra key bindings available -->
     <script src="scripts/Ace/keybinding-vim.js" charset="utf-8"></script>
     <script src="scripts/Ace/keybinding-emacs.js" charset="utf-8"></script>
 
     <script src="editorSettings.js"></script>
-    <script src="editorSpellcheck.js"></script>    
+    <script src="editorSpellcheck.js"></script>
     <script src="editor.js"></script>
-    <!-- <script src="scripts/typo.js"></script> -->    
+    <!-- <script src="scripts/typo.js"></script> -->
 </head>
 <body>
 <pre lang="markdown" id="Editor">

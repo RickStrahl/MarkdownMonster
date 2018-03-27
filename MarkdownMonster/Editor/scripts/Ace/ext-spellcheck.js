@@ -66,6 +66,10 @@ require("../config").defineOptions(Editor.prototype, "editor", {
 
 });
                 (function() {
-                    window.require(["ace/ext/spellcheck"], function() {});
+                    window.require(["ace/ext/spellcheck"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
                 })();
             
