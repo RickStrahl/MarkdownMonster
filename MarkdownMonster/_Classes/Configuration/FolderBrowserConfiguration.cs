@@ -82,7 +82,10 @@ namespace MarkdownMonster.Configuration
 
 	        folder = folder.TrimEnd('\\');
             
-	        var matchList = RecentFolders.Where(f => f.ToLower().Contains(folder.ToLower()) || !Directory.Exists(f)).ToList();
+	        var matchList = RecentFolders
+	                            .Where(f => f.ToLower().Contains(folder.ToLower()) || !Directory.Exists(f))
+	                            .ToList();
+
 	        for (var index = 0; index < matchList.Count; index++)	        	            
 	            RecentFolders.Remove(matchList[index]);
             
