@@ -35,24 +35,27 @@ namespace MarkdownMonster.Windows
             get { return _folderPath; }
             set
             {
-                if (value == _folderPath) return;
+                if (value == _folderPath || Window == null) return;
 
                 SearchText = null;
                 SearchSubTrees = false;
                 SearchPanel.Visibility = Visibility.Collapsed;
 
                 if (string.IsNullOrEmpty(value))
-                    ActivePathItem = new PathItem();
-                else if (value != _folderPath)
+                    ActivePathItem = new PathItem();  // empty the folder browser
+                else
                     SetTreeFromFolder(value, _folderPath != null, SearchText);
 
-                _folderPath = value;
-                mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
-                
-                OnPropertyChanged(nameof(FolderPath));
-                OnPropertyChanged(nameof(ActivePathItem));
+                if (ActivePathItem != null)
+                {
+                    _folderPath = value;
+                    mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
 
-                
+                    OnPropertyChanged(nameof(FolderPath));
+                    OnPropertyChanged(nameof(ActivePathItem));
+                }
+
+
             }
         }
         private string _folderPath;
@@ -128,7 +131,7 @@ namespace MarkdownMonster.Windows
             Focusable = true;
             
             Loaded += FolderBrowerSidebar_Loaded;
-            Unloaded += (s, e) => FileWatcher?.Dispose(); 
+            Unloaded += (s, e) => ReleaseFileWatcher(); 
         }
         
         private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)

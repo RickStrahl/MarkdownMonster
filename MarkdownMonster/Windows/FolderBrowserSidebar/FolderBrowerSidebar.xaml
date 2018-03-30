@@ -84,7 +84,7 @@
                 
                     <TextBlock Height="Auto" 
                            Text="SEARCH" 
-                           FontWeight="Medium" FontSize="11"  Padding="4,5,2,5" />
+                           FontWeight="Medium" FontSize="12"  Padding="4,5,2,5" />
                 
 
                 <Button fa:Awesome.Content="Remove" Grid.Column="1" Background="Transparent"
@@ -172,7 +172,7 @@
 	             Opacity="0.60" FontWeight="Medium"                            
 	             ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"                 
 	             BorderThickness="0"                                                                       
-                 MaxDropDownHeight="275"
+                 MaxDropDownHeight="275" FontSize="12"
                  controls:TextBoxHelper.Watermark="Folder Browser Path">
                 <i:Interaction.Behaviors>
                     <mmcontrols:FileSystemAutoCompleteBehavior />
