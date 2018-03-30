@@ -57,7 +57,7 @@
         <Label Grid.Row="2" Content="Code Language:" Margin="0,10,0,0"/>
 
         <!-- hightlight rectanble behind combo to show when focused -->
-        <Rectangle Grid.Row="3" x:Name="rectangle" Height="20" Width="Auto"  
+        <Rectangle Grid.Row="3" x:Name="rectangle" Height="30" Width="Auto"  
                    VerticalAlignment="Top" 
                    RenderTransformOrigin="0.5,0.5">
             <Rectangle.Fill>
@@ -75,18 +75,19 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        
+
         <ComboBox Grid.Row="3" x:Name="TextCodeLanguage"  
                   ToolTip="Weblog selection"
                           SelectedValuePath="Key"
                           DisplayMemberPath="Value"    
                   IsHitTestVisible="True"
-                          SelectedValue="{Binding CodeLanguage}"
-                          IsSynchronizedWithCurrentItem="True" 
-                          ItemsSource="{Binding LanguageNames}" 
+                SelectedValue="{Binding CodeLanguage}"
+                IsSynchronizedWithCurrentItem="True" 
+                ItemsSource="{Binding LanguageNames}" 
+                 Padding="6"
                   SelectionChanged="TextCodeLanguage_SelectionChanged"
-                  LostFocus="TextCodeLanguage_LostFocus"
-                           >
+                  LostFocus="TextCodeLanguage_LostFocus">
+
             <!--<ComboBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
                     <Style.Triggers>
@@ -118,7 +119,7 @@
                     Width="175" HorizontalAlignment="Left" 
                     IsCancel="True" Click="Button_Click" >
                 <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  FontSize="20"/>
+                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Firebrick" FontSize="20"/>
                     <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
                 </StackPanel>
             </Button>

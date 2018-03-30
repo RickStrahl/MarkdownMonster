@@ -11,8 +11,8 @@
 		TitleCharacterCasing="Normal"
         ResizeMode="NoResize"
 		WindowStartupLocation="CenterOwner"					 
-		FontSize="15"                      
-        Title="Save As Pdf File" Height="520" Width="575">
+		                  
+        Title="Save As Pdf File" Height="540" Width="600">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style TargetType="Control">
@@ -87,11 +87,11 @@
         </ToolBarPanel>
 
         <StackPanel Margin="30,25" Grid.Row="1">
-            <TextBlock >Document Title: (optional)</TextBlock>
-            <TextBox Name="TextTitle" Text="{Binding PdfGenerator.Title}" FontSize="14"  />
+            <Label>Document Title: (optional)</Label>
+            <TextBox Name="TextTitle" Text="{Binding PdfGenerator.Title}"  />
 
             <Label Margin="0,10,0,0">Footer Text: (optional - ie. 'Page [page] of [topage]')</Label>
-            <TextBox Text="{Binding PdfGenerator.FooterText}" FontSize="14" />
+            <TextBox Text="{Binding PdfGenerator.FooterText}" />
 
             <Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
@@ -102,15 +102,15 @@
 
                 <StackPanel>
                     <Label>Page Size</Label>
-                    <ComboBox
-						Name="TextPageSize" FontSize="14" 						
+                    <ComboBox Padding="4"
+						Name="TextPageSize"  						
 						SelectedValue="{Binding PdfGenerator.PageSize}" >
                     </ComboBox>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
                     <Label>Page Orientation</Label>
-                    <ComboBox FontSize="14"
+                    <ComboBox Padding="4"
 						Name="TextPageOrientation" 						
 						SelectedValue="{Binding PdfGenerator.Orientation}" >
                     </ComboBox>
@@ -151,7 +151,7 @@
                 Content="Generate Table of Contents"
             />
  
-            <CheckBox Margin="0 7 0 0"
+            <CheckBox Margin="0 7 0 0" 
                     IsChecked="{Binding PdfGenerator.DisplayPdfAfterGeneration}"				
                     Content="Display PDF after generation"
                 />

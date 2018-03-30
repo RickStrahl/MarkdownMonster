@@ -18,7 +18,6 @@
         BorderThickness="0" 
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"		
-		FontSize="13"
         Height="700" Width="1000"  
         MinWidth="800" MinHeight="600" 
         WindowTransitionsEnabled="False">
@@ -850,7 +849,7 @@
             <StatusBarItem  Grid.Column="4" >
                 <ComboBox Name="StatusZoomLevel"
                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
-                          IsEditable="True" 
+                          IsEditable="True" FontSize="13"
                           IsSynchronizedWithCurrentItem="True"
                           MouseDoubleClick="StatusZoomLevel_MouseDoubleClick"  
                           SelectionChanged="StatusZoomLevel_SelectionChanged"
@@ -883,7 +882,7 @@
 
             <StatusBarItem Grid.Column="6" Margin="6,0,0,0">
                 <ComboBox   Name="DocumentType" x:FieldModifier="public" HorizontalAlignment="Left"
-                            Width="94"
+                            Width="100"  FontSize="13"
                             ItemsSource="{Binding DocumentTypes}"
                             SelectedItem="{Binding ActiveEditor.EditorSyntax, Mode=TwoWay}"                             
                             ToolTip="Editor Code Syntax" 
@@ -897,7 +896,7 @@
                 <ComboBox  HorizontalAlignment="Right"  
                            ToolTip="Registered Markdown Parsers" Width="{Binding MarkdownParserColumnWidth}"
                            SelectedItem="{Binding Configuration.MarkdownOptions.MarkdownParserName}" 
-                           IsSynchronizedWithCurrentItem="True" 
+                           IsSynchronizedWithCurrentItem="True"   FontSize="13"
                            ItemsSource="{Binding MarkdownParserNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="MarkdownParserName_SelectionChanged" />
@@ -905,7 +904,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="8">
                 <ComboBox  HorizontalAlignment="Right"  Width="70" ToolTip="Application Themes"  
-                           Name="ComboBoxAppTheme"
+                           Name="ComboBoxAppTheme"  FontSize="13"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
                            SelectedValue="{Binding Configuration.ApplicationTheme}"   
                            ItemsSource="{Binding Source={StaticResource ApplicationThemeEnums}}"
@@ -916,7 +915,7 @@
             <StatusBarItem Grid.Column="9">
                 
                 <ComboBox  HorizontalAlignment="Right"  ToolTip="Editor Themes"
-                           SelectedItem="{Binding Configuration.EditorTheme}"
+                           SelectedItem="{Binding Configuration.EditorTheme}"  FontSize="13"
                            IsSynchronizedWithCurrentItem="True"                            
                            ItemsSource="{Binding EditorThemeNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
@@ -924,7 +923,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="10">
                 <ComboBox  HorizontalAlignment="Right" 
-                           ToolTip="Preview rendering Themes"
+                           ToolTip="Preview rendering Themes"  FontSize="13"
                            SelectedItem="{Binding Configuration.RenderTheme}" 
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding RenderThemeNames}"
@@ -934,13 +933,13 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="11">
                 <ComboBox  HorizontalAlignment="Right"   Width="18" ToolTip="Preview sync mode"  
-                           Name="ComboBoxPreviewSyncModes"
+                           Name="ComboBoxPreviewSyncModes"  FontSize="13"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
                            SelectedValue="{Binding Configuration.PreviewSyncMode}" 
                            ItemsSource="{Binding PreviewSyncModeItems}"                           
                            DisplayMemberPath="IconString"
                            SelectedValuePath="Value" 
-                           FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" FontSize="11"
+                           FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="RenderTheme_SelectionChanged">
                 </ComboBox>

@@ -15,9 +15,7 @@
         WindowStartupLocation="CenterOwner"                      
         Height="730" Width="1100" MinWidth="900" MinHeight="500">
     <Window.Resources>
-        
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
         <local:ValueConverterGroup x:Key="InstallButtonConverter">
             <local:InvertedBooleanConverter/>
             <BooleanToVisibilityConverter/>
@@ -82,9 +80,9 @@
                                             Text="{Binding summary}" 
                                             TextWrapping="WrapWithOverflow"
                                             HorizontalAlignment="Left"
-                                            FontSize="12"/>
+                                            FontSize="11"/>
                                     <TextBlock  Text="{Binding author}" Margin="0,4,0,0"
-                                           FontStyle="Italic" FontSize="10"/>
+                                           FontStyle="Italic" FontSize="11"/>
                                 </StackPanel>
                             </Grid>
 
@@ -96,11 +94,12 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock x:Name="TextInstalledVersion" FontStyle="Italic" Text="{Binding installedVersion, StringFormat='installed version: v{0}  '}" Margin="0,5,10,0"
+                            <TextBlock x:Name="TextInstalledVersion" FontStyle="Italic"
+                                       Text="{Binding installedVersion, StringFormat='installed version: v{0}  '}" Margin="0,5,10,0"
                                        Visibility="{Binding updateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                             <Button Grid.Column="1" Name="ButtonInstall"  Height="20" 
-                                    Margin="0,0,10,10"  Width="90"
+                                    Margin="0,0,10,10"  Width="90" FontSize="10"
                                     Visibility="{Binding isInstalled, Converter={StaticResource InstallButtonConverter}}" 
                                     Click="ButtonInstall_Click">
                                 <StackPanel Orientation="Horizontal">
@@ -110,7 +109,7 @@
                             </Button>
 
                             <Button Grid.Column="2" Name="ButtonUpdate"  Height="20" 
-                                    Margin="0,0,10,10"  Width="90"
+                                    Margin="0,0,10,10"  Width="90" FontSize="10"
                                     Visibility="{Binding updateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                     Click="ButtonInstall_Click">
                                 <StackPanel Orientation="Horizontal">
@@ -120,7 +119,7 @@
                             </Button>
 
                             <Button Grid.Column="3" Name="ButtonUnInstall" Height="20"
-                                    Margin="0,0,10,10" Width="100"                                 
+                                    Margin="0,0,10,10" Width="100" FontSize="10"                                
                                     Visibility="{Binding isInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                     Click="ButtonUnInstall_Click">
                                 <StackPanel Orientation="Horizontal">

@@ -28,7 +28,7 @@
     <System:Double x:Key="MenuFontSize">14</System:Double>
     <System:Double x:Key="ContextMenuFontSize">14</System:Double>
 
-    <System:Double x:Key="StatusBarFontSize">12</System:Double>
+    <System:Double x:Key="StatusBarFontSize">13</System:Double>
 
     <System:Double x:Key="DialogTitleFontSize">26</System:Double>
     <System:Double x:Key="DialogMessageFontSize">15</System:Double>
@@ -39,6 +39,5 @@
     <System:Double x:Key="ToggleSwitchHeaderFontSize">16</System:Double>
     <System:Double x:Key="ToggleSwitchFontSize.Win10">15</System:Double>
     <System:Double x:Key="ToggleSwitchHeaderFontSize.Win10">15</System:Double>
-
 
 </ResourceDictionary>
