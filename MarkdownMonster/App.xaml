@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="Styles/MahLightAccents.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
 
+                <ResourceDictionary Source="Styles/Common.xaml"/>
                 <ResourceDictionary Source="Styles/Buttons.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
