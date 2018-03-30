@@ -825,8 +825,12 @@ namespace MarkdownMonster.AddIns
 
                                     if (addinItem != null)
                                     {
+                                        var verInstalled = new Version(ai.installedVersion);
+                                        var verAddin = new Version(addinItem.version);
+
+
                                         ai.installedVersion = addinItem.version;
-                                        if (addinItem.version.CompareTo(ai.version) < 0)
+                                        if (verAddin.CompareTo(verInstalled) < 0)
                                             ai.updateAvailable = true;
                                     }
                                 }
@@ -874,7 +878,11 @@ namespace MarkdownMonster.AddIns
             }
 
             string ver = mmApp.GetVersion();
-            if (ver.CompareTo(addin.minVersion) < 0)
+
+            var verInstalled = new Version(ver);
+            var verMinVersion = new Version(addin.minVersion);
+
+            if (verInstalled.CompareTo(verMinVersion) < 0)
             {
                 ErrorMessage = "This addin requires v" + addin.minVersion + " of Markdown Monster to run. You are on v" +  ver + ".\r\n\r\nPlease update to the latest version of Markdown Monster if you want to install this addin.";
                 result.IsError = true;

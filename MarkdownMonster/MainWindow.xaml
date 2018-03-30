@@ -185,8 +185,7 @@
         </Grid.ColumnDefinitions>
 
         <Menu x:Name="MainMenu" Grid.Row="0" 
-              Margin="0" 
-              FontSize="{Binding Path=FontSize,ElementName=MainApplicationWindow}"
+              Margin="0"               
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File" Name="MainMenuFile" x:FieldModifier="public" >
                 <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding Commands.NewDocumentCommand}" InputGestureText="ctrl-n"/>

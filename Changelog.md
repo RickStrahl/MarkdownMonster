@@ -6,7 +6,7 @@
 ### 1.10
 *<small>March 27th, 2018</small>*
 
-* **Added Document Outline**  
+* **Document Outline**  
 There's a new Document Outline feature (preview) that provides a two-way sync between the active document and the outline. The outline shows headers (h1-h4). You can click on bookmark links, and the outline stays in sync when you scroll the document.
 
 * **Table of Content Generator**  
