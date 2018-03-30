@@ -163,6 +163,7 @@ namespace MarkdownMonster.Utilities
             {"folder.folder", "folder"}, // special case
             {"folder.openfolder", "folder-open"}, // special case
             {"kavadocstopic.md", "kavadocs"},
+            {"_toc.json", "kavadocs" },
             {"untitled", "md"},
 
             // dev config files

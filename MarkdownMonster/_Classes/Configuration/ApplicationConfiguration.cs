@@ -494,6 +494,7 @@ namespace MarkdownMonster
 	        {"mkdn", "markdown" },
 	        
             {"json", "json"},
+	        { "kavadocs", "json"},
 		    {"html", "html"},
 			{"htm", "html" },
 
