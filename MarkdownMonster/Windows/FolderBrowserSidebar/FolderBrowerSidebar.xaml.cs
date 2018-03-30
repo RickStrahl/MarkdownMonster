@@ -127,11 +127,10 @@ namespace MarkdownMonster.Windows
             InitializeComponent();
             Focusable = true;
             
-            Loaded += FolderBrowerSidebar_Loaded;           
+            Loaded += FolderBrowerSidebar_Loaded;
+            Unloaded += (s, e) => FileWatcher?.Dispose(); 
         }
-
-
-
+        
         private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)
         {            
             AppModel = mmApp.Model;
@@ -140,6 +139,8 @@ namespace MarkdownMonster.Windows
 
             // Load explicitly here to fire *after* behavior has attached
             ComboFolderPath.PreviewKeyUp += ComboFolderPath_PreviewKeyDown;
+
+            
         }
         #endregion
 
@@ -147,6 +148,7 @@ namespace MarkdownMonster.Windows
 
         private void FileWatcher_Renamed(object sender, RenamedEventArgs e)
         {
+
             mmApp.Model.Window.Dispatcher.Invoke(() =>
             {
 
@@ -193,7 +195,7 @@ namespace MarkdownMonster.Windows
                     if (!string.IsNullOrEmpty(mmApp.Model.Configuration.FolderBrowser.IgnoredFileExtensions))
                         extensions = mmApp.Model.Configuration.FolderBrowser.IgnoredFileExtensions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    if (extensions != null && extensions.Any(ext => file.ToLowerInvariant().EndsWith(ext)))
+                    if (extensions != null && extensions.Any(ext => file.EndsWith(ext,StringComparison.InvariantCultureIgnoreCase)))
                        return;
                     
                     var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, file);

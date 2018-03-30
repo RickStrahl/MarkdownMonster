@@ -69,7 +69,7 @@ namespace MarkdownMonster.Windows
 
 			if (folders != null)
 			{
-				foreach (var folder in folders.OrderBy(f=> f.ToLower()))
+                foreach (var folder in folders.OrderBy(f=> f.ToLower()))
 				{
 					var name = Path.GetFileName(folder);
 					if (!string.IsNullOrEmpty(name))
@@ -117,7 +117,7 @@ namespace MarkdownMonster.Windows
 				foreach (var file in files.OrderBy(f=> f.ToLower()))
 				{
                     if (extensions != null &&
-                        extensions.Any(ext => file.ToLowerInvariant().EndsWith(ext)))
+                        extensions.Any(ext => file.EndsWith(ext,StringComparison.InvariantCultureIgnoreCase)))
                         continue;
                     
                     var item = new PathItem {FullPath = file, Parent = activeItem, IsFolder = false, IsFile = true};
