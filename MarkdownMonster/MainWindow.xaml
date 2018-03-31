@@ -43,6 +43,7 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         <localwindows:InvertedBooleanConverter  x:Key="InvertedBooleanConverter" />
         <localwindows:BooleanToCollapsedVisibilityConverter x:Key="BooleanToCollapsedVisibilityConverter" />
         <localwindows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
@@ -614,8 +615,8 @@
 
 
                 <controls:MetroTabItem Name="TabDocumentOutline"  x:FieldModifier="public"
-                                       Margin="0,0,5,0" Visibility="Visible" Header=" Outline "
-                                       controls:VisibilityHelper.IsVisible="{Binding Configuration.IsDocumentOutlineVisible}"
+                                       Margin="0,0,5,0"  Header=" Outline "
+                                       controls:VisibilityHelper.IsVisible="{Binding Configuration.IsDocumentOutlineVisible}"                                       
                                        controls:ControlsHelper.HeaderFontSize="14">
                     <!--<TabItem.Header>
                         <StackPanel Orientation="Horizontal">

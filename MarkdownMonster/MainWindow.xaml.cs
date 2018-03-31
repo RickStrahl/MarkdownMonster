@@ -163,8 +163,7 @@ namespace MarkdownMonster
 
         private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-		    LoadPreviewBrowser();
-
+		    LoadPreviewBrowser();           
             RestoreSettings();
 
 		    OpenFilesFromCommandLine();
@@ -1790,11 +1789,12 @@ namespace MarkdownMonster
 			}
             else if (button == ButtonDocumentOutlineVisible)
 			{
-			    if (Model.ActiveEditor != null && Model.ActiveEditor.EditorSyntax == "markdown" &&
-			        Model.Configuration.IsDocumentOutlineVisible)
-			        SidebarContainer.SelectedItem = TabDocumentOutline;
+                // Only activate/deactivate the tab
+                if (Model.ActiveEditor != null && Model.ActiveEditor.EditorSyntax == "markdown" &&
+                    Model.Configuration.IsDocumentOutlineVisible)
+                    SidebarContainer.SelectedItem = TabDocumentOutline;
                 else
-			        SidebarContainer.SelectedItem = TabFolderBrowser;
+                    SidebarContainer.SelectedItem = TabFolderBrowser;
             }
             else if (button == ButtonWordWrap)
 			{
