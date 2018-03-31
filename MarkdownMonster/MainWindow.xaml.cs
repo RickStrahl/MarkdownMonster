@@ -1042,19 +1042,19 @@ namespace MarkdownMonster
                 SidebarContainer.SelectedItem = tabItem;
             }
 
-            if (SidebarContainer.Items.Count > 1)
-            {
-                foreach (var item in SidebarContainer.Items)
-                {
-                    var tbItem = item as TabItem;
-                    tbItem.Visibility = Visibility.Visible;                    
-                }
-            }
-            else
-            {
-                if(SidebarContainer.Items.Count == 1)
-                    ((TabItem) SidebarContainer.Items[0]).Visibility = Visibility.Visible;
-            }
+            //if (SidebarContainer.Items.Count > 1)
+            //{
+            //    foreach (var item in SidebarContainer.Items)
+            //    {
+            //        var tbItem = item as TabItem;
+            //        tbItem.Visibility = Visibility.Visible;                    
+            //    }
+            //}
+            //else
+            //{
+            //    if(SidebarContainer.Items.Count == 1)
+            //        ((TabItem) SidebarContainer.Items[0]).Visibility = Visibility.Visible;
+            //}
         }
 
         /// <summary>
@@ -1070,20 +1070,15 @@ namespace MarkdownMonster
                 RightSidebarContainer.SelectedItem = tabItem;
             }
 
-            if (RightSidebarContainer.Items.Count > 0)
-            {
-                foreach (var item in RightSidebarContainer.Items)
-                {
-                    var tbItem = item as TabItem;
-                    tbItem.Visibility = Visibility.Visible;
-                }
-            }
-            else
-            {
-                if (RightSidebarContainer.Items.Count == 1)
-                    ((TabItem)RightSidebarContainer.Items[0]).Visibility = Visibility.Visible;
-            }
-
+            //if (RightSidebarContainer.Items.Count > 0)
+            //{
+            //    foreach (var item in RightSidebarContainer.Items)
+            //    {
+            //        var tbItem = item as TabItem;
+            //        tbItem.Visibility = Visibility.Visible;
+            //    }
+            //}
+          
             ShowRightSidebar();
         }
 
