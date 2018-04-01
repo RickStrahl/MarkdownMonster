@@ -8,8 +8,8 @@
         mc:Ignorable="d" FontSize="17"
         Background="black" Foreground="WhiteSmoke"
         Title="Product Registration" 
-        Height="420" 
-        Width="740" 
+        Height="440" 
+        Width="640" 
         ResizeMode="NoResize" 
         ShowInTaskbar="False" 
         WindowStartupLocation="CenterOwner" 
@@ -22,28 +22,27 @@
         </Grid.ColumnDefinitions>
         <Image Grid.Column="0" Margin="0,20" Source="/MarkdownMonster;component/Assets/MarkdownMonster.png" 
                VerticalAlignment="Top"  />
+
         <StackPanel Grid.Column="1" Margin="0,10">
             <TextBlock FontSize="30" FontWeight="Bold" Margin="15,14,0,14"><Run Text="Product Registration"/></TextBlock>
-            <TextBlock Padding="15,15,10,0" Foreground="Cornsilk" TextBlock.TextWrapping="Wrap" >
-                Thank you for registering your copy of West Wind Markdown Monster.
+
+            <TextBlock Margin="15,10,10,0" Foreground="Cornsilk" TextBlock.TextWrapping="Wrap" >
+                Thank you for registering your copy of Markdown Monster.
                 <LineBreak/>
                 <LineBreak/>
-                You can  
-                <Button Content="purchase a registration key" 
-                        Click="Purchase_Click"  TextBlock.BaselineOffset="19.5"
-                        Style="{DynamicResource LinkButtonStyle}">                     
-                </Button>                
-                in our online store if you don't have one.
-                <LineBreak/>
-                <LineBreak/>
-                Please enter your Registration Key below:
+                <Run Foreground="Firebrick" FontWeight="Bold">Please enter your Registration Key:</Run>
             </TextBlock>
-            <PasswordBox Name="TextRegKey" Margin="15,5,20,0" ></PasswordBox>
+
+            <PasswordBox Name="TextRegKey" Margin="15,8,20,3" ></PasswordBox>
             <TextBlock Margin="15,7,0,0" Name="LabelIsRegistered" FontSize="12" Foreground="Red">This copy is not registered</TextBlock>
 
 
-            <Button Margin="30" Content="Register" FontSize="36" FontWeight="Bold" IsDefault="True"
-                    HorizontalAlignment="Center"  Click="Register_Click"
+            <TextBlock Margin="15,30,0,0" TextWrapping="Wrap">
+                You can  purchase a registration key 
+                in our online store if you don't have one.
+            </TextBlock>
+            <Button Margin="15,10" Content="Buy Registration Key" FontSize="28" FontWeight="Bold" IsDefault="True"
+                    Click="Register_Click"
                     Style="{DynamicResource LinkButtonStyle}">
             </Button>
            

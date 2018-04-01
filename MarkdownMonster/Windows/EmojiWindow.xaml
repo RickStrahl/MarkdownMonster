@@ -13,7 +13,7 @@
         Height="680" Width="835">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
@@ -22,11 +22,11 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Search:" FontSize="14" Margin="5,3,10,0"></TextBlock>
+            <Label Grid.Column="0" Content="Search:" Margin="5,3,10,0"></Label>
             
             <TextBox Grid.Column="1"  x:Name="TextSearchText" Grid.Row="0"
                  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                 BorderThickness="0" FontSize="16" Opacity="0.70" KeyDown="TextSearchText_Keydown">
+                 BorderThickness="0" Opacity="0.70" KeyDown="TextSearchText_Keydown">
             </TextBox>
         </Grid>
         

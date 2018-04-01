@@ -106,7 +106,7 @@
         </ComboBox>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal">
-            <Button Name="ButtonOk" Margin="0,30,0,20" Height="40" FontSize="15" Width="175" 
+            <Button Name="ButtonOk" Margin="0,30,0,20" Height="40" FontSize="15" Width="150" 
                     HorizontalAlignment="Left"  
                     Click="Button_Click"   >
                 <StackPanel Orientation="Horizontal">
@@ -116,7 +116,7 @@
             </Button>
 
             <Button Name="ButtonCancel" Margin="10,30,0,20" Height="40" FontSize="15" 
-                    Width="175" HorizontalAlignment="Left" 
+                    Width="150" HorizontalAlignment="Left" 
                     IsCancel="True" Click="Button_Click" >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Firebrick" FontSize="20"/>

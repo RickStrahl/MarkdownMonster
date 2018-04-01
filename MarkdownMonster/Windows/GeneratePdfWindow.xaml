@@ -10,9 +10,8 @@
 		Icon="../Assets/MarkdownMonster_Icon_256.png"   
 		TitleCharacterCasing="Normal"
         ResizeMode="NoResize"
-		WindowStartupLocation="CenterOwner"					 
-		                  
-        Title="Save As Pdf File" Height="540" Width="600">
+		WindowStartupLocation="CenterOwner"					 		                  
+        Title="Save As Pdf File" Height="565" Width="600">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style TargetType="Control">
@@ -39,7 +38,7 @@
 
         <ToolBarPanel>
             <StackPanel Orientation="Horizontal">
-                <ToolBar FontWeight="Normal" Padding="0,5,0,5" >
+                <ToolBar Padding="0,5,0,5" >
 
                     <Button Name="ButtonGeneratePdf"                       
                             HorizontalAlignment="Left" IsDefault="True"  
@@ -62,9 +61,10 @@
                         </StackPanel>
                     </Button>
 
-                <Separator />
+                </ToolBar>
 
-                <Button Name="ButtonCopyLastCommandToClipboard"                                                         
+                <ToolBar Padding="0,5,0,5">
+                    <Button Name="ButtonCopyLastCommandToClipboard"                                                         
                             ToolTip="Copy last execution command to clipboard"                        
                             IsEnabled="{Binding PdfGenerator.HasExecutionCommandLine}"
                             Click="ButtonCopyLastCommandToClipboard_Click"   >
@@ -97,12 +97,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel>
                     <Label>Page Size</Label>
-                    <ComboBox Padding="4"
+                    <ComboBox 
 						Name="TextPageSize"  						
 						SelectedValue="{Binding PdfGenerator.PageSize}" >
                     </ComboBox>
@@ -110,7 +110,7 @@
 
                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
                     <Label>Page Orientation</Label>
-                    <ComboBox Padding="4"
+                    <ComboBox 
 						Name="TextPageOrientation" 						
 						SelectedValue="{Binding PdfGenerator.Orientation}" >
                     </ComboBox>
@@ -118,7 +118,7 @@
 
                 <StackPanel Grid.Column="2" Margin="10,0,0,0">
                     <Label>Image DPI</Label>
-                    <TextBox Text="{Binding PdfGenerator.ImageDpi}" />
+                    <TextBox Text="{Binding PdfGenerator.ImageDpi}" TextAlignment="Right" />
                 </StackPanel>
             </Grid>
 
@@ -126,19 +126,19 @@
                 <TextBlock>Margins: (in millimeters - 0 uses default)</TextBlock>
 
                 <StackPanel Margin="25,10,0,0" Orientation="Horizontal">
-                    <TextBlock Width="60" >Left:</TextBlock>
-                    <TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginLeft}"/>
+                    <TextBlock Width="60" Margin="0 5 0 0" >Left:</TextBlock>
+                    <TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginLeft}" TextAlignment="Right"/>
 
-                    <TextBlock  Width="60" Margin="20,0,0,0">Right:</TextBlock>
-                    <TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginRight}"/>
+                    <TextBlock  Width="60" Margin="20,5,0,0">Right:</TextBlock>
+                    <TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginRight}" TextAlignment="Right"/>
                 </StackPanel>
 
                 <StackPanel Margin="25,10,0,0" Orientation="Horizontal">
-                    <TextBlock Width="60" >Top:</TextBlock>
-                    <TextBox Width="50"  Text="{Binding PdfGenerator.Margins.MarginTop}"/>
+                    <TextBlock Width="60" Margin="0 5 0 0" >Top:</TextBlock>
+                    <TextBox Width="50"  Text="{Binding PdfGenerator.Margins.MarginTop}" TextAlignment="Right"/>
 
-                    <TextBlock Width="60" Margin="20,0,0,0">Bottom:</TextBlock>
-                    <TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginBottom}"/>
+                    <TextBlock Width="60" Margin="20,5,0,0">Bottom:</TextBlock>
+                    <TextBox Width="50" Text="{Binding PdfGenerator.Margins.MarginBottom}" TextAlignment="Right"/>
                 </StackPanel>
 
                 <StackPanel Margin="0,30,0,0" Orientation="Horizontal">

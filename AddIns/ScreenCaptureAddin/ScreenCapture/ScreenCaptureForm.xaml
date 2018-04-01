@@ -111,15 +111,15 @@
                         
                         <Separator />
                         
-                        <Label>Capture Delay:</Label>
+                        <Label Margin="0 3 0 0">Capture Delay:</Label>
                         <TextBox x:Name="TextCaptureDelay" 
                                  Text="{Binding CaptureDelaySeconds,UpdateSourceTrigger=PropertyChanged}" 
-                                 Margin="0,3,0,0"  Width="30" BorderThickness="0" 
+                                 Margin="0,3,4,0"  Width="30" TextAlignment="Right" BorderThickness="0"  controls:TextBoxHelper.SelectAllOnFocus="True"
                                  ToolTip="Sets the delay time for the countdown timer displayed on the lower right hand corner of the window."></TextBox>
-                        <CheckBox x:Name="CheckBoxCaptureCursor"  IsChecked="{Binding IncludeCursor}" 
+                    <CheckBox x:Name="CheckBoxCaptureCursor"  IsChecked="{Binding IncludeCursor}" 
                                   Content="Capture Cursor"
-                                  ToolTip="If checked causes the Mouse Pointer to be captured in the image."></CheckBox>
-                    </ToolBar>
+                                  ToolTip="If checked causes the Mouse Pointer to be captured in the image." />
+                </ToolBar>
                 </StackPanel>
             </ToolBarPanel>
         

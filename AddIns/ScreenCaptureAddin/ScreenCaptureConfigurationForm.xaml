@@ -17,7 +17,7 @@
         WindowStartupLocation="CenterOwner" 
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"       
         FontSize="16"
-        Width="584" Height="474.861">
+        Width="600" Height="515">
 
     <Grid Margin="0,0,0,-19">
         <Grid.ColumnDefinitions>

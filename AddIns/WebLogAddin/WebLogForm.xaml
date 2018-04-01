@@ -17,7 +17,7 @@
         TitleCharacterCasing="Normal" 
         TitlebarHeight="35"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
-        WindowStartupLocation="CenterOwner" FontSize="15"
+        WindowStartupLocation="CenterOwner"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="800" Height="790" MinHeight="780" MinWidth="600">
     <Window.Resources>
@@ -38,15 +38,10 @@
         </Grid.RowDefinitions>
 
 
-        <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" FontSize="14" 
+        <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" 
                                  BorderThickness="0" ShowDefaultCloseButton="False"  
                                  ShowDefaultAddButton="False" >
             <dragablz:TabablzControl.Resources>
-                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                    <Setter Property="controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
-                    <Setter Property="FontSize" Value="14" />
-                    <Setter Property="Padding" Value="5,3,5,5" />
-                </Style>
                 <Style x:Key="HeaderStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
                     <Setter Property="controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
                     <Setter Property="FontSize" Value="17" />
@@ -152,7 +147,7 @@
 						<StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
 
 							<ComboBox Name="ComboPostStatus" 
-							          SelectedValue="{Binding ActivePostMetadata.PostStatus, Mode=TwoWay}" 
+							          SelectedValue="{Binding ActivePostMetadata.PostStatus, Mode=TwoWay}"                                       
 									  SelectedValuePath="Tag" Width="150">
 								<ComboBoxItem Content="Publish Post" Tag="publish" />
 								<ComboBoxItem Content="Publish as Draft"  Tag="draft"/>
@@ -329,8 +324,8 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition  Width="*"/>
-                            <ColumnDefinition  Width="70"/>
-                            <ColumnDefinition  Width="70"/>
+                            <ColumnDefinition  Width="80"/>
+                            <ColumnDefinition  Width="80"/>
                         </Grid.ColumnDefinitions>
                         <ComboBox  Name="ComboWebLogName" ToolTip="Weblog selection" 
                            DisplayMemberPath="Value.Name"       
@@ -347,7 +342,6 @@
                             </StackPanel>
                         </Button>
                         <Button Grid.Column="2" Margin="5,0,0,0" Click="Button_DeleteWeblog">
-
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed" Margin="0,2,5,0" />
                                 <TextBlock>Delete</TextBlock>
