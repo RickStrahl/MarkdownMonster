@@ -205,20 +205,41 @@ namespace MarkdownMonster.Windows
         }
     }
 
+    
     public class UriToCachedImageConverter : IValueConverter
     {
+        private static Dictionary<string, BitmapImage> CachedBitmapImages = new Dictionary<string, BitmapImage>();
+        
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (!string.IsNullOrEmpty(value?.ToString()))
+            string val = value as string;
+
+            if (!string.IsNullOrEmpty(val))
             {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.CacheOption = BitmapCacheOption.OnLoad;
-                bi.UriSource = new Uri(value.ToString());                
-                bi.EndInit();
-                return bi;
+                val = ((string) value).ToLower();
+                    
+                BitmapImage bi;
+                if (CachedBitmapImages.TryGetValue(val, out bi))
+                    return bi;
+
+                try
+                {
+                    bi = new BitmapImage();
+                    bi.BeginInit();
+                    bi.CacheOption = BitmapCacheOption.OnLoad;
+                    //bi.UriSource = new Uri(value.ToString());
+                    using (var fstream = new FileStream(value.ToString(), FileMode.Open, FileAccess.Read))
+                    {
+                        bi.StreamSource = fstream;
+                        bi.EndInit();
+                    }
+                    CachedBitmapImages.Add(val, bi);
+                    return bi;
+                }
+                catch { }
             }
 
+            CachedBitmapImages.Add(val, null);
             return null;
         }
 
