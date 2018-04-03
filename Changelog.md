@@ -3,6 +3,19 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.10.4
+*<small>not released yet</small>
+
+* **Add VS Code Dark Editor Theme**  
+Added a new VS Code Dark editor theme that is similar to VS Code's default editor theme. Due to differences in the rendering engines between ACE and Monaco the styling isn't identical but fairly close.
+
+* **Add EditorLineHeight Configuration Switch**  
+Added configuration switch to allow setting the editor text line height to separate or tighten up the spacing between text. Default line height has been bumped up to 1.3 from 1.2 which gives a little bit more space between lines.
+
+* **Editor Configuration Consolidation**   
+Internally consolidated all the editor styling options into a single helper that forces the editor to restyle based on editor configuration settings. Previously all of these settings were individually set. This makes it easier for addin authors to modify editor settings and simply call `Model.Configuration.RestyleEditor()`.
+
+
 ### 1.10
 *<small>March 27th, 2018</small>*
 
