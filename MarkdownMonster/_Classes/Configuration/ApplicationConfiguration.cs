@@ -44,7 +44,7 @@ namespace MarkdownMonster
         /// </summary>
         public bool UseSingleWindow { get; set; }
 
-        #region Editor Settings
+        
         /// <summary>
         /// The theme used for the editor. Can be any of AceEditor themes
         /// twilight, visualstudio, github, monokai etc.
@@ -62,22 +62,25 @@ namespace MarkdownMonster
 
         private string _editorTheme;
 
+
+        public EditorConfiguration Editor { get; set; }
+
         /// <summary>
         /// Themes used to render the Preview. Preview themes are
         /// located in the .\PreviewThemes folder and you can add
         /// custom themes to this folder.
         /// </summary>
-        public string RenderTheme
+        public string PreviewTheme
         {
-            get { return _RenderTheme; }
+            get { return _previewTheme; }
             set
             {
-                if (value == _RenderTheme) return;
-                _RenderTheme = value;
-                OnPropertyChanged(nameof(RenderTheme));
+                if (value == _previewTheme) return;
+                _previewTheme = value;
+                OnPropertyChanged(nameof(PreviewTheme));
             }
         }
-        private string _RenderTheme;
+        private string _previewTheme;
 
         /// <summary>
         /// Determines whether the preview attempts to sync to 
@@ -198,178 +201,7 @@ namespace MarkdownMonster
         }
         private bool _alwaysUsePreviewRefresh;
 
-        /// <summary>
-        /// The font used in the editor. Must be a proportional font
-        /// </summary>
-        public string EditorFont
-        {
-            get { return _editorFont; }
-            set
-            {
-                if (_editorFont == value) return;
-                _editorFont = value;
-                OnPropertyChanged(nameof(EditorFont));
-            }
-        }
-
-        private string _editorFont;
-
-        /// <summary>
-        /// Font size for the editor.
-        /// </summary>
-        public int EditorFontSize
-        {
-            get { return _EditorFontSize; }
-            set
-            {
-                if (value == _EditorFontSize) return;
-                _EditorFontSize = value;
-                OnPropertyChanged(nameof(EditorFontSize));
-            }
-        }
-        private int _EditorFontSize;
-
-
-        /// <summary>
-        /// CSS style editor line height. Set to value between 1 and 2. Default 1.2
-        /// </summary>
-        public decimal EditorLineHeight
-        {
-            get => _editorLineHeight;
-            set
-            {
-                if (value == _editorLineHeight) return;
-                _editorLineHeight = value;
-                OnPropertyChanged(nameof(EditorLineHeight));
-            }
-        }
-
-        private decimal _editorLineHeight = 1.3M;
-
-
-        /// <summary>
-        /// Zoom level percentage on top of the EditorFontSize
-        /// </summary>
-        public int EditorZoomLevel
-        {
-            get { return _editorZoomLevel; }
-            set
-            {
-                if (value == _editorZoomLevel) return;
-                _editorZoomLevel = value;
-                OnPropertyChanged(nameof(EditorZoomLevel));                
-                _editorZoomLevel = value;
-            }
-        }
-        private int _editorZoomLevel = 100;
-        
-
-        /// <summary>
-        /// Determines whether the active line is highlighted in the editor
-        /// </summary>
-        public bool EditorHighlightActiveLine
-        {
-            get { return _editorHighlightActiveLine; }
-            set
-            {
-                if (_editorHighlightActiveLine == value) return;
-                _editorHighlightActiveLine = value;
-                OnPropertyChanged(nameof(EditorHighlightActiveLine));
-            }
-        }
-        private bool _editorHighlightActiveLine;
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool EditorShowLineNumbers
-        {
-            get { return _EditorShowLineNumbers; }
-            set
-            {
-                if (_EditorShowLineNumbers == value) return;
-                _EditorShowLineNumbers = value;
-                OnPropertyChanged(nameof(EditorShowLineNumbers));
-            }
-        }
-        private bool _EditorShowLineNumbers = false;
-
-        /// <summary>
-        /// Determines whether the editor should show invisible characters.
-        /// Default is <see langword="false" />.
-        /// </summary>
-        public bool EditorShowInvisibles
-        {
-            get { return _EditorShowInvisibles; }
-            set
-            {
-                if (_EditorShowInvisibles == value) return;
-                _EditorShowInvisibles = value;
-                OnPropertyChanged(nameof(EditorShowInvisibles));
-            }
-        }
-        private bool _EditorShowInvisibles = false;
-
-        /// <summary>
-        /// Determines whether the editor wraps text or extends lines
-        /// out. Default is false.
-        /// </summary>
-        public bool EditorWrapText
-        {
-            get { return _EditorWrapText; }
-            set
-            {
-                if (value == _EditorWrapText) return;
-                _EditorWrapText = value;
-                OnPropertyChanged(nameof(EditorWrapText));
-            }
-        }
-        private bool _EditorWrapText;
-
-        /// <summary>
-        /// Determines if spell checking is used. This value maps to the
-        /// spell check button in the window header.
-        /// </summary>
-        public bool EditorEnableSpellcheck
-        {
-            get { return _editorEnableSpellcheck; }
-            set
-            {
-                if (value == _editorEnableSpellcheck) return;
-                _editorEnableSpellcheck = value;
-                OnPropertyChanged(nameof(EditorEnableSpellcheck));
-            }
-        }
-        private bool _editorEnableSpellcheck;
-
-
-        /// <summary>
-        /// Dictionary used by the editor. Defaults to 'en_US'.
-        /// Others shipped: de_DE, es_ES, fr_FR
-        /// Any OpenOffice style dictionary can be used by copying into
-        /// the .\Editor folder providing .dic and .aff files.
-        /// </summary>
-        public string EditorDictionary
-        {
-            get { return _editorDictionary; }
-            set
-            {
-                if (value == _editorDictionary) return;
-                _editorDictionary = value;
-                OnPropertyChanged(nameof(EditorDictionary));
-            }
-        }
-        private string _editorDictionary;
-
-
-        /// <summary>
-        /// Keyboard input hanlder type:
-        /// default (ace/vs), vim, emacs
-        /// </summary>
-        public string EditorKeyboardHandler { get; set; }
-
+     
         /// <summary>
         /// Default code syntax displayed in the Paste Code dialog
         /// </summary>
@@ -401,8 +233,6 @@ namespace MarkdownMonster
         /// configuration.
         /// </summary>
         public string WebBrowserPreviewExecutable { get; set; }
-
-        #endregion
 
 
 
@@ -723,12 +553,13 @@ namespace MarkdownMonster
 
         public ApplicationConfiguration()
         {
+            Editor = new EditorConfiguration();
             MarkdownOptions = new MarkdownOptionsConfiguration();
             WindowPosition = new WindowPositionConfiguration();
 	        FolderBrowser = new FolderBrowserConfiguration();	        
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
             OpenDocuments = new List<MarkdownDocument>();
-
+            
             InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
             CommonFolder = InternalCommonFolder;
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -748,16 +579,9 @@ namespace MarkdownMonster
             SendTelemetry = true;
 
             ApplicationTheme = Themes.Dark;
-            RenderTheme = "Github";
+            PreviewTheme = "Github";
             EditorTheme = "twilight";
-            EditorFont = "Consolas";
-            EditorFontSize = 17;
-            EditorWrapText = true;
-            EditorHighlightActiveLine = true;
             
-            EditorEnableSpellcheck = true;
-            EditorDictionary = "EN_US";
-            EditorKeyboardHandler = "default";  // vim,emacs
 
             DefaultCodeSyntax = "csharp";
 
@@ -771,7 +595,7 @@ namespace MarkdownMonster
 
             WebBrowserPreviewExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),@"Google\Chrome\Application\chrome.exe");
             
-           ReportErrors = true;
+            ReportErrors = true;
 
             UseSingleWindow = true;
 

@@ -784,14 +784,14 @@ namespace MarkdownMonster
                 filename = HtmlRenderFilename;
 
             if (string.IsNullOrEmpty(theme))
-                theme = mmApp.Configuration.RenderTheme;
+                theme = mmApp.Configuration.PreviewTheme;
 
             var themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\" + theme);
             var docPath = Path.GetDirectoryName(Filename) + "\\";
 
             if (!Directory.Exists(themePath))
             {
-                mmApp.Configuration.RenderTheme = "Dharkan";
+                mmApp.Configuration.PreviewTheme = "Dharkan";
                 themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\Dharkan");
                 theme = "Dharkan";
             }
@@ -813,7 +813,7 @@ namespace MarkdownMonster
             catch (FileNotFoundException)
             {
                 // reset to default
-                mmApp.Configuration.RenderTheme = "Dharkan";
+                mmApp.Configuration.PreviewTheme = "Dharkan";
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
             

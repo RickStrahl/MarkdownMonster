@@ -211,8 +211,8 @@ namespace MarkdownMonster
 
                 RestyleEditor(true);
 
-                SetShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
-                SetShowInvisibles(mmApp.Configuration.EditorShowInvisibles);
+                SetShowLineNumbers(mmApp.Configuration.Editor.ShowLineNumbers);
+                SetShowInvisibles(mmApp.Configuration.Editor.ShowInvisibles);
                 SetReadOnly(IsReadOnly);
 
                 if (InitialLineNumber > 0)
@@ -328,7 +328,7 @@ namespace MarkdownMonster
                 {
                     var editor = tab.Tag as MarkdownDocumentEditor;
                     editor.RestyleEditor();
-                    editor.AceEditor?.setShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
+                    editor.AceEditor?.setShowLineNumbers(mmApp.Configuration.Editor.ShowLineNumbers);
                 }
             }
 
@@ -846,32 +846,32 @@ namespace MarkdownMonster
                         {
                         }
 
-                        var fontSize = mmApp.Configuration.EditorFontSize *  ((decimal) mmApp.Configuration.EditorZoomLevel / 100) * dpiRatio;
+                        var fontSize = mmApp.Configuration.Editor.FontSize *  ((decimal) mmApp.Configuration.Editor.ZoomLevel / 100) * dpiRatio;
                         
                         var config = mmApp.Configuration;
 
                         var style = new
                         {
                             Theme = config.EditorTheme,
-                            Font = config.EditorFont,
+                            Font = config.Editor.Font,
                             FontSize = (int)fontSize,
-                            LineHeight = config.EditorLineHeight,
-                            WrapText = config.EditorWrapText,
-                            ShowLineNumbers = config.EditorShowLineNumbers,
-                            ShowInvisibles = config.EditorShowInvisibles,
-                            HighlightActiveLine = config.EditorHighlightActiveLine,
-                            KeyboardHandler = config.EditorKeyboardHandler
+                            LineHeight = config.Editor.LineHeight,
+                            WrapText = config.Editor.WrapText,
+                            ShowLineNumbers = config.Editor.ShowLineNumbers,
+                            ShowInvisibles = config.Editor.ShowInvisibles,
+                            HighlightActiveLine = config.Editor.HighlightActiveLine,
+                            KeyboardHandler = config.Editor.KeyboardHandler
                         };
 
                         var jsonStyle = JsonConvert.SerializeObject(style);
                         AceEditor.setEditorStyle(jsonStyle);
 
                         if (EditorSyntax == "markdown" || EditorSyntax == "text")
-                            AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck,
-                                mmApp.Configuration.EditorDictionary);
+                            AceEditor.enablespellchecking(!mmApp.Configuration.Editor.EnableSpellcheck,
+                                mmApp.Configuration.Editor.Dictionary);
                         else
                             // always disable for non-markdown text
-                            AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
+                            AceEditor.enablespellchecking(true, mmApp.Configuration.Editor.Dictionary);
                     }
                     catch(Exception ex)
                     {
@@ -893,7 +893,7 @@ namespace MarkdownMonster
         public void SetShowLineNumbers(bool? show = null)
         {
             if (show == null)
-                show = mmApp.Configuration.EditorShowLineNumbers;
+                show = mmApp.Configuration.Editor.ShowLineNumbers;
 
             AceEditor?.setShowLineNumbers(show.Value);
         }
@@ -905,7 +905,7 @@ namespace MarkdownMonster
         public void SetShowInvisibles(bool? show = null)
         {
             if (show == null)
-                show = mmApp.Configuration.EditorShowInvisibles;
+                show = mmApp.Configuration.Editor.ShowInvisibles;
 
             AceEditor?.setShowInvisibles(show.Value);
         }
@@ -1446,12 +1446,12 @@ namespace MarkdownMonster
                 // zooming
                 else if (key == "ctrl-=")
                 {
-                    mmApp.Configuration.EditorZoomLevel += 2;
+                    mmApp.Configuration.Editor.ZoomLevel += 2;
                     RestyleEditor();
                 }
                 else if (key == "ctrl--")
                 {
-                    mmApp.Configuration.EditorZoomLevel -= 2;                    
+                    mmApp.Configuration.Editor.ZoomLevel -= 2;                    
                     RestyleEditor();
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);

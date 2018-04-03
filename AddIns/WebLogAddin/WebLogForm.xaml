@@ -294,18 +294,20 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Grid.Row="0"
-                                            Padding="10,3,10,0"
+                                            Padding="10,2,10,2"
                                             TextTrimming="WordEllipsis"
                                             Text="{Binding Title}" 
-                                            FontWeight="SemiBold" Foreground="{DynamicResource HeadlineColor}"  FontSize="16" />
+                                            FontWeight="SemiBold" Foreground="{DynamicResource HeadlineColor}"  FontSize="16.5" />
+                                    
                                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DateCreated,StringFormat='{}{0:MMM dd, yyyy}'}" 
-                                                FontStyle="Italic" FontSize="11" HorizontalAlignment="Right" Margin="0,0,7,0" />
+                                                FontStyle="Italic" FontSize="11" HorizontalAlignment="Right" Margin="0,3,7,0" />
+                                    
                                     <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                               Padding="15,0,0,0"
+                                               Padding="20,0,0,0"
                                                Text="{Binding mt_excerpt}" 
                                                TextWrapping="WrapWithOverflow"
                                                HorizontalAlignment="Left"
-                                               Margin="0,0,0,10" FontSize="12"/>
+                                               Margin="0,0,0,6" FontSize="14"/>
 
                                 </Grid>
                             </DataTemplate>

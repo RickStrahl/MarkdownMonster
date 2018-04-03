@@ -555,7 +555,7 @@ Do you want to View in Browser now?
             WordWrapCommand = new CommandBase((parameter, command) =>
                 {
                     //MessageBox.Show("alt-z WPF");
-                    Model.Configuration.EditorWrapText = !mmApp.Model.Configuration.EditorWrapText;
+                    Model.Configuration.Editor.WrapText = !mmApp.Model.Configuration.Editor.WrapText;
                     Model.ActiveEditor?.RestyleEditor();
                 },
                 (p, c) => Model.IsEditorActive);
@@ -674,7 +674,7 @@ Do you want to View in Browser now?
         {
             EditPreviewThemeCommand = new CommandBase((parameter, command) =>
             {                
-                var path = Path.Combine(App.InitialStartDirectory, "PreviewThemes",Model.Configuration.RenderTheme);
+                var path = Path.Combine(App.InitialStartDirectory, "PreviewThemes",Model.Configuration.PreviewTheme);
                 mmFileUtils.OpenFileInExplorer(path);
 
                 mmFileUtils.ShowExternalBrowser("https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm");

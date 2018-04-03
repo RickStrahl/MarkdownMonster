@@ -91,7 +91,7 @@
             <StackPanel Orientation="Horizontal">
 						
                 <ToggleButton   fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
-                            IsChecked="{Binding Configuration.EditorEnableSpellcheck}"
+                            IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
                             ToolTip="enable/disable spell-checking"
                             Click="ButtonSpellCheck_Click"
                             TextElement.FontSize="16"
@@ -345,19 +345,19 @@
                           Command="{Binding Commands.WordWrapCommand}"                                                                   
                           IsCheckable="True"
                           InputGestureText="alt-z"
-                          IsChecked="{Binding Configuration.EditorWrapText, Mode=OneWay}" />
+                          IsChecked="{Binding Configuration.Editor.WrapText, Mode=OneWay}" />
 
                 <MenuItem Name="ButtonLineNumbers" 
                           Header="Line _Numbers"                         
                           Click="Button_Handler"
                           IsCheckable="True"
-                          IsChecked="{Binding Configuration.EditorShowLineNumbers}" />
+                          IsChecked="{Binding Configuration.Editor.ShowLineNumbers}" />
 
                 <MenuItem Name="ButtonShowInvisibles" 
                           Header="Show Invisible Characters"
                           Click="Button_Handler"
                           IsCheckable="True"
-                          IsChecked="{Binding Configuration.EditorShowInvisibles}" />
+                          IsChecked="{Binding Configuration.Editor.ShowInvisibles}" />
             </MenuItem>
 
             <!-- generated dynamically by command -->
@@ -855,7 +855,7 @@
                           SelectionChanged="StatusZoomLevel_SelectionChanged"
                           PreviewTextInput="StatusZoomLevel_PreviewTextInput"  
                           ItemStringFormat="0\\%"
-                          Text="{Binding Configuration.EditorZoomLevel,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='0\\%'}">
+                          Text="{Binding Configuration.Editor.ZoomLevel,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='0\\%'}">
                     <ComboBox.ToolTip>
                         <TextBlock>
                             Editor font size zoom level.
@@ -924,11 +924,11 @@
             <StatusBarItem Grid.Column="10">
                 <ComboBox  HorizontalAlignment="Right" Padding="3,1"
                            ToolTip="Preview rendering Themes"  FontSize="13"
-                           SelectedItem="{Binding Configuration.RenderTheme}" 
+                           SelectedItem="{Binding Configuration.PreviewTheme}" 
                            IsSynchronizedWithCurrentItem="True" 
-                           ItemsSource="{Binding RenderThemeNames}"
+                           ItemsSource="{Binding PreviewThemeNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
-                           SelectionChanged="RenderTheme_SelectionChanged" />
+                           SelectionChanged="PreviewTheme_SelectionChanged" />
 
             </StatusBarItem>
             <StatusBarItem Grid.Column="11">
@@ -941,7 +941,7 @@
                            SelectedValuePath="Value" 
                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
-                           SelectionChanged="RenderTheme_SelectionChanged">
+                           SelectionChanged="PreviewTheme_SelectionChanged">
                 </ComboBox>
             </StatusBarItem>
 

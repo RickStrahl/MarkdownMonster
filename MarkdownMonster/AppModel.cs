@@ -279,14 +279,14 @@ namespace MarkdownMonster
         #region Statusbar Item Props
 
         /// <summary>
-        /// A list of RenderThemes as retrieved based on the folder structure of hte
+        /// A list of PreviewThemes as retrieved based on the folder structure of hte
         /// Preview folder.
         /// </summary>
-        public List<string> RenderThemeNames
+        public List<string> PreviewThemeNames
         {
             get
             {
-                if (_renderThemeNames == null || _renderThemeNames.Count < 1)
+                if (_previewThemeNames == null || _previewThemeNames.Count < 1)
                 {
                     var directories =
                         Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "PreviewThemes"));
@@ -297,15 +297,15 @@ namespace MarkdownMonster
                         if (dirName.ToLower() == "scripts")
                             continue;
 
-                        _renderThemeNames.Add(dirName);
+                        _previewThemeNames.Add(dirName);
                     }
                 }
 
-                return _renderThemeNames;
+                return _previewThemeNames;
             }
         }
 
-        private readonly List<string> _renderThemeNames = new List<string>();
+        private readonly List<string> _previewThemeNames = new List<string>();
 
 
 

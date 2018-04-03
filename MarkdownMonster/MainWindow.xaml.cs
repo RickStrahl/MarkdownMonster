@@ -1713,7 +1713,7 @@ namespace MarkdownMonster
 			else if (button == MenuOpenPreviewFolder)
 			{
 				ShellUtils.GoUrl(Path.Combine(Environment.CurrentDirectory, "PreviewThemes",
-					mmApp.Configuration.RenderTheme));
+					mmApp.Configuration.PreviewTheme));
 			}
 			else if (button == MenuMarkdownMonsterSite)
 			{
@@ -1965,7 +1965,7 @@ namespace MarkdownMonster
 		    PreviewBrowser?.PreviewMarkdownAsync();
 		}
 
-		private void RenderTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void PreviewTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 		    PreviewBrowser?.PreviewMarkdownAsync();
 		}
@@ -2168,7 +2168,7 @@ namespace MarkdownMonster
 
         private void StatusZoomLevel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            mmApp.Configuration.EditorZoomLevel = 100;
+            mmApp.Configuration.Editor.ZoomLevel = 100;
             Model.ActiveEditor?.RestyleEditor();
         }
 
@@ -2178,7 +2178,7 @@ namespace MarkdownMonster
             text = text.Replace("%", "");
             if (int.TryParse(text, out int num))
             {
-                Model.Configuration.EditorZoomLevel = num;
+                Model.Configuration.Editor.ZoomLevel = num;
                 Model.ActiveEditor?.RestyleEditor();
             }
         }
@@ -2189,7 +2189,7 @@ namespace MarkdownMonster
             text = text.Replace("%", "");
 
             if (int.TryParse(text, out int num))
-                Model.Configuration.EditorZoomLevel = num;
+                Model.Configuration.Editor.ZoomLevel = num;
 
             Model.ActiveEditor?.RestyleEditor();
         }
