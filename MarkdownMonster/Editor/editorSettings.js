@@ -8,7 +8,7 @@ var editorSettings = {
   "showLineNumbers": false,
   "showPrintMargin": false,
   "tabSpaces": 4,
-  "theme": "twilight",
+  "theme": "vscodedark",
   "wrapText": true,
   "showInvisibles": false
 };

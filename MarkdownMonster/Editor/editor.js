@@ -781,13 +781,18 @@ window.onmousewheel = function(e) {
  //}
 
 // pass context popup to WPF for handling there
-window.oncontextmenu = function (e) {
+window.oncontextmenu = function (e) {    
+    var isIE = navigator.userAgent.indexOf("Trident") > -1 ? true : false;    
+    if (!isIE)
+        return;
+
     e.preventDefault();
     e.cancelBubble = true;
 
-    te.showSuggestions(e);
+    if (te.mm)
+        te.showSuggestions(e);
 
-    return navigator.userAgent.indexOf("Trident") > -1 ? false : true;
+    return false;
 }
 
 // This function is global and called by the parent

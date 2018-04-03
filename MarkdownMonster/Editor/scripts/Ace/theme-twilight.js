@@ -19,7 +19,7 @@ font-weight: light;\
 color: #A7A7A7\
 }\
 .ace-twilight .ace_marker-layer .ace_selection {\
-background: #777\
+background: #264f78\
 }\
 .ace-twilight.ace_multiselect .ace_selection.ace_start {\
 box-shadow: 0 0 3px 0px #141414;\
