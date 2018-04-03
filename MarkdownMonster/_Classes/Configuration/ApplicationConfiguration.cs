@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using MarkdownMonster.Configuration;
 using Newtonsoft.Json;
 using Westwind.Utilities.Configuration;
+using MarkdownMonster.Annotations;
 
 
 namespace MarkdownMonster
@@ -230,6 +231,23 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// CSS style editor line height. Set to value between 1 and 2. Default 1.2
+        /// </summary>
+        public decimal EditorLineHeight
+        {
+            get => _editorLineHeight;
+            set
+            {
+                if (value == _editorLineHeight) return;
+                _editorLineHeight = value;
+                OnPropertyChanged(nameof(EditorLineHeight));
+            }
+        }
+
+        private decimal _editorLineHeight = 1.3M;
+
+
+        /// <summary>
         /// Zoom level percentage on top of the EditorFontSize
         /// </summary>
         public int EditorZoomLevel
@@ -350,7 +368,7 @@ namespace MarkdownMonster
         /// Keyboard input hanlder type:
         /// default (ace/vs), vim, emacs
         /// </summary>
-        public object EditorKeyboardHandler { get; set; }
+        public string EditorKeyboardHandler { get; set; }
 
         /// <summary>
         /// Default code syntax displayed in the Paste Code dialog
@@ -884,8 +902,9 @@ namespace MarkdownMonster
         }
         #endregion
 
+
         #region  INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;        
+        public event PropertyChangedEventHandler PropertyChanged;
         
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

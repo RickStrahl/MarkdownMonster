@@ -556,7 +556,7 @@ Do you want to View in Browser now?
                 {
                     //MessageBox.Show("alt-z WPF");
                     Model.Configuration.EditorWrapText = !mmApp.Model.Configuration.EditorWrapText;
-                    Model.ActiveEditor?.SetWordWrap(mmApp.Model.Configuration.EditorWrapText);
+                    Model.ActiveEditor?.RestyleEditor();
                 },
                 (p, c) => Model.IsEditorActive);
         }
