@@ -64,6 +64,10 @@ var te = window.textEditor = {
         editor.$blockScrolling = Infinity;
 
         session.setTabSize(editorSettings.tabSpaces);
+              
+        //editor.setOptions({
+        //    enableBasicAutocompletion: true
+        //});
         
         session.setNewLineMode("windows");
 
@@ -319,7 +323,10 @@ var te = window.textEditor = {
             alert(ex.message);
         }
     },
-    readOnlyDoubleClick: function () {        
+    readOnlyDoubleClick: function () {    
+        if (!te.mm)
+            return;
+
         te.mm.textbox.NotifyAddins("ReadOnlyEditorDoubleClick",null);
     },
     // replaces content without completely reloading the document
@@ -557,27 +564,35 @@ var te = window.textEditor = {
 
         te.editor.getSession().setMode("ace/mode/" + lang);
     },
-    settheme: function (theme, font, fontSize, wrapText, highlightActiveLine,keyboardHandler) {
-        te.editor.setTheme("ace/theme/" + theme);
+    setEditorStyle: function (styleJson) {
+        
+        var style = JSON.parse(styleJson);
 
+        te.editor.container.style.lineHeight = style.LineHeight;
+        te.editor.setTheme("ace/theme/" + style.Theme);        
         te.editor.setOptions({
-            fontFamily: font,
-            fontSize: fontSize
+            fontFamily: style.Font,
+            fontSize: style.FontSize
         });
         
-        wrapText = wrapText || false;        
+
+        var wrapText = style.WrapText;
 
         var session = te.editor.getSession();
         session.setUseWrapMode(wrapText);
-        session.setOption("indentedSoftWrap", true);        
+        session.setOption("indentedSoftWrap", true);
 
-        te.editor.setHighlightActiveLine(highlightActiveLine);        
+        te.editor.setHighlightActiveLine(style.HighlightActiveLine);
 
-        keyboardHandler = keyboardHandler.toLowerCase();
-        if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
-            te.editor.setKeyboardHandler("");
-        else
-            te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
+        te.editor.renderer.setShowGutter(style.ShowLineNumbers);
+        te.editor.renderer.setShowInvisibles(style.ShowInvisibles);
+
+        
+        //var keyboardHandler = style.KeyboardHandler.toLowerCase();
+        //if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
+        //    te.editor.setKeyboardHandler("");
+        //else
+        //    te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
 
         setTimeout(te.updateDocumentStats, 100);
     },

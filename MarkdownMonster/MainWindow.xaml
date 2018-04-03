@@ -179,7 +179,7 @@
             <RowDefinition Height="Auto"  Name="MainMenuGridRow"/>
             <RowDefinition Height="Auto" Name="ToolbarGridRow"/>
             <RowDefinition Height="*" Name="MainContentGridRow" />
-            <RowDefinition Height="Auto" Name="StatusBarGridRow"/>
+            <RowDefinition Height="30" Name="StatusBarGridRow"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -849,7 +849,7 @@
             <StatusBarItem  Grid.Column="4" >
                 <ComboBox Name="StatusZoomLevel"
                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
-                          IsEditable="True" FontSize="13"
+                          IsEditable="True" FontSize="13"  Padding="1"
                           IsSynchronizedWithCurrentItem="True"
                           MouseDoubleClick="StatusZoomLevel_MouseDoubleClick"  
                           SelectionChanged="StatusZoomLevel_SelectionChanged"
@@ -882,7 +882,7 @@
 
             <StatusBarItem Grid.Column="6" Margin="6,0,0,0">
                 <ComboBox   Name="DocumentType" x:FieldModifier="public" HorizontalAlignment="Left"
-                            Width="100"  FontSize="13"
+                            Width="100"  FontSize="13"  Padding="3,1"
                             ItemsSource="{Binding DocumentTypes}"
                             SelectedItem="{Binding ActiveEditor.EditorSyntax, Mode=TwoWay}"                             
                             ToolTip="Editor Code Syntax" 
@@ -896,7 +896,7 @@
                 <ComboBox  HorizontalAlignment="Right"  
                            ToolTip="Registered Markdown Parsers" Width="{Binding MarkdownParserColumnWidth}"
                            SelectedItem="{Binding Configuration.MarkdownOptions.MarkdownParserName}" 
-                           IsSynchronizedWithCurrentItem="True"   FontSize="13"
+                           IsSynchronizedWithCurrentItem="True"   FontSize="13"  Padding="3,1"
                            ItemsSource="{Binding MarkdownParserNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="MarkdownParserName_SelectionChanged" />
@@ -904,7 +904,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="8">
                 <ComboBox  HorizontalAlignment="Right"  Width="70" ToolTip="Application Themes"  
-                           Name="ComboBoxAppTheme"  FontSize="13"
+                           Name="ComboBoxAppTheme"  FontSize="13" Padding="3,1"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
                            SelectedValue="{Binding Configuration.ApplicationTheme}"   
                            ItemsSource="{Binding Source={StaticResource ApplicationThemeEnums}}"
@@ -913,16 +913,16 @@
                 />
             </StatusBarItem>
             <StatusBarItem Grid.Column="9">
-                
+
                 <ComboBox  HorizontalAlignment="Right"  ToolTip="Editor Themes"
-                           SelectedItem="{Binding Configuration.EditorTheme}"  FontSize="13"
+                           SelectedItem="{Binding Configuration.EditorTheme}"  FontSize="13" Padding="3,1"
                            IsSynchronizedWithCurrentItem="True"                            
                            ItemsSource="{Binding EditorThemeNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="10">
-                <ComboBox  HorizontalAlignment="Right" 
+                <ComboBox  HorizontalAlignment="Right" Padding="3,1"
                            ToolTip="Preview rendering Themes"  FontSize="13"
                            SelectedItem="{Binding Configuration.RenderTheme}" 
                            IsSynchronizedWithCurrentItem="True" 
@@ -933,7 +933,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="11">
                 <ComboBox  HorizontalAlignment="Right"   Width="18" ToolTip="Preview sync mode"  
-                           Name="ComboBoxPreviewSyncModes"  FontSize="13"
+                           Name="ComboBoxPreviewSyncModes"  FontSize="13" Padding="0,1"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
                            SelectedValue="{Binding Configuration.PreviewSyncMode}" 
                            ItemsSource="{Binding PreviewSyncModeItems}"                           

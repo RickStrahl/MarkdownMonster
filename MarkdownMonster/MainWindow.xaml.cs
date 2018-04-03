@@ -238,6 +238,7 @@ namespace MarkdownMonster
 				{
 					FixMonitorPosition();
 					AddinManager.Current.InitializeAddinsUi(this);
+
 					AddinManager.Current.RaiseOnWindowLoaded();                   
 				}, DispatcherPriority.ApplicationIdle);			    
 			});            
@@ -1791,18 +1792,10 @@ namespace MarkdownMonster
                 else
                     SidebarContainer.SelectedItem = TabFolderBrowser;
             }
-            else if (button == ButtonWordWrap)
+            else if (button == ButtonWordWrap || button == ButtonLineNumbers || button == ButtonShowInvisibles)
 			{
-			    Model.ActiveEditor?.SetWordWrap(Model.Configuration.EditorWrapText);
-			}
-            else if (button == ButtonLineNumbers)
-			{
-			    Model.ActiveEditor?.SetShowLineNumbers(Model.Configuration.EditorShowLineNumbers);
-			}
-            else if (button == ButtonShowInvisibles)
-			{
-			    Model.ActiveEditor?.SetShowInvisibles(Model.Configuration.EditorShowInvisibles);
-			}
+			    Model.ActiveEditor?.RestyleEditor();
+			}            
             else if (button == ButtonStatusEncrypted)
 			{
 			    var dialog = new FilePasswordDialog(Model.ActiveDocument,false)

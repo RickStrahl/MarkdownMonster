@@ -847,15 +847,24 @@ namespace MarkdownMonster
                         }
 
                         var fontSize = mmApp.Configuration.EditorFontSize *  ((decimal) mmApp.Configuration.EditorZoomLevel / 100) * dpiRatio;
-                        //Debug.WriteLine(fontSize + " " + (int) fontSize + "  " +  mmApp.Configuration.EditorFontSize  + " * " +  mmApp.Configuration.EditorZoomLevel + " * " + dpiRatio);
+                        
+                        var config = mmApp.Configuration;
 
-                        AceEditor.settheme(
-                            mmApp.Configuration.EditorTheme,
-                            mmApp.Configuration.EditorFont,
-                            fontSize,
-                            mmApp.Configuration.EditorWrapText,
-                            mmApp.Configuration.EditorHighlightActiveLine,
-                            mmApp.Configuration.EditorKeyboardHandler);
+                        var style = new
+                        {
+                            Theme = config.EditorTheme,
+                            Font = config.EditorFont,
+                            FontSize = (int)fontSize,
+                            LineHeight = config.EditorLineHeight,
+                            WrapText = config.EditorWrapText,
+                            ShowLineNumbers = config.EditorShowLineNumbers,
+                            ShowInvisibles = config.EditorShowInvisibles,
+                            HighlightActiveLine = config.EditorHighlightActiveLine,
+                            KeyboardHandler = config.EditorKeyboardHandler
+                        };
+
+                        var jsonStyle = JsonConvert.SerializeObject(style);
+                        AceEditor.setEditorStyle(jsonStyle);
 
                         if (EditorSyntax == "markdown" || EditorSyntax == "text")
                             AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck,
@@ -864,7 +873,7 @@ namespace MarkdownMonster
                             // always disable for non-markdown text
                             AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
                     }
-                    catch
+                    catch(Exception ex)
                     {
                     }
                 },
@@ -872,6 +881,8 @@ namespace MarkdownMonster
                     ? System.Windows.Threading.DispatcherPriority.Send
                     : System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
+
+     
 
         /// <summary>
         /// Sets line number gutter on and off. Separated out from Restyle Editor to 
@@ -1783,5 +1794,26 @@ namespace MarkdownMonster
     {
         public int row { get; set; }
         public int column { get; set; }
+    }
+
+    public struct EditorStyle
+    {
+        public string Theme;
+        public string Font;
+
+        //public int FontSize;
+
+        //public decimal LineHeight;
+
+        public bool WrapText;
+
+        public bool ShowWhiteSpace;
+
+        public bool ShowLineNumbers;
+
+        public bool HighlightActiveLine;
+
+        public string KeyboardHandler;
+
     }
 }
