@@ -37,7 +37,7 @@
 
     <SolidColorBrush x:Key="BlueItem" Color="#70B8FF" />
     <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
-    <SolidColorBrush x:Key="HeadlineColor" Color="LightSteelBlue" />
+    <SolidColorBrush x:Key="HeadlineColor" Color="#569AD4" />
 
     <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#555"/>
 

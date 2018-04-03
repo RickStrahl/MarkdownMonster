@@ -193,7 +193,7 @@
 
     <!-- RAS: Adjusted styles for MahApps -->
     <LinearGradientBrush x:Key="TabItem.Selected.Background" EndPoint="0,1" StartPoint="0,0">
-        <GradientStop Color="#656565" Offset="0.0"/>
+        <GradientStop Color="#555555" Offset="0.0"/>
         <GradientStop Color="#222222" Offset="0.4"/>
     </LinearGradientBrush>
     <SolidColorBrush x:Key="TabItem.Selected.Foreground" Color="#EEE"/>
