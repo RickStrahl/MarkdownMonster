@@ -1,12 +1,11 @@
 html, body {
     color: #eee;
     background: #303030;       
-    font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    text-shadow: 1px 1px 2px black;
+    font-family: "Segoe UI", 'Helvetica Neue', Helvetica, Arial, sans-serif;    
     font-size: 17px;    
     height: 100%;    
-    line-height: 1.42em;
-    padding: 5px 20px 5px 17px !important;
+    line-height: 1.6;
+    padding: 5px 15px 5px 25px !important;
     margin: 0;
 
     scrollbar-track-color: #535353;
@@ -14,18 +13,20 @@ html, body {
     scrollbar-face-color: #555;
     -ms-overflow-style: -ms-autohiding-scrollbar !important;    
 } 
+b, strong {
+    font-weight: 600;
+}
 a {
     font-weight: 600;
-    color: lightsteelblue;
+    color: #6e9fde;
     text-decoration: none;
 }
 a:hover {
     text-decoration: underline;
 }
 blockquote {
-    background: #676767 !important;
-    color: #fcfcfc !important;   
-    
+    background: #606060 !important;
+    color: #fcfcfc !important;       
     font-size: 1.1em;
     padding: 10px;
     margin: 30px 10px;
@@ -80,21 +81,24 @@ tbody>tr:nth-child(even) {
 }
 
 h1,h2,h3,h4,h5,h6, .byline,.content-title {
-  color: #999;
-  font-weight: bold;  
-  font-family: Trebuchet, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
+  color: #aaa;
+  font-weight: 600;  
+  margin-top: 1.2em;
+  /*font-family: Trebuchet, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';*/
 }
 h1 {
-    font-size: 1.8em
+    font-size: 1.9em;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #999;
 }
 h2 {
-    font-size: 1.5em
+    font-size: 1.55em
 }
 h3 {
-    font-size: 1.3em
+    font-size: 1.35em
 }
 h4 {
-    font-size: 1.1em
+    font-size: 1.2em
 }
 h5, h6 { 
     font-size: 1em;
@@ -121,13 +125,13 @@ ul > li > ul > li {
     list-style: square;
 }
 blockquote {
-    background: #777;
-    color: #EEE;
-    
+    background: #555;
+    color: #aaa;    
     font-size: 1.1em;
     padding: 10px;
-    margin: 30px 10px;
-    border-left: 6px #ddd solid;
+    margin: 30px 15px;
+    border-left: 8px #aaa solid;
+    border-radius: 4px 0 0 4px;
 }
 blockquote h3, blockquote h4, blockquote h5 {
     margin-top: 5px;

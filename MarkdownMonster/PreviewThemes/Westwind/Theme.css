@@ -14,7 +14,7 @@ html, body {
 }
 
 #MainContent {
-    margin: 20px;
+    margin: 20px 20px 20px 30px;
 }
 
 h1, h2, h3, h4, h5, h6, .byline, .content-title {
@@ -126,12 +126,12 @@ b, strong {
 
 
 blockquote {
-    background: #f9f9f9;
-    font-size: 1em;
-    opacity: 0.85;
+    background: #f2f7fb;
+    font-size: 1.02em;
     padding: 10px 20px;
     margin: 30px 20px;
-    border-left: 4px #ddd solid;
+    border-left: 9px #569ad4 solid;
+    border-radius: 4px 0 0 4px;  
 }
 
     blockquote h3, blockquote h4, blockquote h5 {

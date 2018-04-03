@@ -13,7 +13,7 @@ background: #191919\
 .ace-twilight {\
 background: #2D2D2D;\
 color: #EEEEEE;\
-font-weight: light;\
+font-weight: normal;\
 }\
 .ace-twilight .ace_cursor {\
 color: #A7A7A7\
@@ -112,6 +112,9 @@ font-weight: bold !important;\
 }\
 .ace-twilight .ace_emphasis {\
 font-style: italic;\
+}\
+.ace-twilight .ace_blockquote {\
+color:  #8cb128;\
 }\
 .ace-twilight .ace_indent-guide {\
 background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWMQERFpYLC1tf0PAAgOAnPnhxyiAAAAAElFTkSuQmCC) right repeat-y\

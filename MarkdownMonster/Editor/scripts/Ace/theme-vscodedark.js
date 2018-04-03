@@ -1,8 +1,8 @@
-define("ace/theme/vscodedark",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
+define("ace/theme/vscodedark", ["require", "exports", "module", "ace/lib/dom"], function (require, exports, module) {
 
         exports.isDark = true;
         exports.cssClass = "ace-vscodedark";
-        exports.cssText = ".ace-vscodedar .ace_gutter {\
+        exports.cssText = ".ace-vscodedark .ace_gutter {\
 background: #191919;\
 color: #E2E2E2\
 }\
