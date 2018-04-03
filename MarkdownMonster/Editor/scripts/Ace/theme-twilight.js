@@ -13,7 +13,7 @@ background: #191919\
 .ace-twilight {\
 background: #2D2D2D;\
 color: #EEEEEE;\
-font-weight: normal;\
+font-weight: light;\
 }\
 .ace-twilight .ace_cursor {\
 color: #A7A7A7\
@@ -103,8 +103,6 @@ color: #494949\
 }\
 ace_line.ace_selected {\
     background-color: #777 !important;\
-}\
-            font-weight: bold;\
 }\
 .ace-twilight .ace_heading {\
 font-weight: bold;\
