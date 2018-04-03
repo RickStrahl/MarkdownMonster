@@ -246,6 +246,7 @@
     <Compile Include="_Classes\AddInInterfaces\BaseAddinConfiguration.cs" />
     <Compile Include="_Classes\AppCommands.cs" />
     <Compile Include="_Classes\Configuration\ApplicationUpdatesConfiguration.cs" />
+    <Compile Include="_Classes\Configuration\EditorConfiguration.cs" />
     <Compile Include="_Classes\Configuration\FolderBrowserConfiguration.cs" />
     <Compile Include="_Classes\Configuration\MarkdownOptionsConfiguration.cs" />
     <Compile Include="_Classes\Configuration\WindowPositionConfiguration.cs" />
