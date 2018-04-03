@@ -57,13 +57,13 @@
                                             Padding="10,3,10,3"
                                             TextTrimming="WordEllipsis"
                                             Text="{Binding name}" 
-                                            FontWeight="Bold" Foreground="LightSteelBlue"  FontSize="16" />
+                                            FontWeight="Bold" Foreground="LightSteelBlue"  FontSize="17" />
 
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding version,StringFormat='v{0}'}" 
-                                                FontStyle="Italic" HorizontalAlignment="Right" Margin="0,8,7,5" />
+                                                FontSize="12" FontStyle="Italic" HorizontalAlignment="Right" Margin="0,8,7,5" />
                         
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding updated,StringFormat='{}{0:MMM dd, yyyy}'}" 
-                                                FontStyle="Italic" HorizontalAlignment="Right" Margin="0,8,7,3" />
+                                   FontSize="12" FontStyle="Italic" HorizontalAlignment="Right" Margin="0,8,7,3" />
 
 
                         <Grid Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2" Margin="10,0,0,0" >
@@ -80,7 +80,7 @@
                                             Text="{Binding summary}" 
                                             TextWrapping="WrapWithOverflow"
                                             HorizontalAlignment="Left"
-                                            FontSize="11"/>
+                                            FontSize="13"/>
                                     <TextBlock  Text="{Binding author}" Margin="0,4,0,0"
                                            FontStyle="Italic" FontSize="11"/>
                                 </StackPanel>
