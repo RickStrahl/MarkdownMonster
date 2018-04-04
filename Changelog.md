@@ -3,6 +3,18 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
+### 1.10.5
+<small>not released yet</small>
+
+* **Open Markdown files linked in Preview in Editor**   
+If you have a link in your markdown to another Markdown file the previewer now detects that the file is a local Markdown file and opens it in the editor.
+
+* **Addin: Intercept Preview Link Clicks**  
+Addins now have a new `Addin.OnPreviewLinkNavigation()` to intercept navigation and handle custom link processing in the preview. Return `true` to override or `false` to let the default link processing work.
+
+* **Fix: UrlEncoding in Paste URL Dialog for Local Files**  
+Fix the Paste URL dialog when embedding relative file links to be URL Encoded.
+
 ### 1.10.4
 <small>April 4th, 2018</small>
 
@@ -12,11 +24,11 @@ Added a new VS Code Dark editor theme that is similar to VS Code's default edito
 * **Editor Enhancements**  
 Updated to the latest version of ACE Editor which is noticeably faster and more stable. A number of cursor related issues are addressed. Updated Twilight and the new VS Code Dark Theme.
 
-* **Add EditorLineHeight Configuration Switch**  
+* **Add Editor LineHeight Configuration Switch**  
 Added configuration switch to allow setting the editor text line height to separate or tighten up the spacing between text. Default line height has been bumped up to 1.3 from 1.2 which gives a little bit more space between lines.
 
 * **Editor Configuration Consolidation**   
-Internally consolidated all the editor styling options into a single helper that forces the editor to restyle based on editor configuration settings. Previously all of these settings were individually set. This makes it easier for addin authors to modify editor settings and simply call `Model.Configuration.RestyleEditor()`.
+Internally consolidated all the editor styling options into a single `Editor` configuration section that forces the editor to restyle based on editor configuration settings. Previously all of these settings were individually set. This makes it easier for addin authors to modify editor settings and simply call `Model.Configuration.RestyleEditor()` after making changes to the configuration settings.
 
 * **Fix: UI Inconsistencies**  
 Fixed a number of left over UI inconsistencies that made it into earlier 10.x published releases. A few places where background colors and control heights were off. Refactored a number of common control settings to global scope for better overall consistency.
