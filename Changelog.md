@@ -10,7 +10,7 @@
 Added a new VS Code Dark editor theme that is similar to VS Code's default editor theme. Due to differences in the rendering engines between ACE and Monaco the styling isn't identical but fairly close.
 
 * **Editor Enhancements**  
-Updated to the latest version of ACE Editor which is noticably faster and more stable. A number of cursor related issues are addressed as well as a number of editor theme updates. Updated Twilight and the new VS Code Dark Theme.
+Updated to the latest version of ACE Editor which is noticeably faster and more stable. A number of cursor related issues are addressed. Updated Twilight and the new VS Code Dark Theme.
 
 * **Add EditorLineHeight Configuration Switch**  
 Added configuration switch to allow setting the editor text line height to separate or tighten up the spacing between text. Default line height has been bumped up to 1.3 from 1.2 which gives a little bit more space between lines.
@@ -20,6 +20,9 @@ Internally consolidated all the editor styling options into a single helper that
 
 * **Fix: UI Inconsistencies**  
 Fixed a number of left over UI inconsistencies that made it into earlier 10.x published releases. A few places where background colors and control heights were off. Refactored a number of common control settings to global scope for better overall consistency.
+
+* **Fix: Document Outline Visibility**  
+Document outline would still be visible after unchecking the Document Outline option in the menu if enabled on startup. Outline is now properly hidden.
 
 
 ### 1.10
