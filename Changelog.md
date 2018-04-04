@@ -4,16 +4,22 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.10.4
-*<small>not released yet</small>
+*<small>April 4th, 2018</small>
 
 * **Add VS Code Dark Editor Theme**  
 Added a new VS Code Dark editor theme that is similar to VS Code's default editor theme. Due to differences in the rendering engines between ACE and Monaco the styling isn't identical but fairly close.
+
+* **Editor Enhancements**  
+Updated to the latest version of ACE Editor which is noticably faster and more stable. A number of cursor related issues are addressed as well as a number of editor theme updates. Updated Twilight and the new VS Code Dark Theme.
 
 * **Add EditorLineHeight Configuration Switch**  
 Added configuration switch to allow setting the editor text line height to separate or tighten up the spacing between text. Default line height has been bumped up to 1.3 from 1.2 which gives a little bit more space between lines.
 
 * **Editor Configuration Consolidation**   
 Internally consolidated all the editor styling options into a single helper that forces the editor to restyle based on editor configuration settings. Previously all of these settings were individually set. This makes it easier for addin authors to modify editor settings and simply call `Model.Configuration.RestyleEditor()`.
+
+* **Fix: UI Inconsistencies**  
+Fixed a number of left over UI inconsistencies that made it into earlier 10.x published releases. A few places where background colors and control heights were off. Refactored a number of common control settings to global scope for better overall consistency.
 
 
 ### 1.10
