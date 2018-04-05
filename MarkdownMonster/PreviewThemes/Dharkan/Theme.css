@@ -130,6 +130,7 @@ blockquote {
     border-radius: 4px;
     padding: 10px 20px;
     margin: 30px 20px;
+    font-size: 1.03em;
 }
 
 blockquote h3, blockquote h4, blockquote h5 {

@@ -236,7 +236,7 @@ var te = window.textEditor = {
         var changeScrollTop = debounce(function (e) {
             // if there is a selection don't set cursor position
             // or preview. Mouseup will scroll to position at end
-            // of selection
+            // of selection            
             var sel = te.getselection();
             if (sel && sel.length > 0)
                 return;
@@ -260,7 +260,7 @@ var te = window.textEditor = {
     initializeeditor: function () {
         te.configureAceEditor(null, null);
     },
-    status: function (msg) {
+    status: function status(msg) {
         //alert(msg);
         status(msg);
     },
@@ -311,16 +311,12 @@ var te = window.textEditor = {
             return;
         te.editor.setReadOnly(status);
         //.readOnly = status;        
-        try {
-            if (status) {                
-                te.editor.container.style.opacity = 0.70;                
-                $(te.editor.container).on("dblclick", te.readOnlyDoubleClick);
-            } else {
-                $(te.editor.container).off("dblclick", te.readOnlyDoubleClick);
-                te.editor.container.style.opacity = 1; // or use svg filter to make it gray            
-            }
-        } catch (ex) {
-            alert(ex.message);
+        if (status) {                
+            te.editor.container.style.opacity = 0.70;                
+            $(te.editor.container).on("dblclick", te.readOnlyDoubleClick);
+        } else {
+            $(te.editor.container).off("dblclick", te.readOnlyDoubleClick);
+            te.editor.container.style.opacity = 1; // or use svg filter to make it gray            
         }
     },
     readOnlyDoubleClick: function () {    
@@ -360,7 +356,6 @@ var te = window.textEditor = {
         return fontsize;
     },
 
-    // centermode: 0 top, 0.5 center, 1 end
     gotoLine: function (line, noRefresh, noSelection) {
         setTimeout(function () {
             te.editor.scrollToLine(line);

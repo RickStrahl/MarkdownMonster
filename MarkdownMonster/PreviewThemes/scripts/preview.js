@@ -26,13 +26,17 @@ $(document).ready(function() {
     $(document).on("click","a",
         function(e) {
             var url = this.href;
+            var rawHref = $(this).attr("href");
             var hash = this.hash;
             
-            if (url.substr(0, 4) === "http" &&
-                te.mmEditor.navigateExternalUrl(url)) {
-                    e.preventDefault();
-                    return false;                
+            // Notify of link navigation and handle external urls
+            // if not handled elsewhere
+            if (te.mmEditor && te.mmEditor.PreviewLinkNavigation(url, rawHref)) {
+                // it true editor handled the navigation
+                e.preventDefault(); 
+                return false;
             }
+                       
             if (hash) {                
                 var sel = hash + "[name='" + hash.substr(1) + "'],#"+ hash.substr(1);                                          
                 var $el = $(sel);                
