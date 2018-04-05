@@ -237,7 +237,7 @@ Right now the registry is pretty sparse, but here are a few Addins you can check
 ## Provided Add-ins
 Not only does Markdown Monster allow extension via Addins - it also uses Addins for some built-in features. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate the power of the Add-in model.
 
-#### Screen Capture Addin
+### Screen Capture Addin
 The Screen Capture add-in supports two separate capture modes: Using Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which I **highly** recommend!) or using an integrated less featured Screen Capture module that allows capturing for Windows desktop windows and objects. To capture, simply click the capture button (camera icon) and the main app minimizes and either SnagIt or the integrate screen capture tool pops up to let you select the object to capture. You can preview and edit your captures, and when finished the captured image is linked directly into content.
 
 ![SnagIt Screen Capture Add-in](SnagItCaptureAddin.png)
@@ -295,10 +295,10 @@ Markdown Monster can be downloaded and evaluated for free, but a [reasonably pri
 
 Thanks for playing fair.
 
-#### Contribute - get a Free License
+### Contribute - get a Free License
 Contributors that provide valuable feedback, help out with code/PRs, actively promote Markdown Monster or support Markdown Monster in any other significant way are eligible for a free license. Contact [Rick for more info](http://west-wind.com/contact/).
 
-#### Microsoft MVPs and Microsoft Employees get free Licenses
+### Microsoft MVPs and Microsoft Employees get free Licenses
 If you are a current Microsoft MVP or Insider, a Microsoft employee, or an employee of a company that offers free tools to Microsoft MVPs you qualify for a free license. Basically I want to give back to those that have given to the community and shared their knowledge or work. I'll consider anybody who has given back to the community for a free license. 
 
 * [MVP License Request](https://store.west-wind.com/mvpperks.aspx)
