@@ -12,6 +12,9 @@ If you have a link in your markdown to another Markdown file the previewer now d
 * **Addin: Intercept Preview Link Clicks**  
 Addins now have a new `Addin.OnPreviewLinkNavigation()` to intercept navigation and handle custom link processing in the preview. Return `true` to override or `false` to let the default link processing work.
 
+* **Open Git Client From Folder Browser**  
+You can now configure an external Git Client and open it from the Folder Browser or the Open Document's Tab Context menus.
+
 * **Fix: UrlEncoding in Paste URL Dialog for Local Files**  
 Fix the Paste URL dialog when embedding relative file links to be URL Encoded.
 
