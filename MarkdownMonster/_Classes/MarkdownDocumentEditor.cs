@@ -1463,20 +1463,53 @@ namespace MarkdownMonster
             AceEditor?.findAndReplaceText(search, replace);
         }
 
+
         /// <summary>
-        /// Allows the PreviewBrowser to navigate to a URL for external links
-        /// so links open in the default browser rather than IE.
+        /// 
         /// </summary>
         /// <param name="url"></param>
-        /// <returns>true if handled (navigated) false if passed through and expected to navigate</returns>
-        public bool NavigateExternalUrl(string url)
+        /// <returns>true if the navigation is handled, false to continue letting app handle navigation</returns>
+        public bool PreviewLinkNavigation(string url, string src)
         {
-            if (mmApp.Configuration.PreviewHttpLinksExternal &&  !string.IsNullOrEmpty(url))
-            {
-                ShellUtils.GoUrl(url);
-                return true;
-            }
+            if (string.IsNullOrEmpty(url))
+                return false;
 
+            if (AddinManager.Current.RaiseOnPreviewLinkNavigation(url,src))
+                return true;
+
+            if (url.StartsWith("http",StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (mmApp.Configuration.PreviewHttpLinksExternal && !string.IsNullOrEmpty(url))
+                {
+                    ShellUtils.GoUrl(url);
+                    return true;
+                }
+            }
+            // it's a relative URL and ends with .md open in editor
+            else if (url.EndsWith(".md",StringComparison.InvariantCultureIgnoreCase))
+            {
+                // file urls are fully qualified paths with file:/// syntax
+                var urlPath = url.Replace("file:///", "");
+                urlPath = StringUtils.UrlDecode(urlPath);
+                urlPath = FileUtils.NormalizePath(urlPath);
+                if (File.Exists(urlPath))
+                {
+                    var tab = Window.RefreshTabFromFile(urlPath); // open or activate
+                    if (tab != null)
+                        return true;
+                }
+
+                var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+                urlPath = Path.Combine(docPath,urlPath);
+                if (File.Exists(urlPath))
+                {
+                    var tab = Window.RefreshTabFromFile(docPath); // open or activate
+                    if (tab != null)
+                        return true;
+                }
+            }
+            
+            // default browser behavior
             return false;
         }
 

@@ -544,6 +544,19 @@ namespace MarkdownMonster.AddIns
 
         }
 
+        public bool RaiseOnPreviewLinkNavigation(string url, string src)
+        {
+            foreach (var addin in AddIns)
+            {
+                // First one wins!
+                bool? handled = addin?.OnPreviewLinkNavigation(url,src);
+                if (handled.HasValue && handled.Value)
+                    return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Checks all addins for a custom Preview Browser control to be used 
         /// for previewing documents. First match wins. Returns null if
@@ -1071,5 +1084,7 @@ namespace MarkdownMonster.AddIns
         }
         
         #endregion
+
+        
     }
 }
