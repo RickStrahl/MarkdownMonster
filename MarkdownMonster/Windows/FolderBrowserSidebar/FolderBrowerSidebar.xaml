@@ -171,7 +171,7 @@
                  Text="{Binding FolderPath,UpdateSourceTrigger=LostFocus}"
 	             Opacity="0.60" FontWeight="Medium"                            
 	             ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"                 
-	             BorderThickness="0"                                                                       
+	             BorderThickness="0" Padding="2"                                                                    
                  MaxDropDownHeight="275" FontSize="12"
                  controls:TextBoxHelper.Watermark="Folder Browser Path">
                 <i:Interaction.Behaviors>

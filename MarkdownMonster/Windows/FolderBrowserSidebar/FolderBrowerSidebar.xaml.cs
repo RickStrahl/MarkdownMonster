@@ -35,7 +35,14 @@ namespace MarkdownMonster.Windows
             get { return _folderPath; }
             set
             {
-                if (value == _folderPath || Window == null) return;
+                if (value == _folderPath) return;
+
+                _folderPath = value;
+                mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
+
+                OnPropertyChanged(nameof(FolderPath));
+
+                if (Window == null) return;
 
                 SearchText = null;
                 SearchSubTrees = false;
@@ -54,8 +61,6 @@ namespace MarkdownMonster.Windows
                     OnPropertyChanged(nameof(FolderPath));
                     OnPropertyChanged(nameof(ActivePathItem));
                 }
-
-
             }
         }
         private string _folderPath;
@@ -944,6 +949,21 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        private void MenuGitClient_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+            if (selected == null)
+                return;
+
+            var model = mmApp.Model;
+
+            var path = selected.FullPath;
+            if (selected.IsFile)
+                path = Path.GetDirectoryName(path);
+
+            Window.Model.Commands.OpenGitClientCommand.Execute(path); 
+        }
+
         private void TreeFolderBrowser_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var tv = sender as TreeView;
@@ -1038,6 +1058,15 @@ namespace MarkdownMonster.Windows
             ci.InputGestureText = "ctrl-g";        
             ci.Click += MenuCommitGit_Click;
             cm.Items.Add(ci);
+            
+            ci = new MenuItem();
+            ci.Header = "Open Folder in Git Client";
+            ci.Click += MenuGitClient_Click;
+            ci.IsEnabled = AppModel.Configuration.GitClientExecutable != null &&
+                            File.Exists(AppModel.Configuration.GitClientExecutable);
+            cm.Items.Add(ci);
+
+            cm.Items.Add(new Separator());
 
             ci = new MenuItem();
             ci.Header = "Copy Path to Clipboard";
@@ -1057,6 +1086,8 @@ namespace MarkdownMonster.Windows
             cm.IsOpen = true;
 
         }
+
+       
 
         #endregion
 
