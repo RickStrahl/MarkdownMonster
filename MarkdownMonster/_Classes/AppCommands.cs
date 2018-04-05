@@ -59,9 +59,11 @@ namespace MarkdownMonster
 
             // Miscellaneous
             OpenAddinManager();
+            OpenGitClient();
             Help();
             CopyFolderToClipboard();
             TabControlFileList();
+            
 
             // Sidebar
             CloseLeftSidebarPanel();
@@ -760,6 +762,32 @@ Do you want to View in Browser now?
 
                 ShellUtils.GoUrl(url);
             }, (p, c) => true);
+        }
+
+
+
+        public CommandBase OpenGitClientCommand { get; set; }
+
+        void OpenGitClient()
+        {
+            OpenGitClientCommand = new CommandBase((parameter, command) =>
+            {
+                var path = parameter as string;
+                if (path == null)
+                {
+                    path = Model.ActiveDocument?.Filename;
+                    if(!string.IsNullOrEmpty(path))
+                        path = Path.GetDirectoryName(path);
+                }
+
+                if (string.IsNullOrEmpty(path))
+                    return;
+                                
+                if (!mmFileUtils.OpenGitClient(path))
+                    Model.Window.ShowStatus("Unabled to open Git client.", 6000, FontAwesomeIcon.Warning, Colors.Firebrick);
+                else
+                    Model.Window.ShowStatus("Git client opened.",6000);
+            }, (p, c) => !string.IsNullOrEmpty(Model.Configuration.GitClientExecutable));
         }
 
         #endregion

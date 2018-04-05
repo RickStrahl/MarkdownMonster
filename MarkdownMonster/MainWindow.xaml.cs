@@ -1535,7 +1535,7 @@ namespace MarkdownMonster
                         folder = Path.GetDirectoryName(Model.ActiveDocument.Filename);
 
                     FolderBrowser.FolderPath = folder;
-                });
+                },DispatcherPriority.ApplicationIdle);
 
                 layoutModel.IsLeftSidebarVisible = true;                
                 mmApp.Configuration.FolderBrowser.Visible = true;
@@ -2100,9 +2100,15 @@ namespace MarkdownMonster
 
         DebounceDispatcher debounce = new DebounceDispatcher();
 
-		public void ShowStatus(string message = null, int milliSeconds = 0)
+		public void ShowStatus(string message = null, int milliSeconds = 0, 
+		    FontAwesomeIcon icon = FontAwesomeIcon.None,
+		    Color color = default(Color),
+		    bool spin = false)
 		{
-			if (message == null)
+		    if (icon != FontAwesomeIcon.None)
+		        SetStatusIcon(icon, color, spin);
+
+            if (message == null)
 			{
 				message = "Ready";
 				SetStatusIcon();
@@ -2123,13 +2129,23 @@ namespace MarkdownMonster
 			WindowUtilities.DoEvents();
 		}
 
-		/// <summary>
-		/// Status the statusbar icon on the left bottom to some indicator
-		/// </summary>
-		/// <param name="icon"></param>
-		/// <param name="color"></param>
-		/// <param name="spin"></param>
-		public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
+        //public void ShowStatus(string message = null, int milliSeconds = 0,
+        //    FontAwesomeIcon icon = FontAwesomeIcon.None,
+        //    Color color = default(Color),
+        //    bool spin = false)
+        //{
+
+            
+        //    ShowStatus(message, milliSeconds);
+        //}
+
+        /// <summary>
+        /// Status the statusbar icon on the left bottom to some indicator
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="color"></param>
+        /// <param name="spin"></param>
+        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
 		{
 			StatusIcon.Icon = icon;
 			StatusIcon.Foreground = new SolidColorBrush(color);

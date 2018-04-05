@@ -265,6 +265,11 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// Point to your favorite Git Client to open for folders
+        /// </summary>
+        public string GitClientExecutable { get; set; }
+
+        /// <summary>
         /// A collection of the open Markdown documents.
         /// </summary>
         public List<MarkdownDocument> OpenDocuments { get; set; }
@@ -591,8 +596,8 @@ namespace MarkdownMonster
 	        
 			TerminalCommand = "powershell.exe";
 			TerminalCommandArgs = "-noexit -command \"cd '{0}'\"";
-            OpenFolderCommand = "explorer.exe";
-
+            OpenFolderCommand = "explorer.exe";            
+            
             WebBrowserPreviewExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),@"Google\Chrome\Application\chrome.exe");
             
             ReportErrors = true;
@@ -603,6 +608,15 @@ namespace MarkdownMonster
             IsDocumentOutlineVisible = true;
             OpenInPresentationMode = false;
             AlwaysUsePreviewRefresh = false;		
+        }
+
+
+        protected override void OnInitialize(IConfigurationProvider provider, string sectionName, object configData)
+        {
+            base.OnInitialize(provider, sectionName, configData);
+
+            if(string.IsNullOrEmpty(GitClientExecutable))
+                GitClientExecutable = mmFileUtils.FindGitClient();
         }
 
         public void AddRecentFile(string filename)

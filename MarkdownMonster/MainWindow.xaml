@@ -65,8 +65,11 @@
             <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
             <MenuItem Name="ContextOpenInFolder" Header="Open _Folder in Explorer" Click="Button_OpenExplorer" />
             <MenuItem Name="ContextOpenInFolderBrowser" Header="Open Folder in Folder _Browser" Click="Button_OpenFolderBrowser" />
+            <Separator/>
             <MenuItem Name="ContextCommitToGit" Header="Commit and Push to _Git"
                       Command="{Binding DataContext.CommitToGitCommand}"   />
+            <MenuItem Name="ContextOpenGitClient" Header="Open Folder in Git Client"
+                      Command="{Binding DataContext.Commands.OpenGitClientCommand}"   />
             <Separator/>
             <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Command="{Binding DataContext.Commands.CopyFolderToClipboardCommand}" />
         </ContextMenu>
