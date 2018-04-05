@@ -181,6 +181,9 @@ namespace MarkdownMonster.Windows
                     Link = "file:///" + Link;
 
             }
+
+            Link = StringUtils.UrlEncode(Link);
+
             mmApp.Configuration.LastFolder = System.IO.Path.GetDirectoryName(fd.FileName);
             TextLink.Focus();
         }
