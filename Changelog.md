@@ -3,8 +3,14 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.10.5
+### 1.10.6
 <small>not released yet</small>
+
+* **Add Undo/Redo to Editor Context Menu**  
+Added Undo and Redo options to the editor's context menu.
+
+### 1.10.5
+<small>April 6th, 2018</small>
 
 * **Open Markdown files linked in Preview in Editor**   
 If you have a link in your markdown to another Markdown file the previewer now detects that the file is a local Markdown file and opens it in the editor.

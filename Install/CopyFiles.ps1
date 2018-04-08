@@ -13,6 +13,7 @@ Copy-Item ${cur}\mm.exe ${target}\mm.exe
 Remove-Item ${target}\*.vshost.*
 Remove-Item ${target}\*.xml
 
+# Want to ship main PDB but not any others
 Rename-Item ${target}\markdownmonster.pdb ${target}\markdownmonster.TPDB
 Remove-Item ${target}\*.pdb
 Rename-Item ${target}\markdownmonster.TPDB ${target}\markdownmonster.pdb
