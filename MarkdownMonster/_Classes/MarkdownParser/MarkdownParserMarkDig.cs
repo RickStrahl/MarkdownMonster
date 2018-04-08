@@ -115,7 +115,7 @@ namespace MarkdownMonster
             if (options.StripYamlFrontMatter)
                 builder = builder.UseYamlFrontMatter();
             if (options.EmojiAndSmiley)
-                builder = builder.UseEmojiAndSmiley();
+                builder = builder.UseEmojiAndSmiley(true);
             if (options.MediaLinks)
                 builder = builder.UseMediaLinks();
             if (options.ListExtras)
