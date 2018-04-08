@@ -132,10 +132,9 @@ blockquote {
     margin: 30px 20px;
     font-size: 1.03em;
 }
+    blockquote *:first-child { margin-top: 0; }
+    blockquote *:last-child { margin-bottom: 0; }
 
-blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 0;
-}
 hr {
     margin: 12px 0;    
 }

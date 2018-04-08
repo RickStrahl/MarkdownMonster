@@ -119,15 +119,14 @@ ul > li > ul > li {
 
 blockquote {    
     color: #6a737d;
-    font-size: 1rem;
+    font-size: 1em;
     border-left: 4px #ddd solid;    
     padding: 15px 20px;    
     margin: 14px 2px;
 }
+    blockquote *:first-child { margin-top: 0; }
+    blockquote *:last-child { margin-bottom: 0; }
 
-blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 5px !important;
-}
 hr {
     margin: 12px 0;    
 }

@@ -129,14 +129,13 @@ blockquote {
     background: #f2f7fb;
     font-size: 1.02em;
     padding: 10px 20px;
-    margin: 30px 20px;
+    margin: 1.2em;
     border-left: 9px #569ad4 solid;
     border-radius: 4px 0 0 4px;  
 }
+    blockquote *:first-child { margin-top: 0; }
+    blockquote *:last-child { margin-bottom: 0; }
 
-    blockquote h3, blockquote h4, blockquote h5 {
-        margin-top: 0;
-    }
 
 hr {
     margin: 12px 0;

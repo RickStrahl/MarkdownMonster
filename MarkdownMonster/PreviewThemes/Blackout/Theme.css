@@ -32,6 +32,9 @@ blockquote {
     margin: 30px 10px;
     border-left: 6px #ddd solid; 
 }
+    blockquote *:first-child { margin-top: 0; }
+    blockquote *:last-child { margin-bottom: 0; }
+
 code {
     font-family: menlo,consolas,monospace;
     color: #eee;
