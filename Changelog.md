@@ -5,6 +5,8 @@
 
 ### 1.10.6
 <small>not released yet</small>
+* **Add MaxDocumentOutlineLevel Configuration Value**  
+You can now specify the Max Outline level displayed in the Document Outline panel. This value also affects the embeddable Table of Contents that can be generated from the document outline. The value can be interactively set in the Document Outline's Context Menu.
 
 * **Add Undo/Redo to Editor Context Menu**  
 Added Undo and Redo options to the editor's context menu.
@@ -18,7 +20,7 @@ If you have a link in your markdown to another Markdown file the previewer now d
 * **Addin: Intercept Preview Link Clicks**  
 Addins now have a new `Addin.OnPreviewLinkNavigation()` to intercept navigation and handle custom link processing in the preview. Return `true` to override or `false` to let the default link processing work.
 
-* **Open Git Client From Folder Browser**  
+* **Open Git Client From Document or Folder Browser Folder**  
 You can now configure an external Git Client and open it from the Folder Browser or the Open Document's Tab Context menus.
 
 * **Fix: UrlEncoding in Paste URL Dialog for Local Files**  
