@@ -29,9 +29,9 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
         public AppCommands Commands { get; set; }
 
         public MainWindow Window { get; set; }
-
         
 
+    
 
         public ObservableCollection<HeaderItem> DocumentOutline
         {
@@ -95,6 +95,10 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                 if (item is HeadingBlock)
                 {                    
                     var heading = item as HeadingBlock;
+
+                    if (heading.Level > AppModel.Configuration.MaxDocumentOutlineLevel)
+                        continue;
+
                     // underlined format
                     if (line > 0 && (content.StartsWith("---") || content.StartsWith("===")))
                     {
@@ -149,8 +153,9 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                 var id = node.Id;
                 var text = node.InnerText.Trim();
                 var textIndent = node.Name.Replace("h", "");
-                if (!int.TryParse(textIndent, out int level))
+                if (!int.TryParse(textIndent, out int level) || level > AppModel.Configuration.MaxDocumentOutlineLevel)                   
                     continue;
+                
 
                 string leadin = null;
                 if (level > lastLevel)

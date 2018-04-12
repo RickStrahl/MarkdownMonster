@@ -15,10 +15,7 @@
 
         <Grid Background="{StaticResource  SidebarHeaderBackground}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />                
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -32,18 +29,14 @@
 					   FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
             </StackPanel>
 
+            
             <Button  fa:Awesome.Content="PencilSquareOutline" Background="Transparent" 
-                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="4"  
+                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="2"  
                      Name="ButtonEmbedOutline" BorderThickness="0" FontSize="12"                     
                      ToolTip="Generate document outline into Markdown document at cursor position" 
                      Click="ButtonEmbedOutline_Click" />
-            <!--<Button  fa:Awesome.Content="Refresh" Background="Transparent" 
-                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="5"  
-                     Name="ButtonRefresh" BorderThickness="0" FontSize="12"                     
-                     ToolTip="Refresh Outline" 
-                     Click="ButtonRefresh_Click" />-->
             <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
-			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="6"  
+			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="3"  
 			         Name="ButtonClosePanel" BorderThickness="0" FontSize="12"                     
 			         ToolTip="Close Sidebar Panel" 
                      Command="{Binding Commands.CloseLeftSidebarPanelCommand}" />
@@ -76,6 +69,17 @@
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Copy Header Id to Clipboard" Click="MenuItem_CopyHeaderId_Click" />
+                    <Separator />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Max Indent Level: H1 - H</TextBlock>
+                        <TextBox Name="TextMaxIndentLevel" Grid.Column="1"
+                                 Text="{Binding AppModel.Configuration.MaxDocumentOutlineLevel,UpdateSourceTrigger=PropertyChanged}" 
+                                 Padding="0,-2,0,0" Width="20" 
+                                 MinHeight="20" Height="20" 
+                                 FontSize="12" 
+                                 TextChanged="TextMaxIndentLevel_TextChanged"/>
+                    </StackPanel>
+                    
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>

@@ -189,5 +189,11 @@ Do you want to replace the existing outline?
 
             Clipboard.SetText("#" + selected.LinkId);
         }
+
+    
+        private void TextMaxIndentLevel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            RefreshOutline();
+        }
     }
 }

@@ -147,14 +147,7 @@ namespace MarkdownMonster
         {
             get
             {
-                bool value = Window.TabControl.Items.Count < 1;
-                if (value)
-                {
-                    var zeroWidth = new GridLength(0);
-                    //Window.MainWindowPreviewColumn.Width = zeroWidth;
-                    //Window.RightSidebarSeparatorColumn.Width = zeroWidth;
-                }
-                return value;
+                return Window.TabControl.Items.Count < 1;                           
             }
         }
         
@@ -174,11 +167,6 @@ namespace MarkdownMonster
                 if (value == Configuration.IsPreviewVisible) return;
                 Configuration.IsPreviewVisible = value;
                 OnPropertyChanged(nameof(IsPreviewBrowserVisible));
-
-                if (value == false)
-                {
-
-                }
             }
         }
 
@@ -567,21 +555,7 @@ We're now shutting down the application.
 
 
 
-        public CommandBase GeneratePdfCommand { get; set; }
-
-        void Command_GeneratePdf()
-        {
-            // PDF GENERATION PREVIEW
-            GeneratePdfCommand = new CommandBase((s, e) =>
-            {
-                var form = new GeneratePdfWindow()
-                {
-                    Owner = mmApp.Model.Window
-                };
-                form.Show();
-            }, (s, e) => IsPreviewBrowserVisible);
-        }
-
+        
 
         public CommandBase CommitToGitCommand { get; set; }
 
@@ -653,8 +627,7 @@ We're now shutting down the application.
             Command_PrintePreview();
 
             Command_ShowFolderBrowser();
-            
-            Command_GeneratePdf();
+                       
             Command_CommitToGit();            
             Command_CopyAsHtml();
         }
