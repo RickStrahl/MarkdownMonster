@@ -156,6 +156,8 @@ namespace MarkdownMonster.Windows
 
         private void FileWatcher_Renamed(object sender, RenamedEventArgs e)
         {
+            if (mmApp.Model == null || mmApp.Model.Window == null)
+                return;
 
             mmApp.Model.Window.Dispatcher.Invoke(() =>
             {
@@ -175,7 +177,11 @@ namespace MarkdownMonster.Windows
         }
 
         private void FileWatcher_CreateOrDelete(object sender, FileSystemEventArgs e)
-        {            
+        {
+
+            if (mmApp.Model == null || mmApp.Model.Window == null)
+                return;
+
             var file = e.FullPath;
             if (string.IsNullOrEmpty(file))
                 return;

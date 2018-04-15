@@ -148,6 +148,11 @@ namespace MarkdownMonster.Windows
 	    private bool SaveFile()
 		{
 			var document = mmApp.Model.ActiveDocument;
+		    if (document == null)
+		    {
+		        ShowStatus("No document open. Please open a Markdown Document first to generate a PDF.");
+                return false;
+		    }
 
 			string initialFolder = null;
 			if (!string.IsNullOrEmpty(document.Filename) && document.Filename != "untitled")
