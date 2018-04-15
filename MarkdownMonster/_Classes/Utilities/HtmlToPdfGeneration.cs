@@ -123,6 +123,7 @@ namespace MarkdownMonster
 			sb.Append($"--orientation {Orientation} ");
 		    sb.Append("--enable-internal-links ");
 		    sb.Append("--keep-relative-links ");
+		    sb.Append("--print-media-type ");
 
             sb.Append($"--footer-font-size {FooterFontSize} ");
 			if (ShowFooterLine)
