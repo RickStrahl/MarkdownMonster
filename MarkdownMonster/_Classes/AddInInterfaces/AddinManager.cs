@@ -801,11 +801,10 @@ namespace MarkdownMonster.AddIns
 
             if (addinList == null)
                 return null;
-      
-            //foreach (var ai in addinList)
 
-            Parallel.ForEach(addinList,
-                new ParallelOptions {MaxDegreeOfParallelism = 20},
+            //Parallel.ForEach(addinList,
+            //    new ParallelOptions { MaxDegreeOfParallelism = 20 },
+            addinList.ForEach(
                 ai =>                
                     {
                         try
@@ -838,12 +837,11 @@ namespace MarkdownMonster.AddIns
 
                                     if (addinItem != null)
                                     {
-                                        var verInstalled = new Version(ai.installedVersion);
-                                        var verAddin = new Version(addinItem.version);
-
-
+                                        var verInstalled = new Version(addinItem.version);
+                                        var verAddin = new Version(ai.version);
+                                        
                                         ai.installedVersion = addinItem.version;
-                                        if (verAddin.CompareTo(verInstalled) < 0)
+                                        if (verInstalled.CompareTo(verAddin) < 0)
                                             ai.updateAvailable = true;
                                     }
                                 }
