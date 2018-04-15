@@ -10,6 +10,7 @@ using MarkdownMonster.Configuration;
 using Newtonsoft.Json;
 using Westwind.Utilities.Configuration;
 using MarkdownMonster.Annotations;
+using Westwind.Utilities;
 
 
 namespace MarkdownMonster
@@ -308,7 +309,7 @@ namespace MarkdownMonster
                     docs.Add(new RecentDocumentListItem
                     {
                         Filename = doc,
-                        DisplayFilename = mmFileUtils.GetCompactPath(doc, 70)
+                        DisplayFilename = FileUtils.GetCompactPath(doc, 70)
                     });
                 }
                 return docs;
@@ -474,6 +475,22 @@ namespace MarkdownMonster
         }
         private bool _IsDocumentOutlineVisible;
 
+
+        public int MaxDocumentOutlineLevel
+        {
+            get => _maxOutlineLevel;
+            set
+            {
+                if (value == _maxOutlineLevel) return;
+                if (value > 6)
+                    value = 6;
+                if (value < 1)
+                    value = 1;
+                _maxOutlineLevel = value;
+                OnPropertyChanged(nameof(_maxOutlineLevel));
+            }
+        }
+        private int _maxOutlineLevel = 4;
 
 
         /// <summary>

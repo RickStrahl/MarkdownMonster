@@ -152,10 +152,6 @@ namespace MarkdownMonster
 
 			// Override some of the theme defaults (dark header specifically)
 			mmApp.SetThemeWindowOverride(this);
-		    //if (mmApp.Configuration.ApplicationTheme == Themes.Light)
-		    //{
-		    //    RightSidebarContainer.Background = (SolidColorBrush) Resources["LightThemeContentBackground"];		    
-             //}
 		}
 
 
@@ -798,7 +794,7 @@ namespace MarkdownMonster
 	            };
 	            if (doc.Filename != "untitled")
 	            {
-	                doc.Filename = mmFileUtils.GetPhysicalPath(doc.Filename);
+	                doc.Filename = FileUtils.GetPhysicalPath(doc.Filename);
 
 	                if (doc.HasBackupFile())
 	                {
@@ -930,6 +926,9 @@ namespace MarkdownMonster
 	        Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
 	        Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
 
+            if (!batchOpen)
+                //WindowUtilities.InvalidateMenuCommands(MainMenu);
+                Model.Commands.InvalidateCommands();
 
             return tab;
 	    }
@@ -1030,59 +1029,7 @@ namespace MarkdownMonster
 			}
 		}
 
-        /// <summary>
-        /// Adds a new panel to the sidebar
-        /// </summary>
-        /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
-        public void AddLeftSidebarPanelTabItem(TabItem tabItem = null)
-        {
-            if (tabItem != null)
-            {
-                ControlsHelper.SetHeaderFontSize(tabItem, 14);
-                SidebarContainer.Items.Add(tabItem);
-                SidebarContainer.SelectedItem = tabItem;
-            }
-
-            //if (SidebarContainer.Items.Count > 1)
-            //{
-            //    foreach (var item in SidebarContainer.Items)
-            //    {
-            //        var tbItem = item as TabItem;
-            //        tbItem.Visibility = Visibility.Visible;                    
-            //    }
-            //}
-            //else
-            //{
-            //    if(SidebarContainer.Items.Count == 1)
-            //        ((TabItem) SidebarContainer.Items[0]).Visibility = Visibility.Visible;
-            //}
-        }
-
-        /// <summary>
-        /// Adds a new panel to the right sidebar
-        /// </summary>
-        /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
-        public void AddRightSidebarPanelTabItem(TabItem tabItem = null)
-        {
-            if (tabItem != null)
-            {
-                ControlsHelper.SetHeaderFontSize(tabItem, 14);
-                RightSidebarContainer.Items.Add(tabItem);
-                RightSidebarContainer.SelectedItem = tabItem;
-            }
-
-            //if (RightSidebarContainer.Items.Count > 0)
-            //{
-            //    foreach (var item in RightSidebarContainer.Items)
-            //    {
-            //        var tbItem = item as TabItem;
-            //        tbItem.Visibility = Visibility.Visible;
-            //    }
-            //}
-          
-            ShowRightSidebar();
-        }
-
+        
         /// <summary>
         /// Binds the tab header to an expression
         /// </summary>
@@ -1178,7 +1125,11 @@ namespace MarkdownMonster
 				}
 			}
 			batchTabAction = false;
-			return true;
+
+		    //WindowUtilities.InvalidateMenuCommands(MainMenu);
+		    Model.Commands.InvalidateCommands();
+
+            return true;
 		}
 
 		/// <summary>
@@ -1249,6 +1200,10 @@ namespace MarkdownMonster
 
             Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
 		    Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
+
+            if(!batchTabAction)
+		        ////WindowUtilities.InvalidateMenuCommands(MainMenu);
+		        Model.Commands.InvalidateCommands();
 
             return returnValue; // close
 		}
@@ -1349,15 +1304,46 @@ namespace MarkdownMonster
 				e.Cancel();
 		}
 
-		/// <summary>
-		/// Sets the Window Title followed by Markdown Monster (registration status)
-		/// by default the filename is used and it's updated whenever tabs are changed.
-		///
-		/// Generally just call this when you need to have the title updated due to
-		/// file name change that doesn't change the active tab.
-		/// </summary>
-		/// <param name="title"></param>
-		public void SetWindowTitle(string title = null)
+        /// <summary>
+        /// Adds a new panel to the sidebar
+        /// </summary>
+        /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
+        public void AddLeftSidebarPanelTabItem(TabItem tabItem = null)
+        {
+            if (tabItem != null)
+            {
+                ControlsHelper.SetHeaderFontSize(tabItem, 14);
+                SidebarContainer.Items.Add(tabItem);
+                SidebarContainer.SelectedItem = tabItem;
+            }
+        }
+
+        /// <summary>
+        /// Adds a new panel to the right sidebar
+        /// </summary>
+        /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
+        public void AddRightSidebarPanelTabItem(TabItem tabItem = null)
+        {
+            if (tabItem != null)
+            {
+                ControlsHelper.SetHeaderFontSize(tabItem, 14);
+                RightSidebarContainer.Items.Add(tabItem);
+                RightSidebarContainer.SelectedItem = tabItem;
+            }
+
+            ShowRightSidebar();
+        }
+
+
+        /// <summary>
+        /// Sets the Window Title followed by Markdown Monster (registration status)
+        /// by default the filename is used and it's updated whenever tabs are changed.
+        ///
+        /// Generally just call this when you need to have the title updated due to
+        /// file name change that doesn't change the active tab.
+        /// </summary>
+        /// <param name="title"></param>
+        public void SetWindowTitle(string title = null)
 		{
 			if (title == null)
 			{
@@ -2212,10 +2198,7 @@ namespace MarkdownMonster
 
         #endregion
 
-        private void GridSplitter_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
 
-        }
     }
 
 

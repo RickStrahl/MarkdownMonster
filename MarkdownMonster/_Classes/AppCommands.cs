@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace MarkdownMonster
             NewWeblogPost();
             OpenRecentDocument();
             SaveAsHtml();
+            GeneratePdf();
 
             // Links and External
             OpenSampleMarkdown();
@@ -70,7 +72,22 @@ namespace MarkdownMonster
             CloseRightSidebarPanel();
             OpenLeftSidebarPanel();
             ShowFolderBrowser();
+        }
 
+        public void InvalidateCommands()
+        {
+            var commandProperties = typeof(AppCommands)
+                .GetProperties(BindingFlags.Public |
+                                BindingFlags.Instance |
+                                BindingFlags.GetProperty)
+                .Where(t => t.PropertyType == typeof(CommandBase));
+
+            foreach (var pi in commandProperties)
+            {                    
+                    var cb = pi.GetValue(this) as CommandBase;
+                    if (cb != null)                            
+                            cb.InvalidateCanExecute();                    
+            }            
         }
 
         #region Files And File Management
@@ -171,7 +188,7 @@ namespace MarkdownMonster
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
             {
-                if (Model.ActiveDocument == null)
+                if (!Model.IsEditorActive)
                     return false;
 
                 return Model.ActiveDocument.IsDirty;
@@ -280,7 +297,7 @@ namespace MarkdownMonster
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
             {
-                if (Model.ActiveDocument == null)
+                if (!Model.IsEditorActive)
                     return false;
 
                 return true;
@@ -416,7 +433,7 @@ Do you want to View in Browser now?
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
             {
-                if (Model.ActiveDocument == null || Model.ActiveEditor == null)
+                if (!Model.IsEditorActive)
                     return false;
                 if (Model.ActiveDocument.Filename == "untitled")
                     return true;
@@ -427,6 +444,30 @@ Do you want to View in Browser now?
             });
         }
 
+        public CommandBase GeneratePdfCommand { get; set; }
+
+        void GeneratePdf()
+        {
+            // PDF GENERATION PREVIEW
+            GeneratePdfCommand = new CommandBase((s, e) =>
+            {
+                var form = new GeneratePdfWindow()
+                {
+                    Owner = mmApp.Model.Window
+                };
+                form.Show();
+            }, (s, e) =>
+            {
+                if (!Model.IsEditorActive)
+                    return false;
+                if (Model.ActiveDocument.Filename == "untitled")
+                    return true;
+                if (Model.ActiveEditor.EditorSyntax != "markdown")
+                    return false;
+
+                return true;
+            });
+        }
 
         #endregion
 
@@ -578,7 +619,10 @@ Do you want to View in Browser now?
                 string action = s as string;
                 var editor = Model.Window.GetActiveMarkdownEditor();
                 editor?.ProcessEditorUpdateCommand(action);
-            }, null);
+            }, (p, c) =>
+            {
+                return Model.IsEditorActive;
+            });
         }
 
         public CommandBase CloseActiveDocumentCommand { get; set; }
@@ -593,7 +637,7 @@ Do you want to View in Browser now?
 
                 if (Model.Window.CloseTab(tab))
                     Model.Window.TabControl.Items.Remove(tab);
-            }, null)
+            }, (p,c) => Model.IsEditorActive)
             {
                 Caption = "_Close Document",
                 ToolTip = "Closes the active tab and asks to save the document."
@@ -616,7 +660,7 @@ Do you want to View in Browser now?
                 Model.Window.CloseAllTabs(except);
                 Model.Window.BindTabHeaders();
 
-            }, (p, c) => true);
+            }, (p, c) => Model.IsEditorActive);
         }
 
 

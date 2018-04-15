@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
@@ -174,7 +175,7 @@ namespace MarkdownMonster.Windows
             if (size < 1)
                 size = 70;
 
-            return mmFileUtils.GetCompactPath(path, size);
+            return FileUtils.GetCompactPath(path, size);
 
             //string folder = Path.GetFileName(Path.GetDirectoryName(path));
             //return $"{Path.GetFileName(path)}  –  {folder}";

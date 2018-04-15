@@ -189,7 +189,7 @@
         </Grid.ColumnDefinitions>
 
         <Menu x:Name="MainMenu" Grid.Row="0" 
-              Margin="0"               
+              Margin="0"
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File" Name="MainMenuFile" x:FieldModifier="public" >
                 <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding Commands.NewDocumentCommand}" InputGestureText="ctrl-n"/>
@@ -210,8 +210,7 @@
                 
                 <MenuItem Name="ButtonSaveAsSecureFile" Header="Save As _Encrypted File" Command="{Binding Commands.SaveAsCommand}" CommandParameter="Secure"  />
                 <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding Commands.SaveAsHtmlCommand}" />
-                <MenuItem x:Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding GeneratePdfCommand}"
-                           />
+                <MenuItem x:Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding Commands.GeneratePdfCommand}" />
                 
                 <Separator/>
                 
@@ -643,7 +642,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>                
+                            </Grid.RowDefinitions>
                             <fa:FontAwesome Icon="bars" Foreground="{DynamicResource BlueItem}"  Width="15" 
                                     controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsLeftSidebarVisible}"
                                     HorizontalAlignment="Center" Grid.Column="0" Padding="2,15,0,15" Cursor="Arrow" 
