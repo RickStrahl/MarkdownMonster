@@ -1,3 +1,5 @@
+# Markdown Monster License
+
 Markdown Monster comes in several license modes: Evaluation, Single User, Multiple User and Site License.
 
 Markdown Monster is source open with source code available on GitHub, but it is a licensed product that requires a paid-for license for continued use. The software is licensed as © Rick Strahl, West Wind Technologies, 2015-2018. 
@@ -8,13 +10,13 @@ Licenses can be purchased from:
 http://store.west-wind.com/product/markdown_monster
 
 
-EVALUATION LICENSE
+## Evaluation License
 
 The evaluation version is unrestricted and has all the features and functionality of the registered version, but shows occasional freeware notices in the user interface. Tampering with or removing of the notice is not allowed with the evaluation license.
 
 Evaluation is allowed for up to 50 uses of running Markdown Monster. After 50 uses you need to purchase a license.
 
-PURCHASED LICENSE 
+### Purchased License 
 
 For continued used of Markdown Monster a paid-for license is required. The paid-for license removes the freeware notices.
 
@@ -26,13 +28,13 @@ An organizational site license is available to allow any number of users running
 
 Any purchased license is valid for the duration of the major release that it was purchased for (ie. 1.00-1.99) and updates within the major version are always free. Upgrade pricing is available for major version upgrades and it's our policy to allow for free upgrades to the next major version within a year of purchase.
 
-SOURCE CODE
+## Source Code
 
 The Markdown Monster source code is available on GitHub at https://github.com/RickStrahl/MarkdownMonster, and we allow modification of source code for internal use of Markdown Monster in your organization or for submitting pull requests to the Markdown Monster main repository. Under no circumstances are you allowed to re-package and re-distribute any part of Markdown Monster outside of your organization.
 
 We encourage pull requests for feature suggestions or bug fixes to be submitted back to the Markdown Monster repository. Any contributors that provide meaningful enhancements, help with identifying and or fixing of bugs or by actively promoting Markdown Monster can qualify for a free license (at our discretion). Additionally Microsoft MVPs and Insiders and Microsoft Employees can apply for a free license.
 
-WARRANTY DISCLAIMER: NO WARRANTY!
+## WARRANTY DISCLAIMER: NO WARRANTY!
 
 YOU EXPRESSLY ACKNOWLEDGE AND AGREE THAT USE OF THE LICENSED APPLICATION IS AT YOUR SOLE RISK AND THAT THE ENTIRE RISK AS TO SATISFACTORY QUALITY, PERFORMANCE, ACCURACY AND EFFORT IS WITH YOU. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSE APPLICATION AND ANY SERVICES PERFORMED OR PROVIDED BY THE LICENSED APPLICATION ("SERVICES") ARE PROVIDED "AS IS" AND "AS AVAILABLE," WITH ALL FAULTS AND WITHOUT WARRANTY OF ANY KIND, AND APPLICATION PROVIDER HEREBY DISCLAIMS ALL WARRANTIES AND CONDITIONS WITH RESPECT TO THE LICENSED APPLICATION AND ANY SERVICES, EITHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES AND/OR CONDITIONS OF MERCHANTABILITY, OF SATISFACTORY QUALITY, OF FITNESS FOR A PARTICULAR PURPOSE, OF ACCURACY, OF QUIET ENJOYMENT, AND NON-INFRINGEMENT OF THIRD PARTY RIGHTS. APPLICATION PROVIDER DOES NOT WARRANT AGAINST INTERFERENCE WITH YOUR ENJOYMENT OF THE LICENSED APPLICATION, THAT THE FUNCTIONS CONTAINED IN, OR SERVICES PERFORMED OR PROVIDED BY, THE LICENSED APPLICATION WILL MEET YOUR REQUIREMENTS, THAT THE OPERATION OF THE LICENSED APPLICATION OR SERVICES WILL BE UNINTERRUPTED OR ERROR-FREE, OR THAT EFFECTS IN THE LICENSED APPLICATION OR SERVICES WILL BE CORRECTED. NO ORAL OR WRITTEN INFORMATION OR ADVICE GIVEN BY APPLICATION PROVIDER OR ITS AUTHORIZED REPRESENTATIVE SHALL CREATE A WARRANTY. SHOULD THE LICENSED APPLICATION OR SERVICES PROVE DEFECTIVE, YOU ASSUME THE ENTIRE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 

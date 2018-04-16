@@ -113,7 +113,7 @@ in the open, but a reasonably priced license must be purchased for continued use
     
 We offer individual and organizational licences to purchase, as well as **free** licenses to contributors 
 and certain developer organizations. For more licensing information, please check out 
-our [Licensing Page](download.aspx#license).
+our [Licensing Page](download.aspx#License).
     
 Thank you for playing fair.
 </ww:Markdown>
@@ -214,6 +214,7 @@ Thank you for playing fair.
 
                 <ul>
                     <li><a href="http://store.west-wind.com/products?search=markdownmonster">Purchase in our online Store</a></li>
+                    <li><a href="Download.aspx#License">License Information</a></li>
                     <li><a href="http://west-wind.com/pricing.aspx">Order Policies</a></li>
                 </ul>
     

@@ -4,12 +4,22 @@
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
 ### 1.10.6
-<small>not released yet</small>
+<small>April 16th, 2018</small>
+
 * **Add MaxDocumentOutlineLevel Configuration Value**  
 You can now specify the Max Outline level displayed in the Document Outline panel. This value also affects the embeddable Table of Contents that can be generated from the document outline. The value can be interactively set in the Document Outline's Context Menu.
 
 * **Add Undo/Redo to Editor Context Menu**  
 Added Undo and Redo options to the editor's context menu.
+
+* **Fix: Code Snippet Wrapping for Printing and PDF Generation**  
+Fixed Code Snippet wrapping so that code snippets wrap rather than scroll when printing or generating a PDF file.
+
+* **Fix: Miscellaneous Addin-Manager Issues**  
+Fix update button display. Fix installed version number display. Fix list rendering issues in the Addin list. Fix version comparison logic to determine whether an update is available.
+
+* **Fix: Binding issues with various Menu options when no Documents are open**  
+Fixed various issues with the menu when no document is open so that a number of options are not available. All commands are now explicitly rechecked when documents are opened or closed (via Tabs).
 
 ### 1.10.5
 <small>April 6th, 2018</small>

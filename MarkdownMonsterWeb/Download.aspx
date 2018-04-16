@@ -167,8 +167,8 @@
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft .NET 4.6+ <small>(4.6.2 recommended)
-                                <a href="http://smallestdotnet.com/">check</a> or <a href="https://www.microsoft.com/net/download/framework">download</a></small>
+                                Microsoft .NET Framework 4.6+ <small>(4.6.2 recommended)
+                                <a href="http://smallestdotnet.com/">check</a> or <a href="https://www.microsoft.com/net/download/all">download</a></small>
                             </div>                            
                         </div>
                     </div>
@@ -209,25 +209,16 @@
             <div class="panel-body">
 
      <ww:Markdown runat="server" id="license" NormalizeWhiteSpace="true">
-#### License
 
-Although we provide the <a href="https://github.com/RickStrahl/MarkdownMonster">source in the open</a>,
-Markdown Monster is licensed software.
+Although we provide the <a href="https://github.com/RickStrahl/MarkdownMonster">source in the open</a>, Markdown Monster is licensed software. Markdown Monster can be downloaded and evaluated for free, but [a reasonably priced license](https://store.west-wind.com/product/order/markdown_monster) must be purchased for continued use. 
 
-Markdown Monster can be downloaded and evaluated for free, but [a reasonably priced license](https://store.west-wind.com/product/order/markdown_monster) 
-must be purchased for continued use. Licenses are <b>per user</b>, rather than per machine, 
-so a licensed user can use Markdown Monster on as many computers as needed. An [organizational license](https://store.west-wind.com/product/markdown_monster_site) is also available 
-to use Markdown Monster for an unlimited number of installations within a single organization. Each individual user requires 
-a separate license, unless an organizational license  is used in which case the license is limited to members of licensed organization.                  
-                
-Licenses are valid for the major version for which it was purchased such as v1.0 to v1.99.                    
-                
+<a href="#License">More detailed license information can be found below</a>.
                     
-Thanks for playing fair.
+Thank you for playing fair.
 
 <a href="https://store.west-wind.com/product/order/markdown_monster" class="btn btn-lg btn-primary">
-    <i class="fa  fa-credit-card"></i>
-    Purchase
+    <i class="fa  fa-check" style="color: lightgreen"></i>
+    Purchase a License
 </a>
 
 ---
@@ -246,30 +237,51 @@ Microsoft MVPs, ASP.NET Insiders and Microsoft employees as well as employees of
 the Microsoft MVP program also qualify for a free license.
 	            
 <a href="https://store.west-wind.com/mvpperks.aspx" target="top">Apply for free license</a>.
+         
+--- 
+         
+<h3 id="License">Markdown Monster License</h3>
+         
+Markdown Monster comes in several license modes: Evaluation, Single User, Multiple User and Site License.
+
+Markdown Monster is source open with source code available on GitHub, but it is a licensed product that requires a paid-for license for continued use. The software is licensed as © Rick Strahl, West Wind Technologies, 2015-2018. 
+
+A fully functional, free evaluation version is available for evaluation use, but continued use requires purchase of a license. 
+
+Licenses can be purchased from:
+http://store.west-wind.com/product/markdown_monster
+
+
+#### Evaluation License
+
+The evaluation version is unrestricted and has all the features and functionality of the registered version, but shows occasional freeware notices in the user interface. Tampering with or removing of the notice is not allowed with the evaluation license.
+
+Evaluation is allowed for up to 50 uses of running Markdown Monster. After 50 uses you need to purchase a license.
+
+#### Purchased License
+
+For continued used of Markdown Monster a paid-for license is required. The paid-for license removes the freeware notices.
+
+Each licensed user must have a separate license, but a single user may use multiple copies of Markdown Monster on multiple machines, given that only one copy at a time is in use.
+
+The multi-user license works the same as a single user license applied to the number of users specified on the licensed purchased.
+
+An organizational site license is available to allow any number of users running unlimited numbers of Markdown Monster instances within a single organization.
+
+Any purchased license is valid for the duration of the major release that it was purchased for (ie. 1.00-1.99) and updates within the major version are always free. Upgrade pricing is available for major version upgrades and it's our policy to allow for free upgrades to the next major version within a year of purchase.
+
+#### Source Code
+
+The Markdown Monster source code is available on GitHub at https://github.com/RickStrahl/MarkdownMonster, and we allow modification of source code for internal use of Markdown Monster in your organization or for submitting pull requests to the Markdown Monster main repository. Under no circumstances are you allowed to re-package and re-distribute any part of Markdown Monster outside of your organization.
+
+We encourage pull requests for feature suggestions or bug fixes to be submitted back to the Markdown Monster repository. Any contributors that provide meaningful enhancements, help with identifying and or fixing of bugs or by actively promoting Markdown Monster can qualify for a free license (at our discretion). Additionally Microsoft MVPs and Insiders and Microsoft Employees can apply for a free license.
+
+#### WARRANTY DISCLAIMER: NO WARRANTY!
+
+YOU EXPRESSLY ACKNOWLEDGE AND AGREE THAT USE OF THE LICENSED APPLICATION IS AT YOUR SOLE RISK AND THAT THE ENTIRE RISK AS TO SATISFACTORY QUALITY, PERFORMANCE, ACCURACY AND EFFORT IS WITH YOU. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSE APPLICATION AND ANY SERVICES PERFORMED OR PROVIDED BY THE LICENSED APPLICATION ("SERVICES") ARE PROVIDED "AS IS" AND "AS AVAILABLE," WITH ALL FAULTS AND WITHOUT WARRANTY OF ANY KIND, AND APPLICATION PROVIDER HEREBY DISCLAIMS ALL WARRANTIES AND CONDITIONS WITH RESPECT TO THE LICENSED APPLICATION AND ANY SERVICES, EITHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES AND/OR CONDITIONS OF MERCHANTABILITY, OF SATISFACTORY QUALITY, OF FITNESS FOR A PARTICULAR PURPOSE, OF ACCURACY, OF QUIET ENJOYMENT, AND NON-INFRINGEMENT OF THIRD PARTY RIGHTS. APPLICATION PROVIDER DOES NOT WARRANT AGAINST INTERFERENCE WITH YOUR ENJOYMENT OF THE LICENSED APPLICATION, THAT THE FUNCTIONS CONTAINED IN, OR SERVICES PERFORMED OR PROVIDED BY, THE LICENSED APPLICATION WILL MEET YOUR REQUIREMENTS, THAT THE OPERATION OF THE LICENSED APPLICATION OR SERVICES WILL BE UNINTERRUPTED OR ERROR-FREE, OR THAT EFFECTS IN THE LICENSED APPLICATION OR SERVICES WILL BE CORRECTED. NO ORAL OR WRITTEN INFORMATION OR ADVICE GIVEN BY APPLICATION PROVIDER OR ITS AUTHORIZED REPRESENTATIVE SHALL CREATE A WARRANTY. SHOULD THE LICENSED APPLICATION OR SERVICES PROVE DEFECTIVE, YOU ASSUME THE ENTIRE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THIS PROGRAM AND DOCUMENTATION, BE LIABLE FOR ANY COMMERCIAL, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM INCLUDING, BUT NOT LIMITED TO, LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR LOSSES SUSTAINED BY THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
                 	
-#### No Warranty
-You expressly acknowledge and agree that use of the licensed application is at your sole risk and that
-the entire risk as to satisfactory quality, performance, accuracy and effort is with you. To the maximum
-extent permitted by applicable law, the license application and any services performed or provided by
-the licensed application ("services") are provided "as is" and "as available," with all faults and without
-warranty of any kind, and application provider hereby disclaims all warranties and conditions with respect
-to the licensed application and any services, either express, implied or statutory, including, but not
-limited to, the implied warranties and/or conditions of merchantability, of satisfactory quality, of
-fitness for a particular purpose, of accuracy, of quiet enjoyment, and non-infringement of third party
-rights. Application provider does not warrant against interference with your enjoyment of the licensed
-application, that the functions contained in, or services performed or provided by, the licensed application
-will meet your requirements, that the operation of the licensed application or services will be uninterrupted
-or error-free, or that effects in the licensed application or services will be corrected. No oral or
-written information or advice given by application provider or its authorized representative shall create
-a warranty. Should the licensed application or services prove defective, you assume the entire cost
-of all necessary servicing, repair or correction.                     
-                
-#### LIMITATION OF LIABILITY
-IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THIS PROGRAM AND DOCUMENTATION, BE LIABLE
-FOR ANY COMMERCIAL, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY
-TO USE THE PROGRAM INCLUDING, BUT NOT LIMITED TO, LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR
-LOSSES SUSTAINED BY YOU OR LOSSES SUSTAINED BY THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE
-WITH ANY OTHER PROGRAMS, EVEN IF YOU OR OTHER PARTIES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES
                                 
 </ww:Markdown>
 
