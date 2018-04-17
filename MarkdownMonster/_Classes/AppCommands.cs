@@ -74,25 +74,26 @@ namespace MarkdownMonster
             ShowFolderBrowser();
         }
 
+
+        private List<PropertyInfo> commandProperties;
+
         public void InvalidateCommands()
         {
-            var commandProperties = typeof(AppCommands)
-                .GetProperties(BindingFlags.Public |
-                                BindingFlags.Instance |
-                                BindingFlags.GetProperty)
-                .Where(t => t.PropertyType == typeof(CommandBase));
+            if (commandProperties == null)
+            {
+                commandProperties = typeof(AppCommands)
+                    .GetProperties(BindingFlags.Public |
+                                   BindingFlags.Instance |
+                                   BindingFlags.GetProperty)
+                    .Where(t => t.PropertyType == typeof(CommandBase))
+                    .ToList();
+            }
 
             foreach (var pi in commandProperties)
-            {                    
-                    var cb = pi.GetValue(this) as CommandBase;
-                    if (cb != null)                            
-                            cb.InvalidateCanExecute();                    
-            }            
+                (pi.GetValue(this) as CommandBase)?.InvalidateCanExecute();
         }
 
         #region Files And File Management
-
-
 
         public CommandBase NewDocumentCommand { get; set; }
 
@@ -619,16 +620,13 @@ Do you want to View in Browser now?
                 string action = s as string;
                 var editor = Model.Window.GetActiveMarkdownEditor();
                 editor?.ProcessEditorUpdateCommand(action);
-            }, (p, c) =>
-            {
-                return Model.IsEditorActive;
-            });
+            }, (p, c) => Model.IsEditorActive);
         }
 
         public CommandBase CloseActiveDocumentCommand { get; set; }
 
         void CloseActiveDocument()
-        {            
+        {
             CloseActiveDocumentCommand = new CommandBase((s, e) =>
             {
                 var tab = Model.Window.TabControl.SelectedItem as TabItem;
@@ -637,11 +635,7 @@ Do you want to View in Browser now?
 
                 if (Model.Window.CloseTab(tab))
                     Model.Window.TabControl.Items.Remove(tab);
-            }, (p,c) => Model.IsEditorActive)
-            {
-                Caption = "_Close Document",
-                ToolTip = "Closes the active tab and asks to save the document."
-            };
+            }, (p, c) => Model.IsEditorActive);
         }
 
 

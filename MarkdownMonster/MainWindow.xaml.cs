@@ -681,7 +681,7 @@ namespace MarkdownMonster
 			{
 				foreach (var recentDocument in config.RecentDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength))
 				{
-					var editor = getTabItemByFileName(recentDocument)?.Tag as MarkdownDocumentEditor;
+					var editor = this.GetTabFromFilename(recentDocument)?.Tag as MarkdownDocumentEditor;
 
 					var doc = editor?.MarkdownDocument;
 					if (doc == null)
@@ -926,10 +926,6 @@ namespace MarkdownMonster
 	        Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
 	        Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
 
-            if (!batchOpen)
-                //WindowUtilities.InvalidateMenuCommands(MainMenu);
-                Model.Commands.InvalidateCommands();
-
             return tab;
 	    }
 
@@ -978,7 +974,131 @@ namespace MarkdownMonster
             return tab;
         }
 
-    
+
+        /// <summary>
+        /// Closes a tab and ask for confirmation if the tab doc
+        /// is dirty.
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <param name="rebindTabHeaders">
+        /// When true tab headers are rebound to handle duplicate filenames
+        /// with path additions.
+        /// </param>
+        /// <returns>true if tab can close, false if it should stay open</returns>
+        public bool CloseTab(TabItem tab, bool rebindTabHeaders = true, bool dontPromptForSave = false)
+        {
+            var editor = tab?.Tag as MarkdownDocumentEditor;
+            if (editor == null)
+                return false;
+
+            bool returnValue = true;
+
+            tab.Padding = new Thickness(200);
+
+            var doc = editor.MarkdownDocument;
+
+            doc.CleanupBackupFile();
+
+            if (doc.IsDirty && !dontPromptForSave)
+            {
+                var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n" +
+                                          "Do you want to save changes?",
+                    "Save Document",
+                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+                if (res == MessageBoxResult.Cancel)
+                {
+                    return false; // don't close
+                }
+                if (res == MessageBoxResult.No)
+                {
+                    // close but don't save
+                }
+                else
+                {
+                    if (doc.Filename == "untitled")
+                        Model.Commands.SaveAsCommand.Execute(ButtonSaveAsFile);
+                    else if (!SaveFile())
+                        returnValue = false;
+                }
+            }
+
+            doc.LastEditorLineNumber = editor.GetLineNumber();
+            if (doc.LastEditorLineNumber == -1)
+                doc.LastEditorLineNumber = 0;
+
+            tab.Tag = null;
+            TabControl.Items.Remove(tab);
+
+            if (TabControl.Items.Count == 0)
+            {
+                PreviewBrowser.Navigate("about:blank");
+
+                Model.ActiveDocument = null;
+                Title = "Markdown Monster" +
+                        (UnlockKey.Unlocked ? "" : " (unregistered)");
+            }
+
+            if (rebindTabHeaders)
+                BindTabHeaders();
+
+            Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
+            Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
+
+            return returnValue; // close
+        }
+
+        /// <summary>
+        /// Closes a tab and ask for confirmation if the tab doc
+        /// is dirty.
+        /// </summary>
+        /// <param name="filename">
+        /// The absolute path to the file opened in the tab that
+        /// is going to be closed
+        /// </param>
+        /// <returns>true if tab can close, false if it should stay open or
+        /// filename not opened in any tab</returns>
+        public bool CloseTab(string filename)
+        {
+            TabItem tab = GetTabFromFilename(filename);
+
+            if (tab != null)
+            {
+                return CloseTab(tab);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///  Flag used to let us know we don't want to perform tab selection operations
+        /// </summary>
+        private bool batchTabAction = false;
+
+        public bool CloseAllTabs(TabItem allExcept = null)
+        {
+            batchTabAction = true;
+            for (int i = TabControl.Items.Count - 1; i > -1; i--)
+            {
+                var tab = TabControl.Items[i] as TabItem;
+
+                if (tab != null)
+                {
+                    if (allExcept != null && tab == allExcept)
+                        continue;
+
+                    if (!CloseTab(tab, rebindTabHeaders: false))
+                        return false;
+                }
+            }
+            batchTabAction = false;
+
+            //WindowUtilities.InvalidateMenuCommands(MainMenu);
+            Model.Commands.InvalidateCommands();
+
+            return true;
+        }
 
         /// <summary>
         /// Retrieves an open tab based on its filename.
@@ -986,6 +1106,25 @@ namespace MarkdownMonster
         /// <param name="filename"></param>
         /// <returns></returns>
         public TabItem GetTabFromFilename(string filename)
+        {
+            if (string.IsNullOrEmpty(filename))
+                return null;
+
+            TabItem tab = null;
+            foreach (TabItem tabItem in TabControl.Items.Cast<TabItem>())
+            {
+                var markdownEditor = tabItem.Tag as MarkdownDocumentEditor;
+                if (markdownEditor.MarkdownDocument.Filename.Equals(filename,StringComparison.InvariantCultureIgnoreCase))
+                {
+                    tab = tabItem;
+                    break;
+                }
+            }
+            return tab;
+        }
+
+      
+        public TabItem XXX_GetTabFromFilename(string filename)
         {
             if (string.IsNullOrEmpty(filename))
                 return null;
@@ -1002,34 +1141,33 @@ namespace MarkdownMonster
         /// Binds all Tab Headers
         /// </summary>
         public void BindTabHeaders()
-		{
-			var tabList = new List<TabItem>();
-			foreach (TabItem tb in TabControl.Items)
-				tabList.Add(tb);
+        {
+            var tabList = new List<TabItem>();
+            foreach (TabItem tb in TabControl.Items)
+                tabList.Add(tb);
 
-			var tabItems = tabList
-				.Select(tb => Path.GetFileName(((MarkdownDocumentEditor) tb.Tag).MarkdownDocument.Filename.ToLower()))
-				.GroupBy(fn => fn)
-				.Select(tbCol => new
-				{
-					Filename = tbCol.Key,
-					Count = tbCol.Count()
-				});
+            var tabItems = tabList
+                .Select(tb => Path.GetFileName(((MarkdownDocumentEditor) tb.Tag).MarkdownDocument.Filename.ToLower()))
+                .GroupBy(fn => fn)
+                .Select(tbCol => new
+                {
+                    Filename = tbCol.Key,
+                    Count = tbCol.Count()
+                });
 
-			foreach (TabItem tb in TabControl.Items)
-			{
-				var doc = ((MarkdownDocumentEditor) tb.Tag).MarkdownDocument;
+            foreach (TabItem tb in TabControl.Items)
+            {
+                var doc = ((MarkdownDocumentEditor) tb.Tag).MarkdownDocument;
 
-				if (tabItems.Any(ti => ti.Filename == Path.GetFileName(doc.Filename.ToLower()) &&
-				                       ti.Count > 1))
+                if (tabItems.Any(ti => ti.Filename == Path.GetFileName(doc.Filename.ToLower()) &&
+                                       ti.Count > 1))
 
-					SetTabHeaderBinding(tb, doc, "FilenamePathWithIndicator");
-				else
-					SetTabHeaderBinding(tb, doc, "FilenameWithIndicator");
-			}
-		}
+                    SetTabHeaderBinding(tb, doc, "FilenamePathWithIndicator");
+                else
+                    SetTabHeaderBinding(tb, doc, "FilenameWithIndicator");
+            }
+        }
 
-        
         /// <summary>
         /// Binds the tab header to an expression
         /// </summary>
@@ -1037,217 +1175,74 @@ namespace MarkdownMonster
         /// <param name="document"></param>
         /// <param name="propertyPath"></param>
         private void SetTabHeaderBinding(TabItem tab, MarkdownDocument document,
-			string propertyPath = "FilenameWithIndicator",
-		    ImageSource icon = null)
-		{
-			if (document == null || tab == null)
-				return;
+            string propertyPath = "FilenameWithIndicator",
+            ImageSource icon = null)
+        {
+            if (document == null || tab == null)
+                return;
 		   
-			try
-			{                
-			    var grid = new Grid();
+            try
+            {                
+                var grid = new Grid();
                 tab.Header = grid;
-			    var col1 = new ColumnDefinition {Width = new GridLength(20)};
-			    var col2 = new ColumnDefinition {Width = GridLength.Auto};
+                var col1 = new ColumnDefinition {Width = new GridLength(20)};
+                var col2 = new ColumnDefinition {Width = GridLength.Auto};
                 grid.ColumnDefinitions.Add(col1);
-			    grid.ColumnDefinitions.Add(col2);
+                grid.ColumnDefinitions.Add(col2);
 
 
-			    if (icon == null)
-			    {
-			        icon = FolderStructure.IconList.GetIconFromFile(document.Filename);
-			        if (icon == AssociatedIcons.DefaultIcon)
-			            icon = FolderStructure.IconList.GetIconFromType(Model.ActiveEditor.EditorSyntax);
+                if (icon == null)
+                {
+                    icon = FolderStructure.IconList.GetIconFromFile(document.Filename);
+                    if (icon == AssociatedIcons.DefaultIcon)
+                        icon = FolderStructure.IconList.GetIconFromType(Model.ActiveEditor.EditorSyntax);
                 }
 			    
 
                 var img = new Image()
-			    {
-			        Source = icon,
+                {
+                    Source = icon,
                     Height=16,
                     Margin = new Thickness(0,1,5,0)
-			    };
-			    img.SetValue(Grid.ColumnProperty, 0);
-			    grid.Children.Add(img);
+                };
+                img.SetValue(Grid.ColumnProperty, 0);
+                grid.Children.Add(img);
 
 
-			    var textBlock = new TextBlock();
-			    textBlock.SetValue(Grid.ColumnProperty, 1);
+                var textBlock = new TextBlock();
+                textBlock.SetValue(Grid.ColumnProperty, 1);
 
                 var headerBinding = new Binding
-			    {
-			        Source = document,
-			        Path = new PropertyPath(propertyPath),
-			        Mode = BindingMode.OneWay
-			    };			    
+                {
+                    Source = document,
+                    Path = new PropertyPath(propertyPath),
+                    Mode = BindingMode.OneWay
+                };			    
                 BindingOperations.SetBinding(textBlock, TextBlock.TextProperty, headerBinding);
 
-			    var fontWeightBinding = new Binding
-			    {
-			        Source = tab,
-			        Path = new PropertyPath("IsSelected"),                     
-			        Mode = BindingMode.OneWay,
+                var fontWeightBinding = new Binding
+                {
+                    Source = tab,
+                    Path = new PropertyPath("IsSelected"),                     
+                    Mode = BindingMode.OneWay,
                     Converter = new FontWeightFromBoolConverter()
-			    };
-			    BindingOperations.SetBinding(textBlock, TextBlock.FontWeightProperty, fontWeightBinding);
+                };
+                BindingOperations.SetBinding(textBlock, TextBlock.FontWeightProperty, fontWeightBinding);
 
 
                 grid.Children.Add(textBlock);
 
-			    //BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
-			}
-			catch (Exception ex)
-			{
-				mmApp.Log("SetTabHeaderBinding Failed. Assigning explicit path", ex);
-				tab.Header = document.FilenameWithIndicator;
-			}
-		}
+                //BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log("SetTabHeaderBinding Failed. Assigning explicit path", ex);
+                tab.Header = document.FilenameWithIndicator;
+            }
+        }
 
-		/// <summary>
-		///  Flag used to let us know we don't want to perform tab selection operations
-		/// </summary>
-		private bool batchTabAction = false;
 
-        public bool CloseAllTabs(TabItem allExcept = null)
-		{
-			batchTabAction = true;
-			for (int i = TabControl.Items.Count - 1; i > -1; i--)
-			{
-				var tab = TabControl.Items[i] as TabItem;
-
-				if (tab != null)
-				{
-					if (allExcept != null && tab == allExcept)
-						continue;
-
-					if (!CloseTab(tab, rebindTabHeaders: false))
-						return false;
-				}
-			}
-			batchTabAction = false;
-
-		    //WindowUtilities.InvalidateMenuCommands(MainMenu);
-		    Model.Commands.InvalidateCommands();
-
-            return true;
-		}
-
-		/// <summary>
-		/// Closes a tab and ask for confirmation if the tab doc
-		/// is dirty.
-		/// </summary>
-		/// <param name="tab"></param>
-		/// <param name="rebindTabHeaders">
-		/// When true tab headers are rebound to handle duplicate filenames
-		/// with path additions.
-		/// </param>
-		/// <returns>true if tab can close, false if it should stay open</returns>
-		public bool CloseTab(TabItem tab, bool rebindTabHeaders = true, bool dontPromptForSave = false)
-		{
-			var editor = tab?.Tag as MarkdownDocumentEditor;
-			if (editor == null)
-				return false;
-
-			bool returnValue = true;
-
-            tab.Padding = new Thickness(200);
-
-			var doc = editor.MarkdownDocument;
-
-			doc.CleanupBackupFile();
-
-			if (doc.IsDirty && !dontPromptForSave)
-			{
-				var res = MessageBox.Show(Path.GetFileName(doc.Filename) + "\r\n\r\nhas been modified.\r\n" +
-				                          "Do you want to save changes?",
-					"Save Document",
-					MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
-				if (res == MessageBoxResult.Cancel)
-				{
-					return false; // don't close
-				}
-				if (res == MessageBoxResult.No)
-				{
-					// close but don't save
-				}
-				else
-				{
-					if (doc.Filename == "untitled")
-						Model.Commands.SaveAsCommand.Execute(ButtonSaveAsFile);
-					else if (!SaveFile())
-						returnValue = false;
-				}
-			}
-
-			doc.LastEditorLineNumber = editor.GetLineNumber();
-			if (doc.LastEditorLineNumber == -1)
-				doc.LastEditorLineNumber = 0;
-
-			tab.Tag = null;
-			TabControl.Items.Remove(tab);
-
-			if (TabControl.Items.Count == 0)
-			{
-			    PreviewBrowser.Navigate("about:blank");
-
-				Model.ActiveDocument = null;
-				Title = "Markdown Monster" +
-				        (UnlockKey.Unlocked ? "" : " (unregistered)");
-			}
-
-			if (rebindTabHeaders)
-				BindTabHeaders();
-
-            Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
-		    Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
-
-            if(!batchTabAction)
-		        ////WindowUtilities.InvalidateMenuCommands(MainMenu);
-		        Model.Commands.InvalidateCommands();
-
-            return returnValue; // close
-		}
-
-		/// <summary>
-		/// Closes a tab and ask for confirmation if the tab doc
-		/// is dirty.
-		/// </summary>
-		/// <param name="filename">
-		/// The absolute path to the file opened in the tab that
-		/// is going to be closed
-		/// </param>
-		/// <returns>true if tab can close, false if it should stay open or
-		/// filename not opened in any tab</returns>
-		public bool CloseTab(string filename)
-		{
-			TabItem tab = getTabItemByFileName(filename);
-
-			if (tab != null)
-			{
-				return CloseTab(tab);
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		private TabItem getTabItemByFileName(string filename)
-		{
-			TabItem tab = null;
-			foreach (TabItem tabItem in TabControl.Items.Cast<TabItem>())
-			{
-				var markdownEditor = tabItem.Tag as MarkdownDocumentEditor;
-				if (markdownEditor.MarkdownDocument.Filename.Equals(filename))
-				{
-					tab = tabItem;
-					break;
-				}
-			}
-			return tab;
-		}
-
-		private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (batchTabAction)
 				return;
