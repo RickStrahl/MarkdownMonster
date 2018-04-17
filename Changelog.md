@@ -3,8 +3,8 @@
 # Markdown Monster Change Log 
 <small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.10.6
-<small>April 16th, 2018</small>
+### 1.10.7
+<small>April 17th, 2018</small>
 
 * **Add MaxDocumentOutlineLevel Configuration Value**  
 You can now specify the Max Outline level displayed in the Document Outline panel. This value also affects the embeddable Table of Contents that can be generated from the document outline. The value can be interactively set in the Document Outline's Context Menu.
@@ -110,7 +110,7 @@ The MarkdownDocumentEditor instance now has a collection of Properties that can 
 Added additional configuration switches to the Markdown configuration to allow for more complete Markdown extension support as provided by [MarkDig](https://github.com/lunet-io/markdighttps://github.com/lunet-io/markdig). Added support for [Custom Containers fenced `<div>` blocks](https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/CustomContainerSpecs.md) and [Generic Markdown Attributes](https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/GenericAttributesSpecs.md) and added explicit properties for most of MarkDig's extension features.
 
 * **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
-* Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
+Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
 Example: [Chromium Preview Addin (preview)](https://github.com/RickStrahl/ChromiumPreview-MarkdownMonster-Addin)
 
 * **Post Date for Weblog Post Meta Data**  
