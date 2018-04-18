@@ -12,6 +12,12 @@ You can now specify the Max Outline level displayed in the Document Outline pane
 * **Add Undo/Redo to Editor Context Menu**  
 Added Undo and Redo options to the editor's context menu.
 
+* **Open Git Client From Document or Folder Browser Folder**  
+You can now configure an external Git Client and open it from the Folder Browser or the Open Document's Tab Context menus.
+
+* **Open Markdown files linked in Preview in Editor**   
+If you have a link in your markdown to another Markdown file the previewer now detects that the file is a local Markdown file and opens it in the editor.
+
 * **Fix: Code Snippet Wrapping for Printing and PDF Generation**  
 Fixed Code Snippet wrapping so that code snippets wrap rather than scroll when printing or generating a PDF file.
 
@@ -21,17 +27,8 @@ Fix update button display. Fix installed version number display. Fix list render
 * **Fix: Binding issues with various Menu options when no Documents are open**  
 Fixed various issues with the menu when no document is open so that a number of options are not available. All commands are now explicitly rechecked when documents are opened or closed (via Tabs).
 
-### 1.10.5
-<small>April 6th, 2018</small>
-
-* **Open Markdown files linked in Preview in Editor**   
-If you have a link in your markdown to another Markdown file the previewer now detects that the file is a local Markdown file and opens it in the editor.
-
 * **Addin: Intercept Preview Link Clicks**  
 Addins now have a new `Addin.OnPreviewLinkNavigation()` to intercept navigation and handle custom link processing in the preview. Return `true` to override or `false` to let the default link processing work.
-
-* **Open Git Client From Document or Folder Browser Folder**  
-You can now configure an external Git Client and open it from the Folder Browser or the Open Document's Tab Context menus.
 
 * **Fix: UrlEncoding in Paste URL Dialog for Local Files**  
 Fix the Paste URL dialog when embedding relative file links to be URL Encoded.
