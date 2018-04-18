@@ -1,7 +1,11 @@
-<img src="Art/MarkdownMonster_Icon_128.png" align="right" />
+
 
 # Markdown Monster Change Log 
-<small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
+
+[![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)&nbsp;
+[![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)&nbsp;
+[![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
+
 
 ### 1.10.7
 <small>April 17th, 2018</small>
