@@ -198,9 +198,41 @@ namespace MarkdownMonster.Utilities
 
             var lurl = url.ToLower();
 
-            string urlToOpen = null;
+            string urlToOpen = url;
 
-            if (lurl.Contains("github.com"))
+            
+            if (lurl.Contains("gist.github.com"))
+            {
+                // Orig: https://gist.github.com/RickStrahl/2e485205f9a1a7f9c827c1da172e185b
+                // Raw:  https://gist.github.com/RickStrahl/2e485205f9a1a7f9c827c1da172e185b/raw
+                if (!lurl.Contains("/raw"))
+                    urlToOpen = url + "/raw";
+            }
+            else if (lurl.Contains("docs.microsoft.com"))
+            {
+                // orig: https://docs.microsoft.com/en-us/dotnet/csharp/getting-started/
+                // github: https://github.com/dotnet/docs/blob/master/docs/csharp/getting-started/index.md
+                if (!lurl.Contains(".md"))
+                {
+                    try
+                    {                        
+                        string content = HttpUtils.HttpRequestString(url);
+
+                        var doc = new HtmlAgilityPack.HtmlDocument();
+                        doc.LoadHtml(content);
+                        
+                        var node = doc.DocumentNode.SelectSingleNode("//a[@data-original_content_git_url]");
+
+                        // process for Github below
+                        url = node.Attributes["href"].Value;
+                        lurl = url.ToLower();
+                    }
+                    catch { }
+                }
+            }
+
+
+            if (lurl.Contains("/github.com/"))
             {
                 if (!lurl.Contains(".md"))
                 {
@@ -217,11 +249,7 @@ namespace MarkdownMonster.Utilities
                 }
 
             }
-            else
-            {
-                urlToOpen = url;
-            }
-
+            
             return urlToOpen;
         }
 

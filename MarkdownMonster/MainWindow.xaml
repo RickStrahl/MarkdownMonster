@@ -196,12 +196,17 @@
                 <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Command="{Binding Commands.NewWeblogPostCommand}" />
                 <Separator/>
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="ctrl-o"/>
-                <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
+
+                <MenuItem Header="Open from...">
+                    <MenuItem Name="ButtonOpenFromUrl" Header="Open from Url" Command="{Binding Commands.OpenFromUrlCommand}" />
+                    <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
+                </MenuItem>
+
                 <MenuItem Name="ButtonRecentFiles" Header="Recent Documents" SubmenuOpened="ButtonRecentFiles_SubmenuOpened"  Click="Button_Handler" >
                     <MenuItem>.</MenuItem>
                 </MenuItem>
 
-                    <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding Commands.SaveCommand}"  
+                <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding Commands.SaveCommand}"  
                           InputGestureText="ctrl+s"/>
                 <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding Commands.SaveAsCommand}"  
                           InputGestureText="ctrl+shift+s"/>

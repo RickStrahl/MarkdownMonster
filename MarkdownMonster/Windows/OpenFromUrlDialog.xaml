@@ -1,0 +1,66 @@
+﻿<controls:MetroWindow  x:Class="MarkdownMonster.Windows.OpenFromUrlDialog"                      
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"        
+        mc:Ignorable="d"
+        Icon="../Assets/MarkdownMonster_Icon_256.png"                     
+        Title="Open Markdown from Url"
+        TitleCharacterCasing="Normal"
+        TitlebarHeight="35"                       
+        WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
+        WindowStartupLocation="CenterOwner"         
+        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
+        Width="610" Height="280">
+    <StackPanel Margin="30,20,30,0" VerticalAlignment="Top">
+        <Label Content="URL to open:"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="TextUrl" Grid.Column="0"  Text="{Binding Url}"  
+                     HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  
+                     controls:TextBoxHelper.Watermark="Enter a URL to a Markdown document"
+                     ToolTip="Set the link text for the link."/>
+            <Button Grid.Column="1"  Height="Auto" Width="30" FontSize="12" Click="BrowseForLink_Click"
+                    Content="..."  >
+                <Button.ToolTip>
+                    <TextBlock>Browse for Link. Find your URL, copy to clipboard and return to this form when done.
+                        <LineBreak/>
+                        Clipboard URLs are auto-pasted into the link box.
+                    </TextBlock>
+                </Button.ToolTip>
+            </Button>
+        </Grid>
+
+
+        <StackPanel Orientation="Horizontal" Margin="0 25 0 25">
+            <Button x:Name="ButtonOk" Margin="0,0" Height="40"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome  Icon="Download"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                    <TextBlock Margin="10,0,0,0" Text="Open URL" />
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="ButtonCancel" Margin="10,0" Height="40" Width="130" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
+                    <TextBlock Margin="10,0,0,0"><Run Text="Cancel"/></TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        
+        <Separator/>
+
+        <TextBlock TextWrapping="Wrap" FontSize="12.5" Margin="0,10,0,0">
+            Note:
+            The opener automatically fixes up links from Github, BitBucket, Gist and Microsoft Docs by auto-discovering the appropriate editing links that can be opened in the editor.                      
+        </TextBlock>
+
+
+    </StackPanel>
+</controls:MetroWindow>
