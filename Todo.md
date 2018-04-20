@@ -3,8 +3,11 @@
 ### Immediate
 * [ ] Addin Enabled/Disabled
 * [ ] Master Configuration Form
-* [ ] Markdown Document Outline
-
+* [x] Markdown Document Outline
+* [ ] Command (and UI) Line Open from URL
+        * Open from Gist
+        * Open from Github/Bitbucket
+        * Open from raw URL
 
 ### Mid Term
 * [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin

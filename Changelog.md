@@ -6,9 +6,6 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
-
-
 ### 1.10.7
 <small>April 17th, 2018</small>
 
@@ -46,7 +43,7 @@ Fix the Paste URL dialog when embedding relative file links to be URL Encoded.
 Added a new VS Code Dark editor theme that is similar to VS Code's default editor theme. Due to differences in the rendering engines between ACE and Monaco the styling isn't identical but fairly close.
 
 * **Editor Enhancements**  
-Updated to the latest version of ACE Editor which is noticeably faster and more stable. A number of cursor related issues are addressed. Updated Twilight and the new VS Code Dark Theme.
+Updated to the latest version of ACE Editor which is noticeably faster and more stable. A number of cursor and scrolling related issues are addressed. Updated Twilight and the new VS Code Dark Theme.
 
 * **Add Editor LineHeight Configuration Switch**  
 Added configuration switch to allow setting the editor text line height to separate or tighten up the spacing between text. Default line height has been bumped up to 1.3 from 1.2 which gives a little bit more space between lines.

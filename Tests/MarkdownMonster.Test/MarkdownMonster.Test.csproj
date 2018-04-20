@@ -97,6 +97,7 @@
     <Compile Include="ComputerInfoTests.cs" />
     <Compile Include="ConfigurationTests.cs" />
     <Compile Include="DocumentOutlineTests.cs" />
+    <Compile Include="FileSaverTests.cs" />
     <Compile Include="FolderStructureTests.cs" />
     <Compile Include="FrontMatterTests.cs" />
     <Compile Include="HtmlToPdfGenerationTests.cs" />

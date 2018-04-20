@@ -342,6 +342,8 @@ namespace MarkdownMonster
                     for (int i = row + 1; i < 99999999; i++)
                     {
                         lineText = editor.GetLine(i);
+                        if (string.IsNullOrEmpty(lineText)) return;
+
                         if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|") ||
                               lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
                         {
