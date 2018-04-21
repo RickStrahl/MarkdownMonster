@@ -101,14 +101,14 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dragablz, Version=0.0.3.197, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dragablz.0.0.3.197\lib\net45\Dragablz.dll</HintPath>
+    <Reference Include="Dragablz, Version=0.0.3.203, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.203\lib\net45\Dragablz.dll</HintPath>
     </Reference>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.7.0.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.7.0\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.7.1.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.7.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -128,8 +128,8 @@
     <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHunspell, Version=1.2.5554.16953, Culture=neutral, PublicKeyToken=1ac793ea843b4366, processorArchitecture=MSIL">
       <HintPath>..\packages\NHunspell.1.2.5554.16953\lib\net\NHunspell.dll</HintPath>
@@ -157,8 +157,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Westwind.Utilities, Version=3.0.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Westwind.Utilities.3.0.12\lib\net45\Westwind.Utilities.dll</HintPath>
+    <Reference Include="Westwind.Utilities, Version=3.0.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Utilities.3.0.13\lib\net45\Westwind.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -246,6 +246,7 @@
     <Compile Include="_Classes\AddInInterfaces\BaseAddinConfiguration.cs" />
     <Compile Include="_Classes\AppCommands.cs" />
     <Compile Include="_Classes\Configuration\ApplicationUpdatesConfiguration.cs" />
+    <Compile Include="_Classes\Configuration\EditorConfiguration.cs" />
     <Compile Include="_Classes\Configuration\FolderBrowserConfiguration.cs" />
     <Compile Include="_Classes\Configuration\MarkdownOptionsConfiguration.cs" />
     <Compile Include="_Classes\Configuration\WindowPositionConfiguration.cs" />
@@ -265,7 +266,7 @@
     <Compile Include="_Classes\Utilities\mmFileUtils.cs" />
     <Compile Include="Windows\Helpers\WindowUtilities.cs" />
     <Compile Include="_Classes\Configuration\ApplicationUpdater.cs" />
-    <Compile Include="_Classes\NamedPipeManager.cs" />
+    <Compile Include="_Classes\Utilities\NamedPipeManager.cs" />
     <Compile Include="Windows\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -315,6 +316,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\Common.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -604,13 +609,16 @@
     <Resource Include="Editor\fileicons\vue.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Editor\scripts\Ace\ext-options.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Editor\scripts\Ace\mode-diff.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Editor\scripts\Ace\theme-dracula.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Editor\table-editor.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Editor\table-editor.htm">
+    <Content Include="Editor\scripts\Ace\theme-vscodedark.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PreviewThemes\KavaDocsDark\Theme.css">

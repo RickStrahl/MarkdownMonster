@@ -65,9 +65,10 @@ namespace MarkdownMonster
 
             SpellcheckSuggestions(suggestions, range);
             AddEditorContext();
+
+            AddUndoRedo();
             AddCopyPaste();
             
-
             Show();
         }
 
@@ -158,11 +159,31 @@ namespace MarkdownMonster
             }
 
             if (!Clipboard.ContainsText())
-                miPaste.IsEnabled = false;
+                miPaste.IsEnabled = false;            
+        }
 
+        public void AddUndoRedo()
+        {
 
-            if (ContextMenu.Items.Count > 0)
-                ContextMenu.Items.Add(new Separator());
+            var editor = Model.ActiveEditor;
+
+            var undoManager = editor.AceEditor.editor.session.getUndoManager(false);
+            bool hasUndo = undoManager.hasUndo(false);
+            bool hasRedo = undoManager.hasRedo(false);
+
+            var miUndo = new MenuItem { Header = "Undo", InputGestureText = "ctrl-z" };
+            if (!hasUndo)
+                miUndo.IsEnabled = false;
+            miUndo.Click += (o, args) => Model.ActiveEditor.AceEditor.editor.undo(false);
+            ContextMenu.Items.Add(miUndo);
+
+            var miRedo = new MenuItem() { Header = "Redo", InputGestureText = "ctrl-y" };
+            if (!hasRedo)
+                miRedo.IsEnabled = false;
+            miRedo.Click += (o, args) => Model.ActiveEditor.AceEditor.editor.redo(false);            
+            ContextMenu.Items.Add(miRedo);
+           
+            ContextMenu.Items.Add(new Separator());
         }
 
         /// <summary>

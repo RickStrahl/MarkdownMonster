@@ -293,6 +293,24 @@ namespace MarkdownMonster.AddIns
         }
 
         /// <summary>
+        /// Allows you to detect Preview Browser Link navigation
+        /// and take over the navigation. 
+        /// </summary>
+        /// <remarks>
+        /// If multiple handlers have registered in multiple addins,
+        /// the first one to handle navigation wins. Be conservative
+        /// in returning true
+        /// </remarks>
+        /// <param name="url">The URL that was navigated in the preview</param>
+        /// <param name="src">The actual href ``referenced in the URL without browser fixup which might be different than the URL 
+        /// ie. relative urls or custom monikers</param>
+        /// <returns>true to specify you handled the navigation, false to let the default behavior run</returns>
+        public virtual bool OnPreviewLinkNavigation(string url, string src)
+        {
+            return false;
+        }
+
+        /// <summary>
         /// If this addin wants to provide a custom Markdown Parser this method can 
         /// be overriden to do it.
         /// </summary>
@@ -607,5 +625,8 @@ namespace MarkdownMonster.AddIns
         {
             return Id ?? Name ?? "no name";
         }
+
+
+      
     }    
 }

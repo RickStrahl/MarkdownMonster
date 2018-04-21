@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -18,6 +19,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster.Annotations;
 using Microsoft.Win32;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
@@ -89,14 +91,23 @@ namespace MarkdownMonster.Windows
 
 			WindowUtilities.DoEvents();
 
-			// render the document to the normal output location
-			document.RenderHtmlToFile();
+		    string htmlFilename = System.IO.Path.ChangeExtension(document.Filename, "html");
 
-            
-		    bool result = await Task.Run(() =>
-		    {
-		        PdfGenerator.DisplayPdfAfterGeneration = true;
-		        bool res = PdfGenerator.GeneratePdfFromHtml(document.HtmlRenderFilename, OutputFile);
+			// render the document with template and return only as string (no output yet)
+		    document.RenderHtmlToFile(filename: htmlFilename, removeBaseTag: true); //, noFileWrite: true);
+
+            //// strip <base> tag
+            //var extracted = StringUtils.ExtractString(html, "<base href=\"", "/>", false, false, true);
+            //if (!string.IsNullOrEmpty(extracted))
+            //    html = html.Replace(extracted, "");
+
+            //// now write out the file
+            //File.WriteAllText(htmlFilename, html);
+
+            bool result = await Task.Run(() =>
+		    {		        
+		        bool res = PdfGenerator.GeneratePdfFromHtml(htmlFilename, OutputFile);
+		        File.Delete(htmlFilename);
 		        return res;
 		    });
 
@@ -142,6 +153,7 @@ namespace MarkdownMonster.Windows
 			if (!string.IsNullOrEmpty(document.Filename) && document.Filename != "untitled")
 				initialFolder = System.IO.Path.GetDirectoryName(document.Filename);
 
+		    string filename = System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(mmApp.Model.ActiveDocument.Filename), "pdf");
 
 			var sd = new SaveFileDialog
 			{
@@ -149,6 +161,7 @@ namespace MarkdownMonster.Windows
 				FilterIndex = 1,
 				Title = "Save output to PDF file",
 				InitialDirectory = initialFolder,
+                FileName = filename,
 				CheckFileExists = false,
 				OverwritePrompt = true,
 				CheckPathExists = true,

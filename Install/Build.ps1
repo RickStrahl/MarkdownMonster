@@ -19,21 +19,22 @@ del ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip"
 "Zipping up portable setup file..."
 del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
 .\7z a -tzip -r ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\Distribution\*.*"
-.\7z a -tzip ".\Builds\CurrentReleasbuie\MarkdownMonsterPortable.zip" ".\MarkdownMonsterPortable.md"
+.\7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\MarkdownMonsterPortable.md"
 
 
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe").FileVersion
 $version = $version.Trim()
 "Initial Version: " + $version
 
-# Remove 4th version tuple
-try{
-    $al = New-Object System.Collections.ArrayList( $null )
-    $al.AddRange($version.Split("."))
-    $al.RemoveAt(3)
-    $version = [System.String]::Join(".", $al.ToArray())
+# Remove last two .0 version tuples if it's 0
+if($version.EndsWith(".0.0")) {
+    $version = $version.SubString(0,$version.Length - 4);
 }
-catch{ }
+else {
+    if($version.EndsWith(".0")) {    
+        $version = $version.SubString(0,$version.Length - 2);
+    }
+}
 "Truncated Version: " + $version
 
 "Writing Version File for: " + $version

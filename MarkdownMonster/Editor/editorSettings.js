@@ -3,6 +3,7 @@ var editorSettings = {
   "enableSpellChecking": true,
   "font": "Consolas",
   "fontSize": 17,
+  "lineHeight": 1.3,
   "highlightActiveLine": true,
   "isDebug": false,
   "showLineNumbers": false,

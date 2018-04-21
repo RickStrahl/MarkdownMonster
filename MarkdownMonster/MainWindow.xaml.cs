@@ -163,8 +163,7 @@ namespace MarkdownMonster
 
         private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-		    LoadPreviewBrowser();
-
+		    LoadPreviewBrowser();           
             RestoreSettings();
 
 		    OpenFilesFromCommandLine();
@@ -239,21 +238,19 @@ namespace MarkdownMonster
 				{
 					FixMonitorPosition();
 					AddinManager.Current.InitializeAddinsUi(this);
+
 					AddinManager.Current.RaiseOnWindowLoaded();                   
 				}, DispatcherPriority.ApplicationIdle);			    
 			});            
 		}
 
-
-
         private void OnAddinsLoaded()
         {
             // Check to see if we are using another preview browser and load
             // that instead
-            LoadPreviewBrowser();
+            Dispatcher.Invoke(LoadPreviewBrowser);
         }
-
-
+        
 
         /// <summary>
         /// Opens files from the command line or from an array of strings
@@ -920,7 +917,9 @@ namespace MarkdownMonster
 	                PreviewBrowser.PreviewMarkdownAsync();
 
 	            SetWindowTitle();
-	        }
+            
+                Model.OnPropertyChanged(nameof(AppModel.ActiveEditor));
+            }
 
 	        AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
 
@@ -944,9 +943,12 @@ namespace MarkdownMonster
         /// 
         /// Note: File must already be open for this to work                
         /// </summary>
-        /// <param name="editorFile"></param>
-        /// <param name="editor"></param>
-        /// <returns></returns>
+        /// <param name="editorFile">File name to display int the tab</param>
+        /// <param name="maintainScrollPosition">If possible preserve scroll position if refreshing</param>
+        /// <param name="noPreview">If true don't refresh the preview after updating the file</param>
+        /// <param name="noFocus">if true don't focus the editor</param>
+        /// <param name="readOnly">if true document can't be edited</param>           
+        /// <returns>selected tab item or null</returns>
         public TabItem RefreshTabFromFile(string editorFile,            
             bool maintainScrollPosition = false,
             bool noPreview = false,
@@ -968,7 +970,6 @@ namespace MarkdownMonster
             editor.SetMarkdown(editor.MarkdownDocument.CurrentText);
             var state = editor.IsDirty(); // force refresh
             
-
             if (!noFocus)
                 TabControl.SelectedItem = tab;
                 
@@ -1042,19 +1043,19 @@ namespace MarkdownMonster
                 SidebarContainer.SelectedItem = tabItem;
             }
 
-            if (SidebarContainer.Items.Count > 1)
-            {
-                foreach (var item in SidebarContainer.Items)
-                {
-                    var tbItem = item as TabItem;
-                    tbItem.Visibility = Visibility.Visible;                    
-                }
-            }
-            else
-            {
-                if(SidebarContainer.Items.Count == 1)
-                    ((TabItem) SidebarContainer.Items[0]).Visibility = Visibility.Visible;
-            }
+            //if (SidebarContainer.Items.Count > 1)
+            //{
+            //    foreach (var item in SidebarContainer.Items)
+            //    {
+            //        var tbItem = item as TabItem;
+            //        tbItem.Visibility = Visibility.Visible;                    
+            //    }
+            //}
+            //else
+            //{
+            //    if(SidebarContainer.Items.Count == 1)
+            //        ((TabItem) SidebarContainer.Items[0]).Visibility = Visibility.Visible;
+            //}
         }
 
         /// <summary>
@@ -1070,20 +1071,15 @@ namespace MarkdownMonster
                 RightSidebarContainer.SelectedItem = tabItem;
             }
 
-            if (RightSidebarContainer.Items.Count > 0)
-            {
-                foreach (var item in RightSidebarContainer.Items)
-                {
-                    var tbItem = item as TabItem;
-                    tbItem.Visibility = Visibility.Visible;
-                }
-            }
-            else
-            {
-                if (RightSidebarContainer.Items.Count == 1)
-                    ((TabItem)RightSidebarContainer.Items[0]).Visibility = Visibility.Visible;
-            }
-
+            //if (RightSidebarContainer.Items.Count > 0)
+            //{
+            //    foreach (var item in RightSidebarContainer.Items)
+            //    {
+            //        var tbItem = item as TabItem;
+            //        tbItem.Visibility = Visibility.Visible;
+            //    }
+            //}
+          
             ShowRightSidebar();
         }
 
@@ -1111,7 +1107,12 @@ namespace MarkdownMonster
 
 
 			    if (icon == null)
-			        icon = FolderStructure.IconList.GetIconFromFile(document.Filename);               
+			    {
+			        icon = FolderStructure.IconList.GetIconFromFile(document.Filename);
+			        if (icon == AssociatedIcons.DefaultIcon)
+			            icon = FolderStructure.IconList.GetIconFromType(Model.ActiveEditor.EditorSyntax);
+                }
+			    
 
                 var img = new Image()
 			    {
@@ -1330,10 +1331,11 @@ namespace MarkdownMonster
 		        PreviewBrowser?.PreviewMarkdown();
 
             Model.ActiveEditor.RestyleEditor();
-		    UpdateDocumentOutline();
-
+		    
 			editor.WebBrowser.Focus();
 			editor.SetEditorFocus();
+
+		    Dispatcher.InvokeAsync(() => { UpdateDocumentOutline(); },DispatcherPriority.ApplicationIdle); 
 		}
 
 
@@ -1390,9 +1392,9 @@ namespace MarkdownMonster
                 
         }
 
-        public void UpdateDocumentOutline()
+        public void UpdateDocumentOutline(int editorLineNumber = -1)
         {           
-           DocumentOutline.RefreshOutline();
+           DocumentOutline?.RefreshOutline(editorLineNumber);
         }
         #endregion
 
@@ -1533,7 +1535,7 @@ namespace MarkdownMonster
                         folder = Path.GetDirectoryName(Model.ActiveDocument.Filename);
 
                     FolderBrowser.FolderPath = folder;
-                });
+                },DispatcherPriority.ApplicationIdle);
 
                 layoutModel.IsLeftSidebarVisible = true;                
                 mmApp.Configuration.FolderBrowser.Visible = true;
@@ -1711,7 +1713,7 @@ namespace MarkdownMonster
 			else if (button == MenuOpenPreviewFolder)
 			{
 				ShellUtils.GoUrl(Path.Combine(Environment.CurrentDirectory, "PreviewThemes",
-					mmApp.Configuration.RenderTheme));
+					mmApp.Configuration.PreviewTheme));
 			}
 			else if (button == MenuMarkdownMonsterSite)
 			{
@@ -1781,18 +1783,19 @@ namespace MarkdownMonster
 					return;
 				editor.SpecialKey("ctrl-shift-d");
 			}
-            else if (button == ButtonWordWrap)
+            else if (button == ButtonDocumentOutlineVisible)
 			{
-			    Model.ActiveEditor?.SetWordWrap(Model.Configuration.EditorWrapText);
-			}
-            else if (button == ButtonLineNumbers)
+                // Only activate/deactivate the tab
+                if (Model.ActiveEditor != null && Model.ActiveEditor.EditorSyntax == "markdown" &&
+                    Model.Configuration.IsDocumentOutlineVisible)
+                    SidebarContainer.SelectedItem = TabDocumentOutline;
+                else
+                    SidebarContainer.SelectedItem = TabFolderBrowser;
+            }
+            else if (button == ButtonWordWrap || button == ButtonLineNumbers || button == ButtonShowInvisibles)
 			{
-			    Model.ActiveEditor?.SetShowLineNumbers(Model.Configuration.EditorShowLineNumbers);
-			}
-            else if (button == ButtonShowInvisibles)
-			{
-			    Model.ActiveEditor?.SetShowInvisibles(Model.Configuration.EditorShowInvisibles);
-			}
+			    Model.ActiveEditor?.RestyleEditor();
+			}            
             else if (button == ButtonStatusEncrypted)
 			{
 			    var dialog = new FilePasswordDialog(Model.ActiveDocument,false)
@@ -1962,7 +1965,7 @@ namespace MarkdownMonster
 		    PreviewBrowser?.PreviewMarkdownAsync();
 		}
 
-		private void RenderTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void PreviewTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 		    PreviewBrowser?.PreviewMarkdownAsync();
 		}
@@ -1985,6 +1988,15 @@ namespace MarkdownMonster
 	            mmFileUtils.ExecuteProcess(Path.Combine(Environment.CurrentDirectory, "MarkdownMonster.exe"), "");
 	        }
 	    }
+
+        private void DocumentType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Model.ActiveEditor == null)
+                return;
+
+            Model.ActiveEditor.SetEditorSyntax(Model.ActiveEditor.EditorSyntax);
+            SetTabHeaderBinding(TabControl.SelectedItem as TabItem,Model.ActiveEditor.MarkdownDocument);
+        }
 
         private void ButtonRecentFiles_SubmenuOpened(object sender, RoutedEventArgs e)
         {
@@ -2088,9 +2100,15 @@ namespace MarkdownMonster
 
         DebounceDispatcher debounce = new DebounceDispatcher();
 
-		public void ShowStatus(string message = null, int milliSeconds = 0)
+		public void ShowStatus(string message = null, int milliSeconds = 0, 
+		    FontAwesomeIcon icon = FontAwesomeIcon.None,
+		    Color color = default(Color),
+		    bool spin = false)
 		{
-			if (message == null)
+		    if (icon != FontAwesomeIcon.None)
+		        SetStatusIcon(icon, color, spin);
+
+            if (message == null)
 			{
 				message = "Ready";
 				SetStatusIcon();
@@ -2111,13 +2129,23 @@ namespace MarkdownMonster
 			WindowUtilities.DoEvents();
 		}
 
-		/// <summary>
-		/// Status the statusbar icon on the left bottom to some indicator
-		/// </summary>
-		/// <param name="icon"></param>
-		/// <param name="color"></param>
-		/// <param name="spin"></param>
-		public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
+        //public void ShowStatus(string message = null, int milliSeconds = 0,
+        //    FontAwesomeIcon icon = FontAwesomeIcon.None,
+        //    Color color = default(Color),
+        //    bool spin = false)
+        //{
+
+            
+        //    ShowStatus(message, milliSeconds);
+        //}
+
+        /// <summary>
+        /// Status the statusbar icon on the left bottom to some indicator
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="color"></param>
+        /// <param name="spin"></param>
+        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
 		{
 			StatusIcon.Icon = icon;
 			StatusIcon.Foreground = new SolidColorBrush(color);
@@ -2156,7 +2184,7 @@ namespace MarkdownMonster
 
         private void StatusZoomLevel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            mmApp.Configuration.EditorZoomLevel = 100;
+            mmApp.Configuration.Editor.ZoomLevel = 100;
             Model.ActiveEditor?.RestyleEditor();
         }
 
@@ -2166,7 +2194,7 @@ namespace MarkdownMonster
             text = text.Replace("%", "");
             if (int.TryParse(text, out int num))
             {
-                Model.Configuration.EditorZoomLevel = num;
+                Model.Configuration.Editor.ZoomLevel = num;
                 Model.ActiveEditor?.RestyleEditor();
             }
         }
@@ -2177,7 +2205,7 @@ namespace MarkdownMonster
             text = text.Replace("%", "");
 
             if (int.TryParse(text, out int num))
-                Model.Configuration.EditorZoomLevel = num;
+                Model.Configuration.Editor.ZoomLevel = num;
 
             Model.ActiveEditor?.RestyleEditor();
         }

@@ -262,18 +262,18 @@ namespace MarkdownMonster
 
                 AceEditor.settheme(
                         mmApp.Configuration.EditorTheme,
-                        mmApp.Configuration.EditorFont,
-                        mmApp.Configuration.EditorFontSize * dpiRatio,
-                        mmApp.Configuration.EditorWrapText,
-                        mmApp.Configuration.EditorHighlightActiveLine,
-                        mmApp.Configuration.EditorShowLineNumbers,
-                        mmApp.Configuration.EditorKeyboardHandler);
+                        mmApp.Configuration.Editor.Font,
+                        mmApp.Configuration.Editor.FontSize * dpiRatio,
+                        mmApp.Configuration.Editor.WrapText,
+                        mmApp.Configuration.Editor.HighlightActiveLine,
+                        mmApp.Configuration.Editor.ShowLineNumbers,
+                        mmApp.Configuration.Editor.KeyboardHandler);
 
                 if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
-                    AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck, mmApp.Configuration.EditorDictionary);
+                    AceEditor.enablespellchecking(!mmApp.Configuration.Editor.EnableSpellcheck, mmApp.Configuration.Editor.Dictionary);
                 else
                     // always disable for non-markdown text
-                    AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
+                    AceEditor.enablespellchecking(true, mmApp.Configuration.Editor.Dictionary);
             }
             catch { }
         }

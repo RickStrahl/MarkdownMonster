@@ -15,9 +15,7 @@
 
         <Grid Background="{StaticResource  SidebarHeaderBackground}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />                
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -27,17 +25,18 @@
                 <fa:FontAwesome Icon="Bookmark" Foreground="Goldenrod" Height="16" Width="16" Margin="5,2,0,0" />
                 <!--<TextBlock fa:Awesome.Content="ListOl" Foreground="Khaki"  Height="16" Width="16" Margin="5,0,0,0" />-->
                 <TextBlock Height="Auto" 
-					   Text="Document Outline (Preview)"  
+					   Text="Document Outline"  
 					   FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
             </StackPanel>
 
-            <Button  fa:Awesome.Content="Refresh" Background="Transparent" 
-                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="4"  
-                     Name="ButtonRefresh" BorderThickness="0" FontSize="12"                     
-                     ToolTip="Close Sidebar Panel" 
-                     Click="ButtonRefresh_Click" />
+            
+            <Button  fa:Awesome.Content="PencilSquareOutline" Background="Transparent" 
+                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="2"  
+                     Name="ButtonEmbedOutline" BorderThickness="0" FontSize="12"                     
+                     ToolTip="Generate document outline into Markdown document at cursor position" 
+                     Click="ButtonEmbedOutline_Click" />
             <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
-			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="5"  
+			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="3"  
 			         Name="ButtonClosePanel" BorderThickness="0" FontSize="12"                     
 			         ToolTip="Close Sidebar Panel" 
                      Command="{Binding Commands.CloseLeftSidebarPanelCommand}" />
@@ -50,7 +49,7 @@
                              HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel MouseUp="ListOutlineItem_MouseUp" KeyDown="TextBlock_KeyDown" Orientation="Horizontal" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                         <fa:FontAwesome Icon="Bookmark" Foreground="SteelBlue" 
                                         Margin="{Binding Margin}"
                                         Height="13" Width="13"  />
@@ -61,10 +60,28 @@
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="KeyDown" Handler="TextBlock_KeyDown"/>
+                    <EventSetter Event="MouseUp" Handler="ListOutlineItem_MouseUp"/>
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Focusable" Value="True" />
+                    <!--<Setter Property="ToolTip" Value="{Binding LinkId}" />-->
                 </Style>
             </ListBox.ItemContainerStyle>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Copy Header Id to Clipboard" Click="MenuItem_CopyHeaderId_Click" />
+                    <Separator />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Max Indent Level: H1 - H</TextBlock>
+                        <TextBox Name="TextMaxIndentLevel" Grid.Column="1"
+                                 Text="{Binding AppModel.Configuration.MaxDocumentOutlineLevel,UpdateSourceTrigger=PropertyChanged}" 
+                                 Padding="0,-2,0,0" Width="20" 
+                                 MinHeight="20" Height="20" 
+                                 FontSize="12" 
+                                 TextChanged="TextMaxIndentLevel_TextChanged"/>
+                    </StackPanel>
+                    
+                </ContextMenu>
+            </ListBox.ContextMenu>
         </ListBox>
 
     </Grid>

@@ -56,7 +56,12 @@ a:hover {
 }
 
 
-
+code {
+    font-family: Consolas, monospace;
+    color: #333;
+    background: #eee;
+    white-space: pre;    
+}
 pre {
     font-family: Consolas, monospace;
     font-weight: normal;    
@@ -70,18 +75,14 @@ pre {
     border-radius: 3px;
     white-space:  pre;
     word-break: normal;
-    word-wrap: normal;        
+    word-wrap: normal;
 }
-code {
-    font-family: Consolas, monospace;
-    color: #333;
-    background: #eee;
-    white-space: pre;    
-}
-.hljs {
+pre>code {
+    white-space: pre;
     background: #eee !important;
-    padding: 16px !important;  
+    padding: 1em !important;
 }
+
 table {
     width: 100%;
     overflow: auto;
@@ -108,18 +109,24 @@ img {
     max-width: 100%;
 }
 
+ul > li > ul > li > ul > li {
+    list-style: disc;
+}
+ul > li > ul > li {
+    list-style: square;
+}
+
 
 blockquote {    
     color: #6a737d;
-    font-size: 1rem;
+    font-size: 1em;
     border-left: 4px #ddd solid;    
     padding: 15px 20px;    
     margin: 14px 2px;
 }
+    blockquote *:first-child { margin-top: 0; }
+    blockquote *:last-child { margin-bottom: 0; }
 
-blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 5px !important;
-}
 hr {
     margin: 12px 0;    
 }

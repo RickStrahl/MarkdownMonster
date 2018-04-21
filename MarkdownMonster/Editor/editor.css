@@ -2,53 +2,30 @@
     top level editor configuration
     Ace Editor style overrides
 */
-html, body {
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-	padding: 0;
-	margin: 0;
-
-	scrollbar-track-color: #535353;
-	scrollbar-arrow-color: silver;
-	scrollbar-base-color: #888;
-	-ms-overflow-style: -ms-autohiding-scrollbar;
-}
-#Editor {
-	height: 100%; 
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	-webkit-overflow-scrolling: touch;
-}		
-
-.ace_editor, .ace_editor * {    
-    font-weight: normal;
+.ace_editor, .ace_editor * {
     letter-spacing: 0 !important;
-    background: transparent;           
+    background: transparent;
+    font-weight: normal;
 }
 .ace_content {
     padding-top: 0 !important;
-    padding-left: 0;                        
+    padding-left: 0;    
 }    
-.ace_cursor { 
+/*.ace_cursor { 
     border-left: 2px solid !important;
 }
 .ace_overwrite-cursors .ace_cursor {   
     border-left: none !important;
     border-bottom: 1px solid !important;
-}
+}*/
 .ace_text-input {
 	margin: 0 !important;
 }
-.ace_strong {
-    font-weight: bold;
+.ace_strong, .ace_heading {
+    font-weight: bold !important;
 }
 .ace_emphasis {
     font-style: italic;
-}
-.ace_heading {
-    font-weight: bold;
 }
 
 /* Search/Replace Box */
@@ -84,37 +61,4 @@ html, body {
 .ace_search_options > span:hover {
     background: #777 !important;
     /*border-radius: 2px;*/
-}
-
-
-#spellfixes {    
-    position: absolute;
-    font-family: 'Segoe UI', Arial, sans-serif;    
-    font-size: 0.875em;
-    width: auto;      
-    height: auto;
-    color: white;
-    border: 1px solid #888;
-    background: #444;
-    min-width: 150px;
-    padding-left: 10px;
-    top: 200px;
-    left: 10px;    
-    z-index: 1000;
-    overflow-y: auto;
-    border-radius: 3px;
-    box-shadow: 6px 6px 12px #383838;
-}
-#spellfixes>div {    
-    min-width: 100px;
-    padding: 5px;    
-    cursor: pointer;
-}
-    #spellfixes > div.separator {
-        border-bottom: 1px solid #999;
-        margin: 2px;        
-    }
-#spellfixes>div:hover {
-    background: #535353;
-    color: whitesmoke;
 }

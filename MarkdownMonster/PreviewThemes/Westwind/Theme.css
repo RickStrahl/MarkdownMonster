@@ -14,7 +14,7 @@ html, body {
 }
 
 #MainContent {
-    margin: 20px;
+    margin: 20px 20px 20px 30px;
 }
 
 h1, h2, h3, h4, h5, h6, .byline, .content-title {
@@ -84,6 +84,12 @@ ul, ol {
 li {
     margin: 0.6em 0.2em 0.6em 1em;
 }
+ul > li > ul > li > ul > li {
+    list-style: disc;
+}
+ul > li > ul > li {
+    list-style: square;
+}
 
 b, strong {
     font-weight: 600;
@@ -120,17 +126,16 @@ b, strong {
 
 
 blockquote {
-    background: #f9f9f9;
-    font-size: 1em;
-    opacity: 0.85;
+    background: #f2f7fb;
+    font-size: 1.02em;
     padding: 10px 20px;
-    margin: 30px 20px;
-    border-left: 4px #ddd solid;
+    margin: 1.2em;
+    border-left: 9px #569ad4 solid;
+    border-radius: 4px 0 0 4px;  
 }
+    blockquote *:first-child { margin-top: 0; }
+    blockquote *:last-child { margin-bottom: 0; }
 
-    blockquote h3, blockquote h4, blockquote h5 {
-        margin-top: 0;
-    }
 
 hr {
     margin: 12px 0;
@@ -158,11 +163,12 @@ pre {
     line-height: 1.45;
     background: #333;
     color: #eee;
-    overflow-x: auto;
     margin: 7px 0 !important;
     padding: 0;
     border: 1px solid silver;
     border-radius: 4px;
+    
+    overflow-x: auto;
     white-space: pre;
     word-break: normal;
     word-wrap: normal;

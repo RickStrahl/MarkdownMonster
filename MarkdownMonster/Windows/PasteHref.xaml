@@ -12,10 +12,9 @@
         TitleCharacterCasing="Normal"
         TitlebarHeight="35"                       
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
-        WindowStartupLocation="CenterOwner" 
-        FontSize="15"
+        WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="603.57" Height="306.403">
+        Width="603.57" Height="330">
 
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xs10gaui.htm"/>
@@ -24,36 +23,36 @@
 
         <Label>Link Text:</Label>
         <TextBox Name="TextLinkText" Grid.Column="0"  Text="{Binding LinkText}"  
-                     HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  FontSize="15" 
+                     HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  
                      ToolTip="Set the link text for the link."/>
 
         <Label Margin="0,10,0,0">Link:</Label>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             
             <TextBox  Name="TextLink"  Text="{Binding Link}" TextWrapping="NoWrap"
-                      HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  FontSize="15" 
+                      HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  
                      ToolTip="Set the link text for the link." />
-            <Button Grid.Column="1"  Height="25" Width="25" Click="SelectLocalLinkFile_Click">...</Button>
+            <Button Grid.Column="1"  Height="Auto" Width="30" FontSize="12" Click="SelectLocalLinkFile_Click">...</Button>
         </Grid>
 
         <CheckBox Name="TextExternalLink" IsChecked="{Binding IsExternal}" Margin="0,12,0,0">Open link in new window</CheckBox>
 
-         <StackPanel Orientation="Horizontal">
-            <Button Name="ButtonOk" Margin="0,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
+         <StackPanel Orientation="Horizontal" Margin="0 10">
+            <Button Name="ButtonOk" Margin="0,20" Height="40"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome  Icon="Upload"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                    <TextBlock Margin="10,0,0,0" FontSize="14">Paste Link</TextBlock>
+                    <TextBlock Margin="10,0,0,0" >Paste Link</TextBlock>
                 </StackPanel>
             </Button>
 
-            <Button Name="ButtonCancel" Margin="10,20" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
+            <Button Name="ButtonCancel" Margin="10,20" Height="40" Width="130" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
-                    <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
+                    <TextBlock Margin="10,0,0,0">Cancel</TextBlock>
                 </StackPanel>
             </Button>
         </StackPanel>

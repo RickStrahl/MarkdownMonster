@@ -64,8 +64,8 @@
       <HintPath>..\..\packages\Markdig.0.14.9\lib\net40\Markdig.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -77,8 +77,8 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Westwind.Utilities, Version=3.0.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Westwind.Utilities.3.0.12\lib\net45\Westwind.Utilities.dll</HintPath>
+    <Reference Include="Westwind.Utilities, Version=3.0.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Westwind.Utilities.3.0.13\lib\net45\Westwind.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -101,6 +101,8 @@
     <Compile Include="BugReportTests.cs" />
     <Compile Include="ClipBoardHelperTests.cs" />
     <Compile Include="ComputerInfoTests.cs" />
+    <Compile Include="ConfigurationTests.cs" />
+    <Compile Include="DocumentOutlineTests.cs" />
     <Compile Include="FolderStructureTests.cs" />
     <Compile Include="FrontMatterTests.cs" />
     <Compile Include="GitIntegrationTests.cs" />

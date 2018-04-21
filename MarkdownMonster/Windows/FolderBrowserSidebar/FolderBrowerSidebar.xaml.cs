@@ -37,22 +37,30 @@ namespace MarkdownMonster.Windows
             {
                 if (value == _folderPath) return;
 
+                _folderPath = value;
+                mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
+
+                OnPropertyChanged(nameof(FolderPath));
+
+                if (Window == null) return;
+
                 SearchText = null;
                 SearchSubTrees = false;
                 SearchPanel.Visibility = Visibility.Collapsed;
 
                 if (string.IsNullOrEmpty(value))
-                    ActivePathItem = new PathItem();
-                else if (value != _folderPath)
+                    ActivePathItem = new PathItem();  // empty the folder browser
+                else
                     SetTreeFromFolder(value, _folderPath != null, SearchText);
 
-                _folderPath = value;
-                mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
-                
-                OnPropertyChanged(nameof(FolderPath));
-                OnPropertyChanged(nameof(ActivePathItem));
+                if (ActivePathItem != null)
+                {
+                    _folderPath = value;
+                    mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
 
-                
+                    OnPropertyChanged(nameof(FolderPath));
+                    OnPropertyChanged(nameof(ActivePathItem));
+                }
             }
         }
         private string _folderPath;
@@ -127,11 +135,10 @@ namespace MarkdownMonster.Windows
             InitializeComponent();
             Focusable = true;
             
-            Loaded += FolderBrowerSidebar_Loaded;           
+            Loaded += FolderBrowerSidebar_Loaded;
+            Unloaded += (s, e) => ReleaseFileWatcher(); 
         }
-
-
-
+        
         private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)
         {            
             AppModel = mmApp.Model;
@@ -140,6 +147,8 @@ namespace MarkdownMonster.Windows
 
             // Load explicitly here to fire *after* behavior has attached
             ComboFolderPath.PreviewKeyUp += ComboFolderPath_PreviewKeyDown;
+
+            
         }
         #endregion
 
@@ -147,6 +156,7 @@ namespace MarkdownMonster.Windows
 
         private void FileWatcher_Renamed(object sender, RenamedEventArgs e)
         {
+
             mmApp.Model.Window.Dispatcher.Invoke(() =>
             {
 
@@ -167,6 +177,8 @@ namespace MarkdownMonster.Windows
         private void FileWatcher_CreateOrDelete(object sender, FileSystemEventArgs e)
         {            
             var file = e.FullPath;
+            if (string.IsNullOrEmpty(file))
+                return;
             
             if (e.ChangeType == WatcherChangeTypes.Deleted)
             {
@@ -186,6 +198,14 @@ namespace MarkdownMonster.Windows
             {
                 mmApp.Model.Window.Dispatcher.Invoke(() =>
                 {
+                    // Skip ignored Extensions
+                    string[] extensions = null;
+                    if (!string.IsNullOrEmpty(mmApp.Model.Configuration.FolderBrowser.IgnoredFileExtensions))
+                        extensions = mmApp.Model.Configuration.FolderBrowser.IgnoredFileExtensions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (extensions != null && extensions.Any(ext => file.EndsWith(ext,StringComparison.InvariantCultureIgnoreCase)))
+                       return;
+                    
                     var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, file);
                     if (pi != null) // Already exists in the tree
                         return;
@@ -217,6 +237,9 @@ namespace MarkdownMonster.Windows
             if(FileWatcher != null)
                 ReleaseFileWatcher();
 
+            if (string.IsNullOrEmpty(fullPath))
+                return;
+
             FileWatcher = new FileSystemWatcher(fullPath)
             {
                 IncludeSubdirectories = true,
@@ -243,6 +266,9 @@ namespace MarkdownMonster.Windows
 
         private void SetTreeFromFolder(string folder, bool setFocus = false, string searchText = null)
         {
+            if (Window == null)
+                return;
+
             Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Spinner, Colors.Orange, true);
             Window.ShowStatus($"Retrieving files for folder {folder}...");
 
@@ -436,7 +462,7 @@ namespace MarkdownMonster.Windows
 
             
             // search key
-            if (e.Key >= Key.A && e.Key <= Key.Z ||
+            if (!selected.IsEditing && e.Key >= Key.A && e.Key <= Key.Z ||
                 e.Key >= Key.D0 && e.Key <= Key.D9 ||
                 e.Key == Key.OemPeriod ||
                 e.Key == Key.Space ||
@@ -747,7 +773,9 @@ namespace MarkdownMonster.Windows
                 if (!mmFileUtils.MoveToRecycleBin(selected.FullPath))
                     return;
 
-                var parent = selected.Parent;              
+                var parent = selected.Parent;
+
+                var index = -1;
 
                 var file = parent?.Files?.FirstOrDefault(fl => fl.FullPath == selected.FullPath);
                 if (file != null)
@@ -756,16 +784,19 @@ namespace MarkdownMonster.Windows
                     if (tab != null)
                         Window.CloseTab(tab,dontPromptForSave:true);
 
-                    selected.Parent?.Files.Remove(file);
+
+
+                    if (parent != null)
+                    {
+                        index = parent.Files.IndexOf(selected);
+                        parent.Files.Remove(file);
+                        if (index > 0)
+                            SetTreeViewSelectionByItem(parent.Files[index]);
+                    }                    
                 }
 
                 // Delay required to overcome editor focus after MsgBox
-                Dispatcher.Delay(700, s =>
-                {
-                    TreeFolderBrowser.Focus();
-                    SetTreeViewSelectionByItem(parent);
-                    TreeFolderBrowser.Focus();
-                });
+                Dispatcher.Delay(700, s => TreeFolderBrowser.Focus());
             }
             catch (Exception ex)
             {
@@ -918,6 +949,21 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        private void MenuGitClient_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+            if (selected == null)
+                return;
+
+            var model = mmApp.Model;
+
+            var path = selected.FullPath;
+            if (selected.IsFile)
+                path = Path.GetDirectoryName(path);
+
+            Window.Model.Commands.OpenGitClientCommand.Execute(path); 
+        }
+
         private void TreeFolderBrowser_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var tv = sender as TreeView;
@@ -1012,6 +1058,15 @@ namespace MarkdownMonster.Windows
             ci.InputGestureText = "ctrl-g";        
             ci.Click += MenuCommitGit_Click;
             cm.Items.Add(ci);
+            
+            ci = new MenuItem();
+            ci.Header = "Open Folder in Git Client";
+            ci.Click += MenuGitClient_Click;
+            ci.IsEnabled = AppModel.Configuration.GitClientExecutable != null &&
+                            File.Exists(AppModel.Configuration.GitClientExecutable);
+            cm.Items.Add(ci);
+
+            cm.Items.Add(new Separator());
 
             ci = new MenuItem();
             ci.Header = "Copy Path to Clipboard";
@@ -1031,6 +1086,8 @@ namespace MarkdownMonster.Windows
             cm.IsOpen = true;
 
         }
+
+       
 
         #endregion
 

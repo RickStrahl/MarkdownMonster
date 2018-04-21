@@ -27,7 +27,7 @@
     <style>       
         #ActionButtons {
             width: 100%;
-            margin: 20px auto 40px;
+            margin: 20px auto 10px;
             text-align: center;
         }
         #ActionButtons a {
@@ -70,17 +70,17 @@
     <meta property="og:description" content="Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows.">
     <meta property="og:url" content="https://markdownmonster.west-wind.com">
     
-    <meta property="og:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterMonsterBigger.png">
+    <meta property="og:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="639">
 
-    <meta name="twitter:card" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterMonsterBigger.png">
+    <meta name="twitter:card" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg">
     <meta name="twitter:site" content="@markdownmonstr">
     <meta name="twitter:title" content="Markdown Monster - a better Markdown Editor and Weblog Publisher for Windows">
     <meta name="twitter:description" content="Markdown Monster is an interactive Markdown Editor dedicated to optimizing Markdown content creation with a capable sytnax highlighted editor, live preview, inline spell-checking and many out of your way helpers that facilitate embedding images, links, code, tables, emojiis and more.">
     <meta name="twitter:creator" content="@markdownmonstr">
-    <meta name="twitter:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterMonsterBigger.png">
+    <meta name="twitter:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg">
     <meta name="twitter:domain" content="markdownmonster.west-wind.com">
 </head>
 <body>
@@ -125,12 +125,13 @@
             <header style="background-color: #535353; color: whitesmoke;">
                                
                 
-                <div style="background: black; padding: 0 0;position: relative">
-                    <div style="width: 100%;margin: 0 4%;">
-                        <img src="Images/MarkdownMonsterMonsterBigger.png" alt="Markdown Monster"  />
+                <div style="background: black; padding: 0 0; position: relative;">
+                    <div >
+                        <img src="Images/MarkdownMonsterLogo.jpg" alt="Markdown Monster"  style="max-width: 75%;margin: 0 15% 0 10%;" />
                           <a href="https://github.com/rickstrahl/MarkdownMonster">
-                     <img style="position: absolute; top:0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
-                 </a>
+                             <img style="position: absolute; top:0; right: 0; border: 0;" 
+                                  src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+                          </a>
                         
                         
                          <nav id="ActionButtons" >                            
@@ -147,21 +148,16 @@
                                >
                                 <i class="fa fa-youtube"></i>
                                 Video
-                            </a>
-                            
-          
+                            </a>                            
                             <br />
                             <small style="font-size: 8pt;"><i>version <%= Version %> - <%= ReleaseDate%></i></small>
                         </nav>
                         
-                        
-
-                        <h1 style="font-weight: bold; display: none">Markdown Monster</h1>
-                        
+                        <h1 style="font-weight: bold; display: none">Markdown Monster</h1>                        
                     </div>
     
-                    <div class="top-bullet-box">
-                        <h4 style="color: #ffd281;">Markdown Editing and Weblog Publishing on Windows</h4>
+                    <div class="top-bullet-box" style="margin: 0;">
+                        <h3 style="color: #ffd281;">Markdown Editing and Weblog Publishing on Windows</h3>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="bullet-box-items">
@@ -323,6 +319,7 @@
                                 <div class="carousel-caption">
                                 </div>
                             </div>
+                                        
                             
                             <div class="item">
                                 <img src="Images/screenshot_light.png" />
@@ -425,6 +422,12 @@
                                 </div>
                             </div>
 
+                            <div class="item">
+                                <img src="Images/Tweets/James_M_South.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+
 
                             <div class="item">
                                 <img src="Images/Tweets/angrypets.png" />
@@ -474,31 +477,13 @@
                                 </div>
                             </div>
 
-                            <div class="item">
-                                <img src="Images/Tweets/_bron_.png" />
-                                <div class="carousel-caption">
-                                </div>
-                            </div>
-                            
-                            
+                    
                             <div class="item">
                                 <img src="Images/Tweets/James_Willock2.png" />
                                 <div class="carousel-caption">
                                 </div>
                             </div>	
-                            
-                            
-                            <div class="item">
-                                <img src="Images/Tweets/dbVaughan.png" />
-                                <div class="carousel-caption">
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <img src="Images/Tweets/ArthurZ.png" />
-                                <div class="carousel-caption">
-                                </div>
-                            </div>	
+                                                        
                             
                             <div class="item">
                                 <img src="Images/Tweets/vmoench.png" />

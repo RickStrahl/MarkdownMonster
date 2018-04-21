@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
 namespace MarkdownMonster.Windows
 {
@@ -134,9 +135,25 @@ namespace MarkdownMonster.Windows
                 return value;
 
             var folder = Path.GetDirectoryName(path);
-            folder = Path.GetFileName(folder);
-            //var folder = mmFileUtils.GetCompactPath(Path.GetDirectoryName(path),40);
+            folder = Path.GetFileName(folder);            
             return folder;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class FullFolderNameFromPathConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string path = value as string;
+            if (string.IsNullOrEmpty(path))
+                return value;
+
+            return Path.GetDirectoryName(path);            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -187,4 +204,49 @@ namespace MarkdownMonster.Windows
             throw new NotImplementedException();
         }
     }
+
+    
+    public class UriToCachedImageConverter : IValueConverter
+    {
+        private static Dictionary<string, BitmapImage> CachedBitmapImages = new Dictionary<string, BitmapImage>();
+        
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string val = value as string;
+
+            if (!string.IsNullOrEmpty(val))
+            {
+                val = ((string) value).ToLower();
+                    
+                BitmapImage bi;
+                if (CachedBitmapImages.TryGetValue(val, out bi))
+                    return bi;
+
+                try
+                {
+                    bi = new BitmapImage();
+                    bi.BeginInit();
+                    bi.CacheOption = BitmapCacheOption.OnLoad;
+                    //bi.UriSource = new Uri(value.ToString());
+                    using (var fstream = new FileStream(value.ToString(), FileMode.Open, FileAccess.Read))
+                    {
+                        bi.StreamSource = fstream;
+                        bi.EndInit();
+                    }
+                    CachedBitmapImages.Add(val, bi);
+                    return bi;
+                }
+                catch { }
+            }
+
+            CachedBitmapImages.Add(val, null);
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException("Two way conversion is not supported.");
+        }
+    }
+
 }

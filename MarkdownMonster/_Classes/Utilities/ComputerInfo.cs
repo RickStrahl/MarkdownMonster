@@ -131,8 +131,8 @@ namespace MarkdownMonster
         static string DotnetVersion = null;
 
         /// <summary> 
-        /// Returns the framework version as a string 
-        /// 4.x+ versions only
+        /// Returns the framework version installed on the machine
+        ///  as a string  of 4.x.y version
         /// </summary>        
         /// <returns></returns>
         public static string GetDotnetVersion()
@@ -148,14 +148,15 @@ namespace MarkdownMonster
                 DotnetVersion = "4.0";
                 return DotnetVersion;
             }
-
 	        
 			int releaseKey = value;
             Console.WriteLine(value);
 
 			// https://msdn.microsoft.com/en-us/library/hh925568(v=vs.110).aspx
 			// RegEdit paste: HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full
-			if (releaseKey >= 460798)
+            if (releaseKey >= 461308)
+                DotnetVersion = "4.7.1";
+            else if (releaseKey >= 460798)
 		        DotnetVersion = "4.7";
             else if (releaseKey >= 394802)
                 DotnetVersion = "4.6.2";

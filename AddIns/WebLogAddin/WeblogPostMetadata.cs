@@ -253,10 +253,18 @@ namespace WeblogAddin
             
             post.Title = meta.Title;
             if (!string.IsNullOrEmpty(meta.Categories))
-                post.Categories = meta.Categories.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            
+            {
+                post.Categories = meta.Categories.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < post.Categories.Length; i++)                
+                    post.Categories[i] = post.Categories[i].Trim();
+            }
+
             if (!string.IsNullOrEmpty(meta.Keywords))
-                post.Tags = meta.Keywords.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            {
+                post.Tags = meta.Keywords.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < post.Tags.Length; i++)
+                    post.Tags[i] = post.Tags[i].Trim();
+            }
 
             post.DateCreated = meta.PostDate;
             if (post.DateCreated < new DateTime(2000, 1, 1))
@@ -305,7 +313,7 @@ namespace WeblogAddin
             else
                 markdown = markdown.Trim();
 
-            markdown = "---\n" + yaml + "---\n" +                 
+            markdown = "---\r\n" + yaml + "---\r\n" +                 
                 markdown;
 
             // strip out old meta data

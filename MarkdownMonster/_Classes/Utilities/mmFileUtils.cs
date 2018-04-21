@@ -393,14 +393,66 @@ namespace MarkdownMonster
                 Process.Start("explorer.exe", $"/select,\"{filename}\"");
         }
 
-	    /// <summary>
-	    /// Executes a process with given command line parameters
-	    /// </summary>
-	    /// <param name="executable">Executable to run</param>
-	    /// <param name="arguments"></param>
-	    /// <param name="timeoutMs">Timeout of the process in milliseconds. Pass -1 to wait forever. Pass 0 to not wait.</param>
-	    /// <returns></returns>
-	    public static int ExecuteProcess(string executable, string arguments =  null, int timeoutMs = 0, ProcessWindowStyle windowStyle= ProcessWindowStyle.Hidden)
+        /// <summary>
+        /// Opens the configured Git Client in the specified folder
+        /// </summary>
+        /// <param name="folder"></param>
+        public static bool OpenGitClient(string folder)
+        {            
+            
+            var exe = mmApp.Configuration.GitClientExecutable;
+            if (string.IsNullOrEmpty(exe) || !File.Exists(exe))
+                return false;
+
+            try
+            {
+                var pi = Process.Start(exe, folder);
+                if (pi == null)
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks to see if 
+        /// </summary>
+        /// <returns></returns>
+        internal static string FindGitClient()
+        {
+            string git = null;
+
+            git = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                "SmartGit\\bin\\SmartGit64.exe");
+            if (File.Exists(git))
+                return git;
+
+            git = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "GitHubDesktop\\GitHubDesktop.exe");
+            if (File.Exists(git))
+                return git;
+            
+             git = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "SourceTree\\sourcetree.exe");
+            if (File.Exists(git))
+                return git;
+
+            return git;
+        }
+
+
+        /// <summary>
+        /// Executes a process with given command line parameters
+        /// </summary>
+        /// <param name="executable">Executable to run</param>
+        /// <param name="arguments"></param>
+        /// <param name="timeoutMs">Timeout of the process in milliseconds. Pass -1 to wait forever. Pass 0 to not wait.</param>
+        /// <returns></returns>
+        public static int ExecuteProcess(string executable, string arguments =  null, int timeoutMs = 0, ProcessWindowStyle windowStyle= ProcessWindowStyle.Hidden)
 	    {
 		    Process process;
 

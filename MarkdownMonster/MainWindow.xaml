@@ -18,7 +18,6 @@
         BorderThickness="0" 
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"		
-		FontSize="13"
         Height="700" Width="1000"  
         MinWidth="800" MinHeight="600" 
         WindowTransitionsEnabled="False">
@@ -44,10 +43,12 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         <localwindows:InvertedBooleanConverter  x:Key="InvertedBooleanConverter" />
         <localwindows:BooleanToCollapsedVisibilityConverter x:Key="BooleanToCollapsedVisibilityConverter" />
         <localwindows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
         <localwindows:FolderNameFromPathConverter x:Key="FolderNameFromPathConverter" />
+        <localwindows:FullFolderNameFromPathConverter x:Key="FullFolderNameFromPathConverter" />
 
         <ObjectDataProvider x:Key="ApplicationThemeEnums" 
                             MethodName="GetValues" ObjectType="{x:Type System:Enum}">
@@ -64,8 +65,11 @@
             <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
             <MenuItem Name="ContextOpenInFolder" Header="Open _Folder in Explorer" Click="Button_OpenExplorer" />
             <MenuItem Name="ContextOpenInFolderBrowser" Header="Open Folder in Folder _Browser" Click="Button_OpenFolderBrowser" />
+            <Separator/>
             <MenuItem Name="ContextCommitToGit" Header="Commit and Push to _Git"
                       Command="{Binding DataContext.CommitToGitCommand}"   />
+            <MenuItem Name="ContextOpenGitClient" Header="Open Folder in Git Client"
+                      Command="{Binding DataContext.Commands.OpenGitClientCommand}"   />
             <Separator/>
             <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Command="{Binding DataContext.Commands.CopyFolderToClipboardCommand}" />
         </ContextMenu>
@@ -90,7 +94,7 @@
             <StackPanel Orientation="Horizontal">
 						
                 <ToggleButton   fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
-                            IsChecked="{Binding Configuration.EditorEnableSpellcheck}"
+                            IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
                             ToolTip="enable/disable spell-checking"
                             Click="ButtonSpellCheck_Click"
                             TextElement.FontSize="16"
@@ -178,15 +182,14 @@
             <RowDefinition Height="Auto"  Name="MainMenuGridRow"/>
             <RowDefinition Height="Auto" Name="ToolbarGridRow"/>
             <RowDefinition Height="*" Name="MainContentGridRow" />
-            <RowDefinition Height="Auto" Name="StatusBarGridRow"/>
+            <RowDefinition Height="30" Name="StatusBarGridRow"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Menu x:Name="MainMenu" Grid.Row="0" 
-              Margin="0" 
-              FontSize="{Binding Path=FontSize,ElementName=MainApplicationWindow}"
+              Margin="0"               
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File" Name="MainMenuFile" x:FieldModifier="public" >
                 <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding Commands.NewDocumentCommand}" InputGestureText="ctrl-n"/>
@@ -336,27 +339,28 @@
                 <Separator />
                 <MenuItem Name="ButtonDocumentOutlineVisible" 
                           Header="Markdown Document Outline"                                                                                             
-                          IsCheckable="True"                          
+                          IsCheckable="True"    
+                          Click="Button_Handler"
                           IsChecked="{Binding Configuration.IsDocumentOutlineVisible, Mode=TwoWay}" />
-
+                <Separator />
                 <MenuItem Name="ButtonWordWrap" 
                           Header="_Word Wrap"      
                           Command="{Binding Commands.WordWrapCommand}"                                                                   
                           IsCheckable="True"
                           InputGestureText="alt-z"
-                          IsChecked="{Binding Configuration.EditorWrapText, Mode=OneWay}" />
+                          IsChecked="{Binding Configuration.Editor.WrapText, Mode=OneWay}" />
 
                 <MenuItem Name="ButtonLineNumbers" 
                           Header="Line _Numbers"                         
                           Click="Button_Handler"
                           IsCheckable="True"
-                          IsChecked="{Binding Configuration.EditorShowLineNumbers}" />
+                          IsChecked="{Binding Configuration.Editor.ShowLineNumbers}" />
 
                 <MenuItem Name="ButtonShowInvisibles" 
                           Header="Show Invisible Characters"
                           Click="Button_Handler"
                           IsCheckable="True"
-                          IsChecked="{Binding Configuration.EditorShowInvisibles}" />
+                          IsChecked="{Binding Configuration.Editor.ShowInvisibles}" />
             </MenuItem>
 
             <!-- generated dynamically by command -->
@@ -614,8 +618,8 @@
 
 
                 <controls:MetroTabItem Name="TabDocumentOutline"  x:FieldModifier="public"
-                                       Margin="0,0,5,0" Visibility="Visible" Header=" Outline "
-                                       controls:VisibilityHelper.IsVisible="{Binding Configuration.IsDocumentOutlineVisible}"
+                                       Margin="0,0,5,0"  Header=" Outline "
+                                       controls:VisibilityHelper.IsVisible="{Binding Configuration.IsDocumentOutlineVisible}"                                       
                                        controls:ControlsHelper.HeaderFontSize="14">
                     <!--<TabItem.Header>
                         <StackPanel Orientation="Horizontal">
@@ -725,11 +729,16 @@
                                 <DataTemplate>                                    
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock  Width="320" ToolTip="{Binding .}">
-                                            <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding Filename}"  >
+                                            <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding}"  >
                                                 <TextBlock Text="{Binding ., Converter={StaticResource FileNameFromPathConverter }}"    />
                                             </Hyperlink>
                                         </TextBlock>                                    
-                                        <TextBlock Text="{Binding ., Converter={StaticResource FolderNameFromPathConverter }}" Opacity="0.70" FontSize="13"  />                                        
+                                        <TextBlock Opacity="0.85" FontSize="13">                                        
+                                            <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}" 
+                                                       ToolTip="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}">
+                                                <TextBlock Text="{Binding ., Converter={StaticResource FolderNameFromPathConverter }}"    />
+                                            </Hyperlink>
+                                         </TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -812,6 +821,7 @@
                             <ColumnDefinition Width="Auto"  />
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <!-- Markdown Parser column, width = 150 -->
                             <ColumnDefinition Width="{Binding MarkdownParserColumnWidth}"/>
                             <ColumnDefinition Width="Auto" />
@@ -834,16 +844,21 @@
             </StatusBarItem>
             <Separator Grid.Column="2" />
 
-            <StatusBarItem  Grid.Column="3">
+
+            <StatusBarItem Grid.Column="3">
+                <TextBlock  Name="StatusStats" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
+            </StatusBarItem>
+
+            <StatusBarItem  Grid.Column="4" >
                 <ComboBox Name="StatusZoomLevel"
                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
-                          IsEditable="True" 
+                          IsEditable="True" FontSize="13"  Padding="1"
                           IsSynchronizedWithCurrentItem="True"
                           MouseDoubleClick="StatusZoomLevel_MouseDoubleClick"  
                           SelectionChanged="StatusZoomLevel_SelectionChanged"
                           PreviewTextInput="StatusZoomLevel_PreviewTextInput"  
                           ItemStringFormat="0\\%"
-                          Text="{Binding Configuration.EditorZoomLevel,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='0\\%'}">
+                          Text="{Binding Configuration.Editor.ZoomLevel,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='0\\%'}">
                     <ComboBox.ToolTip>
                         <TextBlock>
                             Editor font size zoom level.
@@ -853,37 +868,46 @@
                             Double click to reset to 100%.
                         </TextBlock>
                     </ComboBox.ToolTip>
-                    <ComboBoxItem>20</ComboBoxItem>
                     <ComboBoxItem>50</ComboBoxItem>
                     <ComboBoxItem>75</ComboBoxItem>
                     <ComboBoxItem>100</ComboBoxItem>
                     <ComboBoxItem>125</ComboBoxItem>
                     <ComboBoxItem>150</ComboBoxItem>
                     <ComboBoxItem>200</ComboBoxItem>
-                    <ComboBoxItem>400</ComboBoxItem>
                 </ComboBox>
             </StatusBarItem>
-            <StatusBarItem Grid.Column="4">
-                <TextBlock  Name="StatusStats" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
-            </StatusBarItem>
+       
           
-            <StatusBarItem Grid.Column="5" Margin="8,0,8,0">
+            <StatusBarItem Grid.Column="5">
                 <TextBlock  Name="StatusEncoding" x:FieldModifier="public" HorizontalAlignment="Left"
                             ToolTip="Document Encoding"></TextBlock>
             </StatusBarItem>
-            <StatusBarItem Grid.Column="6">
+
+            <StatusBarItem Grid.Column="6" Margin="6,0,0,0">
+                <ComboBox   Name="DocumentType" x:FieldModifier="public" HorizontalAlignment="Left"
+                            Width="100"  FontSize="13"  Padding="3,1"
+                            ItemsSource="{Binding DocumentTypes}"
+                            SelectedItem="{Binding ActiveEditor.EditorSyntax, Mode=TwoWay}"                             
+                            ToolTip="Editor Code Syntax" 
+                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                            SelectionChanged="DocumentType_SelectionChanged"
+                            />
+            </StatusBarItem>
+
+
+            <StatusBarItem Grid.Column="7">
                 <ComboBox  HorizontalAlignment="Right"  
                            ToolTip="Registered Markdown Parsers" Width="{Binding MarkdownParserColumnWidth}"
                            SelectedItem="{Binding Configuration.MarkdownOptions.MarkdownParserName}" 
-                           IsSynchronizedWithCurrentItem="True" 
+                           IsSynchronizedWithCurrentItem="True"   FontSize="13"  Padding="3,1"
                            ItemsSource="{Binding MarkdownParserNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="MarkdownParserName_SelectionChanged" />
 
             </StatusBarItem>
-            <StatusBarItem Grid.Column="7">
+            <StatusBarItem Grid.Column="8">
                 <ComboBox  HorizontalAlignment="Right"  Width="70" ToolTip="Application Themes"  
-                           Name="ComboBoxAppTheme"
+                           Name="ComboBoxAppTheme"  FontSize="13" Padding="3,1"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
                            SelectedValue="{Binding Configuration.ApplicationTheme}"   
                            ItemsSource="{Binding Source={StaticResource ApplicationThemeEnums}}"
@@ -891,40 +915,40 @@
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"                           
                 />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="8">
-                
-                <ComboBox  HorizontalAlignment="Right"  Width="125" ToolTip="Editor Themes"
-                           SelectedItem="{Binding Configuration.EditorTheme}"
+            <StatusBarItem Grid.Column="9">
+
+                <ComboBox  HorizontalAlignment="Right"  ToolTip="Editor Themes"
+                           SelectedItem="{Binding Configuration.EditorTheme}"  FontSize="13" Padding="3,1"
                            IsSynchronizedWithCurrentItem="True"                            
                            ItemsSource="{Binding EditorThemeNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
                            SelectionChanged="EditorTheme_SelectionChanged" />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="9">
-                <ComboBox  HorizontalAlignment="Right"  Width="125"
-                           ToolTip="Preview rendering Themes"
-                           SelectedItem="{Binding Configuration.RenderTheme}" 
+            <StatusBarItem Grid.Column="10">
+                <ComboBox  HorizontalAlignment="Right" Padding="3,1"
+                           ToolTip="Preview rendering Themes"  FontSize="13"
+                           SelectedItem="{Binding Configuration.PreviewTheme}" 
                            IsSynchronizedWithCurrentItem="True" 
-                           ItemsSource="{Binding RenderThemeNames}"
+                           ItemsSource="{Binding PreviewThemeNames}"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
-                           SelectionChanged="RenderTheme_SelectionChanged" />
+                           SelectionChanged="PreviewTheme_SelectionChanged" />
 
             </StatusBarItem>
-            <StatusBarItem Grid.Column="10">
-                <ComboBox  HorizontalAlignment="Right"  Width="44" ToolTip="Preview sync mode"  
-                           Name="ComboBoxPreviewSyncModes"
+            <StatusBarItem Grid.Column="11">
+                <ComboBox  HorizontalAlignment="Right"   Width="18" ToolTip="Preview sync mode"  
+                           Name="ComboBoxPreviewSyncModes"  FontSize="13" Padding="0,1"
                            IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
                            SelectedValue="{Binding Configuration.PreviewSyncMode}" 
                            ItemsSource="{Binding PreviewSyncModeItems}"                           
                            DisplayMemberPath="IconString"
                            SelectedValuePath="Value" 
-                           FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" FontSize="11"
+                           FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
                            Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
-                           SelectionChanged="RenderTheme_SelectionChanged">
+                           SelectionChanged="PreviewTheme_SelectionChanged">
                 </ComboBox>
             </StatusBarItem>
 
-            <StatusBarItem Grid.Column="11">
+            <StatusBarItem Grid.Column="12">
                 <Button Name="ButtonStatusEncrypted" Margin="0,0,15,0" Click="Button_Handler" 
                     ToolTip="Encrypted"
                     fa:Awesome.Content="Lock" 

@@ -75,10 +75,10 @@ namespace MarkdownMonster
         /// JavaScript editor wrapper instance.
         /// </summary>
         public MarkdownDocumentEditor ActiveEditor
-        {
+        {            
             get
             {
-                var editor = Window.GetActiveMarkdownEditor();
+                var editor = Window.GetActiveMarkdownEditor();                
                 return editor;
             }
         }
@@ -98,7 +98,7 @@ namespace MarkdownMonster
 
                 OnPropertyChanged(nameof(ActiveDocument));
                 OnPropertyChanged(nameof(ActiveEditor));                
-                OnPropertyChanged(nameof(IsEditorActive));
+                OnPropertyChanged(nameof(IsEditorActive));                
 
                 Dispatcher.CurrentDispatcher.InvokeAsync(() =>
                 {
@@ -147,14 +147,7 @@ namespace MarkdownMonster
         {
             get
             {
-                bool value = Window.TabControl.Items.Count < 1;
-                if (value)
-                {
-                    var zeroWidth = new GridLength(0);
-                    //Window.MainWindowPreviewColumn.Width = zeroWidth;
-                    //Window.RightSidebarSeparatorColumn.Width = zeroWidth;
-                }
-                return value;
+                return Window.TabControl.Items.Count < 1;                           
             }
         }
         
@@ -174,11 +167,6 @@ namespace MarkdownMonster
                 if (value == Configuration.IsPreviewVisible) return;
                 Configuration.IsPreviewVisible = value;
                 OnPropertyChanged(nameof(IsPreviewBrowserVisible));
-
-                if (value == false)
-                {
-
-                }
             }
         }
 
@@ -265,6 +253,9 @@ namespace MarkdownMonster
             }
         }
 
+
+      
+
         /// <summary>
         /// Commands
         /// </summary>
@@ -276,14 +267,14 @@ namespace MarkdownMonster
         #region Statusbar Item Props
 
         /// <summary>
-        /// A list of RenderThemes as retrieved based on the folder structure of hte
+        /// A list of PreviewThemes as retrieved based on the folder structure of hte
         /// Preview folder.
         /// </summary>
-        public List<string> RenderThemeNames
+        public List<string> PreviewThemeNames
         {
             get
             {
-                if (_renderThemeNames == null || _renderThemeNames.Count < 1)
+                if (_previewThemeNames == null || _previewThemeNames.Count < 1)
                 {
                     var directories =
                         Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "PreviewThemes"));
@@ -294,15 +285,15 @@ namespace MarkdownMonster
                         if (dirName.ToLower() == "scripts")
                             continue;
 
-                        _renderThemeNames.Add(dirName);
+                        _previewThemeNames.Add(dirName);
                     }
                 }
 
-                return _renderThemeNames;
+                return _previewThemeNames;
             }
         }
 
-        private readonly List<string> _renderThemeNames = new List<string>();
+        private readonly List<string> _previewThemeNames = new List<string>();
 
 
 
@@ -386,6 +377,25 @@ namespace MarkdownMonster
                 return parsers;
             }
         }
+
+        public List<string> DocumentTypes
+        {
+            get
+            {
+                if (_documentTypes != null)
+                    return _documentTypes;
+
+                _documentTypes = mmApp.Configuration.EditorExtensionMappings
+                        .Select(kv => kv.Value)
+                        .Distinct()
+                        .OrderBy(s=> s.ToLower())
+                        .ToList();
+
+                return _documentTypes;
+            }
+        }
+
+        List<string> _documentTypes = null;
 
         /// <summary>
         /// Returns the width of the column containing
@@ -545,21 +555,7 @@ We're now shutting down the application.
 
 
 
-        public CommandBase GeneratePdfCommand { get; set; }
-
-        void Command_GeneratePdf()
-        {
-            // PDF GENERATION PREVIEW
-            GeneratePdfCommand = new CommandBase((s, e) =>
-            {
-                var form = new GeneratePdfWindow()
-                {
-                    Owner = mmApp.Model.Window
-                };
-                form.Show();
-            }, (s, e) => IsPreviewBrowserVisible);
-        }
-
+        
 
         public CommandBase CommitToGitCommand { get; set; }
 
@@ -631,8 +627,7 @@ We're now shutting down the application.
             Command_PrintePreview();
 
             Command_ShowFolderBrowser();
-            
-            Command_GeneratePdf();
+                       
             Command_CommitToGit();            
             Command_CopyAsHtml();
         }

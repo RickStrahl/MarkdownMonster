@@ -139,7 +139,7 @@ namespace MarkdownMonster.Windows
             var fd = new OpenFileDialog
             {
                 DefaultExt = ".html",
-                Filter = "Linkable Files (*.htm,*.html,*.md,*.pdf;*.zip)|*.html;*.htm;*.md;*.pdf;*.zip|All Files (*.*)|*.*",
+                Filter = "Linkable Files (*.html,*.htm,*.md,*.pdf;*.zip)|*.html;*.htm;*.md;*.pdf;*.zip|All Files (*.*)|*.*",
                 CheckFileExists = true,
                 RestoreDirectory = true,
                 Multiselect = false,
@@ -174,13 +174,16 @@ namespace MarkdownMonster.Windows
                 
                 // not relative
                 if (!relPath.StartsWith("..\\"))
-                    Link = relPath;
+                    Link = relPath.Replace("\\","/");
 
                 // is it a physical path?
                 if (Link.Contains(":\\"))
                     Link = "file:///" + Link;
 
             }
+
+            Link = StringUtils.UrlEncode(Link);
+
             mmApp.Configuration.LastFolder = System.IO.Path.GetDirectoryName(fd.FileName);
             TextLink.Focus();
         }

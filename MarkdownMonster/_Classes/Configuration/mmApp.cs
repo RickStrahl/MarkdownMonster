@@ -459,9 +459,21 @@ Markdown Monster v{version}
             return v.ToString();
         }
 
-        public static string GetVersionForDisplay()
+        /// <summary>
+        /// Returns a formatted string value for the version.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetVersionForDisplay(string version = null)
         {
-            return GetVersion().Replace(".0", "");
+            if (version == null)
+                version = GetVersion();
+
+            if (version.EndsWith(".0.0"))
+                version = version.Substring(0, version.Length - 4);
+            else if (version.EndsWith(".0"))
+                version = version.Substring(0, version.Length - 2);
+            
+            return version;
         }
 
         public static string GetVersionDate()

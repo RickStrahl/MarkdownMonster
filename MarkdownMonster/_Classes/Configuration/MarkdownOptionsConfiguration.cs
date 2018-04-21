@@ -16,61 +16,105 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Determines whether links are automatically expanded
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/AutoLinks.md
         /// </summary>
         public bool AutoLinks { get; set; } = true;
 
         /// <summary>
-        /// Use Abbreviations which are linked to definitions
-        /// </summary>
-        public bool Abbreviations { get; set; } = true;
-
-        /// <summary>
         /// Determines if headers automatically generate 
-        /// ids.
+        /// ids. We use the Github Flavored version of it.
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/AutoIdentifierSpecs.md
         /// </summary>
-        public bool AutoHeaderIdentifiers { get; set; }
+        public bool AutoHeaderIdentifiers { get; set; } = true;
 
         /// <summary>
-        /// If true strips Yaml FrontMatter headers
+        /// If true strips Yaml FrontMatter from markdown header
         /// </summary>
         public bool StripYamlFrontMatter { get; set; } = true;
 
         /// <summary>
+        /// Sets support for PipeTables and GridTables
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/PipeTableSpecs.md
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/GridTableSpecs.md
+        /// </summary>
+        public bool UseTables { get; set; } = true;
+
+        /// <summary>
+        /// Enables Footers and Footnotes
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/FigureFooterAndCiteSpecs.md
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/FootnotesSpecs.md
+        /// </summary>
+        public bool FootersAndFootnotes { get; set; } = true;
+
+
+        /// <summary>
+        /// Adds additional list features like a. b.  and roman numerals i. ii. ix.
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/ListExtraSpecs.md
+        /// </summary>
+        public bool ListExtras { get; set; } = true;
+
+        /// <summary>
         /// If true expand Emoji in the format of :smile: and common Smileys  like :-)
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/EmojiSpecs.md
         /// </summary>
         public bool EmojiAndSmiley { get; set; } = true;
 
         /// <summary>
         /// Creates playable media links from music and video files
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/MediaSpecs.md
         /// </summary>
         public bool MediaLinks { get; set; } = true;
 
-        /// <summary>
-        /// Adds additional list features like a. b.  and roman numerals i. ii. ix.
-        /// </summary>
-        public bool ListExtras { get; set; } = true;
 
         /// <summary>
         /// Figure referencing below images
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/FigureFooterAndCiteSpecs.md
         /// </summary>
         public bool Figures { get; set; } = true;
 
         /// <summary>
         /// Creates Github task lists like - [ ] Task 1
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/TaskListSpecs.md
         /// </summary>
         public bool GithubTaskLists { get; set; } = true;
+
+
+        /// <summary>
+        /// Use Abbreviations which are linked to definitions
+        /// </summary>
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/AbbreviationSpecs.md
+        public bool Abbreviations { get; set; } = true;
+
+        /// <summary>
+        /// Fenced code blocks for a &lt;div&gt; wrapper using :::notebox / :::
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/CustomContainerSpecs.md
+        /// </summary>
+        public bool CustomContainers { get; set; } = true;
+
+        /// <summary>
+        /// Allows for attribute syntax
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/GenericAttributesSpecs.md
+        /// </summary>
+        public bool Attributes { get; set; } = true;
+
 
         /// <summary>
         /// Converts common typeographic options like -- to em dash
         /// quotes to curly quotes, triple dots to elipsis etc.
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/SmartyPantsSpecs.md
         /// </summary>
         public bool SmartyPants { get; set; }
 
         /// <summary>
         /// Renders Mermaid and Nonoml markup 
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/DiagramsSpecs.md
         /// </summary>
         public bool Diagrams { get; set; }
 
+        /// <summary>
+        /// If true inline HTML blocks are not rendered        
+        /// </summary>
+        public bool NoHtml { get; set; }
 
         /// <summary>
         /// Renders all links as external links with `target='top'`
@@ -79,6 +123,17 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Gets or sets the Markdig extensions to be enabled.
+        /// Allows you to add extensions dynamically at runtime
+        /// or set non-supported (via these options) settings
+        /// 
+        /// This shouldn't be needed - use the options instead
+        /// but this can be used in case Markdig adds extensions
+        /// that aren't exposed here.
+        /// 
+        /// Comma or + separated list of extension names:
+        /// gridtables+pipetables+customcontainers
+        /// 
+        /// If options are availe         
         /// </summary>
         public string MarkdigExtensions
         {
@@ -90,8 +145,8 @@ namespace MarkdownMonster
                 OnPropertyChanged();
             }
         }
-        private string _markdigExtensions = "emphasisextras,pipetables,gridtables,footers,footnotes,citations,attributes";
-        
+        private string _markdigExtensions = string.Empty;      
+
         #endregion
 
         #region Miscellaneous Settings
@@ -142,7 +197,6 @@ namespace MarkdownMonster
         }
 
         
-
 
         private string _markdownParserName;
 

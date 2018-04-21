@@ -35,7 +35,7 @@
             <img src="Images/MarkdownMonster_Icon_32.png"
                 style="height: 28px;"
                 alt="Markdown Monster" />
-            <span>West Wind Markdown Monster</span>
+            <span>Markdown Monster</span>
         </span>      
         <div id="TopMenu" class="right">
             <a href="./">Home</a>            
@@ -52,7 +52,7 @@
     <div id="MainContainer" class="background">
         <div id="ContentContainer" class="content" style="padding: 10px 45px;">
             
-            <h2>Download West Wind Markdown Monster</h2>
+            <h2>Download Markdown Monster</h2>
             
             <p>
                 You can download the free version of West Wind Markdown Monster and start editing your
@@ -237,12 +237,15 @@ Thanks for playing fair.
 Contributors that provide valuable feedback with quality bug reports or enhancement requests, 
 help out with code via Pull Requests, help promote Markdown Monster, or support Markdown Monster in
 any other significant way are all eligible for a free license.
-				   
-<b>Microsoft employees</b> and <b>Microsoft MVPs</b> as well as employees of any company offering free tools to 
-the Microsoft MVP program also qualify for a free license.
-	            
+        
 <a href="http://west-wind.com/contact/" target="top">Contact Rick for more info</a>
 or - just as likely - I'll be contacting you.
+         
+#### MVPS, ASP.NET Insiders and Microsoft Employees Get a Free License				   
+Microsoft MVPs, ASP.NET Insiders and Microsoft employees as well as employees of any company offering free tools to 
+the Microsoft MVP program also qualify for a free license.
+	            
+<a href="https://store.west-wind.com/mvpperks.aspx" target="top">Apply for free license</a>.
                 	
 #### No Warranty
 You expressly acknowledge and agree that use of the licensed application is at your sole risk and that

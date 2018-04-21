@@ -125,7 +125,7 @@ var SnippetManager = function() {
         var s = editor.session;
         switch(name) {
             case "CURRENT_WORD":
-                var r = s.getWordRange();
+                var r = s.getWordRange(); 
             case "SELECTION":
             case "SELECTED_TEXT":
                 return s.getTextRange(r);
@@ -509,10 +509,10 @@ var SnippetManager = function() {
                 return;
             
             s.startRe = guardedRegexp(s.trigger, s.guard, true);
-            s.triggerRe = new RegExp(s.trigger, "", true);
+            s.triggerRe = new RegExp(s.trigger);
 
             s.endRe = guardedRegexp(s.endTrigger, s.endGuard, true);
-            s.endTriggerRe = new RegExp(s.endTrigger, "", true);
+            s.endTriggerRe = new RegExp(s.endTrigger);
         }
 
         if (snippets && snippets.content)
@@ -1087,8 +1087,6 @@ var AcePopup = function(parentNode) {
     popup.session.$computeWidth = function() {
         return this.screenWidth = 0;
     };
-
-    popup.$blockScrolling = Infinity;
     popup.isOpen = false;
     popup.isTopdown = false;
     popup.autoSelect = true;
@@ -1618,14 +1616,28 @@ var Autocomplete = function() {
         tooltipNode.style.top = popup.container.style.top;
         tooltipNode.style.bottom = popup.container.style.bottom;
 
+        tooltipNode.style.display = "block";
         if (window.innerWidth - rect.right < 320) {
-            tooltipNode.style.right = window.innerWidth - rect.left + "px";
-            tooltipNode.style.left = "";
+            if (rect.left < 320) {
+                if(popup.isTopdown) {
+                    tooltipNode.style.top = rect.bottom + "px";
+                    tooltipNode.style.left = rect.left + "px";
+                    tooltipNode.style.right = "";
+                    tooltipNode.style.bottom = "";
+                } else {
+                    tooltipNode.style.top = popup.container.offsetTop - tooltipNode.offsetHeight + "px";
+                    tooltipNode.style.left = rect.left + "px";
+                    tooltipNode.style.right = "";
+                    tooltipNode.style.bottom = "";
+                }
+            } else {
+                tooltipNode.style.right = window.innerWidth - rect.left + "px";
+                tooltipNode.style.left = "";
+            }
         } else {
             tooltipNode.style.left = (rect.right + 1) + "px";
             tooltipNode.style.right = "";
         }
-        tooltipNode.style.display = "block";
     };
 
     this.hideDocTooltip = function() {
@@ -1709,21 +1721,28 @@ var FilteredList = function(array, filterText) {
             if (this.exactMatch) {
                 if (needle !== caption.substr(0, needle.length))
                     continue loop;
-            }else{
-                for (var j = 0; j < needle.length; j++) {
-                    var i1 = caption.indexOf(lower[j], lastIndex + 1);
-                    var i2 = caption.indexOf(upper[j], lastIndex + 1);
-                    index = (i1 >= 0) ? ((i2 < 0 || i1 < i2) ? i1 : i2) : i2;
-                    if (index < 0)
-                        continue loop;
-                    distance = index - lastIndex - 1;
-                    if (distance > 0) {
-                        if (lastIndex === -1)
-                            penalty += 10;
-                        penalty += distance;
+            } else {
+                var a;
+                if ((a = caption.toLowerCase().indexOf(lower)) > -1) {
+                    for (var k = a; k < a + lower.length; k++) {
+                        matchMask = matchMask | (1 << k);
                     }
-                    matchMask = matchMask | (1 << index);
-                    lastIndex = index;
+                } else {
+                    for (var j = 0; j < needle.length; j++) {
+                        var i1 = caption.indexOf(lower[j], lastIndex + 1);
+                        var i2 = caption.indexOf(upper[j], lastIndex + 1);
+                        index = (i1 >= 0) ? ((i2 < 0 || i1 < i2) ? i1 : i2) : i2;
+                        if (index < 0)
+                            continue loop;
+                        distance = index - lastIndex - 1;
+                        if (distance > 0) {
+                            if (lastIndex === -1)
+                                penalty += 10;
+                            penalty += distance;
+                        }
+                        matchMask = matchMask | (1 << index);
+                        lastIndex = index;
+                    }
                 }
             }
             item.matchMask = matchMask;
@@ -1771,7 +1790,7 @@ define("ace/autocomplete/text_completer",["require","exports","module","ace/rang
     }
 
     exports.getCompletions = function(editor, session, pos, prefix, callback) {
-        var wordScore = wordDistance(session, pos, prefix);
+        var wordScore = wordDistance(session, pos);
         var wordList = Object.keys(wordScore);
         callback(null, wordList.map(function(word) {
             return {
@@ -1951,6 +1970,10 @@ require("../config").defineOptions(Editor.prototype, "editor", {
 });
 });
                 (function() {
-                    window.require(["ace/ext/language_tools"], function() {});
+                    window.require(["ace/ext/language_tools"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
                 })();
             

@@ -57,8 +57,8 @@
       <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -79,8 +79,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
-    <Reference Include="Westwind.Utilities, Version=3.0.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Westwind.Utilities.3.0.12\lib\net45\Westwind.Utilities.dll</HintPath>
+    <Reference Include="Westwind.Utilities, Version=3.0.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Westwind.Utilities.3.0.13\lib\net45\Westwind.Utilities.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>

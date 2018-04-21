@@ -7,10 +7,12 @@
 img {
     max-width: 95%;
 }
-h2, h3,h4,h5 {
-    font-weight: bold;
+h2,h3,h4,h5 {
+    margin-top: 1.2em;
+    font-weight: 600;
     color: steelblue;
 }
+
 a {
     font-weight: bold;
 }
@@ -96,14 +98,12 @@ a {
 }
 .hidable-xs {    
 }
-#ContentContainer {
-    xmargin: 0 auto !important;
-    max-width: 1100px;     
+#ContentContainer {    
+    max-width: 1200px;     
     background: white;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;    
-    margin-bottom: 20px;
-    box-shadow: 4px 4px 6px #535353;
+    margin-bottom: 20px;    
 }
 .top-bullet-box {
     background: #000000;
@@ -111,7 +111,7 @@ a {
     padding: 5px 10% 15px 12%;
 }
 h4 {
-    font-size: 1.35em;
+    font-size: 1.15em;
     color: #555;
 }
 h5 {

@@ -32,11 +32,13 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -45,6 +47,7 @@ using System.Windows.Navigation;
 using System.Windows.Threading;
 using Markdig;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Annotations;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -64,7 +67,8 @@ namespace MarkdownMonster
     /// using the low level AceEditor property.
     /// </summary>
     [ComVisible(true)]
-    public class MarkdownDocumentEditor 
+    public class MarkdownDocumentEditor : INotifyPropertyChanged
+
     {
         /// <summary>
         /// Instance of the Web Browser control that hosts ACE Editor
@@ -85,7 +89,20 @@ namespace MarkdownMonster
         public MarkdownDocument MarkdownDocument { get; set; }
 
         public dynamic AceEditor { get; set; }
-        public string EditorSyntax { get; set; }
+        
+
+        public string EditorSyntax
+        {
+            get => _editorSyntax;
+            set
+            {
+                if (value == _editorSyntax) return;
+                _editorSyntax = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _editorSyntax;
+
         public int InitialLineNumber { get; set; }
 
         #region Behavior Properties and Storage
@@ -191,15 +208,15 @@ namespace MarkdownMonster
 
                 if (EditorSyntax != "markdown")
 					AceEditor?.setlanguage(EditorSyntax);
+
                 RestyleEditor(true);
-                SetShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
-                SetShowInvisibles(mmApp.Configuration.EditorShowInvisibles);
+
+                SetShowLineNumbers(mmApp.Configuration.Editor.ShowLineNumbers);
+                SetShowInvisibles(mmApp.Configuration.Editor.ShowInvisibles);
                 SetReadOnly(IsReadOnly);
 
                 if (InitialLineNumber > 0)
-                {
-                    GotoLine(InitialLineNumber);
-                }
+                    GotoLine(InitialLineNumber);                
 
                 WebBrowser.Visibility = Visibility.Visible;
             }
@@ -311,7 +328,7 @@ namespace MarkdownMonster
                 {
                     var editor = tab.Tag as MarkdownDocumentEditor;
                     editor.RestyleEditor();
-                    editor.AceEditor?.setShowLineNumbers(mmApp.Configuration.EditorShowLineNumbers);
+                    editor.AceEditor?.setShowLineNumbers(mmApp.Configuration.Editor.ShowLineNumbers);
                 }
             }
 
@@ -556,7 +573,7 @@ namespace MarkdownMonster
                         dynamic scroll = AceEditor.getscrolltop(false);
 
                         // the ID tag
-                        html = $"\n\n[{id}]: {image}\n";
+                        html = $"\r\n\r\n[{id}]: {image}\r\n";
 
                         // set selction position to bottom of document
                         AceEditor.gotoBottom(false);
@@ -595,9 +612,9 @@ namespace MarkdownMonster
 
                 if (res != null && res.Value)
                 {
-                    html = "```" + form.CodeLanguage + "\n" +
-                           form.Code.Trim() + "\n" +
-                           "```\n";
+                    html = "```" + form.CodeLanguage + "\r\n" +
+                           form.Code.Trim() + "\r\n" +
+                           "```\r\n";
                 }
             }
             else
@@ -678,7 +695,7 @@ namespace MarkdownMonster
                         dynamic scroll = AceEditor.getscrolltop(false);
 
                         // the ID tag
-                        html = $"\n\n[{id}]: {image}\n";
+                        html = $"\r\n\r\n[{id}]: {image}\r\n";
 
                         // set selction position to bottom of document
                         AceEditor.gotoBottom(false);
@@ -735,7 +752,7 @@ namespace MarkdownMonster
                 {
                     if (!string.IsNullOrEmpty(form.TableHtml))
                     {
-                        SetSelection(form.TableHtml.TrimEnd() + "\n");
+                        SetSelection(form.TableHtml.TrimEnd() + "\r\n");
                         PreviewMarkdownCallback();
                     }
                 }
@@ -829,25 +846,34 @@ namespace MarkdownMonster
                         {
                         }
 
-                        var fontSize = mmApp.Configuration.EditorFontSize *  ((decimal) mmApp.Configuration.EditorZoomLevel / 100) * dpiRatio;
-                        //Debug.WriteLine(fontSize + " " + (int) fontSize + "  " +  mmApp.Configuration.EditorFontSize  + " * " +  mmApp.Configuration.EditorZoomLevel + " * " + dpiRatio);
+                        var fontSize = mmApp.Configuration.Editor.FontSize *  ((decimal) mmApp.Configuration.Editor.ZoomLevel / 100) * dpiRatio;
+                        
+                        var config = mmApp.Configuration;
 
-                        AceEditor.settheme(
-                            mmApp.Configuration.EditorTheme,
-                            mmApp.Configuration.EditorFont,
-                            fontSize,
-                            mmApp.Configuration.EditorWrapText,
-                            mmApp.Configuration.EditorHighlightActiveLine,
-                            mmApp.Configuration.EditorKeyboardHandler);
+                        var style = new
+                        {
+                            Theme = config.EditorTheme,
+                            Font = config.Editor.Font,
+                            FontSize = (int)fontSize,
+                            LineHeight = config.Editor.LineHeight,
+                            WrapText = config.Editor.WrapText,
+                            ShowLineNumbers = config.Editor.ShowLineNumbers,
+                            ShowInvisibles = config.Editor.ShowInvisibles,
+                            HighlightActiveLine = config.Editor.HighlightActiveLine,
+                            KeyboardHandler = config.Editor.KeyboardHandler
+                        };
+
+                        var jsonStyle = JsonConvert.SerializeObject(style);
+                        AceEditor.setEditorStyle(jsonStyle);
 
                         if (EditorSyntax == "markdown" || EditorSyntax == "text")
-                            AceEditor.enablespellchecking(!mmApp.Configuration.EditorEnableSpellcheck,
-                                mmApp.Configuration.EditorDictionary);
+                            AceEditor.enablespellchecking(!mmApp.Configuration.Editor.EnableSpellcheck,
+                                mmApp.Configuration.Editor.Dictionary);
                         else
                             // always disable for non-markdown text
-                            AceEditor.enablespellchecking(true, mmApp.Configuration.EditorDictionary);
+                            AceEditor.enablespellchecking(true, mmApp.Configuration.Editor.Dictionary);
                     }
-                    catch
+                    catch(Exception ex)
                     {
                     }
                 },
@@ -855,6 +881,8 @@ namespace MarkdownMonster
                     ? System.Windows.Threading.DispatcherPriority.Send
                     : System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
+
+     
 
         /// <summary>
         /// Sets line number gutter on and off. Separated out from Restyle Editor to 
@@ -865,7 +893,7 @@ namespace MarkdownMonster
         public void SetShowLineNumbers(bool? show = null)
         {
             if (show == null)
-                show = mmApp.Configuration.EditorShowLineNumbers;
+                show = mmApp.Configuration.Editor.ShowLineNumbers;
 
             AceEditor?.setShowLineNumbers(show.Value);
         }
@@ -877,7 +905,7 @@ namespace MarkdownMonster
         public void SetShowInvisibles(bool? show = null)
         {
             if (show == null)
-                show = mmApp.Configuration.EditorShowInvisibles;
+                show = mmApp.Configuration.Editor.ShowInvisibles;
 
             AceEditor?.setShowInvisibles(show.Value);
         }
@@ -973,7 +1001,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Retrieves the text for the given line
         /// </summary>
-        /// <param name="row"></param>
+        /// <param name="rowNumber"></param>
         /// <returns></returns>
         public string GetLine(int rowNumber)
         {
@@ -1007,14 +1035,15 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="line">Editor Line to display</param>
         /// <param name="noRefresh">Won't refresh the preview after setting</param>
-        public void GotoLine(int line, bool noRefresh = false)
+        /// <param name="noSelection">Only scroll but don't select</param>
+        public void GotoLine(int line, bool noRefresh = false, bool noSelection = false)
         {
             if (line < 0)
                 line = 0;
 
             try
             {
-                AceEditor?.gotoLine(line, noRefresh);
+                AceEditor?.gotoLine(line, noRefresh, noSelection);
             }
             catch { }
         }
@@ -1250,7 +1279,8 @@ namespace MarkdownMonster
             
             Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true, editorLineNumber: editorLineNumber);
 
-            Window.UpdateDocumentOutline();
+            Window.UpdateDocumentOutline(editorLineNumber);
+
             WindowUtilities.DoEvents();
         }
 
@@ -1416,12 +1446,12 @@ namespace MarkdownMonster
                 // zooming
                 else if (key == "ctrl-=")
                 {
-                    mmApp.Configuration.EditorZoomLevel += 2;
+                    mmApp.Configuration.Editor.ZoomLevel += 2;
                     RestyleEditor();
                 }
                 else if (key == "ctrl--")
                 {
-                    mmApp.Configuration.EditorZoomLevel -= 2;                    
+                    mmApp.Configuration.Editor.ZoomLevel -= 2;                    
                     RestyleEditor();
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);
@@ -1433,20 +1463,53 @@ namespace MarkdownMonster
             AceEditor?.findAndReplaceText(search, replace);
         }
 
+
         /// <summary>
-        /// Allows the PreviewBrowser to navigate to a URL for external links
-        /// so links open in the default browser rather than IE.
+        /// 
         /// </summary>
         /// <param name="url"></param>
-        /// <returns>true if handled (navigated) false if passed through and expected to navigate</returns>
-        public bool NavigateExternalUrl(string url)
+        /// <returns>true if the navigation is handled, false to continue letting app handle navigation</returns>
+        public bool PreviewLinkNavigation(string url, string src)
         {
-            if (mmApp.Configuration.PreviewHttpLinksExternal &&  !string.IsNullOrEmpty(url))
-            {
-                ShellUtils.GoUrl(url);
-                return true;
-            }
+            if (string.IsNullOrEmpty(url))
+                return false;
 
+            if (AddinManager.Current.RaiseOnPreviewLinkNavigation(url,src))
+                return true;
+
+            if (url.StartsWith("http",StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (mmApp.Configuration.PreviewHttpLinksExternal && !string.IsNullOrEmpty(url))
+                {
+                    ShellUtils.GoUrl(url);
+                    return true;
+                }
+            }
+            // it's a relative URL and ends with .md open in editor
+            else if (url.EndsWith(".md",StringComparison.InvariantCultureIgnoreCase))
+            {
+                // file urls are fully qualified paths with file:/// syntax
+                var urlPath = url.Replace("file:///", "");
+                urlPath = StringUtils.UrlDecode(urlPath);
+                urlPath = FileUtils.NormalizePath(urlPath);
+                if (File.Exists(urlPath))
+                {
+                    var tab = Window.RefreshTabFromFile(urlPath); // open or activate
+                    if (tab != null)
+                        return true;
+                }
+
+                var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+                urlPath = Path.Combine(docPath,urlPath);
+                if (File.Exists(urlPath))
+                {
+                    var tab = Window.RefreshTabFromFile(docPath); // open or activate
+                    if (tab != null)
+                        return true;
+                }
+            }
+            
+            // default browser behavior
             return false;
         }
 
@@ -1514,7 +1577,7 @@ namespace MarkdownMonster
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Couldn't copy file to new location: \n" + ex.Message,
+                            MessageBox.Show("Couldn't copy file to new location: \r\n" + ex.Message,
                                 mmApp.ApplicationName);
                             return;
                         }
@@ -1528,7 +1591,7 @@ namespace MarkdownMonster
                             }
                             catch (Exception ex)
                             {
-                                mmApp.Log($"Failed to get relative path.\nFile: {sd.FileName}, Path: {imagePath}", ex);
+                                mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {imagePath}", ex);
                             }
                             imagePath = relPath;
                         }
@@ -1598,7 +1661,7 @@ namespace MarkdownMonster
 
                 AceEditor.setselpositionfrommouse(false);
 
-                Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\n![]({relFilePath.Replace(" ","%20")})\n"),
+                Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\r\n![]({relFilePath.Replace(" ","%20")})\r\n"),
                     DispatcherPriority.ApplicationIdle);
 
                 Window.Activate();
@@ -1699,7 +1762,7 @@ namespace MarkdownMonster
         /// <param name="lang"></param>
         public void AddWordToDictionary(string word, string lang = "EN_US")
         {
-            File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\",  lang + "_custom.txt"),word  + "\n");
+            File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\",  lang + "_custom.txt"),word  + "\r\n");
             _spellChecker.Add(word);            
         }
         #endregion
@@ -1749,6 +1812,13 @@ namespace MarkdownMonster
 			return MarkdownDocument?.Filename ?? base.ToString();
 		}
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
 
@@ -1757,5 +1827,26 @@ namespace MarkdownMonster
     {
         public int row { get; set; }
         public int column { get; set; }
+    }
+
+    public struct EditorStyle
+    {
+        public string Theme;
+        public string Font;
+
+        //public int FontSize;
+
+        //public decimal LineHeight;
+
+        public bool WrapText;
+
+        public bool ShowWhiteSpace;
+
+        public bool ShowLineNumbers;
+
+        public bool HighlightActiveLine;
+
+        public string KeyboardHandler;
+
     }
 }
