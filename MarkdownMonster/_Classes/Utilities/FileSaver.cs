@@ -230,6 +230,13 @@ namespace MarkdownMonster.Utilities
                     catch { }
                 }
             }
+            else if (lurl.Contains("/bitbucket.org/"))
+            {
+                // orig: https://bitbucket.org/RickStrahl/swfox_webbrowser/src/1fc23444c27cb691b47917663eabdf7ff9dec49e/Readme.md?at=master&fileviewer=file-view-default
+                // raw: https://bitbucket.org/RickStrahl/swfox_webbrowser/raw/1fc23444c27cb691b47917663eabdf7ff9dec49e/Readme.md
+                if (lurl.Contains("/src/"))
+                    urlToOpen = url.Replace("/src/", "/raw/");
+            }
 
 
             if (lurl.Contains("/github.com/"))
@@ -298,6 +305,58 @@ namespace MarkdownMonster.Utilities
 
         }
 
+
+        /// <summary>
+        /// Attempts to parse a title from a Markdown document by 
+        /// looking at YAML title header or the first `# ` markdown tag
+        /// </summary>
+        /// <param name="markdown"></param>
+        /// <returns></returns>
+        public static string ParseMarkdownTitle(string markdown)
+        {
+            string title = null;
+
+            var firstLines = StringUtils.GetLines(markdown, 30);
+            var firstLinesText = String.Join("\n", firstLines);
+
+            // Assume YAML 
+            if (markdown.StartsWith("---"))
+            {
+                var yaml = StringUtils.ExtractString(firstLinesText, "---", "---", returnDelimiters: true);
+                if (yaml != null)
+                    title = StringUtils.ExtractString(yaml, "title: ", "\n");
+            }
+
+            if (title == null)
+            {
+                foreach (var line in firstLines.Take(10))
+                {
+                    if (line.TrimStart().StartsWith("# "))
+                    {
+                        title = line.TrimStart(new char[] { ' ', '\t', '#' });
+                        break;
+                    }
+                }
+            }
+        
+            return title;
+        }
+
+        /// <summary>
+        /// Attempts to parse a title from a Markdown document by 
+        /// looking at YAML title header or the first `# ` markdown tag
+        /// </summary>
+        /// <param name="markdown"></param>
+        /// <returns></returns>
+        public static string ParseMarkdownSafeTitle(string markdown)
+        {
+            var title = ParseMarkdownTitle(markdown);
+
+            if (string.IsNullOrEmpty(title))
+                return null;
+
+            return FileUtils.CamelCaseSafeFilename($"{title}.md");
+        }
         #endregion
     }
 }

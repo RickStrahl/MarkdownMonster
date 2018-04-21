@@ -61,5 +61,17 @@ namespace MarkdownMonster.Test
             Console.WriteLine(url);
             Assert.IsTrue(HttpUtils.HttpRequestString(url).Contains("# "), "Root path: Not markdown");
         }
+
+
+        [TestMethod]
+        public void BitbucketTest()
+        {
+            var fs = new FileSaver();
+            string mkdUrl = "https://bitbucket.org/RickStrahl/swfox_webbrowser/src/1fc23444c27cb691b47917663eabdf7ff9dec49e/Readme.md?at=master&fileviewer=file-view-default";
+
+            var url = fs.ParseMarkdownUrl(mkdUrl);
+            Console.WriteLine(url);
+            Assert.IsTrue(HttpUtils.HttpRequestString(url).Contains("# "), "Root path: Not markdown");
+        }
     }
 }

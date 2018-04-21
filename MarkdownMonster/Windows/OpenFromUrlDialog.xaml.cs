@@ -14,10 +14,7 @@ namespace MarkdownMonster.Windows
     /// </summary>
     public partial class OpenFromUrlDialog : MetroWindow, INotifyPropertyChanged
     {
-        private string _url;
-        private string _linkText;
-        private bool _isExternal;
-        private string _htmlResult;
+   
 
         public string Url
         {
@@ -29,6 +26,20 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged(nameof(Url));
             }
         }
+        private string _url;
+
+
+        public bool FixupImageLinks
+        {
+            get => _fixupImageLinks;
+            set
+            {
+                if (value == _fixupImageLinks) return;
+                _fixupImageLinks = value;
+                OnPropertyChanged(nameof(FixupImageLinks));
+            }
+        }
+        private bool _fixupImageLinks;
 
         public OpenFromUrlDialog()
         {

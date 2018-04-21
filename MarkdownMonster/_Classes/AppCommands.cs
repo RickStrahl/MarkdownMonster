@@ -176,36 +176,82 @@ namespace MarkdownMonster
             OpenFromUrlCommand = new CommandBase((parameter, command) =>
             {
                 var form = new OpenFromUrlDialog();
-                form.Owner = Model.Window;                
+                form.Owner = Model.Window;
                 var result = form.ShowDialog();
 
                 if (result == null || !result.Value || string.IsNullOrEmpty(form.Url))
                     return;
 
                 var url = form.Url;
+                bool fixupImageLinks = form.FixupImageLinks;
 
                 var fs = new FileSaver();
                 url = fs.ParseMarkdownUrl(url);
-                
+
                 string markdown;
                 try
                 {
                     markdown = HttpUtils.HttpRequestString(url);
-
-                    if (string.IsNullOrEmpty(markdown))
-                    {
-                        Model.Window.ShowStatus($"No content found at URL: {url}", 6000, FontAwesomeIcon.Warning, Colors.Firebrick);
-                        return;
-                    }
                 }
                 catch (System.Net.WebException ex)
                 {
-                    Model.Window.ShowStatus($"Can't open from url: {ex.Message}",6000, FontAwesomeIcon.Warning, Colors.Firebrick);
+                    Model.Window.ShowStatus($"Can't open from url: {ex.Message}", 6000, FontAwesomeIcon.Warning,
+                        Colors.Firebrick);
                     return;
                 }
 
+                if (string.IsNullOrEmpty(markdown))
+                {
+                    Model.Window.ShowStatus($"No content found at URL: {url}", 6000, FontAwesomeIcon.Warning,
+                        Colors.Firebrick);
+                    return;
+                }
+
+                if (fixupImageLinks && url.EndsWith(".md", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var uri = new Uri(url);
+                    string basePath =
+                        $"{uri.Scheme}://{uri.Authority}{string.Join("", uri.Segments.Take(uri.Segments.Length - 1))}";
+
+
+                    var reg = new Regex("!\\[.*?]\\(.*?\\)");
+
+                    var matches = reg.Matches(markdown);
+                    foreach (Match match in matches)
+                    {
+                        var link = match.Value;
+                        var linkUrl = StringUtils.ExtractString(link, "](", ")");
+
+                        if (linkUrl.StartsWith("http"))
+                            continue;
+
+                        var text = StringUtils.ExtractString(link, "![", "](");
+                        linkUrl = basePath + linkUrl;
+
+                        var newLink = $"![text]({linkUrl})";
+                        markdown = markdown.Replace(link, newLink);
+                    }
+
+                    reg = new Regex("<img src=\\\".*?/>");
+
+                    matches = reg.Matches(markdown);
+                    foreach (Match match in matches)
+                    {
+                        var link = match.Value;
+                        var linkUrl = StringUtils.ExtractString(link, " src=\"", "\"");
+
+                        if (linkUrl.StartsWith("http"))
+                            continue;
+
+                        string newLink = basePath + linkUrl;
+                        newLink = link.Replace(linkUrl, newLink);
+
+                        markdown = markdown.Replace(link, newLink);
+                    }
+                }
+
                 var tab = Model.Window.OpenTab("untitled");
-                ((MarkdownDocumentEditor)tab.Tag).MarkdownDocument.CurrentText = markdown;
+                ((MarkdownDocumentEditor) tab.Tag).MarkdownDocument.CurrentText = markdown;
                 Model.Window.PreviewMarkdownAsync();
 
             }, (p, c) => true);

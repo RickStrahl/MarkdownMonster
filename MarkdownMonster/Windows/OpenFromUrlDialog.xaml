@@ -14,7 +14,7 @@
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="610" Height="280">
+        Width="610" Height="309.825">
     <StackPanel Margin="30,20,30,0" VerticalAlignment="Top">
         <Label Content="URL to open:"/>
         <Grid>
@@ -22,21 +22,31 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="TextUrl" Grid.Column="0"  Text="{Binding Url}"  
-                     HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  
-                     controls:TextBoxHelper.Watermark="Enter a URL to a Markdown document"
-                     ToolTip="Set the link text for the link."/>
-            <Button Grid.Column="1"  Height="Auto" Width="30" FontSize="12" Click="BrowseForLink_Click"
-                    Content="..."  >
+            
+                <TextBox x:Name="TextUrl"  Text="{Binding Url}"  
+                         HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  
+                         controls:TextBoxHelper.Watermark="Enter a URL to a Markdown document"
+                         ToolTip="Set the link text for the link."/>
+
+            <Button Grid.Column="1"  Height="Auto" Width="30" FontSize="12" Click="BrowseForLink_Click" Content="..."  >
                 <Button.ToolTip>
                     <TextBlock>Browse for Link. Find your URL, copy to clipboard and return to this form when done.
-                        <LineBreak/>
-                        Clipboard URLs are auto-pasted into the link box.
+                            <LineBreak/>
+                            Clipboard URLs are auto-pasted into the link box.
                     </TextBlock>
                 </Button.ToolTip>
             </Button>
         </Grid>
 
+        <CheckBox x:Name="CheckFixupImageLinks" Margin="0,10" 
+                  Content="Fix up image links"
+                  IsChecked="{Binding FixupImageLinks}">
+            <CheckBox.ToolTip>
+                <TextBlock>
+                    Fixes up relative image URLs to use absolute Web paths
+                </TextBlock>
+            </CheckBox.ToolTip> 
+       </CheckBox>
 
         <StackPanel Orientation="Horizontal" Margin="0 25 0 25">
             <Button x:Name="ButtonOk" Margin="0,0" Height="40"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
