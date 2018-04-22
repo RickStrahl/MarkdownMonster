@@ -238,3 +238,16 @@ a.area-link, a.area-link:visited {
 figure {
     color: #1e88e5;
 }
+
+@media print {
+    pre {
+        white-space: pre-wrap;
+        word-break: normal;
+        word-wrap: normal;
+    }
+
+    pre > code {
+        white-space: pre-wrap;
+        padding: 1em !important;
+    }
+}

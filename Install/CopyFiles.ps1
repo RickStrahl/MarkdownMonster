@@ -9,6 +9,7 @@ remove-item -recurse -force ${target}
 robocopy ${source}\bin\Release ${target} /MIR
 
 Copy-Item ${cur}\mm.exe ${target}\mm.exe
+Copy-Item ${cur}\license.md ${target}\license.md
 
 Remove-Item ${target}\*.vshost.*
 Remove-Item ${target}\*.xml

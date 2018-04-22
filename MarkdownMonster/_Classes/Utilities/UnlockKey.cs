@@ -52,8 +52,6 @@ namespace MarkdownMonster
             }
         }
 
-        public static int FreeThreadLimit = 10;
-        public static int FreeSitesLimit = 20;
 
         static RegTypes _regType = RegTypes.Free;
 

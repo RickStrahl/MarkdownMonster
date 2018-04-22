@@ -42,40 +42,42 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                     <Grid HorizontalAlignment="Stretch" Background="#10FFFFFF" Margin="0,0,10,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition/>
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Column="0" Grid.Row="0"
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" 
                                             Padding="10,3,10,3"
                                             TextTrimming="WordEllipsis"
                                             Text="{Binding name}" 
                                             FontWeight="Bold" Foreground="LightSteelBlue"  FontSize="17" />
 
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding version,StringFormat='v{0}'}" 
-                                                FontSize="12" FontStyle="Italic" HorizontalAlignment="Right" Margin="0,8,7,5" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding version,StringFormat='v{0}'}" 
+                                                    FontSize="12" FontStyle="Italic" HorizontalAlignment="Right" Margin="0,8,7,5" />
                         
-                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding updated,StringFormat='{}{0:MMM dd, yyyy}'}" 
-                                   FontSize="12" FontStyle="Italic" HorizontalAlignment="Right" Margin="0,8,7,3" />
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding updated,StringFormat='{}{0:MMM dd, yyyy}'}" 
+                                           FontSize="12" FontStyle="Italic" HorizontalAlignment="Right" Margin="0,8,7,3" />
+                            </Grid>
 
 
-                        <Grid Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2" Margin="10,0,0,0" >
-                            <Grid.ColumnDefinitions>
+                            <Grid Grid.Row="1"  Margin="10,0,0,0">
+                                <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                                </Grid.ColumnDefinitions>
 
-                            <Image Grid.Column="0" Source="{Binding icon}" Height="60" Width="60" VerticalAlignment="Top" />
+                                <Image Grid.Column="0" Source="{Binding icon}" Height="60" Width="60" VerticalAlignment="Top" />
                                 <StackPanel Grid.Column="1" Margin="8,0,0,0">
-
-                                    
                                     <TextBlock  Grid.Column="1"                                            
                                             Text="{Binding summary}" 
                                             TextWrapping="WrapWithOverflow"
@@ -86,50 +88,52 @@
                                 </StackPanel>
                             </Grid>
 
-                        <Grid  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
+                            <Grid  Margin="0,7,0,0"  Grid.Row="2"  HorizontalAlignment="Right">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock x:Name="TextInstalledVersion" FontStyle="Italic"
-                                       Text="{Binding installedVersion, StringFormat='installed version: v{0}  '}" Margin="0,5,10,0"
+                                <TextBlock x:Name="TextInstalledVersion" FontStyle="Italic" FontSize="12"
+                                       Text="{Binding installedVersion, StringFormat='installed version: v{0}  '}"
+                                       Margin="0,5,5,0"
                                        Visibility="{Binding updateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                            <Button Grid.Column="1" Name="ButtonInstall"  Height="20" 
-                                    Margin="0,0,10,10"  Width="90" FontSize="10"
+                                <Button Grid.Column="1" Name="ButtonInstall"  Height="27" 
+                                    Margin="0,0,10,10"  Width="110" FontSize="10"
                                     Visibility="{Binding isInstalled, Converter={StaticResource InstallButtonConverter}}" 
                                     Click="ButtonInstall_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <fa:FontAwesome Icon="Download" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,7,0" Foreground="LightGreen"/>
-                                    <TextBlock >Install</TextBlock>
-                                </StackPanel>
-                            </Button>
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:FontAwesome Icon="Download" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,7,0" Foreground="LightGreen"/>
+                                        <TextBlock >Install</TextBlock>
+                                    </StackPanel>
+                                </Button>
 
-                            <Button Grid.Column="2" Name="ButtonUpdate"  Height="20" 
-                                    Margin="0,0,10,10"  Width="90" FontSize="10"
+                                <Button Grid.Column="2" Name="ButtonUpdate"  Height="27" 
+                                    Margin="0,0,10,10"  Width="110" FontSize="10"
                                     Visibility="{Binding updateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                     Click="ButtonInstall_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <fa:FontAwesome Icon="Retweet" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,7,0" Foreground="DarkOrange"/>
-                                    <TextBlock >Update</TextBlock>
-                                </StackPanel>
-                            </Button>
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:FontAwesome Icon="Retweet" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,4,0" Foreground="DarkOrange"/>
+                                        <TextBlock >Update</TextBlock>
+                                    </StackPanel>
+                                </Button>
 
-                            <Button Grid.Column="3" Name="ButtonUnInstall" Height="20"
-                                    Margin="0,0,10,10" Width="100" FontSize="10"                                
-                                    Visibility="{Binding isInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" 
-                                    Click="ButtonUnInstall_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,7,0" Foreground="DarkRed"/>
-                                    <TextBlock Text="{Binding installedVersion,StringFormat='Uninstall v{0}'}" />
-                                </StackPanel>
-                            </Button>
+
+                                <Button Grid.Column="3" Name="ButtonUnInstall" Height="27"
+                                Margin="0,0,10,10" Width="110" FontSize="10"                                
+                                Visibility="{Binding isInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                Click="ButtonUnInstall_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,4,0" Foreground="DarkRed"/>
+                                        <TextBlock Text="{Binding installedVersion,StringFormat='Uninstall v{0}'}" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+
                         </Grid>
-
-                    </Grid>
                 </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

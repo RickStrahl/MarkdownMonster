@@ -4,12 +4,12 @@
 Here are a few tips to get you started:
 
 * To create a new document press **Ctrl-n** or **click the @icon-plus-circle icon** in the toolbar
-* Click the **@icon-files-o icon** to open the Folder Browser to select and manage files
+* Click the **@icon-bars icon** to open the Folder Browser manage files
 * To change **Editor or Preview Themes**, click on the dropdown lists on the bottom right status bar:  
 ![Image and Preview Themes on the toolbar](https://markdownmonster.west-wind.com/docs/images/EditorPreviewThemeUi.png) 
 
 * For **light editor themes** look at `visualstudio`, `github` or `xcode`  
-* For **dark editor themes** look at `twilight`, `monokai`, `terminal`
+* For **dark editor themes** look at `twilight`,`vscodedark`, `monokai`, `terminal`
 
 ### Problems? Please let us know
 
@@ -47,6 +47,8 @@ line because there's no double space at the end.
 The following line has a soft break at the end (two spaces at end)  
 This line should be following on the very next line.
 
+You can use **View -> Show Invisible Characters** to show all white space and returns.
+
 ---
 
 ### Links
@@ -63,8 +65,11 @@ Go the Help Builder sitest Wind site:
 ---
 
 ### Images
+Images are similar to links:
+
 ![Help Builder Web Site](https://helpbuilder.west-wind.com/Images/wwhelp_128.png)
 
+You can embed images by pasting from the Clipboard (**ctrl-v**), using the @icon-image Image Dialog, or by dragging and dropping into the document from the the Folder Browser, or Explorer.
 
 ### Block Quotes
 Block quotes are callouts that are great for adding notes or warnings into documentation.
@@ -84,11 +89,6 @@ Help Builder includes a custom syntax for FontAwesome icons in its templates. Yo
 
 ### Emojiis
 You can also embed Emojiis into your markdown using the Emoji dialog or common 
-
-```markdown
-:smile: :rage: :sweat: :point-down:
-:-) :-( :-/ 
-```
 
 :smile: :rage: :sweat: :point_down:
 
@@ -157,20 +157,6 @@ Markdown supports code blocks syntax in a couple of ways:
 
 Using and indented text block for code:
 
-```markdown
-Some rendered text...
-
-    // This is code by way of four leading spaces
-    // or a leading tab
-    int x = 0;
-    string text = null;
-    for(int i; i < 10; i++;) {
-        text += text + "Line " + i;
-    }
-
-More text    
-```
-
 ---
 
 Some rendered text...
@@ -190,20 +176,7 @@ More text here
 ### Fenced Code Blocks
 You can also use triple back ticks plus an optional coding language to support for syntax highlighting.
 
-The following is C#:
-
-
-```markdown
-`` `csharp
-// this code will be syntax highlighted
-for(var i=0; i++; i < 10)
-{
-    Console.WriteLine(i);
-}
-`` `  
-```
-
-*(extra space in triple backticks so the above can render)*
+The following is C# code.
 
 ---
 
@@ -234,13 +207,6 @@ Here is some text that includes a Footnote [^1] in the middle of its text. And h
 ### Pipe Tables
 [Pipe Tables](https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/PipeTableSpecs.md) can be used to create simple single line tables:
 
-```markdown
-|size | material     | color       |
-|---- | ------------ | ------------|
-|9    | leather      | brown **fox**  |
-|10   | hemp canvas  | natural |
-|11   | glass        | transparent |
-```
 ---
 
 |size | material     | color       |
@@ -249,31 +215,11 @@ Here is some text that includes a Footnote [^1] in the middle of its text. And h
 |10   | hemp canvas  | natural |
 |11   | glass        | transparent |
 
-> **Note:** Cell lines don't have to line up to render properly. Max columns in any row determines table columns for the entire table.
-
+> **Note:** Cell lines don't have to line up to render properly. Max columns in any row determines table columns for the entire table. Pipe tables also don't need leading and trailing pipes to render as tables, but make sure you check compatibility with your final rendering site.
 
 ### Grid Tables
 [Grid Tables](https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/GridTableSpecs.md) are a bit more flexible than Pipe Tables in that they can have multiple lines of text per cell and handle multi-line embedded Markdown text.
 
-The foll
-
-```markdown
-+---------+---------+
-| Header  | Header  |
-| Column1 | Column2 |
-+=========+=========+
-| 1. ab   | > This is a quote
-| 2. cde  | > For the second column 
-| 3. f    |
-+---------+---------+
-| Second row spanning
-| on two columns
-+---------+---------+
-| Back    |         |
-| to      |         |
-| mult    |         |
-| columns |         | 
-```
 --- 
 +---------+---------+
 | Header  | Header  |

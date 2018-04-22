@@ -1,25 +1,42 @@
-<img src="Art/MarkdownMonster_Icon_128.png" align="right" />
+<img src="MarkdownMonster/Assets/MarkdownMonster_Icon_256.png" width=100 align="right" />
 
 # Markdown Monster Change Log 
-<small>[download latest version](https://markdownmonster.west-wind.com/download.aspx) &bull; [install from Chocolatey](https://chocolatey.org/packages/MarkdownMonster) &bull; [Web Site](https://markdownmonster.west-wind.com)</small>
 
-### 1.10.6
-<small>not released yet</small>
+[![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
+[![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
+[![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
+
+### 1.10.8 
+
+* **Open Markdown From Url**  
+Added the ability to open a Markdown document from the Web via a URL. This feature understands and fixes up Github and BitBucket Markdown documents, Gists and Microsoft Docs Documentation URLs and allows for de-referencing of relative image links as an option.
+
+### 1.10.7
+<small>April 17th, 2018</small>
+
+* **Add MaxDocumentOutlineLevel Configuration Value**  
+You can now specify the Max Outline level displayed in the Document Outline panel. This value also affects the embeddable Table of Contents that can be generated from the document outline. The value can be interactively set in the Document Outline's Context Menu.
 
 * **Add Undo/Redo to Editor Context Menu**  
 Added Undo and Redo options to the editor's context menu.
 
-### 1.10.5
-<small>April 6th, 2018</small>
+* **Open Git Client From Document or Folder Browser Folder**  
+You can now configure an external Git Client and open it from the Folder Browser or the Open Document's Tab Context menus.
 
 * **Open Markdown files linked in Preview in Editor**   
 If you have a link in your markdown to another Markdown file the previewer now detects that the file is a local Markdown file and opens it in the editor.
 
+* **Fix: Code Snippet Wrapping for Printing and PDF Generation**  
+Fixed Code Snippet wrapping so that code snippets wrap rather than scroll when printing or generating a PDF file.
+
+* **Fix: Miscellaneous Addin-Manager Issues**  
+Fix update button display. Fix installed version number display. Fix list rendering issues in the Addin list. Fix version comparison logic to determine whether an update is available.
+
+* **Fix: Binding issues with various Menu options when no Documents are open**  
+Fixed various issues with the menu when no document is open so that a number of options are not available. All commands are now explicitly rechecked when documents are opened or closed (via Tabs).
+
 * **Addin: Intercept Preview Link Clicks**  
 Addins now have a new `Addin.OnPreviewLinkNavigation()` to intercept navigation and handle custom link processing in the preview. Return `true` to override or `false` to let the default link processing work.
-
-* **Open Git Client From Folder Browser**  
-You can now configure an external Git Client and open it from the Folder Browser or the Open Document's Tab Context menus.
 
 * **Fix: UrlEncoding in Paste URL Dialog for Local Files**  
 Fix the Paste URL dialog when embedding relative file links to be URL Encoded.
@@ -31,7 +48,7 @@ Fix the Paste URL dialog when embedding relative file links to be URL Encoded.
 Added a new VS Code Dark editor theme that is similar to VS Code's default editor theme. Due to differences in the rendering engines between ACE and Monaco the styling isn't identical but fairly close.
 
 * **Editor Enhancements**  
-Updated to the latest version of ACE Editor which is noticeably faster and more stable. A number of cursor related issues are addressed. Updated Twilight and the new VS Code Dark Theme.
+Updated to the latest version of ACE Editor which is noticeably faster and more stable. A number of cursor and scrolling related issues are addressed. Updated Twilight and the new VS Code Dark Theme.
 
 * **Add Editor LineHeight Configuration Switch**  
 Added configuration switch to allow setting the editor text line height to separate or tighten up the spacing between text. Default line height has been bumped up to 1.3 from 1.2 which gives a little bit more space between lines.
@@ -98,7 +115,7 @@ The MarkdownDocumentEditor instance now has a collection of Properties that can 
 Added additional configuration switches to the Markdown configuration to allow for more complete Markdown extension support as provided by [MarkDig](https://github.com/lunet-io/markdighttps://github.com/lunet-io/markdig). Added support for [Custom Containers fenced `<div>` blocks](https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/CustomContainerSpecs.md) and [Generic Markdown Attributes](https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/GenericAttributesSpecs.md) and added explicit properties for most of MarkDig's extension features.
 
 * **Refactored the Preview Browser to allow pluggable Preview Controls via Addins**  
-* Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
+Consolidated the preview rendering via an `IPreviewBrowser` interface and a control that hosts the preview. This greatly reduced code duplication for preview handling in the internal and external viewers, but now also allows pluggable previewers in Markdown Monster. There's a new Addin function: `GetPreviewBrowserUserControl()` that allows replacement of the stock preview browser control with a custom control that implements `IPreviewBrowser`.
 Example: [Chromium Preview Addin (preview)](https://github.com/RickStrahl/ChromiumPreview-MarkdownMonster-Addin)
 
 * **Post Date for Weblog Post Meta Data**  

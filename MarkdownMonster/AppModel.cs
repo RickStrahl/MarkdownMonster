@@ -102,10 +102,12 @@ namespace MarkdownMonster
 
                 Dispatcher.CurrentDispatcher.InvokeAsync(() =>
                 {
-                    CommandManager.InvalidateRequerySuggested();
+                    Commands.InvalidateCommands();
+
+                    //CommandManager.InvalidateRequerySuggested();
                     //SaveCommand.InvalidateCanExecute();
                     //SaveAsHtmlCommand.InvalidateCanExecute();
-                });
+                },DispatcherPriority.ApplicationIdle);
 
                 Window.ToolbarEdit.IsEnabled = IsEditorActive;
             }

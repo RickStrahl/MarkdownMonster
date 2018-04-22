@@ -182,6 +182,9 @@
     <Compile Include="Windows\EditorPane\EditorAndPreviewPane.xaml.cs">
       <DependentUpon>EditorAndPreviewPane.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\OpenFromUrlDialog.xaml.cs">
+      <DependentUpon>OpenFromUrlDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PreviewBrowser\IEWebBrowserControl.cs">
       <DependentUpon>IEWebBrowserControl.xaml</DependentUpon>
     </Compile>
@@ -215,6 +218,7 @@
     <Compile Include="_Classes\AddInInterfaces\AddInMenuItem.cs" />
     <Compile Include="_Classes\AddInInterfaces\IMarkdownMonsterAddin.cs" />
     <Compile Include="_Classes\AddInInterfaces\MarkdownMonsterAddin.cs" />
+    <Compile Include="_Classes\Utilities\FileSaver.cs" />
     <None Include="Addins\ScreenCapture\_addin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -385,6 +389,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\PasteCode.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\OpenFromUrlDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

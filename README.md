@@ -1,8 +1,9 @@
 # Markdown Monster
+[![download](https://img.shields.io/badge/download-latest-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![NuGet](https://img.shields.io/chocolatey/v/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
-![](https://img.shields.io/chocolatey/dt/markdownmonster.svg)
+[![](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/MarkdownMonster/MarkdownMonster)
-[download](https://markdownmonster.west-wind.com/download.aspx)
+
 
 <img src="Art/MarkdownMonster_Github.jpg" width=600 />
 

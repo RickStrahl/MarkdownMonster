@@ -183,3 +183,16 @@ p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.li
     html, body {
     }
 }
+
+@media print {
+    pre {
+        white-space: pre-wrap;
+        word-break: normal;
+        word-wrap: normal;
+    }
+
+    pre > code {
+        white-space: pre-wrap;
+        padding: 1em !important;
+    }
+}

@@ -189,19 +189,24 @@
         </Grid.ColumnDefinitions>
 
         <Menu x:Name="MainMenu" Grid.Row="0" 
-              Margin="0"               
+              Margin="0"
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File" Name="MainMenuFile" x:FieldModifier="public" >
                 <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding Commands.NewDocumentCommand}" InputGestureText="ctrl-n"/>
                 <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Command="{Binding Commands.NewWeblogPostCommand}" />
                 <Separator/>
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="ctrl-o"/>
-                <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
+
+                <MenuItem Header="Open from...">
+                    <MenuItem Name="ButtonOpenFromUrl" Header="Open from Url" Command="{Binding Commands.OpenFromUrlCommand}" />
+                    <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
+                </MenuItem>
+
                 <MenuItem Name="ButtonRecentFiles" Header="Recent Documents" SubmenuOpened="ButtonRecentFiles_SubmenuOpened"  Click="Button_Handler" >
                     <MenuItem>.</MenuItem>
                 </MenuItem>
 
-                    <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding Commands.SaveCommand}"  
+                <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding Commands.SaveCommand}"  
                           InputGestureText="ctrl+s"/>
                 <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding Commands.SaveAsCommand}"  
                           InputGestureText="ctrl+shift+s"/>
@@ -210,8 +215,7 @@
                 
                 <MenuItem Name="ButtonSaveAsSecureFile" Header="Save As _Encrypted File" Command="{Binding Commands.SaveAsCommand}" CommandParameter="Secure"  />
                 <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding Commands.SaveAsHtmlCommand}" />
-                <MenuItem x:Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding GeneratePdfCommand}"
-                           />
+                <MenuItem x:Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding Commands.GeneratePdfCommand}" />
                 
                 <Separator/>
                 
@@ -643,7 +647,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>                
+                            </Grid.RowDefinitions>
                             <fa:FontAwesome Icon="bars" Foreground="{DynamicResource BlueItem}"  Width="15" 
                                     controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsLeftSidebarVisible}"
                                     HorizontalAlignment="Center" Grid.Column="0" Padding="2,15,0,15" Cursor="Arrow" 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Westwind.Utilities;
@@ -27,12 +29,14 @@ namespace MarkdownMonster
 
             // File Operations
             NewDocument();
-            OpenDocument();            
+            OpenDocument();
+            OpenFromUrl();          
             Save();
             SaveAs();
             NewWeblogPost();
             OpenRecentDocument();
             SaveAsHtml();
+            GeneratePdf();
 
             // Links and External
             OpenSampleMarkdown();
@@ -70,12 +74,28 @@ namespace MarkdownMonster
             CloseRightSidebarPanel();
             OpenLeftSidebarPanel();
             ShowFolderBrowser();
+        }
 
+
+        private List<PropertyInfo> commandProperties;
+
+        public void InvalidateCommands()
+        {
+            if (commandProperties == null)
+            {
+                commandProperties = typeof(AppCommands)
+                    .GetProperties(BindingFlags.Public |
+                                   BindingFlags.Instance |
+                                   BindingFlags.GetProperty)
+                    .Where(t => t.PropertyType == typeof(CommandBase))
+                    .ToList();
+            }
+
+            foreach (var pi in commandProperties)
+                (pi.GetValue(this) as CommandBase)?.InvalidateCanExecute();
         }
 
         #region Files And File Management
-
-
 
         public CommandBase NewDocumentCommand { get; set; }
 
@@ -149,6 +169,96 @@ namespace MarkdownMonster
         }
 
 
+        public CommandBase OpenFromUrlCommand { get; set; }
+
+        void OpenFromUrl()
+        {
+            OpenFromUrlCommand = new CommandBase((parameter, command) =>
+            {
+                var form = new OpenFromUrlDialog();
+                form.Owner = Model.Window;
+                var result = form.ShowDialog();
+
+                if (result == null || !result.Value || string.IsNullOrEmpty(form.Url))
+                    return;
+
+                var url = form.Url;
+                bool fixupImageLinks = form.FixupImageLinks;
+
+                var fs = new FileSaver();
+                url = fs.ParseMarkdownUrl(url);
+
+                string markdown;
+                try
+                {
+                    markdown = HttpUtils.HttpRequestString(url);
+                }
+                catch (System.Net.WebException ex)
+                {
+                    Model.Window.ShowStatus($"Can't open from url: {ex.Message}", 6000, FontAwesomeIcon.Warning,
+                        Colors.Firebrick);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(markdown))
+                {
+                    Model.Window.ShowStatus($"No content found at URL: {url}", 6000, FontAwesomeIcon.Warning,
+                        Colors.Firebrick);
+                    return;
+                }
+
+                if (fixupImageLinks && url.EndsWith(".md", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var uri = new Uri(url);
+                    string basePath =
+                        $"{uri.Scheme}://{uri.Authority}{string.Join("", uri.Segments.Take(uri.Segments.Length - 1))}";
+
+
+                    var reg = new Regex("!\\[.*?]\\(.*?\\)");
+
+                    var matches = reg.Matches(markdown);
+                    foreach (Match match in matches)
+                    {
+                        var link = match.Value;
+                        var linkUrl = StringUtils.ExtractString(link, "](", ")");
+
+                        if (linkUrl.StartsWith("http"))
+                            continue;
+
+                        var text = StringUtils.ExtractString(link, "![", "](");
+                        linkUrl = basePath + linkUrl;
+
+                        var newLink = $"![text]({linkUrl})";
+                        markdown = markdown.Replace(link, newLink);
+                    }
+
+                    reg = new Regex("<img src=\\\".*?/>");
+
+                    matches = reg.Matches(markdown);
+                    foreach (Match match in matches)
+                    {
+                        var link = match.Value;
+                        var linkUrl = StringUtils.ExtractString(link, " src=\"", "\"");
+
+                        if (linkUrl.StartsWith("http"))
+                            continue;
+
+                        string newLink = basePath + linkUrl;
+                        newLink = link.Replace(linkUrl, newLink);
+
+                        markdown = markdown.Replace(link, newLink);
+                    }
+                }
+
+                var tab = Model.Window.OpenTab("untitled");
+                ((MarkdownDocumentEditor) tab.Tag).MarkdownDocument.CurrentText = markdown;
+                Model.Window.PreviewMarkdownAsync();
+
+            }, (p, c) => true);
+        }
+
+
+
         public CommandBase SaveCommand { get; set; }
 
         void Save()
@@ -171,7 +281,7 @@ namespace MarkdownMonster
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
             {
-                if (Model.ActiveDocument == null)
+                if (!Model.IsEditorActive)
                     return false;
 
                 return Model.ActiveDocument.IsDirty;
@@ -280,7 +390,7 @@ namespace MarkdownMonster
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
             {
-                if (Model.ActiveDocument == null)
+                if (!Model.IsEditorActive)
                     return false;
 
                 return true;
@@ -416,7 +526,7 @@ Do you want to View in Browser now?
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
             {
-                if (Model.ActiveDocument == null || Model.ActiveEditor == null)
+                if (!Model.IsEditorActive)
                     return false;
                 if (Model.ActiveDocument.Filename == "untitled")
                     return true;
@@ -427,6 +537,30 @@ Do you want to View in Browser now?
             });
         }
 
+        public CommandBase GeneratePdfCommand { get; set; }
+
+        void GeneratePdf()
+        {
+            // PDF GENERATION PREVIEW
+            GeneratePdfCommand = new CommandBase((s, e) =>
+            {
+                var form = new GeneratePdfWindow()
+                {
+                    Owner = mmApp.Model.Window
+                };
+                form.Show();
+            }, (s, e) =>
+            {
+                if (!Model.IsEditorActive)
+                    return false;
+                if (Model.ActiveDocument.Filename == "untitled")
+                    return true;
+                if (Model.ActiveEditor.EditorSyntax != "markdown")
+                    return false;
+
+                return true;
+            });
+        }
 
         #endregion
 
@@ -578,13 +712,13 @@ Do you want to View in Browser now?
                 string action = s as string;
                 var editor = Model.Window.GetActiveMarkdownEditor();
                 editor?.ProcessEditorUpdateCommand(action);
-            }, null);
+            }, (p, c) => Model.IsEditorActive);
         }
 
         public CommandBase CloseActiveDocumentCommand { get; set; }
 
         void CloseActiveDocument()
-        {            
+        {
             CloseActiveDocumentCommand = new CommandBase((s, e) =>
             {
                 var tab = Model.Window.TabControl.SelectedItem as TabItem;
@@ -593,11 +727,7 @@ Do you want to View in Browser now?
 
                 if (Model.Window.CloseTab(tab))
                     Model.Window.TabControl.Items.Remove(tab);
-            }, null)
-            {
-                Caption = "_Close Document",
-                ToolTip = "Closes the active tab and asks to save the document."
-            };
+            }, (p, c) => Model.IsEditorActive);
         }
 
 
@@ -616,7 +746,7 @@ Do you want to View in Browser now?
                 Model.Window.CloseAllTabs(except);
                 Model.Window.BindTabHeaders();
 
-            }, (p, c) => true);
+            }, (p, c) => Model.IsEditorActive);
         }
 
 

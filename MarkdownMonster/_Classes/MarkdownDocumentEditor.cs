@@ -1005,7 +1005,14 @@ namespace MarkdownMonster
         /// <returns></returns>
         public string GetLine(int rowNumber)
         {
-            return AceEditor?.getLine(rowNumber);
+            try
+            {
+                return AceEditor?.getLine(rowNumber);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 

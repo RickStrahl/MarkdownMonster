@@ -163,14 +163,58 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        #region Menus
+
+        /// <summary>
+        /// Invalidates a menu control and all of its subitems
+        /// by checking Command.IsEnabled property if a command exists
+        /// </summary>
+        /// <param name="menu"></param>
+        public static void InvalidateMenuCommands(System.Windows.Controls.Menu menu)
+        {
+
+            foreach (var item in menu.Items)
+            {
+                var mi = item as System.Windows.Controls.MenuItem;
+                if (mi == null)
+                    continue;
+
+                InvalidateSubmenuCommands(mi);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="menuItem"></param>
+        public static void InvalidateSubmenuCommands(System.Windows.Controls.MenuItem menuItem)
+        {
+            if (menuItem == null)
+                return;
+
+            foreach (var item in menuItem.Items)
+            {
+                var mi = item as System.Windows.Controls.MenuItem;
+                if (mi == null)
+                    continue;
+
+                if (mi.Command != null)
+                    mi.IsEnabled = mi.Command.CanExecute(mi.CommandParameter);
+
+                if (mi.HasItems)
+                    InvalidateSubmenuCommands(mi);
+            }
+        }
+        #endregion
+
         #region Bitmap Conversions
 
-		/// <summary>
-		/// Converts a bitmap source to a bitmap
-		/// Make sure to dispose the bitmap
-		/// </summary>
-		/// <param name="source"></param>
-		/// <returns></returns>
+        /// <summary>
+        /// Converts a bitmap source to a bitmap
+        /// Make sure to dispose the bitmap
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static Bitmap BitmapSourceToBitmap(BitmapSource source)
         {
             Bitmap bmp = new Bitmap(
