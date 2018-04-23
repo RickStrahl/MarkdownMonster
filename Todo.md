@@ -4,10 +4,14 @@
 * [ ] Addin Enabled/Disabled
 * [ ] Master Configuration Form
 * [x] Markdown Document Outline
-* [ ] Command (and UI) Line Open from URL
-        * Open from Gist
-        * Open from Github/Bitbucket
-        * Open from raw URL
+* [x] Command (and UI) Line Open from URL
+    * Open from Gist
+    * Open from Github/Bitbucket
+    * Open from raw URL
+* [ ] Git Integration
+    *  [x] Clone Repository
+    *  [ ] Commit to Git Dialog (uid/pwd,desc,commit all)
+    *  [ ] Add Remote
 
 ### Mid Term
 * [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
