@@ -122,6 +122,7 @@ namespace MarkdownMonster.Windows
                     ShowStatus("Please provide a URL for the Git Repository to clone.");
                     return;
                 }
+
                 if (string.IsNullOrEmpty(LocalPath))
                 {
                     SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
@@ -129,19 +130,16 @@ namespace MarkdownMonster.Windows
                     return;
                 }
 
-                using (var git = new GitHelper())
+                if (await CloneRepository())
                 {
-                    if (await CloneRepository())
-                    {
-                        ShowStatus("Cloning completed successfully.");
-                        DialogResult = true;
-                    }
-                    else
-                    {                        
-                        return;
-                    }
-
+                    ShowStatus("Cloning completed successfully.");
+                    DialogResult = true;
                 }
+                else
+                {
+                    return;  // failed - display status message
+                }
+
             }
 
             Close();
@@ -149,43 +147,40 @@ namespace MarkdownMonster.Windows
 
         private async Task<bool> CloneRepository()
         {
-                using (var git = new GitHelper())
+            using (var git = new GitHelper())
+            {
+                SetStatusIcon(FontAwesomeIcon.CircleOutlineNotch, Colors.DarkGoldenrod, true);
+                ShowStatus("Cloning Repository...");
+
+                bool result = await Task.Run<bool>(() =>
                 {
-                    SetStatusIcon(FontAwesomeIcon.CircleOutlineNotch, Colors.DarkGoldenrod, true);
-                    ShowStatus("Cloning Repository...");
-
-                    bool result = await Task.Run<bool>(() =>
+                    git.CloneProgress = (s) =>
                     {
-                        git.CloneProgress = (s) =>
-                        {
-                            Dispatcher.Invoke(() => ShowStatus(s.TrimEnd()));
-                            return true;
-                        };
-
-                        if (!git.CloneRepository(GitUrl, LocalPath))
-                        {
-                            Dispatcher.Invoke(() => ShowStatus(git.ErrorMessage));
-                            return false;
-                        }
-
+                        Dispatcher.Invoke(() => ShowStatus(s.TrimEnd()));
                         return true;
-                    });
+                    };
 
-                    if (!result)
-                    {
-                        SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
-                        ShowStatus("Cloning failed: " + git.ErrorMessage, 6000);
-                        return false;
-                    }
-
-                    var file = Path.Combine(LocalPath, "README.md");
-                    mmApp.Model.Window.ShowFolderBrowser(folder: LocalPath);
-                    if (File.Exists(file))
-                        mmApp.Model.Window.OpenTab(file);
+                    if (!git.CloneRepository(GitUrl, LocalPath))                                            
+                        return false;                    
 
                     return true;
+                });
+
+                if (!result)
+                {
+                    SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
+                    ShowStatus("Cloning failed: " + git.ErrorMessage, 6000);
+                    return false;
                 }
-        
+
+                var file = Path.Combine(LocalPath, "README.md");
+                mmApp.Model.Window.ShowFolderBrowser(folder: LocalPath);
+                if (File.Exists(file))
+                    mmApp.Model.Window.OpenTab(file);
+
+                return true;
+            }
+
         }
 
         #region StatusBar Display
