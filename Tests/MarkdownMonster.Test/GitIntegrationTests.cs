@@ -43,5 +43,11 @@ namespace MarkdownMonster.Test
             Assert.IsNotNull(mergeResult);
         }
 
+        [TestMethod]
+        public void CloneRepo()
+        {
+            Repository.Clone("https://github.com/RickStrahl/MarkdownMonster.git", "c:\\temp\\MarkdownMonster");
+        }
+
     }
 }

@@ -63,11 +63,16 @@ namespace MarkdownMonster
 
             // Miscellaneous
             OpenAddinManager();
-            OpenGitClient();
+            
             Help();
             CopyFolderToClipboard();
             TabControlFileList();
-            
+
+            // Git
+            OpenGitClient();
+            OpenFromGitRepo();
+            CommitToGit();
+
 
             // Sidebar
             CloseLeftSidebarPanel();
@@ -921,6 +926,56 @@ Do you want to View in Browser now?
         }
 
         #endregion
+
+        #region Git
+
+
+        public CommandBase OpenFromGitRepoCommand { get; set; }
+
+        void OpenFromGitRepo()
+        {
+            OpenFromGitRepoCommand = new CommandBase((parameter, command) =>
+            {
+                var form = new GitRepositoryWindow();
+                form.Owner = Model.Window;
+                form.ShowDialog();
+
+            }, (p, c) => true);
+        }
+
+
+        public CommandBase CommitToGitCommand { get; set; }
+
+        void CommitToGit()
+        {
+            // COMMIT TO GIT Command
+            CommitToGitCommand = new CommandBase(async (s, e) =>
+            {
+                string file = Model.ActiveDocument?.Filename;
+                if (string.IsNullOrEmpty(file))
+                    return;
+
+                Model.Window.ShowStatus("Committing and pushing to Git...");
+                WindowUtilities.DoEvents();
+
+                string error = null;
+
+                bool pushToGit = mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
+                bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, pushToGit, out error));
+
+                if (result)
+                    Model.Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", 6000);
+                else
+                {
+                    Model.Window.ShowStatus(error, 7000);
+                    Model.Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                }
+            }, (s, e) => Model.IsEditorActive);
+        }
+
+
+        #endregion
+
 
         #region Static Menus Accessed from Control Templates
 

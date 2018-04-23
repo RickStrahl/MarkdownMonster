@@ -559,36 +559,6 @@ We're now shutting down the application.
 
         
 
-        public CommandBase CommitToGitCommand { get; set; }
-
-
-        void Command_CommitToGit()
-        {
-            // COMMIT TO GIT Command
-            CommitToGitCommand = new CommandBase(async (s, e) =>
-            {
-                string file = ActiveDocument?.Filename;
-                if (string.IsNullOrEmpty(file))
-                    return;
-
-                Window.ShowStatus("Committing and pushing to Git...");
-                WindowUtilities.DoEvents();
-
-                string error = null;
-
-                bool pushToGit = mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
-                bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, pushToGit, out error));
-
-                if (result)
-                    Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", 6000);
-                else
-                {
-                    Window.ShowStatus(error, 7000);
-                    Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
-                }
-            }, (s, e) => IsEditorActive);
-        }
-
 
         public CommandBase CopyAsHtmlCommand { get; set; }
 
@@ -628,9 +598,7 @@ We're now shutting down the application.
             Command_ViewHtmlSource();
             Command_PrintePreview();
 
-            Command_ShowFolderBrowser();
-                       
-            Command_CommitToGit();            
+            Command_ShowFolderBrowser();                                   
             Command_CopyAsHtml();
         }
 

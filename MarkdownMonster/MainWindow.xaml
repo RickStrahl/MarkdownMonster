@@ -67,7 +67,7 @@
             <MenuItem Name="ContextOpenInFolderBrowser" Header="Open Folder in Folder _Browser" Click="Button_OpenFolderBrowser" />
             <Separator/>
             <MenuItem Name="ContextCommitToGit" Header="Commit and Push to _Git"
-                      Command="{Binding DataContext.CommitToGitCommand}"   />
+                      Command="{Binding DataContext.Commands.CommitToGitCommand}"   />
             <MenuItem Name="ContextOpenGitClient" Header="Open Folder in Git Client"
                       Command="{Binding DataContext.Commands.OpenGitClientCommand}"   />
             <Separator/>
@@ -198,10 +198,16 @@
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="ctrl-o"/>
 
                 <MenuItem Header="Open from...">
-                    <MenuItem Name="ButtonOpenFromUrl" Header="Open from Url" Command="{Binding Commands.OpenFromUrlCommand}" />
+                    <MenuItem Name="ButtonOpenFromUrl" Header="Open from _Url" Command="{Binding Commands.OpenFromUrlCommand}" />
                     <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
+                    <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
                 </MenuItem>
 
+                <MenuItem Header="Git">
+                    <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
+                    <MenuItem Header="Commit to Git" Command="{Binding Commands.CommitToGitCommand}" />
+                </MenuItem>
+                
                 <MenuItem Name="ButtonRecentFiles" Header="Recent Documents" SubmenuOpened="ButtonRecentFiles_SubmenuOpened"  Click="Button_Handler" >
                     <MenuItem>.</MenuItem>
                 </MenuItem>
@@ -280,7 +286,7 @@
                         IsEnabled="{Binding IsEditorActive}" 
                         ToolTip="Open the document's folder in Explorer" />
                 <Separator/>
-                <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Command="{Binding CommitToGitCommand}" IsEnabled="{Binding IsEditorActive}" 
+                <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Command="{Binding Commands.CommitToGitCommand}" IsEnabled="{Binding IsEditorActive}" 
                           ToolTip="Commits the open document to Git and tries to push to the active remote branch." />
                 <MenuItem Name="MenuCopyFoldername" Header="Copy Foldername" 
                           ToolTip="Copy the document's foldername to the Clipboard" 
