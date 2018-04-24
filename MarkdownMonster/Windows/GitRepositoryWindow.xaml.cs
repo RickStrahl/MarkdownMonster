@@ -48,7 +48,48 @@ namespace MarkdownMonster.Windows
         }
         private string _localPath;
 
-  
+
+
+        public bool ShowUsernamePassword
+        {
+            get { return _ShowUsernamePassword; }
+            set
+            {
+                if (value == _ShowUsernamePassword) return;
+                _ShowUsernamePassword = value;
+                OnPropertyChanged(nameof(ShowUsernamePassword));
+            }
+        }
+        private bool _ShowUsernamePassword = false;
+
+
+
+        public string Username
+        {
+            get { return _Username; }
+            set
+            {
+                if (value == _Username) return;
+                _Username = value;
+                OnPropertyChanged(nameof(Username));
+            }
+        }
+        private string _Username;
+
+
+        public string Password
+        {
+            get { return _Password; }
+            set
+            {
+                if (value == _Password) return;
+                _Password = value;
+                OnPropertyChanged(nameof(Password));
+            }
+        }
+        private string _Password;
+
+
 
         public GitRepositoryWindow()
         {
@@ -160,7 +201,8 @@ namespace MarkdownMonster.Windows
                         return true;
                     };
 
-                    if (!git.CloneRepository(GitUrl, LocalPath))                                            
+                    
+                    if (!git.CloneRepository(GitUrl, LocalPath,Username, Password))                                            
                         return false;                    
 
                     return true;

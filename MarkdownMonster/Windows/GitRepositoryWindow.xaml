@@ -14,13 +14,13 @@
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="610" Height="310">
+        Width="610" Height="350">
 
     <Grid VerticalAlignment="Top">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="28" />
         </Grid.RowDefinitions>
 
         <StackPanel  Margin="30,20,30,0">
@@ -29,6 +29,21 @@
                          HorizontalAlignment="Stretch" Width="Auto" 
                          controls:TextBoxHelper.Watermark="Enter a link to an existing Git Repository URL"
                          ToolTip="Provide a link for the repository you want to clone to a local folder"/>
+
+            <Grid Name="PanelUsernamePassword" Margin="100,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="0,0,5,0">
+                    <TextBox Text="{Binding Username}" controls:TextBoxHelper.Watermark="Optional Git username"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                    
+                    <TextBox Text="{Binding Password}" controls:TextBoxHelper.Watermark="Optional Git password"></TextBox>
+                </StackPanel>
+            </Grid>
 
 
             <Label Content="Local Path for cloned Content" Margin="0 10 0 0"/>
@@ -54,24 +69,25 @@
             </Grid>
 
 
-            <StackPanel Orientation="Horizontal" Margin="0 25 0 25">
-                <Button x:Name="ButtonOk" Margin="0,0" Height="40"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
+
+            <StackPanel Orientation="Horizontal" Margin="0 30">
+                <Button x:Name="ButtonOk" Height="38"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome  Icon="Download"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                        <TextBlock Margin="10,0,0,0" Text="Clone" />
+                        <TextBlock Margin="10,2,0,0" Text="Clone" />
                     </StackPanel>
                 </Button>
 
-                <Button x:Name="ButtonCancel" Margin="10,0" Height="40" Width="130" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
+                <Button x:Name="ButtonCancel" Margin="10,0" Height="38" Width="130" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
-                        <TextBlock Margin="10,0,0,0"><Run Text="Cancel"/></TextBlock>
+                        <TextBlock Margin="10,2,0,0"><Run Text="Cancel"/></TextBlock>
                     </StackPanel>
                 </Button>
             </StackPanel>
         </StackPanel>
 
-        <StatusBar  Grid.Row="2" Height="28"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+        <StatusBar  Grid.Row="1" Height="28"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>

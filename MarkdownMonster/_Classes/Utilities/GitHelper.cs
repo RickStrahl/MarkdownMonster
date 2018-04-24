@@ -48,10 +48,9 @@ namespace MarkdownMonster.Utilities
         /// <param name="password"></param>
         /// <returns></returns>
         public bool CloneRepository(string githubUrl,
-                string localPath,
-                bool addAsRemote = false,
+                string localPath,                
                 string username = null,
-                string password = null
+                string password = null                
             )
         {
 
@@ -64,6 +63,7 @@ namespace MarkdownMonster.Utilities
                     BranchName = "master"                    
                 };
 
+                
                 if (CloneProgress != null)
                     options.OnProgress = new LibGit2Sharp.Handlers.ProgressHandler(CloneProgress);
                 
@@ -74,7 +74,8 @@ namespace MarkdownMonster.Utilities
                         Username = username,
                         Password = password
                     };
-                }   
+                }               
+
                Repository.Clone(githubUrl, localPath,options);
             }
             catch (Exception ex)
