@@ -5,16 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarkdownMonster"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:fa="http://schemas.fontawesome.io/icons/"        
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:windows="clr-namespace:MarkdownMonster.Windows"
         mc:Ignorable="d"
         Icon="../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Clone Git Repository"
         TitleCharacterCasing="Normal"
         TitlebarHeight="35"                       
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
+        SizeToContent="Height"
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="610" Height="350">
+        Width="620">
+    <Window.Resources>
+        <windows:EmptyStringToBooleanConverter x:Key="EmptyStringToBooleanConverter" />
+    </Window.Resources>
 
     <Grid VerticalAlignment="Top">
 
@@ -30,20 +35,32 @@
                          controls:TextBoxHelper.Watermark="Enter a link to an existing Git Repository URL"
                          ToolTip="Provide a link for the repository you want to clone to a local folder"/>
 
-            <Grid Name="PanelUsernamePassword" Margin="100,10,0,0">
+            <!--<Grid Name="PanelUsernamePassword" Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Margin="0,0,5,0">
-                    <TextBox Text="{Binding Username}" controls:TextBoxHelper.Watermark="Optional Git username"></TextBox>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Margin="5,0,0,0">
-                    
-                    <TextBox Text="{Binding Password}" controls:TextBoxHelper.Watermark="Optional Git password"></TextBox>
-                </StackPanel>
-            </Grid>
+                <CheckBox IsChecked="{Binding UseGitCredentialManager}" ToolTip="If checked uses the Git Credentials Manager to attempt to log in.">Use Git Credentials</CheckBox>
+
+                <Grid Grid.Column="1" Margin="13,0,0,0" controls:VisibilityHelper.IsHidden="{Binding UseAuthentication}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label>Add:</Label>
+                    <TextBox Grid.Column="1" Text="{Binding Username}" 
+                             ToolTip="Provide username and password which will be added to the Git Credentials manager"
+                             Margin="0,0,5,0" controls:TextBoxHelper.Watermark="Optional Git username" />
+                    <PasswordBox Grid.Column="2"
+                             Name="TextPassword"                               
+                             ToolTip="Provide username and password which will be added to the Git Credentials manager"                             
+                             controls:TextBoxHelper.Watermark="Optional Git password"/>
+                </Grid>
+
+            </Grid>-->
 
 
             <Label Content="Local Path for cloned Content" Margin="0 10 0 0"/>
@@ -70,7 +87,7 @@
 
 
 
-            <StackPanel Orientation="Horizontal" Margin="0 30">
+            <StackPanel Orientation="Horizontal" Margin="0 30 0 20">
                 <Button x:Name="ButtonOk" Height="38"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome  Icon="Download"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
@@ -84,6 +101,15 @@
                         <TextBlock Margin="10,2,0,0"><Run Text="Cancel"/></TextBlock>
                     </StackPanel>
                 </Button>
+            </StackPanel>
+
+            <StackPanel Margin="0,0,0,15" controls:VisibilityHelper.IsCollapsed="{Binding Output, Converter={StaticResource EmptyStringToBooleanConverter}}">
+                
+                <Label>Messages</Label>
+                <Separator Margin="0,3,0,5"/>
+                <TextBlock Name="TextOutput" Text="{Binding Output}" 
+                           TextWrapping="Wrap"
+                           FontSize="12" FontFamily="Consolas" Opacity="0.80" />
             </StackPanel>
         </StackPanel>
 

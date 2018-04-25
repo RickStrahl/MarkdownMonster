@@ -42,13 +42,10 @@
     </Window.InputBindings>
 
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
-        <localwindows:InvertedBooleanConverter  x:Key="InvertedBooleanConverter" />
-        <localwindows:BooleanToCollapsedVisibilityConverter x:Key="BooleanToCollapsedVisibilityConverter" />
         <localwindows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
         <localwindows:FolderNameFromPathConverter x:Key="FolderNameFromPathConverter" />
         <localwindows:FullFolderNameFromPathConverter x:Key="FullFolderNameFromPathConverter" />
+        <localwindows:NotEmptyStringToBooleanConverter x:Key="NotEmptyStringToBooleanConverter" />
 
         <ObjectDataProvider x:Key="ApplicationThemeEnums" 
                             MethodName="GetValues" ObjectType="{x:Type System:Enum}">
@@ -69,7 +66,7 @@
             <MenuItem Name="ContextCommitToGit" Header="Commit and Push to _Git"
                       Command="{Binding DataContext.Commands.CommitToGitCommand}"   />
             <MenuItem Name="ContextOpenGitClient" Header="Open Folder in Git Client"
-                      Command="{Binding DataContext.Commands.OpenGitClientCommand}"   />
+                      Command="{Binding DataContext.Commands.OpenGitClientCommand}"   IsEnabled="{Binding Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
             <Separator/>
             <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Command="{Binding DataContext.Commands.CopyFolderToClipboardCommand}" />
         </ContextMenu>
@@ -203,11 +200,6 @@
                     <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
                 </MenuItem>
 
-                <MenuItem Header="Git">
-                    <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
-                    <MenuItem Header="Commit to Git" Command="{Binding Commands.CommitToGitCommand}" />
-                </MenuItem>
-                
                 <MenuItem Name="ButtonRecentFiles" Header="Recent Documents" SubmenuOpened="ButtonRecentFiles_SubmenuOpened"  Click="Button_Handler" >
                     <MenuItem>.</MenuItem>
                 </MenuItem>
@@ -223,6 +215,17 @@
                 <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding Commands.SaveAsHtmlCommand}" />
                 <MenuItem x:Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding Commands.GeneratePdfCommand}" />
                 
+                <Separator/>
+
+                <MenuItem Header="_Git">
+                    <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" InputGestureText="alt-f-g-g"/>
+                    <MenuItem Header="_Commit and Push to Git" Command="{Binding Commands.CommitToGitCommand}" InputGestureText="alt-t-g" />
+                    <Separator />
+                    <MenuItem Header="Open Folder in Git Client"
+                              Command="{Binding Commands.OpenGitClientCommand}"  
+                              IsEnabled="{Binding Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
+                </MenuItem>
+
                 <Separator/>
                 
                 <MenuItem Header="View in Web _Browser" Name="ButtonViewInWebBrowser"                          

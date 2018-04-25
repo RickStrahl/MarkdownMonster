@@ -399,6 +399,7 @@ namespace MarkdownMonster
         /// <param name="executable">Executable to run</param>
         /// <param name="arguments"></param>
         /// <param name="timeoutMs">Timeout of the process in milliseconds. Pass -1 to wait forever. Pass 0 to not wait.</param>
+        /// <param name="windowStyle"></param>
         /// <returns></returns>
         public static int ExecuteProcess(string executable, string arguments =  null, int timeoutMs = 0, ProcessWindowStyle windowStyle= ProcessWindowStyle.Hidden)
 	    {
@@ -416,7 +417,8 @@ namespace MarkdownMonster
 
                     process.StartInfo.UseShellExecute = false;
 
-				    process.StartInfo.RedirectStandardOutput = true;
+			        
+                    process.StartInfo.RedirectStandardOutput = true;
 				    process.StartInfo.RedirectStandardError = true;
 
 				    process.OutputDataReceived += (sender, args) =>
@@ -429,7 +431,7 @@ namespace MarkdownMonster
 				    };
 
 				    process.Start();
-					
+                    
 				    if (timeoutMs < 0)
 					    timeoutMs = 99999999; // indefinitely
 
@@ -592,6 +594,66 @@ namespace MarkdownMonster
 
             message = string.Empty;
             return true;            
+        }
+
+
+
+        public static bool CloneRepository(string filename, bool push, out string message)
+        {
+            if (!mmApp.Model.ActiveDocument.Save())
+            {
+                message = "Couldn't save file.";
+                return false;
+            }
+
+            //  git commit --only Build.ps1 -m "Updating documentation for readme.md."
+            //  git push origin
+
+            string file = Path.GetFullPath(filename);
+            string justFile = System.IO.Path.GetFileName(file);
+
+            if (!File.Exists(file))
+            {
+                message = $"File {justFile} doesn't exist.";
+                return false;
+            }
+
+            string path = Path.GetDirectoryName(filename);
+            if (!Directory.Exists(path))
+            {
+                message = $"File {file} doesn't exist.";
+                return false;
+            }
+
+
+            string origPath = Environment.CurrentDirectory;
+            try
+            {
+                Directory.SetCurrentDirectory(path);
+
+                int result = ExecuteProcess("git.exe",
+                    $"commit --only \"{file}\" -m \"Updating documentation for {justFile}\".", timeoutMs: 10000);
+                if (result != 0)
+                {
+                    message = $"There are no changes to commit for {justFile}.";
+                    return false;
+                }
+
+                if (push)
+                    ExecuteProcess("git.exe", "push origin", timeoutMs: 10000);
+            }
+            catch (Exception ex)
+            {
+                message = "An error occurred committing to Git: " + ex.Message;
+                return false;
+            }
+            finally
+            {
+                Directory.SetCurrentDirectory(origPath);
+            }
+
+            message = string.Empty;
+            return true;
         }
 
         #endregion

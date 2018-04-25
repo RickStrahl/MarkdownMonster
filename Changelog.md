@@ -9,7 +9,7 @@
 ### 1.10.10
 
 * **Add Clone Git Repository**  
-Added option to clone a Git repository to a local folder to make it easier to retrieve Git content for local editing. Also added a new **File -> Git** menu that houses this option and **Commit to Git** (same behavior as the Tab context menu).
+Added option to clone a Git repository to a local folder to make it easier to retrieve Git content for local editing. Also added a new **File -> Git** menu that houses this option and **Commit to Git** (same behavior as the Tab context menu). **Requires:** that Git and Git Credential Manager (for private or authenticated repos) are installed.
 
 * **Open Markdown From Url**  
 Added the ability to open a Markdown document from the Web via a URL. This feature understands and fixes up Github and BitBucket Markdown documents, Gists and Microsoft Docs Documentation URLs and allows for de-referencing of relative image links as an option.

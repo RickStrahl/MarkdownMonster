@@ -20,9 +20,7 @@ namespace MarkdownMonster.Windows
     /// Interaction logic for PasteHref.xaml
     /// </summary>
     public partial class GitRepositoryWindow : MetroWindow, INotifyPropertyChanged
-    {
-   
-
+    {   
         public string GitUrl
         {
             get { return _gitUrl; }
@@ -50,17 +48,17 @@ namespace MarkdownMonster.Windows
 
 
 
-        public bool ShowUsernamePassword
+        public bool UseGitCredentialManager
         {
-            get { return _ShowUsernamePassword; }
+            get { return _useGitCredentialManager; }
             set
             {
-                if (value == _ShowUsernamePassword) return;
-                _ShowUsernamePassword = value;
-                OnPropertyChanged(nameof(ShowUsernamePassword));
+                if (value == _useGitCredentialManager) return;
+                _useGitCredentialManager = value;
+                OnPropertyChanged(nameof(UseGitCredentialManager));
             }
         }
-        private bool _ShowUsernamePassword = false;
+        private bool _useGitCredentialManager;
 
 
 
@@ -89,6 +87,19 @@ namespace MarkdownMonster.Windows
         }
         private string _Password;
 
+
+
+        public string Output
+        {
+            get { return _Output; }
+            set
+            {
+                if (value == _Output) return;
+                _Output = value;
+                OnPropertyChanged(nameof(Output));
+            }
+        }
+        private string _Output;
 
 
         public GitRepositoryWindow()
@@ -157,6 +168,8 @@ namespace MarkdownMonster.Windows
             {
                 WindowUtilities.FixFocus(this, TextUrl);
 
+                Output = null;
+
                 if (string.IsNullOrEmpty(GitUrl))
                 {
                     SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
@@ -189,37 +202,50 @@ namespace MarkdownMonster.Windows
         private async Task<bool> CloneRepository()
         {
             using (var git = new GitHelper())
-            {
+            {                
                 SetStatusIcon(FontAwesomeIcon.CircleOutlineNotch, Colors.DarkGoldenrod, true);
                 ShowStatus("Cloning Repository...");
 
-                bool result = await Task.Run<bool>(() =>
+                //Password = TextPassword.Password;
+
+                GitCommandResult result = await Task.Run<GitCommandResult>(() =>
                 {
-                    git.CloneProgress = (s) =>
-                    {
-                        Dispatcher.Invoke(() => ShowStatus(s.TrimEnd()));
-                        return true;
-                    };
+                    //git.CloneProgress = (s) =>
+                    //{
+                    //    Dispatcher.Invoke(() => ShowStatus(s.TrimEnd()));
+                    //    return true;
+                    //};
 
-                    
-                    if (!git.CloneRepository(GitUrl, LocalPath,Username, Password))                                            
-                        return false;                    
 
-                    return true;
+                    //if (!git.CloneRepository(GitUrl, LocalPath,UseGitCredentialManager, Username, Password))                                            
+                    //    return false;
+
+                    var action = new Action<object, DataReceivedEventArgs>((s, e) => { Output += e.Data; });
+
+                    var res = git.CloneRepositoryCommandLine(GitUrl, LocalPath, action);
+                    return res;
                 });
 
-                if (!result)
+                if (result.HasError)
                 {
                     SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
-                    ShowStatus("Cloning failed: " + git.ErrorMessage, 6000);
+                    ShowStatus("Cloning failed.");
+                    //Output = result.Message;
+                    
                     return false;
                 }
 
-                var file = Path.Combine(LocalPath, "README.md");
+                var file = Path.Combine(LocalPath, "README.md");                
                 mmApp.Model.Window.ShowFolderBrowser(folder: LocalPath);
                 if (File.Exists(file))
                     mmApp.Model.Window.OpenTab(file);
 
+                Dispatcher.DelayAsync(1000,(p) =>
+                {
+                    mmApp.Model.Window.ShowStatus($"Successfully cloned Git Repository to {LocalPath}");
+                },System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+
+                
                 return true;
             }
 

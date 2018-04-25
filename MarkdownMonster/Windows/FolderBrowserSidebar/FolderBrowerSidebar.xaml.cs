@@ -37,9 +37,11 @@ namespace MarkdownMonster.Windows
             {
                 if (value == _folderPath) return;
 
-                _folderPath = value;
-                mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
+                if (!Directory.Exists(value))
+                    value = null;
 
+                _folderPath = value;
+                
                 OnPropertyChanged(nameof(FolderPath));
 
                 if (Window == null) return;
@@ -51,7 +53,10 @@ namespace MarkdownMonster.Windows
                 if (string.IsNullOrEmpty(value))
                     ActivePathItem = new PathItem();  // empty the folder browser
                 else
+                {
+                    mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
                     SetTreeFromFolder(value, _folderPath != null, SearchText);
+                }
 
                 if (ActivePathItem != null)
                 {
@@ -136,9 +141,9 @@ namespace MarkdownMonster.Windows
             Focusable = true;
             
             Loaded += FolderBrowerSidebar_Loaded;
-            Unloaded += (s, e) => ReleaseFileWatcher(); 
+            Unloaded += (s, e) => ReleaseFileWatcher();                        
         }
-        
+    
         private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)
         {            
             AppModel = mmApp.Model;
@@ -148,7 +153,16 @@ namespace MarkdownMonster.Windows
             // Load explicitly here to fire *after* behavior has attached
             ComboFolderPath.PreviewKeyUp += ComboFolderPath_PreviewKeyDown;
 
-            
+            TreeFolderBrowser.GotFocus += TreeFolderBrowser_GotFocus;
+            ComboFolderPath.GotFocus += TreeFolderBrowser_GotFocus;
+        }
+
+       
+        private void TreeFolderBrowser_GotFocus(object sender, RoutedEventArgs e)
+        {
+            // ensure that directory wasn't deleted under us
+            if (!Directory.Exists(FolderPath))
+                FolderPath = null;
         }
         #endregion
 
@@ -181,6 +195,12 @@ namespace MarkdownMonster.Windows
 
             if (mmApp.Model == null || mmApp.Model.Window == null)
                 return;
+
+            if (!Directory.Exists(FolderPath))
+            {
+                FolderPath = null;
+                return;
+            }
 
             var file = e.FullPath;
             if (string.IsNullOrEmpty(file))
@@ -245,6 +265,12 @@ namespace MarkdownMonster.Windows
 
             if (string.IsNullOrEmpty(fullPath))
                 return;
+
+            if (!Directory.Exists(fullPath))
+            {
+                FolderPath = null;
+                return;
+            }
 
             FileWatcher = new FileSystemWatcher(fullPath)
             {
