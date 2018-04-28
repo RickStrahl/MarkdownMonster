@@ -91,12 +91,8 @@ EndSelection:<<<<<<<<4";
         /// <param  name="plainText">the plain text</param>      
         public static DataObject CreateDataObject(string html, string plainText)
         {
-            html = html ?? String.Empty;
+            html = html ?? string.Empty;
             var htmlFragment = GetHtmlDataString(html);
-
-            // re-encode the string so it will work  correctly (fixed in CLR 4.0)      
-            if (Environment.Version.Major < 4 && html.Length != Encoding.UTF8.GetByteCount(html))
-                htmlFragment = Encoding.Default.GetString(Encoding.UTF8.GetBytes(htmlFragment));
 
             var dataObject = new DataObject();
             dataObject.SetData(DataFormats.Html, htmlFragment);
@@ -110,14 +106,23 @@ EndSelection:<<<<<<<<4";
         /// See <see  cref="CreateDataObject"/> for HTML fragment details.<br/>      
         /// </summary>      
         /// <example>      
-        ///  ClipboardHelper.CopyToClipboard("Hello <b>World</b>",  "Hello World");      
+        ///  ClipboardHelper.CopyHtmlToClipboard("Hello <b>World</b>",  "Hello World");      
         /// </example>      
-        /// <param name="html">a  html fragment</param>      
+        /// <param name="html">an html fragment</param>      
         /// <param  name="plainText">the plain text</param>      
-        public static void CopyHtmlToClipboard(string html, string plainText)
+        public static bool CopyHtmlToClipboard(string html, string plainText)
         {
-            var dataObject = CreateDataObject(html, plainText);
-            Clipboard.SetDataObject(dataObject, true);
+            try
+            {
+                var dataObject = CreateDataObject(html, plainText);
+                Clipboard.SetDataObject(dataObject, true);
+                return true;
+            }
+            catch (Exception e)
+            {
+                mmApp.Log("Copy HTML to Clipboard failed: ",e);
+                return false;
+            }
         }
 
 
