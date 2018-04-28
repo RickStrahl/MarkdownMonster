@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,9 +27,17 @@ namespace MarkdownMonster.Utilities
         /// <returns></returns>
         public Repository OpenRepository(string localPath)
         {
+            var repoPath = FindGitRepositoryRoot(localPath);
+            if (repoPath == null)
+            {
+                SetError("No repository at: " + localPath);
+                return null;
+            }
+
+
             try
             {
-                Repository = new Repository(localPath);
+                Repository = new Repository(repoPath);
                 return Repository;
             }
             catch(Exception ex)
@@ -37,6 +46,25 @@ namespace MarkdownMonster.Utilities
             }
 
             return null;
+        }
+        
+        /// <summary>
+        /// Returns the Git file status for an individual file
+        /// </summary>
+        /// <param name="file">Path to a file</param>
+        /// <returns></returns>
+        public FileStatus GetGitStatusForFile(string file)
+        {
+            if (!File.Exists(file))
+                return FileStatus.Nonexistent;
+
+            var path = Path.GetDirectoryName(file);
+            var repo = OpenRepository(path);
+
+            if (repo == null)
+                return FileStatus.Unaltered;
+
+            return repo.RetrieveStatus(file);
         }
 
 
@@ -279,6 +307,24 @@ namespace MarkdownMonster.Utilities
             return result;
         }
 
+        #region Helpers
+
+
+
+        public static string FindGitRepositoryRoot(string folder)
+        {
+            if (!Directory.Exists(folder))
+                return null;
+
+            var gitHead = Path.Combine(folder, ".git", "HEAD");
+            if (File.Exists(gitHead))
+                return folder;
+
+            var di = new DirectoryInfo(folder).Parent;
+            return FindGitRepositoryRoot(di.FullName);
+        }
+
+        #endregion
 
         #region Error Handling
 

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using LibGit2Sharp;
+using MarkdownMonster.Utilities;
+using MarkdownMonster.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MarkdownMonster.Test
@@ -17,6 +20,37 @@ namespace MarkdownMonster.Test
                 Assert.IsNotNull(repo);
             }
         }
+
+
+        [TestMethod]
+        public void ListChangesRepoTest()
+        {
+            string path =  @"c:\projects2010\markdownmonster\markdownmonster";
+            var helper = new GitHelper();
+            using (var repo = helper.OpenRepository(path))
+            {
+                Assert.IsNotNull(repo);
+
+                var folder = new FolderStructure();
+                var pathItem = folder.GetFilesAndFolders(path);
+            
+                folder.UpdateGitFileStatus(pathItem);
+            }
+        }
+
+
+        [TestMethod]
+        public void GetGitStatusForFileTest()
+        {
+            string path = @"c:\projects2010\markdownmonster\markdownmonster";
+
+            var helper = new GitHelper();
+            var status = helper.GetGitStatusForFile(Path.Combine(path, "MarkdownMonster.csproj"));
+
+            Console.WriteLine(status);
+        }
+
+
 
         [TestMethod]
         public void OpenRemoteRepoTest()
@@ -42,6 +76,7 @@ namespace MarkdownMonster.Test
 
             Assert.IsNotNull(mergeResult);
         }
+
 
         [TestMethod]
         public void CloneRepo()
