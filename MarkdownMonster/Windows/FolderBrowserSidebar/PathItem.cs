@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
+using LibGit2Sharp;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
 
@@ -172,8 +173,20 @@ namespace MarkdownMonster.Windows
 		}
 
 
+        public FileStatus FileStatus
+        {
+            get { return _FileStatus; }
+            set
+            {
+                if (value == _FileStatus) return;
+                _FileStatus = value;
+                OnPropertyChanged(nameof(FileStatus));
+            }
+        }
+	    private FileStatus _FileStatus = FileStatus.Unaltered;
 
-	    public ImageSource Icon
+
+        public ImageSource Icon
 	    {
 	        get => _icon;
 	        set

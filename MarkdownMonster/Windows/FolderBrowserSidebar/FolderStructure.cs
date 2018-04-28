@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows.Threading;
+using LibGit2Sharp;
 using MarkdownMonster.Utilities;
 using Westwind.Utilities;
 
 
 namespace MarkdownMonster.Windows
 {
-	public class FolderStructure
+    public class FolderStructure
 	{
 	    internal static AssociatedIcons IconList = new AssociatedIcons();
 
@@ -141,6 +140,50 @@ namespace MarkdownMonster.Windows
             
 		    return activeItem;
 		}
+
+
+
+        /// <summary>
+        /// Updates a path item folder structure with Git Status information
+        /// </summary>
+        /// <param name="rootFolder"></param>
+        /// <param name="repo"></param>
+	    public void UpdateGitFileStatus(PathItem rootFolder, Repository repo = null)
+	    {
+	        bool repoCreated = false;
+	        if (repo == null)
+	        {
+	            var helper = new GitHelper();
+                repo = helper.OpenRepository(rootFolder.FullPath);
+                if (repo == null)
+                    return;  // no repo
+
+	            repoCreated = true;
+            }
+
+            foreach (var pi in rootFolder.Files)
+	        {
+                if (pi?.FullPath == null  || pi.FullPath == "..")
+                    continue;
+
+	            if (pi.IsFolder)
+	            {
+	                UpdateGitFileStatus(pi, repo);
+	                continue;
+	            }
+
+	            var status = repo.RetrieveStatus(pi.FullPath);
+	            if (pi.FileStatus != status)
+                    pi.FileStatus = status;
+	        }
+
+	        if (repoCreated)
+	            repo.Dispose();
+	    }
+
+
+
+
 
 
         /// <summary>

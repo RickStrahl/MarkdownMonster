@@ -324,6 +324,8 @@ namespace MarkdownMonster.Windows
 
                 AttachFileWatcher(folder);
 
+                FolderStructure.UpdateGitFileStatus(items);
+
             }, DispatcherPriority.ApplicationIdle);
         }
 
