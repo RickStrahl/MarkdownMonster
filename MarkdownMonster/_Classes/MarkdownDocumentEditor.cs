@@ -1358,7 +1358,7 @@ namespace MarkdownMonster
                 
                 else if (key == "ctrl-p")
                 {
-                    Window.Model.PrintPreviewCommand.Execute(Window.ButtonPrintPreview);
+                    Window.Model.Commands.PrintPreviewCommand.Execute(Window.ButtonPrintPreview);
                 }                
                 else if (key == "ctrl-b")
                 {
@@ -1398,11 +1398,11 @@ namespace MarkdownMonster
                 }
                 else if (key == "ctrl-shift-c")
                 {
-                    Window.Model.CopyAsHtmlCommand.Execute(WebBrowser);
+                    Window.Model.Commands.CopyAsHtmlCommand.Execute(null);
                 }
                 else if (key == "ctrl-shift-z")
                 {
-                    Window.Model.Commands.RemoveMarkdownFormattingCommand.Execute(WebBrowser);
+                    Window.Model.Commands.RemoveMarkdownFormattingCommand.Execute(null);
                 }               
                 else if (key == "ctrl-tab")
                 {

@@ -37,6 +37,8 @@ namespace MarkdownMonster
             OpenRecentDocument();
             SaveAsHtml();
             GeneratePdf();
+            PrintPreview();
+            
 
             // Links and External
             OpenSampleMarkdown();
@@ -48,6 +50,7 @@ namespace MarkdownMonster
             DistractionFreeMode();
             PresentationMode();
             PreviewBrowser();
+            Settings();
 
 
             // Editor Commands
@@ -55,11 +58,15 @@ namespace MarkdownMonster
             CloseActiveDocument();
             CloseAllDocuments();
             ShowActiveTabsList();
+            CopyAsHtml();
 
 
             // Preview Browser
             EditPreviewTheme();
             PreviewSyncMode();
+            ViewInExternalBrowser();
+            ViewHtmlSource();
+
 
             // Miscellaneous
             OpenAddinManager();
@@ -524,7 +531,7 @@ Do you want to View in Browser now?
                             MessageBoxResult.Yes);
 
                         if (mbResult == MessageBoxResult.Yes)
-                            Model.ViewInExternalBrowserCommand.Execute(null);
+                            Model.Commands.ViewInExternalBrowserCommand.Execute(null);
                     }
                 }
 
@@ -540,6 +547,43 @@ Do you want to View in Browser now?
 
                 return true;
             });
+        }
+
+
+
+
+        public CommandBase CopyAsHtmlCommand { get; set; }
+
+        void CopyAsHtml()
+        {
+            CopyAsHtmlCommand = new CommandBase((parameter, command) =>
+            {
+                if (Model.ActiveEditor == null)
+                    return;
+
+                var editor = Model.ActiveEditor;
+                if (editor == null)
+                    return;
+
+                var markdown = editor.GetSelection();
+                if (string.IsNullOrEmpty(markdown))
+                    return;
+
+                var html = editor.RenderMarkdown(markdown);
+
+                // copy to clipboard as html
+                if (!ClipboardHelper.CopyHtmlToClipboard(html, markdown))
+                    Model.Window.ShowStatus(
+                        "Failed to copy Html to the clipboard. Check the application log for more info.",
+                        mmApp.Configuration.StatusTimeout, FontAwesomeIcon.Warning, Colors.Firebrick);
+                else
+                    Model.Window.ShowStatus("Html has been copied to the clipboard.",
+                        mmApp.Configuration.StatusTimeout);
+
+                editor.SetEditorFocus();
+                editor.Window.PreviewMarkdownAsync();
+            }, (p, c) => Model.IsEditorActive);
+
         }
 
         public CommandBase GeneratePdfCommand { get; set; }
@@ -1050,6 +1094,125 @@ Do you want to View in Browser now?
             });
         }
 
+
+        #endregion
+
+        #region Commands
+
+
+
+        public CommandBase SettingsCommand { get; set; }
+
+        void Settings()
+        {
+            // Settings
+            SettingsCommand = new CommandBase((s, e) =>
+            {
+                try
+                {
+                    var file = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json");
+
+                    // save settings first so we're looking at current setting
+                    Model.Configuration.Write();
+
+                    string fileText = File.ReadAllText(file);
+                    if (!fileText.StartsWith("//"))
+                    {
+                        fileText = "// Reference: http://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm\r\n" +
+                                   fileText;
+                        File.WriteAllText(file, fileText);
+                    }
+
+                    Model.Window.OpenTab(file, syntax: "json");
+                }
+                catch
+                {
+                    if (mmApp.Configuration.CommonFolder != mmApp.Configuration.InternalCommonFolder)
+                    {
+                        mmApp.Configuration.CommonFolder = mmApp.Configuration.InternalCommonFolder;
+                        Settings();
+                    }
+                    else
+                    {
+                        var msg = $@"We couldn't load the configuration file.
+
+Please check that the configuration folder for Markdown Monster exists. The default location is:
+
+{FileUtils.ExpandPathEnvironmentVariables("%appdata%\\Markdown Monster")}
+
+and that the file contains `markdownmonster.json`. You should also remove `commonfolderlocation.txt` if it exists and points at an invalid location.
+
+If all this fails shut down Markdown Monster, rename or delete `MarkdownMonster.json` and `commonfolderlocation.txt` (if it exists) and restart Markdown Monster.
+
+We're now shutting down the application.
+";
+                        MessageBox.Show(msg, mmApp.ApplicationName, MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+
+                        App.Current.Shutdown();
+                    }
+
+                }
+            }, null);
+        }
+
+
+
+
+
+
+        public CommandBase ViewInExternalBrowserCommand { get; set; }
+
+        void ViewInExternalBrowser()
+        {
+            // EXTERNAL BROWSER VIEW
+            ViewInExternalBrowserCommand = new CommandBase((p, e) =>
+            {
+                if (Model.ActiveDocument == null) return;
+
+                Model.ActiveDocument.RenderHtmlToFile();
+                mmFileUtils.ShowExternalBrowser(Model.ActiveDocument.HtmlRenderFilename);
+            }, (p, e) => Model.IsEditorActive);
+        }
+
+
+        public CommandBase ViewHtmlSourceCommand { get; set; }
+
+        void ViewHtmlSource()
+        {
+            ViewHtmlSourceCommand = new CommandBase((p, e) =>
+            {
+                if (Model.ActiveDocument == null) return;
+                Model.ActiveDocument.RenderHtmlToFile();
+                Model.Window.OpenTab(Model.ActiveDocument.HtmlRenderFilename);
+            }, (p, e) => Model.IsEditorActive);
+        }
+
+
+        public CommandBase PrintPreviewCommand { get; set; }
+
+        void PrintPreview()
+        {
+            PrintPreviewCommand = new CommandBase(
+                (p, e) => Model.Window.PreviewBrowser.ExecuteCommand("PrintPreview"),
+                (p, e) => Model.IsEditorActive);
+
+        }
+
+
+
+
+
+        //private void CreateCommands()
+        //{
+        //    Command_Settings();
+
+        //    Command_ViewInExternalBrowser();
+        //    Command_ViewHtmlSource();
+        //    Command_PrintePreview();
+
+        //    Command_ShowFolderBrowser();
+        //}
 
         #endregion
     }

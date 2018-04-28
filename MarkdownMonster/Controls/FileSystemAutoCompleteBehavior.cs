@@ -114,7 +114,7 @@ namespace MarkdownMonster.Controls
             foreach (var folder in folders)
                 combo.Items.Add(folder);
 
-            if (ComboBoxAutoCompleteBehavior.IsDropdownAlwaysVisible(combo))
+            if (IsDropdownAlwaysVisible(combo))
             {
                 if (combo.Items.Count > 0)
                     combo.IsDropDownOpen = true;

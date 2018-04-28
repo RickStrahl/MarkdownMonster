@@ -13,8 +13,8 @@
 
             <WebBrowser.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Show in External Browser" Command="{Binding ViewInExternalBrowserCommand}" />
-                    <MenuItem Header="View Html Source" Command="{Binding ViewHtmlSourceCommand}" />
+                    <MenuItem Header="Show in External Browser" Command="{Binding Commands.ViewInExternalBrowserCommand}" />
+                    <MenuItem Header="View Html Source" Command="{Binding Commands.ViewHtmlSourceCommand}" />
                     <MenuItem  Header="Configure Preview Syncing" Command="{Binding Commands.PreviewSyncModeCommand}" />
                     <Separator />
                     <MenuItem Header="Edit Preview Theme" Command="{Binding Commands.EditPreviewThemeCommand}"/>

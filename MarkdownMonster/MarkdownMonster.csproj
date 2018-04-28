@@ -192,9 +192,13 @@
     <Compile Include="Windows\EditorPane\EditorAndPreviewPane.xaml.cs">
       <DependentUpon>EditorAndPreviewPane.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Git\GitCommitDialog.xaml.cs">
+      <DependentUpon>GitCommitDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\GitRepositoryWindow.xaml.cs">
       <DependentUpon>GitRepositoryWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Git\GitCommitModel.cs" />
     <Compile Include="Windows\OpenFromUrlDialog.xaml.cs">
       <DependentUpon>OpenFromUrlDialog.xaml</DependentUpon>
     </Compile>
@@ -223,7 +227,7 @@
     </Compile>
     <Compile Include="Windows\FolderBrowserSidebar\FolderStructure.cs" />
     <Compile Include="Windows\FolderBrowserSidebar\PathItem.cs" />
-    <Compile Include="Windows\GeneratePdfWindow.xaml.cs">
+    <Compile Include="Windows\Git\GeneratePdfWindow.xaml.cs">
       <DependentUpon>GeneratePdfWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="_Classes\AddInInterfaces\AddinItem.cs" />
@@ -398,7 +402,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\GeneratePdfWindow.xaml">
+    <Page Include="Windows\Git\GeneratePdfWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Git\GitCommitDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

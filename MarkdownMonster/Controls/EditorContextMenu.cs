@@ -129,7 +129,7 @@ namespace MarkdownMonster
             ContextMenu.Items.Add(miCopy);
 
             var miCopyHtml = new MenuItem() { Header = "Copy As Html", InputGestureText="ctrl-shift-c" };
-            miCopyHtml.Command = Model.CopyAsHtmlCommand;
+            miCopyHtml.Command = Model.Commands.CopyAsHtmlCommand;
             ContextMenu.Items.Add(miCopyHtml);
 
             var miPaste = new MenuItem() { Header = "Paste", InputGestureText="ctrl-v"};
