@@ -12,6 +12,8 @@
              mc:Ignorable="d" MinWidth="165"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
+        <local:SourceControlIconConverter x:Key="SourceControlIconConverter"/>
+
         <!--DataType="{x:Type local:PathItem}"-->
         <HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
             <!--<Grid  Width="300" >-->
@@ -24,10 +26,11 @@
                        
                     </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0"
-                           Text="{Binding FileStatus}" Width="11" FontSize="10" Padding="5,3,0,3" />
-    
-                <Image Grid.Column="1" Height="16" Width="Auto" Margin="5,0,5,0" >
+                
+                <Image Source="{Binding FileStatus,Converter={StaticResource SourceControlIconConverter}}"
+                       Width="6" Margin="1,4,2,0"  />
+
+                <Image Grid.Column="1" Height="16" Width="Auto" Margin="0,0,4,0" >
                         <Image.Style>
                             <Style TargetType="Image">
                                 <Style.Triggers>
@@ -71,9 +74,8 @@
                             <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                        <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
-                                       
-                                    </DataTrigger>
+                                    <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+                                </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBox.Style>

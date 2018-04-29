@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LibGit2Sharp;
 using Microsoft.Alm.Authentication;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Utilities
 {
@@ -38,7 +39,7 @@ namespace MarkdownMonster.Utilities
             try
             {
                 Repository = new Repository(repoPath);
-                return Repository;
+                return Repository;                
             }
             catch(Exception ex)
             {
@@ -47,7 +48,8 @@ namespace MarkdownMonster.Utilities
 
             return null;
         }
-        
+
+        #region File Operations
         /// <summary>
         /// Returns the Git file status for an individual file
         /// </summary>
@@ -59,14 +61,35 @@ namespace MarkdownMonster.Utilities
                 return FileStatus.Nonexistent;
 
             var path = Path.GetDirectoryName(file);
-            var repo = OpenRepository(path);
+            using (var repo = OpenRepository(path))
+            {
+                if (repo == null)
+                    return FileStatus.Nonexistent;
 
-            if (repo == null)
-                return FileStatus.Unaltered;
-
-            return repo.RetrieveStatus(file);
+                return repo.RetrieveStatus(file);
+            }
         }
 
+
+        /// <summary>
+        /// Removes any changes since the last commit on the current active local branch
+        /// </summary>
+        /// <param name="file"></param>
+        public void UndoChanges(string file)
+        {
+            if (!File.Exists(file))
+                return;
+
+            var path = Path.GetDirectoryName(file);
+            using (var repo = OpenRepository(path))
+            {
+                var branch = repo.Head.FriendlyName;
+                //var relFile = FileUtils.GetRelativePath(file, repo.Info.WorkingDirectory);
+                repo.CheckoutPaths(branch, new[] { file }, new CheckoutOptions { CheckoutModifiers = CheckoutModifiers.Force});
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Clones a repository
@@ -166,8 +189,6 @@ namespace MarkdownMonster.Utilities
                 };
                 return result;
             }
-
-            
         }
 
 
@@ -321,6 +342,9 @@ namespace MarkdownMonster.Utilities
                 return folder;
 
             var di = new DirectoryInfo(folder).Parent;
+            if (di == null)
+                return null;
+
             return FindGitRepositoryRoot(di.FullName);
         }
 

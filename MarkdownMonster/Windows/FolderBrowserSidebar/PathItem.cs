@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using LibGit2Sharp;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Utilities;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
@@ -183,7 +184,7 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged(nameof(FileStatus));
             }
         }
-	    private FileStatus _FileStatus = FileStatus.Unaltered;
+	    private FileStatus _FileStatus = FileStatus.Nonexistent;
 
 
         public ImageSource Icon
@@ -223,7 +224,7 @@ namespace MarkdownMonster.Windows
 
 		public override string ToString()
 		{
-			return this.DisplayName;
+			return DisplayName;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -245,6 +246,16 @@ namespace MarkdownMonster.Windows
                 Icon = FolderStructure.IconList.GetIconFromFile("folder.folder"); // special case
                 OpenIcon = FolderStructure.IconList.GetIconFromFile("folder.openfolder"); // special case
             }
-        }	
+        }
+
+        private GitHelper gitHelper = null;
+
+	    public void UpdateGitFileStatus()
+	    {
+            if (gitHelper == null)
+                gitHelper = new GitHelper();
+
+	        FileStatus = gitHelper.GetGitStatusForFile(FullPath);
+	    }
 	}
 }

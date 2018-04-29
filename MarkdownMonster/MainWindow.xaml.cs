@@ -334,6 +334,11 @@ namespace MarkdownMonster
 
         protected void OnActivated(object sender, EventArgs e)
         {
+            CheckFileChangeInOpenDocuments();
+        }
+
+        public void CheckFileChangeInOpenDocuments()
+        {
             var selectedTab = TabControl.SelectedItem as TabItem;
 
             // check for external file changes

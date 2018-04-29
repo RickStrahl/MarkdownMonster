@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Controls;
+using MarkdownMonster.Utilities;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Westwind.Utilities;
 
@@ -258,6 +259,25 @@ namespace MarkdownMonster.Windows
 
         }
 
+
+        private void FileWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            if (mmApp.Model == null || mmApp.Model.Window == null)
+                return;
+
+            mmApp.Model.Window.Dispatcher.Invoke(() =>
+            {
+                var file = e.FullPath;
+                
+                var pi = FolderStructure.FindPathItemByFilename(ActivePathItem, file);
+                if (pi == null)
+                    return;
+
+                var gh = new GitHelper();
+                pi.FileStatus = gh.GetGitStatusForFile(pi.FullPath);
+            }, DispatcherPriority.ApplicationIdle);
+        }
+
         private void AttachFileWatcher(string fullPath)
         {
             if(FileWatcher != null)
@@ -280,7 +300,9 @@ namespace MarkdownMonster.Windows
             FileWatcher.Created += FileWatcher_CreateOrDelete;
             FileWatcher.Deleted += FileWatcher_CreateOrDelete;
             FileWatcher.Renamed += FileWatcher_Renamed;
+            FileWatcher.Changed += FileWatcher_Changed;
         }
+
 
         private void ReleaseFileWatcher()
         {
@@ -590,6 +612,7 @@ namespace MarkdownMonster.Windows
             if (selected.Files != null && selected.Files.Count == 1 && selected.Files[0] == PathItem.Empty)
             {                
                 var subfolder = FolderStructure.GetFilesAndFolders(selected.FullPath, nonRecursive: true, parentPathItem: selected);
+                FolderStructure.UpdateGitFileStatus(subfolder);
             }
         }
 
@@ -983,6 +1006,24 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        private void MenuUndoGit_Click(object sende, RoutedEventArgs e)
+        {
+            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+            if (selected == null)
+                return;
+
+            if (selected.FileStatus != LibGit2Sharp.FileStatus.ModifiedInIndex &&
+                selected.FileStatus != LibGit2Sharp.FileStatus.ModifiedInWorkdir)
+                return;
+
+            var gh = new GitHelper();
+            gh.UndoChanges(selected.FullPath);
+
+
+            // force editors to update
+            mmApp.Model.Window.CheckFileChangeInOpenDocuments();
+        }
+
         private void MenuGitClient_Click(object sender, RoutedEventArgs e)
         {
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
@@ -1099,6 +1140,16 @@ namespace MarkdownMonster.Windows
             ci.IsEnabled = AppModel.Configuration.GitClientExecutable != null &&
                             File.Exists(AppModel.Configuration.GitClientExecutable);
             cm.Items.Add(ci);
+
+
+            if (pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInIndex ||
+                pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInWorkdir)
+            {
+                ci = new MenuItem();
+                ci.Header = "Undo Changes";
+                ci.Click += MenuUndoGit_Click;                
+                cm.Items.Add(ci);
+            }
 
             cm.Items.Add(new Separator());
 
@@ -1408,6 +1459,28 @@ namespace MarkdownMonster.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion        
+    }
+
+    public class SourceControlIcons
+    {
+        public static ImageSource Normal;
+        public static ImageSource Changed;
+        public static ImageSource Ignored;
+        public static ImageSource Added;
+        public static ImageSource Conflict; 
+        public static ImageSource Unversioned;
+        public static ImageSource Deleted;
+
+        static SourceControlIcons()
+        {
+            Normal = ImageAwesome.CreateImageSource(FontAwesomeIcon.Lock, Brushes.SteelBlue);
+            Changed = ImageAwesome.CreateImageSource(FontAwesomeIcon.Check, Brushes.Red);
+            Ignored = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.LightSlateGray);
+            Added = ImageAwesome.CreateImageSource(FontAwesomeIcon.PlusCircle, Brushes.LightGreen);
+            Conflict = ImageAwesome.CreateImageSource(FontAwesomeIcon.Warning, Brushes.DarkGoldenrod);
+            Unversioned = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.LightSlateGray);
+            Deleted = ImageAwesome.CreateImageSource(FontAwesomeIcon.Remove, Brushes.Red);
+        }
     }
 
 }
