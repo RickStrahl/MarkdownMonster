@@ -222,7 +222,7 @@ namespace WeblogAddin
             Dispatcher.Invoke(() =>
             {
                 Model.PostList = new List<Post>();
-                SetStatusIcon(FontAwesomeIcon.Download, Colors.Orange,true); 
+                SetStatusIcon(FontAwesomeIcon.CircleOutlineNotch, Colors.Orange,true); 
                 ShowStatus("Downloading last " + Model.NumberOfPostsToRetrieve + " posts...");                    
             });
 
