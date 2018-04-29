@@ -515,10 +515,18 @@ namespace MarkdownMonster.Windows
                     e.Handled = true;
                 }
             }
+            else if (e.Key == Key.Z && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                if (!selected.IsEditing)
+                {
+                    MenuUndoGit_Click(null, null);
+                    e.Handled = true;
+                }
+            }
 
-            
-            // search key
-            if (!selected.IsEditing && e.Key >= Key.A && e.Key <= Key.Z ||
+
+                // search key
+                if (!selected.IsEditing && e.Key >= Key.A && e.Key <= Key.Z ||
                 e.Key >= Key.D0 && e.Key <= Key.D9 ||
                 e.Key == Key.OemPeriod ||
                 e.Key == Key.Space ||
@@ -1089,12 +1097,14 @@ namespace MarkdownMonster.Windows
             if (pathItem.IsImage)
             {
                 ci = new MenuItem();
-                ci.Header = "Show Image";            
+                ci.Header = "Show Image";
+                ci.ToolTip = "Opens the current image file in the configured image viewer. Configurable in Settings.";
                 ci.Click += MenuShowImage_Click;
                 cm.Items.Add(ci);
 
                 ci = new MenuItem();
-                ci.Header = "Edit Image";            
+                ci.Header = "Edit Image";
+                ci.ToolTip = "Opens the current image file in the configured image editor. Configurable in Settings.";
                 ci.Click += MenuEditImage_Click;
                 cm.Items.Add(ci);
             }
@@ -1103,13 +1113,15 @@ namespace MarkdownMonster.Windows
                 if (pathItem.IsFile)
                 {
                     ci = new MenuItem();
-                    ci.Header = "Open in Editor";                
+                    ci.Header = "Open in Editor";
+                    ci.ToolTip = "Opens the current file in the editor assuming the file is a text file.";
                     ci.Click += MenuOpenInEditor_Click;
                     cm.Items.Add(ci);
                 }
 
                 ci = new MenuItem();
-                ci.Header = "Open with Shell";            
+                ci.Header = "Open with Shell";
+                ci.ToolTip = "Opens the current file using the configured Windows shell association for the file type.";
                 ci.Click += MenuOpenWithShell_Click;
                 cm.Items.Add(ci);
             }
@@ -1117,12 +1129,14 @@ namespace MarkdownMonster.Windows
             cm.Items.Add(new Separator());
 
             ci = new MenuItem();            
-            ci.Header = "Open Folder in Terminal";            
+            ci.Header = "Open Folder in Terminal";
+            ci.ToolTip = "Opens the current folder in the configured terminal. Configurable in Settings.";
             ci.Click += MenuOpenTerminal_Click;
             cm.Items.Add(ci);
 
             ci = new MenuItem();
-            ci.Header = "Open Folder in Explorer";
+            ci.Header = "Open Folder in File Explorer";
+            ci.ToolTip = "Opens the current file's folder in the Windows File Explorer.";
             ci.Click += MenuOpenInExplorer_Click;
             cm.Items.Add(ci);
 
@@ -1130,10 +1144,23 @@ namespace MarkdownMonster.Windows
 
             ci = new MenuItem();
             ci.Header = "Commit File to _Git and Push";
+            ci.ToolTip = "Commit and push file file to Git and optionally push to the remote.";
             ci.InputGestureText = "ctrl-g";        
             ci.Click += MenuCommitGit_Click;
             cm.Items.Add(ci);
-            
+
+
+            if (pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInIndex ||
+                pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInWorkdir)
+            {
+                ci = new MenuItem();
+                ci.Header = "_Undo File Changes";
+                ci.ToolTip = "Undo changes to the active file to the last Git commit.";
+                ci.InputGestureText = "ctrl-z";
+                ci.Click += MenuUndoGit_Click;
+                cm.Items.Add(ci);
+            }
+
             ci = new MenuItem();
             ci.Header = "Open Folder in Git Client";
             ci.Click += MenuGitClient_Click;
@@ -1142,14 +1169,6 @@ namespace MarkdownMonster.Windows
             cm.Items.Add(ci);
 
 
-            if (pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInIndex ||
-                pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInWorkdir)
-            {
-                ci = new MenuItem();
-                ci.Header = "Undo Changes";
-                ci.Click += MenuUndoGit_Click;                
-                cm.Items.Add(ci);
-            }
 
             cm.Items.Add(new Separator());
 
