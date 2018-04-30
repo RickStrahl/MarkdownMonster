@@ -151,7 +151,7 @@ namespace MarkdownMonster.Windows
 
         public MainWindow Window { get; set; }
 
-        public GitCommitDialog CommitDialogWindow { get; set; }
+        public GitCommitDialog CommitWindow { get; set; }
 
         public Repository Repository { get; set; }
 
@@ -176,12 +176,29 @@ namespace MarkdownMonster.Windows
 
         public bool CommitAndPushRepository()
         {
-            Window.ShowStatus("Committing files into local Git repository...");
+            CommitWindow.ShowStatus("Committing files into local Git repository...");
 
             var files = RepositoryStatusItems.Where(it => it.Selected).ToList();
+
+            if (files.Count < 1)
+            {
+                CommitWindow.ShowStatus("There are no changes in this repository.", 6000,
+                    FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.DarkGoldenrod);
+                return false;
+            }
+
+
             if (!GitHelper.Commit(files, CommitMessage, GitUsername, GitEmail) )
             {                
-                CommitDialogWindow.ShowStatus(GitHelper.ErrorMessage, 6000,FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Firebrick);
+                CommitWindow.ShowStatus(GitHelper.ErrorMessage, 6000,FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Firebrick);
+                return false;
+            }
+
+            var repo = GitHelper.OpenRepository(files[0].FullPath);
+
+            if (!GitHelper.Push(repo.Info.WorkingDirectory))
+            {
+                CommitWindow.ShowStatus(GitHelper.ErrorMessage, 6000, FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Firebrick);
                 return false;
             }
 

@@ -294,6 +294,18 @@ namespace MarkdownMonster.Utilities
             return true;
         }
 
+        public bool Push(string path)
+        {            
+            var result = ExecuteGitCommand("push origin",path, 60000);            
+            if (result.HasError)
+            {
+                SetError("Couldn't push to repository: " + result.Message);
+                return false;
+            }
+
+            return true;
+        }
+
 
         /// <summary>
         /// Executes a Git Command on the command line.
@@ -308,13 +320,21 @@ namespace MarkdownMonster.Utilities
         /// <param name="progress"></param>
         /// <returns></returns>
         public GitCommandResult ExecuteGitCommand(string arguments,
+                                                  string path = null,
                                                   int timeoutMs=10000,
                                                   ProcessWindowStyle windowStyle= ProcessWindowStyle.Hidden,
-                                                  Action<object,DataReceivedEventArgs>
-                                                  progress = null)
+                                                  Action<object,DataReceivedEventArgs> progress = null)
         {
             Process process;
             var result = new GitCommandResult();
+
+
+            string oldPath = null;
+            if (!string.IsNullOrEmpty(path))
+            {
+                oldPath = Directory.GetCurrentDirectory();
+                Directory.SetCurrentDirectory(path);
+            }
 
             try
             {
@@ -382,8 +402,10 @@ namespace MarkdownMonster.Utilities
                         else if(result.HasError)
                             result.Message = result.Output;
 
-                        return result;
-                                                
+                        if (oldPath != null)
+                            Directory.SetCurrentDirectory(oldPath);
+
+                        return result;                                                
                     }
 
                  
@@ -395,6 +417,9 @@ namespace MarkdownMonster.Utilities
                 result.ExitCode = -1;
                 result.Message = ex.Message;                                
             }
+
+            if(oldPath != null)                
+                Directory.SetCurrentDirectory(oldPath);
 
             return result;
         }

@@ -37,7 +37,7 @@ namespace MarkdownMonster.Windows
             if (!commitRepo)
                 CommitModel.CommitMessage = $"Updating documentation in {System.IO.Path.GetFileName(fileOrPath)}";
 
-            CommitModel.CommitDialogWindow = this;
+            CommitModel.CommitWindow = this;
 
             mmApp.SetThemeWindowOverride(this);
 
