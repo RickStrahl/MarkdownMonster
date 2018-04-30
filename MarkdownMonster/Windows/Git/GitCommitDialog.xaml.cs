@@ -47,23 +47,28 @@ namespace MarkdownMonster.Windows
 
         private void GitCommitDialog_Loaded(object sender, RoutedEventArgs e)
         {
-
+            string defaultText = null;
             if (mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush)
             {
                 ButtonCommitAndPush.IsDefault = true;
                 ButtonCommitAndPush.FontWeight = FontWeight.FromOpenTypeWeight(600);
+                ButtonCommit.Opacity = 0.6;
+                defaultText = "commit and push";
             }            
             else
             {
                 ButtonCommit.IsDefault = true;
                 ButtonCommit.FontWeight = FontWeight.FromOpenTypeWeight(600);
+                ButtonCommitAndPush.Opacity = 0.6;
+                defaultText = "commit";
             }
             
 
             CommitModel.GetRepositoryChanges();
 
             DataContext = CommitModel;
-
+            
+            ShowStatus($"Press Ctrl-Enter to quickly {defaultText}.",8000);
             TextCommitMessage.Focus();
         }
 
@@ -81,6 +86,8 @@ namespace MarkdownMonster.Windows
                 }
                 Close();
 
+                mmApp.Configuration.GitCommitBehavior = GitCommitBehaviors.Commit;
+
                 AppModel.Window.ShowStatus("Files have been committed in the local repository.", mmApp.Configuration.StatusMessageTimeout);
             }
         }
@@ -96,6 +103,7 @@ namespace MarkdownMonster.Windows
                 }
                 Close();
 
+                mmApp.Configuration.GitCommitBehavior = GitCommitBehaviors.CommitAndPush;
                 AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",mmApp.Configuration.StatusMessageTimeout);
             }            
         }
@@ -151,7 +159,7 @@ namespace MarkdownMonster.Windows
                 // a message the delay timer is 'reset'
                 debounce.Debounce(milliSeconds, (win) =>
                 {
-                    var window = win as MainWindow;
+                    var window = win as GitCommitDialog;
                     window.ShowStatus(null, 0);
                 }, this);
             }

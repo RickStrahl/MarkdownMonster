@@ -979,30 +979,12 @@ Do you want to View in Browser now?
                 var gh = new GitHelper();
                 if (gh.OpenRepository(file) == null)
                 {
-                    Model.Window.ShowStatus("Can't commit: This file or folder is not part of a Git repository.",6000,FontAwesomeIcon.Warning,Colors.DarkGoldenrod);
+                    Model.Window.ShowStatus("This file or folder is not in a Git repository.",6000,FontAwesomeIcon.Warning,Colors.DarkGoldenrod);
                     return;
                 }
-
-                Model.Window.ShowStatus("Committing and pushing to Git...");
-                WindowUtilities.DoEvents();
-
-                string error = null;
-
-
+                
                 var form = new GitCommitDialog(file, false); // GitCommitFormModes.ActiveDocument);                
                 form.Show();
-
-
-                //bool pushToGit = mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
-                //bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, pushToGit, out error));
-
-                //if (result)
-                //    Model.Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", 6000);
-                //else
-                //{
-                //    Model.Window.ShowStatus(error, 7000);
-                //    Model.Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
-                //}
             }, (s, e) => Model.IsEditorActive);
         }
 

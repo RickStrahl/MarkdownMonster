@@ -197,6 +197,7 @@ namespace MarkdownMonster.Windows
             if (!pushToRemote)
                 return true;
 
+            CommitWindow.ShowStatus("Pushing files to the Git Remote...");
             var repo = GitHelper.OpenRepository(files[0].FullPath);
 
             if (!GitHelper.Push(repo.Info.WorkingDirectory))
