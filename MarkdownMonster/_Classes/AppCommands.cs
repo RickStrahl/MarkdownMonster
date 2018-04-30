@@ -982,6 +982,8 @@ Do you want to View in Browser now?
                     Model.Window.ShowStatus("This file or folder is not in a Git repository.",6000,FontAwesomeIcon.Warning,Colors.DarkGoldenrod);
                     return;
                 }
+
+                Model.ActiveEditor.SaveDocument(Model.ActiveDocument.IsEncrypted);
                 
                 var form = new GitCommitDialog(file, false); // GitCommitFormModes.ActiveDocument);                
                 form.Show();
