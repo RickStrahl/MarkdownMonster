@@ -11,7 +11,7 @@
 * **Git File Status in File Browser**  
 The Folder browser now shows Git status information via icons. There are also a new option to undo changes on the file context menu.
 
-* ** Add Git Commit Dialog**  
+* **Add Git Commit Dialog**  
 Added a new Git Commit dialog that allows committing and pushing the active file as well as all pending files to a Git repository. This replaces the previous hotkey only command with a more visual approach that provides many more options. Ctrl-Enter in the dialog can be used to quick commit similar to the old behavior.
 
 * **Add Clone Git Repository**  
