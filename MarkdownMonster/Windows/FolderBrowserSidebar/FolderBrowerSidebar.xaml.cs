@@ -127,7 +127,8 @@ namespace MarkdownMonster.Windows
         /// <summary>
         /// Internal value
         /// </summary>
-        private FolderStructure FolderStructure { get; } = new FolderStructure();
+        public  FolderStructure FolderStructure { get; } = new FolderStructure();
+
         public object WindowUtilties { get; private set; }
 
         private FileSystemWatcher FileWatcher = null;
@@ -318,7 +319,7 @@ namespace MarkdownMonster.Windows
 
         #region Folder Button and Text Handling
 
-        private void SetTreeFromFolder(string folder, bool setFocus = false, string searchText = null)
+        public void SetTreeFromFolder(string folder, bool setFocus = false, string searchText = null)
         {
             if (Window == null)
                 return;
@@ -349,6 +350,20 @@ namespace MarkdownMonster.Windows
                 FolderStructure.UpdateGitFileStatus(items);
 
             }, DispatcherPriority.ApplicationIdle);
+        }
+
+
+        /// <summary>
+        /// Updates the Git status of the files currently active
+        /// in the tree.        
+        /// </summary>
+        /// <param name="pathItem"></param>
+        public void UpdateGitStatus(PathItem pathItem = null)
+        {
+            if (pathItem == null)
+                pathItem = ActivePathItem;
+
+            FolderStructure.UpdateGitFileStatus(pathItem);
         }
 
         private void ButtonUseCurrentFolder_Click(object sender, RoutedEventArgs e)
@@ -1157,8 +1172,8 @@ namespace MarkdownMonster.Windows
             cm.Items.Add(new Separator());
 
             ci = new MenuItem();
-            ci.Header = "Commit File to _Git and Push";
-            ci.ToolTip = "Commit and push file file to Git and optionally push to the remote.";
+            ci.Header = "Commit to _Git";
+            ci.ToolTip = "Commit and push files to Git and optionally push to the remote.";
             ci.InputGestureText = "ctrl-g";        
             ci.Click += MenuCommitGit_Click;
             cm.Items.Add(ci);

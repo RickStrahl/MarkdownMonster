@@ -86,8 +86,10 @@ namespace MarkdownMonster.Windows
                 }
                 Close();
 
+                if (AppModel.WindowLayout.IsLeftSidebarVisible)
+                    Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                
                 mmApp.Configuration.GitCommitBehavior = GitCommitBehaviors.Commit;
-
                 AppModel.Window.ShowStatus("Files have been committed in the local repository.", mmApp.Configuration.StatusMessageTimeout);
             }
         }
@@ -102,6 +104,9 @@ namespace MarkdownMonster.Windows
                     mmApp.Configuration.GitEmail = CommitModel.GitEmail;
                 }
                 Close();
+
+                if (AppModel.WindowLayout.IsLeftSidebarVisible)
+                    Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(),System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
                 mmApp.Configuration.GitCommitBehavior = GitCommitBehaviors.CommitAndPush;
                 AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",mmApp.Configuration.StatusMessageTimeout);
