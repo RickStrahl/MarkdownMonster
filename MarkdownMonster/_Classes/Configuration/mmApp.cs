@@ -191,6 +191,12 @@ namespace MarkdownMonster
             {
                 SendTelemetry("shutdown");
             }
+
+            var tempPath = Path.GetTempPath();
+
+            // Cleanup temp files
+            File.Delete(Path.Combine(tempPath, "_MarkdownMonster_Preview.html"));
+            FileUtils.DeleteTimedoutFiles(Path.Combine(tempPath, "mm_diff_*.*"), 1);
         }
         #endregion
 
