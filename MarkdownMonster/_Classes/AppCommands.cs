@@ -943,32 +943,6 @@ Do you want to View in Browser now?
             }, (p, c) => true);
         }
 
-
-
-        public CommandBase OpenGitClientCommand { get; set; }
-
-        void OpenGitClient()
-        {
-            OpenGitClientCommand = new CommandBase((parameter, command) =>
-            {
-                var path = parameter as string;
-                if (path == null)
-                {
-                    path = Model.ActiveDocument?.Filename;
-                    if(!string.IsNullOrEmpty(path))
-                        path = Path.GetDirectoryName(path);
-                }
-
-                if (string.IsNullOrEmpty(path))
-                    return;
-                                
-                if (!mmFileUtils.OpenGitClient(path))
-                    Model.Window.ShowStatus("Unabled to open Git client.", 6000, FontAwesomeIcon.Warning, Colors.Firebrick);
-                else
-                    Model.Window.ShowStatus("Git client opened.",6000);
-            }, (p, c) => !string.IsNullOrEmpty(Model.Configuration.GitClientExecutable));
-        }
-
         #endregion
 
         #region Git
@@ -993,30 +967,68 @@ Do you want to View in Browser now?
         void CommitToGit()
         {
             // COMMIT TO GIT Command
-            CommitToGitCommand = new CommandBase(async (s, e) =>
+            CommitToGitCommand = new CommandBase(async (parameter, e) =>
             {
-                string file = Model.ActiveDocument?.Filename;
+                var file = parameter as string;
+                if (string.IsNullOrEmpty(file))
+                file = Model.ActiveDocument?.Filename;
+
                 if (string.IsNullOrEmpty(file))
                     return;
+
+                var gh = new GitHelper();
+                if (gh.OpenRepository(file) == null)
+                {
+                    Model.Window.ShowStatus("Can't commit: This file or folder is not part of a Git repository.",6000,FontAwesomeIcon.Warning,Colors.DarkGoldenrod);
+                    return;
+                }
 
                 Model.Window.ShowStatus("Committing and pushing to Git...");
                 WindowUtilities.DoEvents();
 
                 string error = null;
 
-                bool pushToGit = mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
-                bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, pushToGit, out error));
 
-                if (result)
-                    Model.Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", 6000);
-                else
-                {
-                    Model.Window.ShowStatus(error, 7000);
-                    Model.Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
-                }
+                var form = new GitCommitDialog(file, false); // GitCommitFormModes.ActiveDocument);                
+                form.Show();
+
+
+                //bool pushToGit = mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
+                //bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, pushToGit, out error));
+
+                //if (result)
+                //    Model.Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", 6000);
+                //else
+                //{
+                //    Model.Window.ShowStatus(error, 7000);
+                //    Model.Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                //}
             }, (s, e) => Model.IsEditorActive);
         }
 
+        public CommandBase OpenGitClientCommand { get; set; }
+
+        void OpenGitClient()
+        {
+            OpenGitClientCommand = new CommandBase((parameter, command) =>
+            {
+                var path = parameter as string;
+                if (path == null)
+                {
+                    path = Model.ActiveDocument?.Filename;
+                    if(!string.IsNullOrEmpty(path))
+                        path = Path.GetDirectoryName(path);
+                }
+
+                if (string.IsNullOrEmpty(path))
+                    return;
+                                
+                if (!mmFileUtils.OpenGitClient(path))
+                    Model.Window.ShowStatus("Unabled to open Git client.", 6000, FontAwesomeIcon.Warning, Colors.Firebrick);
+                else
+                    Model.Window.ShowStatus("Git client opened.",6000);
+            }, (p, c) => !string.IsNullOrEmpty(Model.Configuration.GitClientExecutable));
+        }
 
         #endregion
 

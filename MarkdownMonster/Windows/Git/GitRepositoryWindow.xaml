@@ -8,7 +8,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:windows="clr-namespace:MarkdownMonster.Windows"
         mc:Ignorable="d"
-        Icon="../Assets/MarkdownMonster_Icon_256.png"                     
+        Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Clone Git Repository"
         TitleCharacterCasing="Normal"
         TitlebarHeight="35"                       

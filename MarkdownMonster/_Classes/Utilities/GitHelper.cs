@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using LibGit2Sharp;
+using MarkdownMonster.Annotations;
 using Microsoft.Alm.Authentication;
 using Westwind.Utilities;
 
@@ -236,6 +239,54 @@ namespace MarkdownMonster.Utilities
             return creds;
         }
 
+        public bool Commit(IList<string> files, string message)
+        {
+            if (files == null || files.Count < 1)            
+                return true;
+
+            if (Repository == null)
+            {
+                Repository = OpenRepository(files[0]);
+                if (Repository == null)
+                    return false;
+            }
+
+            try
+            {
+                Commands.Stage(Repository, files);
+            }
+            catch (Exception ex)
+            {
+                SetError($"Couldn't stage changes: {ex.Message}.");
+                return false;
+            }
+            
+            try
+            {                
+                Repository.Commit(message, null, null);
+            }
+            catch (Exception ex)
+            {
+                SetError($"Couldn't commit changes: {ex.Message}.");
+                return false;                
+            }
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// Executes a Git Command on the command line.
+        /// 
+        /// Recommend that you only use this for Remote commands that
+        /// require authentication so that the Windows Credentials Store
+        /// can handle providing sticky Auth to Github, VSTS and BitBucket.
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="timeoutMs"></param>
+        /// <param name="windowStyle"></param>
+        /// <param name="progress"></param>
+        /// <returns></returns>
         public GitCommandResult ExecuteGitCommand(string arguments,
                                                   int timeoutMs=10000,
                                                   ProcessWindowStyle windowStyle= ProcessWindowStyle.Hidden,
@@ -334,6 +385,10 @@ namespace MarkdownMonster.Utilities
 
         public static string FindGitRepositoryRoot(string folder)
         {
+
+            if (File.Exists(folder))            
+                folder = Path.GetDirectoryName(folder);            
+
             if (!Directory.Exists(folder))
                 return null;
 
@@ -346,6 +401,65 @@ namespace MarkdownMonster.Utilities
                 return null;
 
             return FindGitRepositoryRoot(di.FullName);
+        }
+
+        public RepositoryStatus GetChanges()
+        {
+            return Repository.RetrieveStatus();            
+        }
+
+        public const FileStatus DefaultStatusesToDisplay = FileStatus.ModifiedInIndex | FileStatus.ModifiedInWorkdir |
+                                                           FileStatus.NewInIndex | FileStatus.NewInWorkdir |
+                                                           FileStatus.DeletedFromIndex | FileStatus.DeletedFromWorkdir |
+                                                           FileStatus.Conflicted | FileStatus.RenamedInIndex |
+                                                           FileStatus.RenamedInWorkdir;
+
+        /// <summary>
+        /// Sets the StatusItems property with all changed items
+        /// </summary>
+        /// <param name="fileOrFolder">File or folder to get changes for</param>
+        /// <param name="selectedFile"></param>
+        /// <param name="selectAll"></param>
+        /// <returns></returns>
+        public List<RepositoryStatusItem> GetRepositoryChanges(string fileOrFolder, string selectedFile = null, bool selectAll = false,
+            FileStatus includedStatuses = DefaultStatusesToDisplay)
+        {            
+            Repository = OpenRepository(fileOrFolder);
+            if (Repository == null)
+                return null;
+
+            var statusItems = new List<RepositoryStatusItem>();
+
+            var status = GetChanges();
+
+            string relSelectedFile = null;
+            if (!string.IsNullOrEmpty(selectedFile))
+                relSelectedFile = FileUtils.GetRelativePath(selectedFile, Repository.Info.WorkingDirectory);
+
+            foreach (var item in status)
+            {
+                if (!includedStatuses.HasFlag(item.State))
+                    continue;
+
+                var statusItem = new RepositoryStatusItem
+                {
+                    Filename = item.FilePath,
+                    FullPath = Path.Combine(Repository.Info.WorkingDirectory,item.FilePath),
+                    FileStatus = item.State,
+                };
+                
+                if (selectAll || relSelectedFile != null && relSelectedFile.Equals(statusItem.Filename, StringComparison.InvariantCultureIgnoreCase))
+                    statusItem.Selected = true;
+
+                statusItems.Add(statusItem);
+            }
+
+            statusItems = statusItems
+                .OrderByDescending(si => si.Selected)
+                .ThenBy(si => Path.GetDirectoryName(si.Filename))
+                .ThenBy(si => Path.GetFileName(si.Filename)).ToList();
+
+            return statusItems;
         }
 
         #endregion
@@ -391,6 +505,7 @@ namespace MarkdownMonster.Utilities
     }
 
 
+    [DebuggerVisualizer("{Message}")]
     public class GitCommandResult
     {
         public bool HasError { get; set; }
@@ -398,4 +513,38 @@ namespace MarkdownMonster.Utilities
         public string Message { get; set; }
         public string Output { get; set; }
     }
+
+
+    [DebuggerVisualizer("{FileName} - {FileStatus}")]
+    public class RepositoryStatusItem : INotifyPropertyChanged
+    {
+        public string Filename { get; set; }
+
+        public string FullPath { get; set; }
+
+        public FileStatus FileStatus { get; set; }
+
+        
+
+        public bool Selected
+        {
+            get => _selected;
+            set
+            {
+                if (value == _selected) return;
+                _selected = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _selected;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
 }

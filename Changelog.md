@@ -1,5 +1,7 @@
 <img src="MarkdownMonster/Assets/MarkdownMonster_Icon_256.png" width=100 align="right" />
 
+
+
 # Markdown Monster Change Log 
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
@@ -12,7 +14,7 @@
 The Folder browser now shows Git status information via icons. There are also a new option to undo changes on the file context menu.
 
 * **Add Clone Git Repository**  
-Added option to clone a Git repository to a local folder to make it easier to retrieve Git content for local editing. Also added a new **File -> Git** menu that houses this option and **Commit to Git** (same behavior as the Tab context menu). **Requires:** that Git and Git Credential Manager (for private or authenticated repos) are installed.
+Added option to clone a Git repository to a local folder to make it easier to retrieve Git content for local editing. Also added a new **File -> Git** menu that houses this option and **Commit to Git** (same behavior as the Tab context menu). **Requires:** that Git and Git Credential Manager (for private or augthenticated repos) are installed.
 
 * **Open Markdown From Url**  
 Added the ability to open a Markdown document from the Web via a URL. This feature understands and fixes up Github and BitBucket Markdown documents, Gists and Microsoft Docs Documentation URLs and allows for de-referencing of relative image links as an option.
@@ -68,6 +70,8 @@ Fixed a number of left over UI inconsistencies that made it into earlier 10.x pu
 * **Fix: Document Outline Visibility**  
 Document outline would still be visible after unchecking the Document Outline option in the menu if enabled on startup. Outline is now properly hidden.
 
+* **Fix: Folder Browser New File Adding**  
+Fixed new file editing behavior that would get corrupted by the file search behavior in the tree.
 
 ### 1.10
 *<small>March 27th, 2018</small>*

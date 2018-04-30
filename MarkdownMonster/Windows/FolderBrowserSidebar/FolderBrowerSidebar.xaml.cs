@@ -459,7 +459,7 @@ namespace MarkdownMonster.Windows
 
         #endregion
 
-
+            
         #region TreeView Selection Handling
 
         private string searchFilter = string.Empty;
@@ -488,8 +488,9 @@ namespace MarkdownMonster.Windows
             {
                 if (!selected.IsEditing)
                     HandleItemSelection();
-                else
+                else                
                     RenameOrCreateFileOrFolder();
+                
                 e.Handled = true;                
             }
             else if (e.Key == Key.Escape)
@@ -524,9 +525,11 @@ namespace MarkdownMonster.Windows
                 }
             }
 
+            if (selected.IsEditing)
+                return;
 
-                // search key
-                if (!selected.IsEditing && e.Key >= Key.A && e.Key <= Key.Z ||
+            // search key
+            if (e.Key >= Key.A && e.Key <= Key.Z ||
                 e.Key >= Key.D0 && e.Key <= Key.D9 ||
                 e.Key == Key.OemPeriod ||
                 e.Key == Key.Space ||
@@ -650,73 +653,81 @@ namespace MarkdownMonster.Windows
                 OpenFile(fileItem.FullPath);
         }
 
-        void RenameOrCreateFileOrFolder        ()
+        void RenameOrCreateFileOrFolder()
         {
             var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
-            if (string.IsNullOrEmpty(fileItem?.EditName) )
+            if (string.IsNullOrEmpty(fileItem?.EditName))
                 return;
-                       
-            string oldFilename = Path.GetFileName(fileItem.FullPath);
+
+            string oldFile = fileItem.FullPath;            
             string oldPath = Path.GetDirectoryName(fileItem.FullPath);
             string newPath = Path.Combine(oldPath, fileItem.EditName);
 
-            if (newPath != fileItem.FullPath)
+
+            if (fileItem.IsFolder)
             {
-                if (fileItem.IsFolder)
+                try
                 {
-                    try
+                    if (Directory.Exists(fileItem.FullPath))
+                        Directory.Move(fileItem.FullPath, newPath);
+                    else
                     {
-                        if (Directory.Exists(fileItem.FullPath))
-                            Directory.Move(fileItem.FullPath, newPath);
-                        else
-                            Directory.CreateDirectory(newPath);
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Unable to rename or create folder:\r\n" +
-                                        newPath, "Path Creation Error",
-                            MessageBoxButton.OK, MessageBoxImage.Warning);
+                        fileItem.FullPath = newPath;                                                
+                        Directory.CreateDirectory(newPath);                        
                     }
                 }
-                else
+                catch
                 {
-                    try
-                    {
-                        if (File.Exists(fileItem.FullPath))
-                        {
-                            if(!File.Exists(newPath))
-                                File.Move(fileItem.FullPath, newPath);
-                            else
-                                File.Copy(fileItem.FullPath, newPath,true);
-                        }
-                        else
-                            File.WriteAllText(newPath, "");
-
-                        // check if tab was open and if so rename the tab
-                        var tab = Window.GetTabFromFilename(fileItem.FullPath);
-                        if (tab != null)
-                        {
-                            Window.CloseTab(fileItem.FullPath);
-                            WindowUtilities.DoEvents();
-                            Window.OpenTab(newPath);
-                            WindowUtilities.DoEvents();
-
-                            //var doc = (MarkdownDocumentEditor) tab.Tag;
-                            //doc.MarkdownDocument.Load(newPath);
-                            //tab.Tag = doc;
-                            //Window.BindTabHeaders();
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Unable to rename or create file:\r\n" +
-                                        newPath, "File Creation Error",
-                            MessageBoxButton.OK, MessageBoxImage.Warning);
-                    }
-
-                    // Open the document
-                    // HandleItemSelection();
+                    MessageBox.Show("Unable to rename or create folder:\r\n" +
+                                    newPath, "Path Creation Error",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
                 }
+            }
+            else
+            {
+                try
+                {
+                    if (File.Exists(fileItem.FullPath))
+                    {
+                        if (!File.Exists(newPath))
+                            File.Move(fileItem.FullPath, newPath);
+                        else
+                            File.Copy(fileItem.FullPath, newPath, true);                        
+                    }
+                    else
+                    {
+                        fileItem.IsEditing = false;
+                        fileItem.FullPath = newPath; // force assignment so file watcher doesn't add another
+                        
+                        File.WriteAllText(newPath, "");
+                        fileItem.UpdateGitFileStatus();
+
+                        var parent = fileItem.Parent;
+                        fileItem.Parent.Files.Remove(fileItem);
+
+                        FolderStructure.InsertPathItemInOrder(fileItem, parent);
+                    }
+
+                    // If tab was open - close it and re-open new file
+                    var tab = Window.GetTabFromFilename(oldFile);
+                    if (tab != null)
+                    {
+                        Window.CloseTab(oldFile);
+                        WindowUtilities.DoEvents();
+                        Window.OpenTab(newPath);
+                        WindowUtilities.DoEvents();      
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Unable to rename or create file:\r\n" +
+                                    newPath + "\r\n" + ex.Message, "File Creation Error",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
+                // Open the document
+                // HandleItemSelection();
             }
 
             fileItem.FullPath = newPath;
@@ -1003,6 +1014,9 @@ namespace MarkdownMonster.Windows
             string error = null;
 
             bool pushToGit = mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
+            model.Commands.CommitToGitCommand.Execute(file); //
+            return;
+
             bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, pushToGit, out error));
 
             if (result)
@@ -1409,14 +1423,14 @@ namespace MarkdownMonster.Windows
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
             if (selected != null)
             {
-                 if (selected.IsEditing) // this should be ahndled by Key ops in treeview
-                     RenameOrCreateFileOrFolder();
-
                 if (selected.DisplayName == "NewFile.md" || selected.DisplayName == "NewFolder")
                 {
                     selected.Parent.Files.Remove(selected);
                     return;
                 }
+
+                if (selected.IsEditing) // this should be ahndled by Key ops in treeview
+                    RenameOrCreateFileOrFolder();
 
                 selected.IsEditing = false;
                 selected.SetIcon();
@@ -1495,10 +1509,10 @@ namespace MarkdownMonster.Windows
             Normal = ImageAwesome.CreateImageSource(FontAwesomeIcon.Lock, Brushes.SteelBlue);
             Changed = ImageAwesome.CreateImageSource(FontAwesomeIcon.Check, Brushes.Red);
             Ignored = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.LightSlateGray);
-            Added = ImageAwesome.CreateImageSource(FontAwesomeIcon.PlusCircle, Brushes.LightGreen);
+            Added = ImageAwesome.CreateImageSource(FontAwesomeIcon.Plus, Brushes.LightGreen);
             Conflict = ImageAwesome.CreateImageSource(FontAwesomeIcon.Warning, Brushes.DarkGoldenrod);
             Unversioned = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.LightSlateGray);
-            Deleted = ImageAwesome.CreateImageSource(FontAwesomeIcon.Remove, Brushes.Red);
+            Deleted = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.IndianRed);
         }
     }
 

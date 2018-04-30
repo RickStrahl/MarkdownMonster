@@ -239,12 +239,12 @@ namespace MarkdownMonster.Windows
 	            foundIndex++;
 	            if (pitem.IsFolder && !pi.IsFolder || !pitem.IsFolder && pi.IsFolder)
 	                continue;
-
-	            if (pi.FullPath.ToLowerInvariant().CompareTo(pitem.FullPath.ToLowerInvariant()) < 0)
+               
+	            if (string.Compare(pi.FullPath,pitem.FullPath,StringComparison.InvariantCultureIgnoreCase) < 0)
 	                break;
 	        }
 
-	        if (foundIndex == -1) foundIndex = 0;
+	        if (foundIndex < 0) foundIndex = 0;
 
             mmApp.Model.Window.Dispatcher.Invoke(() => parent.Files.Insert(foundIndex, pi));
         }

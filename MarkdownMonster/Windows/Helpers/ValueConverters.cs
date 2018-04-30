@@ -90,6 +90,26 @@ namespace MarkdownMonster.Windows
         }
     }
 
+    public class BooleanToFontWeightConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is Boolean && (bool)value)
+            {
+                return FontWeight.FromOpenTypeWeight(600);
+            }
+
+            return FontWeight.FromOpenTypeWeight(400);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+
     /// <summary>
     /// Allows binding multiple ValueConverters as a group
     /// 
@@ -261,6 +281,9 @@ namespace MarkdownMonster.Windows
                 return SourceControlIcons.Ignored;
             if (status == FileStatus.NewInIndex || status == FileStatus.NewInWorkdir)
                 return SourceControlIcons.Added;
+            if (status == FileStatus.DeletedFromIndex || status == FileStatus.DeletedFromWorkdir)
+                return SourceControlIcons.Deleted;
+
             if (status == FileStatus.Conflicted)
                 return SourceControlIcons.Conflict;
 

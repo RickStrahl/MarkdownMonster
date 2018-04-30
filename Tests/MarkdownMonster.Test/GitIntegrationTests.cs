@@ -50,6 +50,20 @@ namespace MarkdownMonster.Test
             Console.WriteLine(status);
         }
 
+        [TestMethod]
+        public void GetGitStatusForRepo()
+        {
+            string path = @"c:\projects2010\markdownmonster";
+
+            var helper = new GitHelper();
+            var statusItems = helper.GetRepositoryChanges(path,null,true);
+            Assert.IsNotNull(statusItems);
+
+            foreach (var item in statusItems)
+            {
+                Console.WriteLine($"{item.Filename} - {item.FileStatus}");
+            }
+        }
 
 
         [TestMethod]
