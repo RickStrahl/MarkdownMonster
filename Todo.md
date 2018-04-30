@@ -10,8 +10,9 @@
     * Open from raw URL
 * [ ] Git Integration
     *  [x] Clone Repository
-    *  [ ] Commit to Git Dialog (uid/pwd,desc,commit all)
+    *  [x] Commit to Git Dialog (uid/pwd,desc,commit all)
     *  [ ] Add Remote
+    *  [ ] Create Repository
 
 ### Mid Term
 * [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
@@ -23,7 +24,7 @@
     * Link to Open Office for missing stuff
 
 ### Bugs
-* [ ] Fix Folder Browser Rename/Delete file occasional locking issues.
+* [x] Fix Folder Browser Rename/Delete file occasional locking issues.
 * [ ] Fix Markdown List display where new bullet auto creates
 
 ### Consideration
