@@ -504,7 +504,7 @@ namespace MarkdownMonster
         /// Checks to see if 
         /// </summary>
         /// <returns></returns>
-        internal static string FindGitClient()
+        public static string FindGitClient()
         {
             string git = null;
 
@@ -526,6 +526,18 @@ namespace MarkdownMonster
             return git;
         }
 
+
+        public static string FindGitDiffTool()
+        {
+            string diff = null;
+            
+            diff = Path.Combine(Environment.GetEnvironmentVariable("ProgramW6432"),
+                "Beyond Compare 4\\BCompare.exe");
+            if (File.Exists(diff))
+                return diff;
+          
+            return diff;
+        }
 
         /// <summary>
         /// Commits a specific, individual file to Git and optionally pushes
