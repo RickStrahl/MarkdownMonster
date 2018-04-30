@@ -174,7 +174,7 @@ namespace MarkdownMonster.Windows
         }
 
 
-        public bool CommitAndPushRepository()
+        public bool CommitChangesToRepository(bool pushToRemote=false)
         {
             CommitWindow.ShowStatus("Committing files into local Git repository...");
 
@@ -194,6 +194,9 @@ namespace MarkdownMonster.Windows
                 return false;
             }
 
+            if (!pushToRemote)
+                return true;
+
             var repo = GitHelper.OpenRepository(files[0].FullPath);
 
             if (!GitHelper.Push(repo.Info.WorkingDirectory))
@@ -201,7 +204,7 @@ namespace MarkdownMonster.Windows
                 CommitWindow.ShowStatus(GitHelper.ErrorMessage, 6000, FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Firebrick);
                 return false;
             }
-
+            
             return true;
         }
         

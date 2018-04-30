@@ -72,26 +72,31 @@ namespace MarkdownMonster.Windows
 
         private void ButtonCommit_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Commit Only");
-
-            if (string.IsNullOrEmpty(mmApp.Configuration.GitName))
+            if (CommitModel.CommitChangesToRepository())
             {
-                mmApp.Configuration.GitName = CommitModel.GitUsername;
-                mmApp.Configuration.GitEmail = CommitModel.GitEmail;
-            }
-        }
-
-        private void ButtonCommitAndPush_Click(object sender, RoutedEventArgs e)
-        {
-            if (CommitModel.CommitAndPushRepository())
-            {
-                Close();
-
                 if (string.IsNullOrEmpty(mmApp.Configuration.GitName))
                 {
                     mmApp.Configuration.GitName = CommitModel.GitUsername;
                     mmApp.Configuration.GitEmail = CommitModel.GitEmail;
                 }
+                Close();
+
+                AppModel.Window.ShowStatus("Files have been committed in the local repository.", mmApp.Configuration.StatusMessageTimeout);
+            }
+        }
+
+        private void ButtonCommitAndPush_Click(object sender, RoutedEventArgs e)
+        {
+            if (CommitModel.CommitChangesToRepository(true))
+            {
+                if (string.IsNullOrEmpty(mmApp.Configuration.GitName))
+                {
+                    mmApp.Configuration.GitName = CommitModel.GitUsername;
+                    mmApp.Configuration.GitEmail = CommitModel.GitEmail;
+                }
+                Close();
+
+                AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",mmApp.Configuration.StatusMessageTimeout);
             }            
         }
 
