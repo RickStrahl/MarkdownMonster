@@ -2126,6 +2126,24 @@ namespace MarkdownMonster
             WindowUtilities.DoEvents();
         }
 
+        /// <summary>
+        /// Displays an error message using common defaults
+        /// </summary>
+        /// <param name="message">Message to display</param>
+        /// <param name="timeout">optional timeout</param>
+        /// <param name="icon">optional icon (warning)</param>
+        /// <param name="color">optional color (firebrick)</param>
+        public void ShowStatusError(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.Warning, Color color = default(Color))
+        {
+            if (timeout == -1)
+                timeout = mmApp.Configuration.StatusMessageTimeout;
+
+            if (color == default(Color))
+                color = Colors.Firebrick;
+
+            ShowStatus(message, timeout, icon, color);
+        }
+
         //public void ShowStatus(string message = null, int milliSeconds = 0,
         //    FontAwesomeIcon icon = FontAwesomeIcon.None,
         //    Color color = default(Color),
