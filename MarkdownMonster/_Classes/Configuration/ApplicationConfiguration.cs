@@ -273,6 +273,11 @@ namespace MarkdownMonster
         public string GitClientExecutable { get; set; }
 
         /// <summary>
+        /// Point to your favorit Git Diff Engine to compare files
+        /// </summary>
+        public string GitDiffExecutable { get; set; }
+
+        /// <summary>
         /// Git name used for commits
         /// </summary>
         public string GitName { get; set; }
@@ -647,6 +652,8 @@ namespace MarkdownMonster
 
             if(string.IsNullOrEmpty(GitClientExecutable))
                 GitClientExecutable = mmFileUtils.FindGitClient();
+            if (string.IsNullOrEmpty(GitDiffExecutable))
+                GitDiffExecutable = mmFileUtils.FindGitDiffTool();
         }
 
         public void AddRecentFile(string filename)

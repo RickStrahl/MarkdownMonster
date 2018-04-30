@@ -6,7 +6,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.10.12
+### 1.10.15
 
 * **Git File Status in File Browser**  
 The Folder browser now shows Git status information via icons. There are also a new option to undo changes on the file context menu.
@@ -19,6 +19,9 @@ Added option to clone a Git repository to a local folder to make it easier to re
 
 * **Open Markdown From Url**  
 Added the ability to open a Markdown document from the Web via a URL. This feature understands and fixes up Github and BitBucket Markdown documents, Gists and Microsoft Docs Documentation URLs and allows for de-referencing of relative image links as an option.
+
+* **Fix Folder Browser New File/Folder Editing**  
+Fixed regression introduced by file search in the list that would interfere with adding new files and folder. New files and folders now properly get inserted into the hierarchy order, and show the appropriate icon and git status.
 
 ### 1.10.7
 <small>April 17th, 2018</small>
@@ -41,8 +44,7 @@ Fixed Code Snippet wrapping so that code snippets wrap rather than scroll when p
 * **Fix: Miscellaneous Addin-Manager Issues**  
 Fix update button display. Fix installed version number display. Fix list rendering issues in the Addin list. Fix version comparison logic to determine whether an update is available.
 
-* **Fix: Binding issues with various Menu options when no Documents are open**  
-Fixed various issues with the menu when no document is open so that a number of options are not available. All commands are now explicitly rechecked when documents are opened or closed (via Tabs).
+* **Fix: Binding issues with various Menu options when no Documents are open** Fixed various issues with the menu when no document is open so that a number of options are not available. All commands are now explicitly rechecked when documents are opened or closed (via Tabs).
 
 * **Addin: Intercept Preview Link Clicks**  
 Addins now have a new `Addin.OnPreviewLinkNavigation()` to intercept navigation and handle custom link processing in the preview. Return `true` to override or `false` to let the default link processing work.

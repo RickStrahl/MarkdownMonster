@@ -1126,14 +1126,12 @@ namespace MarkdownMonster.Windows
             if (pathItem.IsImage)
             {
                 ci = new MenuItem();
-                ci.Header = "Show Image";
-                ci.ToolTip = "Opens the current image file in the configured image viewer. Configurable in Settings.";
+                ci.Header = "Show Image";                
                 ci.Click += MenuShowImage_Click;
                 cm.Items.Add(ci);
 
                 ci = new MenuItem();
-                ci.Header = "Edit Image";
-                ci.ToolTip = "Opens the current image file in the configured image editor. Configurable in Settings.";
+                ci.Header = "Edit Image";                
                 ci.Click += MenuEditImage_Click;
                 cm.Items.Add(ci);
             }
@@ -1142,15 +1140,13 @@ namespace MarkdownMonster.Windows
                 if (pathItem.IsFile)
                 {
                     ci = new MenuItem();
-                    ci.Header = "Open in Editor";
-                    ci.ToolTip = "Opens the current file in the editor assuming the file is a text file.";
+                    ci.Header = "Open in Editor";                    
                     ci.Click += MenuOpenInEditor_Click;
                     cm.Items.Add(ci);
                 }
 
                 ci = new MenuItem();
-                ci.Header = "Open with Shell";
-                ci.ToolTip = "Opens the current file using the configured Windows shell association for the file type.";
+                ci.Header = "Open with Shell Viewer";                
                 ci.Click += MenuOpenWithShell_Click;
                 cm.Items.Add(ci);
             }
@@ -1158,22 +1154,19 @@ namespace MarkdownMonster.Windows
             cm.Items.Add(new Separator());
 
             ci = new MenuItem();            
-            ci.Header = "Open Folder in Terminal";
-            ci.ToolTip = "Opens the current folder in the configured terminal. Configurable in Settings.";
+            ci.Header = "Open Folder in Terminal";            
             ci.Click += MenuOpenTerminal_Click;
             cm.Items.Add(ci);
 
             ci = new MenuItem();
-            ci.Header = "Open Folder in File Explorer";
-            ci.ToolTip = "Opens the current file's folder in the Windows File Explorer.";
+            ci.Header = "Open Folder in File Explorer";            
             ci.Click += MenuOpenInExplorer_Click;
             cm.Items.Add(ci);
 
             cm.Items.Add(new Separator());
 
             ci = new MenuItem();
-            ci.Header = "Commit to _Git";
-            ci.ToolTip = "Commit and push files to Git and optionally push to the remote.";
+            ci.Header = "Commit to _Git";            
             ci.InputGestureText = "ctrl-g";        
             ci.Click += MenuCommitGit_Click;
             cm.Items.Add(ci);
@@ -1183,8 +1176,7 @@ namespace MarkdownMonster.Windows
                 pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInWorkdir)
             {
                 ci = new MenuItem();
-                ci.Header = "_Undo File Changes";
-                ci.ToolTip = "Undo changes to the active file to the last Git commit.";
+                ci.Header = "_Undo Changes in Git";                
                 ci.InputGestureText = "ctrl-z";
                 ci.Click += MenuUndoGit_Click;
                 cm.Items.Add(ci);

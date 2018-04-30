@@ -64,7 +64,7 @@
             <MenuItem Name="ContextOpenInFolderBrowser" Header="Open Folder in Folder _Browser" Click="Button_OpenFolderBrowser" />
             <Separator/>
             <MenuItem Name="ContextCommitToGit" Header="Commit to _Git"
-                      Command="{Binding DataContext.Commands.CommitToGitCommand}"  ToolTip="Commit and optionally push this or any uncommited changes to a Git repository." />
+                      Command="{Binding DataContext.Commands.CommitToGitCommand}" />
             <MenuItem Name="ContextOpenGitClient" Header="Open Folder in Git Client"
                       Command="{Binding DataContext.Commands.OpenGitClientCommand}"   IsEnabled="{Binding Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
             <Separator/>
