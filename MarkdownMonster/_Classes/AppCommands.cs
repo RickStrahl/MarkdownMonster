@@ -977,11 +977,16 @@ Do you want to View in Browser now?
                     return;
 
                 var gh = new GitHelper();
-                if (gh.OpenRepository(file) == null)
+                var repo = gh.OpenRepository(file);
+                if (repo == null)
                 {
                     Model.Window.ShowStatus("This file or folder is not in a Git repository.",6000,FontAwesomeIcon.Warning,Colors.DarkGoldenrod);
                     return;
                 }
+
+                var changes = gh.GetRepositoryChanges(repo.Info.WorkingDirectory);
+                if (changes.Count < 1)
+                    Model.Window.ShowStatus($"There are no pending changes for this Git repository: {repo.Info.WorkingDirectory}", 6000, FontAwesomeIcon.Warning, Colors.DarkGoldenrod);
 
                 Model.ActiveEditor.SaveDocument(Model.ActiveDocument.IsEncrypted);
                 

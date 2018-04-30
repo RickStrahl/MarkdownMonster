@@ -176,6 +176,8 @@ namespace MarkdownMonster.Windows
 
         public bool CommitChangesToRepository(bool pushToRemote=false)
         {
+            WindowUtilities.FixFocus(CommitWindow, CommitWindow.ListChangedItems);
+
             CommitWindow.ShowStatus("Committing files into local Git repository...");
 
             var files = RepositoryStatusItems.Where(it => it.Selected).ToList();
