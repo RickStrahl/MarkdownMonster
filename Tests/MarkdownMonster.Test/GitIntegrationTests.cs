@@ -51,6 +51,17 @@ namespace MarkdownMonster.Test
         }
 
         [TestMethod]
+        public void GetCommittedFileContents()
+        {
+
+            string path = @"c:\projects2010\markdownmonster";
+
+            var helper = new GitHelper();
+            var fileData = helper.GetComittedFileTextContent(Path.Combine(path, "README.md"));
+            Assert.IsNotNull(fileData);
+        }
+
+        [TestMethod]
         public void GetGitStatusForRepo()
         {
             string path = @"c:\projects2010\markdownmonster";

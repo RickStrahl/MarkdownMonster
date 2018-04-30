@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,6 +12,7 @@ using LibGit2Sharp;
 using MarkdownMonster.Annotations;
 using Microsoft.Alm.Authentication;
 using Westwind.Utilities;
+using CompareOptions = LibGit2Sharp.CompareOptions;
 
 namespace MarkdownMonster.Utilities
 {
@@ -507,6 +509,95 @@ namespace MarkdownMonster.Utilities
             return statusItems;
         }
 
+
+        /// <summary>
+        /// Returns the text content for the last commit of a file
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public string GetComittedFileTextContent(string path)
+        {
+            var repo = OpenRepository(path);
+            if (repo == null)
+            {
+                SetError("No repository found.");
+                return null;
+            }
+            
+            var relPath = FileUtils.GetRelativePath(path, repo.Info.WorkingDirectory);
+
+            TreeEntry entry;
+            try
+            {
+                entry = repo.Head.Tip.Tree[relPath];
+            }
+            catch
+            {
+                SetError("Unable to find item in last commit.");
+                return null;
+            }
+
+            if (entry == null)
+            {
+                SetError("File has no previous commit data.");
+                return null;
+            }
+
+            var blob = entry.Target as Blob;
+            string text = null;
+            try
+            {
+                text = blob.GetContentText();
+            }
+            catch
+            {
+                SetError("Not text content.");
+                return null;
+            }
+
+            return text;
+        }
+
+
+        /// <summary>
+        /// Adds an entry to the root .gitignore file if the
+        /// the value doesn't already exist
+        /// </summary>
+        /// <param name="filePath">Path to add</param>
+        /// <returns></returns>
+        public bool IgnoreFile(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                SetError("File to ignore doesn't exist.");
+                return false;
+            }
+
+            var repo = OpenRepository(filePath);
+            if (repo == null)
+            {
+                SetError("No repository found to ignore in.");
+                return false;
+            }
+
+            var gitIgnoreFile = Path.Combine(repo.Info.WorkingDirectory, ".gitignore");
+
+            string content = string.Empty;
+            if(File.Exists(gitIgnoreFile))                
+             content = File.ReadAllText(gitIgnoreFile);
+
+            var relPath = FileUtils.GetRelativePath(filePath, repo.Info.WorkingDirectory).Replace("\\", "/");
+            
+
+            if (CultureInfo.InvariantCulture.CompareInfo.IndexOf(content, relPath + "\r") < 0 &&
+                CultureInfo.InvariantCulture.CompareInfo.IndexOf(content, relPath + "\n") < 0)
+            {
+                content = content.TrimEnd() + "\r\n" + relPath + "\r\n";
+                File.WriteAllText(gitIgnoreFile, content);
+            }
+            
+            return true;
+        }
         #endregion
 
         #region Error Handling
@@ -515,17 +606,17 @@ namespace MarkdownMonster.Utilities
 
         protected void SetError()
         {
-            this.SetError("CLEAR");
+            SetError("CLEAR");
         }
 
         protected void SetError(string message)
         {
             if (message == null || message == "CLEAR")
             {
-                this.ErrorMessage = string.Empty;
+                ErrorMessage = string.Empty;
                 return;
             }
-            this.ErrorMessage += message;
+            ErrorMessage = message;
         }
 
         protected void SetError(Exception ex, bool checkInner = false)

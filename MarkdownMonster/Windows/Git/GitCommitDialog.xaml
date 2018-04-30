@@ -26,6 +26,7 @@
         <localwindows:SourceControlIconConverter x:Key="SourceControlIconConverter"/>
         <localwindows:BooleanToFontWeightConverter x:Key="BooleanToFontWeightConverter" />
         <localwindows:EmptyStringToBooleanConverter x:Key="EmptyStringToBooleanConverter" />
+        <localwindows:NotEmptyStringToBooleanConverter x:Key="NotEmptyStringToBooleanConverter" />
 
         <!--<Style TargetType="CheckBox" >
             <Setter Property="CheckBox.LayoutTransform">
@@ -75,6 +76,13 @@
 
                 </ToolBar>
                 <ToolBar>
+                    <Button Click="ButtonRefresh_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="Refresh"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+                            <TextBlock>Refresh</TextBlock>
+                        </StackPanel>
+                    </Button>
                     <Button Name="ButtonOpenGitClient"   Command="{Binding AppModel.Commands.OpenGitClientCommand}" CommandParameter="{Binding Filename}" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,2,5,0" Icon="ExternalLink"                                             
@@ -82,8 +90,14 @@
                             <TextBlock>Open in Git Client</TextBlock>
                         </StackPanel>
                     </Button>
-
-</ToolBar>
+                    <Button  controls:VisibilityHelper.IsCollapsed="{Binding ShowUserInfo}" Click="ButtonShowUserInfo_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="UserOutline"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+                            <TextBlock>Show User Info</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
             </StackPanel>
         </ToolBarPanel>
 
@@ -103,7 +117,7 @@
                      TextWrapping="Wrap" Height="70" AcceptsReturn="True"
                      controls:TextBoxHelper.SelectAllOnFocus="True"/>
 
-            <Grid Margin="0 3" Grid.Row="1" controls:VisibilityHelper.IsVisible="{Binding GitUsername,Converter={StaticResource EmptyStringToBooleanConverter}}">
+            <Grid Margin="0 3" Grid.Row="1" controls:VisibilityHelper.IsVisible="{Binding ShowUserInfo}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -141,6 +155,14 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+                            <Grid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Open in external Diff tool" Click="MenuOpenDiffTool_Click"/>
+                                    <Separator />
+                                    <MenuItem Header="Ignore File"  Click="MenuIgnoreFile_Click"/>
+                                    <MenuItem Header="Undo Changes" Click="MenuUndoFile_Click" />
+                                </ContextMenu>
+                            </Grid.ContextMenu>
 
                             <CheckBox IsChecked="{Binding Selected}" Margin="0 3 0 0">
                                 <CheckBox.LayoutTransform>

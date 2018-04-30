@@ -31,6 +31,8 @@ namespace MarkdownMonster.Windows
 
             GitUsername = mmApp.Configuration.GitName;
             GitEmail = mmApp.Configuration.GitEmail;
+
+            ShowUserInfo = string.IsNullOrEmpty(GitUsername);
         }
         
 
@@ -135,6 +137,19 @@ namespace MarkdownMonster.Windows
 
 
 
+        public bool ShowUserInfo
+        {
+            get { return _ShowUserInfo; }
+            set
+            {
+                if (value == _ShowUserInfo) return;
+                _ShowUserInfo = value;
+                OnPropertyChanged(nameof(ShowUserInfo));
+            }
+        }
+        private bool _ShowUserInfo;
+
+
         public List<RepositoryStatusItem> RepositoryStatusItems
         {
             get => _repositoryStatusItems;
@@ -218,7 +233,7 @@ namespace MarkdownMonster.Windows
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

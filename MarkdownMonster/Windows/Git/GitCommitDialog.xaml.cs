@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using FontAwesome.WPF;
 using LibGit2Sharp;
 using MahApps.Metro.Controls;
 using MarkdownMonster.Utilities;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
@@ -63,7 +65,6 @@ namespace MarkdownMonster.Windows
                 defaultText = "commit";
             }
             
-
             CommitModel.GetRepositoryChanges();
 
             DataContext = CommitModel;
@@ -137,10 +138,83 @@ namespace MarkdownMonster.Windows
 
         }
 
+
+        private void ButtonRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            CommitModel.GetRepositoryChanges();
+        }
+
+        private void ButtonShowUserInfo_Click(object sender, RoutedEventArgs e)
+        {
+            CommitModel.ShowUserInfo = true;
+        }
+        #endregion
+
+        #region Item Context Menu
+
+        private void MenuOpenDiffTool_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = ListChangedItems.SelectedItem as RepositoryStatusItem;
+            if (selected == null)
+                return;
+
+            if (!File.Exists(mmApp.Configuration.GitDiffExecutable))
+            {
+                ShowStatusError("There is no diff tool configured. Set the `GitDiffExecutable` setting to your preferred Diff tool.");
+                     
+                return;
+            }
+
+            var fileText = CommitModel.GitHelper.GetComittedFileTextContent(selected.FullPath);
+            if (fileText == null)
+            {
+                ShowStatusError("Unable to load committed file: " + CommitModel.GitHelper.ErrorMessage);
+                return;
+            }
+
+            var tempFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "mm_diff_" + System.IO.Path.GetFileName(selected.FullPath));
+
+            File.WriteAllText(tempFile, fileText);
+
+            // Delete files older than 5 minutes
+            FileUtils.DeleteTimedoutFiles(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "mm_diff_" + "*.*"),300);
+
+            mmFileUtils.ExecuteProcess(mmApp.Configuration.GitDiffExecutable, $"\"{tempFile}\" \"{selected.FullPath}\"");            
+        }
+
+
+        private void MenuIgnoreFile_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = ListChangedItems.SelectedItem as RepositoryStatusItem;
+            if (selected == null)
+                return;
+
+            var gh = CommitModel.GitHelper;
+            if (!gh.IgnoreFile(selected.FullPath))
+                ShowStatusError(gh.ErrorMessage);
+            else
+            {
+                ShowStatus("File has been added to the .gitignore file.");
+                CommitModel.RepositoryStatusItems.Remove(selected);
+                ListChangedItems.Items.Refresh();
+                //CommitModel.OnPropertyChanged(nameof(CommitModel.RepositoryStatusItems));
+            }
+        }
+
+        private void MenuUndoFile_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = ListChangedItems.SelectedItem as RepositoryStatusItem;
+            if (selected == null)
+                return;
+
+            CommitModel.GitHelper.UndoChanges(selected.FullPath);
+            CommitModel.GetRepositoryChanges();
+        }
+
         #endregion
 
         #region StatusBar Display
-        
+
         DebounceDispatcher debounce = new DebounceDispatcher();
         public void ShowStatus(string message = null, int milliSeconds = 0,
             FontAwesomeIcon icon = FontAwesomeIcon.None,
@@ -170,6 +244,24 @@ namespace MarkdownMonster.Windows
             }
 
             WindowUtilities.DoEvents();
+        }
+
+        /// <summary>
+        /// Displays an error message using common defaults
+        /// </summary>
+        /// <param name="message">Message to display</param>
+        /// <param name="timeout">optional timeout</param>
+        /// <param name="icon">optional icon (warning)</param>
+        /// <param name="color">optional color (firebrick)</param>
+        public void ShowStatusError(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.Warning, Color color = default(Color))
+        {
+            if (timeout == -1)
+                timeout = mmApp.Configuration.StatusMessageTimeout;
+
+            if (color == default(Color))
+                color = Colors.Firebrick;
+
+            ShowStatus(message, timeout, icon, color);
         }
 
         /// <summary>
