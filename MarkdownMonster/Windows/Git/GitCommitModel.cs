@@ -28,6 +28,9 @@ namespace MarkdownMonster.Windows
 
             GitHelper = new GitHelper();
             GitHelper.OpenRepository(Filename);
+
+            GitUsername = mmApp.Configuration.GitName;
+            GitEmail = mmApp.Configuration.GitEmail;
         }
         
 
@@ -103,7 +106,34 @@ namespace MarkdownMonster.Windows
         }
         private bool _CommitAndPush;
 
-       
+
+
+        public string GitUsername
+        {
+            get { return _GitUsername; }
+            set
+            {
+                if (value == _GitUsername) return;
+                _GitUsername = value;
+                OnPropertyChanged(nameof(GitUsername));
+            }
+        }
+        private string _GitUsername;
+
+
+        public string GitEmail
+        {
+            get { return _GitEmail; }
+            set
+            {
+                if (value == _GitEmail) return;
+                _GitEmail = value;
+                OnPropertyChanged(nameof(GitEmail));
+            }
+        }
+        private string _GitEmail;
+
+
 
         public List<RepositoryStatusItem> RepositoryStatusItems
         {
@@ -121,13 +151,14 @@ namespace MarkdownMonster.Windows
 
         public MainWindow Window { get; set; }
 
+        public GitCommitDialog CommitDialogWindow { get; set; }
+
         public Repository Repository { get; set; }
 
         public GitHelper GitHelper { get; }
 
 
         #region Helpers
-
 
         public void GetRepositoryChanges()
         {
@@ -147,10 +178,10 @@ namespace MarkdownMonster.Windows
         {
             Window.ShowStatus("Committing files into local Git repository...");
 
-            var files = RepositoryStatusItems.Where(it => it.Selected).Select(it => it.Filename).ToList();
-            if (!GitHelper.Commit(files, CommitMessage) )
-            {
-                Window.ShowStatus(GitHelper.ErrorMessage, 6000, FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Red);
+            var files = RepositoryStatusItems.Where(it => it.Selected).ToList();
+            if (!GitHelper.Commit(files, CommitMessage, GitUsername, GitEmail) )
+            {                
+                CommitDialogWindow.ShowStatus(GitHelper.ErrorMessage, 6000,FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Firebrick);
                 return false;
             }
 

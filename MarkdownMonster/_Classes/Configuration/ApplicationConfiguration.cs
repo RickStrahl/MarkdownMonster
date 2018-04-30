@@ -19,7 +19,8 @@ namespace MarkdownMonster
     /// <summary>
     /// Application level configuration for Markdown Monster
     /// </summary>
-    public class ApplicationConfiguration : AppConfiguration, 
+    public class
+        ApplicationConfiguration : AppConfiguration, 
                                             INotifyPropertyChanged
     {
         /// <summary>
@@ -265,10 +266,22 @@ namespace MarkdownMonster
         public GitCommitBehaviors GitCommitBehavior { get; set; } = GitCommitBehaviors.CommitAndPush;
 
 
+
         /// <summary>
         /// Point to your favorite Git Client to open for folders
         /// </summary>
         public string GitClientExecutable { get; set; }
+
+        /// <summary>
+        /// Git name used for commits
+        /// </summary>
+        public string GitName { get; set; }
+
+        /// <summary>
+        /// Git Email used for commits
+        /// </summary>
+        public string GitEmail { get; set; }
+
 
         /// <summary>
         /// A collection of the open Markdown documents.

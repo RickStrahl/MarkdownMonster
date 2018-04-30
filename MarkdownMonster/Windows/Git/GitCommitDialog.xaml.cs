@@ -37,6 +37,8 @@ namespace MarkdownMonster.Windows
             if (!commitRepo)
                 CommitModel.CommitMessage = $"Updating documentation in {System.IO.Path.GetFileName(fileOrPath)}";
 
+            CommitModel.CommitDialogWindow = this;
+
             mmApp.SetThemeWindowOverride(this);
 
             Owner = AppModel.Window;
@@ -71,15 +73,26 @@ namespace MarkdownMonster.Windows
         private void ButtonCommit_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Commit Only");
+
+            if (string.IsNullOrEmpty(mmApp.Configuration.GitName))
+            {
+                mmApp.Configuration.GitName = CommitModel.GitUsername;
+                mmApp.Configuration.GitEmail = CommitModel.GitEmail;
+            }
         }
 
         private void ButtonCommitAndPush_Click(object sender, RoutedEventArgs e)
         {
+            if (CommitModel.CommitAndPushRepository())
+            {
+                Close();
 
-
-
-            if (!CommitModel.CommitAndPush())
-                return;
+                if (string.IsNullOrEmpty(mmApp.Configuration.GitName))
+                {
+                    mmApp.Configuration.GitName = CommitModel.GitUsername;
+                    mmApp.Configuration.GitEmail = CommitModel.GitEmail;
+                }
+            }            
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -109,9 +122,16 @@ namespace MarkdownMonster.Windows
         #endregion
 
         #region StatusBar Display
-
-        public void ShowStatus(string message = null, int milliSeconds = 0)
+        
+        DebounceDispatcher debounce = new DebounceDispatcher();
+        public void ShowStatus(string message = null, int milliSeconds = 0,
+            FontAwesomeIcon icon = FontAwesomeIcon.None,
+            Color color = default(Color),
+            bool spin = false)
         {
+            if (icon != FontAwesomeIcon.None)
+                SetStatusIcon(icon, color, spin);
+
             if (message == null)
             {
                 message = "Ready";
@@ -122,12 +142,15 @@ namespace MarkdownMonster.Windows
 
             if (milliSeconds > 0)
             {
-                Dispatcher.DelayWithPriority(milliSeconds, (win) =>
+                // debounce rather than delay so if something else displays
+                // a message the delay timer is 'reset'
+                debounce.Debounce(milliSeconds, (win) =>
                 {
-                    ShowStatus(null, 0);
-                    SetStatusIcon();
+                    var window = win as MainWindow;
+                    window.ShowStatus(null, 0);
                 }, this);
             }
+
             WindowUtilities.DoEvents();
         }
 

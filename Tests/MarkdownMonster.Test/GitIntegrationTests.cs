@@ -65,6 +65,18 @@ namespace MarkdownMonster.Test
             }
         }
 
+        [TestMethod]
+        public void CommitTest()
+        {
+            string Path = @"c:\temp\MarkdownMonsterGitTest";
+
+            var helper = new GitHelper();
+
+            var changes = helper.GetRepositoryChanges(Path, selectAll: true);
+
+            helper.Commit(changes, "Committing changes...","Rick Strahl","rstrahl@test.com");
+        }
+
 
         [TestMethod]
         public void OpenRemoteRepoTest()

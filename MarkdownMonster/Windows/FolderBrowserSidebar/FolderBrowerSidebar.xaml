@@ -67,7 +67,7 @@
 
                     <TextBox Name="TextEditFileItem" Grid.Column="2"
                             Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                            Padding="6,0,10,0" Margin="0"                            
+                            Padding="6 0 10 -3" Margin="0" FontSize="13"                           
                             Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" 
                             LostFocus="TextEditFileItem_LostFocus">
                         <TextBox.Style>

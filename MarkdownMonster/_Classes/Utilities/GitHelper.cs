@@ -239,31 +239,51 @@ namespace MarkdownMonster.Utilities
             return creds;
         }
 
-        public bool Commit(IList<string> files, string message)
+        public bool Commit(List<RepositoryStatusItem> statusItems, string message, string name, string email, bool ammendPreviousCommit = false)
         {
-            if (files == null || files.Count < 1)            
+            if (statusItems == null || statusItems.Count < 1)            
                 return true;
 
             if (Repository == null)
             {
-                Repository = OpenRepository(files[0]);
+                Repository = OpenRepository(statusItems[0].FullPath);
                 if (Repository == null)
                     return false;
             }
 
             try
             {
-                Commands.Stage(Repository, files);
+                var stageFiles = statusItems.Where(si =>
+                {
+                    return true;
+                    if (si.FileStatus == FileStatus.NewInIndex ||
+                        si.FileStatus == FileStatus.NewInWorkdir ||
+                        si.FileStatus == FileStatus.RenamedInIndex ||
+                        si.FileStatus == FileStatus.NewInWorkdir)
+                        return true;
+
+                    return false;
+                }).Select(si => si.Filename).ToList();
+                if (stageFiles.Count > 0) 
+                    Commands.Stage(Repository, stageFiles);
             }
             catch (Exception ex)
             {
                 SetError($"Couldn't stage changes: {ex.Message}.");
                 return false;
             }
-            
+
             try
-            {                
-                Repository.Commit(message, null, null);
+            {
+                var sig = new Signature(name, email, DateTimeOffset.UtcNow);
+                Repository.Commit(message, sig, sig,new CommitOptions
+                {
+                     AmendPreviousCommit = ammendPreviousCommit
+                });
+            }
+            catch (EmptyCommitException ex)
+            {
+                return true;
             }
             catch (Exception ex)
             {
