@@ -6,7 +6,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.10.15
+### 1.10.16
 
 * **Git File Status in File Browser**  
 The Folder browser now shows Git status information via icons. There are also a new option to undo changes on the file context menu.
@@ -15,7 +15,7 @@ The Folder browser now shows Git status information via icons. There are also a 
 Added a new Git Commit dialog that allows committing and pushing the active file as well as all pending files to a Git repository. This replaces the previous hotkey only command with a more visual approach that provides many more options. Ctrl-Enter in the dialog can be used to quick commit similar to the old behavior.
 
 * **Add Clone Git Repository**  
-Added option to clone a Git repository to a local folder to make it easier to retrieve Git content for local editing. Also added a new **File -> Git** menu that houses this option and **Commit to Git** (same behavior as the Tab context menu). **Requires:** that Git and Git Credential Manager (for private or augthenticated repos) are installed.
+Added option to clone a Git repository to a local folder to make it easier to retrieve Git content for local editing. Also added a new **File -> Git** menu that houses this option and **Commit to Git** (same behavior as the Tab context menu). **Requires:** that Git and Git Credential Manager (for private or authenticated repos) are installed.
 
 * **Open Markdown From Url**  
 Added the ability to open a Markdown document from the Web via a URL. This feature understands and fixes up Github and BitBucket Markdown documents, Gists and Microsoft Docs Documentation URLs and allows for de-referencing of relative image links as an option.
