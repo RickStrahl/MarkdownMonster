@@ -687,6 +687,12 @@ namespace MarkdownMonster.Windows
                         Directory.Move(fileItem.FullPath, newPath);
                     else
                     {
+                        if (Directory.Exists(newPath))
+                        {
+                            fileItem.EditName = string.Empty;
+                            AppModel.Window.ShowStatusError($"Can't create folder {newPath} because it exists already.");
+                            return;
+                        }
                         fileItem.FullPath = newPath;                                                
                         Directory.CreateDirectory(newPath);                        
                     }
@@ -712,6 +718,13 @@ namespace MarkdownMonster.Windows
                     }
                     else
                     {
+                        if (File.Exists(newPath))
+                        {
+                            fileItem.EditName = string.Empty;
+                            AppModel.Window.ShowStatusError($"Can't create file {newPath} because it exists already.");
+                            return;
+                        }
+                        
                         fileItem.IsEditing = false;
                         fileItem.FullPath = newPath; // force assignment so file watcher doesn't add another
                         
