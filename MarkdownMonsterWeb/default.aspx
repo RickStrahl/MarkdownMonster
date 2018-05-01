@@ -209,11 +209,11 @@
                                                                                                         
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Vim and Emacs support
+                                        Git Integration
                                     </div>  
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Pandoc rendering &amp; conversion
+                                        Document Outline
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
@@ -221,7 +221,7 @@
                                     </div>   
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        .NET based scripting & addins
+                                        .NET scripting & addins
                                     </div>
                                 </div>
                             </div>
@@ -531,15 +531,6 @@
                                         Inline spell checking
                                     </div>
                                     <div>
-                                        <i class="fa fa-check-circle"></i>
-                                        Gentle toolbar support
-                                    </div>
-                                    <div>
-                                        <i class="fa fa-check-circle"></i>
-                                        File and Folder Browser
-                                    </div>
-
-                                    <div>
                                         <i class="fa fa-check-circle"></i> 
                                         Easy image and link embedding
                                     </div>
@@ -547,6 +538,23 @@
                                         <i class="fa fa-check-circle"></i> 
                                         Paste images from Clipboard
                                     </div>
+                                    <div>
+                                        <i class="fa fa-check-circle"></i>
+                                        Gentle toolbar support
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-check-circle"></i>
+                                        File and Folder Browser
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-check-circle"></i>
+                                        Document Outline
+                                    </div>                                                                         
+                                    <div>
+                                        <i class="fa fa-check-circle"></i>
+                                        Git Integration
+                                    </div>
+                                    
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Built in screen capture
@@ -558,7 +566,7 @@
                                     
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Import Html into Markdown
+                                        Import Html to Markdown
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
@@ -570,8 +578,12 @@
                                     </div>                                    
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Editor and Preview Theming
-                                    </div>                                    
+                                        Customize Preview Themes
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-check-circle"></i>
+                                        High DPI Support
+                                    </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Weblog publishing and editing
@@ -579,27 +591,19 @@
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Yaml Meta Data Support
-                                    </div>                                                                      
-									<div>
-										<i class="fa fa-check-circle"></i>
-										Integrated Folder Browser
-									</div>
+                                    </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Expandable text templates
+                                        Snippet Expansion Templates
                                     </div>   
 									<div>
 										<i class="fa fa-check-circle"></i>
-										Swappable Markdown Parsers (Markdig,Pandoc)
+										Swappable Markdown Parsers
 									</div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
                                         Extensible with .NET Add-ins
-                                    </div>                   
-                                    <div>
-                                        <i class="fa fa-check-circle"></i>
-                                        High DPI Support
-                                    </div>                   
+                                    </div>                                                                         
                                 </div>
                             </div>
                         </div>

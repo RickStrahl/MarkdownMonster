@@ -83,9 +83,9 @@ Markdown Monster provides many useful features:
 * Distraction-free mode support
 
 ### Image Features
-* Paste images from Clipboard at cursor
+* Paste images from Clipboard
 * Smartly select and embed images from disk or URL
-* Drag images from built-in Folder Browser
+* Drag images from Folder Browser
 * Drag images from Explorer
 * Edit images in your image editor of choice
 * Built-in screen capture
@@ -126,9 +126,15 @@ Markdown Monster provides many useful features:
 * Drag and drop documents from Explorer and Folder Browser
 * Open Command Window or Explorer for active document
 
-### Basic Git Support
-* Commit and push active document to Git
-* Open Git Client for active document or folder
+### Git Integration
+* Show Git Status in Folder Browser
+* Commit and push Dialog
+* Commit and push active file, folder browser file
+* Commit and push all pending changes
+* Undo Changes
+* Add Ignored Files
+* Clone Repository
+* Open in Git Client
 
 ### Weblog Publisher
 * Create or edit Weblog posts using Markdown
