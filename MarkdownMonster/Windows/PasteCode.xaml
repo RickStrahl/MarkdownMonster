@@ -80,29 +80,13 @@
                   ToolTip="Weblog selection"
                           SelectedValuePath="Key"
                           DisplayMemberPath="Value"    
-                  IsHitTestVisible="True"
-                SelectedValue="{Binding CodeLanguage}"
-                IsSynchronizedWithCurrentItem="True" 
-                ItemsSource="{Binding LanguageNames}" 
+                 IsHitTestVisible="True"
+                 SelectedValue="{Binding CodeLanguage}"
+                 IsSynchronizedWithCurrentItem="True" 
+                 ItemsSource="{Binding LanguageNames}" 
                  Padding="6"
-                  SelectionChanged="TextCodeLanguage_SelectionChanged"
-                  LostFocus="TextCodeLanguage_LostFocus">
-
-            <!--<ComboBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding}" Value="">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                        <Separator HorizontalAlignment="Stretch" IsEnabled="False"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ComboBox.ItemContainerStyle>-->
+                 SelectionChanged="TextCodeLanguage_SelectionChanged"
+                 LostFocus="TextCodeLanguage_LostFocus">
         </ComboBox>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal">

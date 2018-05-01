@@ -688,8 +688,7 @@ namespace MarkdownMonster.Windows
                     else
                     {
                         if (Directory.Exists(newPath))
-                        {
-                            fileItem.EditName = string.Empty;
+                        {                                                        
                             AppModel.Window.ShowStatusError($"Can't create folder {newPath} because it exists already.");
                             return;
                         }
@@ -720,7 +719,6 @@ namespace MarkdownMonster.Windows
                     {
                         if (File.Exists(newPath))
                         {
-                            fileItem.EditName = string.Empty;
                             AppModel.Window.ShowStatusError($"Can't create file {newPath} because it exists already.");
                             return;
                         }
