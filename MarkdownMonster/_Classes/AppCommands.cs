@@ -1016,7 +1016,7 @@ Do you want to View in Browser now?
                     Model.Window.ShowStatus("Unabled to open Git client.", 6000, FontAwesomeIcon.Warning, Colors.Firebrick);
                 else
                     Model.Window.ShowStatus("Git client opened.",6000);
-            }, (p, c) => !string.IsNullOrEmpty(Model.Configuration.GitClientExecutable));
+            }, (p, c) => !string.IsNullOrEmpty(Model.Configuration.Git.GitClientExecutable));
         }
 
         #endregion

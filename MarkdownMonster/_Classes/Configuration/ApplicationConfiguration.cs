@@ -64,9 +64,12 @@ namespace MarkdownMonster
 
         private string _editorTheme;
 
-
+        /// <summary>
+        /// Editor Configuration Sub-Settings
+        /// </summary>
         public EditorConfiguration Editor { get; set; }
 
+        
         /// <summary>
         /// Themes used to render the Preview. Preview themes are
         /// located in the .\PreviewThemes folder and you can add
@@ -259,34 +262,6 @@ namespace MarkdownMonster
 		/// </summary>
 	    public string TerminalCommandArgs { get; set; }
 
-        /// <summary>
-        /// Determines how Git Commits are handled - either just commit
-        /// or Commit and Push
-        /// </summary>
-        public GitCommitBehaviors GitCommitBehavior { get; set; } = GitCommitBehaviors.CommitAndPush;
-
-
-
-        /// <summary>
-        /// Point to your favorite Git Client to open for folders
-        /// </summary>
-        public string GitClientExecutable { get; set; }
-
-        /// <summary>
-        /// Point to your favorit Git Diff Engine to compare files
-        /// </summary>
-        public string GitDiffExecutable { get; set; }
-
-        /// <summary>
-        /// Git name used for commits
-        /// </summary>
-        public string GitName { get; set; }
-
-        /// <summary>
-        /// Git Email used for commits
-        /// </summary>
-        public string GitEmail { get; set; }
-
 
         /// <summary>
         /// A collection of the open Markdown documents.
@@ -430,16 +405,21 @@ namespace MarkdownMonster
 	    /// </summary>
 	    public FolderBrowserConfiguration FolderBrowser { get; set; }
 
-		#endregion
+
+        /// <summary>
+        /// Configuration Settings for Git Integration
+        /// </summary>
+        public GitConfiguration Git { get; set; }
+
+        #endregion
 
 
+        #region Bug Reporting and Telemetry
 
-		#region Bug Reporting and Telemetry
-
-		/// <summary>
-		/// Determines whether errors are reported anonymously
-		/// </summary>
-		public bool ReportErrors { get; set; }
+        /// <summary>
+        /// Determines whether errors are reported anonymously
+        /// </summary>
+        public bool ReportErrors { get; set; }
 
 
 		/// <summary>
@@ -594,11 +574,13 @@ namespace MarkdownMonster
         public ApplicationConfiguration()
         {
             Editor = new EditorConfiguration();
+            Git = new GitConfiguration();
             MarkdownOptions = new MarkdownOptionsConfiguration();
             WindowPosition = new WindowPositionConfiguration();
 	        FolderBrowser = new FolderBrowserConfiguration();	        
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
             OpenDocuments = new List<MarkdownDocument>();
+            
             
             InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
             CommonFolder = InternalCommonFolder;
@@ -645,15 +627,17 @@ namespace MarkdownMonster
             AlwaysUsePreviewRefresh = false;		
         }
 
+        
+
 
         protected override void OnInitialize(IConfigurationProvider provider, string sectionName, object configData)
         {
             base.OnInitialize(provider, sectionName, configData);
 
-            if(string.IsNullOrEmpty(GitClientExecutable))
-                GitClientExecutable = mmFileUtils.FindGitClient();
-            if (string.IsNullOrEmpty(GitDiffExecutable))
-                GitDiffExecutable = mmFileUtils.FindGitDiffTool();
+            if(string.IsNullOrEmpty(Git.GitClientExecutable))
+                Git.GitClientExecutable = mmFileUtils.FindGitClient();
+            if (string.IsNullOrEmpty(Git.GitDiffExecutable))
+                Git.GitDiffExecutable = mmFileUtils.FindGitDiffTool();
         }
 
         public void AddRecentFile(string filename)

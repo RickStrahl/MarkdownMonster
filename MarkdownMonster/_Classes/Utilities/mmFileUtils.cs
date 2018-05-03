@@ -482,7 +482,7 @@ namespace MarkdownMonster
         public static bool OpenGitClient(string folder)
         {            
             
-            var exe = mmApp.Configuration.GitClientExecutable;
+            var exe = mmApp.Configuration.Git.GitClientExecutable;
             if (string.IsNullOrEmpty(exe) || !File.Exists(exe))
                 return false;
 
@@ -509,7 +509,7 @@ namespace MarkdownMonster
             string git = null;
 
             git = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
-                "SmartGit\\bin\\SmartGit64.exe");
+                "SmartGit\\bin\\SmartGit.exe");
             if (File.Exists(git))
                 return git;
 
@@ -535,7 +535,17 @@ namespace MarkdownMonster
                 "Beyond Compare 4\\BCompare.exe");
             if (File.Exists(diff))
                 return diff;
-          
+
+            diff = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                "Meld\\Meld.exe");
+            if (File.Exists(diff))
+                return diff;
+
+            diff = Path.Combine(Environment.GetEnvironmentVariable("ProgramW6432"),
+                "KDiff\\KDiff.exe");
+            if (File.Exists(diff))
+                return diff;
+
             return diff;
         }
 
