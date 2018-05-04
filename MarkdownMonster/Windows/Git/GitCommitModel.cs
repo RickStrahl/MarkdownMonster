@@ -29,8 +29,8 @@ namespace MarkdownMonster.Windows
             GitHelper = new GitHelper();
             GitHelper.OpenRepository(Filename);
 
-            GitUsername = mmApp.Configuration.GitName;
-            GitEmail = mmApp.Configuration.GitEmail;
+            GitUsername = mmApp.Configuration.Git.GitName;
+            GitEmail = mmApp.Configuration.Git.GitEmail;
 
             ShowUserInfo = string.IsNullOrEmpty(GitUsername);
         }

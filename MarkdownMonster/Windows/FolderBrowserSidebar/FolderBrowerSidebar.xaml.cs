@@ -1039,7 +1039,7 @@ namespace MarkdownMonster.Windows
 
             string error = null;
 
-            bool pushToGit = mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
+            bool pushToGit = mmApp.Configuration.Git.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
             model.Commands.CommitToGitCommand.Execute(file); //
             return;
 
@@ -1196,8 +1196,8 @@ namespace MarkdownMonster.Windows
             ci = new MenuItem();
             ci.Header = "Open Folder in Git Client";
             ci.Click += MenuGitClient_Click;
-            ci.IsEnabled = AppModel.Configuration.GitClientExecutable != null &&
-                            File.Exists(AppModel.Configuration.GitClientExecutable);
+            ci.IsEnabled = AppModel.Configuration.Git.GitClientExecutable != null &&
+                            File.Exists(AppModel.Configuration.Git.GitClientExecutable);
             cm.Items.Add(ci);
 
 

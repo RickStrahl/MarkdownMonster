@@ -50,7 +50,7 @@ namespace MarkdownMonster.Windows
         private void GitCommitDialog_Loaded(object sender, RoutedEventArgs e)
         {
             string defaultText = null;
-            if (mmApp.Configuration.GitCommitBehavior == GitCommitBehaviors.CommitAndPush)
+            if (AppModel.Configuration.Git.GitCommitBehavior == GitCommitBehaviors.CommitAndPush)
             {
                 ButtonCommitAndPush.IsDefault = true;
                 ButtonCommitAndPush.FontWeight = FontWeight.FromOpenTypeWeight(600);
@@ -80,17 +80,17 @@ namespace MarkdownMonster.Windows
         {
             if (CommitModel.CommitChangesToRepository())
             {
-                if (string.IsNullOrEmpty(mmApp.Configuration.GitName))
+                if (string.IsNullOrEmpty(mmApp.Configuration.Git.GitName))
                 {
-                    mmApp.Configuration.GitName = CommitModel.GitUsername;
-                    mmApp.Configuration.GitEmail = CommitModel.GitEmail;
+                    mmApp.Configuration.Git.GitName = CommitModel.GitUsername;
+                    mmApp.Configuration.Git.GitEmail = CommitModel.GitEmail;
                 }
                 Close();
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
                     Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
                 
-                mmApp.Configuration.GitCommitBehavior = GitCommitBehaviors.Commit;
+                mmApp.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.Commit;
                 AppModel.Window.ShowStatus("Files have been committed in the local repository.", mmApp.Configuration.StatusMessageTimeout);
             }
         }
@@ -99,17 +99,17 @@ namespace MarkdownMonster.Windows
         {
             if (CommitModel.CommitChangesToRepository(true))
             {
-                if (string.IsNullOrEmpty(mmApp.Configuration.GitName))
+                if (string.IsNullOrEmpty(mmApp.Configuration.Git.GitName))
                 {
-                    mmApp.Configuration.GitName = CommitModel.GitUsername;
-                    mmApp.Configuration.GitEmail = CommitModel.GitEmail;
+                    mmApp.Configuration.Git.GitName = CommitModel.GitUsername;
+                    mmApp.Configuration.Git.GitEmail = CommitModel.GitEmail;
                 }
                 Close();
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
                     Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(),System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
-                mmApp.Configuration.GitCommitBehavior = GitCommitBehaviors.CommitAndPush;
+                mmApp.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.CommitAndPush;
                 AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",mmApp.Configuration.StatusMessageTimeout);
             }            
         }
@@ -119,11 +119,6 @@ namespace MarkdownMonster.Windows
             Close();
         }
 
-
-        private void ButtonFileSelection_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
 
         private void CheckCommitRepository_Click(object sender, RoutedEventArgs e)
         {
@@ -158,7 +153,7 @@ namespace MarkdownMonster.Windows
             if (selected == null)
                 return;
 
-            if (!File.Exists(mmApp.Configuration.GitDiffExecutable))
+            if (!File.Exists(mmApp.Configuration.Git.GitDiffExecutable))
             {
                 ShowStatusError("There is no diff tool configured. Set the `GitDiffExecutable` setting to your preferred Diff tool.");
                      
@@ -168,7 +163,7 @@ namespace MarkdownMonster.Windows
             var fileText = CommitModel.GitHelper.GetComittedFileTextContent(selected.FullPath);
             if (fileText == null)
             {
-                ShowStatusError("Unable to load committed file: " + CommitModel.GitHelper.ErrorMessage);
+                ShowStatusError("Unable to compare files: " + CommitModel.GitHelper.ErrorMessage);
                 return;
             }
 
@@ -179,7 +174,7 @@ namespace MarkdownMonster.Windows
             // Delete files older than 5 minutes
             FileUtils.DeleteTimedoutFiles(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "mm_diff_" + "*.*"),300);
 
-            mmFileUtils.ExecuteProcess(mmApp.Configuration.GitDiffExecutable, $"\"{tempFile}\" \"{selected.FullPath}\"");            
+            mmFileUtils.ExecuteProcess(mmApp.Configuration.Git.GitDiffExecutable, $"\"{tempFile}\" \"{selected.FullPath}\"");            
         }
 
 
@@ -293,6 +288,34 @@ namespace MarkdownMonster.Windows
         }
 
         #endregion
+
+        private void CheckBoxListItemChecked_Click(object sender, RoutedEventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            if (checkBox == null)
+                return;            
+            
+            var isChecked = checkBox.IsChecked;
+
+            var checkItem = checkBox.DataContext as RepositoryStatusItem;
+            if (checkItem != null)
+            {
+                ListBoxItem selectedListBoxItem =
+                    ListChangedItems.ItemContainerGenerator.ContainerFromItem(checkItem) as ListBoxItem;
+                if (selectedListBoxItem != null)
+                    selectedListBoxItem.IsSelected = true;
+            }
+
+
+            var selList = new List<RepositoryStatusItem>();
+            foreach (var item in ListChangedItems.SelectedItems)
+                selList.Add(item as RepositoryStatusItem);
+
+            foreach (RepositoryStatusItem item in selList)
+            {                
+                item.Selected = isChecked.Value;
+            }
+        }
     }
 
 }

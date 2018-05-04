@@ -101,15 +101,17 @@ namespace MarkdownMonster.Windows
         }
         private string _Output;
 
+        public AppModel AppModel { get; set; }
 
         public GitRepositoryWindow()
         {
 
             InitializeComponent();
+            AppModel = mmApp.Model;
 
             DataContext = this;
             mmApp.SetThemeWindowOverride(this);
-
+            
             Loaded += OpenFromUrl_Loaded;
             Activated += OpenFromUrl_Activated;            
         }

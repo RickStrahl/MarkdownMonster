@@ -17,6 +17,9 @@
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="620">
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm#CloneaRepository"/>
+    </Window.InputBindings>
     <Window.Resources>
         <windows:EmptyStringToBooleanConverter x:Key="EmptyStringToBooleanConverter" />
     </Window.Resources>
@@ -28,7 +31,15 @@
             <RowDefinition Height="28" />
         </Grid.RowDefinitions>
 
-        <StackPanel  Margin="30,20,30,0">
+        <StackPanel  Margin="30,10,30,0">
+            <Button Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm#CloneaRepository"
+                BorderThickness="0" Margin="0,0,-22,0" HorizontalAlignment="Right"   
+                Width="28" Height="28" FontSize="17" FontWeight="Normal">
+                <fa:FontAwesome  Icon="QuestionCircleOutline"                                 
+                            ToolTip="More information on cloning."                             
+                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+            </Button>
+
             <Label Content="Git Repository URL"/>
             <TextBox x:Name="TextUrl"  Text="{Binding GitUrl}"  
                          HorizontalAlignment="Stretch" Width="Auto" 
