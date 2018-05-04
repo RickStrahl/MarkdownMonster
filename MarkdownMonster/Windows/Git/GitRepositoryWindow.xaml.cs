@@ -195,7 +195,6 @@ namespace MarkdownMonster.Windows
                 {
                     return;  // failed - display status message
                 }
-
             }
 
             Close();
@@ -207,21 +206,10 @@ namespace MarkdownMonster.Windows
             {                
                 SetStatusIcon(FontAwesomeIcon.CircleOutlineNotch, Colors.DarkGoldenrod, true);
                 ShowStatus("Cloning Repository...");
-
-                //Password = TextPassword.Password;
+                
 
                 GitCommandResult result = await Task.Run<GitCommandResult>(() =>
                 {
-                    //git.CloneProgress = (s) =>
-                    //{
-                    //    Dispatcher.Invoke(() => ShowStatus(s.TrimEnd()));
-                    //    return true;
-                    //};
-
-
-                    //if (!git.CloneRepository(GitUrl, LocalPath,UseGitCredentialManager, Username, Password))                                            
-                    //    return false;
-
                     var action = new Action<object, DataReceivedEventArgs>((s, e) => { Output += e.Data; });
 
                     var res = git.CloneRepositoryCommandLine(GitUrl, LocalPath, action);
@@ -232,7 +220,6 @@ namespace MarkdownMonster.Windows
                 {
                     SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
                     ShowStatus("Cloning failed.");
-                    //Output = result.Message;
                     
                     return false;
                 }

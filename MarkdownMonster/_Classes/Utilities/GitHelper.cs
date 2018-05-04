@@ -180,7 +180,7 @@ namespace MarkdownMonster.Utilities
         {
             try
             { 
-                return ExecuteGitCommand($"clone {gitUrl} {localPath}",
+                return ExecuteGitCommand($"clone {gitUrl} \"{localPath}\"",
                     timeoutMs: 100000,
                     windowStyle: ProcessWindowStyle.Hidden,
                     progress: progress);                
