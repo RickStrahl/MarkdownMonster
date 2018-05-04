@@ -24,7 +24,8 @@ var te = window.textEditor = {
             var aceEditorRequest = ace.edit($el[0]);
             te.editor = aceEditorRequest;
             te.configureAceEditor(aceEditorRequest, editorSettings);
-            aceEditorRequest.getSession().setMode("ace/mode/" + codeLang);
+
+            te.setlanguage(codeLang);            
         } catch (ex) {
             if (typeof console !== "undefined")
                 console.log("Failed to bind syntax: " + codeLang + " - " + ex.message);
@@ -64,7 +65,7 @@ var te = window.textEditor = {
         editor.$blockScrolling = Infinity;
 
         session.setTabSize(editorSettings.tabSpaces);
-              
+
         //editor.setOptions({
         //    enableBasicAutocompletion: true
         //});
@@ -568,8 +569,7 @@ var te = window.textEditor = {
         te.editor.setOptions({
             fontFamily: style.Font,
             fontSize: style.FontSize
-        });
-        
+        });        
 
         var wrapText = style.WrapText;
 
@@ -588,6 +588,14 @@ var te = window.textEditor = {
         //    te.editor.setKeyboardHandler("");
         //else
         //    te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
+
+        
+        if (!style.EnableBulletAutoCompletion) {
+            // turn off bullet auto-completion (or any new line auto-completion)
+            te.editor.getSession().getMode().getNextLineIndent = function(state, line) {
+                return this.$getIndent(line);
+            };
+        }
 
         setTimeout(te.updateDocumentStats, 100);
     },

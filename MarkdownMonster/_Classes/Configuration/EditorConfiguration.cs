@@ -46,6 +46,14 @@ namespace MarkdownMonster.Configuration
 
 
         /// <summary>
+        /// If enabled prefills bullets and auto-numbers. Disabled
+        /// by default because it has some side effects that 
+        /// are not desired by some.
+        /// </summary>
+        public bool EnableBulletAutoCompletion { get; set; }
+
+
+        /// <summary>
         /// Zoom level percentage on top of the EditorFontSize
         /// </summary>
         public int ZoomLevel

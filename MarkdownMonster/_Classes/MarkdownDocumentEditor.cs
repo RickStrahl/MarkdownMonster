@@ -860,7 +860,8 @@ namespace MarkdownMonster
                             ShowLineNumbers = config.Editor.ShowLineNumbers,
                             ShowInvisibles = config.Editor.ShowInvisibles,
                             HighlightActiveLine = config.Editor.HighlightActiveLine,
-                            KeyboardHandler = config.Editor.KeyboardHandler
+                            KeyboardHandler = config.Editor.KeyboardHandler,
+                            EnableBulletAutoCompletion = config.Editor.EnableBulletAutoCompletion  
                         };
 
                         var jsonStyle = JsonConvert.SerializeObject(style);
