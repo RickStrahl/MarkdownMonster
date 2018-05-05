@@ -848,7 +848,7 @@ namespace MarkdownMonster
                         if (pwdResult == false)
                         {
                             ShowStatus("Encrypted document not opened, due to missing password.",
-                                mmApp.Configuration.StatusTimeout);
+                                mmApp.Configuration.StatusMessageTimeout);
 
                             return null;
                         }
@@ -1970,14 +1970,21 @@ namespace MarkdownMonster
             if (DateTime.UtcNow < mmApp.Started.AddSeconds(5))
                 return;
 
-            if (mmApp.Configuration.ApplicationTheme == Themes.Default)
+            if (mmApp.Configuration.ApplicationTheme == Themes.Default)            
                 mmApp.Configuration.ApplicationTheme = Themes.Dark;
+
 
             if (MessageBox.Show(
                     "Application theme changes require that you restart.\r\n\r\nDo you want to restart Markdown Monster?",
                     "Theme Change", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) ==
                 MessageBoxResult.Yes)
             {
+
+                if (mmApp.Configuration.ApplicationTheme == Themes.Light)
+                    mmApp.Configuration.EditorTheme = "visualstudio";
+                else
+                    mmApp.Configuration.EditorTheme = "twilight";
+
                 mmApp.Configuration.Write();
                 Close();
                 mmFileUtils.ExecuteProcess(Path.Combine(Environment.CurrentDirectory, "MarkdownMonster.exe"), "");

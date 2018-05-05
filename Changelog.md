@@ -6,7 +6,20 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.10.17
+<small>not released yet</small>
+
+* **Option to turn and off Markdown Bullet AutoCompletion**  
+There have been quite a few complaints around the auto-completion bullet editing in Markdown text and now there's an option to disable it. In fact, bullet auto-complete is now off by default and has to be enabled explicitly with `Editor.EnableBulletAutoCompletion`.
+
+* **Add Git Pull Support**  
+Add the ability to pull data from the remote origin into the current Git repository. There aren't any options for specific branches and pull does a merge commit. Feature is available on the Git Commit Dialog.
+
+* **Fix Git Clone with Path with Spaces**   
+Fixed bug for paths with spaces in Git Clone operation.
+
 ### 1.10.16
+<small>May 1st, 2018</small>
 
 * **Git File Status in File Browser**  
 The Folder browser now shows Git status information via icons. There are also a new option to undo changes on the file context menu.

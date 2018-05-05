@@ -356,6 +356,13 @@
                           Click="Button_Handler"
                           IsChecked="{Binding Configuration.IsDocumentOutlineVisible, Mode=TwoWay}" />
                 <Separator />
+                <MenuItem Name="ButtonSpellchecking" 
+                          Header="Spellchecking"      
+                          Click="ButtonSpellCheck_Click"
+                          IsCheckable="True"                          
+                          IsChecked="{Binding Configuration.Editor.EnableSpellcheck}" />
+               
+
                 <MenuItem Name="ButtonWordWrap" 
                           Header="_Word Wrap"      
                           Command="{Binding Commands.WordWrapCommand}"                                                                   
