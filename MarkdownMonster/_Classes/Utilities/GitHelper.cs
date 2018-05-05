@@ -296,12 +296,41 @@ namespace MarkdownMonster.Utilities
             return true;
         }
 
+
+        /// <summary>
+        /// Pushes changes to the origin on the remote
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public bool Push(string path)
         {            
             var result = ExecuteGitCommand("push origin",path, 60000);            
             if (result.HasError)
             {
                 SetError("Couldn't push to repository: " + result.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// Pulls changes as a
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="rebase">If true uses --rebase instead of merging</param>
+        /// <returns></returns>
+        public bool Pull(string path, bool rebase = false)
+        {
+            string rebaseString = null;
+            if (rebase)
+                rebaseString = " --rebase";
+
+            var result = ExecuteGitCommand($"pull origin{rebaseString}", path, 60000);
+            if (result.HasError)
+            {
+                SetError("Couldn't pull from repository: " + result.Message);
                 return false;
             }
 
@@ -450,10 +479,7 @@ namespace MarkdownMonster.Utilities
             return FindGitRepositoryRoot(di.FullName);
         }
 
-        public RepositoryStatus GetChanges()
-        {
-            return Repository.RetrieveStatus();            
-        }
+       
 
         public const FileStatus DefaultStatusesToDisplay = FileStatus.ModifiedInIndex | FileStatus.ModifiedInWorkdir |
                                                            FileStatus.NewInIndex | FileStatus.NewInWorkdir |
@@ -477,7 +503,7 @@ namespace MarkdownMonster.Utilities
 
             var statusItems = new List<RepositoryStatusItem>();
 
-            var status = GetChanges();
+            var status = Repository.RetrieveStatus();
 
             string relSelectedFile = null;
             if (!string.IsNullOrEmpty(selectedFile))

@@ -86,7 +86,17 @@
                             <TextBlock>Refresh</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Name="ButtonOpenGitClient"   Command="{Binding AppModel.Commands.OpenGitClientCommand}" CommandParameter="{Binding Filename}" >
+
+                    <Button Click="ButtonPull_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="Download"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+                            <TextBlock>Pull</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+
+<Button Name="ButtonOpenGitClient"   Command="{Binding AppModel.Commands.OpenGitClientCommand}" CommandParameter="{Binding Filename}" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,2,5,0" Icon="ExternalLink"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />

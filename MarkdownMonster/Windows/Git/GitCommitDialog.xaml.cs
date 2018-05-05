@@ -114,6 +114,21 @@ namespace MarkdownMonster.Windows
             }            
         }
 
+        private void ButtonPull_Click(object sender, RoutedEventArgs e)
+        {
+            if (CommitModel.PullChanges())
+            {
+                // refresh the file model
+                CommitModel.GetRepositoryChanges();
+
+                // Refresh the folder browser Git status icons
+                if (AppModel.WindowLayout.IsLeftSidebarVisible)
+                    Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+
+                ShowStatus("Changes have been pulled from the remote origin.",mmApp.Configuration.StatusMessageTimeout);                
+            }
+        }
+
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -124,13 +139,10 @@ namespace MarkdownMonster.Windows
         {
             var gh = new GitHelper();
             var repo = gh.OpenRepository(CommitModel.Filename);
-            if (repo == null)
-            {
+            if (repo == null)            
                 ShowStatus("Couldn't open repository.");
-            }
-
-            gh.GetChanges();
-
+            
+            //gh.GetChanges();
         }
 
 

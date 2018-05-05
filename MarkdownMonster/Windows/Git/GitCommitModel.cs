@@ -168,6 +168,8 @@ namespace MarkdownMonster.Windows
 
         public GitCommitDialog CommitWindow { get; set; }
 
+        
+
         public Repository Repository { get; set; }
 
         public GitHelper GitHelper { get; }
@@ -219,16 +221,31 @@ namespace MarkdownMonster.Windows
 
             if (!GitHelper.Push(repo.Info.WorkingDirectory))
             {
-                CommitWindow.ShowStatus(GitHelper.ErrorMessage, 6000, FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Firebrick);
+                CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
                 return false;
             }
             
             return true;
         }
-        
+
+        public bool PullChanges()
+        {
+            var repo = GitHelper.OpenRepository(Filename);
+            if (repo == null)
+            {
+                Window.ShowStatus("Invalid repository path.",mmApp.Configuration.StatusMessageTimeout);
+                return false;
+            }
+
+            if (!GitHelper.Pull(repo.Info.WorkingDirectory))
+            {
+                CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
+                return false;
+            }
+
+            return true;
+        }
         #endregion
-
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 
