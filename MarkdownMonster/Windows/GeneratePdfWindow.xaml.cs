@@ -130,19 +130,19 @@ namespace MarkdownMonster.Windows
                 //MessageBox.Show("Failed to create PDF document.\r\n\r\n" + PdfGenerator.ErrorMessage,
                 //	"PDF Generator Error", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                ShowStatus("PDF document was not created.", 6000);
-				SetStatusIcon(FontAwesomeIcon.Warning,Colors.Firebrick);
+                ShowStatusError("PDF document was not created.");
+				
 				return;
 			}
 
-			ShowStatus("PDF document created.",6000);
+			ShowStatus("PDF document created.",mmApp.Configuration.StatusMessageTimeout);
 			SetStatusIcon();
 		}
 
 	    private void ButtonCopyLastCommandToClipboard_Click(object sender, RoutedEventArgs e)
 	    {
 	        Clipboard.SetText(PdfGenerator.FullExecutionCommand);
-	        ShowStatus("Command line has been copied to the clipboard", 6000);
+	        ShowStatus("Command line has been copied to the clipboard", mmApp.Configuration.StatusMessageTimeout);
 	    }
 
 	    private bool SaveFile()
@@ -190,36 +190,65 @@ namespace MarkdownMonster.Windows
 		}
 
 
-		#region StatusBar Display
+        #region StatusBar Display
+	    DebounceDispatcher debounce = new DebounceDispatcher();
 
-		public void ShowStatus(string message = null, int milliSeconds = 0)
-		{
-			if (message == null)
-			{
-				message = "Ready";
-				SetStatusIcon();
-			}
+        public void ShowStatus(string message = null, int milliSeconds = 0,
+	        FontAwesomeIcon icon = FontAwesomeIcon.None,
+	        Color color = default(Color),
+	        bool spin = false)
+	    {
+	        if (icon != FontAwesomeIcon.None)
+	            SetStatusIcon(icon, color, spin);
 
-			StatusText.Text = message;
+	        if (message == null)
+	        {
+	            message = "Ready";
+	            SetStatusIcon();
+	        }
 
-			if (milliSeconds > 0)
-			{
-				Dispatcher.DelayWithPriority(milliSeconds, (win) =>
-				{
-					ShowStatus(null, 0);
-					SetStatusIcon();
-				}, this);
-			}
-			WindowUtilities.DoEvents();
-		}
+	        StatusText.Text = message;
 
-		/// <summary>
-		/// Status the statusbar icon on the left bottom to some indicator
-		/// </summary>
-		/// <param name="icon"></param>
-		/// <param name="color"></param>
-		/// <param name="spin"></param>
-		public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
+	        if (milliSeconds > 0)
+	        {
+	            // debounce rather than delay so if something else displays
+	            // a message the delay timer is 'reset'
+	            debounce.Debounce(milliSeconds, (win) =>
+	            {
+	                var window = win as GitCommitDialog;
+	                window.ShowStatus(null, 0);
+	            }, this);
+	        }
+
+	        WindowUtilities.DoEvents();
+	    }
+
+
+        /// <summary>
+        /// Displays an error message using common defaults
+        /// </summary>
+        /// <param name="message">Message to display</param>
+        /// <param name="timeout">optional timeout</param>
+        /// <param name="icon">optional icon (warning)</param>
+        /// <param name="color">optional color (firebrick)</param>
+        public void ShowStatusError(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.Warning, Color color = default(Color))
+	    {
+	        if (timeout == -1)
+	            timeout = mmApp.Configuration.StatusMessageTimeout;
+
+	        if (color == default(Color))
+	            color = Colors.Firebrick;
+
+	        ShowStatus(message, timeout, icon, color);
+	    }
+
+        /// <summary>
+        /// Status the statusbar icon on the left bottom to some indicator
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="color"></param>
+        /// <param name="spin"></param>
+        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
 		{
 			StatusIcon.Icon = icon;
 			StatusIcon.Foreground = new SolidColorBrush(color);

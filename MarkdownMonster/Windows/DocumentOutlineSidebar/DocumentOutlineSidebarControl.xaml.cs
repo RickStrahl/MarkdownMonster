@@ -163,7 +163,7 @@ Do you want to replace the existing outline?
                 editor.SetSelectionAndFocus(md);
             }
             else
-                Model.Window.ShowStatus("Couldn't create Markdown Outline to embed. Not embedded.",6000);
+                Model.Window.ShowStatusError("Couldn't create Markdown Outline to embed. Not embedded.");
         }
 
         private void ListOutlineItem_MouseUp(object sender, MouseButtonEventArgs e)

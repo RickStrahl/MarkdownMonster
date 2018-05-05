@@ -207,15 +207,13 @@ namespace MarkdownMonster
                 }
                 catch (System.Net.WebException ex)
                 {
-                    Model.Window.ShowStatus($"Can't open from url: {ex.Message}", 6000, FontAwesomeIcon.Warning,
-                        Colors.Firebrick);
+                    Model.Window.ShowStatusError($"Can't open from url: {ex.Message}");
                     return;
                 }
 
                 if (string.IsNullOrEmpty(markdown))
                 {
-                    Model.Window.ShowStatus($"No content found at URL: {url}", 6000, FontAwesomeIcon.Warning,
-                        Colors.Firebrick);
+                    Model.Window.ShowStatusError($"No content found at URL: {url}");
                     return;
                 }
 
@@ -667,8 +665,8 @@ Do you want to View in Browser now?
 
                 if (!editor.RemoveMarkdownFormatting())
                 {
-                    Model.Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Warning, System.Windows.Media.Colors.Red);
-                    Model.Window.ShowStatus("Didn't remove formatting. No selection or document is not a Markdown document.",6000);
+                    
+                    Model.Window.ShowStatusError("Didn't remove formatting. No selection or document is not a Markdown document.");
                 }
             }, (p, c) => true);
         }
@@ -898,12 +896,11 @@ Do you want to View in Browser now?
                 try
                 {
                     Clipboard.SetText(path);
-                    Model.Window.ShowStatus($"Path copied to clipboard: {path}", 6000);
+                    Model.Window.ShowStatus($"Path copied to clipboard: {path}", mmApp.Configuration.StatusMessageTimeout);
                 }
                 catch
-                {
-                    Model.Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
-                    Model.Window.ShowStatus("Clipboard failure: Failed copy foldername to clipboard.", 6000);
+                {                    
+                    Model.Window.ShowStatusError("Clipboard failure: Failed copy foldername to clipboard.");
                 }
             }, (p, c) => true);
         }
@@ -980,13 +977,13 @@ Do you want to View in Browser now?
                 var repo = gh.OpenRepository(file);
                 if (repo == null)
                 {
-                    Model.Window.ShowStatus("This file or folder is not in a Git repository.",6000,FontAwesomeIcon.Warning,Colors.DarkGoldenrod);
+                    Model.Window.ShowStatusError("This file or folder is not in a Git repository.");
                     return;
                 }
 
                 var changes = gh.GetRepositoryChanges(repo.Info.WorkingDirectory);
                 if (changes.Count < 1)
-                    Model.Window.ShowStatus($"There are no pending changes for this Git repository: {repo.Info.WorkingDirectory}", 6000, FontAwesomeIcon.Warning, Colors.DarkGoldenrod);
+                    Model.Window.ShowStatusError($"There are no pending changes for this Git repository: {repo.Info.WorkingDirectory}");
 
                 Model.ActiveEditor.SaveDocument(Model.ActiveDocument.IsEncrypted);
                 
@@ -1013,9 +1010,9 @@ Do you want to View in Browser now?
                     return;
                                 
                 if (!mmFileUtils.OpenGitClient(path))
-                    Model.Window.ShowStatus("Unabled to open Git client.", 6000, FontAwesomeIcon.Warning, Colors.Firebrick);
+                    Model.Window.ShowStatusError("Unabled to open Git client.");
                 else
-                    Model.Window.ShowStatus("Git client opened.",6000);
+                    Model.Window.ShowStatus("Git client opened.",mmApp.Configuration.StatusMessageTimeout);
             }, (p, c) => !string.IsNullOrEmpty(Model.Configuration.Git.GitClientExecutable));
         }
 

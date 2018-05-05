@@ -155,6 +155,35 @@ namespace MarkdownMonster.Windows
         {
             CommitModel.ShowUserInfo = true;
         }
+
+        private void CheckBoxListItemChecked_Click(object sender, RoutedEventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            if (checkBox == null)
+                return;            
+            
+            var isChecked = checkBox.IsChecked;
+
+            var checkItem = checkBox.DataContext as RepositoryStatusItem;
+            if (checkItem != null)
+            {
+                ListBoxItem selectedListBoxItem =
+                    ListChangedItems.ItemContainerGenerator.ContainerFromItem(checkItem) as ListBoxItem;
+                if (selectedListBoxItem != null)
+                    selectedListBoxItem.IsSelected = true;
+            }
+
+
+            var selList = new List<RepositoryStatusItem>();
+            foreach (var item in ListChangedItems.SelectedItems)
+                selList.Add(item as RepositoryStatusItem);
+
+            foreach (RepositoryStatusItem item in selList)
+            {                
+                item.Selected = isChecked.Value;
+            }
+        }
+
         #endregion
 
         #region Item Context Menu
@@ -300,34 +329,6 @@ namespace MarkdownMonster.Windows
         }
 
         #endregion
-
-        private void CheckBoxListItemChecked_Click(object sender, RoutedEventArgs e)
-        {
-            var checkBox = sender as CheckBox;
-            if (checkBox == null)
-                return;            
-            
-            var isChecked = checkBox.IsChecked;
-
-            var checkItem = checkBox.DataContext as RepositoryStatusItem;
-            if (checkItem != null)
-            {
-                ListBoxItem selectedListBoxItem =
-                    ListChangedItems.ItemContainerGenerator.ContainerFromItem(checkItem) as ListBoxItem;
-                if (selectedListBoxItem != null)
-                    selectedListBoxItem.IsSelected = true;
-            }
-
-
-            var selList = new List<RepositoryStatusItem>();
-            foreach (var item in ListChangedItems.SelectedItems)
-                selList.Add(item as RepositoryStatusItem);
-
-            foreach (RepositoryStatusItem item in selList)
-            {                
-                item.Selected = isChecked.Value;
-            }
-        }
     }
 
 }

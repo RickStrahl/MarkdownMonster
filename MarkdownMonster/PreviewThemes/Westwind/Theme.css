@@ -33,12 +33,12 @@ h1 {
 
 h2 {
     color: Steelblue;
-    font-size: 1.45em;
+    font-size: 1.5em;
 }
 
 h3 {
     color: steelblue;
-    font-size: 1.3em;
+    font-size: 1.25em;
 }
 
 h4 {
@@ -251,7 +251,7 @@ code.line-highlight {
 
 @media(min-width: 1080px) {
     html, body {
-        font-size: 1.06em;
+        font-size: 1.05em;
     }
 }
 

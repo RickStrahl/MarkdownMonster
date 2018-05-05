@@ -201,15 +201,14 @@ namespace MarkdownMonster.Windows
 
             if (files.Count < 1)
             {
-                CommitWindow.ShowStatus("There are no changes in this repository.", 6000,
-                    FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.DarkGoldenrod);
+                CommitWindow.ShowStatusError("There are no changes in this repository.");
                 return false;
             }
 
 
             if (!GitHelper.Commit(files, CommitMessage, GitUsername, GitEmail) )
             {                
-                CommitWindow.ShowStatus(GitHelper.ErrorMessage, 6000,FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Firebrick);
+                CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
                 return false;
             }
 

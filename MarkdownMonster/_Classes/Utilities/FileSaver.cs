@@ -293,7 +293,7 @@ namespace MarkdownMonster.Utilities
 
             if (settings.ResponseStatusCode == System.Net.HttpStatusCode.OK || string.IsNullOrEmpty(markdownText))
             {
-                mmApp.Model.Window.ShowStatus("Couldn't open url: " + url, 6000, FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Red);
+                mmApp.Model.Window.ShowStatusError($"Couldn't open url: {url}");
                 return;
             }
 

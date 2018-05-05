@@ -276,7 +276,7 @@ namespace MarkdownMonster.Windows
 
             if (data == null || data.Count < 1)
             {
-                AppModel.Window.ShowStatus("No HTML Table to process found...", 6000);
+                AppModel.Window.ShowStatusError("No HTML Table to process found...");
                 return;
             }
 

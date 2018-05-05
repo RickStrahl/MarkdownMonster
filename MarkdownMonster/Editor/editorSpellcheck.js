@@ -150,7 +150,7 @@ var sc = window.spellcheck = {
                 var isCodeBlock = false;
                 var isFrontMatter = false;
 
-                var topRow = Math.ceil(te.editor.renderer.getFirstVisibleRow()) - 30;
+                var topRow = Math.ceil(te.editor.renderer.getFirstVisibleRow()) - 50;
                 if (topRow < 0)
                     topRow = 0;                    
                 var bottomRow = Math.ceil(te.editor.renderer.getLastVisibleRow()) + 5;

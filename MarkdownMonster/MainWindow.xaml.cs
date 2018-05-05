@@ -1721,7 +1721,7 @@ namespace MarkdownMonster
                 ShowStatus("Checking for new version...");
                 if (!CheckForNewVersion(true, timeout: 5000))
                 {
-                    ShowStatus("Your version of Markdown Monster is up to date.", 6000);
+                    ShowStatus("Your version of Markdown Monster is up to date.", mmApp.Configuration.StatusMessageTimeout);
                     SetStatusIcon(FontAwesomeIcon.Check, Colors.Green);
 
                     MessageBox.Show(
@@ -1838,7 +1838,7 @@ namespace MarkdownMonster
             else if (button == MenuBackupConfiguration)
             {
                 string filename = mmApp.Configuration.Backup();
-                ShowStatus($"Configuration backed up to: {Path.GetFileName(filename)}", 6000);
+                ShowStatus($"Configuration backed up to: {Path.GetFileName(filename)}", mmApp.Configuration.StatusMessageTimeout);
                 mmFileUtils.OpenFileInExplorer(filename);
             }
         }

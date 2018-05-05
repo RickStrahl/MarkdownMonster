@@ -107,12 +107,12 @@ namespace MarkdownMonster.Windows
             var url = addin.gitVersionUrl.Replace("version.json","addin.zip");
             var result = AddinManager.Current.DownloadAndInstallAddin(url, mmApp.Configuration.AddinsFolder, addin);
             if (result.IsError)
-                ShowStatus(AddinManager.Current.ErrorMessage, 6000);
+                ShowStatus(AddinManager.Current.ErrorMessage);
             else if (result.NeedsRestart)
             {
                 string msg = addin.name +
                              " addin has been installed.\r\n\r\nYou need to restart Markdown Monster to finalize the addin installation.";
-                ShowStatus(msg, 6000);
+                ShowStatus(msg, mmApp.Configuration.StatusMessageTimeout);
                 if (MessageBox.Show(msg + "\r\n\r\nDo you want to restart Markdown Monster?", "Addin Installed",
                         MessageBoxButton.YesNo,
                         MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -125,7 +125,7 @@ namespace MarkdownMonster.Windows
                 }
             }
             else
-                ShowStatus($"Addin {addin.name} has been installed", 6000);
+                ShowStatus($"Addin {addin.name} has been installed", mmApp.Configuration.StatusMessageTimeout);
         }
 
         private void ButtonUnInstall_Click(object sender, RoutedEventArgs e)
@@ -139,11 +139,11 @@ namespace MarkdownMonster.Windows
             {
                 ShowStatus(addin.name + 
                     " marked for deletion. Please restart Markdown Monster to finalize un-install.", 
-                    6000);
+                    mmApp.Configuration.StatusMessageTimeout);
                 addin.isInstalled = false;
             }
             else
-                ShowStatus(addin.name + " failed to uninstall.",6000);
+                ShowStatus(addin.name + " failed to uninstall.",mmApp.Configuration.StatusMessageTimeout);
         }
 
         private Timer timer;

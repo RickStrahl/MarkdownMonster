@@ -16,9 +16,9 @@
     <meta name="author" content="Rick Strahl, West Wind Technologies  - https://weblog.west-wind.com"/>
 
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/application.css" rel="stylesheet" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
 
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="icon" type="image/png" href="favicon.png" />

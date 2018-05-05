@@ -902,8 +902,7 @@ namespace MarkdownMonster.Windows
             }
             catch (Exception ex)
             {
-                Window.ShowStatus("Delete operation failed: " + ex.Message, 6000);
-                Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Red);
+                Window.ShowStatusError("Delete operation failed: " + ex.Message);                
             }
         }
 
@@ -1046,7 +1045,7 @@ namespace MarkdownMonster.Windows
             bool result = await Task.Run(() => mmFileUtils.CommitFileToGit(file, pushToGit, out error));
 
             if (result)
-                model.Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", 6000);
+                model.Window.ShowStatus($"File {Path.GetFileName(file)} committed and pushed.", mmApp.Configuration.StatusMessageTimeout);
             else
             {
                 model.Window.ShowStatus(error, 7000);
@@ -1311,7 +1310,7 @@ namespace MarkdownMonster.Windows
             if (!string.IsNullOrEmpty(clipText))
             {
                 System.Windows.Clipboard.SetText(clipText);
-                Window.ShowStatus($"Path '{clipText}' has been copied to the Clipboard.", 6000);
+                Window.ShowStatus($"Path '{clipText}' has been copied to the Clipboard.", mmApp.Configuration.StatusMessageTimeout);
             }
 
         }

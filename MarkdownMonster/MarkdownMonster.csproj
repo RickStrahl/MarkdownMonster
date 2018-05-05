@@ -235,6 +235,7 @@
     <Compile Include="_Classes\AddInInterfaces\AddInMenuItem.cs" />
     <Compile Include="_Classes\AddInInterfaces\IMarkdownMonsterAddin.cs" />
     <Compile Include="_Classes\AddInInterfaces\MarkdownMonsterAddin.cs" />
+    <Compile Include="_Classes\Configuration\GitConfiguration.cs" />
     <Compile Include="_Classes\Utilities\GitHelper.cs" />
     <Compile Include="_Classes\Utilities\FileSaver.cs" />
     <None Include="Addins\ScreenCapture\_addin">

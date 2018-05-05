@@ -365,7 +365,7 @@ namespace MarkdownMonster.Windows
             Image = null;
             ImageText = null;
             ImagePreview.Source = null;
-            ShowStatus("Image has been cleared.", 6000);
+            ShowStatus("Image has been cleared.", mmApp.Configuration.StatusMessageTimeout);
         }
 
         private void Button_CopyImage(object sender, RoutedEventArgs e)
@@ -376,7 +376,7 @@ namespace MarkdownMonster.Windows
                 if (src != null)
                 {
                     Clipboard.SetImage(src);
-                    ShowStatus("Image copied to the Clipboard.", 6000);
+                    ShowStatus("Image copied to the Clipboard.", mmApp.Configuration.StatusMessageTimeout);
                 }
             }
         }
