@@ -575,10 +575,10 @@ Do you want to View in Browser now?
                 if (!ClipboardHelper.CopyHtmlToClipboard(html, markdown))
                     Model.Window.ShowStatus(
                         "Failed to copy Html to the clipboard. Check the application log for more info.",
-                        mmApp.Configuration.StatusTimeout, FontAwesomeIcon.Warning, Colors.Firebrick);
+                        mmApp.Configuration.StatusMessageTimeout, FontAwesomeIcon.Warning, Colors.Firebrick);
                 else
                     Model.Window.ShowStatus("Html has been copied to the clipboard.",
-                        mmApp.Configuration.StatusTimeout);
+                        mmApp.Configuration.StatusMessageTimeout);
 
                 editor.SetEditorFocus();
                 editor.Window.PreviewMarkdownAsync();

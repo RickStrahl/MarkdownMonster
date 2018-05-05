@@ -302,7 +302,7 @@ namespace MarkdownMonster
                 if (pwdResult == false)
                 {
                     Window.ShowStatus("Encrypted document not opened, due to missing password.",
-                        mmApp.Configuration.StatusTimeout);
+                        mmApp.Configuration.StatusMessageTimeout);
                     return false;
                 }
             }

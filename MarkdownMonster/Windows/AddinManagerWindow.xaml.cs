@@ -75,7 +75,7 @@ namespace MarkdownMonster.Windows
             if (addinList == null)
             {
                 AddinList = new ObservableCollection<AddinItem>();
-                ShowStatus("Unable to load addin list.", mmApp.Configuration.StatusTimeout, Brushes.Red);
+                ShowStatus("Unable to load addin list.", mmApp.Configuration.StatusMessageTimeout, Brushes.Red);
                 return;
             }
             AddinList = new ObservableCollection<AddinItem>(addinList);

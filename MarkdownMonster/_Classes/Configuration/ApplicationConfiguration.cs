@@ -563,12 +563,7 @@ namespace MarkdownMonster
 
         internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
 
-        /// <summary>
-        /// Statusbar timeout length
-        /// </summary>
-        internal int StatusTimeout { get; set; } = 7000;
         
-
         #endregion
 
         public ApplicationConfiguration()
