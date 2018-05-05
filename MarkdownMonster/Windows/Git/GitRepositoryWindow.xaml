@@ -14,7 +14,7 @@
         TitlebarHeight="35"                       
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         SizeToContent="Height"
-        WindowStartupLocation="CenterOwner"         
+        WindowStartupLocation="CenterOwner"    MaxHeight="800"     
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="620">
     <Window.InputBindings>
