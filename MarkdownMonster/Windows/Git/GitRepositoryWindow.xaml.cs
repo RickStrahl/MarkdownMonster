@@ -20,7 +20,7 @@ namespace MarkdownMonster.Windows
     /// Interaction logic for PasteHref.xaml
     /// </summary>
     public partial class GitRepositoryWindow : MetroWindow, INotifyPropertyChanged
-    {   
+    {
         public string GitUrl
         {
             get { return _gitUrl; }
@@ -33,7 +33,7 @@ namespace MarkdownMonster.Windows
         }
         private string _gitUrl;
 
-        
+
         public string LocalPath
         {
             get => _localPath;
@@ -111,9 +111,9 @@ namespace MarkdownMonster.Windows
 
             DataContext = this;
             mmApp.SetThemeWindowOverride(this);
-            
+
             Loaded += OpenFromUrl_Loaded;
-            Activated += OpenFromUrl_Activated;            
+            Activated += OpenFromUrl_Activated;
         }
 
         private void OpenFromUrl_Activated(object sender, EventArgs e)
@@ -203,10 +203,10 @@ namespace MarkdownMonster.Windows
         private async Task<bool> CloneRepository()
         {
             using (var git = new GitHelper())
-            {                
+            {
                 SetStatusIcon(FontAwesomeIcon.CircleOutlineNotch, Colors.DarkGoldenrod, true);
                 ShowStatus("Cloning Repository...");
-                
+
 
                 GitCommandResult result = await Task.Run<GitCommandResult>(() =>
                 {
@@ -220,21 +220,23 @@ namespace MarkdownMonster.Windows
                 {
                     SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
                     ShowStatus("Cloning failed.");
-                    
+
                     return false;
                 }
 
-                var file = Path.Combine(LocalPath, "README.md");                
+                var file = Path.Combine(LocalPath, "README.md");
                 mmApp.Model.Window.ShowFolderBrowser(folder: LocalPath);
                 if (File.Exists(file))
                     mmApp.Model.Window.OpenTab(file);
 
+#pragma warning disable 4014
                 Dispatcher.DelayAsync(1000,(p) =>
+#pragma warning restore 4014
                 {
                     mmApp.Model.Window.ShowStatus($"Successfully cloned Git Repository to {LocalPath}");
                 },System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
-                
+
                 return true;
             }
 
@@ -294,7 +296,7 @@ namespace MarkdownMonster.Windows
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

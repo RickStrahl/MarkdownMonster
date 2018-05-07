@@ -24,9 +24,9 @@ namespace MarkdownMonster.Utilities
         public Repository Repository { get; set; }
 
         public Func<string,bool> CloneProgress { get; set; }
-        
+
         /// <summary>
-        /// Opens a repository and stores it in the Repository 
+        /// Opens a repository and stores it in the Repository
         /// property of this class
         /// </summary>
         /// <param name="localPath"></param>
@@ -44,11 +44,11 @@ namespace MarkdownMonster.Utilities
             try
             {
                 Repository = new Repository(repoPath);
-                return Repository;                
+                return Repository;
             }
             catch(Exception ex)
             {
-                SetError(ex);               
+                SetError(ex);
             }
 
             return null;
@@ -101,7 +101,6 @@ namespace MarkdownMonster.Utilities
         /// </summary>
         /// <param name="gitUrl"></param>
         /// <param name="localPath"></param>
-        /// <param name="addAsRemote"></param>
         /// <param name="useGitCredentialManager"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
@@ -110,7 +109,7 @@ namespace MarkdownMonster.Utilities
                 string localPath,
                 bool useGitCredentialManager = false,
                 string username = null,
-                string password = null                
+                string password = null
             )
         {
 
@@ -120,16 +119,16 @@ namespace MarkdownMonster.Utilities
                 var options = new CloneOptions
                 {
                     Checkout = true,
-                    BranchName = "master"                    
+                    BranchName = "master"
                 };
 
-                
+
                 if (CloneProgress != null)
                     options.OnProgress = new LibGit2Sharp.Handlers.ProgressHandler(CloneProgress);
 
                 if (useGitCredentialManager)
                 {
-                 
+
                         var creds = GetGitCredentials(gitUrl);
 
                         if (creds?.Username != null)
@@ -144,12 +143,12 @@ namespace MarkdownMonster.Utilities
                         {
                         // oAuth flow then set credentials
 
-                           
+
                     }
                 }
                 else if(!string.IsNullOrEmpty(username))
                 {
-                    
+
                     options.CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials()
                     {
                         Username = username,
@@ -179,11 +178,11 @@ namespace MarkdownMonster.Utilities
         public GitCommandResult CloneRepositoryCommandLine(string gitUrl, string localPath, Action<object, DataReceivedEventArgs> progress = null)
         {
             try
-            { 
+            {
                 return ExecuteGitCommand($"clone {gitUrl} \"{localPath}\"",
                     timeoutMs: 100000,
                     windowStyle: ProcessWindowStyle.Hidden,
-                    progress: progress);                
+                    progress: progress);
             }
             catch (Exception ex)
             {
@@ -221,7 +220,7 @@ namespace MarkdownMonster.Utilities
             {
                 SetError("Unable to add remote.");
                 return false;
-            }            
+            }
 
             return true;
         }
@@ -229,21 +228,21 @@ namespace MarkdownMonster.Utilities
         public Credential GetGitCredentials(string gitUrl)
         {
             var secrets = new SecretStore("git");
-            
+
             var auth = new BasicAuthentication(secrets);
             var uri = new Uri(gitUrl);
             var url = uri.Scheme + "://" + uri.Authority;
             var creds = auth.GetCredentials(new TargetUri(url));
 
             //if (creds == null)
-                // TODO: Prompt for 
-            
+                // TODO: Prompt for
+
             return creds;
         }
 
         public bool Commit(List<RepositoryStatusItem> statusItems, string message, string name, string email, bool ammendPreviousCommit = false)
         {
-            if (statusItems == null || statusItems.Count < 1)            
+            if (statusItems == null || statusItems.Count < 1)
                 return true;
 
             if (Repository == null)
@@ -255,18 +254,20 @@ namespace MarkdownMonster.Utilities
 
             try
             {
-                var stageFiles = statusItems.Where(si =>
-                {
-                    return true;
-                    if (si.FileStatus == FileStatus.NewInIndex ||
-                        si.FileStatus == FileStatus.NewInWorkdir ||
-                        si.FileStatus == FileStatus.RenamedInIndex ||
-                        si.FileStatus == FileStatus.NewInWorkdir)
-                        return true;
-
-                    return false;
-                }).Select(si => si.Filename).ToList();
-                if (stageFiles.Count > 0) 
+                var stageFiles = statusItems
+//                    .Where(si =>
+//                {
+//                    return true;
+//                    if (si.FileStatus == FileStatus.NewInIndex ||
+//                        si.FileStatus == FileStatus.NewInWorkdir ||
+//                        si.FileStatus == FileStatus.RenamedInIndex ||
+//                        si.FileStatus == FileStatus.NewInWorkdir)
+//                        return true;
+//
+//                    return false;
+//                })
+                    .Select(si => si.Filename).ToList();
+                if (stageFiles.Count > 0)
                     Commands.Stage(Repository, stageFiles);
             }
             catch (Exception ex)
@@ -290,7 +291,7 @@ namespace MarkdownMonster.Utilities
             catch (Exception ex)
             {
                 SetError($"Couldn't commit changes: {ex.Message}.");
-                return false;                
+                return false;
             }
 
             return true;
@@ -303,8 +304,8 @@ namespace MarkdownMonster.Utilities
         /// <param name="path"></param>
         /// <returns></returns>
         public bool Push(string path)
-        {            
-            var result = ExecuteGitCommand("push origin",path, 60000);            
+        {
+            var result = ExecuteGitCommand("push origin",path, 60000);
             if (result.HasError)
             {
                 SetError("Couldn't push to repository: " + result.Message);
@@ -340,7 +341,7 @@ namespace MarkdownMonster.Utilities
 
         /// <summary>
         /// Executes a Git Command on the command line.
-        /// 
+        ///
         /// Recommend that you only use this for Remote commands that
         /// require authentication so that the Windows Credentials Store
         /// can handle providing sticky Auth to Github, VSTS and BitBucket.
@@ -400,7 +401,7 @@ namespace MarkdownMonster.Utilities
                     if (hookupProgressEvents)
                     {
                         process.BeginOutputReadLine();
-                        process.BeginErrorReadLine();                        
+                        process.BeginErrorReadLine();
                     }
 
                     if (timeoutMs < 0)
@@ -422,7 +423,7 @@ namespace MarkdownMonster.Utilities
 
                         result.ExitCode = process.ExitCode;
                         if (result.ExitCode != 0)
-                            result.HasError = true;                    
+                            result.HasError = true;
 
                         if (!waited)
                         {
@@ -436,20 +437,20 @@ namespace MarkdownMonster.Utilities
                         if (oldPath != null)
                             Directory.SetCurrentDirectory(oldPath);
 
-                        return result;                                                
+                        return result;
                     }
 
-                 
-                    result.ExitCode = process.ExitCode;                    
+
+                    result.ExitCode = process.ExitCode;
                 }
             }
             catch (Exception ex)
             {
                 result.ExitCode = -1;
-                result.Message = ex.Message;                                
+                result.Message = ex.Message;
             }
 
-            if(oldPath != null)                
+            if(oldPath != null)
                 Directory.SetCurrentDirectory(oldPath);
 
             return result;
@@ -462,8 +463,8 @@ namespace MarkdownMonster.Utilities
         public static string FindGitRepositoryRoot(string folder)
         {
 
-            if (File.Exists(folder))            
-                folder = Path.GetDirectoryName(folder);            
+            if (File.Exists(folder))
+                folder = Path.GetDirectoryName(folder);
 
             if (!Directory.Exists(folder))
                 return null;
@@ -479,7 +480,7 @@ namespace MarkdownMonster.Utilities
             return FindGitRepositoryRoot(di.FullName);
         }
 
-       
+
 
         public const FileStatus DefaultStatusesToDisplay = FileStatus.ModifiedInIndex | FileStatus.ModifiedInWorkdir |
                                                            FileStatus.NewInIndex | FileStatus.NewInWorkdir |
@@ -496,7 +497,7 @@ namespace MarkdownMonster.Utilities
         /// <returns></returns>
         public List<RepositoryStatusItem> GetRepositoryChanges(string fileOrFolder, string selectedFile = null, bool selectAll = false,
             FileStatus includedStatuses = DefaultStatusesToDisplay)
-        {            
+        {
             Repository = OpenRepository(fileOrFolder);
             if (Repository == null)
                 return null;
@@ -520,7 +521,7 @@ namespace MarkdownMonster.Utilities
                     FullPath = Path.Combine(Repository.Info.WorkingDirectory,item.FilePath),
                     FileStatus = item.State,
                 };
-                
+
                 if (selectAll || relSelectedFile != null && relSelectedFile.Equals(statusItem.Filename, StringComparison.InvariantCultureIgnoreCase))
                     statusItem.Selected = true;
 
@@ -549,7 +550,7 @@ namespace MarkdownMonster.Utilities
                 SetError("No repository found.");
                 return null;
             }
-            
+
             var relPath = FileUtils.GetRelativePath(path, repo.Info.WorkingDirectory);
 
             TreeEntry entry;
@@ -609,11 +610,11 @@ namespace MarkdownMonster.Utilities
             var gitIgnoreFile = Path.Combine(repo.Info.WorkingDirectory, ".gitignore");
 
             string content = string.Empty;
-            if(File.Exists(gitIgnoreFile))                
+            if(File.Exists(gitIgnoreFile))
              content = File.ReadAllText(gitIgnoreFile);
 
             var relPath = FileUtils.GetRelativePath(filePath, repo.Info.WorkingDirectory).Replace("\\", "/");
-            
+
 
             if (CultureInfo.InvariantCulture.CompareInfo.IndexOf(content, relPath + "\r") < 0 &&
                 CultureInfo.InvariantCulture.CompareInfo.IndexOf(content, relPath + "\n") < 0)
@@ -621,7 +622,7 @@ namespace MarkdownMonster.Utilities
                 content = content.TrimEnd() + "\r\n" + relPath + "\r\n";
                 File.WriteAllText(gitIgnoreFile, content);
             }
-            
+
             return true;
         }
         #endregion
@@ -686,7 +687,7 @@ namespace MarkdownMonster.Utilities
 
         public FileStatus FileStatus { get; set; }
 
-        
+
 
         public bool Selected
         {

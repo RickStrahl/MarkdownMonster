@@ -30,7 +30,7 @@ namespace MarkdownMonster
             // File Operations
             NewDocument();
             OpenDocument();
-            OpenFromUrl();          
+            OpenFromUrl();
             Save();
             SaveAs();
             NewWeblogPost();
@@ -38,7 +38,7 @@ namespace MarkdownMonster
             SaveAsHtml();
             GeneratePdf();
             PrintPreview();
-            
+
 
             // Links and External
             OpenSampleMarkdown();
@@ -70,7 +70,7 @@ namespace MarkdownMonster
 
             // Miscellaneous
             OpenAddinManager();
-            
+
             Help();
             CopyFolderToClipboard();
             TabControlFileList();
@@ -174,9 +174,9 @@ namespace MarkdownMonster
 
                 foreach (var file in fd.FileNames)
                 {
-                    Model.Window.OpenTab(file, rebindTabHeaders: true);                    
+                    Model.Window.OpenTab(file, rebindTabHeaders: true);
                 }
-                
+
             });
         }
 
@@ -395,7 +395,7 @@ namespace MarkdownMonster
                     }
                     mmApp.Configuration.LastFolder = Path.GetDirectoryName(sd.FileName);
                 }
-                
+
                 Model.Window.SetWindowTitle();
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
@@ -415,7 +415,7 @@ namespace MarkdownMonster
         {
             NewWeblogPostCommand = new CommandBase((parameter, command) =>
             {
-                
+
                 AddinManager.Current.RaiseOnNotifyAddin("newweblogpost", null);
             });
         }
@@ -647,7 +647,7 @@ Do you want to View in Browser now?
 
                 Model.IsPreviewBrowserVisible = true;
 
-                Model.Window.ShowPreviewBrowser();                
+                Model.Window.ShowPreviewBrowser();
                 Model.Window.PreviewMarkdownAsync();
             }, (p, c) => true);
         }
@@ -665,7 +665,7 @@ Do you want to View in Browser now?
 
                 if (!editor.RemoveMarkdownFormatting())
                 {
-                    
+
                     Model.Window.ShowStatusError("Didn't remove formatting. No selection or document is not a Markdown document.");
                 }
             }, (p, c) => true);
@@ -690,8 +690,8 @@ Do you want to View in Browser now?
         {
             // PRESENTATION MODE
             PresentationModeCommand = new CommandBase((s, e) =>
-            {                
-                Model.WindowLayout.SetPresentationMode(!Model.IsPresentationMode);                
+            {
+                Model.WindowLayout.SetPresentationMode(!Model.IsPresentationMode);
             });
         }
 
@@ -825,7 +825,7 @@ Do you want to View in Browser now?
                 mi.Items.Add(new MenuItem { Header = "_Close Document", Command= Model.Commands.CloseActiveDocumentCommand  });
                 mi.Items.Add(new MenuItem { Header = "Close _All Documents", Command = Model.Commands.CloseAllDocumentsCommand });
                 mi.Items.Add(new MenuItem { Header = "Close All _But This Document", Command = Model.Commands.CloseAllDocumentsCommand, CommandParameter="AllBut" });
-                
+
                 var menuItems = Model.Window.GenerateContextMenuItemsFromOpenTabs();
                 if (menuItems.Count < 1)
                     return;
@@ -833,12 +833,12 @@ Do you want to View in Browser now?
                 mi.Items.Add(new Separator());
                 foreach (var menu in menuItems)
                 {
-                 
+
                     mi.Items.Add(menu);
                 }
 
                 mi.IsSubmenuOpen = true;
-                
+
                 mi.SubmenuClosed += (s,e) => ((MenuItem)s).Items.Clear();
             }, (p, c) => true);
         }
@@ -852,7 +852,7 @@ Do you want to View in Browser now?
         void EditPreviewTheme()
         {
             EditPreviewThemeCommand = new CommandBase((parameter, command) =>
-            {                
+            {
                 var path = Path.Combine(App.InitialStartDirectory, "PreviewThemes",Model.Configuration.PreviewTheme);
                 mmFileUtils.OpenFileInExplorer(path);
 
@@ -867,7 +867,7 @@ Do you want to View in Browser now?
         {
             PreviewSyncModeCommand = new CommandBase((parameter, command) =>
             {
-                
+
                 Model.Window.ComboBoxPreviewSyncModes.Focus();
                 WindowUtilities.DoEvents();
                 Model.Window.ComboBoxPreviewSyncModes.IsDropDownOpen = true;
@@ -899,7 +899,7 @@ Do you want to View in Browser now?
                     Model.Window.ShowStatus($"Path copied to clipboard: {path}", mmApp.Configuration.StatusMessageTimeout);
                 }
                 catch
-                {                    
+                {
                     Model.Window.ShowStatusError("Clipboard failure: Failed copy foldername to clipboard.");
                 }
             }, (p, c) => true);
@@ -964,7 +964,7 @@ Do you want to View in Browser now?
         void CommitToGit()
         {
             // COMMIT TO GIT Command
-            CommitToGitCommand = new CommandBase(async (parameter, e) =>
+            CommitToGitCommand = new CommandBase( (parameter, e) =>
             {
                 var file = parameter as string;
                 if (string.IsNullOrEmpty(file))
@@ -986,8 +986,8 @@ Do you want to View in Browser now?
                     Model.Window.ShowStatusError($"There are no pending changes for this Git repository: {repo.Info.WorkingDirectory}");
 
                 Model.ActiveEditor.SaveDocument(Model.ActiveDocument.IsEncrypted);
-                
-                var form = new GitCommitDialog(file, false); // GitCommitFormModes.ActiveDocument);                
+
+                var form = new GitCommitDialog(file, false); // GitCommitFormModes.ActiveDocument);
                 form.Show();
             }, (s, e) => Model.IsEditorActive);
         }
@@ -1008,7 +1008,7 @@ Do you want to View in Browser now?
 
                 if (string.IsNullOrEmpty(path))
                     return;
-                                
+
                 if (!mmFileUtils.OpenGitClient(path))
                     Model.Window.ShowStatusError("Unabled to open Git client.");
                 else
@@ -1064,7 +1064,7 @@ Do you want to View in Browser now?
         {
             OpenLeftSidebarPanelCommand = new CommandBase((parameter, command) =>
             {
-                Model.Window.ShowLeftSidebar();                
+                Model.Window.ShowLeftSidebar();
             }, (p, c) => true);
         }
 
