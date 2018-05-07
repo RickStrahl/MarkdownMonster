@@ -26,7 +26,7 @@ namespace MarkdownMonster.Windows
 	/// <summary>
 	/// Interaction logic for GeneratePdfWindow.xaml
 	/// </summary>
-	public partial class GeneratePdfWindow : INotifyPropertyChanged 
+	public partial class GeneratePdfWindow : INotifyPropertyChanged
 	{
 		public string OutputFile { get; set; }
 
@@ -34,7 +34,7 @@ namespace MarkdownMonster.Windows
         public AppModel Model {  get;  }
 
 	    private double initialHeight = 0;
-	  
+
 
 
         public HtmlToPdfGeneration PdfGenerator
@@ -72,7 +72,7 @@ namespace MarkdownMonster.Windows
 		private async void ButtonGeneratePdf_Click(object sender, RoutedEventArgs e)
 		{
 		    WindowUtilities.FixFocus(this,TextMessage);
-            
+
             PdfGenerator.ExecutionOutputText = string.Empty;
 		    TextMessage.Background = Brushes.Transparent;
             TextMessage.Text = string.Empty;
@@ -80,7 +80,7 @@ namespace MarkdownMonster.Windows
 
 		    WindowUtilities.DoEvents();
 
-			var document = mmApp.Model.ActiveDocument; 
+			var document = mmApp.Model.ActiveDocument;
 
 			if (!SaveFile())
 				return;
@@ -105,7 +105,7 @@ namespace MarkdownMonster.Windows
             //File.WriteAllText(htmlFilename, html);
 
             bool result = await Task.Run(() =>
-		    {		        
+		    {
 		        bool res = PdfGenerator.GeneratePdfFromHtml(htmlFilename, OutputFile);
 		        File.Delete(htmlFilename);
 		        return res;
@@ -113,7 +113,7 @@ namespace MarkdownMonster.Windows
 
 			ButtonGeneratePdf.IsEnabled = true;
 
-		    
+
             if (!result)
             {
 
@@ -125,13 +125,13 @@ namespace MarkdownMonster.Windows
 
 			        TextMessage.Text = "Failed to create PDF document.\r\n\r\n" + PdfGenerator.ErrorMessage;
 			    }
-			    
+
 
                 //MessageBox.Show("Failed to create PDF document.\r\n\r\n" + PdfGenerator.ErrorMessage,
                 //	"PDF Generator Error", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 ShowStatusError("PDF document was not created.");
-				
+
 				return;
 			}
 
@@ -215,7 +215,7 @@ namespace MarkdownMonster.Windows
 	            // a message the delay timer is 'reset'
 	            debounce.Debounce(milliSeconds, (win) =>
 	            {
-	                var window = win as GitCommitDialog;
+	                var window = win as GeneratePdfWindow;
 	                window.ShowStatus(null, 0);
 	            }, this);
 	        }
