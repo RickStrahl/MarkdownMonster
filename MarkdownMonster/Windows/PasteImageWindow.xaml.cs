@@ -38,7 +38,7 @@ namespace MarkdownMonster.Windows
                 if (value == _image) return;
                 _image = value;
                 OnPropertyChanged(nameof(Image));
-               
+
             }
         }
 
@@ -105,7 +105,7 @@ namespace MarkdownMonster.Windows
 
         private bool _isMemoryImage;
 
-        AppModel Model { get; set; } 
+        AppModel Model { get; set; }
         MarkdownDocumentEditor Editor { get; set; }
         MarkdownDocument Document { get; set; }
 
@@ -113,7 +113,7 @@ namespace MarkdownMonster.Windows
         public PasteImageWindow(MainWindow window)
         {
             InitializeComponent();
-            
+
             Owner = window;
             DataContext = this;
 
@@ -124,7 +124,7 @@ namespace MarkdownMonster.Windows
             Activated += PasteImage_Activated;
             PreviewKeyDown += PasteImage_PreviewKeyDown;
 
-            
+
             Model = window.Model;
             Editor = Model.ActiveEditor;
             Document = Model.ActiveDocument;
@@ -133,7 +133,7 @@ namespace MarkdownMonster.Windows
         private void PasteImage_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-            if (isControlKey && e.Key == Key.V && Clipboard.ContainsImage())            
+            if (isControlKey && e.Key == Key.V && Clipboard.ContainsImage())
                 PasteImageFromClipboard();
             else if (isControlKey && e.Key == Key.C)
                 Button_CopyImage(null, null);
@@ -141,13 +141,13 @@ namespace MarkdownMonster.Windows
 
         private void PasteImage_Activated(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(Image) && Clipboard.ContainsImage())            
-                PasteImageFromClipboard();            
+            if (string.IsNullOrEmpty(Image) && Clipboard.ContainsImage())
+                PasteImageFromClipboard();
         }
 
         private void PasteImage_Loaded(object sender, RoutedEventArgs e)
         {
- 
+
             PasteCommand = new CommandBase((s, args) =>
             {
                 MessageBox.Show("PasteCommand");
@@ -172,10 +172,10 @@ namespace MarkdownMonster.Windows
 
         private void TextImage_LostFocus(object sender, RoutedEventArgs e)
         {
-            
+
             if (!IsMemoryImage && string.IsNullOrEmpty(TextImage.Text))
             {
-                ImagePreview.Source = null;                
+                ImagePreview.Source = null;
                 return;
             }
 
@@ -183,7 +183,7 @@ namespace MarkdownMonster.Windows
             if (href.StartsWith("http://") || href.StartsWith("https://"))
             {
                 SetImagePreview(href);
-            }            
+            }
         }
 
         #region Main Buttons
@@ -217,7 +217,7 @@ namespace MarkdownMonster.Windows
                     IsMemoryImage = false;
                     return;
                 }
-            
+
                 if (!string.IsNullOrEmpty(imagePath))
                 {
                     TextImage.Text = imagePath;
@@ -251,8 +251,8 @@ namespace MarkdownMonster.Windows
                         var ext = Path.GetExtension(imagePath)?.ToLower();
 
                         if (ext == ".jpg" || ext == ".jpeg")
-                            ImageUtils.SaveJpeg(bitMap, imagePath, mmApp.Configuration.JpegImageCompressionLevel);                        
-                        
+                            ImageUtils.SaveJpeg(bitMap, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
+
                         else
                         {
                             using (var fileStream = new FileStream(imagePath, FileMode.Create))
@@ -320,7 +320,7 @@ namespace MarkdownMonster.Windows
         }
 
         private void CheckPasteAsBase64Content_Checked(object sender, RoutedEventArgs e)
-        {             
+        {
             if (PasteAsBase64Content)
                 if (IsMemoryImage)
                 {
@@ -331,7 +331,7 @@ namespace MarkdownMonster.Windows
                     Base64EncodeImage(Image);
             else
                 Image = null;
-            
+
         }
 
         private void Button_EditImage(object sender, RoutedEventArgs e)
@@ -393,15 +393,12 @@ namespace MarkdownMonster.Windows
                 Title = "Embed Image"
             };
 
-            if (!string.IsNullOrEmpty(MarkdownFile))
+            if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
+                fd.InitialDirectory = mmApp.Configuration.LastImageFolder;
+            else if (!string.IsNullOrEmpty(MarkdownFile))
                 fd.InitialDirectory = Path.GetDirectoryName(MarkdownFile);
             else
-            {
-                if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
-                    fd.InitialDirectory = mmApp.Configuration.LastImageFolder;
-                else
-                    fd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            }
+                fd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
             var res = fd.ShowDialog();
             if (res == null || !res.Value)
@@ -413,9 +410,9 @@ namespace MarkdownMonster.Windows
             {
                 var bmi = new BitmapImage(new Uri(fd.FileName))
                 {
-                    CreateOptions = BitmapCreateOptions.IgnoreImageCache // don't lock file                    
+                    CreateOptions = BitmapCreateOptions.IgnoreImageCache // don't lock file
                 };
-                
+
                 Base64EncodeImage(fd.FileName);
                 ImagePreview.Source = bmi;
                 return;
@@ -449,7 +446,7 @@ namespace MarkdownMonster.Windows
                     Image = relPath;
                 else
                 {
-                    // not relative 
+                    // not relative
                     var mbres = MessageBox.Show(
                         "The image you are linking, is not in a relative path.\r\n" +
                         "Do you want to copy it to a local path?",
@@ -484,6 +481,7 @@ namespace MarkdownMonster.Windows
                                     mmApp.ApplicationName);
                                 return;
                             }
+
                             try
                             {
                                 relPath = FileUtils.GetRelativePath(sd.FileName, mdPath);
@@ -492,6 +490,7 @@ namespace MarkdownMonster.Windows
                             {
                                 mmApp.Log($"Failed to get relative path.\r\nFile: {sd.FileName}, Path: {mdPath}", ex);
                             }
+
                             Image = relPath;
                         }
                     }
@@ -501,7 +500,7 @@ namespace MarkdownMonster.Windows
             }
 
 
-            
+
             if (Image.Contains(":\\"))
                 Image = "file:///" + Image;
             else
@@ -530,7 +529,7 @@ namespace MarkdownMonster.Windows
             if (milliSeconds > 0)
             {
                 Dispatcher.DelayWithPriority(milliSeconds, (win) =>
-                {                    
+                {
                     ShowStatus(null, 0);
                     SetStatusIcon();
                 }, this);
@@ -592,12 +591,12 @@ namespace MarkdownMonster.Windows
             SetImagePreview(Clipboard.GetImage());
             Image = null;
             IsMemoryImage = true;
-            
+
             ShowStatus("Image pasted from clipboard...", 5000);
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="file"></param>
         public void Base64EncodeImage(string file)
@@ -640,7 +639,7 @@ namespace MarkdownMonster.Windows
                     bmp.Save(ms, ImageFormat.Jpeg);
                     ms.Flush();
                     Image = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -712,7 +711,7 @@ namespace MarkdownMonster.Windows
             catch
             {
             }
-        }		
+        }
 
         private void SetImagePreview(BitmapSource source)
         {
