@@ -61,7 +61,7 @@ namespace MarkdownMonster.Windows
                 {"javascript", "JavaScript"},
                 {"typescript", "TypeScript"},
                 {"json", "Json"},
-                {"xml", "Xml" },                
+                {"xml", "Xml" },
 
                 {"sql","SQL" },
                 {"vbnet", "Vb.Net"},
@@ -74,15 +74,15 @@ namespace MarkdownMonster.Windows
                 {"php", "PHP"},
                 {"java", "Java"},
                 {"swift", "Swift"},
-                {"objectivec", "Objective C"},                                
+                {"objectivec", "Objective C"},
                 {"vbscript", "VB Script"},
                 {"haskell", "Haskel" },
                 {"go", "Go" },
-                
+
                 {"dockerfile", "Docker file"},
                 {"makefile", "Make file"},
                 {"nginx", "NgInx"},
-                
+
                 {"markdown","Markdown" },
                 {"yaml", "Yaml" },
 
@@ -93,10 +93,13 @@ namespace MarkdownMonster.Windows
                 {"dns", "DNS"},
                 {"perl", "Perl"},
                 {"diff", "Diff file"},
-                
 
-                {"txt", "Text - plain text, no formatting" }                
-            };
+
+                {"txt", "Text - plain text, no formatting" }
+            }
+            .OrderBy(kv => kv.Key.ToLower())
+            .ToDictionary(kv=> kv.Key, kv=> kv.Value);
+
             CodeLanguage = mmApp.Configuration.DefaultCodeSyntax;
 
             InitializeComponent();
