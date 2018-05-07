@@ -60,12 +60,12 @@
             <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document"  Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}" CommandParameter="AllBut" />
             <Separator/>
             <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
-            <MenuItem Name="ContextOpenInFolder" Header="Open _Folder in Explorer" Click="Button_OpenExplorer" />
-            <MenuItem Name="ContextOpenInFolderBrowser" Header="Open Folder in Folder _Browser" Click="Button_OpenFolderBrowser" />
+            <MenuItem Name="ContextOpenInFolder" Header="Show in Explorer" Click="Button_OpenExplorer" />
+            <MenuItem Name="ContextOpenInFolderBrowser" Header="Show in Folder _Browser" Click="Button_OpenFolderBrowser" />
             <Separator/>
             <MenuItem Name="ContextCommitToGit" Header="Commit to _Git"
                       Command="{Binding DataContext.Commands.CommitToGitCommand}" />
-            <MenuItem Name="ContextOpenGitClient" Header="Open Folder in Git Client"
+            <MenuItem Name="ContextOpenGitClient" Header="Open in Git Client"
                       Command="{Binding DataContext.Commands.OpenGitClientCommand}"   IsEnabled="{Binding Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
             <Separator/>
             <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Command="{Binding DataContext.Commands.CopyFolderToClipboardCommand}" />
@@ -284,7 +284,7 @@
                 <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>
                 <Separator/>
                 <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow"  IsEnabled="{Binding IsEditorActive}" />
-                <MenuItem Name="MenuOpenInFolder" Header="Open E_xplorer" 
+                <MenuItem Name="MenuOpenInFolder" Header="Open in E_xplorer" 
                         Click="Button_OpenExplorer"  
                         IsEnabled="{Binding IsEditorActive}" 
                         ToolTip="Open the document's folder in Explorer" />
