@@ -1049,7 +1049,7 @@ namespace MarkdownMonster
 
             if (TabControl.Items.Count == 0)
             {
-                PreviewBrowser.Navigate("about:blank");
+                PreviewBrowser?.Navigate("about:blank");
 
                 Model.ActiveDocument = null;
                 Title = "Markdown Monster" +
@@ -1430,7 +1430,7 @@ namespace MarkdownMonster
                     }
 
                     // check if we're already active - if not assign and preview immediately
-                    if (!(PreviewBrowser is IPreviewBrowser))
+                    if (!(PreviewBrowser is IPreviewBrowser) )
                     {
                         LoadPreviewBrowser();
                         return;

@@ -34,7 +34,11 @@ namespace MarkdownMonster.Windows
 
         void LoadInternalPreviewBrowser()
         {
+            // Allow addins to load their PreviewBrowser control
             PreviewBrowser = AddinManager.Current.RaiseGetPreviewBrowserControl();
+
+
+            // if not we use the default 
             if (PreviewBrowser == null)
                 PreviewBrowser = new IEWebBrowserControl() { Name = "PreviewBrowser" };
 
@@ -59,10 +63,11 @@ namespace MarkdownMonster.Windows
         }
 
         protected override void OnClosing(CancelEventArgs e)
-        {
+        {            
             IsClosed = true;
 
             var config = mmApp.Model.Configuration.WindowPosition;
+
 
             config.PreviewLeft = Convert.ToInt32(Left);
             config.PreviewTop = Convert.ToInt32(Top);
@@ -70,6 +75,12 @@ namespace MarkdownMonster.Windows
             config.PreviewHeight = Convert.ToInt32(Height);
 
             AttachDockingBehavior(true);
+
+
+            //Model.Window.PreviewBrowser = PreviewBrowser;            
+            PreviewBrowserContainer.Children.Clear();
+            PreviewBrowser = null;
+            Model.Window.PreviewBrowser = null;
         }
 
 
@@ -136,6 +147,24 @@ namespace MarkdownMonster.Windows
             DockToMainWindow();
         }
 
+        private void CheckPreviewAlwaysOnTop_Click(object sender, RoutedEventArgs e)
+        {
+            if (Model.Configuration.WindowPosition.PreviewAlwaysOntop)
+                Topmost = true;
+            else
+                Topmost = false;
+        }
+
+        private void CheckPreviewDocked_Click(object sender, RoutedEventArgs e)
+        {
+            if (Model.Configuration.WindowPosition.PreviewDocked)
+                AttachDockingBehavior();
+            else
+                AttachDockingBehavior(false);
+        }
+
+        #endregion
+
         #region IPreviewBrowser
         public void PreviewMarkdownAsync(MarkdownDocumentEditor editor = null, bool keepScrollPosition = false, string renderedHtml = null, int editorLineNumber = -1)
         {            
@@ -156,24 +185,6 @@ namespace MarkdownMonster.Windows
         public void ExecuteCommand(string command, params dynamic[] args)
         {
             PreviewBrowser.ExecuteCommand(command, args);
-        }
-        #endregion
-
-
-        private void CheckPreviewAlwaysOnTop_Click(object sender, RoutedEventArgs e)
-        {
-            if (Model.Configuration.WindowPosition.PreviewAlwaysOntop)
-                Topmost = true;
-            else
-                Topmost = false;
-        }
-
-        private void CheckPreviewDocked_Click(object sender, RoutedEventArgs e)
-        {
-            if (Model.Configuration.WindowPosition.PreviewDocked)
-                AttachDockingBehavior();
-            else
-                AttachDockingBehavior(false);
         }
         #endregion
     }
