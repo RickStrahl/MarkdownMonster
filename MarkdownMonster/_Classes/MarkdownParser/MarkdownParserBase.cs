@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Westwind.Utilities;
 
@@ -97,6 +98,45 @@ namespace MarkdownMonster
 
             return html;
         }
+
+
+        public static Regex includeFileRegEx = new Regex(@"\[\!include\[.*?\]\(.*?\)\]");
+        /// <summary>
+        /// Parses DocFx include files in the format of:
+        ///
+        ///    [!include[<title>](<filepath>)]
+        ///
+        /// Should run **prior** to Markdown parsing of the main document
+        /// as it will embed the file content as is.
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        protected string ParseDocFxIncludeFiles(string html)
+        {
+            var matches = includeFileRegEx.Matches(html);
+            foreach (Match match in matches)
+            {
+                string value = match.Value;
+                string title = StringUtils.ExtractString(value, "[!include[", "]");
+                string file = StringUtils.ExtractString(value, "](", ")]");
+
+                string filePath = mmApp.Model.ActiveDocument?.Filename;
+                if (string.IsNullOrEmpty(filePath))
+                    continue;
+
+                filePath = Path.GetDirectoryName(filePath);
+                string includeFile = Path.Combine(filePath, file);
+                if (!File.Exists(includeFile))
+                    continue;
+
+                string includeContent = File.ReadAllText(includeFile);
+
+                html = html.Replace(value, includeContent);
+            }
+
+            return html;
+        }
+
 
         /// <summary>
         /// Replaces all links with target="top" links

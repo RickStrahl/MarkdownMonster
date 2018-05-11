@@ -196,7 +196,22 @@ namespace MarkdownMonster
             }
         }
 
-        
+        /// <summary>
+        /// Parses DocFx include file links with a format of
+        /// ![include[title](file)]
+        /// </summary>
+        public bool ParseDocFxIncludeFiles
+        {
+            get => _parseDocFxIncludeFiles;
+            set
+            {
+                if (value == _parseDocFxIncludeFiles) return;
+                _parseDocFxIncludeFiles = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _parseDocFxIncludeFiles = true;
+
 
         private string _markdownParserName;
 
