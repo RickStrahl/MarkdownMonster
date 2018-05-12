@@ -100,11 +100,12 @@ namespace MarkdownMonster
         }
 
 
-        public static Regex includeFileRegEx = new Regex(@"\[\!include\[.*?\]\(.*?\)\]");
+        public static Regex includeFileRegEx = new Regex(@"\[\!include.*?\[.*?\]\(.*?\)\]");
+
         /// <summary>
         /// Parses DocFx include files in the format of:
         ///
-        ///    [!include[<title>](<filepath>)]
+        ///    [!include[title](relativePathToFileToInclude>)]
         ///
         /// Should run **prior** to Markdown parsing of the main document
         /// as it will embed the file content as is.
@@ -117,19 +118,41 @@ namespace MarkdownMonster
             foreach (Match match in matches)
             {
                 string value = match.Value;
-                string title = StringUtils.ExtractString(value, "[!include[", "]");
-                string file = StringUtils.ExtractString(value, "](", ")]");
 
-                string filePath = mmApp.Model.ActiveDocument?.Filename;
-                if (string.IsNullOrEmpty(filePath))
+                //string title = StringUtils.ExtractString(value, "[!include[", "]");
+                string file = StringUtils.ExtractString(value, "](", ")]");
+                if (string.IsNullOrEmpty(file))
                     continue;
 
-                filePath = Path.GetDirectoryName(filePath);
+                if (file.StartsWith("~"))                                    
+                    file = mmApp.Model.Window.FolderBrowser.FolderPath + file.Substring(1);
+                
+
+                string filePath;
+                if (file.Contains(@":\"))
+                {
+                    filePath = file;
+                }
+                else
+                {
+                    filePath = mmApp.Model.ActiveDocument?.Filename;
+                    if (string.IsNullOrEmpty(filePath))
+                        continue;
+
+                    filePath = Path.GetDirectoryName(filePath);
+                    if (filePath == null)
+                        continue;
+                }
+
+
                 string includeFile = Path.Combine(filePath, file);
+                includeFile = FileUtils.NormalizePath(includeFile);
                 if (!File.Exists(includeFile))
                     continue;
 
-                string includeContent = File.ReadAllText(includeFile);
+                var markdownDocument = new MarkdownDocument();
+                markdownDocument.Load(includeFile);
+                string includeContent = markdownDocument.RenderHtml();
 
                 html = html.Replace(value, includeContent);
             }

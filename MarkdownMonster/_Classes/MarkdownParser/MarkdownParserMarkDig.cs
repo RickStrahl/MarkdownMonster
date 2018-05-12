@@ -69,7 +69,7 @@ namespace MarkdownMonster
                 return string.Empty;
 
             if (mmApp.Configuration.MarkdownOptions.ParseDocFxIncludeFiles)
-            markdown = ParseDocFxIncludeFiles(markdown);
+              markdown = ParseDocFxIncludeFiles(markdown);
 
             var htmlWriter = new StringWriter();
             var renderer = CreateRenderer(htmlWriter);
