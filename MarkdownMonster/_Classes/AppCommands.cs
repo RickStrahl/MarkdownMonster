@@ -238,7 +238,7 @@ namespace MarkdownMonster
                         var text = StringUtils.ExtractString(link, "![", "](");
                         linkUrl = basePath + linkUrl;
 
-                        var newLink = $"![text]({linkUrl})";
+                        var newLink = $"![{text}]({linkUrl})";
                         markdown = markdown.Replace(link, newLink);
                     }
 

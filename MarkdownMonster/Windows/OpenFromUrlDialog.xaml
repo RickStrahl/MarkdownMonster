@@ -42,8 +42,12 @@
                   Content="Fix up image links"
                   IsChecked="{Binding FixupImageLinks}">
             <CheckBox.ToolTip>
-                <TextBlock>
-                    Fixes up relative image URLs to use absolute Web paths
+                <TextBlock>                    
+                    Fixes up relative image URLs with absolute Web paths
+                    <LineBreak/>
+                    so images can render in the preview Window.
+                    <LineBreak />
+                    Note: This changes the document's content.
                 </TextBlock>
             </CheckBox.ToolTip> 
        </CheckBox>
