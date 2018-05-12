@@ -111,9 +111,7 @@ namespace MarkdownMonster.Utilities
                 string username = null,
                 string password = null
             )
-        {
-
-            Repository repo = null;
+        {            
             try
             {
                 var options = new CloneOptions
@@ -218,7 +216,7 @@ namespace MarkdownMonster.Utilities
             }
             catch (Exception ex)
             {
-                SetError("Unable to add remote.");
+                SetError("Unable to add remote: " + ex.Message);
                 return false;
             }
 
@@ -284,7 +282,7 @@ namespace MarkdownMonster.Utilities
                      AmendPreviousCommit = ammendPreviousCommit
                 });
             }
-            catch (EmptyCommitException ex)
+            catch (EmptyCommitException)
             {
                 return true;
             }
