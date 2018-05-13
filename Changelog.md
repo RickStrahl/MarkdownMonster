@@ -13,6 +13,15 @@
 * **Add support for DocFx/Microsoft Docs Include Files in Preview**  
 The Preview can now optionally render DocFx style includes in the form of `[!include[title](fileName)]` linked files to render. Relative files will automatically be included and are rendered inline. There an option that turns this behavior on and off: `markdownOptions.ParseDocFxIncludeFiles`.
 
+* **Add Drag and Drop File Moving in Folder Browser**   
+You can now drag and drop files in the file browser to new folder.
+
+* **Main UI Theme Switching Improvements**  
+Switching between light and dark themes now automatically assigns a default editor theme to match the light or dark theme. Theme switches prompt for a restart and if you opt in automatically shuts down and restarts Markdown Monster
+
+* **Improvements to Open from Url**  
+The Open From Url functionality now optionally fixes up image links to absolute Web URLs so images can display in the browser. Various common top level document URLs on various common sites are now automatically fixed up and opened from the raw content. 
+
 ### 1.10.18
 <small>May 5th, 2018</small>
 

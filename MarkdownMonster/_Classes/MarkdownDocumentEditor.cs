@@ -874,7 +874,7 @@ namespace MarkdownMonster
                             // always disable for non-markdown text
                             AceEditor.enablespellchecking(true, mmApp.Configuration.Editor.Dictionary);
                     }
-                    catch(Exception ex)
+                    catch
                     {
                     }
                 },
