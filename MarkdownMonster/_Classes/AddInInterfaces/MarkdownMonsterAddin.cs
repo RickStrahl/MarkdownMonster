@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
+using FontAwesome.WPF;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
@@ -513,15 +514,35 @@ namespace MarkdownMonster.AddIns
 
 
         /// <summary>
-        /// Shows a Status Message on the Status bar
+        /// Displays a status message on the main application's status bar
         /// </summary>
-        /// <param name="message">Message to display</param>
-        /// <param name="timeoutMs">optional timeout in milliseconds</param>
-        public void ShowStatus(string message, int timeoutMs = 0)
-        {            
-            Model.Window.ShowStatus(message, timeoutMs);            
+        /// <param name="message"></param>        
+        /// <param name="timeoutMs"></param>
+        /// <param name="icon"></param>
+        /// <param name="color"></param>
+        /// <param name="spin"></param>
+        public void ShowStatus(string message = null, int timeoutMs = 0,
+            FontAwesomeIcon icon = FontAwesomeIcon.None,
+            Color color = default(Color),
+            bool spin = false)
+        {
+            Model.Window.ShowStatus(message, timeoutMs, icon, color, spin);
         }
 
+        /// <summary>
+        /// Displays and error message on the status bar using common
+        /// default values (red icon, standard timeout, warning icon)
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="timeout"></param>
+        /// <param name="icon"></param>
+        /// <param name="color"></param>
+        public void ShowStatusError(string message, int timeout = -1,
+            FontAwesomeIcon icon = FontAwesomeIcon.Warning,
+            Color color = default(Color))
+        {
+            Model.Window.ShowStatusError(message,timeout,icon,color);
+        }
 
         /// <summary>
         /// Lets you modify the status icon and color on the status bar.
@@ -529,11 +550,10 @@ namespace MarkdownMonster.AddIns
         /// <param name="icon"></param>
         /// <param name="color"></param>
         /// <param name="spin"></param>
+        [Obsolete("Use ShowStatusError instead")]
         public void SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon icon, Color color,bool spin = false)
         {
-            Model.Window.SetStatusIcon(icon, color,spin);
-            
-            
+            Model.Window.SetStatusIcon(icon, color,spin);                        
         }
         #endregion
 

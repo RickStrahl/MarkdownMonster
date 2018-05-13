@@ -1052,6 +1052,8 @@ namespace MarkdownMonster
                 PreviewBrowser?.Navigate("about:blank");
 
                 Model.ActiveDocument = null;
+                StatusStats.Text = null;
+
                 Title = "Markdown Monster" +
                         (UnlockKey.Unlocked ? "" : " (unregistered)");
             }
@@ -2108,6 +2110,9 @@ namespace MarkdownMonster
             Color color = default(Color),
             bool spin = false)
         {
+            if (color == default(Color))
+                color = Colors.Green;
+
             if (icon != FontAwesomeIcon.None)
                 SetStatusIcon(icon, color, spin);
 
@@ -2126,6 +2131,8 @@ namespace MarkdownMonster
                 debounce.Debounce(milliSeconds, (win) =>
                 {
                     var window = win as MainWindow;
+                    if (window == null)
+                        return;                    
                     window.ShowStatus(null, 0);
                 }, this);
             }

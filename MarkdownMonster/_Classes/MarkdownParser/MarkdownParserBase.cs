@@ -78,7 +78,7 @@ namespace MarkdownMonster
         }
 
 
-        public static Regex fontAwesomeIconRegEx = new Regex(@"@icon-.*?[\s|\.|\,|\<]");
+        private static Regex fontAwesomeIconRegEx = new Regex(@"@icon-.*?[\s|\.|\,|\<]");
 
         /// <summary>
         /// Post processing routine that post-processes the HTML and 
@@ -100,7 +100,7 @@ namespace MarkdownMonster
         }
 
 
-        public static Regex includeFileRegEx = new Regex(@"\[\!include.*?\[.*?\]\(.*?\)\]");
+        private static Regex includeFileRegEx = new Regex(@"\[\!include.*?\[.*?\]\(.*?\)\]",RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Parses DocFx include files in the format of:
