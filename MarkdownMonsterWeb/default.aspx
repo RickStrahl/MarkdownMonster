@@ -95,23 +95,27 @@
             <a href="./" class="active">
                 Home
             </a>
-            <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE">                
-                Video
-            </a>
-            <%--<a href="features.aspx">Features</a>--%>
             <a href="download.aspx" class="hidable" title="Download Markdown Monster">                
                 Download
             </a>
+            <a href="https://www.youtube.com/watch?v=XjFf57Ap9VE">                
+                Video
+            </a>
+            <a href="docs/_4rd0xigys.htm" title="Markdown Monster Features">                
+                Features
+            </a>
+            <%--<a href="features.aspx">Features</a>--%>           
             <a href="purchase.aspx" title="Purchase Markdown Monster">                
                 Buy
             </a>                 
             <a href="https://support.west-wind.com/Thread4NM0M17RC.wwt" class="hidable" title="Support for Markdown Monster">                
                 Support
             </a>
+        
             <a href="docs/" title="Markdown Monster Documentation">                
                 Docs
             </a>            
-            <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog">                
+            <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog" class="hidable">                
                 Blog
             </a>
             <%--<a href="pricing.aspx">License</a>--%>
