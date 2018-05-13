@@ -1473,14 +1473,75 @@ namespace MarkdownMonster.Windows
                     || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
                     var treeView = sender as TreeView;
-                    var treeViewItem = FindCommonVisualAncestor((DependencyObject) e.OriginalSource);
+                    var treeViewItem = FindCommonVisualAncestor((DependencyObject) e.OriginalSource) ;
                     if (treeView == null || treeViewItem == null)
                         return;
 
-                    var dragData = new DataObject(DataFormats.UnicodeText, selected.FullPath);
-                    DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.Copy);
+                    //treeViewItem.ToolTip = selected.FullPath;
+                    var dragData = new DataObject(DataFormats.UnicodeText, selected.FullPath);                    
+                    
+                    DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.Move);
                 }
             }
+        }
+
+        private void TreeViewItem_Drop(object sender, DragEventArgs e)
+        {
+
+            PathItem targetItem;
+
+            if (sender is TreeView)
+            {
+                // dropped into treeview open space
+                targetItem = ActivePathItem;
+            }
+            else
+            {
+                targetItem = (e.OriginalSource as FrameworkElement)?.DataContext as PathItem;
+                if (targetItem == null)
+                    return;                
+            }
+            e.Handled = true;
+
+            if (!targetItem.IsFolder)
+                targetItem = targetItem.Parent;
+
+            if (!targetItem.IsFolder)
+                return;
+
+            var path = e.Data.GetData(DataFormats.UnicodeText) as string;
+            if (string.IsNullOrEmpty(path))
+                return;
+
+            var sourceItem = FolderStructure.FindPathItemByFilename(ActivePathItem, path);
+            if (sourceItem == null)
+                return;
+
+            var newPath = Path.Combine(targetItem.FullPath, sourceItem.DisplayName);
+            try
+            {
+                File.Move(sourceItem.FullPath, newPath);
+            }
+            catch (Exception ex)
+            {
+                AppModel.Window.ShowStatusError($"Couldn't move file: {ex.Message}",
+                    mmApp.Configuration.StatusMessageTimeout);
+                return;
+            }
+
+
+            targetItem.IsExpanded = true;
+
+            // wait for file watcher to pick up the file
+            Dispatcher.Delay(200,(p) =>
+            {
+                var srceItem = FolderStructure.FindPathItemByFilename(ActivePathItem, p as string);
+                if (srceItem == null)
+                    return;
+                srceItem.IsSelected = true;
+            },newPath);
+
+            AppModel.Window.ShowStatus($"File copied to: {newPath}",mmApp.Configuration.StatusMessageTimeout);
         }
 
         #endregion
@@ -1493,7 +1554,10 @@ namespace MarkdownMonster.Windows
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
+
+       
     }
 
     public class SourceControlIcons

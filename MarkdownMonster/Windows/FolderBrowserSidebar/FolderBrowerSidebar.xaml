@@ -206,8 +206,8 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
 		          PreviewMouseLeftButtonDown="TreeFolderBrowser_PreviewMouseLeftButtonDown"                                         
 		          PreviewMouseMove="TreeFolderBrowser_MouseMove"                  
-                  TreeViewItem.Expanded="TreeFolderBrowser_Expanded"                  
-                  
+                  TreeViewItem.Expanded="TreeFolderBrowser_Expanded"                       
+                  Drop="TreeViewItem_Drop"
 				  ItemsSource="{Binding ActivePathItem.Files}"  
                   BorderThickness="0" ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening">
                 <TreeView.ContextMenu>
@@ -220,6 +220,9 @@
                         <Setter Property="Visibility" Value="{Binding IsVisible,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />
+
+                        <!--<EventSetter Event="DragOver" Handler="TreeViewItem_DragOver" />-->
+                        <EventSetter Event="Drop" Handler="TreeViewItem_Drop" />
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>

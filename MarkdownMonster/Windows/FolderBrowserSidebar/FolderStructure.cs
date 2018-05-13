@@ -229,8 +229,8 @@ namespace MarkdownMonster.Windows
         /// <param name="pi"></param>
         /// <param name="parent"></param>
 	    public void InsertPathItemInOrder(PathItem pi, PathItem parent)
-	    {
-	        int foundIndex = -1;
+	    {            
+            int foundIndex = -1;
 	        foreach (var pitem in parent.Files)
 	        {
                 if (pitem?.FullPath == null)
@@ -246,7 +246,11 @@ namespace MarkdownMonster.Windows
 
 	        if (foundIndex < 0) foundIndex = 0;
 
-            mmApp.Model.Window.Dispatcher.Invoke(() => parent.Files.Insert(foundIndex, pi));
+            mmApp.Model.Window.Dispatcher.Invoke(() =>
+            {
+                parent.Files.Insert(foundIndex, pi);
+                pi.UpdateGitFileStatus();
+            });
         }
 
         /// <summary>
