@@ -1473,14 +1473,13 @@ namespace MarkdownMonster.Windows
                     || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
                     var treeView = sender as TreeView;
-                    var treeViewItem = FindCommonVisualAncestor((DependencyObject) e.OriginalSource) ;
+                    var treeViewItem = WindowUtilities.FindAnchestor<TreeViewItem>((DependencyObject) e.OriginalSource) ;
                     if (treeView == null || treeViewItem == null)
                         return;
-
-                    //treeViewItem.ToolTip = selected.FullPath;
+                    
                     var dragData = new DataObject(DataFormats.UnicodeText, selected.FullPath);                    
                     
-                    DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.Move);
+                    DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.All);
                 }
             }
         }
@@ -1506,9 +1505,6 @@ namespace MarkdownMonster.Windows
             if (!targetItem.IsFolder)
                 targetItem = targetItem.Parent;
 
-            if (!targetItem.IsFolder)
-                return;
-
             var path = e.Data.GetData(DataFormats.UnicodeText) as string;
             if (string.IsNullOrEmpty(path))
                 return;
@@ -1518,6 +1514,14 @@ namespace MarkdownMonster.Windows
                 return;
 
             var newPath = Path.Combine(targetItem.FullPath, sourceItem.DisplayName);
+
+            if (sourceItem.FullPath.Equals(newPath, StringComparison.InvariantCultureIgnoreCase))
+            {
+                AppModel.Window.ShowStatusError($"File not moved.",
+                    mmApp.Configuration.StatusMessageTimeout);
+                return;
+            }
+
             try
             {
                 File.Move(sourceItem.FullPath, newPath);
@@ -1528,8 +1532,6 @@ namespace MarkdownMonster.Windows
                     mmApp.Configuration.StatusMessageTimeout);
                 return;
             }
-
-
             targetItem.IsExpanded = true;
 
             // wait for file watcher to pick up the file
@@ -1541,7 +1543,7 @@ namespace MarkdownMonster.Windows
                 srceItem.IsSelected = true;
             },newPath);
 
-            AppModel.Window.ShowStatus($"File copied to: {newPath}",mmApp.Configuration.StatusMessageTimeout);
+            AppModel.Window.ShowStatus($"File moved to: {newPath}",mmApp.Configuration.StatusMessageTimeout);
         }
 
         #endregion
@@ -1555,31 +1557,7 @@ namespace MarkdownMonster.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #endregion
-
-       
-    }
-
-    public class SourceControlIcons
-    {
-        public static ImageSource Normal;
-        public static ImageSource Changed;
-        public static ImageSource Ignored;
-        public static ImageSource Added;
-        public static ImageSource Conflict;
-        public static ImageSource Unversioned;
-        public static ImageSource Deleted;
-
-        static SourceControlIcons()
-        {
-            Normal = ImageAwesome.CreateImageSource(FontAwesomeIcon.Lock, Brushes.SteelBlue);
-            Changed = ImageAwesome.CreateImageSource(FontAwesomeIcon.Check, Brushes.Red);
-            Ignored = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.LightSlateGray);
-            Added = ImageAwesome.CreateImageSource(FontAwesomeIcon.Plus, Brushes.LightGreen);
-            Conflict = ImageAwesome.CreateImageSource(FontAwesomeIcon.Warning, Brushes.DarkGoldenrod);
-            Unversioned = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.LightSlateGray);
-            Deleted = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.IndianRed);
-        }
+        #endregion   
     }
 
 }

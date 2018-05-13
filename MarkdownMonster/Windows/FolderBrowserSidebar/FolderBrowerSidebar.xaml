@@ -43,43 +43,42 @@
                                 </Style.Triggers>
                             </Style>
                         </Image.Style>
-                    </Image>
+                </Image>
 
-                    <TextBlock Name="TextFileOrFolderName" 
-                               Grid.Column="2"
-                               Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
-				           Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
-						   MouseEnter="TextFileOrFolderName_MouseEnter" 
-                           MouseLeave="TextFileOrFolderName_MouseLeave" 				
-                           MouseUp="TextFileOrFolderName_MouseUpToEdit" >
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsFolder}" Value="True">
-                                        <Setter Property="FontWeight" Value="SemiBold"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-
-
-
-                    <TextBox Name="TextEditFileItem" Grid.Column="2"
-                            Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                            Padding="6 0 10 -3" Margin="0" FontSize="13"                           
-                            Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" 
-                            LostFocus="TextEditFileItem_LostFocus">
-                        <TextBox.Style>
-                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                    <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+                <TextBlock Name="TextFileOrFolderName" 
+                           Grid.Column="2"
+                           Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
+				       Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
+					   MouseEnter="TextFileOrFolderName_MouseEnter" 
+                       MouseLeave="TextFileOrFolderName_MouseLeave" 				
+                       MouseUp="TextFileOrFolderName_MouseUpToEdit" >
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFolder}" Value="True">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
                                 </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+
+                <TextBox Name="TextEditFileItem" Grid.Column="2"
+                        Text="{Binding EditName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                        Padding="6 0 10 -3" Margin="0" FontSize="13"                           
+                        Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                        LostFocus="TextEditFileItem_LostFocus">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+                            </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
                 </Grid>
             <!--</Grid>-->
         </HierarchicalDataTemplate>

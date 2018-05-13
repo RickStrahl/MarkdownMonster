@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Windows.Media;
+using FontAwesome.WPF;
 using LibGit2Sharp;
 using MarkdownMonster.Utilities;
 using Westwind.Utilities;
-
 
 namespace MarkdownMonster.Windows
 {
@@ -330,4 +331,27 @@ namespace MarkdownMonster.Windows
 	        return result;
 	    }
     }
+
+    public class SourceControlIcons
+    {
+        public static ImageSource Normal;
+        public static ImageSource Changed;
+        public static ImageSource Ignored;
+        public static ImageSource Added;
+        public static ImageSource Conflict;
+        public static ImageSource Unversioned;
+        public static ImageSource Deleted;
+
+        static SourceControlIcons()
+        {
+            Normal = ImageAwesome.CreateImageSource(FontAwesomeIcon.Lock, Brushes.SteelBlue);
+            Changed = ImageAwesome.CreateImageSource(FontAwesomeIcon.Check, Brushes.Red);
+            Ignored = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.LightSlateGray);
+            Added = ImageAwesome.CreateImageSource(FontAwesomeIcon.Plus, Brushes.LightGreen);
+            Conflict = ImageAwesome.CreateImageSource(FontAwesomeIcon.Warning, Brushes.DarkGoldenrod);
+            Unversioned = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.LightSlateGray);
+            Deleted = ImageAwesome.CreateImageSource(FontAwesomeIcon.MinusCircle, Brushes.IndianRed);
+        }
+    }
 }
+
