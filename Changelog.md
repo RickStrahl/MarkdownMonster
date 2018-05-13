@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.10.19 
+### 1.10.21
 <small>not released yet</small>
 
 * **Add support for DocFx/Microsoft Docs Include Files in Preview**  
@@ -107,6 +107,8 @@ Fixed new file editing behavior that would get corrupted by the file search beha
 
 ### 1.10
 *<small>March 27th, 2018</small>*
+
+
 
 * **Document Outline**  
 There's a new Document Outline feature (preview) that provides a two-way sync between the active document and the outline. The outline shows headers (h1-h4). You can click on bookmark links, and the outline stays in sync when you scroll the document.
@@ -217,7 +219,6 @@ Fixed how code displays by overriding default Bootstrap styles that wrap code. O
 
 ### 1.9
 *<small>January 24, 2018</small>*
-#### Version Rollup Release
 
 * **Version Rollup Release**  
 This release is a version Rollup release that combines all the recent additions into a point release.
@@ -330,9 +331,8 @@ Fixed behavior, so that if a selection is active, Shift-Del only deletes the act
 * **Fix: Crashes related to File Save Operations failing**   
 Fixed issue where async save operations would interfere with various file checks (for encryption and auto-save operations). Fixed with single code path and lock to prevent thread cross talk.
 
-### 1.8.0
+### 1.8
 *<small>December 4th, 2017</small>*
-##### Version Rollup Release
 
 * **Version Rollup Release**   
 This release is a version rollup release that combines all the recent additions into a point release.

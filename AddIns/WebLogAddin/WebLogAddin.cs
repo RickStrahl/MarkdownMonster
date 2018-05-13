@@ -515,9 +515,9 @@ namespace WeblogAddin
                 string path = mmApp.Configuration.LastFolder;
 
                 // do this synchronously so images show up :-<
-                ShowStatus("Downloading post images...");
+                ShowStatus("Downloading post images...", mmApp.Configuration.StatusMessageTimeout);                   
                 SaveMarkdownImages(html, path);
-                ShowStatus("Post download complete.", 5000);
+                ShowStatus("Post download complete.", mmApp.Configuration.StatusMessageTimeout);
 
                 //new Action<string,string>(SaveImages).BeginInvoke(html,path,null, null);
             }

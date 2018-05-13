@@ -1,5 +1,8 @@
 ﻿# Markdown Monster ToDo List
 
+### Bugs
+* [ ] When closing last document stats are not cleared.
+
 ### Immediate
 * [ ] Addin Enabled/Disabled
 * [ ] Master Configuration Form
