@@ -2632,7 +2632,16 @@ var MarkdownHighlightRules = function() {
                     '((?:[^\\)\\s\\\\]|\\\\.|\\s(?=[^"]))*)' +        // href
                     '(\\s*"' +  escaped('"') + '"\\s*)?' +            // "title"
                     "(\\))"                                           // )
-        }, { // strong ** __
+        }, { // link by image
+            token : ["text", "string", "text", "markup.underline", "string", "text"],
+            regex : "(\\!\\[)(" +                                        // [
+                    escaped("]") +                                    // link text
+                    ")(\\]\\()"+                                      // ](
+                    '((?:[^\\)\\s\\\\]|\\\\.|\\s(?=[^"]))*)' +        // href
+                    '(\\s*"' +  escaped('"') + '"\\s*)?' +            // "title"
+                    "(\\))"                                           // )
+        },
+        { // strong ** __
             token : "string.strong",
             regex : "([*]{2}|[_]{2}(?=\\S))(.*?\\S[*_]*)(\\1)"
         }, { // emphasis * _
