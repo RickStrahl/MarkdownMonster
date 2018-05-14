@@ -2626,15 +2626,7 @@ var MarkdownHighlightRules = function() {
             regex : "(\\[)(" + escaped("]") + ")(\\]\\s*\\[)("+ escaped("]") + ")(\\])"
         }, { // link by url
             token : ["text", "string", "text", "markup.underline", "string", "text"],
-            regex : "(\\[)(" +                                        // [
-                    escaped("]") +                                    // link text
-                    ")(\\]\\()"+                                      // ](
-                    '((?:[^\\)\\s\\\\]|\\\\.|\\s(?=[^"]))*)' +        // href
-                    '(\\s*"' +  escaped('"') + '"\\s*)?' +            // "title"
-                    "(\\))"                                           // )
-        }, { // link by image
-            token : ["text", "string", "text", "markup.underline", "string", "text"],
-            regex : "(\\!\\[)(" +                                        // [
+                regex: "(\\!?\\[)(" +                                        // [
                     escaped("]") +                                    // link text
                     ")(\\]\\()"+                                      // ](
                     '((?:[^\\)\\s\\\\]|\\\\.|\\s(?=[^"]))*)' +        // href
