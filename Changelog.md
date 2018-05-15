@@ -23,7 +23,7 @@ Switching between light and dark themes now automatically assigns a default edit
 The Open From Url functionality now optionally fixes up image links to absolute Web URLs so images can display in the browser. Various common top level document URLs on various common sites are now automatically fixed up and opened from the raw content. 
 
 ### 1.10.18
-<small>May 5th, 2018</small>
+<small>May 5th, 2018</small> 
 
 * **Option to turn and off Markdown Bullet AutoCompletion**  
 There have been quite a few complaints around the auto-completion bullet editing in Markdown text and now there's an option to disable it. In fact, bullet auto-complete is now off by default and has to be enabled explicitly with `Editor.EnableBulletAutoCompletion`.
@@ -35,7 +35,7 @@ Add the ability to pull data from the remote origin into the current Git reposit
 Fixed bug for paths with spaces in Git Clone operation.
 
 * **Add option to leave Git Commit Window Open**  
-Added `Git.GitCloseCommitDialog` config flag to allow window stay open after committing. Default is `true`.
+Added `Git.GitCloseCommitDialog` configuration flag to allow window stay open after committing. Default is `true`.
 
 ### 1.10.16
 <small>May 1st, 2018</small>
