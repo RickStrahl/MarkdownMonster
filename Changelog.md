@@ -34,6 +34,9 @@ Add the ability to pull data from the remote origin into the current Git reposit
 * **Fix Git Clone with Path with Spaces**   
 Fixed bug for paths with spaces in Git Clone operation.
 
+* **Add option to leave Git Commit Window Open**  
+Added `Git.GitCloseCommitDialog` config flag to allow window stay open after committing. Default is `true`.
+
 ### 1.10.16
 <small>May 1st, 2018</small>
 
