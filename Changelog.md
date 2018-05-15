@@ -8,7 +8,7 @@
 
 
 ### 1.10.22
-<small>not released yet</small>
+<small>May 15th, 2018</small>
 
 * **Add support for DocFx/Microsoft Docs Include Files in Preview**  
 The Preview can now optionally render DocFx style includes in the form of `[!include[title](fileName)]` linked files to render. Relative files will automatically be included and are rendered inline. There an option that turns this behavior on and off: `markdownOptions.ParseDocFxIncludeFiles`.
