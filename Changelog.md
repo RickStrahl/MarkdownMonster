@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.10.22 
+### 1.10.22  
 <small>May 15th, 2018</small>
 
 * **Add support for DocFx/Microsoft Docs Include Files in Preview**  
