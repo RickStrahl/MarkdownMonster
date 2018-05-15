@@ -37,6 +37,9 @@ Add the ability to pull data from the remote origin into the current Git reposit
 * **Fix Git Clone with Path with Spaces**   
 Fixed bug for paths with spaces in Git Clone operation.
 
+* **Add Commit Dialog Option to Leave Window Open after Commit**  
+There's now a persisted option that optionally allows you to leave the Git Commit window open if there are still pending files to be committed. This makes it easier to selectively commit files into multiple commits.
+
 ### 1.10.16
 <small>May 1st, 2018</small>
 
