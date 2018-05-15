@@ -85,13 +85,31 @@ namespace MarkdownMonster.Windows
                     mmApp.Configuration.Git.GitName = CommitModel.GitUsername;
                     mmApp.Configuration.Git.GitEmail = CommitModel.GitEmail;
                 }
-                Close();
+
+                if (AppModel.Configuration.Git.CloseAfterCommit)
+                {
+                    Close();
+                    AppModel.Window.ShowStatus("Files have been committed in the local repository.", mmApp.Configuration.StatusMessageTimeout);
+                }
+                else
+                {                    
+                    CommitModel.GetRepositoryChanges();
+                    if (CommitModel.RepositoryStatusItems.Count < 1)
+                    {
+                        Close();
+                        AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",
+                            mmApp.Configuration.StatusMessageTimeout);
+                    }
+                    else
+                        ShowStatus("Files have been committed in the local repository.", mmApp.Configuration.StatusMessageTimeout);
+
+                }
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
                     Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
                 
                 mmApp.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.Commit;
-                AppModel.Window.ShowStatus("Files have been committed in the local repository.", mmApp.Configuration.StatusMessageTimeout);
+                
             }
         }
 
@@ -104,13 +122,31 @@ namespace MarkdownMonster.Windows
                     mmApp.Configuration.Git.GitName = CommitModel.GitUsername;
                     mmApp.Configuration.Git.GitEmail = CommitModel.GitEmail;
                 }
-                Close();
+
+                if (AppModel.Configuration.Git.CloseAfterCommit)
+                {
+                    Close();
+                    AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.", mmApp.Configuration.StatusMessageTimeout);
+                }
+                else
+                {
+                    // reload settings                    
+                    CommitModel.GetRepositoryChanges();
+                    if (CommitModel.RepositoryStatusItems.Count < 1)
+                    {
+                        Close();
+                        AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",
+                            mmApp.Configuration.StatusMessageTimeout);
+                    }
+                    else
+                        ShowStatus("Files have been committed and pushed to the remote.",
+                                   mmApp.Configuration.StatusMessageTimeout);
+                }
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
                     Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(),System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
-                mmApp.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.CommitAndPush;
-                AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",mmApp.Configuration.StatusMessageTimeout);
+                mmApp.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.CommitAndPush;               
             }            
         }
 
@@ -133,7 +169,6 @@ namespace MarkdownMonster.Windows
         {
             Close();
         }
-
 
         private void CheckCommitRepository_Click(object sender, RoutedEventArgs e)
         {

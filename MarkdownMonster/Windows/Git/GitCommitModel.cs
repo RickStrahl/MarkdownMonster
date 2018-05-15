@@ -168,12 +168,22 @@ namespace MarkdownMonster.Windows
 
         public GitCommitDialog CommitWindow { get; set; }
 
-        
-
         public Repository Repository { get; set; }
 
         public GitHelper GitHelper { get; }
 
+        
+        public bool LeaveDialogOpen
+        {
+            get => !AppModel.Configuration.Git.CloseAfterCommit;
+            set
+            {
+                if (!value == AppModel.Configuration.Git.CloseAfterCommit) return;
+                AppModel.Configuration.Git.CloseAfterCommit = !value;
+                OnPropertyChanged();
+            }
+        }
+        
 
         #region Helpers
 

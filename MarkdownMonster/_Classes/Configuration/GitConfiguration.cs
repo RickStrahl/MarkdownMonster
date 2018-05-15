@@ -14,6 +14,8 @@ namespace MarkdownMonster.Configuration
         /// or Commit and Push
         /// </summary>
         public GitCommitBehaviors GitCommitBehavior { get; set; } = GitCommitBehaviors.CommitAndPush;
+
+        public bool CloseAfterCommit { get; set; } = true;
         
         /// <summary>
         /// Point to your favorite Git Client to open for folders

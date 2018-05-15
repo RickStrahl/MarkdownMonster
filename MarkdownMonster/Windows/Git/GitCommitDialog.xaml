@@ -91,7 +91,7 @@
                             <fa:FontAwesome Margin="5,2,5,0" Icon="ExternalLink"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                             <TextBlock>Open in Git Client</TextBlock>
-                        </StackPanel>
+                        </StackPanel> 
                     </Button>
                 </ToolBar>
                 <ToolBar>
@@ -107,11 +107,12 @@
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         </StackPanel>
                     </Button>
+                                        
                 </ToolBar>
             </StackPanel>
         </ToolBarPanel>
 
-        <Grid Name="MainContentPanel" Grid.Row="1" Margin="25">
+        <Grid Name="MainContentPanel" Grid.Row="1" Margin="25 25 25 15">
 
 
             <Grid.RowDefinitions>
@@ -119,6 +120,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
 
@@ -147,7 +149,7 @@
                     
 
                 <CheckBox Name="CheckShowIgnoredFiles" Margin="15 0 15 0" IsChecked="{Binding IncludeIgnoredFiles}"  
-                          Content="Show Ignored Files"   />          
+                          Content="Show Ignored Files"   />
                
             </StackPanel>
             
@@ -189,6 +191,9 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+
+            <CheckBox Name="CheckNoLeaveOpen" Margin="0 12 0 0" Grid.Row="4" IsChecked="{Binding LeaveDialogOpen}"                            
+                      Content="Leave Dialog Open after Commit"   />
         </Grid>
 
         <StatusBar  Grid.Row="2" Height="28"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
