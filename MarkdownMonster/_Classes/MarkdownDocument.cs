@@ -72,6 +72,7 @@ namespace MarkdownMonster
                 _filename = value;
                 OnPropertyChanged();                
                 OnPropertyChanged(nameof(FilenameWithIndicator));
+                OnPropertyChanged(nameof(FilenamePathWithIndicator));
                 OnPropertyChanged(nameof(HtmlRenderFilename));
             }
         }
@@ -120,7 +121,7 @@ namespace MarkdownMonster
 
                 string path = Path.GetFileName(Path.GetDirectoryName(Filename));
 
-                return Path.GetFileName(Filename) + "  –  " + path  + (IsDirty ? "*" : ""); 
+                return Path.GetFileName(Filename) + (IsDirty ? "*" : "") + "  –  " + path ; 
             }
         }
 
@@ -250,7 +251,8 @@ namespace MarkdownMonster
                     _IsDirty = value;
                     IsDirtyChanged?.Invoke(value);
                     OnPropertyChanged(nameof(IsDirty));
-                    OnPropertyChanged(nameof(FilenameWithIndicator));                    
+                    OnPropertyChanged(nameof(FilenameWithIndicator));
+                    OnPropertyChanged(nameof(FilenamePathWithIndicator));
                 }
             }
         }
