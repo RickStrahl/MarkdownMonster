@@ -48,6 +48,7 @@ using System.Windows.Threading;
 using Markdig;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -1689,36 +1690,36 @@ namespace MarkdownMonster
 
         
         #region SpellChecking interactions
-        static Hunspell GetSpellChecker(string language = "EN_US", bool reload = false)
-        {
-            if (reload || _spellChecker == null)
-            {
-                string dictFolder = Path.Combine(Environment.CurrentDirectory,"Editor\\");
+        //static Hunspell GetSpellChecker(string language = "EN_US", bool reload = false)
+        //{
+        //    if (reload || _spellChecker == null)
+        //    {
+        //        string dictFolder = Path.Combine(Environment.CurrentDirectory,"Editor\\");
 
-                string aff = dictFolder + language + ".aff";
-                string dic = Path.ChangeExtension(aff,"dic");
+        //        string aff = dictFolder + language + ".aff";
+        //        string dic = Path.ChangeExtension(aff,"dic");
 
-                _spellChecker = new Hunspell(aff, dic);
+        //        _spellChecker = new Hunspell(aff, dic);
 
-                // Custom Dictionary if any
-                string custFile = Path.Combine(mmApp.Configuration.CommonFolder,language + "_custom.txt");
-                if (File.Exists(custFile))
-                {
-                    var lines = File.ReadAllLines(custFile);
-                    foreach (var line in lines)
-                    {
-                        _spellChecker.Add(line);
-                    }
-                }
-            }
+        //        // Custom Dictionary if any
+        //        string custFile = Path.Combine(mmApp.Configuration.CommonFolder,language + "_custom.txt");
+        //        if (File.Exists(custFile))
+        //        {
+        //            var lines = File.ReadAllLines(custFile);
+        //            foreach (var line in lines)
+        //            {
+        //                _spellChecker.Add(line);
+        //            }
+        //        }
+        //    }
 
-            return _spellChecker;
-        }
-        private static Hunspell _spellChecker = null;
+        //    return _spellChecker;
+        //}
+        //private static Hunspell _spellChecker = null;
         
 
         /// <summary>
-        /// Check spelling of an individual word
+        /// Check spelling of an individual word - called from ACE Editor
         /// </summary>
         /// <param name="text"></param>
         /// <param name="language"></param>
@@ -1726,8 +1727,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public bool CheckSpelling(string text,string language = "EN_US",bool reload = false)
         {
-            var hun = GetSpellChecker(language, reload);
-            return hun.Spell(text);
+            return SpellChecker.CheckSpelling(text, language, reload);
         }
 
 
@@ -1740,13 +1740,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public void GetSuggestions(string text, string language = "EN_US", bool reload = false, object range = null)
         {
-            IEnumerable<string> suggestions = null;
-
-            if (!string.IsNullOrEmpty(text) && range != null)           
-            {
-                var hun = GetSpellChecker(language, reload);
-                suggestions = hun.Suggest(text).Take(10);
-            }
+            var suggestions = SpellChecker.GetSuggestions(text, language, reload);
 
             var cm = new EditorContextMenu();
             cm.ShowContextMenuAll(suggestions,range);               
@@ -1770,8 +1764,7 @@ namespace MarkdownMonster
         /// <param name="lang"></param>
         public void AddWordToDictionary(string word, string lang = "EN_US")
         {
-            File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\",  lang + "_custom.txt"),word  + "\r\n");
-            _spellChecker.Add(word);            
+            SpellChecker.AddWordToDictionary(word, lang);
         }
         #endregion
 

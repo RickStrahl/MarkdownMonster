@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using FontAwesome.WPF;
@@ -59,6 +60,7 @@ namespace MarkdownMonster
             CloseAllDocuments();
             ShowActiveTabsList();
             CopyAsHtml();
+            SetDictionary();
 
 
             // Preview Browser
@@ -843,6 +845,33 @@ Do you want to View in Browser now?
             }, (p, c) => true);
         }
 
+        public CommandBase SetDictionaryCommand { get; set; }
+
+        void SetDictionary()
+        {
+            SetDictionaryCommand = new CommandBase((parameter, command) =>
+            {
+                var lang = parameter as string;
+                if (string.IsNullOrEmpty(lang))
+                    return;
+
+                if (!File.Exists(Path.Combine(App.InitialStartDirectory, "Editor", lang + ".dic")))
+                {                    
+                    Model.Window.ShowStatus("Downloading dictionary for: " + lang);
+                    if(SpellChecker.DownloadDictionary(lang))
+                        Model.Window.ShowStatus($"Downloaded dictionary: {lang}", Model.Configuration.StatusMessageTimeout);
+                    else
+                        Model.Window.ShowStatusError("Failed to download dictionary.");
+                }
+
+                Model.Configuration.Editor.Dictionary = lang;
+                SpellChecker.GetSpellChecker(lang, true); // force language to reset
+                Model.Window.ShowStatus($"Spell checking dictionary changed to: {lang}.",Model.Configuration.StatusMessageTimeout);
+            }, (p, c) => true);
+        }
+
+
+
         #endregion
 
         #region Preview
@@ -1188,6 +1217,7 @@ We're now shutting down the application.
 
 
         public CommandBase PrintPreviewCommand { get; set; }
+        
 
         void PrintPreview()
         {

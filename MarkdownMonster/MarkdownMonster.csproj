@@ -307,12 +307,37 @@
     <Compile Include="_Classes\MarkdownDocumentEditor.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserCommonMarkNet.cs" />
     <Compile Include="_Classes\Utilities\MostRecentlyUsedList.cs" />
+    <Compile Include="_Classes\Utilities\SpellChecker.cs" />
     <Compile Include="_Classes\Utilities\UnlockKey.cs" />
     <Compile Include="_Classes\Utilities\MarkdownUtilities.cs" />
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
     <Compile Include="MainWindowLayoutModel.cs" />
+    <None Include="Editor\de.aff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Editor\de.dic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Editor\en-US.aff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Editor\en-US.dic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Editor\es.aff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Editor\es.dic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Editor\fr.aff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Editor\fr.dic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="PreviewThemes\Scripts\fontawesome\fonts\fontawesome-webfont.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -898,30 +923,6 @@
     <Content Include="PreviewThemes\Scripts\preview.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Editor\de_DE.aff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Editor\de_DE.dic">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Editor\en_US.aff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Editor\en_US.dic">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Editor\es_ES.aff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Editor\es_ES.dic">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Editor\fr_fr.aff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Editor\fr_fr.dic">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
     <Resource Include="Assets\WestwindText.png" />
     <None Include="Hunspellx64.dll">

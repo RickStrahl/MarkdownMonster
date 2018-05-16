@@ -633,6 +633,17 @@ namespace MarkdownMonster
                 Git.GitClientExecutable = mmFileUtils.FindGitClient();
             if (string.IsNullOrEmpty(Git.GitDiffExecutable))
                 Git.GitDiffExecutable = mmFileUtils.FindGitDiffTool();
+
+            // TODO: Remove in future version - added in 1.11
+            // fix up new dictionary files
+            if (Editor.Dictionary == "en_US")
+                Editor.Dictionary = "en-US";
+            else if (Editor.Dictionary == "de_DE")
+                Editor.Dictionary = "de";
+            else if (Editor.Dictionary == "fr_FR")
+                Editor.Dictionary = "fr";
+            else if (Editor.Dictionary == "es_ES")
+                Editor.Dictionary = "es";
         }
 
         public void AddRecentFile(string filename)

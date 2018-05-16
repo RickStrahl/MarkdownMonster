@@ -2242,6 +2242,41 @@ namespace MarkdownMonster
         #endregion
 
 
+        private void ButtonLangugeDropDown_Click(object sender, RoutedEventArgs e)
+        {
+            var ctx = new ContextMenu();
+
+            var basePath = Path.Combine(App.InitialStartDirectory, "Editor");
+
+            foreach (var lang in SpellChecker.DictionaryDownloads)
+            {
+                var fname = Path.Combine(basePath, lang.Code + ".dic");
+                bool exists = File.Exists(fname);
+
+                string header = lang.Name;
+                if (!exists)
+                    header = header + " ↆ";
+
+                var menuItem = new MenuItem() 
+                {
+                    Header = header,
+                    Tag = fname,
+                    Command = Model.Commands.SetDictionaryCommand,
+                    CommandParameter = lang.Code
+                };
+                if (lang.Code.Equals(Model.Configuration.Editor.Dictionary, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    menuItem.IsCheckable = true;
+                    menuItem.IsChecked = true;
+                }
+                              
+                ctx.Items.Add(menuItem);
+            }
+
+            ctx.MaxHeight = 800;
+            ctx.IsOpen = true;
+            WindowUtilities.DoEvents();
+        }
     }
 
 

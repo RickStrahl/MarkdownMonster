@@ -98,6 +98,20 @@
                             TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                 />
 
+                <Button 
+                        Name="ButtonLanguages"
+                        Margin="-10,0,0,0"
+						ToolTip="Languages"                                
+				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				                             
+				        TextElement.FontSize="11" 
+                        Click="ButtonLangugeDropDown_Click"
+				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+				>
+                    <i:Interaction.Behaviors>
+                        <local:DropDownButtonBehavior  />
+                    </i:Interaction.Behaviors>
+                </Button>
+
                 <ToggleButton Name="ToolButtonPreview"  Foreground="{StaticResource BlueItem}"
                                 Margin="2,0,0,0"
                                 IsChecked="{Binding IsPreviewBrowserVisible}"
@@ -111,7 +125,7 @@
                 <Button 
                         Margin="-10,0,0,0"
 						ToolTip="Preview Modes"                                
-				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				         
+				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				                             
 				        TextElement.FontSize="11" 
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
 				>
@@ -132,7 +146,7 @@
                                       Command="{Binding Commands.ViewInExternalBrowserCommand}"
                                       InputGestureText="alt-v-b"
                                       IsEnabled="{Binding IsEditorActive}" />
-                            <Separator/>                             
+                            <Separator/>
                             <MenuItem Header="Internal Preview" CommandParameter="InternalPreview" Command="{Binding Commands.PreviewModesCommand}"
                                       IsCheckable="True" IsChecked="{Binding IsInternalPreview}"/>
                             <MenuItem CommandParameter="ExternalPreviewWindow" Header="External Preview Window"  Command="{Binding Commands.PreviewModesCommand}"
@@ -141,14 +155,6 @@
                     </Button.ContextMenu>
 
                 </Button>
-
-                <!--<Button Command="{Binding ShowFolderBrowserCommand}" 
-                        Margin="2,0"
-						ToolTip="show Folder Browser pane (alt-v-f)"                                
-				        fa:Awesome.Content="Bars" Foreground="{StaticResource BlueItem}"				         
-				        TextElement.FontSize="16" 
-				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-				/>-->
 
                 <ToggleButton Name="ToolButtonFullScreen"   Foreground="{StaticResource BlueItem}"
 				              Margin="2,0"
