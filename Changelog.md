@@ -46,14 +46,14 @@ The Spell Check selector option in the control box now allows switching of spell
 * **Main UI Theme Switching Improvements**  
 Switching between light and dark themes now automatically assigned a default editor theme to match the light or dark theme. Theme switches prompt for a restart and if you opt in automatically shuts down and restarts Markdown Monster.
 
-* **Option to turn and off Markdown Bullet AutoCompletion**  
+* **Option to turn off Markdown Bullet AutoCompletion**  
 There have been quite a few complaints around the auto-completion bullet editing in Markdown text and now there's an option to disable it. In fact, bullet auto-complete is now off by default and has to be enabled explicitly with `Editor.EnableBulletAutoCompletion`.
 
 * **Add MaxDocumentOutlineLevel Configuration Value**  
 You can now specify the Max Outline level displayed in the Document Outline panel. This value also affects the embeddable Table of Contents that can be generated from the document outline. The value can be interactively set in the Document Outline's Context Menu.
 
 * **Add Undo/Redo to Editor Context Menu**  
-Added Undo and Redo options to the editor's context menu.
+Added Undo and Redo options to the editor's context menu as they were missing.
 
 * **Open Markdown files linked in Preview in Editor**   
 If you have a link in your markdown to another Markdown file the previewer now detects that the file is a local Markdown file and opens it in the editor.
