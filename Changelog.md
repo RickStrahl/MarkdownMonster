@@ -7,8 +7,8 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.10.22  
-<small>May 15th, 2018</small>
+### 1.10.23  
+<small>May 16th, 2018</small>
 
 * **Add support for DocFx/Microsoft Docs Include Files in Preview**  
 The Preview can now optionally render DocFx style includes in the form of `[!include[title](fileName)]` linked files to render. Relative files will automatically be included and are rendered inline. There an option that turns this behavior on and off: `markdownOptions.ParseDocFxIncludeFiles`.
@@ -24,6 +24,12 @@ The Open From Url functionality now optionally fixes up image links to absolute 
 
 * **Add option to leave Git Commit Window Open**  
 Added `Git.GitCloseCommitDialog` configuration flag to allow window stay open after committing. Default is `true`.
+
+* **Allow Selection and Downloading of Spell Check Dictionaries**  
+The SpellCheck selector option in the control box not allows switching of spell checking dictionaries. It also allows for downloading of alternate dictionaries that are not pre-installed.
+
+* **Fix: Clear document stats when last tab is closed**   
+Fixed issue where when the last tab was closed the document stats were not cleared.
 
 ### 1.10.18
 <small>May 5th, 2018 </small> 

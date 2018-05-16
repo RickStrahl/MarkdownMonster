@@ -1,7 +1,7 @@
 ﻿# Markdown Monster ToDo List
 
 ### Bugs
-* [ ] When closing last document stats are not cleared.
+* [x] When closing last document stats are not cleared.
 
 ### Immediate
 * [ ] Addin Enabled/Disabled
@@ -20,7 +20,7 @@
 ### Mid Term
 * [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
 * [ ] Image Previews and file preview in a **Preview Tab**
-* [ ] Spell checker Dictionary Downloads
+* [x] Spell checker Dictionary Downloads
     * Store dictionaries online
     * Show what's installed
     * Show whats available
@@ -28,7 +28,7 @@
 
 ### Bugs
 * [x] Fix Folder Browser Rename/Delete file occasional locking issues.
-* [ ] Fix Markdown List display where new bullet auto creates
+* [x] Fix Markdown List display where new bullet auto creates
 
 ### Consideration
 * [ ] Check out ReverseMarkdown C# source - needs adjustments (lists, spacing)
