@@ -137,7 +137,14 @@ namespace MarkdownMonster
         }
         private bool _previewHttpLinksExternal;
 
-        
+
+        /// <summary>
+        /// Determines whether the full path for the open
+        /// document is displayed in the Main Window's
+        /// title bar.
+        /// </summary>
+        public bool ShowFullDocPathInTitlebar { get; set; }
+
         /// <summary>
         /// String that holds any of the following as a comma delimited string
         /// in all lower case:

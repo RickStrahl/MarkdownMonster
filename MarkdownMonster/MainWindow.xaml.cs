@@ -1354,9 +1354,13 @@ namespace MarkdownMonster
                 var editor = GetActiveMarkdownEditor();
                 if (editor == null)
                     return;
-                title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*", "");
+               
+                if (Model.Configuration.ShowFullDocPathInTitlebar)
+                    title = editor.MarkdownDocument.Filename;
+                else
+                    title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*", "");
             }
-
+            
             Title = title +
                     "  - Markdown Monster" +
                     (UnlockKey.Unlocked ? "" : " (unregistered)");
