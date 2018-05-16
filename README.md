@@ -5,7 +5,6 @@
 [![](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/MarkdownMonster/MarkdownMonster)
 
-
 <img src="Art/MarkdownMonster_Github.jpg" width=600 />
 
 Markdown Monster is an easy to use and extensible **Markdown Editor**, **Viewer** and **Weblog Publisher** for Windows. Our goal is to provide the best Markdown specific editor for Windows and make it as easy as possible to create Markdown documents. We provide a core editor and previewer, and a number of non-intrusive helpers to help embed content like images, links, tables, code and more into your documents with minimal effort.
@@ -31,6 +30,7 @@ Want to write your blog posts in Markdown? You can use Markdown Monster to write
 You can download Markdown Monster and use the self-contained installer <small>(requires [Chocolatey](https://chocolatey.org/) is installed)</small>:
 
 * **[Go to the Download Page](http://markdownmonster.west-wind.com/download.aspx)**
+
 
 Or you can you use [Chocolatey](https://chocolatey.org/) to install from the Windows Comand Line:
 
