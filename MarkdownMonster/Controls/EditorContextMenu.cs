@@ -307,7 +307,7 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(line))
                 return false;
 
-            if (line.Trim().StartsWith("|") && line.Trim().EndsWith("|") ||
+            if (line.Contains("|")  ||
                 line.Trim().StartsWith("+-") && line.Trim().EndsWith("-+"))
 
             {
@@ -320,8 +320,8 @@ namespace MarkdownMonster
                     var editor = Model.ActiveEditor;
 
                     var lineText = editor.GetCurrentLine();
-                    if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|") ||
-                          lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
+                    if (!(lineText.Contains("|") &&
+                        !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+"))))
                         return;
 
                     var startPos = editor.GetCursorPosition();
@@ -330,10 +330,16 @@ namespace MarkdownMonster
                     for (int i = row - 1; i > -1; i--)
                     {
                         lineText = editor.GetLine(i);
-                        if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|") ||
-                              lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
+                        if (!(lineText.Contains("|")  &&
+                            !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+"))))
                         {
                             startRow = i +1;
+                            break;
+                        }
+
+                        if (i == 0)
+                        {
+                            startRow = 0;
                             break;
                         }
                     }
@@ -341,18 +347,16 @@ namespace MarkdownMonster
                     var endRow = startPos.row;
                     for (int i = row + 1; i < 99999999; i++)
                     {
-                        lineText = editor.GetLine(i);
-                        if (string.IsNullOrEmpty(lineText)) return;
-
-                        if (!(lineText.Trim().StartsWith("|") && lineText.Trim().EndsWith("|") ||
-                              lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
+                        lineText = editor.GetLine(i);                       
+                        if (!lineText.Contains("|")  &&
+                            !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
                         {
                             endRow = i -1;
                             break;
                         }
                     }
 
-                    if (endRow == startRow)
+                    if (endRow == startRow || endRow < startRow + 2)
                         return;
 
                     StringBuilder sb = new StringBuilder();
@@ -368,7 +372,7 @@ namespace MarkdownMonster
                 };
                 ContextMenu.Items.Add(mi);
                 return true;
-            }
+            }            
             else if (line.Trim().StartsWith("<td ",StringComparison.InvariantCultureIgnoreCase)  ||
                      line.Trim().StartsWith("<tr ", StringComparison.InvariantCultureIgnoreCase) ||
                      line.Trim().StartsWith("<th ", StringComparison.InvariantCultureIgnoreCase) ||
