@@ -7,65 +7,47 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.10.23  
-<small>May 16th, 2018</small>
-
-* **Add support for DocFx/Microsoft Docs Include Files in Preview**  
-The Preview can now optionally render DocFx style includes in the form of `[!include[title](fileName)]` linked files to render. Relative files will automatically be included and are rendered inline. There an option that turns this behavior on and off: `markdownOptions.ParseDocFxIncludeFiles`.
-
-* **Add Drag and Drop File Moving in Folder Browser**   
-You can now drag and drop files in the file browser to new folder.
-
-* **Main UI Theme Switching Improvements**  
-Switching between light and dark themes now automatically assigns a default editor theme to match the light or dark theme. Theme switches prompt for a restart and if you opt in automatically shuts down and restarts Markdown Monster
-
-* **Improvements to Open from Url**  
-The Open From Url functionality now optionally fixes up image links to absolute Web URLs so images can display in the browser. Various common top level document URLs on various common sites are now automatically fixed up and opened from the raw content. 
-
-* **Add option to leave Git Commit Window Open**  
-Added `Git.GitCloseCommitDialog` configuration flag to allow window stay open after committing. Default is `true`.
-
-* **Allow Selection and Downloading of Spell Check Dictionaries**  
-The SpellCheck selector option in the control box not allows switching of spell checking dictionaries. It also allows for downloading of alternate dictionaries that are not pre-installed.
-
-* **Fix: Clear document stats when last tab is closed**   
-Fixed issue where when the last tab was closed the document stats were not cleared.
-
-### 1.10.18
-<small>May 5th, 2018 </small> 
-
-* **Option to turn and off Markdown Bullet AutoCompletion**  
-There have been quite a few complaints around the auto-completion bullet editing in Markdown text and now there's an option to disable it. In fact, bullet auto-complete is now off by default and has to be enabled explicitly with `Editor.EnableBulletAutoCompletion`.
-
-* **Add Git Pull Support**  
-Add the ability to pull data from the remote origin into the current Git repository. There aren't any options for specific branches and pull does a merge commit. Feature is available on the Git Commit Dialog.
-
-* **Fix Git Clone with Path with Spaces**   
-Fixed bug for paths with spaces in Git Clone operation.
-
-* **Add Commit Dialog Option to Leave Window Open after Commit**  
-There's now a persisted option that optionally allows you to leave the Git Commit window open if there are still pending files to be committed. This makes it easier to selectively commit files into multiple commits.
-
-### 1.10.16
-<small>May 1st, 2018</small>
-
-* **Git File Status in File Browser**  
-The Folder browser now shows Git status information via icons. There are also a new option to undo changes on the file context menu.
+### 1.11  
+<small>May 17th, 2018</small>
 
 * **Add Git Commit Dialog**  
 Added a new Git Commit dialog that allows committing and pushing the active file as well as all pending files to a Git repository. This replaces the previous hotkey only command with a more visual approach that provides many more options. Ctrl-Enter in the dialog can be used to quick commit similar to the old behavior.
 
+* **Git File Status in File Browser**  
+The Folder browser now shows Git status information via icons. There are also a new option to undo changes on the file context menu.
+
+* **Open Git Client From Document or Folder Browser Folder**  
+You can now configure an external Git Client and open it from the Folder Browser or the Open Document's Tab Context menus.
+
 * **Add Clone Git Repository**  
 Added option to clone a Git repository to a local folder to make it easier to retrieve Git content for local editing. Also added a new **File -> Git** menu that houses this option and **Commit to Git** (same behavior as the Tab context menu). **Requires:** that Git and Git Credential Manager (for private or authenticated repos) are installed.
 
+* **Add Git Pull Support**  
+Add the ability to pull data from the remote origin into the current Git repository. There aren't any options for specific branches and pull does a merge commit. Feature is available on the Git Commit Dialog.
+
+* **Add Commit Dialog Option to Leave Window Open after Commit**  
+There's now a persisted option that optionally allows you to leave the Git Commit window open if there are still pending files to be committed. This makes it easier to selectively commit files into multiple commits.
+
+* **Add VS Code Dark Editor Theme**  
+Added a new VS Code Dark editor theme that is similar to VS Code's default editor theme. Due to differences in the rendering engines between ACE and Monaco the styling isn't identical but fairly close.
+
 * **Open Markdown From Url**  
-Added the ability to open a Markdown document from the Web via a URL. This feature understands and fixes up Github and BitBucket Markdown documents, Gists and Microsoft Docs Documentation URLs and allows for de-referencing of relative image links as an option.
+Added the ability to open a Markdown document from the Web via a URL. This feature understands and fixes up Github and BitBucket Markdown documents, Gists and Microsoft Docs Documentation URLs and allows for de-referencing of relative image links as an option. Also optionally fixes up image links to absolute Web URLs so images can display in the browser. Various common top level document URLs on various common sites are now automatically fixed up and opened from the raw content. 
 
-* **Fix Folder Browser New File/Folder Editing**  
-Fixed regression introduced by file search in the list that would interfere with adding new files and folder. New files and folders now properly get inserted into the hierarchy order, and show the appropriate icon and git status.
+* **Add support for DocFx/Microsoft Docs Include Files in Preview**  
+The Preview can now optionally render DocFx style includes in the form of `[!include[title](fileName)]` linked files to render. Relative files will automatically be included and are rendered inline. There an option that turns this behavior on and off: `markdownOptions.ParseDocFxIncludeFiles`. More DocFx features will be added in near future updates.
 
-### 1.10.7
-<small>April 17th, 2018</small>
+* **Add Drag and Drop File Moving in Folder Browser**   
+You can now drag and drop files in the file browser to new folder.
+
+* **Allow Selection and Downloading of Spell Check Dictionaries**  
+The SpellCheck selector option in the control box not allows switching of spell checking dictionaries. It also allows for downloading of alternate dictionaries that are not pre-installed.
+
+* **Main UI Theme Switching Improvements**  
+Switching between light and dark themes now automatically assigns a default editor theme to match the light or dark theme. Theme switches prompt for a restart and if you opt in automatically shuts down and restarts Markdown Monster
+
+* **Option to turn and off Markdown Bullet AutoCompletion**  
+There have been quite a few complaints around the auto-completion bullet editing in Markdown text and now there's an option to disable it. In fact, bullet auto-complete is now off by default and has to be enabled explicitly with `Editor.EnableBulletAutoCompletion`.
 
 * **Add MaxDocumentOutlineLevel Configuration Value**  
 You can now specify the Max Outline level displayed in the Document Outline panel. This value also affects the embeddable Table of Contents that can be generated from the document outline. The value can be interactively set in the Document Outline's Context Menu.
@@ -73,31 +55,11 @@ You can now specify the Max Outline level displayed in the Document Outline pane
 * **Add Undo/Redo to Editor Context Menu**  
 Added Undo and Redo options to the editor's context menu.
 
-* **Open Git Client From Document or Folder Browser Folder**  
-You can now configure an external Git Client and open it from the Folder Browser or the Open Document's Tab Context menus.
-
 * **Open Markdown files linked in Preview in Editor**   
 If you have a link in your markdown to another Markdown file the previewer now detects that the file is a local Markdown file and opens it in the editor.
 
-* **Fix: Code Snippet Wrapping for Printing and PDF Generation**  
-Fixed Code Snippet wrapping so that code snippets wrap rather than scroll when printing or generating a PDF file.
-
-* **Fix: Miscellaneous Addin-Manager Issues**  
-Fix update button display. Fix installed version number display. Fix list rendering issues in the Addin list. Fix version comparison logic to determine whether an update is available.
-
-* **Fix: Binding issues with various Menu options when no Documents are open** Fixed various issues with the menu when no document is open so that a number of options are not available. All commands are now explicitly rechecked when documents are opened or closed (via Tabs).
-
 * **Addin: Intercept Preview Link Clicks**  
 Addins now have a new `Addin.OnPreviewLinkNavigation()` to intercept navigation and handle custom link processing in the preview. Return `true` to override or `false` to let the default link processing work.
-
-* **Fix: UrlEncoding in Paste URL Dialog for Local Files**  
-Fix the Paste URL dialog when embedding relative file links to be URL Encoded.
-
-### 1.10.4
-<small>April 4th, 2018</small>
-
-* **Add VS Code Dark Editor Theme**  
-Added a new VS Code Dark editor theme that is similar to VS Code's default editor theme. Due to differences in the rendering engines between ACE and Monaco the styling isn't identical but fairly close.
 
 * **Editor Enhancements**  
 Updated to the latest version of ACE Editor which is noticeably faster and more stable. A number of cursor and scrolling related issues are addressed. Updated Twilight and the new VS Code Dark Theme.
@@ -107,6 +69,28 @@ Added configuration switch to allow setting the editor text line height to separ
 
 * **Editor Configuration Consolidation**   
 Internally consolidated all the editor styling options into a single `Editor` configuration section that forces the editor to restyle based on editor configuration settings. Previously all of these settings were individually set. This makes it easier for addin authors to modify editor settings and simply call `Model.Configuration.RestyleEditor()` after making changes to the configuration settings.
+
+* **Fix Git Clone with Path with Spaces**  
+Fixed bug for paths with spaces in Git Clone operation.
+
+* **Fix: Clear document stats when last tab is closed**  
+Fixed issue where when the last tab was closed the document stats were not cleared.
+
+* **Fix Folder Browser New File/Folder Editing**  
+Fixed regression introduced by file search in the list that would interfere with adding new files and folder. New files and folders now properly get inserted into the hierarchy order, and show the appropriate icon and git status.
+
+* **Fix: Code Snippet Wrapping for Printing and PDF Generation**  
+Fixed Code Snippet wrapping so that code snippets wrap rather than scroll when printing or generating a PDF file.
+
+* **Fix: Miscellaneous Addin-Manager Issues**  
+Fix update button display. Fix installed version number display.  
+Fix list rendering issues in the Addin list. Fix version comparison logic to determine whether an update is available.
+
+* **Fix: Binding issues with various Menu options when no Documents are open**  
+Fixed various issues with the menu when no document is open so that a number of options are not available. All commands are now explicitly rechecked when documents are opened or closed (via Tabs).
+
+* **Fix: UrlEncoding in Paste URL Dialog for Local Files**  
+Fix the Paste URL dialog when embedding relative file links to be URL Encoded.
 
 * **Fix: UI Inconsistencies**  
 Fixed a number of left over UI inconsistencies that made it into earlier 10.x published releases. A few places where background colors and control heights were off. Refactored a number of common control settings to global scope for better overall consistency.
@@ -119,8 +103,6 @@ Fixed new file editing behavior that would get corrupted by the file search beha
 
 ### 1.10
 *<small>March 27th, 2018</small>*
-
-
 
 * **Document Outline**  
 There's a new Document Outline feature (preview) that provides a two-way sync between the active document and the outline. The outline shows headers (h1-h4). You can click on bookmark links, and the outline stays in sync when you scroll the document.
