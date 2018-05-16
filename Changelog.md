@@ -32,19 +32,19 @@ There's now a persisted option that optionally allows you to leave the Git Commi
 Added a new VS Code Dark editor theme that is similar to VS Code's default editor theme. Due to differences in the rendering engines between ACE and Monaco the styling isn't identical but fairly close.
 
 * **Open Markdown From Url**  
-Added the ability to open a Markdown document from the Web via a URL. This feature understands and fixes up Github and BitBucket Markdown documents, Gists and Microsoft Docs Documentation URLs and allows for de-referencing of relative image links as an option. Also optionally fixes up image links to absolute Web URLs so images can display in the browser. Various common top level document URLs on various common sites are now automatically fixed up and opened from the raw content. 
+Added the ability to open a Markdown document from the Web via a URL. This feature understands and fixes up Github and BitBucket Markdown documents, Gists and Microsoft Docs Documentation URLs and allows for de-referencing of relative image links as an option. Also optionally fixes up image links to absolute Web URLs so images can display in the preview browser.
 
 * **Add support for DocFx/Microsoft Docs Include Files in Preview**  
-The Preview can now optionally render DocFx style includes in the form of `[!include[title](fileName)]` linked files to render. Relative files will automatically be included and are rendered inline. There an option that turns this behavior on and off: `markdownOptions.ParseDocFxIncludeFiles`. More DocFx features will be added in near future updates.
+The Preview can now optionally render DocFx style includes in the form of `[!include[title](fileName)]` linked files to render. Relative files will automatically be included and are rendered inline. There's an option that turns this behavior on and off: `markdownOptions.ParseDocFxIncludeFiles`. More DocFx features will be added in near-future updates.
 
 * **Add Drag and Drop File Moving in Folder Browser**   
-You can now drag and drop files in the file browser to new folder.
+You can now drag and drop files to new folders in the folder browser.
 
 * **Allow Selection and Downloading of Spell Check Dictionaries**  
-The SpellCheck selector option in the control box not allows switching of spell checking dictionaries. It also allows for downloading of alternate dictionaries that are not pre-installed.
+The Spell Check selector option in the control box now allows switching of spell checking dictionaries. It also allows for downloading of alternate dictionaries that are not pre-installed from an online list.
 
 * **Main UI Theme Switching Improvements**  
-Switching between light and dark themes now automatically assigns a default editor theme to match the light or dark theme. Theme switches prompt for a restart and if you opt in automatically shuts down and restarts Markdown Monster
+Switching between light and dark themes now automatically assigned a default editor theme to match the light or dark theme. Theme switches prompt for a restart and if you opt in automatically shuts down and restarts Markdown Monster.
 
 * **Option to turn and off Markdown Bullet AutoCompletion**  
 There have been quite a few complaints around the auto-completion bullet editing in Markdown text and now there's an option to disable it. In fact, bullet auto-complete is now off by default and has to be enabled explicitly with `Editor.EnableBulletAutoCompletion`.
