@@ -523,6 +523,23 @@ namespace MarkdownMonster
             if (File.Exists(git))
                 return git;
 
+
+            git = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "gitkraken");
+            if (Directory.Exists(git))
+            {
+                var di = new DirectoryInfo(git);
+
+                di = di.GetDirectories("app-*", SearchOption.TopDirectoryOnly)
+                    .OrderByDescending(d => d.LastWriteTime)
+                    .FirstOrDefault(d => d.Name.StartsWith("app-"));
+
+                if (di != null)
+                {
+                    return Path.Combine(di.FullName, "gitkraken.exe");
+                }
+
+            }
+
             return git;
         }
 
