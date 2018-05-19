@@ -30,7 +30,8 @@ var te = window.textEditor = {
             if (typeof console !== "undefined")
                 console.log("Failed to bind syntax: " + codeLang + " - " + ex.message);
         }
-        te.editor.focus();
+
+        //te.editor.focus();
 
         // explicitly call this from WPF
         //if (editorSettings.enableSpellChecking)

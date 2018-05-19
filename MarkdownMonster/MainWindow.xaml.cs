@@ -777,7 +777,8 @@ namespace MarkdownMonster
             bool rebindTabHeaders = false,
             bool batchOpen = false,
             int initialLineNumber = 0,
-            bool readOnly = false)
+            bool readOnly = false,
+            bool noFocus = false)
         {
             if (mdFile != null && mdFile != "untitled" &&
                 (!File.Exists(mdFile) ||
@@ -799,7 +800,8 @@ namespace MarkdownMonster
                     Window = this,
                     EditorSyntax = syntax,
                     InitialLineNumber = initialLineNumber,
-                    IsReadOnly = readOnly
+                    IsReadOnly = readOnly,
+                    NoInitialFocus = noFocus
                 };
 
                 tab.Content = editor.EditorPreviewPane;
@@ -883,10 +885,7 @@ namespace MarkdownMonster
                     }
                 };
                 editor.MarkdownDocument = doc;
-
                 SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
-
-
                 tab.ToolTip = doc.Filename;
             }
 
@@ -964,13 +963,14 @@ namespace MarkdownMonster
         public TabItem RefreshTabFromFile(string editorFile,
             bool maintainScrollPosition = false,
             bool noPreview = false,
+            bool noSelectTab = false,
             bool noFocus = false,
             bool readOnly = false)
         {
 
             var tab = GetTabFromFilename(editorFile);
             if (tab == null)
-                return OpenTab(editorFile, rebindTabHeaders: true, readOnly: readOnly);
+                return OpenTab(editorFile, rebindTabHeaders: true, readOnly: readOnly, noFocus: noFocus);
 
             // load the underlying document
             var editor = tab.Tag as MarkdownDocumentEditor;
@@ -982,9 +982,11 @@ namespace MarkdownMonster
             editor.SetMarkdown(editor.MarkdownDocument.CurrentText);
             var state = editor.IsDirty(); // force refresh
 
-            if (!noFocus)
+            if (!noSelectTab)
                 TabControl.SelectedItem = tab;
-
+            if (!noFocus)
+                editor.SetEditorFocus();
+            
             if (!noPreview)
                 PreviewMarkdownAsync();
 
@@ -1275,13 +1277,10 @@ namespace MarkdownMonster
             AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
 
 
-            if (PreviewBrowserContainer.Parent != null)
-                ((Grid) PreviewBrowserContainer.Parent).Children.Remove(PreviewBrowserContainer);
-
+            ((Grid) PreviewBrowserContainer.Parent)?.Children.Remove(PreviewBrowserContainer);
             editor.EditorPreviewPane.PreviewBrowserContainer.Children.Add(PreviewBrowserContainer);
 
-            var grid = tab.Content as Grid;
-            if (grid != null)
+            if (tab.Content is Grid grid)
                 grid.Children.Add(PreviewBrowserContainer);
 
             Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
@@ -1291,10 +1290,10 @@ namespace MarkdownMonster
 
             Model.ActiveEditor.RestyleEditor();
 
-            editor.WebBrowser.Focus();
-            editor.SetEditorFocus();
+            //editor.WebBrowser.Focus();
+            //editor.SetEditorFocus();
 
-            Dispatcher.InvokeAsync(() => { UpdateDocumentOutline(); }, DispatcherPriority.ApplicationIdle);
+            Dispatcher.InvokeAsync(() => UpdateDocumentOutline(), DispatcherPriority.ApplicationIdle);
         }
 
 

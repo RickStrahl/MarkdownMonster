@@ -114,6 +114,11 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// Determines whether the editor is initially focused
+        /// </summary>
+        public bool NoInitialFocus { get; set; }
+
+        /// <summary>
         /// Determines if the editor requires an HTML preview window
         /// </summary>
         public bool HasHtmlPreview { get; set; }
@@ -216,6 +221,9 @@ namespace MarkdownMonster
                 SetShowInvisibles(mmApp.Configuration.Editor.ShowInvisibles);
                 SetReadOnly(IsReadOnly);
 
+                if (!NoInitialFocus)
+                    SetEditorFocus();
+                
                 if (InitialLineNumber > 0)
                     GotoLine(InitialLineNumber);                
 
