@@ -80,12 +80,11 @@ namespace MarkdownMonster.Windows
         {
             if (CommitModel.CommitChangesToRepository())
             {
-                if (string.IsNullOrEmpty(mmApp.Configuration.Git.GitName))
-                {
+                if (string.IsNullOrEmpty(CommitModel.GitUsername))
                     mmApp.Configuration.Git.GitName = CommitModel.GitUsername;
+                if (string.IsNullOrEmpty(CommitModel.GitEmail))
                     mmApp.Configuration.Git.GitEmail = CommitModel.GitEmail;
-                }
-
+                
                 if (AppModel.Configuration.Git.CloseAfterCommit)
                 {
                     Close();
@@ -229,30 +228,20 @@ namespace MarkdownMonster.Windows
             if (selected == null)
                 return;
 
-            if (!File.Exists(mmApp.Configuration.Git.GitDiffExecutable))
-            {
-                ShowStatusError("There is no diff tool configured. Set the `GitDiffExecutable` setting to your preferred Diff tool.");
-                     
-                return;
-            }
-
-            var fileText = CommitModel.GitHelper.GetComittedFileTextContent(selected.FullPath);
-            if (fileText == null)
-            {
-                ShowStatusError("Unable to compare files: " + CommitModel.GitHelper.ErrorMessage);
-                return;
-            }
-
-            var tempFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "mm_diff_" + System.IO.Path.GetFileName(selected.FullPath));
-
-            File.WriteAllText(tempFile, fileText);
-
-            // Delete files older than 5 minutes
-            FileUtils.DeleteTimedoutFiles(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "mm_diff_" + "*.*"),300);
-
-            mmFileUtils.ExecuteProcess(mmApp.Configuration.Git.GitDiffExecutable, $"\"{tempFile}\" \"{selected.FullPath}\"");            
+            if (!CommitModel.GitHelper.OpenDiffTool(selected.FullPath))
+                ShowStatusError(CommitModel.GitHelper.ErrorMessage);
         }
 
+
+        private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selected = ListChangedItems.SelectedItem as RepositoryStatusItem;
+            if (selected == null)
+                return;
+
+            if (!CommitModel.GitHelper.OpenDiffTool(selected.FullPath))
+                ShowStatusError(CommitModel.GitHelper.ErrorMessage);
+        }
 
         private void MenuIgnoreFile_Click(object sender, RoutedEventArgs e)
         {
@@ -271,6 +260,7 @@ namespace MarkdownMonster.Windows
                 //CommitModel.OnPropertyChanged(nameof(CommitModel.RepositoryStatusItems));
             }
         }
+
 
         private void MenuUndoFile_Click(object sender, RoutedEventArgs e)
         {

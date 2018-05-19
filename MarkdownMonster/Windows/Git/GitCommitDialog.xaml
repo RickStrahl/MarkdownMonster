@@ -190,6 +190,11 @@
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                            <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
 
             <CheckBox Name="CheckNoLeaveOpen" Margin="0 12 0 0" Grid.Row="4" IsChecked="{Binding LeaveDialogOpen}"                            

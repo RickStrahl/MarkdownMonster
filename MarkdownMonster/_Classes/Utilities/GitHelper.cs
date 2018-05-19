@@ -243,6 +243,13 @@ namespace MarkdownMonster.Utilities
             if (statusItems == null || statusItems.Count < 1)
                 return true;
 
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email))
+            {
+                SetError("Couldn't commit: Git requires a commit name and email address.");
+                return false;
+            }
+
             if (Repository == null)
             {
                 Repository = OpenRepository(statusItems[0].FullPath);
@@ -479,6 +486,39 @@ namespace MarkdownMonster.Utilities
         }
 
 
+        /// <summary>
+        /// Opens the configured Diff tool for the provided file and
+        /// allows comparison.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public bool OpenDiffTool(string filePath)
+        {
+            if (!File.Exists(mmApp.Configuration.Git.GitDiffExecutable))
+            {
+                SetError("There is no diff tool configured. Set the `GitDiffExecutable` setting to your preferred Diff tool.");
+                return false;
+            }
+
+            var fileText = GetComittedFileTextContent(filePath);
+            if (fileText == null)
+            {
+                SetError("Unable to compare files: " + ErrorMessage);
+                return false;
+            }
+
+            var tempFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "mm_diff_" + System.IO.Path.GetFileName(filePath));
+
+            File.WriteAllText(tempFile, fileText);
+
+            // Delete files older than 5 minutes
+            FileUtils.DeleteTimedoutFiles(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "mm_diff_" + "*.*"), 300);
+
+            mmFileUtils.ExecuteProcess(mmApp.Configuration.Git.GitDiffExecutable, $"\"{tempFile}\" \"{filePath}\"");
+
+            return true;
+        }
+        
 
         public const FileStatus DefaultStatusesToDisplay = FileStatus.ModifiedInIndex | FileStatus.ModifiedInWorkdir |
                                                            FileStatus.NewInIndex | FileStatus.NewInWorkdir |
