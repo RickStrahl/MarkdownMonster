@@ -297,11 +297,19 @@ namespace MarkdownMonster.Windows
     }
 
 
-
+    /// <summary>
+    /// Caches bitmap sources loaded from files from disk or Url and reuses them.
+    /// Use for repeated items like treeviews lists icons.
+    /// </summary>
     public class UriToCachedImageConverter : IValueConverter
     {
-        private static Dictionary<string, BitmapImage> CachedBitmapImages = new Dictionary<string, BitmapImage>();
-        
+        public  static Dictionary<string, BitmapImage> CachedBitmapImages = new Dictionary<string, BitmapImage>();
+
+        public static void ClearCachedImages()
+        {            
+            CachedBitmapImages = new Dictionary<string, BitmapImage>();
+        }
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string val = value as string;
@@ -318,8 +326,7 @@ namespace MarkdownMonster.Windows
                 {
                     bi = new BitmapImage();
                     bi.BeginInit();
-                    bi.CacheOption = BitmapCacheOption.OnLoad;
-                    //bi.UriSource = new Uri(value.ToString());
+                    bi.CacheOption = BitmapCacheOption.OnLoad;                    
                     using (var fstream = new FileStream(value.ToString(), FileMode.Open, FileAccess.Read))
                     {
                         bi.StreamSource = fstream;
