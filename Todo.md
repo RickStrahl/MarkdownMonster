@@ -20,6 +20,7 @@
 ### Mid Term
 * [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
 * [ ] Image Previews and file preview in a **Preview Tab**
+* [ ] Support for projects (or folder specific settings)
 * [x] Spell checker Dictionary Downloads
     * Store dictionaries online
     * Show what's installed
