@@ -166,6 +166,10 @@ namespace MarkdownMonster.Utilities
             {"_toc.json", "kavadocs" },
             {"untitled", "md"},
 
+
+            // special doc type
+            {"kavadocs","kavadocs" },
+
             // dev config files
             {"license", "license"},
             {".lic", "license"},
