@@ -106,7 +106,22 @@ namespace MarkdownMonster
                 Header = "Add to dictionary",
                 HorizontalContentAlignment = HorizontalAlignment.Right
             };
-            mi2.Click += (o, args) => model.ActiveEditor.AceEditor.addWordSpelling(((dynamic)range).misspelled);
+
+            
+            mi2.Click += (o, args) =>
+            {
+                if (range == DBNull.Value)
+                {
+                    model.Window.ShowStatusError("No misspelled word selected. Word wasn't added to dictionary.");
+                    return;
+                }
+
+                var text = ((dynamic)range).misspelled as string;
+                model.ActiveEditor.AceEditor.addWordSpelling(text);
+                model.Window.ShowStatus("Word added to dictionary.", mmApp.Configuration.StatusMessageTimeout);
+                
+                
+            };
             ContextMenu.Items.Add(mi2);
             ContextMenu.Items.Add(new Separator());
 
