@@ -876,14 +876,6 @@ namespace MarkdownMonster
                     }
                 }
 
-                doc.PropertyChanged += (sender, e) =>
-                {
-                    if (e.PropertyName == "IsDirty")
-                    {
-                        //CommandManager.InvalidateRequerySuggested();
-                        Model.Commands.SaveCommand.InvalidateCanExecute();
-                    }
-                };
                 editor.MarkdownDocument = doc;
                 SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
                 tab.ToolTip = doc.Filename;
@@ -1116,9 +1108,6 @@ namespace MarkdownMonster
             }
 
             batchTabAction = false;
-
-            //WindowUtilities.InvalidateMenuCommands(MainMenu);
-            Model.Commands.InvalidateCommands();
 
             return true;
         }
