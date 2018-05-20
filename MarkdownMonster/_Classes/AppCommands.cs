@@ -247,7 +247,7 @@ namespace MarkdownMonster
                 ((MarkdownDocumentEditor) tab.Tag).MarkdownDocument.CurrentText = markdown;
                 Model.Window.PreviewMarkdownAsync();
 
-            }, (p, c) => true);
+            });
         }
 
 
@@ -381,13 +381,7 @@ namespace MarkdownMonster
 
                 Model.Window.SetWindowTitle();
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
-            }, (s, e) =>
-            {
-                if (!Model.IsEditorActive)
-                    return false;
-
-                return true;
-            });
+            }, (s, e) => Model.IsEditorActive);
         }
 
 
@@ -435,7 +429,7 @@ namespace MarkdownMonster
                     context.Visibility = Visibility.Visible;
                 }
 
-            }, (p, c) => true);
+            });
         }
 
 
@@ -632,7 +626,7 @@ Do you want to View in Browser now?
 
                 Model.Window.ShowPreviewBrowser();
                 Model.Window.PreviewMarkdownAsync();
-            }, (p, c) => true);
+            });
         }
 
 
@@ -651,7 +645,7 @@ Do you want to View in Browser now?
 
                     Model.Window.ShowStatusError("Didn't remove formatting. No selection or document is not a Markdown document.");
                 }
-            }, (p, c) => true);
+            });
         }
 
 
@@ -792,7 +786,7 @@ Do you want to View in Browser now?
             {
                 var tab = Model.Window.GetTabFromFilename(parameter as string);
                 tab.IsSelected = true;
-            }, (p, c) => true);
+            });
         }
 
 
@@ -837,7 +831,7 @@ Do you want to View in Browser now?
                 mi.Focus();
 
                 mi.SubmenuClosed += (s, e) => ((MenuItem) s).Items.Clear();
-            }, (p, c) => true);
+            });
         }
 
         public CommandBase SetDictionaryCommand { get; set; }
@@ -862,7 +856,7 @@ Do you want to View in Browser now?
                 Model.Configuration.Editor.Dictionary = lang;
                 SpellChecker.GetSpellChecker(lang, true); // force language to reset
                 Model.Window.ShowStatus($"Spell checking dictionary changed to: {lang}.",Model.Configuration.StatusMessageTimeout);
-            }, (p, c) => true);
+            });
         }
 
 
@@ -881,7 +875,7 @@ Do you want to View in Browser now?
                 mmFileUtils.OpenFileInExplorer(path);
 
                 mmFileUtils.ShowExternalBrowser("https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm");
-            }, (p, c) => true);
+            });
         }
 
 
@@ -895,7 +889,7 @@ Do you want to View in Browser now?
                 Model.Window.ComboBoxPreviewSyncModes.Focus();
                 WindowUtilities.DoEvents();
                 Model.Window.ComboBoxPreviewSyncModes.IsDropDownOpen = true;
-            }, (p, c) => true);
+            });
         }
 
         #endregion
@@ -926,7 +920,7 @@ Do you want to View in Browser now?
                 {
                     Model.Window.ShowStatusError("Clipboard failure: Failed copy foldername to clipboard.");
                 }
-            }, (p, c) => true);
+            });
         }
 
         #endregion
@@ -961,7 +955,7 @@ Do you want to View in Browser now?
                     url = mmApp.GetDocumentionUrl(topicId as string);
 
                 ShellUtils.GoUrl(url);
-            }, (p, c) => true);
+            });
         }
 
         #endregion
@@ -979,7 +973,7 @@ Do you want to View in Browser now?
                 form.Owner = Model.Window;
                 form.ShowDialog();
 
-            }, (p, c) => true);
+            });
         }
 
 
@@ -1078,7 +1072,7 @@ Do you want to View in Browser now?
             {
                 Model.Window.ShowFolderBrowser(hide: true);
                 Model.ActiveEditor?.SetEditorFocus();
-            }, (p, c) => true);
+            });
         }
 
 
@@ -1089,7 +1083,7 @@ Do you want to View in Browser now?
             OpenLeftSidebarPanelCommand = new CommandBase((parameter, command) =>
             {
                 Model.Window.ShowLeftSidebar();
-            }, (p, c) => true);
+            });
         }
 
         public CommandBase CloseRightSidebarPanelCommand { get; set; }
@@ -1100,7 +1094,7 @@ Do you want to View in Browser now?
                 {
                     Model.Window.ShowRightSidebar(hide: true);
                     Model.ActiveEditor?.SetEditorFocus();
-                }, (p, c) => true);
+                });
         }
 
         public CommandBase ShowFolderBrowserCommand { get; set; }
@@ -1175,7 +1169,7 @@ We're now shutting down the application.
                     }
 
                 }
-            }, null);
+            });
         }
 
 
