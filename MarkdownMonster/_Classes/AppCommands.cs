@@ -821,6 +821,8 @@ Do you want to View in Browser now?
                 }
 
                 mi.IsSubmenuOpen = true;
+                // focus the menu to enable the mnemonics for the dynamically created submenus
+                mi.Focus();
 
                 mi.SubmenuClosed += (s,e) => ((MenuItem)s).Items.Clear();
             }, (p, c) => true);
