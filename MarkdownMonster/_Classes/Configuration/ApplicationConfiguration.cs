@@ -643,14 +643,22 @@ namespace MarkdownMonster
 
             // TODO: Remove in future version - added in 1.11
             // fix up new dictionary files
-            if (Editor.Dictionary == "en_US")
-                Editor.Dictionary = "en-US";
-            else if (Editor.Dictionary == "de_DE")
-                Editor.Dictionary = "de";
-            else if (Editor.Dictionary == "fr_FR")
-                Editor.Dictionary = "fr";
-            else if (Editor.Dictionary == "es_ES")
-                Editor.Dictionary = "es";
+            var dict = Editor.Dictionary.ToLower();
+            switch (dict)
+            {
+                case "en_us":
+                    Editor.Dictionary = "en-US";
+                    break;
+                case "de_de":
+                    Editor.Dictionary = "de";
+                    break;
+                case "fr_fr":
+                    Editor.Dictionary = "fr";
+                    break;
+                case "es_es":
+                    Editor.Dictionary = "es";
+                    break;
+            }
         }
 
         public void AddRecentFile(string filename)

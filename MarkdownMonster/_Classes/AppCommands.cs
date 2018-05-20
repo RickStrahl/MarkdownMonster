@@ -90,25 +90,6 @@ namespace MarkdownMonster
             ShowFolderBrowser();
         }
 
-
-        private List<PropertyInfo> commandProperties;
-
-        public void InvalidateCommands()
-        {
-            if (commandProperties == null)
-            {
-                commandProperties = typeof(AppCommands)
-                    .GetProperties(BindingFlags.Public |
-                                   BindingFlags.Instance |
-                                   BindingFlags.GetProperty)
-                    .Where(t => t.PropertyType == typeof(CommandBase))
-                    .ToList();
-            }
-
-            foreach (var pi in commandProperties)
-                (pi.GetValue(this) as CommandBase)?.InvalidateCanExecute();
-        }
-
         #region Files And File Management
 
         public CommandBase NewDocumentCommand { get; set; }

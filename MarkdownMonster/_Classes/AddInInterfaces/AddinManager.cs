@@ -244,23 +244,6 @@ namespace MarkdownMonster.AddIns
 
                                 addin.Model.Window.ToolbarAddIns.Items.Add(tcitem);
                             };
-
-                            addin.Model.PropertyChanged += (s, arg) =>
-                            {
-                                if (arg.PropertyName == "ActiveDocument" || arg.PropertyName == "ActiveEditor")
-                                {
-                                    addInMenuItem.Command?.InvalidateCanExecute();
-
-                                    // this shouldn't be necessary but it looks if the Command bindings work correctly
-                                    //var item = addin.Model.Window.ToolbarAddIns.Items[toolIndex] as Button;
-                                    //if (item != null)
-                                    //{
-                                    //    ((CommandBase)item.Command).InvalidateCanExecute();
-                                    //    if (menuItem.CanExecute != null)
-                                    //        item.IsEnabled = menuItem.CanExecute.Invoke(null);
-                                    //}
-                                }
-                            };                        
                         }
                     }
                     catch (Exception ex)

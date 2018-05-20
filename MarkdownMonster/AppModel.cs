@@ -93,15 +93,6 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(ActiveEditor));                
                 OnPropertyChanged(nameof(IsEditorActive));                
 
-                Dispatcher.CurrentDispatcher.InvokeAsync(() =>
-                {
-                    Commands.InvalidateCommands();
-
-                    //CommandManager.InvalidateRequerySuggested();
-                    //SaveCommand.InvalidateCanExecute();
-                    //SaveAsHtmlCommand.InvalidateCanExecute();
-                },DispatcherPriority.ApplicationIdle);
-
                 Window.ToolbarEdit.IsEnabled = IsEditorActive;
             }
         }

@@ -9,13 +9,12 @@ namespace MarkdownMonster
     public class CommandBase : ICommand
     {
         private readonly Action<object, ICommand> _execute;
-        private readonly Func<object, ICommand,bool> _canExecute;
+        private readonly Func<object, ICommand, bool> _canExecute;
         private readonly Func<object, ICommand, bool> _previewExecute;
 
         public string Caption { get; set; }
 
-        public string ToolTip { get; set; }   
-
+        public string ToolTip { get; set; }
 
         /// <summary>
         /// Constructor that allows you to hook up each of the command events
@@ -28,38 +27,28 @@ namespace MarkdownMonster
             _execute = execute;
             _canExecute = canExecute;
             _previewExecute = previewExecute;
-
         }
 
         public bool CanExecute(object parameter)
         {
-            if (_canExecute != null)
-                return  _canExecute.Invoke(parameter, this);
-
-            return true;
+            return _canExecute == null || _canExecute.Invoke(parameter, this);
         }
-
 
         public bool PreviewExecute(object parameter)
         {
-            if (_previewExecute != null)
-                return _previewExecute.Invoke(parameter,this);
-
-            return true;
+            return _previewExecute == null || _previewExecute.Invoke(parameter, this);
         }
 
         public void Execute(object parameter)
         {
             if (PreviewExecute(parameter) && CanExecute(parameter))
                 _execute?.Invoke(parameter, this);
-        }    
-        
-
-        public void InvalidateCanExecute()
-        {
-            CanExecuteChanged?.Invoke(this, new EventArgs());
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }
     }
 }
