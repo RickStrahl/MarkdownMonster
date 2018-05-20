@@ -824,9 +824,23 @@ Do you want to View in Browser now?
                 var mi = Model.Window.MainMenuWindow;
                 mi.Items.Clear();
 
-                mi.Items.Add(new MenuItem { Header = "_Close Document", Command= Model.Commands.CloseActiveDocumentCommand  });
-                mi.Items.Add(new MenuItem { Header = "Close _All Documents", Command = Model.Commands.CloseAllDocumentsCommand });
-                mi.Items.Add(new MenuItem { Header = "Close All _But This Document", Command = Model.Commands.CloseAllDocumentsCommand, CommandParameter="AllBut" });
+                mi.Items.Add(new MenuItem
+                {
+                    Header = "_Close Document",
+                    Command = Model.Commands.CloseActiveDocumentCommand
+                });
+                mi.Items.Add(new MenuItem
+                {
+                    Header = "C_lose All Documents",
+                    Command = Model.Commands.CloseAllDocumentsCommand,
+                    CommandParameter = "All"
+                });
+                mi.Items.Add(new MenuItem
+                {
+                    Header = "Close All _But This Document",
+                    Command = Model.Commands.CloseAllDocumentsCommand,
+                    CommandParameter = "AllBut"
+                });
 
                 var menuItems = Model.Window.GenerateContextMenuItemsFromOpenTabs();
                 if (menuItems.Count < 1)
@@ -835,13 +849,13 @@ Do you want to View in Browser now?
                 mi.Items.Add(new Separator());
                 foreach (var menu in menuItems)
                 {
-
                     mi.Items.Add(menu);
                 }
 
                 mi.IsSubmenuOpen = true;
+                mi.Focus();
 
-                mi.SubmenuClosed += (s,e) => ((MenuItem)s).Items.Clear();
+                mi.SubmenuClosed += (s, e) => ((MenuItem) s).Items.Clear();
             }, (p, c) => true);
         }
 
