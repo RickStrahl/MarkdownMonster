@@ -21,7 +21,7 @@ Fix Window menu mnemonic keys that didn't allow for shortcuts to work.
 Update all dependencies to latest releases - except for LibGit2Sharp which switched to .NET Core 2.0 assemblies and results in a splattering a huge amount of runtime dependencies into project. Waiting to target .NET 4.7.2 to not require those dependencies.
 
 <h4 style="color: firebrick">v1.2.8 Breaking Changes</h4>
-This update has a few breaking changes for users and addin developers.
+This update has breaking changes related to addins. When updating to a newer version you may see addin-load failures. If that's the case uninstall and reinstall the affected addins.
 
 * **Addins: Addins have to be updated**   
 There have been a few underlying API changes and support libraries have been updated that require all addins to be recompiled. Note that the WebLog, Screen Capture and Snippet addins are built-in and not affected.
