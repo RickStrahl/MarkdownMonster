@@ -47,8 +47,16 @@ namespace MarkdownMonster
 
         public event EventHandler CanExecuteChanged
         {
-            add => CommandManager.RequerySuggested += value;
-            remove => CommandManager.RequerySuggested -= value;
+            add
+            {
+                if (_canExecute != null)
+                    CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+                if (_canExecute != null)
+                CommandManager.RequerySuggested -= value;
+            }
         }
     }
 }
