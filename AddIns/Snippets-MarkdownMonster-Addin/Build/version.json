@@ -1,0 +1,11 @@
+﻿{
+    "id": "Snippets",
+    "name": "Snippets Addin",
+    "summary": "Create reusable text snippets with optional embedded code expressions to embed into your documents.",
+    "description": "The Snippets addin allows you to create reusable text snippets that you can expand into your documents. Text snippets can be static text, or can contain C# code expressions that evaluate at runtime to allow you to create dynamic documents on the fly.\r\n\r\nSnippets can contain C# expressions or @Razor style script code to make the content dynamic. Snippets can also contain a cursor place holder '~' to specify where the cursor ends up after expansion.\r\n\r\nSnippets are useful for simple text expansion of things like signatures, can be used to easily embed common HTML widgets, and because you can use full blown @Razor scripting code can even be used for doing full fledged mail merge type document generation.",
+    "releaseNotes": "Initial release",
+    "version": "0.6.4",
+    "minVersion":  "1.11.3",
+    "author": "© Rick Strahl, West Wind Technologies",
+    "updated": "2018-05-19T12:00:00Z"
+}

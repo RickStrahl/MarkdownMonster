@@ -178,25 +178,7 @@ namespace MarkdownMonster
                     {
                         mmApp.Log("Handled: Unable to copy file to temp folder.", ex);
                     }
-                }
-
-                // Add Snippets Addin
-                Dispatcher.Delay(3000, p =>
-                {
-                    var url = "https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin/raw/master/Build/addin.zip";
-                    var addin = new AddinItem
-                    {
-                        id = "Snippets"
-                    };
-                    try
-                    {
-                        AddinManager.Current.DownloadAndInstallAddin(url,
-                            Path.Combine(mmApp.Configuration.AddinsFolder), addin);
-                    }
-                    catch
-                    {
-                    }
-                });
+                }                
 
                 mmApp.Configuration.ApplicationUpdates.FirstRun = false;
             }

@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster.Test", "Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddIns", "AddIns", "{4F5BF002-399D-4830-BA4E-23EE97D97956}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnippetsAddin", "AddIns\Snippets-MarkdownMonster-Addin\SnippetsAddin\SnippetsAddin.csproj", "{44A962C6-B414-4184-9E05-EFCCDB575D82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,14 @@ Global
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|x86.ActiveCfg = Release|x86
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|x86.Build.0 = Release|x86
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Debug|x86.Build.0 = Debug|Any CPU
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Release|x86.ActiveCfg = Release|Any CPU
+		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +100,7 @@ Global
 		{7EDA8CFE-B576-480B-804E-63DC372CF41D} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218} = {DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}
+		{44A962C6-B414-4184-9E05-EFCCDB575D82} = {4F5BF002-399D-4830-BA4E-23EE97D97956}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0295A474-5FDB-4E74-89E4-048C0F088903}

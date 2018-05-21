@@ -1,0 +1,188 @@
+﻿<controls:MetroWindow  x:Class="SnippetsAddin.SnippetsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SnippetsAddin"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"                            
+        Title="Snippets Template Expansions " TitleCharacterCasing="Normal"        
+        FontSize="14"                              
+        WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterOwner"         
+        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
+        Width="900" Height="700" MinHeight="500"  MinWidth="700"                     
+        Icon="icon.png"
+        TitlebarHeight="35"
+         WindowTransitionsEnabled="False"                       
+                       >
+    
+    <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions >
+                <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+            
+            <ToolBarPanel Name="ToolbarPanelMain" Grid.Row="0" Grid.ColumnSpan="2">
+                <ToolBarPanel.Resources>
+                    <Style x:Key="ToolbarIconRectangleStyle" TargetType="Rectangle">
+                        <Style.Setters>
+                            <Setter Property="Height" Value="16" />
+                            <Setter Property="Width" Value="16" />
+                        </Style.Setters>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToolBarPanel.Resources>
+
+
+                <StackPanel Orientation="Horizontal">
+                    <ToolBar Name="ToolbarFile" >
+
+                    <Button Name="ToolButtonNewSnippet" Click="ToolButtonNewSnippet_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="PlusCircle"  Foreground="Green"
+                                            FontSize="15"                                                                                        
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Margin="5,2,5,0">
+
+                            </fa:FontAwesome>
+
+                            <TextBlock>Add Snippet</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Name="ToolButtonRemoveSnippet" Click="ToolButtonRemoveSnippet_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Remove"  Foreground="Red"
+                                            FontSize="15"                                                                                        
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Margin="5,2,10,0">
+
+                            </fa:FontAwesome>
+
+                            <TextBlock>Remove Snippet</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                    <Separator/>
+                </ToolBar>
+                <ToolBar>
+                    <Button Name="ToolButtonRunSnippet" Click="ToolButtonRunSnippet_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Play"  Foreground="Green"
+                                            FontSize="15"                                                                                        
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Margin="5,2,5,0">
+                            </fa:FontAwesome>
+
+                            <TextBlock>Run Snippet</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ToolButtonTestSnippet" Click="ToolButtonTestSnippet_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="CaretSquareOutlineRight" Foreground="Orange"
+                                            FontSize="15"                                                                                        
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Margin="5,2,5,0">
+                            </fa:FontAwesome>
+
+                            <TextBlock>Test Snippet</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+
+                </ToolBar>
+                <ToolBar>
+                    <Button Name="ToolButtonInfo" Click="ToolButtonMoreInfo_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="InfoCircle"  Foreground="SteelBlue"
+                                            FontSize="15"                                                                                        
+                                            FontWeight="Normal" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Margin="5,2,10,0">
+
+                            </fa:FontAwesome>
+
+                            <TextBlock>Documentation</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                </ToolBar>
+                </StackPanel>
+            </ToolBarPanel>
+
+
+        <ListBox Grid.Row="1" Grid.Column="0" Name="ListSnippets" 
+                             Background="#333"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             
+                             ItemsSource="{Binding Configuration.Snippets}"  
+                             SelectedItem="{Binding ActiveSnippet}"
+                             DisplayMemberPath="Name"
+                             IsTextSearchCaseSensitive="False"
+                             IsTextSearchEnabled="True"                   
+                             HorizontalContentAlignment="Stretch"
+                             SelectionChanged="ListSnippets_SelectionChanged"
+                             MouseDoubleClick="ListSnippets_OnMouseDoubleClick" 
+                             KeyUp="ListSnippets_KeyUp">
+        </ListBox>
+
+        <Grid Grid.Row="1" Grid.Column="1"  Margin="10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition  Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Margin="0,0,0,4">Snippet Name</TextBlock>
+            <TextBox  Grid.Row="1" Text="{Binding ActiveSnippet.Name, UpdateSourceTrigger=PropertyChanged }" />
+
+            <Grid Grid.Row="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Grid.Row="2" Margin="0,10,0,4">Script Mode</TextBlock>
+                    <ComboBox Grid.Row="3" Name="ListScriptModes"                       
+                      ItemsSource="{Binding ScriptModeItems}"     
+                      SelectedValuePath="ScriptMode"
+                      DisplayMemberPath="Name"
+                      SelectedValue="{Binding ActiveSnippet.ScriptMode}"                      
+                      IsSynchronizedWithCurrentItem="True"   SelectionChanged="ListScriptModes_SelectionChanged"
+                   
+                      >
+                    </ComboBox>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                    <TextBlock  Margin="0,10,0,4">Expansion String</TextBlock>
+                    <TextBox Text="{Binding ActiveSnippet.Shortcut}"  ToolTip="Key sequence that when typed into the editor at the end of a line, expands the snippet."  />                                         
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Margin="15,0,0,0">
+                    <TextBlock  Margin="0,10,0,4">Keyboard Shortcut</TextBlock>
+                    <TextBox Text="{Binding ActiveSnippet.KeyboardShortcut}"  ToolTip="Keyboard shortcut sequence like Alt+Shift+M, Ctrl+Alt+Enter etc. Requires a restart of Markdown Monster to kick in."  />
+                </StackPanel>
+
+            </Grid>
+
+            <TextBlock Grid.Row="3" Margin="0,10,0,4">Snippet Template</TextBlock>
+            <WebBrowser Grid.Row="4"  Margin="0,0,0,15" Name="WebBrowserSnippet"/>
+
+
+        </Grid>
+
+    </Grid>
+</controls:MetroWindow>

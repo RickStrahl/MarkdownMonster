@@ -83,6 +83,17 @@ namespace MarkdownMonster.AddIns
         public AddinManager()
         {
             AddIns = new List<MarkdownMonsterAddin>();
+
+            // TODO: REMOVE in future Versions - added to deal with internalized Snippets Addin - added in 1.11.3            
+            var snippetsAddin = Path.Combine(mmApp.Configuration.CommonFolder, "Addins", "Snippets");
+            if (Directory.Exists(snippetsAddin))
+            {
+                try
+                {
+                    Directory.Delete(snippetsAddin, true);
+                }
+                catch { }
+            }
         }
 
 
@@ -590,7 +601,7 @@ namespace MarkdownMonster.AddIns
                 var delDirs = Directory.GetDirectories(".\\Addins");
                 foreach (string delDir in delDirs)
                 {
-                    if (!delDir.EndsWith("ScreenCapture") && !delDir.EndsWith("Weblog"))
+                    if (!delDir.EndsWith("ScreenCapture") && !delDir.EndsWith("Weblog") && !delDir.EndsWith("Snippets"))
                     {
                         var targetFolder = Path.Combine(mmApp.Configuration.AddinsFolder, Path.GetFileName(delDir));
                         if (!Directory.Exists(targetFolder))
