@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Utilities;
@@ -1043,7 +1037,7 @@ Do you want to View in Browser now?
 
         static AppCommands()
         {
-            TabWindowListCommand = new CommandBase( (parameter, command)=>
+            TabWindowListCommand = new CommandBase((parameter, command) =>
             {
                 var button = parameter as FrameworkElement;
                 if (button == null) return;
@@ -1056,8 +1050,7 @@ Do you want to View in Browser now?
 
                 button.ContextMenu.IsOpen = true;
                 button.ContextMenu.Closed += (o, args) => button.ContextMenu.Items.Clear();
-            },
-            (p, c) => true);
+            });
         }
 
         #endregion
@@ -1215,22 +1208,6 @@ We're now shutting down the application.
                 (p, e) => Model.IsEditorActive);
 
         }
-
-
-
-
-
-        //private void CreateCommands()
-        //{
-        //    Command_Settings();
-
-        //    Command_ViewInExternalBrowser();
-        //    Command_ViewHtmlSource();
-        //    Command_PrintePreview();
-
-        //    Command_ShowFolderBrowser();
-        //}
-
         #endregion
     }
 }

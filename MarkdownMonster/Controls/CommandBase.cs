@@ -45,6 +45,10 @@ namespace MarkdownMonster
                 _execute?.Invoke(parameter, this);
         }
 
+
+        /// <summary>
+        /// Event hook that ensures that CanExecute gets called as needed
+        /// </summary>
         public event EventHandler CanExecuteChanged
         {
             add
