@@ -7,6 +7,19 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
+### 1.11.3
+<small>May 20th, 2018</small>
+
+
+* **Snippets Addin integrated into MM Core**   
+Moved the Snippets addin into the core MM Solution so it's always up to date and synced to matching dependencies. 
+
+* **Fix: Window Menu Shortcut Keys**  
+Fix Window menu mnemonic keys that didn't allow for shortcuts to work.
+
+* **Internals: Update depencenies**  
+Update all dependencies to latest releases - except for LibGit2Sharp which switched to .NET Core 2.0 assemblies and results in a splattering a huge amount of runtime dependencies into project. Waiting to target .NET 4.7.2 to not require those dependencies.
+
 ### 1.11  
 <small>May 16th, 2018</small>
 
