@@ -7,9 +7,8 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.11.3
-<small>May 20th, 2018</small>
-
+### 1.11.4
+<small>May 21th, 2018</small>
 
 * **Snippets Addin integrated into MM Core**   
 Moved the Snippets addin into the core MM Solution so it's always up to date and synced to matching dependencies. 
@@ -19,6 +18,9 @@ Fix Window menu mnemonic keys that didn't allow for shortcuts to work.
 
 * **Internals: Update depencenies**  
 Update all dependencies to latest releases - except for LibGit2Sharp which switched to .NET Core 2.0 assemblies and results in a splattering a huge amount of runtime dependencies into project. Waiting to target .NET 4.7.2 to not require those dependencies.
+
+* **Addins: Failed Addins Removed**  
+If addins fail to load they are removed from the addin list and removed on the next pass. This is a temporary situation as we work out the changeover to new dependencies, so that the same warnings don't keep popping up each time you launch if you didn't uninstall explicitly.
 
 <h4 style="color: firebrick">v1.2.8 Breaking Changes</h4>
 This update has breaking changes related to addins. When updating to a newer version you may see addin-load failures. If that's the case uninstall and reinstall the affected addins.

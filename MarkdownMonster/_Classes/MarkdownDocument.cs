@@ -642,7 +642,7 @@ namespace MarkdownMonster
 
             lock (_SaveLock)
             {                
-                using (var fs = new FileStream(Filename, FileMode.Open, FileAccess.Read))
+                using (var fs = new FileStream(Filename, FileMode.Open,FileAccess.Read,FileShare.Read))
                 {
                     int count;
                     var bytes = new char[ENCRYPTION_PREFIX.Length];

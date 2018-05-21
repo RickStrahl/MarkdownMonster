@@ -30,25 +30,25 @@ namespace Westwind.wwScripting
 		/// <summary>
 		/// Compiler object used to compile our code
 		/// </summary>
-		protected ICodeCompiler oCompiler = null;
+		protected ICodeCompiler Compiler = null;
 
 		/// <summary>
 		/// Reference to the Compiler Parameter object
 		/// </summary>
-		protected CompilerParameters oParameters = null;
+		protected CompilerParameters Parameters = null;
 
 		/// <summary>
 		/// Reference to the final assembly
 		/// </summary>
-		protected Assembly oAssembly = null;
+		protected Assembly Assembly = null;
 
 		/// <summary>
 		/// The compiler results object used to figure out errors.
 		/// </summary>
-		protected CompilerResults oCompiled = null;
-		protected string cOutputAssembly = null;
-		protected string cNamespaces = "";
-		protected bool lFirstLoad = true;
+		protected CompilerResults CompilerResults = null;
+		protected string OutputAssembly = null;
+		protected string Namespaces = "";
+		protected bool FirstLoad = true;
 
 
 
@@ -119,7 +119,7 @@ namespace Westwind.wwScripting
 		/// <param name="language">CSharp or VB</param>
 		public wwScripting(string language = "CSharp")
 		{			
-			this.SetLanguage(language);
+			SetLanguage(language);
 		}
 		
 		
@@ -131,20 +131,24 @@ namespace Westwind.wwScripting
 		/// <param name="language"></param>
 		public void SetLanguage(string language) 
 		{
-			this.ScriptingLanguage = language;
+			ScriptingLanguage = language;
 
-			if (this.ScriptingLanguage == "CSharp" || this.ScriptingLanguage == "C#") 
+			if (ScriptingLanguage == "CSharp" || ScriptingLanguage == "C#") 
 			{
-				this.oCompiler = new CSharpCodeProvider().CreateCompiler();
-				this.ScriptingLanguage = "CSharp";
+#pragma warning disable CS0618 // Type or member is obsolete
+                Compiler = new CSharpCodeProvider().CreateCompiler();
+#pragma warning restore CS0618 // Type or member is obsolete
+                ScriptingLanguage = "CSharp";
 			}	
-			else if (this.ScriptingLanguage == "VB")	
+			else if (ScriptingLanguage == "VB")	
 			{
-				this.oCompiler = new VBCodeProvider().CreateCompiler();
-			}										   
+#pragma warning disable CS0618 // Type or member is obsolete
+                Compiler = new VBCodeProvider().CreateCompiler();
+#pragma warning restore CS0618 // Type or member is obsolete
+            }										   
 			// else throw(Exception ex);
 
-			this.oParameters = new CompilerParameters();
+			Parameters = new CompilerParameters();
 		}
 
 
@@ -158,19 +162,19 @@ namespace Westwind.wwScripting
 			if (assemblyDll==null && nameSpace == null) 
 			{
 				// *** clear out assemblies and namespaces
-				this.oParameters.ReferencedAssemblies.Clear();
-				this.cNamespaces = "";
+				Parameters.ReferencedAssemblies.Clear();
+				Namespaces = "";
 				return;
 			}
 			
 			if (assemblyDll != null)
-				this.oParameters.ReferencedAssemblies.Add(assemblyDll);
+				Parameters.ReferencedAssemblies.Add(assemblyDll);
 		
 			if (nameSpace != null) 
-				if (this.ScriptingLanguage == "CSharp")
-					this.cNamespaces = this.cNamespaces + "using " + nameSpace + ";\r\n";
+				if (ScriptingLanguage == "CSharp")
+					Namespaces = Namespaces + "using " + nameSpace + ";\r\n";
 				else
-					this.cNamespaces = this.cNamespaces + "imports " + nameSpace + "\r\n";
+					Namespaces = Namespaces + "imports " + nameSpace + "\r\n";
 		}
 
 		/// <summary>
@@ -179,19 +183,19 @@ namespace Westwind.wwScripting
 		/// <param name="assemblyDll">DLL assembly file name</param>
 		public void AddAssembly(string assemblyDll) 
 		{
-			this.AddAssembly(assemblyDll,null);
+			AddAssembly(assemblyDll,null);
 		}
 		public void AddNamespace(string nameSpace)
 		{
-			this.AddAssembly(null,nameSpace);
+			AddAssembly(null,nameSpace);
 		}
 		public void AddDefaultAssemblies()
 		{
-			this.AddAssembly("System.dll","System");
-		    this.AddAssembly("System.Core.dll");
-		    this.AddAssembly("Microsoft.CSharp.dll");
-			this.AddNamespace("System.Reflection");
-			this.AddNamespace("System.IO");
+			AddAssembly("System.dll","System");
+		    AddAssembly("System.Core.dll");
+		    AddAssembly("Microsoft.CSharp.dll");
+			AddNamespace("System.Reflection");
+			AddNamespace("System.IO");
 
 		}
 
@@ -206,29 +210,29 @@ namespace Westwind.wwScripting
 		public object ExecuteMethod(string code, string methodName, params object[] parameters) 
 		{
 			
-			if (this.ObjRef == null) 
+			if (ObjRef == null) 
 			{
-				if (this.lFirstLoad)
+				if (FirstLoad)
 				{
-					if (this.DefaultAssemblies) 
+					if (DefaultAssemblies) 
 					{
-						this.AddDefaultAssemblies();
+						AddDefaultAssemblies();
 					}
 					//this.AddAssembly(this.SupportAssemblyPath + "RemoteLoader.dll","Westwind.RemoteLoader");
 					//this.AddAssembly(this.SupportAssemblyPath + "wwScripting.dll","Westwind.wwScripting");
-					this.lFirstLoad = false;
+					FirstLoad = false;
 				}
 
 				StringBuilder sb = new StringBuilder("");
 
 				//*** Program lead in and class header
-				sb.Append(this.cNamespaces);
+				sb.Append(Namespaces);
 				sb.Append("\r\n");
 
-				if (this.ScriptingLanguage == "CSharp") 
+				if (ScriptingLanguage == "CSharp") 
 				{
 					// *** Namespace headers and class definition
-					sb.Append("namespace " + this.AssemblyNamespace + "{\r\npublic class " + this.ClassName + ":MarshalByRefObject {\r\n");	
+					sb.Append("namespace " + AssemblyNamespace + "{\r\npublic class " + ClassName + ":MarshalByRefObject {\r\n");	
 				
 					// *** Generic Invoke method required for the remote call interface
 					sb.Append(
@@ -241,10 +245,10 @@ namespace Westwind.wwScripting
 
 					sb.Append("\r\n} }");  // Class and namespace closed
 				}
-				else if (this.ScriptingLanguage == "VB") 
+				else if (ScriptingLanguage == "VB") 
 				{
 					// *** Namespace headers and class definition
-					sb.Append("Namespace " + this.AssemblyNamespace + "\r\npublic class " + this.ClassName + "\r\n");
+					sb.Append("Namespace " + AssemblyNamespace + "\r\npublic class " + ClassName + "\r\n");
 					sb.Append("Inherits MarshalByRefObject\r\nImplements IRemoteInterface\r\n\r\n");	
 				
 					// *** Generic Invoke method required for the remote call interface
@@ -260,21 +264,21 @@ namespace Westwind.wwScripting
 					sb.Append("\r\n\r\nEnd Class\r\nEnd Namespace\r\n");  // Class and namespace closed
 				}
 
-				if (this.SaveSourceCode)
+				if (SaveSourceCode)
 				{
-					this.SourceCode = sb.ToString();
+					SourceCode = sb.ToString();
 					//MessageBox.Show(this.cSourceCode);
 				}
 
-				if (!this.CompileAssembly(sb.ToString()) )
+				if (!CompileAssembly(sb.ToString()) )
 					return null;
 
-				object loTemp = this.CreateInstance();
+				object loTemp = CreateInstance();
 				if (loTemp == null)
 					return null;
 			}
 
-			return this.CallMethod(this.ObjRef,methodName,parameters);
+			return CallMethod(ObjRef,methodName,parameters);
 		}
 
 		/// <summary>
@@ -287,13 +291,13 @@ namespace Westwind.wwScripting
 		/// <returns></returns>
 		public object ExecuteCode(string code, params object[] parameters) 
 		{	
-			if (this.ScriptingLanguage == "CSharp")
-				return this.ExecuteMethod("public object ExecuteCode(params object[] Parameters) \r\n{\r\n" + 
+			if (ScriptingLanguage == "CSharp")
+				return ExecuteMethod("public object ExecuteCode(params object[] Parameters) \r\n{\r\n" + 
 						code + 
 						"\r\n}",
 						"ExecuteCode",parameters);
-			else if (this.ScriptingLanguage == "VB")
-				return this.ExecuteMethod("public function ExecuteCode(ParamArray Parameters() As Object) as object\r\n" + 
+			else if (ScriptingLanguage == "VB")
+				return ExecuteMethod("public function ExecuteCode(ParamArray Parameters() As Object) as object\r\n" + 
 					code + 
 					"\r\nend function\r\n",
 					"ExecuteCode",parameters);
@@ -310,58 +314,58 @@ namespace Westwind.wwScripting
 		{
 			//this.oParameters.GenerateExecutable = false;
 
-			if (this.AppDomain == null && this.cOutputAssembly == null)
-				this.oParameters.GenerateInMemory = true;
-			else if (this.AppDomain != null && this.cOutputAssembly == null)
+			if (AppDomain == null && OutputAssembly == null)
+				Parameters.GenerateInMemory = true;
+			else if (AppDomain != null && OutputAssembly == null)
 			{
 				// *** Generate an assembly of the same name as the domain
-				this.cOutputAssembly = "wws_" + Guid.NewGuid().ToString() + ".dll";
-				this.oParameters.OutputAssembly = this.cOutputAssembly;
+				OutputAssembly = "wws_" + Guid.NewGuid().ToString() + ".dll";
+				Parameters.OutputAssembly = OutputAssembly;
 			}
 			else {
-				  this.oParameters.OutputAssembly = this.cOutputAssembly;
+				  Parameters.OutputAssembly = OutputAssembly;
 			}
 		
-			this.oCompiled = this.oCompiler.CompileAssemblyFromSource(this.oParameters,source);
+			CompilerResults = Compiler.CompileAssemblyFromSource(Parameters,source);
 
-			if (oCompiled.Errors.HasErrors) 
+			if (CompilerResults.Errors.HasErrors) 
 			{
-				this.Error = true;
+				Error = true;
 
 				// *** Create Error String
-				this.ErrorMessage = oCompiled.Errors.Count.ToString() + " Errors:";
-				for (int x=0;x<oCompiled.Errors.Count;x++) 
-					this.ErrorMessage = this.ErrorMessage  + "\r\nLine: " + oCompiled.Errors[x].Line.ToString() + " - " + 
-						                               oCompiled.Errors[x].ErrorText;				
+				ErrorMessage = CompilerResults.Errors.Count.ToString() + " Errors:";
+				for (int x=0;x<CompilerResults.Errors.Count;x++) 
+					ErrorMessage = ErrorMessage  + "\r\nLine: " + CompilerResults.Errors[x].Line.ToString() + " - " + 
+						                               CompilerResults.Errors[x].ErrorText;				
 				return false;
 			}
 
-			if (this.AppDomain == null)
-				this.oAssembly = oCompiled.CompiledAssembly;
+			if (AppDomain == null)
+				Assembly = CompilerResults.CompiledAssembly;
 			
 			return true;
 		}
 
 		public object CreateInstance() 
 		{
-			if (this.ObjRef != null) 
+			if (ObjRef != null) 
 			{
-				return this.ObjRef;
+				return ObjRef;
 			}
 			
 			// *** Create an instance of the new object
 			try 
 			{
-				if (this.AppDomain == null)
+				if (AppDomain == null)
 					try 
 					{
-						this.ObjRef =  oAssembly.CreateInstance(this.AssemblyNamespace + "." + this.ClassName);
-						return this.ObjRef;
+						ObjRef =  Assembly.CreateInstance(AssemblyNamespace + "." + ClassName);
+						return ObjRef;
 					}
 					catch(Exception ex) 
 					{
-						this.Error = true;
-						this.ErrorMessage = ex.Message;
+						Error = true;
+						ErrorMessage = ex.Message;
 						return null;
 					}
 				else 
@@ -380,8 +384,8 @@ namespace Westwind.wwScripting
 			}
 			catch(Exception ex) 
 			{
-				this.Error = true;
-				this.ErrorMessage = ex.Message;
+				Error = true;
+				ErrorMessage = ex.Message;
 				return null;
 			}
 				
@@ -392,7 +396,7 @@ namespace Westwind.wwScripting
 			// *** Try to run it
 			try 
 			{
-				if (this.AppDomain == null)
+				if (AppDomain == null)
 					// *** Just invoke the method directly through Reflection
 					return loObject.GetType().InvokeMember(lcMethod,BindingFlags.InvokeMethod,null,loObject,loParameters );
 				else 
@@ -421,8 +425,8 @@ namespace Westwind.wwScripting
             }
             catch (Exception ex) 
 			{
-				this.Error = true;
-				this.ErrorMessage = ex.Message;
+				Error = true;
+				ErrorMessage = ex.Message;
 			}
 			return null;
 		}
@@ -435,22 +439,22 @@ namespace Westwind.wwScripting
 			AppDomainSetup loSetup = new AppDomainSetup();
 			loSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
 
-			this.AppDomain = AppDomain.CreateDomain(lcAppDomain,null,loSetup);
+			AppDomain = AppDomain.CreateDomain(lcAppDomain,null,loSetup);
 			return true;
 		}
 
 		public bool UnloadAppDomain()
 		{
-			if (this.AppDomain != null)
-			   AppDomain.Unload(this.AppDomain);
+			if (AppDomain != null)
+			   AppDomain.Unload(AppDomain);
 
-			this.AppDomain = null;
+			AppDomain = null;
 
-			if (this.cOutputAssembly != null) 
+			if (OutputAssembly != null) 
 			{
 				try 
 				{
-					File.Delete(this.cOutputAssembly);
+					File.Delete(OutputAssembly);
 				}
 				catch(Exception) {;}
 			}
@@ -459,18 +463,18 @@ namespace Westwind.wwScripting
 		}
 		public void Release() 
 		{
-			this.ObjRef = null;
+			ObjRef = null;
 		}
 
 		public void Dispose() 
 		{
-			this.Release();
-			this.UnloadAppDomain();
+			Release();
+			UnloadAppDomain();
 		}
 
 		~wwScripting() 
 		{
-			this.Dispose();
+			Dispose();
 		}
 	}
 

@@ -568,9 +568,7 @@ namespace MarkdownMonster
 
 		internal string InternalCommonFolder { get; set; }
 
-        internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
-
-        
+        internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");        
         #endregion
 
         public ApplicationConfiguration()

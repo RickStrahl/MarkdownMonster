@@ -85,7 +85,7 @@ namespace MarkdownMonster.AddIns
             AddIns = new List<MarkdownMonsterAddin>();
 
             // TODO: REMOVE in future Versions - added to deal with internalized Snippets Addin - added in 1.11.3            
-            var snippetsAddin = Path.Combine(mmApp.Configuration.CommonFolder, "Addins", "Snippets");
+            var snippetsAddin = Path.Combine(mmApp.Configuration.AddinsFolder, "Snippets");
             if (Directory.Exists(snippetsAddin))
             {
                 try
@@ -308,27 +308,8 @@ namespace MarkdownMonster.AddIns
         {            
             if (!Directory.Exists(addinPath))
                 return;
-
-            try
-            {
-                var delDirs = Directory.GetDirectories(".\\Addins");
-                foreach (string delDir in delDirs)
-                {
-                    if (!delDir.EndsWith("ScreenCapture") && !delDir.EndsWith("Weblog") && !delDir.EndsWith("Snippets"))
-                    {
-                        var targetFolder = Path.Combine(mmApp.Configuration.AddinsFolder, Path.GetFileName(delDir));
-                        if (!Directory.Exists(targetFolder))
-                            Directory.Move(delDir, targetFolder);
-                        else
-                            Directory.Delete(delDir, true);
-                    }                        
-                }
-            }
-            catch
-            { }
-            // END TODO: Remove after a few months
-
-            // Check for Addins to install
+ 
+            // Check for Addins to install or delete
             try
             {
                 if (Directory.Exists(addinPath + "\\Install"))
@@ -336,7 +317,8 @@ namespace MarkdownMonster.AddIns
             }
             catch (Exception ex)
             {
-                mmApp.Log($"Addin Update failed: {ex.Message}");
+                mmApp.Log($"Addin update failed: {ex.Message}");
+                return;
             }
 
             var dirs = Directory.GetDirectories(addinPath);            
@@ -390,10 +372,13 @@ namespace MarkdownMonster.AddIns
             }
             catch(Exception ex)
             {
-                var msg = $"Unable to load add-in: {Path.GetFileNameWithoutExtension(assemblyFile)}";
+                var msg = $"Unable to load addin {Path.GetFileNameWithoutExtension(assemblyFile)}";
 
                 mmApp.Log(msg, ex);
                 AddinLoadErrors.AppendLine(msg + "\r\n");
+
+                if(!string.IsNullOrEmpty(addinId))
+                    UninstallAddin(addinId);
 
                 return;
             }
@@ -727,14 +712,24 @@ namespace MarkdownMonster.AddIns
             if (string.IsNullOrEmpty(addinPath))
                 addinPath = mmApp.Configuration.AddinsFolder;
 
-            var directory = Directory.GetDirectories(addinPath).FirstOrDefault(dir => Path.GetFileName(dir) == addinId);
+            var directory = Directory.GetDirectories(addinPath)
+                                     .FirstOrDefault(dir => Path.GetFileName(dir).Equals(addinId,StringComparison.InvariantCultureIgnoreCase));
             if (!string.IsNullOrEmpty(directory))
             {
-                if (!Directory.Exists(Path.Combine(addinPath, "Install")))
-                    Directory.CreateDirectory(Path.Combine(addinPath, "Install"));
+                try
+                {
+                    if (!Directory.Exists(Path.Combine(addinPath, "Install")))
+                        Directory.CreateDirectory(Path.Combine(addinPath, "Install"));
 
-                File.WriteAllText(Path.Combine(addinPath,"Install", addinId + ".delete"),"to be deleted");
-                return true;
+                    File.WriteAllText(Path.Combine(addinPath, "Install", addinId + ".delete"), "to be deleted");
+                    return true;
+                }
+                catch(Exception ex)
+                {
+                    ErrorMessage = $"Unable to uninstall addin {addinId}: {ex.Message}";
+                    mmApp.Log(ErrorMessage, ex);
+                    return false;
+                }
             }
 
             return false;
@@ -746,26 +741,39 @@ namespace MarkdownMonster.AddIns
         /// over.
         /// </summary>
         /// <param name="path">Temporary install path</param>
-        public bool InstallAddinFiles(string path = ".\\Addins\\Install")
+        public bool InstallAddinFiles(string path = null)
         {
+            if (path == null)
+                path = Path.Combine(mmApp.Configuration.AddinsFolder, "Install");
+
             string dirName = null;
 
-            try
+            ErrorMessage = null;
+
+            // delete addins flagged for deletion
+            var files = Directory.GetFiles(path, "*.delete");
+            foreach (var file in files)
             {
-                // delete addins flagged for deletion
-                var files = Directory.GetFiles(path, "*.delete");
-                foreach (var file in files)
+                try
                 {
                     var deleteFolder = Path.Combine(path + "..\\", Path.GetFileNameWithoutExtension(file));
+
                     if (Directory.Exists(deleteFolder))
                         Directory.Delete(deleteFolder, true);
 
                     File.Delete(file);
                 }
+                catch (Exception ex)
+                {
+                    ErrorMessage +=  $"Couldn't remove existing addin {Path.GetFileNameWithoutExtension(file)}: {ex.Message}\r\n";
+                }
+            }
 
-                // install new addins
-                var dirs = Directory.GetDirectories(path);
-                foreach (var addinInstallFolder in dirs)
+            // install new addins
+            var dirs = Directory.GetDirectories(path);
+            foreach (var addinInstallFolder in dirs)
+            {
+                try
                 {
                     dirName = Path.GetFileName(addinInstallFolder); // folder name
                     var addinPath = Path.Combine(addinInstallFolder, "..\\..", dirName);
@@ -774,20 +782,24 @@ namespace MarkdownMonster.AddIns
 
                     Directory.Move(addinInstallFolder, addinPath);
                 }
-
-                Directory.Delete(path);
+                catch (Exception ex)
+                {
+                    ErrorMessage += $"Addin installation failed for {dirName}: {ex.Message}\r\n";
+                }
             }
-            catch (Exception ex)
+
+            Directory.Delete(path);
+
+
+            if (!string.IsNullOrEmpty(ErrorMessage))
             {
-                mmApp.Log("Addin installation failed for " + dirName, ex);
+                mmApp.Log(ErrorMessage);
                 return false;
             }
 
-            
-
             return true;
         }
-        
+
         #endregion
 
         #region Raise Events

@@ -104,13 +104,6 @@ namespace MarkdownMonster
             // Use Default of Encoding.Default (Ansi CodePage)
             Encoding enc;
 
-            //using (var reader = new StreamReader(srcFile, true))
-            //{
-            //    enc = reader.CurrentEncoding;
-            //}
-
-            //return enc;
-
             // Detect byte order mark if any - otherwise assume default
             byte[] buffer = new byte[5];
             using (FileStream file = new FileStream(srcFile, FileMode.Open,FileAccess.Read,FileShare.ReadWrite))
@@ -135,64 +128,7 @@ namespace MarkdownMonster
 
             return enc;
         }
-
-     //   /// <summary>
-     //   /// This function returns the actual filename of a file
-     //   /// that exists on disk. If you provide a path/file name
-     //   /// that is not proper cased as input, this function fixes
-     //   /// it up and returns the file using the path and file names
-     //   /// as they exist on disk.
-     //   /// </summary>
-     //   /// <param name="filename">A filename to check</param>
-     //   /// <returns></returns>
-	    //public static string GetPhysicalPath(string filename)
-     //   {
-     //       try
-     //       {
-     //           StringBuilder sb = new StringBuilder(1500);
-     //           uint result = GetLongPathName(filename, sb, sb.Capacity);
-     //           if (result > 0)
-     //               filename = sb.ToString();
-     //       }
-     //       catch { }
-
-     //       return filename;
-     //   }
-
-       
-
-     //   /// <summary>
-     //   /// API call that takes an input path and turns it into a long path
-     //   /// that matches the actual signature on disk
-     //   /// </summary>
-     //   /// <param name="ShortPath"></param>
-     //   /// <param name="sb"></param>
-     //   /// <param name="buffer"></param>
-     //   /// <returns></returns>
-     //   [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-     //   static extern uint GetLongPathName(string ShortPath, StringBuilder sb, int buffer);
-
-
-     //   /// <summary>
-     //   /// Returns a compact path with elipsis from a long path
-     //   /// </summary>
-     //   /// <param name="path"></param>
-     //   /// <param name="length"></param>
-     //   /// <returns></returns>
-     //   public static string GetCompactPath(string path, int length = 70)
-     //   {
-
-     //       if (string.IsNullOrEmpty(path))
-     //           return path;
-
-     //       StringBuilder sb = new StringBuilder(length + 1);
-     //       PathCompactPathEx(sb, path, length +1, 0);
-     //       return sb.ToString();
-     //   }
-
-     //   [DllImport("shlwapi.dll", CharSet = CharSet.Auto)]
-     //   static extern bool PathCompactPathEx([Out] StringBuilder pszOut, string szPath, int cchMax, int dwFlags);
-
+        
 
         /// <summary>
         /// Retrieves the editor syntax for a file based on extension for use in the editor
