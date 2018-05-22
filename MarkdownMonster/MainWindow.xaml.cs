@@ -931,6 +931,7 @@ namespace MarkdownMonster
         /// <param name="editorFile">File name to display int the tab</param>
         /// <param name="maintainScrollPosition">If possible preserve scroll position if refreshing</param>
         /// <param name="noPreview">If true don't refresh the preview after updating the file</param>
+        /// <param name="noSelectTab"></param>
         /// <param name="noFocus">if true don't focus the editor</param>
         /// <param name="readOnly">if true document can't be edited</param>           
         /// <returns>selected tab item or null</returns>
@@ -944,7 +945,7 @@ namespace MarkdownMonster
 
             var tab = GetTabFromFilename(editorFile);
             if (tab == null)
-                return OpenTab(editorFile, rebindTabHeaders: true, readOnly: readOnly, noFocus: noFocus);
+                return OpenTab(editorFile, rebindTabHeaders: true, readOnly: readOnly, noFocus: noFocus, selectTab: !noSelectTab);
 
             // load the underlying document
             var editor = tab.Tag as MarkdownDocumentEditor;

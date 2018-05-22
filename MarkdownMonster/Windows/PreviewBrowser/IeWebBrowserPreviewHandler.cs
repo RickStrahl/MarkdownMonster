@@ -67,6 +67,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         /// <param name="keepScrollPosition">True if scroll position should be maintained if possible</param>
         /// <param name="showInBrowser">If true renders in an external browser.</param>
         /// <param name="renderedHtml">Optional - pass in an HTML string. If null active document is rendered to HTML</param>
+        /// <param name="editorLineNumber">Line to scroll the editor to</param>
         [HandleProcessCorruptedStateExceptions]
         [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         public void PreviewMarkdown(MarkdownDocumentEditor editor = null,
@@ -91,6 +92,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                 var ext = Path.GetExtension(doc.Filename).ToLower().Replace(".", "");
                 
                 string mappedTo = "markdown";
+                
                 if (!string.IsNullOrEmpty(renderedHtml))
                 {
                     mappedTo = "html";
@@ -145,7 +147,15 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
                             return;
                         }
-                            
+
+                        // Handle raw URLs to render
+                        if (renderedHtml.StartsWith("http") && StringUtils.CountLines(renderedHtml) == 1)
+                        {
+                            WebBrowser.Navigate(new Uri(renderedHtml));
+                            Window.ShowPreviewBrowser();
+                            return;
+                        }
+                        
                         renderedHtml = StringUtils.ExtractString(renderedHtml,
                             "<!-- Markdown Monster Content -->",
                             "<!-- End Markdown Monster Content -->");
