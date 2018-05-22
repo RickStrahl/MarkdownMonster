@@ -172,10 +172,17 @@ namespace MarkdownMonster.Utilities
                     if (url.StartsWith("file:///"))
                         url = url.Substring(8);
 
-                    linkData = File.ReadAllBytes(url);
+                    try
+                    {
+                        linkData = File.ReadAllBytes(url);
 
-                    contentType = mmFileUtils.GetImageMediaTypeFromFilename(url);
+                        contentType = mmFileUtils.GetImageMediaTypeFromFilename(url);
+                    }
+                    catch { continue; }
                 }
+
+                if (linkData == null)
+                    continue;
 
                 string data = $"data:{contentType};base64,{Convert.ToBase64String(linkData)}";
 
@@ -250,7 +257,10 @@ namespace MarkdownMonster.Utilities
                         continue;
                     }
                 }
-                
+
+                if (linkData == null)
+                    continue;
+
                 string data = $"data:{contentType};base64,{Convert.ToBase64String(linkData)}";
                 var replace = "url('" + data + "')";
 

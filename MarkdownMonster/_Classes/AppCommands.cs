@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -444,14 +445,16 @@ namespace MarkdownMonster
                 SaveFileDialog sd = new SaveFileDialog
                 {
                     Filter =
-                        "Html files (Html only) (*.html)|*.html|Html files (Html and dependencies in a folder)|*.html",
+                        "Self contained Html Page (Html with embedded dependencies)|*.html|" +
+                        "Raw Html Fragment (generated Html only)|*.html",
                     FilterIndex = 1,
                     InitialDirectory = folder,
                     FileName = Path.ChangeExtension(doc.MarkdownDocument.Filename, "html"),
                     CheckFileExists = false,
                     OverwritePrompt = true,
                     CheckPathExists = true,
-                    RestoreDirectory = true
+                    RestoreDirectory = true,
+                    Title = "Save As Html"                    
                 };
 
                 bool? result = null;
@@ -471,7 +474,7 @@ namespace MarkdownMonster
 
                 if (result != null && result.Value)
                 {
-                    if (sd.FilterIndex != 2)
+                    if (sd.FilterIndex == 2)
                     {
                         var html = doc.RenderMarkdown(doc.GetMarkdown(),
                             mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
@@ -484,27 +487,55 @@ namespace MarkdownMonster
                             SaveAsHtmlCommand.Execute(null);
                             return;
                         }
+
+                        mmFileUtils.OpenFileInExplorer(sd.FileName);
+                        Model.Window.ShowStatus("Raw HTML File created.", mmApp.Configuration.StatusMessageTimeout);
                     }
                     else
                     {
-                        string msg = @"This feature is not available yet.
 
-For now, you can use 'View in Web Browser' to view the document in your favorite Web Browser and use 'Save As...' to save the Html document with all CSS and Image dependencies.
+                        if (doc.MarkdownDocument.RenderHtmlToFile(usePragmaLines: false,
+                                renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal,
+                                filename: sd.FileName) == null)
+                        {
+                            MessageBox.Show(Model.Window,
+                                $"{sd.FileName}\r\n\r\nThis document can't be saved in this location. The file is either locked or you don't have permissions to save it. Please choose another location to save the file.",
+                                "Unable to save Document", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            SaveAsHtmlCommand.Execute(null);
+                            return;
+                        }
 
-Do you want to View in Browser now?
-";
-                        var mbResult = MessageBox.Show(msg,
-                            mmApp.ApplicationName,
-                            MessageBoxButton.YesNo,
-                            MessageBoxImage.Asterisk,
-                            MessageBoxResult.Yes);
+                        bool success = false;
+                        try
+                        {
+                            Model.Window.ShowStatus("Packing HTML File. This can take a little while.",
+                                mmApp.Configuration.StatusMessageTimeout, FontAwesomeIcon.CircleOutlineNotch,
+                                color: Colors.Goldenrod, spin: true);
 
-                        if (mbResult == MessageBoxResult.Yes)
-                            Model.Commands.ViewInExternalBrowserCommand.Execute(null);
+                            string packaged;
+                            var packager = new HtmlPackager();
+                            packaged = packager.PackageLocalHtml(sd.FileName);
+
+                            success = true;
+
+                            File.WriteAllText(sd.FileName, packaged);
+
+                            mmFileUtils.OpenFileInExplorer(sd.FileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(Model.Window, "Couldn't package HTML file:\r\n\r\n" + ex.Message,
+                                "Couldn't create HTML Package File");
+                            return;
+                        }
+                        finally
+                        {
+                            Model.Window.ShowStatus();
+                            Model.Window.ShowStatus("Packaged HTML File created.",
+                                mmApp.Configuration.StatusMessageTimeout);
+                        }
                     }
                 }
-
-                Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
             {
                 if (!Model.IsEditorActive)
