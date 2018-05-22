@@ -505,7 +505,6 @@ namespace MarkdownMonster
                             return;
                         }
 
-                        bool success = false;
                         try
                         {
                             Model.Window.ShowStatus("Packing HTML File. This can take a little while.",
@@ -515,8 +514,6 @@ namespace MarkdownMonster
                             string packaged;
                             var packager = new HtmlPackager();
                             packaged = packager.PackageLocalHtml(sd.FileName);
-
-                            success = true;
 
                             File.WriteAllText(sd.FileName, packaged);
 

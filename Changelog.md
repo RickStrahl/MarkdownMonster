@@ -7,6 +7,13 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
+### 1.11.5
+<small>not released yet</small>
+
+* **Save As Packaged HTML File (Preview)**  
+You can now save the current document as a self-contained HTML document that includes all dependency resources embedded inside of the HTML document itself. While this document is rather large, the document is completely portable as it embeds images, css and fonts directly.
+
+
 ### 1.11.4
 <small>May 21th, 2018</small>
 
