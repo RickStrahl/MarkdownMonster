@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Media;
+using FontAwesome.WPF;
 using Westwind.Utilities;
 
 namespace MarkdownMonster 
@@ -284,6 +286,8 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(file))
                 return file;
 
+            
+
             string ext = Path.GetExtension(file).ToLower();
             if (ext == ".jpg" || ext == ".jpeg")
                 return "image/jpeg";
@@ -296,8 +300,26 @@ namespace MarkdownMonster
             if (ext == ".tif" || ext == ".tiff")
                 return "image/tiff";
 
+            // fonts
+            if (ext == ".woff")
+                return "application/font-woff";            
+            if (ext == ".svg")
+                return "image/svg+xml";
+
+            // ignored fonts
+            if (ext == ".woff2")
+                return "font/woff2";
+            //if (ext == ".otf")
+            //    return "application/x-font-opentype";
+            //if (ext == ".ttf")
+            //    return "application/x-font-ttf";
+            //if (ext == ".eot")
+            //    return "application/vnd.ms-fontobject";
+
             return "application/image";
         }
+
+        
         #endregion
 
         #region Shell Operations
