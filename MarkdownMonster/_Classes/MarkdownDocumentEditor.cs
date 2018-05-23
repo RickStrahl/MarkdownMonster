@@ -177,7 +177,7 @@ namespace MarkdownMonster
         /// MarkdownDocument instance.
         /// </summary>
         /// <param name="mdDoc"></param>
-        public void LoadDocument(MarkdownDocument mdDoc = null)
+        public void LoadDocument(MarkdownDocument mdDoc = null, bool forceReload = false)
         {            
             if (mdDoc != null)
                 MarkdownDocument = mdDoc;
@@ -185,12 +185,13 @@ namespace MarkdownMonster
             if (AceEditor == null)
             {
                 WebBrowser.LoadCompleted += OnDocumentCompleted;
-                WebBrowser.Navigate(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm")));                      
-               
+                WebBrowser.Navigate(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm")));
                 //WebBrowser.Navigate("http://localhost:8080/editor.htm");
             }
+            else if(forceReload)
+                WebBrowser.Navigate(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm")));
 
-	        EditorSyntax = mmFileUtils.GetEditorSyntaxFromFileType(MarkdownDocument.Filename);
+            EditorSyntax = mmFileUtils.GetEditorSyntaxFromFileType(MarkdownDocument.Filename);
         }
 
 
@@ -1413,7 +1414,25 @@ namespace MarkdownMonster
                 else if (key == "ctrl-shift-z")
                 {
                     Window.Model.Commands.RemoveMarkdownFormattingCommand.Execute(null);
-                }               
+                }
+                else if (key == "f5")
+                {
+                    if (IsDirty())
+                    {
+                        if (MessageBox.Show(
+                            "You have changes in this document that have not been saved.\r\n\r\n" +
+                            "Are you sure you want to reload the document from disk?",
+                            "Refresh Document", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No) != MessageBoxResult.Yes)
+                            return;
+                    }
+
+                    AceEditor = null;
+                    MarkdownDocument.Load();
+                    LoadDocument(MarkdownDocument,true);                    
+                    PreviewMarkdownCallback();
+                    SetEditorFocus();
+                    IsDirty(); // refresh dirty flag
+                }
                 else if (key == "ctrl-tab")
                 {
                     var tab = Window.TabControl.SelectedItem;

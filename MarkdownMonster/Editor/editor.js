@@ -83,8 +83,18 @@ var te = window.textEditor = {
                 // and let WPF handle the key
             },
             "f5": function () {
-                // avoid page refresh
+                te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
+                te.specialkey("f5");
+                setTimeout(function () { te.editor.focus(); }, 20);                
             },
+            "ctrl-f5": function () {
+                te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
+                te.specialkey("f5");
+                setTimeout(function () { te.editor.focus(); }, 20);  
+            },
+            //"ctrl-f5": function() {
+            //    // avoid page refresh
+            //},
             //"f1": function () {
             //    te.specialkey("f1");
             //},
