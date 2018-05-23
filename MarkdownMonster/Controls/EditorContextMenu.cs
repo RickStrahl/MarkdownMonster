@@ -140,7 +140,10 @@ namespace MarkdownMonster
             ContextMenu.Items.Add(miCut);
 
             var miCopy = new MenuItem() { Header = "Copy", InputGestureText="ctrl-c" };
-            miCopy.Click += (o, args) => Clipboard.SetText(selText);
+            miCopy.Click += (o, args) =>
+            {
+                ClipboardHelper.SetText(selText, true);
+            };
             ContextMenu.Items.Add(miCopy);
 
             var miCopyHtml = new MenuItem() { Header = "Copy As Html", InputGestureText="ctrl-shift-c" };

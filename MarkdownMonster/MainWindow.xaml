@@ -187,11 +187,9 @@
             <RowDefinition Height="*" Name="MainContentGridRow" />
             <RowDefinition Height="30" Name="StatusBarGridRow"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
 
-        <Menu x:Name="MainMenu" Grid.Row="0" 
+
+        <Menu Name="MainMenu" x:FieldModifier="public" Grid.Row="0" 
               Margin="0"
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File" Name="MainMenuFile" x:FieldModifier="public" >

@@ -1294,8 +1294,8 @@ namespace MarkdownMonster.Windows
 
             if (!string.IsNullOrEmpty(clipText))
             {
-                System.Windows.Clipboard.SetText(clipText);
-                Window.ShowStatus($"Path '{clipText}' has been copied to the Clipboard.", mmApp.Configuration.StatusMessageTimeout);
+                if (ClipboardHelper.SetText(clipText))
+                    Window.ShowStatus($"Path '{clipText}' has been copied to the Clipboard.", mmApp.Configuration.StatusMessageTimeout);
             }
 
         }

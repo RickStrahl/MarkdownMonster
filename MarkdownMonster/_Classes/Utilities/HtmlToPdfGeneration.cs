@@ -214,7 +214,7 @@ namespace MarkdownMonster
 
 			FullExecutionCommand = "\"" + exe + "\" " + parms;
 		    if (copyCommandLineToClipboard)
-		        Clipboard.SetText(FullExecutionCommand);
+		        ClipboardHelper.SetText(FullExecutionCommand);
 
 			using (Process process = new Process())
 			{

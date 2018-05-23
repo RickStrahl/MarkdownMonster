@@ -620,7 +620,7 @@ namespace MarkdownMonster
                 form.CodeLanguage = mmApp.Configuration.DefaultCodeSyntax;
                 bool? res = form.ShowDialog();
 
-                if (res != null && res.Value)
+                if (res != null && res.Value && !string.IsNullOrEmpty(form.Code))
                 {
                     html = "```" + form.CodeLanguage + "\r\n" +
                            form.Code.Trim() + "\r\n" +
@@ -941,7 +941,52 @@ namespace MarkdownMonster
         {
             AceEditor?.setWordWrap(enable);
         }
+        #endregion
 
+        #region Properties Collection Helpers
+
+
+        /// <summary>
+        /// Returns a value from the Properties Collection as a sepcific type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        public T GetProperty<T>(string key)
+        {
+            if (Properties.TryGetValue(key, out object obj))
+                return (T)obj;
+
+            return default(T);
+        }
+        /// <summary>
+        /// Returns a value from the Properties Collection as a sepcific type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public T GetProperty<T>(string key, T defaultValue)
+        {
+            if (Properties.TryGetValue(key, out object obj))
+                return (T)obj;
+
+            return defaultValue;
+        }
+
+
+        /// <summary>
+        /// Returns a Property from the Properties collection as a string
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public string GetPropertyString(string key, string defaultValue = null)
+        {
+            if (Properties.TryGetValue(key, out object obj))
+                return obj as string;
+
+            return defaultValue;
+        }
         #endregion
 
         #region Selection and Line Operations

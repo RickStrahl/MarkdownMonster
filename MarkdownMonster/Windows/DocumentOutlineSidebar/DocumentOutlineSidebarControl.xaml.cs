@@ -187,7 +187,8 @@ Do you want to replace the existing outline?
             if (selected == null)
                 return;
 
-            Clipboard.SetText("#" + selected.LinkId);
+            if (ClipboardHelper.SetText("#" + selected.LinkId))
+                Model.Window.ShowStatus($"Pasted id to clipboard: #{selected.LinkId}");
         }
 
     

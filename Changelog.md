@@ -6,7 +6,6 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
 ### 1.11.5
 <small>not released yet</small>
 
@@ -14,11 +13,14 @@
 You can now save the current document as a self-contained HTML document that includes all dependency resources embedded inside of the HTML document itself. While this document is rather large, the document is completely portable as it embeds images, css and fonts directly.
 
 
+* **Fix: Clipboard Assignment Crashes**  
+Logs indicate a number of people have issues with Clipboard access, specifically setting values on the clipboard - both during editing and also from explicit clip assignments for URLs, commands etc. All set operations are not exception bracketed so while ops may stil fail they won't crash MM.
+
 ### 1.11.4
 <small>May 21th, 2018</small>
 
 * **Snippets Addin integrated into MM Core**   
-Moved the Snippets addin into the core MM Solution so it's always up to date and synced to matching dependencies. 
+Moved the Snippets addin into the core MM Solution so it's always up to date and synced to matching dependencies.
 
 * **Fix: Window Menu Shortcut Keys**  
 Fix Window menu mnemonic keys that didn't allow for shortcuts to work.

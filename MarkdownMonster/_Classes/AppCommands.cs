@@ -933,15 +933,8 @@ namespace MarkdownMonster
 
                 string path = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
 
-                try
-                {
-                    Clipboard.SetText(path);
-                    Model.Window.ShowStatus($"Path copied to clipboard: {path}", mmApp.Configuration.StatusMessageTimeout);
-                }
-                catch
-                {
-                    Model.Window.ShowStatusError("Clipboard failure: Failed copy foldername to clipboard.");
-                }
+                if(ClipboardHelper.SetText(path))
+                    Model.Window.ShowStatus($"Path copied to clipboard: {path}", mmApp.Configuration.StatusMessageTimeout);                
             });
         }
 

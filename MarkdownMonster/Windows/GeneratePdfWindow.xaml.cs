@@ -141,8 +141,8 @@ namespace MarkdownMonster.Windows
 
 	    private void ButtonCopyLastCommandToClipboard_Click(object sender, RoutedEventArgs e)
 	    {
-	        Clipboard.SetText(PdfGenerator.FullExecutionCommand);
-	        ShowStatus("Command line has been copied to the clipboard", mmApp.Configuration.StatusMessageTimeout);
+	        if(ClipboardHelper.SetText(PdfGenerator.FullExecutionCommand))
+	            ShowStatus("Command line has been copied to the clipboard", mmApp.Configuration.StatusMessageTimeout);
 	    }
 
 	    private bool SaveFile()

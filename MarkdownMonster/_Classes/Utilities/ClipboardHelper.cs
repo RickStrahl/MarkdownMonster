@@ -245,5 +245,33 @@ EndSelection:<<<<<<<<4";
             }
             return count;
         }
+
+
+        #region Safe Clipboard Operations
+
+
+        /// <summary>
+        /// Safely sets the clipboard and optionally displays a status error message
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="showStatusError"></param>
+        /// <returns></returns>
+        public static bool SetText(string text, bool showStatusError = true)
+        {
+            try
+            {
+                Clipboard.SetText(text);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (showStatusError)
+                    mmApp.Model.Window.ShowStatusError($"Couldn't set clipboard text: {ex.Message}");
+                return false;
+            }
+        }
+
+        #endregion
+
     }
 }
