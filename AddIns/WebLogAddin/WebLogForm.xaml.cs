@@ -402,6 +402,7 @@ namespace WeblogAddin
 
             var url = Model.ActiveWeblogInfo.ApiUrl;
 
+           
             ShowStatus("Checking Endpoint Url...");
 
             if (discover.CheckRpcEndpoint(url))
@@ -414,6 +415,14 @@ namespace WeblogAddin
 
             if (blogInfo.HasError)
             {
+                if (url.IndexOf("medium.com", StringComparison.InvariantCultureIgnoreCase) > -1)
+                {
+                    Model.ActiveWeblogInfo.ApiUrl = "https://api.medium.com/v1/";
+                    Model.ActiveWeblogInfo.Type = WeblogTypes.Medium;
+                    ShowStatus("Weblog API Endpoint Url found and updated", mmApp.Configuration.StatusMessageTimeout);
+                    return;
+                }
+
                 MessageBox.Show(blogInfo.ErrorMessage, "Unable to discover Endpoint Url",MessageBoxButton.OK,MessageBoxImage.Warning);
                 ShowStatus("Endpoint discovery failed: " + blogInfo.ErrorMessage, 6000);
                 return;
