@@ -615,34 +615,34 @@ namespace MarkdownMonster.Windows
 
         }
 
-        
-
-        private void TreeViewItem_MouseClick(object sender, MouseButtonEventArgs e)
+        private void TreeViewItem_MouseDownClick(object sender, MouseButtonEventArgs e)
         {
-
             if (e.ClickCount == 2) // double-click
             {
                 LastClickTime = DateTime.MinValue;
                 HandleItemSelection();
             }
-            //else
-            //{
-            //    // single click - image preview
-            //    dynamic s = sender;
-            //    var selected = s.DataContext as PathItem;
-            //    if (selected == null)
-            //        return;
+        }
 
-            //    var image = selected.FullPath;
 
-            //    if (string.IsNullOrEmpty(image))
-            //        return;
+        private void TreeViewItem_MouseUpClick(object sender, MouseButtonEventArgs e)
+        {            
+            // single click - image preview  MUST BE ON MOUSEUP so we can still drag
+            dynamic s = sender;
+            var selected = s.DataContext as PathItem;
+            if (selected == null)
+                return;
 
-            //    var ext = Path.GetExtension(image).ToLower();
-            //    if (ext != ".jpg" && ext != ".png" && ext != ".gif" && ext != ".jpeg")
-            //        return;
-            //    Window.OpenBrowserTab(image, isImageFile: true);                
-            //}
+            var image = selected.FullPath;
+
+            if (string.IsNullOrEmpty(image))
+                return;
+
+            var ext = Path.GetExtension(image).ToLower();
+            if (ext != ".jpg" && ext != ".png" && ext != ".gif" && ext != ".jpeg")
+                return;
+            Window.OpenBrowserTab(image, isImageFile: true);
+
         }
 
         private void TreeFolderBrowser_Expanded(object sender, RoutedEventArgs e)
@@ -1356,43 +1356,6 @@ namespace MarkdownMonster.Windows
 
         #region Items and Item Selection
 
-        private string overImage;
-
-        private void TextFileOrFolderName_MouseEnter(object sender, MouseEventArgs e)
-        {
-            dynamic s = sender as dynamic;
-
-            var selected = s.DataContext as PathItem;
-            if (selected == null)
-                return;
-
-            overImage = selected.FullPath;
-
-            if (string.IsNullOrEmpty(overImage))
-                return;
-
-            var ext = Path.GetExtension(overImage).ToLower();
-            if (ext != ".jpg" && ext != ".png" && ext != ".gif" && ext != ".jpeg")
-                return;
-
-
-            Dispatcher.Delay(500, imageFile =>
-            {
-                if (string.IsNullOrEmpty(overImage) || overImage != (string) imageFile)
-                    return;
-
-                var file = Path.GetFileName((string) imageFile);
-                Window.OpenBrowserTab(imageFile as string,isImageFile: true, tabHeaderText: file);
-
-            }, overImage);
-
-        }
-
-        private void TextFileOrFolderName_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Window.CloseTab(Window.PreviewTab);
-        }
-
         private DateTime LastClickTime;
         private PathItem LastItem;
 
@@ -1450,6 +1413,9 @@ namespace MarkdownMonster.Windows
 
         private void TreeFolderBrowser_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Window.PreviewTab != null)
+                Window.CloseTab(Window.PreviewTab);
+
             startPoint = e.GetPosition(null);
         }
 

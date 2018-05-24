@@ -3,20 +3,21 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>        
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />   
-    <style>
+    <style>    
         body, html {
             margin: 0;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #222;            
+            min-height: 100%;
+            width: 100%;
+            background: #252525;
+            overflow: hidden;
         }
-        img {
+        img {            
             max-width: 100%;
+            margin: 15px auto;            
+            display: block;
         }
     </style>
-    
 </head>
 <body>        
     <img id="Image" src="{{imageUrl}}" />

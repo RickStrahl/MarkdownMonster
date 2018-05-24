@@ -17,9 +17,9 @@
         <!--DataType="{x:Type local:PathItem}"-->
         <HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
             <!--<Grid  Width="300" >-->
-            <Grid MouseDown="TreeViewItem_MouseClick"> 
+            <Grid MouseUp="TreeViewItem_MouseUpClick" MouseDown="TreeViewItem_MouseDownClick" >
 
-                    <Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
@@ -50,8 +50,7 @@
                            Grid.Column="2"
                            Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
 				       Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
-                       MouseEnter="TextFileOrFolderName_MouseEnter" 
-                       MouseLeave="TextFileOrFolderName_MouseLeave"									
+                       
                        MouseUp="TextFileOrFolderName_MouseUpToEdit" >
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -193,9 +192,9 @@
 	             BorderThickness="0" Padding="2"                                                                    
                  MaxDropDownHeight="275" FontSize="12"
                  controls:TextBoxHelper.Watermark="Folder Browser Path">
-                <!--<i:Interaction.Behaviors>
+                <i:Interaction.Behaviors>
                     <mmcontrols:FileSystemAutoCompleteBehavior />
-                </i:Interaction.Behaviors>-->
+                </i:Interaction.Behaviors>
             </ComboBox>
 
 

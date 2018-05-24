@@ -18,6 +18,9 @@ Logs indicate a number of people have issues with Clipboard access, specifically
 ### 1.11.4
 <small>May 21th, 2018</small>
 
+* **New Preview Browser Tab for Images and Url Previewing**  
+Added a new Preview Browser tab that is now used for previewing images and URLs. Images from the Folder Browser are now previewed in this tab. The tab is a 'temporary' tab that is visible only when directly rendered - it goes away when another tab is selected and re-opened as needed. This replaces the previous image hover. Note: That although images preview you can still drag images into the previously active document from the folder browser.
+
 * **Snippets Addin integrated into MM Core**   
 Moved the Snippets addin into the core MM Solution so it's always up to date and synced to matching dependencies.
 

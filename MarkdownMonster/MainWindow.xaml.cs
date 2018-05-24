@@ -1234,9 +1234,13 @@ namespace MarkdownMonster
                 grid.Children.Add(img);
 
 
-                var textBlock = new TextBlock();
-                textBlock.Name = "HeaderText";
-                textBlock.Text = tabHeaderText;
+                var textBlock = new TextBlock
+                {
+                    Name = "HeaderText",
+                    Text = tabHeaderText,
+                    FontWeight = FontWeights.SemiBold,
+                    FontStyle = FontStyles.Italic
+                };
                 textBlock.SetValue(Grid.ColumnProperty, 1);
                 grid.Children.Add(textBlock);
 
