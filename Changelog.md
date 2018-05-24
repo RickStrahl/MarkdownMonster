@@ -12,7 +12,6 @@
 * **Save As Packaged HTML File (Preview)**  
 You can now save the current document as a self-contained HTML document that includes all dependency resources embedded inside of the HTML document itself. While this document is rather large, the document is completely portable as it embeds images, css and fonts directly.
 
-
 * **Fix: Clipboard Assignment Crashes**  
 Logs indicate a number of people have issues with Clipboard access, specifically setting values on the clipboard - both during editing and also from explicit clip assignments for URLs, commands etc. All set operations are not exception bracketed so while ops may stil fail they won't crash MM.
 
@@ -24,6 +23,9 @@ Moved the Snippets addin into the core MM Solution so it's always up to date and
 
 * **Fix: Window Menu Shortcut Keys**  
 Fix Window menu mnemonic keys that didn't allow for shortcuts to work.
+
+* **Fix: RPC Weblog EndPoint Discovery for Medium**  
+Fix endpoint discovery for medium with a fixed URL. Also adjusted Wordpress endpoint discovery.
 
 * **Internals: Update depencenies**  
 Update all dependencies to latest releases - except for LibGit2Sharp which switched to .NET Core 2.0 assemblies and results in a splattering a huge amount of runtime dependencies into project. Waiting to target .NET 4.7.2 to not require those dependencies.

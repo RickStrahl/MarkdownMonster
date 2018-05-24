@@ -258,6 +258,8 @@ namespace MarkdownMonster
                 if (tab == null)
                     return;
                 var doc = tab.Tag as MarkdownDocumentEditor;
+                if (doc == null)
+                    return;
 
                 if (doc.MarkdownDocument.Filename == "untitled")
                     SaveAsCommand.Execute(tab);
@@ -706,10 +708,9 @@ namespace MarkdownMonster
             PreviewBrowserCommand = new CommandBase((s, e) =>
             {
                 var tab = window.TabControl.SelectedItem as TabItem;
-                if (tab == null)
+                var editor = tab?.Tag as MarkdownDocumentEditor;
+                if (editor == null)
                     return;
-
-                var editor = tab.Tag as MarkdownDocumentEditor;
 
                 Model.WindowLayout.IsPreviewVisible = Model.IsPreviewBrowserVisible;
 
@@ -807,6 +808,9 @@ namespace MarkdownMonster
             TabControlFileListCommand = new CommandBase((parameter, command) =>
             {
                 var tab = Model.Window.GetTabFromFilename(parameter as string);
+                if (tab == null)
+                    return;
+
                 tab.IsSelected = true;
             });
         }

@@ -113,9 +113,24 @@ namespace MarkdownMonster
         }
 
 
+        /// <summary>
+        /// The Preview Browser Container Grid that contains the
+        /// Web Browser control that handles the Document tied
+        /// preview. 
+        /// </summary>
         public Grid PreviewBrowserContainer { get; set; }
 
         private PreviewBrowserWindow _previewBrowserWindow;
+
+
+        /// <summary>
+        /// The Preview Browser Tab if active that is used
+        /// for image and URL previews (ie. the Preview
+        /// without an associated editor)
+        /// </summary>
+        public TabItem PreviewTab { get; set;  }
+
+        private IEWebBrowserControl previewBrowser;
 
         public MainWindow()
         {
@@ -680,7 +695,6 @@ namespace MarkdownMonster
                     .RememberLastDocumentsLength))
                 {
                     var editor = this.GetTabFromFilename(recentDocument)?.Tag as MarkdownDocumentEditor;
-
                     var doc = editor?.MarkdownDocument;
                     if (doc == null)
                         continue;
@@ -768,12 +782,9 @@ namespace MarkdownMonster
                 return null;
 
             var tab = new TabItem();
-            //tab.Margin = new Thickness(0, 0, 3, 0);
-            //tab.Padding = new Thickness(2, 0, 7, 2);
             tab.Background = Background;
 
             ControlsHelper.SetHeaderFontSize(tab, 13F);
-
 
             if (editor == null)
             {
@@ -876,6 +887,9 @@ namespace MarkdownMonster
                 foreach (TabItem tb in TabControl.Items)
                 {
                     var lEditor = tb.Tag as MarkdownDocumentEditor;
+                    if (lEditor == null)
+                        continue;
+
                     if (lEditor.MarkdownDocument.Filename == editor.MarkdownDocument.Filename)
                     {
                         existingTab = tb;
@@ -890,8 +904,7 @@ namespace MarkdownMonster
             if (existingTab != null)
                 TabControl.Items.Remove(existingTab);
 
-            tab.IsSelected = false;
-
+            tab.IsSelected = false;            
             TabControl.Items.Insert(0, tab);
 
 
@@ -949,6 +962,9 @@ namespace MarkdownMonster
 
             // load the underlying document
             var editor = tab.Tag as MarkdownDocumentEditor;
+            if (editor == null)
+                return null;
+
             editor.MarkdownDocument.Load(editorFile);
 
             if (!maintainScrollPosition)
@@ -981,6 +997,18 @@ namespace MarkdownMonster
         /// <returns>true if tab can close, false if it should stay open</returns>
         public bool CloseTab(TabItem tab, bool rebindTabHeaders = true, bool dontPromptForSave = false)
         {
+            if (tab == null)
+                return false;
+
+            if (tab == PreviewTab)
+            {
+
+                tab.Content = null;
+                TabControl.Items.Remove(tab);
+                PreviewTab = null;
+                return true;
+            }
+
             var editor = tab?.Tag as MarkdownDocumentEditor;
             if (editor == null)
                 return false;
@@ -1105,10 +1133,16 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(filename))
                 return null;
 
+            if (filename == "Preview")
+                return PreviewTab;
+            
             TabItem tab = null;
             foreach (TabItem tabItem in TabControl.Items.Cast<TabItem>())
             {
                 var markdownEditor = tabItem.Tag as MarkdownDocumentEditor;
+                if (markdownEditor == null)
+                    continue;
+
                 if (markdownEditor.MarkdownDocument.Filename.Equals(filename,
                     StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -1130,6 +1164,7 @@ namespace MarkdownMonster
                 tabList.Add(tb);
 
             var tabItems = tabList
+                .Where(tb=> tb.Tag is MarkdownDocumentEditor )
                 .Select(tb => Path.GetFileName(((MarkdownDocumentEditor) tb.Tag).MarkdownDocument.Filename.ToLower()))
                 .GroupBy(fn => fn)
                 .Select(tbCol => new
@@ -1140,7 +1175,9 @@ namespace MarkdownMonster
 
             foreach (TabItem tb in TabControl.Items)
             {
-                var doc = ((MarkdownDocumentEditor) tb.Tag).MarkdownDocument;
+                var doc = ((MarkdownDocumentEditor) tb.Tag)?.MarkdownDocument;
+                if (doc == null)
+                    continue;
 
                 if (tabItems.Any(ti => ti.Filename == Path.GetFileName(doc.Filename.ToLower()) &&
                                        ti.Count > 1))
@@ -1150,6 +1187,111 @@ namespace MarkdownMonster
                     SetTabHeaderBinding(tb, doc, "FilenameWithIndicator");
             }
         }
+
+
+
+
+        /// <summary>
+        /// Opens a preview tab
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="selectTab"></param>
+        /// <returns></returns>
+        public TabItem OpenBrowserTab(string url,
+            bool selectTab = true,
+            bool isImageFile = false,
+            ImageSource icon = null,
+            string tabHeaderText = "Preview")
+        {
+
+            if (PreviewTab == null)
+            {
+                PreviewTab = new TabItem();                                
+                
+                var grid = new Grid();
+                PreviewTab.Header = grid;
+                var col1 = new ColumnDefinition { Width = new GridLength(20) };
+                var col2 = new ColumnDefinition { Width = GridLength.Auto };
+                grid.ColumnDefinitions.Add(col1);
+                grid.ColumnDefinitions.Add(col2);
+
+                if (icon == null)
+                {
+                    if (isImageFile)
+                        icon = FolderStructure.IconList.GetIconFromType("image");
+                    else
+                        icon = FolderStructure.IconList.GetIconFromType("preview");
+                }
+
+                var img = new Image()
+                {
+                    Source = icon,
+                    Height = 16,
+                    Margin = new Thickness(0, 1, 5, 0),
+                    Name = "IconImage"
+                };
+                img.SetValue(Grid.ColumnProperty, 0);
+                grid.Children.Add(img);
+
+
+                var textBlock = new TextBlock();
+                textBlock.Name = "HeaderText";
+                textBlock.Text = tabHeaderText;
+                textBlock.SetValue(Grid.ColumnProperty, 1);
+                grid.Children.Add(textBlock);
+
+                ControlsHelper.SetHeaderFontSize(PreviewTab, 13F);
+
+                previewBrowser = new IEWebBrowserControl();
+                PreviewTab.Content = previewBrowser;
+                TabControl.Items.Add(PreviewTab);
+
+                PreviewTab.HorizontalAlignment = HorizontalAlignment.Right;
+                PreviewTab.HorizontalContentAlignment = HorizontalAlignment.Right;
+            }
+            else
+            {
+                if (icon == null)
+                {
+                    if (isImageFile)
+                        icon = FolderStructure.IconList.GetIconFromType("image");
+                    else
+                        icon = FolderStructure.IconList.GetIconFromType("preview");
+                }
+
+                var grid  = PreviewTab.Header as Grid;
+                var imgCtrl = grid.FindChild<Image>("IconImage");
+                imgCtrl.Source = icon;
+
+                var header = grid.FindChild<TextBlock>("HeaderText");
+                header.Text = tabHeaderText;
+            }
+            PreviewTab.ToolTip = url;
+
+            try
+            {
+
+                if (isImageFile)
+                {
+                    var file = Path.Combine(App.InitialStartDirectory, "PreviewThemes", "ImagePreview.html");
+                    var content = File.ReadAllText(file).Replace("{{imageUrl}}", url);
+                    File.WriteAllText(file.Replace("ImagePreview.html", "_ImagePreview.html"), content);
+                    url= Path.Combine(App.InitialStartDirectory, "PreviewThemes", "_ImagePreview.html");                    
+                }                    
+
+                previewBrowser.Navigate(url);
+            }
+            catch
+            {
+                previewBrowser.Navigate("about: blank");
+            }
+
+            if (PreviewTab != null && selectTab)
+                TabControl.SelectedItem = PreviewTab;
+
+            return PreviewTab;
+        }
+
 
         /// <summary>
         /// Binds the tab header to an expression
@@ -1262,9 +1404,9 @@ namespace MarkdownMonster
 
             Model.ActiveEditor.RestyleEditor();
 
-            //editor.WebBrowser.Focus();
-            //editor.SetEditorFocus();
-
+            if (PreviewTab != null && tab != PreviewTab)
+                CloseTab(PreviewTab);
+     
             Dispatcher.InvokeAsync(() => UpdateDocumentOutline(), DispatcherPriority.ApplicationIdle);
         }
 
@@ -2029,8 +2171,7 @@ namespace MarkdownMonster
             });
         }
 
-
-
+        
         public List<MenuItem> GenerateContextMenuItemsFromOpenTabs(ContextMenu ctx = null)
         {
             var menuItems = new List<MenuItem>();
@@ -2042,26 +2183,50 @@ namespace MarkdownMonster
             {
                 var tab = hd.Content as TabItem;
 
-                var doc = tab.Tag as MarkdownDocumentEditor;
-                if (doc == null) continue;
-
-                var filename = doc.MarkdownDocument.FilenamePathWithIndicator;
-                var icon = icons.GetIconFromFile(doc.MarkdownDocument.Filename);
-
-                var sp = new StackPanel {Orientation = Orientation.Horizontal};
-                sp.Children.Add(new Image
+                StackPanel sp;
+                string commandParameter;
+                if (tab == PreviewTab)
                 {
-                    Source = icon,
-                    Width = 16,
-                    Height = 16,
-                    Margin = new Thickness(0, 0, 20, 0)
-                });
-                sp.Children.Add(new TextBlock {Text = filename});
+                    var icon = (tab.Header as Grid).FindChild<Image>("IconImage")?.Source;
+                    var txt = (tab.Header as Grid).FindChild<TextBlock>("HeaderText").Text;
+                    
+                    sp = new StackPanel { Orientation = Orientation.Horizontal };
+                    sp.Children.Add(new Image
+                    {
+                        Source = icon,
+                        Width = 16,
+                        Height = 16,
+                        Margin = new Thickness(0, 0, 20, 0)
+                    });
+                    sp.Children.Add(new TextBlock { Text = txt });
+                    commandParameter = "Preview";
+                }
+                else
+                {
+
+                    var doc = tab.Tag as MarkdownDocumentEditor;
+                    if (doc == null) continue;
+
+                    var filename = doc.MarkdownDocument.FilenamePathWithIndicator;
+                    var icon = icons.GetIconFromFile(doc.MarkdownDocument.Filename);
+
+                    sp = new StackPanel {Orientation = Orientation.Horizontal};
+                    sp.Children.Add(new Image
+                    {
+                        Source = icon,
+                        Width = 16,
+                        Height = 16,
+                        Margin = new Thickness(0, 0, 20, 0)
+                    });
+                    sp.Children.Add(new TextBlock {Text = filename});
+                    commandParameter = doc.MarkdownDocument.Filename;
+                }
+
 
                 var mi = new MenuItem();
                 mi.Header = sp;
                 mi.Command = Model.Commands.TabControlFileListCommand;
-                mi.CommandParameter = doc.MarkdownDocument.Filename;
+                mi.CommandParameter = commandParameter;
                 if (tab == selectedTab)
                 {
                     mi.FontWeight = FontWeights.Bold;

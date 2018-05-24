@@ -303,6 +303,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         private void PreviewBrowserOnLoadCompleted(object sender, NavigationEventArgs e)
         {
+            if (e.Uri == null)
+                return;
+
             string url = e.Uri.ToString();
             if (!url.Contains("_MarkdownMonster_Preview") && !url.Contains("__untitled.htm"))
                 return;

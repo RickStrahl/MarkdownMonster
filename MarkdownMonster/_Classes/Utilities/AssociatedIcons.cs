@@ -169,6 +169,7 @@ namespace MarkdownMonster.Utilities
 
             // special doc type
             {"kavadocs","kavadocs" },
+            {"preview", "preview" },
 
             // dev config files
             {"license", "license"},

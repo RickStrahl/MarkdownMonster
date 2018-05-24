@@ -74,7 +74,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         public void Navigate(string url)
         {
-            WebBrowser.Navigate(url);
+            WebBrowser.Navigate(new Uri(url));
         }
 
         public void ExecuteCommand(string command, params dynamic[] args)

@@ -337,6 +337,7 @@ namespace MarkdownMonster
                 foreach (TabItem tab in Window.TabControl.Items)
                 {
                     var editor = tab.Tag as MarkdownDocumentEditor;
+                    if (editor == null) continue;
                     editor.RestyleEditor();
                     editor.AceEditor?.setShowLineNumbers(mmApp.Configuration.Editor.ShowLineNumbers);
                 }

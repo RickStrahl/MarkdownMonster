@@ -17,7 +17,7 @@
         <!--DataType="{x:Type local:PathItem}"-->
         <HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
             <!--<Grid  Width="300" >-->
-            <Grid MouseDown="TreeViewItem_MouseDoubleClick"> 
+            <Grid MouseDown="TreeViewItem_MouseClick"> 
 
                     <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -45,12 +45,13 @@
                         </Image.Style>
                 </Image>
 
+
                 <TextBlock Name="TextFileOrFolderName" 
                            Grid.Column="2"
                            Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
 				       Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
-					   MouseEnter="TextFileOrFolderName_MouseEnter" 
-                       MouseLeave="TextFileOrFolderName_MouseLeave" 				
+                       MouseEnter="TextFileOrFolderName_MouseEnter" 
+                       MouseLeave="TextFileOrFolderName_MouseLeave"									
                        MouseUp="TextFileOrFolderName_MouseUpToEdit" >
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -192,9 +193,9 @@
 	             BorderThickness="0" Padding="2"                                                                    
                  MaxDropDownHeight="275" FontSize="12"
                  controls:TextBoxHelper.Watermark="Folder Browser Path">
-                <i:Interaction.Behaviors>
+                <!--<i:Interaction.Behaviors>
                     <mmcontrols:FileSystemAutoCompleteBehavior />
-                </i:Interaction.Behaviors>
+                </i:Interaction.Behaviors>-->
             </ComboBox>
 
 
@@ -226,7 +227,7 @@
                 </TreeView.ItemContainerStyle>
             </TreeView>
 
-            <Popup Name="PopupImagePreview" Grid.Row="3" Placement="Mouse" Margin="10" >
+            <!--<Popup Name="PopupImagePreview" Grid.Row="3" Placement="Mouse" Margin="10" >
                 <Border BorderThickness="1" BorderBrush="#676767" >
                     <Image Name="ImagePreview" Height="Auto" Width="Auto" 
 				   MinHeight="50"
@@ -234,7 +235,7 @@
 				   MaxHeight="470"
 				   MaxWidth="570" />
                 </Border>
-            </Popup>
+            </Popup>-->
 
 
         </Grid>

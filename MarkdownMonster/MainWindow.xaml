@@ -623,7 +623,7 @@
                                         FontSize="13" 
                                         x:FieldModifier="public"                                                                                                                                                         
                                         TabStripPlacement="Bottom"
-                                      SelectionChanged="SidebarContainer_SelectionChanged"
+                                        SelectionChanged="SidebarContainer_SelectionChanged"
                                         BorderThickness="0">
 
                 <controls:MetroTabItem Name="TabFolderBrowser"  x:FieldModifier="public"

@@ -615,13 +615,34 @@ namespace MarkdownMonster.Windows
 
         }
 
-        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        
+
+        private void TreeViewItem_MouseClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2)
+
+            if (e.ClickCount == 2) // double-click
             {
                 LastClickTime = DateTime.MinValue;
                 HandleItemSelection();
             }
+            //else
+            //{
+            //    // single click - image preview
+            //    dynamic s = sender;
+            //    var selected = s.DataContext as PathItem;
+            //    if (selected == null)
+            //        return;
+
+            //    var image = selected.FullPath;
+
+            //    if (string.IsNullOrEmpty(image))
+            //        return;
+
+            //    var ext = Path.GetExtension(image).ToLower();
+            //    if (ext != ".jpg" && ext != ".png" && ext != ".gif" && ext != ".jpeg")
+            //        return;
+            //    Window.OpenBrowserTab(image, isImageFile: true);                
+            //}
         }
 
         private void TreeFolderBrowser_Expanded(object sender, RoutedEventArgs e)
@@ -1355,39 +1376,21 @@ namespace MarkdownMonster.Windows
                 return;
 
 
-            Dispatcher.Delay(600, imageFile =>
+            Dispatcher.Delay(500, imageFile =>
             {
                 if (string.IsNullOrEmpty(overImage) || overImage != (string) imageFile)
                     return;
 
-                try
-                {
+                var file = Path.GetFileName((string) imageFile);
+                Window.OpenBrowserTab(imageFile as string,isImageFile: true, tabHeaderText: file);
 
-                    var bmp = new BitmapImage();
-                    bmp.BeginInit();
-                    bmp.CacheOption = BitmapCacheOption.OnLoad;
-                    bmp.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                    bmp.UriSource = new Uri((string) imageFile);
-                    bmp.EndInit();
-
-                    ImagePreview.Source = bmp;
-                    PopupImagePreview.IsOpen = true;
-                }
-                catch
-                {
-                }
             }, overImage);
 
         }
 
         private void TextFileOrFolderName_MouseLeave(object sender, MouseEventArgs e)
         {
-            overImage = null;
-
-            PopupImagePreview.IsOpen = false;
-            ImagePreview.Source = null;
-            ImagePreviewColumn.Height = new GridLength(0);
-
+            Window.CloseTab(Window.PreviewTab);
         }
 
         private DateTime LastClickTime;
@@ -1557,7 +1560,8 @@ namespace MarkdownMonster.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #endregion   
+        #endregion
+
     }
 
 }
