@@ -222,7 +222,9 @@ namespace MarkdownMonster
 		/// </summary>
 		/// <param name="imageFile"></param>
 	    public static bool OpenImageInImageEditor(string imageFile)
-	    {
+		{
+		    imageFile = System.Net.WebUtility.UrlDecode(imageFile);
+
 		    try
 		    {
 			    string exe = mmApp.Configuration.ImageEditor;
@@ -253,7 +255,9 @@ namespace MarkdownMonster
 	    /// <param name="imageFile"></param>
 	    public static bool OpenImageInImageViewer(string imageFile)
 	    {
-		    try
+	        imageFile = System.Net.WebUtility.UrlDecode(imageFile);
+
+            try
 		    {
 			    string exe = mmApp.Configuration.ImageViewer;
 			    if (!string.IsNullOrEmpty(exe))
@@ -274,6 +278,50 @@ namespace MarkdownMonster
 
 		    return true;
 	    }
+
+
+
+        /// <summary>
+        /// Tries to find an installed image editor on
+        /// the system as a default.
+        /// </summary>
+        /// <returns></returns>
+        public static string FindImageEditor()
+        {
+            string file = null;
+            var programFiles64 = Environment.GetEnvironmentVariable("ProgramW6432");
+
+            file = Path.Combine(programFiles64,"Techsmith","Snagit 2018","SnagItEditor.exe");
+            if (File.Exists(file))
+                return file;
+
+            file = Path.Combine(programFiles64,
+                "paint.net", "PaintDotnet.exe");
+            if (File.Exists(file))
+                return file;
+
+            file = Path.Combine(programFiles64,
+                "irfanview", "i_view64.exe");
+            if (File.Exists(file))
+                return file;
+
+            file = Path.Combine(programFiles64, "GIMP 2","bin");
+            if (Directory.Exists(file))
+            {
+                var di = new DirectoryInfo(file);
+
+                var fi = di.GetFiles("gimp-*.*.*")
+                    .OrderByDescending(d => d.LastWriteTime)
+                    .FirstOrDefault();
+
+                if (fi != null)
+                    return Path.Combine(fi.FullName);
+            }
+
+            file =  @"mspaint.exe";
+
+            return file;
+        }
 
         /// <summary>
         /// Returns the image media type for a give file extension based

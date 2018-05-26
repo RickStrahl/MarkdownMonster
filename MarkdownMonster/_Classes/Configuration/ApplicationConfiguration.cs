@@ -639,6 +639,9 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(Git.GitDiffExecutable))
                 Git.GitDiffExecutable = mmFileUtils.FindGitDiffTool();
 
+            if (string.IsNullOrEmpty(ImageEditor))
+                ImageEditor = mmFileUtils.FindImageEditor();
+
             // TODO: Remove in future version - added in 1.11
             // fix up new dictionary files
             var dict = Editor.Dictionary.ToLower();

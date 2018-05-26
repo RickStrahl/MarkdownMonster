@@ -29,5 +29,13 @@ namespace MarkdownMonster.Test
             Assert.AreEqual(mmApp.GetVersionForDisplay("1.70.1.0"), "1.70.1");
             Assert.AreEqual(mmApp.GetVersionForDisplay("1.70.1.12"), "1.70.1.12");
         }
+
+        [TestMethod]
+        public void FindImageEditorTest()
+        {
+            var editor = mmFileUtils.FindImageEditor();
+            Console.WriteLine(editor);
+            Assert.IsNotNull(editor);
+        }
     }
 }
