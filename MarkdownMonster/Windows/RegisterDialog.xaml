@@ -12,7 +12,7 @@
     <StackPanel Orientation="Horizontal">
         <Image Source="../Assets/MarkdownMonster.png" Margin="0,30" Width="300" VerticalAlignment="Top" />
         <StackPanel Width="355" Margin="45,0,0,0">
-            <TextBlock HorizontalAlignment="Center" Margin="0,35,0,0" Foreground="Cornsilk" FontSize="17">You've been using the free version of</TextBlock>
+            <TextBlock HorizontalAlignment="Center" Margin="0,35,0,0" Foreground="Cornsilk" FontSize="17">You've been using the trial version of</TextBlock>
             <TextBlock HorizontalAlignment="Center" FontSize="34" FontWeight="Bold" Margin="0,14,0,14">Markdown Monster</TextBlock>
             <TextBlock Name="RunUsage"  HorizontalAlignment="Center" Text="Started x times" FontWeight="Bold" FontSize="17"/>
             <TextBlock TextWrapping="Wrap" Margin="0,20,0,0" Foreground="Cornsilk" HorizontalAlignment="Stretch" >

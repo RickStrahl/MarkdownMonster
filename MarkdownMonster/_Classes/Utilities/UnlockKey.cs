@@ -12,8 +12,8 @@ namespace MarkdownMonster
         /// <summary>
         /// The key to unlock this application
         /// </summary>        
-        static string ProKey;
-        static string RegisterFile;
+        static readonly string ProKey;
+        static readonly string RegisterFile;
 
         static UnlockKey()
         {

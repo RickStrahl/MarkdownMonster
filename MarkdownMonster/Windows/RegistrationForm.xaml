@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarkdownMonster.Windows"
-        
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+
         mc:Ignorable="d" FontSize="17"
         Background="black" Foreground="WhiteSmoke"
         Title="Product Registration" 
@@ -33,7 +34,7 @@
                 <Run Foreground="Firebrick" FontWeight="Bold">Please enter your Registration Key:</Run>
             </TextBlock>
 
-            <PasswordBox Name="TextRegKey" Margin="15,8,20,3" ></PasswordBox>
+            <PasswordBox Name="TextRegKey" Margin="15,8,20,3" mah:TextBoxHelper.Watermark="Enter your key and press Enter" ></PasswordBox>
             <TextBlock Margin="15,7,0,0" Name="LabelIsRegistered" FontSize="12" Foreground="Red">This copy is not registered</TextBlock>
 
 
