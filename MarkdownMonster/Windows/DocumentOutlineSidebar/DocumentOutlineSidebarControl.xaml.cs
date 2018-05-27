@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -80,6 +81,12 @@ namespace MarkdownMonster.Windows
                 line = editor.GetLineNumber();
             
             var outline = Model.CreateDocumentOutline(editor.MarkdownDocument.CurrentText);
+            if (outline == null)
+            {
+                Model.DocumentOutline = new ObservableCollection<HeaderItem>();
+                return;
+            }
+
             HeaderItem selectedItem = null;
             for (var index = 0; index < outline.Count; index++)
             {
