@@ -208,13 +208,7 @@ namespace MarkdownMonster
                 //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
             }
 
-            Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
-            if (Model.IsPresentationMode)
-            {
-                Model.Commands.PresentationModeCommand.Execute(ToolButtonPresentationMode);
-                Model.IsPreviewBrowserVisible = true;
-            }
-
+          
             var left = Left;
             Left = 300000;
 
@@ -236,6 +230,11 @@ namespace MarkdownMonster
                     AddinManager.Current.InitializeAddinsUi(this);
 
                     AddinManager.Current.RaiseOnWindowLoaded();
+
+                    Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
+                    if (Model.IsPresentationMode)
+                        Model.WindowLayout.SetPresentationMode();
+
                 }, DispatcherPriority.ApplicationIdle);
             });
         }

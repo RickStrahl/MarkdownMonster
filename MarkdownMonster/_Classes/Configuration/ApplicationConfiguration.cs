@@ -37,6 +37,7 @@ namespace MarkdownMonster
             }
         }
         private Themes _applicationTheme;
+
         public bool OpenInPresentationMode { get; set; }
 
         /// <summary>
