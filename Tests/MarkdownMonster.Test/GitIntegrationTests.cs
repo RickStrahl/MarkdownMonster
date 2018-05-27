@@ -6,6 +6,7 @@ using LibGit2Sharp;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Test
 {
@@ -102,14 +103,11 @@ namespace MarkdownMonster.Test
             {
                 repo.Network.Remotes.Add("origin", remote);
             }
-            
 
             var mergeResult = LibGit2Sharp.Commands.Pull(repo,
                 new Signature("rickstrahl",
                     "rstrahl@west-wind.com", new DateTimeOffset(DateTime.Now)),
-                    new PullOptions());
-           
-            
+                    new PullOptions());                     
 
             Assert.IsNotNull(mergeResult);
         }
@@ -121,5 +119,18 @@ namespace MarkdownMonster.Test
             Repository.Clone("https://github.com/RickStrahl/MarkdownMonster.git", "c:\\temp\\MarkdownMonster");
         }
 
+
+        [TestMethod]
+        public void CreateRepository()
+        {
+            var path = @"c:\temp\GithubRepos\testRepo";
+            var gh = new GitHelper();
+            bool result = gh.CreateRepository(path,"*.saved.md\r\n*.bak\r\n*.tmp");
+
+            Assert.IsTrue(result);
+            Assert.IsTrue(Directory.Exists(path));
+            
+            mmFileUtils.OpenFileInExplorer(path);
+        }
     }
 }

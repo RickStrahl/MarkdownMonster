@@ -195,6 +195,33 @@ namespace MarkdownMonster.Utilities
 
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path">Path where to create a repository. Path should not exist yet.</param>        
+        /// <param name="gitIgnoreText">Text for the .gitignore file in the Git root</param>
+        /// <returns></returns>
+        public bool CreateRepository(string path, string gitIgnoreText = null)
+        {
+            
+            try
+            {
+                Repository.Init(path);                
+            }
+            catch (Exception ex)
+            {
+                SetError("Error creating repository: " + ex.Message);
+                return false;
+            }
+            
+            if (string.IsNullOrEmpty(gitIgnoreText))
+                gitIgnoreText = @"*.saved.md\r\n*.bak\r\n*.tmp";
+
+            File.WriteAllText(Path.Combine(path, ".gitignore."), gitIgnoreText);
+
+            return true;
+        }
+
+        /// <summary>
         /// Adds a remote to the current Repository.
         /// </summary>
         /// <param name="githubUrl"></param>
