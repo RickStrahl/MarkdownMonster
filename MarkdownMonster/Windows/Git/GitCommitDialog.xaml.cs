@@ -36,7 +36,7 @@ namespace MarkdownMonster.Windows
             AppModel = mmApp.Model;
 
             CommitModel = new GitCommitModel(fileOrPath,commitRepo);
-            if (!commitRepo)
+            if (!commitRepo)    
                 CommitModel.CommitMessage = $"Updating documentation in {System.IO.Path.GetFileName(fileOrPath)}";
 
             CommitModel.CommitWindow = this;
@@ -49,6 +49,19 @@ namespace MarkdownMonster.Windows
 
         private void GitCommitDialog_Loaded(object sender, RoutedEventArgs e)
         {
+            CommitModel.GitHelper.OpenRepository(CommitModel.Filename);
+
+            // Check if a remote exists and disable push if not
+            CommitModel.Remote = CommitModel.GitHelper.Repository.Network.Remotes?.FirstOrDefault()?.Name;
+            if (CommitModel.Remote == null)
+            {
+                ButtonCommitAndPush.IsEnabled = false;
+                AppModel.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.Commit;
+            }
+
+            // get the main branch
+            CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
+            
             string defaultText = null;
             if (AppModel.Configuration.Git.GitCommitBehavior == GitCommitBehaviors.CommitAndPush)
             {
@@ -88,7 +101,9 @@ namespace MarkdownMonster.Windows
                 if (AppModel.Configuration.Git.CloseAfterCommit)
                 {
                     Close();
-                    AppModel.Window.ShowStatus("Files have been committed in the local repository.", mmApp.Configuration.StatusMessageTimeout);
+                    AppModel.Window.ShowStatus("Files have been committed in the local repository.",
+                        mmApp.Configuration.StatusMessageTimeout,
+                        FontAwesomeIcon.CheckCircleOutline);
                 }
                 else
                 {                    
@@ -100,7 +115,9 @@ namespace MarkdownMonster.Windows
                             mmApp.Configuration.StatusMessageTimeout);
                     }
                     else
-                        ShowStatus("Files have been committed in the local repository.", mmApp.Configuration.StatusMessageTimeout);
+                        ShowStatus("Files have been committed in the local repository.",
+                            mmApp.Configuration.StatusMessageTimeout,
+                            FontAwesomeIcon.CheckCircleOutline);
 
                 }
 
@@ -125,7 +142,9 @@ namespace MarkdownMonster.Windows
                 if (AppModel.Configuration.Git.CloseAfterCommit)
                 {
                     Close();
-                    AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.", mmApp.Configuration.StatusMessageTimeout);
+                    AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",
+                        mmApp.Configuration.StatusMessageTimeout,
+                        FontAwesomeIcon.CheckCircleOutline);
                 }
                 else
                 {
@@ -139,7 +158,7 @@ namespace MarkdownMonster.Windows
                     }
                     else
                         ShowStatus("Files have been committed and pushed to the remote.",
-                                   mmApp.Configuration.StatusMessageTimeout);
+                                   mmApp.Configuration.StatusMessageTimeout, FontAwesomeIcon.CheckCircleOutline);
                 }
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
@@ -149,19 +168,27 @@ namespace MarkdownMonster.Windows
             }            
         }
 
-        private void ButtonPull_Click(object sender, RoutedEventArgs e)
+        private async void ButtonPull_Click(object sender, RoutedEventArgs e)
         {
-            if (CommitModel.PullChanges())
+            ShowStatus("Pulling changes from the remote origin...",0,
+                FontAwesomeIcon.CircleOutlineNotch,Colors.Goldenrod, true);
+
+            if (await CommitModel.PullChangesAsync())
             {
                 // refresh the file model
                 CommitModel.GetRepositoryChanges();
 
                 // Refresh the folder browser Git status icons
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
-                    Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                    await Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
-                ShowStatus("Changes have been pulled from the remote origin.",mmApp.Configuration.StatusMessageTimeout);                
+                ShowStatus("Changes have been pulled from the remote origin.",
+                    mmApp.Configuration.StatusMessageTimeout,
+                    FontAwesomeIcon.CheckCircleOutline);
+                return;
             }
+
+            ShowStatusError("Failed to pull changes from the server: " + CommitModel.GitHelper.ErrorMessage);
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -174,9 +201,7 @@ namespace MarkdownMonster.Windows
             var gh = new GitHelper();
             var repo = gh.OpenRepository(CommitModel.Filename);
             if (repo == null)            
-                ShowStatus("Couldn't open repository.");
-            
-            //gh.GetChanges();
+                ShowStatus("Couldn't open repository.");            
         }
 
 
@@ -281,7 +306,10 @@ namespace MarkdownMonster.Windows
             FontAwesomeIcon icon = FontAwesomeIcon.None,
             Color color = default(Color),
             bool spin = false)
-        {
+        {            
+            if (color == default(Color))
+                color = Colors.Green;
+
             if (icon != FontAwesomeIcon.None)
                 SetStatusIcon(icon, color, spin);
 

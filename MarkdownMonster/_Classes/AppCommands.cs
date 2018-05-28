@@ -988,8 +988,37 @@ namespace MarkdownMonster
         {
             OpenFromGitRepoCommand = new CommandBase((parameter, command) =>
             {
-                var form = new GitRepositoryWindow();
+
+                GitRepositoryWindowMode startupMode = GitRepositoryWindowMode.Clone;
+                var parm = parameter as string;
+                if (!string.IsNullOrEmpty(parm))
+                    Enum.TryParse(parm, out startupMode);
+                
+                var form = new GitRepositoryWindow(startupMode);
                 form.Owner = Model.Window;
+
+                var curPath = Model.Window.FolderBrowser.FolderPath;
+                if (string.IsNullOrEmpty(curPath))
+                {
+                    curPath = Model.ActiveDocument?.Filename;
+                    if (!string.IsNullOrEmpty(curPath))
+                        curPath = Path.GetDirectoryName(curPath);
+                }
+
+                if (!string.IsNullOrEmpty(curPath))
+                {
+                    if (startupMode == GitRepositoryWindowMode.AddRemote)
+                    {
+                        var root = GitHelper.FindGitRepositoryRoot(curPath);
+                        if (root != null)
+                            form.LocalPath = root;
+                    }
+                    else if (startupMode == GitRepositoryWindowMode.Create)
+                    {
+                        form.LocalPath = curPath;
+                    }
+                }
+
                 form.ShowDialog();
 
             });

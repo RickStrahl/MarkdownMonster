@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -123,14 +124,94 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void CreateRepository()
         {
-            var path = @"c:\temp\GithubRepos\testRepo";
+            var path = @"c:\temp\GithubRepos\testRepo2";
+
+            if(Directory.Exists(path))
+                Directory.Delete(path, true);
+
             var gh = new GitHelper();
-            bool result = gh.CreateRepository(path,"*.saved.md\r\n*.bak\r\n*.tmp");
+            bool result = gh.CreateRepository(path,"*.saved.md\r\n*.bak\r\n*.tmp");            
 
             Assert.IsTrue(result);
             Assert.IsTrue(Directory.Exists(path));
-            
+
+
+            var fileToAdd = Path.Combine(path, "test.txt");
+
+            var list = new List<RepositoryStatusItem>()
+            {
+                new RepositoryStatusItem { Filename  = fileToAdd }
+            };
+
+            gh.OpenRepository(path);
+            Assert.IsTrue(gh.Commit(list, "first commit", "ras", "r@west-wind.com"), gh.ErrorMessage);
+
             mmFileUtils.OpenFileInExplorer(path);
         }
+
+
+        [TestMethod]
+        public void CreateAndAddRemoteTest()
+        {
+
+            var path = @"c:\temp\GithubRepos\testRepo2";
+
+            if (Directory.Exists(path))
+                Directory.Delete(path, true);
+
+            var gh = new GitHelper();
+            bool result = gh.CreateRepository(path, "*.saved.md\r\n*.bak\r\n*.tmp");
+
+            Assert.IsTrue(result);
+            Assert.IsTrue(Directory.Exists(path));
+
+
+            var fileToAdd = Path.Combine(path, "test.txt");
+            File.WriteAllText(fileToAdd, "test");
+
+            var list = new List<RepositoryStatusItem>()
+            {
+                new RepositoryStatusItem { Filename  = fileToAdd }
+            };
+
+            gh.OpenRepository(path);
+            Assert.IsTrue(gh.Commit(list, "first commit", "ras", "r@west-wind.com"), gh.ErrorMessage);
+
+            Assert.IsTrue(gh.AddRemote("https://github.com/RickStrahl/Test5.git", "origin"), gh.ErrorMessage);
+
+            Assert.IsTrue(gh.Push(path,"master"), gh.ErrorMessage);
+
+            mmFileUtils.OpenFileInExplorer(path);
+
+        }
+
+        [TestMethod]
+        public void CreateRespositoryRaw()
+        {
+            var path = @"c:\temp\testrepos\TestRepo3";
+
+            // works - path and .git folder created
+            Repository.Init(path, false);
+
+            var fileToAdd = Path.Combine(path, "test.txt");
+            File.WriteAllText(fileToAdd, "test");
+
+            using (var repo = new Repository(path))
+            {
+                repo.Stage(fileToAdd);
+
+                var sig = new Signature("ras", "r@west-wind.com", DateTimeOffset.Now);
+                repo.Commit("committing test.txt", sig, sig);
+
+                var branch = repo.Branches["master"];
+                if (branch == null)
+                    branch = repo.CreateBranch("master");
+
+                Commands.Checkout(repo, branch, new CheckoutOptions {CheckoutModifiers = CheckoutModifiers.Force});
+            }
+
+
+        }
+
     }
 }

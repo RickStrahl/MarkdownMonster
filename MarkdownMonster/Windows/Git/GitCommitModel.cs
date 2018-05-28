@@ -150,6 +150,33 @@ namespace MarkdownMonster.Windows
         private bool _ShowUserInfo;
 
 
+
+        public string Branch
+        {
+            get { return _Branch; }
+            set
+            {
+                if (value == _Branch) return;
+                _Branch = value;
+                OnPropertyChanged(nameof(Branch));
+            }
+        }
+        private string _Branch;
+
+
+        public string Remote
+        {
+            get { return _Remote; }
+            set
+            {
+                if (value == _Remote) return;
+                _Remote = value;
+                OnPropertyChanged(nameof(Remote));
+            }
+        }
+        private string _Remote;
+
+
         public List<RepositoryStatusItem> RepositoryStatusItems
         {
             get => _repositoryStatusItems;
@@ -227,7 +254,14 @@ namespace MarkdownMonster.Windows
             CommitWindow.ShowStatus("Pushing files to the Git Remote...");
             var repo = GitHelper.OpenRepository(files[0].FullPath);
 
-            if (!GitHelper.Push(repo.Info.WorkingDirectory))
+            
+            var branch = GitHelper.Repository.Head?.TrackedBranch?.FriendlyName;
+            if (branch != null)
+            {
+                branch = branch.Substring(branch.IndexOf("/") + 1);
+            }
+
+            if (!GitHelper.Push(repo.Info.WorkingDirectory,branch))
             {
                 CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
                 return false;
@@ -246,6 +280,24 @@ namespace MarkdownMonster.Windows
             }
 
             if (!GitHelper.Pull(repo.Info.WorkingDirectory))
+            {
+                CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> PullChangesAsync()
+        {
+            var repo = GitHelper.OpenRepository(Filename);
+            if (repo == null)
+            {
+                Window.ShowStatus("Invalid repository path.", mmApp.Configuration.StatusMessageTimeout);
+                return false;
+            }
+
+            if (!await GitHelper.PullAsync(repo.Info.WorkingDirectory))
             {
                 CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
                 return false;

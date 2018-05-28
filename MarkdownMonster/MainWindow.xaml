@@ -222,8 +222,11 @@
                 <Separator/>
 
                 <MenuItem Header="_Git">
-                    <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" InputGestureText="alt-f-g-g"/>
                     <MenuItem Header="_Commit and Push to Git" Command="{Binding Commands.CommitToGitCommand}" InputGestureText="alt-t-g" />
+                    <Separator />
+                    <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" InputGestureText="alt-f-g-g"/>
+                    <MenuItem Header="_Create Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" CommandParameter="Create" />
+                    <MenuItem Header="_Add Git Remote" Command="{Binding Commands.OpenFromGitRepoCommand}" CommandParameter="AddRemote" />
                     <Separator />
                     <MenuItem Header="Open Folder in Git Client"
                               Command="{Binding Commands.OpenGitClientCommand}"  

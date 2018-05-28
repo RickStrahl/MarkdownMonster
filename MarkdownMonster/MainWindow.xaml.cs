@@ -911,8 +911,8 @@ namespace MarkdownMonster
             {
                 TabControl.SelectedItem = tab;
 
-                if (showPreviewIfActive && PreviewBrowserContainer.Width > 5)
-                    PreviewBrowser.PreviewMarkdownAsync();
+                //if (showPreviewIfActive && PreviewBrowserContainer.Width > 5)
+                //    PreviewBrowser.PreviewMarkdownAsync();
 
                 SetWindowTitle();
 

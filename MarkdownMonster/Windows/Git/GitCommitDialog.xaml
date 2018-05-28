@@ -112,10 +112,11 @@
             </StackPanel>
         </ToolBarPanel>
 
-        <Grid Name="MainContentPanel" Grid.Row="1" Margin="25 25 25 15">
+        <Grid Name="MainContentPanel" Grid.Row="1" Margin="25 2 25 15">
 
 
             <Grid.RowDefinitions>
+
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -124,10 +125,12 @@
             </Grid.RowDefinitions>
 
 
-            <TextBox Name="TextCommitMessage" Text="{Binding CommitMessage}"  
+                
+                <TextBox Name="TextCommitMessage" Text="{Binding CommitMessage}"  Grid.Row="1" Margin="0,20,0,0"
                      controls:TextBoxHelper.Watermark="Enter a Commit Message (required)"                      
                      TextWrapping="Wrap" Height="70" AcceptsReturn="True"
                      controls:TextBoxHelper.SelectAllOnFocus="True"/>
+            
 
             <Grid Margin="0 3" Grid.Row="1" controls:VisibilityHelper.IsVisible="{Binding ShowUserInfo}">
                 <Grid.ColumnDefinitions>
@@ -208,7 +211,6 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
-
                             <ColumnDefinition Width="Auto"  />
                         </Grid.ColumnDefinitions>
                     </Grid>
@@ -220,10 +222,13 @@
             <StatusBarItem Grid.Column="1">
                 <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
             </StatusBarItem>
-            <StatusBarItem Grid.Column="2">
-                <TextBlock Name="StatusImageSize" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
-            </StatusBarItem>
 
+            <StatusBarItem Grid.Column="3" Margin="0,0,15,0">
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="CodeFork" Margin="0,1,4,0" FontSize="15" Foreground="DarkGoldenrod"/>
+                    <TextBlock Text="{Binding Branch,StringFormat='Branch: {0}'}" />
+                </StackPanel>
+            </StatusBarItem>
         </StatusBar>
     </Grid>
 </controls:MetroWindow>
