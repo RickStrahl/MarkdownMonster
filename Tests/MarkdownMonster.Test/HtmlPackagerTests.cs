@@ -25,10 +25,10 @@ namespace MarkdownMonster.Test
         }
 
         [TestMethod]
-        public void Package()
+        public void PackageFromFileTest()
         {
             var packager = new HtmlPackager();
-            string packaged = packager.PackageLocalHtml(InputFile);
+            string packaged = packager.PackageHtml(InputFile);
 
             string outputFile = InputFile.Replace(".html", "_PACKAGED.html");
             File.WriteAllText(outputFile,packaged);
@@ -40,5 +40,23 @@ namespace MarkdownMonster.Test
             Assert.IsNotNull(packaged);
 
         }
+
+        [TestMethod]
+        public void PackageFromWebTest()
+        {
+            var packager = new HtmlPackager();
+            string packaged = packager.PackageHtml("https://west-wind.com");
+
+            string outputFile = InputFile.Replace(".html", "_PACKAGED.html");
+            File.WriteAllText(outputFile, packaged);
+
+            ShellUtils.GoUrl(outputFile);
+
+            Console.WriteLine(packaged);
+
+            Assert.IsNotNull(packaged);
+
+        }
+
     }
 }

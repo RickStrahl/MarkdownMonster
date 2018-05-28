@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
 using Westwind.Utilities;
 
@@ -20,42 +16,101 @@ namespace MarkdownMonster.Utilities
     {
 
         int ctr = 0;
+        
+        public string UrlOrFile { get; set; }
 
-        public string PackageLocalHtml(string filename, string basePath = null)
+        Uri BaseUri { get; set; }
+
+
+        /// <summary>
+        /// Packages an HTML document into a large single file package
+        /// that embeds all images, css, scripts, fonts and other url()
+        /// loaded entries into the HTML document.
+        ///
+        /// The result is a very large document that is fully self-contained        
+        /// </summary>
+        /// <param name="urlOrFile">A Web Url or fully qualified local file name</param>
+        /// <param name="basePath">
+        /// An optional basePath for the document which helps resolve relative
+        /// paths. Unless there's a special use case, you should leave this
+        /// value blank and let the default use either the value from a
+        /// BASE tag or the base location of the document.
+        ///
+        /// If the document itself contains a BASE tag this value is not used.
+        /// </param>
+        /// <returns></returns>
+        public string PackageHtml(string urlOrFile, string basePath = null)
         {
-            var doc = new HtmlDocument();
-            doc.Load(filename);
+            if (string.IsNullOrEmpty(urlOrFile))
+                return urlOrFile;
 
-            if (string.IsNullOrEmpty(basePath))
-                basePath = Path.GetDirectoryName(filename);
+            UrlOrFile = urlOrFile;
 
-            var docBase = doc.DocumentNode.SelectSingleNode("//base");
-            if (docBase != null)
+            HtmlDocument doc;
+            var tempFile = Path.GetTempFileName();
+            if (urlOrFile.StartsWith("http", StringComparison.InvariantCultureIgnoreCase) && urlOrFile.Contains("://"))
             {
-                var url = docBase.Attributes["href"]?.Value;
-                if (url.StartsWith("file:///"))
-                    basePath = url.Replace("file:///", "");
-            }
-            
-            string oldPath = Environment.CurrentDirectory;
-            try
-            {
-                Directory.SetCurrentDirectory(basePath);
+
+                BaseUri = new Uri(UrlOrFile);
+
+                var web = new HtmlWeb();
+                doc = web.Load(urlOrFile);
+
+                var docBase = doc.DocumentNode.SelectSingleNode("//base");
+                if (docBase != null)
+                {
+                    basePath = docBase.Attributes["href"]?.Value;
+                    BaseUri = new Uri(basePath);
+                }
+
+                docBase?.Remove();
 
                 ctr = 0;
                 ProcessCss(doc);
                 ProcessScripts(doc);
                 ProcessImages(doc);
             }
-            finally
+            else
             {
-                Directory.SetCurrentDirectory(oldPath);
+                doc = new HtmlDocument();
+                doc.Load(urlOrFile);
+
+                var docBase = doc.DocumentNode.SelectSingleNode("//base");
+                if (docBase != null)
+                {
+                    var url = docBase.Attributes["href"]?.Value;
+                    if (url.StartsWith("file:///"))
+                        basePath = url.Replace("file:///", "");
+                }
+                docBase?.Remove();
+
+                string oldPath = Environment.CurrentDirectory;
+                try
+                {
+                    if (string.IsNullOrEmpty(basePath))
+                        basePath = Path.GetDirectoryName(urlOrFile);
+
+                    Directory.SetCurrentDirectory(basePath);
+                    BaseUri = new Uri(basePath);
+
+                    ctr = 0;
+                    ProcessCss(doc);
+                    ProcessScripts(doc);
+                    ProcessImages(doc);
+                }
+                finally
+                {
+                    Directory.SetCurrentDirectory(oldPath);
+                }
             }
-            
-            docBase?.Remove();
+
 
             var html = doc.DocumentNode.InnerHtml;
             //html = ProcessUrls(html, basePath);
+
+            if (tempFile != null)
+                File.Delete(tempFile);
+
             return html;
         }
 
@@ -75,13 +130,26 @@ namespace MarkdownMonster.Utilities
 
                 string linkData;
                 if (url.StartsWith("http"))
-                    linkData = HttpUtils.HttpRequestString(url);
-                else
-                {                    
-                    if (url.StartsWith("file:///"))
-                        url = url.Substring(8);
-
-                    linkData = File.ReadAllText(url);
+                {
+                    var http = new WebClient();
+                    linkData = http.DownloadString(url);
+                }
+                else if (url.StartsWith("file:///"))
+                {                                       
+                   url = url.Substring(8);
+                   linkData = File.ReadAllText(url);
+                }
+                else // Relative Path
+                {
+                    var uri = new Uri(BaseUri, url);
+                    url = uri.AbsoluteUri;
+                    if (url.StartsWith("http") && url.Contains("://"))
+                    {
+                        var http = new WebClient();
+                        linkData = http.DownloadString(url);
+                    }
+                    else
+                        linkData = File.ReadAllText(url);
                 }
 
                 linkData = ProcessUrls(linkData, originalUrl);
@@ -110,24 +178,34 @@ namespace MarkdownMonster.Utilities
 
                 byte[] scriptData;
                 if (url.StartsWith("http"))
-                {
-                    var settings = new HttpRequestSettings
-                    {
-                        Url = url,
-                    };
-
+                {                    
                     var http = new WebClient();
                     scriptData = http.DownloadData(url);                    
                 }
-                else
+                else if (url.StartsWith("file:///"))
                 {
-                    if (url.StartsWith("file:///"))
-                        url = url.Substring(8);
-
+                    url = url.Substring(8);
                     scriptData = File.ReadAllBytes(url);
                 }
-
-
+                else // Relative Path
+                {
+                    try
+                    {
+                        var uri = new Uri(BaseUri, url);
+                        url = uri.AbsoluteUri;
+                        if (url.StartsWith("http") && url.Contains("://"))
+                        {
+                            var http = new WebClient();
+                            scriptData = http.DownloadData(url);
+                        }
+                        else
+                            scriptData = File.ReadAllBytes(url);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
 
                 string data = $"data:text/javascript;base64,{Convert.ToBase64String(scriptData)}";
 
@@ -155,36 +233,53 @@ namespace MarkdownMonster.Utilities
                 if (url == null)
                     continue;
 
-                byte[] linkData;
+                byte[] imageData;
                 if (url.StartsWith("http"))
                 {
-                    var settings = new HttpRequestSettings
-                    {
-                        Url = url,
-                    };
-
                     var http = new WebClient();
-                    linkData = http.DownloadData(url);
+                    imageData = http.DownloadData(url);
                     contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
                 }
-                else
+                else if(url.StartsWith("file:///"))
                 {
-                    if (url.StartsWith("file:///"))
-                        url = url.Substring(8);
+                    url = url.Substring(8);
 
                     try
                     {
-                        linkData = File.ReadAllBytes(url);
+                        imageData = File.ReadAllBytes(url);
+                        contentType = mmFileUtils.GetImageMediaTypeFromFilename(url);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+                else // Relative Path
+                {
+                    try
+                    {
+                        var uri = new Uri(BaseUri, url);
+                        url = uri.AbsoluteUri;
+                        if (url.StartsWith("http") && url.Contains("://"))
+                        {
+                            var http = new WebClient();
+                            imageData = http.DownloadData(url);
+                        }
+                        else
+                            imageData = File.ReadAllBytes(url.Replace("file:///", ""));
 
                         contentType = mmFileUtils.GetImageMediaTypeFromFilename(url);
                     }
-                    catch { continue; }
+                    catch
+                    {
+                        continue;
+                    }
                 }
 
-                if (linkData == null)
+                if (imageData == null)
                     continue;
 
-                string data = $"data:{contentType};base64,{Convert.ToBase64String(linkData)}";
+                string data = $"data:{contentType};base64,{Convert.ToBase64String(imageData)}";
 
                 var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
                 el.Name = "img";
@@ -212,7 +307,7 @@ namespace MarkdownMonster.Utilities
                 if (string.IsNullOrEmpty(matched))
                     continue;
 
-                var url = matched.Substring(5, matched.Length - 7);
+                var url = StringUtils.ExtractString(matched,"(", ")")?.Trim(new char[] {'\'', '\"'}).Replace("&amp;","").Replace("quot;","");
                                 
                 
                 if (url.StartsWith("http"))
@@ -221,36 +316,39 @@ namespace MarkdownMonster.Utilities
                     linkData = http.DownloadData(url);
                     contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
                 }
-                else
+                else if(url.StartsWith("file:///"))
                 {
-                    if (url.StartsWith("file:///"))
-                        url = url.Substring(8);
 
-                    if (baseUrl.StartsWith("file:///"))
-                        baseUrl = baseUrl.Substring(8);
-
-                    var basePath = Path.GetDirectoryName(baseUrl);
-                    basePath += "\\";
-
-                    if (!string.IsNullOrEmpty(basePath) && !basePath.EndsWith("/") && !basePath.EndsWith("\\") )
-                        basePath += "\\";
-
-                    int atQ = url.IndexOf("?");
-                    if (atQ > -1)
-                        url = url.Substring(0, atQ);
-
+                    url = new Uri(BaseUri, new Uri(url)).AbsoluteUri;
+                    
                     try
-                    {
-
-                        url = FileUtils.NormalizePath(basePath + url);
-                        url = FileUtils.GetPhysicalPath(url);
-
-
+                    {         
                         contentType = mmFileUtils.GetImageMediaTypeFromFilename(url);                        
                         if (contentType == "application/image")
                             continue;
 
                          linkData = File.ReadAllBytes(url);                     
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        var uri = new Uri(BaseUri, url);
+                        url = uri.AbsoluteUri;
+                        if (url.StartsWith("http") && url.Contains("://"))
+                        {
+                            var http = new WebClient();
+                            linkData = http.DownloadData(url);
+                        }
+                        else
+                            linkData = File.ReadAllBytes(url.Replace("file:///",""));
+
+                        contentType = mmFileUtils.GetImageMediaTypeFromFilename(url);
                     }
                     catch
                     {
