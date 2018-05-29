@@ -6,14 +6,25 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.11.5
+
+
+### 1.11.7
 <small>not released yet</small>
 
 * **Save As Packaged HTML File (Preview)**  
 You can now save the current document as a self-contained HTML document that includes all dependency resources embedded inside of the HTML document itself. While this document is rather large, the document is completely portable as it embeds images, css and fonts directly.
 
+* **Add Create Git Repo and Add Remote**  
+Added support for creating GitHub repositories and adding a new repository as a remote to an existing local repo. Options are available under the **File->Git** submenu.
+
+* **Add Push to Git Repo to Commit Dialog**  
+In addition to the the **Commit and Push** button in the dialog, you can now also explicitly push to the remote, when there are no files to commit.
+
 * **Fix: Clipboard Assignment Crashes**  
 Logs indicate a number of people have issues with Clipboard access, specifically setting values on the clipboard - both during editing and also from explicit clip assignments for URLs, commands etc. All set operations are not exception bracketed so while ops may stil fail they won't crash MM.
+
+* **Fix: Document Outline Crash when empty Doc is open**  
+Fixed issue with the Document Outline crashing when an empty document was open.
 
 ### 1.11.4
 <small>May 21th, 2018</small>
