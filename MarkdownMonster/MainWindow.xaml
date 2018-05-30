@@ -690,22 +690,13 @@
                                      ShowDefaultCloseButton="True"                                     
                                      ShowDefaultAddButton="False"
                                      SelectionChanged="TabControl_SelectionChanged"                                      
-                                     Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
-                
-                
-                <!--<dragablz:TabablzControl.Resources>
-
-                    <Style TargetType="RepeatButton"  x:Key="TabControlWindowListButtonStyle">
-                        <EventSetter Event="MouseDown"  Handler="TabControlWindowList_Click"/>
-                    </Style>
-
-                </dragablz:TabablzControl.Resources>-->
+                                     controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}">
             </dragablz:TabablzControl>
 
             <Grid Grid.Column="2"  
                   HorizontalAlignment="Center"  
                   VerticalAlignment="Center"  
-                  Visibility="{Binding IsNoTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}"  >
+                  controls:VisibilityHelper.IsVisible="{Binding IsNoTabOpen}"  >
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
