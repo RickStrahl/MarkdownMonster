@@ -6,26 +6,23 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.11.8
+<small>May 30th, 2018</small>
 
+* **Save As Packaged HTML File**  
+You can now save the current document as a self-contained HTML document that includes all dependency resources embedded inside of the HTML document itself. While this document is rather large, the document is completely portable as it embeds images, css and fonts directly. Other options include **View in Browser** (from preview) and then **Save As Html** to save loose resources in addition to HTML.
 
-### 1.11.7
-<small>not released yet</small>
-
-* **Save As Packaged HTML File (Preview)**  
-You can now save the current document as a self-contained HTML document that includes all dependency resources embedded inside of the HTML document itself. While this document is rather large, the document is completely portable as it embeds images, css and fonts directly.
-
-* **Add Create Git Repo and Add Remote**  
-Added support for creating GitHub repositories and adding a new repository as a remote to an existing local repo. Options are available under the **File->Git** submenu.
-
-* **Add Push to Git Repo to Commit Dialog**  
-In addition to the the **Commit and Push** button in the dialog, you can now also explicitly push to the remote, when there are no files to commit.
-
-
-* **Addins: New Preview Tab**  
+* **Preview Tab to preview rendered Markdown and Images on click**  
 There's a new `MainWindow.OpenBrowserTab()` method that allows for opening a preview tab in the browser that can display local or Web based content in a browser as a Preview window. The Preview tab is temporal - it's visible only until navigating to another file and then released. The preview tab is now used internally for previewing images, Markdown and HTML files in the Folder browser.
 
+* **Create Git Repository and Add Remote**  
+Added support for creating GitHub repositories and adding a new repository as a remote to an existing local repo. Options are available under the **File->Git** submenu.
+
+* **Add Push to Git Repository to Commit Dialog**  
+In addition to the the **Commit and Push** button in the dialog, you can now also explicitly push to the remote, when there are no files to commit.
+
 * **Fix: Clipboard Assignment Crashes**  
-Logs indicate a number of people have issues with Clipboard access, specifically setting values on the clipboard - both during editing and also from explicit clip assignments for URLs, commands etc. All set operations are not exception bracketed so while ops may stil fail they won't crash MM.
+Logs indicate a number of people have issues with Clipboard access, specifically setting values on the clipboard - both during editing and also from explicit clip assignments for URLs, commands etc. All set operations are not exception bracketed so while ops may still fail they won't crash MM.
 
 * **Fix: Document Outline Crash when empty Doc is open**  
 Fixed issue with the Document Outline crashing when an empty document was open.
