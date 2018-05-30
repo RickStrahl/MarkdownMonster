@@ -191,6 +191,29 @@ namespace MarkdownMonster.Windows
             ShowStatusError("Failed to pull changes from the server: " + CommitModel.GitHelper.ErrorMessage);
         }
 
+        private void ButtonPush_Click(object sender, RoutedEventArgs e)
+        {
+            ShowStatus("Pushing changes to the remote origin...", 0,
+                FontAwesomeIcon.CircleOutlineNotch, Colors.Goldenrod, true);
+
+            if (CommitModel.PushChanges())
+            {
+                // refresh the file model
+                CommitModel.GetRepositoryChanges();
+
+                // Refresh the folder browser Git status icons
+                if (AppModel.WindowLayout.IsLeftSidebarVisible)
+                    Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+
+                ShowStatus("Changes pushed to the remote origin.",
+                    mmApp.Configuration.StatusMessageTimeout,
+                    FontAwesomeIcon.CheckCircleOutline);
+                return;
+            }
+
+            ShowStatusError("Failed to pull changes from the server: " + CommitModel.GitHelper.ErrorMessage);
+        }
+
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();

@@ -78,6 +78,14 @@
                         </StackPanel>
                     </Button>
 
+                    <Button Click="ButtonPush_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="Upload"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+                            <TextBlock>Push</TextBlock>
+                        </StackPanel>
+                    </Button>
+
                     <Button Click="ButtonRefresh_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,2,5,0" Icon="Refresh"                                             

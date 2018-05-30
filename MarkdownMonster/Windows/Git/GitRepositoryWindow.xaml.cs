@@ -315,7 +315,7 @@ namespace MarkdownMonster.Windows
                 GitCommandResult result = await Task.Run<GitCommandResult>(() =>
                 {
                     var action = new Action<object, DataReceivedEventArgs>((s, e) => { Output += e.Data; });
-                    var res = git.CloneRepositoryCommandLine(GitUrl, LocalPath, action);
+                    var res = git.CloneRepositoryCommandLine(GitUrl, LocalPath, action, 1);
                     return res;
                 });
 

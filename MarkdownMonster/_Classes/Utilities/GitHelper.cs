@@ -172,12 +172,18 @@ namespace MarkdownMonster.Utilities
         /// </summary>
         /// <param name="gitUrl"></param>
         /// <param name="localPath"></param>
+        /// <param name="depth">Depth of the Git revision history (shallow copy)</param>
         /// <returns></returns>
-        public GitCommandResult CloneRepositoryCommandLine(string gitUrl, string localPath, Action<object, DataReceivedEventArgs> progress = null)
+        public GitCommandResult CloneRepositoryCommandLine(string gitUrl, string localPath,
+            Action<object, DataReceivedEventArgs> progress = null, int depth = 0)
         {
             try
             {
-                return ExecuteGitCommand($"clone {gitUrl} \"{localPath}\"",
+                string cloneDepth = null;
+                if (depth > 0)
+                    cloneDepth = $" --depth={depth}";
+
+                return ExecuteGitCommand($"clone {gitUrl} \"{localPath}\"{cloneDepth}",
                     timeoutMs: 100000,
                     windowStyle: ProcessWindowStyle.Hidden,
                     progress: progress);

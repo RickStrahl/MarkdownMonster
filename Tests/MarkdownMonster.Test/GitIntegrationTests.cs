@@ -198,7 +198,7 @@ namespace MarkdownMonster.Test
 
             using (var repo = new Repository(path))
             {
-                repo.Stage(fileToAdd);
+                Commands.Stage(repo,fileToAdd);
 
                 var sig = new Signature("ras", "r@west-wind.com", DateTimeOffset.Now);
                 repo.Commit("committing test.txt", sig, sig);

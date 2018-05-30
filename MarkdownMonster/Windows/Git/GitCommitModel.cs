@@ -270,6 +270,25 @@ namespace MarkdownMonster.Windows
             return true;
         }
 
+        public bool PushChanges()
+        {            
+            CommitWindow.ShowStatus("Pushing files to the Git Remote...");
+            var repo = GitHelper.OpenRepository(Filename);
+            if (repo == null)
+            {
+                CommitWindow.ShowStatusError("Couldn't determine branch to commit to.");
+                return false;
+            }
+
+            if (!GitHelper.Push(repo.Info.WorkingDirectory, Branch))
+            {
+                CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
+                return false;
+            }
+
+            return true;
+        }
+
         public bool PullChanges()
         {
             var repo = GitHelper.OpenRepository(Filename);
