@@ -198,7 +198,7 @@ namespace MarkdownMonster
                 mmApp.Configuration.ApplicationUpdates.FirstRun = false;
             }
 
-            BindTabHeaders();
+            BindTabHeaders();            
             SetWindowTitle();
 
             if (mmApp.Configuration.IsPreviewVisible)
@@ -207,8 +207,7 @@ namespace MarkdownMonster
                 ToolButtonPreview.IsChecked = true;
                 //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
             }
-
-          
+            
             var left = Left;
             Left = 300000;
 
@@ -1292,6 +1291,10 @@ namespace MarkdownMonster
             if (PreviewTab != null && selectTab)
                 TabControl.SelectedItem = PreviewTab;
 
+            // HACK: force refresh of display model
+            Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
+            Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
+
             return PreviewTab;
         }
 
@@ -1325,7 +1328,6 @@ namespace MarkdownMonster
                     if (icon == AssociatedIcons.DefaultIcon)
                         icon = FolderStructure.IconList.GetIconFromType(Model.ActiveEditor.EditorSyntax);
                 }
-
 
                 var img = new Image()
                 {
