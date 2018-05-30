@@ -129,7 +129,7 @@ namespace MarkdownMonster
                     Title = "Open Markdown File"
                 };
 
-                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
+                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder) && Directory.Exists(mmApp.Configuration.LastFolder))
                     fd.InitialDirectory = mmApp.Configuration.LastFolder;
 
                 bool? res = null;
@@ -139,7 +139,7 @@ namespace MarkdownMonster
                 }
                 catch (Exception ex)
                 {
-                    mmApp.Log("Unable to open file.", ex);
+                    mmApp.Log($"Handled. Unable to open file in {fd.InitialDirectory}", ex);
                     MessageBox.Show(
                         $@"Unable to open file:\r\n\r\n" + ex.Message,
                         "An error occurred trying to open a file",
@@ -515,7 +515,7 @@ namespace MarkdownMonster
 
                             string packaged;
                             var packager = new HtmlPackager();
-                            packaged = packager.PackageLocalHtml(sd.FileName);
+                            packaged = packager.PackageHtml(sd.FileName);
 
                             File.WriteAllText(sd.FileName, packaged);
 

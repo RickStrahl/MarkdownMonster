@@ -626,22 +626,51 @@ namespace MarkdownMonster.Windows
 
 
         private void TreeViewItem_MouseUpClick(object sender, MouseButtonEventArgs e)
-        {            
+        {
+            if (e.ClickCount == 2)
+                return;
+
             // single click - image preview  MUST BE ON MOUSEUP so we can still drag
             dynamic s = sender;
             var selected = s.DataContext as PathItem;
             if (selected == null)
                 return;
 
-            var image = selected.FullPath;
+            var filePath = selected.FullPath;
 
-            if (string.IsNullOrEmpty(image))
+            if (string.IsNullOrEmpty(filePath))
                 return;
 
-            var ext = Path.GetExtension(image).ToLower();
-            if (ext != ".jpg" && ext != ".png" && ext != ".gif" && ext != ".jpeg")
+            var ext = Path.GetExtension(filePath).ToLower();
+            if (ext == ".jpg" || ext == ".png" || ext == ".gif" || ext == ".jpeg")
+            {
+                Window.OpenBrowserTab(filePath, isImageFile: true);
                 return;
-            Window.OpenBrowserTab(image, isImageFile: true);
+            }
+
+            
+            Dispatcher.Delay(100, (p) =>
+            {                
+                var tab = AppModel.Window.GetTabFromFilename(filePath);
+                if(tab != null)
+                {
+                    AppModel.Window.TabControl.SelectedItem = tab;
+                    return;
+                }
+                    
+
+                if (ext == ".md" || ext == ".markdown")
+                {
+                    var doc = new MarkdownDocument();
+                    doc.Load(filePath);
+                    doc.RenderHtmlToFile();
+                    Window.OpenBrowserTab(doc.HtmlRenderFilename);
+                }
+                else if (ext == ".html" || ext == ".htm")
+                {
+                    Window.OpenBrowserTab(filePath);
+                }
+            });
 
         }
 

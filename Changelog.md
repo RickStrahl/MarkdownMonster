@@ -20,6 +20,10 @@ Added support for creating GitHub repositories and adding a new repository as a 
 * **Add Push to Git Repo to Commit Dialog**  
 In addition to the the **Commit and Push** button in the dialog, you can now also explicitly push to the remote, when there are no files to commit.
 
+
+* **Addins: New Preview Tab**  
+There's a new `MainWindow.OpenBrowserTab()` method that allows for opening a preview tab in the browser that can display local or Web based content in a browser as a Preview window. The Preview tab is temporal - it's visible only until navigating to another file and then released. The preview tab is now used internally for previewing images, Markdown and HTML files in the Folder browser.
+
 * **Fix: Clipboard Assignment Crashes**  
 Logs indicate a number of people have issues with Clipboard access, specifically setting values on the clipboard - both during editing and also from explicit clip assignments for URLs, commands etc. All set operations are not exception bracketed so while ops may stil fail they won't crash MM.
 

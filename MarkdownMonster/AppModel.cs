@@ -91,7 +91,9 @@ namespace MarkdownMonster
 
                 OnPropertyChanged(nameof(ActiveDocument));
                 OnPropertyChanged(nameof(ActiveEditor));                
-                OnPropertyChanged(nameof(IsEditorActive));                
+                OnPropertyChanged(nameof(IsEditorActive));
+                OnPropertyChanged(nameof(IsTabOpen));
+                OnPropertyChanged(nameof(IsNoTabOpen));
 
                 Window.ToolbarEdit.IsEnabled = IsEditorActive;
             }
