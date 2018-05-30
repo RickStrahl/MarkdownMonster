@@ -318,8 +318,8 @@ namespace MarkdownMonster.Utilities
                 }
                 else if(url.StartsWith("file:///"))
                 {
-
-                    url = new Uri(BaseUri, new Uri(url)).AbsoluteUri;
+                    var baseUri = new Uri(baseUrl);
+                    url = new Uri(baseUri, new Uri(url)).AbsoluteUri;
                     
                     try
                     {         
@@ -338,7 +338,8 @@ namespace MarkdownMonster.Utilities
                 {
                     try
                     {
-                        var uri = new Uri(BaseUri, url);
+                        var baseUri = new Uri(baseUrl);
+                        var uri = new Uri(baseUri, url);
                         url = uri.AbsoluteUri;
                         if (url.StartsWith("http") && url.Contains("://"))
                         {
