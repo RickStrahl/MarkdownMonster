@@ -163,13 +163,18 @@
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
+                                Microsoft .NET Framework 4.6.2 or later<small>
+                                    <a href="http://smallestdotnet.com/">check</a> or <a href="https://www.microsoft.com/net/download/all">download</a></small>
+                            </div>   
+                            <div>
+                                <i class="fa fa-check-circle"></i>
                                 Internet Explorer 11
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft .NET Framework 4.6+ <small>(4.6.2 recommended)
-                                <a href="http://smallestdotnet.com/">check</a> or <a href="https://www.microsoft.com/net/download/all">download</a></small>
-                            </div>                            
+                                Git <small>(optional)</small>
+                            </div>
+                                                     
                         </div>
                     </div>
                 </div>
@@ -192,6 +197,10 @@
                             <div>
                                 <i class="fa fa-check-circle"></i>
                                 Follow the installation instructions
+                            </div>
+                            <div>
+                                <i class="fa fa-check-circle"></i>
+                                Rock your Markdown like a Pro
                             </div>
                         </div>
                     </div>
