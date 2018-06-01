@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
@@ -93,7 +94,11 @@ namespace MarkdownMonster
                     Header = sg,
                     FontWeight = FontWeights.Bold
                 };
-                mi.Click += (o, args) => model.ActiveEditor.AceEditor.replaceSpellRange(range, sg);
+                mi.Click += (o, args) =>
+                {
+                    model.ActiveEditor.AceEditor.replaceSpellRange(range, sg);
+                    model.ActiveEditor.IsDirty();
+                };
                 ContextMenu.Items.Add(mi);
                 hasSuggestions = true;
             }
