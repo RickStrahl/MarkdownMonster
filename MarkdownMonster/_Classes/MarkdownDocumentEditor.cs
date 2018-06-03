@@ -777,6 +777,9 @@ namespace MarkdownMonster
 
         public void ExecEditorCommand(string action, object parm = null)
         {
+            if (action == null)
+                return;
+
             AceEditor?.execcommand(action, parm);
         }
 

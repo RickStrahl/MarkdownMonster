@@ -37,7 +37,7 @@ namespace MarkdownMonster.Windows
 
             CommitModel = new GitCommitModel(fileOrPath,commitRepo);
             if (!commitRepo)    
-                CommitModel.CommitMessage = $"Updating documentation in {System.IO.Path.GetFileName(fileOrPath)}";
+                CommitModel.CommitMessage = $"Update {System.IO.Path.GetFileName(fileOrPath)}";
 
             CommitModel.CommitWindow = this;
 
@@ -56,6 +56,7 @@ namespace MarkdownMonster.Windows
             if (CommitModel.Remote == null)
             {
                 ButtonCommitAndPush.IsEnabled = false;
+                ButtonOpenRemote.IsEnabled = false;
                 AppModel.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.Commit;
             }
 
@@ -89,9 +90,9 @@ namespace MarkdownMonster.Windows
 
         #region Button  Handlers
 
-        private void ButtonCommit_Click(object sender, RoutedEventArgs e)
+        private async void ButtonCommit_Click(object sender, RoutedEventArgs e)
         {
-            if (CommitModel.CommitChangesToRepository())
+            if (await CommitModel.CommitChangesToRepository())
             {
                 if (string.IsNullOrEmpty(CommitModel.GitUsername))
                     mmApp.Configuration.Git.GitName = CommitModel.GitUsername;
@@ -122,16 +123,16 @@ namespace MarkdownMonster.Windows
                 }
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
-                    Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                    await Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
                 
                 mmApp.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.Commit;
                 
             }
         }
 
-        private void ButtonCommitAndPush_Click(object sender, RoutedEventArgs e)
+        private async void ButtonCommitAndPush_Click(object sender, RoutedEventArgs e)
         {
-            if (CommitModel.CommitChangesToRepository(true))
+            if (await CommitModel.CommitChangesToRepository(true))
             {
                 if (string.IsNullOrEmpty(mmApp.Configuration.Git.GitName))
                 {
@@ -142,9 +143,8 @@ namespace MarkdownMonster.Windows
                 if (AppModel.Configuration.Git.CloseAfterCommit)
                 {
                     Close();
-                    AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",
-                        mmApp.Configuration.StatusMessageTimeout,
-                        FontAwesomeIcon.CheckCircleOutline);
+                    AppModel.Window.ShowStatusSuccess("Files have been committed and pushed to the remote.");
+
                 }
                 else
                 {
@@ -153,16 +153,14 @@ namespace MarkdownMonster.Windows
                     if (CommitModel.RepositoryStatusItems.Count < 1)
                     {
                         Close();
-                        AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",
-                            mmApp.Configuration.StatusMessageTimeout);
+                        AppModel.Window.ShowStatusSuccess("Files have been committed and pushed to the remote.");
                     }
                     else
-                        ShowStatus("Files have been committed and pushed to the remote.",
-                                   mmApp.Configuration.StatusMessageTimeout, FontAwesomeIcon.CheckCircleOutline);
+                        ShowStatusSuccess("Files have been committed and pushed to the remote.");                    
                 }
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
-                    Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(),System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                    await Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(),System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
                 mmApp.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.CommitAndPush;               
             }            
@@ -170,8 +168,7 @@ namespace MarkdownMonster.Windows
 
         private async void ButtonPull_Click(object sender, RoutedEventArgs e)
         {
-            ShowStatus("Pulling changes from the remote origin...",0,
-                FontAwesomeIcon.CircleOutlineNotch,Colors.Goldenrod, true);
+            ShowStatusProgress("Pulling changes from the remote origin...");
 
             if (await CommitModel.PullChangesAsync())
             {
@@ -182,9 +179,7 @@ namespace MarkdownMonster.Windows
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
                     await Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
-                ShowStatus("Changes have been pulled from the remote origin.",
-                    mmApp.Configuration.StatusMessageTimeout,
-                    FontAwesomeIcon.CheckCircleOutline);
+                ShowStatusSuccess("Changes have been pulled from the remote origin.");
                 return;
             }
 
@@ -193,8 +188,7 @@ namespace MarkdownMonster.Windows
 
         private void ButtonPush_Click(object sender, RoutedEventArgs e)
         {
-            ShowStatus("Pushing changes to the remote origin...", 0,
-                FontAwesomeIcon.CircleOutlineNotch, Colors.Goldenrod, true);
+            ShowStatusProgress("Pushing changes to the remote origin...");
 
             if (CommitModel.PushChanges())
             {
@@ -205,9 +199,7 @@ namespace MarkdownMonster.Windows
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
                     Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
-                ShowStatus("Changes pushed to the remote origin.",
-                    mmApp.Configuration.StatusMessageTimeout,
-                    FontAwesomeIcon.CheckCircleOutline);
+                ShowStatusSuccess("Changes pushed to the remote origin.");
                 return;
             }
 
@@ -278,6 +270,19 @@ namespace MarkdownMonster.Windows
 
             if (!CommitModel.GitHelper.OpenDiffTool(selected.FullPath))
                 ShowStatusError(CommitModel.GitHelper.ErrorMessage);
+        }
+
+        private void ButtonOpenRemote_Click(object sender, RoutedEventArgs e)
+        {
+            using (var repo = CommitModel.GitHelper.OpenRepository(CommitModel.Filename))
+            {
+                var remoteUrl = repo?.Network.Remotes.FirstOrDefault()?.Url;
+                if (remoteUrl == null)
+                    return;
+
+                ShowStatus("Opening Url: " + remoteUrl);
+                ShellUtils.GoUrl(remoteUrl.Replace(".git", ""));
+            }
         }
 
 
@@ -359,7 +364,7 @@ namespace MarkdownMonster.Windows
         }
 
         /// <summary>
-        /// Displays an error message using common defaults
+        /// Displays an error message using common defaults for a timeout milliseconds
         /// </summary>
         /// <param name="message">Message to display</param>
         /// <param name="timeout">optional timeout</param>
@@ -377,6 +382,44 @@ namespace MarkdownMonster.Windows
         }
 
         /// <summary>
+        /// Shows a success message with a green check icon for the timeout
+        /// </summary>
+        /// <param name="message">Message to display</param>
+        /// <param name="timeout">optional timeout</param>
+        /// <param name="icon">optional icon (warning)</param>
+        /// <param name="color">optional color (firebrick)</param>
+        public void ShowStatusSuccess(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.CheckCircle, Color color = default(Color))
+        {
+            if (timeout == -1)
+                timeout = mmApp.Configuration.StatusMessageTimeout;
+
+            if (color == default(Color))
+                color = Colors.Green;
+
+            ShowStatus(message, timeout, icon, color);
+        }
+
+
+        /// <summary>
+        /// Displays an Progress message using common defaults including a spinning icon
+        /// </summary>
+        /// <param name="message">Message to display</param>
+        /// <param name="timeout">optional timeout</param>
+        /// <param name="icon">optional icon (warning)</param>
+        /// <param name="color">optional color (firebrick)</param>
+        /// <param name="spin"></param>
+        public void ShowStatusProgress(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.CircleOutlineNotch, Color color = default(Color), bool spin = true)
+        {
+            if (timeout == -1)
+                timeout = mmApp.Configuration.StatusMessageTimeout;
+
+            if (color == default(Color))
+                color = Colors.Goldenrod;
+
+            ShowStatus(message, timeout, icon, color, spin);
+        }
+
+        /// <summary>
         /// Status the statusbar icon on the left bottom to some indicator
         /// </summary>
         /// <param name="icon"></param>
@@ -387,7 +430,7 @@ namespace MarkdownMonster.Windows
             StatusIcon.Icon = icon;
             StatusIcon.Foreground = new SolidColorBrush(color);
             if (spin)
-                StatusIcon.SpinDuration = 1;
+                StatusIcon.SpinDuration = 2;
 
             StatusIcon.Spin = spin;
         }
@@ -403,7 +446,6 @@ namespace MarkdownMonster.Windows
             StatusIcon.SpinDuration = 0;
             StatusIcon.StopSpin();
         }
-
         #endregion
     }
 

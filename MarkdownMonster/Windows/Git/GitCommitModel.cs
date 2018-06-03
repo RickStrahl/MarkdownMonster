@@ -228,10 +228,11 @@ namespace MarkdownMonster.Windows
         }
 
 
-        public bool CommitChangesToRepository(bool pushToRemote=false)
+        public async Task<bool> CommitChangesToRepository(bool pushToRemote=false)
         {
             WindowUtilities.FixFocus(CommitWindow, CommitWindow.ListChangedItems);
-            CommitWindow.ShowStatus("Committing files into local Git repository...");
+
+            CommitWindow.ShowStatusProgress("Committing files...");
 
             var files = RepositoryStatusItems.Where(it => it.Selected).ToList();
 
@@ -251,28 +252,30 @@ namespace MarkdownMonster.Windows
             if (!pushToRemote)
                 return true;
 
-            CommitWindow.ShowStatus("Pushing files to the Git Remote...");
-            var repo = GitHelper.OpenRepository(files[0].FullPath);
+            CommitWindow.ShowStatusProgress("Pushing to remote...");
 
-            
-            var branch = GitHelper.Repository.Head?.TrackedBranch?.FriendlyName;
-            if (branch != null)
+            using (var repo = GitHelper.OpenRepository(files[0].FullPath))
             {
-                branch = branch.Substring(branch.IndexOf("/") + 1);
+                var branch = GitHelper.Repository.Head?.TrackedBranch?.FriendlyName;
+                if (branch != null)
+                {
+                    branch = branch.Substring(branch.IndexOf("/") + 1);
+                }
+
+                if (!await GitHelper.PushAsync(repo.Info.WorkingDirectory,branch) )
+                {
+                    CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
+                    return false;
+                }
             }
 
-            if (!GitHelper.Push(repo.Info.WorkingDirectory,branch))
-            {
-                CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
-                return false;
-            }
-            
             return true;
         }
 
         public bool PushChanges()
         {            
-            CommitWindow.ShowStatus("Pushing files to the Git Remote...");
+            CommitWindow.ShowStatusProgress("Pushing files to the Git Remote...");
+
             var repo = GitHelper.OpenRepository(Filename);
             if (repo == null)
             {

@@ -810,9 +810,7 @@ namespace MarkdownMonster
                     {
                         try
                         {
-                            ShowStatus("Auto-save recovery files have been found and opened in the editor.",
-                                milliSeconds: 9000);
-                            SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                            ShowStatusError("Auto-save recovery files have been found and opened in the editor.");
                             {
                                 File.Copy(doc.BackupFilename, doc.BackupFilename + ".md");
                                 OpenTab(doc.BackupFilename + ".md");
@@ -1844,10 +1842,8 @@ namespace MarkdownMonster
             {
                 ShowStatus("Checking for new version...");
                 if (!CheckForNewVersion(true, timeout: 5000))
-                {
-                    ShowStatus("Your version of Markdown Monster is up to date.", mmApp.Configuration.StatusMessageTimeout);
-                    SetStatusIcon(FontAwesomeIcon.Check, Colors.Green);
-
+                {                    
+                    ShowStatusSuccess("Your version of Markdown Monster is up to date.");                   
                     MessageBox.Show(
                         "Your version of Markdown Monster is v" + mmApp.GetVersion() + " and you are up to date.",
                         mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -2286,7 +2282,7 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Displays an error message using common defaults
+        /// Displays an error message using common defaults for a timeout milliseconds
         /// </summary>
         /// <param name="message">Message to display</param>
         /// <param name="timeout">optional timeout</param>
@@ -2302,6 +2298,45 @@ namespace MarkdownMonster
 
             ShowStatus(message, timeout, icon, color);
         }
+
+        /// <summary>
+        /// Shows a success message with a green check icon for the timeout
+        /// </summary>
+        /// <param name="message">Message to display</param>
+        /// <param name="timeout">optional timeout</param>
+        /// <param name="icon">optional icon (warning)</param>
+        /// <param name="color">optional color (firebrick)</param>
+        public void ShowStatusSuccess(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.CheckCircle, Color color = default(Color))
+        {
+            if (timeout == -1)
+                timeout = mmApp.Configuration.StatusMessageTimeout;
+
+            if (color == default(Color))
+                color = Colors.Green;
+
+            ShowStatus(message, timeout, icon, color);
+        }
+
+
+        /// <summary>
+        /// Displays an Progress message using common defaults including a spinning icon
+        /// </summary>
+        /// <param name="message">Message to display</param>
+        /// <param name="timeout">optional timeout</param>
+        /// <param name="icon">optional icon (warning)</param>
+        /// <param name="color">optional color (firebrick)</param>
+        /// <param name="spin"></param>
+        public void ShowStatusProgress(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.CircleOutlineNotch, Color color = default(Color), bool spin = true)
+        {
+            if (timeout == -1)
+                timeout = mmApp.Configuration.StatusMessageTimeout;
+
+            if (color == default(Color))
+                color = Colors.Goldenrod;
+
+            ShowStatus(message, timeout, icon, color,spin);
+        }
+
 
         //public void ShowStatus(string message = null, int milliSeconds = 0,
         //    FontAwesomeIcon icon = FontAwesomeIcon.None,
@@ -2324,7 +2359,7 @@ namespace MarkdownMonster
             StatusIcon.Icon = icon;
             StatusIcon.Foreground = new SolidColorBrush(color);
             if (spin)
-                StatusIcon.SpinDuration = 1;
+                StatusIcon.SpinDuration = 2;
 
             StatusIcon.Spin = spin;
         }

@@ -617,7 +617,7 @@ namespace MarkdownMonster
                 Directory.SetCurrentDirectory(path);
 
                 int result = ExecuteProcess("git.exe",
-                    $"commit --only \"{file}\" -m \"Updating documentation for {justFile}\".", timeoutMs: 10000);
+                    $"commit --only \"{file}\" -m \"Updating {justFile}\".", timeoutMs: 10000);
                 if (result != 0)
                 {
                     message = $"There are no changes to commit for {justFile}.";

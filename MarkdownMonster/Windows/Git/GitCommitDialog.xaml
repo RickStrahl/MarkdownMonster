@@ -19,7 +19,7 @@
                        WindowStyle="SingleBorderWindow"                    
                        WindowStartupLocation="CenterOwner"         
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-                       Width="750"  MinWidth="690" MinHeight="500" Height="700"
+                       Width="800"  MinWidth="750" MinHeight="500" Height="700"
                        WindowTransitionsEnabled="True" >
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm"/>
@@ -94,22 +94,35 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Name="ButtonOpenGitClient"   Command="{Binding AppModel.Commands.OpenGitClientCommand}" CommandParameter="{Binding Filename}" >
+                    <Button Name="ButtonOpenGitClient"  
+                            ToolTip="Open this repository in your Git client."
+                            Command="{Binding AppModel.Commands.OpenGitClientCommand}" CommandParameter="{Binding Filename}" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,2,5,0" Icon="ExternalLink"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
-                            <TextBlock>Open in Git Client</TextBlock>
+                            <TextBlock>Git Client</TextBlock>
                         </StackPanel> 
+                    </Button>
+
+                    <Button Name="ButtonOpenRemote"  ToolTip="Open Git remote in web browser" Click="ButtonOpenRemote_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="Github" FontSize="18"                                       
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+                            <TextBlock>Remote</TextBlock>
+                        </StackPanel>
                     </Button>
                 </ToolBar>
                 <ToolBar>
-                    <Button controls:VisibilityHelper.IsCollapsed="{Binding ShowUserInfo}" Click="ButtonShowUserInfo_Click" ToolTip="Show Git Commit User Info - stored in settings after update">
+                    <Button controls:VisibilityHelper.IsCollapsed="{Binding ShowUserInfo}" 
+                            Click="ButtonShowUserInfo_Click" ToolTip="Show Git Commit User Info - stored in settings after update">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,2,5,0" Icon="UserOutline"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         </StackPanel>
                     </Button>
-                    <Button  controls:VisibilityHelper.IsCollapsed="{Binding ShowUserInfo}"  ToolTip="More info on using this Dialog" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm">
+                   
+                    <Button  ToolTip="More info on using this Dialog" 
+                             Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,2,5,0" Icon="QuestionCircleOutline"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />

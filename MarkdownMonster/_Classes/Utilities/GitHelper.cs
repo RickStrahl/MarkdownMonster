@@ -353,17 +353,6 @@ namespace MarkdownMonster.Utilities
             try
             {
                 var stageFiles = statusItems
-//                    .Where(si =>
-//                {
-//                    return true;
-//                    if (si.FileStatus == FileStatus.NewInIndex ||
-//                        si.FileStatus == FileStatus.NewInWorkdir ||
-//                        si.FileStatus == FileStatus.RenamedInIndex ||
-//                        si.FileStatus == FileStatus.NewInWorkdir)
-//                        return true;
-//
-//                    return false;
-//                })
                     .Select(si => si.Filename).ToList();
                 if (stageFiles.Count > 0)
                     Commands.Stage(Repository, stageFiles);
@@ -395,6 +384,10 @@ namespace MarkdownMonster.Utilities
             return true;
         }
 
+        public async Task<bool> PushAsync(string path, string branch = null)
+        {
+            return await Task.Run(() => Push(path, branch));
+        }
 
         /// <summary>
         /// Pushes changes to the origin on the remote
