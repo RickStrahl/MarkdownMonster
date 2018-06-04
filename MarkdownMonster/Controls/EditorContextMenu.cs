@@ -155,8 +155,19 @@ namespace MarkdownMonster
             miCopyHtml.Command = Model.Commands.CopyAsHtmlCommand;
             ContextMenu.Items.Add(miCopyHtml);
 
-            var miPaste = new MenuItem() { Header = "Paste", InputGestureText="ctrl-v"};
-            miPaste.Click += (o, args) => model.ActiveEditor?.SetSelection(Clipboard.GetText());
+            bool hasClipboardData = false;
+            var miPaste = new MenuItem() { Header = "Paste", InputGestureText = "ctrl-v" };
+            if (ClipboardHelper.ContainsImage())
+            {
+                hasClipboardData = true;
+                miPaste.Header = "Paste Image";
+                miPaste.Click += (o, args) => model.ActiveEditor?.PasteOperation();                
+            }
+            else
+                hasClipboardData = ClipboardHelper.ContainsText();
+
+            miPaste.IsEnabled = hasClipboardData;
+
             ContextMenu.Items.Add(miPaste);
 
             if (string.IsNullOrEmpty(selText))
@@ -181,8 +192,7 @@ namespace MarkdownMonster
                 }
             }
 
-            if (!Clipboard.ContainsText())
-                miPaste.IsEnabled = false;            
+            
         }
 
         public void AddUndoRedo()

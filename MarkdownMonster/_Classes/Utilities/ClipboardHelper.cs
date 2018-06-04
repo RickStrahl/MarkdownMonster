@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Westwind.Utilities;
@@ -269,6 +270,50 @@ EndSelection:<<<<<<<<4";
                     mmApp.Model.Window.ShowStatusError($"Couldn't set clipboard text: {ex.Message}");
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Safe way to retrieve whether clipboard contains an image
+        /// </summary>
+        /// <returns></returns>
+        public static bool ContainsImage()
+        {
+            int x = 0;
+            while (x++ < 10)
+            {
+                try
+                {
+                    return Clipboard.ContainsImage();
+                }
+                catch
+                {
+                    Thread.Sleep(20);
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Safe way to retrieve whether clipboard contains an image
+        /// </summary>
+        /// <returns></returns>
+        public static bool ContainsText()
+        {
+            int x = 0;
+            while (x++ < 10)
+            {
+                try
+                {
+                    return Clipboard.ContainsText();
+                }
+                catch
+                {
+                    Thread.Sleep(20);
+                }
+            }
+
+            return false;
         }
 
         #endregion

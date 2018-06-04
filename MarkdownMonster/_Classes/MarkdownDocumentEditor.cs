@@ -1603,7 +1603,7 @@ namespace MarkdownMonster
         /// </summary>
         public void PasteOperation()
         {
-            if (Clipboard.ContainsImage())
+            if (ClipboardHelper.ContainsImage())
             {
                 string imagePath = null;
 
