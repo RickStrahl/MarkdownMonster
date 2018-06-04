@@ -21,6 +21,9 @@ Fixed issue where tabs were not ordering the same as during shutdown when restar
 * **Fix: Dirty State when Spell Checking**  
 Fixed dirty state update when selecting a misspelling correction on a clean document.
 
+* **Fix: Blank Preview on Startup**  
+Fix occasional issue with blank previewer when MM starts. Force focus.
+
 * **Markdown Monster .NET Minimum Version is now 4.6.2**  
 Due to some API changes in third party dependencies along with issues in DPI Scaling, Markdown Monster now requires .NET 4.6.2 to run. Previously versions down to 4.5.2 were supported.
 

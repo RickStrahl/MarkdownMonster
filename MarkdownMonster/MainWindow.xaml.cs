@@ -598,7 +598,6 @@ namespace MarkdownMonster
 
                 string firstDoc = conf.RecentDocuments.FirstOrDefault();
 
-
                 // prevent TabSelectionChanged to fire
                 batchTabAction = true;
 
@@ -610,14 +609,17 @@ namespace MarkdownMonster
 
                     if (File.Exists(doc.Filename))
                     {
-                        var tab = OpenTab(doc.Filename, selectTab: false, batchOpen: true,
+                        var tab = OpenTab(doc.Filename, selectTab: false,
+                            batchOpen:true,
                             initialLineNumber: doc.LastEditorLineNumber);
+
                         if (tab == null)
                             continue;
 
                         if (doc.IsActive)
                         {
-                            selectedTab = tab;
+                            selectedTab = tab;                           
+
                             // have to explicitly notify initial activation
                             // since we surpress it on all tabs during startup
                             AddinManager.Current.RaiseOnDocumentActivated(doc);
@@ -625,12 +627,14 @@ namespace MarkdownMonster
                     }
                 }
 
-                if (selectedTab != null)
-                    TabControl.SelectedItem = selectedTab;
-                else
-                    TabControl.SelectedIndex = 0;
-
                 batchTabAction = false;
+
+                if (selectedTab == null)
+                    TabControl.SelectedIndex = 0;
+                else
+                    TabControl.SelectedItem = selectedTab;
+
+                
                 BindTabHeaders();
 
             }
@@ -923,9 +927,6 @@ namespace MarkdownMonster
             {
                 TabControl.SelectedItem = tab;
 
-                //if (showPreviewIfActive && PreviewBrowserContainer.Width > 5)
-                //    PreviewBrowser.PreviewMarkdownAsync();
-
                 SetWindowTitle();
 
                 Model.OnPropertyChanged(nameof(AppModel.ActiveEditor));
@@ -936,11 +937,54 @@ namespace MarkdownMonster
             if (rebindTabHeaders)
                 BindTabHeaders();
 
-            // force bindings to change
+            // force tabstate bindings to update
             Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
             Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
 
             return tab;
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (batchTabAction)
+                return;
+
+            var editor = GetActiveMarkdownEditor();
+            if (editor == null)
+                return;
+
+            var tab = TabControl.SelectedItem as TabItem;
+
+            SetWindowTitle();
+
+            foreach (var doc in Model.OpenDocuments)
+                doc.IsActive = false;
+
+            Model.ActiveDocument = editor.MarkdownDocument;
+            Model.ActiveDocument.IsActive = true;
+
+            AddRecentFile(Model.ActiveDocument?.Filename, noConfigWrite: true);
+
+            AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
+
+
+            ((Grid) PreviewBrowserContainer.Parent)?.Children.Remove(PreviewBrowserContainer);
+            editor.EditorPreviewPane.PreviewBrowserContainer.Children.Add(PreviewBrowserContainer);
+
+            if (tab.Content is Grid grid)
+                grid.Children.Add(PreviewBrowserContainer);
+
+            Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
+
+            if (mmApp.Configuration.IsPreviewVisible)
+                PreviewBrowser?.PreviewMarkdown();
+
+            Model.ActiveEditor.RestyleEditor();
+
+            if (PreviewTab != null && tab != PreviewTab)
+                CloseTab(PreviewTab);
+     
+            Dispatcher.InvokeAsync(() => UpdateDocumentOutline(), DispatcherPriority.ApplicationIdle);
         }
 
 
@@ -993,6 +1037,115 @@ namespace MarkdownMonster
                 PreviewMarkdownAsync();
 
             return tab;
+        }
+
+        /// <summary>
+        /// Opens a preview tab
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="selectTab"></param>
+        /// <returns></returns>
+        public TabItem OpenBrowserTab(string url,
+            bool selectTab = true,
+            bool isImageFile = false,
+            ImageSource icon = null,
+            string tabHeaderText = "Preview")
+        {
+
+            if (PreviewTab == null)
+            {
+                PreviewTab = new TabItem();                                
+                
+                var grid = new Grid();
+                PreviewTab.Header = grid;
+                var col1 = new ColumnDefinition { Width = new GridLength(20) };
+                var col2 = new ColumnDefinition { Width = GridLength.Auto };
+                grid.ColumnDefinitions.Add(col1);
+                grid.ColumnDefinitions.Add(col2);
+
+                if (icon == null)
+                {
+                    if (isImageFile)
+                        icon = FolderStructure.IconList.GetIconFromType("image");
+                    else
+                        icon = FolderStructure.IconList.GetIconFromType("preview");
+                }
+
+                var img = new Image()
+                {
+                    Source = icon,
+                    Height = 16,
+                    Margin = new Thickness(0, 1, 5, 0),
+                    Name = "IconImage"
+                };
+                img.SetValue(Grid.ColumnProperty, 0);
+                grid.Children.Add(img);
+
+
+                var textBlock = new TextBlock
+                {
+                    Name = "HeaderText",
+                    Text = tabHeaderText,
+                    FontWeight = FontWeights.SemiBold,
+                    FontStyle = FontStyles.Italic
+                };
+                textBlock.SetValue(Grid.ColumnProperty, 1);
+                grid.Children.Add(textBlock);
+
+                ControlsHelper.SetHeaderFontSize(PreviewTab, 13F);
+
+                previewBrowser = new IEWebBrowserControl();
+                PreviewTab.Content = previewBrowser;
+                TabControl.Items.Add(PreviewTab);
+
+                PreviewTab.HorizontalAlignment = HorizontalAlignment.Right;
+                PreviewTab.HorizontalContentAlignment = HorizontalAlignment.Right;
+            }
+            else
+            {
+                if (icon == null)
+                {
+                    if (isImageFile)
+                        icon = FolderStructure.IconList.GetIconFromType("image");
+                    else
+                        icon = FolderStructure.IconList.GetIconFromType("preview");
+                }
+
+                var grid  = PreviewTab.Header as Grid;
+                var imgCtrl = grid.FindChild<Image>("IconImage");
+                imgCtrl.Source = icon;
+
+                var header = grid.FindChild<TextBlock>("HeaderText");
+                header.Text = tabHeaderText;
+            }
+            PreviewTab.ToolTip = url;
+
+            try
+            {
+
+                if (isImageFile)
+                {
+                    var file = Path.Combine(App.InitialStartDirectory, "PreviewThemes", "ImagePreview.html");
+                    var content = File.ReadAllText(file).Replace("{{imageUrl}}", url);
+                    File.WriteAllText(file.Replace("ImagePreview.html", "_ImagePreview.html"), content);
+                    url= Path.Combine(App.InitialStartDirectory, "PreviewThemes", "_ImagePreview.html");                    
+                }                    
+
+                previewBrowser.Navigate(url);
+            }
+            catch
+            {
+                previewBrowser.Navigate("about: blank");
+            }
+
+            if (PreviewTab != null && selectTab)
+                TabControl.SelectedItem = PreviewTab;
+
+            // HACK: force refresh of display model
+            Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
+            Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
+
+            return PreviewTab;
         }
 
 
@@ -1107,11 +1260,6 @@ namespace MarkdownMonster
             }
         }
 
-        /// <summary>
-        ///  Flag used to let us know we don't want to perform tab selection operations
-        /// </summary>
-        private bool batchTabAction = false;
-
         public bool CloseAllTabs(TabItem allExcept = null)
         {
             batchTabAction = true;
@@ -1133,6 +1281,11 @@ namespace MarkdownMonster
 
             return true;
         }
+
+        /// <summary>
+        ///  Flag used to let us know we don't want to perform tab selection operations
+        /// </summary>
+        private bool batchTabAction = false;
 
         /// <summary>
         /// Retrieves an open tab based on its filename.
@@ -1197,118 +1350,6 @@ namespace MarkdownMonster
                 else
                     SetTabHeaderBinding(tb, doc, "FilenameWithIndicator");
             }
-        }
-
-
-
-
-        /// <summary>
-        /// Opens a preview tab
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="selectTab"></param>
-        /// <returns></returns>
-        public TabItem OpenBrowserTab(string url,
-            bool selectTab = true,
-            bool isImageFile = false,
-            ImageSource icon = null,
-            string tabHeaderText = "Preview")
-        {
-
-            if (PreviewTab == null)
-            {
-                PreviewTab = new TabItem();                                
-                
-                var grid = new Grid();
-                PreviewTab.Header = grid;
-                var col1 = new ColumnDefinition { Width = new GridLength(20) };
-                var col2 = new ColumnDefinition { Width = GridLength.Auto };
-                grid.ColumnDefinitions.Add(col1);
-                grid.ColumnDefinitions.Add(col2);
-
-                if (icon == null)
-                {
-                    if (isImageFile)
-                        icon = FolderStructure.IconList.GetIconFromType("image");
-                    else
-                        icon = FolderStructure.IconList.GetIconFromType("preview");
-                }
-
-                var img = new Image()
-                {
-                    Source = icon,
-                    Height = 16,
-                    Margin = new Thickness(0, 1, 5, 0),
-                    Name = "IconImage"
-                };
-                img.SetValue(Grid.ColumnProperty, 0);
-                grid.Children.Add(img);
-
-
-                var textBlock = new TextBlock
-                {
-                    Name = "HeaderText",
-                    Text = tabHeaderText,
-                    FontWeight = FontWeights.SemiBold,
-                    FontStyle = FontStyles.Italic
-                };
-                textBlock.SetValue(Grid.ColumnProperty, 1);
-                grid.Children.Add(textBlock);
-
-                ControlsHelper.SetHeaderFontSize(PreviewTab, 13F);
-
-                previewBrowser = new IEWebBrowserControl();
-                PreviewTab.Content = previewBrowser;
-                TabControl.Items.Add(PreviewTab);
-
-                PreviewTab.HorizontalAlignment = HorizontalAlignment.Right;
-                PreviewTab.HorizontalContentAlignment = HorizontalAlignment.Right;
-            }
-            else
-            {
-                if (icon == null)
-                {
-                    if (isImageFile)
-                        icon = FolderStructure.IconList.GetIconFromType("image");
-                    else
-                        icon = FolderStructure.IconList.GetIconFromType("preview");
-                }
-
-                var grid  = PreviewTab.Header as Grid;
-                var imgCtrl = grid.FindChild<Image>("IconImage");
-                imgCtrl.Source = icon;
-
-                var header = grid.FindChild<TextBlock>("HeaderText");
-                header.Text = tabHeaderText;
-            }
-            PreviewTab.ToolTip = url;
-
-            try
-            {
-
-                if (isImageFile)
-                {
-                    var file = Path.Combine(App.InitialStartDirectory, "PreviewThemes", "ImagePreview.html");
-                    var content = File.ReadAllText(file).Replace("{{imageUrl}}", url);
-                    File.WriteAllText(file.Replace("ImagePreview.html", "_ImagePreview.html"), content);
-                    url= Path.Combine(App.InitialStartDirectory, "PreviewThemes", "_ImagePreview.html");                    
-                }                    
-
-                previewBrowser.Navigate(url);
-            }
-            catch
-            {
-                previewBrowser.Navigate("about: blank");
-            }
-
-            if (PreviewTab != null && selectTab)
-                TabControl.SelectedItem = PreviewTab;
-
-            // HACK: force refresh of display model
-            Model.OnPropertyChanged(nameof(AppModel.IsTabOpen));
-            Model.OnPropertyChanged(nameof(AppModel.IsNoTabOpen));
-
-            return PreviewTab;
         }
 
 
@@ -1382,50 +1423,6 @@ namespace MarkdownMonster
                 mmApp.Log("SetTabHeaderBinding Failed. Assigning explicit path", ex);
                 tab.Header = document.FilenameWithIndicator;
             }
-        }
-
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (batchTabAction)
-                return;
-
-            var editor = GetActiveMarkdownEditor();
-            if (editor == null)
-                return;
-
-            var tab = TabControl.SelectedItem as TabItem;
-
-            SetWindowTitle();
-
-            foreach (var doc in Model.OpenDocuments)
-                doc.IsActive = false;
-
-            Model.ActiveDocument = editor.MarkdownDocument;
-            Model.ActiveDocument.IsActive = true;
-
-            AddRecentFile(Model.ActiveDocument?.Filename, noConfigWrite: true);
-
-            AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
-
-
-            ((Grid) PreviewBrowserContainer.Parent)?.Children.Remove(PreviewBrowserContainer);
-            editor.EditorPreviewPane.PreviewBrowserContainer.Children.Add(PreviewBrowserContainer);
-
-            if (tab.Content is Grid grid)
-                grid.Children.Add(PreviewBrowserContainer);
-
-            Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
-
-            if (mmApp.Configuration.IsPreviewVisible)
-                PreviewBrowser?.PreviewMarkdown();
-
-            Model.ActiveEditor.RestyleEditor();
-
-            if (PreviewTab != null && tab != PreviewTab)
-                CloseTab(PreviewTab);
-     
-            Dispatcher.InvokeAsync(() => UpdateDocumentOutline(), DispatcherPriority.ApplicationIdle);
         }
 
 
