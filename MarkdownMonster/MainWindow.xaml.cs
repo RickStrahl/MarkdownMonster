@@ -689,10 +689,15 @@ namespace MarkdownMonster
 
             if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
-                foreach (var recentDocument in config.RecentDocuments.Take(mmApp.Configuration
-                    .RememberLastDocumentsLength))
-                {
-                    var editor = this.GetTabFromFilename(recentDocument)?.Tag as MarkdownDocumentEditor;
+                // Important: collect all open tabs in the **original tab order**
+                foreach(var dragablzItem in TabControl.GetOrderedHeaders())                        
+                { 
+                    if (dragablzItem == null)
+                        continue;
+                    
+                    var tab = dragablzItem.Content as TabItem;
+
+                    var editor = tab.Tag as MarkdownDocumentEditor;
                     var doc = editor?.MarkdownDocument;
                     if (doc == null)
                         continue;
@@ -703,7 +708,20 @@ namespace MarkdownMonster
 
                     config.OpenDocuments.Add(doc);
                 }
-            }
+
+                // now figure out which were recent
+                var recents = mmApp.Configuration.RecentDocuments.Take(mmApp.Configuration.RecentDocumentsLength).ToList();
+
+                // remove all those that aren't in the recent list
+                List<MarkdownDocument> removeList = new List<MarkdownDocument>();
+                foreach (var doc in config.OpenDocuments)
+                {
+                    if (!recents.Any(r=> r.Equals(doc.Filename,StringComparison.InvariantCultureIgnoreCase)))
+                        removeList.Add(doc);
+                }
+                foreach (var remove in removeList)
+                    config.OpenDocuments.Remove(remove);
+            }                            
 
             config.Write();
         }
