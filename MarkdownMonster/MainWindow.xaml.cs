@@ -681,12 +681,9 @@ namespace MarkdownMonster
             else
                 config.FolderBrowser.Visible = false;
 
-
             config.FolderBrowser.FolderPath = FolderBrowser.FolderPath;
 
-
             config.OpenDocuments.Clear();
-
             if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
                 // Important: collect all open tabs in the **original tab order**

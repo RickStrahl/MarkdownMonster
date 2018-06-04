@@ -6,6 +6,25 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.11.10
+<small>June 5th, 2018</small>
+
+* **Open Git Remote in Browser**  
+The Commit dialog now has another option - if there's a Remote associated with the current repository, you can now open the remote in the Web browser. Jumps to the repository root on Github or Bitbucket etc. as long as the URL can just remove the HTTP URL `.git` extension.
+
+* **Explicit Paste Image option on Editor Context Menu**  
+The editor's context menu now shows **Paste Image** if an image is on the clipboard. Text shows as Paste and if no content is present the option is disabled.
+
+* **Fix: Tab Order Preserved for Open Documents on Restart**   
+Fixed issue where tabs were not ordering the same as during shutdown when restarting MM.
+
+* **Fix: Dirty State when Spell Checking**  
+Fixed dirty state update when selecting a misspelling correction on a clean document.
+
+* **Markdown Monster .NET Minimum Version is now 4.6.2**  
+Due to some API changes in third party dependencies along with issues in DPI Scaling, Markdown Monster now requires .NET 4.6.2 to run. Previously versions down to 4.5.2 were supported.
+
+
 ### 1.11.8
 <small>May 30th, 2018</small>
 
