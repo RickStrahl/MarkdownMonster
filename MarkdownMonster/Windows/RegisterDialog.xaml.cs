@@ -31,6 +31,8 @@ namespace MarkdownMonster.Windows
             var accessCount = mmApp.Configuration.ApplicationUpdates.AccessCount;
             RunUsage.Text = $"{accessCount} times";
 
+            Owner = mmApp.Model.Window;
+
             if (accessCount > 200)
                 RunUsage.Foreground = Brushes.Red;
             else if (accessCount > 120)
@@ -42,6 +44,8 @@ namespace MarkdownMonster.Windows
 
             DataContext = this;
 
+            Topmost = true;
+            Loaded += (s, e) => { Dispatcher.Delay(200, (p) => Topmost = false); };
         }
 
         private void Exit_Click(object sender, MouseButtonEventArgs e)

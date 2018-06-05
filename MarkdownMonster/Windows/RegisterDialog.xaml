@@ -6,30 +6,36 @@
         xmlns:local="clr-namespace:MarkdownMonster.Windows"
         mc:Ignorable="d"        
         WindowStyle="None" Background="Black" Foreground="WhiteSmoke"
-        Title="Markdown Monster Registration" Height="406.333" Width="727" 
+        Title="Markdown Monster Registration" Height="555" Width="425" 
         Icon="..\Assets\MarkdownMonster_Icon_256.png"  
-        WindowStartupLocation="CenterOwner" ShowInTaskbar="True" ResizeMode="NoResize">
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False" ResizeMode="NoResize">
     <StackPanel Orientation="Horizontal">
-        <Image Source="../Assets/MarkdownMonster.png" Margin="0,30" Width="300" VerticalAlignment="Top" />
-        <StackPanel Width="355" Margin="45,0,0,0">
-            <TextBlock HorizontalAlignment="Center" Margin="0,35,0,0" Foreground="Cornsilk" FontSize="17">You've been using the trial version of</TextBlock>
-            <TextBlock HorizontalAlignment="Center" FontSize="34" FontWeight="Bold" Margin="0,14,0,14">Markdown Monster</TextBlock>
-            <TextBlock Name="RunUsage"  HorizontalAlignment="Center" Text="Started x times" FontWeight="Bold" FontSize="17"/>
-            <TextBlock TextWrapping="Wrap" Margin="0,20,0,0" Foreground="Cornsilk" HorizontalAlignment="Stretch" >
-                <Run Text="Markdown Monster can be evaluated for free, but a license is required for continued use. "/>                
-                <LineBreak/><Run/><LineBreak/>
-               
-                <Run Text="Thank you for playing fair."/></TextBlock>
-            <Button  Name="ButtonRegister" 
-                    HorizontalAlignment="Center" Margin="0,40,0,20"
+        <StackPanel  Margin="20,10,0,30" Width="390">
+            <Image Source="../Assets/MarkdownMonster.png"
+                   Width="334" VerticalAlignment="Top" 
+                   Height="244" />
+
+            <TextBlock FontSize="24" FontWeight="Bold" Foreground="#ddd"  Margin="0,-19" HorizontalAlignment="Center">is hungry!</TextBlock>
+
+            <TextBlock HorizontalAlignment="Center" Margin="32,32,32,12" Foreground="Cornsilk" FontSize="17" Panel.ZIndex="10"><Run Text="You've been using the evaluation version of"/></TextBlock>
+            
+            <TextBlock x:Name="RunUsage"  HorizontalAlignment="Center" Text="Started x times" FontWeight="Bold" FontSize="17"/>
+            
+            <TextBlock TextWrapping="Wrap" Margin="20,12,20,0" Foreground="Cornsilk"
+                       FontSize="14 "
+                       HorizontalAlignment="Center">
+                <Run Text="Markdown Monster can be evaluated for free, but a license is required for continued use. "/><LineBreak/><Run/><LineBreak/><Run Text="Thank you for playing fair."/>
+            </TextBlock>
+            <Button  x:Name="ButtonRegister" 
+                    HorizontalAlignment="Center" Margin="0,30,0,30"
                             Content="Register your Copy" FontSize="30" FontWeight="Bold" IsDefault="True"
                             Click="Register_Click" 
-                            Style="{DynamicResource LinkButtonStyle}" Width="Auto">
-            </Button>
-            <TextBlock Name="ShutdownTimer" HorizontalAlignment="Center" Width="Auto" />
+                            Style="{DynamicResource LinkButtonStyle}" Width="Auto"/>
+            <TextBlock x:Name="ShutdownTimer" HorizontalAlignment="Center" Width="Auto" />
         </StackPanel>
-        <TextBlock Text="x" FontWeight="Medium" MouseDown="Exit_Click"       
-                   Padding="0,5" Width="13"  FontSize="22" RenderTransformOrigin="0.5,0.5">
+        <TextBlock Text="x" FontWeight="DemiBold" MouseDown="Exit_Click"       
+                   Padding="0,5" Width="14"  FontSize="22" Margin="0,1,0,-1" >
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="-1"/>

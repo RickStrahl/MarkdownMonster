@@ -847,9 +847,10 @@ namespace MarkdownMonster.AddIns
                     mmApp.Log(addin.Id + "::AddIn::OnWindowLoaded Error: " + ex.GetBaseException().Message);
                 }
             }
+
+            UnlockKey.Startup();
         }
-
-
+        
         public void RaiseOnApplicationShutdown()
         {
             foreach (var addin in AddIns)
@@ -863,8 +864,9 @@ namespace MarkdownMonster.AddIns
 
                     mmApp.Log(addin.Id + "::AddIn::OnApplicationShutdown Error: " + ex.GetBaseException().Message);
                 }
-
             }
+
+            UnlockKey.Shutdown();
         }
 
         public bool RaiseOnBeforeOpenDocument(string filename)
