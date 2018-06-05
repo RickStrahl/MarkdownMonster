@@ -768,23 +768,29 @@ namespace MarkdownMonster
 
         #region Tab Handling
 
-        /// <summary>
-        /// Opens a tab by a filename
-        /// </summary>
-        /// <param name="mdFile"></param>
-        /// <param name="editor"></param>
-        /// <param name="showPreviewIfActive"></param>
-        /// <param name="syntax"></param>
-        /// <param name="selectTab"></param>
-        /// <param name="rebindTabHeaders">
-        /// Rebinds the headers which should be done whenever a new Tab is
-        /// manually opened and added but not when opening in batch.
-        ///
-        /// Checks to see if multiple tabs have the same filename open and
-        /// if so displays partial path.
-        ///
-        /// New Tabs are opened at the front of the tab list at index 0
-        /// </param>
+
+        ///  <summary>
+        ///  Opens a tab by a filename
+        ///  </summary>
+        ///  <param name="mdFile"></param>
+        ///  <param name="editor"></param>
+        ///  <param name="showPreviewIfActive"></param>
+        ///  <param name="syntax"></param>
+        ///  <param name="selectTab"></param>
+        ///  <param name="rebindTabHeaders">
+        ///  Rebinds the headers which should be done whenever a new Tab is
+        ///  manually opened and added but not when opening in batch.
+        /// 
+        ///  Checks to see if multiple tabs have the same filename open and
+        ///  if so displays partial path.
+        /// 
+        ///  New Tabs are opened at the front of the tab list at index 0
+        ///  </param>
+        /// <param name="batchOpen"></param>
+        /// <param name="initialLineNumber"></param>
+        /// <param name="readOnly"></param>
+        /// <param name="noFocus"></param>
+        /// <param name="isPreview"></param>        
         /// <returns></returns>
         public TabItem OpenTab(string mdFile = null,
             MarkdownDocumentEditor editor = null,
@@ -795,7 +801,8 @@ namespace MarkdownMonster
             bool batchOpen = false,
             int initialLineNumber = 0,
             bool readOnly = false,
-            bool noFocus = false)
+            bool noFocus = false,
+            bool isPreview = false)
         {
             if (mdFile != null && mdFile != "untitled" &&
                 (!File.Exists(mdFile) ||
@@ -815,10 +822,19 @@ namespace MarkdownMonster
                     EditorSyntax = syntax,
                     InitialLineNumber = initialLineNumber,
                     IsReadOnly = readOnly,
-                    NoInitialFocus = noFocus
+                    NoInitialFocus = noFocus,
+                    IsPreview = isPreview
                 };
 
                 tab.Content = editor.EditorPreviewPane;
+
+                // tab is temporary until edited
+                if (isPreview)
+                {
+                    if (PreviewTab != null)
+                        TabControl.Items.Remove(PreviewTab);
+                    PreviewTab = tab;
+                }
 
                 var doc = new MarkdownDocument()
                 {
@@ -889,14 +905,14 @@ namespace MarkdownMonster
                 }
 
                 editor.MarkdownDocument = doc;
+                tab.Tag = editor;
                 SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
                 tab.ToolTip = doc.Filename;
             }
+            else
+                tab.Tag = editor;
 
             var filename = Path.GetFileName(editor.MarkdownDocument.Filename);
-            tab.Tag = editor;
-
-
             editor.LoadDocument();
 
             // is the tab already open?
@@ -985,9 +1001,29 @@ namespace MarkdownMonster
 
             Model.ActiveEditor.RestyleEditor();
 
+            // handle preview tab closing
             if (PreviewTab != null && tab != PreviewTab)
-                CloseTab(PreviewTab);
-     
+            {                
+                if (PreviewTab.Tag == null)
+                    CloseTab(PreviewTab); // browser preview
+                else
+                {
+                    // preview Markdown Tab
+                    var changedDoc = PreviewTab.Tag as MarkdownDocumentEditor;
+                    if (changedDoc != null)
+                    {
+                        if (changedDoc.IsDirty())
+                        {
+                            // keep the document open
+                            changedDoc.IsPreview = false;
+                            PreviewTab = null;
+                        }
+                        else
+                            CloseTab(PreviewTab);
+                    }
+                }
+            }
+
             Dispatcher.InvokeAsync(() => UpdateDocumentOutline(), DispatcherPriority.ApplicationIdle);
         }
 
@@ -1005,24 +1041,30 @@ namespace MarkdownMonster
         /// <param name="noPreview">If true don't refresh the preview after updating the file</param>
         /// <param name="noSelectTab"></param>
         /// <param name="noFocus">if true don't focus the editor</param>
-        /// <param name="readOnly">if true document can't be edited</param>           
+        /// <param name="readOnly">if true document can't be edited</param>
+        /// <param name="isPreview">Determines whether this tab is treated like a preview tab</param>
         /// <returns>selected tab item or null</returns>
         public TabItem RefreshTabFromFile(string editorFile,
             bool maintainScrollPosition = false,
             bool noPreview = false,
             bool noSelectTab = false,
             bool noFocus = false,
-            bool readOnly = false)
+            bool readOnly = false,
+            bool isPreview = false)
         {
 
             var tab = GetTabFromFilename(editorFile);
             if (tab == null)
-                return OpenTab(editorFile, rebindTabHeaders: true, readOnly: readOnly, noFocus: noFocus, selectTab: !noSelectTab);
+                return OpenTab(editorFile, rebindTabHeaders: true, readOnly: readOnly, noFocus: noFocus, selectTab: !noSelectTab, isPreview:isPreview);
 
             // load the underlying document
             var editor = tab.Tag as MarkdownDocumentEditor;
             if (editor == null)
                 return null;
+
+            editor.IsPreview = isPreview;
+            if (isPreview)
+                PreviewTab = tab;
 
             editor.MarkdownDocument.Load(editorFile);
 
@@ -1030,12 +1072,12 @@ namespace MarkdownMonster
                 editor.SetCursorPosition(0, 0);
 
             editor.SetMarkdown(editor.MarkdownDocument.CurrentText);
-            var state = editor.IsDirty(); // force refresh
 
             if (!noSelectTab)
                 TabControl.SelectedItem = tab;
             if (!noFocus)
                 editor.SetEditorFocus();
+            editor.IsPreview = isPreview;
             
             if (!noPreview)
                 PreviewMarkdownAsync();
@@ -1116,11 +1158,14 @@ namespace MarkdownMonster
                 }
 
                 var grid  = PreviewTab.Header as Grid;
-                var imgCtrl = grid.FindChild<Image>("IconImage");
-                imgCtrl.Source = icon;
 
-                var header = grid.FindChild<TextBlock>("HeaderText");
+                
+                var imgCtrl = grid.Children[0] as Image; //.FindChild<Image>("IconImage");
+                imgCtrl.Source = icon;
+                var header = grid.Children[1] as TextBlock;  // FindChild<TextBlock>("HeaderText");
                 header.Text = tabHeaderText;
+                
+
             }
             PreviewTab.ToolTip = url;
 
@@ -1384,6 +1429,7 @@ namespace MarkdownMonster
         {
             if (document == null || tab == null)
                 return;
+            var editor = tab.Tag as MarkdownDocumentEditor;
 
             try
             {
@@ -1410,7 +1456,7 @@ namespace MarkdownMonster
                 };
                 img.SetValue(Grid.ColumnProperty, 0);
                 grid.Children.Add(img);
-
+               
 
                 var textBlock = new TextBlock();
                 textBlock.SetValue(Grid.ColumnProperty, 1);
@@ -1423,6 +1469,16 @@ namespace MarkdownMonster
                 };
                 BindingOperations.SetBinding(textBlock, TextBlock.TextProperty, headerBinding);
 
+                var fontStyleBinding = new Binding
+                {
+                    Source = editor,
+                    Path = new PropertyPath("IsPreview"),
+                    Mode = BindingMode.OneWay,
+                    Converter = new FontStyleFromBoolConverter()
+                };
+                BindingOperations.SetBinding(textBlock, TextBlock.FontStyleProperty, fontStyleBinding);
+
+
                 var fontWeightBinding = new Binding
                 {
                     Source = tab,
@@ -1433,9 +1489,8 @@ namespace MarkdownMonster
                 BindingOperations.SetBinding(textBlock, TextBlock.FontWeightProperty, fontWeightBinding);
 
 
-                grid.Children.Add(textBlock);
 
-                //BindingOperations.SetBinding(tab, HeaderedContentControl.HeaderProperty, headerBinding);
+                grid.Children.Add(textBlock);                
             }
             catch (Exception ex)
             {
@@ -2489,7 +2544,6 @@ namespace MarkdownMonster
             WindowUtilities.DoEvents();
         }
     }
-
 
     public class RecentDocumentListItem
     {

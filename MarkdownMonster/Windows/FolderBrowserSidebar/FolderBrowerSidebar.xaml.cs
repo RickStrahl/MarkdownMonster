@@ -647,31 +647,28 @@ namespace MarkdownMonster.Windows
                 Window.OpenBrowserTab(filePath, isImageFile: true);
                 return;
             }
-
             
-            Dispatcher.Delay(100, (p) =>
-            {                
-                var tab = AppModel.Window.GetTabFromFilename(filePath);
-                if(tab != null)
-                {
-                    AppModel.Window.TabControl.SelectedItem = tab;
-                    return;
-                }
-                    
+            var tab = AppModel.Window.GetTabFromFilename(filePath);
+            if(tab != null)
+            {
+                AppModel.Window.TabControl.SelectedItem = tab;
+                return;
+            }
+                
 
-                if (ext == ".md" || ext == ".markdown")
-                {
-                    var doc = new MarkdownDocument();
-                    doc.Load(filePath);
-                    doc.RenderHtmlToFile();
-                    Window.OpenBrowserTab(doc.HtmlRenderFilename);
-                }
-                else if (ext == ".html" || ext == ".htm")
-                {
-                    Window.OpenBrowserTab(filePath);
-                }
-            });
+            if (ext == ".md" || ext == ".markdown")
+            {
+                //var doc = new MarkdownDocument();
+                //doc.Load(filePath);
+                //doc.RenderHtmlToFile();
+                //Window.OpenBrowserTab(doc.HtmlRenderFilename);
 
+                Window.RefreshTabFromFile(filePath, isPreview: true);
+            }
+            else if (ext == ".html" || ext == ".htm")
+            {
+                Window.OpenBrowserTab(filePath);
+            }      
         }
 
         private void TreeFolderBrowser_Expanded(object sender, RoutedEventArgs e)
@@ -1443,7 +1440,10 @@ namespace MarkdownMonster.Windows
         private void TreeFolderBrowser_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (Window.PreviewTab != null)
+            {
                 Window.CloseTab(Window.PreviewTab);
+                Window.PreviewTab = null;
+            }
 
             startPoint = e.GetPosition(null);
         }

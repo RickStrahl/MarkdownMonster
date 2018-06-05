@@ -104,6 +104,7 @@ namespace MarkdownMonster
         }
         private string _editorSyntax;
 
+
         public int InitialLineNumber { get; set; }
 
         #region Behavior Properties and Storage
@@ -112,6 +113,21 @@ namespace MarkdownMonster
         /// </summary>
         public bool IsReadOnly { get; set; }
 
+        
+        /// <summary>
+        /// Determines if the the document is treated as a preview
+        /// </summary>
+        public bool IsPreview
+        {
+            get => _isPreview;
+            set
+            {
+                if (value == _isPreview) return;
+                _isPreview = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _isPreview;
 
         /// <summary>
         /// Determines whether the editor is initially focused
@@ -1298,7 +1314,15 @@ namespace MarkdownMonster
             MarkdownDocument.IsDirty = MarkdownDocument.CurrentText != MarkdownDocument.OriginalText;
 
             if (MarkdownDocument.IsDirty)
+            {
                 AddinManager.Current.RaiseOnDocumentChanged();
+                if (IsPreview)
+                {
+                    // flip to regular tab from preview Tab
+                    IsPreview = false;
+                    Window.PreviewTab = null;
+                }
+            }
 
             return MarkdownDocument.IsDirty;
         }
