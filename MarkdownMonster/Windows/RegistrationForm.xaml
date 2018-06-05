@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarkdownMonster.Windows"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
 
         mc:Ignorable="d" FontSize="17"
         Background="black" Foreground="WhiteSmoke"
         Title="Product Registration" 
-        Height="440" 
+        Height="410" 
         Width="640" 
         ResizeMode="NoResize" 
         ShowInTaskbar="False" 
-        WindowStartupLocation="CenterOwner" 
+        WindowStartupLocation="CenterOwner"
         WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -34,7 +35,22 @@
                 <Run Foreground="Firebrick" FontWeight="Bold">Please enter your Registration Key:</Run>
             </TextBlock>
 
-            <PasswordBox Name="TextRegKey" Margin="15,8,20,3" mah:TextBoxHelper.Watermark="Enter your key and press Enter" ></PasswordBox>
+            <Grid Margin="15,8,3,3">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <PasswordBox Name="TextRegKey"  mah:TextBoxHelper.Watermark="Enter your key and press Enter" ></PasswordBox>
+                <Button Grid.Column="1" FontSize="11" FontWeight="Medium"  Margin="3,0,0,0" Click="Register_Click" IsDefault="True">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="Unlock" Margin="0,1,4,0"
+                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" />
+                        <TextBlock>Register</TextBlock>
+                    </StackPanel>
+                    
+                </Button>
+            </Grid>
             <TextBlock Margin="15,7,0,0" Name="LabelIsRegistered" FontSize="12" Foreground="Red">This copy is not registered</TextBlock>
 
 
@@ -42,8 +58,8 @@
                 You can  purchase a registration key 
                 in our online store if you don't have one.
             </TextBlock>
-            <Button Margin="15,10" Content="Buy Registration Key" FontSize="28" FontWeight="Bold" IsDefault="True"
-                    Click="Register_Click"
+            <Button Margin="15,10" Content="Buy Registration Key" FontSize="24" FontWeight="Bold" 
+                    Click="Purchase_Click"
                     Style="{DynamicResource LinkButtonStyle}">
             </Button>
            
