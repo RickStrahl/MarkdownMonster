@@ -654,21 +654,11 @@ namespace MarkdownMonster.Windows
                 AppModel.Window.TabControl.SelectedItem = tab;
                 return;
             }
-                
 
             if (ext == ".md" || ext == ".markdown")
-            {
-                //var doc = new MarkdownDocument();
-                //doc.Load(filePath);
-                //doc.RenderHtmlToFile();
-                //Window.OpenBrowserTab(doc.HtmlRenderFilename);
-
                 Window.RefreshTabFromFile(filePath, isPreview: true);
-            }
             else if (ext == ".html" || ext == ".htm")
-            {
                 Window.OpenBrowserTab(filePath);
-            }      
         }
 
         private void TreeFolderBrowser_Expanded(object sender, RoutedEventArgs e)
