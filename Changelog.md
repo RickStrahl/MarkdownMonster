@@ -15,6 +15,9 @@ The Commit dialog now has another option - if there's a Remote associated with t
 * **Explicit Paste Image option on Editor Context Menu**  
 The editor's context menu now shows **Paste Image** if an image is on the clipboard. Text shows as Paste and if no content is present the option is disabled.
 
+* **Add File Information to Image Preview**  
+The image preview tab now displays image name, file size and dimensions below the image.
+
 * **Fix: Tab Order Preserved for Open Documents on Restart**   
 Fixed issue where tabs were not ordering the same as during shutdown when restarting MM.
 
