@@ -8,7 +8,7 @@ var te = window.textEditor = {
     editor: null, // Ace Editor instance
     previewRefresh: 800,
     settings: editorSettings,
-    lastError: null,
+    lastError: null,    
     dic: null,
     aff: null,
     isDirty: false,
@@ -665,15 +665,9 @@ var te = window.textEditor = {
     checkSpelling: function (word) {        
         if (!word || !editorSettings.enableSpellChecking)
             return true;
-
-        // use typo
-        if (spellcheck.dictionary) {            
-            var isOk = spellcheck.dictionary.check(word);            
-            return isOk;
-        }
-
-        // use COM object        
-        return te.mm.textbox.CheckSpelling(word,editorSettings.dictionary,false);
+        if (te.mm)   
+            // use COM object        
+            return te.mm.textbox.CheckSpelling(word,editorSettings.dictionary,false);
     },
     showSuggestions: function (e) {
         try {
@@ -721,8 +715,8 @@ var te = window.textEditor = {
         if (sc)
             sc.spellCheck(true);
     },
-    replaceSpellRange: function(range, text) {
-        te.editor.getSession().replace(range, text); 
+    replaceSpellRange: function (range, text) {        
+        te.editor.getSession().replace(range, text);         
         if (sc)
             sc.spellCheck(true);
     },
