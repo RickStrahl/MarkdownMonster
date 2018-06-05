@@ -13,21 +13,23 @@
              overflow: hidden;
              font-family: 'Segoe UI';
              font-size: 8.75pt;
-             color: #eee;            
+             color: #eee;
+             overflow: visible;
          }
         body{
             display:flex;            
             align-items: center;
             justify-content: center;
         }
-        #ImageContainer {            
-            display: block;      
+        #ImageContainer {
+            margin: 10px;            
             max-width: 100%;
-            overflow: hidden;
-            margin: 10px;
+            max-height: 100%;
+            overflow-x: hidden;
+            overflow-y: visible;
         }
-        img { 
-            max-width: 100%;
+        img {
+            max-width: 100%;            
             border-radius: 5px;
         }
         .image-caption {
