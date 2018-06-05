@@ -811,7 +811,7 @@ namespace MarkdownMonster
 
             var tab = new TabItem();
             tab.Background = Background;
-
+            
             ControlsHelper.SetHeaderFontSize(tab, 13F);
 
             if (editor == null)
@@ -827,6 +827,7 @@ namespace MarkdownMonster
                 };
 
                 tab.Content = editor.EditorPreviewPane;
+                tab.Tag = editor;
 
                 // tab is temporary until edited
                 if (isPreview)
@@ -904,8 +905,7 @@ namespace MarkdownMonster
                     }
                 }
 
-                editor.MarkdownDocument = doc;
-                tab.Tag = editor;
+                editor.MarkdownDocument = doc;                
                 SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
                 tab.ToolTip = doc.Filename;
             }
@@ -1098,6 +1098,13 @@ namespace MarkdownMonster
             string tabHeaderText = "Preview")
         {
 
+            // if a document preview tab is open close it
+            if (PreviewTab?.Tag != null)
+            {
+                CloseTab(PreviewTab);
+                PreviewTab = null;
+            }
+
             if (PreviewTab == null)
             {
                 PreviewTab = new TabItem();                                
@@ -1230,7 +1237,6 @@ namespace MarkdownMonster
 
             if (tab == PreviewTab)
             {
-
                 tab.Content = null;
                 TabControl.Items.Remove(tab);
                 PreviewTab = null;

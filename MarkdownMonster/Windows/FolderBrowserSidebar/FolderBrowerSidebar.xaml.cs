@@ -1441,8 +1441,13 @@ namespace MarkdownMonster.Windows
         {
             if (Window.PreviewTab != null)
             {
-                Window.CloseTab(Window.PreviewTab);
-                Window.PreviewTab = null;
+                var filename = (Window.PreviewTab.Tag as MarkdownDocumentEditor)?.MarkdownDocument?.Filename;
+                if (filename != null)
+                {
+                    var ext = Path.GetExtension(filename)?.ToLower();
+                    if (ext == ".jpg" || ext == ".png" || ext == ".gif" || ext == ".jpeg")
+                        Window.CloseTab(Window.PreviewTab);
+                }
             }
 
             startPoint = e.GetPosition(null);
