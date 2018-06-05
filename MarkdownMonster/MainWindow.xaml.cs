@@ -30,6 +30,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -50,10 +51,13 @@ using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
 using Binding = System.Windows.Data.Binding;
+using Brushes = System.Windows.Media.Brushes;
 using Clipboard = System.Windows.Clipboard;
+using Color = System.Windows.Media.Color;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using DataFormats = System.Windows.DataFormats;
 using DragEventArgs = System.Windows.DragEventArgs;
+using Image = System.Windows.Controls.Image;
 using MenuItem = System.Windows.Controls.MenuItem;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -1126,7 +1130,22 @@ namespace MarkdownMonster
                 if (isImageFile)
                 {
                     var file = Path.Combine(App.InitialStartDirectory, "PreviewThemes", "ImagePreview.html");
-                    var content = File.ReadAllText(file).Replace("{{imageUrl}}", url);
+                    string fileInfo = null;
+
+                    try
+                    {
+                        string filename = Path.GetFileName(url);
+                        string fileDimension;
+                        using (var bmp = new Bitmap(url))
+                        {
+                            fileDimension = $"{bmp.Width}x{bmp.Height}";
+                        }
+                        var fileSize = ((decimal) (new FileInfo(url).Length) / 1000).ToString("N1");
+                        fileInfo = $"<b>{filename}</b> - {fileDimension} &nbsp; {fileSize}kb";
+                    }
+                    catch { }
+
+                    var content = File.ReadAllText(file).Replace("{{imageUrl}}", url).Replace("{{fileInfo}}",fileInfo);
                     File.WriteAllText(file.Replace("ImagePreview.html", "_ImagePreview.html"), content);
                     url= Path.Combine(App.InitialStartDirectory, "PreviewThemes", "_ImagePreview.html");                    
                 }                    

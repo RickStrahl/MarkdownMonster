@@ -3,23 +3,42 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>        
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />   
-    <style>    
+    <style>            
         body, html {
-            margin: 0;
-            height: 100%;
-            min-height: 100%;
-            width: 100%;
-            background: #252525;
-            overflow: hidden;
+             margin: 0;
+             height: 100%;
+             min-height: 100%;
+             width: 100%;
+             background: #252525;
+             overflow: hidden;
+             font-family: 'Segoe UI';
+             font-size: 8.75pt;
+             color: #eee;            
+         }
+        body{
+            display:flex;            
+            align-items: center;
+            justify-content: center;
         }
-        img {            
+        #ImageContainer {            
+            display: block;      
             max-width: 100%;
-            margin: 15px auto;            
-            display: block;
+            overflow: hidden;
+            margin: 10px;
+        }
+        img { 
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .image-caption {
+            margin-top: 3px;            
         }
     </style>
 </head>
-<body>        
+<body>    
+<div id="ImageContainer">
     <img id="Image" src="{{imageUrl}}" />
+    <div class="image-caption">{{fileInfo}}</div>
+</div>
 </body>
 </html>
