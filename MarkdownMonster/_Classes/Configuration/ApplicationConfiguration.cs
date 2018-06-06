@@ -593,7 +593,7 @@ namespace MarkdownMonster
             AutoSaveDocuments = false;
 
             RecentDocumentsLength = 12;
-            RememberLastDocumentsLength = 3;
+            RememberLastDocumentsLength = 5;
             
             
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
