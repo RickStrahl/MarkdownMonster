@@ -41,6 +41,8 @@ namespace MarkdownMonster.Windows
                 MessageBox.Show("Thank you for your registration.", mmApp.ApplicationName,
                     MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
+
+                UnlockKey.Shutdown();
             }
             else
             {

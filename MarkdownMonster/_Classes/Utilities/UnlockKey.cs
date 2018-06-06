@@ -165,6 +165,9 @@ namespace MarkdownMonster
         public static void Shutdown()
         {
             timer?.Stop();
+            timer?.Dispose();
+            timer = null;
+
             try
             {
                 regDialog?.Close();
