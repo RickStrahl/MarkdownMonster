@@ -9,11 +9,11 @@
 // enableSpellChecking = true
 // }
 
-(function() {    
+(function() {
     window.sc = window.spellcheck = {
         interval: null,
         firstpass: true,
-        spellCheck: function () { },
+        spellCheck: function() {},
         misspelled: misspelled,
         dictionary: null, // Typo instance
         markers: [],
@@ -55,7 +55,8 @@
 
             if (sc.firstpass) {
                 // Make red underline for gutter and words.
-                $("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</script>")
+                $(
+                        "<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</script>")
                     .appendTo("head");
             }
 
@@ -145,60 +146,61 @@
                         lineCount++;
 
                         // setTimeout to free up processor in between lines
-                        setTimeout(function (line, isLast) {
-                            var lineText = lines[line];
+                        setTimeout(function(line, isLast) {
+                                var lineText = lines[line];
 
-                            var trimText = lineText.trim();
-                            if (isFrontMatter && (trimText == "---" || trimText == "..."))
-                                isFrontMatter = false;
-                            if (line == 0 && trimText == "---")
-                                isFrontMatter = true;
+                                var trimText = lineText.trim();
+                                if (isFrontMatter && (trimText == "---" || trimText == "..."))
+                                    isFrontMatter = false;
+                                if (line == 0 && trimText == "---")
+                                    isFrontMatter = true;
 
 
-                            if (lineText && lineText.length > 2 && lineText.substr(0, 3) === "```") {
+                                if (lineText && lineText.length > 2 && lineText.substr(0, 3) === "```") {
 
-                                if (lineText.trim().length > 3)
-                                    isCodeBlock = true;
-                                else
-                                    isCodeBlock = false;
+                                    if (lineText.trim().length > 3)
+                                        isCodeBlock = true;
+                                    else
+                                        isCodeBlock = false;
 
-                            }
-                            if (!isCodeBlock && !isFrontMatter) {
-
-                                // skip word we're typing right now
-                                var skipWord = null;
-                                if (curPos.row === line)
-                                    skipWord = te.editor.session.getTextRange(
-                                        te.editor.session.getAWordRange(curPos.row, curPos.column));
-
-                                // Check spelling of this line.
-                                var misspellings = misspelled(lineText, skipWord);
-
-                                //// Add markers and gutter markings.
-                                //if (misspellings.length > 0) {
-                                //    session.addGutterDecoration(i, "misspelled");
-                                //}
-                                for (var j in misspellings) {
-                                    j = j * 1;
-                                    var range = new Range(line * 1,
-                                        misspellings[j][0],
-                                        line * 1,
-                                        misspellings[j][1]);
-                                    var marker =
-                                        session.addMarker(range, "misspelled", "mm", true);
-                                    var word = misspellings[j][2];
-                                    range.misspelled = word;
-                                    sc.markers[sc.markers.length] = marker;
                                 }
-                            }
-                            if (isLast) {
-                                currentlySpellchecking = false;
-                                sc.contentModified = false;
-                            }
-                        }.bind(this, line, lineCount >= bottomRow - 1),
+                                if (!isCodeBlock && !isFrontMatter) {
+
+                                    // skip word we're typing right now
+                                    var skipWord = null;
+                                    if (curPos.row === line)
+                                        skipWord = te.editor.session.getTextRange(
+                                            te.editor.session.getAWordRange(curPos.row, curPos.column));
+
+                                    // Check spelling of this line.
+                                    var misspellings = misspelled(lineText, skipWord);
+
+                                    //// Add markers and gutter markings.
+                                    //if (misspellings.length > 0) {
+                                    //    session.addGutterDecoration(i, "misspelled");
+                                    //}
+                                    for (var j in misspellings) {
+                                        j = j * 1;
+                                        var range = new Range(line * 1,
+                                            misspellings[j][0],
+                                            line * 1,
+                                            misspellings[j][1]);
+                                        var marker =
+                                            session.addMarker(range, "misspelled", "mm", true);
+                                        var word = misspellings[j][2];
+                                        range.misspelled = word;
+                                        sc.markers[sc.markers.length] = marker;
+                                    }
+                                }
+                                if (isLast) {
+                                    currentlySpellchecking = false;
+                                    sc.contentModified = false;
+                                }
+                            }.bind(this, line, lineCount >= bottomRow - 1),
                             40);
                     }
-                } finally { }
+                } finally {
+                }
             }
 
         }
@@ -207,37 +209,61 @@
     // Check the spelling of a line, and return [start, end]-pairs for misspelled words.
     // skipWord - a word to skip translating most likely because we're on it
     function misspelled(line, skipWord) {
-        // split line by word boundaries
-        var words = line.split(/[^a-zA-Z0-9\'`]/); 
+        if (!line)
+            return [];
 
-        //console.log(words);
-
+        // replace inline code blocks with 9's so it isn't parsed
+        var codeblocks = line.match(/`.*?`/g);        
+        if (codeblocks) {
+            for (var i = 0; i < codeblocks.length; i++) {
+                var match = codeblocks[i];
+                
+                line = line.replace(match, new Array(match.length + 1).join("9")); // repeat
+            }
+        }
+        
+        // split line by word boundaries - any non alpha-numeric characters plus ' and white space
+        var words = line.split(/[^a-zA-Z0-9\']|\s/);
+        
         var i = 0;
         var bads = [];
         for (var wordIndex in words) {
             var word = words[wordIndex] + "";
+
+            if (!word) {
+                i += 1;
+                continue;
+            }
+
             if (word && (word == skipWord || word.indexOf("--") > -1))
-                continue;            
+                continue;
+
+            var charoffset = 0; // if we strip characters adjust the offsets
 
             // only use words without special characters
             if (word.length > 1 &&
-                window.sc.excludedWords.indexOf("," + word + ",") == -1 &&
-                !word.match(/[0-9]/g)) {
-                
-                if (word[0] == "'")
+                sc.excludedWords.indexOf("," + word + ",") == -1) {
+
+                if (word[0] === "'") {
                     word = word.substr(1);
-                if (word[word.length - 1] == "'")
+                    charoffset++;
+                }
+                if (word[word.length - 1] === "'") {
                     word = word.substr(0, word.length - 1);
-                
-                //console.log(word);
+                    charoffset--;
+                }
 
                 var isOk = te.checkSpelling(word);
-                if (!isOk)
-                    bads[bads.length] = [i, i + words[wordIndex].length, word];
+                if (!isOk) {
+                    if (charoffset > 0)
+                        bads[bads.length] = [i + charoffset, i + words[wordIndex].length, word];
+                    else
+                        bads[bads.length] = [i, i + words[wordIndex].length + charoffset, word];
+                }
             }
-            i += words[wordIndex].length + 1;
+            i += words[wordIndex].length  + 1;
         }
         return bads;
     }
-
+    
 })();
