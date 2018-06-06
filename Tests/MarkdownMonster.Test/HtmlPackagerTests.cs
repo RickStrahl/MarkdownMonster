@@ -58,5 +58,20 @@ namespace MarkdownMonster.Test
 
         }
 
+        [TestMethod]
+        public void PackageLooseFiles()
+        {
+            var packager = new HtmlPackager();
+            string outputFile = @"c:\temp\GeneratedHtml\Output.html";
+
+            bool result = packager.PackageHtmlToFolder("http://west-wind.com/",outputFile,null,true);
+            Assert.IsTrue(result);
+
+            ShellUtils.GoUrl(outputFile);
+
+            
+            
+        }
+
     }
 }

@@ -19,32 +19,39 @@ namespace MarkdownMonster.Utilities
         
         public string UrlOrFile { get; set; }
 
+        bool CreateExternalFiles { get; set; }
+
+        public string OutputPath { get; set; }
         Uri BaseUri { get; set; }
 
+        #region Main API
 
-        /// <summary>
-        /// Packages an HTML document into a large single file package
-        /// that embeds all images, css, scripts, fonts and other url()
-        /// loaded entries into the HTML document.
-        ///
-        /// The result is a very large document that is fully self-contained        
-        /// </summary>
-        /// <param name="urlOrFile">A Web Url or fully qualified local file name</param>
-        /// <param name="basePath">
-        /// An optional basePath for the document which helps resolve relative
-        /// paths. Unless there's a special use case, you should leave this
-        /// value blank and let the default use either the value from a
-        /// BASE tag or the base location of the document.
-        ///
-        /// If the document itself contains a BASE tag this value is not used.
-        /// </param>
-        /// <returns></returns>
-        public string PackageHtml(string urlOrFile, string basePath = null)
+        ///  <summary>
+        ///  Packages an HTML document into a large single file package
+        ///  that embeds all images, css, scripts, fonts and other url()
+        ///  loaded entries into the HTML document.
+        /// 
+        ///  The result is a very large document that is fully self-contained        
+        ///  </summary>
+        ///  <param name="urlOrFile">A Web Url or fully qualified local file name</param>
+        ///  <param name="basePath">
+        ///  An optional basePath for the document which helps resolve relative
+        ///  paths. Unless there's a special use case, you should leave this
+        ///  value blank and let the default use either the value from a
+        ///  BASE tag or the base location of the document.
+        /// 
+        ///  If the document itself contains a BASE tag this value is not used.
+        ///  </param>
+        /// <param name="createExternalFiles"></param>
+        /// <returns>HTML string or null</returns>
+        public string PackageHtml(string urlOrFile, string basePath = null, bool createExternalFiles = false)
         {
             if (string.IsNullOrEmpty(urlOrFile))
                 return urlOrFile;
 
             UrlOrFile = urlOrFile;
+
+            CreateExternalFiles = createExternalFiles;
 
             HtmlDocument doc;
             var tempFile = Path.GetTempFileName();
@@ -114,6 +121,77 @@ namespace MarkdownMonster.Utilities
             return html;
         }
 
+        /// <summary>
+        /// Packages an HTML document into a large single file package
+        /// that embeds all images, css, scripts, fonts and other url()
+        /// loaded entries into the HTML document.
+        ///
+        /// The result is a very large document that is fully self-contained        
+        /// </summary>
+        /// <param name="urlOrFile">A Web Url or fully qualified local file name</param>
+        /// <param name="basePath">
+        /// An optional basePath for the document which helps resolve relative
+        /// paths. Unless there's a special use case, you should leave this
+        /// value blank and let the default use either the value from a
+        /// BASE tag or the base location of the document.
+        ///
+        /// If the document itself contains a BASE tag this value is not used.
+        /// </param>
+        /// <returns>HTML string or null</returns>
+        public bool PackageHtmlToFile(string urlOrFile, string outputFile, string basePath = null, bool createExternalFiles = false)
+        {
+            var html = PackageHtml(urlOrFile, basePath, createExternalFiles);
+            if (string.IsNullOrEmpty(html))
+                return false;
+
+            try
+            {
+                File.WriteAllText(outputFile, html);
+            }
+            catch
+            {                
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Packages an HTML document into a file with all dependencies
+        /// dumped into the file's output folder and adjusted for the
+        /// same local path.       
+        /// </summary>
+        /// <param name="urlOrFile">A Web Url or fully qualified local file name</param>
+        /// <param name="outputFile">Location for the output file. Folder is created if it doesn't exist. All dependencies are dumped into this folder</param>
+        /// <param name="basePath">
+        /// An optional basePath for the document which helps resolve relative
+        /// paths. Unless there's a special use case, you should leave this
+        /// value blank and let the default use either the value from a
+        /// BASE tag or the base location of the document.
+        ///
+        /// If the document itself contains a BASE tag this value is not used.
+        /// </param>
+        /// <returns>HTML string or null</returns>
+        public bool PackageHtmlToFolder(string urlOrFile, string outputFile, string basePath = null, bool deleteFolderContents = false)
+        {
+            OutputPath = Path.GetDirectoryName(outputFile);
+
+            if (deleteFolderContents && Directory.Exists(OutputPath))            
+                Directory.Delete(OutputPath, true);
+            
+
+            if (!Directory.Exists(OutputPath))
+            {
+                Directory.CreateDirectory(OutputPath);                
+            }
+            
+            return PackageHtmlToFile(urlOrFile, outputFile, basePath, true);
+        }
+
+        #endregion
+
+        #region Processors
+
         private void ProcessCss(HtmlDocument doc)
         {
             var links = doc.DocumentNode.SelectNodes("//link");
@@ -129,6 +207,8 @@ namespace MarkdownMonster.Utilities
                     continue;
 
                 string linkData;
+                string justFilename = null;
+
                 if (url.StartsWith("http"))
                 {
                     var http = new WebClient();
@@ -138,6 +218,7 @@ namespace MarkdownMonster.Utilities
                 {                                       
                    url = url.Substring(8);
                    linkData = File.ReadAllText(url);
+                   justFilename = Path.GetFileName(url);
                 }
                 else // Relative Path
                 {
@@ -150,13 +231,29 @@ namespace MarkdownMonster.Utilities
                     }
                     else
                         linkData = File.ReadAllText(url);
+
+                    justFilename = Path.GetFileName(url);                    
                 }
 
                 linkData = ProcessUrls(linkData, originalUrl);
-                
                 var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
-                el.Name = "style";
-                el.InnerHtml = "\r\n" + linkData + "\r\n";
+
+                if (CreateExternalFiles)
+                {
+                    if (string.IsNullOrEmpty(justFilename))
+                        justFilename = DataUtils.GenerateUniqueId(10) + ".css";
+
+                    var fullPath = Path.Combine(OutputPath, justFilename);
+                    File.WriteAllText(fullPath, linkData);
+                    el.Name = "link";
+                    el.Attributes.Add("href", justFilename);
+                    el.Attributes.Add("rel", "stylesheet");
+                }
+                else
+                {                 
+                    el.Name = "style";
+                    el.InnerHtml = "\r\n" + linkData + "\r\n";
+                }
 
                 link.ParentNode.InsertAfter(el, link);
                 link.Remove();
@@ -169,7 +266,7 @@ namespace MarkdownMonster.Utilities
             if (scripts == null || scripts.Count < 1)
                 return;
 
-            
+
             foreach (var script in scripts)
             {
                 var url = script.Attributes["src"]?.Value;
@@ -177,15 +274,16 @@ namespace MarkdownMonster.Utilities
                     continue;
 
                 byte[] scriptData;
+                string justFilename = null;
                 if (url.StartsWith("http"))
-                {                    
+                {
                     var http = new WebClient();
                     scriptData = http.DownloadData(url);                    
                 }
                 else if (url.StartsWith("file:///"))
                 {
                     url = url.Substring(8);
-                    scriptData = File.ReadAllBytes(url);
+                    scriptData = File.ReadAllBytes(url);                    ;
                 }
                 else // Relative Path
                 {
@@ -196,7 +294,7 @@ namespace MarkdownMonster.Utilities
                         if (url.StartsWith("http") && url.Contains("://"))
                         {
                             var http = new WebClient();
-                            scriptData = http.DownloadData(url);
+                            scriptData = http.DownloadData(url);                            
                         }
                         else
                             scriptData = File.ReadAllBytes(url);
@@ -207,12 +305,26 @@ namespace MarkdownMonster.Utilities
                     }
                 }
 
-                string data = $"data:text/javascript;base64,{Convert.ToBase64String(scriptData)}";
-
                 var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
                 el.Name = "script";
-                el.Attributes.Add("src", data);
-                
+
+                if (CreateExternalFiles)
+                {
+                    justFilename = Path.GetFileName(url);
+                    string justExt = Path.GetExtension(url);
+                    if (string.IsNullOrEmpty(justExt))
+                        justFilename = DataUtils.GenerateUniqueId(10) + ".js";
+
+                    var fullPath = Path.Combine(OutputPath,justFilename);
+                    File.WriteAllBytes(fullPath,scriptData);
+                    el.Attributes.Add("src", justFilename);
+                }
+                else
+                {
+                    string data = $"data:text/javascript;base64,{Convert.ToBase64String(scriptData)}";
+                    el.Attributes.Add("src", data);
+                }
+
                 script.ParentNode.InsertAfter(el, script);
                 script.Remove();
 
@@ -279,11 +391,32 @@ namespace MarkdownMonster.Utilities
                 if (imageData == null)
                     continue;
 
-                string data = $"data:{contentType};base64,{Convert.ToBase64String(imageData)}";
 
                 var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
                 el.Name = "img";
-                el.Attributes.Add("src",data);
+
+                if (CreateExternalFiles)
+                {
+                    var ext = "png";
+                    if (contentType == "image/jpeg")
+                        ext = "jpg";
+                    else if (contentType == "image/gif")
+                        ext = "gif";
+
+                    string justFilename = Path.GetFileName(url);
+                    string justExt = Path.GetExtension(url);
+                    if (string.IsNullOrEmpty(justExt))                         
+                        justFilename = DataUtils.GenerateUniqueId(10) + "." + ext;
+
+                    var fullPath = Path.Combine(OutputPath, justFilename);
+                    File.WriteAllBytes(fullPath, imageData);
+                    el.Attributes.Add("src", justFilename);
+                }
+                else
+                {
+                    string data = $"data:{contentType};base64,{Convert.ToBase64String(imageData)}";
+                    el.Attributes.Add("src", data);
+                }
 
                 image.ParentNode.InsertAfter(el, image);
                 image.Remove();
@@ -294,7 +427,14 @@ namespace MarkdownMonster.Utilities
 
         private static Regex urlRegEx = new Regex("url\\(.*?\\)", RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
-
+        /// <summary>
+        /// Processes embedded url('link') links and embeds the data
+        /// and returns the expanded HTML string either with embedded
+        /// content, or externalized links.
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="baseUrl"></param>
+        /// <returns></returns>
         private string ProcessUrls(string html, string baseUrl)
         {
             var matches = urlRegEx.Matches(html);
@@ -360,13 +500,32 @@ namespace MarkdownMonster.Utilities
                 if (linkData == null)
                     continue;
 
-                string data = $"data:{contentType};base64,{Convert.ToBase64String(linkData)}";
-                var replace = "url('" + data + "')";
+                string urlContent = null;
+                if (CreateExternalFiles)
+                {
+                    var ext = "png";
+                    if (contentType == "image/jpeg")
+                        ext = "jpg";
+                    else if (contentType == "image/gif")
+                        ext = "gif";
 
-                html = html.Replace(matched, replace);                
+                    string justFilename = Path.GetFileName(url);
+                    string justExt = Path.GetExtension(url);
+                    if (string.IsNullOrEmpty(justExt))
+                        justFilename = DataUtils.GenerateUniqueId(10) + "." + ext;
+                    urlContent = "url('" + justFilename + "')";
+                }
+                else
+                {
+                    string data = $"data:{contentType};base64,{Convert.ToBase64String(linkData)}";
+                    urlContent = "url('" + data + "')";
+                }
+
+                html = html.Replace(matched, urlContent);                
             }
 
             return html;
         }
     }
+    #endregion
 }
