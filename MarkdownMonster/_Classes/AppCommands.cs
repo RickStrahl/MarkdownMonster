@@ -447,7 +447,8 @@ namespace MarkdownMonster
                 SaveFileDialog sd = new SaveFileDialog
                 {
                     Filter =
-                        "Self contained Html Page (Html with embedded dependencies)|*.html|" +
+                        "Self contained Html Page with embedded dependencies (1 large file)|*.html|" +
+                        "Html Page with loose assets in Folder (pick an empty folder)|*.html|" +
                         "Raw Html Fragment (generated Html only)|*.html",
                     FilterIndex = 1,
                     InitialDirectory = folder,
@@ -476,7 +477,7 @@ namespace MarkdownMonster
 
                 if (result != null && result.Value)
                 {
-                    if (sd.FilterIndex == 2)
+                    if (sd.FilterIndex == 3)
                     {
                         var html = doc.RenderMarkdown(doc.GetMarkdown(),
                             mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
@@ -492,7 +493,7 @@ namespace MarkdownMonster
 
                         mmFileUtils.OpenFileInExplorer(sd.FileName);
                         Model.Window.ShowStatus("Raw HTML File created.", mmApp.Configuration.StatusMessageTimeout);
-                    }
+                    }                    
                     else
                     {
 
@@ -515,11 +516,18 @@ namespace MarkdownMonster
 
                             string packaged;
                             var packager = new HtmlPackager();
-                            packaged = packager.PackageHtml(sd.FileName);
 
-                            File.WriteAllText(sd.FileName, packaged);
+                            bool packageResult;
 
-                            mmFileUtils.OpenFileInExplorer(sd.FileName);
+                            if(sd.FilterIndex == 1)
+                                packageResult = packager.PackageHtmlToFile(sd.FileName, sd.FileName);
+                            else
+                            {                                
+                                packageResult = packager.PackageHtmlToFolder(sd.FileName, sd.FileName,deleteFolderContents: false);
+                            }
+
+                            if (packageResult)
+                                mmFileUtils.OpenFileInExplorer(sd.FileName);                          
                         }
                         catch (Exception ex)
                         {
