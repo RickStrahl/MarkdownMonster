@@ -715,7 +715,7 @@ namespace MarkdownMonster
                 }
 
                 // now figure out which were recent
-                var recents = mmApp.Configuration.RecentDocuments.Take(mmApp.Configuration.RecentDocumentsLength).ToList();
+                var recents = mmApp.Configuration.RecentDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength).ToList();
 
                 // remove all those that aren't in the recent list
                 List<MarkdownDocument> removeList = new List<MarkdownDocument>();
