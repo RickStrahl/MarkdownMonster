@@ -6,17 +6,29 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.11.11
-<small>June 5th, 2018</small>
+### 1.11.12
+<small>June 7th, 2018</small>
+
+* **Improved Folder Browser Preview**  
+The Folder Browser now supports 'previewing' of Markdown documents in place with editor and preview. Single click opens the editor and previewer in 'preview mode'. If another document is accessed the tab goes away. If you edit the 'preview' tab (italic tab header) the tab is converted into an active tab that behaves like other editable tabs. Image previews now re-use open previews. Overall faster preview experience.
+
+* **Updated Save as HTML Options**
+Added another new feature to Save As HTML to export as HTML document with all dependencies provided as loose resources in a folder. Fixed a number of inconsistencies and missing dependencies.
 
 * **Open Git Remote in Browser**  
 The Commit dialog now has another option - if there's a Remote associated with the current repository, you can now open the remote in the Web browser. Jumps to the repository root on Github or Bitbucket etc. as long as the URL can just remove the HTTP URL `.git` extension.
+
+* **File Operation in Commit Dialog**  
+You can now open a file in the commit dialog in Explorer and delete the file on disk. The context menu also is actually context sensitive. Commit dialog now also has new button to link to the 
 
 * **Explicit Paste Image option on Editor Context Menu**  
 The editor's context menu now shows **Paste Image** if an image is on the clipboard. Text shows as Paste and if no content is present the option is disabled.
 
 * **Add File Information to Image Preview**  
 The image preview tab now displays image name, file size and dimensions below the image.
+
+* **Fix: Remembered Documents and Startup Position**  
+Fixed issue where remembered document on startup would not remember their line position through multiple starts.
 
 * **Fix: Tab Order Preserved for Open Documents on Restart**   
 Fixed issue where tabs were not ordering the same as during shutdown when restarting MM.
@@ -29,7 +41,6 @@ Fix occasional issue with blank previewer when MM starts. Force focus.
 
 * **Markdown Monster .NET Minimum Version is now 4.6.2**  
 Due to some API changes in third party dependencies along with issues in DPI Scaling, Markdown Monster now requires .NET 4.6.2 to run. Previously versions down to 4.5.2 were supported.
-
 
 ### 1.11.8
 <small>May 30th, 2018</small>

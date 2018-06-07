@@ -27,11 +27,9 @@ namespace MarkdownMonster.Windows
     /// </summary>
     public partial class FolderBrowerSidebar : UserControl, INotifyPropertyChanged
     {
-
         public MainWindow Window { get; set; }
         public AppModel AppModel { get; set; }
-
-
+        
         public string FolderPath
         {
             get { return _folderPath; }
@@ -959,7 +957,9 @@ namespace MarkdownMonster.Windows
             }
 
             string path;
-            if (!selected.IsFolder || selected.FullPath == "..")
+            if (selected.FullPath == "..")
+                path = Path.Combine(FolderPath, "NewFile.md");
+            if (!selected.IsFolder)
                 path = Path.Combine(Path.GetDirectoryName(selected.FullPath), "NewFile.md");
             else
             {
