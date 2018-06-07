@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -138,7 +139,7 @@ namespace MarkdownMonster.Test
 
             var fileToAdd = Path.Combine(path, "test.txt");
 
-            var list = new List<RepositoryStatusItem>()
+            var list = new ObservableCollection<RepositoryStatusItem>()
             {
                 new RepositoryStatusItem { Filename  = fileToAdd }
             };
@@ -169,7 +170,7 @@ namespace MarkdownMonster.Test
             var fileToAdd = Path.Combine(path, "test.txt");
             File.WriteAllText(fileToAdd, "test");
 
-            var list = new List<RepositoryStatusItem>()
+            var list = new ObservableCollection<RepositoryStatusItem>()
             {
                 new RepositoryStatusItem { Filename  = fileToAdd }
             };

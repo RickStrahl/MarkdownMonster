@@ -308,9 +308,7 @@ namespace MarkdownMonster.Windows
             else
             {
                 ShowStatus("File has been added to the .gitignore file.");
-                CommitModel.RepositoryStatusItems.Remove(selected);
-                ListChangedItems.Items.Refresh();
-                //CommitModel.OnPropertyChanged(nameof(CommitModel.RepositoryStatusItems));
+                selected.FileStatus = FileStatus.Ignored;
             }
         }
 
@@ -322,7 +320,60 @@ namespace MarkdownMonster.Windows
                 return;
 
             CommitModel.GitHelper.UndoChanges(selected.FullPath);
-            CommitModel.GetRepositoryChanges();
+            var stat = CommitModel.GitHelper.GetGitStatusForFile(selected.FullPath);
+            if (stat == FileStatus.Unaltered)
+                CommitModel.RepositoryStatusItems.Remove(selected);
+            else
+                selected.FileStatus = stat;            
+        }
+
+        private void MenuOpenInExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = ListChangedItems.SelectedItem as RepositoryStatusItem;
+            if (selected == null)
+                return;
+
+            mmFileUtils.OpenFileInExplorer(selected.FullPath);
+        }
+
+        private void MenuDeleteFile_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = ListChangedItems.SelectedItem as RepositoryStatusItem;
+            if (selected == null)
+                return;
+
+            if (File.Exists(selected.FullPath))
+            {
+                File.Delete(selected.FullPath);
+                var stat = CommitModel.GitHelper.GetGitStatusForFile(selected.FullPath);
+                if (stat == FileStatus.Nonexistent)
+                    CommitModel.RepositoryStatusItems.Remove(selected);
+                else
+                    selected.FileStatus = stat;
+            }
+
+        }
+
+        private void MenuOpenInRemote_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = ListChangedItems.SelectedItem as RepositoryStatusItem;
+            if (selected == null)
+                return;
+
+            using (var repo = CommitModel.GitHelper.OpenRepository(CommitModel.Filename))
+            {
+                var remoteUrl = repo?.Network.Remotes.FirstOrDefault()?.Url;
+                if (remoteUrl == null)
+                    return;
+                remoteUrl = remoteUrl.Replace(".git", "");
+
+                remoteUrl += "/blob/master/" + selected.Filename;
+
+                ShowStatus("Opening Url: " + remoteUrl);
+                ShellUtils.GoUrl(remoteUrl);
+            }
+
+
         }
 
         #endregion
@@ -446,6 +497,126 @@ namespace MarkdownMonster.Windows
             StatusIcon.SpinDuration = 0;
             StatusIcon.StopSpin();
         }
+        #endregion
+
+        #region Context Menus
+        private void ListChangedItems_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var selected = ListChangedItems.SelectedItem as RepositoryStatusItem;
+            if (selected == null)
+                return;
+            
+            //<MenuItem Header="Ignore File"  Click="MenuIgnoreFile_Click"/>
+            //<MenuItem Header="Undo Changes" Click="MenuUndoFile_Click" />
+            //<MenuItem Header="Delete File" Click="MenuDeleteFile_Click" />
+            //<Separator />
+            //<MenuItem Header="Open in external Diff tool" Click="MenuOpenDiffTool_Click"/>
+            //<MenuItem Header="Open in Explorer" Click="MenuOpenInExplorer_Click" />
+
+            var ctx = new ContextMenu();
+
+            e.Handled = true;
+
+            var mi = new MenuItem
+            {
+                Header = "Ignore File"
+            };
+            mi.Click += MenuIgnoreFile_Click;
+            ctx.Items.Add(mi);
+
+            if (selected.FileStatus != FileStatus.NewInWorkdir &&
+                selected.FileStatus != FileStatus.NewInIndex)
+            {
+                mi = new MenuItem
+                {
+                    Header = "Undo Changes"
+                };
+                mi.Click += MenuUndoFile_Click;
+                ctx.Items.Add(mi);
+            }
+            if (selected.FileStatus != FileStatus.DeletedFromWorkdir &&
+                selected.FileStatus != FileStatus.DeletedFromIndex)
+            {
+                mi = new MenuItem
+                {
+                    Header = "Delete File"
+                };
+                mi.Click += MenuDeleteFile_Click;
+                ctx.Items.Add(mi);
+            }
+
+            ctx.Items.Add(new Separator());
+
+
+            if (selected.FileStatus != FileStatus.NewInIndex &&
+                selected.FileStatus != FileStatus.NewInWorkdir)
+            {
+                mi = new MenuItem
+                {
+                    Header = "Open in external Diff Tool"
+                };
+                mi.Click += MenuOpenDiffTool_Click;
+                ctx.Items.Add(mi);
+            }
+
+            mi = new MenuItem
+            {
+                Header = "Open in Explorer"
+            };
+            mi.Click += MenuOpenInExplorer_Click;
+            ctx.Items.Add(mi);
+
+            if (!string.IsNullOrEmpty(CommitModel.Remote))
+            {
+                using (var repo = CommitModel.GitHelper.OpenRepository(CommitModel.Filename))
+                {
+                    var remoteUrl = repo?.Network.Remotes.FirstOrDefault()?.Url;
+                    if (remoteUrl != null && remoteUrl.Contains("github.com"))
+                    {
+                        mi = new MenuItem
+                        {
+                            Header = "Open on Github"
+                        };
+                        mi.Click += MenuOpenInRemote_Click;
+                        ctx.Items.Add(mi);
+                    }
+                }
+            }
+
+            ListChangedItems.ContextMenu = ctx;
+            ListChangedItems.ContextMenu.IsOpen = true;
+
+        }
+
+        private void ButtonGitToolsContext_Click(object sender, RoutedEventArgs e)
+        {
+            var ctx = new ContextMenu();
+            ButtonGitToolsContext.ContextMenu = ctx;
+
+            var mi = new MenuItem
+            {
+                Header = "Clone Repository",
+                Command = AppModel.Commands.OpenFromGitRepoCommand,                
+            };            
+            ctx.Items.Add(mi);
+
+            mi = new MenuItem
+            {
+                Header = "Create Repository",
+                Command = AppModel.Commands.OpenFromGitRepoCommand,
+                CommandParameter="Create"
+            };
+            ctx.Items.Add(mi);
+            mi = new MenuItem
+            {
+                Header = "Add Git Remote",
+                Command = AppModel.Commands.OpenFromGitRepoCommand,
+                CommandParameter = "AddRemote"
+            };
+            ctx.Items.Add(mi);            
+            ctx.IsOpen = true;
+        }
+
         #endregion
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace MarkdownMonster.Windows
         private string _Filename;
 
 
-        public List<RepositoryStatusItem>  StatusItems { get; set; }
+        public ObservableCollection<RepositoryStatusItem>  StatusItems { get; set; }
 
         public bool CommitRepository
         {
@@ -177,7 +178,7 @@ namespace MarkdownMonster.Windows
         private string _Remote;
 
 
-        public List<RepositoryStatusItem> RepositoryStatusItems
+        public ObservableCollection<RepositoryStatusItem> RepositoryStatusItems
         {
             get => _repositoryStatusItems;
             set
@@ -187,7 +188,7 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged();
             }
         }
-        private List<RepositoryStatusItem> _repositoryStatusItems;
+        private ObservableCollection<RepositoryStatusItem> _repositoryStatusItems;
 
         public AppModel AppModel { get; set; }
 
@@ -234,7 +235,7 @@ namespace MarkdownMonster.Windows
 
             CommitWindow.ShowStatusProgress("Committing files...");
 
-            var files = RepositoryStatusItems.Where(it => it.Selected).ToList();
+            var files = new ObservableCollection<RepositoryStatusItem>(RepositoryStatusItems.Where(it => it.Selected));
 
             if (files.Count < 1)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -331,7 +332,7 @@ namespace MarkdownMonster.Utilities
             return creds;
         }
 
-        public bool Commit(List<RepositoryStatusItem> statusItems, string message, string name, string email, bool ammendPreviousCommit = false)
+        public bool Commit(ObservableCollection<RepositoryStatusItem> statusItems, string message, string name, string email, bool ammendPreviousCommit = false)
         {
             if (statusItems == null || statusItems.Count < 1)
                 return true;
@@ -655,14 +656,16 @@ namespace MarkdownMonster.Utilities
         /// <param name="selectedFile"></param>
         /// <param name="selectAll"></param>
         /// <returns></returns>
-        public List<RepositoryStatusItem> GetRepositoryChanges(string fileOrFolder, string selectedFile = null, bool selectAll = false,
+        public ObservableCollection<RepositoryStatusItem> GetRepositoryChanges(string fileOrFolder,
+            string selectedFile = null,
+            bool selectAll = false,
             FileStatus includedStatuses = DefaultStatusesToDisplay)
         {
             Repository = OpenRepository(fileOrFolder);
             if (Repository == null)
                 return null;
 
-            var statusItems = new List<RepositoryStatusItem>();
+            var statusItems = new ObservableCollection<RepositoryStatusItem>();
 
             var status = Repository.RetrieveStatus();
 
@@ -688,11 +691,13 @@ namespace MarkdownMonster.Utilities
                 statusItems.Add(statusItem);
             }
 
-            statusItems = statusItems
-                .OrderByDescending(si => si.Selected)
-                .ThenBy(si => Path.GetDirectoryName(si.Filename))
-                .ThenBy(si => Path.GetFileName(si.Filename)).ToList();
+            //statusItems = new ObservableCollection(
 
+            statusItems = new ObservableCollection<RepositoryStatusItem>(statusItems
+                    .OrderByDescending(si => si.Selected)
+                    .ThenBy(si => Path.GetDirectoryName(si.Filename))
+                    .ThenBy(si => Path.GetFileName(si.Filename)));
+            
             return statusItems;
         }
 
@@ -826,8 +831,7 @@ namespace MarkdownMonster.Utilities
         }
         #endregion
     }
-
-
+    
     [DebuggerVisualizer("{Message}")]
     public class GitCommandResult
     {
@@ -844,10 +848,19 @@ namespace MarkdownMonster.Utilities
         public string Filename { get; set; }
 
         public string FullPath { get; set; }
+        
 
-        public FileStatus FileStatus { get; set; }
-
-
+        public FileStatus FileStatus
+        {
+            get => _fileStatus;
+            set
+            {
+                if (value == _fileStatus) return;
+                _fileStatus = value;
+                OnPropertyChanged();
+            }
+        }
+        private FileStatus _fileStatus;
 
         public bool Selected
         {

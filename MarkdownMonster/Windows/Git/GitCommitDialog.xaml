@@ -19,7 +19,7 @@
                        WindowStyle="SingleBorderWindow"                    
                        WindowStartupLocation="CenterOwner"         
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-                       Width="800"  MinWidth="750" MinHeight="500" Height="700"
+                       Width="810"  MinWidth="810" MinHeight="500" Height="700"
                        WindowTransitionsEnabled="True" >
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm"/>
@@ -27,8 +27,6 @@
     <Window.Resources>
         <localwindows:SourceControlIconConverter x:Key="SourceControlIconConverter"/>
         <localwindows:BooleanToFontWeightConverter x:Key="BooleanToFontWeightConverter" />
-        <localwindows:EmptyStringToBooleanConverter x:Key="EmptyStringToBooleanConverter" />
-        <localwindows:NotEmptyStringToBooleanConverter x:Key="NotEmptyStringToBooleanConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -120,7 +118,12 @@
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         </StackPanel>
                     </Button>
-                   
+                    <Button  Name="ButtonGitToolsContext" ToolTip="More Options" Click="ButtonGitToolsContext_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="Gear"                                             
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+                        </StackPanel>
+                    </Button>
                     <Button  ToolTip="More info on using this Dialog" 
                              Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xp0yygt2.htm">
                         <StackPanel Orientation="Horizontal">
@@ -128,7 +131,7 @@
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
                         </StackPanel>
                     </Button>
-                                        
+                                
                 </ToolBar>
             </StackPanel>
         </ToolBarPanel>
@@ -181,8 +184,8 @@
 
             <ListBox Name="ListChangedItems" Grid.Row="3" ItemsSource="{Binding RepositoryStatusItems}"  
                      BorderThickness="0.7" BorderBrush="White" IsTextSearchEnabled="True"                      
-                     Padding="7" SelectionMode="Extended"
-                     Margin="0 10 0 0">
+                     Padding="7" SelectionMode="Extended"  Margin="0 10 0 0"
+                     ContextMenuOpening="ListChangedItems_ContextMenuOpening">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Name="GridListViewItemContainer">
@@ -191,15 +194,6 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Grid.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Open in external Diff tool" Click="MenuOpenDiffTool_Click"/>
-                                    <Separator />
-                                    <MenuItem Header="Ignore File"  Click="MenuIgnoreFile_Click"/>
-                                    <MenuItem Header="Undo Changes" Click="MenuUndoFile_Click" />
-                                </ContextMenu>
-                            </Grid.ContextMenu>
-
                             <CheckBox IsChecked="{Binding Selected}" Margin="0 3 0 0" Click="CheckBoxListItemChecked_Click" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="0.85" ScaleY="0.85" />
