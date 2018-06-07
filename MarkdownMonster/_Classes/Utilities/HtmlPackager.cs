@@ -176,8 +176,11 @@ namespace MarkdownMonster.Utilities
         {
             OutputPath = Path.GetDirectoryName(outputFile);
 
-            if (deleteFolderContents && Directory.Exists(OutputPath))            
-                Directory.Delete(OutputPath, true);
+            if (deleteFolderContents && Directory.Exists(OutputPath))
+            {
+                foreach (var file in Directory.GetFiles(OutputPath))
+                    File.Delete(file);
+            }
             
 
             if (!Directory.Exists(OutputPath))
@@ -201,23 +204,28 @@ namespace MarkdownMonster.Utilities
             foreach (var link in links)
             {
                 var url = link.Attributes["href"]?.Value;
+                var rel = link.Attributes["rel"]?.Value;
+
+                if (rel != "stylesheet")
+                    continue;
+
                 var originalUrl = url;
 
                 if (url == null)
                     continue;
 
-                string linkData;
+                string cssText;
                 string justFilename = null;
 
                 if (url.StartsWith("http"))
                 {
                     var http = new WebClient();
-                    linkData = http.DownloadString(url);
+                    cssText = http.DownloadString(url);
                 }
                 else if (url.StartsWith("file:///"))
                 {                                       
                    url = url.Substring(8);
-                   linkData = File.ReadAllText(url);
+                   cssText = File.ReadAllText(WebUtility.UrlDecode(url));
                    justFilename = Path.GetFileName(url);
                 }
                 else // Relative Path
@@ -227,16 +235,15 @@ namespace MarkdownMonster.Utilities
                     if (url.StartsWith("http") && url.Contains("://"))
                     {
                         var http = new WebClient();
-                        linkData = http.DownloadString(url);
+                        cssText = http.DownloadString(url);
                     }
                     else
-                        linkData = File.ReadAllText(url);
+                        cssText = File.ReadAllText(WebUtility.UrlDecode(url));
 
                     justFilename = Path.GetFileName(url);                    
                 }
 
-                linkData = ProcessUrls(linkData, originalUrl);
-                var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
+                cssText = ProcessUrls(cssText, url);
 
                 if (CreateExternalFiles)
                 {
@@ -244,19 +251,19 @@ namespace MarkdownMonster.Utilities
                         justFilename = DataUtils.GenerateUniqueId(10) + ".css";
 
                     var fullPath = Path.Combine(OutputPath, justFilename);
-                    File.WriteAllText(fullPath, linkData);
-                    el.Name = "link";
-                    el.Attributes.Add("href", justFilename);
-                    el.Attributes.Add("rel", "stylesheet");
+                    File.WriteAllText(fullPath, cssText);
+                    link.Attributes["href"].Value = justFilename;                    
                 }
                 else
-                {                 
-                    el.Name = "style";
-                    el.InnerHtml = "\r\n" + linkData + "\r\n";
-                }
+                {
+                    var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
+                    el.Name = "style";                    
+                    el.InnerHtml = "\r\n" + cssText + "\r\n";
 
-                link.ParentNode.InsertAfter(el, link);
-                link.Remove();
+                    link.ParentNode.InsertAfter(el, link);
+                    link.Remove();
+                    el = null;
+                }                
             }            
         }
 
@@ -274,7 +281,6 @@ namespace MarkdownMonster.Utilities
                     continue;
 
                 byte[] scriptData;
-                string justFilename = null;
                 if (url.StartsWith("http"))
                 {
                     var http = new WebClient();
@@ -283,7 +289,7 @@ namespace MarkdownMonster.Utilities
                 else if (url.StartsWith("file:///"))
                 {
                     url = url.Substring(8);
-                    scriptData = File.ReadAllBytes(url);                    ;
+                    scriptData = File.ReadAllBytes(WebUtility.UrlDecode(url));                    ;
                 }
                 else // Relative Path
                 {
@@ -297,38 +303,30 @@ namespace MarkdownMonster.Utilities
                             scriptData = http.DownloadData(url);                            
                         }
                         else
-                            scriptData = File.ReadAllBytes(url);
+                            scriptData = File.ReadAllBytes(WebUtility.UrlDecode(url));
                     }
                     catch
                     {
                         continue;
                     }
                 }
-
-                var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
-                el.Name = "script";
-
+                
                 if (CreateExternalFiles)
                 {
-                    justFilename = Path.GetFileName(url);
+                    var justFilename = Path.GetFileName(url);
                     string justExt = Path.GetExtension(url);
                     if (string.IsNullOrEmpty(justExt))
                         justFilename = DataUtils.GenerateUniqueId(10) + ".js";
 
                     var fullPath = Path.Combine(OutputPath,justFilename);
                     File.WriteAllBytes(fullPath,scriptData);
-                    el.Attributes.Add("src", justFilename);
+                    script.Attributes["src"].Value = justFilename;
                 }
                 else
                 {
                     string data = $"data:text/javascript;base64,{Convert.ToBase64String(scriptData)}";
-                    el.Attributes.Add("src", data);
+                    script.Attributes["src"].Value = data;
                 }
-
-                script.ParentNode.InsertAfter(el, script);
-                script.Remove();
-
-                el = null;
             }
         }
 
@@ -338,7 +336,6 @@ namespace MarkdownMonster.Utilities
             if (images == null || images.Count < 1)
                 return;
 
-            string contentType;
             foreach (var image in images)
             {
                 var url = image.Attributes["src"]?.Value;
@@ -346,6 +343,7 @@ namespace MarkdownMonster.Utilities
                     continue;
 
                 byte[] imageData;
+                string contentType;
                 if (url.StartsWith("http"))
                 {
                     var http = new WebClient();
@@ -378,7 +376,7 @@ namespace MarkdownMonster.Utilities
                             imageData = http.DownloadData(url);
                         }
                         else
-                            imageData = File.ReadAllBytes(url.Replace("file:///", ""));
+                            imageData = File.ReadAllBytes(WebUtility.UrlDecode(url.Replace("file:///", "")));
 
                         contentType = mmFileUtils.GetImageMediaTypeFromFilename(url);
                     }
@@ -392,7 +390,7 @@ namespace MarkdownMonster.Utilities
                     continue;
 
 
-                var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
+                var el = image;
                 el.Name = "img";
 
                 if (CreateExternalFiles)
@@ -410,18 +408,13 @@ namespace MarkdownMonster.Utilities
 
                     var fullPath = Path.Combine(OutputPath, justFilename);
                     File.WriteAllBytes(fullPath, imageData);
-                    el.Attributes.Add("src", justFilename);
+                    el.Attributes["src"].Value = justFilename;
                 }
                 else
                 {
                     string data = $"data:{contentType};base64,{Convert.ToBase64String(imageData)}";
-                    el.Attributes.Add("src", data);
-                }
-
-                image.ParentNode.InsertAfter(el, image);
-                image.Remove();
-
-                el = null;
+                    el.Attributes["src"].Value = data;
+                }              
             }
         }
 
@@ -448,6 +441,8 @@ namespace MarkdownMonster.Utilities
                     continue;
 
                 var url = StringUtils.ExtractString(matched,"(", ")")?.Trim(new char[] {'\'', '\"'}).Replace("&amp;","").Replace("quot;","");
+                if (url.Contains("?"))
+                    url = StringUtils.ExtractString(url, "", "?");
                                 
                 
                 if (url.StartsWith("http"))
@@ -467,7 +462,7 @@ namespace MarkdownMonster.Utilities
                         if (contentType == "application/image")
                             continue;
 
-                         linkData = File.ReadAllBytes(url);                     
+                         linkData = File.ReadAllBytes(WebUtility.UrlDecode(url));                     
                     }
                     catch
                     {
@@ -487,7 +482,7 @@ namespace MarkdownMonster.Utilities
                             linkData = http.DownloadData(url);
                         }
                         else
-                            linkData = File.ReadAllBytes(url.Replace("file:///",""));
+                            linkData = File.ReadAllBytes(WebUtility.UrlDecode(url.Replace("file:///","")));
 
                         contentType = mmFileUtils.GetImageMediaTypeFromFilename(url);
                     }
@@ -514,6 +509,8 @@ namespace MarkdownMonster.Utilities
                     if (string.IsNullOrEmpty(justExt))
                         justFilename = DataUtils.GenerateUniqueId(10) + "." + ext;
                     urlContent = "url('" + justFilename + "')";
+
+                    File.WriteAllBytes(Path.Combine(OutputPath, justFilename),linkData);
                 }
                 else
                 {

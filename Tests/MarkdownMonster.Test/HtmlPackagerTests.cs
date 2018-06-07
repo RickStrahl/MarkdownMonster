@@ -59,12 +59,12 @@ namespace MarkdownMonster.Test
         }
 
         [TestMethod]
-        public void PackageLooseFiles()
+        public void PackageLooseFilesLocalTest()
         {
             var packager = new HtmlPackager();
             string outputFile = @"c:\temp\GeneratedHtml\Output.html";
-
-            bool result = packager.PackageHtmlToFolder("http://west-wind.com/",outputFile,null,true);
+            bool result = packager.PackageHtmlToFolder(@"c:\temp\tmpFiles\_MarkdownMonster_Preview.html", outputFile,
+                null, true);          
             Assert.IsTrue(result);
 
             ShellUtils.GoUrl(outputFile);
@@ -73,5 +73,18 @@ namespace MarkdownMonster.Test
             
         }
 
+        [TestMethod]
+        public void PackageLooseFilesWebUrlTest()
+        {
+            var packager = new HtmlPackager();
+            string outputFile = @"c:\temp\GeneratedHtml\Output.html";
+            bool result = packager.PackageHtmlToFolder("http://west-wind.com/",outputFile,null,true);
+            Assert.IsTrue(result);
+
+            ShellUtils.GoUrl(outputFile);
+
+
+
+        }
     }
 }

@@ -513,17 +513,26 @@ namespace MarkdownMonster
                             Model.Window.ShowStatus("Packing HTML File. This can take a little while.",
                                 mmApp.Configuration.StatusMessageTimeout, FontAwesomeIcon.CircleOutlineNotch,
                                 color: Colors.Goldenrod, spin: true);
-
-                            string packaged;
+                            
                             var packager = new HtmlPackager();
 
-                            bool packageResult;
-
+                            bool packageResult;                            
                             if(sd.FilterIndex == 1)
                                 packageResult = packager.PackageHtmlToFile(sd.FileName, sd.FileName);
                             else
-                            {                                
-                                packageResult = packager.PackageHtmlToFolder(sd.FileName, sd.FileName,deleteFolderContents: false);
+                            {
+                                folder = Path.GetDirectoryName(sd.FileName);
+                                if (Directory.GetFiles(folder).Any() &&                               
+                                    MessageBox.Show("The Html file and resources will be generated here:\r\n\r\n" +
+                                                    $"Folder: {folder}\r\n" +
+                                                    $"File: {Path.GetFileName(sd.FileName)}\r\n\r\n" +
+                                                    "Files already exist in this folder." +
+                                                    "Are you sure you want to generate Html and resources here?",
+                                        "Save As Html file with Loose Resources",
+                                        MessageBoxButton.YesNo,MessageBoxImage.Question,MessageBoxResult.Yes) == MessageBoxResult.No)
+                                        return;
+                                
+                                packageResult = packager.PackageHtmlToFolder(sd.FileName, sd.FileName);
                             }
 
                             if (packageResult)
@@ -532,8 +541,7 @@ namespace MarkdownMonster
                         catch (Exception ex)
                         {
                             MessageBox.Show(Model.Window, "Couldn't package HTML file:\r\n\r\n" + ex.Message,
-                                "Couldn't create HTML Package File");
-                            return;
+                                "Couldn't create HTML Package File");                            
                         }
                         finally
                         {
