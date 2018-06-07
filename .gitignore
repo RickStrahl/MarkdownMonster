@@ -34,7 +34,7 @@ _ReSharper*/
 $tf*/
 packages*/
 _preview.html
-
+node_modules/
 
 WebEssentials-Settings.json
 InstallerFiles/FilesToInstall/AppData/Html/_preview.json

@@ -1,21 +1,26 @@
 
-[//]: # (TOC Begin)
+<!-- Start Document Outline -->
+
+* [Generate HTML Output](#generate-html-output)
 * [Generate PDFs from your Markdown Topics](#generate-pdfs-from-your-markdown-topics)
 * [Distraction Free Mode](#distraction-free-mode)
 * [Viewer Mode](#viewer-mode)
 * [Right Click To Edit Images, Links and Tables](#right-click-to-edit-images-links-and-tables)
 * [Using Gists for Bug Reports and general Purpose Web Pages](#using-gists-for-bug-reports-and-general-purpose-web-pages)
-* [3 ways to Image Embedding](#ways-to-image-embedding)
+* [3 ways to Image Embedding](#3-ways-to-image-embedding)
 * [Changing Update Check Interval](#changing-update-check-interval)
 * [FontAwesome Icons](#fontawesome-icons)
 * [Snippet Add-in](#snippet-add-in)
-* [Portable Version ](#portable-version)
+* [Portable Version](#portable-version)
 * [Pasting Images into Content](#pasting-images-into-content)
 * [Build your own Markdown Monster Add-ins](#build-your-own-markdown-monster-add-ins)
 * [Embed Font-Awesome Icons](#embed-font-awesome-icons)
 * [Html Editing](#html-editing)
 
-[//]: # (TOC End)
+<!-- End Document Outline -->
+
+### Generate HTML Output
+Did you know Markdown Monster has a lot of ways to generate HTML output? Save As HTML can save as a single packaged HTML file, or as HTML with loose Assets or just raw output. You can View in Browser and Save As from there, or you can simple select some or all Markdown and use File->Copy As HTML to copy the HTML to the clipboard.
 
 ### Generate PDFs from your Markdown Topics
 Did you know you can generate a PDF file from your Markdown documents in Markdown Monster with just a couple of clicks? Use File -> Save as Pdf.
