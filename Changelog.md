@@ -42,6 +42,10 @@ Fix occasional issue with blank previewer when MM starts. Force focus.
 * **Markdown Monster .NET Minimum Version is now 4.6.2**  
 Due to some API changes in third party dependencies along with issues in DPI Scaling, Markdown Monster now requires .NET 4.6.2 to run. Previously versions down to 4.5.2 were supported.
 
+<h4 style="color: firebrick">v1.11.12 Breaking Changes</h4>
+This update has breaking changes related to addins. When updating to a newer version you may see addin-load failures. If that's the case uninstall and reinstall the affected addins.
+
+
 ### 1.11.8
 <small>May 30th, 2018</small>
 
