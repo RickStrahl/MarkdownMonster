@@ -137,10 +137,7 @@
         </ToolBarPanel>
 
         <Grid Name="MainContentPanel" Grid.Row="1" Margin="25 2 25 15">
-
-
             <Grid.RowDefinitions>
-
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

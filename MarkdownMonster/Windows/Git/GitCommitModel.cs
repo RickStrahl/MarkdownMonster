@@ -257,11 +257,10 @@ namespace MarkdownMonster.Windows
 
             using (var repo = GitHelper.OpenRepository(files[0].FullPath))
             {
-                var branch = GitHelper.Repository.Head?.TrackedBranch?.FriendlyName;
-                if (branch != null)
-                {
-                    branch = branch.Substring(branch.IndexOf("/") + 1);
-                }
+                var branch = GitHelper.Repository.Head?
+                                      .TrackedBranch?
+                                      .FriendlyName;
+                branch = branch?.Substring(branch.IndexOf("/") + 1);
 
                 if (!await GitHelper.PushAsync(repo.Info.WorkingDirectory,branch) )
                 {
