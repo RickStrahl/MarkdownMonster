@@ -6,6 +6,13 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.11.13
+<small>not released yet</small>
+
+* **Fix: Git Commit Username/Email text box layout**  
+Fix layout bug with the username and email textboxes that are overlaying the comment box.
+
 ### 1.11.12
 <small>June 7th, 2018</small>
 
