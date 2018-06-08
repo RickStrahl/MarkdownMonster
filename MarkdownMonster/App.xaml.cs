@@ -127,7 +127,7 @@ namespace MarkdownMonster
             if (_noStart)
                 return;
 
-            var dotnetVersion = ComputerInfo.GetDotnetVersion();
+            var dotnetVersion = WindowsUtils.GetDotnetVersion();
             if (String.Compare(dotnetVersion, "4.6", StringComparison.Ordinal) < 0)
             {
                 new TaskFactory().StartNew(() => MessageBox.Show("Markdown Monster requires .NET 4.6 or later to run.\r\n\r\n" +
@@ -159,9 +159,9 @@ namespace MarkdownMonster
             {
                 new TaskFactory().StartNew(() =>
                 {
-                    ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
-                    ComputerInfo.EnsureSystemPath();
-                    ComputerInfo.EnsureAssociations();
+                    mmFileUtils.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
+                    mmFileUtils.EnsureSystemPath();
+                    mmFileUtils.EnsureAssociations();
 
                     if (!Directory.Exists(mmApp.Configuration.InternalCommonFolder))
                         Directory.CreateDirectory(mmApp.Configuration.InternalCommonFolder);
@@ -225,9 +225,9 @@ namespace MarkdownMonster
         /// </summary>
         private void UninstallSettings()
         {
-            ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe", uninstall: true);
-            ComputerInfo.EnsureSystemPath(uninstall: true);
-            ComputerInfo.EnsureAssociations(uninstall: true);
+            mmFileUtils.EnsureBrowserEmulationEnabled("MarkdownMonster.exe", uninstall: true);
+            mmFileUtils.EnsureSystemPath(uninstall: true);
+            mmFileUtils.EnsureAssociations(uninstall: true);
 
             Console.WriteLine("Markdown Monster settings uninstalled from registry");
             MessageBox.Show("Markdown Monster settings uninstalled from registry");

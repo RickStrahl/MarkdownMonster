@@ -637,7 +637,7 @@ namespace MarkdownMonster.Utilities
             // Delete files older than 5 minutes
             FileUtils.DeleteTimedoutFiles(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "mm_diff_" + "*.*"), 300);
 
-            mmFileUtils.ExecuteProcess(mmApp.Configuration.Git.GitDiffExecutable, $"\"{tempFile}\" \"{filePath}\"");
+            ShellUtils.ExecuteProcess(mmApp.Configuration.Git.GitDiffExecutable, $"\"{tempFile}\" \"{filePath}\"");
 
             return true;
         }

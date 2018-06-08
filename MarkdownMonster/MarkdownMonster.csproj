@@ -54,7 +54,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
     <DocumentationFile>bin\Release\MarkdownMonster.XML</DocumentationFile>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -177,8 +177,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Westwind.Utilities, Version=3.0.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Westwind.Utilities.3.0.14\lib\net45\Westwind.Utilities.dll</HintPath>
+    <Reference Include="Westwind.Utilities, Version=3.0.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Utilities.3.0.15\lib\net45\Westwind.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -297,7 +297,6 @@
     <Compile Include="_Classes\MarkdownParser\MarkdownParserBase.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserFactory.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserMarkDig.cs" />
-    <Compile Include="_Classes\Utilities\ComputerInfo.cs" />
     <Compile Include="_Classes\Utilities\mmFileUtils.cs" />
     <Compile Include="Windows\Helpers\WindowUtilities.cs" />
     <Compile Include="_Classes\Configuration\ApplicationUpdater.cs" />

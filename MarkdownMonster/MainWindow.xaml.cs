@@ -2054,7 +2054,7 @@ namespace MarkdownMonster
             {
                 string filename = mmApp.Configuration.Backup();
                 ShowStatus($"Configuration backed up to: {Path.GetFileName(filename)}", mmApp.Configuration.StatusMessageTimeout);
-                mmFileUtils.OpenFileInExplorer(filename);
+                ShellUtils.OpenFileInExplorer(filename);
             }
         }
 
@@ -2087,7 +2087,7 @@ namespace MarkdownMonster
             if (editor == null)
                 return;
 
-            mmFileUtils.OpenFileInExplorer(editor.MarkdownDocument.Filename);
+            ShellUtils.OpenFileInExplorer(editor.MarkdownDocument.Filename);
         }
 
 
@@ -2202,7 +2202,7 @@ namespace MarkdownMonster
 
                 mmApp.Configuration.Write();
                 Close();
-                mmFileUtils.ExecuteProcess(Path.Combine(Environment.CurrentDirectory, "MarkdownMonster.exe"), "");
+                ShellUtils.ExecuteProcess(Path.Combine(Environment.CurrentDirectory, "MarkdownMonster.exe"), "");
             }
         }
 

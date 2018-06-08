@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Media;
 using FontAwesome.WPF;
+using Microsoft.Win32;
 using Westwind.Utilities;
 
 namespace MarkdownMonster 
@@ -59,7 +60,7 @@ namespace MarkdownMonster
             return null;
         }
 
-        
+      
 
         /// <summary>
         /// Creates an MD5 checksum of a file
@@ -371,6 +372,7 @@ namespace MarkdownMonster
         #endregion
 
         #region Shell Operations
+
         /// <summary>
         /// Opens the configured image editor. If command can't be executed
         /// the function returns false
@@ -391,79 +393,6 @@ namespace MarkdownMonster
 		    return true;
 	    }
 
-        public static void OpenFileInExplorer(string filename)
-        {
-            if (Directory.Exists(filename))
-                ShellUtils.GoUrl(filename);
-            else
-                Process.Start("explorer.exe", $"/select,\"{filename}\"");
-        }
-
-        /// <summary>
-        /// Executes a process with given command line parameters
-        /// </summary>
-        /// <param name="executable">Executable to run</param>
-        /// <param name="arguments"></param>
-        /// <param name="timeoutMs">Timeout of the process in milliseconds. Pass -1 to wait forever. Pass 0 to not wait.</param>
-        /// <param name="windowStyle"></param>
-        /// <returns></returns>
-        public static int ExecuteProcess(string executable, string arguments =  null, int timeoutMs = 0, ProcessWindowStyle windowStyle= ProcessWindowStyle.Hidden)
-	    {
-		    Process process;
-
-		    try
-		    {
-			    using (process = new Process())
-			    {
-				    process.StartInfo.FileName = executable;
-				    process.StartInfo.Arguments = arguments;
-				    process.StartInfo.WindowStyle = windowStyle;
-			        if (windowStyle == ProcessWindowStyle.Hidden)
-			            process.StartInfo.CreateNoWindow = true;
-
-                    process.StartInfo.UseShellExecute = false;
-
-			        
-                    process.StartInfo.RedirectStandardOutput = true;
-				    process.StartInfo.RedirectStandardError = true;
-
-				    process.OutputDataReceived += (sender, args) =>
-				    {
-					    Console.WriteLine(args.Data);
-				    };
-				    process.ErrorDataReceived += (sender, args) =>
-				    {
-					    Console.WriteLine(args.Data);
-				    };
-
-				    process.Start();
-                    
-				    if (timeoutMs < 0)
-					    timeoutMs = 99999999; // indefinitely
-
-				    if (timeoutMs > 0)
-				    {
-					    if (!process.WaitForExit(timeoutMs))
-					    {
-						    Console.WriteLine("Process timed out.");
-						    return 1460;
-					    }
-				    }
-				    else
-					    return 0;
-
-				    return process.ExitCode;
-			    }
-		    }
-		    catch (Exception ex)
-		    {
-			    Console.WriteLine("Error executing process: " + ex.Message);
-			    return -1; // unhandled error
-		    }
-
-
-	    }
-
 
         public static void ShowExternalBrowser(string url)
         {
@@ -475,7 +404,7 @@ namespace MarkdownMonster
             }
             else
             {
-                ExecuteProcess(mmApp.Configuration.WebBrowserPreviewExecutable, $"\"{url}\"");
+                ShellUtils.ExecuteProcess(mmApp.Configuration.WebBrowserPreviewExecutable, $"\"{url}\"");
             }
         }
         #endregion
@@ -571,135 +500,141 @@ namespace MarkdownMonster
 
             return diff;
         }
+        #endregion
+
+        #region Installation Helpers
 
         /// <summary>
-        /// Commits a specific, individual file to Git and optionally pushes
-        /// to the Git origin.
-        /// 
-        /// Note: Push operation may end up pushing more than the single file
-        /// committed if previous commits were made.
+        /// Set Internet Explorer browser compatibility
         /// </summary>
-        /// <param name="filename">File to commit</param>
-        /// <param name="push">If set pushes to the currently configured Git Origin</param>
-        /// <param name="message">A string message passed in that is set if an error occurs. Message can be used directly for error/status messages.</param>
-        /// <returns>true or false. If false message parameter is set.</returns>
-        public static bool CommitFileToGit(string filename, bool push, out string message)
+        /// <param name="exename"></param>
+        public static void EnsureBrowserEmulationEnabled(string exename = "MarkdownMonster.exe", bool uninstall = false)
         {
-            if (!mmApp.Model.ActiveDocument.Save())
-            {
-                message = "Couldn't save file.";
-                return false;
-            }
 
-            //  git commit --only Build.ps1 -m "Updating documentation for readme.md."
-            //  git push origin
-
-            string file = Path.GetFullPath(filename);
-            string justFile = System.IO.Path.GetFileName(file);
-
-            if (!File.Exists(file))
-            {
-                message = $"File {justFile} doesn't exist.";
-                return false;
-            }
-
-            string path = Path.GetDirectoryName(filename);
-            if (!Directory.Exists(path))
-            {
-                message = $"File {file} doesn't exist.";
-                return false;
-            }
-
-
-            string origPath = Environment.CurrentDirectory;
             try
             {
-                Directory.SetCurrentDirectory(path);
-
-                int result = ExecuteProcess("git.exe",
-                    $"commit --only \"{file}\" -m \"Updating {justFile}\".", timeoutMs: 10000);
-                if (result != 0)
+                using (
+                    var rk =
+                        Registry.CurrentUser.OpenSubKey(
+                            @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true)
+                )
                 {
-                    message = $"There are no changes to commit for {justFile}.";
-                    return false;
+                    if (!uninstall)
+                    {
+                        dynamic value = rk.GetValue(exename);
+                        if (value == null)
+                            rk.SetValue(exename, (uint)11001, RegistryValueKind.DWord);
+                    }
+                    else
+                        rk.DeleteValue(exename);
                 }
-
-                if (push)
-                    ExecuteProcess("git.exe", "push origin",timeoutMs: 10000);
             }
-            catch(Exception ex)
+            catch
             {
-                message = "An error occurred committing to Git: " + ex.Message;
-                return false;
             }
-            finally
-            {
-                Directory.SetCurrentDirectory(origPath);
-            }
-
-            message = string.Empty;
-            return true;            
         }
 
-
-
-        public static bool CloneRepository(string filename, bool push, out string message)
+        public static void EnsureAssociations(bool force = false, bool uninstall = false)
         {
-            if (!mmApp.Model.ActiveDocument.Save())
+            dynamic value = null;
+
+            string installFolder = App.InitialStartDirectory;
+            //.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+
+            if (uninstall)
             {
-                message = "Couldn't save file.";
-                return false;
-            }
+                Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\Markdown Monster", false);
 
-            //  git commit --only Build.ps1 -m "Updating documentation for readme.md."
-            //  git push origin
+                if (WindowsUtils.TryGetRegistryKey("Software\\Classes\\.md", null, out value, true) && value == "Markdown Monster")
+                    Registry.CurrentUser.DeleteSubKey("Software\\Classes\\.md");
 
-            string file = Path.GetFullPath(filename);
-            string justFile = System.IO.Path.GetFileName(file);
+                if (WindowsUtils.TryGetRegistryKey("Software\\Classes\\.markdown", null, out value, true) && value == "Markdown Monster")
+                    Registry.CurrentUser.DeleteSubKey("Software\\Classes\\.markdown");
 
-            if (!File.Exists(file))
-            {
-                message = $"File {justFile} doesn't exist.";
-                return false;
-            }
-
-            string path = Path.GetDirectoryName(filename);
-            if (!Directory.Exists(path))
-            {
-                message = $"File {file} doesn't exist.";
-                return false;
+                return;
             }
 
 
-            string origPath = Environment.CurrentDirectory;
+            if (!WindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster", null, out value, true))
+            {
+                using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster", true))
+                {
+                    rk.SetValue(null, "Program Markdown Monster");
+                }
+            }
+            else
+            {
+                if (!force)
+                    return; // already exists
+            }
+
+            if (!WindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", null, out value, true))
+            {
+                using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", true))
+                {
+                    rk.SetValue(null, $"\"{installFolder}\\MarkdownMonster.exe\" \"%1\"");
+                }
+            }
+
+            if (!WindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster\\DefaultIcon", null, out value, true))
+            {
+                var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\DefaultIcon", true);
+                rk.SetValue(null, $"{installFolder}\\MarkdownMonster.exe,0");
+            }
+
+
+            if (!WindowsUtils.TryGetRegistryKey("Software\\Classes\\.md", null, out value, true))
+            {
+                var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.md");
+                rk.SetValue(null, "Markdown Monster");
+            }
+
+            if (!WindowsUtils.TryGetRegistryKey("Software\\Classes\\.markdown", null, out value, true))
+            {
+                using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.markdown"))
+                {
+                    rk.SetValue(null, "Markdown Monster");
+                }
+            }
+            if (!WindowsUtils.TryGetRegistryKey("Software\\Classes\\.mdcrypt", null, out value, true))
+            {
+                using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.mdcrypt"))
+                {
+                    rk.SetValue(null, "Markdown Monster");
+                }
+            }
+        }
+
+        public static void EnsureSystemPath(bool uninstall = false)
+        {
             try
             {
-                Directory.SetCurrentDirectory(path);
-
-                int result = ExecuteProcess("git.exe",
-                    $"commit --only \"{file}\" -m \"Updating documentation for {justFile}\".", timeoutMs: 10000);
-                if (result != 0)
+                using (var sk = Registry.CurrentUser.OpenSubKey("Environment", true))
                 {
-                    message = $"There are no changes to commit for {justFile}.";
-                    return false;
+                    string mmFolder = Path.Combine(App.InitialStartDirectory, "Markdown Monster");
+                    string path = sk.GetValue("Path").ToString();
+
+                    if (uninstall)
+                    {
+                        path = path.Replace(";" + mmFolder, "");
+                        sk.SetValue("Path", path);
+                    }
+                    else if (!path.Contains(mmFolder))
+                    {
+                        var pathList = path.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        pathList.Add(mmFolder);
+                        path = string.Join(";", pathList.Distinct().ToArray());
+
+                        sk.SetValue("Path", path);
+                    }
+
                 }
-
-                if (push)
-                    ExecuteProcess("git.exe", "push origin", timeoutMs: 10000);
             }
-            catch (Exception ex)
+            catch
             {
-                message = "An error occurred committing to Git: " + ex.Message;
-                return false;
             }
-            finally
-            {
-                Directory.SetCurrentDirectory(origPath);
-            }
-
-            message = string.Empty;
-            return true;
         }
+
 
         #endregion
 

@@ -186,7 +186,7 @@ namespace MarkdownMonster.Utilities
             {".mdcrypt", "md"},
 
             // .NET
-            {".cs", "csharp"},
+            {".cs", "csharp"},            
             {".vb", "vb"},
             {".fs", "fs"},
             {".nuspec", "nuget"},

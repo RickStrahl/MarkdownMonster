@@ -490,7 +490,7 @@ namespace MarkdownMonster
                             return;
                         }
 
-                        mmFileUtils.OpenFileInExplorer(sd.FileName);
+                        ShellUtils.OpenFileInExplorer(sd.FileName);
                         Model.Window.ShowStatus("Raw HTML File created.", mmApp.Configuration.StatusMessageTimeout);
                     }                    
                     else
@@ -535,7 +535,7 @@ namespace MarkdownMonster
                             }
 
                             if (packageResult)
-                                mmFileUtils.OpenFileInExplorer(sd.FileName);                          
+                                ShellUtils.OpenFileInExplorer(sd.FileName);                          
                         }
                         catch (Exception ex)
                         {
@@ -913,7 +913,7 @@ namespace MarkdownMonster
             EditPreviewThemeCommand = new CommandBase((parameter, command) =>
             {
                 var path = Path.Combine(App.InitialStartDirectory, "PreviewThemes",Model.Configuration.PreviewTheme);
-                mmFileUtils.OpenFileInExplorer(path);
+                ShellUtils.OpenFileInExplorer(path);
 
                 mmFileUtils.ShowExternalBrowser("https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm");
             });

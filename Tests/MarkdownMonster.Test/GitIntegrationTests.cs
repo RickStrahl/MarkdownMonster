@@ -147,7 +147,7 @@ namespace MarkdownMonster.Test
             gh.OpenRepository(path);
             Assert.IsTrue(gh.Commit(list, "first commit", "ras", "r@west-wind.com"), gh.ErrorMessage);
 
-            mmFileUtils.OpenFileInExplorer(path);
+            ShellUtils.OpenFileInExplorer(path);
         }
 
 
@@ -182,7 +182,7 @@ namespace MarkdownMonster.Test
 
             Assert.IsTrue(gh.Push(path,"master"), gh.ErrorMessage);
 
-            mmFileUtils.OpenFileInExplorer(path);
+            ShellUtils.OpenFileInExplorer(path);
 
         }
 

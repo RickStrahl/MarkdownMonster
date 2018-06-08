@@ -147,13 +147,11 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
-
                 
-                <TextBox Name="TextCommitMessage" Text="{Binding CommitMessage}"  Grid.Row="1" Margin="0,20,0,0"
-                     controls:TextBoxHelper.Watermark="Enter a Commit Message (required)"                      
-                     TextWrapping="Wrap" Height="70" AcceptsReturn="True"
-                     controls:TextBoxHelper.SelectAllOnFocus="True"/>
+            <TextBox Name="TextCommitMessage" Text="{Binding CommitMessage}"  Grid.Row="0" Margin="0,20,0,0"
+                 controls:TextBoxHelper.Watermark="Enter a Commit Message (required)"                      
+                 TextWrapping="Wrap" Height="70" AcceptsReturn="True"
+                 controls:TextBoxHelper.SelectAllOnFocus="True"/>
             
 
             <Grid Margin="0 3" Grid.Row="1" controls:VisibilityHelper.IsVisible="{Binding ShowUserInfo}">

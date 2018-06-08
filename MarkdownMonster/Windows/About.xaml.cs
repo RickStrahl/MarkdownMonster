@@ -20,7 +20,7 @@ namespace MarkdownMonster.Windows
             VersionLabel.Content = "Version " +  mmApp.GetVersionForDisplay();
             VersionDateLabel.Content = mmApp.GetVersionDate();
             OsLabel.Content = (Environment.Is64BitProcess ? "64 bit" : "32 bit") + " • " +
-                             ".NET " + ComputerInfo.GetDotnetVersion();
+                             ".NET " + WindowsUtils.GetDotnetVersion();
 
             if (UnlockKey.IsRegistered())
                 PanelFreeNotice.Visibility = System.Windows.Visibility.Hidden;
