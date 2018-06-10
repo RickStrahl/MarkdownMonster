@@ -358,7 +358,6 @@ namespace MarkdownMonster
                         // do here prior to dialogs so this code doesn't fire recursively
                         doc.UpdateCrc();
 
-
                         string filename = doc.FilenamePathWithIndicator.Replace("*", "");
                         string template = filename +
                                           "\r\n\r\n" +
@@ -2404,10 +2403,12 @@ namespace MarkdownMonster
         public void ShowStatusSuccess(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.CheckCircle, Color color = default(Color))
         {
             if (timeout == -1)
-                timeout = mmApp.Configuration.StatusMessageTimeout;
+                timeout = mmApp.Configuration.StatusMessageTimeout;            
 
             if (color == default(Color))
-                color = Colors.Green;
+                color = Colors.LimeGreen;
+
+                    
 
             ShowStatus(message, timeout, icon, color);
         }
@@ -2431,17 +2432,6 @@ namespace MarkdownMonster
 
             ShowStatus(message, timeout, icon, color,spin);
         }
-
-
-        //public void ShowStatus(string message = null, int milliSeconds = 0,
-        //    FontAwesomeIcon icon = FontAwesomeIcon.None,
-        //    Color color = default(Color),
-        //    bool spin = false)
-        //{
-
-
-        //    ShowStatus(message, milliSeconds);
-        //}
 
         /// <summary>
         /// Status the statusbar icon on the left bottom to some indicator
