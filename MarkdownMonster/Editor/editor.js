@@ -823,7 +823,7 @@ function status(msg) {
             dt.getSeconds() + "." + dt.getMilliseconds() +
             ": " + msg);
         $el.show();
-        setTimeout(function() { $("#message").fadeOut() }, 5000);
+        setTimeout(function() { $("#message").fadeOut() }, 7000);
     }
 }
 

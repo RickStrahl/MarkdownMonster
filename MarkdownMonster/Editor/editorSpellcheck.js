@@ -55,9 +55,7 @@
 
             if (sc.firstpass) {
                 // Make red underline for gutter and words.
-                $(
-                        "<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</script>")
-                    .appendTo("head");
+                $("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</script>")                    .appendTo("head");
             }
 
             if (te.mm) //te.dic && te.aff) {  
@@ -213,12 +211,21 @@
             return [];
 
         // replace inline code blocks with 9's so it isn't parsed
-        var codeblocks = line.match(/`.*?`/g);        
-        if (codeblocks) {
-            for (var i = 0; i < codeblocks.length; i++) {
-                var match = codeblocks[i];
-                
+        var matches = line.match(/`.*?`/g);        
+        if (matches) {
+            for (var i = 0; i < matches.length; i++) {
+                var match = matches[i];                
                 line = line.replace(match, new Array(match.length + 1).join("9")); // repeat
+            }
+        }
+
+        // ignore links
+        matches = line.match(/\]\(.*?\)/g);
+        if (matches) {
+            for (var i = 0; i < matches.length; i++) {
+                var match = matches[i];
+                line = line.replace(match, " " + new Array(match.length).join("9")); // repeat         
+                console.log(line);
             }
         }
         
@@ -238,32 +245,29 @@
             if (word && (word == skipWord || word.indexOf("--") > -1))
                 continue;
 
-            var charoffset = 0; // if we strip characters adjust the offsets
+        var beginCharoffset = 0; // if we strip characters adjust the offsets
+        var endCharoffset = 0; 
 
             // only use words without special characters
             if (word.length > 1 &&
                 sc.excludedWords.indexOf("," + word + ",") == -1) {
 
-                if (word[0] === "'") {
-                    word = word.substr(1);
-                    charoffset++;
-                }
-                if (word[word.length - 1] === "'") {
-                    word = word.substr(0, word.length - 1);
-                    charoffset--;
-                }
-
-                var isOk = te.checkSpelling(word);
-                if (!isOk) {
-                    if (charoffset > 0)
-                        bads[bads.length] = [i + charoffset, i + words[wordIndex].length, word];
-                    else
-                        bads[bads.length] = [i, i + words[wordIndex].length + charoffset, word];
-                }
+            if (word[0] === "'") {
+                word = word.substr(1);
+                beginCharoffset++;
             }
-            i += words[wordIndex].length  + 1;
+            if (word[word.length - 1] === "'") {
+                word = word.substr(0, word.length - 1);
+                endCharoffset++;
+            }
+
+            var isOk = te.checkSpelling(word);
+            if (!isOk) {
+                bads[bads.length] = [i + beginCharoffset, i + words[wordIndex].length - endCharoffset, word];
+            }
         }
-        return bads;
+        i += words[wordIndex].length  + 1;
     }
-    
+    return bads;
+    }
 })();
