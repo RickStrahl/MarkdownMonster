@@ -57,9 +57,11 @@ namespace MarkdownMonster.Windows
         {
             InitializeComponent();
             
-
             DataContext = this;            
             mmApp.SetThemeWindowOverride(this);
+
+            if (Owner == null)
+                Owner = mmApp.Model.Window;
 
             Loaded += EmojiWindow_Loaded;
         }

@@ -7,7 +7,8 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         WindowStyle="ToolWindow" ShowMinButton="False" ShowMaxRestoreButton="False"                      
-        WindowStartupLocation="Manual"        
+        WindowStartupLocation="Manual"  
+        ShowInTaskbar="False"
         KeyDown="EmojiWindow_KeyDown"                         
         Title="Pick an Emoji" TitleCharacterCasing="Normal"
         Height="680" Width="835">

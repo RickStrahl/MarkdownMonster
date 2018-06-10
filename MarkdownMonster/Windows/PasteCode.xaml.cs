@@ -86,7 +86,7 @@ namespace MarkdownMonster.Windows
                 {"markdown","Markdown" },
                 {"yaml", "Yaml" },
 
-                { "powershell", "PowerShell"},
+                {"powershell", "PowerShell"},
                 {"dos", "DOS"},
                 {"bash", "Bash" },
                 {"ini", "INI files" },
@@ -106,7 +106,9 @@ namespace MarkdownMonster.Windows
 
             AppModel = mmApp.Model;
           
-            mmApp.SetThemeWindowOverride(this);            
+            mmApp.SetThemeWindowOverride(this);
+            if (Owner == null)
+                Owner = mmApp.Model.Window;
 
             Loaded += PasteCode_Loaded;
             PreviewKeyDown += PasteCode_PreviewKeyDown;

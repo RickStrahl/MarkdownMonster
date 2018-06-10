@@ -14,10 +14,12 @@
                        Title="Commit to Git" 
                        FontSize="15"
                        TitleCharacterCasing="Normal"
-                       TitlebarHeight="35"                                 
+                       TitlebarHeight="35"         
+                       ShowMinButton="False" ShowMaxRestoreButton="False"
+                       ShowInTaskbar="False"
                        ResizeMode="CanResizeWithGrip"                       
                        WindowStyle="SingleBorderWindow"                    
-                       WindowStartupLocation="CenterOwner"         
+                       WindowStartupLocation="CenterOwner"                        
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
                        Width="810"  MinWidth="810" MinHeight="500" Height="700"
                        WindowTransitionsEnabled="True" >
@@ -153,14 +155,18 @@
 
             <Grid Margin="0 3" Grid.Row="1" controls:VisibilityHelper.IsVisible="{Binding ShowUserInfo}">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBox Text="{Binding GitUsername}"  
+
+                <fa:FontAwesome Icon="User" FontSize="23" Margin="3,3,10,0" Foreground="Cornsilk"
+                                FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"/>
+                <TextBox Text="{Binding GitUsername}"  Grid.Column="1"
                          Margin="0 0 5 0" controls:TextBoxHelper.SelectAllOnFocus="True"
                          controls:TextBoxHelper.Watermark="Enter a Git commit name" />
-                <TextBox Text="{Binding GitEmail}"  Grid.Column="1"      controls:TextBoxHelper.SelectAllOnFocus="True"                     
+                <TextBox Text="{Binding GitEmail}"  Grid.Column="2"      controls:TextBoxHelper.SelectAllOnFocus="True"                     
                          controls:TextBoxHelper.Watermark="Enter a Git email address" />
             </Grid>
 

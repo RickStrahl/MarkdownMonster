@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,8 +29,10 @@ namespace MarkdownMonster.Windows
         public GitCommitModel CommitModel { get; set; }
 
         public AppModel AppModel { get; set; }
-        
 
+
+
+        #region Startup and Shutdown
         public GitCommitDialog(string fileOrPath, bool commitRepo = false)
         {
             InitializeComponent();
@@ -47,6 +50,7 @@ namespace MarkdownMonster.Windows
             Loaded += GitCommitDialog_Loaded;
         }
 
+        
         private void GitCommitDialog_Loaded(object sender, RoutedEventArgs e)
         {
             CommitModel.GitHelper.OpenRepository(CommitModel.Filename);
@@ -87,6 +91,12 @@ namespace MarkdownMonster.Windows
             TextCommitMessage.Focus();
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            AppModel.Window.Activate();
+        }
+        #endregion
 
         #region Button  Handlers
 
