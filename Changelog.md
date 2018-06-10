@@ -13,6 +13,9 @@
 * **Fix: Git Commit Username/Email text box layout**  
 Fix layout bug with the username and email textboxes that are overlaying the comment box.
 
+* **Fix: Spellchecking Ignored items**  
+Links and image links are now no longer spellchecked. Text in single quotes is now properly spellchecked inside of the quotes.
+
 ### 1.11.12
 <small>June 7th, 2018</small>
 
@@ -75,7 +78,7 @@ Logs indicate a number of people have issues with Clipboard access, specifically
 Fixed issue with the Document Outline crashing when an empty document was open.
 
 ### 1.11.4
-<small>May 21th, 2018</small>
+<small>May 21st, 2018</small>
 
 * **New Preview Browser Tab for Images and Url Previewing**  
 Added a new Preview Browser tab that is now used for previewing images and URLs. Images from the Folder Browser are now previewed in this tab. The tab is a 'temporary' tab that is visible only when directly rendered - it goes away when another tab is selected and re-opened as needed. This replaces the previous image hover. Note: That although images preview you can still drag images into the previously active document from the folder browser.

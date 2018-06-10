@@ -9,13 +9,13 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void UninstallBrowserEmulationTest()
         {
-            ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe", uninstall: true);
+            mmFileUtils.EnsureBrowserEmulationEnabled("MarkdownMonster.exe", uninstall: true);
         }
 
         [TestMethod]
         public void EnsureBrowserEmulationTest()
         {
-            ComputerInfo.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
+            mmFileUtils.EnsureBrowserEmulationEnabled("MarkdownMonster.exe");
         }
         
         // Test this only individually 
@@ -26,25 +26,25 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void EnsureAssociationsForceTest()
         {
-            ComputerInfo.EnsureAssociations(uninstall: true);
+            mmFileUtils.EnsureAssociations(uninstall: true);
         }
 
         [TestMethod]
         public void EnsureAssociationsTest()
         {
-            ComputerInfo.EnsureAssociations();
+            mmFileUtils.EnsureAssociations();
         }
 
         
         [TestMethod]
         public void UninstallSystemPathTest()
         {
-            ComputerInfo.EnsureSystemPath(uninstall: true);
+            mmFileUtils.EnsureSystemPath(uninstall: true);
         }
         [TestMethod]
         public void EnsureSystemPathTest()
         {
-            ComputerInfo.EnsureSystemPath();
+            mmFileUtils.EnsureSystemPath();
         }
     }
 #endif

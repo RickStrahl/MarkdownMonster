@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster", "Markdown
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D99D7B57-1FA8-43F4-99D5-DA37D316F960}"
 	ProjectSection(SolutionItems) = preProject
+		Install\Build.ps1 = Install\Build.ps1
 		Changelog.md = Changelog.md
 		README.md = README.md
 		TipOfTheDay.md = TipOfTheDay.md

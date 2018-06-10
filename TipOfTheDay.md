@@ -19,6 +19,9 @@
 
 <!-- End Document Outline -->
 
+### Convert to Word Document
+Did you know you can use the PanDoc addin to easily create a Word document from your Markdown files? Use the Addin Manager to add the PanDoc addin then use Convert Markdown Document and select the Docx export. 
+
 ### Generate HTML Output
 Did you know Markdown Monster has a lot of ways to generate HTML output? Save As HTML can save as a single packaged HTML file, or as HTML with loose Assets or just raw output. You can View in Browser and Save As from there, or you can simple select some or all Markdown and use File->Copy As HTML to copy the HTML to the clipboard.
 
