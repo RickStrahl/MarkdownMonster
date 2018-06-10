@@ -1825,9 +1825,17 @@ namespace MarkdownMonster
         /// <param name="language"></param>
         /// <param name="reload"></param>
         /// <returns></returns>
-        public bool CheckSpelling(string text,string language = "EN_US",bool reload = false)
+        public bool CheckSpelling(string text,string language = "en-US",bool reload = false)
         {
-            return SpellChecker.CheckSpelling(text, language, reload);
+            try
+            {
+                return SpellChecker.CheckSpelling(text, language, reload);
+            }
+            catch
+            {
+                Window.ShowStatusError("Spell checker failed to load.");
+                return false;
+            }
         }
 
 

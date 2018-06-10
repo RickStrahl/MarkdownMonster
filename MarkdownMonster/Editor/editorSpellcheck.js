@@ -229,8 +229,11 @@
             }
         }
         
-        // split line by word boundaries - any non alpha-numeric characters plus ' and white space
-        var words = line.split(/[^a-zA-Z0-9\']|\s/);
+        // split line by word boundaries - any non alpha-numeric characters plus ' (\u0027) and white space
+        //var words = line.split(/[^a-zA-Z0-9\u00C0-\u02AF']|\s/);
+
+        // split line by word boundaries and non-alpha numeric chars by unicode range. ' (\u0027) is handled special
+        var words = line.split(/[\u0000-\u0026\u0028-\u002F\u003A-\u0040\u007B-\u00BF\u02B9-\u0385]/);
         
         var i = 0;
         var bads = [];

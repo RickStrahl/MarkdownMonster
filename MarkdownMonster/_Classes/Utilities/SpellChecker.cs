@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,7 +15,7 @@ namespace MarkdownMonster.Utilities
     public class SpellChecker
     {
         
-        public static Hunspell GetSpellChecker(string language = "EN_US", bool reload = false)
+        public static Hunspell GetSpellChecker(string language = "en-US", bool reload = false)
         {
             if (reload || _spellChecker == null)
             {
@@ -24,7 +25,22 @@ namespace MarkdownMonster.Utilities
                 string dic = Path.ChangeExtension(aff, "dic");
 
                 _spellChecker?.Dispose();
-                _spellChecker = new Hunspell(aff, dic);
+                try
+                {
+                    _spellChecker = new Hunspell(aff, dic);
+                }
+                catch
+                {
+                    if (!DownloadDictionary(language))
+                    {
+                        if (language != "en-US")
+                        {
+                            mmApp.Configuration.Editor.Dictionary = "en-US";
+                            return GetSpellChecker("en-US", true);
+                        }
+                        throw new InvalidOperationException("Language not installed. Reverting to US English.");
+                    }
+                }
 
                 // Custom Dictionary if any
                 string custFile = Path.Combine(mmApp.Configuration.CommonFolder, language + "_custom.txt");
@@ -50,9 +66,12 @@ namespace MarkdownMonster.Utilities
         /// <param name="language"></param>
         /// <param name="reload"></param>
         /// <returns></returns>
-        public static bool CheckSpelling(string text, string language = "EN_US", bool reload = false)
+        public static bool CheckSpelling(string text, string language = "en-US", bool reload = false)
         {
             var hun = GetSpellChecker(language, reload);
+            if (hun == null)
+                return false;
+
             return hun.Spell(text);
         }
 
@@ -64,7 +83,7 @@ namespace MarkdownMonster.Utilities
         /// <param name="language"></param>
         /// <param name="reload"></param>
         /// <returns></returns>
-        public static IEnumerable<string> GetSuggestions(string text, string language = "EN_US", bool reload = false)
+        public static IEnumerable<string> GetSuggestions(string text, string language = "en-US", bool reload = false)
         {
             IEnumerable<string> suggestions;
 
@@ -84,7 +103,7 @@ namespace MarkdownMonster.Utilities
         /// </summary>
         /// <param name="word"></param>
         /// <param name="lang"></param>
-        public static void AddWordToDictionary(string word, string lang = "EN_US")
+        public static void AddWordToDictionary(string word, string lang = "en-US")
         {
             File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\", lang + "_custom.txt"), word + "\r\n");
             _spellChecker.Add(word);
@@ -111,7 +130,9 @@ namespace MarkdownMonster.Utilities
                     var dicFile = Path.Combine(basePath, "Editor", language + ".dic");
                     var web = new WebClient();
                     web.DownloadFile(new Uri(url), dicFile);
+					
                     var affFile = dicFile.Replace(".dic", ".aff");
+                    url = url.Replace(".dic", ".aff");
                     web.DownloadFile(new Uri(url), affFile);
 
                     return File.Exists(dicFile) && File.Exists(affFile);

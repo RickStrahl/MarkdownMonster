@@ -896,6 +896,7 @@ namespace MarkdownMonster
 
                 Model.Configuration.Editor.Dictionary = lang;
                 SpellChecker.GetSpellChecker(lang, true); // force language to reset
+                Model.ActiveEditor.AceEditor.spellcheck.spellcheck(true);
                 Model.Window.ShowStatus($"Spell checking dictionary changed to: {lang}.",Model.Configuration.StatusMessageTimeout);
             });
         }
