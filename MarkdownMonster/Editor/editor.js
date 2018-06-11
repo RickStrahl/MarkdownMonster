@@ -570,7 +570,7 @@ var te = window.textEditor = {
             lang = "txt";
 
         te.editor.getSession().setMode("ace/mode/" + lang);
-    },
+    },    
     setEditorStyle: function (styleJson) {
         
         var style = JSON.parse(styleJson);
@@ -657,10 +657,15 @@ var te = window.textEditor = {
                 else
                     spellcheck.disable();
             },
-            100);
+            100);        
     },
     isspellcheckingenabled: function(ignored) {
         return editorSettings.enableSpellChecking;
+    },
+    // force document to check spelling
+    spellcheckDocument: function (force) {        
+        if (te.spellcheck)
+            te.spellcheck.spellCheck(force);        
     },
     checkSpelling: function (word) {        
         if (!word || !editorSettings.enableSpellChecking)

@@ -661,6 +661,25 @@ namespace MarkdownMonster
                     Editor.Dictionary = "es";
                     break;
             }
+
+            // TODO: Remove in Future version - added in 1.11.14
+            // Dictionary download location changed to %appdata\downloaded dictionaries
+            foreach (var file in Directory.GetFiles(App.InitialStartDirectory, "Editor"))
+            {
+                if (!file.Contains(".dic") &&
+                    !file.Contains(".aff"))
+                    continue;
+
+                // ignore the installed dictionaries
+                if (file.StartsWith("en-US.",StringComparison.InvariantCultureIgnoreCase) ||
+                    file.StartsWith("de.") ||
+                    file.StartsWith("fr.") ||
+                    file.StartsWith("es."))
+                    continue;
+
+                try { File.Delete(file);} catch { }
+            }
+
         }
 
         public void AddRecentFile(string filename)

@@ -641,21 +641,29 @@ namespace MarkdownMonster
                 return false;
 
             lock (_SaveLock)
-            {                
-                using (var fs = new FileStream(Filename, FileMode.Open,FileAccess.Read,FileShare.Read))
+            {
+                try
                 {
-                    int count;
-                    var bytes = new char[ENCRYPTION_PREFIX.Length];
+                    using (var fs = new FileStream(Filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        int count;
+                        var bytes = new char[ENCRYPTION_PREFIX.Length];
 
-                    using (var sr = new StreamReader(fs))
-                    {
-                        count = sr.Read(bytes, 0, bytes.Length);
+                        using (var sr = new StreamReader(fs))
+                        {
+                            count = sr.Read(bytes, 0, bytes.Length);
+                        }
+
+                        if (count == ENCRYPTION_PREFIX.Length)
+                        {
+                            if (new string(bytes) == ENCRYPTION_PREFIX)
+                                return true;
+                        }
                     }
-                    if (count == ENCRYPTION_PREFIX.Length)
-                    {
-                        if (new string(bytes) == ENCRYPTION_PREFIX)
-                            return true;
-                    }
+                }
+                catch
+                {
+                    return false;
                 }
             }
 

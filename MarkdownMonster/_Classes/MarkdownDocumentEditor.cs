@@ -1838,7 +1838,23 @@ namespace MarkdownMonster
             }
         }
 
+        /// <summary>
+        /// Forces the document to be spell checked again
+        /// </summary>
+        /// <returns></returns>
+        public void SpellCheckDocument()
+        {
+            if (mmApp.Configuration.Editor.EnableSpellcheck)
+               AceEditor.spellcheckDocument(true);
+        }
 
+        public void SetSpellChecking(bool turnOff)
+        {
+            mmApp.Configuration.Editor.EnableSpellcheck = !turnOff;
+            if (turnOff)
+                Window.ShowStatusError("Spell checking has been turned off as there are too many spelling errors. Please check your language.");
+        }
+        
         /// <summary>
         /// Shows spell check context menu options
         /// </summary>

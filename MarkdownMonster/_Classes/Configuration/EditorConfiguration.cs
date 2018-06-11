@@ -139,7 +139,7 @@ namespace MarkdownMonster.Configuration
             }
         }
         private bool _enableSpellcheck;
-
+        
 
         /// <summary>
         /// Dictionary used by the editor. Defaults to 'en_US'.
@@ -147,8 +147,17 @@ namespace MarkdownMonster.Configuration
         /// Any OpenOffice style dictionary can be used by copying into
         /// the .\Editor folder providing .dic and .aff files.
         /// </summary>
-        public string Dictionary { get; set; }
-
+        public string Dictionary
+        {
+            get => _dictionary;
+            set
+            {
+                if (value == _dictionary) return;
+                _dictionary = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _dictionary;
 
         /// <summary>
         /// Keyboard input hanlder type:

@@ -90,21 +90,40 @@
         <controls:WindowCommands>
             <StackPanel Orientation="Horizontal">
 						
-                <ToggleButton   fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
+                <!--<ToggleButton
+                            fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
                             IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
                             ToolTip="enable/disable spell-checking"
                             Click="ButtonSpellCheck_Click"
+                            
                             TextElement.FontSize="16"
                             TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                />
+                />-->
+                <ToggleButton
+                    fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
+                    IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
+                    ToolTip="enable/disable spell-checking"
+                    Click="ButtonSpellCheck_Click"                            
+                    TextElement.FontSize="16"
+                    TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome   Icon="Check"  
+                                          FontSize="19"
+                                          FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="{StaticResource BlueItem}"    />
+                        <TextBlock Margin="1,5,0,0" FontSize="11" 
+                                   Text="{Binding Configuration.Editor.Dictionary}" />
+                    </StackPanel>
+                    
+                </ToggleButton>
 
                 <Button 
                         Name="ButtonLanguages"
-                        Margin="-10,0,0,0"
+                        Margin="-12,0,0,0"
+                    FontSize="11"
 						ToolTip="Languages"                                
 				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				                             
-				        TextElement.FontSize="11" 
-                        Click="ButtonLangugeDropDown_Click"
+				        Click="ButtonLangugeDropDown_Click"
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
 				>
                     <i:Interaction.Behaviors>
@@ -112,8 +131,8 @@
                     </i:Interaction.Behaviors>
                 </Button>
 
-                <ToggleButton Name="ToolButtonPreview"  Foreground="{StaticResource BlueItem}"
-                                Margin="2,0,0,0"
+                <ToggleButton Name="ToolButtonPreview"  Foreground="{StaticResource BlueItem}"                                                              
+                              Margin="-5,0,0,0"
                                 IsChecked="{Binding IsPreviewBrowserVisible}"
                                 Command="{Binding Commands.PreviewBrowserCommand}"                                  
                                 ToolTip="open/hide the HTML Preview Pane (alt-v-p)"
@@ -126,7 +145,7 @@
                         Margin="-10,0,0,0"
 						ToolTip="Preview Modes"                                
 				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				                             
-				        TextElement.FontSize="11" 
+				        TextElement.FontSize="12" 
 				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
 				>
                     <i:Interaction.Behaviors>
@@ -156,8 +175,8 @@
 
                 </Button>
 
-                <ToggleButton Name="ToolButtonFullScreen"   Foreground="{StaticResource BlueItem}"
-				              Margin="2,0"
+                <ToggleButton Name="ToolButtonFullScreen"   Foreground="{StaticResource BlueItem}"				              
+                              Margin="-4,0,0,0"
                                       IsChecked="{Binding IsFullScreen}"
                                       Command="{Binding Commands.DistractionFreeModeCommand}"                                                 
                                       ToolTip="toggle distraction free edit mode (alt-shift-enter). configure with: 'DistractionFreeModeHideOptions' setting."
@@ -165,8 +184,7 @@
                                 TextElement.FontSize="16"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
                                       />
-                <ToggleButton Name="ToolButtonPresentationMode"   Foreground="{StaticResource BlueItem}"
-                              Margin="2,0"
+                <ToggleButton Name="ToolButtonPresentationMode"   Foreground="{StaticResource BlueItem}"                              
                                       IsChecked="{Binding IsPresentationMode}"
                                       Command="{Binding Commands.PresentationModeCommand}"                                                 
                                       ToolTip="toggle presentation mode (F11)"

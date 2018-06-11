@@ -2057,14 +2057,16 @@ namespace MarkdownMonster
             }
         }
 
-
+        /// <summary>
+        /// Handles toggle button - note toggle sets the value so this only
+        /// updates the display to force all the tabs to reset the state
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonSpellCheck_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (TabItem tab in TabControl.Items)
-            {
-                var editor = tab.Tag as MarkdownDocumentEditor;
-                editor?.RestyleEditor();
-            }
+        {            
+            Model.ActiveEditor?.RestyleEditor();            
+            Model.Window.ShowStatusSuccess($"Spell checking has been turned {(Model.Configuration.Editor.EnableSpellcheck ? "on" : "off")}.");
         }
 
 
@@ -2522,12 +2524,15 @@ namespace MarkdownMonster
         {
             var ctx = new ContextMenu();
 
-            var basePath = Path.Combine(App.InitialStartDirectory, "Editor");
-
             foreach (var lang in SpellChecker.DictionaryDownloads)
             {
-                var fname = Path.Combine(basePath, lang.Code + ".dic");
+                var fname = Path.Combine(SpellChecker.InternalDictionaryFolder, lang.Code + ".dic");
                 bool exists = File.Exists(fname);
+                if (!exists)
+                {
+                    fname = Path.Combine(SpellChecker.ExternalDictionaryFolder, lang.Code + ".dic");
+                    exists = File.Exists(fname);
+                }
 
                 string header = lang.Name;
                 if (!exists)
@@ -2548,6 +2553,14 @@ namespace MarkdownMonster
                               
                 ctx.Items.Add(menuItem);
             }
+
+            ctx.Items.Add(new Separator());
+            ctx.Items.Add(new MenuItem
+            {
+                Header = "Remove downloaded Dictionaries",
+                Command = Model.Commands.SetDictionaryCommand,
+                CommandParameter = "REMOVE-DICTIONARIES"
+            });
 
             ctx.MaxHeight = 800;
             ctx.IsOpen = true;

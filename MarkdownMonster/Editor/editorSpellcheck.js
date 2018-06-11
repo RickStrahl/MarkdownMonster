@@ -13,7 +13,7 @@
     window.sc = window.spellcheck = {
         interval: null,
         firstpass: true,
-        spellCheck: function() {},
+        spellCheck: null,  // spellCheck function set in enable
         misspelled: misspelled,
         dictionary: null, // Typo instance
         markers: [],
@@ -41,7 +41,6 @@
         enable: function() {
             editorSettings.enableSpellChecking = true;
             sc.spellCheck = spellCheck;
-
             te.spellcheck = sc;
 
             // You also need to load in typo.js and jquery.js
@@ -115,6 +114,7 @@
                     return;
 
                 currentlySpellchecking = true;
+                spellcheckErrors = 0;
                 var session = te.editor.getSession();
 
                 sc.clearMarkers();
@@ -188,11 +188,19 @@
                                         var word = misspellings[j][2];
                                         range.misspelled = word;
                                         sc.markers[sc.markers.length] = marker;
+                                        spellcheckErrors++;
                                     }
                                 }
                                 if (isLast) {
                                     currentlySpellchecking = false;
                                     sc.contentModified = false;
+
+                                    
+                                    if (spellcheckErrors > editorSettings.spellcheckerErrorLimit) {                                        
+                                        // disable both in editor and MM
+                                        te.mm.textbox.SetSpellChecking(true);                                        
+                                        te.enablespellchecking(true);
+                                    }
                                 }
                             }.bind(this, line, lineCount >= bottomRow - 1),
                             40);
@@ -224,8 +232,7 @@
         if (matches) {
             for (var i = 0; i < matches.length; i++) {
                 var match = matches[i];
-                line = line.replace(match, " " + new Array(match.length).join("9")); // repeat         
-                console.log(line);
+                line = line.replace(match, " " + new Array(match.length).join("9")); // repeat                         
             }
         }
         

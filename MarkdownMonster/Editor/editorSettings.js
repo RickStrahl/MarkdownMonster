@@ -1,6 +1,7 @@
 var editorSettings = {
   "dictionary": "EN_US",
   "enableSpellChecking": true,
+  "spellcheckerErrorLimit": 150,  // limit of errors per screen before considered wrong language
   "font": "Consolas",
   "fontSize": 17,
   "lineHeight": 1.3,
