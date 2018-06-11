@@ -2280,12 +2280,14 @@ namespace MarkdownMonster
 
                 StackPanel sp;
                 string commandParameter;
-                if (tab == PreviewTab)
+                var doc = tab.Tag as MarkdownDocumentEditor;
+
+                if (tab == PreviewTab && doc == null)
                 {
                     var icon = (tab.Header as Grid).FindChild<Image>("IconImage")?.Source;
-                    var txt = (tab.Header as Grid).FindChild<TextBlock>("HeaderText").Text;
-                    
-                    sp = new StackPanel { Orientation = Orientation.Horizontal };
+                    var txt = (tab.Header as Grid).FindChild<TextBlock>("HeaderText")?.Text;
+
+                    sp = new StackPanel {Orientation = Orientation.Horizontal};
                     sp.Children.Add(new Image
                     {
                         Source = icon,
@@ -2293,13 +2295,22 @@ namespace MarkdownMonster
                         Height = 16,
                         Margin = new Thickness(0, 0, 20, 0)
                     });
-                    sp.Children.Add(new TextBlock { Text = txt });
+                    sp.Children.Add(new TextBlock {Text = txt});
+                    commandParameter = "Preview";
+
+                    sp = new StackPanel {Orientation = Orientation.Horizontal};
+                    sp.Children.Add(new Image
+                    {
+                        Source = icon,
+                        Width = 16,
+                        Height = 16,
+                        Margin = new Thickness(0, 0, 20, 0)
+                    });
+                    sp.Children.Add(new TextBlock {Text = txt});
                     commandParameter = "Preview";
                 }
                 else
                 {
-
-                    var doc = tab.Tag as MarkdownDocumentEditor;
                     if (doc == null) continue;
 
                     var filename = doc.MarkdownDocument.FilenamePathWithIndicator;

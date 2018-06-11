@@ -17,7 +17,7 @@ Fix layout bug with the username and email textboxes that are overlaying the com
 Links and image links are now no longer spellchecked. Text in single quotes is now properly spellchecked inside of the quotes.
 
 * **Fix: Spellchecker downloads**  
-Fixed encoding bug in the spell checker downloads. Raw downloads are now used with non-encoded content. Fixes errors with accented characters in spell checker.
+Fixed encoding bug in the spell checker downloads. Raw downloads are now used with non-encoded content. Fixes errors with accented characters in spell checker. When switching languages, the spell checker immediately updates the document.
 
 ### 1.11.12
 <small>June 7th, 2018</small>
