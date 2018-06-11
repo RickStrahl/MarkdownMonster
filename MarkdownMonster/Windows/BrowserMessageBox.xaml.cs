@@ -155,13 +155,16 @@ namespace MarkdownMonster.Windows
         void OnButtonClicked(object sender, RoutedEventArgs ev)
         {
             ButtonResult = sender as Button;
+
             if (ButtonClickHandler != null)
+            {
                 if (ButtonClickHandler.Invoke(sender, ev, this))
                     Close();
-            else
-            {                
-                Close();
+
+                return;
             }
+            
+             Close();
         }
     }
 }
