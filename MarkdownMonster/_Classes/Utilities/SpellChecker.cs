@@ -17,16 +17,30 @@ namespace MarkdownMonster.Utilities
 {
     public class SpellChecker
     {
-        
+        public static readonly string ExternalDictionaryFolder = Path.Combine(mmApp.Configuration.CommonFolder, "DownloadedDictionaries");
+        public static readonly string InternalDictionaryFolder = Path.Combine(Environment.CurrentDirectory, "Editor");
         public static Hunspell GetSpellChecker(string language = "en-US", bool reload = false)
         {
             if (reload || _spellChecker == null)
             {
-                string dictFolder = Path.Combine(Environment.CurrentDirectory, "Editor\\");
+                string dic = Path.Combine(InternalDictionaryFolder, language + ".dic");
+                string aff = Path.ChangeExtension(dic, "aff");
 
-                string aff = dictFolder + language + ".aff";
-                string dic = Path.ChangeExtension(aff, "dic");
+                if (!File.Exists(dic))
+                {                    
+                    dic = Path.Combine(ExternalDictionaryFolder, language + ".dic");
+                    aff = Path.ChangeExtension(dic, "aff");
 
+                    if (!File.Exists(dic))
+                    {
+                        mmApp.Configuration.Editor.Dictionary = "en-US";
+                        if (mmApp.Model?.Window != null)
+                            mmApp.Model.Window.ShowStatusError($"Dictionary for language {language} not found. Resetting to en-US. Please reinstall your language.");
+
+                        return GetSpellChecker("en-US", true);
+                    }                        
+                }
+                
                 _spellChecker?.Dispose();
                 try
                 {
@@ -46,7 +60,7 @@ namespace MarkdownMonster.Utilities
                 }
 
                 // Custom Dictionary if any
-                string custFile = Path.Combine(mmApp.Configuration.CommonFolder, language + "_custom.txt");
+                string custFile = Path.Combine(ExternalDictionaryFolder, language + "_custom.txt");
                 if (File.Exists(custFile))
                 {
                     var lines = File.ReadAllLines(custFile);
@@ -108,7 +122,7 @@ namespace MarkdownMonster.Utilities
         /// <param name="lang"></param>
         public static void AddWordToDictionary(string word, string lang = "en-US")
         {
-            File.AppendAllText(Path.Combine(mmApp.Configuration.CommonFolder + "\\", lang + "_custom.txt"), word + "\r\n");
+            File.AppendAllText(Path.Combine(ExternalDictionaryFolder, lang + "_custom.txt"), word + "\r\n");
             _spellChecker.Add(word);
         }
         
@@ -118,11 +132,12 @@ namespace MarkdownMonster.Utilities
         /// Downloads a dictionary file for a given language
         /// </summary>
         /// <param name="language">en-GB, it-IT, ko-KO</param>
+        /// <param name="basePath">The path that dictionaries are downloaded to</param>
         /// <returns></returns>
         public static bool DownloadDictionary(string language, string basePath = null)
         {
             if (basePath == null)
-                basePath = App.InitialStartDirectory;
+                basePath = ExternalDictionaryFolder;
             
             try
             {
@@ -130,7 +145,10 @@ namespace MarkdownMonster.Utilities
                 if (diItem != null)
                 {
                     var url = string.Format(DictionaryDownloadUrl,diItem.Code);
-                    var dicFile = Path.Combine(basePath, "Editor", language + ".dic");
+                    if (!Directory.Exists(basePath))
+                        Directory.CreateDirectory(basePath);
+                        
+                    var dicFile = Path.Combine(basePath,  language + ".dic");
                     var web = new WebClient();
                     web.DownloadFile(new Uri(url), dicFile);
 					
@@ -161,14 +179,14 @@ namespace MarkdownMonster.Utilities
             var md = wc.DownloadString(
                 $"https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{language}/LICENSE");
 
-            mmApp.Model.Window.ShowStatus();
+            mmApp.Model.Window.ShowStatusSuccess($"Downloaded license for {language}");
 
             form.ShowMarkdown(md);
             form.Icon = mmApp.Model.Window.Icon;
             form.ButtonOkText.Text = "Accept";
             form.SetMessage("Please accept the license for the dictionary:");
             form.ShowDialog();
-
+            
             return form.ButtonResult == form.ButtonOk;
         }
 

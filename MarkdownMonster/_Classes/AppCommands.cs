@@ -898,31 +898,68 @@ namespace MarkdownMonster
                 if (string.IsNullOrEmpty(lang))
                     return;
 
-                if (!File.Exists(Path.Combine(App.InitialStartDirectory, "Editor", lang + ".dic")))
+                if (lang == "REMOVE-DICTIONARIES")
+                {                    
+                    bool error = false;
+                    foreach (var file in Directory.GetFiles(SpellChecker.ExternalDictionaryFolder))
+                    {
+                        if (file.EndsWith(".dic") || file.EndsWith(".aff"))
+                        {
+                            try
+                            {
+                                File.Delete(file);
+                            }
+                            catch {  error = true;}
+                        }                            
+                    }
+                    if(error)
+                        Model.Window.ShowStatusError("Some dictionaries were not deleted.");
+                    else
+                        Model.Window.ShowStatusSuccess("Dictionaries deleted.");
+
+                    lang = "en-US";
+                }
+                
+                if (!File.Exists(Path.Combine(SpellChecker.InternalDictionaryFolder, lang + ".dic")) &&
+                    !File.Exists(Path.Combine(SpellChecker.ExternalDictionaryFolder, lang + ".dic")))
                 {
                     if (!SpellChecker.AskForLicenseAcceptance(lang))
                         return;
 
                     Model.Window.ShowStatusProgress($"Downloading dictionary for: {lang}");
 
-                    if(SpellChecker.DownloadDictionary(lang))
-                        Model.Window.ShowStatus($"Downloaded dictionary: {lang}", Model.Configuration.StatusMessageTimeout);
+                    if (SpellChecker.DownloadDictionary(lang))
+                        Model.Window.ShowStatusSuccess($"Downloaded dictionary: {lang}");
                     else
                         Model.Window.ShowStatusError("Failed to download dictionary.");
                 }
 
                 Model.Configuration.Editor.Dictionary = lang;
-                SpellChecker.GetSpellChecker(lang, true); // force language to reset
-                Model.ActiveEditor.AceEditor.spellcheck.spellcheck(true);
-                Model.Window.ShowStatus($"Spell checking dictionary changed to: {lang}.",Model.Configuration.StatusMessageTimeout);
+
+                try
+                {
+                    SpellChecker.GetSpellChecker(lang, true); // force language to reset
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Model.Window.ShowStatusError(ex.Message); // couldn't set resetting to English
+                }
+
+                if (mmApp.Configuration.Editor.EnableSpellcheck)
+                    Model.ActiveEditor.SpellCheckDocument();
+                else
+                {
+                    mmApp.Configuration.Editor.EnableSpellcheck = true;
+                    Model.ActiveEditor?.RestyleEditor();                    
+                }
+
+                Model.Window.ShowStatusSuccess($"Spell checking dictionary changed to: {lang}.",
+                    Model.Configuration.StatusMessageTimeout);
             });
-        }
+        }        
+        #endregion
 
-
-
-#endregion
-
-#region Preview
+        #region Preview
 
         public CommandBase EditPreviewThemeCommand { get; set; }
 
