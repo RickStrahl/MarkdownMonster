@@ -225,7 +225,7 @@ namespace MarkdownMonster
         public void AddEditorContext()
         {
             var model = Model;
-            var lineText = Model.ActiveEditor.GetCurrentLine();
+            var lineText = Model.ActiveEditor?.GetCurrentLine();
 
             var pos = Model.ActiveEditor.GetCursorPosition();
             if (pos.row == -1)
@@ -233,14 +233,15 @@ namespace MarkdownMonster
 
             var contextCount = ContextMenu.Items.Count;
 
-            CheckForImageLink(lineText, pos);
-            CheckForHyperLink(lineText, pos);
-            CheckForTable(lineText, pos);
-
+            if (!string.IsNullOrEmpty(lineText))
+            {
+                CheckForImageLink(lineText, pos);
+                CheckForHyperLink(lineText, pos);
+                CheckForTable(lineText, pos);
+            }
 
             if (ContextMenu.Items.Count > contextCount)
                 ContextMenu.Items.Add(new Separator());
-
         }
 
 
@@ -351,10 +352,10 @@ namespace MarkdownMonster
                 mi.Click += (o, args) =>
                 {
                     var editor = Model.ActiveEditor;
-
-                    var lineText = editor.GetCurrentLine();
-                    if (!(lineText.Contains("|") &&
-                        !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+"))))
+                  
+                    var lineText = editor?.GetCurrentLine();
+                    if (string.IsNullOrEmpty(lineText) || !(lineText.Contains("|") &&
+                        !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+") )))
                         return;
 
                     var startPos = editor.GetCursorPosition();

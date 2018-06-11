@@ -194,6 +194,9 @@
     <Compile Include="Controls\ElementHelper.cs" />
     <Compile Include="Controls\FileSystemAutoCompleteBehavior.cs" />
     <Compile Include="Controls\SelectOnEntryExtension.cs" />
+    <Compile Include="Windows\BrowserMessageBox.xaml.cs">
+      <DependentUpon>BrowserMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\DocumentOutlineSidebar\DocumentOutlineModel.cs" />
     <Compile Include="Windows\DocumentOutlineSidebar\DocumentOutlineHandler.cs" />
     <Compile Include="Windows\DocumentOutlineSidebar\DocumentOutlineSidebarControl.xaml.cs">
@@ -414,6 +417,10 @@
     <Page Include="Windows\AddinManagerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\BrowserMessageBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\BrowserDialog.xaml">
       <SubType>Designer</SubType>

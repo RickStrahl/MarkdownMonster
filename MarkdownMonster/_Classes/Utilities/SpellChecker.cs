@@ -7,7 +7,10 @@ using System.Net;
 using System.Text;
 using NHunspell;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using HtmlAgilityPack;
+using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Utilities
@@ -143,6 +146,32 @@ namespace MarkdownMonster.Utilities
             return false;
         }
 
+        public static bool AskForLicenseAcceptance(string language)
+        {
+            var form = new BrowserMessageBox()
+            {
+                Owner = mmApp.Model.Window
+            };
+
+            mmApp.Model.Window.ShowStatusProgress($"Downloading dictionary license for {language}");
+
+            //download license
+            var wc = new WebClient();
+            wc.Encoding = Encoding.UTF8;
+            var md = wc.DownloadString(
+                $"https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{language}/LICENSE");
+
+            mmApp.Model.Window.ShowStatus();
+
+            form.ShowMarkdown(md);
+            form.Icon = mmApp.Model.Window.Icon;
+            form.ButtonOkText.Text = "Accept";
+            form.SetMessage("Please accept the license for the dictionary:");
+            form.ShowDialog();
+
+            return form.ButtonResult == form.ButtonOk;
+        }
+
 
         public static string GetDictionaryListStringFromWebSite()
         {
@@ -179,25 +208,28 @@ namespace MarkdownMonster.Utilities
             {
                 Name = "English (US)",
                 Code = "en-US",
-                PreInstalled = true
+                PreInstalled = true,
+                
             },
             new DictionaryLanguage
             {
                 Name = "German",
                 Code = "de",
-                PreInstalled = true
+                PreInstalled = true,
+                
             },
             new DictionaryLanguage
             {
                 Name = "French",
                 Code = "fr",
-                PreInstalled = true
+                PreInstalled = true,
+                
             },
             new DictionaryLanguage
             {
                 Name = "Spanish",
                 Code = "es",
-                PreInstalled = true
+                PreInstalled = true,                
             },
             new DictionaryLanguage
             {
@@ -495,6 +527,7 @@ namespace MarkdownMonster.Utilities
                 Code = "vi"
             },
         };
+
     }
 
     public class DictionaryLanguage
@@ -503,6 +536,7 @@ namespace MarkdownMonster.Utilities
         public string Code { get; set; }
         public string Url { get; set; }
         public bool PreInstalled { get; set; }
+        public int SortOrder { get; set; }
     }
 
 

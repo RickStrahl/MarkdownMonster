@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -82,9 +84,20 @@ namespace MarkdownMonster
             CloseRightSidebarPanel();
             OpenLeftSidebarPanel();
             ShowFolderBrowser();
+
+
+#if DEBUG
+            TestButton();
+            var mi = new MenuItem
+            {
+                Header = "Test Item"
+            };
+            mi.Click +=  (s,ev)=> TestButtonCommand.Execute(mi.CommandParameter);
+            Model.Window.MainMenuHelp.Items.Add(mi);
+#endif
         }
 
-        #region Files And File Management
+#region Files And File Management
 
         public CommandBase NewDocumentCommand { get; set; }
 
@@ -625,10 +638,10 @@ namespace MarkdownMonster
             });
         }
 
-        #endregion
+#endregion
 
 
-        #region Links and External Access Commands
+#region Links and External Access Commands
 
         public CommandBase OpenSampleMarkdownCommand { get; set; }
 
@@ -642,10 +655,10 @@ namespace MarkdownMonster
             });
         }
 
-        #endregion
+#endregion
 
 
-        #region Settings Commands
+#region Settings Commands
         public CommandBase PreviewModesCommand { get; set; }
 
         void PreviewModes()
@@ -761,9 +774,9 @@ namespace MarkdownMonster
 
 
 
-        #endregion
+#endregion
 
-        #region Editor Commands
+#region Editor Commands
 
         public CommandBase ToolbarInsertMarkdownCommand { get; set; }
 
@@ -886,8 +899,12 @@ namespace MarkdownMonster
                     return;
 
                 if (!File.Exists(Path.Combine(App.InitialStartDirectory, "Editor", lang + ".dic")))
-                {                    
-                    Model.Window.ShowStatus("Downloading dictionary for: " + lang);
+                {
+                    if (!SpellChecker.AskForLicenseAcceptance(lang))
+                        return;
+
+                    Model.Window.ShowStatusProgress($"Downloading dictionary for: {lang}");
+
                     if(SpellChecker.DownloadDictionary(lang))
                         Model.Window.ShowStatus($"Downloaded dictionary: {lang}", Model.Configuration.StatusMessageTimeout);
                     else
@@ -903,9 +920,9 @@ namespace MarkdownMonster
 
 
 
-        #endregion
+#endregion
 
-        #region Preview
+#region Preview
 
         public CommandBase EditPreviewThemeCommand { get; set; }
 
@@ -934,9 +951,9 @@ namespace MarkdownMonster
             });
         }
 
-        #endregion
+#endregion
 
-        #region Open Document Operations
+#region Open Document Operations
 
         public CommandBase CopyFolderToClipboardCommand { get; set; }
 
@@ -958,10 +975,10 @@ namespace MarkdownMonster
             });
         }
 
-        #endregion
+#endregion
 
 
-        #region Miscellaneous
+#region Miscellaneous
 
         public CommandBase AddinManagerCommand { get; set; }
 
@@ -993,9 +1010,9 @@ namespace MarkdownMonster
             });
         }
 
-        #endregion
+#endregion
 
-        #region Git
+#region Git
 
 
         public CommandBase OpenFromGitRepoCommand { get; set; }
@@ -1098,10 +1115,10 @@ namespace MarkdownMonster
             }, (p, c) => !string.IsNullOrEmpty(Model.Configuration.Git.GitClientExecutable));
         }
 
-        #endregion
+#endregion
 
 
-        #region Static Menus Accessed from Control Templates
+#region Static Menus Accessed from Control Templates
 
         public static CommandBase TabWindowListCommand { get; }
 
@@ -1123,9 +1140,9 @@ namespace MarkdownMonster
             });
         }
 
-        #endregion
+#endregion
 
-        #region Sidebar
+#region Sidebar
 
         public CommandBase CloseLeftSidebarPanelCommand { get; set; }
 
@@ -1174,9 +1191,9 @@ namespace MarkdownMonster
         }
 
 
-        #endregion
+#endregion
 
-        #region Commands
+#region Commands
 
 
 
@@ -1278,6 +1295,56 @@ We're now shutting down the application.
                 (p, e) => Model.IsEditorActive);
 
         }
-        #endregion
+#endregion
+
+
+        public CommandBase TestButtonCommand { get; set; }
+
+        void TestButton()
+        {
+
+            TestButtonCommand = new CommandBase((parameter, command) =>
+            {
+                var form = new BrowserMessageBox()
+                {
+                    Owner = Model.Window
+                };
+                form.ButtonClickHandler = (s, ev, f) =>
+                {                    
+                    var button = s as Button;
+                    var selection = button.CommandParameter as string;
+
+                    if (selection == "1")                        
+                        MessageBox.Show("You clicked: " + "Accept");
+                    else
+                        MessageBox.Show("You clicked: " + "Cancel");
+
+                    return true;
+                };
+
+                var btn =
+                    new Button()
+                    {
+                        Content = "Another Button"
+                    };
+                btn.Click += (s, e) => MessageBox.Show("Another Button Clicked");
+                form.AddButton(btn);
+
+
+                //download license
+                var wc = new WebClient();
+                wc.Encoding = Encoding.UTF8;
+                var md = wc.DownloadString(
+                    "https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/bg/LICENSE");
+
+                form.ShowMarkdown(md);
+                form.Icon = Model.Window.Icon;
+                form.ButtonOkText.Text = "Accept";
+                form.SetMessage("Please accept the license for the dictionary:");
+                form.ShowDialog();
+
+            }, (p, c) => true);
+        }
+
     }
 }
