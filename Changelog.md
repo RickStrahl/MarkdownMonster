@@ -6,18 +6,26 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
-### 1.11.13
+### 1.11.15
 <small>not released yet</small>
+
+* **Better SpellChecking UI**  
+The top window box spell check toggle now displays the active dictionary language (ie. en-US, de etc.). Toggling spellchecking on and off now displays a message on the status bar so it's easier to tell when the icon is toggled (not so easy to see due to the coloring). 
+
+* **Excessive Spelling Errors now disable the SpellChecker**  
+Excessive spelling errors in the current view now automatically toggle off the spell checker with a message in the status bar. This is very useful when the language in use doesn't match the documents language which generates a gazillion errors, which can be very slow. Messages suggests that an unmatched language is used and suggests to change language. Changing languages or toggling the setting explicitly re-enables spell checking.
+
+* **Fix: Spellchecking Ignored items**  
+Links, image links and inline code blocks are now no longer spellchecked. Text inside of single quotes and any kind of custom quote characters is now properly spellchecked inside of the quotes. Overall you should see a lot less false positives for spell checking (still a few use cases the parser isn't catching but a lot less).
+
+* **Dictionary Downloads**   
+You can now download dictionaries. Dictionaries are downloaded into the MM AppData common settings folder in a `DownloadedDictionaries` folder. This folder now also holds custom dictionaries for added words. Done so dictionaries and common words can be shared and for easier management of the dictionaries. You can now opt to remove all downloaded dictionaries to allow reinstalling dictionaries in case of updates.
+
+* **Fix: Spellchecker downloads**  
+Fixed encoding bug in the spell checker downloads. Raw downloads are now used with non-encoded content. Fixed errors with accented characters in spell checker. When switching languages, the spell checker immediately updates the document.
 
 * **Fix: Git Commit Username/Email text box layout**  
 Fix layout bug with the username and email textboxes that are overlaying the comment box.
-
-* **Fix: Spellchecking Ignored items**  
-Links and image links are now no longer spellchecked. Text in single quotes is now properly spellchecked inside of the quotes.
-
-* **Fix: Spellchecker downloads**  
-Fixed encoding bug in the spell checker downloads. Raw downloads are now used with non-encoded content. Fixes errors with accented characters in spell checker. When switching languages, the spell checker immediately updates the document.
 
 ### 1.11.12
 <small>June 7th, 2018</small>
