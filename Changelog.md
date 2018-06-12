@@ -12,7 +12,7 @@
 * **Better SpellChecking UI**  
 The top window box spell check toggle now displays the active dictionary language (ie. en-US, de etc.). Toggling spellchecking on and off now displays a message on the status bar so it's easier to tell when the icon is toggled (not so easy to see due to the coloring). 
 
-* **Excessive Spelling Errors now disable the SpellChecker**  
+* **Excessive Spellcheck Errors now disable the SpellChecker**  
 Excessive spelling errors in the current view now automatically toggle off the spell checker with a message in the status bar. This is very useful when the language in use doesn't match the documents language which generates a gazillion errors, which can be very slow. Messages suggests that an unmatched language is used and suggests to change language. Changing languages or toggling the setting explicitly re-enables spell checking.
 
 * **Fix: Spellchecking Ignored items**  
