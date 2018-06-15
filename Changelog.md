@@ -6,8 +6,14 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.11.15
+### 1.11.15.1
 <small>not released yet</small>
+
+* **Back to 32 bit mode**    
+Version 1.11.15 briefly was distributed to run in 64 bit mode. Unfortunately we're seeing lots of instability with hard WPF crashes and slower performance overall, so we're reverting back to 32 bit.
+
+### 1.11.15
+<small>June 6th, 2018</small>
 
 * **Better SpellChecking UI**  
 The top window box spell check toggle now displays the active dictionary language (ie. en-US, de etc.). Toggling spellchecking on and off now displays a message on the status bar so it's easier to tell when the icon is toggled (not so easy to see due to the coloring). 
