@@ -224,7 +224,7 @@ namespace MarkdownMonster.Utilities
             if (!File.Exists(gitIgnoreFile))
             {
                 if (string.IsNullOrEmpty(gitIgnoreText))
-                    gitIgnoreText = @"*.saved.md\r\n*.bak\r\n*.tmp";
+                    gitIgnoreText = "*.saved.md\r\n*.bak\r\n*.tmp";
 
                 File.WriteAllText(gitIgnoreFile, gitIgnoreText);
             }
