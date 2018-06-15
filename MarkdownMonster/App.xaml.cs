@@ -50,7 +50,7 @@ namespace MarkdownMonster
 
         public static Mutex Mutex { get; set; }
 
-        public static string InitialStartDirectory;
+        public static string InitialStartDirectory { get; }
 
         public static string[] CommandArgs { get; set; }
 
