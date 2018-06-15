@@ -144,7 +144,12 @@ namespace MarkdownMonster.Utilities
                 var diItem = DictionaryDownloads.FirstOrDefault(di => language.Equals(di.Code, StringComparison.InvariantCultureIgnoreCase));
                 if (diItem != null)
                 {
-                    var url = string.Format(DictionaryDownloadUrl,diItem.Code);
+                    string url = null;
+                    if (!string.IsNullOrEmpty(diItem.CustomDownloadUrlForDic))
+                        url = diItem.CustomDownloadUrlForDic;
+                    else
+                         url = string.Format(DictionaryDownloadUrl,diItem.Code);
+
                     if (!Directory.Exists(basePath))
                         Directory.CreateDirectory(basePath);
                         
@@ -176,10 +181,26 @@ namespace MarkdownMonster.Utilities
             //download license
             var wc = new WebClient();
             wc.Encoding = Encoding.UTF8;
-            var md = wc.DownloadString(
-                $"https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{language}/LICENSE");
+
+            var url = $"https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{language}/LICENSE";
+            var dd = DictionaryDownloads.FirstOrDefault(dx => dx.Code == language);
+            if (!string.IsNullOrEmpty(dd?.CustomDownloadUrlForLicense))
+                url = dd.CustomDownloadUrlForLicense;
+
+            string md;
+            try
+            {
+                md = wc.DownloadString(url);
+            }
+            catch
+            {
+                return false;
+            }
 
             mmApp.Model.Window.ShowStatusSuccess($"Downloaded license for {language}");
+
+            if (string.IsNullOrEmpty(md))
+                return false;
 
             form.ShowMarkdown(md);
             form.Icon = mmApp.Model.Window.Icon;
@@ -544,6 +565,13 @@ namespace MarkdownMonster.Utilities
                 Name = "Vietnamese",
                 Code = "vi"
             },
+            new DictionaryLanguage
+            {
+                Name = "Indian - Hindi",
+                Code = "HI_in",
+                CustomDownloadUrlForDic = "https://github.com/Shreeshrii/hindi-hunspell/raw/master/Hindi/hi_IN.dic",
+                CustomDownloadUrlForLicense = "https://raw.githubusercontent.com/Shreeshrii/hindi-hunspell/master/Hindi/LICENSES-hi.txt"
+            }
         };
 
     }
@@ -555,6 +583,10 @@ namespace MarkdownMonster.Utilities
         public string Url { get; set; }
         public bool PreInstalled { get; set; }
         public int SortOrder { get; set; }
+
+        public string CustomDownloadUrlForLicense { get; set; }
+        public string CustomDownloadUrlForDic { get; set; }        
+        public string CustomDownloadUrlForZip { get; set; }
     }
 
 
