@@ -599,13 +599,11 @@ namespace MarkdownMonster
                 var html = editor.RenderMarkdown(markdown);
 
                 // copy to clipboard as html
-                if (!ClipboardHelper.CopyHtmlToClipboard(html, markdown))
-                    Model.Window.ShowStatus(
-                        "Failed to copy Html to the clipboard. Check the application log for more info.",
-                        mmApp.Configuration.StatusMessageTimeout, FontAwesomeIcon.Warning, Colors.Firebrick);
+                if (!ClipboardHelper.CopyHtmlToClipboard(html))
+                    Model.Window.ShowStatusError(
+                        "Failed to copy Html to the clipboard. Check the application log for more info.");
                 else
-                    Model.Window.ShowStatus("Html has been copied to the clipboard.",
-                        mmApp.Configuration.StatusMessageTimeout);
+                    Model.Window.ShowStatusSuccess("Html has been copied to the clipboard.");
 
                 editor.SetEditorFocus();
                 editor.Window.PreviewMarkdownAsync();

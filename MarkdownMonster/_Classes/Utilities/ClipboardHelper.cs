@@ -111,10 +111,13 @@ EndSelection:<<<<<<<<4";
         /// </example>      
         /// <param name="html">an html fragment</param>      
         /// <param  name="plainText">the plain text</param>      
-        public static bool CopyHtmlToClipboard(string html, string plainText)
+        public static bool CopyHtmlToClipboard(string html, string plainText = null)
         {
             try
             {
+                if (plainText == null)
+                    plainText = html;
+
                 var dataObject = CreateDataObject(html, plainText);
                 Clipboard.SetDataObject(dataObject, true);
                 return true;
