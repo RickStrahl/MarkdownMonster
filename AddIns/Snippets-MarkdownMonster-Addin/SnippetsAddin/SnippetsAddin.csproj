@@ -93,13 +93,13 @@
     <Reference Include="Westwind.RazorHosting, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Westwind.RazorHosting.3.3.0\lib\net45\Westwind.RazorHosting.dll</HintPath>
     </Reference>
-    <Reference Include="Westwind.Utilities, Version=3.0.15.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Westwind.Utilities.3.0.15\lib\net45\Westwind.Utilities.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Westwind.Utilities, Version=3.0.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Westwind.Utilities.3.0.17\lib\net45\Westwind.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

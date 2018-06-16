@@ -65,9 +65,8 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
-    <Reference Include="Westwind.Utilities, Version=3.0.15.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Westwind.Utilities.3.0.15\lib\net45\Westwind.Utilities.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Westwind.Utilities, Version=3.0.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Westwind.Utilities.3.0.17\lib\net45\Westwind.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -129,6 +128,7 @@
     <Resource Include="SnagItIcon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
