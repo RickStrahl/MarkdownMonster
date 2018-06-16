@@ -663,6 +663,7 @@ namespace MarkdownMonster
         public void SaveSettings()
         {
             var config = mmApp.Configuration;
+            
             if (Model != null)
                 config.IsPreviewVisible = Model.IsPreviewBrowserVisible;
             config.WindowPosition.IsTabHeaderPanelVisible = true;

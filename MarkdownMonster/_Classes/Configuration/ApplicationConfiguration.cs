@@ -708,26 +708,11 @@ namespace MarkdownMonster
 
         protected override IConfigurationProvider OnCreateDefaultProvider(string sectionName, object configData)
         {
-            var commonFolder = CommonFolder;
-            var cfFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");
-            if (File.Exists(cfFile))
-            {
-                commonFolder = File.ReadAllText(cfFile);
-                if (!Directory.Exists(commonFolder))
-                {
-                    commonFolder = InternalCommonFolder;
-                    File.Delete(cfFile);
-                }
-            }
-            if (string.IsNullOrWhiteSpace(commonFolder))
-	        {
-		        commonFolder = CommonFolder;
-		        File.Delete(cfFile);
-	        }
+            CommonFolder = FindCommonFolder();
 
 	        var provider = new JsonFileConfigurationProvider<ApplicationConfiguration>()
             {
-                JsonConfigurationFile = Path.Combine(commonFolder,"MarkdownMonster.json")
+                JsonConfigurationFile = Path.Combine(CommonFolder,"MarkdownMonster.json")
             };
 
             if (!File.Exists(provider.JsonConfigurationFile))
@@ -812,10 +797,63 @@ namespace MarkdownMonster
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-         
+
+        /// <summary>
+        /// Sets the CommonFolder for finding configuration settings and
+        /// Addins etc.
+        /// </summary>
+        /// <returns></returns>
+        protected string FindCommonFolder()
+        {
+            string commonFolderToSet = null;
+            string workFolder = null;
+
+            // Check for Portable Installation
+            var cfFile = Path.Combine(App.InitialStartDirectory, ".\\_IsPortable");
+            if (File.Exists(cfFile))
+            {
+                // Use PortableSettings in Install Folder
+                workFolder = Path.Combine(App.InitialStartDirectory, "PortableSettings");
+
+                if (Directory.Exists(workFolder))
+                {
+                    InternalCommonFolder = workFolder;
+                    App.IsPortableMode = true;
+                    return workFolder;
+                }
+
+                if (LanguageUtils.IgnoreErrors(() => { Directory.CreateDirectory(workFolder); }))
+                {
+                    InternalCommonFolder = workFolder;
+                    App.IsPortableMode = true;
+                    return workFolder;
+                }
+            }
+
+            // Check for Common Folder override 
+            cfFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");
+            if (File.Exists(cfFile))
+            {
+                workFolder = File.ReadAllText(cfFile);
+                if (!Directory.Exists(workFolder))
+                {
+                    workFolder = InternalCommonFolder;
+                    LanguageUtils.IgnoreErrors(() => File.Delete(workFolder));
+                }
+
+            }
+
+            if (string.IsNullOrWhiteSpace(workFolder))
+            {
+                workFolder = CommonFolder;
+                File.Delete(cfFile);
+            }
+
+            return commonFolderToSet;
+        }
         #endregion
 
-        
+
     }
     
 

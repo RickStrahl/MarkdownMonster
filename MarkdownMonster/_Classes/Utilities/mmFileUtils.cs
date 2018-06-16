@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Media;
 using FontAwesome.WPF;
+using MarkdownMonster.Annotations;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
@@ -17,14 +18,17 @@ namespace MarkdownMonster
     /// </summary>
     public static class mmFileUtils
     {
-		#region File Utilities
-		/// <summary>
-		/// Method checks for existance of full filename and tries
-		/// to check for file in the initial startup folder.
-		/// </summary>
-		/// <param name="file">Name of file - fully qualified or local folder file</param>
-		/// <returns>filename or null if file doesn't exist</returns>
-		public static string FixupDocumentFilename(string file)
+
+
+
+        #region File Utilities
+        /// <summary>
+        /// Method checks for existance of full filename and tries
+        /// to check for file in the initial startup folder.
+        /// </summary>
+        /// <param name="file">Name of file - fully qualified or local folder file</param>
+        /// <returns>filename or null if file doesn't exist</returns>
+        public static string FixupDocumentFilename(string file)
         {
             if (file == null)
                 return null;
@@ -163,7 +167,7 @@ namespace MarkdownMonster
 
 		#endregion
 
-	    #region Type Utilities       
+	    #region Type and Language Utilities       
 
         /// <summary>
         /// Safely converts a double to an integer
@@ -190,7 +194,7 @@ namespace MarkdownMonster
                          "\r\n" + ex.StackTrace);
                 return failValue;
             }
-        }        
+        }
         #endregion
 
 
@@ -672,6 +676,4 @@ namespace MarkdownMonster
 	    }
 	    #endregion
     }
-
-
 }

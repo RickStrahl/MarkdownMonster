@@ -50,6 +50,8 @@ namespace MarkdownMonster
 
         public static Mutex Mutex { get; set; }
 
+        public static bool IsPortableMode { get; set; }
+
         public static string InitialStartDirectory { get; }
 
         public static string[] CommandArgs { get; set; }
@@ -75,25 +77,8 @@ namespace MarkdownMonster
         {
             // Get just the command arguments
             CommandArgs = Environment.GetCommandLineArgs().Skip(1).ToArray();
-
             if (CommandArgs.Length > 0)
-            {
-                if (  (CommandArgs[0].ToLower() == "uninstall" || CommandArgs[0].ToLower() == "-uninstall"))
-                {
-                    _noStart = true;
-                    UninstallSettings();
-                    Environment.Exit(0);
-                    return;
-                }
-
-                if ((CommandArgs[0].ToLower() == "reset" || CommandArgs[0].ToLower() == "-reset"))
-                {
-                    // load old config and backup
-                    mmApp.Configuration.Backup();
-                    mmApp.Configuration.Reset(); // forces exit
-                    return;
-                }
-            }
+                HandleCommandLineArguments(CommandArgs);
 
             SplashScreen splashScreen = null;
             if (!mmApp.Configuration.DisableSplashScreen)
@@ -119,7 +104,6 @@ namespace MarkdownMonster
             mmApp.ApplicationStart();
 
         }
-
 
 
         protected override void OnStartup(StartupEventArgs e)
@@ -218,6 +202,69 @@ namespace MarkdownMonster
 		    // Shut down application
 		    Environment.Exit(0);
 	    }
+
+
+        private void HandleCommandLineArguments(string[] commandArgs)
+        {
+            var arg0 = CommandArgs[0].ToLower().TrimStart('-');
+
+            switch (arg0)
+            {
+                case "uninstall":
+                    _noStart = true;
+                    UninstallSettings();
+                    Environment.Exit(0);
+                    return;
+                case "reset":
+                    // load old config and backup
+                    mmApp.Configuration.Backup();
+                    mmApp.Configuration.Reset(); // forces exit
+                    return;
+                case "setportable":
+                    try
+                    {
+                        bool exists = Directory.Exists(".\\PortableSettings");
+                        string oldCommonFolder = mmApp.Configuration.CommonFolder;
+
+                        File.WriteAllText("_IsPortable",
+                            @"forces the settings to be read from .\PortableSettings rather than %appdata%");
+
+                        if (!exists && 
+                            Directory.Exists(oldCommonFolder) &&
+                            MessageBox.Show(
+                                "Portable mode set. Do you want to copy settings from:\r\n\r\n" +
+                                oldCommonFolder + "\r\n\r\nto the PortableSettings folder?",
+                                "Markdown MonsterPortable Mode",
+                                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            FileUtils.CopyDirectory(oldCommonFolder,
+                                Path.GetFullPath(".\\PortableSettings"), deepCopy: true);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Unable to set portable mode: " + ex.Message);
+                    }
+
+                    Environment.Exit(0);
+                    return;
+                case "unsetportable":
+                    try
+                    {
+                        File.Delete("_IsPortable");                        
+                        mmApp.Configuration.InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
+                        mmApp.Configuration.CommonFolder = mmApp.Configuration.InternalCommonFolder;
+                        mmApp.Configuration.Write();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Unable to delete portable settings switch file\r\n_IsPortable\r\n\r\n{ex.Message}");
+                    }
+
+                    Environment.Exit(0);
+                    return;
+            }
+        }
 
 
         /// <summary>
