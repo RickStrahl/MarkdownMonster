@@ -18,7 +18,6 @@ $filetext = @"
 "@
 out-file -filepath .\tools\Verification.txt -inputobject $filetext
 
-
 Remove-Item *.nupkg
 
 # Create .nupkg from .nuspec    

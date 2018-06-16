@@ -10,17 +10,18 @@
 "Signing the main EXE..."
 & ".\signtool.exe" sign /v /n "West Wind Technologies" /sm  /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"
 
-copy ".\MarkdownMonsterPortable.md" ".\Distribution"
-
 "Zipping up setup file..."
 del ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip"
 .\7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip" ".\Builds\CurrentRelease\MarkdownMonsterSetup.exe"
 
+# Portable build includes _IsPortable flag by default
+out-file -FilePath .\Distribution\_IsPortable -InputObject "forces the settings to be read from .\PortableSettings rather than %appdata%"
 "Zipping up portable setup file..."
 del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
 .\7z a -tzip -r ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\Distribution\*.*"
 .\7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\MarkdownMonsterPortable.md"
 
+# remove-item .\Distribution\_IsPortable
 
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe").FileVersion
 $version = $version.Trim()

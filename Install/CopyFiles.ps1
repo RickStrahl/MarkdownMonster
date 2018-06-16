@@ -4,6 +4,7 @@ $cur="$PSScriptRoot"
 $source="$PSScriptRoot\..\MarkdownMonster"
 $target="$PSScriptRoot\Distribution"
 
+# delete the Distribution folder
 remove-item -recurse -force ${target}
 
 # copy but exclude libGit extra folders
