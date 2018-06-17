@@ -202,11 +202,23 @@ A common use case for Markdown is to create rich blog posts with embedded links 
 
 Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the Weblog publishing feature. Click the Weblog button on the toolbar and set up your blog (MetaWebLog, WordPress or Medium), and then specify the Weblog specifics like title, abstract, tags and Web Site to publish to. You can also download existing blog posts from your blog and edit them as Markdown (with some conversion limitations) and then republish them.
 
-![Weblog Publishing Addin](WebLogPublishingAddin.png)
+![Weblog Publishing Addin](Assets/WebLogPublishingAddin.png)
 
-![Weblog Publishing Addin Download](WebLogPublishingAddin_download.png)
+![Weblog Publishing Addin Download](Assets/WebLogPublishingAddin_download.png)
 
 Posting is very fast and you can easily re-post existing content when you need to make changes (not supported for Medium).
+
+### Git Integration
+These days working with Markdown often means working with Git repositories and Markdown Monster makes it easy to clone or create repositories, commit and push changes.
+
+![](Assets/GitCommitDialog.png)
+
+### Folder Browser and Document Outline Sidebars
+There's also a folder browser which has built-in support for Git status so you can immediately see what documents have changed in your folder tree. The browser lets you navigate folders, create, delete and move files and there are many options to view and edit files. 
+
+The document outline provides an overview of headings in your documents that you can easily jump to as you are working with your document.
+
+![](Assets/FolderBrowserAndDocOutline.png)
 
 ### Customizable
 Most editing and UI features in Markdown Monster are optional and can be turned on and off. Want to work distraction free and see no preview or spell checking hints? You can turn them off. Want to store configuration data in a shared cloud folder? You can do that too.
@@ -229,7 +241,7 @@ You can find documentation for creating Addins here:
 ### Markdown Monster Addin Registry
 You can create addins for your own use, simply by copying them into the Addins folder, or if you created an Addin that you think might be useful for others you can publish on the Markdown Monster Addin Registry. The registry holds public Addins that show in the Addin Manager inside of Markdown Monster:
 
-![Addin Manager](AddinManager.png)
+![Addin Manager](Assets/AddinManager.png)
 
 You can find out more on how to publish your Addins in this GitHub repository:
 
@@ -249,15 +261,15 @@ Not only does Markdown Monster allow extension via Addins - it also uses Addins 
 ### Screen Capture Addin
 The Screen Capture add-in supports two separate capture modes: Using Techsmith's popular and super versatile [SnagIt](http://techsmith.com/snagit) Screen Capture utility (which I **highly** recommend!) or using an integrated less featured Screen Capture module that allows capturing for Windows desktop windows and objects. To capture, simply click the capture button (camera icon) and the main app minimizes and either SnagIt or the integrate screen capture tool pops up to let you select the object to capture. You can preview and edit your captures, and when finished the captured image is linked directly into content.
 
-![SnagIt Screen Capture Add-in](SnagItCaptureAddin.png)
+![SnagIt Screen Capture Add-in](Assets/SnagItCaptureAddin.png)
 
 Here's the **SnagIt Screen Capture** in action:
 
-![](SnagItScreenCapture.gif)
+![](Assets/SnagItScreenCapture.gif)
 
 If you don't have SnagIt installed or you simply prefer a more light weight but less full featured solution, you can use the **built-in Screen Capture** that's a native part of Markdown Monster and doesn't require any external software:
 
-![](ClassicScreenCapture.gif)
+![](Assets/ClassicScreenCapture.gif)
 
 ### Other Add-ins - What do you want to build?
 I can think of a few add-in ideas - a quick way to commit to Git and Push would be useful for documentation solutions, or Git based blogs, so you can easily persist changes to a GitHub repository. Embedding all sorts of content like reference links, AdSense links, Amazon product links, a new post template engine, etc., etc.
