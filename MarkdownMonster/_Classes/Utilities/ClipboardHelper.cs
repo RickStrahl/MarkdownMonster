@@ -111,7 +111,7 @@ EndSelection:<<<<<<<<4";
         /// </example>      
         /// <param name="html">an html fragment</param>      
         /// <param  name="plainText">the plain text</param>      
-        public static bool CopyHtmlToClipboard(string html, string plainText = null)
+        public static bool CopyHtmlToClipboard(string html, string plainText = null, bool showStatusError = false)
         {
             try
             {
@@ -122,9 +122,12 @@ EndSelection:<<<<<<<<4";
                 Clipboard.SetDataObject(dataObject, true);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                mmApp.Log("Copy HTML to Clipboard failed: ",e);
+                mmApp.Log("Copy HTML to Clipboard failed",ex);
+                if (showStatusError)
+                    mmApp.Model.Window.ShowStatusError($"Couldn't save Html to clipboard: {ex.Message}");
+
                 return false;
             }
         }
@@ -270,7 +273,7 @@ EndSelection:<<<<<<<<4";
             catch (Exception ex)
             {
                 if (showStatusError)
-                    mmApp.Model.Window.ShowStatusError($"Couldn't set clipboard text: {ex.Message}");
+                    mmApp.Model.Window.ShowStatusError($"Couldn't save text to clipboard: {ex.Message}");
                 return false;
             }
         }
