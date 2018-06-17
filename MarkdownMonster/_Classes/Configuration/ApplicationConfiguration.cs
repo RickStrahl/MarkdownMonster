@@ -728,11 +728,17 @@ namespace MarkdownMonster
 
         public override bool Write()
         {
-            var commonFolderFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");
-            if (CommonFolder != InternalCommonFolder)
-                File.WriteAllText(commonFolderFile, CommonFolder);
-            else
-                File.Delete(commonFolderFile);
+            if (!App.IsPortableMode)
+            {
+                var commonFolderFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");
+                if (CommonFolder != InternalCommonFolder)
+                    File.WriteAllText(commonFolderFile, CommonFolder);
+                else
+                {
+                    if (File.Exists(commonFolderFile))
+                        File.Delete(commonFolderFile);
+                }
+            }
 
             return base.Write();
         }
@@ -837,23 +843,20 @@ namespace MarkdownMonster
 
             // Check for Common Folder override 
             cfFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");
-            if (File.Exists(cfFile))
+            bool cflExists = File.Exists(cfFile);
+
+            if (cflExists)
             {
-                workFolder = File.ReadAllText(cfFile);
-                if (!Directory.Exists(workFolder))
+                commonFolderToSet = File.ReadAllText(cfFile);
+                if (!Directory.Exists(commonFolderToSet))
                 {
-                    workFolder = InternalCommonFolder;
-                    LanguageUtils.IgnoreErrors(() => File.Delete(workFolder));
-                }
-
+                    commonFolderToSet = InternalCommonFolder;
+                    File.Delete(cfFile);
+                }                
             }
-
-            if (string.IsNullOrWhiteSpace(workFolder))
-            {
-                workFolder = CommonFolder;
-                File.Delete(cfFile);
-            }
-
+            else
+                commonFolderToSet = CommonFolder;
+            
             return commonFolderToSet;
         }
         #endregion

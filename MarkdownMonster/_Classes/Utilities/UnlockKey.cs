@@ -18,7 +18,7 @@ namespace MarkdownMonster
 
         static UnlockKey()
         {
-            RegisterFile = Path.Combine( mmApp.Configuration.InternalCommonFolder,"Registered.key");
+            RegisterFile = Path.Combine( mmApp.Configuration.CommonFolder,"Registered.key");
             ProKey = Encoding.UTF8.GetString(Convert.FromBase64String(mmApp.Signature));
         }
 

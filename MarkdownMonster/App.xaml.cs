@@ -147,7 +147,7 @@ namespace MarkdownMonster
                     mmFileUtils.EnsureSystemPath();
                     mmFileUtils.EnsureAssociations();
 
-                    if (!Directory.Exists(mmApp.Configuration.InternalCommonFolder))
+                    if (!IsPortableMode && !Directory.Exists(mmApp.Configuration.InternalCommonFolder))
                         Directory.CreateDirectory(mmApp.Configuration.InternalCommonFolder);
                 });
             }
@@ -221,6 +221,7 @@ namespace MarkdownMonster
                     mmApp.Configuration.Reset(); // forces exit
                     return;
                 case "setportable":
+                    // Note: Startup logic to handle portable startup is in AppConfiguration::FindCommonFolder
                     try
                     {
                         string portableSettingsFolder = Path.Combine(InitialStartDirectory, "PortableSettings");
@@ -240,7 +241,14 @@ namespace MarkdownMonster
                         {
                             FileUtils.CopyDirectory(oldCommonFolder,
                                 portableSettingsFolder, deepCopy: true);
+
+                            mmApp.Configuration.CommonFolder = portableSettingsFolder;
+                            mmApp.Configuration.Read();
                         }
+
+
+                        mmApp.Configuration.CommonFolder = portableSettingsFolder;
+                        mmApp.Configuration.Write();
                     }
                     catch (Exception ex)
                     {
