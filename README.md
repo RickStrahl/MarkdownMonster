@@ -202,8 +202,9 @@ A common use case for Markdown is to create rich blog posts with embedded links 
 
 Writing long blog posts is one thing I do a lot of and this is one of the reasons I actually wanted an integrated solution in a Markdown editor. You can take any Markdown and turn it into a blog post by using the Weblog publishing feature. Click the Weblog button on the toolbar and set up your blog (MetaWebLog, WordPress or Medium), and then specify the Weblog specifics like title, abstract, tags and Web Site to publish to. You can also download existing blog posts from your blog and edit them as Markdown (with some conversion limitations) and then republish them.
 
-![Weblog Publishing Addin](WebLogPublishingAddin.png)  
-![Weblog Publishing Addin](WebLogPublishingAddin_download.png)  
+![Weblog Publishing Addin](WebLogPublishingAddin.png)
+
+![Weblog Publishing Addin Download](WebLogPublishingAddin_download.png)
 
 Posting is very fast and you can easily re-post existing content when you need to make changes (not supported for Medium).
 
