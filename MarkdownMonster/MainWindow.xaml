@@ -63,7 +63,7 @@
             <MenuItem Name="ContextOpenInFolder" Header="Show in Explorer" Click="Button_OpenExplorer" />
             <MenuItem Name="ContextOpenInFolderBrowser" Header="Show in Folder _Browser" Click="Button_OpenFolderBrowser" />
             <Separator/>
-            <MenuItem Name="ContextCommitToGit" Header="Commit to _Git"
+            <MenuItem Name="ContextCommitToGit" Header="Commit to _Git..."
                       Command="{Binding DataContext.Commands.CommitToGitCommand}" />
             <MenuItem Name="ContextOpenGitClient" Header="Open in Git Client"
                       Command="{Binding DataContext.Commands.OpenGitClientCommand}"   IsEnabled="{Binding Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
@@ -235,12 +235,12 @@
                 
                 <MenuItem Name="ButtonSaveAsSecureFile" Header="Save As _Encrypted File" Command="{Binding Commands.SaveAsCommand}" CommandParameter="Secure"  />
                 <MenuItem Name="ButtonSaveAsHtml" Header="Save As _Html" Command="{Binding Commands.SaveAsHtmlCommand}" />
-                <MenuItem x:Name="ButtonGeneratePdf" Header="Save As Pdf" Command="{Binding Commands.GeneratePdfCommand}" />
+                <MenuItem x:Name="ButtonGeneratePdf" Header="Save As Pdf..." Command="{Binding Commands.GeneratePdfCommand}" />
                 
                 <Separator/>
 
                 <MenuItem Header="_Git">
-                    <MenuItem Header="_Commit and Push to Git" Command="{Binding Commands.CommitToGitCommand}" InputGestureText="alt-t-g" />
+                    <MenuItem Header="_Commit to Git..." Command="{Binding Commands.CommitToGitCommand}" InputGestureText="alt-t-g" />
                     <Separator />
                     <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" InputGestureText="alt-f-g-g"/>
                     <MenuItem Header="_Create Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" CommandParameter="Create" />
@@ -314,7 +314,7 @@
                         IsEnabled="{Binding IsEditorActive}" 
                         ToolTip="Open the document's folder in Explorer" />
                 <Separator/>
-                <MenuItem Name="MenuCommitToGit" Header="Commit to _Git and Push" Command="{Binding Commands.CommitToGitCommand}" IsEnabled="{Binding IsEditorActive}" 
+                <MenuItem Name="MenuCommitToGit" Header="Commit to _Git..." Command="{Binding Commands.CommitToGitCommand}" IsEnabled="{Binding IsEditorActive}" 
                           ToolTip="Commits the open document to Git and tries to push to the active remote branch." />
                 <MenuItem Name="MenuCopyFoldername" Header="Copy Foldername" 
                           ToolTip="Copy the document's foldername to the Clipboard" 

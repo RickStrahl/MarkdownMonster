@@ -1195,7 +1195,7 @@ namespace MarkdownMonster.Windows
             cm.Items.Add(new Separator());
 
             ci = new MenuItem();
-            ci.Header = "Commit to _Git";
+            ci.Header = "Commit to _Git...";
             ci.InputGestureText = "ctrl-g";
             ci.Click += MenuCommitGit_Click;
             cm.Items.Add(ci);
