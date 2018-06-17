@@ -6,8 +6,15 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.11.16
+### 1.11.17
 <small>not released yet</small>
+
+* **Improved Addin Removal**  
+You can now remove addins from the Addin's drop down menu. This also works for manually installed addins and test scenarios where addins aren't installed through the Addin Manager.
+
+
+### 1.11.16
+<small>June 16th, 2018</small>
 
 * **[Updated Portable Mode Operation](https://markdownmonster.west-wind.com/docs/_4t90rhfy9.htmhttps://markdownmonster.west-wind.com/docs/_4t90rhfy9.htm)**  
 Markdown Monster's portable mode now no longer uses %appdata% for configuration data storage but instead uses a local `PortableSettings` folder for portable settings. Simplified portable mode operation via `_IsPortable` file flag.
@@ -21,7 +28,7 @@ Fixed operation of Markdown selection to Clipboard, so that HTML is generated bo
 <h4 style="color: firebrick">1.11.16 Breaking Changes</h4>
 
  * **Portable Version Changes affect Configuration**   
-If you are rruning the portable version of Markdown Monster installing 1.11.16 is going to lose your existing configuration settings for Markdown Monster and start with a fresh configuration. If you would like to use your old configuration make sure you shut down MM first, and then copy the existing configuration from `%appdata%\Markdown Monster` (or a custom location if you've configured one) to `<installFolder>\PortableSettings`. This will restore the old settings. Make sure you shut down MM before updating the files. If you used a custom location for configuration also remove the `CommonFolder` key from `MarkdownMonster.json` so it resets to the new portable location.
+If you are runing the portable version of Markdown Monster installing 1.11.16 is going to lose your existing configuration settings for Markdown Monster and start with a fresh configuration. If you would like to use your old configuration make sure you shut down MM first, and then copy the existing configuration from `%appdata%\Markdown Monster` (or a custom location if you've configured one) to `<installFolder>\PortableSettings`. This will restore the old settings. Make sure you shut down MM before updating the files. If you used a custom location for configuration also remove the `CommonFolder` key from `MarkdownMonster.json` so it resets to the new portable location.
 
 
 ### 1.11.15
