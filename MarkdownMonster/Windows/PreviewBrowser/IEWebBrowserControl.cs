@@ -79,20 +79,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         public void ExecuteCommand(string command, params dynamic[] args)
         {
-
-            if (command == "PreviewContextMenu")
-            {
-                var ctm = WebBrowser.ContextMenu;
-                ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-                ctm.PlacementTarget = WebBrowser;
-                ctm.IsOpen = true;
-            }
-
-            if (command == "PrintPreview")
-            {
-                dynamic dom = WebBrowser.Document;
-                dom.execCommand("print", true, null);
-            }
+            PreviewBrowserHandler.ExecuteCommand(command, args);
         }
     }
 }
