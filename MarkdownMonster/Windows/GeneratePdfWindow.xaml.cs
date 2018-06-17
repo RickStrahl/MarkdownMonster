@@ -56,7 +56,9 @@ namespace MarkdownMonster.Windows
 			InitializeComponent();
 			Loaded += GeneratePdfWindow_Loaded;
 
-		    Model = mmApp.Model;
+		    mmApp.SetThemeWindowOverride(this);
+
+            Model = mmApp.Model;
 
 		    DataContext = this;
             initialHeight = Height;

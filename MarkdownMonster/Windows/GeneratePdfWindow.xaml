@@ -38,7 +38,7 @@
 
         <ToolBarPanel>
             <StackPanel Orientation="Horizontal">
-                <ToolBar Padding="0,5,0,5" >
+                <ToolBar Padding="0,5,0,5" FontWeight="Normal" >
 
                     <Button Name="ButtonGeneratePdf"                       
                             HorizontalAlignment="Left" IsDefault="True"  
@@ -162,8 +162,7 @@
                        ScrollViewer.VerticalScrollBarVisibility="Auto" />
         </StackPanel>
 
-        <StatusBar  Grid.Row="2" Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="14"
-		            Background="{Binding Window.Background}">
+        <StatusBar  Grid.Row="2" Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="14">
 			<StatusBar.ItemsPanel>
 				<ItemsPanelTemplate>
 					<Grid>
