@@ -18,6 +18,12 @@ Version 1.11.15 briefly was distributed to run in 64 bit mode. Unfortunately we'
 * **Fix: Paste Markdown to Clipboard as HTML**  
 Fixed operation of Markdown selection to Clipboard, so that HTML is generated both for formatted output (ie. for RTF pasting into Word or Outlook or other HTML editors) or HTML as plain text. Previously the plain text paste produced the original markdown. HTML plain text is usually the desired option for manually pasting into other applications since you can always grab the raw from the editor with a plain copy.
 
+<h4 style="color: firebrick">1.11.16 Breaking Changes</h4>
+
+ * **Portable Version Changes affect Configuration**   
+If you are rruning the portable version of Markdown Monster installing 1.11.16 is going to lose your existing configuration settings for Markdown Monster and start with a fresh configuration. If you would like to use your old configuration make sure you shut down MM first, and then copy the existing configuration from `%appdata%\Markdown Monster` (or a custom location if you've configured one) to `<installFolder>\PortableSettings`. This will restore the old settings. Make sure you shut down MM before updating the files. If you used a custom location for configuration also remove the `CommonFolder` key from `MarkdownMonster.json` so it resets to the new portable location.
+
+
 ### 1.11.15
 <small>June 6th, 2018</small>
 
