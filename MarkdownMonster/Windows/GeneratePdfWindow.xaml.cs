@@ -99,14 +99,6 @@ namespace MarkdownMonster.Windows
 			// render the document with template and return only as string (no output yet)
 		    document.RenderHtmlToFile(filename: htmlFilename, removeBaseTag: true); //, noFileWrite: true);
 
-            //// strip <base> tag
-            //var extracted = StringUtils.ExtractString(html, "<base href=\"", "/>", false, false, true);
-            //if (!string.IsNullOrEmpty(extracted))
-            //    html = html.Replace(extracted, "");
-
-            //// now write out the file
-            //File.WriteAllText(htmlFilename, html);
-
             bool result = await Task.Run(() =>
 		    {
 		        bool res = PdfGenerator.GeneratePdfFromHtml(htmlFilename, OutputFile);
@@ -115,7 +107,6 @@ namespace MarkdownMonster.Windows
 		    });
 
 			ButtonGeneratePdf.IsEnabled = true;
-
 
             if (!result)
             {

@@ -140,9 +140,8 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
                         if (renderedHtml == null)
                         {
-                            Window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red, false);
-                            Window.ShowStatus($"Access denied: {Path.GetFileName(doc.Filename)}",
-                                5000);
+
+                            Window.ShowStatusError($"Access denied: {Path.GetFileName(doc.Filename)}");
                             // need a way to clear browser window
 
                             return;

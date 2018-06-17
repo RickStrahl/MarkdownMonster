@@ -323,8 +323,8 @@ namespace MarkdownMonster.Windows
             if (Window == null)
                 return;
 
-            Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Spinner, Colors.Orange, true);
-            Window.ShowStatus($"Retrieving files for folder {folder}...");
+            
+            Window.ShowStatusProgress($"Retrieving files for folder {folder}...");
 
             Dispatcher.InvokeAsync(() =>
             {
@@ -830,9 +830,8 @@ namespace MarkdownMonster.Windows
                 }
                 catch
                 {
-                    Window.ShowStatus("Unable to open file " + file, 4000);
-                    Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Red);
-
+                    Window.ShowStatusError($"Unable to open file {file}");
+                    
                     if (MessageBox.Show(
                             "Unable to open this file. Do you want to open it as a text document in the editor?",
                             mmApp.ApplicationName,
@@ -852,8 +851,7 @@ namespace MarkdownMonster.Windows
         {
             debounceTimer.Debounce(500, (p) =>
             {
-                Window.ShowStatus("Filtering files...");
-                Window.SetStatusIcon(FontAwesomeIcon.Spinner, Colors.Orange, spin: true);
+                Window.ShowStatusProgress("Filtering files...");                
                 WindowUtilities.DoEvents();
                 FolderStructure.SetSearchVisibility(SearchText, ActivePathItem, SearchSubTrees);
                 Window.ShowStatus(null);
@@ -864,8 +862,7 @@ namespace MarkdownMonster.Windows
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
-            Window.ShowStatus("Filtering files...");
-            Window.SetStatusIcon(FontAwesomeIcon.Spinner, Colors.Orange, spin: true);
+            Window.ShowStatusProgress("Filtering files...");            
             WindowUtilities.DoEvents();
             FolderStructure.SetSearchVisibility(SearchText, ActivePathItem, SearchSubTrees);
             Window.ShowStatus(null);
@@ -1312,8 +1309,8 @@ namespace MarkdownMonster.Windows
             }
             catch
             {
-                Window.ShowStatus("Unable to open file " + selected.FullPath, 4000);
-                Window.SetStatusIcon(FontAwesome.WPF.FontAwesomeIcon.Warning, Colors.Red);
+                Window.ShowStatusError($"Unable to open file {selected.FullPath}");
+                
             }
         }
 

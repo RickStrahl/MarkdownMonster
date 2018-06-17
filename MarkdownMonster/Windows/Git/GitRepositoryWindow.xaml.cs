@@ -123,7 +123,7 @@ namespace MarkdownMonster.Windows
 
         public AppModel AppModel { get; set; }
 
-        
+        StatusBarHelper StatusBar { get; set; }
 
         public GitRepositoryWindow(GitRepositoryWindowMode startupMode = GitRepositoryWindowMode.Clone)
         {
@@ -141,7 +141,11 @@ namespace MarkdownMonster.Windows
 
             Loaded += OpenFromUrl_Loaded;
             Activated += OpenFromUrl_Activated;
+
+            StatusBar = new StatusBarHelper(StatusText, StatusIcon);
         }
+
+        
 
         private void OpenFromUrl_Activated(object sender, EventArgs e)
         {
@@ -199,21 +203,20 @@ namespace MarkdownMonster.Windows
 
             if (string.IsNullOrEmpty(GitUrl))
             {
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
-                ShowStatus("Please provide a URL for the Git Repository to clone.");
+                
+                StatusBar.ShowStatusError("Please provide a URL for the Git Repository to clone.");
                 return;
             }
 
             if (string.IsNullOrEmpty(LocalPath))
-            {
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
-                ShowStatus("Please provide a local path to clone the Repository to.");
+            {                
+                StatusBar.ShowStatusError("Please provide a local path to clone the Repository to.");
                 return;
             }
 
             if (await CloneRepository())
             {
-                ShowStatus("Cloning completed successfully.");
+               StatusBar.ShowStatusSuccess("Repository has been cloned.");
                 DialogResult = true;
             }
             else
@@ -233,14 +236,14 @@ namespace MarkdownMonster.Windows
 
             if (string.IsNullOrEmpty(LocalPath))
             {
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
-                ShowStatusError("Please provide a local path to clone the Git Repository to.");
+
+                StatusBar.ShowStatusError("Please provide a local path to clone the Git Repository to.");
                 return;
             }
 
             if (Directory.Exists(Path.Combine(LocalPath, ".git")))
             {
-                ShowStatusError("This folder already contains a Git repository.");
+                StatusBar.ShowStatusError("This folder already contains a Git repository.");
                 return;
             }
 
@@ -248,7 +251,7 @@ namespace MarkdownMonster.Windows
             {
                 if (!git.CreateRepository(LocalPath))
                 {
-                    ShowStatusError($"Couldn't create Git Repository: {git.ErrorMessage}");
+                    StatusBar.ShowStatusError($"Couldn't create Git Repository: {git.ErrorMessage}");
                     return;
                 }
             }
@@ -275,7 +278,7 @@ namespace MarkdownMonster.Windows
             
             if (string.IsNullOrEmpty(LocalPath) || !Directory.Exists(Path.Combine(LocalPath, ".git")))
             {
-                ShowStatusError("The local folder is not a Git repository. Please create a Repository first.");
+                StatusBar.ShowStatusError("The local folder is not a Git repository. Please create a Repository first.");
                 return;
             }
 
@@ -283,19 +286,19 @@ namespace MarkdownMonster.Windows
             {
                 if (git.OpenRepository(LocalPath) == null)
                 {
-                    ShowStatusError($"Couldn't open local repository: {git.ErrorMessage}");
+                    StatusBar.ShowStatusError($"Couldn't open local repository: {git.ErrorMessage}");
                     return;
                 }
 
                 if (!git.AddRemote(GitUrl,RemoteName))
                 {
-                    ShowStatusError($"Couldn't create Git Repository: {git.ErrorMessage}");
+                    StatusBar.ShowStatusError($"Couldn't create Git Repository: {git.ErrorMessage}");
                     return;
                 }
 
             }
 
-            ShowStatus("Remote has been added to Git Repository at: " + LocalPath);
+            StatusBar.ShowStatusSuccess($"Remote has been added to Git Repository at: {LocalPath}");
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -308,8 +311,8 @@ namespace MarkdownMonster.Windows
         {
             using (var git = new GitHelper())
             {
-                SetStatusIcon(FontAwesomeIcon.CircleOutlineNotch, Colors.DarkGoldenrod, true);
-                ShowStatus("Cloning Repository...");
+
+                StatusBar.ShowStatusProgress("Cloning Repository...");
 
 
                 GitCommandResult result = await Task.Run<GitCommandResult>(() =>
@@ -321,9 +324,8 @@ namespace MarkdownMonster.Windows
 
                 if (result.HasError)
                 {
-                    SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
-                    ShowStatus("Cloning failed.");
 
+                    StatusBar.ShowStatusError("Cloning failed.");
                     return false;
                 }
 
@@ -345,91 +347,6 @@ namespace MarkdownMonster.Windows
 
         }
 
-        #region StatusBar Display
-
-        DebounceDispatcher debounce = new DebounceDispatcher();
-
-
-        public void ShowStatus(string message = null, int milliSeconds = 0,
-            FontAwesomeIcon icon = FontAwesomeIcon.None,
-            Color color = default(Color),
-            bool spin = false)
-        {
-            if (icon != FontAwesomeIcon.None)
-                SetStatusIcon(icon, color, spin);
-
-            if (message == null)
-            {
-                message = "Ready";
-                SetStatusIcon();
-            }
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                // debounce rather than delay so if something else displays
-                // a message the delay timer is 'reset'
-                debounce.Debounce(milliSeconds, (win) =>
-                {
-                    var window = win as GitRepositoryWindow;
-                    window.ShowStatus(null, 0);
-                }, this);
-            }
-
-            WindowUtilities.DoEvents();
-        }
-
-
-        /// <summary>
-        /// Displays an error message using common defaults
-        /// </summary>
-        /// <param name="message">Message to display</param>
-        /// <param name="timeout">optional timeout</param>
-        /// <param name="icon">optional icon (warning)</param>
-        /// <param name="color">optional color (firebrick)</param>
-        public void ShowStatusError(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.Warning, Color color = default(Color))
-        {
-            if (timeout == -1)
-                timeout = mmApp.Configuration.StatusMessageTimeout;
-
-            if (color == default(Color))
-                color = Colors.Firebrick;
-
-            ShowStatus(message, timeout, icon, color);
-        }
-
-
-
-        /// <summary>
-        /// Status the statusbar icon on the left bottom to some indicator
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="color"></param>
-        /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
-        {
-            StatusIcon.Icon = icon;
-            StatusIcon.Foreground = new SolidColorBrush(color);
-            if (spin)
-                StatusIcon.SpinDuration = 1;
-
-            StatusIcon.Spin = spin;
-        }
-
-        /// <summary>
-        /// Resets the Status bar icon on the left to its default green circle
-        /// </summary>
-        public void SetStatusIcon()
-        {
-            StatusIcon.Icon = FontAwesomeIcon.Circle;
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-            StatusIcon.Spin = false;
-            StatusIcon.SpinDuration = 0;
-            StatusIcon.StopSpin();
-        }
-
-        #endregion
 
         #region INotifyPropertyChanged
 
