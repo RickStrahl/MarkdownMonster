@@ -19,8 +19,7 @@ namespace MarkdownMonster
     /// <summary>
     /// Application level configuration for Markdown Monster
     /// </summary>
-    public class
-        ApplicationConfiguration : AppConfiguration, 
+    public class ApplicationConfiguration : AppConfiguration, 
                                             INotifyPropertyChanged
     {
         /// <summary>
@@ -592,7 +591,7 @@ namespace MarkdownMonster
             AutoSaveBackups = true;
             AutoSaveDocuments = false;
 
-            RecentDocumentsLength = 12;
+            RecentDocumentsLength = 10;
             RememberLastDocumentsLength = 5;
             
             
