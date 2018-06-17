@@ -31,11 +31,13 @@ namespace WeblogAddin
     {
         public WeblogAddinModel Model { get; set;  }
 
+        public StatusBarHelper StatusBar { get;  }
+
 
         #region Startup and Shutdown
 
         public WeblogForm(WeblogAddinModel model)
-        {
+        {            
             Model = model;           
             model.ActivePostMetadata = new WeblogPostMetadata();
 			
@@ -50,7 +52,9 @@ namespace WeblogAddin
                 TabControl.Background = (SolidColorBrush) Resources["LightThemeTitleBackground"];
 
             Loaded += WebLogStart_Loaded;
-            Closing += WebLogStart_Closing;			
+            Closing += WebLogStart_Closing;
+
+            StatusBar = new StatusBarHelper(StatusText, StatusIcon);
         }
 
         private void WebLogStart_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -95,12 +99,10 @@ namespace WeblogAddin
         #region Button Handlers
         private async void ButtonPostBlog_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            ShowStatus("Uploading Blog post...");
+            StatusBar.ShowStatusProgress("Uploading Blog post...");
 
 	        GetCustomFieldsFromObservableCollection();
-
-			SetStatusIcon(FontAwesomeIcon.CircleOutlineNotch, Colors.Orange, true);
-
+			
 
             if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))
             {
@@ -108,6 +110,7 @@ namespace WeblogAddin
                     "No Weblog Selected",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
+                StatusBar.ShowStatus();
                 return;
             }
 
@@ -124,25 +127,17 @@ namespace WeblogAddin
             {
                 bool result = await Model.Addin.SendPost(Model.ActiveWeblogInfo, Model.ActivePostMetadata.PostStatus == "draft");
                 if (result)
+                {
                     Close();
+                    window.ShowStatusSuccess($"Blog post '{Model.ActivePost.Title}` uploaded.");
+                }
                 else
-                    window.ShowStatus("Failed to upload blog post.", 5000);
-
-                //await Dispatcher.InvokeAsync(() =>
-                //{
-                //    // Then send the post - it will re-read the new values
-                //    if (Model.Addin.SendPost(Model.ActiveWeblogInfo, Model.ActivePostMetadata.PostStatus == "draft"))
-                //        Close();
-                //    else
-                //        window.ShowStatus("Failed to upload blog post.", 5000);
-
-                //}, System.Windows.Threading.DispatcherPriority.Background);                
+                    window.ShowStatusError("Upload of blog post failed.");                
             }
             finally
             {
-                ShowStatus();
-                window.ShowStatus("Blog post uploaded successfully.", 5000);
-                SetStatusIcon();
+                StatusBar.ShowStatus();                
+                
             }
         }
 
@@ -222,8 +217,8 @@ namespace WeblogAddin
             Dispatcher.Invoke(() =>
             {
                 Model.PostList = new List<Post>();
-                SetStatusIcon(FontAwesomeIcon.CircleOutlineNotch, Colors.Orange,true); 
-                ShowStatus("Downloading last " + Model.NumberOfPostsToRetrieve + " posts...");                    
+
+                StatusBar.ShowStatusProgress($"Downloading last {Model.NumberOfPostsToRetrieve} posts...");                    
             });
 
             WindowUtilities.DoEvents();
@@ -241,14 +236,14 @@ namespace WeblogAddin
             {
                 string message = ex.Message;
                 if (message == "Not Found")
-                    message = "Invalid Blog API Url:\r\n" + weblogInfo.ApiUrl;
-                MessageBox.Show("Unable to download posts:\r\n" + message,mmApp.ApplicationName,
+                    message = $"Invalid Blog API Url:\r\n{weblogInfo.ApiUrl}";
+                MessageBox.Show($"Unable to download posts:\r\n{message}",mmApp.ApplicationName,
                     MessageBoxButton.OK,MessageBoxImage.Warning);
                 return;
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Unable to download posts:\r\n" + ex.Message,mmApp.ApplicationName,
+                MessageBox.Show($"Unable to download posts:\r\n{ex.Message}",mmApp.ApplicationName,
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -264,12 +259,9 @@ namespace WeblogAddin
 
             Dispatcher.Invoke(() =>
             {
-                ShowStatus(posts.Count + " posts downloaded.",5000);
-                SetStatusIcon();
+                StatusBar.ShowStatusSuccess($"{posts.Count} posts downloaded.");                
                 Model.PostList = posts;
             });
-
-                       
         }
 
         private void ListViewPosts_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -281,58 +273,8 @@ namespace WeblogAddin
             if (e.Key == Key.Enter)
                 CreateDownloadedPost();
         }
-
         #endregion
 
-        #region StatusBar
-
-        public void ShowStatus(string message = null, int milliSeconds = 0)
-        {
-            if (message == null)
-                message = "Ready";
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                var t = new Timer(new TimerCallback((object win) =>
-                {
-                    var window = win as WeblogForm;
-                    if (window == null)
-                        return;
-
-                    window.Dispatcher.Invoke(() => { window.ShowStatus(null, 0); });
-                }), this, milliSeconds, Timeout.Infinite);
-            }
-        }
-
-        /// <summary>
-        /// Status the statusbar icon on the left bottom to some indicator
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="color"></param>
-        /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
-        {
-            StatusIcon.Icon = icon;
-            StatusIcon.Foreground = new SolidColorBrush(color);
-            if (spin)
-                StatusIcon.SpinDuration = 2;
-            StatusIcon.Spin = spin;
-        }
-
-        /// <summary>
-        /// Resets the Status bar icon on the left to its default green circle
-        /// </summary>
-        public void SetStatusIcon()
-        {
-            StatusIcon.Icon = FontAwesomeIcon.Circle;
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-            StatusIcon.Spin = false;
-            StatusIcon.SpinDuration = 0;
-            StatusIcon.StopSpin();
-        }
-        #endregion
 
         private void CreateDownloadedPost()
         {
@@ -402,12 +344,12 @@ namespace WeblogAddin
 
             var url = Model.ActiveWeblogInfo.ApiUrl;
 
-           
-            ShowStatus("Checking Endpoint Url...");
+
+            StatusBar.ShowStatusProgress("Checking Endpoint Url...");
 
             if (discover.CheckRpcEndpoint(url))
             {
-                ShowStatus("The Weblog Endpoint is a valid RPC endpoint.");
+                StatusBar.ShowStatusSuccess("The Weblog Endpoint is a valid RPC endpoint.");
                 return;
             }
 
@@ -419,12 +361,12 @@ namespace WeblogAddin
                 {
                     Model.ActiveWeblogInfo.ApiUrl = "https://api.medium.com/v1/";
                     Model.ActiveWeblogInfo.Type = WeblogTypes.Medium;
-                    ShowStatus("Weblog API Endpoint Url found and updated", mmApp.Configuration.StatusMessageTimeout);
+                    StatusBar.ShowStatusSuccess("Weblog API Endpoint Url found and updated.");
                     return;
                 }
 
                 MessageBox.Show(blogInfo.ErrorMessage, "Unable to discover Endpoint Url",MessageBoxButton.OK,MessageBoxImage.Warning);
-                ShowStatus("Endpoint discovery failed: " + blogInfo.ErrorMessage, 6000);
+                StatusBar.ShowStatusError($"Endpoint discovery failed: {blogInfo.ErrorMessage}");
                 return;
             }
 
@@ -437,7 +379,7 @@ namespace WeblogAddin
             else
                 Model.ActiveWeblogInfo.Type = WeblogTypes.Unknown;
 
-            ShowStatus("Weblog API Endpoint Url found and updated...", 6000);
+            StatusBar.ShowStatusSuccess("Weblog API Endpoint Url found and updated...", 6000);
         }
 
         private void ComboWeblogType_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -449,7 +391,7 @@ namespace WeblogAddin
 
         private void DropDownButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowStatus("Getting Blog listing information from service...");
+            StatusBar.ShowStatusProgress("Getting Blog listing information from service...");
             WindowUtilities.DoEvents();
 
             var context = Resources["BlogsContextMenu"] as ContextMenu;
@@ -464,7 +406,7 @@ namespace WeblogAddin
                     var client = new MediumApiClient(Model.ActiveWeblogInfo);
                     blogs = client.GetBlogs();
                     if (blogs == null)
-                        ShowStatus("Failed to get blog listing: " + client.ErrorMessage,6000);
+                        StatusBar.ShowStatusError("Failed to get blog listing: " + client.ErrorMessage);
                 }
                 else if (Model.ActiveWeblogInfo.Type == WeblogTypes.MetaWeblogApi ||
                          Model.ActiveWeblogInfo.Type == WeblogTypes.Wordpress)
@@ -472,16 +414,16 @@ namespace WeblogAddin
                     var client = new MetaWebLogWordpressApiClient(Model.ActiveWeblogInfo);
                     blogs = client.GetBlogs();
                     if (blogs == null)
-                        ShowStatus("Failed to get blog listing: " + client.ErrorMessage, 6000);
+                        StatusBar.ShowStatusError("Failed to get blog listing: " + client.ErrorMessage);
                 } 
             }
             catch (Exception ex)
             {
-                ShowStatus("Failed to get blogs: " + ex.Message, 6000);
+                StatusBar.ShowStatusError($"Failed to get blogs: {ex.Message}");
                 return;
             }
 
-            ShowStatus("Blogs retrieved...", 2000);
+            StatusBar.ShowStatusSuccess("Blogs retrieved.");
 
             if (blogs == null)
                 return;
@@ -517,7 +459,7 @@ namespace WeblogAddin
         }
 
 
-		#region CustomField Handling
+#region CustomField Handling
 		private void ButtonAddCustomField_Click(object sender, RoutedEventArgs e)
 		{
 			Model.MetadataCustomFields.Add(new CustomField
@@ -558,7 +500,7 @@ namespace WeblogAddin
 			Model.ActivePostMetadata.OnPropertyChanged(nameof(WeblogPostMetadata.CustomFields));
 			Model.OnPropertyChanged(nameof(WeblogAddinModel.MetadataHasCustomFields));
 		}
-		#endregion
+#endregion
 
 	}
 }

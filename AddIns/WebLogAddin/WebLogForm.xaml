@@ -19,7 +19,7 @@
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="800" Height="790" MinHeight="780" MinWidth="600">
+        Width="800" Height="768" MinHeight="768" MinWidth="600">
     <Window.Resources>
         <windows:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -58,20 +58,20 @@
                     <Label>Title:</Label>
                     <TextBox Text="{Binding ActivePostMetadata.Title}"  Style="{StaticResource HeaderStyle}" SpellCheck.IsEnabled="True"  />
 
-                    <Label Margin="0,10,0,0"  IsEnabled="{Binding IsAbstractVisible}">Abstract:</Label>
+                    <Label Margin="0,5,0,0"  IsEnabled="{Binding IsAbstractVisible}">Abstract:</Label>
                     <TextBox TextWrapping="Wrap" Height="100"
                 	         Text="{Binding ActivePostMetadata.Abstract}" SpellCheck.IsEnabled="True" 
                              IsEnabled="{Binding IsAbstractVisible}" 
                               />
 
-                    <Label Margin="0,10,0,0" IsEnabled="{Binding IsCategoriesVisible}">Categories:</Label>
+                    <Label Margin="0,5,0,0" IsEnabled="{Binding IsCategoriesVisible}">Categories:</Label>
                     <TextBox  Text="{Binding ActivePostMetadata.Categories}" IsEnabled="{Binding IsCategoriesVisible}"  />
 
-                    <Label Margin="0,10,0,0">Keywords:</Label>
+                    <Label Margin="0,5,0,0">Keywords:</Label>
                     <TextBox Text="{Binding ActivePostMetadata.Keywords}"  />
 
 
-					<StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+					<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
 						<StackPanel.Resources>
 							<Style TargetType="Button">
 								<Setter Property="Margin" Value="12,0,0,0" />
@@ -96,11 +96,10 @@
 								Click="ButtonCustomFieldHelp_Click"/>
                     </StackPanel>
 
-	                <!--<Line Margin="0,8,0,0" Height="3" Width="300" Fill="white"/>-->
-
+	                
 	                <ListBox Name="ListCustomFields" IsSynchronizedWithCurrentItem="True"
 	                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-	                         Height="70"
+	                         Height="65"
 	                         ItemsSource="{Binding MetadataCustomFields}"
 	                         Visibility="{Binding MetadataHasCustomFields,Converter={StaticResource BooleanToVisibilityConverter}}">
 		                <ListBox.ItemTemplate>
@@ -132,7 +131,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <Label Margin="0,10,0,0">Web Site to post to:</Label>
+                        <Label Margin="0,5,0,0">Web Site to post to:</Label>
                         <ComboBox  Grid.Row="1" Grid.Column="0" ToolTip="Weblog selection"
                            DisplayMemberPath="Value.Name"
                            SelectedValuePath="Value.Name"
@@ -141,7 +140,7 @@
                            ItemsSource="{Binding Configuration.Weblogs}" 
                            />
 
-                        <Label Grid.Row="0"  Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Right">Post Id:</Label>
+                        <Label Grid.Row="0"  Grid.Column="1" Margin="0,5,0,0" HorizontalAlignment="Right">Post Id:</Label>
                         <TextBox Grid.Row="1"  IsEnabled="{Binding IsAbstractVisible}" Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
 
 						<StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
