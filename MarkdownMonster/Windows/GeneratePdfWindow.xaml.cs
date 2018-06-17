@@ -49,8 +49,9 @@ namespace MarkdownMonster.Windows
 		}
 		private HtmlToPdfGeneration _pdfGenerator = new HtmlToPdfGeneration();
 
+	    public StatusBarHelper StatusBar { get; set; }
 
-		public GeneratePdfWindow()
+        public GeneratePdfWindow()
 		{
 			InitializeComponent();
 			Loaded += GeneratePdfWindow_Loaded;
@@ -60,9 +61,12 @@ namespace MarkdownMonster.Windows
 		    DataContext = this;
             initialHeight = Height;
 
-        }
+		    StatusBar = new StatusBarHelper(StatusText, StatusIcon);
+		}
 
-        private void GeneratePdfWindow_Loaded(object sender, RoutedEventArgs e)
+	    
+
+	    private void GeneratePdfWindow_Loaded(object sender, RoutedEventArgs e)
 		{
 			TextPageSize.ItemsSource = Enum.GetValues(typeof(PdfPageSizes));
 			TextPageOrientation.ItemsSource = Enum.GetValues(typeof(PdfPageOrientation));
@@ -85,8 +89,7 @@ namespace MarkdownMonster.Windows
 			if (!SaveFile())
 				return;
 
-			ShowStatus("Generating PDF document...");
-			SetStatusIcon(FontAwesomeIcon.Spinner, Colors.Goldenrod, true);
+			StatusBar.ShowStatusProgress("Generating PDF document...");			
 			ButtonGeneratePdf.IsEnabled = false;
 
 			WindowUtilities.DoEvents();
@@ -130,19 +133,19 @@ namespace MarkdownMonster.Windows
                 //MessageBox.Show("Failed to create PDF document.\r\n\r\n" + PdfGenerator.ErrorMessage,
                 //	"PDF Generator Error", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                ShowStatusError("PDF document was not created.");
+                StatusBar.ShowStatusError("PDF document was not created.");
 
 				return;
 			}
 
-			ShowStatus("PDF document created.",mmApp.Configuration.StatusMessageTimeout);
-			SetStatusIcon();
+			StatusBar.ShowStatusSuccess("PDF document created.",mmApp.Configuration.StatusMessageTimeout);
+			
 		}
 
 	    private void ButtonCopyLastCommandToClipboard_Click(object sender, RoutedEventArgs e)
 	    {
 	        if(ClipboardHelper.SetText(PdfGenerator.FullExecutionCommand))
-	            ShowStatus("Command line has been copied to the clipboard", mmApp.Configuration.StatusMessageTimeout);
+	            StatusBar.ShowStatusSuccess("Command line has been copied to the clipboard");
 	    }
 
 	    private bool SaveFile()
@@ -150,7 +153,7 @@ namespace MarkdownMonster.Windows
 			var document = mmApp.Model.ActiveDocument;
 		    if (document == null)
 		    {
-		        ShowStatus("No document open. Please open a Markdown Document first to generate a PDF.");
+		        StatusBar.ShowStatusError("No document open. Please open a Markdown Document first to generate a PDF.");
                 return false;
 		    }
 
@@ -189,103 +192,6 @@ namespace MarkdownMonster.Windows
 			Close();
 		}
 
-
-        #region StatusBar Display
-	    DebounceDispatcher debounce = new DebounceDispatcher();
-
-        public void ShowStatus(string message = null, int milliSeconds = 0,
-	        FontAwesomeIcon icon = FontAwesomeIcon.None,
-	        Color color = default(Color),
-	        bool spin = false)
-	    {
-	        if (icon != FontAwesomeIcon.None)
-	            SetStatusIcon(icon, color, spin);
-
-	        if (message == null)
-	        {
-	            message = "Ready";
-	            SetStatusIcon();
-	        }
-
-	        StatusText.Text = message;
-
-	        if (milliSeconds > 0)
-	        {
-	            // debounce rather than delay so if something else displays
-	            // a message the delay timer is 'reset'
-	            debounce.Debounce(milliSeconds, (win) =>
-	            {
-	                var window = win as GeneratePdfWindow;
-	                window.ShowStatus(null, 0);
-	            }, this);
-	        }
-
-	        WindowUtilities.DoEvents();
-	    }
-
-
-        /// <summary>
-        /// Displays an error message using common defaults
-        /// </summary>
-        /// <param name="message">Message to display</param>
-        /// <param name="timeout">optional timeout</param>
-        /// <param name="icon">optional icon (warning)</param>
-        /// <param name="color">optional color (firebrick)</param>
-        public void ShowStatusError(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.Warning, Color color = default(Color))
-	    {
-	        if (timeout == -1)
-	            timeout = mmApp.Configuration.StatusMessageTimeout;
-
-	        if (color == default(Color))
-	            color = Colors.Firebrick;
-
-	        ShowStatus(message, timeout, icon, color);
-	    }
-
-        /// <summary>
-        /// Status the statusbar icon on the left bottom to some indicator
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="color"></param>
-        /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
-		{
-			StatusIcon.Icon = icon;
-			StatusIcon.Foreground = new SolidColorBrush(color);
-			if (spin)
-				StatusIcon.SpinDuration = 3;
-
-			StatusIcon.Spin = spin;
-		}
-
-		/// <summary>
-		/// Resets the Status bar icon on the left to its default green circle
-		/// </summary>
-		public void SetStatusIcon()
-		{
-			StatusIcon.Icon = FontAwesomeIcon.Circle;
-			StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-			StatusIcon.Spin = false;
-			StatusIcon.SpinDuration = 0;
-			StatusIcon.StopSpin();
-		}
-
-		/// <summary>
-		/// Helper routine to show a Metro Dialog. Note this dialog popup is fully async!
-		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="message"></param>
-		/// <param name="style"></param>
-		/// <param name="settings"></param>
-		/// <returns></returns>
-		public async Task<MessageDialogResult> ShowMessageOverlayAsync(string title, string message,
-			MessageDialogStyle style = MessageDialogStyle.Affirmative,
-			MetroDialogSettings settings = null)
-		{
-			return await this.ShowMessageAsync(title, message, style, settings);
-		}
-
-		#endregion
 
 		#region INotifyPropertyChanged
 		public event PropertyChangedEventHandler PropertyChanged;

@@ -30,7 +30,7 @@ namespace MarkdownMonster.Windows
 
         public AppModel AppModel { get; set; }
 
-
+        public StatusBarHelper StatusBar { get; set; }
 
         #region Startup and Shutdown
         public GitCommitDialog(string fileOrPath, bool commitRepo = false)
@@ -48,8 +48,11 @@ namespace MarkdownMonster.Windows
 
             Owner = AppModel.Window;
             Loaded += GitCommitDialog_Loaded;
+
+            StatusBar = new StatusBarHelper(StatusText, StatusIcon);
         }
 
+        
         
         private void GitCommitDialog_Loaded(object sender, RoutedEventArgs e)
         {
@@ -87,7 +90,7 @@ namespace MarkdownMonster.Windows
 
             DataContext = CommitModel;
             
-            ShowStatus($"Press Ctrl-Enter to quickly {defaultText}.",8000);
+            StatusBar.ShowStatus($"Press Ctrl-Enter to quickly {defaultText}.",8000);
             TextCommitMessage.Focus();
         }
 
@@ -126,7 +129,7 @@ namespace MarkdownMonster.Windows
                             mmApp.Configuration.StatusMessageTimeout);
                     }
                     else
-                        ShowStatus("Files have been committed in the local repository.",
+                        StatusBar.ShowStatus("Files have been committed in the local repository.",
                             mmApp.Configuration.StatusMessageTimeout,
                             FontAwesomeIcon.CheckCircleOutline);
 
@@ -166,7 +169,7 @@ namespace MarkdownMonster.Windows
                         AppModel.Window.ShowStatusSuccess("Files have been committed and pushed to the remote.");
                     }
                     else
-                        ShowStatusSuccess("Files have been committed and pushed to the remote.");                    
+                        StatusBar.ShowStatusSuccess("Files have been committed and pushed to the remote.");                    
                 }
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
@@ -178,7 +181,7 @@ namespace MarkdownMonster.Windows
 
         private async void ButtonPull_Click(object sender, RoutedEventArgs e)
         {
-            ShowStatusProgress("Pulling changes from the remote origin...");
+            StatusBar.ShowStatusProgress("Pulling changes from the remote origin...");
 
             if (await CommitModel.PullChangesAsync())
             {
@@ -189,16 +192,16 @@ namespace MarkdownMonster.Windows
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
                     await Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
-                ShowStatusSuccess("Changes have been pulled from the remote origin.");
+                StatusBar.ShowStatusSuccess("Changes have been pulled from the remote origin.");
                 return;
             }
 
-            ShowStatusError("Failed to pull changes from the server: " + CommitModel.GitHelper.ErrorMessage);
+            StatusBar.ShowStatusError("Failed to pull changes from the server: " + CommitModel.GitHelper.ErrorMessage);
         }
 
         private void ButtonPush_Click(object sender, RoutedEventArgs e)
         {
-            ShowStatusProgress("Pushing changes to the remote origin...");
+            StatusBar.ShowStatusProgress("Pushing changes to the remote origin...");
 
             if (CommitModel.PushChanges())
             {
@@ -209,11 +212,11 @@ namespace MarkdownMonster.Windows
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
                     Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
-                ShowStatusSuccess("Changes pushed to the remote origin.");
+                StatusBar.ShowStatusSuccess("Changes pushed to the remote origin.");
                 return;
             }
 
-            ShowStatusError("Failed to pull changes from the server: " + CommitModel.GitHelper.ErrorMessage);
+            StatusBar.ShowStatusError($"Failed to pull changes from the server: {CommitModel.GitHelper.ErrorMessage}");
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -225,8 +228,8 @@ namespace MarkdownMonster.Windows
         {
             var gh = new GitHelper();
             var repo = gh.OpenRepository(CommitModel.Filename);
-            if (repo == null)            
-                ShowStatus("Couldn't open repository.");            
+            if (repo == null)
+                StatusBar.ShowStatusError("Couldn't open repository.");            
         }
 
 
@@ -279,7 +282,7 @@ namespace MarkdownMonster.Windows
                 return;
 
             if (!CommitModel.GitHelper.OpenDiffTool(selected.FullPath))
-                ShowStatusError(CommitModel.GitHelper.ErrorMessage);
+                StatusBar.ShowStatusError(CommitModel.GitHelper.ErrorMessage);
         }
 
         private void ButtonOpenRemote_Click(object sender, RoutedEventArgs e)
@@ -290,7 +293,7 @@ namespace MarkdownMonster.Windows
                 if (remoteUrl == null)
                     return;
 
-                ShowStatus("Opening Url: " + remoteUrl);
+                StatusBar.ShowStatusSuccess("Opening Url: " + remoteUrl);
                 ShellUtils.GoUrl(remoteUrl.Replace(".git", ""));
             }
         }
@@ -303,7 +306,7 @@ namespace MarkdownMonster.Windows
                 return;
 
             if (!CommitModel.GitHelper.OpenDiffTool(selected.FullPath))
-                ShowStatusError(CommitModel.GitHelper.ErrorMessage);
+                StatusBar.ShowStatusError(CommitModel.GitHelper.ErrorMessage);
         }
 
         private void MenuIgnoreFile_Click(object sender, RoutedEventArgs e)
@@ -314,10 +317,10 @@ namespace MarkdownMonster.Windows
 
             var gh = CommitModel.GitHelper;
             if (!gh.IgnoreFile(selected.FullPath))
-                ShowStatusError(gh.ErrorMessage);
+                StatusBar.ShowStatusError(gh.ErrorMessage);
             else
             {
-                ShowStatus("File has been added to the .gitignore file.");
+                StatusBar.ShowStatusSuccess("File has been added to the .gitignore file.");
                 selected.FileStatus = FileStatus.Ignored;
             }
         }
@@ -379,7 +382,7 @@ namespace MarkdownMonster.Windows
 
                 remoteUrl += "/blob/master/" + selected.Filename;
 
-                ShowStatus("Opening Url: " + remoteUrl);
+                StatusBar.ShowStatus("Opening Url: " + remoteUrl);
                 ShellUtils.GoUrl(remoteUrl);
             }
 
@@ -388,127 +391,7 @@ namespace MarkdownMonster.Windows
 
         #endregion
 
-        #region StatusBar Display
-
-        DebounceDispatcher debounce = new DebounceDispatcher();
-        public void ShowStatus(string message = null, int milliSeconds = 0,
-            FontAwesomeIcon icon = FontAwesomeIcon.None,
-            Color color = default(Color),
-            bool spin = false)
-        {            
-            if (color == default(Color))
-                color = Colors.Green;
-
-            if (icon != FontAwesomeIcon.None)
-                SetStatusIcon(icon, color, spin);
-
-            if (message == null)
-            {
-                message = "Ready";
-                SetStatusIcon();
-            }
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                // debounce rather than delay so if something else displays
-                // a message the delay timer is 'reset'
-                debounce.Debounce(milliSeconds, (win) =>
-                {
-                    var window = win as GitCommitDialog;
-                    window.ShowStatus(null, 0);
-                }, this);
-            }
-
-            WindowUtilities.DoEvents();
-        }
-
-        /// <summary>
-        /// Displays an error message using common defaults for a timeout milliseconds
-        /// </summary>
-        /// <param name="message">Message to display</param>
-        /// <param name="timeout">optional timeout</param>
-        /// <param name="icon">optional icon (warning)</param>
-        /// <param name="color">optional color (firebrick)</param>
-        public void ShowStatusError(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.Warning, Color color = default(Color))
-        {
-            if (timeout == -1)
-                timeout = mmApp.Configuration.StatusMessageTimeout;
-
-            if (color == default(Color))
-                color = Colors.Firebrick;
-
-            ShowStatus(message, timeout, icon, color);
-        }
-
-        /// <summary>
-        /// Shows a success message with a green check icon for the timeout
-        /// </summary>
-        /// <param name="message">Message to display</param>
-        /// <param name="timeout">optional timeout</param>
-        /// <param name="icon">optional icon (warning)</param>
-        /// <param name="color">optional color (firebrick)</param>
-        public void ShowStatusSuccess(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.CheckCircle, Color color = default(Color))
-        {
-            if (timeout == -1)
-                timeout = mmApp.Configuration.StatusMessageTimeout;
-
-            if (color == default(Color))
-                color = Colors.Green;
-
-            ShowStatus(message, timeout, icon, color);
-        }
-
-
-        /// <summary>
-        /// Displays an Progress message using common defaults including a spinning icon
-        /// </summary>
-        /// <param name="message">Message to display</param>
-        /// <param name="timeout">optional timeout</param>
-        /// <param name="icon">optional icon (warning)</param>
-        /// <param name="color">optional color (firebrick)</param>
-        /// <param name="spin"></param>
-        public void ShowStatusProgress(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.CircleOutlineNotch, Color color = default(Color), bool spin = true)
-        {
-            if (timeout == -1)
-                timeout = mmApp.Configuration.StatusMessageTimeout;
-
-            if (color == default(Color))
-                color = Colors.Goldenrod;
-
-            ShowStatus(message, timeout, icon, color, spin);
-        }
-
-        /// <summary>
-        /// Status the statusbar icon on the left bottom to some indicator
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="color"></param>
-        /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
-        {
-            StatusIcon.Icon = icon;
-            StatusIcon.Foreground = new SolidColorBrush(color);
-            if (spin)
-                StatusIcon.SpinDuration = 2;
-
-            StatusIcon.Spin = spin;
-        }
-
-        /// <summary>
-        /// Resets the Status bar icon on the left to its default green circle
-        /// </summary>
-        public void SetStatusIcon()
-        {
-            StatusIcon.Icon = FontAwesomeIcon.Circle;
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-            StatusIcon.Spin = false;
-            StatusIcon.SpinDuration = 0;
-            StatusIcon.StopSpin();
-        }
-        #endregion
-
+        
         #region Context Menus
         private void ListChangedItems_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {

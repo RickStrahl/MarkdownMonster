@@ -44,6 +44,8 @@ namespace MarkdownMonster.Windows
 
         private Brush oldBgColor;
 
+        public StatusBarHelper StatusBar { get; set; }
+
         public AddinManagerWindow()
         {
             InitializeComponent();
@@ -53,8 +55,10 @@ namespace MarkdownMonster.Windows
             DataContext = this;
 
             oldBgColor = StatusText.Background;
-        }
 
+            StatusBar = new StatusBarHelper(StatusText, StatusIcon);
+        }
+        
 
         public AddinItem ActiveAddin
         {
@@ -75,7 +79,7 @@ namespace MarkdownMonster.Windows
             if (addinList == null)
             {
                 AddinList = new ObservableCollection<AddinItem>();
-                ShowStatus("Unable to load addin list.", mmApp.Configuration.StatusMessageTimeout, Brushes.Red);
+                StatusBar.ShowStatusError("Unable to load addin list.");
                 return;
             }
             AddinList = new ObservableCollection<AddinItem>(addinList);
@@ -102,17 +106,17 @@ namespace MarkdownMonster.Windows
             if (addin == null)
                 return;
 
-            ShowStatus($"Downloading and installing {addin.name} Addin...");
+            StatusBar.ShowStatusProgress($"Downloading and installing {addin.name} Addin...");
             
             var url = addin.gitVersionUrl.Replace("version.json","addin.zip");
             var result = AddinManager.Current.DownloadAndInstallAddin(url, mmApp.Configuration.AddinsFolder, addin);
             if (result.IsError)
-                ShowStatus(AddinManager.Current.ErrorMessage);
+                StatusBar.ShowStatusError(AddinManager.Current.ErrorMessage);
             else if (result.NeedsRestart)
             {
                 string msg = addin.name +
                              " addin has been installed.\r\n\r\nYou need to restart Markdown Monster to finalize the addin installation.";
-                ShowStatus(msg, mmApp.Configuration.StatusMessageTimeout);
+                StatusBar.ShowStatusSuccess(msg);
                 if (MessageBox.Show(msg + "\r\n\r\nDo you want to restart Markdown Monster?", "Addin Installed",
                         MessageBoxButton.YesNo,
                         MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -125,7 +129,7 @@ namespace MarkdownMonster.Windows
                 }
             }
             else
-                ShowStatus($"Addin {addin.name} has been installed", mmApp.Configuration.StatusMessageTimeout);
+                StatusBar.ShowStatusSuccess($"Addin {addin.name} has been installed");
         }
 
         private void ButtonUnInstall_Click(object sender, RoutedEventArgs e)
@@ -137,45 +141,13 @@ namespace MarkdownMonster.Windows
                         
             if ( AddinManager.Current.UninstallAddin(addin.id))
             {
-                ShowStatus(addin.name + 
-                    " marked for deletion. Please restart Markdown Monster to finalize un-install.", 
-                    mmApp.Configuration.StatusMessageTimeout);
+                StatusBar.ShowStatusSuccess($"{addin.name} marked for deletion. Please restart Markdown Monster to finalize un-install.");
                 addin.isInstalled = false;
             }
             else
-                ShowStatus(addin.name + " failed to uninstall.",mmApp.Configuration.StatusMessageTimeout);
+                StatusBar.ShowStatusError($"{addin.name} failed to uninstall.");
         }
-
-        private Timer timer;
-
-        public void ShowStatus(string message = null, int milliSeconds = 0, Brush color = null)
-        {
-            if (message == null)
-            {
-                message = "Ready";                
-            }
-
-            StatusBar.Background = color ?? Brushes.SteelBlue;
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                timer = new Timer((object win) =>
-                {
-                    if (!(win is AddinManagerWindow window))
-                        return;
-
-                    window.Dispatcher.Invoke(() =>
-                    {
-                        window.ShowStatus();
-                        StatusBar.Background = oldBgColor;
-                    });
-                }, this, milliSeconds, Timeout.Infinite);
-            }
-            WindowUtilities.DoEvents();
-        }
-      
+        
 
         private void ButtonMoreInfo_Click(object sender, RoutedEventArgs e)
         {

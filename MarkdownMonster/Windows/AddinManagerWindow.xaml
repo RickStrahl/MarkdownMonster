@@ -160,19 +160,32 @@
 
             </StackPanel>
         </Grid>
-        <StatusBar Grid.Row="1" Name="StatusBar" FontSize="15">
+
+        <StatusBar  Grid.Row="1" Height="28"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto"  />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
+                <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1">
+                <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
+            </StatusBarItem>
 
-            <TextBlock Name="StatusText" Grid.Column="1">Ready</TextBlock>
+            <StatusBarItem Grid.Column="3" Margin="0,0,15,0">
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="CodeFork" Margin="0,1,4,0" FontSize="15" Foreground="DarkGoldenrod"/>
+                    <TextBlock Text="{Binding Branch,StringFormat='Branch: {0}'}" />
+                </StackPanel>
+            </StatusBarItem>
         </StatusBar>
 
 

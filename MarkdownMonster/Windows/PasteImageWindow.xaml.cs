@@ -1,24 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net.Cache;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using FontAwesome.WPF;
 using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using Microsoft.Win32;
 using Westwind.Utilities;
-using Color = System.Windows.Media.Color;
 
 namespace MarkdownMonster.Windows
 {
@@ -109,6 +102,8 @@ namespace MarkdownMonster.Windows
         MarkdownDocumentEditor Editor { get; set; }
         MarkdownDocument Document { get; set; }
 
+         StatusBarHelper StatusBar { get;  }
+
 
         public PasteImageWindow(MainWindow window)
         {
@@ -128,8 +123,11 @@ namespace MarkdownMonster.Windows
             Model = window.Model;
             Editor = Model.ActiveEditor;
             Document = Model.ActiveDocument;
+
+            StatusBar = new StatusBarHelper(StatusText, StatusIcon);
         }
 
+        
         private void PasteImage_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
@@ -357,7 +355,7 @@ namespace MarkdownMonster.Windows
 				mmApp.Model.Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json"));
 			}
 			else
-				ShowStatus("Launching editor " + exe + " with " + imageFile, 5000);
+				StatusBar.ShowStatusSuccess($"Launching editor {exe} with {imageFile}");
         }
 
         private void Button_ClearImage(object sender, RoutedEventArgs e)
@@ -365,7 +363,7 @@ namespace MarkdownMonster.Windows
             Image = null;
             ImageText = null;
             ImagePreview.Source = null;
-            ShowStatus("Image has been cleared.", mmApp.Configuration.StatusMessageTimeout);
+            StatusBar.ShowStatusSuccess("Image has been cleared.");
         }
 
         private void Button_CopyImage(object sender, RoutedEventArgs e)
@@ -376,7 +374,7 @@ namespace MarkdownMonster.Windows
                 if (src != null)
                 {
                     Clipboard.SetImage(src);
-                    ShowStatus("Image copied to the Clipboard.", mmApp.Configuration.StatusMessageTimeout);
+                    StatusBar.ShowStatus("Image copied to the Clipboard.");
                 }
             }
         }
@@ -514,73 +512,7 @@ namespace MarkdownMonster.Windows
             TextImageText.Focus();
         }
 
-        #region StatusBar Display
-
-        public void ShowStatus(string message = null, int milliSeconds = 0)
-        {
-            if (message == null)
-            {
-                message = "Ready";
-                SetStatusIcon();
-            }
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                Dispatcher.DelayWithPriority(milliSeconds, (win) =>
-                {
-                    ShowStatus(null, 0);
-                    SetStatusIcon();
-                }, this);
-            }
-            WindowUtilities.DoEvents();
-        }
-
-        /// <summary>
-        /// Status the statusbar icon on the left bottom to some indicator
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="color"></param>
-        /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
-        {
-            StatusIcon.Icon = icon;
-            StatusIcon.Foreground = new SolidColorBrush(color);
-            if (spin)
-                StatusIcon.SpinDuration = 1;
-
-            StatusIcon.Spin = spin;
-        }
-
-        /// <summary>
-        /// Resets the Status bar icon on the left to its default green circle
-        /// </summary>
-        public void SetStatusIcon()
-        {
-            StatusIcon.Icon = FontAwesomeIcon.Circle;
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-            StatusIcon.Spin = false;
-            StatusIcon.SpinDuration = 0;
-            StatusIcon.StopSpin();
-        }
-
-        /// <summary>
-        /// Helper routine to show a Metro Dialog. Note this dialog popup is fully async!
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
-        /// <param name="style"></param>
-        /// <param name="settings"></param>
-        /// <returns></returns>
-        public async Task<MessageDialogResult> ShowMessageOverlayAsync(string title, string message,
-            MessageDialogStyle style = MessageDialogStyle.Affirmative,
-            MetroDialogSettings settings = null)
-        {
-            return await this.ShowMessageAsync(title, message, style, settings);
-        }
-
-        #endregion
+        
 
         #endregion
 
@@ -592,7 +524,7 @@ namespace MarkdownMonster.Windows
             Image = null;
             IsMemoryImage = true;
 
-            ShowStatus("Image pasted from clipboard...", 5000);
+            StatusBar.ShowStatusSuccess("Image pasted from clipboard.");
         }
 
         /// <summary>
@@ -625,8 +557,7 @@ namespace MarkdownMonster.Windows
             }
             catch (Exception ex)
             {
-                ShowStatus("Image base64 encoding failed: " + ex.GetBaseException().Message, 5000);
-                this.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
+                StatusBar.ShowStatusError("Image base64 encoding failed: " + ex.GetBaseException().Message);                
             }
         }
 
@@ -643,8 +574,7 @@ namespace MarkdownMonster.Windows
             }
             catch (Exception ex)
             {
-                ShowStatus("Image base64 encoding failed: " + ex.GetBaseException().Message, 5000);
-                this.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Firebrick);
+                StatusBar.ShowStatusError($"Image base64 encoding failed: {ex.GetBaseException().Message}");                
             }
         }
 
@@ -733,7 +663,6 @@ namespace MarkdownMonster.Windows
             {
             }
         }
-
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;

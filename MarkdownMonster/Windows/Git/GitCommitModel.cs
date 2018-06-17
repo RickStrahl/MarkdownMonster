@@ -233,27 +233,27 @@ namespace MarkdownMonster.Windows
         {
             WindowUtilities.FixFocus(CommitWindow, CommitWindow.ListChangedItems);
 
-            CommitWindow.ShowStatusProgress("Committing files...");
+            CommitWindow.StatusBar.ShowStatusProgress("Committing files...");
 
             var files = new ObservableCollection<RepositoryStatusItem>(RepositoryStatusItems.Where(it => it.Selected));
 
             if (files.Count < 1)
             {
-                CommitWindow.ShowStatusError("There are no changes in this repository.");
+                Window.ShowStatusError("There are no changes in this repository.");
                 return false;
             }
 
 
             if (!GitHelper.Commit(files, CommitMessage, GitUsername, GitEmail) )
             {                
-                CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
+                CommitWindow.StatusBar.ShowStatusError(GitHelper.ErrorMessage);
                 return false;
             }
 
             if (!pushToRemote)
                 return true;
 
-            CommitWindow.ShowStatusProgress("Pushing to remote...");
+            CommitWindow.StatusBar.ShowStatusProgress("Pushing to remote...");
 
             using (var repo = GitHelper.OpenRepository(files[0].FullPath))
             {
@@ -264,7 +264,7 @@ namespace MarkdownMonster.Windows
 
                 if (!await GitHelper.PushAsync(repo.Info.WorkingDirectory,branch) )
                 {
-                    CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
+                    CommitWindow.StatusBar.ShowStatusError(GitHelper.ErrorMessage);
                     return false;
                 }
             }
@@ -274,18 +274,18 @@ namespace MarkdownMonster.Windows
 
         public bool PushChanges()
         {            
-            CommitWindow.ShowStatusProgress("Pushing files to the Git Remote...");
+            CommitWindow.StatusBar.ShowStatusProgress("Pushing files to the Git Remote...");
 
             var repo = GitHelper.OpenRepository(Filename);
             if (repo == null)
             {
-                CommitWindow.ShowStatusError("Couldn't determine branch to commit to.");
+                CommitWindow.StatusBar.ShowStatusError("Couldn't determine branch to commit to.");
                 return false;
             }
 
             if (!GitHelper.Push(repo.Info.WorkingDirectory, Branch))
             {
-                CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
+                CommitWindow.StatusBar.ShowStatusError(GitHelper.ErrorMessage);
                 return false;
             }
 
@@ -303,7 +303,7 @@ namespace MarkdownMonster.Windows
 
             if (!GitHelper.Pull(repo.Info.WorkingDirectory))
             {
-                CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
+                CommitWindow.StatusBar.ShowStatusError(GitHelper.ErrorMessage);
                 return false;
             }
 
@@ -321,7 +321,7 @@ namespace MarkdownMonster.Windows
 
             if (!await GitHelper.PullAsync(repo.Info.WorkingDirectory))
             {
-                CommitWindow.ShowStatusError(GitHelper.ErrorMessage);
+                CommitWindow.StatusBar.ShowStatusError(GitHelper.ErrorMessage);
                 return false;
             }
 
