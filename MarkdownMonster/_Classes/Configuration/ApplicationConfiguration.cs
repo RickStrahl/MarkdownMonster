@@ -779,7 +779,12 @@ namespace MarkdownMonster
         public void Write(string filename)
         {
             string configData = WriteAsString();
-            File.WriteAllText(filename, configData);
+            var path = Path.GetDirectoryName(filename);
+
+            if (Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            File.WriteAllText(filename, configData);        
         }
 
         public override string WriteAsString()
@@ -809,7 +814,7 @@ namespace MarkdownMonster
             string workFolder = null;
 
             // Check for Portable Installation
-            var cfFile = Path.Combine(App.InitialStartDirectory, ".\\_IsPortable");
+            var cfFile = Path.Combine(App.InitialStartDirectory, "_IsPortable");
             if (File.Exists(cfFile))
             {
                 // Use PortableSettings in Install Folder

@@ -223,7 +223,8 @@ namespace MarkdownMonster
                 case "setportable":
                     try
                     {
-                        bool exists = Directory.Exists(".\\PortableSettings");
+                        string portableSettingsFolder = Path.Combine(InitialStartDirectory, "PortableSettings");
+                        bool exists = Directory.Exists(portableSettingsFolder);
                         string oldCommonFolder = mmApp.Configuration.CommonFolder;
 
                         File.WriteAllText("_IsPortable",
@@ -238,7 +239,7 @@ namespace MarkdownMonster
                                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
                             FileUtils.CopyDirectory(oldCommonFolder,
-                                Path.GetFullPath(".\\PortableSettings"), deepCopy: true);
+                                portableSettingsFolder, deepCopy: true);
                         }
                     }
                     catch (Exception ex)

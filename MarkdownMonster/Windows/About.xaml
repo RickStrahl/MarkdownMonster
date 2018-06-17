@@ -22,6 +22,7 @@
             <Label x:Name="VersionLabel" Content="Version 1.0" FontSize="24" FontWeight="Bold"  HorizontalAlignment="Right" Foreground="WhiteSmoke"  Margin="0" />
             <Label x:Name="VersionDateLabel" Content="Jan 01, 2017" FontSize="12" HorizontalAlignment="Right" Foreground="WhiteSmoke" Canvas.Left="513" Margin="0,-10,0,0" />
             <Label x:Name="OsLabel" Content="32 bit" FontSize="12" HorizontalAlignment="Right" Foreground="WhiteSmoke" Canvas.Left="548" Margin="0,-11,0,0" />
+            <Label x:Name="PortableMode" HorizontalAlignment="Right" Foreground="WhiteSmoke" Margin="0,-10,0,0" FontSize="12"/>
         </StackPanel>
 
         <StackPanel Canvas.Top="408" Canvas.Left="20">
