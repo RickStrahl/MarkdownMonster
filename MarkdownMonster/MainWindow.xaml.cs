@@ -136,6 +136,8 @@ namespace MarkdownMonster
 
         private IEWebBrowserControl previewBrowser;
 
+        StatusBarHelper StatusBarHelper { get;  }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -171,6 +173,8 @@ namespace MarkdownMonster
 
             // Override some of the theme defaults (dark header specifically)
             mmApp.SetThemeWindowOverride(this);
+
+            StatusBarHelper = new StatusBarHelper(StatusText, StatusIcon);
         }
 
 
@@ -2268,7 +2272,6 @@ namespace MarkdownMonster
                 Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }), DispatcherPriority.ApplicationIdle);
             });
         }
-
         
         public List<MenuItem> GenerateContextMenuItemsFromOpenTabs(ContextMenu ctx = null)
         {
@@ -2352,42 +2355,10 @@ namespace MarkdownMonster
 
         #region StatusBar Display
 
-        DebounceDispatcher debounce = new DebounceDispatcher();
-
         public void ShowStatus(string message = null, int milliSeconds = 0,
             FontAwesomeIcon icon = FontAwesomeIcon.None,
             Color color = default(Color),
-            bool spin = false)
-        {
-            if (color == default(Color))
-                color = Colors.Green;
-
-            if (icon != FontAwesomeIcon.None)
-                SetStatusIcon(icon, color, spin);
-
-            if (message == null)
-            {
-                message = "Ready";
-                SetStatusIcon();
-            }
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                // debounce rather than delay so if something else displays
-                // a message the delay timer is 'reset'
-                debounce.Debounce(milliSeconds, (win) =>
-                {
-                    var window = win as MainWindow;
-                    if (window == null)
-                        return;                    
-                    window.ShowStatus(null, 0);
-                }, this);
-            }
-
-            WindowUtilities.DoEvents();
-        }
+            bool spin = false) => StatusBarHelper.ShowStatus(message, milliSeconds, icon, color, spin);
 
         /// <summary>
         /// Displays an error message using common defaults for a timeout milliseconds
@@ -2396,16 +2367,10 @@ namespace MarkdownMonster
         /// <param name="timeout">optional timeout</param>
         /// <param name="icon">optional icon (warning)</param>
         /// <param name="color">optional color (firebrick)</param>
-        public void ShowStatusError(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.Warning, Color color = default(Color))
-        {
-            if (timeout == -1)
-                timeout = mmApp.Configuration.StatusMessageTimeout;
+        public void ShowStatusError(string message, int timeout = -1,
+            FontAwesomeIcon icon = FontAwesomeIcon.Warning,
+            Color color = default(Color)) => StatusBarHelper.ShowStatusError(message, timeout, icon, color);
 
-            if (color == default(Color))
-                color = Colors.Firebrick;
-
-            ShowStatus(message, timeout, icon, color);
-        }
 
         /// <summary>
         /// Shows a success message with a green check icon for the timeout
@@ -2414,18 +2379,9 @@ namespace MarkdownMonster
         /// <param name="timeout">optional timeout</param>
         /// <param name="icon">optional icon (warning)</param>
         /// <param name="color">optional color (firebrick)</param>
-        public void ShowStatusSuccess(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.CheckCircle, Color color = default(Color))
-        {
-            if (timeout == -1)
-                timeout = mmApp.Configuration.StatusMessageTimeout;            
-
-            if (color == default(Color))
-                color = Colors.LimeGreen;
-
-                    
-
-            ShowStatus(message, timeout, icon, color);
-        }
+        public void ShowStatusSuccess(string message, int timeout = -1,
+            FontAwesomeIcon icon = FontAwesomeIcon.CheckCircle,
+            Color color = default(Color)) => StatusBarHelper.ShowStatusSuccess(message, timeout, icon, color);
 
 
         /// <summary>
@@ -2436,16 +2392,10 @@ namespace MarkdownMonster
         /// <param name="icon">optional icon (warning)</param>
         /// <param name="color">optional color (firebrick)</param>
         /// <param name="spin"></param>
-        public void ShowStatusProgress(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.CircleOutlineNotch, Color color = default(Color), bool spin = true)
-        {
-            if (timeout == -1)
-                timeout = mmApp.Configuration.StatusMessageTimeout;
-
-            if (color == default(Color))
-                color = Colors.Goldenrod;
-
-            ShowStatus(message, timeout, icon, color,spin);
-        }
+        public void ShowStatusProgress(string message, int timeout = -1,
+            FontAwesomeIcon icon = FontAwesomeIcon.CircleOutlineNotch,
+            Color color = default(Color),
+            bool spin = true) => StatusBarHelper.ShowStatusProgress(message, timeout, icon, color);
 
         /// <summary>
         /// Status the statusbar icon on the left bottom to some indicator
@@ -2453,27 +2403,12 @@ namespace MarkdownMonster
         /// <param name="icon"></param>
         /// <param name="color"></param>
         /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
-        {
-            StatusIcon.Icon = icon;
-            StatusIcon.Foreground = new SolidColorBrush(color);
-            if (spin)
-                StatusIcon.SpinDuration = 2;
-
-            StatusIcon.Spin = spin;
-        }
+        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false) => StatusBarHelper.SetStatusIcon(icon, color, spin);
 
         /// <summary>
         /// Resets the Status bar icon on the left to its default green circle
         /// </summary>
-        public void SetStatusIcon()
-        {
-            StatusIcon.Icon = FontAwesomeIcon.Circle;
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-            StatusIcon.Spin = false;
-            StatusIcon.SpinDuration = 0;
-            StatusIcon.StopSpin();
-        }
+        public void SetStatusIcon() => StatusBarHelper.SetStatusIcon();
 
         /// <summary>
         /// Helper routine to show a Metro Dialog. Note this dialog popup is fully async!

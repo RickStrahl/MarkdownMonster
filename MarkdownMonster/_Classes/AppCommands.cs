@@ -599,7 +599,7 @@ namespace MarkdownMonster
                 var html = editor.RenderMarkdown(markdown);
 
                 // copy to clipboard as html
-                if (!ClipboardHelper.CopyHtmlToClipboard(html))
+                if (!ClipboardHelper.CopyHtmlToClipboard(html, showStatusError: true))
                     Model.Window.ShowStatusError(
                         "Failed to copy Html to the clipboard. Check the application log for more info.");
                 else
@@ -1258,7 +1258,7 @@ namespace MarkdownMonster
                 }
                 catch
                 {
-                    if (mmApp.Configuration.CommonFolder != mmApp.Configuration.InternalCommonFolder)
+                    if (!App.IsPortableMode && mmApp.Configuration.CommonFolder != mmApp.Configuration.InternalCommonFolder)
                     {
                         mmApp.Configuration.CommonFolder = mmApp.Configuration.InternalCommonFolder;
                         Settings();
