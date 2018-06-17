@@ -6,8 +6,11 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.11.15.2
+### 1.11.16
 <small>not released yet</small>
+
+* **[Updated Portable Mode Operation](https://markdownmonster.west-wind.com/docs/_4t90rhfy9.htmhttps://markdownmonster.west-wind.com/docs/_4t90rhfy9.htm)**  
+Markdown Monster's portable mode now no longer uses %appdata% for configuration data storage but instead uses a local `PortableSettings` folder for portable settings. Simplified portable mode operation via `_IsPortable` file flag.
 
 * **Back to 32 bit mode**    
 Version 1.11.15 briefly was distributed to run in 64 bit mode. Unfortunately we're seeing lots of instability with hard WPF crashes and slower performance overall, so we're reverting back to 32 bit.

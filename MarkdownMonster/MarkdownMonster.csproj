@@ -298,6 +298,7 @@
     <Compile Include="_Classes\MarkdownParser\MarkdownParserCommonMarkNet.cs" />
     <Compile Include="_Classes\Utilities\MostRecentlyUsedList.cs" />
     <Compile Include="_Classes\Utilities\SpellChecker.cs" />
+    <Compile Include="_Classes\Utilities\StatusBarHelper.cs" />
     <Compile Include="_Classes\Utilities\UnlockKey.cs" />
     <Compile Include="_Classes\Utilities\MarkdownUtilities.cs" />
     <None Include="app.manifest">

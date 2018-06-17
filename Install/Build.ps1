@@ -18,8 +18,7 @@ del ".\Builds\CurrentRelease\MarkdownMonsterSetup.zip"
 out-file -FilePath .\Distribution\_IsPortable -InputObject "forces the settings to be read from .\PortableSettings rather than %appdata%"
 "Zipping up portable setup file..."
 del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
-.\7z a -tzip -r ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\Distribution\*.*"
-.\7z a -tzip ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\MarkdownMonsterPortable.md"
+.\7z a -tzip -r ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\Distribution\*.*" ".\Distribution\_IsPortable" ".\MarkdownMonsterPortable.md"
 
 # remove-item .\Distribution\_IsPortable
 
