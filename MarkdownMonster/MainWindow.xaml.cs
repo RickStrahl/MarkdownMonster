@@ -501,21 +501,21 @@ namespace MarkdownMonster
             }, DispatcherPriority.ApplicationIdle);
         }
 
+
+        
         /// <summary>
         /// Creates/Updates the Recent Items Context list
         /// from recent file and recent folder configuration
         /// </summary>
-        public void UpdateRecentDocumentsContextMenu()
+        public void UpdateRecentDocumentsContextMenu(RecentFileDropdownModes mode)
         {
-            var contextMenu = Resources["ContextMenuRecentFiles"] as ContextMenu;
-            if (contextMenu == null)
-                return;
+            var contextMenu = new ContextMenu {FontSize = 12.5, Padding= new Thickness(8)};                       
+            
+            if (mode == RecentFileDropdownModes.MenuDropDown)
+                ButtonRecentFiles.Items.Clear();
 
-            contextMenu.Items.Clear();
-            ButtonRecentFiles.Items.Clear();
-
+            var icon = new AssociatedIcons();
             MenuItem mi = null;
-            MenuItem mi2 = null;
 
             List<string> badFiles = new List<string>();
             foreach (string file in mmApp.Configuration.RecentDocuments)
@@ -526,26 +526,54 @@ namespace MarkdownMonster
                     continue;
                 }
 
-                mi = new MenuItem()
+                var fileOnly = Path.GetFileName(file).Replace("_", "__"); 
+                var path = Path.GetDirectoryName(file).Replace("_", "__");
+                
+                var content = new StackPanel
                 {
-                    Header = file.Replace("_", "__"),
+                    Orientation = Orientation.Vertical
                 };
-                mi.Command = Model.Commands.OpenRecentDocumentCommand;
-                mi.CommandParameter = file;
-                contextMenu.Items.Add(mi);
 
-                mi2 = new MenuItem()
+                // image/textblock panel
+                var panel = new StackPanel {Orientation = Orientation.Horizontal};
+                panel.Children.Add(new Image
                 {
-                    Header = file.Replace("_", "__")
-                };
-                mi2.Command = Model.Commands.OpenRecentDocumentCommand;
-                mi2.CommandParameter = file;
+                    Source = icon.GetIconFromFile(file),
+                    Height=14
+                });                
+                panel.Children.Add(new TextBlock
+                {
+                    Text = fileOnly,
+                    FontWeight = FontWeights.Medium,
+                    Margin = new Thickness(5,0,0,0)
+                });
+                content.Children.Add(panel);
 
-                ButtonRecentFiles.Items.Add(mi2);
+                // folder
+                content.Children.Add(new TextBlock
+                {
+                    Text = path,
+                    FontStyle = FontStyles.Italic,
+                    FontSize = 10.25,
+                    //Margin = new Thickness(0, 2, 0, 0),
+                    Opacity = 0.8
+                });
+
+
+                mi = new MenuItem
+                {
+                    Header = content,
+                    Command = Model.Commands.OpenRecentDocumentCommand,
+                    CommandParameter = file,                    
+                    Padding = new Thickness(0,2,0,3)
+                };
+        
+                if (mode == RecentFileDropdownModes.ToolbarDropdown)
+                    contextMenu.Items.Add(mi);
+                else
+                    ButtonRecentFiles.Items.Add(mi);
             }
-
-            ToolbarButtonRecentFiles.ContextMenu = contextMenu;
-
+            
             foreach (var file in badFiles)
                 mmApp.Configuration.RecentDocuments.Remove(file);
 
@@ -556,35 +584,66 @@ namespace MarkdownMonster
                     IsEnabled = false,
                     Header = "——————— Recent Folders ———————"
                 };
-                contextMenu.Items.Add(mi);
-                mi2 = new MenuItem
-                {
-                    IsEnabled = false,
-                    Header = "——————— Recent Folders ———————"
-                };
-                ButtonRecentFiles.Items.Add(mi2);
+
+                if (mode == RecentFileDropdownModes.ToolbarDropdown)
+                    contextMenu.Items.Add(mi);
+                else
+                    ButtonRecentFiles.Items.Add(mi);
 
                 foreach (var folder in mmApp.Configuration.FolderBrowser.RecentFolders.Take(7))
                 {
+                    var pathOnly = Path.GetFileName(folder).Replace("_", "__");
+                    var path = folder.Replace("_", "__");
+                    
+                    var content = new StackPanel()
+                    {
+                        Orientation = Orientation.Vertical
+                    };
+
+                    // image/textblock panel
+                    var panel = new StackPanel { Orientation = Orientation.Horizontal };
+                    panel.Children.Add(new Image
+                    {
+                        Source = icon.GetIconFromFile("folder.folder"),
+                        Height = 14
+                    });
+                    panel.Children.Add(new TextBlock
+                    {
+                        Text = pathOnly,
+                        FontWeight = FontWeights.Medium,
+                        Margin = new Thickness(5, 0, 0, 0)
+                    });
+                    content.Children.Add(panel);
+                    
+                    content.Children.Add(new TextBlock
+                    {
+                        Text = path,
+                        FontStyle = FontStyles.Italic,
+                        FontSize = 10.25,
+                        Margin = new Thickness(0,2, 0, 0),
+                        Opacity = 0.8
+                    });
+
                     mi = new MenuItem()
                     {
-                        Header = folder.Replace("_", "__"),
+                        Header = content,
                         Command = Model.Commands.OpenRecentDocumentCommand,
-                        CommandParameter = folder
+                        CommandParameter = folder,
+                        Padding = new Thickness(0, 2, 0, 3)
                     };
-                    contextMenu.Items.Add(mi);
 
-                    mi2 = new MenuItem()
-                    {
-                        Header = folder.Replace("_", "__"),
-                        Command = Model.Commands.OpenRecentDocumentCommand,
-                        CommandParameter = folder
-                    };
-                    ButtonRecentFiles.Items.Add(mi2);
+                    if (mode == RecentFileDropdownModes.ToolbarDropdown)
+                        contextMenu.Items.Add(mi);
+                    else
+                        ButtonRecentFiles.Items.Add(mi);
                 }
+
+                if (mode == RecentFileDropdownModes.ToolbarDropdown)
+                    ToolbarButtonRecentFiles.ContextMenu = contextMenu;                
             }
 
         }
+
 
         void RestoreSettings()
         {
@@ -1906,14 +1965,15 @@ namespace MarkdownMonster
             else if (button == ButtonRecentFiles)
             {
                 var mi = button as MenuItem;
-                UpdateRecentDocumentsContextMenu();
+                UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.MenuDropDown);
                 mi.IsSubmenuOpen = true;
             }
             else if (button == ToolbarButtonRecentFiles)
             {
                 var mi = button as Button;
-                UpdateRecentDocumentsContextMenu();
+                UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.ToolbarDropdown);
                 mi.ContextMenu.IsOpen = true;
+                e.Handled = true;                
             }
             else if (button == ButtonExit)
             {
@@ -2223,7 +2283,7 @@ namespace MarkdownMonster
 
         private void ButtonRecentFiles_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            UpdateRecentDocumentsContextMenu();
+            UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.MenuDropDown);
         }
 
         private void LeftSidebarExpand_MouseDown(object sender, MouseButtonEventArgs e)
@@ -2508,5 +2568,12 @@ namespace MarkdownMonster
     {
         public string Filename { get; set; }
         public string DisplayFilename { get; set; }
+    }
+
+
+    public enum RecentFileDropdownModes
+    {
+        ToolbarDropdown,
+        MenuDropDown
     }
 }

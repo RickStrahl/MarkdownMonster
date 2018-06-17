@@ -91,13 +91,15 @@
                                       Fill="{TemplateBinding Foreground}"
                                       Data="M0,0 L0,8 L4,4 z" />
                             </Grid>
+
+                            <!--RAS: Removed - PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"-->
                             <Popup x:Name="SubMenuPopup"
                                    AllowsTransparency="True"
                                    Focusable="false"
                                    HorizontalOffset="-1"
                                    IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                    Placement="Right"
-                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
+                                   >
                                 <Grid Margin="0 0 5 5">
                                     <!--  Border 2  -->
                                     <Border x:Name="SubMenuBorder"

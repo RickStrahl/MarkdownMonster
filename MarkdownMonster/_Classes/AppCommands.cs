@@ -413,13 +413,12 @@ namespace MarkdownMonster
         {
             OpenRecentDocumentCommand = new CommandBase((parameter, command) =>
             {
-                // hide to avoid weird fade behavior
-                var context = Model.Window.Resources["ContextMenuRecentFiles"] as ContextMenu;
-                if (context != null)
-                    context.Visibility = Visibility.Hidden;
-
-                WindowUtilities.DoEvents();
-
+                // make the context menu go away right away so there's no 'ui stutter'
+                // don't know how to do the same for
+                if (Model.Window.ToolbarButtonRecentFiles.ContextMenu != null)
+                    Model.Window.ToolbarButtonRecentFiles.ContextMenu.Visibility = Visibility.Hidden;
+                Model.Window.ButtonRecentFiles.IsSubmenuOpen = false;
+                
                 var parm = parameter as string;
                 if (string.IsNullOrEmpty(parm))
                     return;
@@ -431,13 +430,6 @@ namespace MarkdownMonster
                 }
                 else
                     Model.Window.OpenTab(parm, rebindTabHeaders: true);
-
-                if (context != null)
-                {
-                    WindowUtilities.DoEvents();
-                    context.Visibility = Visibility.Visible;
-                }
-
             });
         }
 

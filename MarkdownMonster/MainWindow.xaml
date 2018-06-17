@@ -70,10 +70,6 @@
             <Separator/>
             <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Command="{Binding DataContext.Commands.CopyFolderToClipboardCommand}" />
         </ContextMenu>
-        
-        <ContextMenu x:Key="ContextMenuRecentFiles">
-            <MenuItem Header="Recent Files go here..."/>
-        </ContextMenu>
     </Window.Resources>
     <Window.ContextMenu>
         <ContextMenu Name="EditorContextMenu" MinWidth="175">
@@ -222,7 +218,8 @@
                     <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
                 </MenuItem>
 
-                <MenuItem Name="ButtonRecentFiles" Header="Recent Documents" SubmenuOpened="ButtonRecentFiles_SubmenuOpened"  Click="Button_Handler" >
+                <MenuItem Name="ButtonRecentFiles" Header="Recent Documents"
+                          SubmenuOpened="ButtonRecentFiles_SubmenuOpened"  Click="Button_Handler" >
                     <MenuItem>.</MenuItem>
                 </MenuItem>
 
