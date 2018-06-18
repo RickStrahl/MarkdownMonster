@@ -618,6 +618,9 @@
                     </ToolBar>
 
 					<ToolBar Name="ToolbarAddIns" Visibility="Hidden" FontSize="17">
+                        <Button Name="ButtonGit" Command="{Binding Commands.CommitToGitCommand}" ToolTip="Git Operations: Commit, Push, Pull, Clone, Create (alt-t-g)">
+                            <Image Source="assets/git.png" Height="19" Margin="0,0,2,0"/>
+                        </Button>
 					</ToolBar>
 					
                 </StackPanel>

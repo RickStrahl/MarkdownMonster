@@ -10,7 +10,7 @@
                        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                        xmlns:fa="http://schemas.fontawesome.io/icons/"                       
                        mc:Ignorable="d"
-                       Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
+                       Icon="../../Assets/git.png"                     
                        Title="Commit to Git" 
                        FontSize="15"
                        TitleCharacterCasing="Normal"

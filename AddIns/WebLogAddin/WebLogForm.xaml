@@ -12,12 +12,13 @@
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:windows="clr-namespace:MarkdownMonster.Windows;assembly=MarkdownMonster"
         mc:Ignorable="d"        
-        Icon="MarkdownMonster_Icon_128.png"
+        Icon="icon.png"
         Title="Markdown Monster Weblog Publishing" 
         TitleCharacterCasing="Normal" 
         TitlebarHeight="35"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="800" Height="768" MinHeight="768" MinWidth="600">
     <Window.Resources>

@@ -8,9 +8,17 @@
 
 ### 1.11.17
 <small>not released yet</small>
+* **More Visual Recent File List Display**  
+Consolidated Recent List display and use a image icons and bold text for the filename and show full path low-lighted below.
+
+* **Additional Menu Options for the Preview Browser**  
+You can now use the Save As Html, Save As Pdf and Print options from the Preview Browser's context menu.
 
 * **Improved Addin Removal**  
 You can now remove addins from the Addin's drop down menu. This also works for manually installed addins and test scenarios where addins aren't installed through the Addin Manager.
+
+* **Internal: StatusBar Consolidation**  
+MM uses status bars on a number of forms and there was lots of duplication. Consolidated all statusbar operations into a helper which is called from each form to handle status bar operations in one place resulting in a large code reduction.
 
 
 ### 1.11.16

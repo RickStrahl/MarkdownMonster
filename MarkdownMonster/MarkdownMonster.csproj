@@ -669,6 +669,7 @@
     <None Include="Editor\fileicons\preview.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Resource Include="Assets\git.png" />
     <Content Include="Editor\scripts\Ace\ext-options.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

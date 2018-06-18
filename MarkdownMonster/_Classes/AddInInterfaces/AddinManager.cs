@@ -355,7 +355,7 @@ namespace MarkdownMonster.AddIns
                 return;
             }
 
-            var dirs = Directory.GetDirectories(addinPath);            
+            var dirs = Directory.GetDirectories(addinPath);
             foreach (var dir in dirs)
             {
                 var files = Directory.GetFiles(dir, "*addin.dll");
