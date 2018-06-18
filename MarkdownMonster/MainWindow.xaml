@@ -646,31 +646,42 @@
                                         TabStripPlacement="Bottom"
                                         SelectionChanged="SidebarContainer_SelectionChanged"
                                         BorderThickness="0">
+                <TabControl.Resources>
+                    <Style TargetType="controls:MetroTabItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="false">
+                                <Setter Property="Opacity" Value="0.4" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <Setter Property="Padding" Value="2,2,14,7" />
+                        <Setter Property="Margin" Value="0,0,0,13" />
+                    </Style>
+                </TabControl.Resources>
 
                 <controls:MetroTabItem Name="TabFolderBrowser"  x:FieldModifier="public"
-                         Margin="0,0,5,0" Visibility="Visible" Header=" Files "
+                         Margin="0,0,5,0" Visibility="Visible"
                          controls:ControlsHelper.HeaderFontSize="14">
-                    <!--<TabItem.Header>
+                    <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text=" Files and Folder " />
+                            <fa:FontAwesome Icon="Folder" Foreground="DarkGoldenrod" Padding="5,3,5,0"/>
+                            <TextBlock>Files</TextBlock>
                         </StackPanel>
-                    </TabItem.Header>-->
+                    </TabItem.Header>
                     <localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
                     </localwindows:FolderBrowerSidebar>
-
-
                 </controls:MetroTabItem>
 
 
                 <controls:MetroTabItem Name="TabDocumentOutline"  x:FieldModifier="public"
-                                       Margin="0,0,5,0"  Header=" Outline "
+                                       Margin="0,0,5,0" 
                                        controls:VisibilityHelper.IsVisible="{Binding Configuration.IsDocumentOutlineVisible}"                                       
                                        controls:ControlsHelper.HeaderFontSize="14">
-                    <!--<TabItem.Header>
+                    <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text=" Files and Folder " />
+                            <fa:FontAwesome Icon="Bookmark" Foreground="SteelBlue" Padding="5,3,5,0"/>
+                            <TextBlock>Outline</TextBlock>
                         </StackPanel>
-                    </TabItem.Header>-->
+                    </TabItem.Header>
                     <localwindows:DocumentOutlineSidebarControl x:Name="DocumentOutline">
                     </localwindows:DocumentOutlineSidebarControl>
                 </controls:MetroTabItem>
