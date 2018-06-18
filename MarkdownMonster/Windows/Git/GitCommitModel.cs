@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Threading;
 using LibGit2Sharp;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Utilities;
@@ -235,15 +236,15 @@ namespace MarkdownMonster.Windows
 
             CommitWindow.StatusBar.ShowStatusProgress("Committing files...");
 
-            var files = new ObservableCollection<RepositoryStatusItem>(RepositoryStatusItems.Where(it => it.Selected));
+            var files = new ObservableCollection<RepositoryStatusItem>(
+                RepositoryStatusItems.Where(it => it.Selected));
 
             if (files.Count < 1)
             {
                 Window.ShowStatusError("There are no changes in this repository.");
                 return false;
             }
-
-
+        
             if (!GitHelper.Commit(files, CommitMessage, GitUsername, GitEmail) )
             {                
                 CommitWindow.StatusBar.ShowStatusError(GitHelper.ErrorMessage);
@@ -257,7 +258,13 @@ namespace MarkdownMonster.Windows
 
             using (var repo = GitHelper.OpenRepository(files[0].FullPath))
             {
-                var branch = GitHelper.Repository.Head?
+                if (repo == null)
+                {
+                    CommitWindow.StatusBar.ShowStatusError(GitHelper.ErrorMessage);
+                    return false;
+                }
+
+                var branch = repo.Head?
                                       .TrackedBranch?
                                       .FriendlyName;
                 branch = branch?.Substring(branch.IndexOf("/") + 1);
