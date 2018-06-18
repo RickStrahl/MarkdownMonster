@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.11.17
-<small>not released yet</small>
+<small>June 19th, 2018</small>
 * **More Visual Recent File List Display**  
 Consolidated Recent List display and use a image icons and bold text for the filename and show full path low-lighted below.
 
@@ -19,6 +19,9 @@ You can now remove addins from the Addin's drop down menu. This also works for m
 
 * **Internal: StatusBar Consolidation**  
 MM uses status bars on a number of forms and there was lots of duplication. Consolidated all statusbar operations into a helper which is called from each form to handle status bar operations in one place resulting in a large code reduction.
+
+* **UI Enhancements**   
+Lots of small UI improvements. Fix dialog focus issues with various pop up windows. Cleanup window inconsistencies for dialogs. Statusbar code consolidation. Icons on the Left Sidebar tabs. Git icon on the toolbar.
 
 
 ### 1.11.16

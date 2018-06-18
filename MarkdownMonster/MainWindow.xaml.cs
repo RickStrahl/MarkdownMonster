@@ -142,7 +142,6 @@ namespace MarkdownMonster
         {
             InitializeComponent();
 
-
             Model = new AppModel(this);
             AddinManager.Current.RaiseOnModelLoaded(Model);
             AddinManager.Current.AddinsLoaded = OnAddinsLoaded;
