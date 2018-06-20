@@ -1969,9 +1969,10 @@ namespace MarkdownMonster
             }
             else if (button == ToolbarButtonRecentFiles)
             {
-                var mi = button as Button;
+                var mi = button as Button;                
                 UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.ToolbarDropdown);
-                mi.ContextMenu.IsOpen = true;
+                if(mi.ContextMenu != null)
+                    mi.ContextMenu.IsOpen = true;
                 e.Handled = true;                
             }
             else if (button == ButtonExit)

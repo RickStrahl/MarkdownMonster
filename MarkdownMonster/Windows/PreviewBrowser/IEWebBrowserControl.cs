@@ -25,7 +25,6 @@ namespace MarkdownMonster.Windows.PreviewBrowser
     /// </summary>
     public partial class IEWebBrowserControl    : UserControl, IPreviewBrowser
     {
-
         public AppModel Model { get; set; }
 
         public MainWindow Window { get; set; }
@@ -75,6 +74,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         public void Navigate(string url)
         {
             WebBrowser.Navigate(new Uri(url));
+        }
+
+        public void Refresh(bool noCache)
+        {
+            WebBrowser.Refresh(noCache);
         }
 
         public void ExecuteCommand(string command, params dynamic[] args)

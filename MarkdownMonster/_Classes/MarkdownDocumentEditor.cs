@@ -614,6 +614,9 @@ namespace MarkdownMonster
 
                         WindowUtilities.DoEvents();
                         html = $"![{form.ImageText}][{id}]";
+
+                        // Force a refresh of the window
+                        Window.PreviewBrowser.Refresh(true);
                     }
                 }
             }
@@ -742,7 +745,11 @@ namespace MarkdownMonster
                     {
                         SetSelection(html);
                         PreviewMarkdownCallback();
+
+                        // Force the browser to refresh so the image gets updated.
+                        Window.PreviewBrowser.Refresh(true);
                     }
+                    
                 }
             }
             else if (action == "hyperlink")
@@ -1711,7 +1718,11 @@ namespace MarkdownMonster
                             imagePath = imagePath.Replace("\\", "/");
 
                         SetSelection($"![]({imagePath.Replace(" ","%20") })");
-                        PreviewMarkdownCallback(); // force a preview refresh
+
+
+                        // Force the browser to refresh completely so image changes show up
+                        Window.PreviewBrowser.Refresh(true);                        
+                        //PreviewMarkdownCallback(); // force a preview refresh
                     }
                 }
             }
@@ -1770,8 +1781,15 @@ namespace MarkdownMonster
 
                 AceEditor.setselpositionfrommouse(false);
 
-                Window.Dispatcher.InvokeAsync(() => SetSelectionAndFocus($"\r\n![]({relFilePath.Replace(" ","%20")})\r\n"),
-                    DispatcherPriority.ApplicationIdle);
+                Window.Dispatcher.InvokeAsync(() =>
+                {
+                    SetSelectionAndFocus($"\r\n![]({relFilePath.Replace(" ", "%20")})\r\n");
+
+                    // Force the browser to refresh completely so image changes show up
+                    Window.PreviewBrowser.Refresh(true); 
+                }, DispatcherPriority.ApplicationIdle);
+                
+                    
 
                 Window.Activate();
             }

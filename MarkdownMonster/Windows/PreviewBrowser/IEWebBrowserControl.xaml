@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <WebBrowser Name="WebBrowser" 
+        <WebBrowser Name="WebBrowser"  x:FieldModifier="public"
                     VerticalAlignment="Stretch"  SizeChanged="PreviewBrowserWebBrowserControl_SizeChanged"                        
                     Visibility="{Binding IsTabOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
 

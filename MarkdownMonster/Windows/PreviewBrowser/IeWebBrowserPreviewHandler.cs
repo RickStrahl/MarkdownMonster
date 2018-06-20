@@ -286,6 +286,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             WebBrowser.Navigate(new Uri(url));
         }
 
+        public void Refresh(bool noCache = false)
+        {
+            WebBrowser.Refresh(noCache);
+        }
+
         public void ExecuteCommand(string command, params dynamic[] args)
         {
             if (command == "PreviewContextMenu")

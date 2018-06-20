@@ -621,22 +621,15 @@ namespace MarkdownMonster.Windows
 
             try
             {
-                var bmi = new BitmapImage(new Uri(url))
-                {
-                    CreateOptions = BitmapCreateOptions.IgnoreImageCache, // no locking
-                };
 
-            ImagePreview.Source = bmi;
-                if (Height < 400)
-                {
-                    Top -= 300;
-                    Left -= 100;
-                    Width = 800;
-                    Height = 800;
-                }
+                var bmi = new BitmapImage();
+                bmi.BeginInit();
+                bmi.CacheOption = BitmapCacheOption.OnLoad;
+                bmi.UriSource = new Uri(url);
 
-                WindowUtilities.DoEvents();
-                PasteImage_SizeChanged(this, null);
+                SetImagePreview(bmi);
+
+                bmi.EndInit();
             }
             catch
             {

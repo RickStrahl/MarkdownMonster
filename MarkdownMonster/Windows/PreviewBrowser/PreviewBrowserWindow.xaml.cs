@@ -181,6 +181,10 @@ namespace MarkdownMonster.Windows
             PreviewBrowser.Navigate(url);
         }
 
+        public void Refresh(bool noCache = false)
+        {
+            PreviewBrowser.Refresh(noCache);
+        }
 
         public void ExecuteCommand(string command, params dynamic[] args)
         {

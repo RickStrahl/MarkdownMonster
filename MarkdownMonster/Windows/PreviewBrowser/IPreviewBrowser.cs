@@ -8,6 +8,8 @@
 
         void Navigate(string url);
 
+        void Refresh(bool noCache);
+
         bool IsVisible { get; }
 
 
