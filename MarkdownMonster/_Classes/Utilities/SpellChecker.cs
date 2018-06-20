@@ -120,10 +120,13 @@ namespace MarkdownMonster.Utilities
         /// </summary>
         /// <param name="word"></param>
         /// <param name="lang"></param>
-        public static void AddWordToDictionary(string word, string lang = "en-US")
+        public static bool AddWordToDictionary(string word, string lang = "en-US")
         {
-            File.AppendAllText(Path.Combine(ExternalDictionaryFolder, lang + "_custom.txt"), word + "\r\n");
-            _spellChecker.Add(word);
+            return LanguageUtils.IgnoreErrors(() =>
+            {
+                File.AppendAllText(Path.Combine(ExternalDictionaryFolder, lang + "_custom.txt"), word + "\r\n");
+                _spellChecker.Add(word);
+            });
         }
         
         const string DictionaryDownloadUrl = "https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{0}/index.dic";
