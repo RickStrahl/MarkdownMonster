@@ -6,6 +6,15 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.11.18
+<small>not released yet</small>
+
+* **Fix Image Refresh**  
+Fix various places where updating images in the display is support. Now when you paste a new image, or save a new image to an existing name the new image should be display avoiding browser caching issues.
+
+* **Refresh Browser in Preview Context Menu**  
+Added explicit option to refresh the browser preview window to force updating changes in images or other resources on disk in the Preview browser.
+
 ### 1.11.17
 <small>June 19th, 2018</small>
 * **More Visual Recent File List Display**  
