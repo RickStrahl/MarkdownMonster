@@ -64,6 +64,7 @@ namespace MarkdownMonster
             PreviewSyncMode();
             ViewInExternalBrowser();
             ViewHtmlSource();
+            RefreshPreview();
 
 
             // Miscellaneous
@@ -1295,7 +1296,7 @@ We're now shutting down the application.
 
                 Model.ActiveDocument.RenderHtmlToFile();
                 mmFileUtils.ShowExternalBrowser(Model.ActiveDocument.HtmlRenderFilename);
-            }, (p, e) => Model.IsEditorActive);
+            });
         }
 
 
@@ -1308,7 +1309,19 @@ We're now shutting down the application.
                 if (Model.ActiveDocument == null) return;
                 Model.ActiveDocument.RenderHtmlToFile();
                 Model.Window.OpenTab(Model.ActiveDocument.HtmlRenderFilename);
-            }, (p, e) => Model.IsEditorActive);
+            });
+        }
+
+
+
+        public CommandBase RefreshPreviewCommand { get; set; }
+
+        void RefreshPreview()
+        {
+            RefreshPreviewCommand = new CommandBase((parameter, command) =>
+                {
+                    Model.Window.PreviewBrowser.Refresh(true);
+                });
         }
 
 

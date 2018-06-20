@@ -1906,7 +1906,8 @@ namespace MarkdownMonster
         /// <param name="lang"></param>
         public void AddWordToDictionary(string word, string lang = "EN_US")
         {
-            SpellChecker.AddWordToDictionary(word, lang);
+            if (!SpellChecker.AddWordToDictionary(word, lang))
+                Window.ShowStatusError("Couldn't add word to dictionary. Most likely you don't have write access in the settings folder.");
         }
         #endregion
 

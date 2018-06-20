@@ -14,14 +14,15 @@
             <WebBrowser.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Show in External _Browser" Command="{Binding Commands.ViewInExternalBrowserCommand}" />
+                    <MenuItem Header="Refresh Browser" Command="{Binding Commands.RefreshPreviewCommand}" />
                     <MenuItem Header="View Html _Source" Command="{Binding Commands.ViewHtmlSourceCommand}" />
-                    <MenuItem  Header="Configure Preview Syncing" Command="{Binding Commands.PreviewSyncModeCommand}" />
                     <Separator />
-                    <MenuItem Header="Save As _Html" Command="{Binding Commands.SaveAsHtmlCommand}" />
+                    <MenuItem Header="Save As _Html..." Command="{Binding Commands.SaveAsHtmlCommand}" />
                     <MenuItem Header="Save As _Pdf..." Command="{Binding Commands.GeneratePdfCommand}" />
                     <MenuItem Header="P_rint..."  Command="{Binding Commands.PrintPreviewCommand}" />
                     <Separator />
                     <MenuItem Header="Edit Preview _Theme" Command="{Binding Commands.EditPreviewThemeCommand}"/>
+                    <MenuItem  Header="Configure Preview Syncing" Command="{Binding Commands.PreviewSyncModeCommand}" />
                     <Separator/>
                     <MenuItem Header="Hide HTML Preview" 
                               Command="{Binding Commands.PreviewBrowserCommand}"  IsCheckable="True"

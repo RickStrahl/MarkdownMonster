@@ -184,6 +184,7 @@ namespace MarkdownMonster.Windows
         public void Refresh(bool noCache = false)
         {
             PreviewBrowser.Refresh(noCache);
+            PreviewMarkdownAsync();
         }
 
         public void ExecuteCommand(string command, params dynamic[] args)

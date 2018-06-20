@@ -79,6 +79,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         public void Refresh(bool noCache)
         {
             WebBrowser.Refresh(noCache);
+            PreviewMarkdownAsync();
         }
 
         public void ExecuteCommand(string command, params dynamic[] args)
