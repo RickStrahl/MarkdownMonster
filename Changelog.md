@@ -9,14 +9,14 @@
 ### 1.12 - Version Rollup Release
 <small>June 21st, 2018</small>
 
+* **Improved Folder Browser Preview for images and editable documents**  
+The Folder Browser now supports 'previewing' of Markdown documents in place with editor and preview. Single click opens the editor and previewer in 'preview mode'. If another document is accessed the tab goes away. If you edit the 'preview' tab (italic tab header) the tab is converted into an active tab that behaves like other editable tabs. Image previews now re-use open previews. Overall faster preview experience.
+
 * **Updated Recent File List to be easier to view/navigate**  
 Consolidated Recent List display and use a image icons and bold text for the filename and show full path low-lighted below. End result is a much more usable recent file list especially if you opt for a long list (configurable in Settings).
 
 * **Updated Save as HTML Options**  
 Save As HTML can now save HTML either as raw generated markdown fragment, fully self-contained, (very large single file HTML file, or saved into a folder with HTML and all resources downloaded as files into the folder.
-
-* **Improved Folder Browser Preview for images and editable documents**  
-The Folder Browser now supports 'previewing' of Markdown documents in place with editor and preview. Single click opens the editor and previewer in 'preview mode'. If another document is accessed the tab goes away. If you edit the 'preview' tab (italic tab header) the tab is converted into an active tab that behaves like other editable tabs. Image previews now re-use open previews. Overall faster preview experience.
 
 * **Improved Image Preview**  
 Image previews now show when you single click an image which displays the image in a new document preview tab. Images are displayed in scaled mode and include file information - dimensions and file size in the preview.
