@@ -6,80 +6,38 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.11.18
-<small>not released yet</small>
+### 1.12 - Version Rollup Release
+<small>June 21st, 2018</small>
 
-* **Fix Image Refresh**  
-Fix various places where updating images in the display is support. Now when you paste a new image, or save a new image to an existing name the new image should be display avoiding browser caching issues.
+* **Updated Recent File List to be easier to view/navigate**  
+Consolidated Recent List display and use a image icons and bold text for the filename and show full path low-lighted below. End result is a much more usable recent file list especially if you opt for a long list (configurable in Settings).
+
+* **Updated Save as HTML Options**  
+Save As HTML can now save HTML either as raw generated markdown fragment, fully self-contained, (very large single file HTML file, or saved into a folder with HTML and all resources downloaded as files into the folder.
+
+* **Improved Folder Browser Preview for images and editable documents**  
+The Folder Browser now supports 'previewing' of Markdown documents in place with editor and preview. Single click opens the editor and previewer in 'preview mode'. If another document is accessed the tab goes away. If you edit the 'preview' tab (italic tab header) the tab is converted into an active tab that behaves like other editable tabs. Image previews now re-use open previews. Overall faster preview experience.
+
+* **Improved Image Preview**  
+Image previews now show when you single click an image which displays the image in a new document preview tab. Images are displayed in scaled mode and include file information - dimensions and file size in the preview.
+
+* **Explicit Paste Image option on Editor Context Menu**  
+The editor's context menu now shows **Paste Image** if an image is on the clipboard. Text shows as Paste and if no content is present the option is disabled.
+
+* **Fix Image Refresh for 'cached' images**  
+MM previews Markdown in HTML and HTML by default caches images, so if you embed images and then replace or edit images that are already display, the images didn't refresh in the preview, unless you reloaded the browser. Added logic to force the browser to explicitly hard refresh on image update operations (paste, image dialog, drag and drop).
 
 * **Refresh Browser in Preview Context Menu**  
-Added explicit option to refresh the browser preview window to force updating changes in images or other resources on disk in the Preview browser.
-
-### 1.11.17
-<small>June 19th, 2018</small>
-* **More Visual Recent File List Display**  
-Consolidated Recent List display and use a image icons and bold text for the filename and show full path low-lighted below.
+Related to Image Refresh: Added explicit option to refresh the browser preview window to force updating changes in images or other resources on disk in the Preview browser.
 
 * **Additional Menu Options for the Preview Browser**  
 You can now use the Save As Html, Save As Pdf and Print options from the Preview Browser's context menu.
 
-* **Improved Addin Removal**  
-You can now remove addins from the Addin's drop down menu. This also works for manually installed addins and test scenarios where addins aren't installed through the Addin Manager.
+* **Create Git Repository and Add Remote**  
+Added support for creating GitHub repositories and adding a new repository as a remote to an existing local repo. Options are available under the **File->Git** submenu.
 
-* **Internal: StatusBar Consolidation**  
-MM uses status bars on a number of forms and there was lots of duplication. Consolidated all statusbar operations into a helper which is called from each form to handle status bar operations in one place resulting in a large code reduction.
-
-* **UI Enhancements**   
-Lots of small UI improvements. Fix dialog focus issues with various pop up windows. Cleanup window inconsistencies for dialogs. Statusbar code consolidation. Icons on the Left Sidebar tabs. Git icon on the toolbar.
-
-
-### 1.11.16
-<small>June 16th, 2018</small>
-
-* **[Updated Portable Mode Operation](https://markdownmonster.west-wind.com/docs/_4t90rhfy9.htmhttps://markdownmonster.west-wind.com/docs/_4t90rhfy9.htm)**  
-Markdown Monster's portable mode now no longer uses %appdata% for configuration data storage but instead uses a local `PortableSettings` folder for portable settings. Simplified portable mode operation via `_IsPortable` file flag.
-
-* **Back to 32 bit mode**    
-Version 1.11.15 briefly was distributed to run in 64 bit mode. Unfortunately we're seeing lots of instability with hard WPF crashes and slower performance overall, so we're reverting back to 32 bit.
-
-* **Fix: Paste Markdown to Clipboard as HTML**  
-Fixed operation of Markdown selection to Clipboard, so that HTML is generated both for formatted output (ie. for RTF pasting into Word or Outlook or other HTML editors) or HTML as plain text. Previously the plain text paste produced the original markdown. HTML plain text is usually the desired option for manually pasting into other applications since you can always grab the raw from the editor with a plain copy.
-
-<h4 style="color: firebrick">1.11.16 Breaking Changes</h4>
-
- * **Portable Version Changes affect Configuration**   
-If you are runing the portable version of Markdown Monster installing 1.11.16 is going to lose your existing configuration settings for Markdown Monster and start with a fresh configuration. If you would like to use your old configuration make sure you shut down MM first, and then copy the existing configuration from `%appdata%\Markdown Monster` (or a custom location if you've configured one) to `<installFolder>\PortableSettings`. This will restore the old settings. Make sure you shut down MM before updating the files. If you used a custom location for configuration also remove the `CommonFolder` key from `MarkdownMonster.json` so it resets to the new portable location.
-
-
-### 1.11.15
-<small>June 6th, 2018</small>
-
-* **Better SpellChecking UI**  
-The top window box spell check toggle now displays the active dictionary language (ie. en-US, de etc.). Toggling spellchecking on and off now displays a message on the status bar so it's easier to tell when the icon is toggled (not so easy to see due to the coloring). 
-
-* **Excessive Spellcheck Errors now disable the SpellChecker**  
-Excessive spelling errors in the current view now automatically toggle off the spell checker with a message in the status bar. This is very useful when the language in use doesn't match the documents language which generates a gazillion errors, which can be very slow. Messages suggests that an unmatched language is used and suggests to change language. Changing languages or toggling the setting explicitly re-enables spell checking.
-
-* **Fix: Spellchecking Ignored items**  
-Links, image links and inline code blocks are now no longer spellchecked. Text inside of single quotes and any kind of custom quote characters is now properly spellchecked inside of the quotes. Overall you should see a lot less false positives for spell checking (still a few use cases the parser isn't catching but a lot less).
-
-* **Dictionary Downloads**   
-You can now download dictionaries. Dictionaries are downloaded into the MM AppData common settings folder in a `DownloadedDictionaries` folder. This folder now also holds custom dictionaries for added words. Done so dictionaries and common words can be shared and for easier management of the dictionaries. You can now opt to remove all downloaded dictionaries to allow reinstalling dictionaries in case of updates.
-
-* **Fix: Spellchecker downloads**  
-Fixed encoding bug in the spell checker downloads. Raw downloads are now used with non-encoded content. Fixed errors with accented characters in spell checker. When switching languages, the spell checker immediately updates the document.
-
-* **Fix: Git Commit Username/Email text box layout**  
-Fix layout bug with the username and email textboxes that are overlaying the comment box.
-
-### 1.11.12
-<small>June 7th, 2018</small>
-
-* **Improved Folder Browser Preview**  
-The Folder Browser now supports 'previewing' of Markdown documents in place with editor and preview. Single click opens the editor and previewer in 'preview mode'. If another document is accessed the tab goes away. If you edit the 'preview' tab (italic tab header) the tab is converted into an active tab that behaves like other editable tabs. Image previews now re-use open previews. Overall faster preview experience.
-
-* **Updated Save as HTML Options**
-Added another new feature to Save As HTML to export as HTML document with all dependencies provided as loose resources in a folder. Fixed a number of inconsistencies and missing dependencies.
+* **Add Push to Git Repository to Commit Dialog**  
+In addition to the the **Commit and Push** button in the dialog, you can now also explicitly push to the remote, when there are no files to commit.
 
 * **Open Git Remote in Browser**  
 The Commit dialog now has another option - if there's a Remote associated with the current repository, you can now open the remote in the Web browser. Jumps to the repository root on Github or Bitbucket etc. as long as the URL can just remove the HTTP URL `.git` extension.
@@ -87,11 +45,48 @@ The Commit dialog now has another option - if there's a Remote associated with t
 * **File Operation in Commit Dialog**  
 You can now open a file in the commit dialog in Explorer and delete the file on disk. The context menu also is actually context sensitive. Commit dialog now also has new button to link to the 
 
-* **Explicit Paste Image option on Editor Context Menu**  
-The editor's context menu now shows **Paste Image** if an image is on the clipboard. Text shows as Paste and if no content is present the option is disabled.
+* **Better SpellChecking Dictionary UI**  
+The top window box spell check toggle now displays the active dictionary language (ie. en-US, de etc.). Toggling spellchecking on and off now displays a message on the status bar so it's easier to tell when the icon is toggled (not so easy to see due to the coloring). 
 
-* **Add File Information to Image Preview**  
-The image preview tab now displays image name, file size and dimensions below the image.
+* **Excessive Spellcheck Errors now disable the SpellChecker**  
+Excessive spelling errors in the current view now automatically toggle off the spell checker with a message in the status bar. This is very useful when the language in use doesn't match the documents language which generates a gazillion errors, which can be very slow. Messages suggests that an unmatched language is used and suggests to change language. Changing languages or toggling the setting explicitly re-enables spell checking.
+
+
+* **Fix: Spellchecking Ignored items**  
+Links, image links and inline code blocks are now no longer spellchecked. Text inside of single quotes and any kind of custom quote characters is now properly spellchecked inside of the quotes. Overall you should see a lot less false positives for spell checking (still a few use cases the parser isn't catching but a lot less).
+
+* **Dictionary Downloads**   
+You can now download dictionaries. Dictionaries are downloaded into the MM AppData common settings folder in a `DownloadedDictionaries` folder. This folder now also holds custom dictionaries for added words. Done so dictionaries and common words can be shared and for easier management of the dictionaries. You can now opt to remove all downloaded dictionaries to allow reinstalling dictionaries in case of updates.
+
+* **UI Enhancements**   
+Lots of small UI improvements. Fix dialog focus issues with various pop up windows. Cleanup window inconsistencies for dialogs. Statusbar code consolidation. Icons on the Left Sidebar tabs. Git icon on the toolbar.
+
+
+* **Preview Tab to preview rendered Markdown and Images on click**  
+There's a new `MainWindow.OpenBrowserTab()` method that allows for opening a preview tab in the browser that can display local or Web based content in a browser as a Preview window. The Preview tab is temporal - it's visible only until navigating to another file and then released. The preview tab is now used internally for previewing images, Markdown and HTML files in the Folder browser.
+
+* **Snippets Addin integrated into MM Core**   
+Moved the Snippets addin into the core MM Solution so it's always up to date and synced to matching dependencies.
+
+* **Improved Addin Removal**  
+You can now remove addins from the Addin's drop down menu. This also works for manually installed addins and test scenarios where addins aren't installed through the Addin Manager.
+
+* **Addins: Failed Addins Removed**  
+If addins fail to load they are removed from the addin list and removed on the next pass. This is a temporary situation as we work out the changeover to new dependencies, so that the same warnings don't keep popping up each time you launch if you didn't uninstall explicitly.
+
+
+* **Back to 32 bit mode**    
+Version 1.11.15 briefly was distributed to run in 64 bit mode. Unfortunately we're seeing lots of instability with hard WPF crashes and slower performance overall, so we're reverting back to 32 bit.
+
+* **Markdown Monster .NET Minimum Version is now 4.6.2**  
+Due to some API changes in third party dependencies along with issues in DPI Scaling, Markdown Monster now requires .NET 4.6.2 to run. Previously versions down to 4.5.2 were supported.
+
+
+* **Fix: Paste Markdown to Clipboard as HTML**  
+Fixed operation of Markdown selection to Clipboard, so that HTML is generated both for formatted output (ie. for RTF pasting into Word or Outlook or other HTML editors) or HTML as plain text. Previously the plain text paste produced the original markdown. HTML plain text is usually the desired option for manually pasting into other applications since you can always grab the raw from the editor with a plain copy.
+
+* **Fix: Git Commit Username/Email text box layout**  
+Fix layout bug with the username and email textboxes that are overlaying the comment box.
 
 * **Fix: Remembered Documents and Startup Position**  
 Fixed issue where remembered document on startup would not remember their line position through multiple starts.
@@ -105,42 +100,11 @@ Fixed dirty state update when selecting a misspelling correction on a clean docu
 * **Fix: Blank Preview on Startup**  
 Fix occasional issue with blank previewer when MM starts. Force focus.
 
-* **Markdown Monster .NET Minimum Version is now 4.6.2**  
-Due to some API changes in third party dependencies along with issues in DPI Scaling, Markdown Monster now requires .NET 4.6.2 to run. Previously versions down to 4.5.2 were supported.
-
-<h4 style="color: firebrick">v1.11.12 Breaking Changes</h4>
-This update has breaking changes related to addins. When updating to a newer version you may see addin-load failures. If that's the case uninstall and reinstall the affected addins.
-
-
-### 1.11.8
-<small>May 30th, 2018</small>
-
-* **Save As Packaged HTML File**  
-You can now save the current document as a self-contained HTML document that includes all dependency resources embedded inside of the HTML document itself. While this document is rather large, the document is completely portable as it embeds images, css and fonts directly. Other options include **View in Browser** (from preview) and then **Save As Html** to save loose resources in addition to HTML.
-
-* **Preview Tab to preview rendered Markdown and Images on click**  
-There's a new `MainWindow.OpenBrowserTab()` method that allows for opening a preview tab in the browser that can display local or Web based content in a browser as a Preview window. The Preview tab is temporal - it's visible only until navigating to another file and then released. The preview tab is now used internally for previewing images, Markdown and HTML files in the Folder browser.
-
-* **Create Git Repository and Add Remote**  
-Added support for creating GitHub repositories and adding a new repository as a remote to an existing local repo. Options are available under the **File->Git** submenu.
-
-* **Add Push to Git Repository to Commit Dialog**  
-In addition to the the **Commit and Push** button in the dialog, you can now also explicitly push to the remote, when there are no files to commit.
-
 * **Fix: Clipboard Assignment Crashes**  
 Logs indicate a number of people have issues with Clipboard access, specifically setting values on the clipboard - both during editing and also from explicit clip assignments for URLs, commands etc. All set operations are not exception bracketed so while ops may still fail they won't crash MM.
 
 * **Fix: Document Outline Crash when empty Doc is open**  
 Fixed issue with the Document Outline crashing when an empty document was open.
-
-### 1.11.4
-<small>May 21st, 2018</small>
-
-* **New Preview Browser Tab for Images and Url Previewing**  
-Added a new Preview Browser tab that is now used for previewing images and URLs. Images from the Folder Browser are now previewed in this tab. The tab is a 'temporary' tab that is visible only when directly rendered - it goes away when another tab is selected and re-opened as needed. This replaces the previous image hover. Note: That although images preview you can still drag images into the previously active document from the folder browser.
-
-* **Snippets Addin integrated into MM Core**   
-Moved the Snippets addin into the core MM Solution so it's always up to date and synced to matching dependencies.
 
 * **Fix: Window Menu Shortcut Keys**  
 Fix Window menu mnemonic keys that didn't allow for shortcuts to work.
@@ -148,17 +112,23 @@ Fix Window menu mnemonic keys that didn't allow for shortcuts to work.
 * **Fix: RPC Weblog EndPoint Discovery for Medium**  
 Fix endpoint discovery for medium with a fixed URL. Also adjusted Wordpress endpoint discovery.
 
+* **Internals: StatusBar Consolidation**  
+MM uses status bars on a number of forms and there was lots of duplication. Consolidated all statusbar operations into a helper which is called from each form to handle status bar operations in one place resulting in a large code reduction.
+
 * **Internals: Update depencenies**  
 Update all dependencies to latest releases - except for LibGit2Sharp which switched to .NET Core 2.0 assemblies and results in a splattering a huge amount of runtime dependencies into project. Waiting to target .NET 4.7.2 to not require those dependencies.
 
-* **Addins: Failed Addins Removed**  
-If addins fail to load they are removed from the addin list and removed on the next pass. This is a temporary situation as we work out the changeover to new dependencies, so that the same warnings don't keep popping up each time you launch if you didn't uninstall explicitly.
+<h4 style="color: firebrick">1.12 Breaking Changes</h4>
 
-<h4 style="color: firebrick">v1.2.8 Breaking Changes</h4>
+ * **Portable Version Changes affect Configuration**   
+If you are runing the portable version of Markdown Monster installing 1.11.16 is going to lose your existing configuration settings for Markdown Monster and start with a fresh configuration. If you would like to use your old configuration make sure you shut down MM first, and then copy the existing configuration from `%appdata%\Markdown Monster` (or a custom location if you've configured one) to `<installFolder>\PortableSettings`. This will restore the old settings. Make sure you shut down MM before updating the files. If you used a custom location for configuration also remove the `CommonFolder` key from `MarkdownMonster.json` so it resets to the new portable location.
+
+* **Addins: Update your addins if you're using 1.11.10 or earlier**
 This update has breaking changes related to addins. When updating to a newer version you may see addin-load failures. If that's the case uninstall and reinstall the affected addins.
 
-* **Addins: Addins have to be updated**   
+* **Addins Providers: Addins have to be updated**   
 There have been a few underlying API changes and support libraries have been updated that require all addins to be recompiled. Note that the WebLog, Screen Capture and Snippet addins are built-in and not affected.
+
 
 ### 1.11  
 <small>May 16th, 2018</small>
