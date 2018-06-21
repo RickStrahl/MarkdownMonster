@@ -219,7 +219,7 @@
                 </MenuItem>
 
                 <MenuItem Name="ButtonRecentFiles" Header="Recent Documents"
-                          SubmenuOpened="ButtonRecentFiles_SubmenuOpened"  Click="Button_Handler" >
+                          SubmenuOpened="ButtonRecentFiles_SubmenuOpened"  >
                     <MenuItem>.</MenuItem>
                 </MenuItem>
 

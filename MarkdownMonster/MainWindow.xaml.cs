@@ -512,6 +512,8 @@ namespace MarkdownMonster
             
             if (mode == RecentFileDropdownModes.MenuDropDown)
                 ButtonRecentFiles.Items.Clear();
+            else if (mode == RecentFileDropdownModes.ToolbarDropdown)
+                ToolbarButtonRecentFiles.ContextMenu = contextMenu;
 
             var icon = new AssociatedIcons();
             MenuItem mi = null;
@@ -636,9 +638,7 @@ namespace MarkdownMonster
                     else
                         ButtonRecentFiles.Items.Add(mi);
                 }
-
-                if (mode == RecentFileDropdownModes.ToolbarDropdown)
-                    ToolbarButtonRecentFiles.ContextMenu = contextMenu;                
+              
             }
 
         }
@@ -1961,12 +1961,12 @@ namespace MarkdownMonster
                 editor.MarkdownDocument.CurrentText = markdown;
                 PreviewBrowser.PreviewMarkdown();
             }
-            else if (button == ButtonRecentFiles)
-            {
-                var mi = button as MenuItem;
-                UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.MenuDropDown);
-                mi.IsSubmenuOpen = true;
-            }
+            //else if (button == ButtonRecentFiles)
+            //{
+            //    var mi = button as MenuItem;
+            //    UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.MenuDropDown);
+            //    mi.IsSubmenuOpen = true;
+            //}
             else if (button == ToolbarButtonRecentFiles)
             {
                 var mi = button as Button;                
