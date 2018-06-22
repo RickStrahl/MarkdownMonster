@@ -10,11 +10,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Image Source="../Assets/MarkdownMonster.png" 
-               Opacity="0.07"                    
-               
-               VerticalAlignment="Center" 
-               Grid.Row="0"  Panel.ZIndex="0" />
+        <Grid  Opacity="0.05" Background="Black">
+            <Image Source="../Assets/MarkdownMonster.png" 
+                   VerticalAlignment="Center" 
+                   Grid.Row="0"  Panel.ZIndex="0" />
+        </Grid>
 
         <Grid HorizontalAlignment="Center"  
                   VerticalAlignment="Center"  
@@ -23,7 +23,7 @@
                 <windows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
                 <windows:FullFolderNameFromPathConverter x:Key="FullFolderNameFromPathConverter" />
                 <windows:FileIconFromPathConverter x:Key="FileIconFromPathConverter"/>
-                <windows:RecentFileListCountConverter x:Key="RecentFileListCountConverter" />
+                <windows:ItemSourceCountFilterConverter x:Key="ItemSourceCountFilterConverter" />
             </Grid.Resources>
 
             <Grid.RowDefinitions>
@@ -46,7 +46,7 @@
                        
                 <LineBreak/>
 
-                <Run FontSize="22" FontWeight="DemiBold">Start</Run>
+                <Run FontSize="22" FontWeight="DemiBold" Foreground="#9F9F9F">Start</Run>
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.NewDocumentCommand}">  New Document</Hyperlink> - ctrl-n
                 <LineBreak />
@@ -59,15 +59,15 @@
                 <LineBreak />
                 <LineBreak />
 
-                <Run FontSize="22" FontWeight="DemiBold">Recent Files</Run>
+                <Run FontSize="22" FontWeight="DemiBold" Foreground="#9F9F9F">Recent Files</Run>
                 </TextBlock>
 
 
                 <TextBlock  FontSize="14"  Panel.ZIndex="7"
                         VerticalAlignment="Center" 
-                        LineHeight="22" Margin="150,0,0,0">                
+                        LineHeight="22" Margin="120,0,0,0">                
                  <LineBreak />  
-                <Run FontSize="22" FontWeight="DemiBold" >Settings</Run>
+                <Run FontSize="22" FontWeight="DemiBold" Foreground="#9F9F9F">Settings</Run>
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.SettingsCommand}">  Configure Markdown Monster Settings</Hyperlink>
                 <LineBreak />
@@ -81,13 +81,19 @@
 
 
 
-            <ItemsControl ItemsSource="{Binding Configuration.RecentDocuments,Converter={StaticResource RecentFileListCountConverter},ConverterParameter=8}" 
+            <ItemsControl ItemsSource="{Binding Configuration.RecentDocuments}" 
                       Grid.Row="2"  
                        Margin="20,5,0,0"
                       ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
                 <ItemsControl.Template>
                     <ControlTemplate TargetType="ItemsControl">
+                        
                         <ScrollViewer HorizontalScrollBarVisibility="Hidden"  VerticalScrollBarVisibility="Auto">
+                            <ScrollViewer.Resources>
+                                <Style x:Name="PART_VerticalScrollBar" TargetType="ScrollBar">
+                                    <Setter Property="Opacity" Value="0" />
+                                </Style>
+                            </ScrollViewer.Resources>
                             <ItemsPresenter/>
                         </ScrollViewer>
                     </ControlTemplate>
@@ -137,15 +143,20 @@
 
 
             <TextBlock Grid.Row="3" Margin="20,20,0,0"
-                   FontSize="22" FontWeight="DemiBold">Recent Folders</TextBlock>
+                   FontSize="22" FontWeight="DemiBold" Foreground="#9F9F9F">Recent Folders</TextBlock>
 
-            <ItemsControl ItemsSource="{Binding Configuration.FolderBrowser.RecentFolders,Converter={StaticResource RecentFileListCountConverter},ConverterParameter=5}" 
+            <ItemsControl ItemsSource="{Binding Configuration.FolderBrowser.RecentFolders}" 
                       Grid.Row="4" Grid.Column="0" 
                       Margin="20,5,0,0"
                       ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
                 <ItemsControl.Template>
                     <ControlTemplate TargetType="ItemsControl">
                         <ScrollViewer HorizontalScrollBarVisibility="Hidden"  VerticalScrollBarVisibility="Auto">
+                            <ScrollViewer.Resources>
+                                <Style x:Name="PART_VerticalScrollBar" TargetType="ScrollBar">
+                                    <Setter Property="Opacity" Value="0" />
+                                </Style>
+                            </ScrollViewer.Resources>
                             <ItemsPresenter/>
                         </ScrollViewer>
                     </ControlTemplate>

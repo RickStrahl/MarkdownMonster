@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -265,12 +266,11 @@ namespace MarkdownMonster.Windows
         }
     }
 
-    internal class RecentFileListCountConverter : IValueConverter
+    public  class ItemSourceCountFilterConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
-            var val = value as ObservableCollection<string>;
+            var val = value as IEnumerable;
             if (val == null)
                 return value;
 
@@ -278,7 +278,20 @@ namespace MarkdownMonster.Windows
             if (parameter != null)
                 int.TryParse(parameter as string, out take);
 
-            return val.Take(take).ToList();
+            
+            if (take < 1)
+                return value;
+            var list = new List<object>();
+
+            int count = 0;
+            foreach (var li in val)
+            {
+                count++;
+                if(count > take)
+                    break;
+                list.Add(li);
+            }
+            return list;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
