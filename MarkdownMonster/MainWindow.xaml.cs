@@ -140,7 +140,7 @@ namespace MarkdownMonster
         StatusBarHelper StatusBarHelper { get;  }
 
         public MainWindow()
-        {
+        {            
             InitializeComponent();
 
             Model = new AppModel(this);

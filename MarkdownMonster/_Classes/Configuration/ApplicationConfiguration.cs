@@ -288,33 +288,33 @@ namespace MarkdownMonster
                 if (value == _recentDocuments) return;
                 _recentDocuments = value;
                 OnPropertyChanged(nameof(RecentDocuments));
-                OnPropertyChanged(nameof(RecentDocumentList));                
+                //OnPropertyChanged(nameof(RecentDocumentList));                
             }
         }
         private ObservableCollection<string> _recentDocuments = new ObservableCollection<string>();
 
         
-        /// <summary>
-        /// Internal property used to display the recent document list
-        /// </summary>
-        [JsonIgnore]
-        public ObservableCollection<RecentDocumentListItem> RecentDocumentList
-        {
-            get
-            {
-                var list = RecentDocuments.Take(10);
-                var docs = new ObservableCollection<RecentDocumentListItem>();
-                foreach (var doc in list)
-                {
-                    docs.Add(new RecentDocumentListItem
-                    {
-                        Filename = doc,
-                        DisplayFilename = FileUtils.GetCompactPath(doc, 70)
-                    });                    
-                }
-                return docs;
-            }
-        }
+        ///// <summary>
+        ///// Internal property used to display the recent document list
+        ///// </summary>
+        //[JsonIgnore]
+        //public ObservableCollection<RecentDocumentListItem> RecentDocumentList
+        //{
+        //    get
+        //    {
+        //        var list = RecentDocuments.Take(10);
+        //        var docs = new ObservableCollection<RecentDocumentListItem>();
+        //        foreach (var doc in list)
+        //        {
+        //            docs.Add(new RecentDocumentListItem
+        //            {
+        //                Filename = doc,
+        //                DisplayFilename = FileUtils.GetCompactPath(doc, 70)
+        //            });                    
+        //        }
+        //        return docs;
+        //    }
+        //}
 
 
         /// <summary>

@@ -9,36 +9,41 @@
              xmlns:windows="clr-namespace:MarkdownMonster.Windows"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid HorizontalAlignment="Center"  
-                  VerticalAlignment="Center"  
-                  mah:VisibilityHelper.IsVisible="{Binding IsNoTabOpen}"  >
-        <Grid.Resources>
-            <windows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
-            <windows:FullFolderNameFromPathConverter x:Key="FullFolderNameFromPathConverter" />
-            <windows:FileIconFromPathConverter x:Key="FileIconFromPathConverter"/>
-            <windows:RecentFileListCountConverter x:Key="RecentFileListCountConverter" />
-        </Grid.Resources>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-
+    <Grid>
         <Image Source="../Assets/MarkdownMonster.png" 
-                   Opacity="0.06" 
-                   Width="Auto" 
-                   VerticalAlignment="Center" 
-                   Grid.Row="0" Panel.ZIndex="0" Grid.RowSpan="2"/>
+               Opacity="0.07"                    
+               
+               VerticalAlignment="Center" 
+               Grid.Row="0"  Panel.ZIndex="0" />
 
-        <TextBlock  FontSize="14" Grid.Row="0" Panel.ZIndex="10"
-                        VerticalAlignment="Center" HorizontalAlignment="Center" 
-                        LineHeight="22" Width="500">                
-                <Run FontSize="48" Foreground="#9F9F9F" FontWeight="Bold">Markdown Monster</Run>
-                <LineBreak />
-                <Run FontSize="22" FontWeight="SemiBold">Better Markdown Editing for Windows</Run>
-       
-                <TextBlock Margin="0,10,0,10" Text="" />
+        <Grid HorizontalAlignment="Center"  
+                  VerticalAlignment="Center"  
+                  mah:VisibilityHelper.IsVisible="{Binding IsNoTabOpen}"  MaxWidth="800">
+            <Grid.Resources>
+                <windows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
+                <windows:FullFolderNameFromPathConverter x:Key="FullFolderNameFromPathConverter" />
+                <windows:FileIconFromPathConverter x:Key="FileIconFromPathConverter"/>
+                <windows:RecentFileListCountConverter x:Key="RecentFileListCountConverter" />
+            </Grid.Resources>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="20,0,0,0">
+                <TextBlock FontSize="60" Foreground="#9F9F9F" FontWeight="Bold">Markdown Monster</TextBlock>
+                <TextBlock FontSize="22" FontWeight="SemiBold">Better Markdown Editing for Windows</TextBlock>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1"  Margin="20,10,0,0">
+                <TextBlock  FontSize="14" Panel.ZIndex="10"
+                        VerticalAlignment="Center" 
+                        LineHeight="22" >                                
+                       
                 <LineBreak/>
 
                 <Run FontSize="22" FontWeight="DemiBold">Start</Run>
@@ -50,73 +55,140 @@
                 <Hyperlink  Command="{Binding Commands.OpenDocumentCommand}">  Open Document...</Hyperlink> - ctrl-o
                 <LineBreak />             
                 <Hyperlink  FontSize="15" Command="{Binding Commands.ShowFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
-                
+                                
                 <LineBreak />
                 <LineBreak />
 
+                <Run FontSize="22" FontWeight="DemiBold">Recent Files</Run>
+                </TextBlock>
+
+
+                <TextBlock  FontSize="14"  Panel.ZIndex="7"
+                        VerticalAlignment="Center" 
+                        LineHeight="22" Margin="150,0,0,0">                
+                 <LineBreak />  
                 <Run FontSize="22" FontWeight="DemiBold" >Settings</Run>
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.SettingsCommand}">  Configure Markdown Monster Settings</Hyperlink>
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.AddinManagerCommand}">  Load Addin Manager</Hyperlink>
+                <LineBreak />                
+                <LineBreak />  
+                <LineBreak />  
                 <LineBreak />
-                <LineBreak />
-                                
-                <Run FontSize="22" FontWeight="DemiBold">Recent Files</Run>
                 </TextBlock>
+            </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding Configuration.RecentDocuments,Converter={StaticResource RecentFileListCountConverter},ConverterParameter=8}" Grid.Row="1" Width="500"   Margin="0,5,0,0"
-                              ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible"                               
-                              HorizontalAlignment="Center" >
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="ItemsControl">
-                    <ScrollViewer HorizontalScrollBarVisibility="Hidden"  VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter/>
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Background="Transparent" BorderThickness="0" 
+
+
+            <ItemsControl ItemsSource="{Binding Configuration.RecentDocuments,Converter={StaticResource RecentFileListCountConverter},ConverterParameter=8}" 
+                      Grid.Row="2"  
+                       Margin="20,5,0,0"
+                      ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden"  VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Background="Transparent" BorderThickness="0" 
                                     Cursor="Hand"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" 
                                     CommandParameter="{Binding .}" >
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="Transparent" x:Name="BorderBg">
-                                    <ContentPresenter />
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Background" Value="{DynamicResource SubmenuItemBackgroundHighlighted}"  TargetName="BorderBg"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                        <Button.Content>
-                            <StackPanel Margin="2,5,5,5">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding .,Converter={StaticResource FileIconFromPathConverter}}" Height="13" Margin="0,0,4,0" />
-                                    <TextBlock  Width="420" FontSize="14">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="Transparent" x:Name="BorderBg">
+                                        <ContentPresenter />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Background" Value="{DynamicResource SubmenuItemBackgroundHighlighted}"  TargetName="BorderBg"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.Content>
+                                <StackPanel Margin="2,5,5,5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding .,Converter={StaticResource FileIconFromPathConverter}}" Height="13" Margin="0,0,4,0" />
+                                        <TextBlock  Width="420" FontSize="14">
                                                 <TextBlock Text="{Binding ., Converter={StaticResource FileNameFromPathConverter }}"  FontWeight="SemiBold"  />                                             
                                              </TextBlock>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}"  FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="#bbb"  />
-                                    <Button BorderThickness="0"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}"  FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="#bbb"  />
+                                        <Button BorderThickness="0"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  
                                                             Height="15" Padding="0"  Margin="1,-2,0,0"
                                                             Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" 
                                                             CommandParameter="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}" 
                                                             ToolTip="open folder in Folder Browser">
-                                        <fa:FontAwesome Icon="FolderOpen" Foreground="DarkGoldenrod" FontSize="11"/>
-                                    </Button>
+                                            <fa:FontAwesome Icon="FolderOpen" Foreground="DarkGoldenrod" FontSize="11"/>
+                                        </Button>
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                            </Button.Content>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
+
+            <TextBlock Grid.Row="3" Margin="20,20,0,0"
+                   FontSize="22" FontWeight="DemiBold">Recent Folders</TextBlock>
+
+            <ItemsControl ItemsSource="{Binding Configuration.FolderBrowser.RecentFolders,Converter={StaticResource RecentFileListCountConverter},ConverterParameter=5}" 
+                      Grid.Row="4" Grid.Column="0" 
+                      Margin="20,5,0,0"
+                      ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden"  VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Background="Transparent" BorderThickness="0" 
+                                    Cursor="Hand"
+                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" 
+                                    CommandParameter="{Binding .}" >
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="Transparent" x:Name="BorderBg">
+                                        <ContentPresenter />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Background" Value="{DynamicResource SubmenuItemBackgroundHighlighted}"  TargetName="BorderBg"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.Content>
+                                <StackPanel Margin="2,5,5,5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:FontAwesome Icon="Folder" Foreground="DarkGoldenrod" Height="13" Margin="0,0,4,0" />
+                                        <TextBlock  Width="420" FontSize="14">
+                                                <TextBlock Text="{Binding ., Converter={StaticResource FileNameFromPathConverter }}"  FontWeight="SemiBold"  />                                             
+                                             </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding .}"  FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="#bbb"  />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+
+
+
+        </Grid>
     </Grid>
 </UserControl>

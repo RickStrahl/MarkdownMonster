@@ -724,7 +724,7 @@
                                      controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}">
             </dragablz:TabablzControl>
 
-            <mmcontrols:StartMenuUserControl Grid.Column="2" />
+            <mmcontrols:StartMenuUserControl Grid.Column="2" controls:VisibilityHelper.IsCollapsed="{Binding IsTabOpen}" />
 
 
             <GridSplitter Grid.Column="3"  x:Name="RightSidebarContainerSeparator"                                                                   
