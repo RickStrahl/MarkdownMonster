@@ -22,13 +22,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
-                       
-                    </Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
                 
                 <Image Source="{Binding FileStatus,Converter={StaticResource SourceControlIconConverter}}"
-                       Width="7" Margin="1,4,2,0"  />
+                       Width="6" Margin="1,4,2,0"  />
 
                 <Image Grid.Column="1" Height="17" Width="Auto" Margin="0,0,4,0" >
                         <Image.Style>

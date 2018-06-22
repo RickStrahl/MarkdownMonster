@@ -2124,76 +2124,7 @@ namespace MarkdownMonster
             }
         }
 
-        /// <summary>
-        /// Handles toggle button - note toggle sets the value so this only
-        /// updates the display to force all the tabs to reset the state
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonSpellCheck_Click(object sender, RoutedEventArgs e)
-        {            
-            Model.ActiveEditor?.RestyleEditor();            
-            Model.Window.ShowStatusSuccess($"Spell checking has been turned {(Model.Configuration.Editor.EnableSpellcheck ? "on" : "off")}.");
-        }
-
-
-
-        private void Button_CommandWindow(object sender, RoutedEventArgs e)
-        {
-            var editor = GetActiveMarkdownEditor();
-            if (editor == null)
-                return;
-
-
-            string path = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
-            mmFileUtils.OpenTerminal(path);
-        }
-
-        private void Button_OpenExplorer(object sender, RoutedEventArgs e)
-        {
-            var editor = GetActiveMarkdownEditor();
-            if (editor == null)
-                return;
-
-            ShellUtils.OpenFileInExplorer(editor.MarkdownDocument.Filename);
-        }
-
-
-        private void Button_OpenFolderBrowser(object sender, RoutedEventArgs e)
-        {
-            var editor = GetActiveMarkdownEditor();
-            if (editor == null)
-                return;
-
-            SidebarContainer.SelectedItem = TabFolderBrowser;
-            ShowFolderBrowser(folder: Path.GetDirectoryName(editor.MarkdownDocument.Filename));
-        }
-
-        internal void Button_PasteMarkdownFromHtml(object sender, RoutedEventArgs e)
-        {
-            var editor = GetActiveMarkdownEditor();
-            if (editor == null)
-                return;
-
-            string html = null;
-            if (Clipboard.ContainsText(TextDataFormat.Html))
-                html = Clipboard.GetText(TextDataFormat.Html);
-
-            if (!string.IsNullOrEmpty(html))
-                html = StringUtils.ExtractString(html, "<!--StartFragment-->", "<!--EndFragment-->");
-            else
-                html = Clipboard.GetText();
-
-            if (string.IsNullOrEmpty(html))
-                return;
-
-            var markdown = MarkdownUtilities.HtmlToMarkdown(html);
-
-            editor.SetSelection(markdown);
-            editor.SetEditorFocus();
-
-            PreviewBrowser.PreviewMarkdownAsync(editor, true);
-        }
+      
 
         #endregion
 

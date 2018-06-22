@@ -16,7 +16,8 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
-    public class AppCommands
+    public class 
+        AppCommands
     {
         AppModel Model;
 
@@ -57,6 +58,10 @@ namespace MarkdownMonster
             ShowActiveTabsList();
             CopyAsHtml();
             SetDictionary();
+            SpellCheck();
+            CommandWindow();
+            OpenInExplorer();
+            PasteMarkdownFromHtml();
 
 
             // Preview Browser
@@ -947,7 +952,84 @@ namespace MarkdownMonster
                 Model.Window.ShowStatusSuccess($"Spell checking dictionary changed to: {lang}.",
                     Model.Configuration.StatusMessageTimeout);
             });
-        }        
+        }
+
+
+        public CommandBase SpellCheckCommand { get; set; }
+
+        void SpellCheck()
+        {
+            SpellCheckCommand = new CommandBase((parameter, command) =>
+            {
+                Model.ActiveEditor?.RestyleEditor();
+                Model.Window.ShowStatusSuccess($"Spell checking has been turned {(Model.Configuration.Editor.EnableSpellcheck ? "on" : "off")}.");
+            }, (p, c) => true);
+        }
+
+
+        public CommandBase CommandWindowCommand { get; set; }
+
+        void CommandWindow()
+        {
+            CommandWindowCommand = new CommandBase((parameter, command) =>
+            {
+                var editor = Model.ActiveEditor;
+                if (editor == null)
+                    return;
+
+                string path = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
+                mmFileUtils.OpenTerminal(path);
+            }, (p, c) => true);
+        }
+
+
+        public CommandBase OpenInExplorerCommand { get; set; }
+
+        void OpenInExplorer()
+        {
+            OpenInExplorerCommand = new CommandBase((parameter, command) =>
+            {
+                var editor = Model.ActiveEditor;
+                if (editor == null)
+                    return;
+
+                ShellUtils.OpenFileInExplorer(editor.MarkdownDocument.Filename);
+            }, (p, c) => true);
+        }
+
+
+        public CommandBase PasteMarkdownFromHtmlCommand { get; set; }
+
+        void PasteMarkdownFromHtml()
+        {
+            PasteMarkdownFromHtmlCommand = new CommandBase((parameter, command) =>
+            {
+                var editor = Model.ActiveEditor;
+                if (editor == null)
+                    return;
+
+                string html = null;
+                if (Clipboard.ContainsText(TextDataFormat.Html))
+                    html = Clipboard.GetText(TextDataFormat.Html);
+
+                if (!string.IsNullOrEmpty(html))
+                    html = StringUtils.ExtractString(html, "<!--StartFragment-->", "<!--EndFragment-->");
+                else
+                    html = Clipboard.GetText();
+
+                if (string.IsNullOrEmpty(html))
+                    return;
+
+                var markdown = MarkdownUtilities.HtmlToMarkdown(html);
+
+                editor.SetSelection(markdown);
+                editor.SetEditorFocus();
+
+                Model.Window.PreviewBrowser.PreviewMarkdownAsync(editor, true);
+
+            }, (p, c) => true);
+        }
+
         #endregion
 
         #region Preview
@@ -1217,8 +1299,6 @@ namespace MarkdownMonster
                 mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
             });
         }
-
-
 #endregion
 
 #region Commands

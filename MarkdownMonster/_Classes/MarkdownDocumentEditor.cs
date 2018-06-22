@@ -1485,7 +1485,7 @@ namespace MarkdownMonster
                 }
                 else if (key == "ctrl-shift-v")
                 {
-                    Window.Button_PasteMarkdownFromHtml(WebBrowser, null);
+                    Window.Model.Commands.PasteMarkdownFromHtmlCommand.Execute(null);
                 }
                 else if (key == "ctrl-shift-c")
                 {

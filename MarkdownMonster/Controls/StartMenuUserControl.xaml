@@ -119,14 +119,14 @@
                             <Button.Content>
                                 <StackPanel Margin="2,5,5,5">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding .,Converter={StaticResource FileIconFromPathConverter}}" Height="13" Margin="0,0,4,0" />
+                                        <Image Source="{Binding .,Converter={StaticResource FileIconFromPathConverter}}" Width="16" Margin="0,2,5,0" />
                                         <TextBlock  Width="420" FontSize="14">
                                                 <TextBlock Text="{Binding ., Converter={StaticResource FileNameFromPathConverter }}"  FontWeight="SemiBold"  />                                             
                                              </TextBlock>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}"  FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="#bbb"  />
-                                        <Button BorderThickness="0"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  
+                                        <Button BorderThickness="0" IsTabStop="False"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  
                                                             Height="15" Padding="0"  Margin="1,-2,0,0"
                                                             Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" 
                                                             CommandParameter="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}" 
@@ -182,7 +182,7 @@
                             <Button.Content>
                                 <StackPanel Margin="2,5,5,5">
                                     <StackPanel Orientation="Horizontal">
-                                        <fa:FontAwesome Icon="Folder" Foreground="DarkGoldenrod" Height="13" Margin="0,0,4,0" />
+                                        <fa:FontAwesome Icon="Folder" Foreground="DarkGoldenrod" Width="16" Margin="0,3,5,0" />
                                         <TextBlock  Width="420" FontSize="14">
                                                 <TextBlock Text="{Binding ., Converter={StaticResource FileNameFromPathConverter }}"  FontWeight="SemiBold"  />                                             
                                              </TextBlock>
@@ -196,10 +196,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-
-
-
-
         </Grid>
     </Grid>
 </UserControl>

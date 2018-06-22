@@ -61,9 +61,9 @@
             <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}"/>
             <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document"  Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}" CommandParameter="AllBut" />
             <Separator/>
-            <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow" />
-            <MenuItem Name="ContextOpenInFolder" Header="Show in Explorer" Click="Button_OpenExplorer" />
-            <MenuItem Name="ContextOpenInFolderBrowser" Header="Show in Folder _Browser" Click="Button_OpenFolderBrowser" />
+            <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Command="{Binding Commands.CommandWindowCommand}"  />
+            <MenuItem Name="ContextOpenInFolder" Header="Show in Explorer" Command="{Binding Commands.OpenInExplorerCommand}"  />
+            <MenuItem Name="ContextOpenInFolderBrowser" Header="Show in Folder _Browser" Command="{Binding Commands.ShowFolderBrowserCommand}" />
             <Separator/>
             <MenuItem Name="ContextCommitToGit" Header="Commit to _Git..."
                       Command="{Binding DataContext.Commands.CommitToGitCommand}" />
@@ -101,7 +101,7 @@
                     fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
                     IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
                     ToolTip="enable/disable spell-checking"
-                    Click="ButtonSpellCheck_Click"                            
+                    Command="{Binding Commands.SpellCheckCommand}"                          
                     TextElement.FontSize="16"
                     TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                 >
@@ -194,8 +194,6 @@
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
 
-
-
     <Grid Name="WindowGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"  Name="MainMenuGridRow"/>
@@ -266,7 +264,7 @@
             </MenuItem>
             <MenuItem Header="_Edit" Name="MainMenuEdit">
                 <MenuItem Header="Paste Html as Markdown" IsEnabled="{Binding IsEditorActive}" 
-                          Click="Button_PasteMarkdownFromHtml" 
+                          Command="{Binding Commands.PasteMarkdownFromHtmlCommand}"
                           ToolTip="Pastes HTML from your clipboard as Markdown text" 
                           InputGestureText="ctrl-shift-v"                          
                           />
@@ -279,7 +277,7 @@
                           ToolTip="Removes Markdown formatting from a selection." 
                           InputGestureText="ctrl-shift-z" />
                 <Separator />
-                <MenuItem Name="Button_Spellcheck" Header="Toggle _Spellchecking" Click="ButtonSpellCheck_Click" />
+                <MenuItem Name="Button_Spellcheck" Header="Toggle _Spellchecking" Command="{Binding Commands.SpellCheckCommand}"   />
                 <Separator />
                 <MenuItem Header="Find in Document" 
                           Name="Button_Find"
@@ -307,9 +305,11 @@
                 <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler" />
                 <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>
                 <Separator/>
-                <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal" Click="Button_CommandWindow"  IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal"
+                          Command="{Binding Commands.CommandWindowCommand}"
+                          IsEnabled="{Binding IsEditorActive}" />
                 <MenuItem Name="MenuOpenInFolder" Header="Open in E_xplorer" 
-                        Click="Button_OpenExplorer"  
+                         Command="{Binding Commands.OpenInExplorerCommand}" 
                         IsEnabled="{Binding IsEditorActive}" 
                         ToolTip="Open the document's folder in Explorer" />
                 <Separator/>
@@ -382,7 +382,7 @@
                 <Separator />
                 <MenuItem Name="ButtonSpellchecking" 
                           Header="Spellchecking"      
-                          Click="ButtonSpellCheck_Click"
+                          Command="{Binding Commands.SpellCheckCommand}"   
                           IsCheckable="True"                          
                           IsChecked="{Binding Configuration.Editor.EnableSpellcheck}" />
                
