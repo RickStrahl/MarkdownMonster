@@ -54,6 +54,7 @@ using Binding = System.Windows.Data.Binding;
 using Brushes = System.Windows.Media.Brushes;
 using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
+using ColorConverter = System.Windows.Media.ColorConverter;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using DataFormats = System.Windows.DataFormats;
 using DragEventArgs = System.Windows.DragEventArgs;
@@ -517,6 +518,7 @@ namespace MarkdownMonster
 
             var icon = new AssociatedIcons();
             MenuItem mi = null;
+            var lowlightColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#aaa"));
 
             List<string> badFiles = new List<string>();
             foreach (string file in mmApp.Configuration.RecentDocuments)
@@ -556,8 +558,8 @@ namespace MarkdownMonster
                     Text = path,
                     FontStyle = FontStyles.Italic,
                     FontSize = 10.25,
-                    //Margin = new Thickness(0, 2, 0, 0),
-                    Opacity = 0.8
+                    //Margin = new Thickness(0, 2, 0, 0),                    
+                    Foreground = lowlightColor
                 });
 
 

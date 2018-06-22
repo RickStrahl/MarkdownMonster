@@ -10,6 +10,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
         mc:Ignorable="d"					  
         TitlebarHeight="35"    
         Name="MainApplicationWindow"                      
@@ -46,6 +47,7 @@
         <localwindows:FolderNameFromPathConverter x:Key="FolderNameFromPathConverter" />
         <localwindows:FullFolderNameFromPathConverter x:Key="FullFolderNameFromPathConverter" />
         <localwindows:NotEmptyStringToBooleanConverter x:Key="NotEmptyStringToBooleanConverter" />
+        <localwindows:FileIconFromPathConverter x:Key="FileIconFromPathConverter"/>
 
         <ObjectDataProvider x:Key="ApplicationThemeEnums" 
                             MethodName="GetValues" ObjectType="{x:Type System:Enum}">
@@ -722,79 +724,7 @@
                                      controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}">
             </dragablz:TabablzControl>
 
-            <Grid Grid.Column="2"  
-                  HorizontalAlignment="Center"  
-                  VerticalAlignment="Center"  
-                  controls:VisibilityHelper.IsVisible="{Binding IsNoTabOpen}"  >
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <Image Source="Assets/MarkdownMonster.png" 
-                   Opacity="0.06" 
-                   Width="Auto" 
-                   VerticalAlignment="Center" 
-                   Grid.Row="0" Panel.ZIndex="0"/>
-
-                <TextBlock  FontSize="14" Grid.Row="0" Panel.ZIndex="10"
-                        VerticalAlignment="Center" HorizontalAlignment="Center" 
-                        LineHeight="22" LineStackingStrategy="MaxHeight">                
-                <Run FontSize="48" Foreground="#9F9F9F" FontWeight="Bold">Markdown Monster</Run>
-                <LineBreak />
-                <Run FontSize="22" FontWeight="SemiBold">Better Markdown Editing for Windows</Run>
-       
-                <TextBlock Margin="0,10,0,10" Text="" />
-                <LineBreak/>
-
-                <Run FontSize="22" FontWeight="DemiBold">Start</Run>
-                <LineBreak />
-                <Hyperlink  Command="{Binding Commands.NewDocumentCommand}">  New Document</Hyperlink> - ctrl-n
-                <LineBreak />
-                <Hyperlink Command="{Binding Commands.NewWeblogPostCommand}">  New Weblog Post</Hyperlink>
-                <LineBreak />
-                <Hyperlink  Command="{Binding Commands.OpenDocumentCommand}">  Open Document...</Hyperlink> - ctrl-o
-                <LineBreak />             
-                <Hyperlink  FontSize="15" Command="{Binding Commands.ShowFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
-                
-                <LineBreak />
-                <LineBreak />
-
-                <Run FontSize="22" FontWeight="DemiBold" >Settings</Run>
-                <LineBreak />
-                <Hyperlink  Command="{Binding Commands.SettingsCommand}">  Configure Markdown Monster Settings</Hyperlink>
-                <LineBreak />
-                <Hyperlink  Command="{Binding Commands.AddinManagerCommand}">  Load Addin Manager</Hyperlink>
-                <LineBreak />
-                <LineBreak />
-                                
-                <Run FontSize="22" FontWeight="DemiBold">Recent Files</Run>
-                <LineBreak />                    
-                    <StackPanel Name="StartPageRecentItems">       
-                        <ItemsControl ItemsSource="{Binding Configuration.RecentDocuments}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>                                    
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock  Width="320" ToolTip="{Binding .}">
-                                            <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding}"  >
-                                                <TextBlock Text="{Binding ., Converter={StaticResource FileNameFromPathConverter }}"    />
-                                            </Hyperlink>
-                                        </TextBlock>                                    
-                                        <TextBlock Opacity="0.85" FontSize="13">                                        
-                                            <Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Commands.OpenRecentDocumentCommand}" CommandParameter="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}" 
-                                                       ToolTip="{Binding ., Converter={StaticResource FullFolderNameFromPathConverter }}">
-                                                <TextBlock Text="{Binding ., Converter={StaticResource FolderNameFromPathConverter }}"    />
-                                            </Hyperlink>
-                                         </TextBlock>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>                        
-                    </StackPanel>
-                </TextBlock>
-                
-            </Grid>
-
+            <mmcontrols:StartMenuUserControl Grid.Column="2" />
 
 
             <GridSplitter Grid.Column="3"  x:Name="RightSidebarContainerSeparator"                                                                   

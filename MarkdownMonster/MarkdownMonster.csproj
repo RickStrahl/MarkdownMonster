@@ -171,6 +171,9 @@
     <Compile Include="Controls\ElementHelper.cs" />
     <Compile Include="Controls\FileSystemAutoCompleteBehavior.cs" />
     <Compile Include="Controls\SelectOnEntryExtension.cs" />
+    <Compile Include="Controls\StartMenuUserControl.xaml.cs">
+      <DependentUpon>StartMenuUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\BrowserMessageBox.xaml.cs">
       <DependentUpon>BrowserMessageBox.xaml</DependentUpon>
     </Compile>
@@ -344,6 +347,10 @@
     <None Include="SampleMarkdown.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Include="Controls\StartMenuUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
