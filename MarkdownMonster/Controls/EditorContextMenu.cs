@@ -352,7 +352,8 @@ namespace MarkdownMonster
                     var editor = Model.ActiveEditor;
                   
                     var lineText = editor?.GetCurrentLine();
-                    if (string.IsNullOrEmpty(lineText) || !(lineText.Contains("|") &&
+                    if (string.IsNullOrEmpty(lineText) ||
+                        !(lineText.Contains("|") &&
                         !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+") )))
                         return;
 
@@ -362,8 +363,8 @@ namespace MarkdownMonster
                     for (int i = row - 1; i > -1; i--)
                     {
                         lineText = editor.GetLine(i);
-                        if (!(lineText.Contains("|")  &&
-                            !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+"))))
+                        if (!lineText.Contains("|")  &&
+                           !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
                         {
                             startRow = i +1;
                             break;
