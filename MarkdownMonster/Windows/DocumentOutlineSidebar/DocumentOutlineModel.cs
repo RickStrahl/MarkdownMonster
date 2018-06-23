@@ -163,7 +163,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                 else if (level < lastLevel)
                     lastLevel--;
 
-                leadin = StringUtils.Replicate('\t', lastLevel - 1);
+                leadin = StringUtils.Replicate("\t",lastLevel - 1);
 
                 sb.AppendLine($"{leadin}* [{text}](#{id})");
             }
