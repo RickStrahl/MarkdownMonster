@@ -390,6 +390,7 @@
                 <MenuItem Name="ButtonWordWrap" 
                           Header="_Word Wrap"      
                           Command="{Binding Commands.WordWrapCommand}"                                                                   
+                          Click="Button_Handler"
                           IsCheckable="True"
                           InputGestureText="alt-z"
                           IsChecked="{Binding Configuration.Editor.WrapText, Mode=OneWay}" />
