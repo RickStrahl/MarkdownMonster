@@ -89,7 +89,8 @@ namespace MarkdownMonster
             CloseLeftSidebarPanel();
             CloseRightSidebarPanel();
             OpenLeftSidebarPanel();
-            ShowFolderBrowser();
+            ToggleFolderBrowser();
+            OpenFolderBrowser();
 
 
 #if DEBUG
@@ -1287,21 +1288,40 @@ namespace MarkdownMonster
                 });
         }
 
-        public CommandBase ShowFolderBrowserCommand { get; set; }
+        public CommandBase ToggleFolderBrowserCommand { get; set; }
 
 
-        void ShowFolderBrowser()
+        void ToggleFolderBrowser()
         {
             // SHOW FILE BROWSER COMMAND
-            ShowFolderBrowserCommand = new CommandBase((s, e) =>
+            ToggleFolderBrowserCommand = new CommandBase((s, e) =>
             {
                 mmApp.Configuration.FolderBrowser.Visible = !mmApp.Configuration.FolderBrowser.Visible;
                 mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
             });
         }
-#endregion
 
-#region Commands
+    
+
+        public CommandBase OpenFolderBrowserCommand { get; set; }
+
+        void OpenFolderBrowser()
+        {
+            OpenFolderBrowserCommand = new CommandBase((parameter, command) =>
+            {
+                var editor = mmApp.Model.ActiveEditor;
+                if (editor == null)
+                    return;
+
+                mmApp.Model.Window.SidebarContainer.SelectedItem = mmApp.Model.Window.TabFolderBrowser;
+                mmApp.Model.Window.ShowFolderBrowser(folder: Path.GetDirectoryName(editor.MarkdownDocument.Filename));
+
+            }, (p, c) => true);
+        }
+
+        #endregion
+
+        #region Commands
 
 
 

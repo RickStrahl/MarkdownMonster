@@ -61,14 +61,14 @@
             <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}"/>
             <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document"  Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}" CommandParameter="AllBut" />
             <Separator/>
-            <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Command="{Binding Commands.CommandWindowCommand}"  />
-            <MenuItem Name="ContextOpenInFolder" Header="Show in Explorer" Command="{Binding Commands.OpenInExplorerCommand}"  />
-            <MenuItem Name="ContextOpenInFolderBrowser" Header="Show in Folder _Browser" Command="{Binding Commands.ShowFolderBrowserCommand}" />
+            <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Command="{Binding DataContext.Commands.CommandWindowCommand}"  />
+            <MenuItem Name="ContextOpenInFolder" Header="Show in Explorer" Command="{Binding DataContext.Commands.OpenInExplorerCommand}"  />
+            <MenuItem Name="ContextOpenInFolderBrowser" Header="Show in Folder _Browser" Command="{Binding DataContext.Commands.OpenFolderBrowserCommand}" />
             <Separator/>
             <MenuItem Name="ContextCommitToGit" Header="Commit to _Git..."
                       Command="{Binding DataContext.Commands.CommitToGitCommand}" />
             <MenuItem Name="ContextOpenGitClient" Header="Open in Git Client"
-                      Command="{Binding DataContext.Commands.OpenGitClientCommand}"   IsEnabled="{Binding Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
+                      Command="{Binding DataContext.Commands.OpenGitClientCommand}"   IsEnabled="{Binding DataContext.Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
             <Separator/>
             <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Command="{Binding DataContext.Commands.CopyFolderToClipboardCommand}" />
         </ContextMenu>

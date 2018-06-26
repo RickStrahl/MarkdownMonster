@@ -54,7 +54,7 @@
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.OpenDocumentCommand}">  Open Document...</Hyperlink> - ctrl-o
                 <LineBreak />             
-                <Hyperlink  FontSize="15" Command="{Binding Commands.ShowFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
+                <Hyperlink  FontSize="15" Command="{Binding Commands.OpenFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
                                 
                 <LineBreak />
                 <LineBreak />
