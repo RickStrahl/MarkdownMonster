@@ -1051,7 +1051,8 @@ namespace MarkdownMonster
             if (AceEditor == null)
                 return;
 
-            AceEditor.setselection(text);                        
+            AceEditor.setselection(text);
+            IsDirty();
             MarkdownDocument.CurrentText = GetMarkdown();
         }
 
