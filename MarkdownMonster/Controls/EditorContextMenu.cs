@@ -399,7 +399,7 @@ namespace MarkdownMonster
                     }
 
                     // select the entire table
-                    Model.ActiveEditor.AceEditor.SetSelectionRange(startRow -1 , 0, endRow + 1,0, pos);
+                    Model.ActiveEditor.AceEditor.SetSelectionRange(startRow , 0, endRow + 1,0, pos);
                                 
                     Model.ActiveEditor.EditorSelectionOperation("table", sb.ToString());
                 };
