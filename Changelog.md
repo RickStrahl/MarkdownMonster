@@ -7,12 +7,20 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.12.1
+### 1.12.2
 <small>not released yet</small>
+
+* **Import CSV files into the Markdown Table Editor**  
+You can now import CSV files into the Markdown Table editor using a button on the toolbar.
 
 * **Updated Startup Screen**   
 Updated layout for the startup screen. Shows more visual and scrollable Recent Files and Folder list. Cleaner layout for logo background. Better fit in small window sizes.
 
+* **Fix: Table Editor Issues**  
+Fix issue with **Edit Table** in Markdown. Detection algorithm didn't recognize certain grid tables. Fix paste issue where there was an extra linefeed at the begging of the edited table resulting in a shifted display. Fix document dirty status properly updating now.
+
+* **Fix: Dead Menu Options**  
+Fix a number of menu options that were briefly inert due to the recent menu code refactoring. Should all be hooked back up.
 
 ### 1.12 - Version Rollup Release
 <small>June 21st, 2018</small>
