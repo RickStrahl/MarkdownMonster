@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using LumenWorks.Framework.IO.Csv;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
 
@@ -467,23 +471,88 @@ namespace MarkdownMonster.Windows
             return data;
         }
 
+
+        public ObservableCollection<ObservableCollection<CellContent>> ParseCsvFileToData(string filename)
+        {
+            if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
+                return new ObservableCollection<ObservableCollection<CellContent>>();
+
+            FileStream fs = null;
+            try
+            {
+                fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                return ParseCsvStreamToData(fs);
+            }
+            catch
+            {                
+                return new ObservableCollection<ObservableCollection<CellContent>>();
+            }
+            finally
+            {
+                fs?.Dispose();
+            }          
+        }
+
+        public ObservableCollection<ObservableCollection<CellContent>> ParseCsvStringToData(string csvContent)
+        {
+            if (string.IsNullOrEmpty(csvContent))
+                return new ObservableCollection<ObservableCollection<CellContent>>();
+
+            var bytes = Encoding.UTF8.GetBytes(csvContent);
+            using (var fs = new MemoryStream(bytes, 0, bytes.Length))
+            {
+                return ParseCsvStreamToData(fs);
+            }
+        }
+
+
+        public ObservableCollection<ObservableCollection<CellContent>> ParseCsvStreamToData(Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
+            {
+                using (var csv = new CachedCsvReader(reader,true))
+                {
+                    var list = new ObservableCollection<ObservableCollection<CellContent>>();
+
+                    var colCount = csv.Columns.Count;
+                    var columnCollection = new ObservableCollection<CellContent>();
+
+                    if (!csv.ReadNextRecord())
+                        return list;
+
+                    for (var index = 0; index < csv.Columns.Count; index++)
+                    {
+                        Column column = csv.Columns[index];                        
+                        columnCollection.Add(new CellContent(column.Name) {Column = index});
+                    }
+                    list.Add(columnCollection);
+                    
+                    // Field headers will automatically be used as column names
+                    while(true) {
+                        columnCollection = new ObservableCollection<CellContent>();
+                        for (int index = 0; index < csv.Columns.Count; index++)
+                        {
+                            var colValue = csv[index];                            
+                            columnCollection.Add(new CellContent(colValue) { Column = index });
+                        }
+
+                        list.Add(columnCollection);
+
+                        if (!csv.ReadNextRecord())
+                            break;
+                    }
+
+                    return list;
+                }
+            }
+        }
+
+
+
         string ParseLinkAndImage(string html)
         {
             if (!html.Contains("<"))
                 return html;
-
-            // Pipe Tables don't support Markdown Links (but do support images. WTF?)
-            //string href = "x";
-            //while (!string.IsNullOrEmpty(href))
-            //{
-            //    href = StringUtils.ExtractString(html, "<a ", "</a>", returnDelimiters: true);
-            //    if (string.IsNullOrEmpty(href))
-            //        break;
-
-            //    var link = StringUtils.ExtractString(href, "href=\"", "\"");
-            //    var text = StringUtils.ExtractString(href, ">", "</a>");
-            //    html = html.Replace(href, $"[{text}]({link}]");
-            //}
 
             string img = "x";
             while (!string.IsNullOrEmpty(img))

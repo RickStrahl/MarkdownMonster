@@ -83,8 +83,9 @@ namespace MarkdownMonster.Windows
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             var columnCounter = 0;
             foreach (var header in data[0])
-            {
+            {                
                 ColumnDefinitions.Add(new ColumnDefinition { });
+
                 var columnText = NewTextBox();
                 columnText.Background = new BrushConverter().ConvertFromString("#777") as Brush;
                 columnText.Tag = new TablePosition { Column = columnCounter, Row = 0};
@@ -95,8 +96,13 @@ namespace MarkdownMonster.Windows
 
                 Children.Add(columnText);
                 Grid.SetColumn(columnText, columnCounter);
+
                 columnCounter++;                
             }
+            
+
+            if (data.Count > 50)
+                mmApp.Model.Window.ShowStatusProgress("Binding table data...");
 
             var rowCount = 1;
             foreach (var row in data.Skip(1))
@@ -111,14 +117,18 @@ namespace MarkdownMonster.Windows
 
                     var binding = new Binding("Text") { Source = column, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, Mode = BindingMode.TwoWay };
                     columnText.SetBinding(TextBox.TextProperty, binding);
+
+                    columnText.Text = column.Text;
+
                     columnText.ContextMenu = contextMenu;
-                    Children.Add(columnText);
                     Grid.SetColumn(columnText, columnCounter);
                     Grid.SetRow(columnText, rowCount);
-                    columnCounter++;
 
+                    Children.Add(columnText);
+
+                    columnCounter++;
                 }
-                rowCount++;
+                rowCount++;                
             }
 
             var lastText = Children.OfType<TextBox>().LastOrDefault();
@@ -144,6 +154,8 @@ namespace MarkdownMonster.Windows
                     }
                 };
             }
+            mmApp.Model.Window.ShowStatus();
+     
         }
         
         void KeyUpAndDownHandler(object o, KeyEventArgs args)
@@ -258,8 +270,6 @@ namespace MarkdownMonster.Windows
                 SelectColumn(currentRow + 1, 0);
             else
                 SelectColumn(currentRow, 0);
-
-
         }
 
         public void DeleteRow(int currentRow, int currentColumn)

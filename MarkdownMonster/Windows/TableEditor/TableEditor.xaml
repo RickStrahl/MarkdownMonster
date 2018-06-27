@@ -44,97 +44,58 @@
         </Grid.RowDefinitions>
 
         <ToolBarPanel>
-            <StackPanel Orientation="Horizontal">
-                <ToolBar FontWeight="Normal" Padding="0,2,0,2">
-                    <Button Name="ButtonOk"  IsDefault="True"  Click="Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
+                <StackPanel Orientation="Horizontal">
+                    <ToolBar FontWeight="Normal" Padding="0,2,0,2">
+                        <Button Name="ButtonOk"  IsDefault="True"  Click="Button_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Foreground="#1F9B3C" />
-                            <TextBlock>Embed Table</TextBlock>
-                        </StackPanel>
-                    </Button>
+                                <TextBlock>Embed Table</TextBlock>
+                            </StackPanel>
+                        </Button>
 
-                    <Button Name="ButtonCancel"  IsDefault="True"  Click="Button_Click"  >
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="Times"                                             
+                        <Button Name="ButtonCancel"  IsDefault="True"  Click="Button_Click"  >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Margin="5,2,5,0" Icon="Times"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Foreground="Firebrick" />
-                            <TextBlock>Cancel</TextBlock>
-                        </StackPanel>
-                    </Button>
+                                <TextBlock>Cancel</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </ToolBar>
 
+                <ToolBar>
 
                     <Button Name="ButtonPasteHtml" Click="Button_Click" ToolTip="Paste a table from clipboard from HTML or Pipe or Grid Tables"  >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="Paste"                                             
+                            <fa:FontAwesome Margin="2,2,5,0" Icon="Paste"     Foreground="Goldenrod"                                            
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                              />
                             <TextBlock>Paste from Clipboard</TextBlock>
                         </StackPanel>
                     </Button>
-                </ToolBar>
 
-                <ToolBar>
-                    <TextBlock Margin="0,3,0,5">Insert:</TextBlock>
-                    <Button Name="ButtonInsertRowBelow"   Click="Button_Click">
+                    <Button Name="ButtonImportCsv" Click="Button_Click" ToolTip="Import a table from a CSV file. Note large table imports can be very slow."  >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="ArrowCircleOutlineDown"                                             
-                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                             />
-                            <TextBlock>Row Below</TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Name="ButtonInsertRowAbove"   Click="Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="ArrowCircleOutlineUp"                                             
+                            <fa:FontAwesome Margin="8,2,5,0" Icon="Download" Foreground="Goldenrod"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                             />
-                            <TextBlock>Row Above</TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Name="ButtonInsertColumnRight"   Click="Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="ArrowCircleOutlineRight"                                             
-                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                            />
-                            <TextBlock>Column Right</TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Name="ButtonInsertColumnLeft"   Click="Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="ArrowCircleOutlineLeft"                                             
-                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                            />
-                            <TextBlock>Column Left</TextBlock>
+                            <TextBlock>Load from CSV</TextBlock>
                         </StackPanel>
                     </Button>
 
-                </ToolBar>
-                <ToolBar>
-                    <Button Name="ButtonDeleteColumn"    Click="Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="TimesCircle"                                             
-                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                            />
-                            <TextBlock>Delete Column</TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Name="ButtonDeleteRow"    Click="Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="TimesCircle"                                             
-                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                            />
-                            <TextBlock>Delete Row</TextBlock>
-                        </StackPanel>
-                    </Button>
+                    <Button Name="ButtonHelpCopyLastCommandToClipboard"       Margin="10,0,0,0"                 
+                            HorizontalAlignment="Left" IsDefault="True"   fa:Awesome.Content="QuestionCircle" Foreground="SteelBlue"
+                            ToolTip="Documentation for the Table Editor"
+                            Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_53a0pfz0t.htm"/>
                 </ToolBar>
             </StackPanel>
         </ToolBarPanel>
 
-        <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"  Grid.Row="1"
-                       Margin="20,30">
-            <mmwindows:GridTable x:Name="DataGridTableEditor" >
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"  Grid.Row="1" 
+                      Margin="20,30">
+            <mmwindows:GridTable x:Name="DataGridTableEditor">
                 <mmwindows:GridTable.Resources>
                     <Style TargetType="TextBox"  BasedOn="{StaticResource MetroTextBox}">
                         <Setter Property="Padding" Value="8"/>
@@ -146,15 +107,14 @@
                         <Setter Property="TextWrapping" Value="Wrap"/>
                         <Setter Property="controls1:Ex.SelectOnEntry" Value="True"/>
                         <Setter Property="FontSize" Value="15" />
-                        <Setter Property="controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
                     </Style>
                 </mmwindows:GridTable.Resources>
             </mmwindows:GridTable>
         </ScrollViewer>
 
         <StackPanel Grid.Row="2"  Orientation="Horizontal" Margin="10">
-            <TextBlock Margin="0,2,10,0">generate as:</TextBlock>
-            <ComboBox Name="ComboTableMode" ItemsSource="{Binding TableModes}" SelectedItem="{Binding TableMode, Mode=TwoWay}"  Width="300"/>
+            <TextBlock Margin="0,3,10,0">generate as:</TextBlock>
+            <ComboBox Name="ComboTableMode" ItemsSource="{Binding TableModes}" SelectedItem="{Binding TableMode, Mode=TwoWay}" Padding="3" Width="300"/>
         </StackPanel>
     </Grid>
 </controls:MetroWindow>

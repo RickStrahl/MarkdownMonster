@@ -19,8 +19,14 @@ namespace MarkdownMonster.Controls
             {
                 var text = d as TextBoxBase;
                 if (text != null)
-                    text.GotFocus += (s, e2) => text.SelectAll();
+                    text.GotFocus += Text_GotFocus;
             }
+        }
+
+        private static void Text_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var text = sender as TextBoxBase;
+            text?.SelectAll();            
         }
 
         /// <summary>Defines whether an object (such as a textbox) automatically is selected when focus moves into it</summary>

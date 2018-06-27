@@ -328,6 +328,32 @@ a  | b
         }
 
 
+        [TestMethod]
+        public void CsvTableParserFromStringTest()
+        {
+
+            string data = @"Name,Company,city,Test
+
+Rick,West Wind,Paia,4
+Markus,EPS,Kihei,20,11
+Kevin,Oak Leaf,Bumfuck VA,4
+";
+
+            var parser = new TableParser();
+            var tableData = parser.ParseCsvStringToData(data);
+
+            Console.WriteLine(parser.ToGridTableMarkdown(tableData));
+        }
+
+        [TestMethod]
+        public void CsvTableParserFromFileTest()
+        {            
+            var parser = new TableParser();
+            var tableData = parser.ParseCsvFileToData(@"c:\temp\Names.csv");
+            Console.WriteLine(parser.ToGridTableMarkdown(tableData));
+        }
+
+
 
         ObservableCollection<ObservableCollection<CellContent>> GetTableData()
         {
@@ -341,6 +367,9 @@ a  | b
 
             return data;
         }
+
+
+
 
 
 
