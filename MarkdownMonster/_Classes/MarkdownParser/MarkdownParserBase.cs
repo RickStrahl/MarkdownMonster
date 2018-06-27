@@ -73,11 +73,9 @@ namespace MarkdownMonster
         {
             html = html.Replace("<script", "&lt;script");
             html = html.Replace("</script", "&lt;/script");
-            html = html.Replace("javascript:", "javaScript:");
+            html = html.Replace("javascript:", "unsupported:");
             return html;
         }
-
-
         private static Regex fontAwesomeIconRegEx = new Regex(@"@icon-.*?[\s|\.|\,|\<]");
 
         /// <summary>
