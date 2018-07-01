@@ -1809,34 +1809,7 @@ namespace MarkdownMonster
 
         
         #region SpellChecking interactions
-        //static Hunspell GetSpellChecker(string language = "EN_US", bool reload = false)
-        //{
-        //    if (reload || _spellChecker == null)
-        //    {
-        //        string dictFolder = Path.Combine(Environment.CurrentDirectory,"Editor\\");
-
-        //        string aff = dictFolder + language + ".aff";
-        //        string dic = Path.ChangeExtension(aff,"dic");
-
-        //        _spellChecker = new Hunspell(aff, dic);
-
-        //        // Custom Dictionary if any
-        //        string custFile = Path.Combine(mmApp.Configuration.CommonFolder,language + "_custom.txt");
-        //        if (File.Exists(custFile))
-        //        {
-        //            var lines = File.ReadAllLines(custFile);
-        //            foreach (var line in lines)
-        //            {
-        //                _spellChecker.Add(line);
-        //            }
-        //        }
-        //    }
-
-        //    return _spellChecker;
-        //}
-        //private static Hunspell _spellChecker = null;
         
-
         /// <summary>
         /// Check spelling of an individual word - called from ACE Editor
         /// </summary>
@@ -1881,8 +1854,11 @@ namespace MarkdownMonster
         /// <param name="language"></param>
         /// <param name="reload"></param>
         /// <returns></returns>
-        public void GetSuggestions(string text, string language = "EN_US", bool reload = false, object range = null)
+        public void GetSuggestions(string text, string language=null, bool reload = false, object range = null)
         {
+            if (language == null)
+                language = Window.Model.Configuration.Editor.Dictionary;
+
             var suggestions = SpellChecker.GetSuggestions(text, language, reload);
 
             var cm = new EditorContextMenu();
@@ -1903,12 +1879,19 @@ namespace MarkdownMonster
         /// <summary>
         /// Adds a new word to add-on the dictionary for a given locale
         /// </summary>
-        /// <param name="word"></param>
-        /// <param name="lang"></param>
-        public void AddWordToDictionary(string word, string lang = "EN_US")
+        /// <param name="word">Word to add</param>
+        /// <param name="lang">Dictionary to add to or the current one in use</param>
+        public void AddWordToDictionary(string word, string lang = null)
         {
+            if (lang == null)
+                lang = Window.Model.Configuration.Editor.Dictionary;
+
             if (!SpellChecker.AddWordToDictionary(word, lang))
                 Window.ShowStatusError("Couldn't add word to dictionary. Most likely you don't have write access in the settings folder.");
+            else
+            {
+                AceEditor.isDirty = true;
+            }
         }
         #endregion
 

@@ -124,7 +124,8 @@ namespace MarkdownMonster.Utilities
         {
             return LanguageUtils.IgnoreErrors(() =>
             {
-                File.AppendAllText(Path.Combine(ExternalDictionaryFolder, lang + "_custom.txt"), word + "\r\n");
+                var dictPath = Path.Combine(ExternalDictionaryFolder, lang + "_custom.txt");
+                File.AppendAllText(dictPath, word + "\r\n");
                 _spellChecker.Add(word);
             });
         }
