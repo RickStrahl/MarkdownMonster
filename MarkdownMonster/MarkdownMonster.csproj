@@ -188,6 +188,11 @@
     <Compile Include="Windows\EditorPane\EditorAndPreviewPane.xaml.cs">
       <DependentUpon>EditorAndPreviewPane.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Favorites\Favorites.xaml.cs">
+      <DependentUpon>Favorites.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Favorites\FavoriteItem.cs" />
+    <Compile Include="Windows\Favorites\FavoritesModel.cs" />
     <Compile Include="Windows\Git\GitCommitDialog.xaml.cs">
       <DependentUpon>GitCommitDialog.xaml</DependentUpon>
     </Compile>
@@ -421,6 +426,10 @@
     <Page Include="Windows\EditorPane\EditorAndPreviewPane.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\Favorites\Favorites.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\EmojiWindow.xaml">
       <SubType>Designer</SubType>

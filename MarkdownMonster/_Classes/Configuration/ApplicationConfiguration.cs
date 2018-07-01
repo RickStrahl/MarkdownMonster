@@ -10,6 +10,8 @@ using MarkdownMonster.Configuration;
 using Newtonsoft.Json;
 using Westwind.Utilities.Configuration;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Favorites;
+
 using Westwind.Utilities;
 
 
@@ -417,6 +419,7 @@ namespace MarkdownMonster
         /// Configuration Settings for Git Integration
         /// </summary>
         public GitConfiguration Git { get; set; }
+               
 
         #endregion
 
@@ -801,7 +804,8 @@ namespace MarkdownMonster
 
         #region  INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
+        [NotifyPropertyChangedInvocator]
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
