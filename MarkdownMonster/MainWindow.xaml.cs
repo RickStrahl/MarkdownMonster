@@ -585,7 +585,7 @@ namespace MarkdownMonster
                 mi = new MenuItem
                 {
                     IsEnabled = false,
-                    Header = "——————— Recent Folders ———————"
+                    Header = "————————— Recent Folders —————————"
                 };
 
                 if (mode == RecentFileDropdownModes.ToolbarDropdown)
@@ -1584,13 +1584,30 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Adds a new panel to the sidebar
+        /// Adds a new panel to the sidebar, and adds header text and icon explicitly.
+        /// This overload provides a simpler way to add icon and header
         /// </summary>
         /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
-        public void AddLeftSidebarPanelTabItem(TabItem tabItem = null)
+        /// <param name="tabHeaderText">Optional - header text to set on the tab either just text or in combination with icon</param>
+        /// <param name="tabHeaderIcon">Optional - Icon for the tab as an Image Source</param>
+        public void AddLeftSidebarPanelTabItem(TabItem tabItem, string tabHeaderText=null, ImageSource tabHeaderIcon = null)
         {
             if (tabItem != null)
             {
+                if (tabHeaderIcon != null)
+                {
+                    // Create the header as Icon and Text
+                    var panel = new StackPanel { Orientation = Orientation.Horizontal };
+                                        
+                    panel.Children.Add(new Image { Source = tabHeaderIcon, Height = 16, Margin = new Thickness(4, 0, 4, 0) });
+                    panel.Children.Add(new TextBlock { Text = tabHeaderText });
+                    tabItem.Header = panel;
+
+                }
+                else if (!string.IsNullOrEmpty(tabHeaderText))
+                    tabItem.Header = tabHeaderText;
+
+
                 ControlsHelper.SetHeaderFontSize(tabItem, 14);
                 SidebarContainer.Items.Add(tabItem);
                 SidebarContainer.SelectedItem = tabItem;
@@ -1601,10 +1618,26 @@ namespace MarkdownMonster
         /// Adds a new panel to the right sidebar
         /// </summary>
         /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
-        public void AddRightSidebarPanelTabItem(TabItem tabItem = null)
+        /// <param name="tabHeaderText"></param>
+        /// <param name="tabHeaderIcon"></param>
+        public void AddRightSidebarPanelTabItem(TabItem tabItem = null, string tabHeaderText = null, ImageSource tabHeaderIcon = null)
         {
             if (tabItem != null)
             {
+                if (tabHeaderIcon != null)
+                {
+                    // Create the header as Icon and Text
+                    var panel = new StackPanel { Orientation = Orientation.Horizontal };
+                    panel.Children.Add(new Image { Source = tabHeaderIcon, Height = 16, Margin = new Thickness(4, 0, 4, 0) });
+                    panel.Children.Add(new TextBlock { Text = tabHeaderText });
+                    tabItem.Header = panel;
+
+                }
+                else if (!string.IsNullOrEmpty(tabHeaderText))
+                    tabItem.Header = tabHeaderText;
+
+
+
                 ControlsHelper.SetHeaderFontSize(tabItem, 14);
                 RightSidebarContainer.Items.Add(tabItem);
                 RightSidebarContainer.SelectedItem = tabItem;

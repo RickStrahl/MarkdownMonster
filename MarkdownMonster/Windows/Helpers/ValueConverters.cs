@@ -393,9 +393,8 @@ namespace MarkdownMonster.Windows
             if (!string.IsNullOrEmpty(val))
             {
                 val = ((string) value).ToLower();
-                    
-                BitmapImage bi;
-                if (CachedBitmapImages.TryGetValue(val, out bi))
+                                     
+                if (CachedBitmapImages.TryGetValue(val, out BitmapImage bi))
                     return bi;
 
                 try

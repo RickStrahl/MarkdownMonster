@@ -655,6 +655,9 @@
                             <Trigger Property="IsSelected" Value="false">
                                 <Setter Property="Opacity" Value="0.4" />
                             </Trigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Trigger>
                         </Style.Triggers>
                         <Style.Setters>
                             <Setter Property="Padding" Value="3,2,9,10" />
@@ -772,6 +775,23 @@
                                       FontSize="13"  x:FieldModifier="public"                                      
                                       TabStripPlacement="Bottom"
                                       BorderThickness="0">
+                <TabControl.Resources>
+                    <Style TargetType="controls:MetroTabItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="false">
+                                <Setter Property="Opacity" Value="0.4" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <Style.Setters>
+                            <Setter Property="Padding" Value="3,2,9,10" />
+                            <Setter Property="Margin" Value="0,0,4,4" />
+                            <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="14" />
+                        </Style.Setters>
+                    </Style>
+                </TabControl.Resources>
 
                 <!--<TabItem Name="TestTab"  x:FieldModifier="public"
                          Margin="0,0,5,0" Visibility="Visible" 
