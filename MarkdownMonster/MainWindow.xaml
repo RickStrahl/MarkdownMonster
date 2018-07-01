@@ -656,17 +656,19 @@
                                 <Setter Property="Opacity" Value="0.4" />
                             </Trigger>
                         </Style.Triggers>
-                        <Setter Property="Padding" Value="2,2,14,7" />
-                        <Setter Property="Margin" Value="0,0,0,13" />
+                        <Style.Setters>
+                            <Setter Property="Padding" Value="3,2,9,10" />
+                            <Setter Property="Margin" Value="0,0,4,4" />
+                            <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="14" />
+                        </Style.Setters>
                     </Style>
                 </TabControl.Resources>
 
                 <controls:MetroTabItem Name="TabFolderBrowser"  x:FieldModifier="public"
-                         Margin="0,0,5,0" Visibility="Visible"
-                         controls:ControlsHelper.HeaderFontSize="14">
+                          Visibility="Visible">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Folder" Foreground="DarkGoldenrod" Padding="5,3,5,0"/>
+                            <fa:FontAwesome Icon="Folder" Foreground="DarkGoldenrod" Padding="4,3,4,0"/>
                             <TextBlock>Files</TextBlock>
                         </StackPanel>
                     </TabItem.Header>
@@ -675,13 +677,11 @@
                 </controls:MetroTabItem>
 
 
-                <controls:MetroTabItem Name="TabDocumentOutline"  x:FieldModifier="public"
-                                       Margin="0,0,5,0" 
-                                       controls:VisibilityHelper.IsVisible="{Binding Configuration.IsDocumentOutlineVisible}"                                       
-                                       controls:ControlsHelper.HeaderFontSize="14">
+                <controls:MetroTabItem Name="TabDocumentOutline"  x:FieldModifier="public"                                       
+                                       controls:VisibilityHelper.IsVisible="{Binding Configuration.IsDocumentOutlineVisible}" >
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Bookmark" Foreground="SteelBlue" Padding="5,3,5,0"/>
+                            <fa:FontAwesome Icon="Bookmark" Foreground="SteelBlue" Padding="4,3,4,0"/>
                             <TextBlock>Outline</TextBlock>
                         </StackPanel>
                     </TabItem.Header>
