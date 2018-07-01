@@ -343,7 +343,8 @@ namespace WeblogAddin
             var discover = new BlogEndpointDiscovery();
 
             var url = Model.ActiveWeblogInfo.ApiUrl;
-
+            if (string.IsNullOrEmpty(url))
+                return;
 
             StatusBar.ShowStatusProgress("Checking Endpoint Url...");
 
