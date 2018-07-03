@@ -83,6 +83,7 @@
     <Compile Include="AddinManagerTest.cs" />
     <Compile Include="BugReportTests.cs" />
     <Compile Include="ClipBoardHelperTests.cs" />
+    <Compile Include="FavoritesTests.cs" />
     <Compile Include="HtmlPackagerTests.cs" />
     <Compile Include="SpellCheckerTests.cs" />
     <Compile Include="ComputerInfoTests.cs" />

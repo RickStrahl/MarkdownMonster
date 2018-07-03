@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.12.2
+### 1.12.4
 <small>not released yet</small>
 
 * **Import CSV files into the Markdown Table Editor**  
@@ -16,11 +16,17 @@ You can now import CSV files into the Markdown Table editor using a button on th
 * **Updated Startup Screen**   
 Updated layout for the startup screen. Shows more visual and scrollable Recent Files and Folder list. Cleaner layout for logo background. Better fit in small window sizes.
 
+* **Addins: Simplified Adding of Tab Panels**   
+Updated the `AddLeftSidebarPanel()` and `AddRightSidebarPanel()` routines to use consistent tab styling and make it easier to simply provide header text and an icon, rather than explicitly setting up the tab header (which is still supported if the header text/icon are left empty).
+
 * **Fix: Table Editor Issues**  
 Fix issue with **Edit Table** in Markdown. Detection algorithm didn't recognize certain grid tables. Fix paste issue where there was an extra linefeed at the begging of the edited table resulting in a shifted display. Fix document dirty status properly updating now.
 
 * **Fix: Dead Menu Options**  
 Fix a number of menu options that were briefly inert due to the recent menu code refactoring. Should all be hooked back up.
+
+* **Fix: Add to Dictionary File Location**  
+Fixed issue where Add to Dictionary was adding to the wrong file and wouldn't persist properly. Updated logic so that after adding the document immediately is updated to reflect the corrected word in the spellchecking view.
 
 ### 1.12 - Version Rollup Release
 <small>June 21st, 2018</small>

@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>MarkdownMonster</id>
-    <version>1.12</version>
+    <version>1.12.3</version>
     <title>Markdown Monster</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
     <owners>West Wind Technologies</owners>
     <licenseUrl>http://markdownmonster.west-wind.com/download.aspx#Licensing</licenseUrl>
-    <projectUrl>http://markdownmonster.west-wind.com</projectUrl>    
+    <projectUrl>http://markdownmonster.west-wind.com</projectUrl>
     <iconUrl>http://markdownmonster.west-wind.com/images/MarkdownMonster_icon_128.png</iconUrl>
-    <requireLicenseAcceptance>true</requireLicenseAcceptance>    
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Markdown Monster is an easy to use and extensible **Markdown Editor and Viewer** and **Weblog Publisher** by West Wind Technologies. The editor sports syntax colored editing of Markdown text, inline spell checking, live, synced HTML preview, a document outline and Git support. You can embed immages using clipboard pasting, embedding, and dragging of images, code, links and Emoji and built-in support for screen captures. There is support for text snippet expansion and C# script execution to automate and extend Markdown Monster. But above all the editor's goal is to get out of your way and let you focus on your content creation, and provide you with tools to get your job done efficiently.
     
 Documents can be saved to HTML or PDF, you can generate HTML from partial selections and you can even convert some HTML to Markdown. Markdown Monster can also publish your Markdown directly to your Weblog that supports WordPress, MetaWebLog or Medium APIs. You can manage multiple blogs and even download existing HTML posts as Markdown.
@@ -27,9 +27,13 @@ A portable, non-admin Chocolatey install is also available in [MarkdownMonster.P
     <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
     <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
     <mailingListUrl>https://support.west-wind.com</mailingListUrl>
-    <packageSourceUrl>https://github.com/rickstrahl/MarkdownMonster</packageSourceUrl>    
+    <packageSourceUrl>https://github.com/rickstrahl/MarkdownMonster</packageSourceUrl>
+    <!-- <dependencies>
+      <dependency id="dotnet4.6.2" version="4.6.01590.20170129" />
+    </dependencies> -->
   </metadata>
-    <files>
-        <file src="tools\**" target="tools" />
-    </files>    
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+
 </package>
