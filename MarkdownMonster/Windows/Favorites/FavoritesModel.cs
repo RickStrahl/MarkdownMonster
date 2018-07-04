@@ -29,6 +29,20 @@ namespace MarkdownMonster.Favorites
         }
         private ObservableCollection<FavoriteItem> _favorites = new ObservableCollection<FavoriteItem>();
 
+        
+        public FavoriteItem EditedFavorite
+        {
+            get => _editedFavorite;
+            set
+            {
+                if (Equals(value, _editedFavorite)) return;
+                _editedFavorite = value;
+                OnPropertyChanged();
+            }
+        }
+        private FavoriteItem _editedFavorite;
+
+
         public AppModel AppModel { get; set; }
         public MainWindow Window { get; set; }
 
@@ -78,17 +92,58 @@ namespace MarkdownMonster.Favorites
                                     typeof(ObservableCollection<FavoriteItem>),
                                     false) as ObservableCollection<FavoriteItem>;
 
+            
             if (favorites == null)
             {
                 Favorites = new ObservableCollection<FavoriteItem>();
                 return false;
             }
 
+            UpdateParents(favorites, null);
+            
             Favorites = favorites;
             return true;
         }
 
+        void UpdateParents(ObservableCollection<FavoriteItem> favorites, FavoriteItem parent)
+        {
+            foreach (var fav in favorites)
+            {
+                fav.Parent = parent;
+                if (fav.Items.Count > 0)
+                    UpdateParents(fav.Items, fav);
+            }
+        }
 
+
+        public void AddFavorite(FavoriteItem baseItem, FavoriteItem favoriteToAdd = null)
+        {
+            if (favoriteToAdd == null)
+            {
+                favoriteToAdd = new FavoriteItem()
+                {
+                    Title = "New Favorite",
+                    File = "newFile.md"
+                };
+                favoriteToAdd.DisplayState.IsEditing = true;
+            }
+
+            if (baseItem == null)
+                Favorites.Insert(0, favoriteToAdd);
+            else
+            {
+                if (baseItem.IsFolder)
+                    baseItem.Items.Insert(0, favoriteToAdd);
+                else
+                {
+                    var parentItems = baseItem.Parent?.Items;
+                    if (parentItems == null)
+                        parentItems = Favorites;
+                    var index = parentItems.IndexOf(baseItem);
+                    parentItems.Insert(index + 1, favoriteToAdd);
+                }
+            }
+        }
 
         /// <summary>
         /// Saves Favorites to the Favorites file in common folder

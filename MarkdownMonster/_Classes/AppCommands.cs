@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Favorites;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
@@ -62,6 +63,7 @@ namespace MarkdownMonster
             CommandWindow();
             OpenInExplorer();
             PasteMarkdownFromHtml();
+            AddFavorite();
 
 
             // Preview Browser
@@ -1028,6 +1030,28 @@ namespace MarkdownMonster
 
                 Model.Window.PreviewBrowser.PreviewMarkdownAsync(editor, true);
 
+            }, (p, c) => true);
+        }
+
+
+
+        public CommandBase AddFavoriteCommand { get; set; }
+
+        void AddFavorite()
+        {
+            AddFavoriteCommand = new CommandBase((parameter, command) =>
+            {
+                var file = parameter as string;
+                if (parameter == null)
+                    return;
+                                
+                Model.Window.OpenFavorites();
+
+                var control = Model.Window.FavoritesTab.Content as FavoritesControl;
+                var fav = control.FavoritesModel;
+
+                fav.AddFavorite(null, new FavoriteItem {File = file} );
+                fav.SaveFavorites();
             }, (p, c) => true);
         }
 

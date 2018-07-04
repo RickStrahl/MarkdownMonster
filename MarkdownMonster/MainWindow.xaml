@@ -61,6 +61,8 @@
             <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}"/>
             <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document"  Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}" CommandParameter="AllBut" />
             <Separator/>
+            <MenuItem Name="MenuAddFavoriteTab" Header="Add to Favorites"  Command="{Binding DataContext.Commands.AddFavoriteCommand}" CommandParameter="{Binding DataContext.ActiveDocument.Filename}" />
+            <Separator />
             <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Command="{Binding DataContext.Commands.CommandWindowCommand}"  />
             <MenuItem Name="ContextOpenInFolder" Header="Show in Explorer" Command="{Binding DataContext.Commands.OpenInExplorerCommand}"  />
             <MenuItem Name="ContextOpenInFolderBrowser" Header="Show in Folder _Browser" Command="{Binding DataContext.Commands.OpenFolderBrowserCommand}" />
@@ -456,11 +458,6 @@
                         <Button Name="ToolButtonFavorites" Margin="7,0,0,0"  Click="Button_Handler" ToolTip="Favorite Files"                                
 					            fa:Awesome.Content="Star"  FontSize="15"
 					            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
-                            <Button.ContextMenu>
-                                <ContextMenu>
-                                    <localwindows:FavoritesControl x:Name="FavoritesContextMenu" />
-                                </ContextMenu>
-                            </Button.ContextMenu>
                         </Button>
 
                             <!--<Button  Margin="7,0,7,0"  Command="{Binding ShowFolderBrowserCommand}" 

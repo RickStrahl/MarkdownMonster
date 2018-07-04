@@ -48,18 +48,6 @@ namespace MarkdownMonster.Favorites
 
         
 
-        public string Description
-        {
-            get => _description;
-            set
-            {
-                if (value == _description) return;
-                _description = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _description;
-
 
 
         public bool IsFolder
@@ -75,7 +63,20 @@ namespace MarkdownMonster.Favorites
         private bool _isFolder;
 
 
+
         [JsonIgnore]
+        public FavoriteItem Parent
+        {
+            get { return _Parent; }
+            set
+            {
+                if (value == _Parent) return;
+                _Parent = value;
+                OnPropertyChanged(nameof(Parent));
+            }
+        }
+        private FavoriteItem _Parent;
+        
         public bool IsExpanded
         {
             get => _IsExpanded;
@@ -88,8 +89,54 @@ namespace MarkdownMonster.Favorites
         }
         private bool _IsExpanded;
 
+        [JsonIgnore]
+        public FavoriteDisplayState DisplayState
+        {
+            get { return _DisplayState; }
+            set { _DisplayState = value; }
+        }
+        private FavoriteDisplayState _DisplayState = new FavoriteDisplayState();
+
 
         public ObservableCollection<FavoriteItem> Items { get; set; } = new ObservableCollection<FavoriteItem>();
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+
+    public class FavoriteDisplayState : INotifyPropertyChanged
+    {
+        public bool IsSelected
+        {
+            get { return _IsSelected; }
+            set
+            {
+                if (value == _IsSelected) return;
+                _IsSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+        private bool _IsSelected;
+
+
+        public bool IsEditing
+        {
+            get { return _IsEditing; }
+            set
+            {
+                if (value == _IsEditing) return;
+                _IsEditing = value;
+                OnPropertyChanged(nameof(IsEditing));
+            }
+        }
+        private bool _IsEditing;
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

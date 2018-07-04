@@ -22,7 +22,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal">
-                <fa:FontAwesome Icon="Star" Foreground="SteelBlue" Height="16" Width="16" Margin="5,2,0,0" />
+                <fa:FontAwesome Icon="Bookmark" Foreground="GoldenRod" Height="16" Width="16" Margin="5,2,0,0" />
                 <!--<TextBlock fa:Awesome.Content="ListOl" Foreground="Khaki"  Height="16" Width="16" Margin="5,0,0,0" />-->
                 <TextBlock Height="Auto" 
 					   Text="Document Outline"  
