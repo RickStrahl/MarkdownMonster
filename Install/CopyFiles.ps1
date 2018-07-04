@@ -18,8 +18,10 @@ Remove-Item ${target}\*.xml
 
 # Want to ship main PDB but not any others
 Rename-Item ${target}\markdownmonster.pdb ${target}\markdownmonster.TPDB
+Rename-Item ${target}\Dragablz.pdb ${target}\Dragablz.tpdb
 Remove-Item ${target}\*.pdb
 Rename-Item ${target}\markdownmonster.TPDB ${target}\markdownmonster.pdb
+Rename-Item ${target}\Dragablz.tpdb ${target}\Dragablz.pdb
 
 get-childitem .\distribution\addins\*.pdb -Recurse | Remove-Item
 get-childitem .\distribution\addins\*.config -Recurse | Remove-Item

@@ -117,8 +117,8 @@
              controls:TextBoxHelper.SelectAllOnFocus="True"
              Opacity="0.7"             
              PreviewKeyDown="TextSearch_PreviewKeyUp"
-
              controls:TextBoxHelper.Watermark="Search Folder"  controls:TextBoxHelper.ClearTextButton="True" />
+
             <CheckBox IsChecked="{Binding SearchSubTrees}"
                       Click="CheckBox_Click" Content="Search subtrees"                      
                       Margin="17,0,10,10">

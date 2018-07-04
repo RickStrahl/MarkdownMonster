@@ -15,10 +15,37 @@ namespace MarkdownMonster.Favorites
 {
     public class FavoritesModel : INotifyPropertyChanged
     {
-        public ObservableCollection<FavoriteItem> Favorites = new ObservableCollection<FavoriteItem>();
+        
 
-        public AppModel Model { get;  }
-        public MainWindow Window { get; }
+        public ObservableCollection<FavoriteItem> Favorites
+        {
+            get => _favorites;
+            set
+            {
+                if (Equals(value, _favorites)) return;
+                _favorites = value;
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<FavoriteItem> _favorites = new ObservableCollection<FavoriteItem>();
+
+        public AppModel AppModel { get; set; }
+        public MainWindow Window { get; set; }
+
+        public static string FavoritesFile { get; set;  }
+
+        
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                if (value == _searchText) return;
+                _searchText = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _searchText;
 
         public FavoritesModel()
         {
@@ -26,21 +53,34 @@ namespace MarkdownMonster.Favorites
             //Window = Model.Window;
         }
 
+        static FavoritesModel()
+        {
+            FavoritesFile = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster-Favorites.json");
+            
+        }
+
+
+        /// <summary>
+        /// Loads Favorites from Favorties file in Common Folder
+        /// </summary>
+        /// <returns></returns>
         public bool LoadFavorites()
         {
-            var file = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster-Favorites.json");
-            if (!File.Exists(file))
+
+            if (!File.Exists(FavoritesFile))
             {
                 Favorites = new ObservableCollection<FavoriteItem>();
                 return true;
             }
 
-            var favorites = JsonSerializationUtils.DeserializeFromFile(file, typeof(ObservableCollection<FavoriteItem>), false) as
-                ObservableCollection<FavoriteItem>;
+            var favorites = JsonSerializationUtils.DeserializeFromFile(
+                                    FavoritesFile,
+                                    typeof(ObservableCollection<FavoriteItem>),
+                                    false) as ObservableCollection<FavoriteItem>;
 
             if (favorites == null)
             {
-                Favorites = new ObservableCollection<FavoriteItem>();                
+                Favorites = new ObservableCollection<FavoriteItem>();
                 return false;
             }
 
@@ -48,8 +88,16 @@ namespace MarkdownMonster.Favorites
             return true;
         }
 
-        
 
+
+        /// <summary>
+        /// Saves Favorites to the Favorites file in common folder
+        /// </summary>
+        /// <returns></returns>
+        public bool SaveFavorites()
+        {
+            return JsonSerializationUtils.SerializeToFile(Favorites, FavoritesFile, throwExceptions: false, formatJsonOutput: true);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

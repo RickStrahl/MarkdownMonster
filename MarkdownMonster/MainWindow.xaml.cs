@@ -135,6 +135,8 @@ namespace MarkdownMonster
         /// </summary>
         public TabItem PreviewTab { get; set;  }
 
+        public TabItem FavoritesTab { get; set; }
+
         private IEWebBrowserControl previewBrowser;
 
         StatusBarHelper StatusBarHelper { get;  }
@@ -517,6 +519,37 @@ namespace MarkdownMonster
             MenuItem mi = null;
             var lowlightColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#aaa"));
 
+
+            if (true)
+            {
+                var content = new StackPanel
+                {
+                    Orientation = Orientation.Vertical
+                };
+
+                // image/textblock panel
+                var panel = new StackPanel { Orientation = Orientation.Horizontal };
+                panel.Children.Add(new Image
+                {
+                    Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Star, Brushes.Goldenrod, 17),
+                    Height = 16                    
+                });
+                panel.Children.Add(new TextBlock
+                {
+                    Text = "Favorites...",
+                    FontWeight = FontWeights.SemiBold,
+                    Margin = new Thickness(5, 2, 0, 0)                    
+                });
+                content.Children.Add(panel);
+
+                mi = new MenuItem() {Header =content, Padding = new Thickness(0, 2, 0, 3) };
+                mi.Click += (o, args) => OpenFavorites();
+                contextMenu.Items.Add(mi);
+                contextMenu.Items.Add(new Separator());
+            }
+
+
+
             List<string> badFiles = new List<string>();
             foreach (string file in mmApp.Configuration.RecentDocuments)
             {
@@ -642,7 +675,7 @@ namespace MarkdownMonster
 
         }
 
-
+       
         void RestoreSettings()
         {
             var conf = mmApp.Configuration;
@@ -1609,17 +1642,14 @@ namespace MarkdownMonster
                 {
                     // Create the header as Icon and Text
                     var panel = new StackPanel { Orientation = Orientation.Horizontal };
-
                     panel.Children.Add(new Image { Source = tabHeaderIcon, Height = 16, Margin = new Thickness(4, 0, 4, 0) });
                     panel.Children.Add(new TextBlock { Text = tabHeaderText });
                     tabItem.Header = panel;
-
                 }
                 else if (!string.IsNullOrEmpty(tabHeaderText))
                     tabItem.Header = tabHeaderText;
 
-
-                ControlsHelper.SetHeaderFontSize(tabItem, 14);
+                //ControlsHelper.SetHeaderFontSize(tabItem, 14);
                 SidebarContainer.Items.Add(tabItem);
                 SidebarContainer.SelectedItem = tabItem;
             }
@@ -1709,6 +1739,23 @@ namespace MarkdownMonster
         public void UpdateDocumentOutline(int editorLineNumber = -1)
         {
             DocumentOutline?.RefreshOutline(editorLineNumber);
+        }
+
+        public void OpenFavorites()
+        {
+            if (FavoritesTab == null)
+            {
+                FavoritesTab = new MetroTabItem();
+                var favorites = new FavoritesControl();                
+                FavoritesTab.Content = favorites;
+                AddLeftSidebarPanelTabItem(FavoritesTab,"Favorites",ImageAwesome.CreateImageSource(FontAwesomeIcon.Star,Brushes.Goldenrod,11));
+            }
+
+            SidebarContainer.SelectedItem = FavoritesTab;
+            WindowUtilities.DoEvents();
+
+            var control = FavoritesTab.Content as FavoritesControl;            
+            control?.TextSearch.Focus();
         }
 
         #endregion
@@ -1977,6 +2024,12 @@ namespace MarkdownMonster
             var button = sender;
             if (button == null)
                 return;
+
+
+            if (button == ToolButtonFavorites)
+            {
+                OpenFavorites();
+            }
 
             if (button == ButtonOpenFromHtml)
             {

@@ -75,6 +75,20 @@ namespace MarkdownMonster.Favorites
         private bool _isFolder;
 
 
+        [JsonIgnore]
+        public bool IsExpanded
+        {
+            get => _IsExpanded;
+            set
+            {
+                if (value == _IsExpanded) return;
+                _IsExpanded = value;
+                OnPropertyChanged(nameof(IsExpanded));
+            }
+        }
+        private bool _IsExpanded;
+
+
         public ObservableCollection<FavoriteItem> Items { get; set; } = new ObservableCollection<FavoriteItem>();
         public event PropertyChangedEventHandler PropertyChanged;
 

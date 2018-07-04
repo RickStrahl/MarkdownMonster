@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="MarkdownMonster.Windows.FavoritesControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
+             xmlns:windows="clr-namespace:MarkdownMonster.Windows"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="500">
+    <UserControl.Resources>
+        <windows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
+        <windows:FullFolderNameFromPathConverter x:Key="FullFolderNameFromPathConverter" />
+        <windows:FavoritesTitleConverter x:Key="FavoritesTitleConverter" />
+        <windows:FavoritesIconConverter x:Key="FavoritesIconConverter"  />
+        <HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Items}" >
+            <HierarchicalDataTemplate.Resources>
+            </HierarchicalDataTemplate.Resources>
+            <!--<Grid  Width="300" >-->
+            <Button Cursor="Hand" Background="Transparent" Name="ButtonFavorite"
+                    Click="ButtonFavorite_Click"
+            >
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent" x:Name="BorderBg" Padding="5,4,20,5">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="{DynamicResource SubmenuItemBackgroundHighlighted}"  TargetName="BorderBg"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                        <Image Source="{Binding .,Converter={StaticResource FavoritesIconConverter}}" Width="16" Margin="0,0,7,0"/>
+                        <TextBlock  Text="{Binding ., Converter={StaticResource FavoritesTitleConverter }}" FontSize="16"  FontWeight="SemiBold" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding File}" FontStyle="Italic" FontSize="11" FontWeight="Normal" Margin="25,0,0,0" Foreground="#bbb"
+                           mah:VisibilityHelper.IsCollapsed="{Binding IsFolder}"
+                           />
+                </StackPanel>
+            </Button>
+            <!--</Grid>-->
+        </HierarchicalDataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <Grid Background="{StaticResource SidebarHeaderBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <fa:FontAwesome Icon="Bookmark" Foreground="Goldenrod" Height="16" Width="16" Margin="5,2,0,0" />
+                <!--<TextBlock fa:Awesome.Content="ListOl" Foreground="Khaki"  Height="16" Width="16" Margin="5,0,0,0" />-->
+                <TextBlock Height="Auto" 
+                           Text="Favorites"  
+                           FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
+            </StackPanel>
+
+            <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
+                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="3"  
+                     Name="ButtonClosePanel" BorderThickness="0" FontSize="12"                     
+                     ToolTip="Close Sidebar Panel" 
+                     Command="{Binding AppModel.Commands.CloseLeftSidebarPanelCommand}" />
+        </Grid>
+
+        <TextBox x:Name="TextSearch"  Margin="10,10,10,5" Grid.Row="1"             
+                 Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
+                 BorderThickness="0.3"
+                 mah:TextBoxHelper.SelectAllOnFocus="True"
+                 Opacity="0.8"  FontSize="14" FontWeight="Normal"                    
+                 mah:TextBoxHelper.Watermark="Search Favorites" 
+                 mah:TextBoxHelper.ClearTextButton="True" />
+
+        <TreeView Grid.Row="2" x:Name="TreeFolderBrowser"
+                  ItemTemplate="{StaticResource FolderTemplate}"                   
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"                   
+                  ItemsSource="{Binding Favorites}"  
+                  BorderThickness="0">
+            <TreeView.ContextMenu>
+                <ContextMenu />
+            </TreeView.ContextMenu>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <!-- We have to select the item which is right-clicked on -->
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
+    </Grid>
+</UserControl>

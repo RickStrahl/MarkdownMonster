@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.12.4
+### 1.12.5
 <small>not released yet</small>
 
 * **Import CSV files into the Markdown Table Editor**  

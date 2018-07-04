@@ -453,7 +453,17 @@
                             </i:Interaction.Behaviors>-->
                         </Button>
 
-						<!--<Button  Margin="7,0,7,0"  Command="{Binding ShowFolderBrowserCommand}" 
+                        <Button Name="ToolButtonFavorites" Margin="7,0,0,0"  Click="Button_Handler" ToolTip="Favorite Files"                                
+					            fa:Awesome.Content="Star"  FontSize="15"
+					            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <localwindows:FavoritesControl x:Name="FavoritesContextMenu" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+
+                            <!--<Button  Margin="7,0,7,0"  Command="{Binding ShowFolderBrowserCommand}" 
 						         ToolTip="Toggle Folder Browser Pane (alt-v-f)"                                
 						         fa:Awesome.Content="FilesOutline" 			
 								 FontSize="15" 
