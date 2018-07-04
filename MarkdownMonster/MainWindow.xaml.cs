@@ -121,7 +121,7 @@ namespace MarkdownMonster
         /// <summary>
         /// The Preview Browser Container Grid that contains the
         /// Web Browser control that handles the Document tied
-        /// preview. 
+        /// preview.
         /// </summary>
         public Grid PreviewBrowserContainer { get; set; }
 
@@ -140,7 +140,7 @@ namespace MarkdownMonster
         StatusBarHelper StatusBarHelper { get;  }
 
         public MainWindow()
-        {            
+        {
             InitializeComponent();
 
             Model = new AppModel(this);
@@ -201,12 +201,12 @@ namespace MarkdownMonster
                     {
                         mmApp.Log("Handled: Unable to copy file to temp folder.", ex);
                     }
-                }                
+                }
 
                 mmApp.Configuration.ApplicationUpdates.FirstRun = false;
             }
 
-            BindTabHeaders();            
+            BindTabHeaders();
             SetWindowTitle();
 
             if (mmApp.Configuration.IsPreviewVisible)
@@ -215,7 +215,7 @@ namespace MarkdownMonster
                 ToolButtonPreview.IsChecked = true;
                 //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
             }
-            
+
             var left = Left;
             Left = 300000;
 
@@ -426,8 +426,6 @@ namespace MarkdownMonster
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            base.OnClosing(e);
-
             _previewBrowserWindow?.Close();
             _previewBrowserWindow = null;
 
@@ -441,14 +439,14 @@ namespace MarkdownMonster
 
             if (!CloseAllTabs())
             {
-                //Show();
+                // tab closing was cancelled
+                Show();
                 e.Cancel = true;
                 return;
             }
 
+            Top -= 10000;  // quickest way to hide
             Hide();
-
-            Top -= 10000;
 
             if (mmApp.Configuration.UseSingleWindow)
             {
@@ -464,14 +462,13 @@ namespace MarkdownMonster
             else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 100)
                 displayCount = 2;
             else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
-                displayCount = 4;
-
+                displayCount = 5;
             if (!isNewVersion &&
                 mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
                 !UnlockKey.IsRegistered())
             {
                 Hide();
-                Top += 10000;
+                Top += 10000;  // so registerdialog pops into old space
                 var rd = new RegisterDialog();
                 rd.Owner = this;
                 rd.ShowDialog();
@@ -502,15 +499,15 @@ namespace MarkdownMonster
         }
 
 
-        
+
         /// <summary>
         /// Creates/Updates the Recent Items Context list
         /// from recent file and recent folder configuration
         /// </summary>
         public void UpdateRecentDocumentsContextMenu(RecentFileDropdownModes mode)
         {
-            var contextMenu = new ContextMenu {FontSize = 12.5, Padding= new Thickness(8)};                       
-            
+            var contextMenu = new ContextMenu {FontSize = 12.5, Padding= new Thickness(8)};
+
             if (mode == RecentFileDropdownModes.MenuDropDown)
                 ButtonRecentFiles.Items.Clear();
             else if (mode == RecentFileDropdownModes.ToolbarDropdown)
@@ -529,9 +526,9 @@ namespace MarkdownMonster
                     continue;
                 }
 
-                var fileOnly = Path.GetFileName(file).Replace("_", "__"); 
+                var fileOnly = Path.GetFileName(file).Replace("_", "__");
                 var path = Path.GetDirectoryName(file).Replace("_", "__");
-                
+
                 var content = new StackPanel
                 {
                     Orientation = Orientation.Vertical
@@ -543,7 +540,7 @@ namespace MarkdownMonster
                 {
                     Source = icon.GetIconFromFile(file),
                     Height=14
-                });                
+                });
                 panel.Children.Add(new TextBlock
                 {
                     Text = fileOnly,
@@ -558,7 +555,7 @@ namespace MarkdownMonster
                     Text = path,
                     FontStyle = FontStyles.Italic,
                     FontSize = 10.25,
-                    //Margin = new Thickness(0, 2, 0, 0),                    
+                    //Margin = new Thickness(0, 2, 0, 0),
                     Foreground = lowlightColor
                 });
 
@@ -567,16 +564,16 @@ namespace MarkdownMonster
                 {
                     Header = content,
                     Command = Model.Commands.OpenRecentDocumentCommand,
-                    CommandParameter = file,                    
+                    CommandParameter = file,
                     Padding = new Thickness(0,2,0,3)
                 };
-        
+
                 if (mode == RecentFileDropdownModes.ToolbarDropdown)
                     contextMenu.Items.Add(mi);
                 else
                     ButtonRecentFiles.Items.Add(mi);
             }
-            
+
             foreach (var file in badFiles)
                 mmApp.Configuration.RecentDocuments.Remove(file);
 
@@ -597,7 +594,7 @@ namespace MarkdownMonster
                 {
                     var pathOnly = Path.GetFileName(folder).Replace("_", "__");
                     var path = folder.Replace("_", "__");
-                    
+
                     var content = new StackPanel()
                     {
                         Orientation = Orientation.Vertical
@@ -617,7 +614,7 @@ namespace MarkdownMonster
                         Margin = new Thickness(5, 0, 0, 0)
                     });
                     content.Children.Add(panel);
-                    
+
                     content.Children.Add(new TextBlock
                     {
                         Text = path,
@@ -640,7 +637,7 @@ namespace MarkdownMonster
                     else
                         ButtonRecentFiles.Items.Add(mi);
                 }
-              
+
             }
 
         }
@@ -685,7 +682,7 @@ namespace MarkdownMonster
 
                         if (doc.IsActive)
                         {
-                            selectedTab = tab;                           
+                            selectedTab = tab;
 
                             // have to explicitly notify initial activation
                             // since we surpress it on all tabs during startup
@@ -701,7 +698,7 @@ namespace MarkdownMonster
                 else
                     TabControl.SelectedItem = selectedTab;
 
-                
+
                 BindTabHeaders();
 
             }
@@ -727,7 +724,7 @@ namespace MarkdownMonster
         public void SaveSettings()
         {
             var config = mmApp.Configuration;
-            
+
             if (Model != null)
                 config.IsPreviewVisible = Model.IsPreviewBrowserVisible;
             config.WindowPosition.IsTabHeaderPanelVisible = true;
@@ -758,27 +755,41 @@ namespace MarkdownMonster
             config.OpenDocuments.Clear();
             if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
-                // Important: collect all open tabs in the **original tab order**
-                foreach(var dragablzItem in TabControl.GetOrderedHeaders())                        
-                { 
-                    if (dragablzItem == null)
-                        continue;
-                    
-                    var tab = dragablzItem.Content as TabItem;
+                // TODO: Try to isolate why this code is failing
+                IEnumerable<DragablzItem> headers = null;
+                try
+                {
+                    headers = TabControl.GetOrderedHeaders();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log("TabControl.GetOrderedHeaders() failed. Skip saving tabs.", ex);
+                }
 
-                    var editor = tab.Tag as MarkdownDocumentEditor;
-                    var doc = editor?.MarkdownDocument;
-                    if (doc == null)
-                        continue;
+                if (headers != null)
+                {
+                    // Important: collect all open tabs in the **original tab order**
+                    foreach (var dragablzItem in headers)
+                    {
+                        if (dragablzItem == null)
+                            continue;
 
-                    
-                    doc.LastEditorLineNumber = editor.GetLineNumber();
-                    if (doc.LastEditorLineNumber < 1)
-                        doc.LastEditorLineNumber = editor.InitialLineNumber; // if document wasn't accessed line is never set
-                    if (doc.LastEditorLineNumber < 0)
-                        doc.LastEditorLineNumber = 0;
+                        var tab = dragablzItem.Content as TabItem;
 
-                    config.OpenDocuments.Add(doc);
+                        var editor = tab.Tag as MarkdownDocumentEditor;
+                        var doc = editor?.MarkdownDocument;
+                        if (doc == null)
+                            continue;
+
+                        doc.LastEditorLineNumber = editor.GetLineNumber();
+                        if (doc.LastEditorLineNumber < 1)
+                            doc.LastEditorLineNumber =
+                                editor.InitialLineNumber; // if document wasn't accessed line is never set
+                        if (doc.LastEditorLineNumber < 0)
+                            doc.LastEditorLineNumber = 0;
+
+                        config.OpenDocuments.Add(doc);
+                    }
                 }
 
                 // now figure out which were recent
@@ -793,7 +804,7 @@ namespace MarkdownMonster
                 }
                 foreach (var remove in removeList)
                     config.OpenDocuments.Remove(remove);
-            }                            
+            }
 
             config.Write();
         }
@@ -847,17 +858,17 @@ namespace MarkdownMonster
         ///  <param name="rebindTabHeaders">
         ///  Rebinds the headers which should be done whenever a new Tab is
         ///  manually opened and added but not when opening in batch.
-        /// 
+        ///
         ///  Checks to see if multiple tabs have the same filename open and
         ///  if so displays partial path.
-        /// 
+        ///
         ///  New Tabs are opened at the front of the tab list at index 0
         ///  </param>
         /// <param name="batchOpen"></param>
         /// <param name="initialLineNumber"></param>
         /// <param name="readOnly"></param>
         /// <param name="noFocus"></param>
-        /// <param name="isPreview"></param>        
+        /// <param name="isPreview"></param>
         /// <returns></returns>
         public TabItem OpenTab(string mdFile = null,
             MarkdownDocumentEditor editor = null,
@@ -878,7 +889,7 @@ namespace MarkdownMonster
 
             var tab = new TabItem();
             tab.Background = Background;
-            
+
             ControlsHelper.SetHeaderFontSize(tab, 13F);
 
             if (editor == null)
@@ -972,7 +983,7 @@ namespace MarkdownMonster
                     }
                 }
 
-                editor.MarkdownDocument = doc;                
+                editor.MarkdownDocument = doc;
                 SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
                 tab.ToolTip = doc.Filename;
             }
@@ -1006,7 +1017,7 @@ namespace MarkdownMonster
             if (existingTab != null)
                 TabControl.Items.Remove(existingTab);
 
-            tab.IsSelected = false;            
+            tab.IsSelected = false;
             TabControl.Items.Insert(0, tab);
 
 
@@ -1070,7 +1081,7 @@ namespace MarkdownMonster
 
             // handle preview tab closing
             if (PreviewTab != null && tab != PreviewTab)
-            {                
+            {
                 if (PreviewTab.Tag == null)
                     CloseTab(PreviewTab); // browser preview
                 else
@@ -1098,10 +1109,10 @@ namespace MarkdownMonster
         /// <summary>
         /// Refreshes an already loaded tab with contents of a new (or the same file) file
         /// by just replacing the document's text.
-        /// 
+        ///
         /// If the tab is not found a new tab is opened.
-        /// 
-        /// Note: File must already be open for this to work                
+        ///
+        /// Note: File must already be open for this to work
         /// </summary>
         /// <param name="editorFile">File name to display int the tab</param>
         /// <param name="maintainScrollPosition">If possible preserve scroll position if refreshing</param>
@@ -1145,7 +1156,7 @@ namespace MarkdownMonster
             if (!noFocus)
                 editor.SetEditorFocus();
             editor.IsPreview = isPreview;
-            
+
             if (!noPreview)
                 PreviewMarkdownAsync();
 
@@ -1174,8 +1185,8 @@ namespace MarkdownMonster
 
             if (PreviewTab == null)
             {
-                PreviewTab = new TabItem();                                
-                
+                PreviewTab = new TabItem();
+
                 var grid = new Grid();
                 PreviewTab.Header = grid;
                 var col1 = new ColumnDefinition { Width = new GridLength(20) };
@@ -1233,12 +1244,12 @@ namespace MarkdownMonster
 
                 var grid  = PreviewTab.Header as Grid;
 
-                
+
                 var imgCtrl = grid.Children[0] as Image; //.FindChild<Image>("IconImage");
                 imgCtrl.Source = icon;
                 var header = grid.Children[1] as TextBlock;  // FindChild<TextBlock>("HeaderText");
                 header.Text = tabHeaderText;
-                
+
 
             }
             PreviewTab.ToolTip = url;
@@ -1266,8 +1277,8 @@ namespace MarkdownMonster
 
                     var content = File.ReadAllText(file).Replace("{{imageUrl}}", url).Replace("{{fileInfo}}",fileInfo);
                     File.WriteAllText(file.Replace("ImagePreview.html", "_ImagePreview.html"), content);
-                    url= Path.Combine(App.InitialStartDirectory, "PreviewThemes", "_ImagePreview.html");                    
-                }                    
+                    url= Path.Combine(App.InitialStartDirectory, "PreviewThemes", "_ImagePreview.html");
+                }
 
                 previewBrowser.Navigate(url);
             }
@@ -1436,7 +1447,7 @@ namespace MarkdownMonster
 
             if (filename == "Preview")
                 return PreviewTab;
-            
+
             TabItem tab = null;
             foreach (TabItem tabItem in TabControl.Items.Cast<TabItem>())
             {
@@ -1529,7 +1540,7 @@ namespace MarkdownMonster
                 };
                 img.SetValue(Grid.ColumnProperty, 0);
                 grid.Children.Add(img);
-               
+
 
                 var textBlock = new TextBlock();
                 textBlock.SetValue(Grid.ColumnProperty, 1);
@@ -1563,7 +1574,7 @@ namespace MarkdownMonster
 
 
 
-                grid.Children.Add(textBlock);                
+                grid.Children.Add(textBlock);
             }
             catch (Exception ex)
             {
@@ -1598,7 +1609,7 @@ namespace MarkdownMonster
                 {
                     // Create the header as Icon and Text
                     var panel = new StackPanel { Orientation = Orientation.Horizontal };
-                                        
+
                     panel.Children.Add(new Image { Source = tabHeaderIcon, Height = 16, Margin = new Thickness(4, 0, 4, 0) });
                     panel.Children.Add(new TextBlock { Text = tabHeaderText });
                     tabItem.Header = panel;
@@ -1662,13 +1673,13 @@ namespace MarkdownMonster
                 var editor = GetActiveMarkdownEditor();
                 if (editor == null)
                     return;
-               
+
                 if (Model.Configuration.ShowFullDocPathInTitlebar)
                     title = editor.MarkdownDocument.Filename;
                 else
                     title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*", "");
             }
-            
+
             Title = title +
                     "  - Markdown Monster" +
                     (UnlockKey.Unlocked ? "" : " (unregistered)");
@@ -2004,11 +2015,11 @@ namespace MarkdownMonster
             //}
             else if (button == ToolbarButtonRecentFiles)
             {
-                var mi = button as Button;                
+                var mi = button as Button;
                 UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.ToolbarDropdown);
                 if(mi.ContextMenu != null)
                     mi.ContextMenu.IsOpen = true;
-                e.Handled = true;                
+                e.Handled = true;
             }
             else if (button == ButtonExit)
             {
@@ -2036,8 +2047,8 @@ namespace MarkdownMonster
             {
                 ShowStatus("Checking for new version...");
                 if (!CheckForNewVersion(true, timeout: 5000))
-                {                    
-                    ShowStatusSuccess("Your version of Markdown Monster is up to date.");                   
+                {
+                    ShowStatusSuccess("Your version of Markdown Monster is up to date.");
                     MessageBox.Show(
                         "Your version of Markdown Monster is v" + mmApp.GetVersion() + " and you are up to date.",
                         mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -2157,7 +2168,7 @@ namespace MarkdownMonster
             }
         }
 
-      
+
 
         #endregion
 
@@ -2217,7 +2228,7 @@ namespace MarkdownMonster
             if (DateTime.UtcNow < mmApp.Started.AddSeconds(5))
                 return;
 
-            if (mmApp.Configuration.ApplicationTheme == Themes.Default)            
+            if (mmApp.Configuration.ApplicationTheme == Themes.Default)
                 mmApp.Configuration.ApplicationTheme = Themes.Dark;
 
 
@@ -2298,7 +2309,7 @@ namespace MarkdownMonster
                 Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }), DispatcherPriority.ApplicationIdle);
             });
         }
-        
+
         public List<MenuItem> GenerateContextMenuItemsFromOpenTabs(ContextMenu ctx = null)
         {
             var menuItems = new List<MenuItem>();
@@ -2500,7 +2511,7 @@ namespace MarkdownMonster
                 if (!exists)
                     header = header + " ↆ";
 
-                var menuItem = new MenuItem() 
+                var menuItem = new MenuItem()
                 {
                     Header = header,
                     Tag = fname,
@@ -2512,7 +2523,7 @@ namespace MarkdownMonster
                     menuItem.IsCheckable = true;
                     menuItem.IsChecked = true;
                 }
-                              
+
                 ctx.Items.Add(menuItem);
             }
 
