@@ -7,7 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Markdig.Parsers;
 using MarkdownMonster.Windows;
+using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -266,6 +268,25 @@ namespace MarkdownMonster
                             Model.ActiveEditor.EditorSelectionOperation("hyperlink", val);
                         };
                         ContextMenu.Items.Add(mi2);
+
+                        if (val.Contains("](#"))
+                        {
+                            mi2 = new MenuItem
+                            {
+                                Header = "Jump to Anchor"
+                            };
+                            mi2.Click += (o, args) =>
+                            {
+                                var anchor = StringUtils.ExtractString(val, "](#", ")");
+                                
+                                var docModel = new DocumentOutlineModel();
+                                int lineNo =docModel.FindHeaderHeadline(Model.ActiveEditor?.GetMarkdown(), anchor);
+
+                                if (lineNo != -1)
+                                    Model.ActiveEditor.GotoLine(lineNo);
+                            };
+                            ContextMenu.Items.Add(mi2);
+                        }
 
                         var mi = new MenuItem
                         {
