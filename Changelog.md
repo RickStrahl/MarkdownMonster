@@ -10,6 +10,9 @@
 ### 1.12.5
 <small>not released yet</small>
 
+* **Favorites**  
+You can now select files and folders as favorites for easy access. Favorites are accessible from the toolbar and the recents menu and you can add Favorites from the tab header. A new **Favorites** sidebar lets you select and add/edit/delete favorites as well as select and open favorites.
+
 * **Import CSV files into the Markdown Table Editor**  
 You can now import CSV files into the Markdown Table editor using a button on the toolbar.
 
