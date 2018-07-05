@@ -71,7 +71,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal">
-                <fa:FontAwesome Icon="Bookmark" Foreground="Goldenrod" Height="16" Width="16" Margin="5,2,0,0" />
+                <fa:FontAwesome Icon="Star" Foreground="Goldenrod" Height="16" Width="16" Margin="5,2,0,0" />
                 <!--<TextBlock fa:Awesome.Content="ListOl" Foreground="Khaki"  Height="16" Width="16" Margin="5,0,0,0" />-->
                 <TextBlock Height="Auto" 
                            Text="Favorites (preview)"  
@@ -105,23 +105,15 @@
 
         <TextBox x:Name="TextSearch"  Margin="10,10,10,5" Grid.Row="1"             
                  Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
-                 BorderThickness="0.3"
+                 BorderThickness="0.3" Padding="1"
                  mah:TextBoxHelper.SelectAllOnFocus="True"
-                 Opacity="0.8"  FontSize="14" FontWeight="Normal"                    
+                 Opacity="0.8"  FontSize="13" FontWeight="Normal"    
+                 PreviewKeyUp="TextSearch_PreviewKeyUp"
                  mah:TextBoxHelper.Watermark="Search Favorites" 
                  mah:TextBoxHelper.ClearTextButton="True" />
 
         <StackPanel Name="EditPanel" Grid.Row="2"
                     mah:VisibilityHelper.IsVisible="{Binding  EditedFavorite.DisplayState.IsEditing}">
-
-
-            <!--<Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>-->
 
             <Grid Background="{StaticResource SidebarHeaderBackground}" Margin="0,8">
                 <Grid.ColumnDefinitions>
@@ -183,8 +175,9 @@
                     <!--<EventSetter Event="PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>-->
                     <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeFavorites_PreviewMouseLeftButtonDown"/>
                     <!-- We have to select the item which is right-clicked on -->
-                    <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding DisplayState.IsSelected}" />
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                    <Setter Property="mah:VisibilityHelper.IsVisible" Value="{Binding DisplayState.IsVisible}" />
                     <EventSetter Event="Drop" Handler="TreeViewItem_Drop" />
                 </Style>
             </TreeView.ItemContainerStyle>

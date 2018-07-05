@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -247,11 +248,15 @@ namespace MarkdownMonster.Windows
 
         private void TreeViewItem_Drop(object sender, DragEventArgs e)
         {
+
+            Debug.WriteLine("TreeViewDrop...");
+
             FavoriteItem targetItem;
 
             if (sender is TreeView)
             {
                 // dropped into treeview open space
+                e.Handled = true;
                 return; //targetItem = ActivePathItem;
             }
             else
@@ -262,7 +267,7 @@ namespace MarkdownMonster.Windows
             }
             e.Handled = true;
 
-            
+
             //  "path|title"
             var path = e.Data.GetData(DataFormats.UnicodeText) as string;
             if (string.IsNullOrEmpty(path))
@@ -273,6 +278,8 @@ namespace MarkdownMonster.Windows
             var sourceItem = FavoritesModel.FindFavoriteByFilename(FavoritesModel.Favorites, tokens[0], tokens[1]);
             if (sourceItem == null)
                 return;
+
+            WindowUtilities.DoEvents();
 
             var parentList = sourceItem.Parent?.Items;
             if (parentList == null)
@@ -321,5 +328,10 @@ namespace MarkdownMonster.Windows
         }
 
         #endregion
+
+        private void TextSearch_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            FavoritesModel.LoadFavorites();            
+        }
     }
 }

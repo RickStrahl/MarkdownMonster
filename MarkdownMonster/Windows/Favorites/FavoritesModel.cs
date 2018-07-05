@@ -29,7 +29,6 @@ namespace MarkdownMonster.Favorites
         }
         private ObservableCollection<FavoriteItem> _favorites = new ObservableCollection<FavoriteItem>();
 
-        
         public FavoriteItem EditedFavorite
         {
             get => _editedFavorite;
@@ -70,7 +69,6 @@ namespace MarkdownMonster.Favorites
         static FavoritesModel()
         {
             FavoritesFile = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster-Favorites.json");
-            
         }
 
 
@@ -80,7 +78,6 @@ namespace MarkdownMonster.Favorites
         /// <returns></returns>
         public bool LoadFavorites()
         {
-
             if (!File.Exists(FavoritesFile))
             {
                 Favorites = new ObservableCollection<FavoriteItem>();
@@ -100,9 +97,43 @@ namespace MarkdownMonster.Favorites
             }
 
             UpdateParents(favorites, null);
+
+            FilterList(favorites);
             
             Favorites = favorites;
+            
             return true;
+        }
+
+        void FilterList(ObservableCollection<FavoriteItem> favorites)
+        {
+            foreach (var fav in favorites)
+            {
+                if (string.IsNullOrEmpty(SearchText))
+                    fav.DisplayState.IsVisible = true;
+                else if (!string.IsNullOrEmpty(fav.File) &&
+                         fav.File.IndexOf(SearchText, StringComparison.InvariantCultureIgnoreCase) > -1)
+                    fav.DisplayState.IsVisible = true;
+                else if(!string.IsNullOrEmpty(fav.Title) && fav.Title.IndexOf(SearchText, StringComparison.InvariantCultureIgnoreCase) > -1)
+                    fav.DisplayState.IsVisible = true;
+                else
+                    fav.DisplayState.IsVisible = false;
+
+                // make parents visible
+                if (fav.DisplayState.IsVisible)
+                {
+                    // make all the parents visible too
+                    var parent = fav.Parent;
+                    while (parent != null)
+                    {
+                        parent.DisplayState.IsVisible = true;
+                        parent = parent.Parent;
+                    }
+                }
+
+                if (fav.Items.Count > 0)
+                    FilterList(fav.Items);
+            }
         }
 
         void UpdateParents(ObservableCollection<FavoriteItem> favorites, FavoriteItem parent)

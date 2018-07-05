@@ -95,8 +95,13 @@ namespace MarkdownMonster.Favorites
             get { return _DisplayState; }
             set { _DisplayState = value; }
         }
-        private FavoriteDisplayState _DisplayState = new FavoriteDisplayState();
 
+        private FavoriteDisplayState _DisplayState;
+
+        public FavoriteItem()
+        {
+            DisplayState = new FavoriteDisplayState(this);
+        }
 
         public ObservableCollection<FavoriteItem> Items { get; set; } = new ObservableCollection<FavoriteItem>();
         public event PropertyChangedEventHandler PropertyChanged;
@@ -111,6 +116,13 @@ namespace MarkdownMonster.Favorites
 
     public class FavoriteDisplayState : INotifyPropertyChanged
     {
+        public FavoriteItem Favorite;
+
+        public FavoriteDisplayState(FavoriteItem favoriteItem)
+        {
+            
+        }
+
         public bool IsSelected
         {
             get { return _IsSelected; }
@@ -135,6 +147,19 @@ namespace MarkdownMonster.Favorites
             }
         }
         private bool _IsEditing;
+
+
+        public bool IsVisible
+        {
+            get { return _IsVisible; }
+            set
+            {
+                if (value == _IsVisible) return;
+                _IsVisible = value;
+                OnPropertyChanged(nameof(IsVisible));                                
+            }
+        }
+        private bool _IsVisible = true;
 
 
         public event PropertyChangedEventHandler PropertyChanged;
