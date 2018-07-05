@@ -441,9 +441,8 @@ namespace MarkdownMonster
 
             if (!CloseAllTabs())
             {
-                // tab closing was cancelled
-                Show();
-                e.Cancel = true;
+                // tab closing was cancelled                
+                e.Cancel = true;                
                 return;
             }
 
