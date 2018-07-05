@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MarkdownMonster.Controls;
 using MarkdownMonster.Favorites;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MarkdownMonster.Windows
 {
@@ -179,5 +181,149 @@ namespace MarkdownMonster.Windows
         {
             FavoritesModel.AppModel.Window.OpenTab(FavoritesModel.FavoritesFile);
         }
+
+        private void ButtonFileSelection_Click(object sender, RoutedEventArgs e)
+        {
+            string folder = mmApp.Configuration.LastFolder;
+            if (FavoritesModel.EditedFavorite?.File != null)
+                folder = System.IO.Path.GetDirectoryName(FavoritesModel.EditedFavorite.File);
+            
+            var dlg = new CommonOpenFileDialog();
+
+            dlg.Title = "Select a file for this Favorite";
+            dlg.InitialDirectory = folder;
+            dlg.RestoreDirectory = true;
+            dlg.ShowHiddenItems = true;
+            dlg.ShowPlacesList = true;
+            dlg.EnsurePathExists = true;
+
+            var result = dlg.ShowDialog();
+
+            if (result != CommonFileDialogResult.Ok)
+                return;
+
+            FavoritesModel.EditedFavorite.File = dlg.FileName;
+        }
+
+        #region Drag Operations
+
+        private System.Windows.Point startPoint;
+
+        private void TreeFavorites_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var item = ElementHelper.FindVisualTreeParent<TreeViewItem>(e.OriginalSource as FrameworkElement);
+            if (item != null)
+                item.IsSelected = true;
+
+            startPoint = e.GetPosition(null);
+        }
+
+        private void TreeViewItem_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var item = ElementHelper.FindVisualTreeParent<TreeViewItem>(e.OriginalSource as FrameworkElement);
+            if (item != null)
+                item.IsSelected = true;
+        }
+
+        private void TreeFavorites_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                var selected = TreeFavorites.SelectedItem as FavoriteItem;
+                if (selected == null)
+                    return;
+
+                var mousePos = e.GetPosition(null);
+                var diff = startPoint - mousePos;
+
+                if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance
+                    || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+                {
+                    var treeView = sender as TreeView;
+                    var treeViewItem = WindowUtilities.FindAnchestor<TreeViewItem>((DependencyObject)e.OriginalSource);
+                    if (treeView == null || treeViewItem == null)
+                        return;
+
+                    var dragData = new DataObject(DataFormats.UnicodeText, selected.File + "|" + selected.Title);
+                    DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.All);
+                }
+            }
+        }
+
+        private void TreeViewItem_Drop(object sender, DragEventArgs e)
+        {
+            FavoriteItem targetItem;
+
+            if (sender is TreeView)
+            {
+                // dropped into treeview open space
+                return; //targetItem = ActivePathItem;
+            }
+            else
+            {
+                targetItem = (e.OriginalSource as FrameworkElement)?.DataContext as FavoriteItem;
+                if (targetItem == null)
+                    return;
+            }
+            e.Handled = true;
+
+            
+            //  "path|title"
+            var path = e.Data.GetData(DataFormats.UnicodeText) as string;
+            if (string.IsNullOrEmpty(path))
+                return;
+
+            var tokens = path.Split('|');
+
+            var sourceItem = FavoritesModel.FindFavoriteByFilename(FavoritesModel.Favorites, tokens[0], tokens[1]);
+            if (sourceItem == null)
+                return;
+
+            var parentList = sourceItem.Parent?.Items;
+            if (parentList == null)
+                parentList = FavoritesModel.Favorites;
+
+            if (!parentList.Remove(sourceItem))
+            {
+                int x = 0;
+            }
+            parentList = null;
+            WindowUtilities.DoEvents();
+
+            if (targetItem.IsFolder)
+            {
+                // dropped on folder: Add below
+                parentList = targetItem.Items;
+                sourceItem.Parent = targetItem;
+            }
+            else
+            {
+                // Dropped on file: Add after
+                parentList = targetItem.Parent?.Items;
+                if (parentList == null)
+                {
+                    parentList = FavoritesModel.Favorites;
+                    sourceItem.Parent = null;
+                }
+                else
+                    sourceItem.Parent = targetItem.Parent;
+            }
+
+            var index = parentList.IndexOf(targetItem);
+            if (index < 0)
+                index = 0;
+            else
+                index++;
+
+            if(index >= parentList.Count)
+                parentList.Add(sourceItem);
+            else
+                parentList.Insert(index,sourceItem);
+            
+            WindowUtilities.DoEvents();
+            FavoritesModel.SaveFavorites();            
+        }
+
+        #endregion
     }
 }

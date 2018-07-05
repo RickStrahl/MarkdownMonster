@@ -39,7 +39,7 @@
                     </Button.Template>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <Image Source="{Binding .,Converter={StaticResource FavoritesIconConverter}}" Width="15" Margin="0,0,7,0"/>
+                            <Image Source="{Binding .,Converter={StaticResource FavoritesIconConverter}}" Width="14.5" Margin="0,3,7,0"/>
                             <TextBlock  Text="{Binding ., Converter={StaticResource FavoritesTitleConverter }}" FontSize="15"  FontWeight="SemiBold" />
                         </StackPanel>
                         <TextBlock Text="{Binding File}" FontStyle="Italic" FontSize="11" FontWeight="Normal" Margin="25,0,0,0" Foreground="#bbb"
@@ -81,7 +81,7 @@
             <Button  fa:Awesome.Content="PlusCircle" Background="Transparent" 
                      Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="1"  
                      Name="ButtonAddFavorite" BorderThickness="0" FontSize="12"                     
-                     ToolTip="Close Sidebar Panel" 
+                     ToolTip="Add new Favorite. You can edit and drag and drop it into position after creating." 
                      Click="ButtonAddFavorite_Click"
                       />
             <Button  fa:Awesome.Content="Refresh" Background="Transparent" 
@@ -93,7 +93,7 @@
             <Button  fa:Awesome.Content="PencilSquareOutline" Background="Transparent" 
                      Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="3"  
                      Name="ButtonEditList" BorderThickness="0" FontSize="12"                     
-                     ToolTip="Reload Favorites from disk" 
+                     ToolTip="Edit the Favorites JSON file" 
                      Click="ButtonEditList_Click"
             />
             <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
@@ -123,18 +123,44 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>-->
 
+            <Grid Background="{StaticResource SidebarHeaderBackground}" Margin="0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="PencilSquareOutline" Foreground="{DynamicResource BlueItem}" Height="16" Width="16" Margin="5,2,0,0" />
+                    <!--<TextBlock fa:Awesome.Content="ListOl" Foreground="Khaki"  Height="16" Width="16" Margin="5,0,0,0" />-->
+                    <TextBlock Height="Auto" 
+                               Text="Edit Favorite"  
+                               FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
+                </StackPanel>
+            </Grid>
+
             <TextBox Text="{Binding EditedFavorite.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                             
                      mah:TextBoxHelper.Watermark="Title" Foreground="LightSteelBlue"
-                     FontSize="14.5"  FontWeight="SemiBold" Margin="5,10,5,3" Width="Auto"/>
-            <TextBox Grid.Row="12" Text="{Binding EditedFavorite.File, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                     mah:TextBoxHelper.Watermark="File Name"  
-                     FontSize="12" FontWeight="Normal" Margin="5,3" 
-                     />
-            <CheckBox Grid.Row="2" IsChecked="{Binding EditedFavorite.IsFolder}" Content="Is Folder" 
+                     FontSize="14"  FontWeight="SemiBold" Margin="5,5,5,3" Width="Auto"/>
+            <Grid  Margin="5,3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Text="{Binding EditedFavorite.File, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                         mah:TextBoxHelper.Watermark="File Name"  
+                         FontSize="12" FontWeight="Normal" 
+                />
+                <Button Grid.Column="1" Padding="6,0" Margin="3,0,0,0" Click="ButtonFileSelection_Click">...</Button>
+            </Grid>
+            
+            <CheckBox IsChecked="{Binding EditedFavorite.IsFolder}" Content="Is Grouping" 
                       FontSize="12" FontWeight="Normal" Margin="5,3" />
-            <Button Grid.Row="3" Name="ButtonEditComplete" 
+
+            <Button Name="ButtonEditComplete" 
                     HorizontalAlignment="Left"
-                    Click="ButtonEditComplete_Click" Margin="5,7" Width="90">
+                    Click="ButtonEditComplete_Click" Margin="5,7" 
+                    FontSize="12"
+                    Width="80">
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Check" Foreground="LightGreen" Margin="0,3,5,0"/>
                     <TextBlock>Done</TextBlock>
@@ -146,15 +172,20 @@
         <TreeView Grid.Row="3" x:Name="TreeFavorites"
                   ItemTemplate="{StaticResource FolderTemplate}"                   
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  ItemsSource="{Binding Favorites}"  
+                  ItemsSource="{Binding Favorites}"                   
+                  PreviewMouseMove="TreeFavorites_MouseMove"
                   BorderThickness="0">
             <TreeView.ContextMenu>
                 <ContextMenu />
             </TreeView.ContextMenu>
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
+                    <EventSetter Event="PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>
                     <!-- We have to select the item which is right-clicked on -->
+                    <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                    <EventSetter Event="Drop" Handler="TreeViewItem_Drop" />
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>

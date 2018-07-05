@@ -151,7 +151,45 @@ namespace MarkdownMonster.Favorites
         /// <returns></returns>
         public bool SaveFavorites()
         {
-            return JsonSerializationUtils.SerializeToFile(Favorites, FavoritesFile, throwExceptions: false, formatJsonOutput: true);
+            bool result = JsonSerializationUtils.SerializeToFile(Favorites, FavoritesFile, throwExceptions: false, formatJsonOutput: true);
+            if (result)
+                // if we have the editor open show the change of the JSON file
+                AppModel?.Window?.CheckFileChangeInOpenDocuments();
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Searches the tree for a specific item
+        /// </summary>
+        /// <param name="parentList"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public FavoriteItem FindFavoriteByFilename(ObservableCollection<FavoriteItem> parentList, string file, string title)
+        {
+            string lowerFullName = (file + "|" + title).ToLowerInvariant();
+            
+            // Files first for perf
+            foreach (var item in parentList.Where(pi => !pi.IsFolder))
+            {
+                if (string.IsNullOrEmpty(item.File)) continue; // prevent placeholder errors
+                if ((item.File + "|" + item.Title).ToLowerInvariant()  == lowerFullName)
+                    return item;
+            }
+
+            // then directories recursively
+            foreach (var item in parentList.Where(pi => pi.IsFolder))
+            {
+                if (item.IsFolder && item.Items != null && item.Items.Count > 0)
+                {
+                    var childItem = FindFavoriteByFilename(item.Items, file, title);
+                    if (childItem != null)
+                        return childItem;
+                }
+            }
+
+            return null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
