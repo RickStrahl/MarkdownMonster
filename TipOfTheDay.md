@@ -19,6 +19,11 @@
 
 <!-- End Document Outline -->
 
+### Edit Images
+Did you know you can bring up your favorite image editor directly from your Markdown Document in Markdown Monster?
+
+Right click on an image link in the editor and choose 'Edit Image' to open the image in your selected editor. The editor can be configured in Settings and find common editors by default.
+
 ### Convert to Word Document
 Did you know you can use the PanDoc addin to easily create a Word document from your Markdown files? Use the Addin Manager to add the PanDoc addin then use Convert Markdown Document and select the Docx export. 
 
