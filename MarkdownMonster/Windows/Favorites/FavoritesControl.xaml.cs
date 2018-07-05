@@ -285,10 +285,7 @@ namespace MarkdownMonster.Windows
             if (parentList == null)
                 parentList = FavoritesModel.Favorites;
 
-            if (!parentList.Remove(sourceItem))
-            {
-                int x = 0;
-            }
+            parentList.Remove(sourceItem);
             parentList = null;
             WindowUtilities.DoEvents();
 
