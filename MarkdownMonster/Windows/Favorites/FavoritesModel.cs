@@ -147,7 +147,7 @@ namespace MarkdownMonster.Favorites
         }
 
 
-        public void AddFavorite(FavoriteItem baseItem, FavoriteItem favoriteToAdd = null)
+        public FavoriteItem AddFavorite(FavoriteItem baseItem, FavoriteItem favoriteToAdd = null)
         {
             if (favoriteToAdd == null)
             {
@@ -174,6 +174,18 @@ namespace MarkdownMonster.Favorites
                     parentItems.Insert(index + 1, favoriteToAdd);
                 }
             }
+
+            return favoriteToAdd;
+        }
+
+        public void DeleteFavorite(FavoriteItem favorite)
+        {
+            var parentList = favorite.Parent?.Items;
+            if (parentList == null)
+                parentList = Favorites;
+
+            parentList.Remove(favorite);
+            SaveFavorites();
         }
 
         /// <summary>
@@ -211,11 +223,11 @@ namespace MarkdownMonster.Favorites
             // then directories recursively
             foreach (var item in parentList.Where(pi => pi.IsFolder))
             {
+                if ((item.File + "|" + item.Title).ToLowerInvariant() == lowerFullName)
+                    return item;
+
                 if (item.IsFolder && item.Items != null && item.Items.Count > 0)
                 {
-                    if ((item.File + "|" + item.Title).ToLowerInvariant() == lowerFullName)
-                        return item;
-
                     var childItem = FindFavoriteByFilenameAndTitle(item.Items, file, title);
                     if (childItem != null)
                         return childItem;

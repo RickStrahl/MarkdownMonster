@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Windows.Data;
 using MarkdownMonster.Favorites;
 using MarkdownMonster.Utilities;
@@ -18,7 +19,7 @@ namespace MarkdownMonster.Windows
             string file = null;
             if (!string.IsNullOrEmpty(path))
                 file = System.IO.Path.GetFileName(path);
-           
+
             if (!string.IsNullOrEmpty(favorite.Title))
                 return favorite.Title;
 
@@ -49,6 +50,10 @@ namespace MarkdownMonster.Windows
                 file = "folder.openfolder";
             else
                 file = favorite.File;
+
+            var ext = Path.GetExtension(file);
+            if (string.IsNullOrEmpty(ext))
+                file = "folder.folder";
 
             return icons.GetIconFromFile(file);
         }

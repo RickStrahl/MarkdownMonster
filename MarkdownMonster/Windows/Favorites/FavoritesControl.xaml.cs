@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,8 +50,12 @@ namespace MarkdownMonster.Windows
             //},System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
 
-        
 
+        void StartEditing(FavoriteItem favorite)
+        {
+            FavoritesModel.EditedFavorite = favorite;
+            favorite.DisplayState.IsEditing = true;
+        }
 
         private void ButtonFavorite_Click(object sender, RoutedEventArgs e)
         {
@@ -68,55 +73,22 @@ namespace MarkdownMonster.Windows
                 return;
             }
 
-            FavoritesModel.AppModel.Commands.OpenRecentDocumentCommand.Execute(favorite.File);
-        }
-
-
-        private void AddFavorite(FavoriteItem baseItem, FavoriteItem favoriteToAdd = null)
-        {
-            if (favoriteToAdd == null)
-            {
-                favoriteToAdd = new FavoriteItem()
-                {
-                    Title = "New Favorite",
-                    File = "newFile.md"
-                };
-            }
-
-            if (baseItem == null)
-                FavoritesModel.Favorites.Insert(0,favoriteToAdd);
+            if (Directory.Exists(favorite.File))
+                FavoritesModel.AppModel.Commands.OpenFolderBrowserCommand.Execute(favorite.File);
             else
-            {
-                if(baseItem.IsFolder)
-                    baseItem.Items.Insert(0, favoriteToAdd);
-                else
-                {
-                    var parentItems = baseItem.Parent?.Items;
-                    if (parentItems == null)
-                        parentItems = FavoritesModel.Favorites;
-                    var index = parentItems.IndexOf(baseItem);
-                    parentItems.Insert(index + 1, favoriteToAdd);
-                }
-            }
+                FavoritesModel.AppModel.Commands.OpenRecentDocumentCommand.Execute(favorite.File);
         }
 
-        private void DeleteSelectedFavorite(FavoriteItem favorite)
-        {
-            var parentList = favorite.Parent?.Items;
-            if (parentList == null)
-                parentList = FavoritesModel.Favorites;
-
-            parentList.Remove(favorite);
-            FavoritesModel.SaveFavorites();
-        }
 
         private void ButtonAddFavorite_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as MenuItem;
             var favorite = button?.DataContext as FavoriteItem;
-
-            AddFavorite(favorite);
+            
+            favorite = FavoritesModel.AddFavorite(favorite);
             FavoritesModel.SaveFavorites();
+
+            StartEditing(favorite);
         }
 
         private void ButtonAddFolder_Click(object sender, RoutedEventArgs e)
@@ -124,8 +96,10 @@ namespace MarkdownMonster.Windows
             var button = sender as MenuItem;
             var favorite = button?.DataContext as FavoriteItem;
 
-            AddFavorite(favorite, new FavoriteItem { Title = "Grouping",  IsFolder = true});
+            favorite = FavoritesModel.AddFavorite(favorite, new FavoriteItem { Title = "Grouping",  IsFolder = true});
             FavoritesModel.SaveFavorites();
+
+            StartEditing(favorite);
         }
 
         private void ButtonDeleteFavorite_Click(object sender, RoutedEventArgs e)
@@ -135,7 +109,7 @@ namespace MarkdownMonster.Windows
             if (favorite == null)
                 return;
 
-            DeleteSelectedFavorite(favorite);
+            FavoritesModel.DeleteFavorite(favorite);
         }
 
         private void ButtonEditComplete_Click(object sender, RoutedEventArgs e)
@@ -169,8 +143,7 @@ namespace MarkdownMonster.Windows
             if (favorite == null)
                 return;
 
-            FavoritesModel.EditedFavorite = favorite;
-            favorite.DisplayState.IsEditing = true;
+            StartEditing(favorite);
         }
 
         private void ButtonRefreshList_Click(object sender, RoutedEventArgs e)
@@ -205,6 +178,8 @@ namespace MarkdownMonster.Windows
 
             FavoritesModel.EditedFavorite.File = dlg.FileName;
         }
+
+   
 
         #region Drag Operations
 
@@ -254,7 +229,6 @@ namespace MarkdownMonster.Windows
             // avoid double drop events?
             if (!IsDragging)
                 return;
-
             IsDragging = false;
 
             FavoriteItem targetItem;            
