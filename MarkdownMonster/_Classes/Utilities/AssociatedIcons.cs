@@ -265,6 +265,7 @@ namespace MarkdownMonster.Utilities
             // Configuration
             {".config", "config"},
             {".manifest", "config"},
+            {".dotsettings", "config" },
             {".conf", "config"},
             {".appx", "config"},
             {".yaml", "yaml"},

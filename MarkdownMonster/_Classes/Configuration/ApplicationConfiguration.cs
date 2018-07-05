@@ -387,7 +387,9 @@ namespace MarkdownMonster
 		    {"xaml", "xml"},
 		    {"wsdl", "xml"},
 		    {"config", "xml"},
-		    {"csproj", "xml"},
+	        {"user", "xml" },
+	        {"dotsettings", "xml" },	        
+            {"csproj", "xml"},
             {"sln", "xml" },
 		    {"nuspec", "xml"},
 

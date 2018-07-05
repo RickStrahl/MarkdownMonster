@@ -1050,8 +1050,11 @@ namespace MarkdownMonster
                 var control = Model.Window.FavoritesTab.Content as FavoritesControl;
                 var fav = control.FavoritesModel;
 
-                fav.AddFavorite(null, new FavoriteItem {File = file} );
+                var favorite = fav.AddFavorite(null, new FavoriteItem {File = file} );
                 fav.SaveFavorites();
+
+                fav.EditedFavorite = favorite;
+                favorite.DisplayState.IsEditing = true;                
             }, (p, c) => true);
         }
 
@@ -1333,12 +1336,21 @@ namespace MarkdownMonster
         {
             OpenFolderBrowserCommand = new CommandBase((parameter, command) =>
             {
-                var editor = mmApp.Model.ActiveEditor;
-                if (editor == null)
-                    return;
+                string folder = parameter as string;
+                if (string.IsNullOrEmpty(folder))
+                {
+                    var editor = mmApp.Model.ActiveEditor;
+                    if (editor == null)
+                        return;
+                    folder = editor.MarkdownDocument.Filename;
+                }
 
+                // Is it a file instead
+                if (File.Exists(folder))                
+                    folder = Path.GetDirectoryName(folder);
+                
                 mmApp.Model.Window.SidebarContainer.SelectedItem = mmApp.Model.Window.TabFolderBrowser;
-                mmApp.Model.Window.ShowFolderBrowser(folder: Path.GetDirectoryName(editor.MarkdownDocument.Filename));
+                mmApp.Model.Window.ShowFolderBrowser(folder: folder);
 
             }, (p, c) => true);
         }

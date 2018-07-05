@@ -884,6 +884,151 @@ namespace MarkdownMonster.Windows
 
         #region Context Menu Actions
 
+        private void TreeFolderBrowser_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var tv = sender as TreeView;
+            if (tv == null)
+                return;
+            var cm = tv.ContextMenu;
+
+            var pathItem = TreeFolderBrowser.SelectedItem as PathItem;
+            if (pathItem == null)
+                return;
+
+            cm.Items.Clear();
+
+            var ci = new MenuItem();
+            ci.Header = "_New File";
+            ci.InputGestureText = "ctrl-n";
+            ci.Click += MenuAddFile_Click;
+            cm.Items.Add(ci);
+
+            ci = new MenuItem();
+            ci.Header = "New Folder";
+            ci.Click += MenuAddDirectory_Click;
+            cm.Items.Add(ci);
+
+            cm.Items.Add(new Separator());
+
+            ci = new MenuItem();
+
+            ci.Header = "Delete";
+            ci.InputGestureText = "Del";
+            ci.Click += MenuDeleteFile_Click;
+            cm.Items.Add(ci);
+
+            ci = new MenuItem();
+            ci.Header = "Rename";
+            ci.InputGestureText = "F2";
+            ci.Click += MenuRenameFile_Click;
+            cm.Items.Add(ci);
+
+            cm.Items.Add(new Separator());
+
+            ci = new MenuItem();
+            ci.Header = "Find Files";
+            ci.InputGestureText = "ctrl-f";
+            ci.Click += MenuFindFiles_Click;
+            cm.Items.Add(ci);
+
+            ci = new MenuItem();
+            ci.Header = "Add to Favorites";
+            ci.Icon = FontAwesome.WPF.ImageAwesome.CreateImageSource(FontAwesomeIcon.Star, Brushes.Goldenrod, 16);
+            ci.Command = AppModel.Commands.AddFavoriteCommand;
+            ci.CommandParameter = pathItem.FullPath;
+            cm.Items.Add(ci);
+
+            cm.Items.Add(new Separator());
+
+            if (pathItem.IsImage)
+            {
+                ci = new MenuItem();
+                ci.Header = "Show Image";
+                ci.Click += MenuShowImage_Click;
+                cm.Items.Add(ci);
+
+                ci = new MenuItem();
+                ci.Header = "Edit Image";
+                ci.Click += MenuEditImage_Click;
+                cm.Items.Add(ci);
+            }
+            else
+            {
+                if (pathItem.IsFile)
+                {
+                    ci = new MenuItem();
+                    ci.Header = "Open in Editor";
+                    ci.Click += MenuOpenInEditor_Click;
+                    cm.Items.Add(ci);
+                }
+
+                ci = new MenuItem();
+                ci.Header = "Open with Shell Viewer";
+                ci.Click += MenuOpenWithShell_Click;
+                cm.Items.Add(ci);
+            }
+
+            cm.Items.Add(new Separator());
+
+            ci = new MenuItem();
+            ci.Header = "Open in Terminal";
+            ci.Click += MenuOpenTerminal_Click;
+            cm.Items.Add(ci);
+
+            ci = new MenuItem();
+            ci.Header = "Show in Explorer";
+            ci.Click += MenuOpenInExplorer_Click;
+            cm.Items.Add(ci);
+
+            cm.Items.Add(new Separator());
+
+            ci = new MenuItem();
+            ci.Header = "Commit to _Git...";
+            ci.InputGestureText = "ctrl-g";
+            ci.Click += MenuCommitGit_Click;
+            cm.Items.Add(ci);
+
+
+            if (pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInIndex ||
+                pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInWorkdir)
+            {
+                ci = new MenuItem();
+                ci.Header = "_Undo Changes in Git";
+                ci.InputGestureText = "ctrl-z";
+                ci.Click += MenuUndoGit_Click;
+                cm.Items.Add(ci);
+            }
+
+            ci = new MenuItem();
+            ci.Header = "Open Folder in Git Client";
+            ci.Click += MenuGitClient_Click;
+            ci.IsEnabled = AppModel.Configuration.Git.GitClientExecutable != null &&
+                           File.Exists(AppModel.Configuration.Git.GitClientExecutable);
+            cm.Items.Add(ci);
+
+
+
+            cm.Items.Add(new Separator());
+
+            ci = new MenuItem();
+            ci.Header = "Copy Path to Clipboard";
+            ci.Click += MenuCopyPathToClipboard_Click;
+            cm.Items.Add(ci);
+
+            if (pathItem.IsFolder)
+            {
+                cm.Items.Add(new Separator());
+
+                ci = new MenuItem();
+                ci.Header = "Open Folder Browser here";
+                ci.Click += MenuOpenFolderBrowserHere_Click;
+                cm.Items.Add(ci);
+            }
+
+            cm.IsOpen = true;
+
+        }
+
         private void MenuDeleteFile_Click(object sender, RoutedEventArgs e)
         {
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
@@ -1104,144 +1249,6 @@ namespace MarkdownMonster.Windows
 
             Window.Model.Commands.OpenGitClientCommand.Execute(path);
         }
-
-        private void TreeFolderBrowser_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            var tv = sender as TreeView;
-            if (tv == null)
-                return;
-            var cm = tv.ContextMenu;
-
-            var pathItem = TreeFolderBrowser.SelectedItem as PathItem;
-            if (pathItem == null)
-                return;
-
-            cm.Items.Clear();
-
-            var ci = new MenuItem();
-            ci.Header = "_New File";
-            ci.InputGestureText = "ctrl-n";
-            ci.Click += MenuAddFile_Click;
-            cm.Items.Add(ci);
-
-            ci = new MenuItem();
-            ci.Header = "New Folder";
-            ci.Click += MenuAddDirectory_Click;
-            cm.Items.Add(ci);
-
-            cm.Items.Add(new Separator());
-
-            ci = new MenuItem();
-
-            ci.Header = "Delete";
-            ci.InputGestureText = "Del";
-            ci.Click += MenuDeleteFile_Click;
-            cm.Items.Add(ci);
-
-            ci = new MenuItem();
-            ci.Header = "Rename";
-            ci.InputGestureText = "F2";
-            ci.Click += MenuRenameFile_Click;
-            cm.Items.Add(ci);
-
-            ci = new MenuItem();
-            ci.Header = "Find Files";
-            ci.InputGestureText = "ctrl-f";
-            ci.Click += MenuFindFiles_Click;
-            cm.Items.Add(ci);
-
-            cm.Items.Add(new Separator());
-
-            if (pathItem.IsImage)
-            {
-                ci = new MenuItem();
-                ci.Header = "Show Image";
-                ci.Click += MenuShowImage_Click;
-                cm.Items.Add(ci);
-
-                ci = new MenuItem();
-                ci.Header = "Edit Image";
-                ci.Click += MenuEditImage_Click;
-                cm.Items.Add(ci);
-            }
-            else
-            {
-                if (pathItem.IsFile)
-                {
-                    ci = new MenuItem();
-                    ci.Header = "Open in Editor";
-                    ci.Click += MenuOpenInEditor_Click;
-                    cm.Items.Add(ci);
-                }
-
-                ci = new MenuItem();
-                ci.Header = "Open with Shell Viewer";
-                ci.Click += MenuOpenWithShell_Click;
-                cm.Items.Add(ci);
-            }
-
-            cm.Items.Add(new Separator());
-
-            ci = new MenuItem();
-            ci.Header = "Open in Terminal";
-            ci.Click += MenuOpenTerminal_Click;
-            cm.Items.Add(ci);
-
-            ci = new MenuItem();
-            ci.Header = "Show in Explorer";
-            ci.Click += MenuOpenInExplorer_Click;
-            cm.Items.Add(ci);
-
-            cm.Items.Add(new Separator());
-
-            ci = new MenuItem();
-            ci.Header = "Commit to _Git...";
-            ci.InputGestureText = "ctrl-g";
-            ci.Click += MenuCommitGit_Click;
-            cm.Items.Add(ci);
-
-
-            if (pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInIndex ||
-                pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInWorkdir)
-            {
-                ci = new MenuItem();
-                ci.Header = "_Undo Changes in Git";
-                ci.InputGestureText = "ctrl-z";
-                ci.Click += MenuUndoGit_Click;
-                cm.Items.Add(ci);
-            }
-
-            ci = new MenuItem();
-            ci.Header = "Open Folder in Git Client";
-            ci.Click += MenuGitClient_Click;
-            ci.IsEnabled = AppModel.Configuration.Git.GitClientExecutable != null &&
-                            File.Exists(AppModel.Configuration.Git.GitClientExecutable);
-            cm.Items.Add(ci);
-
-
-
-            cm.Items.Add(new Separator());
-
-            ci = new MenuItem();
-            ci.Header = "Copy Path to Clipboard";
-            ci.Click += MenuCopyPathToClipboard_Click;
-            cm.Items.Add(ci);
-
-            if (pathItem.IsFolder)
-            {
-                cm.Items.Add(new Separator());
-
-                ci = new MenuItem();
-                ci.Header = "Open Folder Browser here";
-                ci.Click += MenuOpenFolderBrowserHere_Click;
-                cm.Items.Add(ci);
-            }
-
-            cm.IsOpen = true;
-
-        }
-
-
 
         #endregion
 

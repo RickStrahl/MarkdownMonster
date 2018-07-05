@@ -18,6 +18,9 @@
         <HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Files}" >
             <!--<Grid  Width="300" >-->
             <Grid MouseUp="TreeViewItem_MouseUpClick" MouseDown="TreeViewItem_MouseDownClick" >
+                <Grid.Resources>
+                   
+                </Grid.Resources>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -48,14 +51,16 @@
                 <TextBlock Name="TextFileOrFolderName" 
                            Grid.Column="2"
                            Text="{Binding DisplayName, Mode=OneWay}" Padding="5,3,15,3"
-				       Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
-                       
-                       MouseUp="TextFileOrFolderName_MouseUpToEdit" >
+				       Visibility="{Binding IsNotEditing, Converter={StaticResource BooleanToVisibilityConverter}}"                                 
+                       MouseUp="TextFileOrFolderName_MouseUpToEdit">
                     <TextBlock.Style>
-                        <Style TargetType="TextBlock">
+                        <Style TargetType="{x:Type TextBlock}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsFolder}" Value="True">
                                     <Setter Property="FontWeight" Value="SemiBold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsFolder}" Value="False">
+                                    <Setter Property="FontWeight" Value="Normal"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -224,18 +229,6 @@
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
-
-            <!--<Popup Name="PopupImagePreview" Grid.Row="3" Placement="Mouse" Margin="10" >
-                <Border BorderThickness="1" BorderBrush="#676767" >
-                    <Image Name="ImagePreview" Height="Auto" Width="Auto" 
-				   MinHeight="50"
-				   MinWidth="50"	
-				   MaxHeight="470"
-				   MaxWidth="570" />
-                </Border>
-            </Popup>-->
-
-
         </Grid>
     </Grid>
 </UserControl>
