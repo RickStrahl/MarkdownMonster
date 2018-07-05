@@ -197,7 +197,7 @@ namespace MarkdownMonster.Favorites
         /// <param name="parentList"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        public FavoriteItem FindFavoriteByFilename(ObservableCollection<FavoriteItem> parentList, string file, string title)
+        public FavoriteItem FindFavoriteByFilenameAndTitle(ObservableCollection<FavoriteItem> parentList, string file, string title)
         {
             string lowerFullName = (file + "|" + title).ToLowerInvariant();
             
@@ -216,7 +216,7 @@ namespace MarkdownMonster.Favorites
                     if ((item.File + "|" + item.Title).ToLowerInvariant() == lowerFullName)
                         return item;
 
-                    var childItem = FindFavoriteByFilename(item.Items, file, title);
+                    var childItem = FindFavoriteByFilenameAndTitle(item.Items, file, title);
                     if (childItem != null)
                         return childItem;
                 }

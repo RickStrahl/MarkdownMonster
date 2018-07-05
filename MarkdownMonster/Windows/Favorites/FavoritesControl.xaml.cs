@@ -209,6 +209,7 @@ namespace MarkdownMonster.Windows
         #region Drag Operations
 
         private System.Windows.Point startPoint;
+        private bool IsDragging = false;
 
         private void TreeFavorites_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -217,6 +218,7 @@ namespace MarkdownMonster.Windows
                 item.IsSelected = true;
 
             startPoint = e.GetPosition(null);
+            IsDragging = false;
         }
 
     
@@ -242,31 +244,31 @@ namespace MarkdownMonster.Windows
 
                     var dragData = new DataObject(DataFormats.UnicodeText, selected.File + "|" + selected.Title);
                     DragDrop.DoDragDrop(treeViewItem, dragData, DragDropEffects.All);
+                    IsDragging = true;
                 }
             }
         }
 
         private void TreeViewItem_Drop(object sender, DragEventArgs e)
         {
+            // avoid double drop events?
+            if (!IsDragging)
+                return;
 
-            Debug.WriteLine("TreeViewDrop...");
+            IsDragging = false;
 
-            FavoriteItem targetItem;
+            FavoriteItem targetItem;            
+            e.Handled = true;
 
             if (sender is TreeView)
             {
                 // dropped into treeview open space
-                e.Handled = true;
                 return; //targetItem = ActivePathItem;
             }
-            else
-            {
-                targetItem = (e.OriginalSource as FrameworkElement)?.DataContext as FavoriteItem;
-                if (targetItem == null)
-                    return;
-            }
-            e.Handled = true;
 
+            targetItem = (e.OriginalSource as FrameworkElement)?.DataContext as FavoriteItem;
+            if (targetItem == null)
+                return;
 
             //  "path|title"
             var path = e.Data.GetData(DataFormats.UnicodeText) as string;
@@ -275,21 +277,18 @@ namespace MarkdownMonster.Windows
 
             var tokens = path.Split('|');
 
-            var sourceItem = FavoritesModel.FindFavoriteByFilename(FavoritesModel.Favorites, tokens[0], tokens[1]);
+            var sourceItem = FavoritesModel.FindFavoriteByFilenameAndTitle(FavoritesModel.Favorites, tokens[0], tokens[1]);
             if (sourceItem == null)
                 return;
-
-            WindowUtilities.DoEvents();
-
+            
             var parentList = sourceItem.Parent?.Items;
             if (parentList == null)
                 parentList = FavoritesModel.Favorites;
 
             parentList.Remove(sourceItem);
             parentList = null;
-            WindowUtilities.DoEvents();
-
             
+
             if (targetItem.IsFolder && !sourceItem.IsFolder)
             {
                 // dropped on folder: Add below
@@ -308,7 +307,7 @@ namespace MarkdownMonster.Windows
                 else
                     sourceItem.Parent = targetItem.Parent;
             }
-
+            
             var index = parentList.IndexOf(targetItem);
             if (index < 0)
                 index = 0;
@@ -319,9 +318,9 @@ namespace MarkdownMonster.Windows
                 parentList.Add(sourceItem);
             else
                 parentList.Insert(index,sourceItem);
-            
+
+            FavoritesModel.SaveFavorites();
             WindowUtilities.DoEvents();
-            FavoritesModel.SaveFavorites();            
         }
 
         #endregion
