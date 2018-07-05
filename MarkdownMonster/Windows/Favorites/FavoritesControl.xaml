@@ -180,8 +180,8 @@
             </TreeView.ContextMenu>
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
-                    <EventSetter Event="PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>
-                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>
+                    <!--<EventSetter Event="PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>-->
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeFavorites_PreviewMouseLeftButtonDown"/>
                     <!-- We have to select the item which is right-clicked on -->
                     <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />

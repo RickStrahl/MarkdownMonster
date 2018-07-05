@@ -218,12 +218,7 @@ namespace MarkdownMonster.Windows
             startPoint = e.GetPosition(null);
         }
 
-        private void TreeViewItem_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            var item = ElementHelper.FindVisualTreeParent<TreeViewItem>(e.OriginalSource as FrameworkElement);
-            if (item != null)
-                item.IsSelected = true;
-        }
+    
 
         private void TreeFavorites_MouseMove(object sender, MouseEventArgs e)
         {
@@ -290,7 +285,8 @@ namespace MarkdownMonster.Windows
             parentList = null;
             WindowUtilities.DoEvents();
 
-            if (targetItem.IsFolder)
+            
+            if (targetItem.IsFolder && !sourceItem.IsFolder)
             {
                 // dropped on folder: Add below
                 parentList = targetItem.Items;

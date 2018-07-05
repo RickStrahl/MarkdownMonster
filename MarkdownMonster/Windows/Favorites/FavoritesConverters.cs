@@ -46,7 +46,7 @@ namespace MarkdownMonster.Windows
             string file = null;
 
             if (favorite.IsFolder)
-                file = "folder.folder";
+                file = "folder.openfolder";
             else
                 file = favorite.File;
 

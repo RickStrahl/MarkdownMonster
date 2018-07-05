@@ -438,13 +438,13 @@
         
         <StackPanel Grid.Row="1">
 			<ToolBarPanel Name="ToolbarPanelMain" >
-				<StackPanel Orientation="Horizontal">
-					<ToolBar Name="ToolbarFile"  FontSize="17">
-						<Button Name="ToolButtonOpenFile" Margin="7,0,0,0"  Command="{Binding Commands.OpenDocumentCommand}" ToolTip="Open Markdown file (ctrl-o)"                                
-                                fa:Awesome.Content="FolderOpen" 
+                <StackPanel Orientation="Horizontal">
+                    <ToolBar Name="ToolbarFile"  FontSize="17">
+						<Button Name="ToolButtonOpenFile" Margin="5,0,0,0"  Command="{Binding Commands.OpenDocumentCommand}" ToolTip="Open Markdown file (ctrl-o)"                                
+                                fa:Awesome.Content="FolderOpen"                                 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
-                        <Button Name="ToolbarButtonRecentFiles" Margin="0,0" Click="Button_Handler" ToolTip="Recent Markdown files"
+                        <Button Name="ToolbarButtonRecentFiles" Margin="-2,0" Click="Button_Handler" ToolTip="Recent Markdown files"
                                         fa:Awesome.Content="CaretDown"
                                         Width="15" 
                                         TextElement.FontSize="11"
@@ -455,7 +455,7 @@
                             </i:Interaction.Behaviors>-->
                         </Button>
 
-                        <Button Name="ToolButtonFavorites" Margin="7,0,0,0"  Click="Button_Handler" ToolTip="Favorite Files"                                
+                        <Button Name="ToolButtonFavorites" Margin="3,0,0,0"  Click="Button_Handler" ToolTip="Favorite Files"                                
 					            fa:Awesome.Content="Star"  FontSize="15"
 					            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
                         </Button>
@@ -469,14 +469,14 @@
 
 						<!--<Separator/>-->
 
-						<Button Name="ToolButtonNewFile" Margin="7,0,0,0" Command="{Binding Commands.NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
-                                fa:Awesome.Content="PlusCircle"                                
+						<Button Name="ToolButtonNewFile" Margin="12,0,0,0" Command="{Binding Commands.NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
+                                fa:Awesome.Content="PlusCircle"                             
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
                         <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding Commands.SaveCommand}" 
 								ToolTip="Save active document (ctrl-s)"                                
-                                fa:Awesome.Content="CheckCircleOutline"                                
+                                fa:Awesome.Content="CheckCircleOutline" 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 

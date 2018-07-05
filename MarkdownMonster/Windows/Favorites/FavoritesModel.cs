@@ -172,8 +172,7 @@ namespace MarkdownMonster.Favorites
             
             // Files first for perf
             foreach (var item in parentList.Where(pi => !pi.IsFolder))
-            {
-                if (string.IsNullOrEmpty(item.File)) continue; // prevent placeholder errors
+            {               
                 if ((item.File + "|" + item.Title).ToLowerInvariant()  == lowerFullName)
                     return item;
             }
@@ -183,6 +182,9 @@ namespace MarkdownMonster.Favorites
             {
                 if (item.IsFolder && item.Items != null && item.Items.Count > 0)
                 {
+                    if ((item.File + "|" + item.Title).ToLowerInvariant() == lowerFullName)
+                        return item;
+
                     var childItem = FindFavoriteByFilename(item.Items, file, title);
                     if (childItem != null)
                         return childItem;
