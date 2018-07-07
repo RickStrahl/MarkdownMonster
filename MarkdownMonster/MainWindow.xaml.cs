@@ -2356,12 +2356,13 @@ namespace MarkdownMonster
                     WindowState = WindowState.Normal;
 
                 Activate();
-
-                // restore out of band
+                
                 Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }), DispatcherPriority.ApplicationIdle);
             });
         }
+        #endregion
 
+        #region Window Menu Items
         public List<MenuItem> GenerateContextMenuItemsFromOpenTabs(ContextMenu ctx = null)
         {
             var menuItems = new List<MenuItem>();
@@ -2440,6 +2441,10 @@ namespace MarkdownMonster
             return menuItems;
         }
 
+        private void MainMenuWindow_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+            Model.Commands.WindowMenuCommand.Execute(null);
+        }
         #endregion
 
         #region StatusBar Display

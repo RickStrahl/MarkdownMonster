@@ -411,7 +411,11 @@
             </MenuItem>
 
             <!-- generated dynamically by command -->
-            <MenuItem Name="MainMenuWindow" Header="_Window" Command="{Binding Commands.WindowMenuCommand}" />
+            <MenuItem Name="MainMenuWindow" Header="_Window"                       
+                      SubmenuOpened="MainMenuWindow_SubmenuOpened"
+                      >
+                <MenuItem></MenuItem>
+            </MenuItem>
 
 
             <MenuItem Header="_Help" Name="MainMenuHelp">
