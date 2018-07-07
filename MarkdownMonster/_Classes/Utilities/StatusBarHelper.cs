@@ -66,7 +66,7 @@ namespace MarkdownMonster.Windows
                 timeout = mmApp.Configuration.StatusMessageTimeout;
 
             if (color == default(Color))
-                color = Colors.Firebrick;
+                color = Colors.OrangeRed;
 
             ShowStatus(message, timeout, icon, color);
         }
