@@ -881,9 +881,7 @@ namespace MarkdownMonster
                 }
 
                 mi.IsSubmenuOpen = true;
-                mi.Focus();
-
-                mi.SubmenuClosed += (s, e) => ((MenuItem) s).Items.Clear();
+                mi.Focus();                
             });
         }
 
