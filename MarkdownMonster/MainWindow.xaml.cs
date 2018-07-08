@@ -312,6 +312,29 @@ namespace MarkdownMonster
             }
         }
 
+        private void HandleNamedPipe_OpenRequest(string filesToOpen)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (!string.IsNullOrEmpty(filesToOpen))
+                {
+                    var parms = StringUtils.GetLines(filesToOpen.Trim());
+
+                    OpenFilesFromCommandLine(parms);
+                    BindTabHeaders();
+                }
+
+                Topmost = true;
+
+                if (WindowState == WindowState.Minimized)
+                    WindowState = WindowState.Normal;
+
+                Activate();
+                
+                Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }), DispatcherPriority.ApplicationIdle);
+            });
+        }
+
         protected override void OnContentRendered(EventArgs e)
         {
             base.OnContentRendered(e);
@@ -784,6 +807,19 @@ namespace MarkdownMonster
 
             config.FolderBrowser.FolderPath = FolderBrowser.FolderPath;
 
+            SaveOpenDocuments();
+
+            config.Write();
+        }
+
+
+        /// <summary>
+        /// Keeps track of the open documents based on the tabs
+        /// that are open along with the tab order.
+        /// </summary>
+        void SaveOpenDocuments()
+        {
+            var config = Model.Configuration;
             config.OpenDocuments.Clear();
             if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
@@ -791,11 +827,29 @@ namespace MarkdownMonster
                 IEnumerable<DragablzItem> headers = null;
                 try
                 {
-                    headers = TabControl.GetOrderedHeaders();
+                    // Work around bug in Dragablz.GetOrderedHeaders() which throws occasional null exceptions
+                    //headers = TabControl.GetOrderedHeaders();
+                    //return this._dragablzItemsControl.ItemsOrganiser.Sort(this._dragablzItemsControl.DragablzItems());
+
+                    var control = ReflectionUtils.GetField(TabControl, "_dragablzItemsControl") as DragablzItemsControl;
+                    var ditems = ReflectionUtils.CallMethod(control, "DragablzItems") as List<DragablzItem>;
+
+                    // TODO: Put proper null checks later and logic to return unordered list
+                    // Explicitly let this fail for now so we can report this issue better 
+                    headers = TabControl.HeaderItemsOrganiser.Sort(ditems);
                 }
                 catch (Exception ex)
                 {
-                    mmApp.Log("TabControl.GetOrderedHeaders() failed. Skip saving tabs.", ex);
+                    mmApp.Log("TabControl.GetOrderedHeaders() failed. Saving unordered.", ex);
+
+                    // This works, but doesn't keep tab order intact
+                    headers = new List<DragablzItem>();
+                    foreach (var recent in config.RecentDocuments.Take(config.RememberLastDocumentsLength))
+                    {
+                        var tab = GetTabFromFilename(recent);
+                        if (tab != null)
+                            ((List<DragablzItem>)headers).Add(new DragablzItem() { Content = tab });
+                    }
                 }
 
                 if (headers != null)
@@ -831,16 +885,14 @@ namespace MarkdownMonster
                 List<MarkdownDocument> removeList = new List<MarkdownDocument>();
                 foreach (var doc in config.OpenDocuments)
                 {
-                    if (!recents.Any(r=> r.Equals(doc.Filename,StringComparison.InvariantCultureIgnoreCase)))
+                    if (!recents.Any(r => r.Equals(doc.Filename, StringComparison.InvariantCultureIgnoreCase)))
                         removeList.Add(doc);
                 }
                 foreach (var remove in removeList)
                     config.OpenDocuments.Remove(remove);
             }
 
-            config.Write();
         }
-
 
 
         public bool SaveFile(bool secureSave = false)
@@ -2337,29 +2389,6 @@ namespace MarkdownMonster
             }
         }
 
-
-        private void HandleNamedPipe_OpenRequest(string filesToOpen)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                if (!string.IsNullOrEmpty(filesToOpen))
-                {
-                    var parms = StringUtils.GetLines(filesToOpen.Trim());
-
-                    OpenFilesFromCommandLine(parms);
-                    BindTabHeaders();
-                }
-
-                Topmost = true;
-
-                if (WindowState == WindowState.Minimized)
-                    WindowState = WindowState.Normal;
-
-                Activate();
-                
-                Dispatcher.BeginInvoke(new Action(() => { Topmost = false; }), DispatcherPriority.ApplicationIdle);
-            });
-        }
         #endregion
 
         #region Window Menu Items
@@ -2596,6 +2625,7 @@ namespace MarkdownMonster
             ctx.IsOpen = true;
             WindowUtilities.DoEvents();
         }
+
     }
 
     public class RecentDocumentListItem
