@@ -832,6 +832,9 @@ namespace MarkdownMonster
                     //return this._dragablzItemsControl.ItemsOrganiser.Sort(this._dragablzItemsControl.DragablzItems());
 
                     var control = ReflectionUtils.GetField(TabControl, "_dragablzItemsControl") as DragablzItemsControl;
+                    if (control == null)
+                        throw new InvalidOperationException("_dragablzItemsControl is null");
+
                     var ditems = ReflectionUtils.CallMethod(control, "DragablzItems") as List<DragablzItem>;
 
                     // TODO: Put proper null checks later and logic to return unordered list

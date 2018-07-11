@@ -1,17 +1,20 @@
 <img src="MarkdownMonster/Assets/MarkdownMonster_Icon_256.png" width=100 align="right" />
 
-# Markdown Monster Change Log 
+# Markdown Monster Change Log
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.12.5
+### 1.12.6
 <small>not released yet</small>
 
 * **Favorites**  
 You can now select files and folders as favorites for easy access. Favorites are accessible from the toolbar and the recents menu and you can add Favorites from the tab header. A new **Favorites** sidebar lets you select and add/edit/delete favorites as well as select and open favorites.
+
+* **Add Weblog Menu to Main Menu**  
+Added Weblog menu for easier access to individual Weblog related features and better keyboard navigatability and also to better reflect actual status for each of the available operations.
 
 * **Jump to Anchor Context Menu**  
 New context menu option when hovering over a Markdown link that is an anchor to a auto-header link. Makes it easy to jump around the document and follow internal links as an alternative to the Document Outline.
@@ -1461,7 +1464,3 @@ Fix importing from Wordpress blogs where the **Read More** option is active (for
 
 * **RTM Release**  
 We're happy to announce that Markdown Monster has gone to RTM!
-
-
-
-

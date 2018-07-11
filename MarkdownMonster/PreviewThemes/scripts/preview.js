@@ -129,17 +129,20 @@ function scrollToPragmaLine(lineno) {
             $("html").scrollTop(0);
             return;
         }
-
+        
         try {
             var $el = $("#pragma-line-" + lineno);
             if ($el.length < 1) {
                 var origLine = lineno;
+
+                // try forward with 3 lines
                 for (var i = 0; i < 3; i++) {
                     lineno++;
                     $el = $("#pragma-line-" + lineno);
                     if ($el.length > 0)
                         break;
                 }
+                // try backwards with 3 lines
                 if ($el.length < 1) {
                     lineno = origLine;
                     for (var i = 0; i < 3; i++) {
