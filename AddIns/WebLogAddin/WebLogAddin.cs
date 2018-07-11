@@ -39,6 +39,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xml;
 using FontAwesome.WPF;
@@ -89,6 +90,13 @@ namespace WeblogAddin
             MenuItems.Add(menuItem);
         }
 
+        public override void OnWindowLoaded()
+        {
+            base.OnWindowLoaded();
+
+            AddMainMenuItems();
+        }
+
         public override void OnExecute(object sender)
         {
             // read settings on startup
@@ -104,9 +112,10 @@ namespace WeblogAddin
             WeblogForm.Show();                       
         }
 
+
         public override bool OnCanExecute(object sender)
         {
-            return Model.IsEditorActive;
+            return Model.IsEditorActive;            
         }
 
         public override void OnExecuteConfiguration(object sender)
@@ -118,16 +127,8 @@ namespace WeblogAddin
 
         public override void OnNotifyAddin(string command, object parameter)
         {
-            if (command == "newweblogpost")
-            {
-                var form = new WeblogForm(WeblogModel)
-                {
-                    Owner = Model.Window
-                };
-                form.Model.AppModel = Model;                
-                form.Show();
-                form.TabControl.SelectedIndex = 1;
-            }            
+            if (command == "newweblogpost")            
+                WeblogFormCommand.Execute("newweblogpost");
         }
 
         #region Post Send Operations
@@ -562,6 +563,109 @@ namespace WeblogAddin
             }
         }
 
-#endregion
+        #endregion
+
+
+        #region Main Menu
+
+        void AddMainMenuItems()
+        {
+
+            // create commands
+            Command_WeblogForm();
+
+
+            var mainMenuItem = new MenuItem
+            {
+                Header = "Web_log"
+            };
+            AddMenuItem(mainMenuItem, "MainMenuTools", mode: 0);
+
+            var mi = new MenuItem
+            {
+                Header = "_Post to Weblog",
+                Command = WeblogFormCommand,
+                CommandParameter = "posttoweblog",
+            };
+            mainMenuItem.Items.Add(mi);
+
+            mi = new MenuItem
+            {
+                Header = "_New Weblog Post",
+                Command = WeblogFormCommand,
+                CommandParameter = "newweblogpost"
+            };
+            mainMenuItem.Items.Add(mi);
+
+
+            mi = new MenuItem
+            {
+                Header = "_Download Weblog Posts",
+                Command = WeblogFormCommand,
+                CommandParameter = "downloadweblogpost"
+            };
+            mainMenuItem.Items.Add(mi);
+
+            mainMenuItem.Items.Add(new Separator());
+
+            mi = new MenuItem
+            {
+                Header = "_Configure Weblogs",
+                Command = WeblogFormCommand,
+                CommandParameter = "configureweblog"
+            };
+            mainMenuItem.Items.Add(mi);
+
+        }
+
+        public CommandBase WeblogFormCommand { get; set; }
+
+        void Command_WeblogForm()
+        {
+            WeblogFormCommand = new CommandBase((parameter, command) =>
+            {
+                var action = parameter as string;
+                if (string.IsNullOrEmpty(action))
+                    return;
+
+                var form = new WeblogForm(WeblogModel)
+                {
+                    Owner = Model.Window
+                };
+                form.Model.AppModel = Model;
+                form.Show();
+
+                switch (action)
+                {
+                    case "posttoweblog":
+                        form.TabControl.SelectedIndex = 0;
+                        break;
+                    case "newweblogpost":
+                        form.TabControl.SelectedIndex = 1;
+                        break;
+                    case "downloadweblogpost":
+                        form.TabControl.SelectedIndex = 2;
+                        break;
+                    case "configureweblog":
+                        form.TabControl.SelectedIndex = 3;
+                        break;
+                }
+            }, (p, c) =>
+            {
+                var action = p as string;
+                if (string.IsNullOrEmpty(action))
+                    return true;
+
+                if (action == "posttoweblog")
+                    return Model.ActiveEditor != null;
+
+                return true;
+            });
+        }
+
+        #endregion
     }
+
+
+
 }
