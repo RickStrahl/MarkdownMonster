@@ -4,20 +4,42 @@
 <head>
 	<meta charset="utf-8" /> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />    
-	<title>Markdown Editing</title>  
-    <script src="scripts/to-markdown.js"></script>
+	<title>Markdown Editing</title>      
 </head>
 <body>
-
     <b>Place holder</b>
-<script>    
-    function htmltomarkdown(html) {
-        try {
-            return toMarkdown(html);
-        } catch (ex) {
-            return null;
+    <script src="scripts/to-markdown.js"></script>     
+    <!--<script src="scripts/turndown.js"></script>-->     
+<script>
+        function htmltomarkdown(html) {
+            // to-markdown
+            try {
+                return toMarkdown(html);
+            } catch (ex) {
+                return null;
+            }           
+
+            // turndown
+            //try {
+            //    var turndownService = new TurndownService({
+            //        headingStyle: 'atx',
+            //        codeBlockStyle: 'fenced',
+            //        fence: '```',
+            //        hr: '---',
+            //        emDelimiter: '*',
+            //        strongDelimiter: '**',
+            //        defaultReplacement: function (innerHtml, node) {                        
+            //            return node.isBlock ? '\n\n' + node.innerText + '\n\n' : node.innerText;
+            //        }   
+            //    });
+            //    turndownService.turndown(html);
+            //}
+            //catch(ex)
+            //{
+            //    alert(ex.message);
+            //    return null;
+            //}
         }
-    }
-</script>
+    </script>
 </body>
 </html>
