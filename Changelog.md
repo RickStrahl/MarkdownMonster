@@ -11,7 +11,7 @@
 <small>June 12th, 2018</small>
 
 * **Favorites**  
-You can now select files and folders as favorites for easy access. Favorites are accessible from the toolbar and the recents menu and you can add Favorites from the tab header. A new **Favorites** sidebar lets you select and add/edit/delete favorites as well as select and open favorites.
+You can now select files and folders as favorites for easy access. Favorites are accessible from the toolbar and the Recents menu and you can add Favorites from the tab header. A new **Favorites** sidebar lets you select and add/edit/delete favorites as well as select and open favorites.
 
 * **Add Weblog Menu to Main Menu**  
 Added Weblog menu for easier access to individual Weblog related features and better keyboard navigatability and also to better reflect actual status for each of the available operations.

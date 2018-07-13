@@ -54,8 +54,8 @@
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.OpenDocumentCommand}">  Open Document...</Hyperlink> - ctrl-o
                 <LineBreak />             
-                <Hyperlink  FontSize="15" Command="{Binding Commands.OpenFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
-                                
+                <Hyperlink  Command="{Binding Commands.OpenFolderBrowserCommand}">  Open File and Folder Browser</Hyperlink>
+                                           
                 <LineBreak />
                 <LineBreak />
 
@@ -73,8 +73,9 @@
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.AddinManagerCommand}">  Load Addin Manager</Hyperlink>
                 <LineBreak />                
+                <Hyperlink  Name="HyperSwitchAppTheme" Click="HyperSwitchAppTheme_Click"/>
                 <LineBreak />  
-                <LineBreak />  
+                <LineBreak />
                 <LineBreak />
                 </TextBlock>
             </StackPanel>

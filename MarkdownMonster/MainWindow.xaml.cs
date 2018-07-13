@@ -2330,7 +2330,7 @@ namespace MarkdownMonster
             PreviewBrowser?.PreviewMarkdownAsync();
         }
 
-        private void AppTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void AppTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DateTime.UtcNow < mmApp.Started.AddSeconds(5))
                 return;

@@ -23,6 +23,29 @@ namespace MarkdownMonster.Controls
         public StartMenuUserControl()
         {
             InitializeComponent();
+
+            if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
+                HyperSwitchAppTheme.Inlines.Add("Switch to Light theme");
+            else
+                HyperSwitchAppTheme.Inlines.Add("Switch to Dark theme");
+        }
+
+        private void HyperSwitchAppTheme_Click(object sender, RoutedEventArgs e)
+        {
+            if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
+                mmApp.Configuration.ApplicationTheme =Themes.Light;
+            else
+                mmApp.Configuration.ApplicationTheme = Themes.Dark;
+
+            mmApp.Model.Window.AppTheme_SelectionChanged(null, null);
+
+
+            HyperSwitchAppTheme.Inlines.Clear();
+            if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
+                HyperSwitchAppTheme.Inlines.Add("Switch to Light theme");
+            else
+                HyperSwitchAppTheme.Inlines.Add("Switch to Dark theme");
         }
     }
+    
 }
