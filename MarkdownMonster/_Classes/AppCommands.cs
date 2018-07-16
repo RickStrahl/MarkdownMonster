@@ -79,6 +79,7 @@ namespace MarkdownMonster
 
             Help();
             CopyFolderToClipboard();
+            CopyFullPathToClipboard();
             TabControlFileList();
 
             // Git
@@ -1111,10 +1112,32 @@ namespace MarkdownMonster
             });
         }
 
-#endregion
 
 
-#region Miscellaneous
+        public CommandBase CopyFullPathToClipboardCommand { get; set; }
+
+        void CopyFullPathToClipboard()
+        {
+            CopyFullPathToClipboardCommand = new CommandBase((parameter, command) =>
+            {
+                var editor = Model.ActiveEditor;
+                if (editor == null)
+                    return;
+
+                if (editor.MarkdownDocument.Filename == "untitled")
+                    return;
+
+                string path = editor.MarkdownDocument.Filename;
+
+                if (ClipboardHelper.SetText(path))
+                    Model.Window.ShowStatus($"Path copied to clipboard: {path}", mmApp.Configuration.StatusMessageTimeout);
+            }, (p, c) => true);
+        }
+
+        #endregion
+
+
+        #region Miscellaneous
 
         public CommandBase AddinManagerCommand { get; set; }
 

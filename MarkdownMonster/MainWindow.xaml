@@ -72,7 +72,7 @@
             <MenuItem Name="ContextOpenGitClient" Header="Open in Git Client"
                       Command="{Binding DataContext.Commands.OpenGitClientCommand}"   IsEnabled="{Binding DataContext.Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
             <Separator/>
-            <MenuItem Name="ContextCopyFoldername" Header="Copy Foldername" Command="{Binding DataContext.Commands.CopyFolderToClipboardCommand}" />
+            <MenuItem Name="ContextCopyFoldername" Header="Copy Full Path" Command="{Binding DataContext.Commands.CopyFullPathToClipboardCommand}" />
         </ContextMenu>
     </Window.Resources>
     <Window.ContextMenu>
@@ -317,9 +317,9 @@
                 <Separator/>
                 <MenuItem Name="MenuCommitToGit" Header="Commit to _Git..." Command="{Binding Commands.CommitToGitCommand}" IsEnabled="{Binding IsEditorActive}" 
                           ToolTip="Commits the open document to Git and tries to push to the active remote branch." />
-                <MenuItem Name="MenuCopyFoldername" Header="Copy Foldername" 
-                          ToolTip="Copy the document's foldername to the Clipboard" 
-                          Command="{Binding Commands.CopyFolderToClipboardCommand}"
+                <MenuItem Name="MenuCopyFoldername" Header="Copy Full Path" 
+                          ToolTip="Copy the document's full path to the Clipboard" 
+                          Command="{Binding Commands.CopyFullPathToClipboardCommand}"
                           IsEnabled="{Binding IsEditorActive}" />
                 <Separator/>
                 <MenuItem Header="Settings" Command="{Binding Commands.SettingsCommand}"/>
