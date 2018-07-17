@@ -12,7 +12,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
         mc:Ignorable="d"					  
-        TitlebarHeight="35"    
+        
         Name="MainApplicationWindow"                      
         Title="Markdown Monster" TitleCharacterCasing="Normal"
         Icon="Assets\MarkdownMonster_Icon_256.png"
@@ -20,7 +20,7 @@
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"		
         Height="700" Width="1000"  
-        MinWidth="900" MinHeight="600" 
+        MinWidth="390" MinHeight="220" 
         WindowTransitionsEnabled="False">
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt+Shift"
@@ -825,7 +825,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" MinWidth="100" />
                             <ColumnDefinition Width="4"  />
                             <ColumnDefinition Width="Auto"  />
                             <ColumnDefinition Width="Auto"/>
