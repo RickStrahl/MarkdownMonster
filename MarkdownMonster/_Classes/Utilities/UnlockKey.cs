@@ -138,8 +138,8 @@ namespace MarkdownMonster
         public static void Startup()
         {
             if (!Unlocked && mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
-            {
-                timer = new System.Timers.Timer(12 * 1000 * 60);
+            {               
+                timer = new System.Timers.Timer(23 * 1000 * 60);
                 timer.Elapsed += (s, ev) =>
                 {
                     mmApp.Model?.Window?.Dispatcher?.Invoke(() =>
@@ -148,12 +148,15 @@ namespace MarkdownMonster
                         {
                             if (regDialog != null && regDialog.IsVisible)
                                 return;
-
+                            
                             regDialog = new RegisterDialog
                             {
                                 Owner = mmApp.Model.Window
                             };
                             regDialog.ShowDialog();
+
+                            timer.Stop();
+                            timer.Start();
                         }
                         catch { }
                     });
@@ -165,8 +168,7 @@ namespace MarkdownMonster
         public static void Shutdown()
         {
             timer?.Stop();
-            timer?.Dispose();
-            timer = null;
+            timer?.Dispose();            
 
             try
             {

@@ -706,8 +706,12 @@ namespace MarkdownMonster
 
         void DistractionFreeMode()
         {
-            DistractionFreeModeCommand = new CommandBase((s, e) =>
+            DistractionFreeModeCommand = new CommandBase((p, e) =>
             {
+                if (p is string)
+                    // toggle
+                    Model.IsFullScreen = !Model.IsFullScreen;
+
                 Model.WindowLayout.SetDistractionFreeMode(!Model.IsFullScreen);
             });
         }
@@ -718,8 +722,12 @@ namespace MarkdownMonster
         void PresentationMode()
         {
             // PRESENTATION MODE
-            PresentationModeCommand = new CommandBase((s, e) =>
+            PresentationModeCommand = new CommandBase((p, e) =>
             {
+                if (p is string)
+                    // toggle
+                    Model.IsPresentationMode = !Model.IsPresentationMode;
+
                 Model.WindowLayout.SetPresentationMode(!Model.IsPresentationMode);
             });
         }

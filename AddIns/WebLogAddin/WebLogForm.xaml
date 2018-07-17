@@ -15,7 +15,7 @@
         Icon="icon.png"
         Title="Markdown Monster Weblog Publishing" 
         TitleCharacterCasing="Normal" 
-        TitlebarHeight="35"
+        TitlebarHeight="32"
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"

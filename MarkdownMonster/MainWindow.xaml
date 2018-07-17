@@ -19,14 +19,14 @@
         BorderThickness="0" 
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"		
-        Height="700" Width="1000"  
+        Height="600" Width="1000"  
         MinWidth="390" MinHeight="220" 
         WindowTransitionsEnabled="False">
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt+Shift"
                     Key="Return"
-                    Command="{Binding  Commands.DistractionFreeModeCommand}" />
-        <KeyBinding Key="F11" Command="{Binding Commands.PresentationModeCommand}"/>
+                    Command="{Binding Commands.DistractionFreeModeCommand}" CommandParameter="Toggle" />
+        <KeyBinding Key="F11" Command="{Binding Commands.PresentationModeCommand}" CommandParameter="Toggle" />
         <KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding Commands.PrintPreviewCommand}" />
         
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Commands.SaveAsCommand}" />

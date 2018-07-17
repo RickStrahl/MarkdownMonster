@@ -7,6 +7,21 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
+### 1.12.8
+<small>June 12th, 2018</small>
+
+* **Updates to Startup Screen**  
+Updates to the Recent File and Folder List display and added Theme switching to the Startup screen.
+
+* **Reduce Minimum Window Size**  
+Reduced minimum Window size to 390x220 per user requests.
+
+* **Change from Copy Folder Name to Copy Full Path**  
+Changed all instances of Copy Foldername to Clipboard to instead copy the full path which is usually more useful for pasting into Explorer or command lines.
+
+* **Fix: Window Menu Shortcuts**  
+Fixed a number of the Window menu shortcuts that are toggle switches. DistractionFree mode (Alt-Shift-Enter) and Presentation mode (F11) and Help (F1) now work properly again.
+
 ### 1.12.6
 <small>June 12th, 2018</small>
 
