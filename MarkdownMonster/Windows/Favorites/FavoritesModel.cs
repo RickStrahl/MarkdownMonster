@@ -127,6 +127,8 @@ namespace MarkdownMonster.Favorites
                     while (parent != null)
                     {
                         parent.DisplayState.IsVisible = true;
+                        if (!string.IsNullOrEmpty(SearchText))
+                            parent.IsExpanded = true;
                         parent = parent.Parent;
                     }
                 }
