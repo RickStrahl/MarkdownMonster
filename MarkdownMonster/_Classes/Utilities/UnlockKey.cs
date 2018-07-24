@@ -139,7 +139,7 @@ namespace MarkdownMonster
         {
             if (!Unlocked && mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
             {               
-                timer = new System.Timers.Timer(23 * 1000 * 60);
+                timer = new System.Timers.Timer(25 * 1000 * 60);
                 timer.Elapsed += (s, ev) =>
                 {
                     mmApp.Model?.Window?.Dispatcher?.Invoke(() =>

@@ -7,8 +7,20 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
+### 1.12.9
+<small>not released yet</small>
+
+* **Add Open on Github in Folder Browser**  
+If a file or folder is in a Github repository there's now a link in the folder browser to open the file on Github.
+
+* **Folder Browser Git Context Menu now Context Sensitive**  
+Fixed the Git options on the Folder Browser context menu to be context sensitive on whether the file/folder is a Git repo, and whether it's a Github repo.
+
+* **Fix: Favorites Search to Open Folders above Found Items**  
+Fixed regression bug that would not properly open parent folders when a match was found inside of a folder hierarchy.
+
 ### 1.12.8
-<small>June 12th, 2018</small>
+<small>July 12th, 2018</small>
 
 * **Updates to Startup Screen**  
 Updates to the Recent File and Folder List display and added Theme switching to the Startup screen.
@@ -23,7 +35,7 @@ Changed all instances of Copy Foldername to Clipboard to instead copy the full p
 Fixed a number of the Window menu shortcuts that are toggle switches. DistractionFree mode (Alt-Shift-Enter) and Presentation mode (F11) and Help (F1) now work properly again.
 
 ### 1.12.6
-<small>June 12th, 2018</small>
+<small>July 6th, 2018</small>
 
 * **Favorites**  
 You can now select files and folders as favorites for easy access. Favorites are accessible from the toolbar and the Recents menu and you can add Favorites from the tab header. A new **Favorites** sidebar lets you select and add/edit/delete favorites as well as select and open favorites.

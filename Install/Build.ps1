@@ -20,7 +20,7 @@ out-file -FilePath .\Distribution\_IsPortable -InputObject "forces the settings 
 del ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip"
 .\7z a -tzip -r ".\Builds\CurrentRelease\MarkdownMonsterPortable.zip" ".\Distribution\*.*" ".\Distribution\_IsPortable" ".\MarkdownMonsterPortable.md"
 
-# remove-item .\Distribution\_IsPortable
+remove-item .\Distribution\_IsPortable
 
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe").FileVersion
 $version = $version.Trim()
