@@ -86,6 +86,7 @@ namespace MarkdownMonster
             OpenGitClient();
             OpenFromGitRepo();
             CommitToGit();
+            OpenOnGithub();
 
 
             // Sidebar
@@ -1282,10 +1283,42 @@ namespace MarkdownMonster
             }, (p, c) => !string.IsNullOrEmpty(Model.Configuration.Git.GitClientExecutable));
         }
 
-#endregion
 
 
-#region Static Menus Accessed from Control Templates
+        public CommandBase OpenOnGithubCommand { get; set; }
+
+        void OpenOnGithub()
+        {
+            OpenOnGithubCommand = new CommandBase((parameter, command) =>
+            {
+                var filename = parameter as string;
+                if(parameter == null)
+                    return;
+
+                var CommitModel = new GitCommitModel(filename);
+                                
+                using (var repo = CommitModel.GitHelper.OpenRepository(CommitModel.Filename))
+                {
+                    var remoteUrl = repo?.Network.Remotes.FirstOrDefault()?.Url;
+                    if (remoteUrl == null)
+                        return;
+
+                    var relativeFilename = FileUtils.GetRelativePath(filename, repo.Info.WorkingDirectory).Replace("\\","/");
+                    
+                    remoteUrl = remoteUrl.Replace(".git", "");
+                    remoteUrl += "/blob/master/" + relativeFilename;
+
+                    Model.Window.ShowStatus("Opening Url: " + remoteUrl);
+                    ShellUtils.GoUrl(remoteUrl);
+                }
+
+            });
+        }
+
+        #endregion
+
+
+        #region Static Menus Accessed from Control Templates
 
         public static CommandBase TabWindowListCommand { get; }
 

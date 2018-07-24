@@ -982,33 +982,56 @@ namespace MarkdownMonster.Windows
 
             cm.Items.Add(new Separator());
 
-            ci = new MenuItem();
-            ci.Header = "Commit to _Git...";
-            ci.InputGestureText = "ctrl-g";
-            ci.Click += MenuCommitGit_Click;
-            cm.Items.Add(ci);
 
-
-            if (pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInIndex ||
-                pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInWorkdir)
+            bool isGit = false;
+            var git = new GitHelper();
+            string gitRemoteUrl = null;
+            using (var repo = git.OpenRepository(pathItem.FullPath))
             {
-                ci = new MenuItem();
-                ci.Header = "_Undo Changes in Git";
-                ci.InputGestureText = "ctrl-z";
-                ci.Click += MenuUndoGit_Click;
-                cm.Items.Add(ci);
+                isGit = repo != null;
+                if (isGit)
+                    gitRemoteUrl = repo.Network?.Remotes.FirstOrDefault()?.Url;                
             }
 
-            ci = new MenuItem();
-            ci.Header = "Open Folder in Git Client";
-            ci.Click += MenuGitClient_Click;
-            ci.IsEnabled = AppModel.Configuration.Git.GitClientExecutable != null &&
-                           File.Exists(AppModel.Configuration.Git.GitClientExecutable);
-            cm.Items.Add(ci);
+            if (isGit)
+            {
+                ci = new MenuItem();
+                ci.Header = "Commit to _Git...";
+                ci.InputGestureText = "ctrl-g";
+                ci.Click += MenuCommitGit_Click;
+                cm.Items.Add(ci);
 
+                if (pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInIndex ||
+                    pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInWorkdir)
+                {
+                    ci = new MenuItem();
+                    ci.Header = "_Undo Changes in Git";
+                    ci.InputGestureText = "ctrl-z";
+                    ci.Click += MenuUndoGit_Click;
+                    cm.Items.Add(ci);
+                }
 
+                ci = new MenuItem();
+                ci.Header = "Open Folder in Git Client";
+                ci.Click += MenuGitClient_Click;
+                ci.IsEnabled = AppModel.Configuration.Git.GitClientExecutable != null &&
+                               File.Exists(AppModel.Configuration.Git.GitClientExecutable);
+                cm.Items.Add(ci);
 
-            cm.Items.Add(new Separator());
+                if (pathItem.FileStatus != LibGit2Sharp.FileStatus.Nonexistent)
+                {
+                    if (gitRemoteUrl != null && gitRemoteUrl.Contains("github.com"))
+                    {
+                        ci = new MenuItem();
+                        ci.Header = "Open on GitHub";
+                        ci.Command = mmApp.Model.Commands.OpenOnGithubCommand;
+                        ci.CommandParameter = pathItem.FullPath;
+                        cm.Items.Add(ci);
+                    }
+                }
+
+                cm.Items.Add(new Separator());
+            }
 
             ci = new MenuItem();
             ci.Header = "Copy Path to Clipboard";
