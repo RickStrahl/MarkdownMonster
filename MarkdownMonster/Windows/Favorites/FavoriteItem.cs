@@ -83,8 +83,8 @@ namespace MarkdownMonster.Favorites
             set
             {
                 if (value == _IsExpanded) return;
-                _IsExpanded = value;
-                OnPropertyChanged(nameof(IsExpanded));
+                    _IsExpanded = value;
+                OnPropertyChanged(nameof(IsExpanded));                           
             }
         }
         private bool _IsExpanded;

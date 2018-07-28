@@ -169,20 +169,25 @@
                   ItemTemplate="{StaticResource FolderTemplate}"                   
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ItemsSource="{Binding Favorites}"                   
-                  PreviewMouseMove="TreeFavorites_MouseMove"
+                  PreviewMouseMove="TreeFavorites_MouseMove" 
                   BorderThickness="0">
             <TreeView.ContextMenu>
                 <ContextMenu />
             </TreeView.ContextMenu>
+
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
+
                     <!--<EventSetter Event="PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>-->
                     <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeFavorites_PreviewMouseLeftButtonDown"/>
                     <!-- We have to select the item which is right-clicked on -->
                     <Setter Property="IsSelected" Value="{Binding DisplayState.IsSelected}" />
-                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />
                     <Setter Property="mah:VisibilityHelper.IsVisible" Value="{Binding DisplayState.IsVisible}" />
                     <EventSetter Event="Drop" Handler="TreeViewItem_Drop" />
+                    <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded" />
+                    <EventSetter Event="Collapsed" Handler="TreeViewItem_Expanded"/>
+
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>

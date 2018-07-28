@@ -204,6 +204,14 @@ namespace MarkdownMonster.Favorites
             return result;
         }
 
+        /// <summary>
+        /// Saves favorites without checking for file change in editor
+        /// </summary>
+        /// <returns></returns>
+        public bool SaveFavoritesQuick()
+        {
+            return JsonSerializationUtils.SerializeToFile(Favorites, FavoritesFile, throwExceptions: false, formatJsonOutput: true);
+        }
 
         /// <summary>
         /// Searches the tree for a specific item
