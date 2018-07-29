@@ -16,6 +16,9 @@ If a file or folder is in a Github repository there's now a link in the folder b
 * **Folder Browser Git Context Menu now Context Sensitive**  
 Fixed the Git options on the Folder Browser context menu to be context sensitive on whether the file/folder is a Git repo, and whether it's a Github repo.
 
+* **Save All File Menu Option and Shortcut**  
+You can now use **File->Save All** or `alt-shift-s` to save all open documents. Existing documents are saved in place, any untitled documents prompt for a filename to save to or to cancel.
+
 * **Fix: Favorites Search to Open Folders above Found Items**  
 Fixed regression bug that would not properly open parent folders when a match was found inside of a folder hierarchy.
 
