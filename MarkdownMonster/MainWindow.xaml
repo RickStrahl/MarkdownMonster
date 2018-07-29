@@ -30,6 +30,7 @@
         <KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding Commands.PrintPreviewCommand}" />
         
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Commands.SaveAsCommand}" />
+        <KeyBinding Modifiers="Alt+Shift" Key="S" Command="{Binding Commands.SaveAllCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding Commands.NewDocumentCommand }"  />
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding Commands.OpenDocumentCommand }"    />
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
@@ -229,6 +230,8 @@
                           InputGestureText="ctrl+s"/>
                 <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding Commands.SaveAsCommand}"  
                           InputGestureText="ctrl+shift+s"/>
+                <MenuItem Name="ButtonSaveAll" Header="Save A_ll " Command="{Binding Commands.SaveAllCommand}"  
+                          InputGestureText="alt+shift-s"/>
 
                 <Separator />
                 
@@ -735,12 +738,11 @@
                                      BorderThickness="0"
                                      ShowDefaultCloseButton="True"                                     
                                      ShowDefaultAddButton="False"
-                                     SelectionChanged="TabControl_SelectionChanged"                                      
+                                     SelectionChanged="TabControl_SelectionChanged"                                                                           
                                      controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}">
             </dragablz:TabablzControl>
 
             <mmcontrols:StartMenuUserControl Grid.Column="2" controls:VisibilityHelper.IsCollapsed="{Binding IsTabOpen}" />
-
 
             <GridSplitter Grid.Column="3"  x:Name="RightSidebarContainerSeparator"                                                                   
                           HorizontalAlignment="Center"                          

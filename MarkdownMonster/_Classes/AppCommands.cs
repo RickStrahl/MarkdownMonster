@@ -29,16 +29,18 @@ namespace MarkdownMonster
             // File Operations
             NewDocument();
             OpenDocument();
+            OpenRecentDocument();
             OpenFromUrl();
+
             Save();
             SaveAs();
+            SaveAll();
             NewWeblogPost();
-            OpenRecentDocument();
+
             SaveAsHtml();
             GeneratePdf();
             PrintPreview();
-
-
+            
             // Links and External
             OpenSampleMarkdown();
 
@@ -278,19 +280,13 @@ namespace MarkdownMonster
             SaveCommand = new CommandBase((s, e) =>
             {
                 var tab = Model.Window.TabControl?.SelectedItem as TabItem;
-                if (tab == null)
-                    return;
-                var doc = tab.Tag as MarkdownDocumentEditor;
+                var doc = tab?.Tag as MarkdownDocumentEditor;
                 if (doc == null)
                     return;
 
-                if (doc.MarkdownDocument.Filename == "untitled")
+                if (doc.MarkdownDocument.Filename == "untitled" || !doc.SaveDocument())
                     SaveAsCommand.Execute(tab);
-                else if (!doc.SaveDocument())
-                {
-                    SaveAsCommand.Execute(tab);
-                }
-
+                
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
             {
@@ -310,9 +306,8 @@ namespace MarkdownMonster
                 bool isEncrypted = parameter != null && parameter.ToString() == "Secure";
 
                 var tab = Model.Window.TabControl?.SelectedItem as TabItem;
-                if (tab == null)
-                    return;
-                var doc = tab.Tag as MarkdownDocumentEditor;
+                
+                var doc = tab?.Tag as MarkdownDocumentEditor;
                 if (doc == null)
                     return;
 
@@ -405,6 +400,30 @@ namespace MarkdownMonster
         }
 
 
+        public CommandBase SaveAllCommand { get; set; }
+
+        void SaveAll()
+        {
+            SaveAllCommand = new CommandBase((parameter, command) =>
+            {
+                var tabs = Model.Window.TabControl.Items;
+                
+                foreach (var tabItem in tabs)
+                {
+                    var tab = tabItem as TabItem;
+                    if (tab == null)
+                        continue;
+
+                    var doc = tab?.Tag as MarkdownDocumentEditor;
+                    if (doc == null)
+                        continue;
+
+                    if (doc.MarkdownDocument.Filename == "untitled" || !doc.SaveDocument())
+                        SaveAsCommand.Execute(tab);
+                }
+            }, (p, c) => Model.IsEditorActive);
+        }
+       
 
         public CommandBase NewWeblogPostCommand { get; set; }
 
