@@ -304,10 +304,10 @@ namespace MarkdownMonster.Windows
             FavoritesModel.LoadFavorites();            
         }
 
-        private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
+        private async void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            Dispatcher.InvokeAsync(() =>FavoritesModel.SaveFavoritesQuick(),System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+            FavoritesModel.SaveFavoritesAsync();            
         }
     }
 }
