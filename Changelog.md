@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.12.9
+### 1.12.10
 <small>not released yet</small>
 
 * **Add Open on Github in Folder Browser**  
@@ -22,7 +22,7 @@ You can now use **File->Save All** or `alt-shift-s` to save all open documents. 
 * **Fix: Favorites Search to Open Folders above Found Items**  
 Fixed regression bug that would not properly open parent folders when a match was found inside of a folder hierarchy.
 
-### 1.12.8
+### 1.12.9
 <small>July 12th, 2018</small>
 
 * **Updates to Startup Screen**  

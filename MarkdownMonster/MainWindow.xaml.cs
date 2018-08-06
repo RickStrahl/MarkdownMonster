@@ -1152,7 +1152,6 @@ namespace MarkdownMonster
 
             AddinManager.Current.RaiseOnDocumentActivated(Model.ActiveDocument);
 
-
             ((Grid) PreviewBrowserContainer.Parent)?.Children.Remove(PreviewBrowserContainer);
             editor.EditorPreviewPane.PreviewBrowserContainer.Children.Add(PreviewBrowserContainer);
 
@@ -1164,7 +1163,7 @@ namespace MarkdownMonster
             if (mmApp.Configuration.IsPreviewVisible)
                 PreviewBrowser?.PreviewMarkdown();
 
-            Model.ActiveEditor.RestyleEditor();
+            editor.RestyleEditor();
 
             // handle preview tab closing
             if (PreviewTab != null && tab != PreviewTab)
@@ -1188,6 +1187,8 @@ namespace MarkdownMonster
                     }
                 }
             }
+
+            editor.SetEditorFocus();
 
             Dispatcher.InvokeAsync(() => UpdateDocumentOutline(), DispatcherPriority.ApplicationIdle);
         }
