@@ -24,7 +24,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -37,12 +36,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Media;
-using System.Windows.Threading;
 using FontAwesome.WPF;
-using MarkdownMonster.Utilities;
-using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
+using MarkdownMonster.Utilities;
 
 namespace MarkdownMonster.AddIns
 {
@@ -84,7 +81,7 @@ namespace MarkdownMonster.AddIns
         public AddinManager()
         {
             AddIns = new List<MarkdownMonsterAddin>();
-
+            
             // TODO: REMOVE in future Versions - added to deal with internalized Snippets Addin - added in 1.11.3            
             var snippetsAddin = Path.Combine(mmApp.Configuration.AddinsFolder, "Snippets");
             if (Directory.Exists(snippetsAddin))
@@ -322,7 +319,7 @@ namespace MarkdownMonster.AddIns
         {
             if (!string.IsNullOrEmpty(menuItem.KeyboardShortcut))
             {
-                KeyBinding kb = MarkdownMonster.Utilities.KeyBindingsManager.CreateKeyboardShortcutBinding(
+                KeyBinding kb = KeyBindingsManager.CreateKeyboardShortcutBinding(
                     menuItem.KeyboardShortcut,
                     menuItem.Command);
                 if (kb != null)

@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MarkdownMonster.Windows;
-using Newtonsoft.Json;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Utilities
@@ -26,7 +21,7 @@ namespace MarkdownMonster.Utilities
     /// * Instantiate
     /// * call SetKeyBindings() to attach bindings for control
     /// * (optional) call SaveKeyBindings() to save to disk
-    /// * (optional) call LoadKeyBindings() to load from disk    /// 
+    /// * (optional) call LoadKeyBindings() to load from disk
     /// </summary>
     public class KeyBindingsManager
     {
