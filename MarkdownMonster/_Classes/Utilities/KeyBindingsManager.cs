@@ -88,16 +88,17 @@ namespace MarkdownMonster.Utilities
                 },
                 new mmKeyBinding
                 {
-                    Key = "ctrl-w",
+                    Key = "ctrl-f4",
                     CommandName = "CloseActiveDocument",
                     Command = model.Commands.CloseActiveDocumentCommand
                 },
                 new mmKeyBinding
                 {
-                    Key = "ctrl-f4",
+                    Key = "ctrl-w",
                     CommandName = "CloseActiveDocument",
                     Command = model.Commands.CloseActiveDocumentCommand
                 },
+             
                 new mmKeyBinding
                 {
                     Key = "alt-z",
@@ -128,6 +129,18 @@ namespace MarkdownMonster.Utilities
                 //JavaScript Only Commands
                 new mmKeyBinding
                 {
+                    Key = "ctrl-b",
+                    CommandName = "InsertBold",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
+                    Key = "ctrl-i",
+                    CommandName = "InsertItalic",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
                     Key = "ctrl-k",
                     CommandName = "InsertHyperlink",
                     HasJavaScriptHandler= true
@@ -145,6 +158,88 @@ namespace MarkdownMonster.Utilities
                     HasJavaScriptHandler= true
                 },
 
+                new mmKeyBinding
+                {
+                    Key = "alt-i",
+                    CommandName = "InsertImage",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
+                    Key = "F3",
+                    CommandName = "FindNext",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
+                    Key = "alt-c",
+                    CommandName = "InsertCodeblock",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
+                    Key = "ctrl-`",
+                    CommandName = "InsertInlineCode",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
+                    Key = "shift-del",
+                    CommandName = "DeleteCurrentLine",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
+                    Key = "ctrl-tab",
+                    CommandName = "NextTab",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
+                    Key = "ctrl-shift-tab",
+                    CommandName = "PreviousTab",
+                    HasJavaScriptHandler= true
+                },
+
+                new mmKeyBinding
+                {
+                    Key = "ctrl--",
+                    CommandName = "ZoomDown",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
+                    Key = "ctrl-=",
+                    CommandName = "ZoomUp",
+                    HasJavaScriptHandler= true
+                },
+
+
+                new mmKeyBinding
+                {
+                    Key = "ctrl-shift-c",
+                    CommandName = "CopyToHtml",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
+                    Key = "ctrl-shift-v",
+                    CommandName = "PasteAsMarkdown",
+                    HasJavaScriptHandler= true
+                },
+                new mmKeyBinding
+                {
+                    Key = "ctrl-shift-z",
+                    CommandName = "RemoveMarkdown",
+                    HasJavaScriptHandler= true
+                },
+
+                new mmKeyBinding
+                {
+                    Key = "ctrl-v",
+                    CommandName = "Paste",
+                    HasJavaScriptHandler= true
+                },
 
             };
 
@@ -154,6 +249,10 @@ namespace MarkdownMonster.Utilities
         {
             foreach (var kb in KeyBindings)
             {
+                // ignore JavaScript only shortcuts for binding
+                if (kb.Command == null)
+                    continue;
+
                 KeyBinding keyBinding = CreateKeyboardShortcutBinding(
                     kb.Key,
                     kb.Command, kb.CommandParameter);

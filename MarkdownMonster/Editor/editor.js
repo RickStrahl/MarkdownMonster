@@ -917,10 +917,7 @@ te.keyBindings = {
                     te.specialkey("ctrl-=");
                     return null;
                 },
-                //"alt-shift-enter": function() { te.specialkey("alt-shift-enter")},
-                "ctrl-shift-down": function() { te.specialkey("ctrl-shift-down"); },
-                "ctrl-shift-up": function() { te.specialkey("ctrl-shift-up"); },
-
+                
                 // Paste as Markdown/From Html
                 "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
                 "ctrl-shift-v": function() { te.specialkey("ctrl-shift-v"); },
@@ -961,8 +958,49 @@ te.keyBindings = {
     },
     showHelp: function () { te.specialkey("F1") },
 
+    insertBold: function () { te.specialkey("ctrl-b"); },
+    insertItalic: function () { te.specialkey("ctrl-i"); },
+
     insertHyperlink: function () { te.specialkey("ctrl-k") },
     insertList: function () { te.specialkey("ctrl-l") },
     insertEmoji: function () { te.specialkey("ctrl-j") },
+
+
+    insertImage: function () { te.specialkey("alt-i"); },
+
+    // find again redirect
+    findNext: function () { te.editor.execCommand("findnext") },
+    // embed code
+    insertCodeblock: function () { te.specialkey("alt-c"); },
+    // inline code 
+    insertInlineCode: function () { te.specialkey("ctrl-`"); },
+
+
+    // delete line
+    deleteCurrentLine: te.deleteCurrentLine,
+
+    // try to move between tabs
+    nextTab: function () { te.specialkey("ctrl-tab"); },
+    previousTab: function () { te.specialkey("ctrl-shift-tab"); },
+
+    // take over Zoom keys and manually zoom
+    zoomDown: function () {
+        te.specialkey("ctrl--");
+        return null;
+    },
+    zoomUp: function () {
+        te.specialkey("ctrl-=");
+        return null;
+    },
+
+    // Paste as Markdown/From Html
+    copyToHtml: function () { te.specialkey("ctrl-shift-c"); },
+    pasteAsMarkdown: function () { te.specialkey("ctrl-shift-v"); },
+
+    // remove markdown formatting
+    removeMarkdown: function () { te.specialkey("ctrl-shift-z"); },
+
+    // Capture paste operation in WPF to handle Images
+    paste: function () { te.mm.textbox.PasteOperation(); }
 
 };

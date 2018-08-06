@@ -260,10 +260,13 @@
                           Command="{Binding Commands.ViewInExternalBrowserCommand}"
                           InputGestureText="alt-v-b"
                           IsEnabled="{Binding IsEditorActive}" />
-				<MenuItem Name="ButtonPrintPreview" Header="_Print Output" Command="{Binding Commands.PrintPreviewCommand}" InputGestureText="ctrl-p"/>
+				<MenuItem Name="ButtonPrintPreview" Header="_Print Output" Command="{Binding Commands.PrintPreviewCommand}"
+				          InputGestureText="{Binding Commands.PrintPreviewCommand.KeyboardShortcut}"/>
                 <Separator />
-                <MenuItem Header="_Close Document" Command="{Binding Commands.CloseActiveDocumentCommand}" InputGestureText="ctrl-w"/>
-                <MenuItem Header="Close _All Documents" Command="{Binding Commands.CloseAllDocumentsCommand}"  IsEnabled="{Binding IsEditorActive}"/>
+                <MenuItem Header="_Close Document" Command="{Binding Commands.CloseActiveDocumentCommand}" 
+                          InputGestureText="{Binding Commands.CloseActiveDocumentCommand.KeyboardShortcut}"/>
+                <MenuItem Header="Close _All Documents" Command="{Binding Commands.CloseAllDocumentsCommand}"  
+                          IsEnabled="{Binding IsEditorActive}"/>
 
                 <Separator />
                 <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
