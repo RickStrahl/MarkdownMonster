@@ -214,7 +214,7 @@
                 <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding Commands.NewDocumentCommand}" InputGestureText="ctrl-n"/>
                 <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Command="{Binding Commands.NewWeblogPostCommand}" />
                 <Separator/>
-                <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="ctrl-o"/>
+                <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="{Binding Commands.OpenDocumentCommand.KeyboardShortcut}"/>
 
                 <MenuItem Header="Open from...">
                     <MenuItem Name="ButtonOpenFromUrl" Header="Open from _Url" Command="{Binding Commands.OpenFromUrlCommand}" />
@@ -228,11 +228,11 @@
                 </MenuItem>
 
                 <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding Commands.SaveCommand}"  
-                          InputGestureText="ctrl+s"/>
+                          InputGestureText="{Binding Commands.SaveCommand.KeyboardShortcut}" />
                 <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding Commands.SaveAsCommand}"  
-                          InputGestureText="ctrl+shift+s"/>
+                          InputGestureText="{Binding Commands.SaveAsCommand.KeyboardShortcut}"/>
                 <MenuItem Name="ButtonSaveAll" Header="Save A_ll " Command="{Binding Commands.SaveAllCommand}"  
-                          InputGestureText="alt+shift-s"/>
+                          InputGestureText="{Binding Commands.SaveAllCommand.KeyboardShortcut}" />
 
                 <Separator />
                 

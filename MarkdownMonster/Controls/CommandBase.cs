@@ -1,18 +1,34 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using MarkdownMonster.Annotations;
 
 namespace MarkdownMonster
 {
     /// <summary>
     /// Base Command class to allow handling of commands generically
     /// </summary>
-    public class CommandBase : ICommand
+    public class CommandBase : ICommand, INotifyPropertyChanged
     {
         private readonly Action<object, ICommand> _execute;
         private readonly Func<object, ICommand, bool> _canExecute;
         private readonly Func<object, ICommand, bool> _previewExecute;
 
         public string Caption { get; set; }
+
+        private string _keyboardShortcut;
+
+        public string KeyboardShortcut
+        {
+            get => _keyboardShortcut;
+            set
+            {
+                if (value == _keyboardShortcut) return;
+                _keyboardShortcut = value;        
+                OnPropertyChanged(nameof(KeyboardShortcut));
+            }
+        }
 
         public string ToolTip { get; set; }
 
@@ -61,6 +77,14 @@ namespace MarkdownMonster
                 if (_canExecute != null)
                 CommandManager.RequerySuggested -= value;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

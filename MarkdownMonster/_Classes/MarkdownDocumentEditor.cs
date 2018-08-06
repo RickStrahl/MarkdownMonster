@@ -157,7 +157,10 @@ namespace MarkdownMonster
         /// with the document for rendering or other purposes.
         /// </summary>
         public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
-        
+
+
+     
+
         #endregion
 
 
@@ -1805,11 +1808,22 @@ namespace MarkdownMonster
             Window.PreviewBrowser.ExecuteCommand("PreviewContextMenu");
         }
 
+
+        /// <summary>
+        /// Return keyboard bindings object as a JSON string so we can bind inside
+        /// of the editor JavaScript
+        /// </summary>
+        /// <returns></returns>
+        public string GetKeyBindingsJson()
+        {
+            return JsonSerializationUtils.Serialize(
+                mmApp.Model.Window.KeyBindings.KeyBindings.Where(kb=> !string.IsNullOrEmpty(kb.JavaScriptHandlerScript)), false, true);            
+        }
         #endregion
 
-        
+
         #region SpellChecking interactions
-        
+
         /// <summary>
         /// Check spelling of an individual word - called from ACE Editor
         /// </summary>

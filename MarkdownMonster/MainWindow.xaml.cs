@@ -141,6 +141,9 @@ namespace MarkdownMonster
 
         StatusBarHelper StatusBarHelper { get;  }
 
+        public KeyBindingsManager KeyBindings { get; set; }
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -247,9 +250,21 @@ namespace MarkdownMonster
                 }, DispatcherPriority.ApplicationIdle);
             });
 
-            var keyBindings = new KeyBindingsManager();
-            keyBindings.SetKeyBindings();
+
+            KeyBindings = new KeyBindingsManager();
+            if (!File.Exists(KeyBindings.KeyBindingsFilename))
+                KeyBindings.SaveKeyBindings();
+            else
+            {
+                KeyBindings.LoadKeyBindings();
+                // always write back out
+                Task.Run(() => KeyBindings.SaveKeyBindings());
+            }
+            
+            KeyBindings.SetKeyBindings();            
         }
+
+        
 
         private void OnAddinsLoaded()
         {
