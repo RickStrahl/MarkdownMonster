@@ -816,124 +816,23 @@ String.prototype.extract = function (startDelim, endDelim, allowMissingEndDelim,
 
 te.keyBindings = {
     setupKeyBindings: function() {
-        try {
-            //te.editor.commands.addCommand({
-            //    name: "SaveDocument",
-            //    bindKey: { win: "ctrl-s" },
-            //    exec: te.keyBindings.saveDocument
-            //});
+        var kbJson = te.mm.textbox.GetKeyBindingsJson();
+        var keyBindings = JSON.parse(kbJson);
 
-            var kbJson = te.mm.textbox.GetKeyBindingsJson();
-            var keyBindings = JSON.parse(kbJson);
+        for (var i = 0; i < keyBindings.length; i++) {
+            var kb = keyBindings[i];
+            if (!kb.JavaScriptHandlerScript)
+                continue;
+            var handler = eval("te.keyBindings." + kb.JavaScriptHandlerScript);
+            if (!handler)
+                continue;
 
-            for (var i = 0; i < keyBindings.length; i++) {
-                var kb = keyBindings[i];
-                if (!kb.JavaScriptHandlerScript)
-                    continue;
-                var handler = eval("te.keyBindings." + kb.JavaScriptHandlerScript);
-                if (!handler)
-                    continue;
-
-                //alert(kb.CommandName + ": " + kb.Key + " - " + handler + " " + typeof(handler));
-                te.editor.commands.addCommand({
-                    name: kb.CommandName,
-                    bindKey: { win: kb.Key },
-                    exec: handler
-                });
-            }
-
-            return;
-
-            // disable certain hot keys in editor so we can handle them here        
-            te.editor.commands.bindKeys({
-                //"alt-k": null,
-                "ctrl-n": function() {
-                    te.specialkey("ctrl-n");
-                    // do nothing but:
-                    // keep ctrl-n browser behavior from happening
-                    // and let WPF handle the key
-                },
-                "f5": function() {
-                    te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
-                    te.specialkey("f5");
-                    setTimeout(function() { te.editor.focus(); }, 20);
-                },
-                "ctrl-f5": function() {
-                    te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
-                    te.specialkey("f5");
-                    setTimeout(function() { te.editor.focus(); }, 20);
-                },
-                "f1": function() {
-                    te.specialkey("f1");
-                },
-                "ctrl-s": function() {
-                    te.mm.textbox.IsDirty(); // force document to update
-                    te.specialkey("ctrl-s");
-                },
-                // Open document
-                "ctrl-o": function() {
-                    alert('ctrl-o');
-                    te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
-                    te.specialkey("ctrl-o");
-                    setTimeout(function() { te.editor.focus(); }, 20);
-                },
-
-                // link
-                "ctrl-k": function() { te.specialkey("ctrl-k"); },
-                // print
-                //"ctrl-p": function () { te.specialkey("ctrl-p") },
-                // turn lines into list
-                "ctrl-l": function() { te.specialkey("ctrl-l"); },
-                // Emoji
-                "ctrl-j": function() { te.specialkey("ctrl-j") },
-
-                // Image emedding
-                "alt-i": function() { te.specialkey("alt-i"); },
-
-                // find again redirect
-                "f3": function() { te.editor.execCommand("findnext") },
-                // embed code
-                "alt-c": function() { te.specialkey("alt-c"); },
-                // inline code 
-                "ctrl-`": function() { te.specialkey("ctrl-`"); },
-
-                "ctrl-b": function() { te.specialkey("ctrl-b"); },
-                "ctrl-i": function() { te.specialkey("ctrl-i"); },
-
-                // delete line
-                "shift-del": te.deleteCurrentLine,
-
-                // try to move between tabs
-                "ctrl-tab": function() { te.specialkey("ctrl-tab"); },
-
-                "ctrl-shift-tab": function() { te.specialkey("ctrl-shift-tab"); },
-
-                // take over Zoom keys and manually zoom
-                "ctrl--": function() {
-                    te.specialkey("ctrl--");
-                    return null;
-                },
-                "ctrl-=": function() {
-                    te.specialkey("ctrl-=");
-                    return null;
-                },
-                
-                // Paste as Markdown/From Html
-                "ctrl-shift-c": function() { te.specialkey("ctrl-shift-c"); },
-                "ctrl-shift-v": function() { te.specialkey("ctrl-shift-v"); },
-
-                // remove markdown formatting
-                "ctrl-shift-z": function() { te.specialkey("ctrl-shift-z"); },
-
-                // Capture paste operation in WPF to handle Images
-                "ctrl-v": function() { te.mm.textbox.PasteOperation(); }
+            //alert(kb.CommandName + ": " + kb.Key + " - " + handler + " " + typeof(handler));
+            te.editor.commands.addCommand({
+                name: kb.CommandName,
+                bindKey: { win: kb.Key },
+                exec: handler
             });
-
-            //for (var i = 0; i < keyBindings.length; i++) {
-
-            //}
-        } catch (ex) {
-            alert(ex.message);
         }
     },
     saveDocument: function() {

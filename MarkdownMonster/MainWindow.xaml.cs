@@ -251,7 +251,7 @@ namespace MarkdownMonster
             });
 
 
-            KeyBindings = new KeyBindingsManager();
+            KeyBindings = new MarkdownMonsterKeybindings(this);
             if (!File.Exists(KeyBindings.KeyBindingsFilename))
                 KeyBindings.SaveKeyBindings();
             else

@@ -238,6 +238,7 @@
     <Compile Include="_Classes\AddInInterfaces\IMarkdownMonsterAddin.cs" />
     <Compile Include="_Classes\AddInInterfaces\MarkdownMonsterAddin.cs" />
     <Compile Include="_Classes\Configuration\GitConfiguration.cs" />
+    <Compile Include="_Classes\Keybindings\AppKeyBinding.cs" />
     <Compile Include="_Classes\Utilities\GitHelper.cs" />
     <Compile Include="_Classes\Utilities\FileSaver.cs" />
     <None Include="Addins\ScreenCapture\_addin">
@@ -284,12 +285,13 @@
     <Compile Include="Windows\Helpers\ValueConverters.cs" />
     <Compile Include="_Classes\Utilities\HtmlPackager.cs" />
     <Compile Include="_Classes\Utilities\HtmlToPdfGeneration.cs" />
-    <Compile Include="_Classes\Utilities\KeyBindingsManager.cs" />
+    <Compile Include="_Classes\Keybindings\KeyBindingsManager.cs" />
     <Compile Include="_Classes\Utilities\KnownFolders.cs" />
     <Compile Include="_Classes\MarkdownParser\IMarkdownParser.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserBase.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserFactory.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserMarkDig.cs" />
+    <Compile Include="_Classes\Keybindings\MarkdownMonsterKeybindings.cs" />
     <Compile Include="_Classes\Utilities\mmFileUtils.cs" />
     <Compile Include="Windows\Helpers\WindowUtilities.cs" />
     <Compile Include="_Classes\Configuration\ApplicationUpdater.cs" />

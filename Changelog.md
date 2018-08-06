@@ -10,6 +10,9 @@
 ### 1.12.10
 <small>not released yet</small>
 
+* **New KeyBinding Manager**  
+You can now remap a number of keyboard shortcuts using the `MarkdownMonster-KeyBindings.json` file. In this file you can assign new shortcut keys to a number of commands.
+
 * **Add Open on Github in Folder Browser**  
 If a file or folder is in a Github repository there's now a link in the folder browser to open the file on Github.
 

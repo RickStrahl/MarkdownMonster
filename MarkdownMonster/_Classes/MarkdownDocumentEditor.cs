@@ -1566,12 +1566,12 @@ namespace MarkdownMonster
                 // zooming
                 else if (key == "ctrl-=")
                 {
-                    mmApp.Configuration.Editor.ZoomLevel += 2;
+                    mmApp.Configuration.Editor.ZoomLevel += 4;
                     RestyleEditor();
                 }
                 else if (key == "ctrl--")
                 {
-                    mmApp.Configuration.Editor.ZoomLevel -= 2;                    
+                    mmApp.Configuration.Editor.ZoomLevel -= 4;                    
                     RestyleEditor();
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);
