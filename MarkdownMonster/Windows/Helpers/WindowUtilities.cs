@@ -114,7 +114,7 @@ namespace MarkdownMonster.Windows
         /// <param name="ksc"></param>
         /// <param name="command"></param>
         /// <returns>KeyBinding - Window.InputBindings.Add(keyBinding)</returns>
-        public static KeyBinding CreateKeyboardShortcutBinding(string ksc, ICommand command)
+        public static KeyBinding xCreateKeyboardShortcutBinding(string ksc, ICommand command, object commandParameter = null)
         {
             if (string.IsNullOrEmpty(ksc))
                 return null;
@@ -152,6 +152,8 @@ namespace MarkdownMonster.Windows
 
                 // Whatever command you need to bind to
                 kb.Command = command;
+                if (commandParameter != null)
+                   kb.CommandParameter = commandParameter;
 
                 return kb;
             }

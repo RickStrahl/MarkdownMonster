@@ -246,6 +246,9 @@ namespace MarkdownMonster
 
                 }, DispatcherPriority.ApplicationIdle);
             });
+
+            var keyBindings = new KeyBindingsManager();
+            keyBindings.SetKeyBindings();
         }
 
         private void OnAddinsLoaded()

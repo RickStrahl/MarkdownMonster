@@ -76,12 +76,12 @@ var te = window.textEditor = {
         // disable certain hot keys in editor so we can handle them here        
         editor.commands.bindKeys({
             //"alt-k": null,
-            "ctrl-n": function () {
-                te.specialkey("ctrl-n");
-                // do nothing but:
-                // keep ctrl-n browser behavior from happening
-                // and let WPF handle the key
-            },
+            //"ctrl-n": function () {
+            //    te.specialkey("ctrl-n");
+            //    // do nothing but:
+            //    // keep ctrl-n browser behavior from happening
+            //    // and let WPF handle the key
+            //},
             "f5": function () {
                 te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
                 te.specialkey("f5");
@@ -113,7 +113,7 @@ var te = window.textEditor = {
             // link
             "ctrl-k": function () { te.specialkey("ctrl-k"); },
             // print
-            "ctrl-p": function () { te.specialkey("ctrl-p") },
+            //"ctrl-p": function () { te.specialkey("ctrl-p") },
             // turn lines into list
             "ctrl-l": function () { te.specialkey("ctrl-l"); },
             // Emoji
