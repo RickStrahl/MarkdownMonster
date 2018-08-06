@@ -284,6 +284,7 @@
     <Compile Include="Windows\Helpers\ValueConverters.cs" />
     <Compile Include="_Classes\Utilities\HtmlPackager.cs" />
     <Compile Include="_Classes\Utilities\HtmlToPdfGeneration.cs" />
+    <Compile Include="_Classes\Utilities\KeyBindingsManager.cs" />
     <Compile Include="_Classes\Utilities\KnownFolders.cs" />
     <Compile Include="_Classes\MarkdownParser\IMarkdownParser.cs" />
     <Compile Include="_Classes\MarkdownParser\MarkdownParserBase.cs" />

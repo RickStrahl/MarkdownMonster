@@ -39,6 +39,7 @@ using System.Windows.Interactivity;
 using System.Windows.Media;
 using System.Windows.Threading;
 using FontAwesome.WPF;
+using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
@@ -321,7 +322,7 @@ namespace MarkdownMonster.AddIns
         {
             if (!string.IsNullOrEmpty(menuItem.KeyboardShortcut))
             {
-                KeyBinding kb = WindowUtilities.CreateKeyboardShortcutBinding(
+                KeyBinding kb = KeyBindingsManager.CreateKeyboardShortcutBinding(
                     menuItem.KeyboardShortcut,
                     menuItem.Command);
                 if (kb != null)

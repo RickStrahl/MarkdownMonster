@@ -304,7 +304,7 @@ namespace MarkdownMonster.Windows
             FavoritesModel.LoadFavorites();            
         }
 
-        private async void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
+        private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
             FavoritesModel.SaveFavoritesAsync();            

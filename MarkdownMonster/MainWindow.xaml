@@ -23,15 +23,16 @@
         MinWidth="390" MinHeight="220" 
         WindowTransitionsEnabled="False">
     <Window.InputBindings>
-        <KeyBinding Modifiers="Alt+Shift"
+        <!--<KeyBinding Modifiers="Alt+Shift"
                     Key="Return"
                     Command="{Binding Commands.DistractionFreeModeCommand}" CommandParameter="Toggle" />
+-->
         <KeyBinding Key="F11" Command="{Binding Commands.PresentationModeCommand}" CommandParameter="Toggle" />
-        <KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding Commands.PrintPreviewCommand}" />
+        <!--<KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding Commands.PrintPreviewCommand}" />-->
         
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Commands.SaveAsCommand}" />
         <KeyBinding Modifiers="Alt+Shift" Key="S" Command="{Binding Commands.SaveAllCommand}" />
-        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding Commands.NewDocumentCommand }"  />
+        <!--<KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding Commands.NewDocumentCommand }"  />-->
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding Commands.OpenDocumentCommand }"    />
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  Commands.CloseActiveDocumentCommand}" />
