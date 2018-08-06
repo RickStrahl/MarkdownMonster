@@ -2218,14 +2218,14 @@ namespace MarkdownMonster
                 var editor = GetActiveMarkdownEditor();
                 if (editor == null)
                     return;
-                editor.SpecialKey("ctrl-shift-down");
+                editor.KeyboardCommand("ctrl-shift-down");
             }
             else if (button == ButtonScrollBrowserUp)
             {
                 var editor = GetActiveMarkdownEditor();
                 if (editor == null)
                     return;
-                editor.SpecialKey("ctrl-shift-d");
+                editor.KeyboardCommand("ctrl-shift-d");
             }
             else if (button == ButtonDocumentOutlineVisible)
             {

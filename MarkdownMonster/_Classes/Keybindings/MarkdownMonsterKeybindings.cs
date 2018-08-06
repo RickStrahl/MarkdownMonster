@@ -4,7 +4,19 @@ using System.Windows.Controls;
 namespace MarkdownMonster.Utilities
 {
 
-
+    /// <summary>
+    /// Class to manage application key bindings.
+    /// Either set a Command/Command parameter for a binding
+    /// and/or add HasJavaScript = true to force JavaScript
+    /// processing
+    /// 
+    /// To use:
+    /// * Add keybindings in ctor()
+    /// * Instantiate
+    /// * call SetKeyBindings()
+    /// * (optional) call SaveKeyBindings() to save to disk
+    /// * (optional) call LoadKeyBindings() to load from disk
+    /// </summary>
     public class MarkdownMonsterKeybindings : KeyBindingsManager
     {
         public MarkdownMonsterKeybindings(Control control) : base(control)
@@ -12,6 +24,14 @@ namespace MarkdownMonster.Utilities
             BindingsControl = control;
 
             var model = mmApp.Model;
+
+
+            // Add any bindings to Commands here
+            // Any JavaScript handlers should be in editor-keybindings.js and
+            // have a handler that matches the command name:
+            //
+            // keyBindings.distractionFreeMode: function() {},
+            // keybindings.newDocument: function() {}
 
             KeyBindings = new List<AppKeyBinding>
             {
@@ -64,7 +84,7 @@ namespace MarkdownMonster.Utilities
                 new AppKeyBinding
                 {
                     Key = "ctrl-p",
-                    CommandName = "Print",
+                    CommandName = "PrintPreview",
                     Command = model.Commands.PrintPreviewCommand
                 },
                 new AppKeyBinding
@@ -109,12 +129,12 @@ namespace MarkdownMonster.Utilities
                 new AppKeyBinding
                 {
                     Key = "ctrl-f5",
-                    CommandName = "ReloadEditor2",
+                    CommandName = "ReloadEditor",
                     HasJavaScriptHandler = true
                 },
 
 
-                //JavaScript Only Commands
+                //JavaScript Editor Only Commands
                 new AppKeyBinding
                 {
                     Key = "ctrl-b",
@@ -192,13 +212,13 @@ namespace MarkdownMonster.Utilities
                 new AppKeyBinding
                 {
                     Key = "ctrl--",
-                    CommandName = "ZoomDown",
+                    CommandName = "ZoomEditorDown",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
                     Key = "ctrl-=",
-                    CommandName = "ZoomUp",
+                    CommandName = "ZoomEditorUp",
                     HasJavaScriptHandler= true
                 },
 
@@ -206,19 +226,19 @@ namespace MarkdownMonster.Utilities
                 new AppKeyBinding
                 {
                     Key = "ctrl-shift-c",
-                    CommandName = "CopyToHtml",
+                    CommandName = "CopyMarkdownAsHtml",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
                     Key = "ctrl-shift-v",
-                    CommandName = "PasteAsMarkdown",
+                    CommandName = "PasteHtmlAsMarkdown",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-shift-z",
-                    CommandName = "RemoveMarkdown",
+                    Key = "ctrl-shift-z",                     
+                    CommandName = "RemoveMarkdownFormatting",
                     HasJavaScriptHandler= true
                 },
 

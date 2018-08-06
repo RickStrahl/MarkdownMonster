@@ -899,7 +899,7 @@ namespace MarkdownMonster.Windows
 
             var ci = new MenuItem();
             ci.Header = "_New File";
-            ci.InputGestureText = "ctrl-n";
+            ci.InputGestureText = AppModel.Commands.NewDocumentCommand.KeyboardShortcut;
             ci.Click += MenuAddFile_Click;
             cm.Items.Add(ci);
 

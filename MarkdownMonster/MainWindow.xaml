@@ -33,12 +33,12 @@
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Commands.SaveAsCommand}" />
         <KeyBinding Modifiers="Alt+Shift" Key="S" Command="{Binding Commands.SaveAllCommand}" />
         <!--<KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding Commands.NewDocumentCommand }"  />-->
-        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding Commands.OpenDocumentCommand }"    />
+        <!--<KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding Commands.OpenDocumentCommand }"    />
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  Commands.CloseActiveDocumentCommand}" />
         <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding Commands.CloseActiveDocumentCommand}" />
         <KeyBinding Modifiers="Alt" Key="Z" Command="{Binding Commands.WordWrapCommand}" />
-        <KeyBinding Key="F1" Command="{Binding Commands.HelpCommand}" />
+        <KeyBinding Key="F1" Command="{Binding Commands.HelpCommand}" />-->
         
         <!-- Commands that are handled in the Markdown Editor because they are not working here -->
         <!--<KeyBinding Modifiers="Ctrl+Shift" Key="Z" Command="{Binding Commands.RemoveMarkdownFormattingCommand}" />-->        
@@ -211,7 +211,7 @@
               Margin="0"
               HorizontalAlignment="Stretch">
             <MenuItem Header="_File" Name="MainMenuFile" x:FieldModifier="public" >
-                <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding Commands.NewDocumentCommand}" InputGestureText="ctrl-n"/>
+                <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding Commands.NewDocumentCommand}" InputGestureText="{Binding Commands.NewDocumentCommand.KeyboardShortcut}"/>
                 <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Command="{Binding Commands.NewWeblogPostCommand}" />
                 <Separator/>
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="{Binding Commands.OpenDocumentCommand.KeyboardShortcut}"/>
@@ -275,16 +275,16 @@
                 <MenuItem Header="Paste Html as Markdown" IsEnabled="{Binding IsEditorActive}" 
                           Command="{Binding Commands.PasteMarkdownFromHtmlCommand}"
                           ToolTip="Pastes HTML from your clipboard as Markdown text" 
-                          InputGestureText="ctrl-shift-v"                          
+                          InputGestureText="{Binding Commands.PasteMarkdownFromHtmlCommand.KeyboardShortcut}" 
                           />
                 <MenuItem Header="Copy Markdown Selection as Html" IsEnabled="{Binding IsEditorActive}"                          
-                          Command="{Binding CopyAsHtmlCommand}"
+                          Command="{Binding Commands.CopyAsHtmlCommand}" 
                           ToolTip="Copies the selected markdown from the editor as HTML to the clipboard"
-                          InputGestureText="ctrl-shift-c" />
+                          InputGestureText="{Binding Commands.CopyAsHtmlCommand.KeyboardShortcut}"  />
                 <MenuItem Header="Remove Markdown _Formatting" IsEnabled="{Binding IsEditorActive}" 
                           Command="{Binding Commands.RemoveMarkdownFormattingCommand}"
                           ToolTip="Removes Markdown formatting from a selection." 
-                          InputGestureText="ctrl-shift-z" />
+                          InputGestureText="{Binding Commands.RemoveMarkdownFormattingCommand.KeyboardShortcut}" />
                 <Separator />
                 <MenuItem Name="Button_Spellcheck" Header="Toggle _Spellchecking" Command="{Binding Commands.SpellCheckCommand}"   />
                 <Separator />
@@ -349,7 +349,7 @@
                           Command="{Binding Commands.ViewInExternalBrowserCommand}"
                           InputGestureText="alt-v-b"
                           IsEnabled="{Binding IsEditorActive}" />
-                <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding Commands.PrintPreviewCommand}" InputGestureText="ctrl-p"/>
+                <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding Commands.PrintPreviewCommand}" InputGestureText="{Binding Commands.PrintPreviewCommand.ShortcutKey}" />
                 <Separator/>
                 <MenuItem Name="ButtonScrollBrowserUp" 
                           Header="Scroll Preview Browser Up"                         
@@ -426,7 +426,7 @@
 
 
             <MenuItem Header="_Help" Name="MainMenuHelp">
-                <MenuItem Name="MenuDocumentation" Header="Documentation" Command="{Binding Commands.HelpCommand}" InputGestureText="F1" />
+                <MenuItem Name="MenuDocumentation" Header="Documentation" Command="{Binding Commands.HelpCommand}" InputGestureText="{Binding Commands.HelpCommand.KeyboardShortcut}" />
                 <MenuItem Name="MenuMarkdownBasics" Header="Markdown Basics"   Click="Button_Handler"/>
                 <MenuItem Name="MenuCreateAddinDocumentation" Header="Documentation for Creating Addins"   Click="Button_Handler"/>
                 <MenuItem Name="MenuShowSampleDocument" Header="Show Markdown Feature Sample Document"   Click="Button_Handler"/>

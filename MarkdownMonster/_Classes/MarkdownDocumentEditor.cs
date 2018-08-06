@@ -1429,11 +1429,11 @@ namespace MarkdownMonster
         /// ctrl-s,ctrl-n, ctrl-o, cltr-i,ctrl-b,ctrl-l,ctrl-k,alt-c,ctrl-shift-v,ctrl-shift-c,ctlr-shift-down,ctrl-shift-up
         /// </summary>
         /// <param name="key"></param>
-        public void SpecialKey(string key)
+        public void KeyboardCommand(string key)
         {
 
             // run this one sync to avoid Browser default Open File popup!
-            if (key == "ctrl-o")
+            if (key == "OpenDocument")
             {
                 Window.Model.Commands.OpenDocumentCommand.Execute(Window);
                 return;
@@ -1442,64 +1442,64 @@ namespace MarkdownMonster
             // invoke out of sync in order to force out of scope of the editor - affects weird key behavior otherwise
             Window.Dispatcher.InvokeAsync(() =>
             {
-                if (key == "ctrl-s")
+                if (key == "SaveDocument")
                 {
                     Window.Model.Commands.SaveCommand.Execute(Window);
                 }
-                else if (key == "ctrl-n")
+                else if (key == "NewDocument")
                 {
                     Window.Model.Commands.NewDocumentCommand.Execute(Window);
                 }
                 
-                else if (key == "ctrl-p")
+                else if (key == "PrintPreview")
                 {
                     Window.Model.Commands.PrintPreviewCommand.Execute(Window.ButtonPrintPreview);
                 }                
-                else if (key == "ctrl-b")
+                else if (key == "InsertBold")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("bold");
                 }
-                else if (key == "ctrl-i")
+                else if (key == "InsertItalic")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("italic");
                 }
-                else if (key == "ctrl-`")
+                else if (key == "InsertInlineCode")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("inlinecode");
                 }
-                else if (key == "ctrl-l")
+                else if (key == "InsertList")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("list");
                 }
-                else if (key == "ctrl-j")
+                else if (key == "InsertEmoji")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("emoji");
                 }
-                else if (key == "ctrl-k")
+                else if (key == "InsertHyperlink")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("href");
                 }
-                else if (key == "alt-i")
+                else if (key == "InsertImage")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("image");
                 }
-                else if (key == "alt-c")
+                else if (key == "InsertCodeblock")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("code");
                 }
-                else if (key == "ctrl-shift-v")
+                else if (key == "PasteHtmlAsMarkdown")
                 {
                     Window.Model.Commands.PasteMarkdownFromHtmlCommand.Execute(null);
                 }
-                else if (key == "ctrl-shift-c")
+                else if (key == "CopyMarkdownAsHtml")
                 {
                     Window.Model.Commands.CopyAsHtmlCommand.Execute(null);
                 }
-                else if (key == "ctrl-shift-z")
+                else if (key == "RemoveMarkdownFormatting")
                 {
                     Window.Model.Commands.RemoveMarkdownFormattingCommand.Execute(null);
                 }
-                else if (key == "f5")
+                else if (key == "ReloadEditor")
                 {
                     if (IsDirty())
                     {
@@ -1517,7 +1517,7 @@ namespace MarkdownMonster
                     SetEditorFocus();
                     IsDirty(); // refresh dirty flag
                 }
-                else if (key == "ctrl-tab")
+                else if (key == "NextTab")
                 {
                     var tab = Window.TabControl.SelectedItem;
                     var tabs = Window.TabControl.GetOrderedHeaders().ToList();                    
@@ -1540,7 +1540,7 @@ namespace MarkdownMonster
                     Window.TabControl.SelectedItem = tabs[selIndex].Content;
                 }
 
-                else if (key == "ctrl-shift-tab")
+                else if (key == "PreviousTab")
                 {
                     var tab = Window.TabControl.SelectedItem;
                     var tabs = Window.TabControl.GetOrderedHeaders().ToList();
@@ -1564,14 +1564,14 @@ namespace MarkdownMonster
                     Window.TabControl.SelectedItem = tabs[selIndex].Content;
                 }
                 // zooming
-                else if (key == "ctrl-=")
+                else if (key == "ZoomEditorUp")
                 {
-                    mmApp.Configuration.Editor.ZoomLevel += 4;
+                    mmApp.Configuration.Editor.ZoomLevel += 2;
                     RestyleEditor();
                 }
-                else if (key == "ctrl--")
+                else if (key == "ZoomEditorDown")
                 {
-                    mmApp.Configuration.Editor.ZoomLevel -= 4;                    
+                    mmApp.Configuration.Editor.ZoomLevel -= 2;                    
                     RestyleEditor();
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);
@@ -1817,7 +1817,7 @@ namespace MarkdownMonster
         public string GetKeyBindingsJson()
         {
             return JsonSerializationUtils.Serialize(
-                mmApp.Model.Window.KeyBindings.KeyBindings.Where(kb=> !string.IsNullOrEmpty(kb.JavaScriptHandlerScript)), false, true);            
+                mmApp.Model.Window.KeyBindings.KeyBindings.Where(kb=> kb.HasJavaScriptHandler));            
         }
         #endregion
 

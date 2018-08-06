@@ -253,8 +253,8 @@ var te = window.textEditor = {
     refresh: function(ignored) {
         te.editor.resize(true); //force a redraw
     },
-    specialkey: function(key) {
-        te.mm.textbox.SpecialKey(key);
+    keyboardCommand: function(key) {
+        te.mm.textbox.keyboardCommand(key);
     },
     editorSelectionOperation: function(action, text) {
         te.mm.textbox.EditorSelectionOperation(action, text);
@@ -679,9 +679,9 @@ window.onmousewheel = function(e) {
 		e.returnValue = false;
 
 		if (e.wheelDelta > 0)
-			te.specialkey("ctrl-=");
+			te.keyboardCommand("ZoomEditorUp");
 		if (e.wheelDelta < 0)
-			te.specialkey("ctrl--");
+			te.keyboardCommand("ZoomEditorDown");
 
 		return false;
 	}
@@ -721,7 +721,7 @@ function initializeinterop(textbox) {
     te.mm = {};    
     te.mm.textbox = textbox;
 
-    setTimeout(te.keyBindings.setupKeyBindings,10);
+    setTimeout(te.keyBindings.setupKeyBindings,800);
 
     return window.textEditor;
 }
@@ -812,94 +812,4 @@ String.prototype.extract = function (startDelim, endDelim, allowMissingEndDelim,
         return str.substr(i1, i2 - i1 + startDelim.length);
 
     return str.substr(i1 + startDelim.length, i2 - i1 - startDelim.length);
-};
-
-te.keyBindings = {
-    setupKeyBindings: function() {
-        var kbJson = te.mm.textbox.GetKeyBindingsJson();
-        var keyBindings = JSON.parse(kbJson);
-
-        for (var i = 0; i < keyBindings.length; i++) {
-            var kb = keyBindings[i];
-            if (!kb.JavaScriptHandlerScript)
-                continue;
-            var handler = eval("te.keyBindings." + kb.JavaScriptHandlerScript);
-            if (!handler)
-                continue;
-
-            //alert(kb.CommandName + ": " + kb.Key + " - " + handler + " " + typeof(handler));
-            te.editor.commands.addCommand({
-                name: kb.CommandName,
-                bindKey: { win: kb.Key },
-                exec: handler
-            });
-        }
-    },
-    saveDocument: function() {
-        te.mm.textbox.IsDirty(); // force document to update
-        te.specialkey("ctrl-s");
-    },
-    newDocument: function() {
-        te.specialkey("ctrl-n");
-        // do nothing but:
-        // keep ctrl-n browser behavior from happening
-        // and let WPF handle the key
-    },
-    openDocument: function() {
-        te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
-        te.specialkey("ctrl-o");
-        setTimeout(function() { te.editor.focus(); }, 20);
-    },
-    reloadEditor: function() {
-        te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
-        te.specialkey("f5");
-        setTimeout(function() { te.editor.focus(); }, 20);
-    },
-    showHelp: function () { te.specialkey("F1") },
-
-    insertBold: function () { te.specialkey("ctrl-b"); },
-    insertItalic: function () { te.specialkey("ctrl-i"); },
-
-    insertHyperlink: function () { te.specialkey("ctrl-k") },
-    insertList: function () { te.specialkey("ctrl-l") },
-    insertEmoji: function () { te.specialkey("ctrl-j") },
-
-
-    insertImage: function () { te.specialkey("alt-i"); },
-
-    // find again redirect
-    findNext: function () { te.editor.execCommand("findnext") },
-    // embed code
-    insertCodeblock: function () { te.specialkey("alt-c"); },
-    // inline code 
-    insertInlineCode: function () { te.specialkey("ctrl-`"); },
-
-
-    // delete line
-    deleteCurrentLine: te.deleteCurrentLine,
-
-    // try to move between tabs
-    nextTab: function () { te.specialkey("ctrl-tab"); },
-    previousTab: function () { te.specialkey("ctrl-shift-tab"); },
-
-    // take over Zoom keys and manually zoom
-    zoomDown: function () {
-        te.specialkey("ctrl--");
-        return null;
-    },
-    zoomUp: function () {
-        te.specialkey("ctrl-=");
-        return null;
-    },
-
-    // Paste as Markdown/From Html
-    copyToHtml: function () { te.specialkey("ctrl-shift-c"); },
-    pasteAsMarkdown: function () { te.specialkey("ctrl-shift-v"); },
-
-    // remove markdown formatting
-    removeMarkdown: function () { te.specialkey("ctrl-shift-z"); },
-
-    // Capture paste operation in WPF to handle Images
-    paste: function () { te.mm.textbox.PasteOperation(); }
-
 };

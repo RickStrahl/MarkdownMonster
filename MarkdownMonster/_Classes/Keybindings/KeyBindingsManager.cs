@@ -19,6 +19,14 @@ namespace MarkdownMonster.Utilities
     /// Class that maps Key Bindings to Commands or a JavaScript
     /// handler in Ace Editor to a KeyBindings handler function with
     /// the same name as the command (in camelCase - OpenDocument-> openDocument()
+    ///
+    /// To use:
+    /// * Subclass from this class
+    /// * Add keybindings in ctor() and map to Commands/JavaScript handlers
+    /// * Instantiate
+    /// * call SetKeyBindings() to attach bindings for control
+    /// * (optional) call SaveKeyBindings() to save to disk
+    /// * (optional) call LoadKeyBindings() to load from disk    /// 
     /// </summary>
     public class KeyBindingsManager
     {
@@ -31,6 +39,11 @@ namespace MarkdownMonster.Utilities
         /// </summary>
         protected Control BindingsControl { get; set; }
 
+        /// <summary>
+        /// Initialize - pass in a control - typically a Window - that
+        /// the bindings are applied to.
+        /// </summary>
+        /// <param name="control"></param>
         public KeyBindingsManager(Control control)
         {
             KeyBindingsFilename = Path.Combine(mmApp.Model.Configuration.CommonFolder,
@@ -72,6 +85,8 @@ namespace MarkdownMonster.Utilities
             foreach (var kb in keyBindings)
             {
                 var keyBinding = KeyBindings.FirstOrDefault(binding => binding.CommandName == kb.CommandName);
+                if (keyBinding == null)
+                    continue;
 
                 keyBinding.Key = kb.Key;
                 if (keyBinding.Command != null)

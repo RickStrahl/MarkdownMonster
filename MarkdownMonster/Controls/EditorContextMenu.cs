@@ -185,7 +185,7 @@ namespace MarkdownMonster
                     var miRemoveFormatting = new MenuItem
                     {
                         Header = "Remove Markdown Formatting",
-                        InputGestureText = "ctrl-shift-z"
+                        InputGestureText = Model.Commands.RemoveMarkdownFormattingCommand.KeyboardShortcut
                     };
                     miRemoveFormatting.Command = Model.Commands.RemoveMarkdownFormattingCommand;
                     ContextMenu.Items.Add(miRemoveFormatting);

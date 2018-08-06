@@ -11,10 +11,15 @@ namespace MarkdownMonster.Utilities
     {
         public string Key { get; set; }
 
+
+        /// <summary>
+        /// Name of the Command to execute. Used in JavaScript
+        /// (with lower case 1st letter) to find the appropriate
+        /// command handler
+        /// </summary>
         public string CommandName { get; set; }
 
-
-
+        
         [JsonIgnore]
         public CommandBase Command
         {
@@ -30,17 +35,6 @@ namespace MarkdownMonster.Utilities
 
         [JsonIgnore] public object CommandParameter { get; set; }
 
-        public string JavaScriptHandlerScript
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(CommandName))
-                    return CommandName;
-
-                return CommandName[0].ToString().ToLower() + CommandName.Substring(1);
-            }
-        }
-
-        public bool HasJavaScriptHandler { get; set; }
+        [JsonIgnore] public bool HasJavaScriptHandler { get; set; }
     }
 }

@@ -322,7 +322,7 @@ namespace MarkdownMonster.AddIns
         {
             if (!string.IsNullOrEmpty(menuItem.KeyboardShortcut))
             {
-                KeyBinding kb = KeyBindingsManager.CreateKeyboardShortcutBinding(
+                KeyBinding kb = MarkdownMonster.Utilities.KeyBindingsManager.CreateKeyboardShortcutBinding(
                     menuItem.KeyboardShortcut,
                     menuItem.Command);
                 if (kb != null)
