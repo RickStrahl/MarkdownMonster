@@ -895,6 +895,7 @@ namespace MarkdownMonster
                             Theme = config.EditorTheme,
                             Font = config.Editor.Font,
                             FontSize = (int)fontSize,
+                            RightToLeft = config.Editor.RightToLeft,
                             LineHeight = config.Editor.LineHeight,
                             WrapText = config.Editor.WrapText,
                             ShowLineNumbers = config.Editor.ShowLineNumbers,

@@ -88,6 +88,7 @@ color: #0088FF\
 .ace-cobalt .ace_heading,\
 .ace-cobalt .ace_markup.ace_heading {\
 color: #C8E4FD;\
+background-color: #001221\
 }\
 .ace-cobalt .ace_list,\
 .ace-cobalt .ace_markup.ace_list {\
@@ -110,3 +111,11 @@ background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgb
 var dom = require("../lib/dom");
 dom.importCssString(exports.cssText, exports.cssClass);
 });
+                (function() {
+                    window.require(["ace/theme/cobalt"], function(m) {
+                        if (typeof module == "object" && typeof exports == "object" && module) {
+                            module.exports = m;
+                        }
+                    });
+                })();
+            

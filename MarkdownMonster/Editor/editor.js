@@ -61,6 +61,8 @@ var te = window.textEditor = {
 
         session.setTabSize(editorSettings.tabSpaces);
 
+        //set.$bidiHandler.setRtlDirection(editor, true);
+
         //editor.setOptions({
         //    enableBasicAutocompletion: true
         //});
@@ -476,6 +478,9 @@ var te = window.textEditor = {
 
         te.editor.getSession().setMode("ace/mode/" + lang);
     },    
+    setRightToLeft: function (onOff) {
+        te.editor.session.$bidiHandler.setRtlDirection(te.editor, onOff);        
+    },
     setEditorStyle: function (styleJson) {
         
         var style = JSON.parse(styleJson);
@@ -485,7 +490,8 @@ var te = window.textEditor = {
         te.editor.setOptions({
             fontFamily: style.Font,
             fontSize: style.FontSize
-        });        
+        });
+        te.setRightToLeft(style.RightToLeft);
 
         var wrapText = style.WrapText;
 

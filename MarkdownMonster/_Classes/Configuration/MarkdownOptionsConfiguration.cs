@@ -80,6 +80,17 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// Allows displaying mathematic formulas
+        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/MathSpecs.md
+        ///
+        /// <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        /// <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+        /// <script type="text/javascript" src="http://js2math.github.com/JsMath/jsmath.tablet.js"></script>
+        /// </summary>
+        public bool Mathmatics { get; set;  } 
+
+
+        /// <summary>
         /// Use Abbreviations which are linked to definitions
         /// </summary>
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/AbbreviationSpecs.md

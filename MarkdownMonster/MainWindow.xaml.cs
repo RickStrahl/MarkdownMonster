@@ -259,12 +259,9 @@ namespace MarkdownMonster
                 KeyBindings.LoadKeyBindings();
                 // always write back out
                 Task.Run(() => KeyBindings.SaveKeyBindings());
-            }
-            
-            KeyBindings.SetKeyBindings();            
-        }
-
-        
+            }            
+            KeyBindings.SetKeyBindings();
+        }        
 
         private void OnAddinsLoaded()
         {

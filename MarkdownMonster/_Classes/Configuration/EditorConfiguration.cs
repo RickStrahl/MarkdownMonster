@@ -166,6 +166,22 @@ namespace MarkdownMonster.Configuration
         public string KeyboardHandler { get; set; }
 
 
+        
+        /// <summary>
+        /// When true causes editor to run in RTL mode otherwise LTR
+        /// </summary>
+        public bool RightToLeft
+        {
+            get => _rightToLeft;
+            set
+            {
+                if (value == _rightToLeft) return;
+                _rightToLeft = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _rightToLeft;
+
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;

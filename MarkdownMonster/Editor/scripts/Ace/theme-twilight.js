@@ -1,25 +1,24 @@
 define("ace/theme/twilight",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
 
-        exports.isDark = true;
-        exports.cssClass = "ace-twilight";
-        exports.cssText = ".ace-twilight .ace_gutter {\
-background: #191919;\
+exports.isDark = true;
+exports.cssClass = "ace-twilight";
+exports.cssText = ".ace-twilight .ace_gutter {\
+background: #232323;\
 color: #E2E2E2\
 }\
 .ace-twilight .ace_print-margin {\
 width: 1px;\
-background: #191919\
+background: #232323\
 }\
 .ace-twilight {\
-background: #2D2D2D;\
-color: #EEEEEE;\
-font-weight: normal;\
+background-color: #141414;\
+color: #F8F8F8\
 }\
 .ace-twilight .ace_cursor {\
 color: #A7A7A7\
 }\
 .ace-twilight .ace_marker-layer .ace_selection {\
-background: #264f78\
+background: rgba(221, 240, 255, 0.20)\
 }\
 .ace-twilight.ace_multiselect .ace_selection.ace_start {\
 box-shadow: 0 0 3px 0px #141414;\
@@ -100,21 +99,6 @@ color: #7587A6\
 }\
 .ace-twilight .ace_xml-pe {\
 color: #494949\
-}\
-ace_line.ace_selected {\
-    background-color: #777 !important;\
-}\
-.ace-twilight .ace_heading {\
-font-weight: bold;\
-}\
-.ace-twilight .ace_strong {\
-font-weight: bold !important;\
-}\
-.ace-twilight .ace_emphasis {\
-font-style: italic;\
-}\
-.ace-twilight .ace_blockquote {\
-color:  #8cb128;\
 }\
 .ace-twilight .ace_indent-guide {\
 background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWMQERFpYLC1tf0PAAgOAnPnhxyiAAAAAElFTkSuQmCC) right repeat-y\
