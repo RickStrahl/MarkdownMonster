@@ -1,4 +1,5 @@
 ﻿/// <reference path="editorsettings.js"/>
+/// <reference path="editorsettings.js"/>
 /// <reference path="editorSpellcheck.js"/>
 
 // NOTE: All method and property names have to be LOWER CASE!
@@ -496,8 +497,11 @@ var te = window.textEditor = {
         var wrapText = style.WrapText;
 
         var session = te.editor.getSession();
+
         session.setUseWrapMode(wrapText);
         session.setOption("indentedSoftWrap", true);
+        
+        session.setOptions({ useSoftTabs: style.UseSoftTabs, tabSize: style.TabSize });
 
         te.editor.setHighlightActiveLine(style.HighlightActiveLine);
 

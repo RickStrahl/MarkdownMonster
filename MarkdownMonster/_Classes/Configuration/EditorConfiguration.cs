@@ -139,7 +139,16 @@ namespace MarkdownMonster.Configuration
             }
         }
         private bool _enableSpellcheck;
-        
+
+        /// <summary>
+        /// If using SoftTabs determines the Tab size
+        /// </summary>
+        public int TabSize { get; set; } = 4;
+
+        /// <summary>
+        /// Determines whether hard tabs or spaces are used for Tabs
+        /// </summary>
+        public bool UseSoftTabs { get; set; } = false;
 
         /// <summary>
         /// Dictionary used by the editor. Defaults to 'en_US'.

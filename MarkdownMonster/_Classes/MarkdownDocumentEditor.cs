@@ -893,16 +893,18 @@ namespace MarkdownMonster
                         var style = new
                         {
                             Theme = config.EditorTheme,
-                            Font = config.Editor.Font,
+                            config.Editor.Font,
                             FontSize = (int)fontSize,
-                            RightToLeft = config.Editor.RightToLeft,
-                            LineHeight = config.Editor.LineHeight,
-                            WrapText = config.Editor.WrapText,
-                            ShowLineNumbers = config.Editor.ShowLineNumbers,
-                            ShowInvisibles = config.Editor.ShowInvisibles,
-                            HighlightActiveLine = config.Editor.HighlightActiveLine,
-                            KeyboardHandler = config.Editor.KeyboardHandler,
-                            EnableBulletAutoCompletion = config.Editor.EnableBulletAutoCompletion  
+                            config.Editor.LineHeight,
+                            config.Editor.WrapText,
+                            config.Editor.ShowLineNumbers,
+                            config.Editor.ShowInvisibles,
+                            config.Editor.HighlightActiveLine,
+                            config.Editor.KeyboardHandler,
+                            config.Editor.EnableBulletAutoCompletion,
+                            config.Editor.TabSize,
+                            config.Editor.UseSoftTabs,
+                            config.Editor.RightToLeft
                         };
 
                         var jsonStyle = JsonConvert.SerializeObject(style);

@@ -5,12 +5,15 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
+### 1.12.11
 
+* **Add TabSize and UseSoftTabs Configuration Options**  
+Allow configuration of how tabs are handled in the editor by adding config options for setting the TabSize and whether to use hard or soft tabs (spaces instead of tabs).
 
 ### 1.12.10
 <small>not released yet</small>
 
-* **New KeyBinding Manager**  
+* **[New KeyBinding Manager](https://markdownmonster.west-wind.com/docs/_59l0izpoe.htm)**  
 You can now remap a number of keyboard shortcuts using the `MarkdownMonster-KeyBindings.json` file. In this file you can assign new shortcut keys to a number of commands.
 
 * **Add Open on Github in Folder Browser**  
@@ -21,6 +24,9 @@ Fixed the Git options on the Folder Browser context menu to be context sensitive
 
 * **Save All File Menu Option and Shortcut**  
 You can now use **File->Save All** or `alt-shift-s` to save all open documents. Existing documents are saved in place, any untitled documents prompt for a filename to save to or to cancel.
+
+* **Update to Ace Editor 1.40**  
+This update provides a number of new features to the editor along with a number if nice performance improvements. Among the improvements are: Better support for Asian languages, better (but still limited support for Right to Left languages) and a number of fixes in the markdown syntax editing features.
 
 * **Fix: Favorites Search to Open Folders above Found Items**  
 Fixed regression bug that would not properly open parent folders when a match was found inside of a folder hierarchy.
@@ -1152,6 +1158,7 @@ When you paste images into the editor and save them to disk, images are now bett
 * **Add Emoji Support**   
 You can now embed common emoji tags like `:smile:` :smile: or `:camera:` :camera: as well as smiley syntax like `:-)` :-) or `B-)` B-) (the latter of which is not natively supported by GitHub) into Markdown documents and get them rendered. Note that actual output of these icons may vary in various browsers and the previewer. Here's a list of [emoji symbols and shortcuts](https://gist.github.com/rxaviers/7360908).
 
+
 * **Markdown Renderer Options Configuration**  
 We've enabled better fine tuning of the Markdown rendering options used in the Markdown conversion process. These settings largely map to the underlying [MarkDig parser](https://github.com/lunet-io/markdig), but you can now enable/disable various rendering features via the the `MarkdownOptions` settings in the Markdown configuration. For more info on options and how they work check the [MarkDig Features section](https://github.com/lunet-io/markdig).
 
@@ -1163,7 +1170,6 @@ Make backup file loading and saving more resiliant in order to not cause a hard 
 
 * **Fix jumpy font sizing when editor first displays**   
 Fixed issue with editor fonts resizing after initial display producing unwanted jitter. Initial load is handled at higher priority now so initial font setting shows on first load. 
-
 
 ### 1.1.24
 <i><small>February 2nd, 2017</small></i>
