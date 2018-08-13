@@ -148,7 +148,7 @@ namespace MarkdownMonster.Configuration
         /// <summary>
         /// Determines whether hard tabs or spaces are used for Tabs
         /// </summary>
-        public bool UseSoftTabs { get; set; } = false;
+        public bool UseSoftTabs { get; set; } = true;
 
         /// <summary>
         /// Dictionary used by the editor. Defaults to 'en_US'.
