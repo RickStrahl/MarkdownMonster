@@ -27,11 +27,11 @@
                     Key="Return"
                     Command="{Binding Commands.DistractionFreeModeCommand}" CommandParameter="Toggle" />
 -->
-        <KeyBinding Key="F11" Command="{Binding Commands.PresentationModeCommand}" CommandParameter="Toggle" />
+        <!--<KeyBinding Key="F11" Command="{Binding Commands.PresentationModeCommand}" CommandParameter="Toggle" />-->
         <!--<KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding Commands.PrintPreviewCommand}" />-->
         
-        <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Commands.SaveAsCommand}" />
-        <KeyBinding Modifiers="Alt+Shift" Key="S" Command="{Binding Commands.SaveAllCommand}" />
+        <!--<KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Commands.SaveAsCommand}" />
+        <KeyBinding Modifiers="Alt+Shift" Key="S" Command="{Binding Commands.SaveAllCommand}" />-->
         <!--<KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding Commands.NewDocumentCommand }"  />-->
         <!--<KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding Commands.OpenDocumentCommand }"    />
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
@@ -136,8 +136,8 @@
                 <ToggleButton Name="ToolButtonPreview"  Foreground="{StaticResource BlueItem}"                                                              
                               Margin="-5,0,0,0"
                                 IsChecked="{Binding IsPreviewBrowserVisible}"
-                                Command="{Binding Commands.PreviewBrowserCommand}"                                  
-                                ToolTip="open/hide the HTML Preview Pane (alt-v-p)"
+                                Command="{Binding Commands.TogglePreviewBrowserCommand}"                                  
+                                ToolTip="open/hide the HTML Preview Pane (F12)"
                                 fa:Awesome.Content="Globe"
                                 TextElement.FontSize="16"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
@@ -158,9 +158,9 @@
 
                             <MenuItem Header="Toggle Html _Preview Window"
                                       IsCheckable="True" 
-                                      InputGestureText="alt-v-p"
+                                      InputGestureText="F12"
                                       IsChecked="{Binding IsPreviewBrowserVisible}"
-                                      Command="{Binding Commands.PreviewBrowserCommand}"
+                                      Command="{Binding Commands.TogglePreviewBrowserCommand}"
                                       IsEnabled="{Binding IsEditorActive}">
                             </MenuItem>
                             <MenuItem Header="View in Web _Browser" 
@@ -337,7 +337,7 @@
                           IsCheckable="True" 
                           InputGestureText="alt-v-p"
                           IsChecked="{Binding IsPreviewBrowserVisible}"
-                          Command="{Binding Commands.PreviewBrowserCommand}"
+                          Command="{Binding Commands.TogglePreviewBrowserCommand}"
                           IsEnabled="{Binding IsEditorActive}">
                 </MenuItem>
                 <MenuItem Header="Internal Preview" IsCheckable="True" IsChecked="{Binding IsInternalPreview}"  Command="{Binding Commands.PreviewModesCommand}" CommandParameter="InternalPreview"/>

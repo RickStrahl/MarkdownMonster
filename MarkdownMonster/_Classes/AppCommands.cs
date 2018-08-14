@@ -50,7 +50,7 @@ namespace MarkdownMonster
             WordWrap();
             DistractionFreeMode();
             PresentationMode();
-            PreviewBrowser();
+            TogglePreviewBrowser();
             Settings();
 
 
@@ -744,8 +744,8 @@ namespace MarkdownMonster
             // PRESENTATION MODE
             PresentationModeCommand = new CommandBase((p, e) =>
             {
-                if (p is string)
-                    // toggle
+                // toggle
+                if (p?.ToString() == "Toggle")                    
                     Model.IsPresentationMode = !Model.IsPresentationMode;
 
                 Model.WindowLayout.SetPresentationMode(!Model.IsPresentationMode);
@@ -754,19 +754,23 @@ namespace MarkdownMonster
 
 
 
-        public CommandBase PreviewBrowserCommand { get; set; }
+        public CommandBase TogglePreviewBrowserCommand { get; set; }
 
-        void PreviewBrowser()
+        void TogglePreviewBrowser()
         {
             var window = Model.Window;
             var config = Model.Configuration;
 
-            PreviewBrowserCommand = new CommandBase((s, e) =>
+            TogglePreviewBrowserCommand = new CommandBase((p, e) =>
             {
                 var tab = window.TabControl.SelectedItem as TabItem;
                 var editor = tab?.Tag as MarkdownDocumentEditor;
                 if (editor == null)
                     return;
+
+                bool toggle = p?.ToString()  == "Toggle";
+                if (toggle)
+                    Model.IsPreviewBrowserVisible = !Model.IsPreviewBrowserVisible;
 
                 Model.WindowLayout.IsPreviewVisible = Model.IsPreviewBrowserVisible;
 
@@ -781,8 +785,6 @@ namespace MarkdownMonster
                     window.PreviewMarkdownAsync(editor);
 
             }, null);
-
-
         }
 
         public CommandBase WordWrapCommand { get; set; }

@@ -35,6 +35,7 @@ namespace MarkdownMonster.Utilities
 
             KeyBindings = new List<AppKeyBinding>
             {
+                // View Commands
                 new AppKeyBinding
                 {
                     Key = "alt+shift+return",
@@ -46,8 +47,19 @@ namespace MarkdownMonster.Utilities
                 {
                     Key = "f11",
                     CommandName = "PresentationMode",
-                    Command = model.Commands.PresentationModeCommand
+                    Command = model.Commands.PresentationModeCommand,
+                    CommandParameter = "Toggle"
                 },
+                new AppKeyBinding
+                {
+                    Key = "f12",
+                    CommandName = "TogglePreviewBrowser",
+                    Command = model.Commands.TogglePreviewBrowserCommand,
+                    CommandParameter="Toggle"
+                },
+
+
+                // Document Commands
                 new AppKeyBinding
                 {
                     Key = "ctrl-n",
@@ -107,6 +119,7 @@ namespace MarkdownMonster.Utilities
                     Command = model.Commands.CloseActiveDocumentCommand
                 },
 
+                // Editor Commands
                 new AppKeyBinding
                 {
                     Key = "alt-z",
@@ -177,6 +190,12 @@ namespace MarkdownMonster.Utilities
                     Key = "F3",
                     CommandName = "FindNext",
                     HasJavaScriptHandler= true
+                },
+                new AppKeyBinding
+                {
+                    Key = "F12",
+                    CommandName = "TogglePreviewBrowser",
+                    HasJavaScriptHandler= false
                 },
                 new AppKeyBinding
                 {

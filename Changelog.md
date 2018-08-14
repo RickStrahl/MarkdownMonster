@@ -10,6 +10,9 @@
 * **Add TabSize and UseSoftTabs Configuration Options**  
 Allow configuration of how tabs are handled in the editor by adding config options for setting the TabSize and whether to use hard or soft tabs (spaces instead of tabs).
 
+* **Add KeyBinding for `TogglePreviewBrowser` (F12)**  
+Added configurable key binding for toggling the Preview Browser visible/hidden with a default key of F12. Also fix shortcut for `PresentationMode` (F11) key binding.
+
 ### 1.12.10
 <small>not released yet</small>
 

@@ -218,7 +218,7 @@ namespace MarkdownMonster
             {
                 ButtonHtmlPreview.IsChecked = true;
                 ToolButtonPreview.IsChecked = true;
-                //Model.PreviewBrowserCommand.Execute(ButtonHtmlPreview);
+                //Model.TogglePreviewBrowserCommand.Execute(ButtonHtmlPreview);
             }
 
             var left = Left;

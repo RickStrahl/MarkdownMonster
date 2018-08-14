@@ -25,7 +25,7 @@
                     <MenuItem  Header="Configure Preview Syncing" Command="{Binding Commands.PreviewSyncModeCommand}" />
                     <Separator/>
                     <MenuItem Header="Hide HTML Preview" 
-                              Command="{Binding Commands.PreviewBrowserCommand}"  IsCheckable="True"
+                              Command="{Binding Commands.TogglePreviewBrowserCommand}"  IsCheckable="True"
                               IsChecked="{Binding IsPreviewBrowserVisible}" />
                 </ContextMenu>
             </WebBrowser.ContextMenu>
