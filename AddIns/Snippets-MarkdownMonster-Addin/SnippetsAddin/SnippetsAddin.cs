@@ -197,34 +197,13 @@ namespace SnippetsAddin
             if (string.IsNullOrEmpty(line))
                 return;            
             
-            var snippet = SnippetsAddinConfiguration.Current.Snippets.FirstOrDefault(sn => sn.Shortcut != null && line.Trim().EndsWith(sn.Shortcut));
+            var snippet = SnippetsAddinConfiguration.Current.Snippets
+                                                    .FirstOrDefault(sn => !string.IsNullOrEmpty(sn.Shortcut) && line.Trim().EndsWith(sn.Shortcut));
             if (snippet != null)
             {                               
                 editor.FindAndReplaceTextInCurrentLine(snippet.Shortcut, "");
                 InsertSnippet(snippet);
             }
         }
-
-        //public override void OnDocumentUpdated()
-        //{
-        //    base.OnDocumentUpdated();
-
-        //    var editor = GetMarkdownEditor();
-        //    var doc = editor.MarkdownDocument;
-
-        //    if (doc.CurrentText.Contains("ecb"))
-        //    {
-        //        doc.CurrentText = doc.CurrentText.Replace("ecb", "Eeel can Blink!");
-        //        editor.SetMarkdown();
-        //    }
-
-        //////        selectionRange = editor.getSelectionRange();
-
-        //////startLine = selectionRange.start.row;
-        //////endLine = selectionRange.end.row;
-
-        //////content = editor.session.getTextRange(selectionRange);
-
-        //}
     }
 }
