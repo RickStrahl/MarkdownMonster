@@ -38,7 +38,7 @@ $(document).ready(function() {
             }
                        
             if (hash) {                
-                var sel = hash + "[name='" + hash.substr(1) + "'],#"+ hash.substr(1);                                          
+                var sel = "[name='" + hash.substr(1) + "'],#"+ hash.substr(1);                                          
                 var $el = $(sel);                
                 $("html").scrollTop($el.offset().top - 100);
                 return false;
