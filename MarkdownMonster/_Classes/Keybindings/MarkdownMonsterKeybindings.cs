@@ -107,13 +107,14 @@ namespace MarkdownMonster.Utilities
                     CommandParameter = "quote"
                 },
                 new AppKeyBinding
-                {
+                {                    
                     Key = "ctrl-f4",
                     CommandName = "CloseActiveDocument",
                     Command = model.Commands.CloseActiveDocumentCommand
                 },
                 new AppKeyBinding
                 {
+                    Id = "CloseActiveDocument2",
                     Key = "ctrl-w",
                     CommandName = "CloseActiveDocument",
                     Command = model.Commands.CloseActiveDocumentCommand

@@ -6,9 +6,23 @@ namespace MarkdownMonster.Utilities
     /// <summary>
     /// Holds a specific key binding combination
     /// </summary>
-    [DebuggerDisplay("{Key}")]
+    [DebuggerDisplay("{Key} - {CommandName}")]
     public class AppKeyBinding
     {
+        
+        public string Id
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_id))
+                    return CommandName;
+
+                return _id;
+            }
+            set => _id = value;
+        }
+        private string _id;
+
         public string Key { get; set; }
 
 

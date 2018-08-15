@@ -50,13 +50,13 @@ namespace MarkdownMonster.Utilities
             foreach (var kb in KeyBindings)
             {
                 // ignore JavaScript only shortcuts for binding
-                if (kb.Command == null)
+                if (kb.Command == null || kb.Key == null)
                     continue;
 
                 KeyBinding keyBinding = CreateKeyboardShortcutBinding(
                     kb.Key,
                     kb.Command, kb.CommandParameter);
-                if (kb != null)
+                if (keyBinding != null)
                     BindingsControl.InputBindings.Add(keyBinding);
             }
         }
@@ -77,9 +77,10 @@ namespace MarkdownMonster.Utilities
             if (keyBindings == null || keyBindings.Count < 1)
                 return false;
 
+            // TODO: Fix bug with multiple keybindings to the same Command - need Unique Identifier
             foreach (var kb in keyBindings)
             {
-                var keyBinding = KeyBindings.FirstOrDefault(binding => binding.CommandName == kb.CommandName);
+                var keyBinding = KeyBindings.FirstOrDefault(binding => binding.Id == kb.Id);
                 if (keyBinding == null)
                     continue;
 

@@ -401,7 +401,7 @@
                           Command="{Binding Commands.WordWrapCommand}"                                                                   
                           Click="Button_Handler"
                           IsCheckable="True"
-                          InputGestureText="alt-z"
+                          InputGestureText="{Binding Commands.WordWrapCommand.KeyboardShortcut}"
                           IsChecked="{Binding Configuration.Editor.WrapText, Mode=OneWay}" />
 
                 <MenuItem Name="ButtonLineNumbers" 
