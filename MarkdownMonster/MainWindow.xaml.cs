@@ -62,8 +62,6 @@ using Image = System.Windows.Controls.Image;
 using MenuItem = System.Windows.Controls.MenuItem;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
-using TextDataFormat = System.Windows.TextDataFormat;
-using WebBrowser = System.Windows.Controls.WebBrowser;
 
 namespace MarkdownMonster
 {
@@ -90,16 +88,14 @@ namespace MarkdownMonster
 
         private IntPtr _hwnd = IntPtr.Zero;
 
-        private DateTime invoked = DateTime.MinValue;
+        private DateTime _invoked = DateTime.MinValue;
 
 
         /// <summary>
         /// Manages the Preview Rendering in a WebBrowser Control
         /// </summary>
         public IPreviewBrowser PreviewBrowser { get; set; }
-
-        //private PreviewBrowserWindow PreviewWindow;
-
+        
         public PreviewBrowserWindow PreviewBrowserWindow
         {
             set { _previewBrowserWindow = value; }
@@ -116,6 +112,7 @@ namespace MarkdownMonster
                 return _previewBrowserWindow;
             }
         }
+        private PreviewBrowserWindow _previewBrowserWindow;
 
 
         /// <summary>
@@ -125,9 +122,7 @@ namespace MarkdownMonster
         /// </summary>
         public Grid PreviewBrowserContainer { get; set; }
 
-        private PreviewBrowserWindow _previewBrowserWindow;
-
-
+        
         /// <summary>
         /// The Preview Browser Tab if active that is used
         /// for image and URL previews (ie. the Preview
@@ -151,7 +146,9 @@ namespace MarkdownMonster
             Model = new AppModel(this);
             AddinManager.Current.RaiseOnModelLoaded(Model);
 
-           // AddinManager.Current.AddinsLoaded = OnAddinsLoaded;
+            // This doesn't fire when first started, but fires when
+            // addins are added at from the Addin Manager at runtie
+            AddinManager.Current.AddinsLoaded = OnAddinsLoaded;
 
             Model.WindowLayout = new MainWindowLayoutModel(this);
 
@@ -188,7 +185,9 @@ namespace MarkdownMonster
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            // Load either default preview browser or addin-overridden browser
             LoadPreviewBrowser();
+
             RestoreSettings();
 
             OpenFilesFromCommandLine();
@@ -264,18 +263,22 @@ namespace MarkdownMonster
                 Task.Run(() => KeyBindings.SaveKeyBindings());
             }            
             KeyBindings.SetKeyBindings();
-        }        
+        }
 
-        //private void OnAddinsLoaded()
-        //{
-        //    // Check to see if we are using another preview browser and load
-        //    // that instead
-        //    Dispatcher.InvokeAsync(() =>
-        //    {
-        //        LoadPreviewBrowser();
-        // 
-        //    },DispatcherPriority.ApplicationIdle);            
-        //}
+
+        /// <summary>
+        /// This is called only if addin loading takes very long
+        /// Potentially fired off 
+        /// </summary>
+        public void OnAddinsLoaded()
+        {
+            // Check to see if we are using another preview browser and load
+            // that instead
+            Dispatcher.InvokeAsync(() =>
+            {
+                LoadPreviewBrowser();
+            }, DispatcherPriority.ApplicationIdle);
+        }
 
 
         /// <summary>
@@ -2013,6 +2016,11 @@ namespace MarkdownMonster
             Model.WindowLayout.IsRightSidebarVisible = !hide;
         }
 
+        /// <summary>
+        /// Create an instance of the Preview Browser either using the 
+        /// default IE based preview browser, or if an addin has registered
+        /// a custom preview browser.
+        /// </summary>
         public void LoadPreviewBrowser()
         {
             var previewBrowser = AddinManager.Current.RaiseGetPreviewBrowserControl();

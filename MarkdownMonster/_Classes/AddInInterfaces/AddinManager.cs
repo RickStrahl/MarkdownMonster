@@ -65,6 +65,13 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         public bool AddinsLoadingComplete { get; set; }
 
+
+        /// <summary>
+        /// Fired when addins complete loading. Action
+        /// fires out of band from Main UI thread, so
+        /// if you do UI operations make sure to use
+        /// a Dispatcher.       
+        /// </summary>
         public Action AddinsLoaded { get; set; }
 
         /// <summary>
