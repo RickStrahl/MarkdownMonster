@@ -128,7 +128,7 @@ namespace MarkdownMonster
                 Environment.Exit(0);
             }
 
-            new TaskFactory().StartNew(LoadAddins);
+            ThreadPool.QueueUserWorkItem(p => LoadAddins());
 
             if (mmApp.Configuration.DisableHardwareAcceleration)
                 RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;

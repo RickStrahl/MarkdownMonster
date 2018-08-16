@@ -5,7 +5,8 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
-### 1.12.11
+
+### 1.12.12
 
 * **Add TabSize and UseSoftTabs Configuration Options**  
 Allow configuration of how tabs are handled in the editor by adding config options for setting the TabSize and whether to use hard or soft tabs (spaces instead of tabs).
@@ -13,11 +14,7 @@ Allow configuration of how tabs are handled in the editor by adding config optio
 * **Add KeyBinding for `TogglePreviewBrowser` (F12)**  
 Added configurable key binding for toggling the Preview Browser visible/hidden with a default key of F12. Also fix shortcut for `PresentationMode` (F11) key binding.
 
-### 1.12.10
-<small>not released yet</small>
-
-* **[New KeyBinding Manager](https://markdownmonster.west-wind.com/docs/_59l0izpoe.htm)**  
-You can now remap a number of keyboard shortcuts using the `MarkdownMonster-KeyBindings.json` file. In this file you can assign new shortcut keys to a number of commands.
+* **[New KeyBinding Manager](https://markdownmonster.west-wind.com/docs/_59l0izpoe.htm)**  You can now remap a number of keyboard shortcuts using the `MarkdownMonster-KeyBindings.json` file. In this file you can assign new shortcut keys to a number of commands.
 
 * **Add Open on Github in Folder Browser**  
 If a file or folder is in a Github repository there's now a link in the folder browser to open the file on Github.
