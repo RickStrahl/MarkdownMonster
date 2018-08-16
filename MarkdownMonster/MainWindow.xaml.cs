@@ -1,4 +1,4 @@
-﻿#region License
+﻿#region 
 
 /*
  **************************************************************
@@ -150,7 +150,8 @@ namespace MarkdownMonster
 
             Model = new AppModel(this);
             AddinManager.Current.RaiseOnModelLoaded(Model);
-            AddinManager.Current.AddinsLoaded = OnAddinsLoaded;
+
+           // AddinManager.Current.AddinsLoaded = OnAddinsLoaded;
 
             Model.WindowLayout = new MainWindowLayoutModel(this);
 
@@ -247,6 +248,8 @@ namespace MarkdownMonster
                     if (Model.IsPresentationMode)
                         Model.WindowLayout.SetPresentationMode();
 
+                    OpenFavorites(noActivate: true);
+
                 }, DispatcherPriority.ApplicationIdle);
             });
 
@@ -263,12 +266,16 @@ namespace MarkdownMonster
             KeyBindings.SetKeyBindings();
         }        
 
-        private void OnAddinsLoaded()
-        {
-            // Check to see if we are using another preview browser and load
-            // that instead
-            Dispatcher.Invoke(LoadPreviewBrowser);
-        }
+        //private void OnAddinsLoaded()
+        //{
+        //    // Check to see if we are using another preview browser and load
+        //    // that instead
+        //    Dispatcher.InvokeAsync(() =>
+        //    {
+        //        LoadPreviewBrowser();
+        // 
+        //    },DispatcherPriority.ApplicationIdle);            
+        //}
 
 
         /// <summary>
@@ -1704,7 +1711,8 @@ namespace MarkdownMonster
         /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
         /// <param name="tabHeaderText">Optional - header text to set on the tab either just text or in combination with icon</param>
         /// <param name="tabHeaderIcon">Optional - Icon for the tab as an Image Source</param>
-        public void AddLeftSidebarPanelTabItem(TabItem tabItem, string tabHeaderText=null, ImageSource tabHeaderIcon = null)
+        /// <param name="selectItem"></param>
+        public void AddLeftSidebarPanelTabItem(TabItem tabItem, string tabHeaderText=null, ImageSource tabHeaderIcon = null, bool selectItem = true)
         {
             if (tabItem != null)
             {
@@ -1721,7 +1729,9 @@ namespace MarkdownMonster
 
                 //ControlsHelper.SetHeaderFontSize(tabItem, 14);
                 SidebarContainer.Items.Add(tabItem);
-                SidebarContainer.SelectedItem = tabItem;
+
+                if (selectItem)
+                    SidebarContainer.SelectedItem = tabItem;
             }
         }
 
@@ -1731,7 +1741,8 @@ namespace MarkdownMonster
         /// <param name="tabItem">Adds the TabItem. If null the tabs are refreshed and tabs removed if down to single tab</param>
         /// <param name="tabHeaderText"></param>
         /// <param name="tabHeaderIcon"></param>
-        public void AddRightSidebarPanelTabItem(TabItem tabItem = null, string tabHeaderText = null, ImageSource tabHeaderIcon = null)
+        /// <param name="selectItem"></param>
+        public void AddRightSidebarPanelTabItem(TabItem tabItem = null, string tabHeaderText = null, ImageSource tabHeaderIcon = null, bool selectItem = true)
         {
             if (tabItem != null)
             {
@@ -1751,7 +1762,9 @@ namespace MarkdownMonster
 
                 ControlsHelper.SetHeaderFontSize(tabItem, 14);
                 RightSidebarContainer.Items.Add(tabItem);
-                RightSidebarContainer.SelectedItem = tabItem;
+
+                if (selectItem)
+                    RightSidebarContainer.SelectedItem = tabItem;
             }
 
             ShowRightSidebar();
@@ -1797,13 +1810,14 @@ namespace MarkdownMonster
 
             if (selected.Content is DocumentOutlineSidebarControl)
             {
-                Dispatcher.Delay(120, p =>
+                Dispatcher.InvokeAsync(() =>
                 {
                     if (DocumentOutline.Model?.DocumentOutline == null)
                         UpdateDocumentOutline();
-                });
+                },DispatcherPriority.ApplicationIdle);
             }
-
+            else if (selected.Content is FavoritesControl)
+                OpenFavorites();
         }
 
         public void UpdateDocumentOutline(int editorLineNumber = -1)
@@ -1811,21 +1825,28 @@ namespace MarkdownMonster
             DocumentOutline?.RefreshOutline(editorLineNumber);
         }
 
-        public void OpenFavorites()
+        public void OpenFavorites(bool noActivate = false)
         {
             if (FavoritesTab == null)
             {
                 FavoritesTab = new MetroTabItem();
-                var favorites = new FavoritesControl();                
+                var favorites = new FavoritesControl();
                 FavoritesTab.Content = favorites;
-                AddLeftSidebarPanelTabItem(FavoritesTab,"Favorites",ImageAwesome.CreateImageSource(FontAwesomeIcon.Star,Brushes.Goldenrod,11));
+
+                AddLeftSidebarPanelTabItem(FavoritesTab, "Favorites",
+                    ImageAwesome.CreateImageSource(FontAwesomeIcon.Star, Brushes.Goldenrod, 11),
+                    selectItem: !noActivate);
             }
+            else if (!noActivate)
+            {
+                SidebarContainer.SelectedItem = FavoritesTab;
 
-            SidebarContainer.SelectedItem = FavoritesTab;
-            WindowUtilities.DoEvents();
-
-            var control = FavoritesTab.Content as FavoritesControl;            
-            control?.TextSearch.Focus();
+                Dispatcher.InvokeAsync(() =>
+                {
+                    var control = FavoritesTab.Content as FavoritesControl;
+                    control?.TextSearch.Focus();
+                });
+            }
         }
 
         #endregion
