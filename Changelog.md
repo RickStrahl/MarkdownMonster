@@ -7,23 +7,22 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.12.12
+* **[New KeyBinding Manager](https://markdownmonster.west-wind.com/docs/_59l0izpoe.htm)**  You can now remap a number of keyboard shortcuts using the `MarkdownMonster-KeyBindings.json` file. In this file you can assign new shortcut keys to a number of commands.
+
+* **Save All File Menu Option and Shortcut**  
+You can now use **File->Save All** or `alt-shift-s` to save all open documents. Existing documents are saved in place, any untitled documents prompt for a filename to save to or to cancel.
 
 * **Add TabSize and UseSoftTabs Configuration Options**  
 Allow configuration of how tabs are handled in the editor by adding config options for setting the TabSize and whether to use hard or soft tabs (spaces instead of tabs).
 
-* **Add KeyBinding for `TogglePreviewBrowser` (F12)**  
-Added configurable key binding for toggling the Preview Browser visible/hidden with a default key of F12. Also fix shortcut for `PresentationMode` (F11) key binding.
-
-* **[New KeyBinding Manager](https://markdownmonster.west-wind.com/docs/_59l0izpoe.htm)**  You can now remap a number of keyboard shortcuts using the `MarkdownMonster-KeyBindings.json` file. In this file you can assign new shortcut keys to a number of commands.
-
 * **Add Open on Github in Folder Browser**  
 If a file or folder is in a Github repository there's now a link in the folder browser to open the file on Github.
 
+* **Add KeyBinding for `TogglePreviewBrowser` (F12)**  
+Added configurable key binding for toggling the Preview Browser visible/hidden with a default key of F12. Also fix shortcut for `PresentationMode` (F11) key binding.
+
 * **Folder Browser Git Context Menu now Context Sensitive**  
 Fixed the Git options on the Folder Browser context menu to be context sensitive on whether the file/folder is a Git repo, and whether it's a Github repo.
-
-* **Save All File Menu Option and Shortcut**  
-You can now use **File->Save All** or `alt-shift-s` to save all open documents. Existing documents are saved in place, any untitled documents prompt for a filename to save to or to cancel.
 
 * **Update to Ace Editor 1.40**  
 This update provides a number of new features to the editor along with a number if nice performance improvements. Among the improvements are: Better support for Asian languages, better (but still limited support for Right to Left languages) and a number of fixes in the markdown syntax editing features.
