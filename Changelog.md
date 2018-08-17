@@ -7,7 +7,8 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.12.12
-* **[New KeyBinding Manager](https://markdownmonster.west-wind.com/docs/_59l0izpoe.htm)**  You can now remap a number of keyboard shortcuts using the `MarkdownMonster-KeyBindings.json` file. In this file you can assign new shortcut keys to a number of commands.
+* **[New KeyBinding Manager](https://markdownmonster.west-wind.com/docs/_59l0izpoe.htm)**  
+You can now remap a number of keyboard shortcuts using the `MarkdownMonster-KeyBindings.json` file. In this file you can assign new shortcut keys to a number of commands.
 
 * **Save All File Menu Option and Shortcut**  
 You can now use **File->Save All** or `alt-shift-s` to save all open documents. Existing documents are saved in place, any untitled documents prompt for a filename to save to or to cancel.
