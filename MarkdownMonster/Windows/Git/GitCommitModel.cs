@@ -18,26 +18,7 @@ namespace MarkdownMonster.Windows
 {
     public class GitCommitModel : INotifyPropertyChanged
     {
-        
-        
-
-        public GitCommitModel(string fileOrFolder, bool commitRepository = false)
-        {
-            CommitRepository = commitRepository;
-            Filename = fileOrFolder;
-            AppModel = mmApp.Model;
-            Window = AppModel.Window;
-
-            GitHelper = new GitHelper();
-            GitHelper.OpenRepository(Filename);
-
-            GitUsername = mmApp.Configuration.Git.GitName;
-            GitEmail = mmApp.Configuration.Git.GitEmail;
-
-            ShowUserInfo = string.IsNullOrEmpty(GitUsername);
-        }
-        
-
+               
         public string Filename
         {
             get { return _Filename; }
@@ -114,30 +95,27 @@ namespace MarkdownMonster.Windows
 
         public string GitUsername
         {
-            get { return _GitUsername; }
+            get
+            {
+                return mmApp.Model.Configuration.Git.GitName;
+            }
             set
             {
-                if (value == _GitUsername) return;
-                _GitUsername = value;
-                OnPropertyChanged(nameof(GitUsername));
+                mmApp.Model.Configuration.Git.GitName = value;
             }
-        }
-        private string _GitUsername;
-
+        }        
 
         public string GitEmail
         {
-            get { return _GitEmail; }
+            get
+            {
+                return mmApp.Model.Configuration.Git.GitEmail;
+            }
             set
             {
-                if (value == _GitEmail) return;
-                _GitEmail = value;
-                OnPropertyChanged(nameof(GitEmail));
-            }
+                mmApp.Model.Configuration.Git.GitEmail = value;            }            
         }
-        private string _GitEmail;
-
-
+        
 
         public bool ShowUserInfo
         {
@@ -212,7 +190,22 @@ namespace MarkdownMonster.Windows
                 OnPropertyChanged();
             }
         }
-        
+
+        #region Load
+
+        public GitCommitModel(string fileOrFolder, bool commitRepository = false)
+        {
+            CommitRepository = commitRepository;
+            Filename = fileOrFolder;
+            AppModel = mmApp.Model;
+            Window = AppModel.Window;
+
+            GitHelper = new GitHelper();
+            GitHelper.OpenRepository(Filename);
+            
+            ShowUserInfo = string.IsNullOrEmpty(GitUsername);
+        }                        
+        #endregion
 
         #region Helpers
 
