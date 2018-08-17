@@ -205,30 +205,12 @@ namespace MarkdownMonster.Windows
             
             if (string.IsNullOrEmpty(GitEmail) && string.IsNullOrEmpty(GitUsername))
             {
-                var userEmail = GetGitNameAndEmailFromGitIgnore();
+                var userEmail = GitHelper.GetGitNameAndEmailFromGitIgnore();
                 GitUsername = userEmail[0];
                 GitEmail = userEmail[1];
             }
 
             ShowUserInfo = string.IsNullOrEmpty(GitUsername);
-        }
-
-        private static string[] GetGitNameAndEmailFromGitIgnore()
-        {
-            string email = string.Empty;
-            string username = string.Empty;
-
-            var gitignoreFile = Path.Combine(Environment.GetEnvironmentVariable("userprofile"), ".gitconfig");
-            if (File.Exists(gitignoreFile))
-            {
-                var fileText = File.ReadAllText(gitignoreFile);
-             
-                username = StringUtils.ExtractString(fileText, "name = ", "\n");
-                email = StringUtils.ExtractString(fileText, "email = ", "\n");
-                
-            }
-
-            return new string[2] { username.Trim(), email.Trim() };
         }
         #endregion
 

@@ -790,6 +790,31 @@ namespace MarkdownMonster.Utilities
 
             return true;
         }
+
+
+        /// <summary>
+        /// Retrieves Username and Email as a two item array from .gitconfig
+        /// file if it exists.                
+        /// </summary>
+        /// <returns>
+        /// Two Item String Array. Items: 0 - Username, 1 - Email
+        /// </returns>
+        public static string[] GetGitNameAndEmailFromGitIgnore()
+        {
+            string email = string.Empty;
+            string username = string.Empty;
+
+            var gitignoreFile = Path.Combine(Environment.GetEnvironmentVariable("userprofile"), ".gitconfig");
+            if (File.Exists(gitignoreFile))
+            {
+                var fileText = File.ReadAllText(gitignoreFile);
+
+                username = StringUtils.ExtractString(fileText, "name = ", "\n");
+                email = StringUtils.ExtractString(fileText, "email = ", "\n");
+            }
+
+            return new string[2] { username.Trim(), email.Trim() };
+        }
         #endregion
 
         #region Error Handling
