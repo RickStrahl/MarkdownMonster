@@ -799,7 +799,7 @@ namespace MarkdownMonster.Utilities
         /// <returns>
         /// Two Item String Array. Items: 0 - Username, 1 - Email
         /// </returns>
-        public static string[] GetGitNameAndEmailFromGitIgnore()
+        public static string[] GetGitNameAndEmailFromGitConfig()
         {
             string email = string.Empty;
             string username = string.Empty;

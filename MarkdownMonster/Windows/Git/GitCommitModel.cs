@@ -205,7 +205,7 @@ namespace MarkdownMonster.Windows
             
             if (string.IsNullOrEmpty(GitEmail) && string.IsNullOrEmpty(GitUsername))
             {
-                var userEmail = GitHelper.GetGitNameAndEmailFromGitIgnore();
+                var userEmail = GitHelper.GetGitNameAndEmailFromGitConfig();
                 GitUsername = userEmail[0];
                 GitEmail = userEmail[1];
             }
