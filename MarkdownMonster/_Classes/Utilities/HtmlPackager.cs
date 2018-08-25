@@ -49,6 +49,9 @@ namespace MarkdownMonster.Utilities
             if (string.IsNullOrEmpty(urlOrFile))
                 return urlOrFile;
 
+            if (string.IsNullOrEmpty(basePath))
+                basePath = Path.GetTempPath();
+
             UrlOrFile = urlOrFile;
 
             CreateExternalFiles = createExternalFiles;
@@ -87,7 +90,11 @@ namespace MarkdownMonster.Utilities
                 {
                     var url = docBase.Attributes["href"]?.Value;
                     if (url.StartsWith("file:///"))
-                        basePath = url.Replace("file:///", "");
+                    {
+                        var tBasePath = url.Replace("file:///", "");
+                        if (!string.IsNullOrEmpty(tBasePath) && tBasePath != "\\")
+                            basePath = tBasePath;
+                    }
                 }
                 docBase?.Remove();
 

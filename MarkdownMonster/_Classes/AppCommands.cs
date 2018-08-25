@@ -511,7 +511,7 @@ namespace MarkdownMonster
 
                 if (result != null && result.Value)
                 {
-                    if (sd.FilterIndex == 3)
+                    if (sd.FilterIndex == 1)
                     {
                         var html = doc.RenderMarkdown(doc.GetMarkdown(),
                             mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
@@ -550,9 +550,12 @@ namespace MarkdownMonster
                             
                             var packager = new HtmlPackager();
 
-                            bool packageResult;                            
-                            if(sd.FilterIndex == 1)
-                                packageResult = packager.PackageHtmlToFile(sd.FileName, sd.FileName);
+                            bool packageResult;
+                            if (sd.FilterIndex == 2)
+                            {
+                                var basePath = Path.GetDirectoryName(doc.MarkdownDocument.Filename);                                
+                                packageResult = packager.PackageHtmlToFile(sd.FileName, sd.FileName, basePath);
+                            }
                             else
                             {
                                 folder = Path.GetDirectoryName(sd.FileName);
