@@ -912,18 +912,21 @@ namespace MarkdownMonster.Windows
 
             ci = new MenuItem();
 
-            ci.Header = "Delete";
-            ci.InputGestureText = "Del";
-            ci.Click += MenuDeleteFile_Click;
-            cm.Items.Add(ci);
+            if (pathItem.DisplayName != "..")
+            {
+                ci.Header = "Delete";
+                ci.InputGestureText = "Del";
+                ci.Click += MenuDeleteFile_Click;
+                cm.Items.Add(ci);
 
-            ci = new MenuItem();
-            ci.Header = "Rename";
-            ci.InputGestureText = "F2";
-            ci.Click += MenuRenameFile_Click;
-            cm.Items.Add(ci);
+                ci = new MenuItem();
+                ci.Header = "Rename";
+                ci.InputGestureText = "F2";
+                ci.Click += MenuRenameFile_Click;
+                cm.Items.Add(ci);
 
-            cm.Items.Add(new Separator());
+                cm.Items.Add(new Separator());
+            }
 
             ci = new MenuItem();
             ci.Header = "Find Files";
