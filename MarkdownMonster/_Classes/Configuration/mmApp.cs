@@ -153,7 +153,7 @@ namespace MarkdownMonster
             catch (Exception ex)
             {
                 Telemetry.UseApplicationInsights = false;
-                LogToLogfile("Application Insights initialization failure: " + ex.GetBaseException().Message);
+                LogLocal("Application Insights initialization failure: " + ex.GetBaseException().Message);
             }
         }
 
@@ -182,7 +182,7 @@ namespace MarkdownMonster
                 }
                 catch(Exception ex)
                 {
-                    LogToLogfile("Failed to Stop Telemetry Client: " + ex.GetBaseException().Message);
+                    LogLocal("Failed to Stop Telemetry Client: " + ex.GetBaseException().Message);
                 }
                 AppInsights.Flush();
                 AppInsights = null;
@@ -249,38 +249,18 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Logs messages to the log file
+        /// Logs messages to the standard log output for Markdown Monster:
+        /// 
+        /// * Application Insights
+        /// * Local Log File
+        /// 
         /// </summary>
         /// <param name="msg"></param>
         public static void Log(string msg, Exception ex = null, bool unhandledException = false)
         {
             string version = GetVersion();
-			string winVersion = null;
-
-            string exMsg = string.Empty;
-            if (ex != null)
-            {
-
-                winVersion = WindowsUtils.GetWindowsVersion() +
-                                 " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
-                                 " - NET " + WindowsUtils.GetDotnetVersion() + " - " +
-                                 (Environment.Is64BitProcess ? "64 bit" : "32 bit");
-
-                ex = ex.GetBaseException();
-                exMsg = $@"
-Markdown Monster v{version}
-{winVersion}
-{CultureInfo.CurrentCulture.IetfLanguageTag} - {CultureInfo.CurrentUICulture.IetfLanguageTag}    
----
-{ex.Source}
-{ex.StackTrace}          
----------------------------
-
-
-";
-                SendBugReport(ex, msg);
-            }
-
+            string winVersion = null;
+            
             if (Telemetry.UseApplicationInsights)
             {
                 if (ex != null)
@@ -290,37 +270,37 @@ Markdown Monster v{version}
                         new Dictionary<string, string>
                         {
                             {"msg", msg},
-                            {"exmsg",ex.Message },
-                            {"exsource", ex.Source },
-                            {"extrace", ex.StackTrace },
+                            {"exmsg", ex.Message},
+                            {"exsource", ex.Source},
+                            {"extrace", ex.StackTrace},
                             {"severity", unhandledException ? "unhandled" : ""},
                             {"version", version},
-                            {"winversion", winVersion },
-                            {"dotnetversion", WindowsUtils.GetDotnetVersion() },
+                            {"winversion", winVersion},
+                            {"dotnetversion", WindowsUtils.GetDotnetVersion()},
                             {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
                             {"registered", UnlockKey.IsRegistered().ToString()},
-                            {"culture",  CultureInfo.CurrentCulture.IetfLanguageTag },
-                            {"uiculture",  CultureInfo.CurrentUICulture.IetfLanguageTag}
+                            {"culture", CultureInfo.CurrentCulture.IetfLanguageTag},
+                            {"uiculture", CultureInfo.CurrentUICulture.IetfLanguageTag}
                         });
                 }
                 else
                 {
+                    // message only
                     var props = new Dictionary<string, string>()
                     {
-                        {"msg",msg },
+                        {"msg", msg},
                         {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
                         {"registered", UnlockKey.IsRegistered().ToString()},
                         {"version", GetVersion()},
-                        {"culture",  CultureInfo.CurrentCulture.IetfLanguageTag },
-                        {"uiculture",  CultureInfo.CurrentUICulture.IetfLanguageTag}
-                };
-                    AppInsights.TrackTrace(msg,props);
+                        {"culture", CultureInfo.CurrentCulture.IetfLanguageTag},
+                        {"uiculture", CultureInfo.CurrentUICulture.IetfLanguageTag}
+                    };
+                    AppInsights.TrackTrace(msg, props);
                 }
             }
-            var text = msg + exMsg;
-
-            LogToLogfile(text);
-
+            
+            // also log to the local error log
+            LogLocal(msg,ex);
         }
 
         /// <summary>
@@ -332,15 +312,51 @@ Markdown Monster v{version}
             Log(msg);
         }
 
+
         /// <summary>
-        /// Logs directly to the text file - use this if you don't want to have
-        /// public log trail and only log diagnostics.
+        /// This method logs only to the local file, not to
+        /// the online telemetry. Use primarily for informational
+        /// messages and errors.
         /// </summary>
-        /// <param name="text"></param>
-        public static void LogToLogfile(string text)
+        /// <param name="msg">Optional message</param>
+        /// <param name="ex"></param>
+        public static void LogLocal(string msg = null, Exception ex = null)
         {
-            StringUtils.LogString(text, Path.Combine(Configuration.CommonFolder,
-                "MarkdownMonsterErrors.txt"), Encoding.UTF8);
+            if (msg == null && ex == null)
+                return;
+
+            string exMsg = GetExceptionMessageForLog(ex);
+
+            StringUtils.LogString(exMsg + "\r\n\r\n",
+                Path.Combine(Configuration.CommonFolder,"MarkdownMonsterErrors.txt"),
+                Encoding.UTF8);
+        }
+
+        private static string GetExceptionMessageForLog(Exception ex)
+        {
+            string exMsg = string.Empty;
+            if (ex != null)
+            {
+                string version = GetVersion();
+                string winVersion;
+                winVersion = WindowsUtils.GetWindowsVersion() +
+                             " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
+                             " - NET " + WindowsUtils.GetDotnetVersion() + " - " +
+                             (Environment.Is64BitProcess ? "64 bit" : "32 bit");
+
+                ex = ex.GetBaseException();
+                exMsg = $@"
+Markdown Monster v{version}
+{winVersion}
+{CultureInfo.CurrentCulture.IetfLanguageTag} - {CultureInfo.CurrentUICulture.IetfLanguageTag}    
+---
+{ex.Source}
+{ex.StackTrace}          
+---------------------------
+";
+            }
+
+            return exMsg;
         }
 
         public static void SetWorkingSet(int lnMaxSize, int lnMinSize)
@@ -356,43 +372,43 @@ Markdown Monster v{version}
             }
         }
 
-        public static void SendBugReport(Exception ex, string msg = null)
-        {
-            var bug = new BugReport()
-            {
-                TimeStamp = DateTime.UtcNow,
-                Message = ex.Message,
-                Product = "Markdown Monster",
-                Version = mmApp.GetVersion(),
-                WinVersion = WindowsUtils.GetWindowsVersion() +
-                             " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
-                             " - .NET " + WindowsUtils.GetDotnetVersion() + " - " +
-                             (Environment.Is64BitProcess ? "64 bit" : "32 bit"),
-                StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()
-            };
-            if (!string.IsNullOrEmpty(msg))
-                bug.Message = msg + "\r\n" + bug.Message;
+        //public static void SendBugReport(Exception ex, string msg = null)
+        //{
+        //    var bug = new BugReport()
+        //    {
+        //        TimeStamp = DateTime.UtcNow,
+        //        Message = ex.Message,
+        //        Product = "Markdown Monster",
+        //        Version = mmApp.GetVersion(),
+        //        WinVersion = WindowsUtils.GetWindowsVersion() +
+        //                     " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
+        //                     " - .NET " + WindowsUtils.GetDotnetVersion() + " - " +
+        //                     (Environment.Is64BitProcess ? "64 bit" : "32 bit"),
+        //        StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()
+        //    };
+        //    if (!string.IsNullOrEmpty(msg))
+        //        bug.Message = msg + "\r\n" + bug.Message;
 
-            new TaskFactory().StartNew(
-                (bg) =>
-                {
-                    try
-                    {
-                        var temp = HttpUtils.JsonRequest<BugReport>(new HttpRequestSettings()
-                        {
-                            Url = mmApp.Configuration.BugReportUrl,
-                            HttpVerb = "POST",
-                            Content = bg,
-                            Timeout = 3000
-                        });
-                    }
-                    catch (Exception ex2)
-                    {
-                        // don't log with exception otherwise we get an endless loop
-                        Log("Unable to report bug: " + ex2.Message);
-                    }
-                }, bug);
-        }
+        //    new TaskFactory().StartNew(
+        //        (bg) =>
+        //        {
+        //            try
+        //            {
+        //                var temp = HttpUtils.JsonRequest<BugReport>(new HttpRequestSettings()
+        //                {
+        //                    Url = mmApp.Configuration.BugReportUrl,
+        //                    HttpVerb = "POST",
+        //                    Content = bg,
+        //                    Timeout = 3000
+        //                });
+        //            }
+        //            catch (Exception ex2)
+        //            {
+        //                // don't log with exception otherwise we get an endless loop
+        //                Log("Unable to report bug: " + ex2.Message);
+        //            }
+        //        }, bug);
+        //}
 
 
 
