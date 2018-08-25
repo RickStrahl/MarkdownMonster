@@ -485,7 +485,7 @@ namespace MarkdownMonster.Windows
             var selected = TreeFolderBrowser.SelectedItem as PathItem;
 
             // this works without a selection
-            if (e.Key == Key.N && Keyboard.IsKeyDown(Key.LeftCtrl))
+            if (e.Key == Key.F2 && Keyboard.IsKeyDown(Key.LeftShift))            
             {
                 if (selected == null || !selected.IsEditing)
                 {
@@ -511,7 +511,7 @@ namespace MarkdownMonster.Windows
             {
                 if (selected.IsEditing)
                     selected.IsEditing = false;
-            }
+            }            
             else if (e.Key == Key.F2)
             {
                 if (!selected.IsEditing)
@@ -899,7 +899,7 @@ namespace MarkdownMonster.Windows
 
             var ci = new MenuItem();
             ci.Header = "_New File";
-            ci.InputGestureText = AppModel.Commands.NewDocumentCommand.KeyboardShortcut;
+            ci.InputGestureText = "Shift-F2";
             ci.Click += MenuAddFile_Click;
             cm.Items.Add(ci);
 
