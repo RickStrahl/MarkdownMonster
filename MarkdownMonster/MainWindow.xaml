@@ -390,7 +390,7 @@
                           IsChecked="{Binding Configuration.IsDocumentOutlineVisible, Mode=TwoWay}" />
                 <Separator />
                 <MenuItem Name="ButtonSpellchecking" 
-                          Header="Spellchecking"      
+                          Header="Spell Checking"      
                           Command="{Binding Commands.SpellCheckCommand}"   
                           IsCheckable="True"                          
                           IsChecked="{Binding Configuration.Editor.EnableSpellcheck}" />
