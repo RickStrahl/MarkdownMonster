@@ -116,7 +116,7 @@ namespace MarkdownMonster
         {
             get
             {
-                if (string.IsNullOrEmpty(Filename) || Filename == "untitled" || Filename == "Untitled")
+                if (string.IsNullOrEmpty(Filename) || IsUntitled)
                     return FilenameWithIndicator;
 
                 string path = Path.GetFileName(Path.GetDirectoryName(Filename));
@@ -124,6 +124,8 @@ namespace MarkdownMonster
                 return Path.GetFileName(Filename) + (IsDirty ? "*" : "") + "  –  " + path ; 
             }
         }
+
+        [JsonIgnore] public bool IsUntitled => Filename.Equals("untitled", StringComparison.InvariantCultureIgnoreCase);
 
         /// <summary>
         /// Name of the auto save backup file
