@@ -122,12 +122,22 @@ namespace MarkdownMonster.Utilities
         /// <param name="lang"></param>
         public static bool AddWordToDictionary(string word, string lang = "en-US")
         {
-            return LanguageUtils.IgnoreErrors(() =>
+            try
             {
+                if (!Directory.Exists(ExternalDictionaryFolder))
+                    Directory.CreateDirectory(ExternalDictionaryFolder);
+
                 var dictPath = Path.Combine(ExternalDictionaryFolder, lang + "_custom.txt");
                 File.AppendAllText(dictPath, word + "\r\n");
                 _spellChecker.Add(word);
-            });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                mmApp.LogLocal($"Add to Dictionary failed: {ex.Message}");
+            }
+
+            return false;
         }
         
         const string DictionaryDownloadUrl = "https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{0}/index.dic";
