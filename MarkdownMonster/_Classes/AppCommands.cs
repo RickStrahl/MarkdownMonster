@@ -478,12 +478,12 @@ namespace MarkdownMonster
 
                 var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
 
-                SaveFileDialog sd = new SaveFileDialog
+                var sd = new SaveFileDialog
                 {
                     Filter =
-                        "Self contained Html Page with embedded dependencies (1 large file)|*.html|" +
-                        "Html Page with loose assets in Folder (pick an empty folder)|*.html|" +
-                        "Raw Html Fragment (generated Html only)|*.html",
+                        "Raw Html Output only (Html Fragment)|*.html|" +
+                        "Self contained Html File with embedded Styles and Images|*.html|" +
+                        "Html Page with loose Assets in a Folder|*.html",             
                     FilterIndex = 1,
                     InitialDirectory = folder,
                     FileName = Path.ChangeExtension(doc.MarkdownDocument.Filename, "html"),
