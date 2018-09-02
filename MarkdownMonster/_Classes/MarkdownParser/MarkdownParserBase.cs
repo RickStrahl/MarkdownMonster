@@ -62,21 +62,12 @@ namespace MarkdownMonster
                 markdown = markdown.Replace(extractedYaml, "");
 
             return markdown;
-        }
+        }        
 
-        /// <summary>
-        /// Parses out script tags that might not be encoded yet
-        /// </summary>
-        /// <param name="html"></param>
-        /// <returns></returns>
-        protected string ParseScript(string html)
-        {
-            html = html.Replace("<script", "&lt;script");
-            html = html.Replace("</script", "&lt;/script");
-            html = html.Replace("javascript:", "unsupported:");
-            return html;
-        }
-        private static Regex fontAwesomeIconRegEx = new Regex(@"@icon-.*?[\s|\.|\,|\<]");
+
+
+
+        protected static Regex fontAwesomeIconRegEx = new Regex(@"@icon-.*?[\s|\.|\,|\<]");
 
         /// <summary>
         /// Post processing routine that post-processes the HTML and 

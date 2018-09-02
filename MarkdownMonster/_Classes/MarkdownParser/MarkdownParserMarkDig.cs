@@ -83,7 +83,7 @@ namespace MarkdownMonster
                 html = ParseExternalLinks(html);
 
             if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
-                html = ParseScript(html);
+                html = MarkdownUtilities.SanitizeHtml(html);
 
             return html;
         }
@@ -158,7 +158,7 @@ namespace MarkdownMonster
             {
                 // One or more of the extension options is invalid. 
                 mmApp.Log("Failed to load Markdig extensions: " + options.MarkdigExtensions + "\r\n" + ex.Message, ex);
-
+                mmApp.Model.Window.ShowStatusError("Failed to load Markdig extensions: " + ex.Message);
                 // reset to default
                 options.MarkdigExtensions = string.Empty;
                 builder = builder.Configure(options.MarkdigExtensions.Replace(",", "+"));                
