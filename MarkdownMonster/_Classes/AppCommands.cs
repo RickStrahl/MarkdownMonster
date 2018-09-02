@@ -13,6 +13,7 @@ using MarkdownMonster.Favorites;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
+using Westwind.HtmlPackager;
 using Westwind.Utilities;
 
 namespace MarkdownMonster

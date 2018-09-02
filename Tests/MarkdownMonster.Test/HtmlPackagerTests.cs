@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using MarkdownMonster.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Westwind.HtmlPackager;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Test
