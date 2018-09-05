@@ -109,6 +109,16 @@ window.onscroll = scroll;
 function highlightCode() {
     $("pre code")
         .each(function (i, block) {
+            // handle special cases
+            var $code = $(block);
+            if ($code.hasClass("language-text") ||
+                $code.hasClass("language-none") ||
+                $code.hasClass("language-txt") ||
+                $code.hasClass("language-plain")) {
+                   $code.addClass("hljs");
+                    return;
+            }
+
             hljs.highlightBlock(block);
         });
 }
