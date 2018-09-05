@@ -302,10 +302,6 @@ namespace MarkdownMonster
             }
         }
 
-        /// <summary>
-        /// Event fired when 
-        /// </summary>
-        public event Action<bool> IsDirtyChanged;
 
         /// <summary>
         /// Holds the last preview window browser scroll position so it can be restored
@@ -372,12 +368,44 @@ namespace MarkdownMonster
         [JsonIgnore]
         public Dispatcher Dispatcher { get; set; }
 
+
+
+        /// <summary>
+        /// Event fired when the dirty changed of the document changes
+        /// </summary>
+        public event Action<bool> IsDirtyChanged;
+
+
+        /// <summary>
+        /// Event that fires after the document has been rendered
+        /// Parameters:
+        /// * Rendered Html
+        /// * Original Markdown
+        ///
+        /// You return:
+        /// * Updated (or unaltered) HTML 
+        /// </summary>
+        public event Func<string, string, string> DocumentRendered;
+
+
+        /// <summary>
+        /// Event that fires just before the document is rendered. It's
+        /// passed the Markdown text **before** it is converted to HTML
+        /// so you can intercept and modify the markdown before rendering.
+        ///
+        /// Return back the final markdown.
+        /// </summary>
+        public event Func<string, string> BeforeDocumentRendered;
+
         #region Read and Write Files
 
         public MarkdownDocument()
         {
             AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
             AutoSaveDocuments = mmApp.Configuration.AutoSaveDocuments;
+
+            
+
         }
 
         /// <summary>
@@ -748,6 +776,10 @@ namespace MarkdownMonster
         {
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
+
+
+            if (BeforeDocumentRendered != null)
+                markdown = BeforeDocumentRendered(markdown);
             
             var parser = MarkdownParserFactory.GetParser(usePragmaLines: usePragmaLines,                                                         
                                                          forceLoad: true, 
@@ -768,6 +800,9 @@ namespace MarkdownMonster
 </div>
 ";
             }
+
+            if (DocumentRendered != null)
+                html = DocumentRendered(html, markdown);
 
             return html;
         }
