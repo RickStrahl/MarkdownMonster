@@ -629,17 +629,48 @@ namespace MarkdownMonster
             IsPreviewVisible = true;
             IsDocumentOutlineVisible = true;
             OpenInPresentationMode = false;
-            AlwaysUsePreviewRefresh = false;		
+            AlwaysUsePreviewRefresh = false;
         }
 
         
 
 
+        public void AddRecentFile(string filename)
+        {
+            if (string.IsNullOrEmpty(filename) || filename.ToLower() == "untitled")
+                return;
+
+            if (RecentDocuments.Contains(filename))
+                RecentDocuments.Remove(filename);
+
+            RecentDocuments.Insert(0,filename);
+            OnPropertyChanged(nameof(RecentDocuments));
+
+            if (RecentDocuments.Count > RecentDocumentsLength)
+            {
+                // the hard way to force collection to properly refresh so bindings work properly
+                var recents = RecentDocuments.Take(RecentDocumentsLength).ToList();
+                RecentDocuments.Clear();
+                foreach (var recent in recents)
+                    RecentDocuments.Add(recent);
+            }
+        }
+
+
+        #region Configuration Settings
+
+
+
         protected override void OnInitialize(IConfigurationProvider provider, string sectionName, object configData)
         {
             base.OnInitialize(provider, sectionName, configData);
+            mmApp.Configuration = this;
 
-            if(string.IsNullOrEmpty(Git.GitClientExecutable))
+            // Make sure we have a valid config directory!!!
+            if (!Directory.Exists(CommonFolder))
+                CommonFolder = FindCommonFolder();
+
+            if (string.IsNullOrEmpty(Git.GitClientExecutable))
                 Git.GitClientExecutable = mmFileUtils.FindGitClient();
             if (string.IsNullOrEmpty(Git.GitDiffExecutable))
                 Git.GitDiffExecutable = mmFileUtils.FindGitDiffTool();
@@ -665,50 +696,7 @@ namespace MarkdownMonster
                     Editor.Dictionary = "es";
                     break;
             }
-
-            // TODO: Remove in Future version - added in 1.11.14
-            // Dictionary download location changed to %appdata\downloaded dictionaries
-            foreach (var file in Directory.GetFiles(App.InitialStartDirectory, "Editor"))
-            {
-                if (!file.Contains(".dic") &&
-                    !file.Contains(".aff"))
-                    continue;
-
-                // ignore the installed dictionaries
-                if (file.StartsWith("en-US.",StringComparison.InvariantCultureIgnoreCase) ||
-                    file.StartsWith("de.") ||
-                    file.StartsWith("fr.") ||
-                    file.StartsWith("es."))
-                    continue;
-
-                try { File.Delete(file);} catch { }
-            }
-
         }
-
-        public void AddRecentFile(string filename)
-        {
-            if (string.IsNullOrEmpty(filename) || filename.ToLower() == "untitled")
-                return;
-
-            if (RecentDocuments.Contains(filename))
-                RecentDocuments.Remove(filename);
-
-            RecentDocuments.Insert(0,filename);
-            OnPropertyChanged(nameof(RecentDocuments));
-
-            if (RecentDocuments.Count > RecentDocumentsLength)
-            {
-                // the hard way to force collection to properly refresh so bindings work properly
-                var recents = RecentDocuments.Take(RecentDocumentsLength).ToList();
-                RecentDocuments.Clear();
-                foreach (var recent in recents)
-                    RecentDocuments.Add(recent);
-            }
-        }
-
-        
-        #region Configuration Settings
 
         protected override IConfigurationProvider OnCreateDefaultProvider(string sectionName, object configData)
         {
@@ -861,6 +849,9 @@ namespace MarkdownMonster
             }
             else
                 commonFolderToSet = CommonFolder;
+
+            if (!Directory.Exists(commonFolderToSet))
+                commonFolderToSet = InternalCommonFolder;
             
             return commonFolderToSet;
         }
