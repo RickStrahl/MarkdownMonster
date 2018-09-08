@@ -25,7 +25,11 @@ namespace MarkdownMonster.Windows
                 PortableMode.Content = "Portable mode";
 
             if (UnlockKey.IsRegistered())
+            {
                 PanelFreeNotice.Visibility = System.Windows.Visibility.Hidden;
+                LabelRegistered.Visibility = System.Windows.Visibility.Visible;
+            }
+            
 
             if (mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
                 LabelUsingFreeVersion.Text =

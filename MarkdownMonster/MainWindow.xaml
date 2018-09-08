@@ -435,7 +435,7 @@
                 <MenuItem Name="MenuBugReport" Header="Report a Bug or Make a Suggestion" Click="Button_Handler"/>
                 <Separator />
                 <MenuItem Name="MenuCheckNewVersion" Header="Check for New Version" Click="Button_Handler"/>
-                <MenuItem Name="MenuRegister" Header="Register Copy" Click="Button_Handler"/>
+                <MenuItem Name="MenuRegister" Header="Software Registration" Click="Button_Handler"/>
                 <Separator  />
                 <MenuItem Name="MenuShowErrorLog" Header="Show Error Log" Click="Button_Handler"/>
                 <MenuItem Name="MenuResetConfiguration" Header="Reset Settings to Default" Click="Button_Handler"/>
