@@ -83,7 +83,7 @@ namespace MarkdownMonster
                 html = ParseExternalLinks(html);
 
             if (!mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags)
-                html = MarkdownUtilities.SanitizeHtml(html);
+                html = HtmlUtils.SanitizeHtml(html);
 
             return html;
         }
