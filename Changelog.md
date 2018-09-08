@@ -6,7 +6,44 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.12.14
+<small>Not released yet</small>
+
+* **Updated: Html Sanitation when using `AllowRenderScriptTags: false`**  
+Updated the HTML sanitation logic when script tags (and script execution in general) is not allowed in the generated document. This update strips out any tags that can load javascript, `javascript:` tags and any event handler code embedded in the resulting HTML content.
+
+* **Developer: BeforeDocumentRendered and DocumentRendered Events**  
+There are two new events on the `MarkdownDocument` object, that allow you to capture the document's markdown and HTML before and after the document has been rendered using the `BeforeDocumentRendered()` and `DocumentRendered()` events. These events can be intercepted in the Commander and Snippets addins or in your own Addins (although full Addins have dedicated handlers for this).
+
+* **Fix: Embedded Document Outline Indentation**  
+Fixed issue with the *Insert Document Outline* feature that can embed a table of content style link list into the Markdown document. Fixed error where indentation was not reflecting the actual hierarchy.
+
+* **Fix: User Registration Display**  
+Add Registered notice into the About form, so users can see when they are registered. Changed verbage for Registration form access to Software Registration to make it less ambiguous that you can both register and unregister.
+
+* **Fix: CommonFolder Startup Issue**  
+If the **CommonFolder** configuration setting is set to a non-existing folder, MM now defaults to the default `%appdata%` location. This fixes a severe startup failure that would cause MM to launch and disappear previously.
+
+* **Fix: Save As Html with Packaged Documents with Untitled Docs**  Fixed issue where untitled documents would not properly generate packaged output due to a missing base folder. Changed behavior to use the temp folder which may or may not produce desired results. Recommendation is to save document before exporting.
+
+* **Fix: Change default Save As Html output to Raw HTML**   
+Changed the default option when using the Save As Html dialog to save to the Raw HTML output from markdown, with the packaged document options getting shifted down.
+
+* **Fix: Remove Rename Delete Option in Folder Browser for non-files** 
+Removed the Rename and Delete options from root folders and non-edit/delete items in the folder browser.
+
+* **Fix: Custom Dictionary Not Creating**  
+If no non-installed dictionaries have been installed previously, adding new words to a custom dictionary failed because the folder didn't exist. Fixed.
+
+* **Fix: New File Keyboard Shortcut in Folder Browser**  
+Changed to a separate keyboard shortcut (shift-f2) in the folder browser to avoid behavior confusion between New Document behavior. Folder browser adds file in browser, while new document creates an **Untitled** document.
+
+* **Fix: Plain Text Code Fences Rendering**  
+Fix issues with plain text rendering when using `text`,`plain`,`txt` or `none` for code fence blocks. Previously `text` and `plain` would incorrectly render as invalid languages. Fix uses JavaScript interception to correct highlightJs issue.
+
 ### 1.12.12
+<small>August 22nd, 2018</small>
+
 * **[New KeyBinding Manager](https://markdownmonster.west-wind.com/docs/_59l0izpoe.htm)**  
 You can now remap a number of keyboard shortcuts using the `MarkdownMonster-KeyBindings.json` file. In this file you can assign new shortcut keys to a number of commands.
 
