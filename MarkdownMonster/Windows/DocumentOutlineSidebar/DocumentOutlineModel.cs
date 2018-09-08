@@ -199,10 +199,9 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            var xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4]";
-            int lastLevel = 0;
+            var xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4]";           
             foreach (var node in doc.DocumentNode.SelectNodes(xpath))
             {
                 var id = node.Id;
@@ -210,15 +209,10 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                 var textIndent = node.Name.Replace("h", "");
                 if (!int.TryParse(textIndent, out int level) || level > AppModel.Configuration.MaxDocumentOutlineLevel)                   
                     continue;
-                
 
                 string leadin = null;
-                if (level > lastLevel)
-                    lastLevel++;
-                else if (level < lastLevel)
-                    lastLevel--;
-
-                leadin = StringUtils.Replicate("\t",lastLevel - 1);
+                if (level > 0)
+                    leadin = StringUtils.Replicate("\t",level - 1);
 
                 sb.AppendLine($"{leadin}* [{text}](#{id})");
             }
