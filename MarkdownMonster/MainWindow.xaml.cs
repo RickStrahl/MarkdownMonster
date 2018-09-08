@@ -2262,7 +2262,10 @@ namespace MarkdownMonster
                 else
                     SidebarContainer.SelectedItem = TabFolderBrowser;
             }
-            else if (button == ButtonWordWrap || button == ButtonLineNumbers || button == ButtonShowInvisibles)
+            else if (button == ButtonWordWrap ||
+                     button == ButtonLineNumbers ||
+                     button == ButtonShowInvisibles ||
+                     button == ButtonAllowScriptTags)
             {
                 Model.ActiveEditor?.RestyleEditor();
             }

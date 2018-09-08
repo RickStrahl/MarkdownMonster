@@ -394,7 +394,15 @@
                           Command="{Binding Commands.SpellCheckCommand}"   
                           IsCheckable="True"                          
                           IsChecked="{Binding Configuration.Editor.EnableSpellcheck}" />
-               
+
+
+                <MenuItem Name="ButtonAllowScriptTags" 
+                          Header="Allow Script in Markdown"
+                          Click="Button_Handler"
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.MarkdownOptions.AllowRenderScriptTags}" />
+
+                <Separator/>
 
                 <MenuItem Name="ButtonWordWrap" 
                           Header="_Word Wrap"      
@@ -415,6 +423,7 @@
                           Click="Button_Handler"
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.Editor.ShowInvisibles}" />
+
             </MenuItem>
 
             <!-- generated dynamically by command -->
