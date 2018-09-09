@@ -12,6 +12,9 @@
 * **Updated: Html Sanitation when using `AllowRenderScriptTags: false`**  
 Updated the HTML sanitation logic when script tags (and script execution in general) is not allowed in the generated document. This update strips out any tags that can load javascript, `javascript:` tags and any event handler code embedded in the resulting HTML content.
 
+* **Add Toggle to allow Turning on Script Execution in Markdown**  
+Added a menu option in the View menu to **Allow Script in Markdown** to turn HTML Sanitation on or off.
+
 * **Developer: BeforeDocumentRendered and DocumentRendered Events**  
 There are two new events on the `MarkdownDocument` object, that allow you to capture the document's markdown and HTML before and after the document has been rendered using the `BeforeDocumentRendered()` and `DocumentRendered()` events. These events can be intercepted in the Commander and Snippets addins or in your own Addins (although full Addins have dedicated handlers for this).
 
