@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.12.14
-<small>Not released yet</small>
+<small>September 8th, 2018</small>
 
 * **Updated: Html Sanitation when using `AllowRenderScriptTags: false`**  
 Updated the HTML sanitation logic when script tags (and script execution in general) is not allowed in the generated document. This update strips out any tags that can load javascript, `javascript:` tags and any event handler code embedded in the resulting HTML content.
