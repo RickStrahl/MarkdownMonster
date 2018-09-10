@@ -1,4 +1,3 @@
-
 <!-- Start Document Outline -->
 
 * [Generate HTML Output](#generate-html-output)
@@ -85,15 +84,6 @@ Did you know that Markdown Monster has an add-in extension model? You can easily
 
 ### Embed Font-Awesome Icons
 Did you know you can use @icon-FontAwesomeIconName to embed FontAwesome icons into your content in Markdown Monster? If your target site for HTML supports Font Awesome this syntax is a quick way to embed icons.
-
-<div style="margin-top: 30px;font-size: 0.8em;
-            border-top: 1px solid #eee;padding-top: 8px;">
-    <img src="https://markdownmonster.west-wind.com/favicon.png"
-         style="height: 20px;float: left; margin-right: 10px;"/>
-    this post created with 
-    <a href="https://markdownmonster.west-wind.com" 
-       target="top">Markdown Monster</a> 
-</div>
 
 ### Html Editing
 Did you know that Markdown Monster can also edit HTML files with live preview? Open an HTML document and MM will preview it and update the preview as you edit it.
