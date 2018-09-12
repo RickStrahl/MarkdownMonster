@@ -936,7 +936,6 @@ namespace MarkdownMonster.Windows
 
             ci = new MenuItem();
             ci.Header = "Add to Favorites";
-            ci.Icon = FontAwesome.WPF.ImageAwesome.CreateImageSource(FontAwesomeIcon.Star, Brushes.Goldenrod, 16);
             ci.Command = AppModel.Commands.AddFavoriteCommand;
             ci.CommandParameter = pathItem.FullPath;
             cm.Items.Add(ci);
