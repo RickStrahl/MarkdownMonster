@@ -264,10 +264,18 @@ namespace MarkdownMonster.Utilities
 
                 new AppKeyBinding
                 {
+                    Id = "Paste2",
+                    Key = "shift-insert",
+                    CommandName = "Paste2",
+                    HasJavaScriptHandler= true
+                },
+                new AppKeyBinding
+                {
                     Key = "ctrl-v",
                     CommandName = "Paste",
                     HasJavaScriptHandler= true
                 },
+
 
             };
         }
