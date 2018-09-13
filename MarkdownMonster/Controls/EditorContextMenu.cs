@@ -164,7 +164,10 @@ namespace MarkdownMonster
                 miPaste.Click += (o, args) => model.ActiveEditor?.PasteOperation();                
             }
             else
+            {
                 hasClipboardData = ClipboardHelper.ContainsText();
+                miPaste.Click += (s,e) => Model.ActiveEditor.PasteOperation();
+            }
 
             miPaste.IsEnabled = hasClipboardData;
 
@@ -194,7 +197,7 @@ namespace MarkdownMonster
 
             
         }
-
+        
         public void AddUndoRedo()
         {
 
