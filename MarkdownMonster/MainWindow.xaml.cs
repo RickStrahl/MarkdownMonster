@@ -1484,6 +1484,8 @@ namespace MarkdownMonster
                 Model.ActiveDocument = null;
                 StatusStats.Text = null;
 
+                Model.Window.TabDocumentOutline.Visibility = Visibility.Collapsed;                
+
                 Title = "Markdown Monster" +
                         (UnlockKey.Unlocked ? "" : " (unregistered)");
             }
@@ -1852,7 +1854,7 @@ namespace MarkdownMonster
                 var favorites = new FavoritesControl();
                 FavoritesTab.Content = favorites;
 
-                AddLeftSidebarPanelTabItem(FavoritesTab, "Favorite Files",
+                AddLeftSidebarPanelTabItem(FavoritesTab, "Favorite Files and Folders",
                     ImageAwesome.CreateImageSource(FontAwesomeIcon.Star, Brushes.Goldenrod, 11),
                     selectItem: !noActivate);
             }
