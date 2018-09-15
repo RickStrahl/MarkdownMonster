@@ -182,18 +182,22 @@
                                       IsChecked="{Binding IsFullScreen}"
                                       Command="{Binding Commands.DistractionFreeModeCommand}"                                                 
                                       ToolTip="toggle distraction free edit mode (alt-shift-enter). configure with: 'DistractionFreeModeHideOptions' setting."
-                                 fa:Awesome.Content="ArrowsAlt"
-                                TextElement.FontSize="16"
+                                 fa:Awesome.Content="ArrowsAlt"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
                                       />
                 <ToggleButton Name="ToolButtonPresentationMode"   Foreground="{StaticResource BlueItem}"                              
                                       IsChecked="{Binding IsPresentationMode}"
                                       Command="{Binding Commands.PresentationModeCommand}"                                                 
                                       ToolTip="toggle presentation mode (F11)"
-                                 fa:Awesome.Content="Desktop"
-                                TextElement.FontSize="16"
+                                 fa:Awesome.Content="Desktop"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
                                       />
+
+                <Button Name="ToolButtonSettings" Foreground="{StaticResource BlueItem}" 
+                        Command="{Binding Commands.SettingsCommand}"
+                        fa:Awesome.Content="Gear" 
+                        ToolTip="Configuration Settings for Markdown Monster"                        
+                        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  />
             </StackPanel>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
@@ -328,7 +332,23 @@
                           ToolTip="Copy the document's full path to the Clipboard" 
                           Command="{Binding Commands.CopyFullPathToClipboardCommand}"
                           IsEnabled="{Binding IsEditorActive}" />
+
                 <Separator/>
+                <MenuItem Name="ButtonSpellchecking" 
+                          Header="Spell Checking"      
+                          Command="{Binding Commands.SpellCheckCommand}"   
+                          IsCheckable="True"                          
+                          IsChecked="{Binding Configuration.Editor.EnableSpellcheck}" />
+
+
+                <MenuItem Name="ButtonAllowScriptTags" 
+                          Header="Allow Script in Markdown"
+                          Click="Button_Handler"
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.MarkdownOptions.AllowRenderScriptTags}" />
+
+                <Separator/>
+
                 <MenuItem Header="Settings" Command="{Binding Commands.SettingsCommand}"/>
             </MenuItem>
             <MenuItem Header="_View" Name="MainMenuView">
@@ -389,21 +409,6 @@
                           Click="Button_Handler"
                           IsChecked="{Binding Configuration.IsDocumentOutlineVisible, Mode=TwoWay}" />
                 <Separator />
-                <MenuItem Name="ButtonSpellchecking" 
-                          Header="Spell Checking"      
-                          Command="{Binding Commands.SpellCheckCommand}"   
-                          IsCheckable="True"                          
-                          IsChecked="{Binding Configuration.Editor.EnableSpellcheck}" />
-
-
-                <MenuItem Name="ButtonAllowScriptTags" 
-                          Header="Allow Script in Markdown"
-                          Click="Button_Handler"
-                          IsCheckable="True"
-                          IsChecked="{Binding Configuration.MarkdownOptions.AllowRenderScriptTags}" />
-
-                <Separator/>
-
                 <MenuItem Name="ButtonWordWrap" 
                           Header="_Word Wrap"      
                           Command="{Binding Commands.WordWrapCommand}"                                                                   
