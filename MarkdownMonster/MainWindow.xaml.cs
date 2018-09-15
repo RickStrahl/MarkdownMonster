@@ -1719,16 +1719,32 @@ namespace MarkdownMonster
         {
             if (tabItem != null)
             {
+                // Create the header as Icon and Text
+                var panel = new StackPanel();
+                panel.Margin = new Thickness(0, 5, 0, 5);
+
+                Image img = null;
+
                 if (tabHeaderIcon != null)
                 {
-                    // Create the header as Icon and Text
-                    var panel = new StackPanel { Orientation = Orientation.Horizontal };
-                    panel.Children.Add(new Image { Source = tabHeaderIcon, Height = 16, Margin = new Thickness(4, 0, 4, 0) });
-                    panel.Children.Add(new TextBlock { Text = tabHeaderText });
-                    tabItem.Header = panel;
+                    img = new Image
+                    {
+                        Source = tabHeaderIcon, Height = 22, 
+                        ToolTip = tabHeaderText
+                    };                   
+                    //panel.Children.Add(new TextBlock { Text = tabHeaderText });                    
                 }
                 else if (!string.IsNullOrEmpty(tabHeaderText))
-                    tabItem.Header = tabHeaderText;
+                {                    
+                    img = new Image
+                    {
+                        Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.QuestionCircle, Brushes.SteelBlue, 22),
+                        ToolTip = tabHeaderText
+
+                    };                                        
+                }
+                panel.Children.Add(img);
+                tabItem.Header = panel;
 
                 //ControlsHelper.SetHeaderFontSize(tabItem, 14);
                 SidebarContainer.Items.Add(tabItem);
@@ -1836,7 +1852,7 @@ namespace MarkdownMonster
                 var favorites = new FavoritesControl();
                 FavoritesTab.Content = favorites;
 
-                AddLeftSidebarPanelTabItem(FavoritesTab, "Favorites",
+                AddLeftSidebarPanelTabItem(FavoritesTab, "Favorite Files",
                     ImageAwesome.CreateImageSource(FontAwesomeIcon.Star, Brushes.Goldenrod, 11),
                     selectItem: !noActivate);
             }

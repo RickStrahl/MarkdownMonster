@@ -675,10 +675,10 @@
             </Grid.ColumnDefinitions>
 
             <controls:MetroTabControl x:Name="SidebarContainer"
-                                        Margin="0,5,0,0"
+                                        Margin="0,5,0,0"                                        
                                         FontSize="13" 
                                         x:FieldModifier="public"                                                                                                                                                         
-                                        TabStripPlacement="Bottom"
+                                        TabStripPlacement="Left"                                        
                                         SelectionChanged="SidebarContainer_SelectionChanged"
                                         BorderThickness="0">
                 <TabControl.Resources>
@@ -687,14 +687,15 @@
                             <Trigger Property="IsSelected" Value="false">
                                 <Setter Property="Opacity" Value="0.4" />
                             </Trigger>
-                            <Trigger Property="IsSelected" Value="true">
+                            <!--<Trigger Property="IsSelected" Value="true">
                                 <Setter Property="FontWeight" Value="SemiBold" />
-                            </Trigger>
+                            </Trigger>-->
                         </Style.Triggers>
                         <Style.Setters>
-                            <Setter Property="Padding" Value="3,2,9,10" />
-                            <Setter Property="Margin" Value="0,0,4,4" />
-                            <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="14" />
+                            <!--<Setter Property="Height" Value="38" />-->
+                            <!--<Setter Property="Background" Value="Transparent" />-->
+                            <Setter Property="Padding" Value="6,10" />
+                            <!--<Setter Property="Margin" Value="0" />-->
                         </Style.Setters>
                     </Style>
                 </TabControl.Resources>
@@ -702,9 +703,9 @@
                 <controls:MetroTabItem Name="TabFolderBrowser"  x:FieldModifier="public"
                           Visibility="Visible">
                     <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Folder" Foreground="DarkGoldenrod" Padding="4,3,4,0"/>
-                            <TextBlock>Files</TextBlock>
+                        <StackPanel Margin="0,17,0,8">
+                            <fa:FontAwesome Icon="Folder"  FontSize="22" Foreground="DarkGoldenrod" 
+                                            ToolTip="File and Folder Browser"/>
                         </StackPanel>
                     </TabItem.Header>
                     <localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
@@ -715,9 +716,9 @@
                 <controls:MetroTabItem Name="TabDocumentOutline"  x:FieldModifier="public"                                       
                                        controls:VisibilityHelper.IsVisible="{Binding Configuration.IsDocumentOutlineVisible}" >
                     <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Bookmark" Foreground="SteelBlue" Padding="4,3,4,0"/>
-                            <TextBlock>Outline</TextBlock>
+                        <StackPanel Margin="0,5,0,5">
+                            <fa:FontAwesome Icon="Bookmark" FontSize="22" Foreground="SteelBlue"  
+                                            ToolTip="Document Outline"/>
                         </StackPanel>
                     </TabItem.Header>
                     <localwindows:DocumentOutlineSidebarControl x:Name="DocumentOutline">

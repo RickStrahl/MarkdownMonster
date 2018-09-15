@@ -280,6 +280,16 @@ namespace MarkdownMonster.Windows
 
         private void AttachFileWatcher(string fullPath)
         {
+            if (fullPath == null) return;
+
+            // no file watcher for root paths
+            var di = new DirectoryInfo(fullPath);
+            if (di.Root.FullName == fullPath)
+            {
+                AppModel.Window.ShowStatusProgress("Drive root selected: Files are not updated in root folders.",mmApp.Configuration.StatusMessageTimeout,spin: false, icon: FontAwesomeIcon.Circle);
+                return;
+            }
+
             if(FileWatcher != null)
                 ReleaseFileWatcher();
 
