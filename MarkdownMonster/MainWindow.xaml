@@ -692,10 +692,7 @@
                             </Trigger>-->
                         </Style.Triggers>
                         <Style.Setters>
-                            <!--<Setter Property="Height" Value="38" />-->
-                            <!--<Setter Property="Background" Value="Transparent" />-->
                             <Setter Property="Padding" Value="6,10" />
-                            <!--<Setter Property="Margin" Value="0" />-->
                         </Style.Setters>
                     </Style>
                 </TabControl.Resources>
@@ -704,7 +701,7 @@
                           Visibility="Visible">
                     <TabItem.Header>
                         <StackPanel Margin="0,17,0,8">
-                            <fa:FontAwesome Icon="Folder"  FontSize="22" Foreground="DarkGoldenrod" 
+                            <fa:FontAwesome Icon="Folder" FontSize="22"  Foreground="DarkGoldenrod" 
                                             ToolTip="File and Folder Browser"/>
                         </StackPanel>
                     </TabItem.Header>

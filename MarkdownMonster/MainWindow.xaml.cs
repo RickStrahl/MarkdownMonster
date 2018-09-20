@@ -1484,7 +1484,7 @@ namespace MarkdownMonster
                 Model.ActiveDocument = null;
                 StatusStats.Text = null;
 
-                Model.Window.TabDocumentOutline.Visibility = Visibility.Collapsed;                
+                TabDocumentOutline.Visibility = Visibility.Collapsed;                
 
                 Title = "Markdown Monster" +
                         (UnlockKey.Unlocked ? "" : " (unregistered)");
