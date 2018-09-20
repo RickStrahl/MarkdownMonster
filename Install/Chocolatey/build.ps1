@@ -34,7 +34,7 @@ del *.nupkg
 # Create .nupkg from .nuspec
 choco pack
 
-# choco uninstall "MarkdownMonster" -f
+choco uninstall "MarkdownMonster" -f
 
 choco install "MarkdownMonster" -fd  -y -s ".\"
 #choco install "MarkdownMonster" -fdv  -y -s ".\"
