@@ -40,9 +40,12 @@
             <Button Grid.Column="1"  Height="Auto" Width="30" FontSize="12" Click="SelectLocalLinkFile_Click">...</Button>
         </Grid>
 
-        <CheckBox Name="TextExternalLink" IsChecked="{Binding IsExternal}" Margin="0,12,0,0">Open link in new window</CheckBox>
+        <StackPanel Orientation="Horizontal">
+            <CheckBox Name="TextExternalLink" IsChecked="{Binding IsExternal}" Margin="0,12,0,0">Open link in new window</CheckBox>
+            <CheckBox Name="TextLinkReference" IsChecked="{Binding IsLinkReference}" Margin="30,12,0,0">Link as a Reference</CheckBox>
+        </StackPanel>
 
-         <StackPanel Orientation="Horizontal" Margin="0 10">
+        <StackPanel Orientation="Horizontal" Margin="0 10">
             <Button Name="ButtonOk" Margin="0,20" Height="40"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome  Icon="Upload"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />

@@ -6,7 +6,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using Markdig.Helpers;
+using Markdig.Syntax;
 using MarkdownMonster.Windows;
+using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -108,6 +111,153 @@ namespace MarkdownMonster
                 extractedYaml = match.Value;
 
             return extractedYaml;
+        }
+
+        #endregion
+
+
+        #region Parsing
+
+        public static string AddLinkReference(string md, SelectionRange selectionRange, string link)
+        {
+            const string STR_NEWIDPLACEHOLDER = "999999";
+
+            if (string.IsNullOrEmpty(md))
+                return null;
+
+            var lines = new List<string>(StringUtils.GetLines(md));
+            var activeLine = lines[selectionRange.StartRow];
+            string selText = activeLine.Substring(selectionRange.StartColumn, selectionRange.EndColumn - selectionRange.StartColumn);
+            activeLine = activeLine.Remove(selectionRange.StartColumn, selectionRange.EndColumn - selectionRange.StartColumn);
+
+            // find next ref if any
+            int nextId = 0;
+            int prevId = 0;
+            int newId = 0;
+            for (int i = selectionRange.StartRow + 1; i == lines.Count; i++)
+            {
+                var line = lines[i];
+                string id = StringUtils.ExtractString(line, "][", "]");
+                if (id != null && id.Length < 5 && id[0].IsDigit())
+                {
+                    nextId = StringUtils.ParseInt(id, 0);                    
+                    if (nextId == 0)
+                        continue;
+                    break;
+                }                
+            }
+
+            // find previous id
+            for (int i = selectionRange.StartRow - 1; i > 0; i--)
+            {
+                var line = lines[i];
+                string id = StringUtils.ExtractString(line, "][", "]");
+                if (id != null && id.Length > 0 &&  id.Length < 5 && id[0].IsDigit())
+                {
+                    prevId = StringUtils.ParseInt(id, 0);
+                    if (prevId == 0)
+                        continue;
+                    break;
+                }
+            }
+
+            if (nextId != 0)
+                newId = nextId;
+            else if (prevId != 0)
+                newId = prevId + 1;
+            else
+                newId = 1;
+
+            activeLine = activeLine.Insert(selectionRange.StartColumn, $"[{selText}][{STR_NEWIDPLACEHOLDER}]");
+            lines[selectionRange.StartRow] = activeLine;
+
+            
+            string newLine = $"  [999999]: {link}";
+            lines.Add(newLine);
+
+
+            var updatedIds = new List<int>();
+
+            List<LinkReferenceDefinition> links = new List<LinkReferenceDefinition>();
+            var syntax = Markdig.Markdown.Parse(md);
+            foreach (var item in syntax)
+            {
+                var line = item.Line;
+                var content = lines[line];
+
+                if (item is LinkReferenceDefinitionGroup)
+                {
+                    var itemLinks = item as LinkReferenceDefinitionGroup;
+
+                    int adder = 0;
+                    for (var index = 0; index < itemLinks.Count; index++)
+                    {
+                        var itemLink = (LinkReferenceDefinition) itemLinks[index];
+                        if (newId == index  + 1)
+                        {
+                            links.Add(new LinkReferenceDefinition
+                            {
+                                Label = newId.ToString(),
+                                Url = link
+                            });
+                            adder = 1;
+                        }
+
+                        itemLink.Label = (index + 1 + adder).ToString();
+                        if (adder > 0)
+                            updatedIds.Add(index + 1);                        
+
+                        links.Add(itemLink);
+                    }
+                }
+            }
+
+            if (links.Count == 0)
+            {
+                links.Add(new LinkReferenceDefinition
+                {
+                    Label = newId.ToString(),
+                    Url = link
+                });
+            }
+
+            var sb = new StringBuilder();
+            foreach (var linkItem in links)
+            {
+                sb.AppendLine($"  [{linkItem.Label}]: {linkItem.Url}");
+            }
+            string linkList = sb.ToString();
+
+
+            sb.Clear();
+            foreach (var line in lines)
+            {
+                if (line.StartsWith("  [") && line.Contains("]: "))
+                {
+
+                    continue;
+                }
+
+                sb.AppendLine(line);
+            }
+
+            md = sb.ToString();
+
+
+            for (var index =updatedIds.Count-1; index > -1; index--)
+            {
+                var updatedId = updatedIds[index];
+                md = md.Replace($"][{updatedId}]", $"][{updatedId + 1}]");
+            }
+
+
+            
+            md = md.Replace(STR_NEWIDPLACEHOLDER, newId.ToString());
+            md += linkList;
+
+            return md;
+
+            
         }
 
         #endregion

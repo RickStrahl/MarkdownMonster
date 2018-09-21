@@ -85,6 +85,7 @@
     <Compile Include="ClipBoardHelperTests.cs" />
     <Compile Include="FavoritesTests.cs" />
     <Compile Include="HtmlPackagerTests.cs" />
+    <Compile Include="MarkdownUtilitiesTests.cs" />
     <Compile Include="SpellCheckerTests.cs" />
     <Compile Include="ComputerInfoTests.cs" />
     <Compile Include="ConfigurationTests.cs" />

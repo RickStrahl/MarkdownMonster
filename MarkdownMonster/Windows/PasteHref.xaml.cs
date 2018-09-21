@@ -62,6 +62,8 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        public bool IsLinkReference { get; set;  }
+
         public string MarkdownFile { get; set; }
 
         public AppModel AppModel { get; set; } = mmApp.Model;

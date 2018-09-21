@@ -314,6 +314,15 @@ var te = window.textEditor = {
     getselection: function(ignored) {
         return te.editor.getSelectedText();
     },
+    getselectionrange: function(ignored) {
+        var range = te.editor.getSelectionRange();
+        return {
+            startRow: range.start.row,
+            endRow: range.end.row,
+            startColumn: range.start.column,
+            endColumn: range.end.column
+        };
+    },
     setselposition: function(index, count) {
         var doc = te.editor.session.getDocument();
         var lines = doc.getAllLines();
