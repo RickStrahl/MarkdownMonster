@@ -141,6 +141,21 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// Determines whether links are embedded as reference links
+        /// at the bottom of the current document rather than explicit links
+        /// </summary>
+        public bool UseReferenceLinks
+        {
+            get => _useReferenceLinks;
+            set
+            {
+                if (value == _useReferenceLinks) return;
+                _useReferenceLinks = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Determines whether the full path for the open
         /// document is displayed in the Main Window's
         /// title bar.
@@ -570,8 +585,9 @@ namespace MarkdownMonster
 		    set { _commonFolder = value; }
 	    }
 	    private string _commonFolder;
+        private bool _useReferenceLinks;
 
-		internal string InternalCommonFolder { get; set; }
+        internal string InternalCommonFolder { get; set; }
 
         internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");        
         #endregion

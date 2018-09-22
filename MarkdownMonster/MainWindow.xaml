@@ -342,10 +342,14 @@
 
 
                 <MenuItem Name="ButtonAllowScriptTags" 
-                          Header="Allow Script in Markdown"
-                          Click="Button_Handler"
+                          Header="Allow Script in Markdown"                          
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.MarkdownOptions.AllowRenderScriptTags}" />
+
+                <MenuItem Name="ButtonUseReferenceLinks" 
+                          Header="Use Link References"                          
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.UseReferenceLinks}" />
 
                 <Separator/>
 

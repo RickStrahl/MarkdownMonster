@@ -691,7 +691,12 @@ namespace MarkdownMonster
 
             var md = MarkdownUtilities.AddLinkReference(MarkdownDocument.CurrentText, origRange, form.Link);
 
-            SetMarkdown(md, new { row = origRange.StartRow, column = origRange.EndColumn - origRange.StartColumn });
+            // replace document without clearing Undo buffer
+            SetSelectionRange(0, 0, 9999999, 0);
+            SetSelection(md.Markdown);
+            
+            WindowUtilities.DoEvents();
+            SetCursorPosition(new AcePosition {row = origRange.StartRow + 1, column = origRange.StartColumn + md.SelectionLength});
 
             // Force a refresh of the window
             Window.PreviewBrowser.Refresh(true);

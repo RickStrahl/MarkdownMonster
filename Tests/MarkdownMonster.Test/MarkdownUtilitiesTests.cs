@@ -22,9 +22,10 @@ Here is link.
 Done.
 ";
 
-            var result = MarkdownUtilities.AddLinkReference(markdown, new SelectionRange { StartColumn = 0, StartRow = 3, EndColumn = 8, EndRow = 3 }, "https://markdownmonster.west-wind.com");
+            var result = MarkdownUtilities.AddLinkReference(markdown, new SelectionRange { StartColumn = 0, StartRow = 3, EndColumn = 8, EndRow = 3 }, "https://websurge.west-wind.com");
 
-            Console.WriteLine(result);
+            Console.WriteLine(result.SelectionLength);
+            Console.WriteLine(result.Markdown);
             Assert.IsNotNull(result);
         }
     
@@ -50,9 +51,9 @@ Done.
   [2]: http://weblog.west-wind.com
   [3]: http://markdownmonster.west-wind.com";
 
-            var result = MarkdownUtilities.AddLinkReference(markdown,new SelectionRange { StartColumn=0, StartRow = 3, EndColumn = 8, EndRow = 3},"https://markdownmonster.west-wind.com");
+            var result = MarkdownUtilities.AddLinkReference(markdown,new SelectionRange { StartColumn=0, StartRow = 3, EndColumn = 8, EndRow = 3},"https://websurge.west-wind.com");
 
-            Console.WriteLine(result);
+            Console.WriteLine(result.Markdown);
             Assert.IsNotNull(result);
         }
     }

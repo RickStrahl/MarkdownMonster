@@ -2282,8 +2282,7 @@ namespace MarkdownMonster
             }
             else if (button == ButtonWordWrap ||
                      button == ButtonLineNumbers ||
-                     button == ButtonShowInvisibles ||
-                     button == ButtonAllowScriptTags)
+                     button == ButtonShowInvisibles)
             {
                 Model.ActiveEditor?.RestyleEditor();
             }
