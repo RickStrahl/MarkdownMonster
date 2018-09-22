@@ -129,7 +129,7 @@ namespace MarkdownMonster
         /// <param name="link"></param>
         /// <returns></returns>
         public static LinkReferenceResult AddLinkReference(string md, SelectionRange selectionRange, string link)
-        {
+        {            
             const string STR_NEWID_PLACEHOLDER = "999999";
 
             if (string.IsNullOrEmpty(md))
@@ -208,8 +208,12 @@ namespace MarkdownMonster
                 sb.AppendLine(line);
             }
 
-            sb.AppendLine(sbLinkList.ToString());
-            result.Markdown = sb.ToString();
+
+
+            result.Markdown = sb.ToString().TrimEnd();
+
+            result.Markdown += "\r\n\r\n" + sbLinkList;
+
             return result;
         }
 

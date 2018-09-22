@@ -42,7 +42,7 @@
 
         <StackPanel Orientation="Horizontal">
             <CheckBox Name="CheckExternalLink" IsChecked="{Binding IsExternal}" Margin="0,12,0,0" Click="Checkbox_Handler">Open link in new window</CheckBox>
-            <CheckBox Name="CheckLinkReference" IsChecked="{Binding IsLinkReference}" Margin="30,12,0,0" Click="Checkbox_Handler">Link as a Reference</CheckBox>
+            <CheckBox Name="CheckLinkReference" IsChecked="{Binding IsLinkReference}" Margin="30,12,0,0" Click="Checkbox_Handler">Link as a reference</CheckBox>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0 10">

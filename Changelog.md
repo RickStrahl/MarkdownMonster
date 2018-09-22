@@ -6,8 +6,11 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.12.15
+### 1.12.17
 <small>not released yet</small>
+
+* **Link References in Link Dialog**  
+You can now created reference links that are referenced at the bottom of the document rather than embedded directly. There's a new checkbox option in the Link Dialog that lets you embed links as references. References are automatically updated based on order in the document. There's also a new `UseReferenceLinks` setting that determines the default state of the checkbox.
 
 * **New Vertical Sidebar Tab Layout**  
 After a number of requests moved the sidebar tabs to the left of the File Browser, document outline and favorites. This should make these features also more discoverable and it allows for more addin tabs without crowding the display.

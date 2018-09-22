@@ -689,14 +689,21 @@ namespace MarkdownMonster
 
             var origRange = GetSelectionRange();
 
-            var md = MarkdownUtilities.AddLinkReference(MarkdownDocument.CurrentText, origRange, form.Link);
+            LinkReferenceResult markdownResult = null;
+            try
+            {
+                markdownResult = MarkdownUtilities.AddLinkReference(MarkdownDocument.CurrentText, origRange, form.Link);
+            }
+            catch (Exception ex)
+            {
+                Window.ShowStatusError("Couldn't insert link: " + ex.Message);
+                return;
+            }
 
             // replace document without clearing Undo buffer
             SetSelectionRange(0, 0, 9999999, 0);
-            SetSelection(md.Markdown);
-            
-            WindowUtilities.DoEvents();
-            SetCursorPosition(new AcePosition {row = origRange.StartRow + 1, column = origRange.StartColumn + md.SelectionLength});
+            SetSelection(markdownResult.Markdown);                        
+            SetCursorPosition(new AcePosition {row = origRange.StartRow + 1, column = origRange.StartColumn + markdownResult.SelectionLength});
 
             // Force a refresh of the window
             Window.PreviewBrowser.Refresh(true);
