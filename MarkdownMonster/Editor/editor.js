@@ -198,7 +198,7 @@ var te = window.textEditor = {
         var text = te.editor.getSession().getValue();
         return text.toString();
     },
-    setvalue: function (text, pos) {
+    setvalue: function (text, pos, keepUndo) {
         if (!pos)
             pos = -1; // first line
 
@@ -214,17 +214,16 @@ var te = window.textEditor = {
         }
 
         te.editor.setValue(text, pos);
-
-        if (offset > 0) {
+        if (offset > 0)
             te.setselposition(offset, 0);
+
+        if (!keepUndo) {
+            // load a new document
+            te.editor.getSession().setUndoManager(new ace.UndoManager());
+            setTimeout(function() {
+                    te.editor.resize(true); //force a redraw
+                },30);
         }
-
-        te.editor.getSession().setUndoManager(new ace.UndoManager());
-
-        setTimeout(function () {
-            te.editor.resize(true); //force a redraw
-        },
-            30);
     },
     setReadOnly: function (status) {
         if (te.editor.readOnly == status)
@@ -310,6 +309,7 @@ var te = window.textEditor = {
         var range = te.editor.getSelectionRange();
         te.editor.session.replace(range, text);
         te.editor.renderer.scrollSelectionIntoView();
+
     },
     getselection: function(ignored) {
         return te.editor.getSelectedText();
@@ -322,6 +322,9 @@ var te = window.textEditor = {
             startColumn: range.start.column,
             endColumn: range.end.column
         };
+    },
+    getCursorPosition: function (ignored) { // returns {row: y, column: x}               
+        return te.editor.selection.getCursor();
     },
     setselposition: function(index, count) {
         var doc = te.editor.session.getDocument();
@@ -359,11 +362,7 @@ var te = window.textEditor = {
         range.setStart(pos);
         range.setEnd(pos);
         sel.setSelectionRange(range);        
-    },
-    getCursorPosition: function (ignored) { // returns {row: y, column: x}               
-        return te.editor.selection.getCursor();        
-    },
-
+    },   
     setCursorPosition: function(row, column) { // col and also be pos: { row: y, column: x }  
         var pos;        
         if (typeof row === "object")

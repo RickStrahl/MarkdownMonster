@@ -266,7 +266,7 @@ namespace MarkdownMonster
         /// Sets the markdown text into the editor control
         /// </summary>
         /// <param name="markdown"></param>
-        public void SetMarkdown(string markdown = null, object position = null, bool updateDirtyFlag = false)
+        public void SetMarkdown(string markdown = null, object position = null, bool updateDirtyFlag = false, bool keepUndoBuffer = false)
         {
             if (MarkdownDocument != null)
             {
@@ -280,7 +280,8 @@ namespace MarkdownMonster
             {
                 if (position == null)
                     position = -2; // keep position
-                AceEditor.setvalue(markdown ?? string.Empty, position);
+
+                AceEditor.setvalue(markdown ?? string.Empty, position, keepUndoBuffer);
             }
 
             if (updateDirtyFlag)
@@ -577,6 +578,7 @@ namespace MarkdownMonster
                     if (form.IsExternal)
                         html = $"<a href=\"{form.Link}\" target=\"_blank\">{form.LinkText}</a>";
                     else if (form.IsLinkReference)
+                        // this doesn't set Html it directly updates the document
                         AddLinkReference(form);
                     else
                         html = $"[{form.LinkText}]({form.Link})";
@@ -684,9 +686,6 @@ namespace MarkdownMonster
 
         private void AddLinkReference(PasteHref form)
         {
-            //dynamic pos = AceEditor.getCursorPosition(false);
-            //dynamic scroll = AceEditor.getscrolltop(false);
-
             var origRange = GetSelectionRange();
 
             LinkReferenceResult markdownResult = null;
@@ -700,10 +699,9 @@ namespace MarkdownMonster
                 return;
             }
 
-            // replace document without clearing Undo buffer
-            SetSelectionRange(0, 0, 9999999, 0);
-            SetSelection(markdownResult.Markdown);                        
+            SetMarkdown(markdownResult.Markdown, keepUndoBuffer: true,updateDirtyFlag: true);
             SetCursorPosition(new AcePosition {row = origRange.StartRow + 1, column = origRange.StartColumn + markdownResult.SelectionLength});
+            //IsDirty();
 
             // Force a refresh of the window
             Window.PreviewBrowser.Refresh(true);
