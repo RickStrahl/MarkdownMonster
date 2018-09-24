@@ -217,7 +217,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public static bool HandleApplicationException(Exception ex)
         {
-            Log("Last Resort Handler", ex, unhandledException: true);
+            Log("App Error: " + ex.Message, ex, unhandledException: true);
 
             var msg = $"Yikes! Something went wrong...\r\n\r\n{ex.Message}\r\n\r\n" +
                         "The error has been recorded and written to a log file and you can " +
