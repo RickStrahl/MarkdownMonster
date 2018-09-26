@@ -2143,10 +2143,10 @@ namespace MarkdownMonster
                 return;
 
 
-            if (button == ToolButtonFavorites)
-            {
-                OpenFavorites();
-            }
+            //if (button == ToolButtonFavorites)
+            //{
+            //    OpenFavorites();
+            //}
 
             if (button == ButtonOpenFromHtml)
             {

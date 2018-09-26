@@ -484,19 +484,6 @@
                             </i:Interaction.Behaviors>-->
                         </Button>
 
-                        <Button Name="ToolButtonFavorites" Margin="3,0,0,0"  Click="Button_Handler" ToolTip="Favorite Files"                                
-					            fa:Awesome.Content="Star"  FontSize="15"
-					            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
-                        </Button>
-
-                            <!--<Button  Margin="7,0,7,0"  Command="{Binding ShowFolderBrowserCommand}" 
-						         ToolTip="Toggle Folder Browser Pane (alt-v-f)"                                
-						         fa:Awesome.Content="FilesOutline" 			
-								 FontSize="15" 
-						         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-						/>-->
-
-						<!--<Separator/>-->
 
 						<Button Name="ToolButtonNewFile" Margin="12,0,0,0" Command="{Binding Commands.NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
                                 fa:Awesome.Content="PlusCircle"                             
