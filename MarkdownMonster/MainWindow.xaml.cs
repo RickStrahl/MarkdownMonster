@@ -494,17 +494,6 @@ namespace MarkdownMonster
                 return;
             }
 
-            Top -= 10000;  // quickest way to hide
-            Hide();
-
-            if (mmApp.Configuration.UseSingleWindow)
-            {
-                PipeManager?.StopServer();
-
-                if (App.Mutex != null)
-                    App.Mutex.Dispose();
-            }
-
             var displayCount = 6;
             if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
                 displayCount = 1;
@@ -517,11 +506,18 @@ namespace MarkdownMonster
                 !UnlockKey.IsRegistered())
             {
                 Hide();
-                Top += 10000;  // so registerdialog pops into old space
                 var rd = new RegisterDialog();
                 rd.Owner = this;
-                rd.ShowDialog();
+                rd.ShowDialog();                
             }
+            else 
+                Top -= 10000;  // quickest way to hide
+
+            PipeManager?.StopServer();
+
+            if (App.Mutex != null)
+                App.Mutex.Dispose();
+   
 
             mmApp.Shutdown();
 
