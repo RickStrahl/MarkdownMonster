@@ -54,7 +54,8 @@
 
             if (sc.firstpass) {
                 // Make red underline for gutter and words.
-                $("<style type='text/css'>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</script>")                    .appendTo("head");
+                $("<style>.ace_marker-layer .misspelled { position: absolute; z-index: -2; border-bottom: 1px dashed red; margin-bottom: -1px; }</style>")
+                    .appendTo("head");
             }
 
             if (te.mm) //te.dic && te.aff) {  
@@ -241,7 +242,7 @@
         //var words = line.split(/[^a-zA-Z0-9\u00C0-\u02AF']|\s/);
 
         // split line by word boundaries and non-alpha numeric chars by unicode range. ' (\u0027) is handled special
-        var words = line.split(/[\u0000-\u0026\u0028-\u002F\u003A-\u0040\u007B-\u00BF\u02B9-\u0385]/);
+        var words = line.split(/[\u0000-\u0026\u0028-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u00BF\u02B9-\u0385]/);
         
         var i = 0;
         var bads = [];
