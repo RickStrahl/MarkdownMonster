@@ -266,14 +266,13 @@ namespace WebLogAddin.MetaWebLogApi
                                     if (string.IsNullOrEmpty(FeatureImageId))
                                         FeatureImageId = mediaResult.Id;
                                 }
+
                                 if (WeblogAddinConfiguration.Current.ReplacePostImagesWithOnlineUrls)
                                 {
-                                    string markdown = mmApp.Model.ActiveDocument.CurrentText;
-                                    markdown = markdown
-                                        .Replace($"]({origImageLink})", $"]({mediaResult.URL})")
-                                        .Replace($"=\"{origImageLink}\"", $"=\"{mediaResult.URL}\"");
-
-                                    mmApp.Model.ActiveDocument.CurrentText = markdown;
+                                    mmApp.Model.ActiveDocument.CurrentText =
+                                        mmApp.Model.ActiveDocument.CurrentText
+                                            .Replace($"]({origImageLink})", $"]({mediaResult.URL})")
+                                            .Replace($"=\"{origImageLink}\"", $"=\"{mediaResult.URL}\"");
                                 }
                             }
                         }
