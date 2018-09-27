@@ -152,7 +152,7 @@ namespace WeblogAddin
             };
 
             // start by retrieving the current Markdown from the editor
-            string markdown = editor.GetMarkdown();
+            string markdown = editor.MarkdownDocument.CurrentText;
 
             // Retrieve Meta data from post and clean up the raw markdown
             // so we render without the config data

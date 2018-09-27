@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" %>
 <%@ Register TagPrefix="ww" Namespace="Westwind.Web.MarkdownControl" Assembly="Westwind.Web.MarkdownControl" %>
+<%@ Import Namespace="System.Diagnostics" %>
+<%@ Import Namespace="System.IO" %>
 <%@ Import Namespace="System.Net" %>
 
 <%
@@ -95,6 +97,7 @@
                             <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip" title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> | 
                             <a href="https://west-wind.com/files/MarkdownMonsterPortable.zip" title="Fully self contained folder structure for Markdown Monster that can run without installation. Adds some limitations: No .md file association, no global command line access and Addins may not install if running out of a non-privileged folder.">Portable Zip</a> | 
                             <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe" title="Latest pre-release installer that might be slightly ahead of the current release version.">Latest pre-Release</a>
+                            <small style="font-size: 0.7em">(<%= LatestVersion %>)</small>
                         </div> 
                         <div style="margin-top: 15px;">
                             <div class="fa fa-info-circle" style="font-size: 280%; color: steelblue; float: left;"></div>
@@ -338,7 +341,7 @@ IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIB
     static string Version
     {
         get
-        {            
+        {
             if (_version != null && DateTime.UtcNow.Subtract(_lastAccess).TotalMinutes < 10)
                 return _version;
 
@@ -375,4 +378,30 @@ IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIB
     private static string _version;
     private static DateTime _lastAccess = DateTime.UtcNow;
     public static string ReleaseDate;
+
+    static string LatestVersion
+    {
+        get
+        {
+            if (_latestVersion != null && DateTime.UtcNow.Subtract(_lastAccess).TotalMinutes < 10)
+                return _latestVersion;
+
+            string path = @"c:\ftp\files\MarkdownMonsterSetup_Latest.exe";
+            //string path = @"C:\projects2010\MarkdownMonster\Install\Builds\CurrentRelease\MarkdownMonsterSetup_Latest.exe";
+
+
+            if (!File.Exists(path))
+            {
+                _latestVersion = _version;
+                return _latestVersion;
+            }
+
+            var version = FileVersionInfo.GetVersionInfo(path);
+            _latestVersion = version.FileVersion.ToString();
+
+            return LatestVersion;
+        }
+    }
+
+    static string _latestVersion;
 </script>
