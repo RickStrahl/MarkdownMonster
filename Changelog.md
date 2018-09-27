@@ -6,14 +6,28 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.12.17
-<small>not released yet</small>
+### 1.12.18
+<small>September 27th, 2018</small>
 
 * **Link References in Link Dialog**  
 You can now created reference links that are referenced at the bottom of the document rather than embedded directly. There's a new checkbox option in the Link Dialog that lets you embed links as references. References are automatically updated based on order in the document. There's also a new `UseReferenceLinks` setting that determines the default state of the checkbox.
 
 * **New Vertical Sidebar Tab Layout**  
 After a number of requests moved the sidebar tabs to the left of the File Browser, document outline and favorites. This should make these features also more discoverable and it allows for more addin tabs without crowding the display.
+
+* **Add Option to replace Weblog Image Urls to Absolute Urls**  
+Added `ReplacePostImagesWithOnlineUrls` option in the Weblog Configuration to allow relative image links to be replaced with Absolute URLs after they've been uploaded to a blog. Useful to avoid uploading the same images repeatedly for blog engines that won't replace existing images of the same name for posts.
+
+* **Fix: SpellChecking for Brackets and Slashes**  
+Fixed bug where certain characters were not excluded for error checking. Missed a block of symbols from the break list. Fixed.
+
+* **Fix: Missing HighlightJS Syntaxes**    
+Recent changes in how our custom HighlightJs bundle is built resulted in some languages missing. Explicitly added required languages. Complete list of languages available now: **css less javascript html json xml diff cs cpp ini java makefile php markdown http python typescript fsharp vbnet dos powershell bash dockerfile swift dns yaml diff sql pgsql yaml text go rust text foxpro**
+
+
+* **Fix (maybe): Address Shutdown Issues**  
+There have been a number of errors in the analytics logs related to shutdown of MM. Simplified the shut down routine by removing all explicit `Hide()` operations to avoid potential circular shutdown events.
+
 
 ### 1.12.14
 <small>September 8th, 2018</small>
