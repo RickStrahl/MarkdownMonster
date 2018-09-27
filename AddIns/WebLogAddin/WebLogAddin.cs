@@ -268,14 +268,14 @@ namespace WeblogAddin
             meta.PostId = WeblogModel.ActivePost.PostId?.ToString();
 
             // retrieve the raw editor markdown
-            markdown = editor.GetMarkdown();
+            markdown = editor.MarkdownDocument.CurrentText;
             meta.RawMarkdownBody = markdown;
 
             // add the meta configuration to it
             markdown = meta.SetPostYaml();
-
+           
             // write it back out to editor
-            editor.SetMarkdown(markdown, updateDirtyFlag: true);
+            editor.SetMarkdown(markdown, updateDirtyFlag: true, keepUndoBuffer: true);
 
             try
             {

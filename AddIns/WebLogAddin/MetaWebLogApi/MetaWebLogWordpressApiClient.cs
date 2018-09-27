@@ -39,11 +39,12 @@ namespace WebLogAddin.MetaWebLogApi
         /// </summary>
         public string PostUrl { get; set; }
 
-        private readonly WeblogInfo WeblogInfo;
+        private readonly WeblogInfo WeblogInfo;       
 
         public MetaWebLogWordpressApiClient(WeblogInfo weblogInfo)
         {
             WeblogInfo = weblogInfo;
+            
         }
 
 
@@ -69,7 +70,7 @@ namespace WebLogAddin.MetaWebLogApi
 
             var wrapper = GetWrapper();
 
-            string body = post.Body;
+            string body = post.Body;            
             try
             {
                 body = SendImages(body, basePath, wrapper);
@@ -217,7 +218,7 @@ namespace WebLogAddin.MetaWebLogApi
         private string SendImages(string html, string basePath,
                                   MetaWeblogWrapper wrapper)
         {
-            
+
             // base folder name for uploads - just the folder name of the image
             var baseName = Path.GetFileName(basePath);
             baseName = FileUtils.SafeFilename(baseName).Replace(" ", "-");
@@ -232,17 +233,18 @@ namespace WebLogAddin.MetaWebLogApi
                 {
                     foreach (HtmlNode img in images)
                     {
-                        string imgFile = img.Attributes["src"]?.Value;
-                        imgFile = StringUtils.UrlDecode(imgFile);                        
+                        string origImageLink = img.Attributes["src"]?.Value;
+                        string imgFile = StringUtils.UrlDecode(origImageLink);                        
 
                         if (imgFile == null)
                             continue;
-
+                        
                         if (!imgFile.StartsWith("http://") && !imgFile.StartsWith("https://"))
                         {
                             if (!imgFile.Contains(":\\"))
                                 imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
 
+                            
                             if (System.IO.File.Exists(imgFile))
                             {
                                 var uploadFilename = Path.GetFileName(imgFile);
@@ -252,6 +254,7 @@ namespace WebLogAddin.MetaWebLogApi
                                     Bits = System.IO.File.ReadAllBytes(imgFile),
                                     Name = baseName + "/" + uploadFilename
                                 };
+
                                 var mediaResult = wrapper.NewMediaObject(media);
                                 img.Attributes["src"].Value = mediaResult.URL;
 
@@ -263,8 +266,16 @@ namespace WebLogAddin.MetaWebLogApi
                                     if (string.IsNullOrEmpty(FeatureImageId))
                                         FeatureImageId = mediaResult.Id;
                                 }
+                                if (WeblogAddinConfiguration.Current.ReplacePostImagesWithOnlineUrls)
+                                {
+                                    string markdown = mmApp.Model.ActiveDocument.CurrentText;
+                                    markdown = markdown
+                                        .Replace($"]({origImageLink})", $"]({mediaResult.URL})")
+                                        .Replace($"=\"{origImageLink}\"", $"=\"{mediaResult.URL}\"");
+
+                                    mmApp.Model.ActiveDocument.CurrentText = markdown;
+                                }
                             }
-                           
                         }
 						WindowUtilities.DoEvents();
                     }

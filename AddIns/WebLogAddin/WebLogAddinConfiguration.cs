@@ -126,6 +126,25 @@ Tags:
 
 
         /// <summary>
+        /// Determines if the Post Images are replaced in
+        /// the original Markdown document to reflect the
+        /// new online URL
+        /// </summary>
+        public bool ReplacePostImagesWithOnlineUrls
+        {
+            get { return _replacePostImagesWithOnlineUrls; }
+            set
+            {
+                if (value == _replacePostImagesWithOnlineUrls) return;
+                _replacePostImagesWithOnlineUrls = value;
+                OnPropertyChanged(nameof(ReplacePostImagesWithOnlineUrls));
+            }
+        }
+        private bool _replacePostImagesWithOnlineUrls;
+
+
+
+        /// <summary>
         /// Keeps track of the last WebLog you used to post a post to a site
         /// </summary>
         public string LastWeblogAccessed
