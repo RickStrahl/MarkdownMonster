@@ -8,7 +8,7 @@ $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($releaseFile).Fi
 $version = $version.Trim().Replace(".0","") 
 "Writing Version File for: " + $version
 
-$finalFile = "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases\v1.10\MarkdownMonsterSetup-${version}.exe"
+$finalFile = "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases\v1.13\MarkdownMonsterSetup-${version}.exe"
 copy $releaseFile $finalFile
 copy $releaseFile "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases\CurrentRelease\MarkdownMonsterSetup.exe"
 cd "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases"
