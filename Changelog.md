@@ -6,6 +6,12 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.13
+<small>September 27th, 2018</small>
+
+* **Fix Application Shutdown Release Issues**  
+In recent releases MM would occasionally hang when shutting down leaving multiple processes hanging around orphaned. Refactored unload code, explicitly release browser instances, addins and various services.
+
 ### 1.12.18
 <small>September 27th, 2018</small>
 
