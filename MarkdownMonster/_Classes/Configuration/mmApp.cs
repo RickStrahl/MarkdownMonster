@@ -147,7 +147,7 @@ namespace MarkdownMonster
                     AppRunTelemetry =
                         AppInsights.StartOperation<RequestTelemetry>(
                             $"{GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
-                    AppRunTelemetry.Telemetry.Start();
+                    AppRunTelemetry.Telemetry.Start();                    
                 }
             }
             catch (Exception ex)
@@ -184,8 +184,10 @@ namespace MarkdownMonster
                 {
                     LogLocal("Failed to Stop Telemetry Client: " + ex.GetBaseException().Message);
                 }
-                AppInsights.Flush();
+                
+                AppInsights.Flush();              
                 AppInsights = null;
+                AppRunTelemetry.Dispose();
             }
             else
             {
@@ -327,7 +329,10 @@ namespace MarkdownMonster
 
             string exMsg = GetExceptionMessageForLog(ex);
 
-            StringUtils.LogString(exMsg + "\r\n\r\n",
+            if (!string.IsNullOrEmpty(msg))
+                msg += "\r\n";
+
+            StringUtils.LogString(msg + exMsg + "\r\n\r\n",
                 Path.Combine(Configuration.CommonFolder,"MarkdownMonsterErrors.txt"),
                 Encoding.UTF8);
         }
@@ -345,7 +350,7 @@ namespace MarkdownMonster
                              (Environment.Is64BitProcess ? "64 bit" : "32 bit");
 
                 ex = ex.GetBaseException();
-                exMsg = $@"
+                exMsg = $@"{ex.Message}
 Markdown Monster v{version}
 {winVersion}
 {CultureInfo.CurrentCulture.IetfLanguageTag} - {CultureInfo.CurrentUICulture.IetfLanguageTag}    
@@ -434,7 +439,7 @@ Markdown Monster v{version}
                 Access = accessCount,
                 Operation = operation,
                 Time = Convert.ToInt32((DateTime.UtcNow - Started).TotalSeconds),
-                Data = data
+                Data = data                                
             };
 
             try
@@ -730,6 +735,6 @@ Markdown Monster v{version}
         public int Time { get; set; }
 
         public static string Key { get; } = "c73daa21-a2dd-42ae-9a2f-2e7c17b83706";
-        public static bool UseApplicationInsights = true;
+        public static bool UseApplicationInsights { get; set; } = true;
     }
 }

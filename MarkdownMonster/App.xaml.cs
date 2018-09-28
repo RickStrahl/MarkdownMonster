@@ -196,7 +196,7 @@ namespace MarkdownMonster
             splashScreen?.Close(TimeSpan.MinValue);
 
             // Shut down application
-            Environment.Exit(0);
+            Environment.Exit(0);            
         }
 
 

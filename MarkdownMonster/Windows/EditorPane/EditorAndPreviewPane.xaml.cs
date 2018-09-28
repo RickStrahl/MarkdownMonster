@@ -16,6 +16,19 @@ namespace MarkdownMonster.Windows
             InitializeComponent();            
         }
 
+
+        /// <summary>
+        /// Explicitly release Editor and Preview
+        /// </summary>
+        public void Release()
+        {
+            ContentGrid.Children.Remove(EditorWebBrowser);
+            EditorWebBrowser = null;
+
+            ContentGrid.Children.Remove(PreviewBrowserContainer);
+            PreviewBrowserContainer = null;
+        }
+
         private void Separator_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             bool zoom =  EditorWebBrowserEditorColumn.Width == GridLengthHelper.Star;

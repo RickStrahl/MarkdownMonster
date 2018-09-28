@@ -373,6 +373,11 @@ namespace MarkdownMonster.AddIns
             }
         }
 
+        public void UnloadAddins()
+        {
+            AddIns.Clear();
+        }
+
         public bool InstallAddin(string addinId)
         {
             string addinPath = Path.Combine(mmApp.Configuration.CommonFolder, "Addins", addinId);

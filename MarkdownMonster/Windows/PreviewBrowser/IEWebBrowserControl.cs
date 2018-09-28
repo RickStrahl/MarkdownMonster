@@ -23,7 +23,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
     /// This class in turn forwards all handling of the actual rendering to the PreviewBrowserHandler
     /// which is an IE handler
     /// </summary>
-    public partial class IEWebBrowserControl    : UserControl, IPreviewBrowser
+    public partial class IEWebBrowserControl    : UserControl, IPreviewBrowser, IDisposable
     {
         public AppModel Model { get; set; }
 
@@ -85,6 +85,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         public void ExecuteCommand(string command, params dynamic[] args)
         {
             PreviewBrowserHandler.ExecuteCommand(command, args);
+        }
+
+        void IDisposable.Dispose()
+        {
+            WebBrowser?.Dispose();
         }
     }
 }

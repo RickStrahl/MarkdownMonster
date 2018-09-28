@@ -1,6 +1,8 @@
-﻿namespace MarkdownMonster.Windows.PreviewBrowser
+﻿using System;
+
+namespace MarkdownMonster.Windows.PreviewBrowser
 {
-    public interface IPreviewBrowser
+    public interface IPreviewBrowser :IDisposable
     {
         void PreviewMarkdownAsync(MarkdownDocumentEditor editor=null, bool keepScrollPosition = false, string renderedHtml = null, int editorLineNumber = -1);
 
@@ -13,6 +15,6 @@
         bool IsVisible { get; }
 
 
-        void ExecuteCommand(string command, params dynamic[] args);
+        void ExecuteCommand(string command, params dynamic[] args);        
     }
 }

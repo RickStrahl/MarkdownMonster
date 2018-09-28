@@ -26,16 +26,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -52,7 +50,6 @@ using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
 using Binding = System.Windows.Data.Binding;
 using Brushes = System.Windows.Media.Brushes;
-using Clipboard = System.Windows.Clipboard;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using ContextMenu = System.Windows.Controls.ContextMenu;
@@ -74,7 +71,7 @@ namespace MarkdownMonster
         public AppModel Model { get; set; }
 
         private NamedPipeManager PipeManager { get; set; }
-
+        
         public IntPtr Hwnd
         {
             get
@@ -84,8 +81,7 @@ namespace MarkdownMonster
 
                 return _hwnd;
             }
-        }
-
+        }        
         private IntPtr _hwnd = IntPtr.Zero;
 
         private DateTime _invoked = DateTime.MinValue;
@@ -114,7 +110,7 @@ namespace MarkdownMonster
         }
         private PreviewBrowserWindow _previewBrowserWindow;
 
-
+        
         /// <summary>
         /// The Preview Browser Container Grid that contains the
         /// Web Browser control that handles the Document tied
@@ -164,14 +160,11 @@ namespace MarkdownMonster
             // Singleton App startup - server code that listens for other instances
             if (mmApp.Configuration.UseSingleWindow)
             {
-                new TaskFactory().StartNew(() =>
-                {
                     // Listen for other instances launching and pick up
                     // forwarded command line arguments
                     PipeManager = new NamedPipeManager("MarkdownMonster");
                     PipeManager.StartServer();
-                    PipeManager.ReceiveString += HandleNamedPipe_OpenRequest;
-                });
+                    PipeManager.ReceiveString += HandleNamedPipe_OpenRequest;             
             }
 
             // Override some of the theme defaults (dark header specifically)
@@ -476,10 +469,10 @@ namespace MarkdownMonster
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            FolderBrowser?.ReleaseFileWatcher();
+
             _previewBrowserWindow?.Close();
             _previewBrowserWindow = null;
-
-            AddinManager.Current.RaiseOnApplicationShutdown();
 
             bool isNewVersion = CheckForNewVersion(false, false);
 
@@ -493,7 +486,9 @@ namespace MarkdownMonster
                 e.Cancel = true;                
                 return;
             }
-
+            PreviewBrowser = null;
+            PreviewBrowserContainer = null;
+            
             var displayCount = 6;
             if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
                 displayCount = 1;
@@ -513,15 +508,21 @@ namespace MarkdownMonster
             else 
                 Top -= 10000;  // quickest way to hide
 
-            PipeManager?.StopServer();
+            PipeManager?.StopServer();            
+            
+            e.Cancel = false;            
 
+            // let window events catch up!
+            WindowUtilities.DoEvents();
+
+            AddinManager.Current.RaiseOnApplicationShutdown();
+            AddinManager.Current.UnloadAddins();
+                        
             if (App.Mutex != null)
                 App.Mutex.Dispose();
-   
 
-            mmApp.Shutdown();
-
-            e.Cancel = false;
+            PipeManager?.WaitForThreadShutDown(5000);
+            mmApp.Shutdown();            
         }
 
         public void AddRecentFile(string file, bool noConfigWrite = false)
@@ -1470,12 +1471,20 @@ namespace MarkdownMonster
             if (doc.LastEditorLineNumber == -1)
                 doc.LastEditorLineNumber = 0;
 
-            tab.Tag = null;
-            TabControl.Items.Remove(tab);
 
+            // *** IMPORTANT: Clean up Tab controls
+            editor.ReleaseEditor();
+            tab.Tag = null;
+            editor = null;
+            TabControl.Items.Remove(tab);
+            tab = null;
+            
+            //WindowUtilities.DoEvents();
+
+            
             if (TabControl.Items.Count == 0)
             {
-                PreviewBrowser?.Navigate("about:blank");
+                //PreviewBrowser?.Navigate("about:blank");
 
                 Model.ActiveDocument = null;
                 StatusStats.Text = null;
@@ -1507,16 +1516,12 @@ namespace MarkdownMonster
         /// filename not opened in any tab</returns>
         public bool CloseTab(string filename)
         {
-            TabItem tab = GetTabFromFilename(filename);
+            var tab = GetTabFromFilename(filename);
 
             if (tab != null)
-            {
                 return CloseTab(tab);
-            }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public bool CloseAllTabs(TabItem allExcept = null)

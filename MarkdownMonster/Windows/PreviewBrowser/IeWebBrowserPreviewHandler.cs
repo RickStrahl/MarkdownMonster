@@ -378,6 +378,12 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
         }
 
+        public void Dispose()
+        {
+            WebBrowser.Dispose();
+        }
 
     }
+
+    
 }

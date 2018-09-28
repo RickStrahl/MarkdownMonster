@@ -192,5 +192,10 @@ namespace MarkdownMonster.Windows
             PreviewBrowser.ExecuteCommand(command, args);
         }
         #endregion
+
+        public void Dispose()
+        {
+            PreviewBrowser.Dispose();
+        }
     }
 }

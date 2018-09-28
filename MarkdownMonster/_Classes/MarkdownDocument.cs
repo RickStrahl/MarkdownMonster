@@ -874,7 +874,8 @@ namespace MarkdownMonster
 
             var html = themeHtml.Replace("{$themePath}", "file:///" + themePath)
                 .Replace("{$docPath}", "file:///" + docPath)
-                .Replace("{$markdownHtml}", markdownHtml);
+                .Replace("{$markdownHtml}", markdownHtml)
+                .Replace("{$markdown}", markdown ?? CurrentText);
 
             html = AddinManager.Current.RaiseOnModifyPreviewHtml( html, markdownHtml );
 

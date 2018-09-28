@@ -39,12 +39,15 @@ namespace MarkdownMonster.Windows
         {
             try
             {
-                Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new EmptyDelegate(delegate { }));
+                Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new EmptyDelegate(EmptyMethod));
             }
-            catch
-            {                
+            catch(Exception ex)
+            {
+                mmApp.Log("DoEvents failed", ex);
             }
         }
+
+        private static void EmptyMethod() {  }
 
         /// <summary>
         /// Forces lost focus on the active control in a Window so that the a toolbar click 

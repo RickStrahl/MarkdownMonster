@@ -25,6 +25,7 @@ using System;
 using System.IO;
 using System.IO.Pipes;
 using System.Threading;
+using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
@@ -39,7 +40,7 @@ namespace MarkdownMonster
 
         private const string EXIT_STRING = "__EXIT__";
         private bool _isRunning = false;
-        private Thread Thread;
+        public Thread PipeServerThread;
         
         public NamedPipeManager(string name)
         {
@@ -51,33 +52,38 @@ namespace MarkdownMonster
         /// </summary>
         public void StartServer()
         {
-            Thread = new Thread((pipeName) =>
+            PipeServerThread = new Thread(StartPipeServerThread)
             {
-                _isRunning = true;
+                Name = "PipeManager_" + StringUtils.NewStringId(),
+                IsBackground = true
+            };
+           
+            PipeServerThread.Start(NamedPipeName);
+        }
 
-                while (true)
+        private void StartPipeServerThread(object pipeName)
+        {
+            _isRunning = true;
+
+            while (true)
+            {
+                string text;
+                using (var server = new NamedPipeServerStream(pipeName as string))
                 {
-                    string text;
-                    using (var server = new NamedPipeServerStream(pipeName as string))
+                    server.WaitForConnection();
+
+                    using (StreamReader reader = new StreamReader(server))
                     {
-                        server.WaitForConnection();
-
-                        using (StreamReader reader = new StreamReader(server))
-                        {
-                            text = reader.ReadToEnd();
-                        }                        
+                        text = reader.ReadToEnd();
                     }
-
-                    if (text == EXIT_STRING)
-                        break;
-
-                    OnReceiveString(text);
-                                                     
-                    if (_isRunning == false)
-                        break;
                 }
-            });
-            Thread.Start(NamedPipeName);
+
+                if (text == EXIT_STRING) break;
+
+                OnReceiveString(text);
+
+                if (_isRunning == false) break;
+            }
         }
 
         /// <summary>
@@ -88,13 +94,37 @@ namespace MarkdownMonster
         
 
         /// <summary>
-        /// Shuts down the pipe server
+        /// Shuts down the pipe server...
+        ///
+        /// Called from a different thread but writes a message
+        /// to the pipe to shut itself down.
         /// </summary>
         public void StopServer()
         {
             _isRunning = false;
-            Write(EXIT_STRING);
-            Thread.Sleep(30);
+            Write(EXIT_STRING);            
+        }
+
+        public void WaitForThreadShutDown(int ms)
+        {
+            if (PipeServerThread != null && PipeServerThread.IsAlive)
+            {
+                for (int i = 0; i < ms/100; i++)
+                {
+                    if (!PipeServerThread.IsAlive)
+                        break;
+
+                    Thread.Sleep(100);
+                }
+
+                if (PipeServerThread.IsAlive)
+                {
+                    mmApp.LogLocal("PipeManagerThread failed to shut down.");
+                    PipeServerThread.Abort();
+                    Thread.Sleep(100);
+                    mmApp.LogLocal("PipeManagerThread failed. Abort done.");
+                }
+            }
         }
 
         /// <summary>

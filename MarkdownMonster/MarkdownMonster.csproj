@@ -65,7 +65,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <StartupObject>MarkdownMonster.App</StartupObject>
+    <StartupObject>StartUp</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -178,6 +178,7 @@
     <Compile Include="Controls\StartMenuUserControl.xaml.cs">
       <DependentUpon>StartMenuUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Windows\BrowserMessageBox.xaml.cs">
       <DependentUpon>BrowserMessageBox.xaml</DependentUpon>
     </Compile>

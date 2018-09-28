@@ -13,7 +13,7 @@ copy $releaseFile $finalFile
 copy $releaseFile "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases\CurrentRelease\MarkdownMonsterSetup.exe"
 cd "..\..\MarkdownMonsterAddins\MarkdownMonsterReleases"
 
-git add -f "v1.10/MarkdownMonsterSetup-${version}.exe"
+git add -f "v1.13/MarkdownMonsterSetup-${version}.exe"
 git commit -m "$version"
 git push origin master
 

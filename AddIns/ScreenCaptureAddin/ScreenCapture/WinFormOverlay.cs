@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
@@ -15,7 +15,11 @@ namespace SnagItAddin
 
         public void Start()
         {
-            var t = new Thread(StartProc);
+            var t = new Thread(StartProc)
+            {
+                Name = "SnagItCaptureThread",
+                IsBackground = true
+            };
             t.Start();
         }
 

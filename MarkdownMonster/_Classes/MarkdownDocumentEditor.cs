@@ -183,19 +183,11 @@ namespace MarkdownMonster
             WebBrowser.Visibility = Visibility.Hidden;
             WebBrowser.Navigating += WebBrowser_NavigatingAndDroppingFiles;
 
-
-            // Remove preview browser from old parent if there is one
-            ((Grid) Window.PreviewBrowserContainer.Parent)?.Children.Remove(Window.PreviewBrowserContainer);
-
-            // add it to the current editor
-            Window.PreviewBrowserContainer.SetValue(Grid.ColumnProperty, 2);
-
-            Window.Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
-
-            // add the previewer
-            EditorPreviewPane.ContentGrid.Children.Add(Window.PreviewBrowserContainer);
+            AttachPreviewBrowser();
         }
 
+
+        
         /// <summary>
         /// Loads a new document into the active editor using 
         /// MarkdownDocument instance.
@@ -256,6 +248,46 @@ namespace MarkdownMonster
             }
 
             SetMarkdown();
+        }
+
+        /// <summary>
+        /// Attaches the Preview Browser to this editor instance
+        /// </summary>
+        public void AttachPreviewBrowser()
+        {
+            // Remove preview browser from old parent if there is one
+            ((Grid)Window.PreviewBrowserContainer.Parent)?.Children.Remove(Window.PreviewBrowserContainer);
+
+            Window.Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
+
+            // add the previewer
+            EditorPreviewPane.ContentGrid.Children.Add(Window.PreviewBrowserContainer);
+
+            // add it to the current editor
+            Window.PreviewBrowserContainer.SetValue(Grid.ColumnProperty, 2);
+        }
+
+        public void RemovePreviewBrowser()
+        {
+        
+            // add it to the current editor
+            //Window.PreviewBrowserContainer.SetValue(Grid.ColumnProperty, 2);
+        }
+
+        /// <summary>
+        /// Releases the Editor and Preview Pane explicitly
+        /// </summary>
+        public void ReleaseEditor()
+        {
+            if (EditorPreviewPane != null)
+            {
+                // add the previewer
+                EditorPreviewPane.ContentGrid.Children.Remove(Window.PreviewBrowserContainer);
+
+                EditorPreviewPane.Release();
+                EditorPreviewPane = null;
+
+            }
         }
 
         #endregion

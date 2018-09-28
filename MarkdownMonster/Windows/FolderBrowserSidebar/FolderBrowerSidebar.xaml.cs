@@ -307,6 +307,7 @@ namespace MarkdownMonster.Windows
                 IncludeSubdirectories = true,
                 EnableRaisingEvents = true
             };
+
             FileWatcher.Created += FileWatcher_CreateOrDelete;
             FileWatcher.Deleted += FileWatcher_CreateOrDelete;
             FileWatcher.Renamed += FileWatcher_Renamed;
@@ -314,13 +315,14 @@ namespace MarkdownMonster.Windows
         }
 
 
-        private void ReleaseFileWatcher()
+        public void ReleaseFileWatcher()
         {
             if (FileWatcher != null)
             {
+                FileWatcher.Changed -= FileWatcher_Changed;
                 FileWatcher.Created -= FileWatcher_CreateOrDelete;
                 FileWatcher.Deleted -= FileWatcher_CreateOrDelete;
-                FileWatcher.Renamed -= FileWatcher_Renamed;
+                FileWatcher.Renamed -= FileWatcher_Renamed;                
                 FileWatcher.Dispose();
             }
         }
