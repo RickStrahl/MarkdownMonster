@@ -200,21 +200,37 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             doc.LoadHtml(html);
 
             var sb = new StringBuilder();
+            
 
-            var xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4]";           
-            foreach (var node in doc.DocumentNode.SelectNodes(xpath))
+            var xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4]";
+            var nodes = doc.DocumentNode.SelectNodes(xpath);
+
+
+            var headers = new List<HeaderItem>();
+            foreach (var node in nodes)
             {
                 var id = node.Id;
                 var text = node.InnerText.Trim();
                 var textIndent = node.Name.Replace("h", "");
-                if (!int.TryParse(textIndent, out int level) || level > AppModel.Configuration.MaxDocumentOutlineLevel)                   
+                if (!int.TryParse(textIndent, out int level) || level > AppModel.Configuration.MaxDocumentOutlineLevel)
                     continue;
 
+                headers.Add(new HeaderItem {LinkId = id, Level = level, Text = text});
+            }
+
+            int startOffset = headers.Min(h=> h.Level) - 1;
+            if (startOffset < 0)
+                startOffset = 0;
+
+            foreach(var header in headers)
+            { 
                 string leadin = null;
+                int level = header.Level - startOffset;
                 if (level > 0)
                     leadin = StringUtils.Replicate("\t",level - 1);
 
-                sb.AppendLine($"{leadin}* [{text}](#{id})");
+
+                sb.AppendLine($"{leadin}* [{header.Text}](#{header.LinkId})");
             }
 
             return sb.ToString();
