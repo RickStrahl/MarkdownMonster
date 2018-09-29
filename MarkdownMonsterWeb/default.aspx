@@ -330,25 +330,21 @@
                                 <div class="carousel-caption">
                                 </div>
                             </div>
-
+                            
+                            
                             <div class="item">
-                                <img src="Images/CodeSnippetInEditor.png" />
-                                <div class="carousel-caption">
-                                </div>
-                            </div>
-
-							<div class="item">
                                 <img src="Images/WeblogPublishingAddin.png" />
                                 <div class="carousel-caption">
                                 </div>
                             </div>
-                            
+
                             <div class="item">
-                                <img src="Images/WeblogPublishingAddin_Download.png" />
+                                <img src="Images/CommitToGit.png" />
                                 <div class="carousel-caption">
                                 </div>
                             </div>
-                            
+
+						    
                             <div class="item">
                                 <img src="Images/ScreenCapture.png" />
                                 <div class="carousel-caption">
@@ -360,13 +356,6 @@
                                 <div class="carousel-caption">
                                 </div>
                             </div>
-							
-	                        <div class="item">
-		                        <img src="Images/FolderBrowser.png" />
-		                        <div class="carousel-caption">
-		                        </div>
-	                        </div>
-							
                         
                         </div>
 
@@ -456,6 +445,13 @@
                                 <div class="carousel-caption">
                                 </div>
                             </div>
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/pence.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+
                             
                             <div class="item">
                                 <img src="Images/Tweets/Anaerin.png" />
@@ -658,8 +654,8 @@
                                     </b>
                                     <p>
                                         <ul>
-                                            <li>Windows 7 or newer, 2008 or newer</li>
-                                            <li>.NET Framework 4.6 or later<br />
+                                            <li>Windows 7 or newer, 2008 R2 or newer</li>
+                                            <li>.NET Framework 4.62 or later<br />
                                                 (<a href="http://smallestdotnet.com">check</a> or <a href="https://www.microsoft.com/net/download/framework">download</a>)</li">
                                             <li>Internet Explorer 11</li>
                                         </ul>
