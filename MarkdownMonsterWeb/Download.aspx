@@ -398,6 +398,7 @@ IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIB
 
             var version = FileVersionInfo.GetVersionInfo(path);
             _latestVersion = version.FileVersion.ToString();
+            _lastAccess = DateTime.UtcNow;
 
             return LatestVersion;
         }
