@@ -472,7 +472,7 @@ namespace MarkdownMonster.Windows
         }
 
 
-        public ObservableCollection<ObservableCollection<CellContent>> ParseCsvFileToData(string filename)
+        public ObservableCollection<ObservableCollection<CellContent>> ParseCsvFileToData(string filename, string delimiter = ",")
         {
             if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
                 return new ObservableCollection<ObservableCollection<CellContent>>();
@@ -481,7 +481,7 @@ namespace MarkdownMonster.Windows
             try
             {
                 fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-                return ParseCsvStreamToData(fs);
+                return ParseCsvStreamToData(fs,delimiter);
             }
             catch
             {                
@@ -493,7 +493,7 @@ namespace MarkdownMonster.Windows
             }          
         }
 
-        public ObservableCollection<ObservableCollection<CellContent>> ParseCsvStringToData(string csvContent)
+        public ObservableCollection<ObservableCollection<CellContent>> ParseCsvStringToData(string csvContent, string delimiter = ",")
         {
             if (string.IsNullOrEmpty(csvContent))
                 return new ObservableCollection<ObservableCollection<CellContent>>();
@@ -501,16 +501,23 @@ namespace MarkdownMonster.Windows
             var bytes = Encoding.UTF8.GetBytes(csvContent);
             using (var fs = new MemoryStream(bytes, 0, bytes.Length))
             {
-                return ParseCsvStreamToData(fs);
+                return ParseCsvStreamToData(fs, delimiter);
             }
         }
 
 
-        public ObservableCollection<ObservableCollection<CellContent>> ParseCsvStreamToData(Stream stream)
+        public ObservableCollection<ObservableCollection<CellContent>> ParseCsvStreamToData(Stream stream, string delimiter = ",")
         {
+            if (string.IsNullOrEmpty(delimiter))
+                delimiter = ",";
+            if (delimiter == "\\t")
+                delimiter = "\t";
+
+            char charDelimiter = delimiter[0];
+
             using (var reader = new StreamReader(stream))
             {
-                using (var csv = new CachedCsvReader(reader,true))
+                using (var csv = new CachedCsvReader(reader,true, charDelimiter))
                 {
                     var list = new ObservableCollection<ObservableCollection<CellContent>>();
 

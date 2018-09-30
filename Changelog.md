@@ -6,6 +6,11 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.13.2
+
+* **Improved CSV Imports to Table Markdown**  
+Added an additional dialog that allows importing CSV from file or the clipboard (ie. Excel or other spreadsheet Copy). You can now also specify/override the CSV delimiter.
+
 ### 1.13
 <small>September 27th, 2018</small>
 

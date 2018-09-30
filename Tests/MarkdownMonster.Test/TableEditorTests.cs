@@ -340,7 +340,7 @@ Kevin,Oak Leaf,Bumfuck VA,4
 ";
 
             var parser = new TableParser();
-            var tableData = parser.ParseCsvStringToData(data);
+            var tableData = parser.ParseCsvStringToData(data,",");
 
             Console.WriteLine(parser.ToGridTableMarkdown(tableData));
         }
@@ -349,7 +349,7 @@ Kevin,Oak Leaf,Bumfuck VA,4
         public void CsvTableParserFromFileTest()
         {            
             var parser = new TableParser();
-            var tableData = parser.ParseCsvFileToData(@"c:\temp\Names.csv");
+            var tableData = parser.ParseCsvFileToData(@"c:\temp\Names.csv",",");
             Console.WriteLine(parser.ToGridTableMarkdown(tableData));
         }
 

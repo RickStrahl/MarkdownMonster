@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
@@ -208,36 +209,40 @@ namespace MarkdownMonster.Windows
             }
             else if (sender == ButtonImportCsv)
             {
-                var fd = new OpenFileDialog
-                {
-                    DefaultExt = ".csv",
-                    Filter = "Csv files (*.csv)|*.csv|" +
-                             "All files (*.*)|*.*",
-                    CheckFileExists = true,
-                    RestoreDirectory = true,
-                    Multiselect = false,
-                    Title = "Open CsvFile"
-                };
-                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
-                    fd.InitialDirectory = mmApp.Configuration.LastFolder;
+                var form = new TableEditorCsvImport();
+                form.Owner = this;
+                form.ShowDialog();
 
-                var res = fd.ShowDialog();
-                if (res == null || !res.Value)
+                if (form.IsCancelled)
                     return;
-
+                
                 var parser = new TableParser();
-                var data = parser.ParseCsvFileToData(fd.FileName);
-                if (data == null || data.Count < 1)
+
+                bool deleteCsvFile = false;
+                string csvFile = form.CsvFilename;
+
+                if (form.ImportFromClipboard)
                 {
-                    AppModel.Window.ShowStatusError($"Couldn\'t open file {fd.FileName} or the file is empty.");
-                    return;
+                    string csvText = Clipboard.GetText();
+                    csvFile = Path.GetTempFileName();
+                    csvFile = Path.ChangeExtension(csvFile, "csv");
+                    File.WriteAllText(csvFile,csvText);
+                    deleteCsvFile = true;
                 }
 
-                TableData = data;
-                DataGridTableEditor.TableSource = TableData;
 
-                
+                var data = parser.ParseCsvFileToData(csvFile, form.CsvSeparator);
+                    if (data == null || data.Count < 1)
+                    {
+                        AppModel.Window.ShowStatusError($"Couldn\'t open file {csvFile} or the file is empty.");
+                        return;
+                    }
 
+                    TableData = data;
+                    DataGridTableEditor.TableSource = TableData;
+
+                if (deleteCsvFile)
+                    File.Delete(csvFile);
             }
 
             var focusedTextBox = FocusManager.GetFocusedElement(this) as TextBox;

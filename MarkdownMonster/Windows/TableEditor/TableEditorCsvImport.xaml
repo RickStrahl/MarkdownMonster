@@ -1,0 +1,62 @@
+﻿<mah:MetroWindow x:Class="MarkdownMonster.Windows.TableEditorCsvImport"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster.Windows"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        TitleCharacterCasing="Normal"
+        TitlebarHeight="35"                       
+        WindowStyle="SingleBorderWindow" ResizeMode="CanResize"                      
+        WindowStartupLocation="CenterOwner"    
+        FontSize="18"
+        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"  
+        Icon="../../Assets/MarkdownMonster_Icon_256.png"    
+        Title="Import CSV to Markdown Table" 
+        Height="330" Width="550">
+    <Grid>
+        <StackPanel Margin="20">
+            <Label>Import from</Label>
+
+            <RadioButton IsChecked="{Binding ImportFromCsv}"  
+                         GroupName="CsvType"
+                         Click="RadioFilename_Click" Margin="25,8,0,0">
+                <RadioButton.Content>Import from File</RadioButton.Content>
+            </RadioButton>
+        
+            
+                
+            <TextBlock Text="{Binding CsvFilename}" mah:VisibilityHelper.IsCollapsed="{Binding IsFilename}" Margin="30,4,0,12"></TextBlock>
+            <RadioButton IsChecked="{Binding ImportFromClipboard}"    Name="RadioClipboard"                      
+                         GroupName="CsvType" Margin="25,7,0,0" Click="RadioClipboard_Click">
+                <RadioButton.Content>Import from Clipboard</RadioButton.Content>
+            </RadioButton>
+
+            <StackPanel Orientation="Horizontal" Margin="0,20">
+                <Label>CSV Separator Character: </Label>
+                <TextBox  Text="{Binding CsvSeparator}" Width="35" MaxLength="2"></TextBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 10">
+                <Button Name="ButtonOk" Margin="0,20" Height="40"  Width="140"
+                        HorizontalAlignment="Left"   IsDefault="True" 
+                        Click="Button_Click"  >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome  Icon="Upload"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                        <TextBlock Margin="10,0,0,0" >Import CSV</TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Name="ButtonCancel" Margin="10,20" Height="40" Width="140" 
+                        HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
+                        <TextBlock Margin="10,0,0,0">Cancel</TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</mah:MetroWindow>

@@ -183,7 +183,6 @@
       <DependentUpon>BrowserMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\DocumentOutlineSidebar\DocumentOutlineModel.cs" />
-    <Compile Include="Windows\DocumentOutlineSidebar\DocumentOutlineHandler.cs" />
     <Compile Include="Windows\DocumentOutlineSidebar\DocumentOutlineSidebarControl.xaml.cs">
       <DependentUpon>DocumentOutlineSidebarControl.xaml</DependentUpon>
     </Compile>
@@ -217,6 +216,9 @@
     <Compile Include="Windows\TableEditor\GridTable.cs" />
     <Compile Include="Windows\TableEditor\TableEditor.xaml.cs">
       <DependentUpon>TableEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TableEditor\TableEditorCsvImport.xaml.cs">
+      <DependentUpon>TableEditorCsvImport.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\TableEditor\TableParser.cs" />
     <Compile Include="Windows\PreviewBrowser\IEWebBrowserPreviewHandler.cs" />
@@ -501,6 +503,10 @@
     <Page Include="Windows\TableEditor\TableEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\TableEditor\TableEditorCsvImport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
