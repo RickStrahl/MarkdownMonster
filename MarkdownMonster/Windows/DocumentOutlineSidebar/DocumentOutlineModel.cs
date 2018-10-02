@@ -218,6 +218,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                 headers.Add(new HeaderItem {LinkId = id, Level = level, Text = text});
             }
 
+            // if level starts > 1 adjust - so that min indent level is always 0
             int startOffset = headers.Min(h=> h.Level) - 1;
             if (startOffset < 0)
                 startOffset = 0;
@@ -235,7 +236,6 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
 
             return sb.ToString();
         }
-
 
 
         
