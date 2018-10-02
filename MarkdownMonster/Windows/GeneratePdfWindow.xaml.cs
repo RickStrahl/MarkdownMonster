@@ -93,6 +93,9 @@ namespace MarkdownMonster.Windows
 
 			StatusBar.ShowStatusProgress("Generating PDF document...");			
 			ButtonGeneratePdf.IsEnabled = false;
+            PdfGenerator.ErrorMessage = null;
+		    TextMessage.Text = string.Empty;
+		    Height = 600;
 
 			WindowUtilities.DoEvents();
 
@@ -115,9 +118,9 @@ namespace MarkdownMonster.Windows
 
                 if (string.IsNullOrEmpty(PdfGenerator.ExecutionOutputText))
                 {
-                    TextMessage.Background = Brushes.Firebrick;
-                    if (Height < 600)
-                        Height = 660;
+                    TextMessage.Background = Brushes.DarkRed;
+                    if (Height < 601)
+                        Height = 700;
 
 			        TextMessage.Text = "Failed to create PDF document.\r\n\r\n" + PdfGenerator.ErrorMessage;
 			    }

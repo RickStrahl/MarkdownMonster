@@ -9,9 +9,9 @@
         mc:Ignorable="d"
 		Icon="../Assets/MarkdownMonster_Icon_256.png"   
 		TitleCharacterCasing="Normal"
-        ResizeMode="NoResize"
+        ResizeMode="CanResizeWithGrip"
 		WindowStartupLocation="CenterOwner"					 		                  
-        Title="Save As Pdf File" Height="565" Width="600">
+        Title="Save As Pdf File" Height="580" Width="700">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style TargetType="Control">
@@ -158,7 +158,7 @@
 
             <Separator Margin="0,10" />
             <TextBox Name="TextMessage" FontFamily="Consolas" Margin="0,5,0,0"  
-                       Height="150" Padding="7"  BorderThickness="0" IsReadOnly="True"
+                       Height="100" Padding="7"  BorderThickness="0" IsReadOnly="True"
                        ScrollViewer.VerticalScrollBarVisibility="Auto" />
         </StackPanel>
 
