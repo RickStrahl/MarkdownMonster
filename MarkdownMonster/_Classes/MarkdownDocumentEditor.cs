@@ -1748,7 +1748,12 @@ namespace MarkdownMonster
         /// </summary>
         public void PasteOperation()
         {
-            if (ClipboardHelper.ContainsImage())
+            if (Clipboard.ContainsText())
+            {
+                // just paste as is at cursor or selection
+                SetSelection(Clipboard.GetText());
+            }
+            else if (ClipboardHelper.ContainsImage())
             {
                 string imagePath = null;
 
@@ -1841,12 +1846,7 @@ namespace MarkdownMonster
                         //PreviewMarkdownCallback(); // force a preview refresh
                     }
                 }
-            }
-            else if (Clipboard.ContainsText())
-            {
-                // just paste as is at cursor or selection
-                SetSelection(Clipboard.GetText());
-            }
+            }            
         }
 
         /// <summary>
