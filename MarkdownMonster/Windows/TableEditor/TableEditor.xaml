@@ -76,7 +76,8 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Name="ButtonImportCsv" Click="Button_Click" ToolTip="Import a table from a CSV file. Note large table imports can be very slow."  >
+                    <Button Name="ButtonImportCsv" Click="Button_Click"
+                            ToolTip="Import to a table from CSV file or the Clipboard (Excel or other spreadsheet). Note large table imports can be very slow." >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="8,2,5,0" Icon="Download" Foreground="Goldenrod"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
@@ -105,7 +106,7 @@
                         <Setter Property="VerticalAlignment" Value="Stretch"/>
                         <Setter Property="AcceptsReturn" Value="True"/>
                         <Setter Property="TextWrapping" Value="Wrap"/>
-                        <Setter Property="controls1:Ex.SelectOnEntry" Value="True"/>
+                        <!--<Setter Property="controls1:Ex.SelectOnEntry" Value="True"/>-->
                         <Setter Property="FontSize" Value="15" />
                     </Style>
                 </mmwindows:GridTable.Resources>

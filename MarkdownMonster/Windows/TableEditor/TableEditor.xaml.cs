@@ -238,7 +238,7 @@ namespace MarkdownMonster.Windows
                         return;
                     }
 
-                    TableData = data;
+                    TableData = data;                    
                     DataGridTableEditor.TableSource = TableData;
 
                 if (deleteCsvFile)

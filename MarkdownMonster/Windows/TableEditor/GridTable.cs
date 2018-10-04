@@ -66,7 +66,10 @@ namespace MarkdownMonster.Windows
 
         private void RepopulateChildren(ObservableCollection<ObservableCollection<CellContent>> data)
         {
-            Debug.WriteLine("RepopulateChildren called");
+            Debug.WriteLine("RepopulateChildren called.");
+
+            bool origRecursiveUpdates = PreventRecursiveUpdates;
+            PreventRecursiveUpdates = true;
 
             Children.Clear();
             RowDefinitions.Clear();
@@ -128,7 +131,9 @@ namespace MarkdownMonster.Windows
 
                     columnCounter++;
                 }
-                rowCount++;                
+                rowCount++;
+                if (rowCount % 8 == 0)
+                    WindowUtilities.DoEvents();
             }
 
             var lastText = Children.OfType<TextBox>().LastOrDefault();
@@ -154,8 +159,8 @@ namespace MarkdownMonster.Windows
                     }
                 };
             }
-            mmApp.Model.Window.ShowStatus();
-     
+
+            PreventRecursiveUpdates = origRecursiveUpdates;
         }
         
         void KeyUpAndDownHandler(object o, KeyEventArgs args)
@@ -224,7 +229,6 @@ namespace MarkdownMonster.Windows
                     row.Insert(currentColumn, newCell);                                        
                 }
             }
-
             PreventRecursiveUpdates = false;
 
             RepopulateChildren(TableSource);
@@ -277,8 +281,10 @@ namespace MarkdownMonster.Windows
             var row = TableSource[currentRow] as ObservableCollection<CellContent>;
             if (row == null)
                 return;
-
+            PreventRecursiveUpdates = true;
             TableSource.Remove(row);
+            PreventRecursiveUpdates = false;
+
             RepopulateChildren(TableSource);
             SelectColumn(currentRow, currentColumn);
         }
@@ -287,13 +293,16 @@ namespace MarkdownMonster.Windows
 
         public void DeleteColumn(int currentRow, int currentColumn)
         {
+            PreventRecursiveUpdates = true;
             foreach (var row in TableSource)
             {
                 var item = row[currentColumn];
                 row.Remove(item);
             }
+            PreventRecursiveUpdates = false;
 
             RepopulateChildren(TableSource);
+            
             SelectColumn(currentRow, currentColumn);
         }
 

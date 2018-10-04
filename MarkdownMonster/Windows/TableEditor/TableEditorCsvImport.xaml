@@ -9,14 +9,15 @@
         mc:Ignorable="d"
         TitleCharacterCasing="Normal"
         TitlebarHeight="35"                       
-        WindowStyle="SingleBorderWindow" ResizeMode="CanResize"                      
+        WindowStyle="SingleBorderWindow" 
+        ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterOwner"    
         FontSize="18"
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"  
         Icon="../../Assets/MarkdownMonster_Icon_256.png"    
-        Title="Import CSV to Markdown Table" 
-        Height="330" Width="550">
-    <Grid>
+        Title="Import CSV to Markdown Table"              
+        Height="350" Width="500">
+    
         <StackPanel Margin="20">
             <Label>Import from</Label>
 
@@ -25,10 +26,8 @@
                          Click="RadioFilename_Click" Margin="25,8,0,0">
                 <RadioButton.Content>Import from File</RadioButton.Content>
             </RadioButton>
-        
-            
-                
-            <TextBlock Text="{Binding CsvFilename}" mah:VisibilityHelper.IsCollapsed="{Binding IsFilename}" Margin="30,4,0,12"></TextBlock>
+            <TextBlock FontSize="12" FontStyle="Italic" Foreground="#aaa" Text="{Binding CsvFilename}" mah:VisibilityHelper.IsCollapsed="{Binding IsFilename}" Margin="51,4,0,12"></TextBlock>
+
             <RadioButton IsChecked="{Binding ImportFromClipboard}"    Name="RadioClipboard"                      
                          GroupName="CsvType" Margin="25,7,0,0" Click="RadioClipboard_Click">
                 <RadioButton.Content>Import from Clipboard</RadioButton.Content>
@@ -58,5 +57,4 @@
                 </Button>
             </StackPanel>
         </StackPanel>
-    </Grid>
 </mah:MetroWindow>
