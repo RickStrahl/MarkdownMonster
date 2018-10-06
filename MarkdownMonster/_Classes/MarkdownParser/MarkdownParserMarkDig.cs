@@ -131,10 +131,13 @@ namespace MarkdownMonster
                 builder = builder.UseSmartyPants();
             if(options.Diagrams)
                 builder = builder.UseDiagrams();
+            if (options.Mathmatics)
+                builder = builder.UseMathematics();
             if (options.CustomContainers)
                 builder = builder.UseCustomContainers();
             if (options.Attributes)
                 builder = builder.UseGenericAttributes();
+            
             if (options.FootersAndFootnotes)
                 builder = builder                    
                     .UseFooters()
