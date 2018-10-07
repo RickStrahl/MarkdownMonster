@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using HtmlAgilityPack;
 using Markdig.Helpers;
+using Markdig.Parsers;
 using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
 
@@ -68,43 +70,30 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             if (string.IsNullOrEmpty(md))
                 return null;
 
-            var syntax = Markdig.Markdown.Parse(md);
-            var lines = StringUtils.GetLines(md);
-            bool inFrontMatter = false;
+            // create a full pipeline to strip out front matter/yaml
+            var parser = new MarkdownParserMarkdig();
+            var builder = parser.CreatePipelineBuilder();
+            var syntax = Markdig.Markdown.Parse(md,builder.Build());            
 
             var list = new ObservableCollection<HeaderItem>();
 
             foreach (var item in syntax)
-            {
+            {                
                 var line = item.Line;
-                var content = lines[line].TrimStart(' ', '#'); ;
-
-                if (line == 0 && content == "---")
-                {
-                    inFrontMatter = true;
-                    continue;
-                }
-                if (inFrontMatter && content == "---")
-                {
-                    inFrontMatter = false;
-                    continue;
-                }
-                if (inFrontMatter)
-                    continue;
                 
                 if (item is HeadingBlock)
                 {                    
                     var heading = item as HeadingBlock;
+                    var inline = heading.Inline.FirstChild as LiteralInline;
+                    if (inline == null)
+                        continue;
+
+                    var content = inline.Content.ToString();
+                    if (content.Contains("\n"))                                                            
+                        continue;
 
                     if (heading.Level > AppModel.Configuration.MaxDocumentOutlineLevel)
                         continue;
-
-                    // underlined format
-                    if (line > 0 && (content.StartsWith("---") || content.StartsWith("===")))
-                    {
-                        line--;
-                        content = lines[line].TrimStart(' ', '#');                        
-                    }
                     
                     var headerItem = new HeaderItem()
                     {

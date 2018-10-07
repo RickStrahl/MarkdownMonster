@@ -101,8 +101,6 @@ namespace MarkdownMonster
         /// <returns></returns>
         protected virtual MarkdownPipelineBuilder BuildPipeline(MarkdownOptionsConfiguration options, MarkdownPipelineBuilder builder)
         {
-            
-
             if (options.AutoLinks)
                 builder = builder.UseAutoLinks();
             if (options.AutoHeaderIdentifiers)
@@ -176,7 +174,7 @@ namespace MarkdownMonster
         /// ready to process builder.
         /// </summary>
         /// <returns></returns>
-        protected virtual MarkdownPipelineBuilder CreatePipelineBuilder()
+        public  virtual MarkdownPipelineBuilder CreatePipelineBuilder()
         {
             var options = mmApp.Configuration.MarkdownOptions;
             var builder = new MarkdownPipelineBuilder();
