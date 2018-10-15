@@ -55,7 +55,7 @@ var te = window.textEditor = {
         // allow editor to soft wrap text
         session.setUseWrapMode(editorSettings.wrapText);
         session.setOption("indentedSoftWrap", false);
-
+        
         editor.renderer.setShowGutter(editorSettings.showLineNumbers);
         editor.setOption("scrollPastEnd", 0.7); // will have additional scroll  0.7% of screen height
         editor.$blockScrolling = Infinity;
@@ -491,45 +491,55 @@ var te = window.textEditor = {
         te.editor.session.$bidiHandler.setRtlDirection(te.editor, onOff);        
     },
     setEditorStyle: function (styleJson) {
-        
-        var style = JSON.parse(styleJson);
 
-        te.editor.container.style.lineHeight = style.LineHeight;
-        te.editor.setTheme("ace/theme/" + style.Theme);        
-        te.editor.setOptions({
-            fontFamily: style.Font,
-            fontSize: style.FontSize
-        });
-        te.setRightToLeft(style.RightToLeft);
+        setTimeout(function() {
+            var style = JSON.parse(styleJson);
 
-        var wrapText = style.WrapText;
+            te.editor.container.style.lineHeight = style.LineHeight;
+            te.editor.setTheme("ace/theme/" + style.Theme);
+            te.editor.setOptions({
+                fontFamily: style.Font,
+                fontSize: style.FontSize
+            });
+            te.setRightToLeft(style.RightToLeft);
 
-        var session = te.editor.getSession();
+            var wrapText = style.WrapText;
 
-        session.setUseWrapMode(wrapText);
-        session.setOption("indentedSoftWrap", true);
-        
-        session.setOptions({ useSoftTabs: style.UseSoftTabs, tabSize: style.TabSize });
+            var session = te.editor.getSession();
 
-        te.editor.setHighlightActiveLine(style.HighlightActiveLine);
+            session.setUseWrapMode(wrapText);
+            session.setOption("indentedSoftWrap", true);
+            session.setOptions({ useSoftTabs: style.UseSoftTabs, tabSize: style.TabSize });
 
-        te.editor.renderer.setShowGutter(style.ShowLineNumbers);
-        te.editor.renderer.setShowInvisibles(style.ShowInvisibles);
+            te.editor.setHighlightActiveLine(style.HighlightActiveLine);
 
-        
-        //var keyboardHandler = style.KeyboardHandler.toLowerCase();
-        //if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
-        //    te.editor.setKeyboardHandler("");
-        //else
-        //    te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
+            te.editor.renderer.setShowGutter(style.ShowLineNumbers);
+            te.editor.renderer.setShowInvisibles(style.ShowInvisibles);
 
-        
-        if (!style.EnableBulletAutoCompletion) {
-            // turn off bullet auto-completion (or any new line auto-completion)
-            te.editor.getSession().getMode().getNextLineIndent = function(state, line) {
-                return this.$getIndent(line);
-            };
-        }
+            //style.wrapMargin = 50;
+            //if (style.wrapMargin > 0) {
+            //    session.setWrapLimitRange(style.wrapMarin, style.wrapMargin);
+            //    te.editor.setShowPrintMargin(true);
+            //    te.editor.setPrintMarginColumn(style.wrapMargin + 1);
+            //} else {
+            //    session.setWrapLimitRange(null, null);
+            //    te.editor.setShowPrintMargin(false);                
+            //}
+
+            //var keyboardHandler = style.KeyboardHandler.toLowerCase();
+            //if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
+            //    te.editor.setKeyboardHandler("");
+            //else
+            //    te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
+
+
+            if (!style.EnableBulletAutoCompletion) {
+                // turn off bullet auto-completion (or any new line auto-completion)
+                te.editor.getSession().getMode().getNextLineIndent = function(state, line) {
+                    return this.$getIndent(line);
+                };
+            }
+        },1);
 
         setTimeout(te.updateDocumentStats, 100);
     },

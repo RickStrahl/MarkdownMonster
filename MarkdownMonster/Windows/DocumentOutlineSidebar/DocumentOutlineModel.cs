@@ -84,7 +84,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                 if (item is HeadingBlock)
                 {                    
                     var heading = item as HeadingBlock;
-                    var inline = heading.Inline.FirstChild as LiteralInline;
+                    var inline = heading?.Inline?.FirstChild as LiteralInline;
                     if (inline == null)
                         continue;
 

@@ -102,12 +102,12 @@ namespace MarkdownMonster
 
 #if DEBUG
             TestButton();
-            var mi = new MenuItem
-            {
-                Header = "Test Item"
-            };
-            mi.Click +=  (s,ev)=> TestButtonCommand.Execute(mi.CommandParameter);
-            Model.Window.MainMenuHelp.Items.Add(mi);
+            //var mi = new MenuItem
+            //{
+            //    Header = "Test Item"
+            //};
+            //mi.Click +=  (s,ev)=> TestButtonCommand.Execute(mi.CommandParameter);
+            //Model.Window.MainMenuHelp.Items.Add(mi);
 #endif
         }
 

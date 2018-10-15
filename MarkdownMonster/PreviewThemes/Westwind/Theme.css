@@ -136,6 +136,11 @@ blockquote {
     blockquote *:first-child { margin-top: 0; }
     blockquote *:last-child { margin-bottom: 0; }
 
+dd {
+    margin-top: 8px;
+    padding: 10px;
+    background: #f9f9f9;
+}    
 
 hr {
     margin: 12px 0;

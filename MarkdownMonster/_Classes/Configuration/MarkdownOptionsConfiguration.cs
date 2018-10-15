@@ -52,6 +52,7 @@ namespace MarkdownMonster
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/ListExtraSpecs.md
         /// </summary>
         public bool ListExtras { get; set; } = true;
+        
 
         /// <summary>
         /// If true expand Emoji in the format of :smile: and common Smileys  like :-)
