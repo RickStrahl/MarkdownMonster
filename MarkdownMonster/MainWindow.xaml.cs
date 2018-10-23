@@ -1546,10 +1546,6 @@ namespace MarkdownMonster
             return true;
         }
 
-        /// <summary>
-        ///  Flag used to let us know we don't want to perform tab selection operations
-        /// </summary>
-        private bool batchTabAction = false;
 
         /// <summary>
         /// Retrieves an open tab based on its filename.
@@ -1581,6 +1577,40 @@ namespace MarkdownMonster
 
             return tab;
         }
+
+        /// <summary>
+        /// Activates a tab from an active tab instance
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        public TabItem ActivateTab(TabItem tab)
+        {
+            TabControl.SelectedItem = tab;
+            return tab;
+        }
+
+        /// <summary>
+        /// Activates a tab by checking from a filename
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public TabItem ActivateTab(string filename, bool openIfNotFound = false)
+        {
+            var tab = GetTabFromFilename(filename);
+            if (tab == null)
+            {
+                if (openIfNotFound)
+                    return OpenTab(filename, rebindTabHeaders: true);
+
+                return null;
+            }                
+            return ActivateTab(tab);            
+        }
+
+        /// <summary>
+        ///  Flag used to let us know we don't want to perform tab selection operations
+        /// </summary>
+        private bool batchTabAction = false;
 
         /// <summary>
         /// Binds all Tab Headers

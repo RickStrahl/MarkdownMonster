@@ -460,7 +460,13 @@ namespace MarkdownMonster
                     Model.Window.ShowFolderBrowser();
                 }
                 else
-                    Model.Window.OpenTab(parm, rebindTabHeaders: true);
+                {
+                    var tab = Model.Window.GetTabFromFilename(parm);
+                    if (tab == null)
+                        Model.Window.OpenTab(parm, rebindTabHeaders: true);
+                    else
+                        Model.Window.ActivateTab(tab);
+                }
             });
         }
 
