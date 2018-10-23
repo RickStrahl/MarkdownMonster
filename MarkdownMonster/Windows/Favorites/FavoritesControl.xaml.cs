@@ -51,10 +51,18 @@ namespace MarkdownMonster.Windows
         }
 
 
-        void StartEditing(FavoriteItem favorite)
+        void StartEditing(FavoriteItem favorite, bool stopEditing = false)
         {
-            FavoritesModel.EditedFavorite = favorite;
-            favorite.DisplayState.IsEditing = true;
+
+            if (stopEditing)
+            {
+                FavoritesModel.EditedFavorite = null;
+            }
+            else
+            {
+                FavoritesModel.EditedFavorite = favorite;
+                favorite.DisplayState.IsEditing = true;
+            }
         }
 
         private void ButtonFavorite_Click(object sender, RoutedEventArgs e)
@@ -134,6 +142,11 @@ namespace MarkdownMonster.Windows
             FavoritesModel.SaveFavorites();
 
             FavoritesModel.EditedFavorite = null;
+        }
+
+        private void ButtonCancelFavorite_Click(object sender, RoutedEventArgs e)
+        {
+            StartEditing(null, true);
         }
 
         private void ButtonStartEditing_Click(object sender, RoutedEventArgs e)
@@ -309,5 +322,7 @@ namespace MarkdownMonster.Windows
             e.Handled = true;
             FavoritesModel.SaveFavoritesAsync();            
         }
+
+     
     }
 }

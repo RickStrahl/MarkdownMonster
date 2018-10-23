@@ -28,7 +28,7 @@
                             <MenuItem Name="ButtonOpenFolder" Header="Open in Explorer" 
                                       Command="{Binding AppModel.Commands.OpenInExplorerCommand}"
                                       CommandParameter="{Binding DataContext.File}"/>
-                         </ContextMenu>
+                        </ContextMenu>
                     </Button.ContextMenu>
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
@@ -52,7 +52,7 @@
                            />
                     </StackPanel>
                 </Button>
-                
+
             </StackPanel>
             <!--</Grid>-->
         </HierarchicalDataTemplate>
@@ -122,6 +122,8 @@
             <Grid Background="{StaticResource SidebarHeaderBackground}" Margin="0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal">
@@ -131,6 +133,20 @@
                                Text="Edit Favorite"  
                                FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
                 </StackPanel>
+
+                <Button  fa:Awesome.Content="Check" Background="Transparent" 
+                     Foreground="LightGreen" Padding="7,0,7,0" Grid.Column="1"  
+                     Name="ButtonCancelFavorite" BorderThickness="0" FontSize="12"                     
+                     ToolTip="Cancels adding this new favorite." IsDefault="True"
+                     Click="ButtonEditComplete_Click"
+                      />
+
+                <Button  fa:Awesome.Content="Remove" Background="Transparent" 
+                     Foreground="Firebrick" Padding="7,0,7,0" Grid.Column="2"  
+                     Name="ButtonEditComplete" BorderThickness="0" FontSize="12"                     
+                     ToolTip="Save new Favority." IsCancel="True"
+                     Click="ButtonCancelFavorite_Click"
+                      />
             </Grid>
 
             <TextBox Text="{Binding EditedFavorite.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                             
@@ -148,20 +164,20 @@
                 />
                 <Button Grid.Column="1" Padding="6,0" Margin="3,0,0,0" Click="ButtonFileSelection_Click">...</Button>
             </Grid>
-            
+
             <CheckBox IsChecked="{Binding EditedFavorite.IsFolder}" Content="Is Grouping" 
                       FontSize="12" FontWeight="Normal" Margin="5,3" />
 
-            <Button Name="ButtonEditComplete" 
+            <!--<Button Name="ButtonEditComplete" 
                     HorizontalAlignment="Left"
                     Click="ButtonEditComplete_Click" Margin="5,7" 
                     FontSize="12"
                     Width="80">
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Check" Foreground="LightGreen" Margin="0,3,5,0"/>
-                    <TextBlock>Done</TextBlock>
+                    <TextBlock>_Save</TextBlock>
                 </StackPanel>
-            </Button>
+            </Button>-->
             <Separator Margin="0,7" />
         </StackPanel>
 
