@@ -6,7 +6,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.13.7
+<small>not released yet</small>
+
+* **Improve Favorite Editing**  
+Favorite items now have an improved editor that uses less space and uses icons on the favorites title bar. Save and cancel operations are fired off the RETURN and ESC keys respectively.
+
+* **Fixed: Document Outline Rendering**  
+Fix document outine nesting levels by parsing original Markdown text and levels. Outline can now properly skip outline levels and properly deals with headers in sub-components like block quotes or definition lists.
+
 ### 1.13.4
+<small>October 10th, 2018</small>
 
 * **Improved CSV Imports to Table Markdown**  
 Added an additional dialog that allows importing CSV from file or the clipboard (ie. Excel or other spreadsheet Copy). You can now also specify/override the CSV delimiter.
@@ -14,7 +24,7 @@ Added an additional dialog that allows importing CSV from file or the clipboard 
 * **Fix: Paste Operations where both Text and Image is provided**  
 Fix issue where certain paste operations would try to save an image instead of text. For example, pasting from Powerpoint which apparently copies both text and an image of the selected slide text. Switched to prioritize text.
 
-### 1.13
+### 1.12
 <small>September 27th, 2018</small>
 
 * **Fix Application Shutdown Release Issues**  
