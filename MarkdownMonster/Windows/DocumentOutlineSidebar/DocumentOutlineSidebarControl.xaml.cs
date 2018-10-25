@@ -148,12 +148,6 @@ namespace MarkdownMonster.Windows
 
             if (doc.CurrentText.Contains(STR_StartDocumentOutline))
             {
-                if (MessageBox.Show(@"This document already contains a Document Outline/TOC.
-Do you want to replace the existing outline?
-", "Create Document Outline", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) !=
-                    MessageBoxResult.Yes)
-                    return;
-
                 var oldToc = StringUtils.ExtractString(markdown, STR_StartDocumentOutline, STR_EndDocumentOutline,
                     returnDelimiters: true);
 
