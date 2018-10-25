@@ -15,6 +15,9 @@ Favorite items now have an improved editor that uses less space and uses icons o
 * **Fixed: Document Outline Rendering**  
 Fix document outine nesting levels by parsing original Markdown text and levels. Outline can now properly skip outline levels and properly deals with headers in sub-components like block quotes or definition lists.
 
+* **Fixed: Silent Shutdowns**  
+Fixed issue where occasional crashes would shut down MM without any messages or errors or log entries. Regression in error handling logic. Added extra error handling that should capture more unhandled hard errors than before.
+
 ### 1.13.4
 <small>October 10th, 2018</small>
 

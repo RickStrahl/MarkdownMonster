@@ -32,6 +32,13 @@ Did you know Markdown Monster has a lot of ways to generate HTML output? Save As
 ### Generate PDFs from your Markdown Topics
 Did you know you can generate a PDF file from your Markdown documents in Markdown Monster with just a couple of clicks? Use File -> Save as Pdf.
 
+### Custom Preview Themes
+Did you know that you can easily create custom preview themes in Markdown Monster? 
+
+Copy an existing preview theme folder then customize the HTML and CSS to match your specific site designs or preferences. New themes show up in the theme selector.
+
+https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm
+
 ### Distraction Free Mode
 Did you know you can use Distraction Free mode in Markdown Monster to zoom the editor? Click on the Zoom icon in the window toolbar on the top right or ALT-SHIFT-ENTER to toggle. Also configurable via `DistractionFreeModeHideOptions`. #markdown
 https://video.twimg.com/tweet_video/DUu5z0gVQAA0dGt.mp4
@@ -68,7 +75,7 @@ Markdown Monster is iterating very quickly. Don't want to see new version checks
 Did you know that you can easily embed FontAwesome icons into Markdown documents with @MarkdownMonstr? Simply embed @icon-iconname into your documents and MM renders the icon for you. For more sophisticated use cases you can also use raw HTML.
 
 ### Snippet Add-in
-Did you know the Snippet Addin can turn an expansion key into expanded text? Turn short phrases like `fa-` into an expanded font-awesome HTML string, turn `signature` into your name, company and logo signature. It's easy...
+Did you know the Snippet Addin can turn an expansion key into expanded text? Turn short phrases like `fa-` into an expanded font-awesome HTML string, turn `datetime` into a properly formatted date and time,  turn `signature` into your name, company and logo signature. It's easy...
 
 
 ### Portable Version 
