@@ -137,14 +137,15 @@
                 <Button  fa:Awesome.Content="Check" Background="Transparent" 
                      Foreground="LightGreen" Padding="7,0,7,0" Grid.Column="1"  
                      Name="ButtonCancelFavorite" BorderThickness="0" FontSize="12"                     
-                     ToolTip="Cancels adding this new favorite." IsDefault="True"
+                     ToolTip="Save favorite." IsDefault="True"
                      Click="ButtonEditComplete_Click"
                       />
 
                 <Button  fa:Awesome.Content="Remove" Background="Transparent" 
                      Foreground="Firebrick" Padding="7,0,7,0" Grid.Column="2"  
                      Name="ButtonEditComplete" BorderThickness="0" FontSize="12"                     
-                     ToolTip="Save new Favority." IsCancel="True"
+                     ToolTip="Cancel changes to this favorite."
+                     IsCancel="True"
                      Click="ButtonCancelFavorite_Click"
                       />
             </Grid>
