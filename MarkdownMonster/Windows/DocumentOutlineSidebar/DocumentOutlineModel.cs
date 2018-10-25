@@ -212,14 +212,33 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             if (startOffset < 0)
                 startOffset = 0;
 
-            foreach(var header in headers)
-            { 
+            int lastLevel = 0;  // check that we don't skip multiple levels - won't work in Markdown            
+
+            for (var index = 0; index < headers.Count; index++)
+            {
+                var header = headers[index];
                 string leadin = null;
                 int level = header.Level - startOffset;
+
+                if (level > lastLevel + 1)
+                {
+                    var origLevel = level;
+                    level = lastLevel + 1;
+
+                    // read forward and adjust all items at the same level to this level
+                    var index2 = index;                    
+                    while (index2 < headers.Count && headers[index2].Level == origLevel)
+                    {
+                        headers[index2].Level = level;
+                        index2++;
+                    }
+                }
+
+                lastLevel = level;
+
                 if (level > 0)
-                    leadin = StringUtils.Replicate("\t",level - 1);
-
-
+                    leadin = StringUtils.Replicate("\t", level - 1);
+                
                 sb.AppendLine($"{leadin}* [{header.Text}](#{header.LinkId})");
             }
 

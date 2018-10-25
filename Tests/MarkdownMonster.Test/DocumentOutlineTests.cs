@@ -117,9 +117,22 @@ namespace MarkdownMonster.Test
             var md = model.CreateMarkdownOutline(doc);
 
             Console.WriteLine(md);
+        }
+
+        [TestMethod]
+        public void MarkdownOutlineWithMultipleLevelSkips()
+        {
+            var appModel = new AppModel(null);
+            mmApp.Model = appModel;
+
+            var doc = new MarkdownDocument();
+            doc.CurrentText = markdownWithSkippedHeaders;
 
 
+            var model = new DocumentOutlineModel();
+            var md = model.CreateMarkdownOutline(doc);
 
+            Console.WriteLine(md);
         }
 
 
@@ -225,5 +238,37 @@ The one downside to External Tools is that they are not easily exportable. So if
 So now when I'm working in Visual Studio and I quickly want to jump to Visual Studio code I can do so easily by pressing *Ctrl-Alt-V*. Visual Studio Code is also smart enough to know if a folder or file is already open and it jumps me right back to the already open 'project' and or file so if I flip back and forth I can even keep my place in the document where I left off.
 
 It's the little things that make things easier...";
+
+
+
+        string markdownWithSkippedHeaders = @"# header 1
+blah blah blah blah
+
+## Header 2
+blah blah blah blah
+
+# Header 1
+blah blah blah blah
+
+
+#### Header 4.0
+blah blah blah blah
+
+#### Header 4.1
+blah blah blah blah
+
+
+### Header 3.0
+blah blah blah blah
+
+### Header 3.1
+blah blah blah blah
+
+
+## Header 2
+blah blah blah blah
+
+Done
+";
     }
 }

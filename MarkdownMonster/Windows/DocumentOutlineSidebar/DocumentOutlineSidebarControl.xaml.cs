@@ -166,7 +166,7 @@ Do you want to replace the existing outline?
 
             if (md != null)
             {
-                md = STR_StartDocumentOutline + "\r\n" + md.TrimEnd() + "\r\n" + STR_EndDocumentOutline;
+                md = STR_StartDocumentOutline + "\r\n\r\n" + md.TrimEnd() + "\r\n\r\n" + STR_EndDocumentOutline;
                 editor.SetSelectionAndFocus(md);
             }
             else
