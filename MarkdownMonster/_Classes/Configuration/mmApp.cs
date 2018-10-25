@@ -217,9 +217,9 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="ex"></param>
         /// <returns></returns>
-        public static bool HandleApplicationException(Exception ex)
+        public static bool HandleApplicationException(Exception ex, ApplicationErrorModes errorMode)
         {
-            Log("App Error: " + ex.Message, ex, unhandledException: true);
+            Log($"{errorMode} Error: " + ex.Message, ex, unhandledException: true);
 
             var msg = $"Yikes! Something went wrong...\r\n\r\n{ex.Message}\r\n\r\n" +
                         "The error has been recorded and written to a log file and you can " +
@@ -736,5 +736,11 @@ Markdown Monster v{version}
 
         public static string Key { get; } = "c73daa21-a2dd-42ae-9a2f-2e7c17b83706";
         public static bool UseApplicationInsights { get; set; } = true;
+    }
+
+    public enum ApplicationErrorModes
+    {
+        AppDispatcher,
+        AppRoot
     }
 }

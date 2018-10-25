@@ -22,27 +22,6 @@
         Height="600" Width="1000"  
         MinWidth="390" MinHeight="220" 
         WindowTransitionsEnabled="False">
-    <Window.InputBindings>
-        <!--<KeyBinding Modifiers="Alt+Shift"
-                    Key="Return"
-                    Command="{Binding Commands.DistractionFreeModeCommand}" CommandParameter="Toggle" />
--->
-        <!--<KeyBinding Key="F11" Command="{Binding Commands.PresentationModeCommand}" CommandParameter="Toggle" />-->
-        <!--<KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding Commands.PrintPreviewCommand}" />-->
-        
-        <!--<KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Commands.SaveAsCommand}" />
-        <KeyBinding Modifiers="Alt+Shift" Key="S" Command="{Binding Commands.SaveAllCommand}" />-->
-        <!--<KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding Commands.NewDocumentCommand }"  />-->
-        <!--<KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding Commands.OpenDocumentCommand }"    />
-        <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  CommandParameter="quote"  />
-        <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding  Commands.CloseActiveDocumentCommand}" />
-        <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding Commands.CloseActiveDocumentCommand}" />
-        <KeyBinding Modifiers="Alt" Key="Z" Command="{Binding Commands.WordWrapCommand}" />
-        <KeyBinding Key="F1" Command="{Binding Commands.HelpCommand}" />-->
-        
-        <!-- Commands that are handled in the Markdown Editor because they are not working here -->
-        <!--<KeyBinding Modifiers="Ctrl+Shift" Key="Z" Command="{Binding Commands.RemoveMarkdownFormattingCommand}" />-->        
-    </Window.InputBindings>
 
     <Window.Resources>
         <localwindows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
@@ -462,6 +441,7 @@
                 <MenuItem Name="MenuBackupConfiguration" Header="Backup Configuration Settings" Click="Button_Handler"/>
                 <Separator  />
                 <MenuItem Name="ButtonAbout" Header="_About" Click="Button_Handler"/>
+                <!--<MenuItem Name="ButtonTest" Header="Test" Command="{Binding Commands.TestButtonCommand}" />-->
             </MenuItem>
         </Menu>
 
@@ -859,7 +839,6 @@
             <StatusBarItem Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
-                    <!--<TextBlock  Name="StatusStatss" x:FieldModifier="public" HorizontalAlignment="Left" Text="{Binding WindowLayout.PreviewWidth}"></TextBlock>-->
                 </StackPanel>
             </StatusBarItem>
             <Separator Grid.Column="2" />
