@@ -8,15 +8,11 @@ class StartUp
     public static void Main()
     {
 
-        try
-        {            
-            App app = new App();
-            app.InitializeComponent();
-            app.Run();
+         App app = new App();
+         app.InitializeComponent();
+         app.Run();
 
-            Process.GetCurrentProcess().Kill(); //Must add this line after app.Run!!!
-        }
-        catch { }
-        
+         Process.GetCurrentProcess().Kill(); //Must add this line after app.Run!!!        
+
     }
 }
