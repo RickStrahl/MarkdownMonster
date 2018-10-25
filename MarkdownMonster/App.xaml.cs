@@ -90,9 +90,10 @@ namespace MarkdownMonster
             // We have to manage assembly loading for Addins
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
 #if !DEBUG
-//AppDomain currentDomain = AppDomain.CurrentDomain;
-//currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
+            //AppDomain currentDomain = AppDomain.CurrentDomain;
+            //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalErrorHandler);
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 #endif
             // This has to be here for AppInsights not in OnStartup
@@ -365,7 +366,7 @@ namespace MarkdownMonster
         private void App_DispatcherUnhandledException(object sender,
             System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            if (!mmApp.HandleApplicationException(e.Exception as Exception))
+            if (!mmApp.HandleApplicationException(e.Exception as Exception, ApplicationErrorModes.AppDispatcher))
                 Environment.Exit(1);
 
             e.Handled = true;

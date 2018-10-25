@@ -1574,6 +1574,11 @@ We're now shutting down the application.
 
             TestButtonCommand = new CommandBase((parameter, command) =>
             {
+                MessageBox.Show("about to cause an error");
+
+                string value = null;
+                value.ToString();
+
                 var form = new BrowserMessageBox()
                 {
                     Owner = Model.Window
