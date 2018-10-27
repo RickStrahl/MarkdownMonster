@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.13.7
-<small>not released yet</small>
+<small>October 25th, 2018</small>
 
 * **Improve Favorite Editing**  
 Favorite items now have an improved editor that uses less space and uses icons on the favorites title bar. Save and cancel operations are fired off the RETURN and ESC keys respectively.
@@ -18,7 +18,7 @@ Fix document outine nesting levels by parsing original Markdown text and levels.
 * **Fixed: Silent Shutdowns**  
 Fixed issue where occasional crashes would shut down MM without any messages or errors or log entries. Regression in error handling logic. Added extra error handling that should capture more unhandled hard errors than before.
 
-### 1.13.4
+### 1.13.4 
 <small>October 10th, 2018</small>
 
 * **Improved CSV Imports to Table Markdown**  
@@ -27,13 +27,13 @@ Added an additional dialog that allows importing CSV from file or the clipboard 
 * **Fix: Paste Operations where both Text and Image is provided**  
 Fix issue where certain paste operations would try to save an image instead of text. For example, pasting from Powerpoint which apparently copies both text and an image of the selected slide text. Switched to prioritize text.
 
-### 1.12
+### 1.12 
 <small>September 27th, 2018</small>
 
 * **Fix Application Shutdown Release Issues**  
 In recent releases MM would occasionally hang when shutting down leaving multiple processes hanging around orphaned. Refactored unload code, explicitly release browser instances, addins and various services.
 
-### 1.12.18
+### 1.12.18 
 <small>September 27th, 2018</small>
 
 * **Link References in Link Dialog**  

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -290,7 +291,7 @@ namespace MarkdownMonster
                 
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
-            {
+            {               
                 if (!Model.IsEditorActive)
                     return false;
 

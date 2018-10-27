@@ -473,7 +473,8 @@
                                 />
 
                         <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding Commands.SaveCommand}" 
-								ToolTip="Save active document (ctrl-s)"                                
+								ToolTip="Save active document (ctrl-s)"       
+                                IsEnabled="{Binding ActiveDocument.IsDirty}"
                                 fa:Awesome.Content="CheckCircleOutline" 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />

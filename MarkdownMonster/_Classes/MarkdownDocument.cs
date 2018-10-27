@@ -74,6 +74,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(FilenameWithIndicator));
                 OnPropertyChanged(nameof(FilenamePathWithIndicator));
                 OnPropertyChanged(nameof(HtmlRenderFilename));
+                OnPropertyChanged(nameof(IsDirty));
             }
         }
         private string _filename;
@@ -251,11 +252,14 @@ namespace MarkdownMonster
                 if (value != _IsDirty)
                 {
                     _IsDirty = value;
+
                     IsDirtyChanged?.Invoke(value);
-                    OnPropertyChanged(nameof(IsDirty));
+
                     OnPropertyChanged(nameof(FilenameWithIndicator));
                     OnPropertyChanged(nameof(FilenamePathWithIndicator));
-                }
+                    OnPropertyChanged(nameof(IsDirty));                    
+                }                
+                
             }
         }
         private bool _IsDirty;
@@ -891,8 +895,8 @@ namespace MarkdownMonster
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
