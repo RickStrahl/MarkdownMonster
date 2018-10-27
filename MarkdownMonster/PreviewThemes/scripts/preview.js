@@ -69,19 +69,23 @@ window.ondragover = function (event) {
     return false;
 }
 
-var scroll = debounce(function (event) {    
+var scroll = debounce(function (event) {
+
     if (!te.mmEditor || !te.isPreviewEditorSync) return;
 
     // prevent repositioning editor scroll sync 
-    // when selecting line in editor (w/ two way sync)
+    // when selecting line in editor (w/ two way sync)    
+    // te.codeScrolled is set in scrollToPragmaLines so that we don't
+    // re-navigate
     var t = new Date().getTime();
-    
-    if (te.codeScrolled > t - 250)
+    if (te.codeScrolled > t - 970)
         return;
 
-    te.codeScrolled = t;
-        
-    var st = $(window).scrollTop();
+    var st = $(window).scrollTop();    
+    if (st < 3) {
+        te.mmEditor.gotoLine(0, true);
+        return;
+    }
 
     var winTop = st + 100;
     var $lines = $("[id*='pragma-line-']");
@@ -91,18 +95,20 @@ var scroll = debounce(function (event) {
 
     var id = null;
     for (var i = 0; i < $lines.length; i++) {
-        
+
         if ($($lines[i]).position().top >= winTop) {
             id = $lines[i].id;
             break;
-        }        
+        }
     }
     if (!id)
         return;
 
     id = id.replace("pragma-line-", "");
-    
-    te.mmEditor.gotoLine((id * 1) - 1);
+
+    var line = (id * 1) - 1;
+    te.mmEditor.gotoLine(line, true);
+
 },100);
 window.onscroll = scroll;
 
@@ -133,7 +139,6 @@ function updateDocumentContent(html) {
 
 function scrollToPragmaLine(lineno) {
     if (typeof lineno !== "number" || lineno < 0) return;
-
     setTimeout(function () {
         if (lineno < 3) {
             $("html").scrollTop(0);
@@ -216,7 +221,7 @@ window.onerror = function windowError(message, filename, lineno, colno, error) {
     if (isDebug)
         status(msg);
 
-    console.log(msg);
+    console.log("Error: " + msg);
     
     // don't let errors trigger browser window
     return true;
@@ -237,3 +242,4 @@ function debounce(func, wait, immediate) {
             func.apply(context, args);
     };
 };
+

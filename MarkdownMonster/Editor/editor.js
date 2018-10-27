@@ -9,12 +9,13 @@ var te = window.textEditor = {
     editor: null, // Ace Editor instance
     previewRefresh: 800,
     settings: editorSettings,
-    lastError: null,    
+    lastError: null,
     dic: null,
     aff: null,
     isDirty: false,
     mousePos: { column: 0, row: 0 },
     spellcheck: null,
+    codeScrolled: null,
 
     initialize: function () {
 
@@ -88,8 +89,10 @@ var te = window.textEditor = {
             if (!te.mm)
                 return;
             te.isDirty = te.mm.textbox.IsDirty();
-            te.mm.textbox.PreviewMarkdownCallback(true);  // don't get markdown again
-            te.updateDocumentStats();
+            if (te.isDirty) {
+                te.mm.textbox.PreviewMarkdownCallback(true); // don't get markdown again
+                te.updateDocumentStats();
+            }
         }, te.previewRefresh);
         $("pre[lang]").on("keyup", updateDocument);
 
@@ -129,8 +132,6 @@ var te = window.textEditor = {
                 //e.preventDefault();		    
                 var file = e.dataTransfer.getData('text');
 
-                console.log('ondrop');
-
                 // image file names dropped from FolderBrowser
                 //if (file && /(.png|.jpg|.gif|.jpeg|.bmp|.svg)$/i.test(file)) {
                 if (file && /\..\w*$/.test(file)) {
@@ -153,7 +154,18 @@ var te = window.textEditor = {
         //        alert('drag over');
         //        te.mousePos = e.getDocumentPosition();
         //    });        
+        
         var changeScrollTop = debounce(function (e) {
+
+            // don't do anything if we moved without requesting
+            // a document refresh (from preview refresh)
+            if (te.codeScrolled) {
+                var t = new Date().getTime();
+                if (te.codeScrolled > t - 850)
+                    return;
+            }
+            te.codeScrolled = null;
+
             // if there is a selection don't set cursor position
             // or preview. Mouseup will scroll to position at end
             // of selection            
@@ -276,9 +288,9 @@ var te = window.textEditor = {
     },
 
     gotoLine: function (line, noRefresh, noSelection) {
-        setTimeout(function () {
+        setTimeout(function () {    
             te.editor.scrollToLine(line);
-
+            
             if (!noSelection) {
                 var sel = te.editor.getSelection();
                 var range = sel.getRange();
@@ -288,8 +300,10 @@ var te = window.textEditor = {
             }
             if (!noRefresh)
                 setTimeout(te.refreshPreview, 10);
-            
-        },100);
+            else
+                te.codeScrolled = new Date().getTime();
+
+        },70);
     },
     gotoBottom: function (noRefresh) {
         setTimeout(function() {
@@ -302,7 +316,7 @@ var te = window.textEditor = {
             },
             70);
     },
-    refreshPreview: function(ignored) {
+    refreshPreview: function (ignored) {
         te.mm.textbox.PreviewMarkdownCallback();
     },
     setselection: function(text) {
