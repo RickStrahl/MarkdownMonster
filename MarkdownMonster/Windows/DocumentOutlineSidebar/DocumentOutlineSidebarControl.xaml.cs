@@ -32,6 +32,7 @@ namespace MarkdownMonster.Windows
         ///  Set this value to UtcNow to avoid next navigation
         /// </summary>
         public DateTime IgnoreSelection { get; set; }
+        
 
         public DocumentOutlineSidebarControl()
         {
@@ -45,13 +46,17 @@ namespace MarkdownMonster.Windows
             DataContext = Model;            
         }
 
-      
         /// <summary>
         /// Refreshes the document outline if if it is visible
         /// and 
         /// </summary>
         public void RefreshOutline(int editorLineNumber = -1)
-        {            
+        {
+            if (IgnoreSelection > DateTime.UtcNow.AddMilliseconds(-850))
+                return;
+            else
+                IgnoreSelection = DateTime.MinValue;
+
             if (Model == null || Model.AppModel == null || Model.Window == null ||
                 !Model.AppModel.Configuration.IsDocumentOutlineVisible) return;
 
@@ -173,7 +178,8 @@ namespace MarkdownMonster.Windows
             if (selected == null || Model.AppModel.ActiveEditor == null)
                 return;
 
-            Model.AppModel.ActiveEditor.GotoLine(selected.Line - 2, noRefresh: true);           
+            IgnoreSelection = DateTime.UtcNow;  // prevent editor navigating outline again
+            Model.AppModel.ActiveEditor.GotoLine(selected.Line -2, noRefresh: false);  // refresh the preview
         }
 
         private void TextBlock_KeyDown(object sender, KeyEventArgs e)
