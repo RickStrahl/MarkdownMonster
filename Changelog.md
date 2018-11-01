@@ -6,8 +6,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.13.7
-<small>October 25th, 2018</small>
+### 1.13.8
+<small>October 31st, 2018</small>
+
+* **Fix: Two-way Editor Preview Synching**  
+Fix a number of issues with two-way editor preview syncing, that would cause excessive jumpiness in the editor and in some cases inability to select a specific area. This update fixes navigations by preventing recursive editor and preview navigation for much smoother and reliable syncing between editor and previewer.
+
+* **Fix: Document Outline Accuracy and Jitter**  
+Document outline selection previously was jittery in that selection would often jump to a new location due to recursive scroll capture. Fixed scroll capture behavior and removed extra editor navigation.
+
+* **Fix: Additional Error handling logic**  
+Added additional error handling logic to capture errors that would simply exit MM. Additional error handlers have been added to handle most error scenarios. Also improves ability to continue running in the current state for many errors without an explicit shutdown.
 
 * **Improve Favorite Editing**  
 Favorite items now have an improved editor that uses less space and uses icons on the favorites title bar. Save and cancel operations are fired off the RETURN and ESC keys respectively.
