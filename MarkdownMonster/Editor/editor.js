@@ -16,6 +16,9 @@ var te = window.textEditor = {
     mousePos: { column: 0, row: 0 },
     spellcheck: null,
     codeScrolled: null,
+    setCodeScrolled: function (ignored) {
+        te.codeScrolled = new Date().getTime();
+    },
 
     initialize: function () {
 
@@ -156,7 +159,6 @@ var te = window.textEditor = {
         //    });        
         
         var changeScrollTop = debounce(function (e) {
-
             // don't do anything if we moved without requesting
             // a document refresh (from preview refresh)
             if (te.codeScrolled) {
