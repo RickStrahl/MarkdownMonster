@@ -200,20 +200,19 @@ namespace MarkdownMonster
 
         #region Image Utilities
 
-
         /// <summary>
         /// Tries to optimize png images in the background
         /// This is not fast and does not happen right away
         /// so generally this can be applied when images are saved.        
         /// </summary>
         /// <param name="pngFilename">Filename to optimize</param>
-        /// <param name="level">Optimization Level from 1-7</param>
-        public static void OptimizePngImage(string pngFilename, int level = 5)
+        /// <param name="level">Optimization Level from 1-9</param>
+        public static void OptimizePngImage(string pngFilename, int level = 9)
         {
             try
             {
-                var pi = new ProcessStartInfo(Path.Combine(Environment.CurrentDirectory, "optipng.exe"),
-                    $"-o{level} \"" + pngFilename + "\"");
+                var pi = new ProcessStartInfo(Path.Combine(App.InitialStartDirectory, "pingo.exe"),
+                    "-auto \"" + pngFilename + "\"");
 
                 pi.WindowStyle = ProcessWindowStyle.Hidden;
                 pi.WorkingDirectory = Environment.CurrentDirectory;
@@ -222,11 +221,39 @@ namespace MarkdownMonster
             catch { }
         }
 
-		/// <summary>
-		/// Opens an image in the configured image editor
-		/// </summary>
-		/// <param name="imageFile"></param>
-	    public static bool OpenImageInImageEditor(string imageFile)
+        /// <summary>
+        /// Optimizes a jpeg image
+        /// </summary>
+        /// <param name="imageFilename"></param>
+        /// <param name="imageQuality">Optional image quality. If not specified auto is used</param>
+        public static void OptimizeImage(string imageFilename, int imageQuality=0)
+        {
+            try
+            {
+                ProcessStartInfo pi = null;
+                if (imageQuality > 0)
+                {
+                     pi = new ProcessStartInfo(Path.Combine(App.InitialStartDirectory, "pingo.exe"),
+                        $"-auto={imageQuality} \"" + imageFilename + "\"");
+                }
+                else
+                {
+                    pi = new ProcessStartInfo(Path.Combine(App.InitialStartDirectory, "pingo.exe"),
+                        "-auto \"" + imageFilename + "\"");
+                }
+
+                pi.WindowStyle = ProcessWindowStyle.Hidden;
+                pi.WorkingDirectory = Environment.CurrentDirectory;
+                Process.Start(pi);
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// Opens an image in the configured image editor
+        /// </summary>
+        /// <param name="imageFile"></param>
+        public static bool OpenImageInImageEditor(string imageFile)
 		{
 		    imageFile = System.Net.WebUtility.UrlDecode(imageFile);
 
