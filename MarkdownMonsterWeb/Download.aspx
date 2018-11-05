@@ -346,8 +346,8 @@ IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIB
                 return _version;
 
             // set default dates for fallback here
-            _version = "0.79";
-            ReleaseDate = "November 4th, 2016";
+            _version = "1.13";
+            ReleaseDate = "November 4th, 2018";
 
             try
             {
@@ -383,7 +383,7 @@ IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIB
     {
         get
         {
-            if (_latestVersion != null && DateTime.UtcNow.Subtract(_lastAccess).TotalMinutes < 10)
+            if (_latestVersion != null && DateTime.UtcNow.Subtract(_lastAccess).TotalMinutes < 5)
                 return _latestVersion;
 
             string path = @"c:\ftp\files\MarkdownMonsterSetup_Latest.exe";

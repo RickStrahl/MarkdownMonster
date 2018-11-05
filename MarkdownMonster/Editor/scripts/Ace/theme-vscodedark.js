@@ -11,7 +11,7 @@ width: 1px;\
 background: #191919\
 }\
 .ace-vscodedark {\
-background: #2D2D2D;\
+background: #222;\
 color: #EEEEEE;\
 font-weight: normal;\
 }\

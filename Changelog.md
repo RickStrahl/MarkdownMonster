@@ -9,17 +9,23 @@
 ### 1.13.8
 <small>October 31st, 2018</small>
 
-* **Fix: Two-way Editor Preview Synching**  
-Fix a number of issues with two-way editor preview syncing, that would cause excessive jumpiness in the editor and in some cases inability to select a specific area. This update fixes navigations by preventing recursive editor and preview navigation for much smoother and reliable syncing between editor and previewer.
+* **Improve Favorite Editing**  
+Favorite items now have an improved editor that uses less space and uses icons on the favorites title bar. Save and cancel operations are fired off the RETURN and ESC keys respectively.
+
+* **Updated Image Optimization for pasted and file images**  
+Updated image optimization by using new Pingo tool to optimize images. Pingo is significantly faster at optimization and reduces size considerably more than the old optipng based implementation. We now also optimize jpeg images.
+
+* **Fix: Image relative Paths**  
+Fixed bug that wouldn't properly create a relative path for pasted images - the relative path would always revert to the current path of the document. Paths are now properly adjusted.
 
 * **Fix: Document Outline Accuracy and Jitter**  
 Document outline selection previously was jittery in that selection would often jump to a new location due to recursive scroll capture. Fixed scroll capture behavior and removed extra editor navigation.
 
+* **Fix: Two-way Editor Preview Synching**  
+Fix a number of issues with two-way editor preview syncing, that would cause excessive jumpiness in the editor and in some cases inability to select a specific area. This update fixes navigations by preventing recursive editor and preview navigation for much smoother and reliable syncing between editor and previewer.
+
 * **Fix: Additional Error handling logic**  
 Added additional error handling logic to capture errors that would simply exit MM. Additional error handlers have been added to handle most error scenarios. Also improves ability to continue running in the current state for many errors without an explicit shutdown.
-
-* **Improve Favorite Editing**  
-Favorite items now have an improved editor that uses less space and uses icons on the favorites title bar. Save and cancel operations are fired off the RETURN and ESC keys respectively.
 
 * **Fixed: Document Outline Rendering**  
 Fix document outine nesting levels by parsing original Markdown text and levels. Outline can now properly skip outline levels and properly deals with headers in sub-components like block quotes or definition lists.
