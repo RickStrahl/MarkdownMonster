@@ -34,6 +34,7 @@
 
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
@@ -138,7 +139,7 @@ namespace Westwind.HtmlPackager
                 if (docBase != null)
                 {
                     basePath = docBase.Attributes["href"]?.Value;
-                    BaseUri = new Uri(basePath);
+                    BaseUri = new Uri(baseUri: new Uri(urlOrFile),relativeUri: basePath,dontEscape: true);
                 }
 
                 docBase?.Remove();
@@ -236,7 +237,7 @@ namespace Westwind.HtmlPackager
 
                 File.WriteAllText(outputFile, html);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 SetError($"Error writing out HTML file: {ex.Message}");
                 return false;
@@ -260,6 +261,7 @@ namespace Westwind.HtmlPackager
         ///
         /// If the document itself contains a BASE tag this value is not used.
         /// </param>
+        /// <param name="deleteFolderContents">If true deletes folder contents first</param>
         /// <returns>HTML string or null</returns>
         public bool PackageHtmlToFolder(string urlOrFile, string outputFile, string basePath = null, bool deleteFolderContents = false)
         {
@@ -270,12 +272,47 @@ namespace Westwind.HtmlPackager
                 foreach (var file in Directory.GetFiles(OutputPath))
                     File.Delete(file);
             }
-
-            if (!Directory.Exists(OutputPath))
-                Directory.CreateDirectory(OutputPath);
-
-
+            
+            if (!Directory.Exists(OutputPath))            
+                Directory.CreateDirectory(OutputPath);                
+            
+            
             return PackageHtmlToFile(urlOrFile, outputFile, basePath, true);
+        }
+
+        /// <summary>
+        /// Packages HTML files to a zip file.
+        /// </summary>
+        /// <param name="urlOrFile"></param>
+        /// <param name="outputZipFile"></param>
+        /// <param name="basePath"></param>
+        /// <returns></returns>
+        public bool PackageHtmlToZipFile(string urlOrFile, string outputZipFile, string basePath = null)
+        {
+            if (File.Exists(outputZipFile))
+                File.Delete(outputZipFile);
+
+            var folder = Path.Combine(Path.GetTempPath(), "_" + DataUtils.GenerateUniqueId());
+            var htmlFile = Path.Combine(folder,Path.GetFileName(Path.ChangeExtension(outputZipFile, "html")));
+
+            Directory.CreateDirectory(folder);
+
+            if (!PackageHtmlToFolder(urlOrFile, htmlFile, basePath))
+                return false;
+
+            try
+            {
+                ZipFile.CreateFromDirectory(folder, outputZipFile, CompressionLevel.Fastest, false);                
+            }
+            catch (Exception ex)
+            {
+                SetError("Unable to package output files: " + ex.Message);
+                return false;
+            }
+
+            Directory.Delete(folder, true);
+
+            return true;
         }
 
         #endregion
@@ -301,19 +338,17 @@ namespace Westwind.HtmlPackager
                 if (url == null)
                     continue;
 
-                string cssText;
-                string justFilename = null;
+                string cssText;                
 
                 if (url.StartsWith("http"))
                 {
                     var http = new WebClient();
-                    cssText = http.DownloadString(url);
+                    cssText = http.DownloadString(url);                    
                 }
                 else if (url.StartsWith("file:///"))
-                {
-                    url = url.Substring(8);
-                    cssText = File.ReadAllText(WebUtility.UrlDecode(url));
-                    justFilename = Path.GetFileName(url);
+                {                                       
+                   url = url.Substring(8);
+                   cssText = File.ReadAllText(WebUtility.UrlDecode(url));                   
                 }
                 else // Relative Path
                 {
@@ -325,33 +360,33 @@ namespace Westwind.HtmlPackager
                         cssText = http.DownloadString(url);
                     }
                     else
-                        cssText = File.ReadAllText(WebUtility.UrlDecode(url));
-
-                    justFilename = Path.GetFileName(url);
+                        cssText = File.ReadAllText(WebUtility.UrlDecode(url));                                     
                 }
 
                 cssText = ProcessUrls(cssText, url);
 
                 if (CreateExternalFiles)
                 {
-                    if (string.IsNullOrEmpty(justFilename))
+                    var justFilename = Path.GetFileName(url);
+                    string justExt = Path.GetExtension(url);
+                    if (string.IsNullOrEmpty(justExt))
                         justFilename = DataUtils.GenerateUniqueId(10) + ".css";
-
+                    
                     var fullPath = Path.Combine(OutputPath, justFilename);
                     File.WriteAllText(fullPath, cssText);
-                    link.Attributes["href"].Value = justFilename;
+                    link.Attributes["href"].Value = justFilename;                    
                 }
                 else
                 {
                     var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
-                    el.Name = "style";
+                    el.Name = "style";                    
                     el.InnerHtml = "\r\n" + cssText + "\r\n";
 
                     link.ParentNode.InsertAfter(el, link);
                     link.Remove();
                     el = null;
-                }
-            }
+                }                
+            }            
         }
 
         private void ProcessScripts(HtmlDocument doc)
@@ -371,12 +406,12 @@ namespace Westwind.HtmlPackager
                 if (url.StartsWith("http"))
                 {
                     var http = new WebClient();
-                    scriptData = http.DownloadData(url);
+                    scriptData = http.DownloadData(url);                    
                 }
                 else if (url.StartsWith("file:///"))
                 {
                     url = url.Substring(8);
-                    scriptData = File.ReadAllBytes(WebUtility.UrlDecode(url)); ;
+                    scriptData = File.ReadAllBytes(WebUtility.UrlDecode(url));                    ;
                 }
                 else // Relative Path
                 {
@@ -387,7 +422,7 @@ namespace Westwind.HtmlPackager
                         if (url.StartsWith("http") && url.Contains("://"))
                         {
                             var http = new WebClient();
-                            scriptData = http.DownloadData(url);
+                            scriptData = http.DownloadData(url);                            
                         }
                         else
                             scriptData = File.ReadAllBytes(WebUtility.UrlDecode(url));
@@ -397,7 +432,7 @@ namespace Westwind.HtmlPackager
                         continue;
                     }
                 }
-
+                
                 if (CreateExternalFiles)
                 {
                     var justFilename = Path.GetFileName(url);
@@ -405,8 +440,8 @@ namespace Westwind.HtmlPackager
                     if (string.IsNullOrEmpty(justExt))
                         justFilename = DataUtils.GenerateUniqueId(10) + ".js";
 
-                    var fullPath = Path.Combine(OutputPath, justFilename);
-                    File.WriteAllBytes(fullPath, scriptData);
+                    var fullPath = Path.Combine(OutputPath,justFilename);
+                    File.WriteAllBytes(fullPath,scriptData);
                     script.Attributes["src"].Value = justFilename;
                 }
                 else
@@ -437,7 +472,7 @@ namespace Westwind.HtmlPackager
                     imageData = http.DownloadData(url);
                     contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
                 }
-                else if (url.StartsWith("file:///"))
+                else if(url.StartsWith("file:///"))
                 {
                     url = url.Substring(8);
 
@@ -501,7 +536,7 @@ namespace Westwind.HtmlPackager
                 {
                     string data = $"data:{contentType};base64,{Convert.ToBase64String(imageData)}";
                     el.Attributes["src"].Value = data;
-                }
+                }              
             }
         }
 
@@ -531,6 +566,9 @@ namespace Westwind.HtmlPackager
                 if (url.Contains("?"))
                     url = StringUtils.ExtractString(url, "", "?");
 
+                
+                if (url.EndsWith(".eot") || url.EndsWith(".ttf"))
+                    continue;
 
                 if (url.StartsWith("http"))
                 {
@@ -538,18 +576,18 @@ namespace Westwind.HtmlPackager
                     linkData = http.DownloadData(url);
                     contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
                 }
-                else if (url.StartsWith("file:///"))
+                else if(url.StartsWith("file:///"))
                 {
                     var baseUri = new Uri(baseUrl);
                     url = new Uri(baseUri, new Uri(url)).AbsoluteUri;
-
+                    
                     try
                     {
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                         if (contentType == "application/image")
                             continue;
 
-                        linkData = File.ReadAllBytes(WebUtility.UrlDecode(url));
+                         linkData = File.ReadAllBytes(WebUtility.UrlDecode(url));                     
                     }
                     catch
                     {
@@ -569,7 +607,7 @@ namespace Westwind.HtmlPackager
                             linkData = http.DownloadData(url);
                         }
                         else
-                            linkData = File.ReadAllBytes(WebUtility.UrlDecode(url.Replace("file:///", "")));
+                            linkData = File.ReadAllBytes(WebUtility.UrlDecode(url.Replace("file:///","")));
 
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                     }
@@ -597,7 +635,7 @@ namespace Westwind.HtmlPackager
                         justFilename = DataUtils.GenerateUniqueId(10) + "." + ext;
                     urlContent = "url('" + justFilename + "')";
 
-                    File.WriteAllBytes(Path.Combine(OutputPath, justFilename), linkData);
+                    File.WriteAllBytes(Path.Combine(OutputPath, justFilename),linkData);
                 }
                 else
                 {
@@ -605,7 +643,7 @@ namespace Westwind.HtmlPackager
                     urlContent = "url('" + data + "')";
                 }
 
-                html = html.Replace(matched, urlContent);
+                html = html.Replace(matched, urlContent);                
             }
 
             return html;

@@ -491,7 +491,8 @@ namespace MarkdownMonster
                     Filter =
                         "Raw Html Output only (Html Fragment)|*.html|" +
                         "Self contained Html File with embedded Styles and Images|*.html|" +
-                        "Html Page with loose Assets in a Folder|*.html",             
+                        "Html Page with loose Assets in a Folder|*.html|" +
+                        "Zip Archive of HTML Page  with loose Assets in a Folder|*.zip",
                     FilterIndex = 1,
                     InitialDirectory = folder,
                     FileName = Path.ChangeExtension(doc.MarkdownDocument.Filename, "html"),
@@ -535,11 +536,23 @@ namespace MarkdownMonster
 
                         ShellUtils.OpenFileInExplorer(sd.FileName);
                         Model.Window.ShowStatus("Raw HTML File created.", mmApp.Configuration.StatusMessageTimeout);
-                    }                    
-                    else
-                    {
+                        return;
+                    }
 
-                        if (doc.MarkdownDocument.RenderHtmlToFile(usePragmaLines: false,
+
+
+
+                    try
+                    {
+                        Model.Window.ShowStatus("Packing HTML File. This can take a little while.",
+                            mmApp.Configuration.StatusMessageTimeout, FontAwesomeIcon.CircleOutlineNotch,
+                            color: Colors.Goldenrod, spin: true);
+                        bool packageResult = false;
+
+                        var packager = new HtmlPackager();
+
+
+                        if (sd.FilterIndex != 4 && doc.MarkdownDocument.RenderHtmlToFile(usePragmaLines: false,
                                 renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal,
                                 filename: sd.FileName) == null)
                         {
@@ -548,52 +561,55 @@ namespace MarkdownMonster
                                 "Unable to save Document", MessageBoxButton.OK, MessageBoxImage.Warning);
                             SaveAsHtmlCommand.Execute(null);
                             return;
+
                         }
 
-                        try
+                        if (sd.FilterIndex == 2) // single file
                         {
-                            Model.Window.ShowStatus("Packing HTML File. This can take a little while.",
-                                mmApp.Configuration.StatusMessageTimeout, FontAwesomeIcon.CircleOutlineNotch,
-                                color: Colors.Goldenrod, spin: true);
-                            
-                            var packager = new HtmlPackager();
+                            var basePath = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
+                            packageResult = packager.PackageHtmlToFile(sd.FileName, sd.FileName, basePath);
+                        }
+                        if (sd.FilterIndex == 4)
+                        {
+                            // render in-place in the standard preview location
+                            doc.MarkdownDocument.RenderHtmlToFile(usePragmaLines: false,
+                                renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
 
-                            bool packageResult;
-                            if (sd.FilterIndex == 2)
-                            {
-                                var basePath = Path.GetDirectoryName(doc.MarkdownDocument.Filename);                                
-                                packageResult = packager.PackageHtmlToFile(sd.FileName, sd.FileName, basePath);
-                            }
-                            else
-                            {
-                                folder = Path.GetDirectoryName(sd.FileName);
-                                if (Directory.GetFiles(folder).Any() &&                               
-                                    MessageBox.Show("The Html file and resources will be generated here:\r\n\r\n" +
-                                                    $"Folder: {folder}\r\n" +
-                                                    $"File: {Path.GetFileName(sd.FileName)}\r\n\r\n" +
-                                                    "Files already exist in this folder." +
-                                                    "Are you sure you want to generate Html and resources here?",
-                                        "Save As Html file with Loose Resources",
-                                        MessageBoxButton.YesNo,MessageBoxImage.Question,MessageBoxResult.Yes) == MessageBoxResult.No)
-                                        return;
-                                
-                                packageResult = packager.PackageHtmlToFolder(sd.FileName, sd.FileName);
-                            }
+                            var basePath = Path.GetDirectoryName(doc.MarkdownDocument.Filename);                            
+                            packageResult = packager.PackageHtmlToZipFile(doc.MarkdownDocument.HtmlRenderFilename, sd.FileName, basePath);
+                        }
 
-                            if (packageResult)
-                                ShellUtils.OpenFileInExplorer(sd.FileName);                          
-                        }
-                        catch (Exception ex)
+                        else if (sd.FilterIndex == 3) // directory
                         {
-                            MessageBox.Show(Model.Window, "Couldn't package HTML file:\r\n\r\n" + ex.Message,
-                                "Couldn't create HTML Package File");                            
+                            folder = Path.GetDirectoryName(sd.FileName);
+                            if (Directory.GetFiles(folder).Any() &&
+                                MessageBox.Show("The Html file and resources will be generated here:\r\n\r\n" +
+                                                $"Folder: {folder}\r\n" +
+                                                $"File: {Path.GetFileName(sd.FileName)}\r\n\r\n" +
+                                                "Files already exist in this folder." +
+                                                "Are you sure you want to generate Html and resources here?",
+                                    "Save As Html file with Loose Resources",
+                                    MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) ==
+                                MessageBoxResult.No)
+                                return;
+
+                            packageResult = packager.PackageHtmlToFolder(sd.FileName, sd.FileName);
                         }
-                        finally
-                        {
-                            Model.Window.ShowStatus();
-                            Model.Window.ShowStatus("Packaged HTML File created.",
-                                mmApp.Configuration.StatusMessageTimeout);
-                        }
+
+
+                        if (packageResult)
+                            ShellUtils.OpenFileInExplorer(sd.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(Model.Window, "Couldn't package HTML file:\r\n\r\n" + ex.Message,
+                            "Couldn't create HTML Package File");
+                    }
+                    finally
+                    {
+                        Model.Window.ShowStatus();
+                        Model.Window.ShowStatus("Packaged HTML File created.",
+                            mmApp.Configuration.StatusMessageTimeout);
                     }
                 }
             }, (s, e) =>
