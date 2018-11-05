@@ -563,11 +563,6 @@ namespace MarkdownMonster
         /// </summary>
         public string LastFolder { get; set; }
 
-        /// <summary>
-        /// Last location where an image was opened.
-        /// </summary>
-        public string LastImageFolder { get; set; }
-
 	    
 
 	    /// <summary>

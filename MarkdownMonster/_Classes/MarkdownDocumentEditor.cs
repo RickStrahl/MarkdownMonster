@@ -116,6 +116,10 @@ namespace MarkdownMonster
         /// </summary>
         public bool IsReadOnly { get; set; }
 
+        /// <summary>
+        /// The last Image Folder used for this document
+        /// </summary>
+        public string LastImageFolder { get; set; }
 
         /// <summary>
         /// Determines if the the document is treated as a preview
@@ -1773,8 +1777,8 @@ namespace MarkdownMonster
                     if (!string.IsNullOrEmpty(MarkdownDocument.Filename) && MarkdownDocument.Filename != "untitled")
                     {
                         documentPath = Path.GetDirectoryName(MarkdownDocument.Filename);
-                        if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
-                            initialFolder = mmApp.Configuration.LastImageFolder;
+                        if (!string.IsNullOrEmpty(LastImageFolder))
+                            initialFolder = LastImageFolder;
                         else
                             initialFolder = documentPath;
                     }
@@ -1830,7 +1834,7 @@ namespace MarkdownMonster
                             try
                             {
                                 relPath = FileUtils.GetRelativePath(sd.FileName, documentPath);
-                                mmApp.Model.Configuration.LastImageFolder = Path.GetDirectoryName(sd.FileName);
+                                LastImageFolder = Path.GetDirectoryName(sd.FileName);
                             }
                             catch (Exception ex)
                             {
@@ -1869,9 +1873,9 @@ namespace MarkdownMonster
 
             if (ext == ".png" || ext == ".gif" || ext == ".jpg" || ext == ".jpeg" || ext == ".svg")
             {
-                var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+                var docPath = LastImageFolder;                
                 if (string.IsNullOrEmpty(docPath))
-                    docPath = mmApp.Configuration.LastImageFolder;
+                    docPath = Path.GetDirectoryName(MarkdownDocument.Filename); 
 
                 // if lower than 1 level down off base path ask to save the file
                 string relFilePath = FileUtils.GetRelativePath(file, docPath);
@@ -1897,6 +1901,8 @@ namespace MarkdownMonster
                     relFilePath = FileUtils.GetRelativePath(sd.FileName, docPath);
 
                     File.Copy(file, sd.FileName, true);
+
+                    LastImageFolder = Path.GetDirectoryName(sd.FileName);
                 }
 
                 if (!relFilePath.Contains(":\\"))

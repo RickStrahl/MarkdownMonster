@@ -228,9 +228,10 @@ namespace MarkdownMonster.Windows
                 string documentFolder = null;
                 if (!string.IsNullOrEmpty(Document.Filename) && Document.Filename != "untitled")                
                 {
+                    
                     documentFolder = Path.GetDirectoryName(Document.Filename);
-                    if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
-                        initialFolder = mmApp.Configuration.LastImageFolder;
+                    if (!string.IsNullOrEmpty(Editor.LastImageFolder))
+                        initialFolder = Editor.LastImageFolder;
                     else
                         initialFolder = documentFolder;
                 }
@@ -282,7 +283,10 @@ namespace MarkdownMonster.Windows
                         return;
                     }
 
+                    
                     string relPath = Path.GetDirectoryName(sd.FileName);
+                    Editor.LastImageFolder = relPath;
+
                     if (documentFolder != null)
                     {
                         try
@@ -398,8 +402,8 @@ namespace MarkdownMonster.Windows
                 Title = "Embed Image"
             };
 
-            if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
-                fd.InitialDirectory = mmApp.Configuration.LastImageFolder;
+            if (!string.IsNullOrEmpty(Editor.LastImageFolder))
+                fd.InitialDirectory = Editor.LastImageFolder;           
             else if (!string.IsNullOrEmpty(MarkdownFile))
                 fd.InitialDirectory = Path.GetDirectoryName(MarkdownFile);
             else
@@ -409,7 +413,9 @@ namespace MarkdownMonster.Windows
             if (res == null || !res.Value)
                 return;
 
+
             Image = fd.FileName;
+            Editor.LastImageFolder = Path.GetDirectoryName(fd.FileName);
 
             if (PasteAsBase64Content)
             {
@@ -479,6 +485,7 @@ namespace MarkdownMonster.Windows
                             try
                             {
                                 File.Copy(fd.FileName, sd.FileName, true);
+                                Editor.LastImageFolder = Path.GetDirectoryName(sd.FileName);
                             }
                             catch (Exception ex)
                             {
@@ -513,9 +520,7 @@ namespace MarkdownMonster.Windows
 
             SetImagePreview("file:///" + fd.FileName);
 
-            IsMemoryImage = false;
-
-            mmApp.Configuration.LastImageFolder = Path.GetDirectoryName(fd.FileName);
+            IsMemoryImage = false;            
             TextImageText.Focus();
         }
 
