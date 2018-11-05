@@ -120,18 +120,21 @@ namespace MarkdownMonster.Windows
                         FontAwesomeIcon.CheckCircleOutline);
                 }
                 else
-                {                    
-                    CommitModel.GetRepositoryChanges();
-                    if (CommitModel.RepositoryStatusItems.Count < 1)
+                {
+                    Dispatcher.Invoke(() =>
                     {
-                        Close();
-                        AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",
-                            mmApp.Configuration.StatusMessageTimeout);
-                    }
-                    else
-                        StatusBar.ShowStatus("Files have been committed in the local repository.",
-                            mmApp.Configuration.StatusMessageTimeout,
-                            FontAwesomeIcon.CheckCircleOutline);
+                        CommitModel.GetRepositoryChanges();
+                        if (CommitModel.RepositoryStatusItems.Count < 1)
+                        {
+                            Close();
+                            AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",
+                                mmApp.Configuration.StatusMessageTimeout);
+                        }
+                        else
+                            StatusBar.ShowStatus("Files have been committed in the local repository.",
+                                mmApp.Configuration.StatusMessageTimeout,
+                                FontAwesomeIcon.CheckCircleOutline);
+                    }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
                 }
 
@@ -161,15 +164,15 @@ namespace MarkdownMonster.Windows
                 }
                 else
                 {
-                    // reload settings                    
-                    CommitModel.GetRepositoryChanges();
-                    if (CommitModel.RepositoryStatusItems.Count < 1)
+                    Dispatcher.Invoke(() =>
                     {
-                        Close();
-                        AppModel.Window.ShowStatusSuccess("Files have been committed and pushed to the remote.");
-                    }
-                    else
-                        StatusBar.ShowStatusSuccess("Files have been committed and pushed to the remote.");                    
+                        // reload settings                    
+                        CommitModel.GetRepositoryChanges();
+                        if (CommitModel.RepositoryStatusItems.Count < 1)
+                            Close();
+                    }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+
+                    StatusBar.ShowStatusSuccess("Files have been committed and pushed to the remote.");                    
                 }
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
