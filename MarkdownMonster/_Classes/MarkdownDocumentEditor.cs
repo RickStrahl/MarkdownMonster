@@ -1769,8 +1769,15 @@ namespace MarkdownMonster
                     }
 
                     string initialFolder = null;
+                    string documentPath = null;
                     if (!string.IsNullOrEmpty(MarkdownDocument.Filename) && MarkdownDocument.Filename != "untitled")
-                        initialFolder = Path.GetDirectoryName(MarkdownDocument.Filename);
+                    {
+                        documentPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+                        if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
+                            initialFolder = mmApp.Configuration.LastImageFolder;
+                        else
+                            initialFolder = documentPath;
+                    }
 
                     var sd = new SaveFileDialog
                     {
@@ -1806,8 +1813,8 @@ namespace MarkdownMonster
                                 bitMap.Save(imagePath, format);
                                 bitMap.Dispose();
 
-                                if (ext == ".png")
-                                    mmFileUtils.OptimizePngImage(sd.FileName, 5); // async                            
+                                if (ext == ".png" || ext == ".jpeg")
+                                    mmFileUtils.OptimizeImage(sd.FileName); // async                            
                             }
                         }
                         catch (Exception ex)
@@ -1818,11 +1825,12 @@ namespace MarkdownMonster
                         }
 
                         string relPath = Path.GetDirectoryName(sd.FileName);
-                        if (initialFolder != null)
+                        if (documentPath != null)
                         {
                             try
                             {
-                                relPath = FileUtils.GetRelativePath(sd.FileName, initialFolder);
+                                relPath = FileUtils.GetRelativePath(sd.FileName, documentPath);
+                                mmApp.Model.Configuration.LastImageFolder = Path.GetDirectoryName(sd.FileName);
                             }
                             catch (Exception ex)
                             {
@@ -1840,6 +1848,7 @@ namespace MarkdownMonster
 
                         SetSelection($"![]({imagePath.Replace(" ", "%20")})");
 
+                        
 
                         // Force the browser to refresh completely so image changes show up
                         Window.PreviewBrowser.Refresh(true);

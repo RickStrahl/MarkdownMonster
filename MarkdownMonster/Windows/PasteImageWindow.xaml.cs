@@ -225,8 +225,15 @@ namespace MarkdownMonster.Windows
 
 
                 string initialFolder = null;
-                if (!string.IsNullOrEmpty(Document.Filename) && Document.Filename != "untitled")
-                    initialFolder = Path.GetDirectoryName(Document.Filename);
+                string documentFolder = null;
+                if (!string.IsNullOrEmpty(Document.Filename) && Document.Filename != "untitled")                
+                {
+                    documentFolder = Path.GetDirectoryName(Document.Filename);
+                    if (!string.IsNullOrEmpty(mmApp.Configuration.LastImageFolder))
+                        initialFolder = mmApp.Configuration.LastImageFolder;
+                    else
+                        initialFolder = documentFolder;
+                }
 
                 var sd = new SaveFileDialog
                 {
@@ -264,8 +271,8 @@ namespace MarkdownMonster.Windows
                                 encoder.Frames.Add(BitmapFrame.Create(ImagePreview.Source as BitmapSource));
                                 encoder.Save(fileStream);
 
-                                if (ext == ".png")
-                                    mmFileUtils.OptimizePngImage(sd.FileName, 5); // async
+                                if (ext == ".png" || ext == ".jpeg")
+                                    mmFileUtils.OptimizeImage(sd.FileName); // async
                             }
                         }
                     }
@@ -276,11 +283,11 @@ namespace MarkdownMonster.Windows
                     }
 
                     string relPath = Path.GetDirectoryName(sd.FileName);
-                    if (initialFolder != null)
+                    if (documentFolder != null)
                     {
                         try
                         {
-                            relPath = FileUtils.GetRelativePath(sd.FileName, initialFolder);
+                            relPath = FileUtils.GetRelativePath(sd.FileName, documentFolder);
                         }
                         catch (Exception ex)
                         {
