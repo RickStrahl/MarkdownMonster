@@ -314,12 +314,17 @@ namespace MarkdownMonster
                     return;
 
                 var filename = doc.MarkdownDocument.Filename;
-                var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
+                var folder = mmApp.Configuration.LastFolder;                
+                if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+                {
+                    folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
+                    if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+                        folder = KnownFolders.GetPath(KnownFolder.Libraries);
+                }
+
 
                 if (filename == "untitled")
-                {
-                    folder = mmApp.Configuration.LastFolder;
-
+                {                    
                     var match = Regex.Match(doc.GetMarkdown(), @"^# (\ *)(?<Header>.+)", RegexOptions.Multiline);
 
                     if (match.Success)
@@ -329,16 +334,8 @@ namespace MarkdownMonster
                             filename = FileUtils.SafeFilename(filename);
                     }
                 }
-
-                if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
-                {
-                    folder = mmApp.Configuration.LastFolder;
-                    if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
-                        folder = KnownFolders.GetPath(KnownFolder.Libraries);
-                }
-
-
-                SaveFileDialog sd = new SaveFileDialog
+                
+                var sd = new SaveFileDialog
                 {
                     FilterIndex = 1,
                     InitialDirectory = folder,
