@@ -313,7 +313,10 @@ namespace MarkdownMonster
         /// </summary>
         public int LastEditorLineNumber { get; set; }
 
-        
+        /// <summary>
+        /// The last Image Folder used for this document
+        /// </summary>
+        public string LastImageFolder { get; set; }
 
         /// <summary>
         /// Holds the actively edited Markdown text

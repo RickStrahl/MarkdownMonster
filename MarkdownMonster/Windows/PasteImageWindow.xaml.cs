@@ -230,8 +230,8 @@ namespace MarkdownMonster.Windows
                 {
                     
                     documentFolder = Path.GetDirectoryName(Document.Filename);
-                    if (!string.IsNullOrEmpty(Editor.LastImageFolder))
-                        initialFolder = Editor.LastImageFolder;
+                    if (!string.IsNullOrEmpty(Document.LastImageFolder))
+                        initialFolder = Document.LastImageFolder;
                     else
                         initialFolder = documentFolder;
                 }
@@ -285,7 +285,7 @@ namespace MarkdownMonster.Windows
 
                     
                     string relPath = Path.GetDirectoryName(sd.FileName);
-                    Editor.LastImageFolder = relPath;
+                    Document.LastImageFolder = relPath;
 
                     if (documentFolder != null)
                     {
@@ -402,8 +402,8 @@ namespace MarkdownMonster.Windows
                 Title = "Embed Image"
             };
 
-            if (!string.IsNullOrEmpty(Editor.LastImageFolder))
-                fd.InitialDirectory = Editor.LastImageFolder;           
+            if (!string.IsNullOrEmpty(Document.LastImageFolder))
+                fd.InitialDirectory = Document.LastImageFolder;           
             else if (!string.IsNullOrEmpty(MarkdownFile))
                 fd.InitialDirectory = Path.GetDirectoryName(MarkdownFile);
             else
@@ -415,7 +415,7 @@ namespace MarkdownMonster.Windows
 
 
             Image = fd.FileName;
-            Editor.LastImageFolder = Path.GetDirectoryName(fd.FileName);
+            Document.LastImageFolder = Path.GetDirectoryName(fd.FileName);
 
             if (PasteAsBase64Content)
             {
@@ -485,7 +485,7 @@ namespace MarkdownMonster.Windows
                             try
                             {
                                 File.Copy(fd.FileName, sd.FileName, true);
-                                Editor.LastImageFolder = Path.GetDirectoryName(sd.FileName);
+                                Document.LastImageFolder = Path.GetDirectoryName(sd.FileName);
                             }
                             catch (Exception ex)
                             {

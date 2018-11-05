@@ -116,10 +116,6 @@ namespace MarkdownMonster
         /// </summary>
         public bool IsReadOnly { get; set; }
 
-        /// <summary>
-        /// The last Image Folder used for this document
-        /// </summary>
-        public string LastImageFolder { get; set; }
 
         /// <summary>
         /// Determines if the the document is treated as a preview
@@ -1772,14 +1768,12 @@ namespace MarkdownMonster
                         return;
                     }
 
-                    string initialFolder = null;
+                    string initialFolder = MarkdownDocument.LastImageFolder;
                     string documentPath = null;
                     if (!string.IsNullOrEmpty(MarkdownDocument.Filename) && MarkdownDocument.Filename != "untitled")
                     {
                         documentPath = Path.GetDirectoryName(MarkdownDocument.Filename);
-                        if (!string.IsNullOrEmpty(LastImageFolder))
-                            initialFolder = LastImageFolder;
-                        else
+                        if (string.IsNullOrEmpty(initialFolder))
                             initialFolder = documentPath;
                     }
 
@@ -1797,6 +1791,7 @@ namespace MarkdownMonster
                     var result = sd.ShowDialog();
                     if (result != null && result.Value)
                     {
+                        
                         imagePath = sd.FileName;
                         var ext = Path.GetExtension(imagePath)?.ToLower();
 
@@ -1828,13 +1823,13 @@ namespace MarkdownMonster
                             return;
                         }
 
+                        MarkdownDocument.LastImageFolder = Path.GetDirectoryName(sd.FileName);
                         string relPath = Path.GetDirectoryName(sd.FileName);
                         if (documentPath != null)
                         {
                             try
                             {
-                                relPath = FileUtils.GetRelativePath(sd.FileName, documentPath);
-                                LastImageFolder = Path.GetDirectoryName(sd.FileName);
+                                relPath = FileUtils.GetRelativePath(sd.FileName, documentPath);                                
                             }
                             catch (Exception ex)
                             {
@@ -1873,7 +1868,7 @@ namespace MarkdownMonster
 
             if (ext == ".png" || ext == ".gif" || ext == ".jpg" || ext == ".jpeg" || ext == ".svg")
             {
-                var docPath = LastImageFolder;                
+                var docPath = MarkdownDocument.LastImageFolder;                
                 if (string.IsNullOrEmpty(docPath))
                     docPath = Path.GetDirectoryName(MarkdownDocument.Filename); 
 
@@ -1902,7 +1897,7 @@ namespace MarkdownMonster
 
                     File.Copy(file, sd.FileName, true);
 
-                    LastImageFolder = Path.GetDirectoryName(sd.FileName);
+                    MarkdownDocument.LastImageFolder = Path.GetDirectoryName(sd.FileName);
                 }
 
                 if (!relFilePath.Contains(":\\"))
