@@ -6,14 +6,18 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.13.8
-<small>October 31st, 2018</small>
+
+### 1.13.9
+<small>November 6th, 2018</small>
 
 * **Improve Favorite Editing**  
 Favorite items now have an improved editor that uses less space and uses icons on the favorites title bar. Save and cancel operations are fired off the RETURN and ESC keys respectively.
 
+* **Per Document LastImageFolder Setting**  
+When images are saved the last image folder is now saved with the internal document settings updated and each document has its own folder it tracks, which means multiple windows can each have their own image save locations which is useful when working on multiple unrelated documents. Previously there was a global setting for this. The default is the same location as the document when the last image folder is not set.
+
 * **Updated Image Optimization for pasted and file images**  
-Updated image optimization by using new Pingo tool to optimize images. Pingo is significantly faster at optimization and reduces size considerably more than the old optipng based implementation. We now also optimize jpeg images.
+Updated image optimization by using new [Pingo tool](https://css-ig.net/pingo) to optimize images. Pingo is significantly faster at optimization and reduces size considerably more than the old [optipng](http://optipng.sourceforge.net/) based implementation. We now also optimize jpeg images thanks to Pingo.
 
 * **Fix: Image relative Paths**  
 Fixed bug that wouldn't properly create a relative path for pasted images - the relative path would always revert to the current path of the document. Paths are now properly adjusted.
@@ -27,14 +31,21 @@ Fix a number of issues with two-way editor preview syncing, that would cause exc
 * **Fix: Additional Error handling logic**  
 Added additional error handling logic to capture errors that would simply exit MM. Additional error handlers have been added to handle most error scenarios. Also improves ability to continue running in the current state for many errors without an explicit shutdown.
 
-* **Fixed: Document Outline Rendering**  
+* **Fix: Document Outline Rendering**  
 Fix document outine nesting levels by parsing original Markdown text and levels. Outline can now properly skip outline levels and properly deals with headers in sub-components like block quotes or definition lists.
 
-* **Fixed: Silent Shutdowns**  
+* **Fix: Silent Shutdowns**  
 Fixed issue where occasional crashes would shut down MM without any messages or errors or log entries. Regression in error handling logic. Added extra error handling that should capture more unhandled hard errors than before.
 
+* **Fix: Tab Close Button Sizing**  
+Fix invalid sizing of the tab close button.
+
+* **Fix: Folder Browser New Folder Double Display**  
+Fixed issue with new folders in folder browser showing two items.
+
+
 ### 1.13.4 
-<small>October 10th, 2018</small>
+<small>October 19th, 2018</small>
 
 * **Improved CSV Imports to Table Markdown**  
 Added an additional dialog that allows importing CSV from file or the clipboard (ie. Excel or other spreadsheet Copy). You can now also specify/override the CSV delimiter.
