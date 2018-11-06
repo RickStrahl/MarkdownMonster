@@ -195,10 +195,8 @@ namespace MarkdownMonster.Windows
         /// <returns></returns>
 	    public PathItem FindPathItemByFilename(PathItem parent, string fullName)
         {
-            string lowerFullName = fullName.ToLowerInvariant();
-
             // check for root folder match
-            if (parent.FullPath.ToLowerInvariant() == lowerFullName)
+            if (parent.FullPath.Equals(fullName, StringComparison.InvariantCultureIgnoreCase))
                 return parent;
 
             // Files first for perf
@@ -206,13 +204,16 @@ namespace MarkdownMonster.Windows
             {
                 if (string.IsNullOrEmpty(item.FullPath)) continue; // prevent placeholder errors
 
-                if (item.FullPath.ToLowerInvariant() == lowerFullName)
+                if (item.FullPath.Equals(fullName, StringComparison.InvariantCultureIgnoreCase))
                     return item;
             }
 
             // then directories recursively
             foreach (var item in parent.Files.Where(pi => !pi.IsFile))
             {
+                if (item.FullPath.Equals(fullName,StringComparison.InvariantCultureIgnoreCase))
+                    return item;
+
                 if (item.IsFolder && item.Files != null && item.Files.Count > 0)
 	            {
 	                var childItem = FindPathItemByFilename(item, fullName);

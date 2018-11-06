@@ -740,8 +740,19 @@ namespace MarkdownMonster.Windows
                             AppModel.Window.ShowStatusError($"Can't create folder {newPath} because it exists already.");
                             return;
                         }
+
+                        fileItem.IsEditing = false;
+                        var parent = fileItem.Parent;
+                        parent.Files.Remove(fileItem);
+                        
                         fileItem.FullPath = newPath;
-                        Directory.CreateDirectory(newPath);
+                        FolderStructure.InsertPathItemInOrder(fileItem, parent);
+
+                        Dispatcher.Invoke(() => { 
+                            Directory.CreateDirectory(newPath);
+                            fileItem.UpdateGitFileStatus();
+                        },DispatcherPriority.ApplicationIdle);
+
                     }
                 }
                 catch
@@ -777,6 +788,7 @@ namespace MarkdownMonster.Windows
                         File.WriteAllText(newPath, "");
                         fileItem.UpdateGitFileStatus();
 
+                        
                         var parent = fileItem.Parent;
                         fileItem.Parent.Files.Remove(fileItem);
 
