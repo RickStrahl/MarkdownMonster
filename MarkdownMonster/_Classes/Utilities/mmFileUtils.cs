@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster.Annotations;
@@ -226,25 +227,33 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="imageFilename"></param>
         /// <param name="imageQuality">Optional image quality. If not specified auto is used</param>
-        public static void OptimizeImage(string imageFilename, int imageQuality=0)
+        public static void OptimizeImage(string imageFilename, int imageQuality=0, Action<bool> onComplete = null)
         {
             try
             {
+                string exec = Path.Combine(App.InitialStartDirectory, "pingo.exe");
+                string args;
+
                 ProcessStartInfo pi = null;
                 if (imageQuality > 0)
                 {
-                     pi = new ProcessStartInfo(Path.Combine(App.InitialStartDirectory, "pingo.exe"),
-                        $"-auto={imageQuality} \"" + imageFilename + "\"");
+                    args = $"-auto={imageQuality} \"" + imageFilename + "\"";
                 }
                 else
                 {
-                    pi = new ProcessStartInfo(Path.Combine(App.InitialStartDirectory, "pingo.exe"),
-                        "-auto \"" + imageFilename + "\"");
+                    args = "auto \"" + imageFilename + "\"";
                 }
-
-                pi.WindowStyle = ProcessWindowStyle.Hidden;
-                pi.WorkingDirectory = Environment.CurrentDirectory;
-                Process.Start(pi);
+                
+                if (onComplete != null)
+                {
+                    Task.Run(() =>
+                    {
+                        int result =  ShellUtils.ExecuteProcess(exec, args, 30000, ProcessWindowStyle.Hidden);
+                        onComplete(result == 0);
+                    }).GetAwaiter();
+                }
+                else
+                    ShellUtils.ExecuteProcess(exec, args, 0, ProcessWindowStyle.Hidden);
             }
             catch { }
         }

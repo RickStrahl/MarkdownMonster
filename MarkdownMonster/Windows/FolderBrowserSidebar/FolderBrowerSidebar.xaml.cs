@@ -977,6 +977,12 @@ namespace MarkdownMonster.Windows
                 ci.Header = "Edit Image";
                 ci.Click += MenuEditImage_Click;
                 cm.Items.Add(ci);
+
+                ci = new MenuItem();
+                ci.Header = "Optimize Image";
+                ci.Click += MenuOptimizeImage_Click;
+                cm.Items.Add(ci);
+
             }
             else
             {
@@ -1419,6 +1425,38 @@ namespace MarkdownMonster.Windows
                 return;
 
             mmFileUtils.OpenImageInImageEditor(selected.FullPath);
+        }
+
+        private void MenuOptimizeImage_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+            if (selected == null)
+                return;
+
+            long filesize = new FileInfo(selected.FullPath).Length;
+            Window.ShowStatusProgress("Optimizing image " + selected.FullPath, 10000);
+
+            mmFileUtils.OptimizeImage(selected.FullPath,0,new Action<bool>((res) =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    var fi = new FileInfo(selected.FullPath);                    
+                    long filesize2 = fi.Length;
+                    
+                    decimal diff = 0;
+                    if (filesize2 < filesize)
+                        diff = (Convert.ToDecimal(filesize2) / Convert.ToDecimal(filesize)) * 100 ;
+                    if (diff > 0)
+                    {
+                        mmApp.Model.Window.ShowStatusSuccess($"Image size reduced by {(100 - diff):n2}%. New size: {(Convert.ToDecimal(filesize2) / 1000):n1}kb");
+                        Window.OpenBrowserTab(selected.FullPath,isImageFile: true);
+                    }
+                    else
+                        mmApp.Model.Window.ShowStatusError("Image optimization couldn't improve image size.",5000);
+                },DispatcherPriority.ApplicationIdle);
+            }));
+            
+
         }
 
         #endregion

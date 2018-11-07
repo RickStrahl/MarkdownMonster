@@ -209,8 +209,8 @@ namespace MarkdownMonster.Windows
             }
 
             // then directories recursively
-            foreach (var item in parent.Files.Where(pi => !pi.IsFile))
-            {
+            foreach (var item in parent.Files.Where(pi => pi.IsFolder))
+            {                
                 if (item.FullPath.Equals(fullName,StringComparison.InvariantCultureIgnoreCase))
                     return item;
 
