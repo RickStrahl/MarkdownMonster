@@ -1297,7 +1297,8 @@ namespace MarkdownMonster
                 if (changes.Count < 1)
                     Model.Window.ShowStatusError($"There are no pending changes for this Git repository: {repo.Info.WorkingDirectory}");
 
-                Model.ActiveEditor.SaveDocument(Model.ActiveDocument.IsEncrypted);
+                if (Model.ActiveEditor != null)
+                    Model.ActiveEditor.SaveDocument(Model.ActiveDocument.IsEncrypted);
 
                 var form = new GitCommitDialog(file, false); // GitCommitFormModes.ActiveDocument);
                 form.Show();

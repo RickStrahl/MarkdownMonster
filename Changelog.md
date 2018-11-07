@@ -6,6 +6,12 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.13.10
+<small>not released yet</small>
+
+* **Optimize Image on Folder Browser Menu**  
+A new menu for images allows optimizing images using Pinga which optimizes PNG and JPEG images very quickly. Can produce quite radical image size improvements with minimal loss of quality.
+
 
 ### 1.13.9
 <small>November 6th, 2018</small>
