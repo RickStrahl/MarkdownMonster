@@ -98,7 +98,8 @@
                       Margin="20,30">
             <mmwindows:GridTable x:Name="DataGridTableEditor">
                 <mmwindows:GridTable.Resources>
-                    <Style TargetType="TextBox"  BasedOn="{StaticResource MetroTextBox}">
+                    <Style TargetType="TextBox">
+                        <!--BasedOn="{StaticResource MetroTextBox}">-->
                         <Setter Property="Padding" Value="8"/>
                         <Setter Property="Margin" Value="0,0,0,0"/>
                         <Setter Property="BorderThickness" Value="1"/>

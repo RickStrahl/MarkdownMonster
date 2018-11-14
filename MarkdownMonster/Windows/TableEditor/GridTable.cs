@@ -40,6 +40,9 @@ namespace MarkdownMonster.Windows
         public static readonly DependencyProperty TableSourceProperty =
             DependencyProperty.Register("TableSource", typeof(ObservableCollection<ObservableCollection<CellContent>>), typeof(GridTable), new PropertyMetadata(null, TableSourceChanged));
 
+        private Size _lastMeasureSize = Size.Empty;
+        private Size _lastArrangeSize = Size.Empty;
+
         internal bool PreventRecursiveUpdates { get; set; } = false;
 
         private static void TableSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -51,17 +54,19 @@ namespace MarkdownMonster.Windows
 
             table.RepopulateChildren(data);
 
-            data.CollectionChanged += (s, e2) =>
-            {
-                if (!table.PreventRecursiveUpdates)
-                    table.RepopulateChildren(data);
-            };
-            foreach (var row in data)
-                row.CollectionChanged += (s, e2) =>
-                {
-                    if (!table.PreventRecursiveUpdates)
-                        table.RepopulateChildren(data);
-                };
+            //data.CollectionChanged += (s, e2) =>
+            //{
+
+            //    Debug.WriteLine("Collection Changed...");
+            //    if (!table.PreventRecursiveUpdates)
+            //        table.RepopulateChildren(data);
+            //};
+            //foreach (var row in data)
+            //    row.CollectionChanged += (s, e2) =>
+            //    {
+            //        if (!table.PreventRecursiveUpdates)
+            //            table.RepopulateChildren(data);
+            //    };
         }
 
         private void RepopulateChildren(ObservableCollection<ObservableCollection<CellContent>> data)
@@ -91,14 +96,14 @@ namespace MarkdownMonster.Windows
 
                 var columnText = NewTextBox();
                 columnText.Background = new BrushConverter().ConvertFromString("#777") as Brush;
-                columnText.Tag = new TablePosition { Column = columnCounter, Row = 0};
+                columnText.Tag = new TablePosition { Column = columnCounter, Row = 0 };
                 columnText.ContextMenu = contextMenu;
 
                 var binding = new Binding("Text") { Source = header };
                 columnText.SetBinding(TextBox.TextProperty, binding);
 
-                Children.Add(columnText);
                 Grid.SetColumn(columnText, columnCounter);
+                Children.Add(columnText);
 
                 columnCounter++;                
             }
@@ -121,7 +126,7 @@ namespace MarkdownMonster.Windows
                     var binding = new Binding("Text") { Source = column, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, Mode = BindingMode.TwoWay };
                     columnText.SetBinding(TextBox.TextProperty, binding);
 
-                    columnText.Text = column.Text;
+                    //columnText.Text = column.Text;
 
                     columnText.ContextMenu = contextMenu;
                     Grid.SetColumn(columnText, columnCounter);
@@ -133,7 +138,11 @@ namespace MarkdownMonster.Windows
                 }
                 rowCount++;
                 if (rowCount % 8 == 0)
+                {
+                    PreventRecursiveUpdates = false;
                     WindowUtilities.DoEvents();
+                    PreventRecursiveUpdates = true;
+                }
             }
 
             var lastText = Children.OfType<TextBox>().LastOrDefault();
@@ -161,8 +170,23 @@ namespace MarkdownMonster.Windows
             }
 
             PreventRecursiveUpdates = origRecursiveUpdates;
+            if (!PreventRecursiveUpdates) InvalidateVisual();
         }
-        
+
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            if (PreventRecursiveUpdates && _lastArrangeSize != Size.Empty) return arrangeSize;
+            _lastArrangeSize = base.ArrangeOverride(arrangeSize);
+            return _lastArrangeSize;
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            if (PreventRecursiveUpdates && _lastMeasureSize != Size.Empty) return _lastMeasureSize;
+            _lastMeasureSize = base.MeasureOverride(constraint);
+            return _lastMeasureSize;
+        }
+
         void KeyUpAndDownHandler(object o, KeyEventArgs args)
         {
             if (args.Key == Key.Up)
