@@ -104,7 +104,7 @@ var te = window.textEditor = {
                 if (!te.mm)
                     return;
 
-                te.mm.textbox.PreviewMarkdownCallback();
+                te.mm.textbox.PreviewMarkdownCallback(true);
 
                 // spellcheck - force recheck on next cycle
                 if (sc)
@@ -175,12 +175,11 @@ var te = window.textEditor = {
                     firstRow+=3;
 
                 // preview and highlight top of display
-                te.mm.textbox.PreviewMarkdownCallback(false,firstRow);
-            }, 10);
-            setTimeout(function () {
+                te.mm.textbox.PreviewMarkdownCallback(true, firstRow);
+
                 if (sc)
                     sc.contentModified = true;
-            }, 150);
+            }, 90);            
         },35);
         te.editor.session.on("changeScrollTop", changeScrollTop);
         return editor;
@@ -588,8 +587,11 @@ var te = window.textEditor = {
 
         return te.curStats;
     },
-    updateDocumentStats: function() {
-        te.mm.textbox.updateDocumentStats(te.getDocumentStats());
+    updateDocumentStats: function () {
+        setTimeout(function() {
+                te.mm.textbox.updateDocumentStats(te.getDocumentStats());
+            },
+            50);        
     },
     enablespellchecking: function (disable, dictionary) {
         if (dictionary)
