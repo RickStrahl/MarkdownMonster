@@ -195,8 +195,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                     // explicitly update the document with JavaScript code
                                     // much more efficient and non-jumpy and no wait cursor
                                     var window = dom.parentWindow;
-                                    window.updateDocumentContent(renderedHtml);
-
+                                    
                                     try
                                     {
                                         // scroll preview to selected line
@@ -204,15 +203,21 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                             PreviewSyncMode.EditorAndPreview ||
                                             mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
                                         {
-                                            if (editorLineNumber > -1)                                            
-                                                window.scrollToPragmaLine(editorLineNumber);                                            
-                                            else
+                                            int highlightLineNo = editorLineNumber;
+                                            if (editorLineNumber < 0)
                                             {
-                                                int lineno = editor.GetLineNumber();
-                                                if (lineno > -1)
-                                                    window.scrollToPragmaLine(lineno);
+                                                highlightLineNo = editor.GetLineNumber();
+                                                editorLineNumber = highlightLineNo;
                                             }
+                                            if (renderedHtml.Length < 80000)
+                                                highlightLineNo = 0; // no special handling render all code snippets
+
+                                            window.updateDocumentContent(renderedHtml,highlightLineNo);
+                                            window.scrollToPragmaLine(editorLineNumber);
                                         }
+                                        else
+                                            window.updateDocumentContent(renderedHtml);
+
                                     }
                                     catch
                                     {
