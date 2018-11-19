@@ -17,6 +17,7 @@ function initializeinterop(editor) {
 
     te.isPreviewEditorSync = te.mmEditor.isPreviewToEditorSync();
     scroll();    
+    
 }
 
 $(document).ready(function() {
@@ -112,22 +113,73 @@ var scroll = debounce(function (event) {
 },100);
 window.onscroll = scroll;
 
-function highlightCode() {
+function highlightCode(lineno) {    
+
     var pres = document.querySelectorAll("pre>code");
+    
+    // Try to find lineno in doc - if lineno is passed
+    // and render only those plus padding above and below
+    var linePos = 0;    
+    if (lineno && pres.length > 100) {
+        var $el = $("#pragma-line-" + lineno);
+        if ($el.length < 1) {            
+            for (var j = 0; j < 10; j++) {
+                if (lineno - j < 0)
+                    break;
+                var $el = $("#pragma-line-" + (lineno - j) );
+                if ($el.length > 0)
+                    break;
+            }            
+            if ($el.length < 1) {
+                for (var k = 0; k < 10; k++) {
+                    var $el = $("#pragma-line-" + (lineno + k) );
+                    if ($el.length > 0)
+                        break;
+                }
+            }
+        }        
+        if ($el.length > 0) {
+            linePos = $el.position().top;
+        }
+    }
+    //console.log("Line Pos:" + linePos + " " + lineno + " " + $el);
+    
     for (var i = 0; i < pres.length; i++) {
         var block = pres[i];
         var $code = $(block);
-        if ($code.hasClass("language-text") ||
+        
+        // too many code blocks to render or text/plain styles - just style        
+        if ( $code.hasClass("language-text") ||
             $code.hasClass("language-plain")) {
-                    $code.addClass("hljs");
-                    return;
+
+                $code.addClass("hljs");
+                continue;
         }
+
+        // render only matched lines that are in viewport + padding
+        if (linePos > 0) {
+            var top = $code.position().top;
+
+            if (top < linePos - 2000) {
+                console.log("Skipping smaller: " + top, linePos);
+                continue;
+            }
+            if (top > linePos + 2000) {
+                console.log("Breaking larger: " + top, linePos);
+                break;
+            }
+        }
+
         hljs.highlightBlock(block);
+
+        // This is better for perf but makes the preview jumpy
         //setTimeout(function(bl) {
         //    hljs.highlightBlock(bl);
         //}.bind(this, block));
     }
 }
+
+// this works, but async updates of code blocks is too jumpy
 //function highlightCodeWebWorker() {
 //    var script = document.getElementById("PreviewScript");
 
@@ -171,22 +223,21 @@ function highlightCode() {
 //        });
 //}
 
-function updateDocumentContent(html) {    
+function updateDocumentContent(html, lineno) {    
+    //console.log('update document content');
     te.isPreviewEditorSync = te.mmEditor.isPreviewToEditorSync();   
-    console.log("Assigning html before Timeout " + new Date().getTime());
-    setTimeout(function () {       
-        var el = document.getElementById("MainContent");
-        if (!el)
-            return;
-        el.innerHTML = html;
-        console.log("Done Assigning html " + new Date().getTime());
-        setTimeout(function() {
-            highlightCode();
-            //highlightCodeWebWorker();
-            console.log("Done Highlighting code " + new Date().getTime());
-        });        
-        
-    });
+    // console.log("Assigning html before Timeout " + new Date().getTime());
+    
+    var el = document.getElementById("MainContent");
+    if (!el)
+        return;
+    el.innerHTML = html;
+
+    //console.log("Done Assigning html " + new Date().getTime());
+    //console.log('update doc - line: ' + lineno);
+    highlightCode(lineno); //lineno);
+    //highlightCodeWebWorker();
+    //console.log("Done Highlighting code " + new Date().getTime());                
 }
 
 function scrollToPragmaLine(lineno) {
@@ -231,7 +282,7 @@ function scrollToPragmaLine(lineno) {
                 $("html").scrollTop($el.offset().top - 150); 
         }
         catch(ex) {  }
-    },80);
+    },20);
 }
 
 function status(msg,append) {
