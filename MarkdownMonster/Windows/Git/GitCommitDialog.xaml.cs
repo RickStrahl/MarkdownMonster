@@ -33,6 +33,7 @@ namespace MarkdownMonster.Windows
         public StatusBarHelper StatusBar { get; set; }
 
         #region Startup and Shutdown
+
         public GitCommitDialog(string fileOrPath, bool commitRepo = false)
         {
             InitializeComponent();
@@ -124,14 +125,7 @@ namespace MarkdownMonster.Windows
                     Dispatcher.Invoke(() =>
                     {
                         CommitModel.GetRepositoryChanges();
-                        if (CommitModel.RepositoryStatusItems.Count < 1)
-                        {
-                            Close();
-                            AppModel.Window.ShowStatus("Files have been committed and pushed to the remote.",
-                                mmApp.Configuration.StatusMessageTimeout);
-                        }
-                        else
-                            StatusBar.ShowStatus("Files have been committed in the local repository.",
+                        StatusBar.ShowStatus("Files have been committed in the local repository.",
                                 mmApp.Configuration.StatusMessageTimeout,
                                 FontAwesomeIcon.CheckCircleOutline);
                     }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
@@ -160,16 +154,13 @@ namespace MarkdownMonster.Windows
                 {
                     Close();
                     AppModel.Window.ShowStatusSuccess("Files have been committed and pushed to the remote.");
-
                 }
                 else
                 {
                     Dispatcher.Invoke(() =>
                     {
                         // reload settings                    
-                        CommitModel.GetRepositoryChanges();
-                        if (CommitModel.RepositoryStatusItems.Count < 1)
-                            Close();
+                        CommitModel.GetRepositoryChanges();                        
                     }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
 
                     StatusBar.ShowStatusSuccess("Files have been committed and pushed to the remote.");                    
