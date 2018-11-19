@@ -1396,6 +1396,61 @@ namespace MarkdownMonster
 
         #region Callback functions from the Html Editor
 
+        /// <summary>
+        /// Callback handler callable from JavaScript editor
+        /// </summary>
+        public void PreviewMarkdownCallback(bool dontGetMarkdown = false, int editorLineNumber = -1)
+        {
+            if (!dontGetMarkdown)
+                GetMarkdown();
+
+            //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") + "  - Preview Markdown  called");
+            
+            Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true, editorLineNumber: editorLineNumber);
+
+            var isDocumentOutlineActive = Window.SidebarContainer?.SelectedItem == Window.TabDocumentOutline;
+            if (isDocumentOutlineActive)
+                Window.UpdateDocumentOutline(editorLineNumber);
+
+            //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") +  " - No Preview Markdown  retrieve MD: " + dontGetMarkdown + " DocOutline Rendered: " +
+            //               isDocumentOutlineActive);
+        }
+
+        /// <summary>
+        /// Callback to force updating of the status bar document stats
+        /// </summary>
+        /// <param name="stats"></param>
+        public void UpdateDocumentStats(dynamic stats)
+        {
+            if (stats == null)
+            {
+                Window.StatusStats.Text = "";
+                return;
+            }
+
+            int words = Convert.ToInt32(stats.wordCount);
+            int lines = Convert.ToInt32(stats.lines);
+            int chars = Convert.ToInt32(stats.characters);
+
+            Window.StatusStats.Text = $"{words:n0} words   {lines:n0} lines   {chars:n0} chars";
+
+            string enc = string.Empty;
+            bool hasBom = true;
+            if (MarkdownDocument.Encoding.WebName == "utf-8")
+                hasBom = (bool) ReflectionUtils.GetField(MarkdownDocument.Encoding, "emitUtf8Identifier");
+
+            if (hasBom)
+            {
+                enc = MarkdownDocument.Encoding.EncodingName;
+                if (MarkdownDocument.Encoding == Encoding.UTF8)
+                    enc = "UTF-8";
+            }
+            else
+                enc = "UTF-8 (no BOM)";
+
+            Window.StatusEncoding.Text = enc;
+
+        }
 
         /// <summary>
         /// Sets the Markdown Document as having changes
@@ -1475,58 +1530,6 @@ namespace MarkdownMonster
             Window.ShowStatus(text, timeoutms);
         }
 
-
-
-        /// <summary>
-        /// Callback handler callable from JavaScript editor
-        /// </summary>
-        public void PreviewMarkdownCallback(bool dontGetMarkdown = false, int editorLineNumber = -1)
-        {
-            if (!dontGetMarkdown)
-                GetMarkdown();
-
-            Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true, editorLineNumber: editorLineNumber);
-
-            Window.UpdateDocumentOutline(editorLineNumber);
-
-            WindowUtilities.DoEvents();
-        }
-
-        /// <summary>
-        /// Callback to force updating of the status bar document stats
-        /// </summary>
-        /// <param name="stats"></param>
-        public void UpdateDocumentStats(dynamic stats)
-        {
-            if (stats == null)
-            {
-                Window.StatusStats.Text = "";
-                return;
-            }
-
-            int words = Convert.ToInt32(stats.wordCount);
-            int lines = Convert.ToInt32(stats.lines);
-            int chars = Convert.ToInt32(stats.characters);
-
-            Window.StatusStats.Text = $"{words:n0} words   {lines:n0} lines   {chars:n0} chars";
-
-            string enc = string.Empty;
-            bool hasBom = true;
-            if (MarkdownDocument.Encoding.WebName == "utf-8")
-                hasBom = (bool) ReflectionUtils.GetField(MarkdownDocument.Encoding, "emitUtf8Identifier");
-
-            if (hasBom)
-            {
-                enc = MarkdownDocument.Encoding.EncodingName;
-                if (MarkdownDocument.Encoding == Encoding.UTF8)
-                    enc = "UTF-8";
-            }
-            else
-                enc = "UTF-8 (no BOM)";
-
-            Window.StatusEncoding.Text = enc;
-
-        }
 
         /// <summary>
         /// Performs the special key operation that is tied
@@ -1695,7 +1698,11 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// Pre-processing for HREF link clicks in the Preview document
         /// 
+        /// .md documents are navigated by opening
+        /// http links are navigated with Shell browsers if PreviewExternal is enabled
+        /// Addins can intercept and if return true handle navigation completely.
         /// </summary>
         /// <param name="url"></param>
         /// <returns>true if the navigation is handled, false to continue letting app handle navigation</returns>
