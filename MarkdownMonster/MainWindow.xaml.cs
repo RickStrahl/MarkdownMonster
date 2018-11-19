@@ -1873,7 +1873,9 @@ namespace MarkdownMonster
 
         public void UpdateDocumentOutline(int editorLineNumber = -1)
         {
-            DocumentOutline?.RefreshOutline(editorLineNumber);
+            if(TabDocumentOutline != null &&
+               Equals(SidebarContainer?.SelectedItem, TabDocumentOutline))
+                DocumentOutline?.RefreshOutline(editorLineNumber);
         }
 
         public void OpenFavorites(bool noActivate = false)
