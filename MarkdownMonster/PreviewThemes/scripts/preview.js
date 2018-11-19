@@ -113,27 +113,79 @@ var scroll = debounce(function (event) {
 window.onscroll = scroll;
 
 function highlightCode() {
-    $("pre code")
-        .each(function (i, block) {
-            // handle special cases
-            var $code = $(block);
-            if ($code.hasClass("language-text") ||
-                $code.hasClass("language-none") ||
-                $code.hasClass("language-txt") ||
-                $code.hasClass("language-plain")) {
-                   $code.addClass("hljs");
+    var pres = document.querySelectorAll("pre>code");
+    for (var i = 0; i < pres.length; i++) {
+        var block = pres[i];
+        var $code = $(block);
+        if ($code.hasClass("language-text") ||
+            $code.hasClass("language-plain")) {
+                    $code.addClass("hljs");
                     return;
-            }
-
-            hljs.highlightBlock(block);
-        });
+        }
+        hljs.highlightBlock(block);
+        //setTimeout(function(bl) {
+        //    hljs.highlightBlock(bl);
+        //}.bind(this, block));
+    }
 }
+//function highlightCodeWebWorker() {
+//    var script = document.getElementById("PreviewScript");
+
+//    if (!script) {
+//        alert('PReviewScript tag not found');
+//        return;
+//    }
+
+//    script = script.src.replace("/preview.js", "/highlightJsWorker.js");
+//    console.log(script);
+    
+
+//    $("pre code")
+//        .each(function (i, block) {
+//            var $block = $(block);
+//            var code = $block.text().trimEnd();
+           
+//            console.log("worker loaded", worker);            
+
+//            var worker = new Worker(script);
+//            worker.onmessage = function (event) {                
+//                var result = event.data;
+//                console.log("Result: ", result.value);
+//                $block[0].outerHTML =
+//                    '<code class="language-javascript" id="pragma-line-8">' + result.value + '</code>'; //html( result.value );
+
+//                worker.terminate();
+//                console.log("done in web worker response");
+//            };
+//            var lang = $block.attr("class");
+//            if (lang)
+//                lang = lang.replace("language-", "");
+
+//            var d = {
+//                code: code,
+//                lang: lang,
+//                script: script.replace("/highlightJsWorker.js", "/highlightjs/highlight.pack.js")
+//            };            
+//            worker.postMessage(d);
+//            console.log("PostMessage called", d);
+//        });
+//}
 
 function updateDocumentContent(html) {    
     te.isPreviewEditorSync = te.mmEditor.isPreviewToEditorSync();   
-    setTimeout(function () { 
-        $("#MainContent").html(html);
-        highlightCode();
+    console.log("Assigning html before Timeout " + new Date().getTime());
+    setTimeout(function () {       
+        var el = document.getElementById("MainContent");
+        if (!el)
+            return;
+        el.innerHTML = html;
+        console.log("Done Assigning html " + new Date().getTime());
+        setTimeout(function() {
+            highlightCode();
+            //highlightCodeWebWorker();
+            console.log("Done Highlighting code " + new Date().getTime());
+        });        
+        
     });
 }
 
@@ -241,5 +293,11 @@ function debounce(func, wait, immediate) {
         if (callNow)
             func.apply(context, args);
     };
+}; 
+
+String.prototype.trimEnd = function (c) {
+    if (c)
+        return this.replace(new RegExp(c.escapeRegExp() + "*$"), '');
+    return this.replace(/\s+$/, '');
 };
 
