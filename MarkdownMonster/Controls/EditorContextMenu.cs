@@ -100,6 +100,7 @@ namespace MarkdownMonster
                 {
                     model.ActiveEditor.AceEditor.replaceSpellRange(range, sg);
                     model.ActiveEditor.IsDirty();
+                    model.ActiveEditor.AceEditor.spellcheckDocument(true);
                 };
                 ContextMenu.Items.Add(mi);
                 hasSuggestions = true;

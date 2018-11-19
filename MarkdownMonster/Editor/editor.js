@@ -68,14 +68,8 @@ var te = window.textEditor = {
 
         //set.$bidiHandler.setRtlDirection(editor, true);
 
-        //editor.setOptions({
-        //    enableBasicAutocompletion: true
-        //});
-        
         session.setNewLineMode("windows");
 
-       
-        
         editor.renderer.setPadding(15);
         editor.renderer.setScrollMargin(5, 5, 0, 0); // top,bottom,left,right
 
