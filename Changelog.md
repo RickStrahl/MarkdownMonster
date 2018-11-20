@@ -12,6 +12,20 @@
 * **Optimize Image on Folder Browser Menu**  
 A new menu for images allows optimizing images using Pinga which optimizes PNG and JPEG images very quickly. Can produce quite radical image size improvements with minimal loss of quality.
 
+* **Optimize Snippet Rendering in Large Documents**  
+When rendering very large documents (in excess of 300k) with lots of code snippets the preview becomes very slow due to the refresh overhead of rendering and then showing syntax highlighting. Added some optimizations to only render snippets that are visible and if there are more than 500 snippets don't do snippet highlighting. This doesn't solve the problem of very large document editing with preview active due to browser threading issues (IE locks WPF UI thread while rendering) but it does provide some relief for documents in the 300-500k range. Anything bigger it's recommended to turn off the preview.
+
+* **Miscellaneous Rendering Optimizations**  
+Remove various operations from the preview cycle that are unnecessary. Perform additional checks for active state for the Document Outline, Favorites and Folder Browser.
+
+* **Clean up Menu Command Bindings**  
+Cleaned up menu options by consolidating commands and ensuring consistent formatting. Added new shortcuts for toggle sidebar (Ctrl-Shift-B), View in Web Browser (Shift-F12), Toggle Previewer (F12). Keybindings are configurable, so to see the new formatting for shortcuts for existing key bindings you have to delete `MarkdownMonster-KeyBindings.json` in the config folder.
+
+* **Fix: Spellcheck Refresh**   
+Fix spell checker refresh after replacing a word in the document. Properly refresh the spell checked content immediately. Previously it took a keystroke or other remove operation to refresh the spell check error highlight.
+
+* **Fix: Git Commit Dialog Closing**  
+Fix dialog that is closing even if there are no more pending changes. This allows for performing other non-commit operations.
 
 ### 1.13.9
 <small>November 6th, 2018</small>
