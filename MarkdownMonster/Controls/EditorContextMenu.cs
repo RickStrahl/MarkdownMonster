@@ -141,23 +141,23 @@ namespace MarkdownMonster
             var selText = Model.ActiveEditor?.AceEditor?.getselection(false);
             var model = Model;
 
-            var miCut = new MenuItem { Header = "Cut", InputGestureText="ctrl-x" };
+            var miCut = new MenuItem { Header = "Cut", InputGestureText="Ctrl-X" };
             miCut.Click += (o, args) => model.ActiveEditor.SetSelection("");
             ContextMenu.Items.Add(miCut);
 
-            var miCopy = new MenuItem() { Header = "Copy", InputGestureText="ctrl-c" };
+            var miCopy = new MenuItem() { Header = "Copy", InputGestureText="Ctrl-C" };
             miCopy.Click += (o, args) =>
             {
                 ClipboardHelper.SetText(selText, true);
             };
             ContextMenu.Items.Add(miCopy);
 
-            var miCopyHtml = new MenuItem() { Header = "Copy As Html", InputGestureText="ctrl-shift-c" };
+            var miCopyHtml = new MenuItem() { Header = "Copy As Html", InputGestureText=Model.Commands.CopyAsHtmlCommand.KeyboardShortcut };
             miCopyHtml.Command = Model.Commands.CopyAsHtmlCommand;
             ContextMenu.Items.Add(miCopyHtml);
 
             bool hasClipboardData = false;
-            var miPaste = new MenuItem() { Header = "Paste", InputGestureText = "ctrl-v" };
+            var miPaste = new MenuItem() { Header = "Paste", InputGestureText = "Ctrl-V" };
             if (ClipboardHelper.ContainsImage())
             {
                 hasClipboardData = true;
@@ -208,13 +208,13 @@ namespace MarkdownMonster
             bool hasUndo = undoManager.hasUndo(false);
             bool hasRedo = undoManager.hasRedo(false);
 
-            var miUndo = new MenuItem { Header = "Undo", InputGestureText = "ctrl-z" };
+            var miUndo = new MenuItem { Header = "Undo", InputGestureText = "Ctrl-Z" };
             if (!hasUndo)
                 miUndo.IsEnabled = false;
             miUndo.Click += (o, args) => Model.ActiveEditor.AceEditor.editor.undo(false);
             ContextMenu.Items.Add(miUndo);
 
-            var miRedo = new MenuItem() { Header = "Redo", InputGestureText = "ctrl-y" };
+            var miRedo = new MenuItem() { Header = "Redo", InputGestureText = "Ctrl-Y" };
             if (!hasRedo)
                 miRedo.IsEnabled = false;
             miRedo.Click += (o, args) => Model.ActiveEditor.AceEditor.editor.redo(false);            

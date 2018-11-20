@@ -44,6 +44,7 @@ namespace MarkdownMonster.Utilities
             KeyBindingsFilename = Path.Combine(mmApp.Model.Configuration.CommonFolder,
                 "MarkdownMonster-KeyBindings.json");
         }
+       
 
         public void SetKeyBindings()
         {
@@ -59,6 +60,18 @@ namespace MarkdownMonster.Utilities
                 if (keyBinding != null)
                     BindingsControl.InputBindings.Add(keyBinding);
             }
+        }
+
+
+        /// <summary>
+        /// Returns the keyboard shortcut for a given command. This is the mapped
+        /// command if extended via keyboard bindings.
+        /// </summary>
+        /// <param name="commandName"></param>
+        /// <returns></returns>
+        public string GetInputGestureForCommand(string commandName)
+        {
+            return KeyBindings.FirstOrDefault(kb => kb.CommandName == commandName)?.Key;
         }
 
         /// <summary>

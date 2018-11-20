@@ -954,7 +954,7 @@ namespace MarkdownMonster.Windows
 
             ci = new MenuItem();
             ci.Header = "Find Files";
-            ci.InputGestureText = "ctrl-f";
+            ci.InputGestureText = "Ctrl-F";
             ci.Click += MenuFindFiles_Click;
             cm.Items.Add(ci);
 
@@ -1029,7 +1029,7 @@ namespace MarkdownMonster.Windows
             {
                 ci = new MenuItem();
                 ci.Header = "Commit to _Git...";
-                ci.InputGestureText = "ctrl-g";
+                ci.InputGestureText = "Ctrl-G";
                 ci.Click += MenuCommitGit_Click;
                 cm.Items.Add(ci);
 
@@ -1038,7 +1038,7 @@ namespace MarkdownMonster.Windows
                 {
                     ci = new MenuItem();
                     ci.Header = "_Undo Changes in Git";
-                    ci.InputGestureText = "ctrl-z";
+                    ci.InputGestureText = "Ctrl-Z";
                     ci.Click += MenuUndoGit_Click;
                     cm.Items.Add(ci);
                 }

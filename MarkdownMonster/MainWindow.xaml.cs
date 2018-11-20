@@ -1872,10 +1872,8 @@ namespace MarkdownMonster
         }
 
         public void UpdateDocumentOutline(int editorLineNumber = -1)
-        {
-            if(TabDocumentOutline != null &&
-               Equals(SidebarContainer?.SelectedItem, TabDocumentOutline))
-                DocumentOutline?.RefreshOutline(editorLineNumber);
+        {            
+            DocumentOutline?.RefreshOutline(editorLineNumber);
         }
 
         public void OpenFavorites(bool noActivate = false)
@@ -2289,20 +2287,20 @@ namespace MarkdownMonster
                     return;
                 editor.ExecEditorCommand("replace");
             }
-            else if (button == ButtonScrollBrowserDown)
-            {
-                var editor = GetActiveMarkdownEditor();
-                if (editor == null)
-                    return;
-                editor.KeyboardCommand("ctrl-shift-down");
-            }
-            else if (button == ButtonScrollBrowserUp)
-            {
-                var editor = GetActiveMarkdownEditor();
-                if (editor == null)
-                    return;
-                editor.KeyboardCommand("ctrl-shift-d");
-            }
+            //else if (button == ButtonScrollBrowserDown)
+            //{
+            //    var editor = GetActiveMarkdownEditor();
+            //    if (editor == null)
+            //        return;
+            //    editor.KeyboardCommand("ctrl-shift-down");
+            //}
+            //else if (button == ButtonScrollBrowserUp)
+            //{
+            //    var editor = GetActiveMarkdownEditor();
+            //    if (editor == null)
+            //        return;
+            //    editor.KeyboardCommand("ctrl-shift-d");
+            //}
             else if (button == ButtonDocumentOutlineVisible)
             {
                 // Only activate/deactivate the tab

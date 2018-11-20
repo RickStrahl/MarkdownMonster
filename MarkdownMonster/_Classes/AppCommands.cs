@@ -97,6 +97,8 @@ namespace MarkdownMonster
             CloseLeftSidebarPanel();
             CloseRightSidebarPanel();
             OpenLeftSidebarPanel();
+            ToggleLeftSidebarPanel();
+
             ToggleFolderBrowser();
             OpenFolderBrowser();
 
@@ -1409,6 +1411,16 @@ namespace MarkdownMonster
             OpenLeftSidebarPanelCommand = new CommandBase((parameter, command) =>
             {
                 Model.Window.ShowLeftSidebar();
+            });
+        }
+
+        public CommandBase ToggleLeftSidebarPanelCommand { get; set; }
+
+        void ToggleLeftSidebarPanel()
+        {
+            ToggleLeftSidebarPanelCommand = new CommandBase((parameter, command) =>
+            {
+                Model.WindowLayout.IsLeftSidebarVisible = !Model.WindowLayout.IsLeftSidebarVisible;                
             });
         }
 

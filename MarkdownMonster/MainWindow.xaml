@@ -135,7 +135,7 @@
                     <Button.ContextMenu>
                         <ContextMenu>
 
-                            <MenuItem Header="Toggle Html _Preview Window"
+                            <MenuItem Header="Toggle _Preview Window"
                                       IsCheckable="True" 
                                       InputGestureText="F12"
                                       IsChecked="{Binding IsPreviewBrowserVisible}"
@@ -144,12 +144,13 @@
                             </MenuItem>
                             <MenuItem Header="View in Web _Browser" 
                                       Command="{Binding Commands.ViewInExternalBrowserCommand}"
-                                      InputGestureText="alt-v-b"
+                                      InputGestureText="Shift+F12"
                                       IsEnabled="{Binding IsEditorActive}" />
                             <Separator/>
                             <MenuItem Header="Internal Preview" CommandParameter="InternalPreview" Command="{Binding Commands.PreviewModesCommand}"
                                       IsCheckable="True" IsChecked="{Binding IsInternalPreview}"/>
-                            <MenuItem CommandParameter="ExternalPreviewWindow" Header="External Preview Window"  Command="{Binding Commands.PreviewModesCommand}"
+                            <MenuItem CommandParameter="ExternalPreviewWindow" 
+                                      Header="External Preview Window"  Command="{Binding Commands.PreviewModesCommand}"
                                       IsCheckable="True" IsChecked="{Binding IsExternalPreview}"/>
                         </ContextMenu>
                     </Button.ContextMenu>
@@ -160,7 +161,7 @@
                               Margin="-4,0,0,0"
                                       IsChecked="{Binding IsFullScreen}"
                                       Command="{Binding Commands.DistractionFreeModeCommand}"                                                 
-                                      ToolTip="toggle distraction free edit mode (alt-shift-enter). configure with: 'DistractionFreeModeHideOptions' setting."
+                                      ToolTip="toggle distraction free edit mode (Alt+Shift+Enter). configure with: 'DistractionFreeModeHideOptions' setting."
                                  fa:Awesome.Content="ArrowsAlt"                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
                                       />
@@ -226,9 +227,9 @@
                 <Separator/>
 
                 <MenuItem Header="_Git">
-                    <MenuItem Header="_Commit to Git..." Command="{Binding Commands.CommitToGitCommand}" InputGestureText="alt-t-g" />
+                    <MenuItem Header="_Commit to Git..." Command="{Binding Commands.CommitToGitCommand}" InputGestureText="Alt+T-G" />
                     <Separator />
-                    <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" InputGestureText="alt-f-g-g"/>
+                    <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
                     <MenuItem Header="_Create Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" CommandParameter="Create" />
                     <MenuItem Header="_Add Git Remote" Command="{Binding Commands.OpenFromGitRepoCommand}" CommandParameter="AddRemote" />
                     <Separator />
@@ -241,7 +242,7 @@
                 
                 <MenuItem Header="View in Web _Browser" Name="ButtonViewInWebBrowser"                          
                           Command="{Binding Commands.ViewInExternalBrowserCommand}"
-                          InputGestureText="alt-v-b"
+                          InputGestureText="Shift+F12"
                           IsEnabled="{Binding IsEditorActive}" />
 				<MenuItem Name="ButtonPrintPreview" Header="_Print Output" Command="{Binding Commands.PrintPreviewCommand}"
 				          InputGestureText="{Binding Commands.PrintPreviewCommand.KeyboardShortcut}"/>
@@ -278,7 +279,7 @@
                           IsEnabled="{Binding IsEditorActive}"                          
                           ToolTip="Find text in the active document" 
                           Click="Button_Handler"
-                          InputGestureText="ctrl-f" />
+                          InputGestureText="Ctrl+F" />
                 <MenuItem Header="Find next occurrence"
                           Name="Button_FindNext"
                           IsEnabled="{Binding IsEditorActive}"
@@ -290,7 +291,7 @@
                           IsEnabled="{Binding IsEditorActive}"
                           ToolTip="Find text in the active document" 
                           Click="Button_Handler"
-                          InputGestureText="ctrl-h" />
+                          InputGestureText="Ctrl+H" />
             </MenuItem>
             <MenuItem Header="_Tools" Name="MainMenuTools">                 
                 <MenuItem Name="MenuAddinManager" Header="_Add-in Manager" Command="{Binding Commands.AddinManagerCommand}"/>
@@ -338,9 +339,9 @@
             </MenuItem>
             <MenuItem Header="_View" Name="MainMenuView">
                 <MenuItem Name="ButtonHtmlPreview" 
-                          Header="Toggle Html _Preview Window"
+                          Header="Toggle _Preview Window"
                           IsCheckable="True" 
-                          InputGestureText="alt-v-p"
+                          InputGestureText="F12"
                           IsChecked="{Binding IsPreviewBrowserVisible}"
                           Command="{Binding Commands.TogglePreviewBrowserCommand}"
                           IsEnabled="{Binding IsEditorActive}">
@@ -352,32 +353,29 @@
                 
                 <MenuItem Header="View in Web _Browser" 
                           Command="{Binding Commands.ViewInExternalBrowserCommand}"
-                          InputGestureText="alt-v-b"
+                          InputGestureText="Shift+F12"
                           IsEnabled="{Binding IsEditorActive}" />
                 <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding Commands.PrintPreviewCommand}" InputGestureText="{Binding Commands.PrintPreviewCommand.ShortcutKey}" />
                 <Separator/>
-                <MenuItem Name="ButtonScrollBrowserUp" 
-                          Header="Scroll Preview Browser Up"                         
-                          InputGestureText="ctrl-shift-up" Click="Button_Handler"
-                          IsEnabled="{Binding IsPreviewBrowserVisible}" />
-                <MenuItem Name="ButtonScrollBrowserDown" 
-                          Header="Scroll Preview Browser Down"                         
-                          InputGestureText="ctrl-shift-down" Click="Button_Handler"
-                          IsEnabled="{Binding IsPreviewBrowserVisible}" />
-                <Separator/>
-	            <MenuItem Name="ButtonToggleFolderBrowser" 
+	            <!--<MenuItem Name="ButtonToggleFolderBrowser" 
 	                      Header="Toggle _Folder Browser Panel"                         
-	                      Command="{Binding Commands.ShowFolderBrowserCommand}"
-	                      InputGestureText="alt-v-f"
+	                      Command="{Binding Commands.ToggleFolderBrowserCommand}"
+	                      InputGestureText="Alt+V-F"
 	                      ToolTip="Toggles the Folder Browser sidebar panel"
-	                      />
+	                      />-->
+                <MenuItem Name="ButtonToggleLeftSidebar" 
+                          Header="Toggle Side_bar"                         
+                          Command="{Binding Commands.ToggleLeftSidebarPanelCommand}"
+                          InputGestureText="Ctrl-Shift-B"
+                          ToolTip="Toggles the left sidebar panel"
+                />
                 <MenuItem Name="ButtonDistractionFreeMode" 
                           Header="Toggle Distraction Free Mode"                         
                           Command="{Binding Commands.DistractionFreeModeCommand}"
                           ToolTip="Displays the editor in full screen mode"
                           IsCheckable="True"
                           IsChecked="{Binding IsFullScreen}"
-                          InputGestureText="alt-shift-enter" 
+                          InputGestureText="Alt+Shift+Enter" 
                           IsEnabled="{Binding IsEditorActive}" />
                 <MenuItem Name="ButtonPresentationMode"
                           Header="Toggle Presentation Mode"                         
@@ -451,7 +449,7 @@
 			<ToolBarPanel Name="ToolbarPanelMain" >
                 <StackPanel Orientation="Horizontal">
                     <ToolBar Name="ToolbarFile"  FontSize="17">
-						<Button Name="ToolButtonOpenFile" Margin="5,0,0,0"  Command="{Binding Commands.OpenDocumentCommand}" ToolTip="Open Markdown file (ctrl-o)"                                
+						<Button Name="ToolButtonOpenFile" Margin="5,0,0,0"  Command="{Binding Commands.OpenDocumentCommand}" ToolTip="Open Markdown file (Ctrl+O)"                                
                                 fa:Awesome.Content="FolderOpen"                                 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
@@ -467,13 +465,13 @@
                         </Button>
 
 
-						<Button Name="ToolButtonNewFile" Margin="12,0,0,0" Command="{Binding Commands.NewDocumentCommand}" ToolTip="New file (ctrl-n)"                                
+						<Button Name="ToolButtonNewFile" Margin="12,0,0,0" Command="{Binding Commands.NewDocumentCommand}" ToolTip="New file (Ctrl+N)"                                
                                 fa:Awesome.Content="PlusCircle"                             
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                 />
 
                         <Button Name ="ToolButtonSaveFile" Margin="7,0" Command="{Binding Commands.SaveCommand}" 
-								ToolTip="Save active document (ctrl-s)"       
+								ToolTip="Save active document (Ctrl+S)"       
                                 IsEnabled="{Binding ActiveDocument.IsDirty}"
                                 fa:Awesome.Content="CheckCircleOutline" 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
@@ -484,14 +482,14 @@
 
 
                     <ToolBar FontWeight="Light" Name="ToolbarEdit" FontSize="17">
-                        <Button Name="ButtonBold" Margin="7,0"  ToolTip="Bold (ctrl-b)"                                   
+                        <Button Name="ButtonBold" Margin="7,0"  ToolTip="Bold (Ctrl+B)"                                   
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="bold"                                
                                 fa:Awesome.Content="Bold"
                                 
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
-                        <Button Name ="ButtonItalic" Margin="7,0" ToolTip="Italic (ctrl-i)" 
+                        <Button Name ="ButtonItalic" Margin="7,0" ToolTip="Italic (Ctrl+I)" 
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="italic"
                                 fa:Awesome.Content="Italic" 
@@ -512,7 +510,7 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
 
                         <Button Name ="ButtonInlineCode" Margin="5,-4,7,0"
-								ToolTip="Inline code inside of a paragraph (ctrl-`)" 
+								ToolTip="Inline code inside of a paragraph (Ctrl+`)" 
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="inlinecode"  
                                 FontWeight="Medium"  
@@ -531,21 +529,21 @@
                         
                         <Separator />
 
-                        <Button Name="ButtonQuote" Margin="7,0" ToolTip="Quote text (ctrl-q)"
+                        <Button Name="ButtonQuote" Margin="7,0" ToolTip="Quote text (Ctrl+Q)"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  
                                 CommandParameter="quote"
                                 fa:Awesome.Content="QuoteLeft"
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                 />
 
-                        <Button Name ="ButtonList" Margin="7,0" ToolTip="Ordered List (ctrl-l)"
+                        <Button Name ="ButtonList" Margin="7,0" ToolTip="turns lines into an unordered list (Ctrl+L)"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="list"
                                 fa:Awesome.Content="ListUl"                                                                
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
                                 />
 
-                        <Button Name ="ButtonNumberList" Margin="7,0" ToolTip="Turns lines to ordered list (ctrl-l)"
+                        <Button Name ="ButtonNumberList" Margin="7,0" ToolTip="Turns lines to ordered list"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="numberlist"
                                 fa:Awesome.Content="ListOl"								                                
@@ -586,7 +584,7 @@
                         <Separator />
 
 
-                        <Button Name ="ButtonLink" Margin="7,0" ToolTip="Insert link (ctrl-k)"
+                        <Button Name ="ButtonLink" Margin="7,0" ToolTip="Insert link (Ctrl+K)"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="href" 
                                 fa:Awesome.Content="ExternalLink"
@@ -601,7 +599,7 @@
                                 >
                             <Button.ToolTip>
                                 <ToolTip>
-                                    <TextBlock>Insert an image from disk or the clipboard (alt-i).
+                                    <TextBlock>Insert an image from disk or the clipboard (Alt+I).
                                         <LineBreak/>
                                         You can also paste images from the clipboard into the document.
                                     </TextBlock>
@@ -610,7 +608,7 @@
                         </Button>
 
                         <Button Name ="ButtonCode"  
-								ToolTip="Format selected text as code (alt-c)"
+								ToolTip="Format selected text as code (Alt+C)"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="code"                                
                                 FontWeight="Medium" 
@@ -618,7 +616,7 @@
                         >{#}</Button>
 
 						<Button Name="ButtonEmoji" Margin="7,0" 
-								ToolTip="Insert emoji (ctrl-j)"
+								ToolTip="Insert emoji (Ctrl+J)"
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="emoji"
                                 fa:Awesome.Content="SmileOutline"                                                           
@@ -627,7 +625,7 @@
                     </ToolBar>
 
 					<ToolBar Name="ToolbarAddIns" Visibility="Hidden" FontSize="17">
-                        <Button Name="ButtonGit" Command="{Binding Commands.CommitToGitCommand}" ToolTip="Git Operations: Commit, Push, Pull, Clone, Create (alt-t-g)">
+                        <Button Name="ButtonGit" Command="{Binding Commands.CommitToGitCommand}" ToolTip="Git Operations: Commit, Push, Pull, Clone, Create (Alt+T+G)">
                             <Image Source="assets/git.png" Height="19" Margin="0,0,2,0"/>
                         </Button>
 					</ToolBar>
@@ -863,7 +861,7 @@
                         <TextBlock>
                             Editor font size zoom level.
                             <LineBreak /> 
-                            Also use the mouse wheel or ctrl-+ and ctrl-- to zoom.
+                            Also use the mouse wheel or Ctrl++ and Ctrl+- to zoom.
                             <LineBreak />
                             Double click to reset to 100%.
                         </TextBlock>

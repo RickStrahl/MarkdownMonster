@@ -38,84 +38,96 @@ namespace MarkdownMonster.Utilities
                 // View Commands
                 new AppKeyBinding
                 {
-                    Key = "alt+shift+return",
+                    Key = "Alt+Shift+Enter",
                     CommandName = "DistractionFreeMode",
                     Command = model.Commands.DistractionFreeModeCommand,
                     CommandParameter = "Toggle"
                 },
                 new AppKeyBinding
                 {
-                    Key = "f11",
+                    Key = "F11",
                     CommandName = "PresentationMode",
                     Command = model.Commands.PresentationModeCommand,
                     CommandParameter = "Toggle"
                 },
                 new AppKeyBinding
                 {
-                    Key = "f12",
+                    Key = "F12",
                     CommandName = "TogglePreviewBrowser",
                     Command = model.Commands.TogglePreviewBrowserCommand,
                     CommandParameter="Toggle"
                 },
-
+                new AppKeyBinding
+                {
+                    Key = "Ctrl+Shift+B",
+                    CommandName = "ToggleLeftSidebarPanel",
+                    Command = model.Commands.ToggleLeftSidebarPanelCommand                    
+                },
+                new AppKeyBinding
+                {
+                    Key="Shift+F12",
+                    CommandName="ShowExternalBrowser",
+                    Command = model.Commands.ViewInExternalBrowserCommand,
+                    CommandParameter = "Toggle"
+                },
 
                 // Document Commands
                 new AppKeyBinding
                 {
-                    Key = "ctrl-n",
+                    Key = "Ctrl+N",
                     CommandName = "NewDocument",
                     Command = model.Commands.NewDocumentCommand,
                     HasJavaScriptHandler = true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-o",
+                    Key = "Ctrl+O",
                     CommandName = "OpenDocument",
                     Command = model.Commands.OpenDocumentCommand,
                     HasJavaScriptHandler = true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-s",
+                    Key = "Ctrl+S",
                     CommandName = "SaveDocument",
                     Command = model.Commands.SaveCommand,
                     HasJavaScriptHandler = true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-shift-s",
+                    Key = "Ctrl+Shift+S",
                     CommandName = "SaveAs",
                     Command = model.Commands.SaveAsCommand
                 },
                 new AppKeyBinding
                 {
-                    Key = "alt-shift-s",
+                    Key = "Alt+Shift+S",
                     CommandName = "SaveAll",
                     Command = model.Commands.SaveAllCommand
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-p",
+                    Key = "Ctrl+P",
                     CommandName = "PrintPreview",
                     Command = model.Commands.PrintPreviewCommand
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-q",
+                    Key = "Ctrl+Q",
                     CommandName = "InsertQuote",
                     Command = model.Commands.ToolbarInsertMarkdownCommand,
                     CommandParameter = "quote"
                 },
                 new AppKeyBinding
                 {                    
-                    Key = "ctrl-f4",
+                    Key = "Ctrl+F4",
                     CommandName = "CloseActiveDocument",
                     Command = model.Commands.CloseActiveDocumentCommand
                 },
                 new AppKeyBinding
                 {
                     Id = "CloseActiveDocument2",
-                    Key = "ctrl-w",
+                    Key = "Ctrl+W",
                     CommandName = "CloseActiveDocument",
                     Command = model.Commands.CloseActiveDocumentCommand
                 },
@@ -123,26 +135,26 @@ namespace MarkdownMonster.Utilities
                 // Editor Commands
                 new AppKeyBinding
                 {
-                    Key = "alt-z",
+                    Key = "Alt+Z",
                     CommandName = "ToggleWordWrap",
                     Command = model.Commands.WordWrapCommand
                 },
                 new AppKeyBinding
                 {
-                    Key = "f1",
+                    Key = "F1",
                     CommandName = "ShowHelp",
                     Command = model.Commands.HelpCommand,
                     HasJavaScriptHandler = true
                 },
                 new AppKeyBinding
                 {
-                    Key = "f5",
+                    Key = "F5",
                     CommandName = "ReloadEditor",
                     HasJavaScriptHandler = true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-f5",
+                    Key = "Ctrl+F5",
                     CommandName = "ReloadEditor",
                     HasJavaScriptHandler = true
                 },
@@ -151,38 +163,38 @@ namespace MarkdownMonster.Utilities
                 //JavaScript Editor Only Commands
                 new AppKeyBinding
                 {
-                    Key = "ctrl-b",
+                    Key = "Ctrl+B",
                     CommandName = "InsertBold",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-i",
+                    Key = "Ctrl+I",
                     CommandName = "InsertItalic",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-k",
+                    Key = "Ctrl+K",
                     CommandName = "InsertHyperlink",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-l",
+                    Key = "Ctrl+L",
                     CommandName = "InsertList",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-j",
+                    Key = "Ctrl+J",
                     CommandName = "InsertEmoji",
                     HasJavaScriptHandler= true
                 },
 
                 new AppKeyBinding
                 {
-                    Key = "alt-i",
+                    Key = "Alt+I",
                     CommandName = "InsertImage",
                     HasJavaScriptHandler= true
                 },
@@ -200,44 +212,44 @@ namespace MarkdownMonster.Utilities
                 },
                 new AppKeyBinding
                 {
-                    Key = "alt-c",
+                    Key = "Alt+C",
                     CommandName = "InsertCodeblock",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-`",
+                    Key = "Ctrl+`",
                     CommandName = "InsertInlineCode",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "shift-del",
+                    Key = "Shift+Del",
                     CommandName = "DeleteCurrentLine",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-tab",
+                    Key = "Ctrl+Tab",
                     CommandName = "NextTab",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-shift-tab",
+                    Key = "Ctrl+Shift+Tab",
                     CommandName = "PreviousTab",
                     HasJavaScriptHandler= true
                 },
 
                 new AppKeyBinding
                 {
-                    Key = "ctrl--",
+                    Key = "Ctrl+-",
                     CommandName = "ZoomEditorDown",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-=",
+                    Key = "Ctrl+=",
                     CommandName = "ZoomEditorUp",
                     HasJavaScriptHandler= true
                 },
@@ -245,19 +257,19 @@ namespace MarkdownMonster.Utilities
 
                 new AppKeyBinding
                 {
-                    Key = "ctrl-shift-c",
+                    Key = "Ctrl+Shift+C",
                     CommandName = "CopyMarkdownAsHtml",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-shift-v",
+                    Key = "Ctrl+Shift+V",
                     CommandName = "PasteHtmlAsMarkdown",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-shift-z",                     
+                    Key = "Ctrl+Shift+Z",                     
                     CommandName = "RemoveMarkdownFormatting",
                     HasJavaScriptHandler= true
                 },
@@ -265,13 +277,13 @@ namespace MarkdownMonster.Utilities
                 new AppKeyBinding
                 {
                     Id = "Paste2",
-                    Key = "shift-insert",
+                    Key = "Shift+Insert",
                     CommandName = "Paste2",
                     HasJavaScriptHandler= true
                 },
                 new AppKeyBinding
                 {
-                    Key = "ctrl-v",
+                    Key = "Ctrl+V",
                     CommandName = "Paste",
                     HasJavaScriptHandler= true
                 },

@@ -71,15 +71,14 @@ namespace MarkdownMonster.Windows
                 
                 return;
             }
-
             
             // make the tab visible
             Model.Window.TabDocumentOutline.Visibility = Visibility.Visible;
             Visibility = Visibility.Visible;
 
-            // if not selected - don't update
+            // if we're not selected - don't update the outline
             if (Model.Window.SidebarContainer.SelectedItem != Model.Window.TabDocumentOutline)
-                return;
+                return;            
 
             int line = editorLineNumber;
             if (line < 0)
