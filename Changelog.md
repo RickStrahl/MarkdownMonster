@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.13.12
-<small>not released yet</small>
+<small>November 20th, 2018</small>
 
 * **Optimize Image on Folder Browser Menu**  
 A new menu for images allows optimizing images using Pinga which optimizes PNG and JPEG images very quickly. Can produce quite radical image size improvements with minimal loss of quality.
