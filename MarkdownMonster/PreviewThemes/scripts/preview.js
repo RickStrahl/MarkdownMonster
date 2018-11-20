@@ -115,12 +115,12 @@ window.onscroll = scroll;
 
 function highlightCode(lineno) {    
 
-    var pres = document.querySelectorAll("pre>code");
+    var pres = document.querySelectorAll("pre>code");   
     
     // Try to find lineno in doc - if lineno is passed
     // and render only those plus padding above and below
     var linePos = 0;    
-    if (lineno && pres.length > 100) {
+    if (lineno && pres.length > 200) {
         var $el = $("#pragma-line-" + lineno);
         if ($el.length < 1) {            
             for (var j = 0; j < 10; j++) {
@@ -149,9 +149,9 @@ function highlightCode(lineno) {
         var $code = $(block);
         
         // too many code blocks to render or text/plain styles - just style        
-        if ( $code.hasClass("language-text") ||
+        if ((pres.length > 400) ||
+            $code.hasClass("language-text") ||
             $code.hasClass("language-plain")) {
-
                 $code.addClass("hljs");
                 continue;
         }
@@ -161,11 +161,13 @@ function highlightCode(lineno) {
             var top = $code.position().top;
 
             if (top < linePos - 2000) {
-                console.log("Skipping smaller: " + top, linePos);
+                //console.log("Skipping smaller: " + top, linePos);
+                //$code.addClass("hljs");
                 continue;
             }
             if (top > linePos + 2000) {
-                console.log("Breaking larger: " + top, linePos);
+                //console.log("Breaking larger: " + top, linePos);
+                //$code.addClass("hljs");                
                 break;
             }
         }
