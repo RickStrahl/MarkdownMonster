@@ -1,5 +1,5 @@
 html, body {
-    font-family:  -apple-system,BlinkMacSystemFont,"Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family:  -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     font-size: 16px;
     line-height: 1.5;
     color: #333;    
@@ -48,8 +48,7 @@ h5, h6 {
 }
 a,a:visited {
     text-decoration: none;
-    color: steelblue;
-    font-weight: 600;
+    color: steelblue;    
 }
 a:hover {
     text-decoration: underline;
@@ -57,10 +56,11 @@ a:hover {
 
 
 code {
-    font-family: Consolas, monospace;
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
     color: #333;
-    background: #eee;
-    white-space: pre;    
+    background: #f2f2f2;
+    white-space: pre;
+    font-size: 0.85em;
 }
 pre {
     font-family: Consolas, monospace;
@@ -109,11 +109,10 @@ img {
     max-width: 100%;
 }
 
-ul > li > ul > li > ul > li {
-    list-style: disc;
-}
-ul > li > ul > li {
-    list-style: square;
+ul ul{
+    list-style: circle;    
+    padding-left: 30px;
+    
 }
 
 
@@ -167,7 +166,7 @@ p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.li
 #MainContent {
     margin: 0 auto;
     padding: 10px 40px;
-    max-width: 888px;
+    max-width: 980px;
     border: 1px solid #eee;
 }
 
