@@ -122,6 +122,7 @@ namespace MarkdownMonster.Windows
                 }
                 else
                 {
+                    CommitModel.CommitMessage = string.Empty;
                     Dispatcher.Invoke(() =>
                     {
                         CommitModel.GetRepositoryChanges();
@@ -157,6 +158,7 @@ namespace MarkdownMonster.Windows
                 }
                 else
                 {
+                    CommitModel.CommitMessage = string.Empty;
                     Dispatcher.Invoke(() =>
                     {
                         // reload settings                    
@@ -193,11 +195,11 @@ namespace MarkdownMonster.Windows
             StatusBar.ShowStatusError("Failed to pull changes from the server: " + CommitModel.GitHelper.ErrorMessage);
         }
 
-        private void ButtonPush_Click(object sender, RoutedEventArgs e)
+        private async void ButtonPush_Click(object sender, RoutedEventArgs e)
         {
             StatusBar.ShowStatusProgress("Pushing changes to the remote origin...");
 
-            if (CommitModel.PushChanges())
+            if (await CommitModel.PushChangesAsync())
             {
                 // refresh the file model
                 CommitModel.GetRepositoryChanges();
