@@ -6,20 +6,23 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.13.10
+### 1.13.12
 <small>not released yet</small>
 
 * **Optimize Image on Folder Browser Menu**  
 A new menu for images allows optimizing images using Pinga which optimizes PNG and JPEG images very quickly. Can produce quite radical image size improvements with minimal loss of quality.
 
 * **Optimize Snippet Rendering in Large Documents**  
-When rendering very large documents (in excess of 300k) with lots of code snippets the preview becomes very slow due to the refresh overhead of rendering and then showing syntax highlighting. Added some optimizations to only render snippets that are visible and if there are more than 500 snippets don't do snippet highlighting. This doesn't solve the problem of very large document editing with preview active due to browser threading issues (IE locks WPF UI thread while rendering) but it does provide some relief for documents in the 300-500k range. Anything bigger it's recommended to turn off the preview.
+When rendering very large documents (in excess of 300k) with lots of code snippets the preview becomes very slow due to the refresh overhead of rendering and then showing syntax highlighting. Due to some limitations in the Web Browser (IE) control used, rendering blocks the UI thread, so very large documents can interfere with the editing experience. Added some optimizations to only render snippets that are visible and if there are more than 500 snippets don't do snippet highlighting and just apply a default style. This provides some relief for documents in the 300-500k range with lots of code snippets. For anything larger it's recommended to turn off the Html Previewer while editing these huge documents which works well.
 
 * **Miscellaneous Rendering Optimizations**  
 Remove various operations from the preview cycle that are unnecessary. Perform additional checks for active state for the Document Outline, Favorites and Folder Browser.
 
 * **Clean up Menu Command Bindings**  
 Cleaned up menu options by consolidating commands and ensuring consistent formatting. Added new shortcuts for toggle sidebar (Ctrl-Shift-B), View in Web Browser (Shift-F12), Toggle Previewer (F12). Keybindings are configurable, so to see the new formatting for shortcuts for existing key bindings you have to delete `MarkdownMonster-KeyBindings.json` in the config folder.
+
+* **Update GitHub Theme**  
+Fix up GitHub theme with a few adjustments to match the GitHub online theme. Slightly wider width, adjusting fonts and font-sizes and update list behavior.
 
 * **Fix: Spellcheck Refresh**   
 Fix spell checker refresh after replacing a word in the document. Properly refresh the spell checked content immediately. Previously it took a keystroke or other remove operation to refresh the spell check error highlight.
