@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ using Markdig.Helpers;
 using Markdig.Syntax;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.DocumentOutlineSidebar;
+using Newtonsoft.Json.Linq;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -74,6 +76,71 @@ namespace MarkdownMonster
 
             return markdown ?? html;
 #endif
+        }
+
+        public static List<MarkdownLintError> MarkdownLinting(string markdown, bool noErrorUi = false)
+        {
+            // Old code that uses JavaScript in a WebBrowser Control            
+            string htmlFile = Path.Combine(Environment.CurrentDirectory, "Editor\\markdownlinting.htm");
+
+            var form = new BrowserDialog();
+            form.ShowInTaskbar = false;
+            form.Width = 1;
+            form.Height = 1;
+            form.Left = -20000;            
+            form.Show();
+
+            bool exists = File.Exists(htmlFile);
+            form.NavigateAndWaitForCompletion(htmlFile);
+
+            WindowUtilities.DoEvents();
+
+            var errorList = new List<MarkdownLintError>();
+            try
+            {
+                dynamic doc = form.Browser.Document;
+                string result = doc.ParentWindow.markdownlinting(markdown) as string;
+
+                // ClipboardHelper.SetText(result);
+
+                dynamic root =  JObject.Parse(result);
+                if (root == null)
+                    return null;
+
+                JArray errors = root.content as JArray;
+                if (errors == null)
+                    return null;
+
+                foreach (dynamic error in errors)
+                {
+                    var lintError = new MarkdownLintError
+                    {
+                        Description = error.ruleDescription,
+                        Detail = error.errorDetail,
+                        LineNumber = error.lineNumber
+                    };
+
+                    JArray ruleNames = error.ruleNames;
+                    if (ruleNames.Count > 0)
+                    {
+                        lintError.RuleName = ruleNames[0].ToString();
+                    }
+
+                    errorList.Add(lintError);
+                }                
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log("Failed to lint Markdown text", ex);
+                if (!noErrorUi)
+                    MessageBox.Show("Unable to lint Markdown.", "Markdown Linting Failed.", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return null;
+            }
+
+            form.Close();
+            form = null;
+
+            return errorList;
         }
 
         #region Front Matter Parsing
@@ -224,5 +291,20 @@ namespace MarkdownMonster
     {
         public string Markdown;
         public int SelectionLength = 0;
+    }
+
+    public class MarkdownLintError
+    {
+        public int LineNumber { get; set; }
+        public string Description { get; set; }
+        public string Detail  { get; set; }
+        public string RuleName  { get; set; }
+        public int ErrorRangeStart { get; set;  }
+        public int ErrorRangeEnd { get; set; }
+
+        public override string ToString()
+        {
+            return $"Line {LineNumber}: {Description}. {(!string.IsNullOrEmpty(Detail) ? " " + Detail + ". ": "")}({RuleName})";
+        }
     }
 }

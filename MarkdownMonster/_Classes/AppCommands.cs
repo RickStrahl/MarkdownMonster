@@ -67,6 +67,7 @@ namespace MarkdownMonster
             CommandWindow();
             OpenInExplorer();
             PasteMarkdownFromHtml();
+            MarkdownLinting();
             AddFavorite();
 
 
@@ -1087,6 +1088,26 @@ namespace MarkdownMonster
 
             }, (p, c) => true);
         }
+
+
+        public CommandBase MarkdownLintingCommand { get; set; }
+
+        void MarkdownLinting()
+        {
+            MarkdownLintingCommand = new CommandBase((parameter, command) =>
+            {
+                var editor = Model.ActiveEditor;
+                if (editor == null)
+                    return;
+
+                var markdown = editor.GetMarkdown();
+
+                var errors = MarkdownUtilities.MarkdownLinting(markdown);
+
+
+            }, (p, c) => true);
+        }
+
 
 
 

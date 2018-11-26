@@ -272,8 +272,10 @@
                 <Separator />
                 <MenuItem Name="Button_Spellcheck" Header="Toggle _Spellchecking" Command="{Binding Commands.SpellCheckCommand}"  
                           IsCheckable="True"                          
-                          IsChecked="{Binding Configuration.Editor.EnableSpellcheck}" />
+                          IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"/>
                 <Separator />
+                <MenuItem Name="Button_MarkdownLinting" Header="Markdown Linting"  Command="{Binding Commands.MarkdownLintingCommand}"  />
+            
                 <MenuItem Header="Find in Document" 
                           Name="Button_Find"
                           IsEnabled="{Binding IsEditorActive}"                          
