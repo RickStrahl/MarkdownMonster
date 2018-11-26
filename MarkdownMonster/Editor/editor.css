@@ -2,15 +2,14 @@
     top level editor configuration
     Ace Editor style overrides
 */
-.ace_editor, .ace_editor * {
-    letter-spacing: 0 !important;
-    background: transparent;
+/*.ace_editor, .ace_editor * {
+    letter-spacing: 0 !important;    
     font-weight: normal;
 }
 .ace_content {
     padding-top: 0 !important;
     padding-left: 0;    
-}    
+}*/    
 /*.ace_cursor { 
     border-left: 2px solid !important;
 }
@@ -18,9 +17,9 @@
     border-left: none !important;
     border-bottom: 1px solid !important;
 }*/
-.ace_text-input {
-	margin: 0 !important;
-}
+/*.ace_text-input {
+	margin: 0 !important;    
+}*/
 .ace_strong, .ace_heading {
     font-weight: bold !important;
 }
@@ -42,23 +41,22 @@
     background-color: #444;
     border: 1px solid #222;
     color: white;
+    font-size: 0.7em;
 }
-.ace_search {
-    font-size: 0.8em;        
+.ace_search {   
     padding: 4px;    
 }
 .ace_search_field {
     background-color: #333 !important;
     color: white !important;
     border-right: 1px solid #cbcbcb;
-    padding-bottom: 0.75em !important;
+    padding-bottom: 1px;    
+    margin-bottom: 5px;
 }
 .ace_search_options>span:hover {
-    background: #777 !important;
-    /*border-radius: 2px;*/
+    background: #777 !important;    
 }
 
 .ace_search_options > span:hover {
-    background: #777 !important;
-    /*border-radius: 2px;*/
+    background: #777 !important;    
 }

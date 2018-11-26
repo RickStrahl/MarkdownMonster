@@ -4,7 +4,8 @@ define("ace/ext/searchbox",["require","exports","module","ace/lib/dom","ace/lib/
 var dom = require("../lib/dom");
 var lang = require("../lib/lang");
 var event = require("../lib/event");
-var searchboxCss = ".ace_search {\
+var searchboxCss = "\
+.ace_search {\
 background-color: #ddd;\
 color: #666;\
 border: 1px solid #cbcbcb;\
@@ -44,7 +45,6 @@ background-color: white;\
 color: black;\
 border: 1px solid #cbcbcb;\
 border-right: 0 none;\
-box-sizing: border-box!important;\
 outline: 0;\
 padding: 0;\
 font-size: inherit;\
@@ -53,6 +53,8 @@ line-height: inherit;\
 padding: 0 6px;\
 min-width: 17em;\
 vertical-align: top;\
+min-height: 1.8em;\
+box-sizing: content-box;\
 }\
 .ace_searchbtn {\
 border: 1px solid #cbcbcb;\
@@ -65,7 +67,6 @@ border-left: 1px solid #dcdcdc;\
 cursor: pointer;\
 margin: 0;\
 position: relative;\
-box-sizing: content-box!important;\
 color: #666;\
 }\
 .ace_searchbtn:last-child {\
@@ -194,6 +195,7 @@ var SearchBox = function(editor, range, showReplaceForm) {
 
     this.$init();
     this.setEditor(editor);
+    dom.importCssString(searchboxCss, "ace_searchbox", editor.container);
 };
 
 (function() {
@@ -285,6 +287,8 @@ var SearchBox = function(editor, range, showReplaceForm) {
             sb.searchInput.focus();
         },
         "Ctrl-H|Command-Option-F": function(sb) {
+            if (sb.editor.getReadOnly())
+                return;
             sb.replaceOption.checked = true;
             sb.$syncOptions();
             sb.replaceInput.focus();
@@ -371,7 +375,9 @@ var SearchBox = function(editor, range, showReplaceForm) {
         dom.setCssClass(this.regExpOption, "checked", this.regExpOption.checked);
         dom.setCssClass(this.wholeWordOption, "checked", this.wholeWordOption.checked);
         dom.setCssClass(this.caseSensitiveOption, "checked", this.caseSensitiveOption.checked);
-        this.replaceBox.style.display = this.replaceOption.checked ? "" : "none";
+        var readOnly = this.editor.getReadOnly();
+        this.replaceOption.style.display = readOnly ? "none" : "";
+        this.replaceBox.style.display = this.replaceOption.checked && !readOnly ? "" : "none";
         this.find(false, false, preventScroll);
     };
 
@@ -500,8 +506,7 @@ exports.Search = function(editor, isReplace) {
     sb.show(editor.session.getTextRange(), isReplace);
 };
 
-});
-                (function() {
+});                (function() {
                     window.require(["ace/ext/searchbox"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;

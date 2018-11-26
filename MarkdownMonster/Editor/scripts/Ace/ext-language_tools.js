@@ -125,7 +125,7 @@ var SnippetManager = function() {
         var s = editor.session;
         switch(name) {
             case "CURRENT_WORD":
-                var r = s.getWordRange(); 
+                var r = s.getWordRange();
             case "SELECTION":
             case "SELECTED_TEXT":
                 return s.getTextRange(r);
@@ -272,7 +272,7 @@ var SnippetManager = function() {
                 return;
 
             var value = tokens.slice(i + 1, i1);
-            var isNested = value.some(function(t) {return typeof t === "object";});          
+            var isNested = value.some(function(t) {return typeof t === "object";});
             if (isNested && !ts.value) {
                 ts.value = value;
             } else if (value.length && (!ts.value || typeof ts.value !== "string")) {
@@ -1012,9 +1012,7 @@ var AcePopup = function(parentNode) {
         var row = popup.getRow();
         var t = popup.renderer.$textLayer;
         var selected = t.element.childNodes[row - t.config.firstRow];
-        if (selected == t.selectedNode)
-            return;
-        if (t.selectedNode)
+        if (selected !== t.selectedNode && t.selectedNode)
             dom.removeCssClass(t.selectedNode, "ace_selected");
         t.selectedNode = selected;
         if (selected)
@@ -1072,7 +1070,7 @@ var AcePopup = function(parentNode) {
             if (i != lastI && (data.matchMask & (1 << i) || i == filterText.length)) {
                 var sub = filterText.slice(lastI, i);
                 lastI = i;
-                var index = lower.indexOf(sub);
+                var index = lower.indexOf(sub, lastIndex);
                 if (index == -1) continue;
                 addToken(caption.slice(lastIndex, index), "");
                 lastIndex = index + sub.length;
@@ -1081,14 +1079,9 @@ var AcePopup = function(parentNode) {
         }
         addToken(caption.slice(lastIndex, caption.length), "");
         
-        if (data.meta) {
-            var maxW = popup.renderer.$size.scrollerWidth / popup.renderer.layerConfig.characterWidth;
-            var metaData = data.meta;
-            if (metaData.length + data.caption.length > maxW - 2) {
-                metaData = metaData.substr(0, maxW - data.caption.length - 3) + "\u2026";
-            }
-            tokens.push({type: "completion-meta", value: metaData});
-        }
+        if (data.meta)
+            tokens.push({type: "completion-meta", value: data.meta});
+
         return tokens;
     };
     bgTokenizer.$updateOnChange = noop;
@@ -1161,7 +1154,6 @@ var AcePopup = function(parentNode) {
         }
 
         el.style.display = "";
-        this.renderer.$textLayer.checkForSizeChanges();
 
         var left = pos.left;
         if (left + el.offsetWidth > screenWidth)
@@ -1991,8 +1983,7 @@ require("../config").defineOptions(Editor.prototype, "editor", {
         value: false
     }
 });
-});
-                (function() {
+});                (function() {
                     window.require(["ace/ext/language_tools"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;
