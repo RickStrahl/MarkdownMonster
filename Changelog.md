@@ -17,7 +17,7 @@ Fixed issue where the Editor/preview slider would not properly resize after doub
 Simplified internal shortcut management and consolidated various shortcuts with separate implementations. Also cleaned up Shortcut Gesture text on menus for consistency.
 
 * **Many small performance Tweaks**   
-Optimize loading of sidebars to not update when not visible on startup and otherwise. Optimize tab activation. Fix several small issues related to tab activation.
+Optimize loading of sidebars to not update when not visible on startup and otherwise. Optimize tab activation. Fix several small issues related to tab activation. Several preview optimizations. Much improved Table Editor performance.
 
 
 ### 1.13.12
