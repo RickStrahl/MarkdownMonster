@@ -13,12 +13,15 @@ insert_final_newline = true
 charset = utf-8-bom
 trim_trailing_whitespace = true
 
-[*.less]
+[*.{css,less,html,js,ts,json}]
 charset = utf-8
 end_of_line = lf
 indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
 
 [**.cshtml]
 indent_size = 4
@@ -35,10 +38,6 @@ indent_size = 2
 
 # Xml config files
 [*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
-indent_size = 2
-
-# JSON files
-[*.json]
 indent_size = 2
 
 # Dotnet code style settings:

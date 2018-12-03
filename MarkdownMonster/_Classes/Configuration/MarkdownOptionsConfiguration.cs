@@ -133,6 +133,7 @@ namespace MarkdownMonster
         /// </summary>
         public bool RenderLinksAsExternal { get; set; }
 
+
         /// <summary>
         /// Gets or sets the Markdig extensions to be enabled.
         /// Allows you to add extensions dynamically at runtime
@@ -226,6 +227,22 @@ namespace MarkdownMonster
 
 
         private string _markdownParserName;
+        private bool _markdownLinting;
+
+
+        /// <summary>
+        /// Determines whether the Markdown Linting window is visible.
+        /// </summary>
+        public bool MarkdownLinting
+        {
+            get => _markdownLinting;
+            set
+            {
+                if (value == _markdownLinting) return;
+                _markdownLinting = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 

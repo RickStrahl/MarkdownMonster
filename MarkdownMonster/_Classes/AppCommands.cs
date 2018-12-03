@@ -1102,7 +1102,8 @@ namespace MarkdownMonster
 
                 var markdown = editor.GetMarkdown();
 
-                var errors = MarkdownUtilities.MarkdownLinting(markdown);
+                
+                var errors = LintingErrorsModel.MarkdownLinting(markdown);
 
 
             }, (p, c) => true);

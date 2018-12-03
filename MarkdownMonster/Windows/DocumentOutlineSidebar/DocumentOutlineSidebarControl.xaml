@@ -15,7 +15,7 @@
 
         <Grid Background="{StaticResource  SidebarHeaderBackground}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />                
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -29,7 +29,7 @@
 					   FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
             </StackPanel>
 
-            
+
             <Button  fa:Awesome.Content="PencilSquareOutline" Background="Transparent" 
                      Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="2"  
                      Name="ButtonEmbedOutline" BorderThickness="0" FontSize="12"                     
@@ -79,7 +79,7 @@
                                  FontSize="12" 
                                  TextChanged="TextMaxIndentLevel_TextChanged"/>
                     </StackPanel>
-                    
+
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>

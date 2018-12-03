@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Westwind.Utilities;
 
@@ -32,18 +21,18 @@ namespace MarkdownMonster.Windows
         ///  Set this value to UtcNow to avoid next navigation
         /// </summary>
         public DateTime IgnoreSelection { get; set; }
-        
+
 
         public DocumentOutlineSidebarControl()
         {
             InitializeComponent();
-            Loaded += DocumentOutlineSidebarControl_Loaded;            
+            Loaded += DocumentOutlineSidebarControl_Loaded;
         }
 
         private void DocumentOutlineSidebarControl_Loaded(object sender, RoutedEventArgs e)
         {
             Model = new DocumentOutlineModel();
-            DataContext = Model;            
+            DataContext = Model;
         }
 
         /// <summary>
@@ -63,27 +52,27 @@ namespace MarkdownMonster.Windows
             var editor = Model.AppModel.ActiveEditor;
             if (editor == null || editor.EditorSyntax != "markdown")
             {
-                Model.Window.TabDocumentOutline.Visibility =Visibility.Collapsed;
+                Model.Window.TabDocumentOutline.Visibility = Visibility.Collapsed;
                 Model.DocumentOutline = null;
 
-                if(Model.Window.SidebarContainer.SelectedItem == Model.Window.TabDocumentOutline)
+                if (Model.Window.SidebarContainer.SelectedItem == Model.Window.TabDocumentOutline)
                     Model.Window.SidebarContainer.SelectedItem = Model.Window.TabFolderBrowser;
-                
+
                 return;
             }
-            
+
             // make the tab visible
             Model.Window.TabDocumentOutline.Visibility = Visibility.Visible;
             Visibility = Visibility.Visible;
 
             // if we're not selected - don't update the outline
             if (Model.Window.SidebarContainer.SelectedItem != Model.Window.TabDocumentOutline)
-                return;            
+                return;
 
             int line = editorLineNumber;
             if (line < 0)
                 line = editor.GetLineNumber();
-            
+
             var outline = Model.CreateDocumentOutline(editor.MarkdownDocument.CurrentText);
             if (outline == null)
             {
@@ -115,7 +104,7 @@ namespace MarkdownMonster.Windows
             if (selectedItem != null)
             {
                 IgnoreSelection = DateTime.UtcNow;
-                if(selectedItem != ListOutline.SelectedItem)
+                if (selectedItem != ListOutline.SelectedItem)
                     ListOutline.SelectedItem = selectedItem;
 
                 ListOutline.ScrollIntoView(selectedItem);
@@ -156,7 +145,7 @@ namespace MarkdownMonster.Windows
                     returnDelimiters: true);
 
                 //editor.ReplaceContent(markdown);
-                editor.FindAndReplaceText(oldToc,"");
+                editor.FindAndReplaceText(oldToc, "");
             }
 
 
@@ -172,13 +161,13 @@ namespace MarkdownMonster.Windows
         }
 
         private void ListOutlineItem_MouseUp(object sender, MouseButtonEventArgs e)
-        {         
-            var selected = ListOutline.SelectedItem as HeaderItem;            
+        {
+            var selected = ListOutline.SelectedItem as HeaderItem;
             if (selected == null || Model.AppModel.ActiveEditor == null)
                 return;
 
             IgnoreSelection = DateTime.UtcNow;  // prevent editor navigating outline again
-            Model.AppModel.ActiveEditor.GotoLine(selected.Line -2, noRefresh: false);  // refresh the preview
+            Model.AppModel.ActiveEditor.GotoLine(selected.Line - 2, noRefresh: false);  // refresh the preview
         }
 
         private void TextBlock_KeyDown(object sender, KeyEventArgs e)
@@ -197,7 +186,7 @@ namespace MarkdownMonster.Windows
                 Model.Window.ShowStatus($"Pasted id to clipboard: #{selected.LinkId}");
         }
 
-    
+
         private void TextMaxIndentLevel_TextChanged(object sender, TextChangedEventArgs e)
         {
             RefreshOutline();

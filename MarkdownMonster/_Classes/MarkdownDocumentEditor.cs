@@ -161,10 +161,6 @@ namespace MarkdownMonster
         /// with the document for rendering or other purposes.
         /// </summary>
         public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
-
-
-
-
         #endregion
 
 
@@ -1449,7 +1445,6 @@ namespace MarkdownMonster
                 enc = "UTF-8 (no BOM)";
 
             Window.StatusEncoding.Text = enc;
-
         }
 
         /// <summary>

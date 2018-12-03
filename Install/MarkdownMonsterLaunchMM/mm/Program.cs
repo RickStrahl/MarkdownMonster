@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace mm
 {
@@ -14,13 +7,13 @@ namespace mm
         static void Main(string[] args)
         {
             var dir = System.Environment.CurrentDirectory;
-            
+
             var si = new ProcessStartInfo()
             {
-                 FileName = "MarkdownMonster.exe",                 
-                 WorkingDirectory = dir,
-                 WindowStyle = ProcessWindowStyle.Hidden,
-                 CreateNoWindow = true                 
+                FileName = "MarkdownMonster.exe",
+                WorkingDirectory = dir,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                CreateNoWindow = true
             };
 
             if (args != null)
@@ -28,7 +21,7 @@ namespace mm
                 string argString = "";
                 foreach (var arg in args)
                 {
-                    argString += $"\"{arg}\" ";                    
+                    argString += $"\"{arg}\" ";
                 }
                 si.Arguments = argString;
             }

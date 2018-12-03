@@ -3,8 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-
-
 namespace MarkdownMonster.Windows
 {
     /// <summary>
@@ -14,7 +12,7 @@ namespace MarkdownMonster.Windows
     {
         public EditorAndPreviewPane()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
 
@@ -32,18 +30,18 @@ namespace MarkdownMonster.Windows
 
         private void Separator_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            bool zoom =  EditorWebBrowserEditorColumn.Width == GridLengthHelper.Star || EditorWebBrowserEditorColumn.Width != GridLengthHelper.Zero;
+            bool zoom = EditorWebBrowserEditorColumn.Width == GridLengthHelper.Star || EditorWebBrowserEditorColumn.Width != GridLengthHelper.Zero;
             if (zoom)
-            {                
+            {
                 EditorWebBrowserPreviewColumn.Width = GridLengthHelper.Star;
-                EditorWebBrowserEditorColumn.Width = GridLengthHelper.Zero;                
+                EditorWebBrowserEditorColumn.Width = GridLengthHelper.Zero;
             }
             else
-            {                
+            {
                 EditorWebBrowserPreviewColumn.Width = new GridLength(mmApp.Configuration.WindowPosition.InternalPreviewWidth);
                 EditorWebBrowserEditorColumn.Width = GridLengthHelper.Star;
             }
-        }        
+        }
     }
 
 }
