@@ -6,6 +6,20 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.13.14
+<small>*not released yet*</small>
+
+* **Fix: Fix Window Preview Zoom Operation when clicking Slider**  
+Fixed issue where the Editor/preview slider would not properly resize after double clicking back to split view. Proper behavior is to zoom preview on first double click, then restore on second double click, but only if the window is still zoomed, otherwise re-zoom preview.
+
+* **Fix: Consolidate Shortcuts and Fix ShortCut Captions**  
+Simplified internal shortcut management and consolidated various shortcuts with separate implementations. Also cleaned up Shortcut Gesture text on menus for consistency.
+
+* **Many small performance Tweaks**   
+Optimize loading of sidebars to not update when not visible on startup and otherwise. Optimize tab activation. Fix several small issues related to tab activation.
+
+
 ### 1.13.12
 <small>November 20th, 2018</small>
 
