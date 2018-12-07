@@ -18,7 +18,7 @@
 
             <TextBlock FontSize="24" FontWeight="Bold" Foreground="#ddd"  Margin="0,-19" HorizontalAlignment="Center">is hungry!</TextBlock>
 
-            <TextBlock HorizontalAlignment="Center" Margin="32,32,32,12" Foreground="Cornsilk" FontSize="17" Panel.ZIndex="10"><Run Text="You've been using the evaluation version of"/></TextBlock>
+            <TextBlock HorizontalAlignment="Center" Margin="32,32,32,12" Foreground="Cornsilk" FontSize="17" Panel.ZIndex="10"><Run Text="You've been using the evaluation version"/></TextBlock>
             
             <TextBlock x:Name="RunUsage"  HorizontalAlignment="Center" Text="Started x times" FontWeight="Bold" FontSize="17"/>
             

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -13,7 +14,7 @@ namespace MarkdownMonster.Windows
     public partial class RegisterDialog : Window, INotifyPropertyChanged
     {
 
-        public RegisterDialog()
+        public RegisterDialog(bool closeOwner = false)
         {
             InitializeComponent();
             var accessCount = mmApp.Configuration.ApplicationUpdates.AccessCount;
@@ -33,7 +34,19 @@ namespace MarkdownMonster.Windows
             DataContext = this;
 
             Topmost = true;
-            Loaded += (s, e) => { Dispatcher.Delay(200, (p) => Topmost = false); };
+        }
+
+
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+
+            // hide the MainWindow when showing the reminder window
+            // have to do this here or else the window won't activate in the right place
+            Owner.Top -= 10000;
+
+            Topmost = false;
         }
 
         private void Exit_Click(object sender, MouseButtonEventArgs e)

@@ -502,11 +502,14 @@ namespace MarkdownMonster
                 mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
                 !UnlockKey.IsRegistered())
             {
-                Opacity = 0;
-
-                var rd = new RegisterDialog();
+                
+                
+                var rd = new RegisterDialog(true);
                 rd.Owner = this;
-                rd.ShowDialog();
+
+                //Top -= 10000; // hide by making transparent - hiding causes odd close behavior with MahApps at times
+
+                rd.ShowDialog();                            
             }
             else
                 Top -= 10000;  // quickest way to hide
