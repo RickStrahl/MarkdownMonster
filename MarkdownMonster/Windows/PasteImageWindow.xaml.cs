@@ -616,10 +616,18 @@ namespace MarkdownMonster.Windows
             if (string.IsNullOrEmpty(imageFile))
                 return null;
 
-             if (!File.Exists(imageFile))
+            try
+            {
+                if (!File.Exists(imageFile))
                     imageFile = Path.Combine(Path.GetDirectoryName(Editor.MarkdownDocument.Filename), imageFile);
 
-            return File.Exists(imageFile) ? imageFile : null;
+                return File.Exists(imageFile) ? imageFile : null;
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log("Non-fatal error: Invalid image filename: " + imageFile);
+                return null;
+            }
         }
 
         public void SetImagePreview(string url = null)
