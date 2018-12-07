@@ -502,7 +502,8 @@ namespace MarkdownMonster
                 mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
                 !UnlockKey.IsRegistered())
             {
-                Hide();
+                Opacity = 0;
+
                 var rd = new RegisterDialog();
                 rd.Owner = this;
                 rd.ShowDialog();
