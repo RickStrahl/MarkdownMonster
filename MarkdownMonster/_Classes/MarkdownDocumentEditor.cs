@@ -1709,6 +1709,11 @@ namespace MarkdownMonster
             if (AddinManager.Current.RaiseOnPreviewLinkNavigation(url, src))
                 return true;
 
+            // file urls are fully qualified paths with file:/// syntax
+            var urlPath = url.Replace("file:///", "");
+            urlPath = StringUtils.UrlDecode(urlPath);
+            urlPath = FileUtils.NormalizePath(urlPath);
+
             if (url.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
             {
                 if (mmApp.Configuration.PreviewHttpLinksExternal && !string.IsNullOrEmpty(url))
@@ -1720,10 +1725,7 @@ namespace MarkdownMonster
             // it's a relative URL and ends with .md open in editor
             else if (url.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase))
             {
-                // file urls are fully qualified paths with file:/// syntax
-                var urlPath = url.Replace("file:///", "");
-                urlPath = StringUtils.UrlDecode(urlPath);
-                urlPath = FileUtils.NormalizePath(urlPath);
+               // full path
                 if (File.Exists(urlPath))
                 {
                     var tab = Window.RefreshTabFromFile(urlPath); // open or activate
@@ -1731,13 +1733,33 @@ namespace MarkdownMonster
                         return true;
                 }
 
+                // relative path
                 var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
                 urlPath = Path.Combine(docPath, urlPath);
+                                
                 if (File.Exists(urlPath))
                 {
                     var tab = Window.RefreshTabFromFile(docPath); // open or activate
                     if (tab != null)
                         return true;
+                }
+            }
+            else if (url.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
+            {
+                // full path
+                if (File.Exists(urlPath))
+                {
+                    ShellUtils.GoUrl(urlPath);
+                    return true;
+                }
+
+                // relative path
+                var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+                urlPath = Path.Combine(docPath, urlPath);
+                if (File.Exists(urlPath))
+                {
+                    ShellUtils.GoUrl(urlPath);
+                    return true;
                 }
             }
 
