@@ -6,6 +6,13 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.13.15
+
+* **Fix: Window Close Crash Bug with Registration Dialog**  
+Fix issue where MahApps is crashing due to an already closed window on shutdown. Fixed by moving the window as part of the dialog logic.
+
+* **Fix: Image Dialog Invalid Filename Crash**  
+Fix invalid filename crash in image dialog by intercepting invalid filenames and displaying an error.
 
 ### 1.13.14
 <small>*not released yet*</small>

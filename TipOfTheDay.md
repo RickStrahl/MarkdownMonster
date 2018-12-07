@@ -32,6 +32,8 @@ to open a file from the current folder? You can specify multiple files, use full
 
 https://markdownmonster.west-wind.com/docs/_4x313dneu.htm
 
+## Open Markdown Files from Preview HTML Links
+Did you know that in Markdown Monster you can click on Markdown links in the Previewer to open related Markdown documents in the Editor? MM  intercepts relative or local file Markdown links and opens the appropriate Markdown document in the editor. 
 
 ## Edit Images
 Did you know you can bring up your favorite image editor directly from your Markdown Document in Markdown Monster?
