@@ -1714,9 +1714,9 @@ namespace MarkdownMonster
             urlPath = StringUtils.UrlDecode(urlPath);
             urlPath = FileUtils.NormalizePath(urlPath);
 
-            if (url.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+            if (url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
             {
-                if (mmApp.Configuration.PreviewHttpLinksExternal && !string.IsNullOrEmpty(url))
+                if (mmApp.Configuration.PreviewHttpLinksExternal)
                 {
                     ShellUtils.GoUrl(url);
                     return true;
@@ -1746,13 +1746,6 @@ namespace MarkdownMonster
             }
             else if (url.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
             {
-                // full path
-                if (File.Exists(urlPath))
-                {
-                    ShellUtils.GoUrl(urlPath);
-                    return true;
-                }
-
                 // relative path
                 var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
                 urlPath = Path.Combine(docPath, urlPath);

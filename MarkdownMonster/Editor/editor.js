@@ -1,4 +1,4 @@
-﻿/// <reference path="editorsettings.js"/>
+/// <reference path="editorsettings.js"/>
 /// <reference path="editorsettings.js"/>
 /// <reference path="editorSpellcheck.js"/>
 
@@ -42,8 +42,7 @@ var te = window.textEditor = {
         if (!editorSettings)
             editorSettings = te.settings;
 
-        var session = editor.getSession();
-
+      var session = editor.getSession();        
         editor.setReadOnly(false);
         editor.setHighlightActiveLine(editorSettings.highlightActiveLine);
         editor.setShowPrintMargin(editorSettings.showPrintMargin);
