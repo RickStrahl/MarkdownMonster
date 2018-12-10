@@ -61,7 +61,7 @@ namespace MarkdownMonster.Utilities
                 {
                     Key = "Ctrl+Shift+B",
                     CommandName = "ToggleLeftSidebarPanel",
-                    Command = model.Commands.ToggleLeftSidebarPanelCommand                    
+                    Command = model.Commands.ToggleLeftSidebarPanelCommand
                 },
                 new AppKeyBinding
                 {
@@ -119,7 +119,7 @@ namespace MarkdownMonster.Utilities
                     CommandParameter = "quote"
                 },
                 new AppKeyBinding
-                {                    
+                {
                     Key = "Ctrl+F4",
                     CommandName = "CloseActiveDocument",
                     Command = model.Commands.CloseActiveDocumentCommand
@@ -269,7 +269,7 @@ namespace MarkdownMonster.Utilities
                 },
                 new AppKeyBinding
                 {
-                    Key = "Ctrl+Shift+Z",                     
+                    Key = "Ctrl+Shift+Z",
                     CommandName = "RemoveMarkdownFormatting",
                     HasJavaScriptHandler= true
                 },
@@ -287,7 +287,12 @@ namespace MarkdownMonster.Utilities
                     CommandName = "Paste",
                     HasJavaScriptHandler= true
                 },
-
+                new AppKeyBinding
+                {
+                    Key="F7",
+                    CommandName = "NextSpellCheckError",                    
+                    HasJavaScriptHandler = true
+                }
 
             };
         }
