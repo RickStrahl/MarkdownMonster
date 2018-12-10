@@ -94,28 +94,64 @@ te.keyBindings = {
     //setTimeout(function() { alert('test'); }, 1000);
   },
   nextSpellCheckError: function () {
-    var pos = te.getCursorPosition();   
+    var pos = te.getCursorPosition();
     var markers = te.editor.session.getMarkers(true);
-    
-    for(var key in markers) {         
+
+    for (var key in markers) {
       var range = markers[key].range;
-      if (range.end.row > pos.row || range.end.row === pos.row && range.end.column > pos.column) {        
+      if (range.end.row > pos.row || range.end.row === pos.row && range.end.column > pos.column) {
+        te.setSelectionRange(range);
+        return;
+      }
+    }
+    
+    if (pos.row + 30 > te.editor.session.getLength() - 1)
+      return;
+
+    te.setscrolltop(te.getscrolltop() + 500);
+
+    setTimeout(function () {
+      sc.contentModified = true;
+      sc.spellCheck();
+      setTimeout(te.keyBindings.nextSpellCheckError, 200);
+    });    
+  },
+  previousSpellCheckError: function () {
+    var pos = te.getCursorPosition();
+    var markers = te.editor.session.getMarkers(true);
+
+    var keys = [];
+    for (var key in markers)
+      keys.push(key);
+
+    while (true) {
+      var key = keys.pop();
+      if (!key)
+        break;
+    
+      var range = markers[key].range;
+      if (range.end.row < pos.row || range.end.row === pos.row && range.end.column < pos.column) {
         te.setSelectionRange(range);
         return;
       }
     }
 
-    if (pos.row + 30 > te.editor.session.getLength() - 1)
+    if (pos.row  < 1)
       return;
+    try {
+      
+    
+    te.setscrolltop(te.getscrolltop() - 500);
 
-    var st = te.getScrollTop();
-    console.log(st);
-    te.setScrollTop(st + 500);
+    console.log('scrolled');
 
-
-    setTimeout(function() {
+    setTimeout(function () {
+      sc.contentModified = true;
       sc.spellCheck();
-      setTimeout(te.keyBindings.nextSpellCheckError, 700);
-    });  
+      setTimeout(te.keyBindings.previousSpellCheckError, 200);
+    });
+    } catch (e) {
+      alert(e.message);
+    } 
   }
 };

@@ -292,6 +292,11 @@ namespace MarkdownMonster.Utilities
                     Key="F7",
                     CommandName = "NextSpellCheckError",                    
                     HasJavaScriptHandler = true
+                }, new AppKeyBinding
+                {
+                    Key="Shift+F7",
+                    CommandName = "PreviousSpellCheckError",
+                    HasJavaScriptHandler = true
                 }
 
             };
