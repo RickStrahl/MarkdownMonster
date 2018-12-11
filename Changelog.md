@@ -6,16 +6,20 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.13.15
+### 1.13.16
+<small>*not released yet*</small>
+
+* **Open PDF documents from Previewer**  
+Added logic to open PDF documents in the system configured PDF viewer externally, since the WebBrowser's preview can't display PDF documents.
+
+* **Next and Previous Spell Check Error**  
+You can now use a hotkey (F7 by default) to quickly jump through spell check errors in the document via keyboard navigation.
 
 * **Fix: Window Close Crash Bug with Registration Dialog**  
 Fix issue where MahApps is crashing due to an already closed window on shutdown. Fixed by moving the window as part of the dialog logic.
 
 * **Fix: Image Dialog Invalid Filename Crash**  
 Fix invalid filename crash in image dialog by intercepting invalid filenames and displaying an error.
-
-### 1.13.14
-<small>*not released yet*</small>
 
 * **Fix: Fix Window Preview Zoom Operation when clicking Slider**  
 Fixed issue where the Editor/preview slider would not properly resize after double clicking back to split view. Proper behavior is to zoom preview on first double click, then restore on second double click, but only if the window is still zoomed, otherwise re-zoom preview.
@@ -25,6 +29,9 @@ Simplified internal shortcut management and consolidated various shortcuts with 
 
 * **Many small performance Tweaks**   
 Optimize loading of sidebars to not update when not visible on startup and otherwise. Optimize tab activation. Fix several small issues related to tab activation. Several preview optimizations. Much improved Table Editor performance.
+
+* **Fix: Add Word To Dictionary Spellcheck Refresh**  
+Fixed refresh when adding a new word to the dictionary, so that the new value is no longer highlighted as an error.
 
 
 ### 1.13.12
