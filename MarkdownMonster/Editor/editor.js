@@ -617,6 +617,14 @@ var te = window.textEditor = {
     if (te.spellcheck)
       te.spellcheck.spellCheck(force);
   },
+  spellcheckNext: function(ignored) {
+    if (te.spellcheck)
+      te.keyBindings.nextSpellCheckError();
+  },
+  spellcheckPrevious: function(ignored) {
+    if (te.spellcheck)
+      te.keyBindings.previousSpellCheckError();
+  },
   checkSpelling: function (word) {
     if (!word || !editorSettings.enableSpellChecking)
       return true;

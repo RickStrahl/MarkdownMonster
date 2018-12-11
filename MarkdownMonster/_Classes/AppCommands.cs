@@ -63,7 +63,11 @@ namespace MarkdownMonster
             ShowActiveTabsList();
             CopyAsHtml();
             SetDictionary();
+
             SpellCheck();
+            SpellCheckNext();
+            SpellCheckPrevious();
+
             CommandWindow();
             OpenInExplorer();
             PasteMarkdownFromHtml();
@@ -1024,6 +1028,30 @@ namespace MarkdownMonster
                 Model.Window.ShowStatusSuccess($"Spell checking has been turned {(Model.Configuration.Editor.EnableSpellcheck ? "on" : "off")}.");
             }, (p, c) => true);
         }
+
+
+        public CommandBase SpellCheckNextCommand { get; set; }
+
+        void SpellCheckNext()
+        {
+            SpellCheckNextCommand = new CommandBase((parameter, command) =>
+                {
+                    Model.ActiveEditor?.AceEditor?.spellcheckNext(false);
+                }, (p, c) => Model.ActiveEditor?.EditorSyntax == "markdown");            
+        }
+
+
+        public CommandBase SpellCheckPreviousCommand { get; set; }
+
+        void SpellCheckPrevious()
+        {
+            SpellCheckPreviousCommand = new CommandBase((parameter, command) =>
+            {
+                Model.ActiveEditor?.AceEditor?.spellcheckPrevious(false);
+            }, (p, c) => Model.ActiveEditor?.EditorSyntax == "markdown");                   
+        }
+
+
 
 
         public CommandBase CommandWindowCommand { get; set; }

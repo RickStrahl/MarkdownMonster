@@ -273,9 +273,22 @@
                 <MenuItem Name="Button_Spellcheck" Header="Toggle _Spellchecking" Command="{Binding Commands.SpellCheckCommand}"  
                           IsCheckable="True"                          
                           IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"/>
+                <MenuItem Header="Next Spellcheck Error" Command="{Binding Commands.SpellCheckNextCommand}" InputGestureText="F7" />
+                <MenuItem Header="Previous Spellcheck Error" Command="{Binding Commands.SpellCheckPreviousCommand}" InputGestureText="Shift-F7" />
                 <Separator />
+                <MenuItem Name="ButtonAllowScriptTags" 
+                          Header="Allow Script in Markdown"                          
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.MarkdownOptions.AllowRenderScriptTags}" />
+
+                <MenuItem Name="ButtonUseReferenceLinks" 
+                          Header="Use Link References"                          
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.UseReferenceLinks}" />
+
+                
                 <MenuItem Name="Button_MarkdownLinting" Header="Markdown Linting"  Command="{Binding Commands.MarkdownLintingCommand}"  />
-            
+                <Separator/>
                 <MenuItem Header="Find in Document" 
                           Name="Button_Find"
                           IsEnabled="{Binding IsEditorActive}"                          
@@ -318,24 +331,7 @@
                           IsEnabled="{Binding IsEditorActive}" />
 
                 <Separator/>
-                <MenuItem Name="ButtonSpellchecking" 
-                          Header="Spell Checking"      
-                          Command="{Binding Commands.SpellCheckCommand}"   
-                          IsCheckable="True"                          
-                          IsChecked="{Binding Configuration.Editor.EnableSpellcheck}" />
-
-
-                <MenuItem Name="ButtonAllowScriptTags" 
-                          Header="Allow Script in Markdown"                          
-                          IsCheckable="True"
-                          IsChecked="{Binding Configuration.MarkdownOptions.AllowRenderScriptTags}" />
-
-                <MenuItem Name="ButtonUseReferenceLinks" 
-                          Header="Use Link References"                          
-                          IsCheckable="True"
-                          IsChecked="{Binding Configuration.UseReferenceLinks}" />
-
-                <Separator/>
+                
 
                 <MenuItem Header="Settings" Command="{Binding Commands.SettingsCommand}"/>
             </MenuItem>

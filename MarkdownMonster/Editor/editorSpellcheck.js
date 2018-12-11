@@ -119,7 +119,7 @@
         if (!force && !sc.contentModified)
           return;
 
-
+        sc.contentModified = false;
         currentlySpellchecking = true;
         spellcheckErrors = 0;
         var session = te.editor.getSession();
@@ -229,13 +229,13 @@
       return [];
 
     // replace inline code blocks with 9's so it isn't parsed
-    var matches = line.match(/`.*?`/g);
+    var matches = line.match(/`.*?`|href=".*?"|src=".*?"/g);
     if (matches) {
       for (var i = 0; i < matches.length; i++) {
         var match = matches[i];
         line = line.replace(match, new Array(match.length + 1).join("9")); // repeat
       }
-    }
+    }    
 
     // ignore links
     matches = line.match(/\]\(.*?\)/g);

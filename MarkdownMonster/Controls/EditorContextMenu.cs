@@ -125,7 +125,8 @@ namespace MarkdownMonster
                 }
 
                 var text = ((dynamic) range).misspelled as string;
-                model.ActiveEditor.AddWordToDictionary(text);                
+                model.ActiveEditor.AddWordToDictionary(text);
+                model.ActiveEditor.SpellCheckDocument();
                 model.Window.ShowStatus("Word added to dictionary.", mmApp.Configuration.StatusMessageTimeout);
             };
             ContextMenu.Items.Add(mi2);

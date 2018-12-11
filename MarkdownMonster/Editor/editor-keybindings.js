@@ -97,61 +97,53 @@ te.keyBindings = {
     var pos = te.getCursorPosition();
     var markers = te.editor.session.getMarkers(true);
 
+    var range;
     for (var key in markers) {
-      var range = markers[key].range;
+      range = markers[key].range;
       if (range.end.row > pos.row || range.end.row === pos.row && range.end.column > pos.column) {
-        te.setSelectionRange(range);
+        te.editor.scrollToLine(range.end.row);
+        var sel = te.editor.getSelection();
+        sel.setSelectionRange(range);               
         return;
       }
     }
-    
-    if (pos.row + 30 > te.editor.session.getLength() - 1)
-      return;
 
-    te.setscrolltop(te.getscrolltop() + 500);
+    if (te.editor.renderer.getLastVisibleRow()  >= te.editor.session.getLength() -1)
+      return;    
 
-    setTimeout(function () {
-      sc.contentModified = true;
-      sc.spellCheck();
-      setTimeout(te.keyBindings.nextSpellCheckError, 200);
-    });    
+    te.editor.gotoPageDown();
+    sc.contentModified = true;
+    sc.spellCheck();
+
+    setTimeout(te.keyBindings.nextSpellCheckError, 200);
   },
-  previousSpellCheckError: function () {
-    var pos = te.getCursorPosition();
-    var markers = te.editor.session.getMarkers(true);
+  previousSpellCheckError: function () {    
+      var pos = te.getCursorPosition();
+      var markers = te.editor.session.getMarkers(true);
 
-    var keys = [];
-    for (var key in markers)
-      keys.push(key);
+      var keys = [];
+      for (var key in markers)
+        keys.push(key);
 
-    while (true) {
-      var key = keys.pop();
-      if (!key)
-        break;
-    
-      var range = markers[key].range;
-      if (range.end.row < pos.row || range.end.row === pos.row && range.end.column < pos.column) {
-        te.setSelectionRange(range);
-        return;
+      while (true) {
+        var key = keys.pop();
+        if (!key)
+          break;
+
+        var range = markers[key].range;
+        if (range.end.row < pos.row || range.end.row === pos.row && range.end.column < pos.column) {
+          te.editor.scrollToLine(range.end.row);
+          te.setSelectionRange(range);
+          return;
+        }
       }
-    }
 
-    if (pos.row  < 1)
-      return;
-    try {
-      
-    
-    te.setscrolltop(te.getscrolltop() - 500);
+      if (te.editor.renderer.getFirstVisibleRow() < 2)
+        return;
 
-    console.log('scrolled');
-
-    setTimeout(function () {
+      te.editor.gotoPageUp();
       sc.contentModified = true;
       sc.spellCheck();
-      setTimeout(te.keyBindings.previousSpellCheckError, 200);
-    });
-    } catch (e) {
-      alert(e.message);
-    } 
+      setTimeout(te.keyBindings.nextSpellCheckError, 200);   
   }
 };
