@@ -6,7 +6,7 @@
 
 cd "$PSScriptRoot" 
 
-$releasePath = "C:\projects2010\MarkdownMonsterAddins\MarkdownMonsterReleases\v1.13"
+$releasePath = "C:\projects2010\MarkdownMonsterAddins\MarkdownMonsterReleases\v1.14"
 
 #$file = "MarkdownMonsterSetup-0.55.exe"
 $file = gci "$releasePath" | sort LastWriteTime | select -last 1 | select -ExpandProperty "Name"
@@ -19,7 +19,7 @@ write-host $sha
 $filetext = @"
 `$packageName = 'markdownmonster'
 `$fileType = 'exe'
-`$url = 'https://github.com/RickStrahl/MarkdownMonsterReleases/raw/master/v1.13/$file'
+`$url = 'https://github.com/RickStrahl/MarkdownMonsterReleases/raw/master/v1.14/$file'
 
 `$silentArgs = '/VERYSILENT'
 `$validExitCodes = @(0)

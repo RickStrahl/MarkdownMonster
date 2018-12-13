@@ -622,7 +622,7 @@ namespace MarkdownMonster
                     return false;
                 if (Model.ActiveDocument.Filename == "untitled")
                     return true;
-                if (Model.ActiveEditor.EditorSyntax != "markdown")
+                if (Model.ActiveEditor?.EditorSyntax != "markdown")
                     return false;
 
                 return true;
