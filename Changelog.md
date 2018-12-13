@@ -6,8 +6,8 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.13.16
-<small>*not released yet*</small>
+### 1.14
+<small>December 13th, 2018</small>
 
 * **Open PDF documents from Previewer**  
 Added logic to open PDF documents in the system configured PDF viewer externally, since the WebBrowser's preview can't display PDF documents.
