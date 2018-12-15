@@ -68,7 +68,7 @@ namespace MarkdownMonster
             {
                 mmApp.Log("Failed to convert Html to Markdown", ex);
                 if (!noErrorUI)
-                    MessageBox.Show("Unable to convert Html to Markdown. Returning Html.","Html to Markdown Conversion Failed.",MessageBoxButton.OK,MessageBoxImage.Warning);
+                    MessageBox.Show("Unable to convert Html to Markdown. Returning Html.", "Html to Markdown Conversion Failed.", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
             form.Close();
@@ -132,7 +132,7 @@ namespace MarkdownMonster
         /// <param name="link"></param>
         /// <returns></returns>
         public static LinkReferenceResult AddLinkReference(string md, SelectionRange selectionRange, string link)
-        {            
+        {
             const string STR_NEWID_PLACEHOLDER = "999999";
 
             if (string.IsNullOrEmpty(md))
@@ -144,7 +144,7 @@ namespace MarkdownMonster
             var syntax = Markdig.Markdown.Parse(md);
             foreach (var item in syntax)
             {
-                
+
                 if (item is LinkReferenceDefinitionGroup)
                 {
                     var itemLinks = item as LinkReferenceDefinitionGroup;
@@ -173,14 +173,14 @@ namespace MarkdownMonster
             {
                 Match match = matches[index];
                 var value = match.Value;
-                var match2  = Regex.Match(value, @"\]\[(\d{0,10})\]");
+                var match2 = Regex.Match(value, @"\]\[(\d{0,10})\]");
 
                 if (match2?.Value == null || match.Groups.Count < 2)
                     continue;
 
                 var id = match.Groups[1].Value;
-                    
-                string newValue = value.Replace(match2.Value,"][" + (index + 1) + "]");
+
+                string newValue = value.Replace(match2.Value, "][" + (index + 1) + "]");
                 if (newValue != value)
                     md = md.Replace(value, newValue);
 
@@ -233,14 +233,14 @@ namespace MarkdownMonster
     {
         public int LineNumber { get; set; }
         public string Description { get; set; }
-        public string Detail  { get; set; }
-        public string RuleName  { get; set; }
-        public int ErrorRangeStart { get; set;  }
+        public string Detail { get; set; }
+        public string RuleName { get; set; }
+        public int ErrorRangeStart { get; set; }
         public int ErrorRangeEnd { get; set; }
 
         public override string ToString()
         {
-            return $"Line {LineNumber}: {Description}. {(!string.IsNullOrEmpty(Detail) ? " " + Detail + ". ": "")}({RuleName})";
+            return $"Line {LineNumber}: {Description}. {(!string.IsNullOrEmpty(Detail) ? " " + Detail + ". " : "")}({RuleName})";
         }
     }
 }

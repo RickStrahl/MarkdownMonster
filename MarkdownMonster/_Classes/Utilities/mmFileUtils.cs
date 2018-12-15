@@ -12,7 +12,7 @@ using MarkdownMonster.Annotations;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
-namespace MarkdownMonster 
+namespace MarkdownMonster
 {
     /// <summary>
     /// Internal File Utilities class
@@ -38,7 +38,7 @@ namespace MarkdownMonster
 
             if (File.Exists(file))
                 return file;
-           
+
             var newFile = Path.Combine(App.InitialStartDirectory, file);
             if (File.Exists(newFile))
                 return newFile;
@@ -65,7 +65,7 @@ namespace MarkdownMonster
             return null;
         }
 
-      
+
 
         /// <summary>
         /// Creates an MD5 checksum of a file
@@ -114,12 +114,12 @@ namespace MarkdownMonster
 
             // Detect byte order mark if any - otherwise assume default
             byte[] buffer = new byte[5];
-            using (FileStream file = new FileStream(srcFile, FileMode.Open,FileAccess.Read,FileShare.ReadWrite))
-            {             
+            using (FileStream file = new FileStream(srcFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
                 file.Read(buffer, 0, 5);
                 file.Close();
-            }            
-            
+            }
+
             if (buffer.Length > 2 && buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
                 enc = Encoding.UTF8;
             else if (buffer.Length > 1 && buffer[0] == 0xff && buffer[1] == 0xfe)
@@ -127,7 +127,7 @@ namespace MarkdownMonster
             else if (buffer.Length > 1 && buffer[0] == 0xfe && buffer[1] == 0xff)
                 enc = Encoding.BigEndianUnicode; //UTF-16BE
             else if (buffer.Length > 2 && buffer[0] == 0x2b && buffer[1] == 0x2f && buffer[2] == 0x76)
-                enc = Encoding.UTF7;            
+                enc = Encoding.UTF7;
             else if (buffer.Length > 3 && buffer[0] != 0 && buffer[1] == 0 && buffer[2] != 0 && buffer[3] == 0)
                 enc = Encoding.Unicode;  // no BOM Unicode - bad idea: Should always have BOM and we'll write it
             else
@@ -136,7 +136,7 @@ namespace MarkdownMonster
 
             return enc;
         }
-        
+
 
         /// <summary>
         /// Retrieves the editor syntax for a file based on extension for use in the editor
@@ -146,29 +146,29 @@ namespace MarkdownMonster
         /// <param name="filename"></param>
         /// <returns></returns>
         public static string GetEditorSyntaxFromFileType(string filename)
-	    {
-		    if (string.IsNullOrEmpty(filename))
-			    return null;
+        {
+            if (string.IsNullOrEmpty(filename))
+                return null;
 
-		    if (filename.ToLower() == "untitled")
-			    return "markdown";
+            if (filename.ToLower() == "untitled")
+                return "markdown";
 
-		    string editorSyntax = null;
+            string editorSyntax = null;
 
-		    var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
-		    if (ext == "md")
-			    return "markdown"; // most common use case
+            var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
+            if (ext == "md")
+                return "markdown"; // most common use case
 
-			// look up all others
-			if (!mmApp.Configuration.EditorExtensionMappings.TryGetValue(ext,out editorSyntax))
-				return null;
+            // look up all others
+            if (!mmApp.Configuration.EditorExtensionMappings.TryGetValue(ext, out editorSyntax))
+                return null;
 
-		    return editorSyntax;			
-	    }
+            return editorSyntax;
+        }
 
-		#endregion
+        #endregion
 
-	    #region Type and Language Utilities       
+        #region Type and Language Utilities       
 
         /// <summary>
         /// Safely converts a double to an integer
@@ -181,14 +181,14 @@ namespace MarkdownMonster
             if (double.IsNaN(value) || double.IsNegativeInfinity(value) || double.IsPositiveInfinity(value))
             {
                 mmApp.Log("Double to Int Conversion failed: " + value + " - failValue: " + failValue);
-                return failValue;                
+                return failValue;
             }
 
             try
             {
                 return Convert.ToInt32(value);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 mmApp.Log("Double to Int Conversion failed: " + value + " - failValue: " + failValue +
                          "\r\n" + ex.GetBaseException().Message +
@@ -227,7 +227,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="imageFilename"></param>
         /// <param name="imageQuality">Optional image quality. If not specified auto is used</param>
-        public static void OptimizeImage(string imageFilename, int imageQuality=0, Action<bool> onComplete = null)
+        public static void OptimizeImage(string imageFilename, int imageQuality = 0, Action<bool> onComplete = null)
         {
             try
             {
@@ -243,12 +243,12 @@ namespace MarkdownMonster
                 {
                     args = "auto \"" + imageFilename + "\"";
                 }
-                
+
                 if (onComplete != null)
                 {
                     Task.Run(() =>
                     {
-                        int result =  ShellUtils.ExecuteProcess(exec, args, 30000, ProcessWindowStyle.Hidden);
+                        int result = ShellUtils.ExecuteProcess(exec, args, 30000, ProcessWindowStyle.Hidden);
                         onComplete(result == 0);
                     }).GetAwaiter();
                 }
@@ -263,62 +263,62 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="imageFile"></param>
         public static bool OpenImageInImageEditor(string imageFile)
-		{
-		    imageFile = System.Net.WebUtility.UrlDecode(imageFile);
-
-		    try
-		    {
-			    string exe = mmApp.Configuration.ImageEditor;
-			    if (!string.IsNullOrEmpty(exe))
-				    Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
-			    else
-			    {
-				    Process.Start(new ProcessStartInfo
-				    {
-						 FileName = imageFile,
-						 UseShellExecute = true,
-						 Verb = "Edit"
-				    });
-			    }
-		    }
-		    catch (Exception)
-		    {
-				return false;
-		    }
-
-			return true;
-	    }
-
-	    /// <summary>
-	    /// Opens an image in the configured image viewer.
-	    /// If none is specified uses default image viewer
-	    /// </summary>
-	    /// <param name="imageFile"></param>
-	    public static bool OpenImageInImageViewer(string imageFile)
-	    {
-	        imageFile = System.Net.WebUtility.UrlDecode(imageFile);
+        {
+            imageFile = System.Net.WebUtility.UrlDecode(imageFile);
 
             try
-		    {
-			    string exe = mmApp.Configuration.ImageViewer;
-			    if (!string.IsNullOrEmpty(exe))
-				    Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
-			    else
-			    {
-				    Process.Start(new ProcessStartInfo
-				    {
-					    FileName = imageFile,
-					    UseShellExecute = true					    
-				    });
-			    }
-		    }
-		    catch (Exception)
-		    {
-			    return false;
-		    }
+            {
+                string exe = mmApp.Configuration.ImageEditor;
+                if (!string.IsNullOrEmpty(exe))
+                    Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
+                else
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = imageFile,
+                        UseShellExecute = true,
+                        Verb = "Edit"
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
-		    return true;
-	    }
+            return true;
+        }
+
+        /// <summary>
+        /// Opens an image in the configured image viewer.
+        /// If none is specified uses default image viewer
+        /// </summary>
+        /// <param name="imageFile"></param>
+        public static bool OpenImageInImageViewer(string imageFile)
+        {
+            imageFile = System.Net.WebUtility.UrlDecode(imageFile);
+
+            try
+            {
+                string exe = mmApp.Configuration.ImageViewer;
+                if (!string.IsNullOrEmpty(exe))
+                    Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
+                else
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = imageFile,
+                        UseShellExecute = true
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
 
 
@@ -332,7 +332,7 @@ namespace MarkdownMonster
             string file = null;
             var programFiles64 = Environment.GetEnvironmentVariable("ProgramW6432");
 
-            file = Path.Combine(programFiles64,"Techsmith","Snagit 2018","SnagItEditor.exe");
+            file = Path.Combine(programFiles64, "Techsmith", "Snagit 2018", "SnagItEditor.exe");
             if (File.Exists(file))
                 return file;
 
@@ -346,7 +346,7 @@ namespace MarkdownMonster
             if (File.Exists(file))
                 return file;
 
-            file = Path.Combine(programFiles64, "GIMP 2","bin");
+            file = Path.Combine(programFiles64, "GIMP 2", "bin");
             if (Directory.Exists(file))
             {
                 var di = new DirectoryInfo(file);
@@ -359,7 +359,7 @@ namespace MarkdownMonster
                     return Path.Combine(fi.FullName);
             }
 
-            file =  @"mspaint.exe";
+            file = @"mspaint.exe";
 
             return file;
         }
@@ -375,7 +375,7 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(file))
                 return file;
 
-            
+
 
             string ext = Path.GetExtension(file).ToLower();
             if (ext == ".jpg" || ext == ".jpeg")
@@ -391,7 +391,7 @@ namespace MarkdownMonster
 
             // fonts
             if (ext == ".woff")
-                return "application/font-woff";            
+                return "application/font-woff";
             if (ext == ".svg")
                 return "image/svg+xml";
 
@@ -408,7 +408,7 @@ namespace MarkdownMonster
             return "application/image";
         }
 
-        
+
         #endregion
 
         #region Shell Operations
@@ -420,18 +420,18 @@ namespace MarkdownMonster
         /// <param name="folder"></param>
         /// <returns>false if process couldn't be started - most likely invalid link</returns>
         public static bool OpenTerminal(string folder)
-	    {
-		    try
-		    {
-			    Process.Start(mmApp.Configuration.TerminalCommand,
-				    string.Format(mmApp.Configuration.TerminalCommandArgs, folder));
-		    }
-		    catch
-		    {
-			    return false;
-		    }
-		    return true;
-	    }
+        {
+            try
+            {
+                Process.Start(mmApp.Configuration.TerminalCommand,
+                    string.Format(mmApp.Configuration.TerminalCommandArgs, folder));
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
 
 
         public static void ShowExternalBrowser(string url)
@@ -455,8 +455,8 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="folder"></param>
         public static bool OpenGitClient(string folder)
-        {            
-            
+        {
+
             var exe = mmApp.Configuration.Git.GitClientExecutable;
             if (string.IsNullOrEmpty(exe) || !File.Exists(exe))
                 return false;
@@ -492,7 +492,7 @@ namespace MarkdownMonster
                 "GitHubDesktop\\GitHubDesktop.exe");
             if (File.Exists(git))
                 return git;
-            
+
             git = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "SourceTree\\sourcetree.exe");
             if (File.Exists(git))
@@ -522,7 +522,7 @@ namespace MarkdownMonster
         public static string FindGitDiffTool()
         {
             string diff = null;
-            
+
             diff = Path.Combine(Environment.GetEnvironmentVariable("ProgramW6432"),
                 "Beyond Compare 4\\BCompare.exe");
             if (File.Exists(diff))
@@ -540,6 +540,9 @@ namespace MarkdownMonster
 
             return diff;
         }
+
+
+
         #endregion
 
         #region Installation Helpers
@@ -694,22 +697,22 @@ namespace MarkdownMonster
         }
 
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
-	    public static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
+        public static extern int SHFileOperation(ref SHFILEOPSTRUCT FileOp);
 
-	    public const int FO_DELETE = 3;
-	    public const int FOF_ALLOWUNDO = 0x40;
-	    public const int FOF_NOCONFIRMATION = 0x10; // Don't prompt the user
+        public const int FO_DELETE = 3;
+        public const int FOF_ALLOWUNDO = 0x40;
+        public const int FOF_NOCONFIRMATION = 0x10; // Don't prompt the user
 
-	    public static bool MoveToRecycleBin(string filename)
-	    {
-		    var shf = new SHFILEOPSTRUCT();
+        public static bool MoveToRecycleBin(string filename)
+        {
+            var shf = new SHFILEOPSTRUCT();
             shf.wFunc = FO_DELETE;
-		    shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
-		    shf.pFrom = filename + '\0'; // required!
-		    int result =SHFileOperation(ref shf);
+            shf.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION;
+            shf.pFrom = filename + '\0'; // required!
+            int result = SHFileOperation(ref shf);
 
-		    return result == 0;
-	    }
-	    #endregion
+            return result == 0;
+        }
+        #endregion
     }
 }

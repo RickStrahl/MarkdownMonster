@@ -24,7 +24,7 @@ namespace MarkdownMonster.Utilities
     {
         public Repository Repository { get; set; }
 
-        public Func<string,bool> CloneProgress { get; set; }
+        public Func<string, bool> CloneProgress { get; set; }
 
         /// <summary>
         /// Opens a repository and stores it in the Repository
@@ -46,7 +46,7 @@ namespace MarkdownMonster.Utilities
                 Repository = new Repository(repoPath);
                 return Repository;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SetError(ex);
             }
@@ -90,7 +90,7 @@ namespace MarkdownMonster.Utilities
             {
                 var branch = repo.Head.FriendlyName;
                 //var relFile = FileUtils.GetRelativePath(file, repo.Info.WorkingDirectory);
-                repo.CheckoutPaths(branch, new[] { file }, new CheckoutOptions { CheckoutModifiers = CheckoutModifiers.Force});
+                repo.CheckoutPaths(branch, new[] { file }, new CheckoutOptions { CheckoutModifiers = CheckoutModifiers.Force });
             }
         }
 
@@ -112,7 +112,7 @@ namespace MarkdownMonster.Utilities
                 string password = null,
                 string branch = "master"
             )
-        {            
+        {
             try
             {
                 var options = new CloneOptions
@@ -128,24 +128,24 @@ namespace MarkdownMonster.Utilities
                 if (useGitCredentialManager)
                 {
 
-                        var creds = GetGitCredentials(gitUrl);
+                    var creds = GetGitCredentials(gitUrl);
 
-                        if (creds?.Username != null)
+                    if (creds?.Username != null)
+                    {
+                        options.CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials()
                         {
-                            options.CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials()
-                            {
-                                Username = creds.Username,
-                                Password = creds.Password
-                            };
-                        }
-                        else
-                        {
+                            Username = creds.Username,
+                            Password = creds.Password
+                        };
+                    }
+                    else
+                    {
                         // oAuth flow then set credentials
 
 
                     }
                 }
-                else if(!string.IsNullOrEmpty(username))
+                else if (!string.IsNullOrEmpty(username))
                 {
 
                     options.CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials()
@@ -155,7 +155,7 @@ namespace MarkdownMonster.Utilities
                     };
                 }
 
-                Repository.Clone(gitUrl, localPath,options);
+                Repository.Clone(gitUrl, localPath, options);
             }
             catch (Exception ex)
             {
@@ -212,7 +212,7 @@ namespace MarkdownMonster.Utilities
         {
             try
             {
-                Repository.Init(path, false);                
+                Repository.Init(path, false);
             }
             catch (Exception ex)
             {
@@ -282,7 +282,7 @@ namespace MarkdownMonster.Utilities
             try
             {
                 //git remote add origin https://github.com/RickStrahl/Test.git                
-                Repository.Network.Remotes.Add(remoteName, githubUrl);                
+                Repository.Network.Remotes.Add(remoteName, githubUrl);
             }
             catch (Exception ex)
             {
@@ -294,7 +294,7 @@ namespace MarkdownMonster.Utilities
             var branch = Repository.Head?.FriendlyName;
             if (!string.IsNullOrEmpty(branch))
                 ExecuteGitCommand("branch --set-upstream " + Repository.Head.FriendlyName);
-                        
+
             return true;
             //if (Repository == null)
             //{
@@ -327,7 +327,7 @@ namespace MarkdownMonster.Utilities
             var creds = auth.GetCredentials(new TargetUri(url));
 
             //if (creds == null)
-                // TODO: Prompt for
+            // TODO: Prompt for
 
             return creds;
         }
@@ -367,9 +367,9 @@ namespace MarkdownMonster.Utilities
             try
             {
                 var sig = new Signature(name, email, DateTimeOffset.UtcNow);
-                Repository.Commit(message, sig, sig,new CommitOptions
+                Repository.Commit(message, sig, sig, new CommitOptions
                 {
-                     AmendPreviousCommit = ammendPreviousCommit
+                    AmendPreviousCommit = ammendPreviousCommit
                 });
             }
             catch (EmptyCommitException)
@@ -400,15 +400,15 @@ namespace MarkdownMonster.Utilities
             if (string.IsNullOrEmpty(branch))
             {
                 using (var repo = OpenRepository(path))
-                {                    
+                {
                     branch = repo.Head?.FriendlyName;
                 }
             }
 
-            if (!string.IsNullOrEmpty(branch))            
+            if (!string.IsNullOrEmpty(branch))
                 branch = " -u " + branch;
-            
-            var result = ExecuteGitCommand("push origin" + branch,path, 60000);
+
+            var result = ExecuteGitCommand("push origin" + branch, path, 60000);
             if (result.HasError)
             {
                 SetError("Couldn't push to repository: " + result.Message);
@@ -477,9 +477,9 @@ namespace MarkdownMonster.Utilities
         /// <returns></returns>
         public GitCommandResult ExecuteGitCommand(string arguments,
                                                   string path = null,
-                                                  int timeoutMs=10000,
-                                                  ProcessWindowStyle windowStyle= ProcessWindowStyle.Hidden,
-                                                  Action<object,DataReceivedEventArgs> progress = null)
+                                                  int timeoutMs = 10000,
+                                                  ProcessWindowStyle windowStyle = ProcessWindowStyle.Hidden,
+                                                  Action<object, DataReceivedEventArgs> progress = null)
         {
             Process process;
             var result = new GitCommandResult();
@@ -559,7 +559,7 @@ namespace MarkdownMonster.Utilities
                             if (result.ExitCode == 0)
                                 result.Message = "Process timed out.";
                         }
-                        else if(result.HasError)
+                        else if (result.HasError)
                             result.Message = result.Output;
 
                         if (oldPath != null)
@@ -578,7 +578,7 @@ namespace MarkdownMonster.Utilities
                 result.Message = ex.Message;
             }
 
-            if(oldPath != null)
+            if (oldPath != null)
                 Directory.SetCurrentDirectory(oldPath);
 
             return result;
@@ -641,7 +641,7 @@ namespace MarkdownMonster.Utilities
 
             return true;
         }
-        
+
 
         public const FileStatus DefaultStatusesToDisplay = FileStatus.ModifiedInIndex | FileStatus.ModifiedInWorkdir |
                                                            FileStatus.NewInIndex | FileStatus.NewInWorkdir |
@@ -681,7 +681,7 @@ namespace MarkdownMonster.Utilities
                 var statusItem = new RepositoryStatusItem
                 {
                     Filename = item.FilePath,
-                    FullPath = Path.Combine(Repository.Info.WorkingDirectory,item.FilePath),
+                    FullPath = Path.Combine(Repository.Info.WorkingDirectory, item.FilePath),
                     FileStatus = item.State,
                 };
 
@@ -697,7 +697,7 @@ namespace MarkdownMonster.Utilities
                     .OrderByDescending(si => si.Selected)
                     .ThenBy(si => Path.GetDirectoryName(si.Filename))
                     .ThenBy(si => Path.GetFileName(si.Filename)));
-            
+
             return statusItems;
         }
 
@@ -775,8 +775,8 @@ namespace MarkdownMonster.Utilities
             var gitIgnoreFile = Path.Combine(repo.Info.WorkingDirectory, ".gitignore");
 
             string content = string.Empty;
-            if(File.Exists(gitIgnoreFile))
-             content = File.ReadAllText(gitIgnoreFile);
+            if (File.Exists(gitIgnoreFile))
+                content = File.ReadAllText(gitIgnoreFile);
 
             var relPath = FileUtils.GetRelativePath(filePath, repo.Info.WorkingDirectory).Replace("\\", "/");
 
@@ -815,6 +815,44 @@ namespace MarkdownMonster.Utilities
 
             return new string[2] { username.Trim(), email.Trim() };
         }
+        #endregion
+
+        #region Git Locations and Installation
+        /// <summary>
+        /// Checks to see if Git is installed on the local machine
+        /// </summary>
+        /// <returns></returns>
+        public static string FindGitExecutable()
+        {
+            string exe = Path.Combine(Environment.GetEnvironmentVariable("Program6432"), "Git\\bin\\git.exe");
+            if (!File.Exists(exe))
+                return exe;
+
+            exe = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                "Git\\bin\\git.exe");
+            if (!File.Exists(exe))
+                return exe;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Determines whether Git is installed
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsGitInstalled()
+        {
+            return FindGitExecutable() != null;
+        }
+
+        /// <summary>
+        /// Navigates browser to the Git Web download location
+        /// </summary>
+        public static void GotoGitDownload()
+        {
+            ShellUtils.GoUrl("https://git-scm.com/download/win");
+        }
+
         #endregion
 
         #region Error Handling
@@ -856,7 +894,7 @@ namespace MarkdownMonster.Utilities
         }
         #endregion
     }
-    
+
     [DebuggerVisualizer("{Message}")]
     public class GitCommandResult
     {
@@ -873,7 +911,7 @@ namespace MarkdownMonster.Utilities
         public string Filename { get; set; }
 
         public string FullPath { get; set; }
-        
+
 
         public FileStatus FileStatus
         {

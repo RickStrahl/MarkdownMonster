@@ -40,6 +40,9 @@ Fixed refresh when adding a new word to the dictionary, so that the new value is
 * **Optimize Image on Folder Browser Menu**  
 A new menu for images allows optimizing images using Pinga which optimizes PNG and JPEG images very quickly. Can produce quite radical image size improvements with minimal loss of quality.
 
+* **Update to Ace Editor 1.4.2**  
+Update to the latest version of Ace Editor which addresses a handful of small issues related WebBrowser control editing.
+
 * **Optimize Snippet Rendering in Large Documents**  
 When rendering very large documents (in excess of 500k) with lots of code snippets the preview can become very slow due to the refresh overhead of rendering and then showing syntax highlighting. Due to some limitations in the Web Browser (IE) control used, rendering blocks the UI thread, so very large documents can interfere with the editing experience. Added some optimizations to only render snippets that are visible and if there are more than 500 snippets snippets aren't highlighting in the preview and just apply a default style. This provides some relief for documents in the 300-500k range with lots of code snippets. For anything larger it's recommended to turn off the Html Previewer while editing these huge documents which works well.
 
