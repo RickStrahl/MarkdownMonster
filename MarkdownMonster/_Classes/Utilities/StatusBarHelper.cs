@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using FontAwesome.WPF;
 
 namespace MarkdownMonster.Windows
@@ -29,28 +30,32 @@ namespace MarkdownMonster.Windows
             Color color = default(Color),
             bool spin = false)
         {
-            if (color == default(Color))
-                color = Colors.Green;
-
-            if (icon != FontAwesomeIcon.None)
-                SetStatusIcon(icon, color, spin);
-
-            if (message == null)
+            // run in a dispatcher here to force the UI to be updated
+            Dispatcher.CurrentDispatcher.Invoke(() =>
             {
-                message = "Ready";
-                SetStatusIcon();
-            }
+                if (color == default(Color))
+                    color = Colors.Green;
 
-            StatusText.Text = message;
+                if (icon != FontAwesomeIcon.None)
+                    SetStatusIcon(icon, color, spin);
 
-            if (milliSeconds > 0)
-            {
-                // debounce rather than delay so if something else displays
-                // a message the delay timer is 'reset'
-                debounce.Debounce(milliSeconds, (win) => ShowStatus(null, 0), this);
-            }
+                if (message == null)
+                {
+                    message = "Ready";
+                    SetStatusIcon();
+                }
 
-            WindowUtilities.DoEvents();
+                StatusText.Text = message;
+
+                if (milliSeconds > 0)
+                {
+                    // debounce rather than delay so if something else displays
+                    // a message the delay timer is 'reset'
+                    debounce.Debounce(milliSeconds, (p) => ShowStatus(null, 0), null);
+                }
+            },DispatcherPriority.Background);
+
+            //WindowUtilities.DoEvents();
         }
 
         /// <summary>

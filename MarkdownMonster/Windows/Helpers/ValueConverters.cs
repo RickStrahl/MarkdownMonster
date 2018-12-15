@@ -419,7 +419,7 @@ namespace MarkdownMonster.Windows
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException("Two way conversion is not supported.");
+            throw new NotImplementedException("UriToCachedImageConverter: Two way conversion is not supported.");
         }
     }
 

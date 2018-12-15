@@ -26,8 +26,10 @@ namespace MarkdownMonster.Windows
     /// </summary>
     public class WindowUtilities
     {
-        private delegate void EmptyDelegate();
 
+
+        static readonly FieldInfo DisableProcessCountField = typeof(Dispatcher).GetField("_disableProcessingCount", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static void EmptyMethod() { }
 
         /// <summary>
         /// Idle loop to let events fire in the UI
@@ -38,30 +40,38 @@ namespace MarkdownMonster.Windows
         public static void DoEvents()
         {
             try
-            {
-                Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background, new EmptyDelegate(EmptyMethod));
+            {                
+                // This can fail if the dispatcher is disabled by another process
+                if (DisableProcessCountField != null)
+                {                    
+                    if ((int) DisableProcessCountField.GetValue(Dispatcher.CurrentDispatcher) == 0)
+                        Dispatcher.CurrentDispatcher.Invoke(EmptyMethod, DispatcherPriority.Background);                    
+                }
             }
             catch(Exception ex)
             {
                 mmApp.Log("DoEvents failed", ex);
-                try
-                {
-                    Dispatcher.ExitAllFrames();
-                }
-                catch (Exception ex2)
-                {
-                    mmApp.Log("DoEvents ExitAllFrames failed", ex2);
-                }
+                //try
+                //{
+                //        Dispatcher.ExitAllFrames();
+                //}
+                //catch (Exception ex2)
+                //{
+                //    mmApp.Log("DoEvents ExitAllFrames failed", ex2);
+                //}
             }
         }
 
-        private static void EmptyMethod() {  }
 
         /// <summary>
-        /// Forces lost focus on the active control in a Window so that the a toolbar click 
-        /// works properly accepting the last controls value input.
+        /// Forces lost focus on the active control in a Window to force the selected control
+        /// to databind.
+        /// Typical scenario: Toolbar clicks (which don't cause a focus change) don't see
+        /// latest control state of the active control because it doesn't know focus has
+        /// changed. This forces the active control to unbind       
         /// </summary>
-        /// <param name="window"></param>
+        /// <param name="window">Active window</param>
+        /// <param name="control">Control to force focus to briefly to force active control to bind</param>
         public static void FixFocus(Window window, System.Windows.Controls.Control control)
         {
             var ctl = FocusManager.GetFocusedElement(window);
