@@ -28,34 +28,44 @@ namespace MarkdownMonster.Windows
         public void ShowStatus(string message = null, int milliSeconds = 0,
             FontAwesomeIcon icon = FontAwesomeIcon.None,
             Color color = default(Color),
-            bool spin = false)
+            bool spin = false, bool noDispatcher = false)
         {
-            // run in a dispatcher here to force the UI to be updated
-            Dispatcher.CurrentDispatcher.Invoke(() =>
+
+            // check for disabled dispatcher which will throw exceptions
+            if (!noDispatcher) // && !WindowUtilities.IsDispatcherDisabled())
+                // run in a dispatcher here to force the UI to be updated before render cycle
+                Dispatcher.CurrentDispatcher.Invoke(() => ShowStatusInternal(message, milliSeconds, icon, color, spin));
+            else
+               // dispatcher blocked - just assign and let Render handle
+               ShowStatusInternal(message, milliSeconds, icon, color, spin);
+        }
+
+        private void ShowStatusInternal(string message = null, int milliSeconds = 0,
+            FontAwesomeIcon icon = FontAwesomeIcon.None,
+            Color color = default(Color),
+            bool spin = false, bool noDispatcher = false)
+        {
+
+            if (color == default(Color))
+                color = Colors.Green;
+
+            if (icon != FontAwesomeIcon.None)
+                SetStatusIcon(icon, color, spin);
+
+            if (message == null)
             {
-                if (color == default(Color))
-                    color = Colors.Green;
+                message = "Ready";
+                SetStatusIcon();
+            }
 
-                if (icon != FontAwesomeIcon.None)
-                    SetStatusIcon(icon, color, spin);
+            StatusText.Text = message;
 
-                if (message == null)
-                {
-                    message = "Ready";
-                    SetStatusIcon();
-                }
-
-                StatusText.Text = message;
-
-                if (milliSeconds > 0)
-                {
-                    // debounce rather than delay so if something else displays
-                    // a message the delay timer is 'reset'
-                    debounce.Debounce(milliSeconds, (p) => ShowStatus(null, 0), null);
-                }
-            },DispatcherPriority.Background);
-
-            //WindowUtilities.DoEvents();
+            if (milliSeconds > 0)
+            {
+                // debounce rather than delay so if something else displays
+                // a message the delay timer is 'reset'
+                debounce.Debounce(milliSeconds, (p) => ShowStatus(null, 0), null);
+            }
         }
 
         /// <summary>

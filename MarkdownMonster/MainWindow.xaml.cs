@@ -600,7 +600,7 @@ namespace MarkdownMonster
 
 
 
-            List<string> badFiles = new List<string>();
+            var badFiles = new List<string>();
             foreach (string file in mmApp.Configuration.RecentDocuments)
             {
                 if (!File.Exists(file))
@@ -660,8 +660,10 @@ namespace MarkdownMonster
             foreach (var file in badFiles)
                 mmApp.Configuration.RecentDocuments.Remove(file);
 
+            badFiles.Clear();
             if (mmApp.Configuration.FolderBrowser.RecentFolders.Count > 0)
             {
+
                 mi = new MenuItem
                 {
                     IsEnabled = false,
@@ -675,6 +677,12 @@ namespace MarkdownMonster
 
                 foreach (var folder in mmApp.Configuration.FolderBrowser.RecentFolders.Take(7))
                 {
+                    if (!Directory.Exists(folder))
+                    {
+                        badFiles.Add(folder);
+                        continue;
+                    }
+
                     var pathOnly = Path.GetFileName(folder).Replace("_", "__");
                     var path = folder.Replace("_", "__");
 
@@ -720,6 +728,9 @@ namespace MarkdownMonster
                     else
                         ButtonRecentFiles.Items.Add(mi);
                 }
+
+                foreach (var file in badFiles)
+                    mmApp.Configuration.FolderBrowser.RecentFolders.Remove(file);
 
             }
 
