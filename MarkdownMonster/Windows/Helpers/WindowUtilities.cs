@@ -42,11 +42,8 @@ namespace MarkdownMonster.Windows
             try
             {                
                 // This can fail if the dispatcher is disabled by another process
-                if (DisableProcessCountField != null)
-                {                    
-                    if ((int) DisableProcessCountField.GetValue(Dispatcher.CurrentDispatcher) == 0)
-                        Dispatcher.CurrentDispatcher.Invoke(EmptyMethod, DispatcherPriority.Background);                    
-                }
+                if (!IsDispatcherDisabled())
+                    Dispatcher.CurrentDispatcher.Invoke(EmptyMethod, DispatcherPriority.Background);
             }
             catch(Exception ex)
             {
@@ -62,17 +59,28 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        public static bool IsDispatcherDisabled(Dispatcher dispatcher = null)
+        {
+            if (dispatcher == null)
+                dispatcher = Dispatcher.CurrentDispatcher;
+
+            // This can fail if the dispatcher is disabled by another process
+            if (DisableProcessCountField == null)
+                return true;
+
+            return (int) DisableProcessCountField.GetValue(dispatcher) != 0;
+        }
 
         /// <summary>
-        /// Forces lost focus on the active control in a Window to force the selected control
-        /// to databind.
-        /// Typical scenario: Toolbar clicks (which don't cause a focus change) don't see
-        /// latest control state of the active control because it doesn't know focus has
-        /// changed. This forces the active control to unbind       
-        /// </summary>
-        /// <param name="window">Active window</param>
-        /// <param name="control">Control to force focus to briefly to force active control to bind</param>
-        public static void FixFocus(Window window, System.Windows.Controls.Control control)
+    /// Forces lost focus on the active control in a Window to force the selected control
+    /// to databind.
+    /// Typical scenario: Toolbar clicks (which don't cause a focus change) don't see
+    /// latest control state of the active control because it doesn't know focus has
+    /// changed. This forces the active control to unbind       
+    /// </summary>
+    /// <param name="window">Active window</param>
+    /// <param name="control">Control to force focus to briefly to force active control to bind</param>
+    public static void FixFocus(Window window, System.Windows.Controls.Control control)
         {
             var ctl = FocusManager.GetFocusedElement(window);
             if (ctl == null)
