@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,8 @@ namespace MarkdownMonster.Controls
                 HyperSwitchAppTheme.Inlines.Add("Switch to Light theme");
             else
                 HyperSwitchAppTheme.Inlines.Add("Switch to Dark theme");
+
+            mmApp.Configuration.CleanupRecentFilesAndFolders();
         }
 
         private void HyperSwitchAppTheme_Click(object sender, RoutedEventArgs e)

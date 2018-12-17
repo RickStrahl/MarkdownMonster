@@ -599,16 +599,10 @@ namespace MarkdownMonster
             }
 
 
-
-            var badFiles = new List<string>();
+            mmApp.Configuration.CleanupRecentFilesAndFolders();
+            
             foreach (string file in mmApp.Configuration.RecentDocuments)
             {
-                if (!File.Exists(file))
-                {
-                    badFiles.Add(file);
-                    continue;
-                }
-
                 var fileOnly = Path.GetFileName(file).Replace("_", "__");
                 var path = Path.GetDirectoryName(file).Replace("_", "__");
 
@@ -657,10 +651,7 @@ namespace MarkdownMonster
                     ButtonRecentFiles.Items.Add(mi);
             }
 
-            foreach (var file in badFiles)
-                mmApp.Configuration.RecentDocuments.Remove(file);
-
-            badFiles.Clear();
+            
             if (mmApp.Configuration.FolderBrowser.RecentFolders.Count > 0)
             {
 
@@ -676,13 +667,7 @@ namespace MarkdownMonster
                     ButtonRecentFiles.Items.Add(mi);
 
                 foreach (var folder in mmApp.Configuration.FolderBrowser.RecentFolders.Take(7))
-                {
-                    if (!Directory.Exists(folder))
-                    {
-                        badFiles.Add(folder);
-                        continue;
-                    }
-
+                {          
                     var pathOnly = Path.GetFileName(folder).Replace("_", "__");
                     var path = folder.Replace("_", "__");
 
@@ -728,10 +713,6 @@ namespace MarkdownMonster
                     else
                         ButtonRecentFiles.Items.Add(mi);
                 }
-
-                foreach (var file in badFiles)
-                    mmApp.Configuration.FolderBrowser.RecentFolders.Remove(file);
-
             }
 
         }

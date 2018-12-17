@@ -643,8 +643,8 @@ namespace MarkdownMonster
             AlwaysUsePreviewRefresh = false;
         }
 
-        
 
+        #region RecentFiles
 
         public void AddRecentFile(string filename)
         {
@@ -664,13 +664,37 @@ namespace MarkdownMonster
                 RecentDocuments.Clear();
                 foreach (var recent in recents)
                     RecentDocuments.Add(recent);
-            }
+            }            
         }
+
+        /// <summary>
+        /// Removes missing files and folders from the recent lists
+        /// </summary>
+        public void CleanupRecentFilesAndFolders()
+        {
+            var missing = new List<string>();
+            foreach (var file in RecentDocuments)
+            {
+                if (!File.Exists(file))
+                    missing.Add(file);
+            }
+            foreach (var file in missing)
+                RecentDocuments.Remove(file);
+
+            missing.Clear();
+            foreach (var dir in FolderBrowser.RecentFolders)
+            {
+                if (!Directory.Exists(dir))
+                    missing.Add(dir);
+            }
+
+            foreach (var dir in missing)
+                FolderBrowser.RecentFolders.Remove(dir);
+        }
+        #endregion
 
 
         #region Configuration Settings
-
-
 
         protected override void OnInitialize(IConfigurationProvider provider, string sectionName, object configData)
         {
@@ -688,6 +712,9 @@ namespace MarkdownMonster
 
             if (string.IsNullOrEmpty(ImageEditor))
                 ImageEditor = mmFileUtils.FindImageEditor();
+
+
+            CleanupRecentFilesAndFolders();
 
             // TODO: Remove in future version - added in 1.11
             // fix up new dictionary files
@@ -867,8 +894,6 @@ namespace MarkdownMonster
             return commonFolderToSet;
         }
         #endregion
-
-
     }
     
 
