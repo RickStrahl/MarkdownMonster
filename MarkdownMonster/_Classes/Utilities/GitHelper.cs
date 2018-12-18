@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using LibGit2Sharp;
 using MarkdownMonster.Annotations;
-using Microsoft.Alm.Authentication;
 using Westwind.Utilities;
 using CompareOptions = LibGit2Sharp.CompareOptions;
 
@@ -96,75 +95,75 @@ namespace MarkdownMonster.Utilities
 
         #endregion
 
-        /// <summary>
-        /// Clones a repository
-        /// </summary>
-        /// <param name="gitUrl"></param>
-        /// <param name="localPath"></param>
-        /// <param name="useGitCredentialManager"></param>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public bool CloneRepository(string gitUrl,
-                string localPath,
-                bool useGitCredentialManager = false,
-                string username = null,
-                string password = null,
-                string branch = "master"
-            )
-        {
-            try
-            {
-                var options = new CloneOptions
-                {
-                    Checkout = true,
-                    BranchName = branch
-                };
+        ///// <summary>
+        ///// Clones a repository
+        ///// </summary>
+        ///// <param name="gitUrl"></param>
+        ///// <param name="localPath"></param>
+        ///// <param name="useGitCredentialManager"></param>
+        ///// <param name="username"></param>
+        ///// <param name="password"></param>
+        ///// <returns></returns>
+        //public bool CloneRepository(string gitUrl,
+        //        string localPath,
+        //        bool useGitCredentialManager = false,
+        //        string username = null,
+        //        string password = null,
+        //        string branch = "master"
+        //    )
+        //{
+        //    try
+        //    {
+        //        var options = new CloneOptions
+        //        {
+        //            Checkout = true,
+        //            BranchName = branch
+        //        };
 
 
-                if (CloneProgress != null)
-                    options.OnProgress = new LibGit2Sharp.Handlers.ProgressHandler(CloneProgress);
+        //        if (CloneProgress != null)
+        //            options.OnProgress = new LibGit2Sharp.Handlers.ProgressHandler(CloneProgress);
 
-                if (useGitCredentialManager)
-                {
+        //        if (useGitCredentialManager)
+        //        {
 
-                    var creds = GetGitCredentials(gitUrl);
+        //            var creds = GetGitCredentials(gitUrl);
 
-                    if (creds?.Username != null)
-                    {
-                        options.CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials()
-                        {
-                            Username = creds.Username,
-                            Password = creds.Password
-                        };
-                    }
-                    else
-                    {
-                        // oAuth flow then set credentials
+        //            if (creds?.Username != null)
+        //            {
+        //                options.CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials()
+        //                {
+        //                    Username = creds.Username,
+        //                    Password = creds.Password
+        //                };
+        //            }
+        //            else
+        //            {
+        //                // oAuth flow then set credentials
 
 
-                    }
-                }
-                else if (!string.IsNullOrEmpty(username))
-                {
+        //            }
+        //        }
+        //        else if (!string.IsNullOrEmpty(username))
+        //        {
 
-                    options.CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials()
-                    {
-                        Username = username,
-                        Password = password
-                    };
-                }
+        //            options.CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials()
+        //            {
+        //                Username = username,
+        //                Password = password
+        //            };
+        //        }
 
-                Repository.Clone(gitUrl, localPath, options);
-            }
-            catch (Exception ex)
-            {
-                SetError(ex);
-                return false;
-            }
+        //        Repository.Clone(gitUrl, localPath, options);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SetError(ex);
+        //        return false;
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
 
         /// <summary>
@@ -317,20 +316,20 @@ namespace MarkdownMonster.Utilities
             //return true;
         }
 
-        public Credential GetGitCredentials(string gitUrl)
-        {
-            var secrets = new SecretStore("git");
+        //public Credential GetGitCredentials(string gitUrl)
+        //{
+        //    var secrets = new SecretStore("git");
 
-            var auth = new BasicAuthentication(secrets);
-            var uri = new Uri(gitUrl);
-            var url = uri.Scheme + "://" + uri.Authority;
-            var creds = auth.GetCredentials(new TargetUri(url));
+        //    var auth = new BasicAuthentication(secrets);
+        //    var uri = new Uri(gitUrl);
+        //    var url = uri.Scheme + "://" + uri.Authority;
+        //    var creds = auth.GetCredentials(new TargetUri(url));
 
-            //if (creds == null)
-            // TODO: Prompt for
+        //    //if (creds == null)
+        //    // TODO: Prompt for
 
-            return creds;
-        }
+        //    return creds;
+        //}
 
         public bool Commit(ObservableCollection<RepositoryStatusItem> statusItems, string message, string name, string email, bool ammendPreviousCommit = false)
         {
