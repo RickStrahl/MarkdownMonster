@@ -6,6 +6,23 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.14.3 
+<small>not released yet</smal>
+
+* **Improve Initial Document Loading**  
+Improved load time for documents when they originally load and reducing flicker. Folder browser is now more responsive to 'preview' -> full edit view transitions which now occur without flickering. 
+
+* **Improved Folder Browser Navigation**  
+We've changed focus behavior in the editor to not automatically focus the editor for a number of tab change operations which reduce flickering and jumpy selections in the folder browser.
+
+* **Fix: Recent Document Handling to remove missing files/folders**  
+The recent document list and startup forms now properly won't show files and folders that no longer exist.
+
+* **Fix: Mysterious Crashes that 'just exit'**  
+Fixed crashes caused by Dispatcher errors when the dispatcher was disabled. This would cause odd crashes especially with status bar updates. Added extra checks around several frequently used generic Dispatcher operations that account for most Dispatcher operations.
+
+
 ### 1.14
 <small>December 13th, 2018</small>
 
