@@ -825,7 +825,7 @@ namespace MarkdownMonster.Windows
             string format = mmFileUtils.GetEditorSyntaxFromFileType(file);
             if (!string.IsNullOrEmpty(format))
             {
-                Window.RefreshTabFromFile(file, noFocus: true, isPreview: false);                
+                Window.RefreshTabFromFile(file, noFocus: !forceEditorFocus, isPreview: false);                
                 Window.BindTabHeaders();
                 return;
             }
