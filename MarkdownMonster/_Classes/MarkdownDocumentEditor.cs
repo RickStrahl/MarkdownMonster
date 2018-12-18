@@ -217,7 +217,9 @@ namespace MarkdownMonster
 
                 try
                 {
-                    AceEditor = window.initializeinterop(this);
+
+                    var jsonStyle = GetJsonStyleInfo();
+                    AceEditor = window.initializeinterop(this,jsonStyle);
                 }
                 catch (Exception ex)
                 {
@@ -228,12 +230,15 @@ namespace MarkdownMonster
                 if (EditorSyntax != "markdown")
                     AceEditor?.setlanguage(EditorSyntax);
 
-                RestyleEditor(true);
 
-                SetShowLineNumbers(mmApp.Configuration.Editor.ShowLineNumbers);
-                SetShowInvisibles(mmApp.Configuration.Editor.ShowInvisibles);
-                SetReadOnly(IsReadOnly);
-
+                if (EditorSyntax == "markdown" || EditorSyntax == "text")
+                    AceEditor?.enablespellchecking(!mmApp.Configuration.Editor.EnableSpellcheck,
+                        mmApp.Configuration.Editor.Dictionary);
+                else
+                    // always disable for non-markdown text
+                    AceEditor?.enablespellchecking(true, mmApp.Configuration.Editor.Dictionary);
+                
+                
                 if (!NoInitialFocus)
                     SetEditorFocus();
 
@@ -937,7 +942,7 @@ namespace MarkdownMonster
         /// from an addin).
         /// </summary>
         /// <param name="forceSync">Forces higher priority on this operation - use when editor initializes at first</param>
-        public void RestyleEditor(bool forceSync = false)
+        public void RestyleEditor(bool forceSync = false, bool initialize = false)
         {
             if (AceEditor == null)
                 return;
@@ -946,40 +951,7 @@ namespace MarkdownMonster
                 {
                     try
                     {
-                        // determine if we want to rescale the editor fontsize
-                        // based on DPI Screen Size
-                        decimal dpiRatio = 1;
-                        try
-                        {
-                            dpiRatio = WindowUtilities.GetDpiRatio(Window);
-                        }
-                        catch
-                        {
-                        }
-
-                        var fontSize = mmApp.Configuration.Editor.FontSize *
-                                       ((decimal) mmApp.Configuration.Editor.ZoomLevel / 100) * dpiRatio;
-
-                        var config = mmApp.Configuration;
-
-                        var style = new
-                        {
-                            Theme = config.EditorTheme,
-                            config.Editor.Font,
-                            FontSize = (int) fontSize,
-                            config.Editor.LineHeight,
-                            config.Editor.WrapText,
-                            config.Editor.ShowLineNumbers,
-                            config.Editor.ShowInvisibles,
-                            config.Editor.HighlightActiveLine,
-                            config.Editor.KeyboardHandler,
-                            config.Editor.EnableBulletAutoCompletion,
-                            config.Editor.TabSize,
-                            config.Editor.UseSoftTabs,
-                            config.Editor.RightToLeft
-                        };
-
-                        var jsonStyle = JsonConvert.SerializeObject(style);
+                        var jsonStyle = GetJsonStyleInfo();
                         AceEditor.setEditorStyle(jsonStyle);
 
                         if (EditorSyntax == "markdown" || EditorSyntax == "text")
@@ -998,7 +970,43 @@ namespace MarkdownMonster
                     : System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
 
+        string GetJsonStyleInfo()
+        {
+            // determine if we want to rescale the editor fontsize
+            // based on DPI Screen Size
+            decimal dpiRatio = 1;
+            try
+            {
+                dpiRatio = WindowUtilities.GetDpiRatio(Window);
+            }
+            catch
+            {
+            }
 
+            var fontSize = mmApp.Configuration.Editor.FontSize *
+                           ((decimal)mmApp.Configuration.Editor.ZoomLevel / 100) * dpiRatio;
+
+            var config = mmApp.Configuration;
+
+            var style = new
+            {
+                Theme = config.EditorTheme,
+                config.Editor.Font,
+                FontSize = (int)fontSize,
+                config.Editor.LineHeight,
+                config.Editor.WrapText,
+                config.Editor.ShowLineNumbers,
+                config.Editor.ShowInvisibles,
+                config.Editor.HighlightActiveLine,
+                config.Editor.KeyboardHandler,
+                config.Editor.EnableBulletAutoCompletion,
+                config.Editor.TabSize,
+                config.Editor.UseSoftTabs,
+                config.Editor.RightToLeft
+            };
+
+            return JsonConvert.SerializeObject(style);
+        }
 
         /// <summary>
         /// Sets line number gutter on and off. Separated out from Restyle Editor to 

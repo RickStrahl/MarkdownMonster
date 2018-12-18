@@ -28,8 +28,7 @@ var te = window.textEditor = {
       var codeLang = $el.attr('lang');
       var aceEditorRequest = ace.edit($el[0]);
       te.editor = aceEditorRequest;
-      te.configureAceEditor(aceEditorRequest, editorSettings);
-
+      te.configureAceEditor(aceEditorRequest, editorSettings);      
       te.setlanguage(codeLang);
     } catch (ex) {
       if (typeof console !== "undefined")
@@ -48,7 +47,6 @@ var te = window.textEditor = {
     editor.setShowPrintMargin(editorSettings.showPrintMargin);
     editor.setShowInvisibles(editorSettings.showInvisibles);
 
-    //te.settheme(editorSettings.theme, editorSettings.fontSize, editorSettings.wrapText);
     editor.setTheme("ace/theme/" + editorSettings.theme);
     editor.setOptions({
       fontFamily: editorSettings.font,
@@ -507,10 +505,19 @@ var te = window.textEditor = {
   setEditorStyle: function (styleJson) {
 
     setTimeout(function () {
-      var style = JSON.parse(styleJson);
+      var style;
+      if (typeof styleJson === "object")
+        style = styleJson;
+      else
+        style = JSON.parse(styleJson);
 
       te.editor.container.style.lineHeight = style.LineHeight;
-      te.editor.setTheme("ace/theme/" + style.Theme);
+
+      var activeTheme = te.editor.getTheme();
+      var theme = "ace/theme/" + style.Theme;      
+      if (activeTheme !== theme)
+        te.editor.setTheme("ace/theme/" + style.Theme);
+
       te.editor.setOptions({
         fontFamily: style.Font,
         fontSize: style.FontSize
@@ -689,9 +696,9 @@ var te = window.textEditor = {
 }
 
 
-$(document).ready(function () {
-  te.initialize();
-});
+//$(document).ready(function () {
+//  te.initialize();
+//});
 
 
 window.onerror = function windowError(message, filename, lineno, colno, error) {
@@ -770,10 +777,21 @@ window.oncontextmenu = function (e) {
 // to pass in the form object and pass back the text
 // editor instance that allows the parent to make
 // calls into this component
-function initializeinterop(textbox) {
+function initializeinterop(textbox,jsonStyle) {
   te.mm = {};
   te.mm.textbox = textbox;
+  
+  var style = JSON.parse(jsonStyle);
 
+  editorSettings.theme = style.Theme;
+  editorSettings.fontSize = style.FontSize;
+  editorSettings.font = style.Font;
+  editorSettings.lineHeight = style.LineHeight;
+  
+  te.initialize();
+
+  te.setEditorStyle(style);
+  
   setTimeout(te.keyBindings.setupKeyBindings, 800);
 
   return window.textEditor;
