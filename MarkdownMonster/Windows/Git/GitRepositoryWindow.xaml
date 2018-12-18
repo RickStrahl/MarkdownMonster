@@ -160,7 +160,7 @@
 
 
             <!-- Add Remote -->
-            <TabItem   IsEnabled="False" Name="TabAddRemote" Header="Add Remote to Repository"
+            <TabItem   IsEnabled="False" Name="TabAddRemote" Header="Attach to Remote Repository"
                        Margin="0,0,5,0" Visibility="Visible">
 
                 <StackPanel  Margin="30,10,30,0">
@@ -213,14 +213,14 @@
                         <Button Name="ButtonAddRemote" Height="38"  Width="130" HorizontalAlignment="Left"   IsDefault="True" Click="ButtonAddRemote_Click"  >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome  Icon="PlusCircle"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                                <TextBlock Margin="10,2,0,0" Text="Add Remote" />
+                                <TextBlock Margin="7,2,0,0" Text="Attach Remote" />
                             </StackPanel>
                         </Button>
 
                         <Button Margin="10,0" Height="38" Width="130" HorizontalAlignment="Left" IsCancel="True" Click="ButtonCancel_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
-                                <TextBlock Margin="10,2,0,0"><Run Text="Cancel"/></TextBlock>
+                                <TextBlock Margin="7,2,0,0"><Run Text="Cancel"/></TextBlock>
                             </StackPanel>
                         </Button>
                     </StackPanel>

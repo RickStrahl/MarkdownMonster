@@ -6,20 +6,16 @@
 ### Immediate
 * [ ] Addin Enabled/Disabled
 * [ ] Master Configuration Form
-* [x] Markdown Document Outline
-* [x] Command (and UI) Line Open from URL
-    * Open from Gist
-    * Open from Github/Bitbucket
-    * Open from raw URL
-* [ ] Git Integration
+* [x] Git Integration
     *  [x] Clone Repository
     *  [x] Commit to Git Dialog (uid/pwd,desc,commit all)
-    *  [ ] Add Remote
-    *  [ ] Create Repository
+    *  [x] Add Remote
+    *  [x] Create Repository
 
 ### Mid Term
+* [ ] Search for Blog Posts in Weblog Posts folder (walk tree and show titles)
 * [ ] Add JavaScript {{Handlebars}} Processing to Snippets Addin
-* [ ] Image Previews and file preview in a **Preview Tab**
+* [x] Image Previews and file preview in a **Preview Tab**
 * [ ] Support for projects (or folder specific settings)
 * [x] Spell checker Dictionary Downloads
     * Store dictionaries online

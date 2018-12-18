@@ -833,19 +833,20 @@ namespace MarkdownMonster.Windows
             var ext = Path.GetExtension(file).ToLower().Replace(".", "");
             if (StringUtils.Inlist(ext, "jpg", "png", "gif", "jpeg"))
             {
-                if (!mmFileUtils.OpenImageInImageViewer(file))
-                {
-                    MessageBox.Show("Unable to launch image viewer " +
-                                    Path.GetFileName(mmApp.Configuration.ImageViewer) +
-                                    "\r\n\r\n" +
-                                    "Most likely the image viewer configured in settings is not valid. Please check the 'ImageEditor' key in the Markdown Monster Settings." +
-                                    "\r\n\r\n" +
-                                    "We're opening the Settings file for you in the editor now.",
-                        "Image Launching Error",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                Window.OpenBrowserTab(file, isImageFile: true);
+                //if (!mmFileUtils.OpenImageInImageViewer(file))
+                //{
+                //    MessageBox.Show("Unable to launch image viewer " +
+                //                    Path.GetFileName(mmApp.Configuration.ImageViewer) +
+                //                    "\r\n\r\n" +
+                //                    "Most likely the image viewer configured in settings is not valid. Please check the 'ImageEditor' key in the Markdown Monster Settings." +
+                //                    "\r\n\r\n" +
+                //                    "We're opening the Settings file for you in the editor now.",
+                //        "Image Launching Error",
+                //        MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                    Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json"),noFocus: !forceEditorFocus);
-                }
+                //    Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json"),noFocus: !forceEditorFocus);
+                //}
             }
             else
             {

@@ -231,7 +231,7 @@
                     <Separator />
                     <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
                     <MenuItem Header="_Create Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" CommandParameter="Create" />
-                    <MenuItem Header="_Add Git Remote" Command="{Binding Commands.OpenFromGitRepoCommand}" CommandParameter="AddRemote" />
+                    <MenuItem Header="_Attach to Remote Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" CommandParameter="AddRemote" />
                     <Separator />
                     <MenuItem Header="Open Folder in Git Client"
                               Command="{Binding Commands.OpenGitClientCommand}"  

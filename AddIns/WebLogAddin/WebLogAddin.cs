@@ -566,7 +566,7 @@ namespace WeblogAddin
         #endregion
 
 
-        #region Main Menu
+        #region Main Menu Pad for WebLog
 
         void AddMainMenuItems()
         {
@@ -606,6 +606,14 @@ namespace WeblogAddin
             };
             mainMenuItem.Items.Add(mi);
 
+            mi = new MenuItem
+            {
+                Header = "_Open Weblog Posts Folder",
+                Command = WeblogFormCommand,
+                CommandParameter = "openweblogfolder"
+            };
+            mainMenuItem.Items.Add(mi);
+
             mainMenuItem.Items.Add(new Separator());
 
             mi = new MenuItem
@@ -628,6 +636,13 @@ namespace WeblogAddin
                 if (string.IsNullOrEmpty(action))
                     return;
 
+                if (action == "openweblogfolder")
+                {
+                    ShellUtils.OpenFileInExplorer(WeblogModel.Configuration.PostsFolder);
+                    return;
+                }
+
+                // actions that require form to be open
                 var form = new WeblogForm(WeblogModel)
                 {
                     Owner = Model.Window
@@ -648,7 +663,7 @@ namespace WeblogAddin
                         break;
                     case "configureweblog":
                         form.TabControl.SelectedIndex = 3;
-                        break;
+                        break;                                       
                 }
             }, (p, c) =>
             {

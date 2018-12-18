@@ -16,6 +16,9 @@ Improved load time for documents when they originally load and reducing flicker.
 * **Improved Folder Browser Navigation**  
 We've changed focus behavior in the editor to not automatically focus the editor for a number of tab change operations which reduce flickering and jumpy selections in the folder browser.
 
+* **Open Weblog Posts Folder**  
+New menu option that opens the Weblog Posts folder so you can look for and open post entries more easily.
+
 * **Fix: Recent Document Handling to remove missing files/folders**  
 The recent document list and startup forms now properly won't show files and folders that no longer exist.
 

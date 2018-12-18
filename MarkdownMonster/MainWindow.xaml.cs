@@ -1260,8 +1260,6 @@ namespace MarkdownMonster
             editor.IsPreview = isPreview;
             if (isPreview)
                 PreviewTab = tab;
-            else
-                PreviewTab = null;
 
             editor.MarkdownDocument.Load(editorFile);
 
@@ -1298,8 +1296,9 @@ namespace MarkdownMonster
             // if a document preview tab is open close it
             if (PreviewTab?.Tag != null)
             {
-                CloseTab(PreviewTab);
+                var tab = PreviewTab;
                 PreviewTab = null;
+                CloseTab(tab);             
             }
 
             if (PreviewTab == null)
