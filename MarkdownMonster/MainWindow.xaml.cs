@@ -1260,6 +1260,8 @@ namespace MarkdownMonster
             editor.IsPreview = isPreview;
             if (isPreview)
                 PreviewTab = tab;
+            else
+                PreviewTab = null;
 
             editor.MarkdownDocument.Load(editorFile);
 
