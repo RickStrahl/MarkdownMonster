@@ -513,7 +513,7 @@ namespace MarkdownMonster.Windows
             if (e.Key == Key.Enter || e.Key == Key.Tab)
             {
                 if (!selected.IsEditing)
-                    HandleItemSelection();
+                    HandleItemSelection(forceEditorFocus: true);
                 else
                     RenameOrCreateFileOrFolder();
 
@@ -825,6 +825,8 @@ namespace MarkdownMonster.Windows
             string format = mmFileUtils.GetEditorSyntaxFromFileType(file);
             if (!string.IsNullOrEmpty(format))
             {
+                if (forceEditorFocus && Window.PreviewTab != null)
+                    Window.CloseTab(Window.PreviewTab);
                 Window.RefreshTabFromFile(file, noFocus: !forceEditorFocus, isPreview: false);                
                 Window.BindTabHeaders();
                 return;
@@ -834,6 +836,7 @@ namespace MarkdownMonster.Windows
             if (StringUtils.Inlist(ext, "jpg", "png", "gif", "jpeg"))
             {
                 Window.OpenBrowserTab(file, isImageFile: true);
+
                 //if (!mmFileUtils.OpenImageInImageViewer(file))
                 //{
                 //    MessageBox.Show("Unable to launch image viewer " +
