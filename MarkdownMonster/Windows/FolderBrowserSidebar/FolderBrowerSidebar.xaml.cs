@@ -630,7 +630,7 @@ namespace MarkdownMonster.Windows
             if (e.ClickCount == 2) // double-click
             {
                 LastClickTime = DateTime.MinValue;
-                HandleItemSelection();
+                HandleItemSelection(forceEditorFocus:true);
             }
         }
 
@@ -666,7 +666,7 @@ namespace MarkdownMonster.Windows
             }
 
             if (ext == ".md" || ext == ".markdown")
-                Window.RefreshTabFromFile(filePath, isPreview: true);
+                Window.RefreshTabFromFile(filePath, isPreview: true, noFocus: true);
             else if (ext == ".html" || ext == ".htm")
                 Window.OpenBrowserTab(filePath);
         }
@@ -702,7 +702,7 @@ namespace MarkdownMonster.Windows
                 item.IsSelected = true;
         }
 
-        void HandleItemSelection()
+        void HandleItemSelection(bool forceEditorFocus = false)
         {
             var fileItem = TreeFolderBrowser.SelectedItem as PathItem;
             if (fileItem == null)
@@ -713,7 +713,7 @@ namespace MarkdownMonster.Windows
             else if (fileItem.IsFolder)
                 FolderPath = fileItem.FullPath;
             else
-                OpenFile(fileItem.FullPath);
+                OpenFile(fileItem.FullPath, forceEditorFocus);
         }
 
         void RenameOrCreateFileOrFolder()
@@ -820,12 +820,12 @@ namespace MarkdownMonster.Windows
             fileItem.IsEditing = false;
         }
 
-        public void OpenFile(string file)
+        public void OpenFile(string file, bool forceEditorFocus = false)
         {
             string format = mmFileUtils.GetEditorSyntaxFromFileType(file);
             if (!string.IsNullOrEmpty(format))
             {
-                Window.OpenTab(file, rebindTabHeaders: true);
+                Window.OpenTab(file, rebindTabHeaders: true, noFocus: !forceEditorFocus);
                 return;
             }
 
@@ -843,7 +843,7 @@ namespace MarkdownMonster.Windows
                         "Image Launching Error",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                    Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json"));
+                    Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json"),noFocus: !forceEditorFocus);
                 }
             }
             else
@@ -860,7 +860,7 @@ namespace MarkdownMonster.Windows
                             "Unable to open this file. Do you want to open it as a text document in the editor?",
                             mmApp.ApplicationName,
                             MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                        Window.OpenTab(file, rebindTabHeaders: true);
+                        Window.OpenTab(file, rebindTabHeaders: true,noFocus: true);
                 }
             }
         }

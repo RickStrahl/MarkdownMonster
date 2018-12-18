@@ -724,7 +724,8 @@
                                      BorderThickness="0"
                                      ShowDefaultCloseButton="True"                                     
                                      ShowDefaultAddButton="False"
-                                     SelectionChanged="TabControl_SelectionChanged"                                                                           
+                                     SelectionChanged="TabControl_SelectionChanged"
+                                     PreviewMouseLeftButtonUp="TabControl_OnPreviewMouseLeftButtonUp"
                                      controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}">
             </dragablz:TabablzControl>
 

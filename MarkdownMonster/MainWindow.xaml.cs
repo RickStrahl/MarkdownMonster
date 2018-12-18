@@ -450,22 +450,22 @@ namespace MarkdownMonster
                 }
 
                 // Ensure that user hasn't higlighted a MenuItem so the menu doesn't lose focus
-                if (!MainMenu.Items.OfType<MenuItem>().Any(item => item.IsHighlighted))
-                {
-                    var selectedEditor = selectedTab.Tag as MarkdownDocumentEditor;
-                    if (selectedEditor != null)
-                    {
-                        try
-                        {
-                            selectedEditor.WebBrowser.Focus();
-                            selectedEditor.SetEditorFocus();
-                            selectedEditor.RestyleEditor();
-                        }
-                        catch
-                        {
-                        }
-                    }
-                }
+                //if (!MainMenu.Items.OfType<MenuItem>().Any(item => item.IsHighlighted))
+                //{
+                //    var selectedEditor = selectedTab.Tag as MarkdownDocumentEditor;
+                //    if (selectedEditor != null)
+                //    {
+                //        try
+                //        {
+                //            selectedEditor.WebBrowser.Focus();
+                //            selectedEditor.SetEditorFocus();
+                //            selectedEditor.RestyleEditor();
+                //        }
+                //        catch
+                //        {
+                //        }
+                //    }
+                //}
             }
         }
 
@@ -1208,12 +1208,18 @@ namespace MarkdownMonster
                 }
             }
 
-            editor.SetEditorFocus();
+            // Don't automatically set focus - we need to do this explicitly
+            //editor.SetEditorFocus();
 
             Dispatcher.InvokeAsync(() =>
             {
                 UpdateDocumentOutline();
             }, DispatcherPriority.ApplicationIdle);
+        }
+
+        private void TabControl_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            //Dispatcher.Delay(150,(p) => Model.ActiveEditor.SetEditorFocus(), DispatcherPriority.ApplicationIdle);
         }
 
 
@@ -1850,6 +1856,14 @@ namespace MarkdownMonster
             Title = title +
                     "  - Markdown Monster" +
                     (UnlockKey.Unlocked ? "" : " (unregistered)");
+        }
+
+        /// <summary>
+        /// Helper method that sets editor focus
+        /// </summary>
+        public void SetEditorFocus()
+        {
+            Dispatcher.Invoke(() => Model.ActiveEditor?.SetEditorFocus());
         }
         #endregion
 
@@ -2726,6 +2740,10 @@ namespace MarkdownMonster
             WindowUtilities.DoEvents();
         }
 
+        private void TabControl_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Model.ActiveEditor?.SetEditorFocus();
+        }
     }
 
     public class RecentDocumentListItem

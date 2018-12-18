@@ -9,7 +9,7 @@ class StartUp
     public static void Main()
     {
 
-#if true
+#if DEBUG
          App app = new App();
          app.InitializeComponent();
          app.Run();
@@ -25,6 +25,7 @@ class StartUp
             app = new App();
             app.InitializeComponent();
             app.Run();
+
             Process.GetCurrentProcess().Kill(); //Must add this line after app.Run!!!
         }
         catch (Exception e)
