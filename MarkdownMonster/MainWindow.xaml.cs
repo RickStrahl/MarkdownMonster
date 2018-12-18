@@ -1435,8 +1435,9 @@ namespace MarkdownMonster
             if (tab == PreviewTab)
             {
                 tab.Content = null;
-                TabControl.Items.Remove(tab);
                 PreviewTab = null;
+                TabControl.Items.Remove(tab);
+                
                 return true;
             }
 
