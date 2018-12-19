@@ -10,7 +10,7 @@
 <small>not released yet</small>
 
 * **Improve First Run Window Size Experience**  
-Added logic to detect window size on first run and adjust the main window accordingly. Small monitors run near maximized while large monitors get a larger but not giant instance on first launch.
+Added logic to detect window size on first run and adjust the main window accordingly. Small monitors run near maximized while large monitors get a larger but not giant instance on first launch. New behavior also respects DPI settings.
 
 ### 1.14.4 
 <small>December 19th, 2017</smal>
