@@ -588,7 +588,7 @@ namespace MarkdownMonster
         #endregion
 
         public ApplicationConfiguration()
-        {
+        {            
             Editor = new EditorConfiguration();
             Git = new GitConfiguration();
             MarkdownOptions = new MarkdownOptionsConfiguration();
@@ -617,8 +617,8 @@ namespace MarkdownMonster
             SendTelemetry = true;
 
             ApplicationTheme = Themes.Dark;
-            PreviewTheme = "Github";
-            EditorTheme = "twilight";
+            PreviewTheme = "Dharkan";
+            EditorTheme = "vscodedark";
             
 
             DefaultCodeSyntax = "csharp";

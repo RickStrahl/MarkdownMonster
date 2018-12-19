@@ -439,9 +439,20 @@ namespace MarkdownMonster.Windows
 
         [DllImport("SHCore.dll", SetLastError = true)]
         private static extern void GetProcessDpiAwareness(IntPtr hprocess, out ProcessDpiAwareness awareness);
-        
+
         #endregion
 
+
+        /// <summary>
+        /// Returns the active screen's size in pixels
+        /// </summary>
+        /// <param name="window"></param>
+        /// <returns></returns>
+        public static Rectangle GetScreenDimensions(Window window)
+        {
+            var screen = Screen.FromHandle(new WindowInteropHelper(window).Handle);
+            return screen.Bounds;
+        }
     }
 
     public enum ProcessDpiAwareness

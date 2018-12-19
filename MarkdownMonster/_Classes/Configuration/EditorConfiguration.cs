@@ -17,7 +17,7 @@ namespace MarkdownMonster.Configuration
         public EditorConfiguration()
         {
             Font = "Consolas";
-            FontSize = 17;
+            FontSize = 16;
             LineHeight = 1.3M;
 
             WrapText = true;

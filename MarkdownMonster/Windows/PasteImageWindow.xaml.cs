@@ -226,7 +226,6 @@ namespace MarkdownMonster.Windows
                     return;
                 }
 
-
                 string initialFolder = null;
                 string documentFolder = null;
                 if (!string.IsNullOrEmpty(Document.Filename) && Document.Filename != "untitled")                

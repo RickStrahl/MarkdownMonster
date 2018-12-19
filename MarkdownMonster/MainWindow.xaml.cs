@@ -187,24 +187,7 @@ namespace MarkdownMonster
 
             OpenFilesFromCommandLine();
 
-            if (mmApp.Configuration.ApplicationUpdates.FirstRun)
-            {
-                if (TabControl.Items.Count == 0)
-                {
-                    try
-                    {
-                        string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
-                        File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"), tempFile, true);
-                        OpenTab(tempFile);
-                    }
-                    catch (Exception ex)
-                    {
-                        mmApp.Log("Handled: Unable to copy file to temp folder.", ex);
-                    }
-                }
-
-                mmApp.Configuration.ApplicationUpdates.FirstRun = false;
-            }
+            CheckForFirstRun();
 
             BindTabHeaders();
             SetWindowTitle();
@@ -258,6 +241,45 @@ namespace MarkdownMonster
                 Task.Run(() => KeyBindings.SaveKeyBindings());
             }
             KeyBindings.SetKeyBindings();
+        }
+
+
+        void CheckForFirstRun()
+        {
+            if (mmApp.Configuration.ApplicationUpdates.FirstRun)
+            {
+                var rect = WindowUtilities.GetScreenDimensions(this);
+                var ratio = WindowUtilities.GetDpiRatio(this);
+                rect.Width = Convert.ToInt32(Convert.ToDecimal(rect.Width) / ratio);
+                rect.Height = Convert.ToInt32(Convert.ToDecimal(rect.Height) / ratio);
+
+                Width = rect.Width - 60;
+                if (Width > 1600)
+                    Width = 1600;
+                Left = 30;
+                Model.Configuration.WindowPosition.InternalPreviewWidth = (int)(Convert.ToInt32(Width) * 0.45);
+
+                Height = rect.Height - 75; // account for statusbar
+                if (Height > 1100)
+                    Height = 1100;
+                Top = 10;
+
+                if (TabControl.Items.Count == 0)
+                {
+                    try
+                    {
+                        string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
+                        File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"), tempFile, true);
+                        OpenTab(tempFile);
+                    }
+                    catch (Exception ex)
+                    {
+                        mmApp.Log("Handled: Unable to copy file to temp folder.", ex);
+                    }
+                }
+
+                mmApp.Configuration.ApplicationUpdates.FirstRun = false;
+            }
         }
 
 

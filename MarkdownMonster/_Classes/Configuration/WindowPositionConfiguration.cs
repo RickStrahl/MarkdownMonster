@@ -12,16 +12,16 @@ namespace MarkdownMonster
     {
         public int Top { get; set; }
         public int Left { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public int Width { get; set; } = 1100;
+        public int Height { get; set; } = 640;
 
-        public int InternalPreviewWidth { get; set; }
+        public int InternalPreviewWidth { get; set; } = 450;
 
     
         public int PreviewTop { get; set; }
         public int PreviewLeft { get; set; }
         public int PreviewHeight { get; set; } = 700;
-        public int PreviewWidth { get; set; } = 1000;
+        public int PreviewWidth { get; set; } = 500;
 
 
         public bool PreviewAlwaysOntop
@@ -71,7 +71,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Determines the width of the right side bar
         /// </summary>
-        public int RightSidebardWidth { get; set; }
+        public int RightSidebardWidth { get; set; } = 250;
 
 
         /// <summary>
