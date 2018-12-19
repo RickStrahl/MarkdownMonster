@@ -207,6 +207,9 @@ namespace MarkdownMonster.Windows
 
             using (var bitMap = WindowUtilities.BitmapSourceToBitmap(bitmapSource))
             {
+                if (bitMap == null)
+                    return;
+
                 imagePath = AddinManager.Current.RaiseOnSaveImage(bitMap);
 
                 if (PasteAsBase64Content)

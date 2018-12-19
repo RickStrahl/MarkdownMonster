@@ -248,6 +248,9 @@ namespace MarkdownMonster.Windows
         /// <returns></returns>
         public static Bitmap BitmapSourceToBitmap(BitmapSource source)
         {
+            if (source == null)
+                return null;
+
             Bitmap bmp = new Bitmap(
                 source.PixelWidth,
                 source.PixelHeight,
