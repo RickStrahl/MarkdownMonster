@@ -6,14 +6,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.14.5
+### 1.14.6
 <small>not released yet</small>
 
 * **Improve First Run Window Size Experience**  
 Added logic to detect window size on first run and adjust the main window accordingly. Small monitors run near maximized while large monitors get a larger but not giant instance on first launch. New behavior also respects DPI settings.
 
+* **Fix: Re-activation Focus**  
+Fixed bug that wouldn't properly reactivate editor when navigating off of Markdown Monster editor. Regression fixed and added proper focus handling that remembers what control was focused before navigating off and resetting. Note this is a change of the pre-regression behavior which **always** reactivated the editor. Now the editor is reactivated only if it was previously active.
+
 ### 1.14.4 
-<small>December 19th, 2017</smal>
+<small>December 19th, 2017</small>
 
 * **Improve Initial Document Loading**  
 Improved load time for documents when they originally load and reducing flicker. Folder browser is now more responsive to 'preview' -> full edit view transitions which now occur without flickering. 
