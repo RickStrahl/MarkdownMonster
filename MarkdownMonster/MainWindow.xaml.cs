@@ -1039,7 +1039,7 @@ namespace MarkdownMonster
                 // tab is temporary until edited
                 if (isPreview)
                 {
-                    if (PreviewTab != null)
+                    if (PreviewTab != null && PreviewTab != tab)
                         TabControl.Items.Remove(PreviewTab);
                     PreviewTab = tab;
                 }
@@ -1200,12 +1200,6 @@ namespace MarkdownMonster
             if (tab.Content is Grid grid)
                 grid.Children.Add(PreviewBrowserContainer);
 
-            Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
-
-            if (mmApp.Configuration.IsPreviewVisible)
-                PreviewBrowser?.PreviewMarkdown();
-
-            editor.RestyleEditor();
 
             // handle preview tab closing
             if (PreviewTab != null && tab != PreviewTab)
@@ -1230,6 +1224,13 @@ namespace MarkdownMonster
                 }
             }
 
+
+            Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
+
+            if (mmApp.Configuration.IsPreviewVisible)
+                PreviewBrowser?.PreviewMarkdown();
+
+            editor.RestyleEditor();
             // Don't automatically set focus - we need to do this explicitly
             //editor.SetEditorFocus();
 
@@ -1460,7 +1461,9 @@ namespace MarkdownMonster
                 tab.Content = null;
                 PreviewTab = null;
                 TabControl.Items.Remove(tab);
-                
+
+                tab.Tag = null;
+                tab = null;
                 return true;
             }
 
