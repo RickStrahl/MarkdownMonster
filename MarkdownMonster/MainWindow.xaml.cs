@@ -383,6 +383,12 @@ namespace MarkdownMonster
             WindowState = mmApp.Configuration.WindowPosition.WindowState;
         }
 
+
+        /// <summary>
+        /// Keep track whether the editor is focused on deactivation
+        /// </summary>
+        bool _saveIsEditorFocused = true;
+
         protected override void OnDeactivated(EventArgs e)
         {
             var editor = Model.ActiveEditor;
@@ -393,6 +399,8 @@ namespace MarkdownMonster
 
             doc.IsActive = true;
 
+            _saveIsEditorFocused = editor.IsEditorFocused;
+
             doc.LastEditorLineNumber = editor.GetLineNumber();
             if (doc.LastEditorLineNumber == -1)
                 doc.LastEditorLineNumber = 0;
@@ -401,10 +409,24 @@ namespace MarkdownMonster
 
             mmApp.SetWorkingSet(10000000, 5000000);
         }
-
+        
         protected void OnActivated(object sender, EventArgs e)
         {
             CheckFileChangeInOpenDocuments();
+
+            // Active Menu Item deactivation don't refocus
+            if (MainMenu.Items.OfType<MenuItem>().Any(item => item.IsHighlighted))
+                return;
+
+            if (_saveIsEditorFocused && Model.ActiveEditor != null)
+            {
+                try
+                {
+                    Model.ActiveEditor.SetEditorFocus();
+                    Model.ActiveEditor.RestyleEditor();
+                }
+                catch { }
+            }
         }
 
         public void CheckFileChangeInOpenDocuments()
@@ -471,23 +493,6 @@ namespace MarkdownMonster
                     }
                 }
 
-                // Ensure that user hasn't higlighted a MenuItem so the menu doesn't lose focus
-                //if (!MainMenu.Items.OfType<MenuItem>().Any(item => item.IsHighlighted))
-                //{
-                //    var selectedEditor = selectedTab.Tag as MarkdownDocumentEditor;
-                //    if (selectedEditor != null)
-                //    {
-                //        try
-                //        {
-                //            selectedEditor.WebBrowser.Focus();
-                //            selectedEditor.SetEditorFocus();
-                //            selectedEditor.RestyleEditor();
-                //        }
-                //        catch
-                //        {
-                //        }
-                //    }
-                //}
             }
         }
 

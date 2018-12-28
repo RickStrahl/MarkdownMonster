@@ -107,6 +107,12 @@ namespace MarkdownMonster
         private string _editorSyntax;
 
 
+        /// <summary>
+        /// Determines whether the editor currently has focus
+        /// </summary>
+        public bool IsEditorFocused { get; set; }
+
+
         public int InitialLineNumber { get; set; }
 
         #region Behavior Properties and Storage
@@ -732,8 +738,9 @@ namespace MarkdownMonster
                 return;
             }
 
-            SetMarkdown(markdownResult.Markdown, keepUndoBuffer: true,updateDirtyFlag: true);
-            SetCursorPosition(new AcePosition {row = origRange.StartRow + 1, column = origRange.StartColumn + markdownResult.SelectionLength});
+            SetMarkdown(markdownResult.Markdown, keepUndoBuffer: true, updateDirtyFlag: true);
+            SetCursorPosition(new AcePosition
+                {row = origRange.StartRow + 1, column = origRange.StartColumn + markdownResult.SelectionLength});
             //IsDirty();
 
             // Force a refresh of the window
@@ -1418,6 +1425,22 @@ namespace MarkdownMonster
 
             //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") +  " - No Preview Markdown  retrieve MD: " + dontGetMarkdown + " DocOutline Rendered: " +
             //               isDocumentOutlineActive);
+        }
+
+        /// <summary>
+        /// ACE Editor Notification when focus is lost
+        /// </summary>
+        public void LostFocus()
+        {
+            IsEditorFocused = false;
+        }
+
+        /// <summary>
+        /// ACE Editor Notification when focus is set to the editor
+        /// </summary>
+        public void GotFocus()
+        {
+            IsEditorFocused = true;
         }
 
         /// <summary>

@@ -107,6 +107,11 @@ var te = window.textEditor = {
         if (sc)
           sc.contentModified = true;
       });
+
+    // Notify WPF of focus change
+    te.editor.on("blur",te.onBlur);
+    te.editor.on("focus", te.onGotFocus);
+
     // used to force mouse position to whatever the existing cursor position is
     // when dragging from explorer. Without this files are always dropped at the
     // end of the document. With this it's dropped at the current cursor position
@@ -690,8 +695,13 @@ var te = window.textEditor = {
     if (sc)
       sc.spellCheck(true);
   },
-  onblur: function () {
-    te.mm.textbox.lostfocus();
+  onBlur: function () {
+    if(te.mm)
+      te.mm.textbox.LostFocus();    
+  },
+  onGotFocus: function () {
+    if (te.mm)
+      te.mm.textbox.GotFocus();
   }
 }
 
