@@ -1005,7 +1005,7 @@ namespace MarkdownMonster
                 }
 
                 if (mmApp.Configuration.Editor.EnableSpellcheck)
-                    Model.ActiveEditor.SpellCheckDocument();
+                    Model.ActiveEditor?.SpellCheckDocument();
                 else
                 {
                     mmApp.Configuration.Editor.EnableSpellcheck = true;
