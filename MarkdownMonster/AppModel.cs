@@ -47,8 +47,7 @@ namespace MarkdownMonster
     public class AppModel : INotifyPropertyChanged
     {
 
-        #region Top Level Model Properties
-
+        
         /// <summary>
         /// An instance of the main application WPF form
         /// </summary>
@@ -58,6 +57,21 @@ namespace MarkdownMonster
         /// The application's main configuration object
         /// </summary>
         public ApplicationConfiguration Configuration { get; set; }
+
+        /// <summary>
+        /// Commands
+        /// </summary>
+        public AppCommands Commands { get; }
+
+        /// <summary>
+        /// Contains Main Window layout settings and functionality
+        /// </summary>
+        public MainWindowLayoutModel WindowLayout { get; internal set; }
+
+
+        
+
+        #region Document Open/Active State
 
         /// <summary>
         /// Returns an instance of the Active Editor instance. The editor contains
@@ -98,9 +112,6 @@ namespace MarkdownMonster
                 Window.ToolbarEdit.IsEnabled = IsEditorActive;
             }
         }
-
-        public MainWindowLayoutModel WindowLayout { get; internal set; }
-
         private MarkdownDocument _activeDocument;
 
 
@@ -138,7 +149,21 @@ namespace MarkdownMonster
                 return Window.TabControl.Items.Count < 1;                           
             }
         }
-        
+
+
+        /// <summary>
+        /// Determines if there's a document loaded 
+        /// </summary>
+        public bool IsEditorActive
+        {
+            get
+            {
+                if (ActiveEditor != null && ActiveDocument != null)
+                    return true;
+
+                return false;
+            }
+        }
 
         #endregion
 
@@ -225,29 +250,6 @@ namespace MarkdownMonster
         }
 
         private bool _isPresentationMode;
-
-
-        /// <summary>
-        /// Determines if there's a document loaded 
-        /// </summary>
-        public bool IsEditorActive
-        {
-            get
-            {
-                if (ActiveDocument != null)
-                    return true;
-
-                return false;
-            }
-        }
-
-
-      
-
-        /// <summary>
-        /// Commands
-        /// </summary>
-        public AppCommands Commands { get; } 
 
         #endregion
 
