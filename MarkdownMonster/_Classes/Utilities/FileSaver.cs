@@ -239,6 +239,7 @@ namespace MarkdownMonster.Utilities
             }
 
 
+            // Last as some other URLs translate to github urls
             if (lurl.Contains("/github.com/"))
             {
                 if (!lurl.Contains(".md"))
@@ -252,7 +253,7 @@ namespace MarkdownMonster.Utilities
                 }
                 if (lurl.Contains(".md"))
                 {
-                    urlToOpen = url.Replace("/github.com/", "/raw.githubusercontent.com/").Replace("/blob/", "/");
+                    urlToOpen = url.Replace("/blob/","/raw/");
                 }
 
             }
