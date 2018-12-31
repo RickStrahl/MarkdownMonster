@@ -228,8 +228,9 @@ var te = window.textEditor = {
     refresh: function(ignored) {
         te.editor.resize(true); //force a redraw
     },
-    keyboardCommand: function(key) {
-        te.mm.textbox.keyboardCommand(key);
+  keyboardCommand: function (key) {
+        if (te.mm)
+          te.mm.textbox.keyboardCommand(key);
     },
     setfont: function(size, fontFace, weight) {
         if (size)
@@ -371,22 +372,24 @@ var te = window.textEditor = {
     updateDocumentStats: function() {
         te.mm.textbox.updateDocumentStats(te.getDocumentStats());
     },
-    enablespellchecking: function (disable, dictionary) {
-        if (dictionary)
-            editorSettings.dictionary = dictionary;
-        setTimeout(function() {
-                if (!disable)
-                    spellcheck.enable();
-                else
-                    spellcheck.disable();
-            },
-            100);
+    enablespellchecking: function(disable, dictionary) {
+      if (!te.mm) return;
+
+      if (dictionary)
+        editorSettings.dictionary = dictionary;
+      setTimeout(function() {
+          if (!disable)
+            spellcheck.enable();
+          else
+            spellcheck.disable();
+        },
+        100);
     },
     isspellcheckingenabled: function(ignored) {
         return editorSettings.enableSpellChecking;
     },
-    checkSpelling: function (word) {        
-        if (!word || !editorSettings.enableSpellChecking)
+  checkSpelling: function (word) {
+      if (!te.mm || !word || !editorSettings.enableSpellChecking)
             return true;
 
         // use typo

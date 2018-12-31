@@ -17,6 +17,8 @@ namespace WebLogAddin.MetaWebLogApi
             : this(url, username, password, "1")
         {
             _wrapper = (IMetaWeblogXmlRpc)XmlRpcProxyGen.Create(typeof(IMetaWeblogXmlRpc));
+            _wrapper.KeepAlive = true;
+            _wrapper.UserAgent = "Markdown-Monster";
             _wrapper.Url = Url;
         }
 
@@ -24,6 +26,8 @@ namespace WebLogAddin.MetaWebLogApi
             : base(url, username, password, blogId)
         {
             _wrapper = (IMetaWeblogXmlRpc)XmlRpcProxyGen.Create(typeof(IMetaWeblogXmlRpc));
+            _wrapper.KeepAlive = true;
+            _wrapper.UserAgent = "Markdown-Monster";
             _wrapper.Url = Url;
         }
 

@@ -24,6 +24,8 @@ namespace WebLogAddin.MetaWebLogApi
             : this(url, username, password, 0)
         {
             _wrapper = (IWordPressXmlRpc)XmlRpcProxyGen.Create(typeof(IWordPressXmlRpc));
+            _wrapper.KeepAlive = true;
+            _wrapper.UserAgent = "Markdown-Monster";
             _wrapper.Url = url;
         }
 
@@ -38,6 +40,8 @@ namespace WebLogAddin.MetaWebLogApi
             : base(url, username, password, blogId)
         {
             _wrapper = (IWordPressXmlRpc)XmlRpcProxyGen.Create(typeof(IWordPressXmlRpc));
+            _wrapper.KeepAlive = true;
+            _wrapper.UserAgent = "Markdown-Monster";
             _wrapper.Url = url;
         }
 

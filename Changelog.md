@@ -15,6 +15,9 @@ Added logic to detect window size on first run and adjust the main window accord
 * **Fix: Re-activation Focus**  
 Fixed bug that wouldn't properly reactivate editor when navigating off of Markdown Monster editor. Regression fixed and added proper focus handling that remembers what control was focused before navigating off and resetting. Note this is a change of the pre-regression behavior which **always** reactivated the editor. Now the editor is reactivated only if it was previously active.
 
+* **Fix: User Agent in XMLRPC calls to Weblogs** 
+Found that the default XML RPC user agent was invalid per spec and was causing problems with some Web servers. Changed user agent for all XMLRPC operations to `Markdown-Monster`.
+
 ### 1.14.4 
 <small>December 19th, 2017</small>
 
