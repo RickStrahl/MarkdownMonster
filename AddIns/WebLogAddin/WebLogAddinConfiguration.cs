@@ -209,6 +209,7 @@ Tags:
         }
         private string _frontMatterTemplate;
 
+        
         public Dictionary<string, WeblogInfo> Weblogs
         {
             get { return _weblogs; }

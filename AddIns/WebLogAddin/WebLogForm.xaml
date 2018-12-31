@@ -426,8 +426,8 @@
                         <PasswordBox  Name="TextWeblogPassword" FontSize="15" LostFocus="TextWeblogPassword_LostFocus" />
                     </StackPanel>
                     <StackPanel Visibility="{Binding IsTokenVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <Label Margin="0,10,0,0"   >Access Token: (only set if you need to change )</Label>
-                        <PasswordBox  Name="TextWeblogToken" FontSize="15" LostFocus="TextWeblogToken_LostFocus" />
+                        <Label Margin="0,10,0,0">Access Token: (only set if you need to change )</Label>
+                        <PasswordBox  Name="TextWeblogToken" FontSize="16"  LostFocus="TextWeblogToken_LostFocus" />
                     </StackPanel>
 
                     
@@ -436,6 +436,15 @@
                             configuration info...
                         </Hyperlink>
                     </TextBlock>
+
+
+                    <Button Margin="0,20" Height="40" Width="155"  HorizontalAlignment="Left" 
+                            Name="ButtonSaveWebLogInfo" Click="ButtonSaveWebLogInfo_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                            <TextBlock Margin="10,0,0,0" FontSize="14">Save Weblog</TextBlock>
+                        </StackPanel>
+                    </Button>
 
                 </StackPanel>
             </controls:MetroTabItem>

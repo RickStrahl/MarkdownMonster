@@ -12,11 +12,17 @@
 * **Improve First Run Window Size Experience**  
 Added logic to detect window size on first run and adjust the main window accordingly. Small monitors run near maximized while large monitors get a larger but not giant instance on first launch. New behavior also respects DPI settings.
 
-* **Fix: Re-activation Focus**  
-Fixed bug that wouldn't properly reactivate editor when navigating off of Markdown Monster editor. Regression fixed and added proper focus handling that remembers what control was focused before navigating off and resetting. Note this is a change of the pre-regression behavior which **always** reactivated the editor. Now the editor is reactivated only if it was previously active.
+* **Improve Weblog Blog Discovery**  
+Weblog discovery now looks for a few additional clues to try and discover blog Urls on a Web site in addition to RDS and standard Wordpress locations.
+
+* **Fix: Weblog Management Form**  
+Fixed a few small issues in the Weblog entry form. There's now an explicit save button and a new entry isn't added until the Save button is clicked. Existing entries are still live edited. Fixed a few navigation bugs in the form that could crash MM.
 
 * **Fix: User Agent in XMLRPC calls to Weblogs** 
 Found that the default XML RPC user agent was invalid per spec and was causing problems with some Web servers. Changed user agent for all XMLRPC operations to `Markdown-Monster`.
+
+* **Fix: Re-activation Focus**  
+Fixed bug that wouldn't properly reactivate editor when navigating off of Markdown Monster editor. Regression fixed and added proper focus handling that remembers what control was focused before navigating off and resetting. Note this is a change of the pre-regression behavior which **always** reactivated the editor. Now the editor is reactivated only if it was previously active.
 
 ### 1.14.4 
 <small>December 19th, 2017</small>

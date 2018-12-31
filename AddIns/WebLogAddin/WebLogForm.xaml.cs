@@ -82,6 +82,7 @@ namespace WeblogAddin
 
             if (string.IsNullOrEmpty(Model.ActivePostMetadata.WeblogName))
                 Model.ActivePostMetadata.WeblogName = lastBlog;
+            
 	        
 			// have to do this here otherwise MetadataCustomFields is not updating in model
 	        DataContext = Model;
@@ -91,7 +92,9 @@ namespace WeblogAddin
         private void WebLogStart_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // save settings
-            WeblogAddinConfiguration.Current.Write();
+            if (Model.ActiveWeblogInfo != null)
+                Model.Configuration.LastWeblogAccessed = Model.ActiveWeblogInfo.Name;
+            Model.Configuration.Write();
         }
 
         #endregion
@@ -118,7 +121,8 @@ namespace WeblogAddin
             // Update the Markdown document first
             string markdown =  Model.ActivePostMetadata.SetPostYaml();
             editor.SetMarkdown(markdown);
-            
+            editor.SaveDocument();
+
             WeblogAddinConfiguration.Current.LastWeblogAccessed = Model.ActivePostMetadata.WeblogName;
 
             var window = Model.AppModel.Window;
@@ -136,8 +140,7 @@ namespace WeblogAddin
             }
             finally
             {
-                StatusBar.ShowStatus();                
-                
+                StatusBar.ShowStatus();                                
             }
         }
 
@@ -147,7 +150,9 @@ namespace WeblogAddin
 
             // Update the Markdown document first
             string markdown = Model.ActivePostMetadata.SetPostYaml();
-            Model.AppModel.ActiveEditor.SetMarkdown(markdown, updateDirtyFlag: true);            
+            Model.AppModel.ActiveEditor.SetMarkdown(markdown, updateDirtyFlag: true);
+            Model.AppModel.ActiveEditor.SaveDocument();
+
         }
 
         private void ButtonNewPost_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -197,14 +202,7 @@ namespace WeblogAddin
 
         private void Button_NewWeblog(object sender, RoutedEventArgs e)
         {
-            Model.ActiveWeblogInfo = new WeblogInfo()
-            {                 
-                Name = "New Weblog"
-            };
-            Model.Configuration.Weblogs.Add(Model.ActiveWeblogInfo.Id,Model.ActiveWeblogInfo);
-            Model.Configuration.OnPropertyChanged("Weblogs");
-
-            this.ComboWebLogName.SelectedValue = Model.Configuration.Weblogs[Model.ActiveWeblogInfo.Id];
+            Model.ActiveWeblogInfo = new WeblogInfo();
         }
 
         private async void Button_DownloadPosts_Click(object sender, RoutedEventArgs e)
@@ -214,14 +212,8 @@ namespace WeblogAddin
             var client = new MetaWebLogWordpressApiClient(weblogInfo);
             Model.Configuration.LastWeblogAccessed = weblogInfo.Name;
 
-            Dispatcher.Invoke(() =>
-            {
-                Model.PostList = new List<Post>();
-
-                StatusBar.ShowStatusProgress($"Downloading last {Model.NumberOfPostsToRetrieve} posts...");                    
-            });
-
-            WindowUtilities.DoEvents();
+            Model.PostList = new List<Post>();
+            StatusBar.ShowStatusProgress($"Downloading last {Model.NumberOfPostsToRetrieve} posts...");
 
             List<Post> posts = null;
             try
@@ -340,6 +332,9 @@ namespace WeblogAddin
 
         private void ButtonDiscoverEndpoint_Click(object sender, RoutedEventArgs e)
         {
+            if (Model.ActiveWeblogInfo == null)
+                return;
+
             var discover = new BlogEndpointDiscovery();
 
             var url = Model.ActiveWeblogInfo.ApiUrl;
@@ -350,7 +345,7 @@ namespace WeblogAddin
 
             if (discover.CheckRpcEndpoint(url))
             {
-                StatusBar.ShowStatusSuccess("The Weblog Endpoint is a valid RPC endpoint.");
+                StatusBar.ShowStatusSuccess("The Weblog Endpoint is a valid RPC endpoint.",10000);
                 return;
             }
 
@@ -365,9 +360,8 @@ namespace WeblogAddin
                     StatusBar.ShowStatusSuccess("Weblog API Endpoint Url found and updated.");
                     return;
                 }
-
-                MessageBox.Show(blogInfo.ErrorMessage, "Unable to discover Endpoint Url",MessageBoxButton.OK,MessageBoxImage.Warning);
-                StatusBar.ShowStatusError($"Endpoint discovery failed: {blogInfo.ErrorMessage}");
+                
+                StatusBar.ShowStatusError($"Endpoint Discovery: {blogInfo.ErrorMessage}");
                 return;
             }
 
@@ -501,7 +495,18 @@ namespace WeblogAddin
 			Model.ActivePostMetadata.OnPropertyChanged(nameof(WeblogPostMetadata.CustomFields));
 			Model.OnPropertyChanged(nameof(WeblogAddinModel.MetadataHasCustomFields));
 		}
-#endregion
+        #endregion
 
-	}
+        private void ButtonSaveWebLogInfo_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Model.Configuration.Weblogs.ContainsKey(Model.ActiveWeblogInfo.Id))
+            {
+                Model.Configuration.Weblogs[Model.ActiveWeblogInfo.Id] = Model.ActiveWeblogInfo;
+                Model.Configuration.OnPropertyChanged(nameof(WeblogAddinConfiguration.Weblogs));
+                ComboWebLogName.SelectedValue = Model.Configuration.Weblogs[Model.ActiveWeblogInfo.Id];                
+            }
+
+            WeblogAddinConfiguration.Current.Write();
+        }
+    }
 }
