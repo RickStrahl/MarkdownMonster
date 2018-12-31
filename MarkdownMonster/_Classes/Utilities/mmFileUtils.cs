@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Utilities;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
@@ -461,9 +462,12 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(exe) || !File.Exists(exe))
                 return false;
 
+            //folder = GitHelper.FindGitRepositoryRoot(folder);
+
             try
             {
-                var pi = Process.Start(exe, folder);
+                var pi = Process.Start(exe, $"\"{folder}\"");
+
                 if (pi == null)
                     return false;
             }
