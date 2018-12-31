@@ -174,9 +174,11 @@ var te = window.textEditor = {
                 te.mousePos = e.getDocumentPosition();
             });
         te.editor.on("mouseup",
-            function() {
-                te.mm.textbox.PreviewMarkdownCallback();
-            });
+          function () {
+            try {
+              te.mm.textbox.PreviewMarkdownCallback();
+            } catch (ex) {}
+          });
 
         return editor;
     },
@@ -343,9 +345,7 @@ var te = window.textEditor = {
         if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
             te.editor.setKeyboardHandler("");
         else
-            te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
-
-        setTimeout(te.updateDocumentStats, 100);
+            te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);        
     },
     execcommand: function(cmd,parm1,parm2) {
         te.editor.execCommand(cmd);
@@ -373,15 +373,15 @@ var te = window.textEditor = {
         te.mm.textbox.updateDocumentStats(te.getDocumentStats());
     },
     enablespellchecking: function(disable, dictionary) {
-      if (!te.mm) return;
+      if (!te.mm || !window.spellcheck) return;
 
       if (dictionary)
         editorSettings.dictionary = dictionary;
       setTimeout(function() {
           if (!disable)
-            spellcheck.enable();
+            window.spellcheck.enable();
           else
-            spellcheck.disable();
+            window.spellcheck.disable();
         },
         100);
     },
@@ -391,13 +391,7 @@ var te = window.textEditor = {
   checkSpelling: function (word) {
       if (!te.mm || !word || !editorSettings.enableSpellChecking)
             return true;
-
-        // use typo
-        if (spellcheck.dictionary) {            
-            var isOk = spellcheck.dictionary.check(word);            
-            return isOk;
-        }
-
+    
         // use COM object        
         return te.mm.textbox.CheckSpelling(word,editorSettings.dictionary,false);
     },
