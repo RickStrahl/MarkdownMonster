@@ -552,7 +552,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Timeout used on Statusbar messages
         /// </summary>
-        public int StatusMessageTimeout { get; set; } = 6000;
+        public int StatusMessageTimeout { get; set; } = 8000;
 
         #endregion
 
