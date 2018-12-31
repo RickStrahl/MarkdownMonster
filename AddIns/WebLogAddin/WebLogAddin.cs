@@ -380,8 +380,9 @@ namespace WeblogAddin
         {
             string filename = FileUtils.SafeFilename(postFilename);
             string titleFilename = FileUtils.SafeFilename(title);
+            titleFilename = titleFilename.Replace(" ", "-").Replace("'", "").Replace("&","and");
 
-            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"), titleFilename.Replace(" ","-"));
+            var folder = Path.Combine(WeblogAddinConfiguration.Current.PostsFolder,DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("00"),titleFilename);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
             var outputFile = Path.Combine(folder, filename);

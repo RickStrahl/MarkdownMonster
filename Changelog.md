@@ -18,6 +18,9 @@ Weblog discovery now looks for a few additional clues to try and discover blog U
 * **Fix: Weblog Management Form**  
 Fixed a few small issues in the Weblog entry form. There's now an explicit save button and a new entry isn't added until the Save button is clicked. Existing entries are still live edited. Fixed a few navigation bugs in the form that could crash MM.
 
+* **Fix: New WebLog File and Folder Names**  
+Fix up logic that creates new folder and file names to remove `&` and `'` characters that can throw off relative URLs.
+
 * **Fix: User Agent in XMLRPC calls to Weblogs** 
 Found that the default XML RPC user agent was invalid per spec and was causing problems with some Web servers. Changed user agent for all XMLRPC operations to `Markdown-Monster`.
 
