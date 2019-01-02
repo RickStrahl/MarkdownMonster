@@ -1440,7 +1440,8 @@ namespace MarkdownMonster
         /// </summary>
         public void GotFocus()
         {
-            IsEditorFocused = true;
+            IsEditorFocused = true;            
+            mmApp.Model.OnPropertyChanged(nameof(AppModel.IsEditorActive));
         }
 
         /// <summary>
