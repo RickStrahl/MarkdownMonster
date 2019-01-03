@@ -402,7 +402,10 @@ namespace MarkdownMonster
 
                 Model.Window.SetWindowTitle();
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
-            }, (s, e) => Model.IsEditorActive);
+            }, (s, e) =>
+            {
+                return Model.IsEditorActive;
+            });
         }
 
 

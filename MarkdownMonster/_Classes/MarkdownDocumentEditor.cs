@@ -107,12 +107,6 @@ namespace MarkdownMonster
         private string _editorSyntax;
 
 
-        /// <summary>
-        /// Determines whether the editor currently has focus
-        /// </summary>
-        public bool IsEditorFocused { get; set; }
-
-
         public int InitialLineNumber { get; set; }
 
         #region Behavior Properties and Storage
@@ -1432,7 +1426,10 @@ namespace MarkdownMonster
         /// </summary>
         public void LostFocus()
         {
-            IsEditorFocused = false;
+            Window.Model.IsEditorFocused = false;
+
+            // Bindings aren't working reliably for the toolbar so do it explicitly
+            Window.ToolbarEdit.IsEnabled = false;
         }
 
         /// <summary>
@@ -1440,8 +1437,10 @@ namespace MarkdownMonster
         /// </summary>
         public void GotFocus()
         {
-            IsEditorFocused = true;            
-            mmApp.Model.OnPropertyChanged(nameof(AppModel.IsEditorActive));
+            Window.Model.IsEditorFocused = true;
+
+            // Bindings aren't working reliably for the toolbar so do it explicitly                        
+            Window.ToolbarEdit.IsEnabled = true;
         }
 
         /// <summary>

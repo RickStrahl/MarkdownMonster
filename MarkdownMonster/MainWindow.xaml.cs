@@ -399,7 +399,7 @@ namespace MarkdownMonster
 
             doc.IsActive = true;
 
-            _saveIsEditorFocused = editor.IsEditorFocused;
+            _saveIsEditorFocused = Model.IsEditorFocused;
 
             doc.LastEditorLineNumber = editor.GetLineNumber();
             if (doc.LastEditorLineNumber == -1)

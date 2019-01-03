@@ -165,6 +165,22 @@ namespace MarkdownMonster
             }
         }
 
+
+        /// <summary>
+        /// Determines whether the editor currently has focus
+        /// </summary>
+        public bool IsEditorFocused
+        {
+            get => _isEditorFocused;
+            set
+            {                
+  			    if (Equals(value, _openDocuments)) return;
+                _isEditorFocused = value;
+                OnPropertyChanged(nameof(IsEditorFocused));
+            }
+        }
+        private bool _isEditorFocused;
+
         #endregion
 
         #region Display Modes
@@ -386,7 +402,7 @@ namespace MarkdownMonster
         }
 
         List<string> _documentTypes = null;
-
+        
         /// <summary>
         /// Returns the width of the column containing
         /// the Markdown Parser selection combo box
