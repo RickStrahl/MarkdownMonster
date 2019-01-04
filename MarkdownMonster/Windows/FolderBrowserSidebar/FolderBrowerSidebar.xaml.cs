@@ -49,11 +49,9 @@ namespace MarkdownMonster.Windows
                     }
                 }
                     
-
                 _folderPath = value;
-
                 OnPropertyChanged(nameof(FolderPath));
-
+                
                 if (Window == null) return;
 
                 SearchText = null;
@@ -65,7 +63,7 @@ namespace MarkdownMonster.Windows
                 else
                 {
                     mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
-                    SetTreeFromFolder(filename ?? _folderPath, _folderPath != null, SearchText);
+                    SetTreeFromFolder(filename ?? _folderPath, filename != null, SearchText);
                 }
 
                 if (ActivePathItem != null)
@@ -417,11 +415,8 @@ namespace MarkdownMonster.Windows
 
         private void ButtonUseCurrentFolder_Click(object sender, RoutedEventArgs e)
         {
-            var doc = AppModel.ActiveDocument;
-            if (doc != null)
-                FolderPath = Path.GetDirectoryName(doc.Filename);
-
-            SetTreeFromFolder(FolderPath, true);
+            var doc = AppModel.ActiveDocument;            
+            SetTreeFromFolder(doc.Filename, true);
         }
 
         private void ButtonRecentFolders_Click(object sender, RoutedEventArgs e)

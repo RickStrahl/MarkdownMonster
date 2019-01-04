@@ -6,7 +6,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.14.6
+### 1.14.7
 <small>not released yet</small>
 
 * **Improve First Run Window Size Experience**  
@@ -14,6 +14,9 @@ Added logic to detect window size on first run and adjust the main window accord
 
 * **Improve Weblog Blog Discovery**  
 Weblog discovery now looks for a few additional clues to try and discover blog Urls on a Web site in addition to RDS and standard Wordpress locations.
+
+* **Show In Folder Browser now selects File**  
+Show in Folder Browser previously only opened the folder in the folder browser. If a file is passed it now opens the folder and selects the file passed in the folder browser's file list.
 
 * **Fix: Weblog Management Form**  
 Fixed a few small issues in the Weblog entry form. There's now an explicit save button and a new entry isn't added until the Save button is clicked. Existing entries are still live edited. Fixed a few navigation bugs in the form that could crash MM.
