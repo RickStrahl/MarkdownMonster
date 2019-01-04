@@ -455,7 +455,7 @@ namespace MarkdownMonster.AddIns
         /// </summary>
         public void SetEditorFocus()
         {
-            Model.Window.Activate();
+            Model.Window?.Activate();
             Model.ActiveEditor?.SetEditorFocus();
         }
 
