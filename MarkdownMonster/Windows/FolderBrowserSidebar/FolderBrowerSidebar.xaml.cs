@@ -48,7 +48,9 @@ namespace MarkdownMonster.Windows
                         value = Path.GetDirectoryName(value);
                     }
                 }
-                    
+
+                var previousFolder = _folderPath;
+
                 _folderPath = value;
                 OnPropertyChanged(nameof(FolderPath));
                 
@@ -63,7 +65,10 @@ namespace MarkdownMonster.Windows
                 else
                 {
                     mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
-                    SetTreeFromFolder(filename ?? _folderPath, filename != null, SearchText);
+                    if (filename != null && previousFolder == _folderPath && string.IsNullOrEmpty(SearchText))
+                        SelectFileInSelectedFolderBrowserFolder(filename);
+                    else
+                        SetTreeFromFolder(filename ?? _folderPath, filename != null, SearchText);
                 }
 
                 if (ActivePathItem != null)
@@ -388,15 +393,32 @@ namespace MarkdownMonster.Windows
                 FolderStructure.UpdateGitFileStatus(items);
 
                 if (!string.IsNullOrEmpty(fileName))
-                {
-                    foreach (var file in items.Files)
-                    {
-                        if (file.FullPath == fileName)
-                            file.IsSelected = true;
-                    }
-                }
+                    SelectFileInSelectedFolderBrowserFolder(fileName);
 
             }, DispatcherPriority.ApplicationIdle);
+        }
+
+        /// <summary>
+        /// Selects a file in the top level folder browser folder
+        /// by file name.
+        /// </summary>
+        /// <param name="fileName">filename with full path - must match case</param>
+        public void SelectFileInSelectedFolderBrowserFolder(string fileName, bool setFocus = true)
+        {
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                foreach (var file in ActivePathItem.Files)
+                {
+                    if (file.FullPath == fileName)
+                    {
+                        if (setFocus)
+                            TreeFolderBrowser.Focus();
+
+                        file.IsSelected = true;
+                    }
+                }
+            }
+                            
         }
 
 
