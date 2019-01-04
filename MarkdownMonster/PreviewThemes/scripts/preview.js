@@ -1,4 +1,4 @@
-﻿var te = {
+var te = {
     mmEditor: null,
     isPreviewEditorSync: false,
     codeScrolled: new Date().getTime() + 2500
@@ -41,7 +41,7 @@ $(document).ready(function() {
             if (hash) {                
                 var sel = "a[name='" + hash.substr(1) + "'],#"+ hash.substr(1);                                          
                 var $el = $(sel);                
-                $("html").scrollTop($el.offset().top - 100);
+                $("html,body").scrollTop($el.offset().top - 100);
                 return false;
             }
         });
