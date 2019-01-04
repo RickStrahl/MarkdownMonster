@@ -2069,6 +2069,7 @@ namespace MarkdownMonster
         /// Shows or hides the File Browser
         /// </summary>
         /// <param name="hide"></param>
+        /// <param name="folder">Folder or File. If File the file will be selected in the folder</param>
         public void ShowFolderBrowser(bool hide = false, string folder = null)
         {
             var layoutModel = Model.WindowLayout;

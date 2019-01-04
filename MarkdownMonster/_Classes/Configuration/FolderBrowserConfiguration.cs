@@ -63,9 +63,9 @@ namespace MarkdownMonster.Configuration
 	    private string _folderPath;
 
 
-	    public string IgnoredFolders { get; set; } = ".git,node_modules";
+	    public string IgnoredFolders { get; set; } = ".git,node_modules,.vs";
 
-	    public string IgnoredFileExtensions { get; set; } = ".saved.bak,kavadocstopic.md";
+	    public string IgnoredFileExtensions { get; set; } = ".saved.bak,kavadocstopic.md,.saved.bak.md;";
 
 
 	    public List<string> RecentFolders

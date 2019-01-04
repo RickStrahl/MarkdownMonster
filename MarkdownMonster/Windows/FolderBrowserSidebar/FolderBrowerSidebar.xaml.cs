@@ -37,8 +37,18 @@ namespace MarkdownMonster.Windows
             {
                 if (value == _folderPath) return;
 
+                string filename = null;
                 if (!Directory.Exists(value))
-                    value = null;
+                {
+                    if (!File.Exists(value))
+                        value = null;
+                    else
+                    {
+                        filename = value;
+                        value = Path.GetDirectoryName(value);
+                    }
+                }
+                    
 
                 _folderPath = value;
 
@@ -50,12 +60,12 @@ namespace MarkdownMonster.Windows
                 SearchSubTrees = false;
                 SearchPanel.Visibility = Visibility.Collapsed;
 
-                if (string.IsNullOrEmpty(value))
-                    ActivePathItem = new PathItem();  // empty the folder browser
+                if (string.IsNullOrEmpty(_folderPath))
+                    ActivePathItem = new PathItem();  // empty the folderOrFilePath browser
                 else
                 {
                     mmApp.Configuration.FolderBrowser.AddRecentFolder(_folderPath);
-                    SetTreeFromFolder(value, _folderPath != null, SearchText);
+                    SetTreeFromFolder(filename ?? _folderPath, _folderPath != null, SearchText);
                 }
 
                 if (ActivePathItem != null)
@@ -282,6 +292,8 @@ namespace MarkdownMonster.Windows
         {
             if (fullPath == null) return;
 
+            ReleaseFileWatcher();
+
             // no file watcher for root paths
             var di = new DirectoryInfo(fullPath);
             if (di.Root.FullName == fullPath)
@@ -330,21 +342,37 @@ namespace MarkdownMonster.Windows
 
         #region Folder Button and Text Handling
 
-        public void SetTreeFromFolder(string folder, bool setFocus = false, string searchText = null)
+
+        /// <summary>
+        /// Sets the tree's content from a folderOrFilePath or filename.
+        ///
+        /// This method is also called from the FolderPath property Getter
+        /// after some pre-processing.
+        /// </summary>
+        /// <param name="folderOrFilePath">Folder or File path to load. If File folder is loaded and file selected</param>
+        /// <param name="setFocus">Optional - determines on whether focus is set to the TreeView Item</param>
+        /// <param name="searchText">Optional - search text filter that is applied to the file names</param>
+        public void SetTreeFromFolder(string folderOrFilePath, bool setFocus = false, string searchText = null)
         {
             if (Window == null)
                 return;
 
-            
-            Window.ShowStatusProgress($"Retrieving files for folder {folder}...");
+            string fileName = null;
+            if (File.Exists(folderOrFilePath))
+            {
+                fileName = folderOrFilePath;
+                folderOrFilePath = Path.GetDirectoryName(folderOrFilePath);
+            }
+                        
+            Window.ShowStatusProgress($"Retrieving files for folderOrFilePath {folderOrFilePath}...");
 
             Dispatcher.InvokeAsync(() =>
             {
-                // just get the top level folder first
+                // just get the top level folderOrFilePath first
                 ActivePathItem = null;
                 WindowUtilities.DoEvents();
 
-                var items = FolderStructure.GetFilesAndFolders(folder, nonRecursive: true, ignoredFolders: ".git");
+                var items = FolderStructure.GetFilesAndFolders(folderOrFilePath, nonRecursive: true, ignoredFolders: ".git");
                 ActivePathItem = items;
 
                 WindowUtilities.DoEvents();
@@ -356,9 +384,19 @@ namespace MarkdownMonster.Windows
                 if (setFocus)
                     TreeFolderBrowser.Focus();
 
-                AttachFileWatcher(folder);
+                
+                AttachFileWatcher(folderOrFilePath);
 
                 FolderStructure.UpdateGitFileStatus(items);
+
+                if (!string.IsNullOrEmpty(fileName))
+                {
+                    foreach (var file in items.Files)
+                    {
+                        if (file.FullPath == fileName)
+                            file.IsSelected = true;
+                    }
+                }
 
             }, DispatcherPriority.ApplicationIdle);
         }
@@ -412,7 +450,7 @@ namespace MarkdownMonster.Windows
 
             var dlg = new CommonOpenFileDialog();
 
-            dlg.Title = "Select folder to open in the Folder Browser";
+            dlg.Title = "Select folderOrFilePath to open in the Folder Browser";
             dlg.IsFolderPicker = true;
             dlg.InitialDirectory = folder;
             dlg.RestoreDirectory = true;
@@ -737,7 +775,7 @@ namespace MarkdownMonster.Windows
                     {
                         if (Directory.Exists(newPath))
                         {
-                            AppModel.Window.ShowStatusError($"Can't create folder {newPath} because it exists already.");
+                            AppModel.Window.ShowStatusError($"Can't create folderOrFilePath {newPath} because it exists already.");
                             return;
                         }
 
@@ -757,7 +795,7 @@ namespace MarkdownMonster.Windows
                 }
                 catch
                 {
-                    MessageBox.Show("Unable to rename or create folder:\r\n" +
+                    MessageBox.Show("Unable to rename or create folderOrFilePath:\r\n" +
                                     newPath, "Path Creation Error",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;

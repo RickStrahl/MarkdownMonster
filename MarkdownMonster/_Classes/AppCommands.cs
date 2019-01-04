@@ -1509,21 +1509,17 @@ namespace MarkdownMonster
         {
             OpenFolderBrowserCommand = new CommandBase((parameter, command) =>
             {
-                string folder = parameter as string;
-                if (string.IsNullOrEmpty(folder))
+                string fileOrFolderPath = parameter as string;
+                if (string.IsNullOrEmpty(fileOrFolderPath))
                 {
                     var editor = mmApp.Model.ActiveEditor;
                     if (editor == null)
                         return;
-                    folder = editor.MarkdownDocument.Filename;
-                }
-
-                // Is it a file instead
-                if (File.Exists(folder))                
-                    folder = Path.GetDirectoryName(folder);
+                    fileOrFolderPath = editor.MarkdownDocument.Filename;
+                }                
                 
                 mmApp.Model.Window.SidebarContainer.SelectedItem = mmApp.Model.Window.TabFolderBrowser;
-                mmApp.Model.Window.ShowFolderBrowser(folder: folder);
+                mmApp.Model.Window.ShowFolderBrowser(folder: fileOrFolderPath);
 
             }, (p, c) => true);
         }
