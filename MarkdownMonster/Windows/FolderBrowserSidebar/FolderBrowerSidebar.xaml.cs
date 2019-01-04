@@ -1055,10 +1055,16 @@ namespace MarkdownMonster.Windows
                 }
 
                 ci = new MenuItem();
-                ci.Header = "Open with Shell Viewer";
+                ci.Header = "Open in Shell";
                 ci.Click += MenuOpenWithShell_Click;
-                cm.Items.Add(ci);
+                cm.Items.Add(ci);                
             }
+
+            ci = new MenuItem();
+            ci.Header = "Open With...";
+            ci.Command = AppModel.Commands.OpenWithCommand;
+            ci.CommandParameter = pathItem.FullPath;
+            cm.Items.Add(ci);
 
             cm.Items.Add(new Separator());
 

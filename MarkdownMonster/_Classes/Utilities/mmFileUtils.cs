@@ -376,8 +376,6 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(file))
                 return file;
 
-
-
             string ext = Path.GetExtension(file).ToLower();
             if (ext == ".jpg" || ext == ".jpeg")
                 return "image/jpeg";
@@ -435,6 +433,11 @@ namespace MarkdownMonster
         }
 
 
+        /// <summary>
+        /// Shows external browser that's been configured in the MM Configuration.
+        /// Defaults to Chrome
+        /// </summary>
+        /// <param name="url"></param>
         public static void ShowExternalBrowser(string url)
         {
             if (string.IsNullOrEmpty(mmApp.Configuration.WebBrowserPreviewExecutable) ||
@@ -447,6 +450,18 @@ namespace MarkdownMonster
             {
                 ShellUtils.ExecuteProcess(mmApp.Configuration.WebBrowserPreviewExecutable, $"\"{url}\"");
             }
+        }
+
+
+        /// <summary>
+        /// Displays the Windows Open With dialog with options.        
+        /// </summary>
+        /// <param name="path">file to open</param>
+        public static void ShowOpenWithDialog(string path)
+        {
+            var args = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll");
+            args += ",OpenAs_RunDLL " + path;
+            Process.Start("rundll32.exe", args);
         }
         #endregion
 

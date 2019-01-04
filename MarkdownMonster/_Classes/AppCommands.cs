@@ -70,6 +70,7 @@ namespace MarkdownMonster
 
             CommandWindow();
             OpenInExplorer();
+            OpenWith();
             PasteMarkdownFromHtml();
             MarkdownLinting();
             AddFavorite();
@@ -1086,6 +1087,22 @@ namespace MarkdownMonster
                 ShellUtils.OpenFileInExplorer(editor.MarkdownDocument.Filename);
             }, (p, c) => true);
         }
+
+
+        public CommandBase OpenWithCommand { get; set; }
+
+        void OpenWith()
+        {
+            OpenWithCommand = new CommandBase((parameter, command) =>
+            {
+                string file = parameter as string;
+                if (string.IsNullOrEmpty(file))
+                    return;
+
+                mmFileUtils.ShowOpenWithDialog(file);
+            }, (p, c) => true);
+        }
+
 
 
         public CommandBase PasteMarkdownFromHtmlCommand { get; set; }

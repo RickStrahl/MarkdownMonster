@@ -18,6 +18,9 @@ Weblog discovery now looks for a few additional clues to try and discover blog U
 * **Show In Folder Browser now selects File**  
 Show in Folder Browser previously only opened the folder in the folder browser. If a file is passed it now opens the folder and selects the file passed in the folder browser's file list.
 
+* **Add Open With... in Folder Browser File Context Menu**  
+You can now use the Open With dialog to choose how to open a file from the folder browser in addition to opening in editor, or using the default Windows program for a given extension.
+
 * **Fix: Weblog Management Form**  
 Fixed a few small issues in the Weblog entry form. There's now an explicit save button and a new entry isn't added until the Save button is clicked. Existing entries are still live edited. Fixed a few navigation bugs in the form that could crash MM.
 
