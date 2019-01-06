@@ -10,6 +10,8 @@
 // }
 
 (function () {
+  var te = null;
+
   window.sc = window.spellcheck = {
     interval: null,
     firstpass: true,
@@ -35,6 +37,8 @@
       sc.contentModified = true;
     },
     disable: function () {
+      te = window.textEditor;
+
       if (sc.interval) {
         clearInterval(sc.interval);
         sc.interval = null;
@@ -44,6 +48,8 @@
       editorSettings.enableSpellChecking = false;
     },
     enable: function () {
+      te = window.textEditor;
+
       editorSettings.enableSpellChecking = true;
       sc.spellCheck = spellCheck;
       te.spellcheck = sc;
