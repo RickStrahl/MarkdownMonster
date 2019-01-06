@@ -1667,49 +1667,7 @@ We're now shutting down the application.
 
             TestButtonCommand = new CommandBase((parameter, command) =>
             {
-                MessageBox.Show("about to cause an error");
-
-                string value = null;
-                value.ToString();
-
-                var form = new BrowserMessageBox()
-                {
-                    Owner = Model.Window
-                };
-                form.ButtonClickHandler = (s, ev, f) =>
-                {                    
-                    var button = s as Button;
-                    var selection = button.CommandParameter as string;
-
-                    if (selection == "1")                        
-                        MessageBox.Show("You clicked: " + "Accept");
-                    else
-                        MessageBox.Show("You clicked: " + "Cancel");
-
-                    return true;
-                };
-
-                var btn =
-                    new Button()
-                    {
-                        Content = "Another Button"
-                    };
-                btn.Click += (s, e) => MessageBox.Show("Another Button Clicked");
-                form.AddButton(btn);
-
-
-                //download license
-                var wc = new WebClient();
-                wc.Encoding = Encoding.UTF8;
-                var md = wc.DownloadString(
-                    "https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/bg/LICENSE");
-
-                form.ShowMarkdown(md);
-                form.Icon = Model.Window.Icon;
-                form.ButtonOkText.Text = "Accept";
-                form.SetMessage("Please accept the license for the dictionary:");
-                form.ShowDialog();
-
+                Model.ActiveEditor.AceEditor.helloWorld("Testing things out");
             }, (p, c) => true);
         }
 
