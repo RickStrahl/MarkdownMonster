@@ -1144,25 +1144,21 @@ namespace MarkdownMonster
                     }
                 }
             }
-
-            Model.OpenDocuments.Add(editor.MarkdownDocument);
-            Model.ActiveDocument = editor.MarkdownDocument;
-
+            
             if (existingTab != null)
                 TabControl.Items.Remove(existingTab);
 
             tab.IsSelected = false;
             TabControl.Items.Insert(0, tab);
 
-
             if (selectTab)
             {
                 TabControl.SelectedItem = tab;
-
-                SetWindowTitle();
-
-                Model.OnPropertyChanged(nameof(AppModel.ActiveEditor));
+                SetWindowTitle();                
             }
+
+            Model.OpenDocuments.Add(editor.MarkdownDocument);
+            Model.ActiveDocument = editor.MarkdownDocument;
 
             AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
 

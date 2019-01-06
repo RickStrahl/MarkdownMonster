@@ -98,18 +98,14 @@ namespace MarkdownMonster
             get => _activeDocument;
             set
             {
-                if (value == _activeDocument)
-                    return;
-
+                // DO ON ALL ASSIGNMENTS ALWAYS
                 _activeDocument = value;
 
                 OnPropertyChanged(nameof(ActiveDocument));
                 OnPropertyChanged(nameof(ActiveEditor));                
                 OnPropertyChanged(nameof(IsEditorActive));
                 OnPropertyChanged(nameof(IsTabOpen));
-                OnPropertyChanged(nameof(IsNoTabOpen));
-
-                Window.ToolbarEdit.IsEnabled = IsEditorActive;
+                OnPropertyChanged(nameof(IsNoTabOpen));             
             }
         }
         private MarkdownDocument _activeDocument;
@@ -158,9 +154,9 @@ namespace MarkdownMonster
         {
             get
             {
-                if (ActiveEditor != null && ActiveDocument != null)
+                if (ActiveEditor != null && ActiveDocument != null)                                    
                     return true;
-
+                
                 return false;
             }
         }
