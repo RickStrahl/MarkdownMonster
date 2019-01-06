@@ -1152,13 +1152,11 @@ namespace MarkdownMonster
             TabControl.Items.Insert(0, tab);
 
             if (selectTab)
-            {
-                TabControl.SelectedItem = tab;
+            {                
+                TabControl.SelectedItem = tab;                
                 SetWindowTitle();                
             }
-
             Model.OpenDocuments.Add(editor.MarkdownDocument);
-            Model.ActiveDocument = editor.MarkdownDocument;
 
             AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
 
