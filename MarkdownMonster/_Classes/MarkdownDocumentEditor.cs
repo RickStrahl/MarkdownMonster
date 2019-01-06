@@ -1131,8 +1131,12 @@ namespace MarkdownMonster
         }
 
      
-
-        public  SelectionRange GetSelectionRange()
+        /// <summary>
+        /// Returns an object that holds the current selection's
+        /// start and end position row and column values.
+        /// </summary>
+        /// <returns>SelectionRange object or null if no selection is active</returns>
+        public SelectionRange GetSelectionRange()
         {
             dynamic range = AceEditor?.getselectionrange(false);
             if (range == null)
