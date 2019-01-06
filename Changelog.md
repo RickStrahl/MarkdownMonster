@@ -6,8 +6,15 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.14.8
+
+* **Add Support for `editor-user-extensions.js` to allow Editor Extension**  
+Added support for an optional `editor-user-extensions.js` file that can be used to create custom extensions to the Markdown Monster JavaScript ACE Editor wrapper. This allows addin and Commander Script authors to create custom ACE Editor functionality that can be called from .NET with `Model.ActiveEditor.AceEditor.MyCustomFunction()`
+
+* **Fix: Enabled/Disabled State of Menus**  
+Fix issue where first loaded documents would not properly enable/disable certain menu and toolbar items due to open document state. Fixed OnPropertyChange for the document to always fire even on existing selected document.
 ### 1.14.7
-<small>not released yet</small>
+<small>January 4th, 2018</small>
 
 * **Improve First Run Window Size Experience**  
 Added logic to detect window size on first run and adjust the main window accordingly. Small monitors run near maximized while large monitors get a larger but not giant instance on first launch. New behavior also respects DPI settings.
