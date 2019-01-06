@@ -506,7 +506,7 @@ namespace WeblogAddin
                 ComboWebLogName.SelectedValue = Model.Configuration.Weblogs[Model.ActiveWeblogInfo.Id];                
             }
 
-            WeblogAddinConfiguration.Current.Write();
+            WeblogAddinConfiguration.Current.Write();            
         }
     }
 }

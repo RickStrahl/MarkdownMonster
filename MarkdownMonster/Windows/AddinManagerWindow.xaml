@@ -39,9 +39,15 @@
                              ItemsSource="{Binding AddinList}"
                              SelectedItem="{Binding ActiveAddin}"
                              HorizontalContentAlignment="Stretch">
-                <ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="AutomationProperties.Name" Value="{Binding name}"/>
+                            <!--<Setter Property="AutomationProperties.Name" Value="Addin Item"/>-->
+                    </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
                     <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch" Background="#10FFFFFF" Margin="0,0,10,0">
+                    <Grid HorizontalAlignment="Stretch" Background="#10FFFFFF" Margin="0,0,10,0" >
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition/>
@@ -70,16 +76,17 @@
                             </Grid>
 
 
-                            <Grid Grid.Row="1"  Margin="10,0,0,0">
+                            <Grid Grid.Row="1"  Margin="10,0,0,0" AutomationProperties.Name="AddinGridSummaryAndImage">
                                 <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <Image Grid.Column="0" Source="{Binding icon}" Height="60" Width="60" VerticalAlignment="Top" />
-                                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                <StackPanel Grid.Column="1" Margin="8,0,0,0" AutomationProperties.Name="AddinStackPanelSummary">
                                     <TextBlock  Grid.Column="1"                                            
                                             Text="{Binding summary}" 
+                                            AutomationProperties.Name="{Binding summary}"                                            
                                             TextWrapping="WrapWithOverflow"
                                             HorizontalAlignment="Left"
                                             FontSize="13"/>
@@ -104,6 +111,7 @@
                                 <Button Grid.Column="1" Name="ButtonInstall"  Height="27" 
                                     Margin="0,0,10,10"  Width="110" FontSize="10"
                                     Visibility="{Binding isInstalled, Converter={StaticResource InstallButtonConverter}}" 
+                                    AutomationProperties.Name="Install Addin"                                    
                                     Click="ButtonInstall_Click">
                                     <StackPanel Orientation="Horizontal">
                                         <fa:FontAwesome Icon="Download" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,7,0" Foreground="LightGreen"/>
@@ -114,6 +122,7 @@
                                 <Button Grid.Column="2" Name="ButtonUpdate"  Height="27" 
                                     Margin="0,0,10,10"  Width="110" FontSize="10"
                                     Visibility="{Binding updateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                    AutomationProperties.Name="Update Addin"                                    
                                     Click="ButtonInstall_Click">
                                     <StackPanel Orientation="Horizontal">
                                         <fa:FontAwesome Icon="Retweet" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,4,0" Foreground="DarkOrange"/>
@@ -125,6 +134,7 @@
                                 <Button Grid.Column="3" Name="ButtonUnInstall" Height="27"
                                 Margin="0,0,10,10" Width="110" FontSize="10"                                
                                 Visibility="{Binding isInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                AutomationProperties.Name="{Binding installedVersion,StringFormat='Uninstall v{0}'}"                                
                                 Click="ButtonUnInstall_Click">
                                     <StackPanel Orientation="Horizontal">
                                         <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Margin="0,2,4,0" Foreground="DarkRed"/>

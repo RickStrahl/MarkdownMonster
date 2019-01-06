@@ -42,6 +42,7 @@
         <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" 
                                  BorderThickness="0" ShowDefaultCloseButton="False"  
                                  ShowDefaultAddButton="False" >
+
             <dragablz:TabablzControl.Resources>
                 <Style x:Key="HeaderStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
                     <Setter Property="controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
@@ -53,23 +54,29 @@
             </dragablz:TabablzControl.Resources>
 
             <controls:MetroTabItem Name="TabPublish" Header="Post to Weblog " Margin="0,0,5,0" CloseButtonEnabled="False"                                   
-                               controls:ControlsHelper.HeaderFontSize="16" >
+                               controls:ControlsHelper.HeaderFontSize="16"  
+                               AutomationProperties.HelpText="Post to Weblog Tab"
+                               AutomationProperties.Name="WeblogPostTab">
 
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
                     <Label>Title:</Label>
-                    <TextBox Text="{Binding ActivePostMetadata.Title}"  Style="{StaticResource HeaderStyle}" SpellCheck.IsEnabled="True"  />
+                    <TextBox Text="{Binding ActivePostMetadata.Title}"  Style="{StaticResource HeaderStyle}" SpellCheck.IsEnabled="True" />
 
                     <Label Margin="0,5,0,0"  IsEnabled="{Binding IsAbstractVisible}">Abstract:</Label>
-                    <TextBox TextWrapping="Wrap" Height="100"
+                    <TextBox TextWrapping="Wrap" Height="100" AutomationProperties.HelpText="Post Abstract"
                 	         Text="{Binding ActivePostMetadata.Abstract}" SpellCheck.IsEnabled="True" 
                              IsEnabled="{Binding IsAbstractVisible}" 
-                              />
+                             controls:TextBoxHelper.Watermark="Short text abstract for this post"  />
 
                     <Label Margin="0,5,0,0" IsEnabled="{Binding IsCategoriesVisible}">Categories:</Label>
-                    <TextBox  Text="{Binding ActivePostMetadata.Categories}" IsEnabled="{Binding IsCategoriesVisible}"  />
+                    <TextBox  Text="{Binding ActivePostMetadata.Categories}" IsEnabled="{Binding IsCategoriesVisible}" 
+                              AutomationProperties.HelpText="Post Categories"
+                              controls:TextBoxHelper.Watermark="Comma delimited list of categories for this post"/>
 
                     <Label Margin="0,5,0,0">Keywords:</Label>
-                    <TextBox Text="{Binding ActivePostMetadata.Keywords}"  />
+                    <TextBox Text="{Binding ActivePostMetadata.Keywords}"  
+                             AutomationProperties.HelpText="Post Keywords"
+                             controls:TextBoxHelper.Watermark="Comma delimited list of keywords for this post" />
 
 
 					<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
@@ -112,7 +119,7 @@
 										<ColumnDefinition Width="100" />
 									</Grid.ColumnDefinitions>
 
-									<TextBox Text="{Binding Key}" BorderThickness="0" />
+									<TextBox Text="{Binding Key}"  BorderThickness="0" />
 					                <TextBox Grid.Column="1" Padding="5,0,5,0"  BorderThickness="0"
 					                         Text="{Binding Value}" />
 					                <TextBox Grid.Column="2" Text="{Binding Id}" BorderThickness="0" />
@@ -121,7 +128,7 @@
 		                </ListBox.ItemTemplate>
 	                </ListBox>
 
-					<Grid>
+					<Grid Name="PostToWeblogSiteGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="85"/>
@@ -132,17 +139,23 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <Label Margin="0,5,0,0">Web Site to post to:</Label>
-                        <ComboBox  Grid.Row="1" Grid.Column="0" ToolTip="Weblog selection"
-                           DisplayMemberPath="Value.Name"
+                        <Label Margin="0,5,0,0" Target="{Binding ElementName=ComboWeblogSite}">Web Site to post to:</Label>
+                        <ComboBox  Grid.Row="1" Grid.Column="0" ToolTip="Weblog selection" Name="ComboWebLogSite"   
+                                   AutomationProperties.Name="{Binding ActivePostMetadata.WeblogName}"                                   
                            SelectedValuePath="Value.Name"
+                           DisplayMemberPath="Value.Name"
                            SelectedValue="{Binding ActivePostMetadata.WeblogName}"
                            IsSynchronizedWithCurrentItem="True" 
-                           ItemsSource="{Binding Configuration.Weblogs}" 
-                           />
+                           ItemsSource="{Binding Configuration.Weblogs}">
+                            <ComboBox.ItemContainerStyle>
+                                <Style>
+                                    <Setter Property="AutomationProperties.Name"  Value="{Binding Value.Name}"/>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>                          
 
                         <Label Grid.Row="0"  Grid.Column="1" Margin="0,5,0,0" HorizontalAlignment="Right">Post Id:</Label>
-                        <TextBox Grid.Row="1"  IsEnabled="{Binding IsAbstractVisible}" Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
+                        <TextBox Name="TextAbstract" Grid.Row="1"  IsEnabled="{Binding IsAbstractVisible}" Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
 
 						<StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
 
@@ -411,7 +424,14 @@
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding WeblogNames}"
                            SelectionChanged="ComboWeblogType_SelectionChanged"
-                           />
+                           >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding }" AutomationProperties.HelpText="{Binding }" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
 
                     <!--<Label Margin="0,10,0,0">Preview Url: (using {0} for post id)</Label>
                     <TextBox 
