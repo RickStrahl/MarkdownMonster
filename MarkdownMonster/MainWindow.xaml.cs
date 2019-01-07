@@ -1239,11 +1239,6 @@ namespace MarkdownMonster
             }, DispatcherPriority.ApplicationIdle);
         }
 
-        private void TabControl_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            //Dispatcher.Delay(150,(p) => Model.ActiveEditor.SetEditorFocus(), DispatcherPriority.ApplicationIdle);
-        }
-
 
         /// <summary>
         /// Refreshes an already loaded tab with contents of a new (or the same file) file
@@ -1640,6 +1635,15 @@ namespace MarkdownMonster
                 return null;
             }
             return ActivateTab(tab);
+        }
+
+        private void TabControl_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            // Explicitly force focus into the editor
+            // Programmatic tab selection does not automatically set focus
+            // unless explicitly specified. Click on a tab explicitly sets focus
+            // via this operation.
+            Model.ActiveEditor?.SetEditorFocus();
         }
 
         /// <summary>
@@ -2767,11 +2771,6 @@ namespace MarkdownMonster
             ctx.MaxHeight = 800;
             ctx.IsOpen = true;
             WindowUtilities.DoEvents();
-        }
-
-        private void TabControl_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Model.ActiveEditor?.SetEditorFocus();
         }
     }
 

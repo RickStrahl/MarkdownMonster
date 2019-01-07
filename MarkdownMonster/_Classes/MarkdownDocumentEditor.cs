@@ -1431,9 +1431,6 @@ namespace MarkdownMonster
         public void LostFocus()
         {
             Window.Model.IsEditorFocused = false;
-
-            // Bindings aren't working reliably for the toolbar so do it explicitly
-            Window.ToolbarEdit.IsEnabled = false;
         }
 
         /// <summary>
@@ -1442,9 +1439,6 @@ namespace MarkdownMonster
         public void GotFocus()
         {
             Window.Model.IsEditorFocused = true;
-
-            // Bindings aren't working reliably for the toolbar so do it explicitly                        
-            Window.ToolbarEdit.IsEnabled = true;
         }
 
         /// <summary>
@@ -1571,7 +1565,7 @@ namespace MarkdownMonster
         public void KeyboardCommand(string key)
         {
 
-            // run this one sync to avoid Browser default Open File popup!
+            // run this one sync immediately to avoid Browser default Open File popup!
             if (key == "OpenDocument")
             {
                 Window.Model.Commands.OpenDocumentCommand.Execute(Window);
