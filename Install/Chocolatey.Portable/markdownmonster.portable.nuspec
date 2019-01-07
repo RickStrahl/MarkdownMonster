@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>MarkdownMonster.Portable</id>
-    <version>1.14.7</version>
+    <version>1.14.8</version>
     <title>Markdown Monster Portable Install</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
     <owners>West Wind Technologies</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>    
     <description>Markdown Monster is an easy to use and extensible Markdown Editor and Viewer and Weblog Publisher by West Wind Technologies. 
 
-This portable install doesn't run an installer and is self-contained in its install folder and doesn't require admin mode.
+This portable install doesn't run an installer and is self-contained in its install folder and doesn't require admin mode to install.
 
 Markdown Monster sports syntax colored editing of Markdown text, inline spell checking, live, synced HTML preview, embedding, dragging and pasting of images, code, links and Emoji and has built-in support for screen captures. There is support for text snippet expansion and C# script execution to automate and extend Markdown Monster. But above all the editor's goal is to get out of your way and let you focus on your content creation, and provide you with tools to get your job done efficiently.
     
