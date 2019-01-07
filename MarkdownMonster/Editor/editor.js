@@ -479,25 +479,7 @@
 
       te.editor.session.replace(range, replace);
     },
-    gotfocus: function(ignored) {
-      te.setfocus();
-    },
-    setfocus: function(ignored) {
-      te.editor.resize(true);
 
-      setTimeout(function() {
-          te.editor.focus();
-          setTimeout(function() {
-              te.editor.focus();
-            },
-            400);
-        },
-        50);
-    },
-    // forces Ace to lose focus
-    losefocus: function(ignored) {
-      $("#losefocus").focus();
-    },
     setlanguage: function(lang) {
 
       if (!lang)
@@ -705,6 +687,26 @@
       if (sc)
         sc.spellCheck(true);
     },
+
+    gotfocus: function(ignored) {
+      te.setfocus();
+    },
+    setfocus: function(ignored) {
+      te.editor.resize(true);
+
+      setTimeout(function() {
+          te.editor.focus();
+          setTimeout(function() {
+              te.editor.focus();
+            },
+            400);
+        },
+        50);
+    },
+    // forces Ace to lose focus
+    losefocus: function(ignored) {
+      $("#losefocus").focus();
+    },
     onBlur: function() {
       if (te.mm)
         te.mm.textbox.LostFocus();
@@ -712,6 +714,17 @@
     onGotFocus: function() {
       if (te.mm)
         te.mm.textbox.GotFocus();
+    },
+    blurEditorAndRefocus: function(mstimeout) {
+      if (!mstimeout)
+          mstimeout = 50;
+
+      te.noRefreshPreview = true;	
+      te.editor.blur(); // HACK: avoid letter o insertion into document                 
+      setTimeout(function() { 
+          te.editor.focus(); 
+          te.noRefreshPreview = false;
+      }, mstimeout);
     }
   }
 
