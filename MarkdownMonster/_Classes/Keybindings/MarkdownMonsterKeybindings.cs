@@ -131,6 +131,13 @@ namespace MarkdownMonster.Utilities
                     CommandName = "CloseActiveDocument",
                     Command = model.Commands.CloseActiveDocumentCommand
                 },
+                new AppKeyBinding
+                {                    
+                    Key="Alt+G",
+                    CommandName="CommitToGit",
+                    Command = model.Commands.CommitToGitCommand
+
+                },
 
                 // Editor Commands
                 new AppKeyBinding

@@ -227,7 +227,7 @@
                 <Separator/>
 
                 <MenuItem Header="_Git">
-                    <MenuItem Header="_Commit to Git..." Command="{Binding Commands.CommitToGitCommand}" InputGestureText="Alt+T-G" />
+                    <MenuItem Header="_Commit to Git..." Command="{Binding Commands.CommitToGitCommand}" InputGestureText="{Binding Commands.CommitToGitCommand.KeyboardShortcut}" />
                     <Separator />
                     <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
                     <MenuItem Header="_Create Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" CommandParameter="Create" />
@@ -364,7 +364,7 @@
                 <MenuItem Name="ButtonToggleLeftSidebar" 
                           Header="Toggle Side_bar"                         
                           Command="{Binding Commands.ToggleLeftSidebarPanelCommand}"
-                          InputGestureText="Ctrl-Shift-B"
+                          InputGestureText="{Binding Commands.ToggleLeftSidebarPanelCommand.ShortcutKey}"
                           ToolTip="Toggles the left sidebar panel"
                 />
                 <MenuItem Name="ButtonDistractionFreeMode" 
@@ -623,7 +623,8 @@
                     </ToolBar>
 
 					<ToolBar Name="ToolbarAddIns" Visibility="Hidden" FontSize="17">
-                        <Button Name="ButtonGit" Command="{Binding Commands.CommitToGitCommand}" ToolTip="Git Operations: Commit, Push, Pull, Clone, Create (Alt+T+G)">
+                        <Button Name="ButtonGit" Command="{Binding Commands.CommitToGitCommand}" 
+                                ToolTip="Git Operations: Commit, Push, Pull, Clone, Create (Alt+G)">
                             <Image Source="assets/git.png" Height="19" Margin="0,0,2,0"/>
                         </Button>
 					</ToolBar>
