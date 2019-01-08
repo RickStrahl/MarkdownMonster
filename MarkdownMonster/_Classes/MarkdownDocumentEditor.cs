@@ -1891,10 +1891,8 @@ namespace MarkdownMonster
                         else
                             imagePath = imagePath.Replace("\\", "/");
 
-                        SetSelection($"![]({imagePath.Replace(" ", "%20")})");
-
+                        SetSelectionAndFocus($"![]({imagePath.Replace(" ", "%20")})");
                         
-
                         // Force the browser to refresh completely so image changes show up
                         Window.PreviewBrowser.Refresh(true);
                         //PreviewMarkdownCallback(); // force a preview refresh

@@ -138,7 +138,7 @@ namespace SnagItAddin
             editor.MarkdownDocument.LastImageFolder = SnagIt.CapturePath;
 
             // Push the new text into the Editor's Selection
-            SetSelection(replaceText);
+            editor.SetSelectionAndFocus(replaceText);
         }
 
         private void ExecuteApplicationFormCapture()
@@ -192,10 +192,8 @@ namespace SnagItAddin
             string replaceText = "![](" + relPath.Replace(" ","%20") + ")";
 
             // Push the new text into the Editor's Selection
-            SetSelection(replaceText);
-            Model.ActiveEditor.SetEditorFocus();
-            Model.Window.PreviewMarkdown(Model.ActiveEditor, true);
-
+            Model.ActiveEditor.SetSelectionAndFocus(replaceText);            
+            Model.Window.PreviewMarkdownAsync(Model.ActiveEditor,true);
         }
 
 #if false
