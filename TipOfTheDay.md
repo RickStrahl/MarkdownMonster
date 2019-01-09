@@ -19,6 +19,18 @@
 <!-- End Document Outline -->
 # Markdown Monster Tip of the Day
 
+## Markdown Monster Shortcut Keys
+Here are a few useful Markdown Monster shortcuts to remember:
+
+* F12 - Toggle Preview
+* Shft-F12 - Preview in Browser
+* Ctl-Shift-B - Toggle Sidebar
+* Alt-Shift-Enter - Toggle Distraction Free Mode
+* Alt-Z - Toggle Word Wrap
+* Alt-G - Open Git Window
+
+
+
 ## Open Markdown Monster from the Command Line
 Did you know you can open Markdown Monster from the command line with:
 

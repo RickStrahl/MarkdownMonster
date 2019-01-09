@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MarkdownMonsterAddinTemplate")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Markdown Monster Snippet Addin")]
+[assembly: AssemblyDescription("A Markdown Monster addin to allow text snippets with embedded code blocks to expand into Markdown.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rick Strahl")]
-[assembly: AssemblyProduct("MarkdownMonsterAddinTemplate")]
-[assembly: AssemblyCopyright("Copyright © Rick Strahl, West Wind Technologies 2017")]
+[assembly: AssemblyProduct("Markdown Monster")]
+[assembly: AssemblyCopyright("Copyright © Rick Strahl, West Wind Technologies 2017-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,4 +32,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.14.4")]
+[assembly: AssemblyVersion("1.14.8")]

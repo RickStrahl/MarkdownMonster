@@ -6,15 +6,32 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.14.9
+<small>not released yet</small>
+
+* **Alt+G default hot key for Git Commit Dialog**  
+There's now a dedicated hotkey by popular request for accessing the Git Commit Window, which allows easy access to a number of Git operations in MM.
+
+* **Add `editor-user-extensions.css` to allow Editor CSS Overrides**  
+Like the script extensions added in the previous release, this allows making editor CSS overrides to affect how the editor renders code. Note there's not a ton of stuff that can or should be changed since most of the styling comes from themes, but it does allow for some rudimentary enhancements to the editor.
+
+* **Spellchecker Ignores URLs**  
+The spellchecker now no longer tries to correct text inside of a URL, links for images or URL links (both Markdown and HTML links).
+
+* **Fix: Image Dialog Image Preview**  
+Fixed image preview for file and URL links so that the image displays in the preview area. Updated Image Editing link to open defined image editor.
+
+* **Fix: Editor Focus on Dialog Operations**  
+Fixed a number of places where editor focus was lost after content was inserted through dialogs (paste image, screen capture , href etc.). Keeps your fingers on the keyboard. Regression when tab focusing logic was changed recently.
+
 ### 1.14.8
 <small>January 7th, 2018</small>
 
-* **Add Support for `editor-user-extensions.js` to allow Editor Extension**  
-Added support for an optional `editor-user-extensions.js` file that can be used to create custom extensions to the Markdown Monster JavaScript ACE Editor wrapper. This allows addin and Commander Script authors to create custom ACE Editor functionality that can be called from .NET with `Model.ActiveEditor.AceEditor.MyCustomFunction()`
+* **Add `editor-user-extensions.js` to allow Editor Extension**  
+Added support for an optional `editor-user-extensions.js` file that can be used to create custom extensions to the Markdown Monster JavaScript ACE Editor wrapper. This allows addin and Commander Script authors to create custom ACE Editor functionality that can be called from .NET with `Model.ActiveEditor.AceEditor.MyCustomFunction()`.
 
 * **Fix: Enabled/Disabled State of Menus**  
 Fix issue where first loaded documents would not properly enable/disable certain menu and toolbar items due to open document state. Fixed OnPropertyChange for the document to always fire even on existing selected document.
-
 
 ### 1.14.7
 <small>January 4th, 2018</small>
