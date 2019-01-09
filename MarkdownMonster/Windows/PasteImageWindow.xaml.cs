@@ -127,7 +127,7 @@ namespace MarkdownMonster.Windows
             StatusBar = new StatusBarHelper(StatusText, StatusIcon);
         }
 
-        
+
         private void PasteImage_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
@@ -228,9 +228,9 @@ namespace MarkdownMonster.Windows
 
                 string initialFolder = null;
                 string documentFolder = null;
-                if (!string.IsNullOrEmpty(Document.Filename) && Document.Filename != "untitled")                
+                if (!string.IsNullOrEmpty(Document.Filename) && Document.Filename != "untitled")
                 {
-                    
+
                     documentFolder = Path.GetDirectoryName(Document.Filename);
                     if (!string.IsNullOrEmpty(Document.LastImageFolder))
                         initialFolder = Document.LastImageFolder;
@@ -285,7 +285,7 @@ namespace MarkdownMonster.Windows
                         return;
                     }
 
-                    
+
                     string relPath = Path.GetDirectoryName(sd.FileName);
                     Document.LastImageFolder = relPath;
 
@@ -405,7 +405,7 @@ namespace MarkdownMonster.Windows
             };
 
             if (!string.IsNullOrEmpty(Document.LastImageFolder))
-                fd.InitialDirectory = Document.LastImageFolder;           
+                fd.InitialDirectory = Document.LastImageFolder;
             else if (!string.IsNullOrEmpty(MarkdownFile))
                 fd.InitialDirectory = Path.GetDirectoryName(MarkdownFile);
             else
@@ -522,11 +522,11 @@ namespace MarkdownMonster.Windows
 
             SetImagePreview("file:///" + fd.FileName);
 
-            IsMemoryImage = false;            
+            IsMemoryImage = false;
             TextImageText.Focus();
         }
 
-        
+
 
         #endregion
 
@@ -571,7 +571,7 @@ namespace MarkdownMonster.Windows
             }
             catch (Exception ex)
             {
-                StatusBar.ShowStatusError("Image base64 encoding failed: " + ex.GetBaseException().Message);                
+                StatusBar.ShowStatusError("Image base64 encoding failed: " + ex.GetBaseException().Message);
             }
         }
 
@@ -588,7 +588,7 @@ namespace MarkdownMonster.Windows
             }
             catch (Exception ex)
             {
-                StatusBar.ShowStatusError($"Image base64 encoding failed: {ex.GetBaseException().Message}");                
+                StatusBar.ShowStatusError($"Image base64 encoding failed: {ex.GetBaseException().Message}");
             }
         }
 
@@ -625,7 +625,7 @@ namespace MarkdownMonster.Windows
 
                 return File.Exists(imageFile) ? imageFile : null;
             }
-            catch (Exception ex)
+            catch
             {
                 mmApp.Log("Non-fatal error: Invalid image filename: " + imageFile);
                 return null;

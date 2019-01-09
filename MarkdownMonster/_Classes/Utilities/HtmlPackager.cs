@@ -1,10 +1,10 @@
 ﻿#region License
 /*
  **************************************************************
- *  Author: Rick Strahl 
- *          © West Wind Technologies, 
+ *  Author: Rick Strahl
+ *          © West Wind Technologies,
  *          http://www.west-wind.com/
- * 
+ *
  * Created: 08/28/2018
  *
  * Permission is hereby granted, free of charge, to any person
@@ -15,10 +15,10 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -27,7 +27,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- **************************************************************  
+ **************************************************************
 */
 #endregion
 
@@ -48,7 +48,7 @@ namespace Westwind.HtmlPackager
     /// A utility class that can package HTML and all of its dependencies
     /// into either a single file with embedded text and binary resources,
     /// or into a self contained folder that holds the HTML plus its
-    /// external dependencies. 
+    /// external dependencies.
     /// </summary>
     public class HtmlPackager
     {
@@ -68,7 +68,7 @@ namespace Westwind.HtmlPackager
 
 
         /// <summary>
-        /// Internal flag to determine if files are 
+        /// Internal flag to determine if files are
         /// </summary>
         bool CreateExternalFiles { get; set; }
 
@@ -90,8 +90,8 @@ namespace Westwind.HtmlPackager
         ///  Packages an HTML document into a large single file package
         ///  that embeds all images, css, scripts, fonts and other url()
         ///  loaded entries into the HTML document.
-        /// 
-        ///  The result is a very large document that is fully self-contained        
+        ///
+        ///  The result is a very large document that is fully self-contained
         ///  </summary>
         ///  <param name="urlOrFile">A Web Url or fully qualified local file name</param>
         ///  <param name="basePath">
@@ -99,7 +99,7 @@ namespace Westwind.HtmlPackager
         ///  paths. Unless there's a special use case, you should leave this
         ///  value blank and let the default use either the value from a
         ///  BASE tag or the base location of the document.
-        /// 
+        ///
         ///  If the document itself contains a BASE tag this value is not used.
         ///  </param>
         /// <param name="createExternalFiles"></param>
@@ -139,7 +139,7 @@ namespace Westwind.HtmlPackager
                 if (docBase != null)
                 {
                     basePath = docBase.Attributes["href"]?.Value;
-                    BaseUri = new Uri(baseUri: new Uri(urlOrFile),relativeUri: basePath,dontEscape: true);
+                    BaseUri = new Uri(baseUri: new Uri(urlOrFile),relativeUri: basePath);
                 }
 
                 docBase?.Remove();
@@ -211,7 +211,7 @@ namespace Westwind.HtmlPackager
         /// that embeds all images, css, scripts, fonts and other url()
         /// loaded entries into the HTML document.
         ///
-        /// The result is a very large document that is fully self-contained        
+        /// The result is a very large document that is fully self-contained
         /// </summary>
         /// <param name="urlOrFile">A Web Url or fully qualified local file name</param>
         /// <param name="basePath">
@@ -249,7 +249,7 @@ namespace Westwind.HtmlPackager
         /// <summary>
         /// Packages an HTML document into a file with all dependencies
         /// dumped into the file's output folder and adjusted for the
-        /// same local path.       
+        /// same local path.
         /// </summary>
         /// <param name="urlOrFile">A Web Url or fully qualified local file name</param>
         /// <param name="outputFile">Location for the output file. Folder is created if it doesn't exist. All dependencies are dumped into this folder</param>
@@ -272,11 +272,11 @@ namespace Westwind.HtmlPackager
                 foreach (var file in Directory.GetFiles(OutputPath))
                     File.Delete(file);
             }
-            
-            if (!Directory.Exists(OutputPath))            
-                Directory.CreateDirectory(OutputPath);                
-            
-            
+
+            if (!Directory.Exists(OutputPath))
+                Directory.CreateDirectory(OutputPath);
+
+
             return PackageHtmlToFile(urlOrFile, outputFile, basePath, true);
         }
 
@@ -302,7 +302,7 @@ namespace Westwind.HtmlPackager
 
             try
             {
-                ZipFile.CreateFromDirectory(folder, outputZipFile, CompressionLevel.Fastest, false);                
+                ZipFile.CreateFromDirectory(folder, outputZipFile, CompressionLevel.Fastest, false);
             }
             catch (Exception ex)
             {
@@ -338,17 +338,17 @@ namespace Westwind.HtmlPackager
                 if (url == null)
                     continue;
 
-                string cssText;                
+                string cssText;
 
                 if (url.StartsWith("http"))
                 {
                     var http = new WebClient();
-                    cssText = http.DownloadString(url);                    
+                    cssText = http.DownloadString(url);
                 }
                 else if (url.StartsWith("file:///"))
-                {                                       
+                {
                    url = url.Substring(8);
-                   cssText = File.ReadAllText(WebUtility.UrlDecode(url));                   
+                   cssText = File.ReadAllText(WebUtility.UrlDecode(url));
                 }
                 else // Relative Path
                 {
@@ -360,7 +360,7 @@ namespace Westwind.HtmlPackager
                         cssText = http.DownloadString(url);
                     }
                     else
-                        cssText = File.ReadAllText(WebUtility.UrlDecode(url));                                     
+                        cssText = File.ReadAllText(WebUtility.UrlDecode(url));
                 }
 
                 cssText = ProcessUrls(cssText, url);
@@ -371,22 +371,22 @@ namespace Westwind.HtmlPackager
                     string justExt = Path.GetExtension(url);
                     if (string.IsNullOrEmpty(justExt))
                         justFilename = DataUtils.GenerateUniqueId(10) + ".css";
-                    
+
                     var fullPath = Path.Combine(OutputPath, justFilename);
                     File.WriteAllText(fullPath, cssText);
-                    link.Attributes["href"].Value = justFilename;                    
+                    link.Attributes["href"].Value = justFilename;
                 }
                 else
                 {
                     var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
-                    el.Name = "style";                    
+                    el.Name = "style";
                     el.InnerHtml = "\r\n" + cssText + "\r\n";
 
                     link.ParentNode.InsertAfter(el, link);
                     link.Remove();
                     el = null;
-                }                
-            }            
+                }
+            }
         }
 
         private void ProcessScripts(HtmlDocument doc)
@@ -406,7 +406,7 @@ namespace Westwind.HtmlPackager
                 if (url.StartsWith("http"))
                 {
                     var http = new WebClient();
-                    scriptData = http.DownloadData(url);                    
+                    scriptData = http.DownloadData(url);
                 }
                 else if (url.StartsWith("file:///"))
                 {
@@ -422,7 +422,7 @@ namespace Westwind.HtmlPackager
                         if (url.StartsWith("http") && url.Contains("://"))
                         {
                             var http = new WebClient();
-                            scriptData = http.DownloadData(url);                            
+                            scriptData = http.DownloadData(url);
                         }
                         else
                             scriptData = File.ReadAllBytes(WebUtility.UrlDecode(url));
@@ -432,7 +432,7 @@ namespace Westwind.HtmlPackager
                         continue;
                     }
                 }
-                
+
                 if (CreateExternalFiles)
                 {
                     var justFilename = Path.GetFileName(url);
@@ -536,7 +536,7 @@ namespace Westwind.HtmlPackager
                 {
                     string data = $"data:{contentType};base64,{Convert.ToBase64String(imageData)}";
                     el.Attributes["src"].Value = data;
-                }              
+                }
             }
         }
 
@@ -566,7 +566,7 @@ namespace Westwind.HtmlPackager
                 if (url.Contains("?"))
                     url = StringUtils.ExtractString(url, "", "?");
 
-                
+
                 if (url.EndsWith(".eot") || url.EndsWith(".ttf"))
                     continue;
 
@@ -580,14 +580,14 @@ namespace Westwind.HtmlPackager
                 {
                     var baseUri = new Uri(baseUrl);
                     url = new Uri(baseUri, new Uri(url)).AbsoluteUri;
-                    
+
                     try
                     {
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                         if (contentType == "application/image")
                             continue;
 
-                         linkData = File.ReadAllBytes(WebUtility.UrlDecode(url));                     
+                         linkData = File.ReadAllBytes(WebUtility.UrlDecode(url));
                     }
                     catch
                     {
@@ -643,7 +643,7 @@ namespace Westwind.HtmlPackager
                     urlContent = "url('" + data + "')";
                 }
 
-                html = html.Replace(matched, urlContent);                
+                html = html.Replace(matched, urlContent);
             }
 
             return html;

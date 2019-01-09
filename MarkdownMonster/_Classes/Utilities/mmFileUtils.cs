@@ -71,7 +71,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Creates an MD5 checksum of a file
         /// </summary>
-        /// <param name="file"></param>        
+        /// <param name="file"></param>
         /// <returns></returns>
         public static string GetChecksumFromFile(string file)
         {
@@ -99,7 +99,7 @@ namespace MarkdownMonster
         /// Retrieve the file encoding for a given file so we can capture
         /// and store the Encoding when writing the file back out after
         /// editing.
-        /// 
+        ///
         /// Default is Utf-8 (w/ BOM). If file without BOM is read it is
         /// assumed it's UTF-8.
         /// </summary>
@@ -141,7 +141,7 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Retrieves the editor syntax for a file based on extension for use in the editor
-        /// 
+        ///
         /// Unknown file types returning null
         /// </summary>
         /// <param name="filename"></param>
@@ -169,7 +169,7 @@ namespace MarkdownMonster
 
         #endregion
 
-        #region Type and Language Utilities       
+        #region Type and Language Utilities
 
         /// <summary>
         /// Safely converts a double to an integer
@@ -205,7 +205,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Tries to optimize png images in the background
         /// This is not fast and does not happen right away
-        /// so generally this can be applied when images are saved.        
+        /// so generally this can be applied when images are saved.
         /// </summary>
         /// <param name="pngFilename">Filename to optimize</param>
         /// <param name="level">Optimization Level from 1-9</param>
@@ -235,7 +235,6 @@ namespace MarkdownMonster
                 string exec = Path.Combine(App.InitialStartDirectory, "pingo.exe");
                 string args;
 
-                ProcessStartInfo pi = null;
                 if (imageQuality > 0)
                 {
                     args = $"-auto={imageQuality} \"" + imageFilename + "\"";
@@ -454,7 +453,7 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Displays the Windows Open With dialog with options.        
+        /// Displays the Windows Open With dialog with options.
         /// </summary>
         /// <param name="path">file to open</param>
         public static void ShowOpenWithDialog(string path)
@@ -495,7 +494,7 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Checks to see if 
+        /// Checks to see if
         /// </summary>
         /// <returns></returns>
         public static string FindGitClient()

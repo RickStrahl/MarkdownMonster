@@ -119,7 +119,6 @@ namespace MarkdownMonster.Windows
             var csv = Clipboard.GetText();
             var lines = StringUtils.GetLines(csv.Trim());
 
-            string delim = null;
             int tabCount = 0;
             int commaCount = 0;
             int listDelimiterCount = 0;
@@ -181,6 +180,6 @@ namespace MarkdownMonster.Windows
             CsvFilename = fd.FileName;
         }
 
-       
+
     }
 }
