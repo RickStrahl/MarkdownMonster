@@ -850,7 +850,7 @@ namespace MarkdownMonster
                     string html = $"[{form.LinkText}]({form.Link})";
                     if (!string.IsNullOrEmpty(html))
                     {
-                        SetSelection(html);
+                        SetSelectionAndFocus(html);
                         PreviewMarkdownCallback();
                     }
                 }
@@ -865,14 +865,14 @@ namespace MarkdownMonster
                 {
                     if (!string.IsNullOrEmpty(form.TableHtml))
                     {
-                        SetSelection(form.TableHtml.TrimEnd() + "\r\n");
+                        SetSelectionAndFocus(form.TableHtml.TrimEnd() + "\r\n");
                         PreviewMarkdownCallback();
                     }
                 }
             }
             else if (action == "code")
             {
-                MessageBox.Show("Link to Edit", text);
+                MessageBox.Show("Code Pasting is not implemented yet.", text);
             }
 
             return null;
