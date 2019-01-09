@@ -31,7 +31,7 @@ namespace MarkdownMonster.Windows
                 if (value == _image) return;
                 _image = value;
                 OnPropertyChanged(nameof(Image));
-
+                OnPropertyChanged(nameof(IsEditable));
             }
         }
 
@@ -46,8 +46,7 @@ namespace MarkdownMonster.Windows
             }
         }
 
-
-
+     
         public bool PasteAsBase64Content
         {
             get { return _PasteAsBase64Content; }
@@ -93,10 +92,21 @@ namespace MarkdownMonster.Windows
                 _isMemoryImage = value;
                 OnPropertyChanged(nameof(IsMemoryImage));
                 OnPropertyChanged(nameof(IsFileImage));
+                OnPropertyChanged(nameof(IsPreview));
             }
         }
-
         private bool _isMemoryImage;
+
+        public bool IsEditable
+        {
+            get { return !string.IsNullOrEmpty(Image); }
+        }
+
+        public bool IsPreview
+        {
+            get { return ImagePreview.Source != null;  }
+        }
+
 
         AppModel Model { get; set; }
         MarkdownDocumentEditor Editor { get; set; }
@@ -131,8 +141,10 @@ namespace MarkdownMonster.Windows
         private void PasteImage_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             bool isControlKey = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+            var clipText = Clipboard.GetText();
+
             if (isControlKey && e.Key == Key.V && Clipboard.ContainsImage())
-                PasteImageFromClipboard();
+                PasteImageFromClipboard();                            
             else if (isControlKey && e.Key == Key.C)
                 Button_CopyImage(null, null);
         }
@@ -159,8 +171,8 @@ namespace MarkdownMonster.Windows
             else if (string.IsNullOrEmpty(Image) && Clipboard.ContainsText())
             {
                 string clip = Clipboard.GetText().ToLower();
-                if ((clip.StartsWith("http://") || clip.StartsWith("https://")) &&
-                    (clip.Contains(".png") || clip.Contains("jpg")))
+                if ((clip.StartsWith("http://",StringComparison.InvariantCultureIgnoreCase) || clip.StartsWith("https://",StringComparison.InvariantCultureIgnoreCase)) &&
+                    (clip.Contains(".png",StringComparison.InvariantCultureIgnoreCase) || clip.Contains("jpg",StringComparison.InvariantCultureIgnoreCase)))
                 {
                     TextImage.Text = clip;
                     SetImagePreview(clip);
@@ -180,7 +192,7 @@ namespace MarkdownMonster.Windows
             string href = TextImage.Text.ToLower();
             if (href.StartsWith("http://") || href.StartsWith("https://"))
             {
-                SetImagePreview(href);
+                SetImagePreview(TextImage.Text);
             }
         }
 
@@ -349,6 +361,12 @@ namespace MarkdownMonster.Windows
         {
             string exe = mmApp.Configuration.ImageEditor;
 
+            if (string.IsNullOrEmpty(Image))
+            {
+                StatusBar.ShowStatusError("No image selected.");
+                return;
+            }
+
             string imageFile = Image;
             if (!imageFile.Contains(":\\") && Document != null)
             {
@@ -376,6 +394,8 @@ namespace MarkdownMonster.Windows
             Image = null;
             ImageText = null;
             ImagePreview.Source = null;
+            IsMemoryImage = false;
+
             StatusBar.ShowStatusSuccess("Image has been cleared.");
         }
 
@@ -392,7 +412,7 @@ namespace MarkdownMonster.Windows
             }
         }
 
-        private void SelectLocalImageFile_Click(object sender, RoutedEventArgs e)
+        private void Button_SelectLocalImageFile_Click(object sender, RoutedEventArgs e)
         {
             var fd = new OpenFileDialog
             {
@@ -536,7 +556,8 @@ namespace MarkdownMonster.Windows
         {
             SetImagePreview(Clipboard.GetImage());
             Image = null;
-            IsMemoryImage = true;
+            IsMemoryImage = true;            
+                       
 
             StatusBar.ShowStatusSuccess("Image pasted from clipboard.");
         }
@@ -646,12 +667,12 @@ namespace MarkdownMonster.Windows
 
                 var bmi = new BitmapImage();
                 bmi.BeginInit();
-                bmi.CacheOption = BitmapCacheOption.OnLoad;
+                //bmi.CacheOption = BitmapCacheOption.OnLoad;
                 bmi.UriSource = new Uri(url);
+                bmi.EndInit();
 
                 SetImagePreview(bmi);
-
-                bmi.EndInit();
+                
             }
             catch
             {
@@ -661,7 +682,7 @@ namespace MarkdownMonster.Windows
         private void SetImagePreview(BitmapSource source)
         {
             try
-            {
+            {                
                 ImagePreview.Source = source;
                 if (Height < 400)
                 {
