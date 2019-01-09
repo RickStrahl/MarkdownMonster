@@ -2,8 +2,19 @@
 
 Set-ExecutionPolicy Bypass -Scope CurrentUser
 
-$uid= Read-Host -Prompt 'Username' 
-$pwd=Read-Host -Prompt 'Password' -AsSecureString
+# Credential set with:
+#  Get-Credential | Export-CliXml  -Path .\FtpCredential.xml
+$credential = Import-Clixml -Path .\FtpCredential.xml
+if( $null -ne $credential)
+{
+    $uid = $credential.Username;
+    $pwd = $credential.Password;    
+}
+else {
+    # otherwise prompt for password
+    $uid= Read-Host -Prompt 'Username' 
+    $pwd=Read-Host -Prompt 'Password' -AsSecureString
+}
 $pwd = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($pwd))
 
 if(!$pwd) {Exit;}
