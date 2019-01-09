@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" %>
-<%@ Register TagPrefix="ww" Namespace="Westwind.Web.MarkdownControl" Assembly="Westwind.Web.MarkdownControl" %>
+<%@ Register TagPrefix="ww" Namespace="Westwind.Web.Markdown" Assembly="Westwind.Web.Markdown" %>
 
 <%
     //WestWindSiteUtils.LogInfo("/WebMonitor/default.aspx");	
@@ -12,9 +12,9 @@
     <meta name="description" content="West Wind Web Surge Features. A brief walk through of functionality with many screenshots to get a feel for operation of West Wind Web Surge" />
     <meta name="keywords" content="Load,Testing,Web,Server,ASP.NET,Capture,Playback,Threads" />
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/application.css" rel="stylesheet" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
 </head>
 <body>
     <a id="top" name="top" style="height: 0;"></a>

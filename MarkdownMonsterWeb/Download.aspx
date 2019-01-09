@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" %>
-<%@ Register TagPrefix="ww" Namespace="Westwind.Web.MarkdownControl" Assembly="Westwind.Web.MarkdownControl" %>
+<%@ Register TagPrefix="ww" Namespace="Westwind.Web.Markdown" Assembly="Westwind.Web.Markdown" %>
 <%@ Import Namespace="System.Diagnostics" %>
 <%@ Import Namespace="System.IO" %>
 <%@ Import Namespace="System.Net" %>
@@ -15,9 +15,9 @@
     <meta name="description" content="Download Markdown Monster: A better Markdown Editor and Weblog Publisher for Windows" />
     <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Writing,Documentation,Windows,Download" />  
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/application.css" rel="stylesheet" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
     
     <style>
         dt { float: left;width: 90px; font-weight: normal}
@@ -171,11 +171,7 @@
                             </div>   
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Internet Explorer 11
-                            </div>
-                            <div>
-                                <i class="fa fa-check-circle"></i>
-                                Git <small>(optional)</small>
+                                <a href="https://git-scm.com/" target="_blank">Git</a> <small>(optional)</small>
                             </div>
                                                      
                         </div>
@@ -196,10 +192,6 @@
                             <div>
                                 <i class="fa fa-check-circle"></i>
                                 Run the contained <b>MarkdownMonsterSetup.exe</b>
-                            </div>
-                            <div>
-                                <i class="fa fa-check-circle"></i>
-                                Follow the installation instructions
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>

@@ -1,10 +1,10 @@
 ﻿/// <reference path="../bower_components/jquery/dist/jquery.js" />
 /*
 ww.jQuery.js  
-Version 1.26 - 2/2/2016
+Version 1.28 - 8/26/2018
 West Wind jQuery plug-ins and utilities
 
-(c) 2008-2015 Rick Strahl, West Wind Technologies 
+(c) 2008-2018 Rick Strahl, West Wind Technologies 
 www.west-wind.com
 
 Licensed under MIT License
@@ -1499,13 +1499,17 @@ http://en.wikipedia.org/wiki/MIT_License
 
     if (!$.fn.resizable) {
         $.fn.resizable = function fnResizable(options) {
-            var opt = {
+            var defaultOptions = {
                 // selector for handle that starts dragging
                 handleSelector: null,
                 // resize the width
                 resizeWidth: true,
                 // resize the height
                 resizeHeight: true,
+                // the side that the width resizing is relative to
+                resizeWidthFrom: 'right',
+                // the side that the height resizing is relative to
+                resizeHeightFrom: 'bottom',
                 // hook into start drag operation (event passed)
                 onDragStart: null,
                 // hook into stop drag operation (event passed)
@@ -1514,90 +1518,130 @@ http://en.wikipedia.org/wiki/MIT_License
                 onDrag: null,
                 // disable touch-action on $handle
                 // prevents browser level actions like forward back gestures
-                touchActionNone: true
-            };
-            if (typeof options == "object") opt = $.extend(opt, options);
-
+                touchActionNone: true,
+                // instance id
+                instanceId: null
+        };
+            if (typeof options == "object")
+                defaultOptions = $.extend(defaultOptions, options);
+    
             return this.each(function () {
+                var opt = $.extend({}, defaultOptions);
+                if (!opt.instanceId)
+                    opt.instanceId = "rsz_" + new Date().getTime();
+    
+                console.log('set: ' + opt.instanceId);
+    
                 var startPos, startTransition;
-
+    
+                // get the element to resize 
                 var $el = $(this);
-                var $handle = opt.handleSelector ? $(opt.handleSelector) : $el;
-
+                var $handle;
+    
+                if (options === 'destroy') {            
+                    opt = $el.data('resizable');
+                    if (!opt)
+                        return;
+                    console.log("unset: " + opt.instanceId);
+                    $handle = getHandle(opt.handleSelector, $el);
+                    $handle.off("mousedown." + opt.instanceId + " touchstart." + opt.instanceId);
+                    if (opt.touchActionNone)
+                        $handle.css("touch-action", "");
+                    $el.removeClass("resizable");
+                    return;
+                }
+              
+                $el.data('resizable', opt);
+    
+                // get the drag handle
+    
+                $handle = getHandle(opt.handleSelector, $el);
+    
                 if (opt.touchActionNone)
                     $handle.css("touch-action", "none");
-
+    
                 $el.addClass("resizable");
-                $handle.bind('mousedown.rsz touchstart.rsz', startDragging);
-
+                $handle.on("mousedown." + opt.instanceId + " touchstart." + opt.instanceId, startDragging);
+    
                 function noop(e) {
                     e.stopPropagation();
                     e.preventDefault();
                 };
-
+    
                 function startDragging(e) {
+                    // Prevent dragging a ghost image in HTML5 / Firefox and maybe others    
+                    if ( e.preventDefault ) {
+                      e.preventDefault();
+                    }
+                    
                     startPos = getMousePos(e);
                     startPos.width = parseInt($el.width(), 10);
                     startPos.height = parseInt($el.height(), 10);
-
+    
                     startTransition = $el.css("transition");
                     $el.css("transition", "none");
-
+    
                     if (opt.onDragStart) {
                         if (opt.onDragStart(e, $el, opt) === false)
                             return;
                     }
-                    opt.dragFunc = debounce(doDrag,20);
-
-                    $(document).bind('mousemove.rsz', opt.dragFunc);
-                    $(document).bind('mouseup.rsz', stopDragging);
-                    if (window.Touch || navigator.maxTouchPoints) {
-                        $(document).bind('touchmove.rsz', opt.dragFunc);
-                        $(document).bind('touchend.rsz', stopDragging);
-                    }
-                    $(document).bind('selectstart.rsz', noop); // disable selection
-                }
-
-                function doDrag(e) {
-                    var pos = getMousePos(e);
-
-                    if (opt.resizeWidth) {
-                        var newWidth = startPos.width + pos.x - startPos.x;
-                        $el.width(newWidth);
-                    }
-
-                    if (opt.resizeHeight) {
-                        var newHeight = startPos.height + pos.y - startPos.y;
-                        $el.height(newHeight);
-                    }
-
-                    if (opt.onDrag)
-                        opt.onDrag(e, $el, opt);
                     
+                    $(document).on('mousemove.' + opt.instanceId, doDrag);
+                    $(document).on('mouseup.' + opt.instanceId, stopDragging);
+                    if (window.Touch || navigator.maxTouchPoints) {
+                        $(document).on('touchmove.' + opt.instanceId, doDrag);
+                        $(document).on('touchend.' + opt.instanceId, stopDragging);
+                    }
+                    $(document).on('selectstart.' + opt.instanceId, noop); // disable selection
+                    $("iframe").css("pointer-events", "none");
                 }
-
+    
+                function doDrag(e) {
+                    
+                    var pos = getMousePos(e), newWidth, newHeight;
+    
+                    if (opt.resizeWidthFrom === 'left')
+                        newWidth = startPos.width - pos.x + startPos.x;
+                    else
+                        newWidth = startPos.width + pos.x - startPos.x;
+    
+                    if (opt.resizeHeightFrom === 'top')
+                        newHeight = startPos.height - pos.y + startPos.y;
+                    else
+                        newHeight = startPos.height + pos.y - startPos.y;
+    
+                    if (!opt.onDrag || opt.onDrag(e, $el, newWidth, newHeight, opt) !== false) {
+                        if (opt.resizeHeight)
+                            $el.height(newHeight);                    
+    
+                        if (opt.resizeWidth)
+                            $el.width(newWidth);                    
+                    }
+                }
+    
                 function stopDragging(e) {
                     e.stopPropagation();
                     e.preventDefault();
-
-                    $(document).unbind('mousemove.rsz', opt.dragFunc);
-                    $(document).unbind('mouseup.rsz', stopDragging);
-
+    
+                    $(document).off('mousemove.' + opt.instanceId);
+                    $(document).off('mouseup.' + opt.instanceId);
+    
                     if (window.Touch || navigator.maxTouchPoints) {
-                        $(document).unbind('touchmove.rsz', opt.dragFunc);
-                        $(document).unbind('touchend.rsz', stopDragging);
+                        $(document).off('touchmove.' + opt.instanceId);
+                        $(document).off('touchend.' + opt.instanceId);
                     }
-                    $(document).unbind('selectstart.rsz', noop);
-
+                    $(document).off('selectstart.' + opt.instanceId, noop);     
+                    $("iframe").css("pointer-events", "auto");
+    
                     // reset changed values
                     $el.css("transition", startTransition);
-
+    
                     if (opt.onDragEnd)
                         opt.onDragEnd(e, $el, opt);
-
+    
                     return false;
                 }
-
+    
                 function getMousePos(e) {
                     var pos = { x: 0, y: 0, width: 0, height: 0 };
                     if (typeof e.clientX === "number") {
@@ -1608,9 +1652,21 @@ http://en.wikipedia.org/wiki/MIT_License
                         pos.y = e.originalEvent.touches[0].clientY;
                     } else
                         return null;
-
+    
                     return pos;
                 }
+    
+                function getHandle(selector, $el) {
+                    if (selector && selector.trim()[0] === ">") {
+                        selector = selector.trim().replace(/^>\s*/, "");
+                        return $el.find(selector);
+                    }
+    
+                    // Search for the selector, but only in the parent element to limit the scope
+                    // This works for multiple objects on a page (using .class syntax most likely)
+                    // as long as each has a separate parent container. 
+                    return selector ? $el.parent().find(selector) : $el;
+                } 
             });
         };
     }
@@ -1950,6 +2006,14 @@ http://en.wikipedia.org/wiki/MIT_License
             return sub.toLowerCase() === this.toLowerCase().substr(0, sub.length);
 
         return sub === this.substr(0, sub.length);
+    }
+    String.prototype.endsWith = function (sub, nocase) {
+        if (!this || this.length === 0) return false;
+
+        if (sub && nocase)
+            return sub.toLowerCase() === this.toLowerCase().substr(this.length - sub.length, sub.length);
+
+        return sub === this.substr(this.length - sub.length, sub.length);
     }
     String.prototype.extract = function(startDelim, endDelim, allowMissingEndDelim, returnDelims) {
         var str = this;

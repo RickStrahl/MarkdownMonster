@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" %>
-<%@ Register TagPrefix="ww" Namespace="Westwind.Web.MarkdownControl" Assembly="Westwind.Web.MarkdownControl" %>
+<%@ Register TagPrefix="ww" Namespace="Westwind.Web.Markdown" Assembly="Westwind.Web.Markdown" %>
 
 <%
     //WestWindSiteUtils.LogInfo("/WebMonitor/default.aspx");	
@@ -15,9 +15,9 @@
     <meta name="company" content="West Wind Technologies - https://west-wind.com"/>
     <meta name="author" content="Rick Strahl, West Wind Technologies  - https://weblog.west-wind.com"/>
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/application.css" rel="stylesheet" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
     
     <style>     
         th {

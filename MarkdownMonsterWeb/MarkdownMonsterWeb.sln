@@ -1,26 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MarkdownMonsterWeb", ".", "{132F7B3F-1A78-41F9-BCB6-6CFE4DDB4E38}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MarkdownMonsterWeb(2)", ".", "{132F7B3F-1A78-41F9-BCB6-6CFE4DDB4E38}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_61921"
-		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\..\projects2010\MarkdownMonster\MarkdownMonsterWeb\"
+		Debug.AspNetCompiler.PhysicalPath = "..\MarkdownMonsterWeb\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61921\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_61921"
-		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\..\projects2010\MarkdownMonster\MarkdownMonsterWeb\"
+		Release.AspNetCompiler.PhysicalPath = "..\MarkdownMonsterWeb\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61921\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "61921"
+		SlnRelativePath = "..\MarkdownMonsterWeb\"
 	EndProjectSection
 EndProject
 Global
