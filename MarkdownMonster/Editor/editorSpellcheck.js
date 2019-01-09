@@ -262,7 +262,6 @@
         line = line.replace(match, new Array(match.length).join("9")+ " "); // repeat                         
       }
     }
-
   
     // split line by word boundaries - any non alpha-numeric characters plus ' (\u0027) and white space
     //var words = line.split(/[^a-zA-Z0-9\u00C0-\u02AF']|\s/);
