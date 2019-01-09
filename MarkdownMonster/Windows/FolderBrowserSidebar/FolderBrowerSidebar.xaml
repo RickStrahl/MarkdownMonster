@@ -159,7 +159,7 @@
 					   FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
                 </StackPanel>
 
-                <Button Content="…" Grid.Column="1" Background="Transparent"
+                <Button fa:Awesome.Content="FolderOpen" Grid.Column="1" Background="Transparent"
 			        Foreground="{DynamicResource BlueItem}" Padding="5,0,5,0"
 			        Name="ButtonSelecttFolder" BorderThickness="0"  FontSize="12"
 			        ToolTip="Browse for Folder" 
@@ -173,11 +173,11 @@
 			         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="3"  
 					 Name="ButtonUseCurrentFolder" BorderThickness="0" FontSize="12"
 			         ToolTip="Set Folder to Active Document's Folder" 
-			         Click="ButtonUseCurrentFolder_Click" />
+			         Click="ButtonUseCurrentFolder_Click"  controls:VisibilityHelper.IsVisible="{Binding AppModel.IsEditorActive}" />
                 <Button  fa:Awesome.Content="Refresh" Background="Transparent" 
 			         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="4"  
 			         Name="ButtonRefreshFolder" BorderThickness="0"  FontSize="12"
-			         ToolTip="Refresh Folder" 
+			         ToolTip="Refresh Folder"
 			         Click="ButtonRefreshFolder_Click" />
                 <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
 			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="5"  

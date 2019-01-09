@@ -437,7 +437,10 @@ namespace MarkdownMonster.Windows
 
         private void ButtonUseCurrentFolder_Click(object sender, RoutedEventArgs e)
         {
-            var doc = AppModel.ActiveDocument;            
+            var doc = AppModel?.ActiveDocument;
+            if (doc == null)
+                return;
+
             SetTreeFromFolder(doc.Filename, true);
         }
 
