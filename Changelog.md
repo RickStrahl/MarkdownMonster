@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.14.9
-<small>not released yet</small>
+<small>January 9th, 2019</small>
 
 * **Alt+G default hot key for Git Commit Dialog**  
 There's now a dedicated hotkey by popular request for accessing the Git Commit Window, which allows easy access to a number of Git operations in MM.
@@ -25,7 +25,7 @@ Fixed image preview for file and URL links so that the image displays in the pre
 Fixed a number of places where editor focus was lost after content was inserted through dialogs (paste image, screen capture , href etc.). Keeps your fingers on the keyboard. Regression when tab focusing logic was changed recently.
 
 ### 1.14.8
-<small>January 7th, 2018</small>
+<small>January 7th, 2019</small>
 
 * **Add `editor-user-extensions.js` to allow Editor Extension**  
 Added support for an optional `editor-user-extensions.js` file that can be used to create custom extensions to the Markdown Monster JavaScript ACE Editor wrapper. This allows addin and Commander Script authors to create custom ACE Editor functionality that can be called from .NET with `Model.ActiveEditor.AceEditor.MyCustomFunction()`.
