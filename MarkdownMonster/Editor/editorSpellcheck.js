@@ -236,22 +236,34 @@
 
     // replace inline code blocks with 9's so it isn't parsed
     var matches = line.match(/`.*?`|href=".*?"|src=".*?"/g);
+    var match = null;
     if (matches) {
       for (var i = 0; i < matches.length; i++) {
-        var match = matches[i];
+        match = matches[i];
         line = line.replace(match, new Array(match.length + 1).join("9")); // repeat
       }
     }    
 
     // ignore links
     matches = line.match(/\]\(.*?\)/g);
-    if (matches) {
+    if (matches) {      
       for (var i = 0; i < matches.length; i++) {
-        var match = matches[i];
+        match = matches[i];
         line = line.replace(match, " " + new Array(match.length).join("9")); // repeat                         
       }
     }
 
+    // ignore raw links
+    matches = line.match(/(http|https):\/\/.*?(\s|\,|\/\.\s|$)/g);    
+    if (matches) {
+      for (var i = 0; i < matches.length; i++) {
+        
+        match = matches[i].trim();
+        line = line.replace(match, new Array(match.length).join("9")+ " "); // repeat                         
+      }
+    }
+
+  
     // split line by word boundaries - any non alpha-numeric characters plus ' (\u0027) and white space
     //var words = line.split(/[^a-zA-Z0-9\u00C0-\u02AF']|\s/);
 
