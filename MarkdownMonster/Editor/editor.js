@@ -9,8 +9,13 @@
 
   var te = window.textEditor = {
     mm: null, // Markdown Monster MarkdownDocumentEditor COM object    
-    editor: null, // Ace Editor instance
+
+    // Editor and Split instances
+    splitInstance: null,
+    editor: null, // Ace Editor instance - can be a split instance
+    mainEditor: null, // The main editor instance (root instance)
     editorElement: null, // Ace Editor DOM element bount to
+
     previewRefresh: 800,
     settings: editorSettings,
     lastError: null,
@@ -33,20 +38,17 @@
 
         //te.editor = ace.edit(te.editorElement);
 
-        //Splitting
-        var env = {};        
+        //Splitting          
         var theme = "ace/theme/twilight";
         var split = new Split(te.editorElement, theme, 1);
-
-        env.editor = split.getEditor(0);
+        te.splitInstance = split;        
+        te.editor = split.getEditor(0);
+        te.mainEditor = te.editor;   // keep track of the main editor        
         split.on("focus",
-          function (editor) {
-            env.editor = editor;
+          function (editor) {            
+            te.editor = editor;
           });
-        env.split = split;
-        window.env = env;
-        te.editor = env.editor;
-
+                
         te.configureAceEditor(te.editor, editorSettings);
         te.setlanguage(codeLang);
       } catch (ex) {
@@ -352,7 +354,7 @@
     refreshPreview: function(ignored) {
       te.mm.textbox.PreviewMarkdownCallback();
     },
-    setselection: function(text) {
+    setselection: function (text) {      
       var range = te.editor.getSelectionRange();
       te.editor.session.replace(range, text);
       te.editor.renderer.scrollSelectionIntoView();
@@ -767,7 +769,8 @@
 
     // Below or Beside or None
     split: function(value) {
-      var split = window.env.split;
+      var split = te.splitInstance;
+
       if (value === "Below" || value === "Beside") {
         split.setOrientation(value == "Below" ? split.BELOW : split.BESIDE);
         split.setSplits(2);
@@ -777,17 +780,24 @@
         editor2.Name = "Editor2";
 
         // get the old window session and assign to the new editor instance
-        var session = te.editor.session; //split.getEditor(0).session;
+        var session = te.mainEditor.session; //split.getEditor(0).session;
         var newSession = split.setSession(session, 1);
         newSession.name = session.name;
 
         // Update editor to match current settings (app specific - cached JSON settings from WPF host)
-        te.setEditorStyle(te.lastStyleJson, editor2);
+        te.editor = editor2;
 
-      } else
+        te.configureAceEditor(editor2);
+        te.setEditorStyle(te.lastStyleJson, editor2);
+        te.keyBindings.setupKeyBindings();
+
+      } else {
+        te.editor = te.mainEditor;
         split.setSplits(1);
+      }
 
       split.resize();
+      te.setfocus();
     }
   }
 
@@ -828,10 +838,10 @@
     //if (te.mm && te.mm.textbox)
     //  te.mm.textbox.resizeWindow();
 
-    if (env.split)
-      env.split.resize();
+    if (te.splitInstance)
+      te.splitInstance.resize();
   }
-  window.onresize = windowResize; // debounce(windowResize,20);
+  window.onresize = windowResize; // debounce(WindowResize,10);
 
 
   window.onmousewheel = function(e) {
