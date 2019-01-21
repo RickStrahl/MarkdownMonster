@@ -353,7 +353,7 @@
                           Command="{Binding Commands.ViewInExternalBrowserCommand}"
                           InputGestureText="Shift+F12"
                           IsEnabled="{Binding IsEditorActive}" />
-                <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding Commands.PrintPreviewCommand}" InputGestureText="{Binding Commands.PrintPreviewCommand.ShortcutKey}" />
+                <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding Commands.PrintPreviewCommand}" InputGestureText="{Binding Commands.PrintPreviewCommand.KeyboardShortcut}" />
                 <Separator/>
 	            <!--<MenuItem Name="ButtonToggleFolderBrowser" 
 	                      Header="Toggle _Folder Browser Panel"                         
@@ -364,8 +364,8 @@
                 <MenuItem Name="ButtonToggleLeftSidebar" 
                           Header="Toggle Side_bar"                         
                           Command="{Binding Commands.ToggleLeftSidebarPanelCommand}"
-                          InputGestureText="{Binding Commands.ToggleLeftSidebarPanelCommand.ShortcutKey}"
-                          ToolTip="Toggles the left sidebar panel"
+                          InputGestureText="{Binding Commands.ToggleLeftSidebarPanelCommand.KeyboardShortcut}"
+                          ToolTip="Toggles the left sidebar panel" 
                 />
                 <MenuItem Name="ButtonDistractionFreeMode" 
                           Header="Toggle Distraction Free Mode"                         
@@ -410,11 +410,11 @@
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.Editor.ShowInvisibles}" />
 
-                <MenuItem Name="ButtonSplitEditor" Header="Split Editor">
-                    <MenuItem Header="None" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="None" />
+                <MenuItem Header="_Split Editor">
+                    <MenuItem Header="_None" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="None" />
                     <Separator/>
-                    <MenuItem Header="Below" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Below" />
-                    <MenuItem Header="Beside" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Beside" />
+                    <MenuItem Header="_Below" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Below" />
+                    <MenuItem Header="Be_side" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Beside" />
                 </MenuItem>
 
             </MenuItem>

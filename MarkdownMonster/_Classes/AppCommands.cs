@@ -1523,8 +1523,10 @@ namespace MarkdownMonster
         {
             ToggleLeftSidebarPanelCommand = new CommandBase((parameter, command) =>
             {
-                Model.WindowLayout.IsLeftSidebarVisible = !Model.WindowLayout.IsLeftSidebarVisible;                
-            });
+                Model.WindowLayout.IsLeftSidebarVisible = !Model.WindowLayout.IsLeftSidebarVisible;
+
+               
+            });           
         }
 
         public CommandBase CloseRightSidebarPanelCommand { get; set; }
