@@ -108,6 +108,7 @@ namespace MarkdownMonster.Configuration
         }
         private bool _showInvisibles = false;
 
+        
         /// <summary>
         /// Determines whether the editor wraps text or extends lines
         /// out. Default is false.
@@ -190,6 +191,7 @@ namespace MarkdownMonster.Configuration
             }
         }
         private bool _rightToLeft;
+        
 
         #region INotifyPropertyChanged
 

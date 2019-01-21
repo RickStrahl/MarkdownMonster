@@ -106,6 +106,21 @@ namespace MarkdownMonster
 
         private string _editorSyntax;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public EditorSplitModes SplitMode
+        {
+            get => _splitMode;
+            set
+            {
+                if (value == _splitMode) return;
+                _splitMode = value;
+                OnPropertyChanged(nameof(SplitMode));
+            }
+        }
+        private EditorSplitModes _splitMode;
+
 
         public int InitialLineNumber { get; set; }
 
@@ -1374,6 +1389,16 @@ namespace MarkdownMonster
             return true;
         }
 
+
+        /// <summary>
+        /// Splits the editor below, beside or no splitting
+        /// </summary>
+        /// <param name="mode"></param>
+        public void SplitEditor(EditorSplitModes mode)
+        {            
+            AceEditor?.split(mode.ToString());
+        }
+
         #endregion
 
         #region Editor Focus and Sizing
@@ -2139,6 +2164,13 @@ namespace MarkdownMonster
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    public enum EditorSplitModes
+    {
+        None,
+        Below,
+        Beside
     }
 
 

@@ -3,10 +3,14 @@
 
 
 (function () {
+ 
+  var Split = ace.require("ace/split").Split;
+
 
   var te = window.textEditor = {
-    mm: null, // Markdown Monster MarkdownDocumentEditor COM object
+    mm: null, // Markdown Monster MarkdownDocumentEditor COM object    
     editor: null, // Ace Editor instance
+    editorElement: null, // Ace Editor DOM element bount to
     previewRefresh: 800,
     settings: editorSettings,
     lastError: null,
@@ -20,20 +24,35 @@
     setCodeScrolled: function(ignored) {
       te.codeScrolled = new Date().getTime();
     },
-    initialize: function() {
-
+    initialize: function() {      
       // attach ace to formatted code controls if they are loaded and visible
       var $el = $("pre[lang]");
+      te.editorElement = $el[0];
       try {
         var codeLang = $el.attr('lang');
-        var aceEditorRequest = ace.edit($el[0]);
-        te.editor = aceEditorRequest;
-        te.configureAceEditor(aceEditorRequest, editorSettings);
+
+        //te.editor = ace.edit(te.editorElement);
+
+        //Splitting
+        var env = {};        
+        var theme = "ace/theme/twilight";
+        var split = new Split(te.editorElement, theme, 1);
+
+        env.editor = split.getEditor(0);
+        split.on("focus",
+          function (editor) {
+            env.editor = editor;
+          });
+        env.split = split;
+        window.env = env;
+        te.editor = env.editor;
+
+        te.configureAceEditor(te.editor, editorSettings);
         te.setlanguage(codeLang);
       } catch (ex) {
         if (typeof console !== "undefined")
           console.log("Failed to bind syntax: " + codeLang + " - " + ex.message);
-      }
+      }     
     },
     configureAceEditor: function(editor, editorSettings) {
       if (!editor)
@@ -42,12 +61,20 @@
         editorSettings = te.settings;
 
       var session = editor.getSession();
+      session.name = "markdownmonster_" + new Date().getTime();
+
+      var theme = "ace/theme/" + editorSettings.theme;
+      editor.setTheme(theme);
+
+      te.editor.name = "Editor1";
+
+      // basic configuration
       editor.setReadOnly(false);
       editor.setHighlightActiveLine(editorSettings.highlightActiveLine);
       editor.setShowPrintMargin(editorSettings.showPrintMargin);
       editor.setShowInvisibles(editorSettings.showInvisibles);
 
-      editor.setTheme("ace/theme/" + editorSettings.theme);
+
       editor.setOptions({
         fontFamily: editorSettings.font,
         fontSize: editorSettings.fontSize
@@ -79,6 +106,8 @@
         //wrapBehavioursEnabled: editorSettings.wrapText                       
       });
 
+
+
       var updateDocument = debounce(function() {
           if (!te.mm)
             return;
@@ -89,6 +118,7 @@
           }
         },
         te.previewRefresh);
+
       $("pre[lang]").on("keyup", updateDocument);
 
 
@@ -498,7 +528,12 @@
     setRightToLeft: function(onOff) {
       te.editor.session.$bidiHandler.setRtlDirection(te.editor, onOff);
     },
-    setEditorStyle: function(styleJson) {
+    lastStyleJson: null,
+    setEditorStyle: function(styleJson,editor) {
+
+      te.lastStyleJson = styleJson;
+      if (!editor)
+        editor = te.editor;
 
       setTimeout(function() {
           var style;
@@ -507,31 +542,33 @@
           else
             style = JSON.parse(styleJson);
 
-          te.editor.container.style.lineHeight = style.LineHeight;
+          editor.renderer.setPadding(15);
 
-          var activeTheme = te.editor.getTheme();
+          editor.container.style.lineHeight = style.LineHeight;
+
+          var activeTheme = editor.getTheme();
           var theme = "ace/theme/" + style.Theme;
           if (activeTheme !== theme)
-            te.editor.setTheme("ace/theme/" + style.Theme);
+            editor.setTheme("ace/theme/" + style.Theme);
 
-          te.editor.setOptions({
+          editor.setOptions({
             fontFamily: style.Font,
             fontSize: style.FontSize
           });
-          te.setRightToLeft(style.RightToLeft);
+          //setRightToLeft(style.RightToLeft);
 
           var wrapText = style.WrapText;
 
-          var session = te.editor.getSession();
+          var session = editor.getSession();
 
           session.setUseWrapMode(wrapText);
           session.setOption("indentedSoftWrap", true);
           session.setOptions({ useSoftTabs: style.UseSoftTabs, tabSize: style.TabSize });
 
-          te.editor.setHighlightActiveLine(style.HighlightActiveLine);
+          editor.setHighlightActiveLine(style.HighlightActiveLine);
 
-          te.editor.renderer.setShowGutter(style.ShowLineNumbers);
-          te.editor.renderer.setShowInvisibles(style.ShowInvisibles);
+          editor.renderer.setShowGutter(style.ShowLineNumbers);
+          editor.renderer.setShowInvisibles(style.ShowInvisibles);
 
           //style.wrapMargin = 50;
           //if (style.wrapMargin > 0) {
@@ -552,7 +589,7 @@
 
           if (!style.EnableBulletAutoCompletion) {
             // turn off bullet auto-completion (or any new line auto-completion)
-            te.editor.getSession().getMode().getNextLineIndent = function(state, line) {
+            editor.getSession().getMode().getNextLineIndent = function(state, line) {
               return this.$getIndent(line);
             };
           }
@@ -692,14 +729,14 @@
       te.setfocus();
     },
     setfocus: function(ignored) {
-      te.editor.resize(true);
+      //te.editor.resize(true);
 
       setTimeout(function() {
           te.editor.focus();
           setTimeout(function() {
               te.editor.focus();
             },
-            400);
+            300);
         },
         50);
     },
@@ -725,6 +762,32 @@
           te.editor.focus(); 
           te.noRefreshPreview = false;
       }, mstimeout);
+    },
+
+
+    // Below or Beside or None
+    split: function(value) {
+      var split = window.env.split;
+      if (value === "Below" || value === "Beside") {
+        split.setOrientation(value == "Below" ? split.BELOW : split.BESIDE);
+        split.setSplits(2);
+
+        // setSplits creates a second editor instance
+        var editor2 = split.getEditor(1);
+        editor2.Name = "Editor2";
+
+        // get the old window session and assign to the new editor instance
+        var session = te.editor.session; //split.getEditor(0).session;
+        var newSession = split.setSession(session, 1);
+        newSession.name = session.name;
+
+        // Update editor to match current settings (app specific - cached JSON settings from WPF host)
+        te.setEditorStyle(te.lastStyleJson, editor2);
+
+      } else
+        split.setSplits(1);
+
+      split.resize();
     }
   }
 
@@ -761,11 +824,14 @@
     return true;
   }
 
-  window.onresize = debounce(function () {
-      if (te.mm && te.mm.textbox)
-        te.mm.textbox.resizeWindow();
-    },
-    200);
+  function windowResize() {
+    //if (te.mm && te.mm.textbox)
+    //  te.mm.textbox.resizeWindow();
+
+    if (env.split)
+      env.split.resize();
+  }
+  window.onresize = windowResize; // debounce(windowResize,20);
 
 
   window.onmousewheel = function(e) {

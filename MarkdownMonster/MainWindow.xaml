@@ -410,6 +410,13 @@
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.Editor.ShowInvisibles}" />
 
+                <MenuItem Name="ButtonSplitEditor" Header="Split Editor">
+                    <MenuItem Header="None" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="None" />
+                    <Separator/>
+                    <MenuItem Header="Below" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Below" />
+                    <MenuItem Header="Beside" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Beside" />
+                </MenuItem>
+
             </MenuItem>
 
             <!-- generated dynamically by command -->

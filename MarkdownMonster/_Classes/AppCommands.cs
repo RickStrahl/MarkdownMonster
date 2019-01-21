@@ -74,6 +74,7 @@ namespace MarkdownMonster
             PasteMarkdownFromHtml();
             MarkdownLinting();
             AddFavorite();
+            EditorSplitMode();
 
 
             // Preview Browser
@@ -1182,6 +1183,39 @@ namespace MarkdownMonster
             }, (p, c) => true);
         }
 
+
+
+        public CommandBase EditorSplitModeCommand { get; set; }
+
+        void EditorSplitMode()
+        {
+            EditorSplitModeCommand = new CommandBase((parameter, command) =>
+            {
+                var editor = Model.ActiveEditor;
+                if (editor == null)
+                    return;
+
+                var mode = parameter as string;
+                if (mode == null)
+                    return;
+
+                switch (mode)
+                {
+                    case "Beside":
+                        editor.AceEditor?.split("Beside");
+                        break;
+                    case "Below":
+                        editor.AceEditor?.split("Below");
+                        break;
+                    case "None":
+                        editor.AceEditor?.split("None");
+                        break;                    
+                }
+            }, (p, c) => Model.IsEditorActive);
+        }
+
+
+
         #endregion
 
         #region Preview
@@ -1680,7 +1714,7 @@ We're now shutting down the application.
                 //Model.ActiveEditor.AceEditor.helloWorld("Testing things out");
                 try
                 {
-                    Model.ActiveEditor.AceEditor.split("Beside");
+                    Model.ActiveEditor.AceEditor.split("Below");
                 }
                 catch (Exception ex)
                 {
