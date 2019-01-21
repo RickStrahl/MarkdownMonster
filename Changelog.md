@@ -34,7 +34,7 @@ Added support for an optional `editor-user-extensions.js` file that can be used 
 Fix issue where first loaded documents would not properly enable/disable certain menu and toolbar items due to open document state. Fixed OnPropertyChange for the document to always fire even on existing selected document.
 
 ### 1.14.7
-<small>January 4th, 2018</small>
+<small>January 4th, 2019</small>
 
 * **Improve First Run Window Size Experience**  
 Added logic to detect window size on first run and adjust the main window accordingly. Small monitors run near maximized while large monitors get a larger but not giant instance on first launch. New behavior also respects DPI settings.

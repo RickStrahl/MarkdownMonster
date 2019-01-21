@@ -1383,7 +1383,14 @@ namespace MarkdownMonster
         /// </summary>
         public void SetEditorFocus()
         {
-            AceEditor?.setfocus(true);
+            try
+            {
+                AceEditor?.setfocus(true);
+            }
+            catch (Exception ex)
+            {
+                mmApp.Log("Handled: AceEditor.setfocus failed", ex);
+            }
         }
 
 

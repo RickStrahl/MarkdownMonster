@@ -22,12 +22,14 @@
 ## Markdown Monster Shortcut Keys
 Here are a few useful Markdown Monster shortcuts to remember:
 
-* F12 - Toggle Preview
+* F12 - Toggle Preview Pane
 * Shft-F12 - Preview in Browser
 * Ctl-Shift-B - Toggle Sidebar
-* Alt-Shift-Enter - Toggle Distraction Free Mode
-* Alt-Z - Toggle Word Wrap
+* Alt-Shift-Enter - Distraction Free Mode
+* F11 - Toggle Presentation Mode
 * Alt-G - Open Git Window
+* Alt-Z - Toggle Word Wrap
+
 
 
 
@@ -83,14 +85,14 @@ Did you know you can right click on Image tags to preview or edit the image in y
 Did you know that Github Gists support Markdown? You can use Gist to create one off HTML pages in Markdown. They're great for posting detailed bug reports or ideas that you can link on Twitter and other social media. Markdown Monster's Gist Integration Addin can also help with editing and updating and managing of Gists easily.
 
 ## 3 ways to Image Embedding
-Did you know there are a ton of ways to get images into @MarkdownMonstr: 
+Did you know there are a ton of ways to get images into Markdown Monster: 
 
-1. Type in Markdown (obviously)
+1. Type image Markdown
 2. Paste images from clipboard
 3. Embed with Image Dialog
 4. Drag from Explorer
 5. Drag from Folder Browser
-6. Use Screen Capture
+6. Built-in Screen Capture
 
 https://markdownmonster.west-wind.com/docs/_4s01ezteq.htm #markdown
 

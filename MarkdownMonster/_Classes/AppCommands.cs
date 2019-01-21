@@ -408,8 +408,7 @@ namespace MarkdownMonster
                 return Model.IsEditorActive;
             });
         }
-
-
+        
         public CommandBase SaveAllCommand { get; set; }
 
         void SaveAll()
@@ -1653,7 +1652,18 @@ We're now shutting down the application.
         void PrintPreview()
         {
             PrintPreviewCommand = new CommandBase(
-                (p, e) => Model.Window.PreviewBrowser.ExecuteCommand("PrintPreview"),
+                (p, e) => {
+                    try
+                    {
+                        Model.Window.PreviewBrowser.ExecuteCommand("PrintPreview");
+                    }
+                    catch(Exception ex)
+                    {
+                        mmApp.Log("Print Preview failed: " + ex.Message, ex);
+                        Model.Window.ShowStatusError("Print Preview failed: " + ex.Message);
+                    }
+
+                },
                 (p, e) => Model.IsEditorActive);
 
         }
@@ -1667,7 +1677,16 @@ We're now shutting down the application.
 
             TestButtonCommand = new CommandBase((parameter, command) =>
             {
-                Model.ActiveEditor.AceEditor.helloWorld("Testing things out");
+                //Model.ActiveEditor.AceEditor.helloWorld("Testing things out");
+                try
+                {
+                    Model.ActiveEditor.AceEditor.split("Beside");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
             }, (p, c) => true);
         }
 

@@ -18,7 +18,9 @@ and here is the **Light Theme**:
 ![Markdown Monster Screen Shot](ScreenShot_Light.png)
 
 ### Customizable
-Markdown Monster is highly customizable with themes for the main shell, editor and preview displays. The editor and preview themes can be easily customized using HTML and CSS based templates. There are also many options to customize the editors fonts, sizes and many display options.
+Markdown Monster is highly customizable with themes for the main shell, editor and preview displays. The editor and preview themes can be easily customized using HTML and CSS based templates. There are also many options to customize the editor's fonts, sizes and many display options.
+
+You can also run in distraction free mode, that removes toolbars, menus, preview, sidebar and other distractions to let you focus on your code. Or use Presentation mode to view only the rendered Markdown.
  
 ### Extensible with .NET
 One of the big features of Markdown Monster is that it's extensible with .NET code. You can use our Snippets or Commander addins to create custom text expansions, or automate common tasks using .NET Code snippets. A full addin extensibility model allows deep integration with most of Markdown Monster's features and UI to create sophisticated extensions using a straightforward Addin model. We use this extensibility model to extend base features of MM ourselves - the same is available to you. You can also share your addins in our addin registry.
