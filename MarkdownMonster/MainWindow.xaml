@@ -503,7 +503,7 @@
 
 
 
-                        <Button Name ="ButtonUnderline" Margin="7,0" ToolTip="Strikethrough" 
+                        <Button Name ="ButtonUnderline" Margin="7,0" ToolTip="Underline" 
                                 Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
                                 CommandParameter="underline"
                                 fa:Awesome.Content="Underline"                                 
