@@ -769,11 +769,10 @@
       }, mstimeout);
     },
 
-    adjustPadding: function() {
-      if (!te.lastStyle)
+    adjustPadding: function (forceRefresh) {
+      if (!te.lastStyle || !te.splitInstance)
         return;
-
-    
+      
       // single pane
       if (!te.splitInstance || te.splitInstance.$splits < 2) {
         // just apply fixed padding
@@ -789,6 +788,8 @@
         else
           te.editor.renderer.setPadding(te.lastStyle.Padding);
 
+        te.splitInstance.resize();
+
         return;
       }
 
@@ -800,11 +801,10 @@
       if (te.lastStyle.MaxWidth == 0) {
         ed.renderer.setPadding(te.lastStyle.Padding);
         ed2.renderer.setPadding(te.lastStyle.Padding);
-        return;
       }
 
       // Horizontal splits      
-      if (te.splitInstance.getOrientation() == te.splitInstance.BESIDE) {
+      else if (te.splitInstance.getOrientation() == te.splitInstance.BESIDE) {
         // Set padding for two horizontal splits
         var w = window.innerWidth / 2 - te.lastStyle.MaxWidth;
 
@@ -815,19 +815,22 @@
           ed.renderer.setPadding(te.lastStyle.Padding);
           ed2.renderer.setPadding(te.lastStyle.Padding);
         }
-        return;
+      }
+      // vertical splits
+      else {
+
+        var w = window.innerWidth - te.lastStyle.MaxWidth;
+
+        if (w > te.lastStyle.Padding * 2) {
+          ed.renderer.setPadding(w / 2);
+          ed2.renderer.setPadding(w / 2);
+        } else {
+          ed.renderer.setPadding(te.lastStyle.Padding);
+          ed2.renderer.setPadding(te.lastStyle.Padding);
+        }
       }
 
-      // vertical splits
-      var w = window.innerWidth - te.lastStyle.MaxWidth;
-      
-      if (w > te.lastStyle.Padding * 2) {
-        ed.renderer.setPadding(w / 2);
-        ed2.renderer.setPadding(w / 2);
-      } else {
-        ed.renderer.setPadding(te.lastStyle.Padding);
-        ed2.renderer.setPadding(te.lastStyle.Padding);
-      }
+      setTimeout(te.splitInstance.resize);
     },
 
     // Below or Beside or None
@@ -859,10 +862,9 @@
         split.setSplits(1);
       }
 
-      te.adjustPadding();
-      split.resize();
+      te.adjustPadding(true);
       
-      te.setfocus();
+      te.setfocus();      
     }
   }
 
@@ -903,11 +905,7 @@
     //if (te.mm && te.mm.textbox)
     //  te.mm.textbox.resizeWindow();
 
-    te.adjustPadding();
-    
-    if (te.splitInstance)
-      te.splitInstance.resize();
-
+    te.adjustPadding(true);    
   }
   window.onresize = windowResize; // debounce(WindowResize,10);
 
