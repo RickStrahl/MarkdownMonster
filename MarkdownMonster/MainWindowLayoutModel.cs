@@ -298,6 +298,8 @@ namespace MarkdownMonster.Windows {
 
         #region Major Display Mode Operations
 
+        private int savedEditorWidth = 0;
+
         public void SetDistractionFreeMode(bool hide = false)
         {
             GridLength glToolbar = GridLengthHelper.Zero;
@@ -323,9 +325,15 @@ namespace MarkdownMonster.Windows {
                 Model.IsFullScreen = false;
 
                 Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
+
+                Model.Configuration.Editor.MaxWidth = savedEditorWidth;
+                Model.ActiveEditor?.RestyleEditor();
+                Model.ActiveEditor?.AceEditor?.adjustPadding(true);
             }
             else
             {
+                savedEditorWidth = Model.Configuration.Editor.MaxWidth;
+
                 // normalize first if we're in presentation mode
                 if (Model.IsPresentationMode)                
                     SetPresentationMode(hide: true);
@@ -354,6 +362,18 @@ namespace MarkdownMonster.Windows {
                 mmApp.Configuration.WindowPosition.WindowState = Window.WindowState;
                 if (tokens.Any(d => d == "maximized"))
                     Window.WindowState = WindowState.Maximized;
+
+                if (tokens.Any(d => d.StartsWith("maxwidth:")))
+                {
+                    var token = tokens.First(d => d.StartsWith("maxwidth:"));
+                    token = token.Replace("maxwidth:", "");
+
+                    if (int.TryParse(token, out int width))
+                    {
+                        Model.Configuration.Editor.MaxWidth = width;
+                        Model.ActiveEditor?.RestyleEditor();
+                    }
+                }
 
                 Window.ShowFolderBrowser(true);
 

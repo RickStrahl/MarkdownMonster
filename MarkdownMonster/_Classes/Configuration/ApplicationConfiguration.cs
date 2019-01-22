@@ -184,7 +184,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(DistractionFreeModeHideOptions));
             }
         }
-        private string _DistractionFreeModeHideOptions = "toolbar,statusbar,menu,preview,tabs,maximized";
+        private string _DistractionFreeModeHideOptions = "toolbar,statusbar,menu,preview,tabs,maximized,maxwidth:1000";
 
         /// <summary>
         /// Determines whether documents are automatically saved
