@@ -12,6 +12,12 @@
 * **Add Split View for the Editor**  
 You can now split the editor into two panes (Below or Beside) and view and edit the current document in two synced, but independently scrollable views.
 
+* **Add Editor MaxWidth Configuration Option**  
+Added a optional `MaxWidth` Editor Configuration setting that lets you set the max width of the edit area. This can be useful for large displays and distraction free mode where you want to see a comfortable width of text surrounded by extra white space rather than very wide area of text. The default is 0 which means text flows as wide as the window (minus the padding).
+
+* **Add Editor Padding Configuration**  
+You can now specify the padding for the editor work space of each tab. Previously this value was fixed but you can now provide wider (or thinner) horizontal margins to give you more white space while editing especially on larger displays.
+
 
 ### 1.14.9
 <small>January 9th, 2019</small>
