@@ -529,11 +529,10 @@
     },
     setRightToLeft: function(onOff) {
       te.editor.session.$bidiHandler.setRtlDirection(te.editor, onOff);
-    },
-    lastStyleJson: null,
-    setEditorStyle: function(styleJson,editor) {
-
-      te.lastStyleJson = styleJson;
+    },    
+    lastStyle: null,
+    setEditorStyle: function(styleJson, editor) {
+      
       if (!editor)
         editor = te.editor;
 
@@ -544,7 +543,11 @@
           else
             style = JSON.parse(styleJson);
 
-          editor.renderer.setPadding(15);
+          te.lastStyle = style;
+
+          // these value are used in Resize to keep the editor size
+          // limited to a max-width
+          te.adjustPadding();
 
           editor.container.style.lineHeight = style.LineHeight;
 
@@ -766,6 +769,66 @@
       }, mstimeout);
     },
 
+    adjustPadding: function() {
+      if (!te.lastStyle)
+        return;
+
+    
+      // single pane
+      if (!te.splitInstance || te.splitInstance.$splits < 2) {
+        // just apply fixed padding
+        if (te.lastStyle.MaxWidth == 0) {
+          te.editor.renderer.setPadding(te.lastStyle.Padding);
+          return;
+        }
+
+        // Apply width
+        var w = window.innerWidth - te.lastStyle.MaxWidth;
+        if (w > te.lastStyle.Padding * 2)
+          te.editor.renderer.setPadding(w / 2);
+        else
+          te.editor.renderer.setPadding(te.lastStyle.Padding);
+
+        return;
+      }
+
+      // we have multiple panes
+      var ed = te.splitInstance.getEditor(0);
+      var ed2 = te.splitInstance.getEditor(1);
+
+      // if there's no MaxWidth just apply fixed padding to both splits
+      if (te.lastStyle.MaxWidth == 0) {
+        ed.renderer.setPadding(te.lastStyle.Padding);
+        ed2.renderer.setPadding(te.lastStyle.Padding);
+        return;
+      }
+
+      // Horizontal splits      
+      if (te.splitInstance.getOrientation() == te.splitInstance.BESIDE) {
+        // Set padding for two horizontal splits
+        var w = window.innerWidth / 2 - te.lastStyle.MaxWidth;
+
+        if (w > 0) {
+          ed.renderer.setPadding(w / 2);
+          ed2.renderer.setPadding(w / 2);
+        } else {
+          ed.renderer.setPadding(te.lastStyle.Padding);
+          ed2.renderer.setPadding(te.lastStyle.Padding);
+        }
+        return;
+      }
+
+      // vertical splits
+      var w = window.innerWidth - te.lastStyle.MaxWidth;
+      
+      if (w > te.lastStyle.Padding * 2) {
+        ed.renderer.setPadding(w / 2);
+        ed2.renderer.setPadding(w / 2);
+      } else {
+        ed.renderer.setPadding(te.lastStyle.Padding);
+        ed2.renderer.setPadding(te.lastStyle.Padding);
+      }
+    },
 
     // Below or Beside or None
     split: function(value) {
@@ -788,7 +851,7 @@
         te.editor = editor2;
 
         te.configureAceEditor(editor2);
-        te.setEditorStyle(te.lastStyleJson, editor2);
+        te.setEditorStyle(te.lastStyle, editor2);
         te.keyBindings.setupKeyBindings();
 
       } else {
@@ -796,7 +859,9 @@
         split.setSplits(1);
       }
 
+      te.adjustPadding();
       split.resize();
+      
       te.setfocus();
     }
   }
@@ -838,8 +903,11 @@
     //if (te.mm && te.mm.textbox)
     //  te.mm.textbox.resizeWindow();
 
+    te.adjustPadding();
+    
     if (te.splitInstance)
       te.splitInstance.resize();
+
   }
   window.onresize = windowResize; // debounce(WindowResize,10);
 

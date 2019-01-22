@@ -1010,6 +1010,8 @@ namespace MarkdownMonster
                 config.Editor.Font,
                 FontSize = (int)fontSize,
                 config.Editor.LineHeight,
+                config.Editor.Padding,
+                config.Editor.MaxWidth,
                 config.Editor.WrapText,
                 config.Editor.ShowLineNumbers,
                 config.Editor.ShowInvisibles,
@@ -1018,7 +1020,7 @@ namespace MarkdownMonster
                 config.Editor.EnableBulletAutoCompletion,
                 config.Editor.TabSize,
                 config.Editor.UseSoftTabs,
-                config.Editor.RightToLeft
+                config.Editor.RightToLeft                
             };
 
             return JsonConvert.SerializeObject(style);

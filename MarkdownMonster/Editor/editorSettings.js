@@ -1,7 +1,7 @@
 var editorSettings = {
   "dictionary": "EN_US",
   "enableSpellChecking": true,
-  "spellcheckerErrorLimit": 150,  // limit of errors per screen before considered wrong language
+  "spellcheckerErrorLimit": 150, // limit of errors per screen before considered wrong language
   "font": "Consolas",
   "fontSize": 17,
   "lineHeight": 1.3,
@@ -9,6 +9,8 @@ var editorSettings = {
   "isDebug": false,
   "showLineNumbers": false,
   "showPrintMargin": false,
+  "padding": 15,
+  "maxWidth": 0,
   "tabSpaces": 4,
   "theme": "twilight",
   "wrapText": true,

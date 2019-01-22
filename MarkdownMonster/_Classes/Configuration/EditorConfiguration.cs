@@ -17,8 +17,8 @@ namespace MarkdownMonster.Configuration
         public EditorConfiguration()
         {
             Font = "Consolas";
-            FontSize = 16;
-            LineHeight = 1.3M;
+            FontSize = 17;
+            LineHeight = 1.35M;
 
             WrapText = true;
             HighlightActiveLine = true;
@@ -45,6 +45,18 @@ namespace MarkdownMonster.Configuration
         public decimal LineHeight { get; set; }
 
 
+        /// <summary>
+        /// Horizontal padding for the editor
+        /// </summary>
+        public int Padding { get; set; } = 15;
+
+
+        /// <summary>
+        /// If set to a non-zero value will keep the editor's content width to
+        /// this specified size
+        /// </summary>
+        public int MaxWidth { get; set; } 
+        
         /// <summary>
         /// If enabled prefills bullets and auto-numbers. Disabled
         /// by default because it has some side effects that 
