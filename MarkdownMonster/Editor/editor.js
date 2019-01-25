@@ -558,7 +558,7 @@
 
           // these value are used in Resize to keep the editor size
           // limited to a max-width
-          te.adjustPadding();
+          te.adjustPadding(true);
 
           var wrapText = style.WrapText;
 
@@ -772,11 +772,12 @@
       if (!te.lastStyle || !te.splitInstance)
         return;
 
+      var lastPad = te.lastStyle.Padding;
 
       // single pane
       if (!te.splitInstance || te.splitInstance.$splits < 2) {
         // just apply fixed padding
-        if (te.lastStyle.MaxWidth == 0) {
+        if (te.lastStyle.MaxWidth == 0) {                    
           te.editor.renderer.setPadding(te.lastStyle.Padding);
         } else {
 
@@ -798,7 +799,7 @@
 
       var ed = te.splitInstance.getEditor(0);
       var ed2 = te.splitInstance.getEditor(1);
-      var lastPad = te.lastStyle.Padding;
+
 
       // if there's no MaxWidth just apply fixed padding to both splits
       if (te.lastStyle.MaxWidth == 0) {
@@ -910,16 +911,17 @@
     return true;
   }
 
+
   function windowResize() {
     //if (te.mm && te.mm.textbox)
     //  te.mm.textbox.resizeWindow();
-
-    te.adjustPadding(true);    
+    
+    te.adjustPadding();
   }
-  window.onresize = windowResize; // debounce(WindowResize,10);
+  window.onresize = windowResize; //debounce(windowResize, 1);
 
 
-  window.onmousewheel = function(e) {
+  window.onmousewheel = function (e) {   
     if (e.ctrlKey) {
       e.cancelBubble = true;
       e.returnValue = false;
