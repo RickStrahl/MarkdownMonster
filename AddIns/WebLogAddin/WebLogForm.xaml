@@ -271,57 +271,82 @@
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
+          
 
                         <Button Margin="0,10" Height="40" Width="175" HorizontalAlignment="Left" 
                         Click="Button_DownloadPosts_Click" >
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="Download" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                                <TextBlock Margin="10,0,0,0" FontSize="14">Download Posts</TextBlock>
+                                <TextBlock Margin="10,0,0,0" FontSize="14">List Posts</TextBlock>
                             </StackPanel>
                         </Button>
+
                         <Label Grid.Column="1" Margin="20,0,0,0" HorizontalAlignment="Right" Height="35">Search:</Label>
                         <TextBox Grid.Column="2" Margin="5,0,0,0" Height="35"
                                  Text="{Binding PostListSearch, UpdateSourceTrigger=PropertyChanged}"
                                  />
                     </Grid>
-
+                    
                     <ListBox Grid.Row="4" Name="ListViewPosts" 
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              MouseDoubleClick="ListViewPosts_MouseDoubleClick" 
                              ItemsSource="{Binding PostList}"
                              KeyDown="ListViewPosts_KeyDown" HorizontalContentAlignment="Stretch">
-
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="AutomationProperties.HelpText" Value="{Binding Title}"/>
+                                <Setter Property="Margin" Value="0,0,0,0" />
+                                <Setter Property="BorderThickness" Value="0" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                
-                                <Grid HorizontalAlignment="Stretch" Background="#10FFFFFF">
+                                <Grid HorizontalAlignment="Stretch" Background="#10FFFFFF" 
+                                      Margin="0,0,0,1"
+                                      ToolTip="To download either click the download button or double click this item.">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
+
+                                
                                     <TextBlock Grid.Column="0" Grid.Row="0"
                                             Padding="10,2,10,2"
                                             TextTrimming="WordEllipsis"
                                             Text="{Binding Title}" 
                                             FontWeight="SemiBold" Foreground="{DynamicResource HeadlineColor}"  FontSize="16.5" />
                                     
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DateCreated,StringFormat='{}{0:MMM dd, yyyy}'}" 
+                                    <TextBlock Grid.Row="0" Grid.Column="1" 
+                                               Text="{Binding DateCreated,StringFormat='{}{0:MMM dd, yyyy}'}" 
                                                 FontStyle="Italic" FontSize="11" HorizontalAlignment="Right" Margin="0,3,7,0" />
-                                    
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                               Padding="20,0,0,0"
-                                               Text="{Binding mt_excerpt}" 
-                                               TextWrapping="WrapWithOverflow"
-                                               HorizontalAlignment="Left"
-                                               Margin="0,0,0,6" FontSize="14"/>
 
+
+                                    <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Margin="0,0,0,10">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button fa:Awesome.Content="CloudDownload" Foreground="#00A100" Name="ButtonDownloadPost" 
+                                                Height="32" Width="32" FontSize="17" Margin="15,0,5,0" 
+                                                Click="ButtonDownloadPost_Click"
+                                                BorderThickness="0" ToolTip="Download Weblog post"/>
+
+                                        <TextBlock Grid.Column="1"
+                                                   Padding="20,0,0,0" 
+                                                   Text="{Binding mt_excerpt}" 
+                                                   TextWrapping="WrapWithOverflow"
+                                                   HorizontalAlignment="Left"
+                                                   AutomationProperties.Name="{Binding mt_excerpt}"
+                                                   FontSize="14" MaxWidth="700"/>
+                                    </Grid>
+                                    
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

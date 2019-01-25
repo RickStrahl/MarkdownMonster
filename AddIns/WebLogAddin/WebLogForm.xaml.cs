@@ -260,6 +260,16 @@ namespace WeblogAddin
         {
             CreateDownloadedPost();
         }
+
+        private async void ButtonDownloadPost_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var li = button.TryFindParent<ListBoxItem>();
+            li.IsSelected = true;
+
+            await CreateDownloadedPost();
+        }
+
         private void ListViewPosts_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -268,12 +278,15 @@ namespace WeblogAddin
         #endregion
 
 
-        private void CreateDownloadedPost()
+        private async Task CreateDownloadedPost()
         {
-
+            
             var item = ListViewPosts.SelectedItem as Post;
             if (item == null)
                 return;
+
+            StatusBar.ShowStatusProgress("Downloading Weblog post '" + item.Title + "'");
+
 
             string postId = item.PostId.ToString();
             WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
@@ -290,11 +303,12 @@ namespace WeblogAddin
 
                 try
                 {
-                    post = wrapper.GetPost(postId);
+                    post = await Task.Run(() => wrapper.GetPost(postId));                    
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);
+                    StatusBar.ShowStatus();
+                    MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);                    
                     return;
                 }                
             }
@@ -310,14 +324,16 @@ namespace WeblogAddin
                 }
                 catch (Exception ex)
                 {
+                    StatusBar.ShowStatus();
                     MessageBox.Show("Unable to download post.\r\n\r\n" + ex.Message);
                     return;
                 }               
             }
 
             Model.Addin.CreateDownloadedPostOnDisk(post, weblogInfo.Name);
+            Close();
 
-            Close();        
+            StatusBar.ShowStatus();
         }
 
         private void ButtonApiUrlInfo_Click(object sender, RoutedEventArgs e)
