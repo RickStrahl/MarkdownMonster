@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>MarkdownMonster</id>
-    <version>1.14.10</version>
+    <version>1.14.12</version>
     <title>Markdown Monster</title>
     <authors>Rick Strahl, West Wind Technologies</authors>
     <owners>West Wind Technologies</owners>
@@ -10,7 +10,7 @@
     <projectUrl>http://markdownmonster.west-wind.com</projectUrl>
     <iconUrl>http://markdownmonster.west-wind.com/images/MarkdownMonster_icon_128.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>Markdown Monster is an easy to use and extensible Markdown Editor and Viewer and Weblog Publisher by West Wind Technologies. The editor sports syntax colored editing of Markdown text, inline spell checking, live, synced HTML preview, a document outline, integrated file browser and Git support. You can embed images by pasting from clipboard, embedding via dialog or dragging images from the shell. Embed urls, code snippets and emojiis quickly and use the built-in table editor to create nicely formatted Markdown tables. There is support for text snippet expansion and C# script execution to automate and extend Markdown Monster. 
+    <description>Markdown Monster is an easy to use and extensible Markdown Editor, Viewer and Weblog Publisher. The editor sports syntax colored editing of Markdown text, inline spell checking, live, synced HTML preview, a document outline, integrated file browser and Git support. You can embed images by pasting from clipboard, embedding via dialog or dragging images from the shell. Embed urls, code snippets and emojiis quickly and use the built-in table editor to create nicely formatted Markdown tables. There is support for text snippet expansion and C# script execution to automate and extend Markdown Monster. 
     
 But above all the editor's goal is to get out of your way and let you focus on your content creation, and provide you with tools to get your job done efficiently.
     
