@@ -778,7 +778,7 @@
       if (!te.splitInstance || te.splitInstance.$splits < 2) {
         // just apply fixed padding
         if (te.lastStyle.MaxWidth == 0) {                    
-          te.editor.renderer.setPadding(te.lastStyle.Padding);
+          te.editor.renderer.setPadding(lastPad);
         } else {
 
           // Apply width
@@ -787,7 +787,7 @@
             var pad = w / 2;
             te.editor.renderer.setPadding(w / 2);
           } else
-            te.editor.renderer.setPadding(te.lastStyle.Padding);
+            te.editor.renderer.setPadding(lastPad);
         }
         te.splitInstance.resize();
 
