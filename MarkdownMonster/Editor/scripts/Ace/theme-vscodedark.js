@@ -8,7 +8,7 @@ color: #E2E2E2\
 }\
 .ace-vscodedark .ace_print-margin {\
 width: 1px;\
-background: #191919\
+background: #333\
 }\
 .ace-vscodedark {\
 background: #222;\
@@ -149,4 +149,3 @@ dom.importCssString(exports.cssText, exports.cssClass);
                         }
                     });
                 })();
-            
