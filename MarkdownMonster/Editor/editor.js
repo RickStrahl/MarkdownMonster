@@ -1,10 +1,12 @@
 /// <reference path="editorsettings.js"/>
 /// <reference path="editorSpellcheck.js"/>
+/// <reference path="editorSpellcheck.js"/>
+/// <reference path="scripts/ace/ace.js" />
 
 (function () {
  
   var Split = ace.require("ace/split").Split;
-
+  var allowSplitMode = true;
 
   var te = window.textEditor = {
     mm: null, // Markdown Monster MarkdownDocumentEditor COM object    
@@ -28,33 +30,42 @@
     setCodeScrolled: function(ignored) {
       te.codeScrolled = new Date().getTime();
     },
-    initialize: function() {
+    initialize: function (styleSettings) {
+      if (!styleSettings)
+        styleSettings = editorSettings;
+
       // attach ace to formatted code controls if they are loaded and visible
       var $el = $("pre[lang]");
       te.editorElement = $el[0];
       try {
         var codeLang = $el.attr('lang');
 
-        //te.editor = ace.edit(te.editorElement);
+        if (!allowSplitMode)
+          te.editor = ace.edit(te.editorElement);
+        else {
+          //Splitting          
+          var theme = "ace/theme/" + styleSettings.theme;
+          var split = new Split(te.editorElement, theme, 1);
+          te.splitInstance = split;
+          te.editor = split.getEditor(0);
+          te.mainEditor = te.editor; // keep track of the main editor
+          //te.editor.name = "Editor1";
 
-        //Splitting          
-        var theme = "ace/theme/twilight";
-        var split = new Split(te.editorElement, theme, 1);
-        te.splitInstance = split;
-        te.editor = split.getEditor(0);
-        te.mainEditor = te.editor; // keep track of the main editor        
-        split.on("focus",
-          function(editor) {
-            te.editor = editor;
-          });
+          split.on("focus",
+            function (editor) {
+              te.editor = editor;
+            });
+        }
 
-        te.configureAceEditor(te.editor, editorSettings);
         te.setlanguage(codeLang);
+        te.configureAceEditor(te.editor, styleSettings);
+        
       } catch (ex) {
         if (typeof console !== "undefined")
           console.log("Failed to bind syntax: " + codeLang + " - " + ex.message);
       }
     },
+    // Call SetStyle
     configureAceEditor: function(editor, editorSettings) {
       if (!editor)
         editor = te.editor;
@@ -64,41 +75,11 @@
       var session = editor.getSession();
       session.name = "markdownmonster_" + new Date().getTime();
 
-      var theme = "ace/theme/" + editorSettings.theme;
-      editor.setTheme(theme);
-
-      te.editor.name = "Editor1";
-
-      // basic configuration
       editor.setReadOnly(false);
-      editor.setHighlightActiveLine(editorSettings.highlightActiveLine);
-      editor.setShowPrintMargin(editorSettings.showPrintMargin);
-      editor.setShowInvisibles(editorSettings.showInvisibles);
 
-
-      editor.setOptions({
-        fontFamily: editorSettings.font,
-        fontSize: editorSettings.fontSize
-      });
-
-      // allow editor to soft wrap text
-      session.setUseWrapMode(editorSettings.wrapText);
-      session.setOption("indentedSoftWrap", false);
-
-      editor.renderer.setShowGutter(editorSettings.showLineNumbers);
       editor.setOption("scrollPastEnd", 0.7); // will have additional scroll  0.7% of screen height
       editor.$blockScrolling = Infinity;
-
       session.setTabSize(editorSettings.tabSpaces);
-
-      //set.$bidiHandler.setRtlDirection(editor, true);
-
-      session.setNewLineMode("windows");
-
-      editor.renderer.setPadding(15);
-      editor.renderer.setScrollMargin(5, 5, 0, 0); // top,bottom,left,right
-
-      //te.editor.getSession().setMode("ace/mode/markdown" + lang);   
 
       te.editor.setOptions({
         // fill entire view
@@ -107,7 +88,8 @@
         //wrapBehavioursEnabled: editorSettings.wrapText                       
       });
 
-
+      te.setEditorStyle(editorSettings, editor);
+      
       var updateDocument = debounce(function() {
           if (!te.mm)
             return;
@@ -215,6 +197,7 @@
             90);
         },
         35);
+
       te.editor.session.on("changeScrollTop", changeScrollTop);
       return editor;
     },
@@ -534,69 +517,82 @@
       if (!editor)
         editor = te.editor;
 
-      setTimeout(function() {
-          var style;
-          if (typeof styleJson === "object")
-            style = styleJson;
-          else
-            style = JSON.parse(styleJson);
+      setTimeout(function () {        
+        var style;
+        if (typeof styleJson === "object")
+          style = styleJson;
+        else
+          style = JSON.parse(styleJson);
 
-          te.lastStyle = style;
+        te.lastStyle = style;
 
-          editor.container.style.lineHeight = style.LineHeight;
+        editor.container.style.lineHeight = style.lineHeight;
 
-          var activeTheme = editor.getTheme();
-          var theme = "ace/theme/" + style.Theme;
-          if (activeTheme !== theme)
-            editor.setTheme("ace/theme/" + style.Theme);
+        var activeTheme = editor.getTheme();
+        var theme = "ace/theme/" + style.theme;
+        if (activeTheme !== theme)
+          editor.setTheme(theme);
 
-          editor.setOptions({
-            fontFamily: style.Font,
-            fontSize: style.FontSize
-          });
-          //setRightToLeft(style.RightToLeft);
+        editor.setOptions({
+          fontFamily: style.font,
+          fontSize: style.fontSize
+        });
+        //setRightToLeft(style.RightToLeft);          
 
-          // these value are used in Resize to keep the editor size
-          // limited to a max-width
-          te.adjustPadding(true);
+        var wrapText = style.wrapText;
 
-          var wrapText = style.WrapText;
+        var session = editor.getSession();
 
-          var session = editor.getSession();
+        session.setUseWrapMode(wrapText);
+        session.setOption("indentedSoftWrap", true);
+        session.setOptions({ useSoftTabs: style.useSoftTabs, tabSize: style.tabSize });
 
-          session.setUseWrapMode(wrapText);
-          session.setOption("indentedSoftWrap", true);
-          session.setOptions({ useSoftTabs: style.UseSoftTabs, tabSize: style.TabSize });
+        editor.setHighlightActiveLine(style.highlightActiveLine);
 
-          editor.setHighlightActiveLine(style.HighlightActiveLine);
+        editor.renderer.setShowGutter(style.showLineNumbers);
+        editor.renderer.setShowInvisibles(style.showInvisibles);
 
-          editor.renderer.setShowGutter(style.ShowLineNumbers);
-          editor.renderer.setShowInvisibles(style.ShowInvisibles);
+        // these value are used in Resize to keep the editor size
+        // limited to a max-width
+        te.adjustPadding(true);
+        
+        if (style.showPrintMargin) {
+          te.editor.setShowPrintMargin(true);
+          te.editor.setPrintMarginColumn(style.printMargin + 1);
+        } else {
+          te.editor.setShowPrintMargin(false);
+          te.editor.setPrintMarginColumn(style.printMargin + 1);
+        }
 
-          //style.wrapMargin = 50;
-          //if (style.wrapMargin > 0) {
-          //    session.setWrapLimitRange(style.wrapMarin, style.wrapMargin);
-          //    te.editor.setShowPrintMargin(true);
-          //    te.editor.setPrintMarginColumn(style.wrapMargin + 1);
-          //} else {
-          //    session.setWrapLimitRange(null, null);
-          //    te.editor.setShowPrintMargin(false);                
-          //}
+        if(style.wrapMargin > 0)
+          te.editor.session.setWrapLimitRange(style.wrapMarin, style.wrapMargin);
+        else
+          te.editor.session.setWrapLimitRange(null, null);
 
-          //var keyboardHandler = style.KeyboardHandler.toLowerCase();
-          //if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
-          //    te.editor.setKeyboardHandler("");
-          //else
-          //    te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
+        //style.wrapMargin = 50;
+        //if (style.wrapMargin > 0) {
+        //    
+        //    te.editor.setShowPrintMargin(true);
+        //    te.editor.setPrintMarginColumn(style.wrapMargin + 1);
+        //} else {
+        //    session.setWrapLimitRange(null, null);
+        //    te.editor.setShowPrintMargin(false);                
+        //}
+
+        //var keyboardHandler = style.KeyboardHandler.toLowerCase();
+        //if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
+        //    te.editor.setKeyboardHandler("");
+        //else
+        //    te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
 
 
-          if (!style.EnableBulletAutoCompletion) {
-            // turn off bullet auto-completion (or any new line auto-completion)
-            editor.getSession().getMode().getNextLineIndent = function(state, line) {
-              return this.$getIndent(line);
-            };
-          }
-        },
+        if (!style.enableBulletAutoCompletion) {
+          // turn off bullet auto-completion (or any new line auto-completion)
+          editor.getSession().getMode().getNextLineIndent = function (state, line) {
+            return this.$getIndent(line);
+          };
+        }
+      },
         1);
 
       setTimeout(te.updateDocumentStats, 100);
@@ -772,18 +768,18 @@
       if (!te.lastStyle || !te.splitInstance)
         return;
 
-      var lastPad = te.lastStyle.Padding;
+      var lastPad = te.lastStyle.padding;
 
       // single pane
       if (!te.splitInstance || te.splitInstance.$splits < 2) {
         // just apply fixed padding
-        if (te.lastStyle.MaxWidth == 0) {                    
+        if (te.lastStyle.maxWidth == 0) {                    
           te.editor.renderer.setPadding(lastPad);
         } else {
 
           // Apply width
-          var w = window.innerWidth - te.lastStyle.MaxWidth;
-          if (w > te.lastStyle.Padding * 2) {
+          var w = window.innerWidth - te.lastStyle.maxWidth;
+          if (w > lastPad * 2) {
             var pad = w / 2;
             te.editor.renderer.setPadding(w / 2);
           } else
@@ -802,16 +798,16 @@
 
 
       // if there's no MaxWidth just apply fixed padding to both splits
-      if (te.lastStyle.MaxWidth == 0) {
+      if (te.lastStyle.maxWidth == 0) {
         ed2.renderer.setPadding(lastPad);
         ed.renderer.setPadding(lastPad);
       }
       // Horizontal splits      
       else if (te.splitInstance.getOrientation() == te.splitInstance.BESIDE) {
         // Set padding for two horizontal splits
-        var w = window.innerWidth / 2 - te.lastStyle.MaxWidth;
+        var w = window.innerWidth / 2 - te.lastStyle.maxWidth;
 
-        if (w > te.lastStyle.Padding * 2) {
+        if (w > lastPad * 2) {
           // calc padding
           var pad = Math.floor(w / 2);
           ed2.renderer.setPadding(pad);
@@ -824,9 +820,9 @@
       }
       // vertical splits
       else {
-        var w = window.innerWidth - te.lastStyle.MaxWidth;
+        var w = window.innerWidth - te.lastStyle.maxWidth;
 
-        if (w > te.lastStyle.Padding * 2) {
+        if (w > lastPad * 2) {
           var pad = w / 2;
           ed2.renderer.setPadding(pad);
           ed.renderer.setPadding(pad);
@@ -849,7 +845,7 @@
         split.setSplits(2);
 
         // IMPORTANT: reset large padding first - if padding is too large panel won't render right
-        te.mainEditor.renderer.setPadding(te.lastStyle.Padding);
+        te.mainEditor.renderer.setPadding(te.lastStyle.padding);
         te.mainEditor.resize(true);
         
         // setSplits creates a second editor instance
@@ -999,14 +995,7 @@ function initializeinterop(textbox, jsonStyle) {
 
   var style = JSON.parse(jsonStyle);
 
-  editorSettings.theme = style.Theme;
-  editorSettings.fontSize = style.FontSize;
-  editorSettings.font = style.Font;
-  editorSettings.lineHeight = style.LineHeight;
-
-  te.initialize();
-
-  te.setEditorStyle(style);
+  te.initialize(style);
 
   setTimeout(te.keyBindings.setupKeyBindings, 800);
 

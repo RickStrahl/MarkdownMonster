@@ -53,6 +53,7 @@ using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NHunspell;
 using Westwind.Utilities;
 
@@ -1010,12 +1011,15 @@ namespace MarkdownMonster
                 config.Editor.Font,
                 FontSize = (int)fontSize,
                 config.Editor.LineHeight,
-                config.Editor.Padding,
                 config.Editor.MaxWidth,
+                config.Editor.Padding,
+                config.Editor.HighlightActiveLine,
                 config.Editor.WrapText,
                 config.Editor.ShowLineNumbers,
                 config.Editor.ShowInvisibles,
-                config.Editor.HighlightActiveLine,
+                config.Editor.ShowPrintMargin,
+                config.Editor.PrintMargin,
+                config.Editor.WrapMargin,
                 config.Editor.KeyboardHandler,
                 config.Editor.EnableBulletAutoCompletion,
                 config.Editor.TabSize,
@@ -1023,7 +1027,11 @@ namespace MarkdownMonster
                 config.Editor.RightToLeft                
             };
 
-            return JsonConvert.SerializeObject(style);
+            var settings = new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),                                
+            };
+            return JsonConvert.SerializeObject(style,settings);
         }
 
         /// <summary>
