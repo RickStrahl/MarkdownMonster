@@ -225,66 +225,71 @@ function highlightCode(lineno) {
 //        });
 //}
 
-function updateDocumentContent(html, lineno) {    
-    //console.log('update document content');
-    te.isPreviewEditorSync = te.mmEditor.isPreviewToEditorSync();   
-    // console.log("Assigning html before Timeout " + new Date().getTime());
-    
-    var el = document.getElementById("MainContent");
-    if (!el)
-        return;
-    el.innerHTML = html;
+function updateDocumentContent(html, lineno) {
+  //console.log('update document content');
+  te.isPreviewEditorSync = te.mmEditor.isPreviewToEditorSync();
+  // console.log("Assigning html before Timeout " + new Date().getTime());
 
-    //console.log("Done Assigning html " + new Date().getTime());
-    //console.log('update doc - line: ' + lineno);
-    highlightCode(lineno); //lineno);
-    //highlightCodeWebWorker();
-    //console.log("Done Highlighting code " + new Date().getTime());                
+  var el = document.getElementById("MainContent");
+  if (!el)
+    return;
+  el.innerHTML = html;
+
+  highlightCode(lineno); 
+ 
+  // Raise a previewUpdated event
+  var event = document.createEvent("Event");
+  event.initEvent("previewUpdated", false, true);
+
+  event.target = el;
+  event.currentTarget = el;
+  document.dispatchEvent(event);
 }
 
 function scrollToPragmaLine(lineno) {
-    if (typeof lineno !== "number" || lineno < 0) return;
-    setTimeout(function () {
-        if (lineno < 3) {
-            $("html").scrollTop(0);
+  if (typeof lineno !== "number" || lineno < 0) return;
+  setTimeout(function() {
+      if (lineno < 3) {
+        $("html").scrollTop(0);
+        return;
+      }
+
+      try {
+        var $el = $("#pragma-line-" + lineno);
+        if ($el.length < 1) {
+          var origLine = lineno;
+
+          // try forward with 3 lines
+          for (var i = 0; i < 3; i++) {
+            lineno++;
+            $el = $("#pragma-line-" + lineno);
+            if ($el.length > 0)
+              break;
+          }
+          // try backwards with 3 lines
+          if ($el.length < 1) {
+            lineno = origLine;
+            for (var i = 0; i < 3; i++) {
+              lineno--;
+              $el = $("#pragma-line-" + lineno);
+              if ($el.length > 0)
+                break;
+            }
+          }
+          if ($el.length < 1)
             return;
         }
-        
-        try {
-            var $el = $("#pragma-line-" + lineno);
-            if ($el.length < 1) {
-                var origLine = lineno;
 
-                // try forward with 3 lines
-                for (var i = 0; i < 3; i++) {
-                    lineno++;
-                    $el = $("#pragma-line-" + lineno);
-                    if ($el.length > 0)
-                        break;
-                }
-                // try backwards with 3 lines
-                if ($el.length < 1) {
-                    lineno = origLine;
-                    for (var i = 0; i < 3; i++) {
-                        lineno--;
-                        $el = $("#pragma-line-" + lineno);
-                        if ($el.length > 0)
-                            break;
-                    }
-                }
-                if ($el.length < 1)
-                    return;
-            }
-                
-            $el.addClass("line-highlight");
-            setTimeout(function () { $el.removeClass("line-highlight"); }, 1800);
+        $el.addClass("line-highlight");
+        setTimeout(function() { $el.removeClass("line-highlight"); }, 1800);
 
-            te.codeScrolled = new Date().getTime();
-            if (lineno > 3)
-                $("html").scrollTop($el.offset().top - 150); 
-        }
-        catch(ex) {  }
-    },20);
+        te.codeScrolled = new Date().getTime();
+        if (lineno > 3)
+          $("html").scrollTop($el.offset().top - 150);
+      } catch (ex) {
+      }
+    },
+    20);
 }
 
 function status(msg,append) {
