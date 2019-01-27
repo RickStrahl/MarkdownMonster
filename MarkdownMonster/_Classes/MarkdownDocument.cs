@@ -227,6 +227,19 @@ namespace MarkdownMonster
         [JsonIgnore]
         public bool AutoSaveBackups { get; set; }
 
+
+        /// <summary>
+        /// Internal property used to identify whether scripts are processed
+        /// </summary>
+        [JsonIgnore]
+        public bool ProcessScripts { get; set; }
+
+        /// <summary>
+        /// Extra HTML document headers that get get added to the document
+        /// in the `head`section of the HTML document.
+        /// </summary>
+        public string ExtraHtmlHeaders { get; set; }
+
         /// <summary>
         /// Document encoding used when writing the document to disk.
         /// Default: UTF-8 without a BOM
@@ -280,6 +293,7 @@ namespace MarkdownMonster
         }
         private bool _isActive = false;
 
+     
         /// <summary>
         /// This is the filename used when rendering this document to HTML
         /// </summary>
@@ -376,7 +390,7 @@ namespace MarkdownMonster
         public Dispatcher Dispatcher { get; set; }
 
 
-
+        #region Events and Notifications
         /// <summary>
         /// Event fired when the dirty changed of the document changes
         /// </summary>
@@ -404,15 +418,26 @@ namespace MarkdownMonster
         /// </summary>
         public event Func<string, string> BeforeDocumentRendered;
 
+        private void OnBeforeDocumentRendered(ref string  markdown)
+        {            
+            if (BeforeDocumentRendered!=null)
+                markdown = BeforeDocumentRendered?.Invoke(markdown);
+        }
+
+        private void OnDocumentRendered(ref string html, ref string markdown)
+        {            
+            if (DocumentRendered != null)
+                html = DocumentRendered(html, markdown);
+        }
+
+        #endregion
+
         #region Read and Write Files
 
         public MarkdownDocument()
         {
             AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
             AutoSaveDocuments = mmApp.Configuration.AutoSaveDocuments;
-
-            
-
         }
 
         /// <summary>
@@ -439,6 +464,7 @@ namespace MarkdownMonster
             Filename = filename;
             UpdateCrc();
             GetFileEncoding();
+
             
             try
             {
@@ -458,6 +484,7 @@ namespace MarkdownMonster
                 OriginalText = CurrentText;
                 AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
                 AutoSaveDocuments = mmApp.Configuration.AutoSaveDocuments;
+                ProcessScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
             }
             catch
             {                
@@ -783,16 +810,21 @@ namespace MarkdownMonster
         {
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
-
-
-            if (BeforeDocumentRendered != null)
-                markdown = BeforeDocumentRendered(markdown);
+            
+            OnBeforeDocumentRendered(ref markdown);
             
             var parser = MarkdownParserFactory.GetParser(usePragmaLines: usePragmaLines,                                                         
                                                          forceLoad: true, 
-                                                         parserAddinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName);            
-            var html = parser.Parse(markdown);
+                                                         parserAddinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName);
 
+            var oldAllowScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
+            if (ProcessScripts)            
+                mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = false;
+            
+            var html = parser.Parse(markdown);
+            
+            mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = oldAllowScripts;
+            
 
             if (!string.IsNullOrEmpty(html) && !UnlockKey.IsRegistered() && mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
             {
@@ -808,8 +840,7 @@ namespace MarkdownMonster
 ";
             }
 
-            if (DocumentRendered != null)
-                html = DocumentRendered(html, markdown);
+            OnDocumentRendered(ref html, ref markdown);
 
             return html;
         }
@@ -832,6 +863,9 @@ namespace MarkdownMonster
                                        bool noFileWrite = false,
                                        bool removeBaseTag = false)
         {
+            if (string.IsNullOrEmpty(markdown))
+                markdown = CurrentText;
+
             string markdownHtml = RenderHtml(markdown, renderLinksExternal, usePragmaLines);
 
             if (string.IsNullOrEmpty(filename))
@@ -871,18 +905,20 @@ namespace MarkdownMonster
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
             
-            if (markdownHtml.Contains(" class=\"mermaid\""))
-            {
-                markdownHtml +=@"
-<script src=""https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.1.2/mermaid.min.js""></script>
-<script>mermaid.initialize({startOnLoad:true});</script>
-";
-            }
+            // Render Extensions
+            // TODO - Add RenderExtensions Processor
+
+            if (markdownHtml.Contains(" class=\"mermaid\""))            
+                RenderExtensions.ProcessMermaid(ref markdownHtml, ref markdown, this);
+            if (markdown != null && markdown.StartsWith("---") && markdown.Contains("\nuseMath:"))            
+                RenderExtensions.ProcessMath(ref markdownHtml, ref markdown, this);
+
 
             var html = themeHtml.Replace("{$themePath}", "file:///" + themePath)
                 .Replace("{$docPath}", "file:///" + docPath)
                 .Replace("{$markdownHtml}", markdownHtml)
-                .Replace("{$markdown}", markdown ?? CurrentText);
+                .Replace("{$markdown}", markdown ?? CurrentText)
+                .Replace("{$extraheaders}", ExtraHtmlHeaders);
 
             html = AddinManager.Current.RaiseOnModifyPreviewHtml( html, markdownHtml );
 
@@ -917,8 +953,6 @@ namespace MarkdownMonster
 
             return Path.GetFileName(Filename);
         }
-
-        
     }
 
     static class SecureStringExtensions
@@ -949,4 +983,5 @@ namespace MarkdownMonster
             return result;
         }
     }
+    
 }
