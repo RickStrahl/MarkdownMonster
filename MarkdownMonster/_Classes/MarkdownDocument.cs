@@ -43,6 +43,7 @@ using Newtonsoft.Json;
 using Westwind.Utilities;
 using System.Linq;
 using System.Security;
+using MarkdownMonster.RenderExtensions;
 
 namespace MarkdownMonster
 {
@@ -824,7 +825,9 @@ namespace MarkdownMonster
             var html = parser.Parse(markdown);
             
             mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = oldAllowScripts;
-            
+
+
+            OnDocumentRendered(ref html, ref markdown);
 
             if (!string.IsNullOrEmpty(html) && !UnlockKey.IsRegistered() && mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
             {
@@ -840,7 +843,7 @@ namespace MarkdownMonster
 ";
             }
 
-            OnDocumentRendered(ref html, ref markdown);
+            
 
             return html;
         }
@@ -863,8 +866,14 @@ namespace MarkdownMonster
                                        bool noFileWrite = false,
                                        bool removeBaseTag = false)
         {
+            ExtraHtmlHeaders = null;
+
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
+
+
+            RenderExtensionsManager.Current.ProcessAllBeforeRenderExtensions(ref markdown, this);
+
 
             string markdownHtml = RenderHtml(markdown, renderLinksExternal, usePragmaLines);
 
@@ -904,21 +913,23 @@ namespace MarkdownMonster
                 mmApp.Configuration.PreviewTheme = "Dharkan";
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
-            
+
             // Render Extensions
             // TODO - Add RenderExtensions Processor
+            
+            RenderExtensionsManager.Current.ProcessAllExtensions(ref markdownHtml,markdown,this);
 
-            if (markdownHtml.Contains(" class=\"mermaid\""))            
-                RenderExtensions.ProcessMermaid(ref markdownHtml, ref markdown, this);
-            if (markdown != null && markdown.StartsWith("---") && markdown.Contains("\nuseMath:"))            
-                RenderExtensions.ProcessMath(ref markdownHtml, ref markdown, this);
+            //if (markdownHtml.Contains(" class=\"mermaid\""))            
+            //    RenderExtensions.ProcessMermaidHeader(ref markdownHtml, ref markdown, this);
+            //if (markdown != null && markdown.StartsWith("---") && markdown.Contains("\nuseMath:"))            
+            //    RenderExtensions.ProcessMathHeader(ref markdownHtml, ref markdown, this);
 
 
             var html = themeHtml.Replace("{$themePath}", "file:///" + themePath)
                 .Replace("{$docPath}", "file:///" + docPath)
                 .Replace("{$markdownHtml}", markdownHtml)
                 .Replace("{$markdown}", markdown ?? CurrentText)
-                .Replace("{$extraheaders}", ExtraHtmlHeaders);
+                .Replace("{$extraHeaders}", ExtraHtmlHeaders);
 
             html = AddinManager.Current.RaiseOnModifyPreviewHtml( html, markdownHtml );
 
@@ -929,6 +940,15 @@ namespace MarkdownMonster
             }
 
             return html;
+        }
+
+        /// <summary>
+        /// Adds extra headers that are embedded into the HTML output file's head tag
+        /// </summary>
+        /// <param name="extraHeaderText"></param>
+        public void AddExtraHeaders(string extraHeaderText)
+        {
+            ExtraHtmlHeaders += ExtraHtmlHeaders + extraHeaderText + "\r\n";
         }
         #endregion
 
