@@ -239,6 +239,7 @@ namespace MarkdownMonster
         /// Extra HTML document headers that get get added to the document
         /// in the `head`section of the HTML document.
         /// </summary>
+        [JsonIgnore]
         public string ExtraHtmlHeaders { get; set; }
 
         /// <summary>
@@ -392,6 +393,7 @@ namespace MarkdownMonster
 
 
         #region Events and Notifications
+
         /// <summary>
         /// Event fired when the dirty changed of the document changes
         /// </summary>
@@ -420,13 +422,17 @@ namespace MarkdownMonster
         public event Func<string, string> BeforeDocumentRendered;
 
         private void OnBeforeDocumentRendered(ref string  markdown)
-        {            
+        {
+            RenderExtensionsManager.Current.ProcessAllBeforeRenderExtensions(ref markdown, this);
+
             if (BeforeDocumentRendered!=null)
-                markdown = BeforeDocumentRendered?.Invoke(markdown);
+                markdown = BeforeDocumentRendered(markdown);            
         }
 
         private void OnDocumentRendered(ref string html, ref string markdown)
-        {            
+        {
+            RenderExtensionsManager.Current.ProcessAllExtensions(ref html, markdown, this);
+
             if (DocumentRendered != null)
                 html = DocumentRendered(html, markdown);
         }
@@ -812,7 +818,7 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
             
-            OnBeforeDocumentRendered(ref markdown);
+            OnBeforeDocumentRendered(ref markdown);            
             
             var parser = MarkdownParserFactory.GetParser(usePragmaLines: usePragmaLines,                                                         
                                                          forceLoad: true, 
@@ -828,6 +834,7 @@ namespace MarkdownMonster
 
 
             OnDocumentRendered(ref html, ref markdown);
+            
 
             if (!string.IsNullOrEmpty(html) && !UnlockKey.IsRegistered() && mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
             {
@@ -870,11 +877,7 @@ namespace MarkdownMonster
 
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
-
-
-            RenderExtensionsManager.Current.ProcessAllBeforeRenderExtensions(ref markdown, this);
-
-
+           
             string markdownHtml = RenderHtml(markdown, renderLinksExternal, usePragmaLines);
 
             if (string.IsNullOrEmpty(filename))
@@ -913,17 +916,6 @@ namespace MarkdownMonster
                 mmApp.Configuration.PreviewTheme = "Dharkan";
                 themeHtml = "<html><body><h3>Invalid Theme or missing files. Resetting to Dharkan.</h3></body></html>";
             }
-
-            // Render Extensions
-            // TODO - Add RenderExtensions Processor
-            
-            RenderExtensionsManager.Current.ProcessAllExtensions(ref markdownHtml,markdown,this);
-
-            //if (markdownHtml.Contains(" class=\"mermaid\""))            
-            //    RenderExtensions.ProcessMermaidHeader(ref markdownHtml, ref markdown, this);
-            //if (markdown != null && markdown.StartsWith("---") && markdown.Contains("\nuseMath:"))            
-            //    RenderExtensions.ProcessMathHeader(ref markdownHtml, ref markdown, this);
-
 
             var html = themeHtml.Replace("{$themePath}", "file:///" + themePath)
                 .Replace("{$docPath}", "file:///" + docPath)

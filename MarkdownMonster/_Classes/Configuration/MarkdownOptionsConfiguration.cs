@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using MarkdownMonster.Annotations;
 
@@ -88,9 +89,9 @@ namespace MarkdownMonster
         /// <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
         /// <script type="text/javascript" src="http://js2math.github.com/JsMath/jsmath.tablet.js"></script>
         /// </summary>
-        public bool Mathmatics { get; set;  } 
-
-
+        //[Obsolete("Please remove use of this property. This is handled via MathRenderExtension now.")]
+        //public bool Mathematics { get; set;  } 
+        
         /// <summary>
         /// Use Abbreviations which are linked to definitions
         /// </summary>
@@ -121,7 +122,7 @@ namespace MarkdownMonster
         /// Renders Mermaid and Nonoml markup 
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/DiagramsSpecs.md
         /// </summary>
-        public bool Diagrams { get; set; }
+        //public bool Diagrams { get; set; }
 
         /// <summary>
         /// If true inline HTML blocks are not rendered        

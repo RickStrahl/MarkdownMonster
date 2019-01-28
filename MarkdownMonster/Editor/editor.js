@@ -517,7 +517,7 @@
       if (!editor)
         editor = te.editor;
 
-      setTimeout(function () {        
+      //setTimeout(function () {        
         var style;
         if (typeof styleJson === "object")
           style = styleJson;
@@ -592,10 +592,9 @@
             return this.$getIndent(line);
           };
         }
-      },
-        1);
+      //},1);
 
-      setTimeout(te.updateDocumentStats, 100);
+      setTimeout(te.updateDocumentStats, 30);
     },
     setShowLineNumbers: function(showLineNumbers) {
       te.editor.renderer.setShowGutter(showLineNumbers);

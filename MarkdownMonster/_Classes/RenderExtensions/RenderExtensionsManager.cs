@@ -41,9 +41,6 @@ namespace MarkdownMonster.RenderExtensions
         {
             foreach (var extension in RenderExtensions)
             {
-                if (!extension.ShouldProcessBeforeRender(markdown, document))
-                    continue;
-
                 extension.BeforeRender(ref markdown, document);
             }
         }
@@ -52,11 +49,7 @@ namespace MarkdownMonster.RenderExtensions
         public void ProcessExtension(IRenderExtension extension,
             ref string html, string markdown,
             MarkdownDocument document)
-        {
-
-            if (!extension.ShouldProcess(html, markdown,document))
-                return;
-
+        {          
             // append any custom headers to the top section of the document
             var headers = extension.RenderHeader(html,markdown,document);
             if (headers != null)

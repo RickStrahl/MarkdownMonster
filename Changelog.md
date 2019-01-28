@@ -6,15 +6,24 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.14.13
+### 1.14.14
 <small>not released yet</small>
 
 * **Optimize ACE Editor Loading**  
 Refactored some of the ACE editor startup code to reduce duplicated styling of the editor and background flashes. Consolidated the load logic so the editor configures once, instead of rendering one config on load and another once MM connects to the editor. Now everything happens on a single pass resulting in a less bouncy first editor display.
 
+* **Better support for Mermaid Charts and MathML**  
+Made some improvements to how Mermaid charts and MathML/MathText expressions can be processed. You can now simply add mermaid content in a `<div class="mermaid">` block and Math expressions using block `$$ and inline `$` expressions can be added to page by specifying a `useMath: true` YAML header.
+
 * **WrapMargin**  
 Added support for specifying a `WrapMargin` when `WordWrap=true`. You can now specify column number for the `WrapMargin` to force the editor to wrap at that columnn. 
 
+* **New `RenderExtension` Interface for Addin Authors**  
+*Internal and Addin usage* - You can now add RenderExtensions into the Markdown processing pipeline as a 'post-processing' step 
+after the HTML was generated. A new RenderExtensionsManager can be accessed to add additional extensions that can post process rendered HTML output.
+
+* **New `previewUpdated` JavaScript event for PreviewHtml**  
+*Internal and Addin usage* - Added a `previewUpdated` even that fires whenever the preview is updated without replacing the entire document. This allows `MarkdownRenderExtesions` to dynamically refresh a document without requiring script blocks to re-execute on each render.
 
 ### 1.14.12
 <small>January 25th, 2019</small>
