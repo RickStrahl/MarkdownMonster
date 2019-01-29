@@ -10,7 +10,7 @@
 <small>not released yet</small>
 
 * **Optimize ACE Editor Loading**  
-Refactored some of the ACE editor startup code to reduce duplicated styling of the editor and background flashes. Consolidated the load logic so the editor configures once, instead of rendering one config on load and another once MM connects to the editor. Now everything happens on a single pass resulting in a less bouncy first editor display.
+Refactored some of the ACE editor startup code to reduce duplicated styling of the editor and background flashes while loading. Consolidated the load logic so the editor configures once, instead of rendering one config on load and another once MM connects to the editor. Now everything happens on a single pass resulting in a much less bouncy first editor display.
 
 * **Better support for Mermaid Charts and MathML**  
 Made some improvements to how Mermaid charts and MathML/MathText expressions can be processed. You can now simply add mermaid content in a `<div class="mermaid">` block and Math expressions using block `$$ and inline `$` expressions can be added to page by specifying a `useMath: true` YAML header.

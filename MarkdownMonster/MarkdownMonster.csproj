@@ -169,6 +169,10 @@
       <DependentUpon>StartMenuUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="RenderExtensions\IRenderExtension.cs" />
+    <Compile Include="RenderExtensions\MathRenderExtension.cs" />
+    <Compile Include="RenderExtensions\MermaidRenderExtension.cs" />
+    <Compile Include="RenderExtensions\RenderExtensionsManager.cs" />
     <Compile Include="Windows\BrowserMessageBox.xaml.cs">
       <DependentUpon>BrowserMessageBox.xaml</DependentUpon>
     </Compile>
@@ -237,10 +241,6 @@
     <Compile Include="_Classes\AddInInterfaces\MarkdownMonsterAddin.cs" />
     <Compile Include="_Classes\Configuration\GitConfiguration.cs" />
     <Compile Include="_Classes\Keybindings\AppKeyBinding.cs" />
-    <Compile Include="_Classes\RenderExtensions\MathRenderExtension.cs" />
-    <Compile Include="_Classes\RenderExtensions\MermaidRenderExtension.cs" />
-    <Compile Include="_Classes\RenderExtensions\IRenderExtension.cs" />
-    <Compile Include="_Classes\RenderExtensions\RenderExtensionsManager.cs" />
     <Compile Include="_Classes\Utilities\GitHelper.cs" />
     <Compile Include="_Classes\Utilities\FileSaver.cs" />
     <None Include="Addins\ScreenCapture\_addin">
