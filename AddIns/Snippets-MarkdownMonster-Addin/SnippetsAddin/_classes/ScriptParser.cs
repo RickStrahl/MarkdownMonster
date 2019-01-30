@@ -77,10 +77,10 @@ namespace SnippetsAddin
                           "return " + snippet + ";";
 
             Debug.WriteLine("wwScripting Code: \r\n" + code);
-       
+            
             var scripting = new wwScripting();
+            //var scripting = new wwScriptingRoslyn();
             string result = scripting.ExecuteCode(code,model) as string;
-
             
             if (result == null)
                 ErrorMessage = scripting.ErrorMessage;
@@ -99,6 +99,8 @@ namespace SnippetsAddin
                 {
                     _razorHost = new RazorStringHostContainer();
                     _razorHost.UseAppDomain = false;
+                    
+                    _razorHost.CodeProvider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
 
                     RazorHost.AddAssemblyFromType(typeof(MainWindow));   // MarkdownMonster.exe
                     RazorHost.AddAssemblyFromType(typeof(StringUtils));  // Westwind.Utilities
@@ -145,7 +147,7 @@ namespace SnippetsAddin
                     {
                         ErrorMessage = "Assemblies loaded from external folders are not allowed: " + assemblyName +
                                        "\r\n\r\n" +
-                                       "Referenced assemblies can only be loaded out of the Markdown Monster startup folder.";
+                                       "Referenced assemblies can only be loaded out of the Markdown Monster startup folder and you have to explicitly add any assemblies you want to reference there.";
                         return null;
                     }
 
