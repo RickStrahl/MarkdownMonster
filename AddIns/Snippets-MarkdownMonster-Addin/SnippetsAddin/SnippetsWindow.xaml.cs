@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MarkdownMonster;
+using Newtonsoft.Json;
 using Westwind.Utilities;
 
 namespace SnippetsAddin
@@ -32,17 +33,7 @@ namespace SnippetsAddin
 
             if (Model.Configuration.Snippets == null || Model.Configuration.Snippets.Count < 1)
             {
-                Model.Configuration.Snippets = new System.Collections.ObjectModel.ObservableCollection<Snippet>();
-                Model.Configuration.Snippets.Add(new Snippet
-                {
-                    Name = "Copyright Notice",
-                    ScriptMode = ScriptModes.CSharpExpressions,
-                    Shortcut = "copynotice",
-                    SnippetText = @"
----
-&copy; My Company, {{DateTime.Now.ToString(""yyyy"")}};
-"
-                });
+                AddFirstTimeSnippets();
             }
             else
             {
@@ -59,8 +50,6 @@ namespace SnippetsAddin
 
             DataContext = Model;            
         }
-
-      
 
 
         private MarkdownEditorSimple editor;
@@ -186,5 +175,54 @@ namespace SnippetsAddin
         {
             ShellUtils.GoUrl("https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin");
         }
+
+        private void AddFirstTimeSnippets()
+        {
+            Model.Configuration.Snippets = JsonConvert.DeserializeObject<ObservableCollection<Snippet>>(InitialSnippetJson);
+        }
+
+        string InitialSnippetJson = @"[
+    {
+      ""Name"": ""datetime"",
+      ""SnippetText"": ""{{DateTime.Now.ToString(\""MMMM dd, yyyy - HH:mm tt\"")}}"",
+      ""Shortcut"": ""datetime"",
+      ""KeyboardShortcut"": null,
+      ""ScriptMode"": ""CSharpExpressions"",
+      ""CompiledId"": null
+    },
+    {
+      ""Name"": ""Created w/ Markdown Monster (cwmm)"",
+      ""SnippetText"": ""<div style=\""margin-top: 30px;font-size: 0.8em;\r\n            border-top: 1px solid #eee;padding-top: 8px;\"">\r\n    <img src=\""https://markdownmonster.west-wind.com/favicon.png\""\r\n         style=\""height: 20px;float: left; margin-right: 10px;\""/>\r\n    this post created and published with \r\n    <a href=\""https://markdownmonster.west-wind.com\"" \r\n       target=\""top\"">Markdown Monster</a> \r\n</div>"",
+      ""Shortcut"": ""cwmm"",
+      ""KeyboardShortcut"": null,
+      ""ScriptMode"": ""CSharpExpressions"",
+      ""CompiledId"": null
+    },
+    {
+      ""Name"": ""Mermaid Block (mermaid)"",
+      ""SnippetText"": ""<div class=\""mermaid\"">\r\n~\r\n</div>"",
+      ""Shortcut"": ""mermaid"",
+      ""KeyboardShortcut"": null,
+      ""ScriptMode"": ""CSharpExpressions"",
+      ""CompiledId"": null
+    },
+    {
+      ""Name"": ""MathTex Block (mathtex)"",
+      ""SnippetText"": ""<div class=\""math\"">\r\n~\r\n</div>"",
+      ""Shortcut"": ""mathtex"",
+      ""KeyboardShortcut"": null,
+      ""ScriptMode"": ""CSharpExpressions"",
+      ""CompiledId"": null
+    },
+    {
+      ""Name"": ""Front Matter Blog Header (blogmatter)"",
+      ""SnippetText"": ""---\r\ntitle: @Model.ActiveDocument.Title\r\ndate: @DateTime.Now.ToString(\""yyyy-MM-dd\"")\r\ntags: \r\n- ~\r\n\r\n---"",
+      ""Shortcut"": ""blogmatter"",
+      ""KeyboardShortcut"": ""Ctrl+Shift+F"",
+      ""ScriptMode"": ""Razor"",
+      ""CompiledId"": null
+    }
+  ]";
+        
     }
 }
