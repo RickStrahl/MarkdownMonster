@@ -6,45 +6,45 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.14.16
-<small>not released yet</small>
+### 1.14.15
+<small>January 30th, 2019</small>
 
 * **Optimize ACE Editor Loading**  
 Refactored some of the ACE editor startup code to reduce duplicated styling of the editor and background flashes while loading. Editor now renders in a single pass resulting in a much less bouncy first editor display.
 
-* **Better support for Mermaid Charts and MathML**  
-Made some improvements to how Mermaid charts and MathML/MathText expressions can be processed. You can now simply add mermaid content in a `<div class="mermaid">` block and Math expressions using block `$$ and inline `$` expressions can be added to page by specifying a `useMath: true` YAML header.
+* **Better support for [Mermaid Charts](https://markdownmonster.west-wind.com/docs/_5ef0x96or.htm) and [MathText/MathML](https://markdownmonster.west-wind.com/docs/_59l0mv2uw.htm)**  
+Made improvements to how Mermaid charts and MathML/MathText expressions can be processed. You can now simply add mermaid content in `<div class="mermaid">` block and Math expressions by providing a `useMath: true` YAML header. Markdown Monster now automatically includes the required library dependencies and fixups for rendering output. Note: mermaid charts have to be previewed in external browser.
 
-* **WrapMargin**  
-Added support for specifying a `WrapMargin` when `WordWrap=true`. You can now specify column number for the `WrapMargin` to force the editor to wrap at that columnn. 
+* **Editor WrapMargin**  
+Added support for specifying a `WrapMargin` when `WordWrap=true`. You can now specify column number for the `WrapMargin` to force the editor to wrap at that column to control the width of the editor content. 
 
-* **Add Support for latest C# features to Snippets Razor Addin**  
-The Razor engine in the Snippets editor now can utilize C# 7.3 features in scripts using **Roslyn** compilation. Snippet expressions continue to use the old C# compiler, as it provides much faster startup performance.
+* **Add Support for latest C# features to [Snippets Razor Addin](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)**  
+The Razor engine in the Snippets editor now can utilize C# 7.3 features in scripts using **Roslyn** compilation. Snippet expressions continue to use the old C# compiler, as it provides much faster startup performance with no explicit gain from new language features.
 
 * **New `RenderExtension` Interface for Addin Authors**  
 *Internal and Addin usage* - You can now add RenderExtensions into the Markdown processing pipeline as a 'post-processing' step 
 after the HTML was generated. A new RenderExtensionsManager can be accessed to add additional extensions that can post process rendered HTML output.
 
 * **New `previewUpdated` JavaScript event for PreviewHtml**  
-*Internal and Addin usage* - Added a `previewUpdated` even that fires whenever the preview is updated without replacing the entire document. This allows `MarkdownRenderExtesions` to dynamically refresh a document without requiring script blocks to re-execute on each render.
+*Internal and Addin usage* - Added a `previewUpdated` even that fires whenever the preview is updated without replacing the entire document. This allows `MarkdownRenderExtensions` to dynamically refresh a document without requiring script blocks to re-execute on each render. Used for Mermaid and Math support internally but available for any JavaScript based addins that require refreshing on rendering.
 
 ### 1.14.12
 <small>January 25th, 2019</small>
 
-* **Add Split View for the Editor**  
+* **[Add Split View for the Editor](https://markdownmonster.west-wind.com/docs/_5ea0q9ne2.htm)**  
 You can now split the editor into two panes (Below or Beside) and view and edit the current document in two synced, but independently scrollable views.
 
-* **Add Editor MaxWidth Configuration Option**  
+* **[Add Editor MaxWidth Configuration Option](https://markdownmonster.west-wind.com/docs/_5ed0rj891.htm)**  
 Added a optional `MaxWidth` Editor Configuration setting that lets you set the max width of the edit area. This can be useful for large displays and distraction free mode where you want to see a comfortable width of text surrounded by extra white space rather than very wide wall of text. The default is 0 which means text flows as wide as the window (minus the padding) - any positive value (recommend ~1000) will kick in padding as the editor content area exceeds that width.
 
-* **Add Editor Padding Configuration**  
+* **[Add Editor Padding Configuration](https://markdownmonster.west-wind.com/docs/_5ed0rj891.htm)**  
 You can now specify the padding for the editor work space of each tab. Previously this value was fixed but you can now provide wider (or thinner) horizontal margins to give you more white space while editing especially on larger displays.
 
 
 ### 1.14.9
 <small>January 9th, 2019</small>
 
-* **Alt+G default hot key for Git Commit Dialog**  
+* **[Alt+G default hot key for Git Commit Dialog](https://markdownmonster.west-wind.com/docs/_4xp0yygt2.htm)**  
 There's now a dedicated hotkey by popular request for accessing the Git Commit Window, which allows easy access to a number of Git operations in MM.
 
 * **Add `editor-user-extensions.css` to allow Editor CSS Overrides**  

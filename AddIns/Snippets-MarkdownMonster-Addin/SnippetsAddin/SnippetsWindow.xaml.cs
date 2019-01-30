@@ -183,7 +183,7 @@ namespace SnippetsAddin
 
         string InitialSnippetJson = @"[
     {
-      ""Name"": ""datetime"",
+      ""Name"": ""Date & Time (datetime)"",
       ""SnippetText"": ""{{DateTime.Now.ToString(\""MMMM dd, yyyy - HH:mm tt\"")}}"",
       ""Shortcut"": ""datetime"",
       ""KeyboardShortcut"": null,
