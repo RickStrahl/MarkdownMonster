@@ -6,7 +6,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.14.14
+### 1.14.16
 <small>not released yet</small>
 
 * **Optimize ACE Editor Loading**  
@@ -17,6 +17,9 @@ Made some improvements to how Mermaid charts and MathML/MathText expressions can
 
 * **WrapMargin**  
 Added support for specifying a `WrapMargin` when `WordWrap=true`. You can now specify column number for the `WrapMargin` to force the editor to wrap at that columnn. 
+
+* **Add Support for latest C# features to Snippets Razor Addin**  
+The Razor engine in the Snippets editor now can utilize C# 7.3 features in scripts. Support for the regular snippets will also be updated in the next update.
 
 * **New `RenderExtension` Interface for Addin Authors**  
 *Internal and Addin usage* - You can now add RenderExtensions into the Markdown processing pipeline as a 'post-processing' step 
