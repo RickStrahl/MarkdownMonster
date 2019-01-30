@@ -824,6 +824,7 @@ namespace MarkdownMonster
                                                          forceLoad: true, 
                                                          parserAddinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName);
 
+            // allow override of RenderScriptTags if set
             var oldAllowScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
             if (ProcessScripts)            
                 mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = false;

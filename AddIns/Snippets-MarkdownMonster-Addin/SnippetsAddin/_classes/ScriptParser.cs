@@ -174,7 +174,7 @@ namespace SnippetsAddin
             // Render the actual template and pass the model
             result = RazorHost.RenderTemplate(snippet,state);
             if (result == null)
-                ErrorMessage = RazorHost.ErrorMessage;
+                ErrorMessage = RazorHost.ErrorMessage + "\r\n" + RazorHost.Engine?.LastGeneratedCode;
 
             return result;
         }

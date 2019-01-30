@@ -179,9 +179,10 @@ pre {
     word-wrap: normal;
 }
 
-    pre code {
+    pre > code {
         white-space: pre;
         color: #f5f5f5 !important;
+        background: transparent;
         font-weight: normal;
         padding: 0.8em !important;
     }

@@ -124,20 +124,16 @@ namespace MarkdownMonster
                             .UseListExtras()
                             .UseDefinitionLists();
             
-
-            
             if (options.Figures)
                 builder = builder.UseFigures();
             if (options.GithubTaskLists)
                 builder = builder.UseTaskLists();
             if (options.SmartyPants)
                 builder = builder.UseSmartyPants();
-            //if(options.Diagrams)
-            //    builder = builder.UseDiagrams();
-            //if (options.Mathmatics)
-            //    builder = builder.UseMathematics();
+            
             if (options.CustomContainers)
                 builder = builder.UseCustomContainers();
+
             if (options.Attributes)
                 builder = builder.UseGenericAttributes();
             

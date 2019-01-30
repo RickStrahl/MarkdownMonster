@@ -140,8 +140,15 @@ namespace MarkdownMonster
         void OpenDocument()
         {
             // OPEN DOCUMENT COMMAND
-            OpenDocumentCommand = new CommandBase((s, e) =>
+            OpenDocumentCommand = new CommandBase((parameter, command) =>
             {
+                var file = parameter as String;
+                if (!string.IsNullOrEmpty(file) && File.Exists(file))
+                {
+                    Model.Window.OpenTab(file, rebindTabHeaders: true);
+                    return;
+                }
+
                 var fd = new OpenFileDialog
                 {
                     DefaultExt = ".md",
@@ -163,6 +170,7 @@ namespace MarkdownMonster
                     RestoreDirectory = true,
                     Multiselect = true,
                     Title = "Open Markdown File"
+                    
                 };
 
                 if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder) && Directory.Exists(mmApp.Configuration.LastFolder))
@@ -186,9 +194,9 @@ namespace MarkdownMonster
                 if (res == null || !res.Value)
                     return;
 
-                foreach (var file in fd.FileNames)
+                foreach (var filename in fd.FileNames)
                 {
-                    Model.Window.OpenTab(file, rebindTabHeaders: true);
+                    Model.Window.OpenTab(filename, rebindTabHeaders: true);
                 }
 
             });
@@ -201,14 +209,36 @@ namespace MarkdownMonster
         {
             OpenFromUrlCommand = new CommandBase((parameter, command) =>
             {
+                // If a URL is passed try to open it and display immediately
+                var url = parameter as string;
+                if (!string.IsNullOrEmpty(url))
+                {
+                    // Fix up URL for known repositories etc.
+                    // to retrieve ra markdown
+                    var fileSaver = new FileSaver();
+                    var doc = fileSaver.OpenMarkdownDocumentFromUrl(url);
+
+                    if (doc != null)
+                    {
+                        var urlTab = Model.Window.OpenTab("untitled");
+                        ((MarkdownDocumentEditor) urlTab.Tag).MarkdownDocument = doc;                        
+                        Model.Window.PreviewMarkdownAsync();                        
+                    }
+                    
+                    return;
+                }
+
                 var form = new OpenFromUrlDialog();
                 form.Owner = Model.Window;
+                form.Url = url;
                 var result = form.ShowDialog();
 
                 if (result == null || !result.Value || string.IsNullOrEmpty(form.Url))
                     return;
 
-                var url = form.Url;
+                // Fix up URL for known repositories etc.
+                // to retrieve ra markdown
+                url = form.Url;
                 bool fixupImageLinks = form.FixupImageLinks;
 
                 var fs = new FileSaver();
@@ -704,6 +734,11 @@ namespace MarkdownMonster
         {
             OpenSampleMarkdownCommand = new CommandBase((parameter, command) =>
             {
+                mmApp.Model.Commands.OpenFromUrlCommand.Execute(
+                    "https://github.com/RickStrahl/MarkdownMonster/blob/master/SampleDocuments/SampleMarkdown.md");
+
+                
+
                 string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
                 File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"), tempFile, true);
                 Model.Window.OpenTab(tempFile, rebindTabHeaders: true);

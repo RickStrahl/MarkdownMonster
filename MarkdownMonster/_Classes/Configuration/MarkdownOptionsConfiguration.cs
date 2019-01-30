@@ -108,7 +108,7 @@ namespace MarkdownMonster
         /// Allows for attribute syntax
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/GenericAttributesSpecs.md
         /// </summary>
-        public bool Attributes { get; set; } = true;
+        public bool Attributes { get; set; } = false;
 
 
         /// <summary>

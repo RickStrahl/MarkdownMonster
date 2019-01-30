@@ -21,30 +21,6 @@ namespace MarkdownMonster
         /// <returns></returns>
         public abstract string Parse(string markdown);
         
-        /// <summary>
-        /// Parses strikeout text ~~text~~. Single line (to linebreak) allowed only.
-        /// </summary>
-        /// <param name="html"></param>
-        /// <returns></returns>
-        protected string ParseStrikeout(string html)
-        {
-            if (html == null)
-                return null;
-
-            var matches = strikeOutRegex.Matches(html);
-            foreach (Match match in matches)
-            {
-                string val = match.Value;
-
-                if (match.Value.Contains('\n'))
-                    continue;
-
-                val = "<del>" + val.Substring(2, val.Length - 4) + "</del>";
-                html = html.Replace(match.Value, val);
-            }
-
-            return html;
-        }
 
         /// <summary>
         /// Strips 
@@ -65,8 +41,7 @@ namespace MarkdownMonster
         }        
 
 
-
-
+        
         protected static Regex fontAwesomeIconRegEx = new Regex(@"@icon-.*?[\s|\.|\,|\<]");
 
         /// <summary>

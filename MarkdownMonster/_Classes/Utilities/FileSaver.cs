@@ -261,7 +261,7 @@ namespace MarkdownMonster.Utilities
             return urlToOpen;
         }
 
-        public void OpenMarkdownFileFromUrl(string url)
+        public void SaveMarkdownFileFromUrl(string url)
         {
             if (string.IsNullOrEmpty(url))
                 return;
@@ -304,6 +304,49 @@ namespace MarkdownMonster.Utilities
             
             SaveMarkdownDocumentToFile(doc);
 
+        }
+
+        public MarkdownDocument OpenMarkdownDocumentFromUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return null;
+
+            var urlToOpen = ParseMarkdownUrl(url);
+
+            if (urlToOpen == null)
+                return null;
+
+            string markdownText = null;
+            var settings = new HttpRequestSettings { Url = urlToOpen };
+
+            while (true)
+            {
+                try
+                {
+                    markdownText = HttpUtils.HttpRequestString(settings);
+                    break;
+                }
+                catch
+                {
+                    if (settings.Url.Contains("README.md"))
+                        settings.Url = settings.Url.Replace("README.md", "readme.md");
+                    else if (settings.Url.Contains("readme.md"))
+                        settings.Url = settings.Url.Replace("readme.md", "Readme.md");
+                    else
+                        break;
+                }
+            }
+
+            if (settings.ResponseStatusCode == System.Net.HttpStatusCode.OK || string.IsNullOrEmpty(markdownText))
+            {
+                mmApp.Model.Window.ShowStatusError($"Couldn't open url: {url}");
+                return null;
+            }
+
+
+            var doc = new MarkdownDocument();
+            doc.CurrentText = markdownText;
+            return doc;
         }
 
 

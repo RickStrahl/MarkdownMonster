@@ -40,12 +40,21 @@
 
 
         public bool ShouldProcessBeforeRender(string markdown, MarkdownDocument document) => false;
-
+        
         public const string MathJaxScript = @"
 <script type=""text/x-mathjax-config"">
     // enable inline parsing with single $ instead of /
     MathJax.Hub.Config({
-                    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+                    // tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+
+tex2jax: {
+            inlineMath: [['$','$'],['\\(','\\)']],
+            displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
+            processEscapes: true
+        },
+    asciimath2jax: {
+    delimiters: [['`','`']]
+    },
                 });
     $(document).on('previewUpdated',function() {
     setTimeout(function() {
@@ -55,6 +64,9 @@
 </script>
 <script async src=""https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML""></script>
 ";
-            
+
+
+
+
     }
 }
