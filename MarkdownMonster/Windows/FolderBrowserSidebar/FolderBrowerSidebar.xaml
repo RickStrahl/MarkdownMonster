@@ -173,7 +173,9 @@
 			         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="3"  
 					 Name="ButtonUseCurrentFolder" BorderThickness="0" FontSize="12"
 			         ToolTip="Set Folder to Active Document's Folder" 
-			         Click="ButtonUseCurrentFolder_Click"  controls:VisibilityHelper.IsVisible="{Binding AppModel.IsEditorActive}" />
+                     Command="{Binding AppModel.Commands.OpenFolderBrowserCommand}"
+
+			         controls:VisibilityHelper.IsVisible="{Binding AppModel.IsEditorActive}" />
                 <Button  fa:Awesome.Content="Refresh" Background="Transparent" 
 			         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="4"  
 			         Name="ButtonRefreshFolder" BorderThickness="0"  FontSize="12"

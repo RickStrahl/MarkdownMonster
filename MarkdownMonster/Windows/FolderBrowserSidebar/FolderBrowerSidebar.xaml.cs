@@ -48,7 +48,7 @@ namespace MarkdownMonster.Windows
                         value = Path.GetDirectoryName(value);
                     }
                 }
-
+                
                 var previousFolder = _folderPath;
 
                 _folderPath = value;
@@ -435,14 +435,14 @@ namespace MarkdownMonster.Windows
             FolderStructure.UpdateGitFileStatus(pathItem);
         }
 
-        private void ButtonUseCurrentFolder_Click(object sender, RoutedEventArgs e)
-        {
-            var doc = AppModel?.ActiveDocument;
-            if (doc == null)
-                return;
+        //private void ButtonUseCurrentFolder_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var doc = AppModel?.ActiveDocument;
+        //    if (doc == null)
+        //        return;
 
-            SetTreeFromFolder(doc.Filename, true);
-        }
+        //    SetTreeFromFolder(doc.Filename, true);
+        //}
 
         private void ButtonRecentFolders_Click(object sender, RoutedEventArgs e)
         {
