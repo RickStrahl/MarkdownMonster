@@ -108,9 +108,9 @@ namespace MarkdownMonster
                 return;
 
             var dotnetVersion = WindowsUtils.GetDotnetVersion();
-            if (string.Compare(dotnetVersion, "4.6", StringComparison.Ordinal) < 0)
+            if (string.Compare(dotnetVersion, "4.7.1", StringComparison.Ordinal) < 0)
             {
-                Task.Run(() => MessageBox.Show("Markdown Monster requires .NET 4.6 or later to run.\r\n\r\n" +
+                Task.Run(() => MessageBox.Show("Markdown Monster requires .NET 4.7.1 or later to run.\r\n\r\n" +
                                                "Please download and install the latest version of .NET version from:\r\n" +
                                                "https://www.microsoft.com/net/download/framework\r\n\r\n" +
                                                "Exiting application and navigating to .NET Runtime Downloads page.",

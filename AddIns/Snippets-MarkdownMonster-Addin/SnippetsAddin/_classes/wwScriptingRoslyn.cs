@@ -139,7 +139,7 @@ namespace Westwind.wwScripting
 			else if (ScriptingLanguage == "VB")	
 			{
 #pragma warning disable CS0618 // Type or member is obsolete
-                Compiler = new VBCodeProvider().CreateCompiler();
+                Compiler = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.VBCodeProvider().CreateCompiler();
 #pragma warning restore CS0618 // Type or member is obsolete
             }										   
 			// else throw(Exception ex);

@@ -83,8 +83,9 @@
                     </div>
                     <div class=" col-sm-7">
 	                    
-						<a class="btn btn-lg btn-info" href="https://west-wind.com/files/MarkdownMonsterSetup.exe">
-                            <i class="fa fa-download fa-2x" style="font-size: 0.8em; "></i> &nbsp; 
+						<a class="btn btn-lg btn-info" href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
+                           style=" border-radius: 4px;padding: 12px 20px; font-weight: 600;">
+                            <i class="fa fa-download text-success" style="font-size: 1.4em; color: #e2c271; "></i> &nbsp; 
                             Download Markdown Monster
                         </a>
 						
@@ -133,19 +134,20 @@
                                         <img src="images/chocolatey.png" style="width: 170px; margin-top: 10px;margin-bottom: 5px" alt="Chocolatey" />                                        
                                     </a>  
                           <p>
-                              You can also install Markdown Monster from Chocolatey's package store:
-<%--                                    If you have <a href="https://chocolatey.org/">Chocolatey</a> installed you can also install West Wind WebSurge 
-                                    directly from the <a href="https://chocolatey.org/packages/WestwindMarkdownMonster">package repository</a>:--%>
-                                    
-                                    <pre style="font-size: 10pt; font-family: Consolas, monospace;color: whitesmoke;background: #535353">c:\> choco install markdownmonster</pre>                                                    
-									
-									<p>To update an existing installation:</p>
-	                        
-									<pre style="font-size: 10pt; font-family: Consolas, monospace;color: whitesmoke;background: #535353">c:\> choco upgrade markdownmonster</pre>                                                    
-                              
-                                    <p>You can also use the <a href="https://chocolatey.org/packages/MarkdownMonster.Portable">portable, non-admin installer</a>:
+                              You can also install Markdown Monster from the command line using <a href="https://chocolatey.org/packages/MarkdownMonster">Chocolatey</a>:
+                                    <style>
+                                        .comment-line { color: forestgreen; }
+                                    </style>                                                                 
+									<pre style="background: #111;color: #e2e2e2; font-weight: 500; padding: 10px 0 10px 15px;font-size: 1em;">
+<code><span class="comment-line"># install markdown monster</span>
+c:\> choco install markdownmonster
 
-                                    <pre style="font-size: 10pt; font-family: Consolas, monospace;color: whitesmoke;background: #535353">c:\> choco install markdownmonster.portable</pre>                                                          
+<span class="comment-line"># upgrade to the latest version</span>
+c:\> choco upgrade markdownmonster
+
+<span class="comment-line"># install using the portable, non-admin installer</span>
+c:\> choco upgrade markdownmonster.portable
+</code></pre>                                                                                                                    
                                 </p>
                             </div>
                     </div>
@@ -162,11 +164,11 @@
                         <div id="FeatureList" class="panel-body">
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft Windows 10-7 or Windows 2016-2008R2
+                                Microsoft Windows 10-7 or Windows 2019-2008R2
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft .NET Framework 4.6.2 or later<small>
+                                Microsoft .NET Framework 4.7.1 or later<small>
                                     <a href="http://smallestdotnet.com/">check</a> or <a href="https://www.microsoft.com/net/download/all">download</a></small>
                             </div>   
                             <div>
@@ -309,7 +311,22 @@ IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIB
     </nav> 
    </div>
 
-   
+   <%-- <script src="scripts/highlightjs/highlight.pack.js"></script>
+    <link href="scripts/highlightjs/styles/vs2015.css" rel="stylesheet" />--%>
+
+    
+<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/vs2015.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>--%>
+
+    <script>
+        function highlightCode() {
+            var pres = document.querySelectorAll("pre>code");
+            for (var i = 0; i < pres.length; i++) {
+                hljs.highlightBlock(pres[i]);
+            }
+        }
+        highlightCode();
+    </script>
     
 <% if (!Request.Url.ToString().Contains("localhost"))
    { %>

@@ -136,14 +136,14 @@ namespace Westwind.wwScripting
 			if (ScriptingLanguage == "CSharp" || ScriptingLanguage == "C#") 
 			{
 #pragma warning disable CS0618 // Type or member is obsolete
-                Compiler = new CSharpCodeProvider().CreateCompiler();
+                Compiler = new Microsoft.CSharp.CSharpCodeProvider().CreateCompiler();
 #pragma warning restore CS0618 // Type or member is obsolete
                 ScriptingLanguage = "CSharp";
 			}	
 			else if (ScriptingLanguage == "VB")	
 			{
 #pragma warning disable CS0618 // Type or member is obsolete
-                Compiler = new VBCodeProvider().CreateCompiler();
+                Compiler = new Microsoft.VisualBasic.VBCodeProvider().CreateCompiler();
 #pragma warning restore CS0618 // Type or member is obsolete
             }										   
 			// else throw(Exception ex);
