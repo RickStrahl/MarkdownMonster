@@ -146,7 +146,8 @@
                            DisplayMemberPath="Value.Name"
                            SelectedValue="{Binding ActivePostMetadata.WeblogName}"
                            IsSynchronizedWithCurrentItem="True" 
-                           ItemsSource="{Binding Configuration.Weblogs}">
+                           ItemsSource="{Binding Configuration.Weblogs}"
+                           DropDownOpened="ComboWebLogSite_DropDownOpened">
                             <ComboBox.ItemContainerStyle>
                                 <Style>
                                     <Setter Property="AutomationProperties.Name"  Value="{Binding Value.Name}"/>
@@ -222,6 +223,7 @@
                            SelectedValue="{Binding Configuration.LastWeblogAccessed}"
                            IsSynchronizedWithCurrentItem="True" 
                            ItemsSource="{Binding Configuration.Weblogs}"
+                           DropDownOpened="ComboWebLogSite_DropDownOpened"
                            />
 
                     
@@ -356,7 +358,7 @@
             
 
             <controls:MetroTabItem Header="Web Logs " Margin="0,0,5,0" 
-                                   FontSize="16"
+                                   FontSize="16" Name="TabWeblogs"
                                    controls:ControlsHelper.HeaderFontSize="16"
                                    CloseButtonEnabled="False">
                 
@@ -370,12 +372,12 @@
                         <ComboBox  Name="ComboWebLogName" ToolTip="Weblog selection" 
                            DisplayMemberPath="Value.Name"       
                            SelectedValuePath="Value"
-                           SelectedValue="{Binding ActiveWeblogInfo}"
+                           SelectedValue="{Binding ActivePostMetadata.WeblogName}"
                            IsSynchronizedWithCurrentItem="True"  
                            SelectionChanged="ComboWebLogName_SelectionChanged"                               
                            ItemsSource="{Binding Configuration.Weblogs}" 
                            />
-                        <Button Grid.Column="1" Margin="5,0,0,0" Click="Button_NewWeblog">
+                        <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonNewWeblog" Click="Button_NewWeblog">
                             <StackPanel Orientation="Horizontal">
                                 <fa:FontAwesome Icon="PlusCircle" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" Margin="0,2,5,0" />
                                 <TextBlock>New</TextBlock>
@@ -421,7 +423,7 @@
                     </Grid>
                  
 
-                    <Label Margin="0,10,0,0">Api Url:</Label>
+                    <Label Margin="0,10,0,0">Weblog Api Endpoint Url:</Label>
                     
                     <Grid >
                         <Grid.ColumnDefinitions>
@@ -468,7 +470,22 @@
                         <TextBox Text="{Binding ActiveWeblogInfo.Username}"  FontSize="15" />
 
                         <Label Margin="0,10,0,0">Password: (only set if you need to change)</Label>
-                        <PasswordBox  Name="TextWeblogPassword" FontSize="15" LostFocus="TextWeblogPassword_LostFocus" />
+
+                        <Grid >
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <PasswordBox  Name="TextWeblogPassword" FontSize="15" LostFocus="TextWeblogPassword_LostFocus" />
+                            <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonValidatePassword" 
+                                    Click="ButtonValidatePassword_Click"  
+                                    ToolTip="Checks to see if the authentication is valid."
+                                    FontSize="15" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                    Foreground="#FF0E7E28" Content="&#xF00C;"                                     
+                                    />
+                        </Grid>
                     </StackPanel>
                     <StackPanel Visibility="{Binding IsTokenVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Label Margin="0,10,0,0">Access Token: (only set if you need to change )</Label>
