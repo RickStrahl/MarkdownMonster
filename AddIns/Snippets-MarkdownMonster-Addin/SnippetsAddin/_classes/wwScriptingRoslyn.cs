@@ -26,7 +26,7 @@ namespace Westwind.wwScripting
 		/// <summary>
 		/// Compiler object used to compile our code
 		/// </summary>
-		protected ICodeCompiler Compiler = null;
+		protected CodeDomProvider Compiler = null;
 
 		/// <summary>
 		/// Reference to the Compiler Parameter object
@@ -132,14 +132,14 @@ namespace Westwind.wwScripting
 			if (ScriptingLanguage == "CSharp" || ScriptingLanguage == "C#") 
 			{
 #pragma warning disable CS0618 // Type or member is obsolete
-                Compiler = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider().CreateCompiler();
+                Compiler = CodeDomProvider.CreateProvider("CSharp");
 #pragma warning restore CS0618 // Type or member is obsolete
                 ScriptingLanguage = "CSharp";
 			}	
 			else if (ScriptingLanguage == "VB")	
 			{
 #pragma warning disable CS0618 // Type or member is obsolete
-                Compiler = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.VBCodeProvider().CreateCompiler();
+                Compiler = CodeDomProvider.CreateProvider("VBNet");
 #pragma warning restore CS0618 // Type or member is obsolete
             }										   
 			// else throw(Exception ex);
