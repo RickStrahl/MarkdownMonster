@@ -372,7 +372,7 @@
                         <ComboBox  Name="ComboWebLogName" ToolTip="Weblog selection" 
                            DisplayMemberPath="Value.Name"       
                            SelectedValuePath="Value"
-                           SelectedValue="{Binding ActivePostMetadata.WeblogName}"
+                           SelectedValue="{Binding ActiveWeblogInfo}"
                            IsSynchronizedWithCurrentItem="True"  
                            SelectionChanged="ComboWebLogName_SelectionChanged"                               
                            ItemsSource="{Binding Configuration.Weblogs}" 

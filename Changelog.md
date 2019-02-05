@@ -6,30 +6,8 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.14.15
-<small>January 30th, 2019</small>
-
-* **Optimize ACE Editor Loading**  
-Refactored some of the ACE editor startup code to reduce duplicated styling of the editor and background flashes while loading. Editor now renders in a single pass resulting in a much less bouncy first editor display.
-
-* **Better support for [Mermaid Charts](https://markdownmonster.west-wind.com/docs/_5ef0x96or.htm) and [MathText/MathML](https://markdownmonster.west-wind.com/docs/_59l0mv2uw.htm)**  
-Made improvements to how Mermaid charts and MathML/MathText expressions can be processed. You can now simply add mermaid content in `<div class="mermaid">` block and Math expressions by providing a `useMath: true` YAML header. Markdown Monster now automatically includes the required library dependencies and fixups for rendering output. Note: mermaid charts have to be previewed in external browser.
-
-* **Editor WrapMargin**  
-Added support for specifying a `WrapMargin` when `WordWrap=true`. You can now specify column number for the `WrapMargin` to force the editor to wrap at that column to control the width of the editor content. 
-
-* **Add Support for latest C# features to [Snippets Razor Addin](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)**  
-The Razor engine in the Snippets editor now can utilize C# 7.3 features in scripts using **Roslyn** compilation. Snippet expressions continue to use the old C# compiler, as it provides much faster startup performance with no explicit gain from new language features.
-
-* **New `RenderExtension` Interface for Addin Authors**  
-*Internal and Addin usage* - You can now add RenderExtensions into the Markdown processing pipeline as a 'post-processing' step 
-after the HTML was generated. A new RenderExtensionsManager can be accessed to add additional extensions that can post process rendered HTML output.
-
-* **New `previewUpdated` JavaScript event for PreviewHtml**  
-*Internal and Addin usage* - Added a `previewUpdated` even that fires whenever the preview is updated without replacing the entire document. This allows `MarkdownRenderExtensions` to dynamically refresh a document without requiring script blocks to re-execute on each render. Used for Mermaid and Math support internally but available for any JavaScript based addins that require refreshing on rendering.
-
-### 1.14.12
-<small>January 25th, 2019</small>
+### 1.15 - Version Rollup Release
+<small>February 5th, 2019</small>
 
 * **[Add Split View for the Editor](https://markdownmonster.west-wind.com/docs/_5ea0q9ne2.htm)**  
 You can now split the editor into two panes (Below or Beside) and view and edit the current document in two synced, but independently scrollable views.
@@ -40,42 +18,23 @@ Added a optional `MaxWidth` Editor Configuration setting that lets you set the m
 * **[Add Editor Padding Configuration](https://markdownmonster.west-wind.com/docs/_5ed0rj891.htm)**  
 You can now specify the padding for the editor work space of each tab. Previously this value was fixed but you can now provide wider (or thinner) horizontal margins to give you more white space while editing especially on larger displays.
 
+* **Editor WrapMargin**  
+Added support for specifying a `WrapMargin` when `WordWrap=true`. You can now specify column number for the `WrapMargin` to force the editor to wrap at that column to control the width of the editor content. 
 
-### 1.14.9
-<small>January 9th, 2019</small>
+* **Better support for [Mermaid Charts](https://markdownmonster.west-wind.com/docs/_5ef0x96or.htm) and [MathText/MathML](https://markdownmonster.west-wind.com/docs/_59l0mv2uw.htm)**  
+Made improvements to how Mermaid charts and MathML/MathText expressions can be processed. You can now simply add mermaid content in `<div class="mermaid">` block and Math expressions by providing a `useMath: true` YAML header. Markdown Monster now automatically includes the required library dependencies and fixups for rendering output. Note: mermaid charts have to be previewed in external browser.
 
 * **[Alt+G default hot key for Git Commit Dialog](https://markdownmonster.west-wind.com/docs/_4xp0yygt2.htm)**  
 There's now a dedicated hotkey by popular request for accessing the Git Commit Window, which allows easy access to a number of Git operations in MM.
 
-* **Add `editor-user-extensions.css` to allow Editor CSS Overrides**  
-Like the script extensions added in the previous release, this allows making editor CSS overrides to affect how the editor renders code. Note there's not a ton of stuff that can or should be changed since most of the styling comes from themes, but it does allow for some rudimentary enhancements to the editor.
+* **Improve Initial Document Loading**  
+Improved load time for documents when they originally load and reducing flicker. Folder browser is now more responsive to 'preview' -> full edit view transitions which now occur without flickering.
 
-* **Spellchecker Ignores URLs**  
-The spellchecker now no longer tries to correct text inside of a URL, links for images or URL links (both Markdown and HTML links).
-
-* **Fix: Image Dialog Image Preview**  
-Fixed image preview for file and URL links so that the image displays in the preview area. Updated Image Editing link to open defined image editor.
-
-* **Fix: Editor Focus on Dialog Operations**  
-Fixed a number of places where editor focus was lost after content was inserted through dialogs (paste image, screen capture , href etc.). Keeps your fingers on the keyboard. Regression when tab focusing logic was changed recently.
-
-### 1.14.8
-<small>January 7th, 2019</small>
-
-* **Add `editor-user-extensions.js` to allow Editor Extension**  
-Added support for an optional `editor-user-extensions.js` file that can be used to create custom extensions to the Markdown Monster JavaScript ACE Editor wrapper. This allows addin and Commander Script authors to create custom ACE Editor functionality that can be called from .NET with `Model.ActiveEditor.AceEditor.MyCustomFunction()`.
-
-* **Fix: Enabled/Disabled State of Menus**  
-Fix issue where first loaded documents would not properly enable/disable certain menu and toolbar items due to open document state. Fixed OnPropertyChange for the document to always fire even on existing selected document.
-
-### 1.14.7
-<small>January 4th, 2019</small>
+* **Optimize ACE Editor Loading**  
+Refactored some of the ACE editor startup code to reduce duplicated styling of the editor and background flashes while loading. Editor now renders in a single pass resulting in a much less bouncy first editor display.
 
 * **Improve First Run Window Size Experience**  
 Added logic to detect window size on first run and adjust the main window accordingly. Small monitors run near maximized while large monitors get a larger but not giant instance on first launch. New behavior also respects DPI settings.
-
-* **Improve Weblog Blog Discovery**  
-Weblog discovery now looks for a few additional clues to try and discover blog Urls on a Web site in addition to RDS and standard Wordpress locations.
 
 * **Show In Folder Browser now selects File**  
 Show in Folder Browser previously only opened the folder in the folder browser. If a file is passed it now opens the folder and selects the file passed in the folder browser's file list.
@@ -83,11 +42,52 @@ Show in Folder Browser previously only opened the folder in the folder browser. 
 * **Add Open With... in Folder Browser File Context Menu**  
 You can now use the Open With dialog to choose how to open a file from the folder browser in addition to opening in editor, or using the default Windows program for a given extension.
 
+* **Improved Folder Browser Navigation**  
+We've changed focus behavior in the editor to not automatically focus the editor for a number of tab change operations which reduce flickering and jumpy selections in the folder browser.
+
+* **Add Support for latest C# features to [Snippets Razor Addin](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)**  
+The Razor engine in the Snippets editor now can utilize C# 7.3 features in scripts using **Roslyn** compilation. Snippet expressions continue to use the old C# compiler, as it provides much faster startup performance with no explicit gain from new language features.
+
+* **New `RenderExtension` Interface for Addin Authors**  
+*Internal and Addin usage* - You can now add RenderExtensions into the Markdown processing pipeline as a 'post-processing' step 
+after the HTML was generated. A new RenderExtensionsManager can be accessed to add additional extensions that can post process rendered HTML output.
+
+* **Add `editor-user-extensions.css` to allow Editor CSS Overrides**  
+Like the script extensions added in the previous release, this allows making editor CSS overrides to affect how the editor renders code. Note there's not a ton of stuff that can or should be changed since most of the styling comes from themes, but it does allow for some rudimentary enhancements to the editor.
+
+* **Add `editor-user-extensions.js` to allow Editor Extension**  
+Added support for an optional `editor-user-extensions.js` file that can be used to create custom extensions to the Markdown Monster JavaScript ACE Editor wrapper. This allows addin and Commander Script authors to create custom ACE Editor functionality that can be called from .NET with `Model.ActiveEditor.AceEditor.MyCustomFunction()`.
+
+* **New `previewUpdated` JavaScript event for PreviewHtml**  
+*Internal and Addin usage* - Added a `previewUpdated` even that fires whenever the preview is updated without replacing the entire document. This allows `MarkdownRenderExtensions` to dynamically refresh a document without requiring script blocks to re-execute on each render. Used for Mermaid and Math support internally but available for any JavaScript based addins that require refreshing on rendering.
+
+* **Weblog Configuration Updates**  
+Made it a little easier to configure new weblogs by automatically jumping to the Weblogs tab when no Weblogs are available when the Weblog selection is clicked or when submitting the Web log form. Add password validation check to Weblog configuration form.
+
+* **Improve Weblog Blog Discovery**  
+Weblog discovery now looks for a few additional clues to try and discover blog Urls on a Web site in addition to RDS and standard Wordpress locations.
+
+* **Open Weblog Posts Folder**  
+New menu option that opens the Weblog Posts folder so you can look for and open post entries more easily.
+
+* **Spellchecker Ignores URLs**  
+The spellchecker now no longer tries to correct text inside of a URL, links for images or URL links (both Markdown and HTML links).
+
+
+* **Fix: Enabled/Disabled State of Menus**  
+Fix issue where first loaded documents would not properly enable/disable certain menu and toolbar items due to open document state. Fixed OnPropertyChange for the document to always fire even on existing selected document.
+
 * **Fix: Weblog Management Form**  
 Fixed a few small issues in the Weblog entry form. There's now an explicit save button and a new entry isn't added until the Save button is clicked. Existing entries are still live edited. Fixed a few navigation bugs in the form that could crash MM.
 
 * **Fix: New WebLog File and Folder Names**  
 Fix up logic that creates new folder and file names to remove `&` and `'` characters that can throw off relative URLs.
+
+* **Fix: Image Dialog Image Preview**  
+Fixed image preview for file and URL links so that the image displays in the preview area. Updated Image Editing link to open defined image editor.
+
+* **Fix: Editor Focus on Dialog Operations**  
+Fixed a number of places where editor focus was lost after content was inserted through dialogs (paste image, screen capture , href etc.). Keeps your fingers on the keyboard. Regression when tab focusing logic was changed recently.
 
 * **Fix: User Agent in XMLRPC calls to Weblogs** 
 Found that the default XML RPC user agent was invalid per spec and was causing problems with some Web servers. Changed user agent for all XMLRPC operations to `Markdown-Monster`.
@@ -98,18 +98,6 @@ Fixed bug that wouldn't properly reactivate editor when navigating off of Markdo
 * **Fix: Open in GitClient**  
 Fix paths with spaces not opening properly.
 
-### 1.14.4 
-<small>December 19th, 2017</small>
-
-* **Improve Initial Document Loading**  
-Improved load time for documents when they originally load and reducing flicker. Folder browser is now more responsive to 'preview' -> full edit view transitions which now occur without flickering. 
-
-* **Improved Folder Browser Navigation**  
-We've changed focus behavior in the editor to not automatically focus the editor for a number of tab change operations which reduce flickering and jumpy selections in the folder browser.
-
-* **Open Weblog Posts Folder**  
-New menu option that opens the Weblog Posts folder so you can look for and open post entries more easily.
-
 * **Fix: Recent Document Handling to remove missing files/folders**  
 The recent document list and startup forms now properly won't show files and folders that no longer exist.
 
@@ -117,7 +105,7 @@ The recent document list and startup forms now properly won't show files and fol
 Fixed crashes caused by Dispatcher errors when the dispatcher was disabled. This would cause odd crashes especially with status bar updates. Added extra checks around several frequently used generic Dispatcher operations that account for most Dispatcher operations.
 
 
-### 1.14
+### 1.14 - Version Rollup Release
 <small>December 13th, 2018</small>
 
 * **Open PDF documents from Previewer**  
@@ -144,10 +132,6 @@ Optimize loading of sidebars to not update when not visible on startup and other
 * **Fix: Add Word To Dictionary Spellcheck Refresh**  
 Fixed refresh when adding a new word to the dictionary, so that the new value is no longer highlighted as an error.
 
-
-### 1.13.12
-<small>November 20th, 2018</small>
-
 * **Optimize Image on Folder Browser Menu**  
 A new menu for images allows optimizing images using Pinga which optimizes PNG and JPEG images very quickly. Can produce quite radical image size improvements with minimal loss of quality.
 
@@ -171,9 +155,6 @@ Fix spell checker refresh after replacing a word in the document. Properly refre
 
 * **Fix: Git Commit Dialog Closing**  
 Fix dialog that is closing even if there are no more pending changes. This allows for performing other non-commit operations.
-
-### 1.13.9
-<small>November 6th, 2018</small>
 
 * **Improve Favorite Editing**  
 Favorite items now have an improved editor that uses less space and uses icons on the favorites title bar. Save and cancel operations are fired off the RETURN and ESC keys respectively.
@@ -207,10 +188,6 @@ Fix invalid sizing of the tab close button.
 
 * **Fix: Folder Browser New Folder Double Display**  
 Fixed issue with new folders in folder browser showing two items.
-
-
-### 1.13.4 
-<small>October 19th, 2018</small>
 
 * **Improved CSV Imports to Table Markdown**  
 Added an additional dialog that allows importing CSV from file or the clipboard (ie. Excel or other spreadsheet Copy). You can now also specify/override the CSV delimiter.

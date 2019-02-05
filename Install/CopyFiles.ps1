@@ -8,7 +8,9 @@ $target="$PSScriptRoot\Distribution"
 remove-item -recurse -force ${target}
 
 # copy but exclude libGit extra folders
-robocopy ${source}\bin\Release ${target} /MIR /XD linux osx /XF git2*.pdb
+robocopy ${source}\bin\Release ${target} /MIR /XD lib /XF git2*.pdb
+
+robocopy ${source}\bin\Release\lib\win32 ${target}\lib\win32 /MIR /XF git2*.pdb
 
 Copy-Item ${cur}\mm.exe ${target}\mm.exe
 Copy-Item ${cur}\license.md ${target}\license.md
