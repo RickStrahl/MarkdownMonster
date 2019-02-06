@@ -471,7 +471,6 @@ namespace MarkdownMonster
             Filename = filename;
             UpdateCrc();
             GetFileEncoding();
-
             
             try
             {
@@ -492,6 +491,7 @@ namespace MarkdownMonster
                 AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
                 AutoSaveDocuments = mmApp.Configuration.AutoSaveDocuments;
                 ProcessScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
+                IsDirty = false;
             }
             catch
             {                

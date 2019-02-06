@@ -481,7 +481,7 @@ namespace MarkdownMonster
                             }
                             catch (Exception ex)
                             {
-                                mmApp.Log("Changed file notification update failure", ex);
+                                mmApp.Log("Changed File Notification failed.", ex);
                                 MessageBox.Show(this, "Unable to re-load current document.",
                                     "Error re-loading file",
                                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
