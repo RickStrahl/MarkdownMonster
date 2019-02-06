@@ -6,7 +6,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.15 - Version Rollup Release asdasdasddasdds
+### 1.15 - Version Rollup Release
 <small>February 5th, 2019</small> 
 
 * **[Add Split View for the Editor](https://markdownmonster.west-wind.com/docs/_5ea0q9ne2.htm)**  
