@@ -684,7 +684,7 @@
                                             ToolTip="File and Folder Browser"/>
                         </StackPanel>
                     </TabItem.Header>
-                    <localwindows:FolderBrowerSidebar x:Name="FolderBrowser">
+                    <localwindows:FolderBrowerSidebar x:Name="FolderBrowser" x:FieldModifier="public">
                     </localwindows:FolderBrowerSidebar>
                 </controls:MetroTabItem>
 

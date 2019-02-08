@@ -138,7 +138,7 @@ namespace MarkdownMonster
 
 
         public MainWindow()
-        {
+        {                        
             InitializeComponent();
 
             Model = new AppModel(this);
@@ -201,23 +201,9 @@ namespace MarkdownMonster
 
             var left = Left;
             Left = 300000;
-
-            //// force controls to realign - required because of WebBrowser control weirdness
-            //Dispatcher.InvokeAsync(() =>
-            //{
-            //    //TabControl.InvalidateVisual();
-
-
-
-            //}, DispatcherPriority.Background);
-
-
-
-            //Dispatcher.Invoke(() =>
-            //{
-            new TaskFactory().StartNew(() =>
+            
+            Task.Run(() =>
             {                
-
                 // run out of band
                 Dispatcher.Invoke(() =>
                 {
@@ -232,7 +218,6 @@ namespace MarkdownMonster
                     OpenFavorites(noActivate: true);
 
                     mmApp.SetWorkingSet(10000000, 5000000);
-                    //}, DispatcherPriority.ApplicationIdle);
                 }, DispatcherPriority.Normal);
 
                 Dispatcher.InvokeAsync(() =>
