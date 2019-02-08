@@ -344,10 +344,10 @@ namespace MarkdownMonster.AddIns
         /// %AppData% folder for user installed addins.
         /// </summary>
         internal void LoadAddins(string addinPath)
-        {            
+        {
             if (!Directory.Exists(addinPath))
                 return;
- 
+
             // Check for Addins to install or delete
             try
             {
@@ -368,9 +368,19 @@ namespace MarkdownMonster.AddIns
                 {
                     string fname = Path.GetFileName(file).ToLower();
                     if (fname.EndsWith("addin.dll"))
-                        LoadAddinClasses(file);
+                    {
+                        try
+                        {
+                            LoadAddinClasses(file);
+                        }
+                        catch (Exception e)
+                        {
+                            mmApp.Log($"Load Addin Classes failed for: " + fname, e);                            
+                        }
+                    }
                 }
             }
+
         }
 
         public void UnloadAddins()
