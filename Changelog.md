@@ -6,6 +6,20 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.15.2 
+<small>not released yet</small>
+
+* **Fix: Addin Error Handling**  
+Fixed issue where a misbehaving addin had the ability to crash Markdown Monster during startup and quit without any errors or notice. Added additional error checks and additional logging to try to
+pin down which addins might be causing problems.
+
+* **Fix: Startup Rendering**  
+Improve startup rendering by removing some unncessary nested delay loading. Also fixed a couple of issues related to screen positioning which caused startup jank in some load scenarios. Fixed.
+
+* **Fix: File Change Notifications**  
+Fixed issue with file change notifications not properly clearing the dirty buffer flag after updating file from disk which resulted in repeated dialogs even if no changes were pending. Fixed.
+
 ### 1.15 - Version Rollup Release
 <small>February 5th, 2019</small> 
 

@@ -3,10 +3,6 @@
 <%@ Import Namespace="System.Diagnostics" %>
 <%@ Import Namespace="System.IO" %>
 <%@ Import Namespace="System.Net" %>
-
-<%
-    //WestWindSiteUtils.LogInfo("/WebMonitor/default.aspx");	
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,10 +17,7 @@
     
     <style>
         dt { float: left;width: 90px; font-weight: normal}
-        dd { font-size: 100% }
-        .btn-info {
-            background-color: #4d94d0;            
-        }
+        dd { font-size: 100% }        
         .panel {
             min-height: 110px;
         }
@@ -83,7 +76,7 @@
                     </div>
                     <div class=" col-sm-7">
 	                    
-						<a class="btn btn-lg btn-info" href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
+						<a class="btn btn-lg btn-primary" href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
                            style=" border-radius: 4px;padding: 12px 20px; font-weight: 600;">
                             <i class="fa fa-download text-success" style="font-size: 1.4em; color: #e2c271; "></i> &nbsp; 
                             Download Markdown Monster
@@ -146,7 +139,7 @@ c:\> choco install markdownmonster
 c:\> choco upgrade markdownmonster
 
 <span class="comment-line"># install using the portable, non-admin installer</span>
-c:\> choco upgrade markdownmonster.portable
+c:\> choco install markdownmonster.portable
 </code></pre>                                                                                                                    
                                 </p>
                             </div>
@@ -353,7 +346,7 @@ IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIB
         {
             if (_version != null && DateTime.UtcNow.Subtract(_lastAccess).TotalMinutes < 10)
                 return _version;
-
+            
             // set default dates for fallback here
             _version = "1.13";
             ReleaseDate = "November 4th, 2018";
@@ -375,6 +368,10 @@ IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIB
                 {
                     ReleaseDate = matches[0].Value;
                 }
+
+                _lastAccess = DateTime.UtcNow.AddHours(-1);
+                var latestVersion = LatestVersion;
+
                 _lastAccess = DateTime.UtcNow;
             }
             catch
