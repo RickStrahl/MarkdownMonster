@@ -202,24 +202,28 @@ namespace MarkdownMonster
             var left = Left;
             Left = 300000;
 
-            // force controls to realign - required because of WebBrowser control weirdness
-            Dispatcher.InvokeAsync(() =>
-            {
-                //TabControl.InvalidateVisual();
-                Left = left;
-
-                mmApp.SetWorkingSet(10000000, 5000000);
-            }, DispatcherPriority.Background);
+            //// force controls to realign - required because of WebBrowser control weirdness
+            //Dispatcher.InvokeAsync(() =>
+            //{
+            //    //TabControl.InvalidateVisual();
 
 
+
+            //}, DispatcherPriority.Background);
+
+
+
+            //Dispatcher.Invoke(() =>
+            //{
             new TaskFactory().StartNew(() =>
-            {
+            {                
+
+                // run out of band
                 Dispatcher.Invoke(() =>
                 {
-                    FixMonitorPosition();
-                    AddinManager.Current.InitializeAddinsUi(this);
+                    Left = left;
 
-                    AddinManager.Current.RaiseOnWindowLoaded();
+                    FixMonitorPosition();
 
                     Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
                     if (Model.IsPresentationMode)
@@ -227,7 +231,25 @@ namespace MarkdownMonster
 
                     OpenFavorites(noActivate: true);
 
-                }, DispatcherPriority.ApplicationIdle);
+                    mmApp.SetWorkingSet(10000000, 5000000);
+                    //}, DispatcherPriority.ApplicationIdle);
+                }, DispatcherPriority.Normal);
+
+                Dispatcher.InvokeAsync(() =>
+                {
+                    try
+                    {
+                        AddinManager.Current.InitializeAddinsUi(this);
+                    }
+                    catch (Exception exception)
+                    {
+                        mmApp.Log("Addin UI Loading failed.", exception);                        
+                    }
+
+                    AddinManager.Current.RaiseOnWindowLoaded();                    
+                });
+
+
             });
 
 
