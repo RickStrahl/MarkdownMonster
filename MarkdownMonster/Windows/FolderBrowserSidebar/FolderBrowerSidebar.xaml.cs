@@ -71,6 +71,7 @@ namespace MarkdownMonster.Windows
                         SetTreeFromFolder(filename ?? _folderPath, filename != null, SearchText);
                 }
 
+
                 if (ActivePathItem != null)
                 {
                     _folderPath = value;
@@ -156,6 +157,11 @@ namespace MarkdownMonster.Windows
 
             Loaded += FolderBrowerSidebar_Loaded;
             Unloaded += (s, e) => ReleaseFileWatcher();
+        }
+
+        public PathItem GetSelectedPathItem()
+        {
+            return TreeFolderBrowser.SelectedItem as PathItem;            
         }
 
         private void FolderBrowerSidebar_Loaded(object sender, RoutedEventArgs e)
