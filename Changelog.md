@@ -8,7 +8,7 @@
 
 
 ### 1.15.2 
-<small>not released yet</small>
+<small>February 9th, 2019</small>
 
 * **Fix: Addin Error Handling**  
 Fixed issue where a misbehaving addin had the ability to crash Markdown Monster during startup and quit without any errors or notice. Added additional error checks and additional logging to try to
@@ -19,6 +19,9 @@ Improve startup rendering by removing some unncessary nested delay loading. Also
 
 * **Fix: File Change Notifications**  
 Fixed issue with file change notifications not properly clearing the dirty buffer flag after updating file from disk which resulted in repeated dialogs even if no changes were pending. Fixed.
+
+* **Addins: Expose Folder Browser**  
+We've now made the Folder Browser more easily accessible through the `Model.Window.FolderBrowser`. You can also easily get the selected item in the folder browser via `GetSelectedPathItem()`.
 
 ### 1.15 - Version Rollup Release
 <small>February 5th, 2019</small> 

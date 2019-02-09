@@ -126,24 +126,17 @@ namespace MarkdownMonster.Windows
         }
         private PathItem _activePath;
 
-        public string SelectedFile
-        {
-            get { return (string) GetValue(SelectedFileProperty); }
-            set { SetValue(SelectedFileProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SelectedFile.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedFileProperty =
-            DependencyProperty.Register("SelectedFile", typeof(string), typeof(FolderBrowerSidebar),
-                new PropertyMetadata(null));
 
         /// <summary>
         /// Internal value
         /// </summary>
         public  FolderStructure FolderStructure { get; } = new FolderStructure();
 
-        public object WindowUtilties { get; private set; }
 
+        /// <summary>
+        /// Filewatcher used to detect changes to files in the active folder
+        /// including subdirectories.
+        /// </summary>
         private FileSystemWatcher FileWatcher = null;
 
 
