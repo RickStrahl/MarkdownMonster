@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using FontAwesome.WPF;
 using LibGit2Sharp;
 using MahApps.Metro.Controls;
@@ -75,15 +76,19 @@ namespace MarkdownMonster.Windows
             if (AppModel.Configuration.Git.GitCommitBehavior == GitCommitBehaviors.CommitAndPush)
             {
                 ButtonCommitAndPush.IsDefault = true;
-                ButtonCommitAndPush.FontWeight = FontWeight.FromOpenTypeWeight(600);
-                ButtonCommit.Opacity = 0.6;
+                ButtonCommitAndPush.FontWeight = FontWeight.FromOpenTypeWeight(600);                
                 defaultText = "commit and push";
+                var panel = ButtonCommitAndPush.Parent as ToolBar;
+                
+                // move to first position
+                panel.Items.Remove(ButtonCommitAndPush);
+                panel.Items.Insert(0, ButtonCommitAndPush);
+            
             }            
             else
             {
                 ButtonCommit.IsDefault = true;
                 ButtonCommit.FontWeight = FontWeight.FromOpenTypeWeight(600);
-                ButtonCommitAndPush.Opacity = 0.6;
                 defaultText = "commit";
             }
             
