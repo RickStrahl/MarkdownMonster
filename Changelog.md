@@ -10,6 +10,9 @@
 ### 1.15.2 
 <small>February 9th, 2019</small>
 
+* **Git Commit Dialog Remembers last Commit Operation**  
+Remember last Git Commit Operation: Commit or Commit and Push and show last button first and bold.
+
 * **Fix: Addin Error Handling**  
 Fixed issue where a misbehaving addin had the ability to crash Markdown Monster during startup and quit without any errors or notice. Added additional error checks and additional logging to try to
 pin down which addins might be causing problems.
