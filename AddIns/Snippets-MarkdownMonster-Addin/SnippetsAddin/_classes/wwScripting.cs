@@ -17,11 +17,6 @@ using System.CodeDom.Compiler;
 namespace Westwind.wwScripting
 {
 	/// <summary>
-	/// Deletgate for the Completed Event
-	/// </summary>
-	public delegate void DelegateCompleted(object sender,EventArgs e);
-
-	/// <summary>
 	/// Class that enables running of code dynamcially created at runtime.
 	/// Provides functionality for evaluating and executing compiled code.
 	/// </summary>
