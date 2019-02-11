@@ -641,6 +641,10 @@ namespace MarkdownMonster
             IsDocumentOutlineVisible = true;
             OpenInPresentationMode = false;
             AlwaysUsePreviewRefresh = false;
+
+            // Disable for better stability and compatibility
+            // We're not doing anything that pushes the hardware to bring benefits
+            DisableHardwareAcceleration = true;
         }
 
 

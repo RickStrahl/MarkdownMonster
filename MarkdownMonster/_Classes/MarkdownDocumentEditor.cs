@@ -494,6 +494,10 @@ namespace MarkdownMonster
             string html = input;
             int cursorMovement = 0;
 
+            if (action == "softbreak")
+            {
+                html = input + mmApp.Configuration.MarkdownOptions.MarkdownSymbols.SoftReturn  + System.Environment.NewLine;
+            }
             if (action == "bold")
             {
                 html = wrapValue(input, "**", "**", stripSpaces: true);
@@ -501,7 +505,8 @@ namespace MarkdownMonster
             }
             else if (action == "italic")
             {
-                html = wrapValue(input, "*", "*", stripSpaces: true);
+                var italic = mmApp.Configuration.MarkdownOptions.MarkdownSymbols.Italic;
+                html = wrapValue(input, italic, italic, stripSpaces: true);
                 cursorMovement = -1;
             }
             else if (action == "small")
@@ -1630,10 +1635,13 @@ namespace MarkdownMonster
                 {
                     Window.Model.Commands.PrintPreviewCommand.Execute(Window.ButtonPrintPreview);
                 }
+                else if (key == "InsertSoftbreak")
+                    Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("softbreak");
                 else if (key == "InsertBold")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("bold");
                 }
+                
                 else if (key == "InsertItalic")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("italic");

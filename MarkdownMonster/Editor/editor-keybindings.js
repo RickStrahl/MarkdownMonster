@@ -4,7 +4,7 @@ te.keyBindings = {
   setupKeyBindings: function() {
     var kbJson = te.mm.textbox.GetKeyBindingsJson();
     var keyBindings = JSON.parse(kbJson);
-
+    
     for (var i = 0; i < keyBindings.length; i++) {
       var kb = keyBindings[i];
       if (!kb.CommandName)
@@ -43,7 +43,7 @@ te.keyBindings = {
     setTimeout(function() { te.editor.focus(); }, 20);
   },
   showHelp: function() { te.keyboardCommand("ShowHelp") },
-
+  insertSoftbreak: function () { te.keyboardCommand("InsertSoftbreak"); },
   insertBold: function() { te.keyboardCommand("InsertBold"); },
   insertItalic: function() { te.keyboardCommand("InsertItalic"); },
 

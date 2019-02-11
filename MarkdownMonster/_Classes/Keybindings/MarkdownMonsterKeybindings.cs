@@ -170,6 +170,12 @@ namespace MarkdownMonster.Utilities
                 //JavaScript Editor Only Commands
                 new AppKeyBinding
                 {
+                    Key = "Shift+Enter",
+                    CommandName = "InsertSoftbreak",
+                    HasJavaScriptHandler= true
+                },
+                new AppKeyBinding
+                {
                     Key = "Ctrl+B",
                     CommandName = "InsertBold",
                     HasJavaScriptHandler= true

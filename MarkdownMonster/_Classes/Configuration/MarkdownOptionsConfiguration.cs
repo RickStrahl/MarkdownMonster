@@ -245,6 +245,10 @@ namespace MarkdownMonster
             }
         }
 
+
+
+        public MarkdownSymbols MarkdownSymbols { get; set; } = new MarkdownSymbols();
+        
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -254,5 +258,16 @@ namespace MarkdownMonster
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+
+    /// <summary>
+    /// Markdown Symbols to use for certain extensions
+    /// </summary>
+    public class MarkdownSymbols
+    {
+        public string Italic { get; set; } = "*";   // "_"
+        public string SoftReturn { get; set; } = "  ";  // "\\"
+
     }
 }

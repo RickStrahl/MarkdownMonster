@@ -226,6 +226,9 @@ namespace MarkdownMonster.Configuration
 
         #endregion
 
+
+
+
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -238,4 +241,6 @@ namespace MarkdownMonster.Configuration
 
         #endregion
     }
+
+  
 }
