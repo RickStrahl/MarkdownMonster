@@ -202,40 +202,36 @@ namespace MarkdownMonster
             var left = Left;
             Left = 300000;
             
-            Task.Run(() =>
-            {                
-                // run out of band
-                Dispatcher.Invoke(() =>
+                  
+            // run out of band
+            Dispatcher.InvokeAsync(() =>
+            {
+                Left = left;
+
+                FixMonitorPosition();
+
+                Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
+                if (Model.IsPresentationMode)
+                    Model.WindowLayout.SetPresentationMode();
+
+                OpenFavorites(noActivate: true);
+
+                mmApp.SetWorkingSet(10000000, 5000000);
+            }, DispatcherPriority.Background);
+
+            Dispatcher.InvokeAsync(() =>
+            {
+                try
                 {
-                    Left = left;
-
-                    FixMonitorPosition();
-
-                    Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
-                    if (Model.IsPresentationMode)
-                        Model.WindowLayout.SetPresentationMode();
-
-                    OpenFavorites(noActivate: true);
-
-                    mmApp.SetWorkingSet(10000000, 5000000);
-                }, DispatcherPriority.Normal);
-
-                Dispatcher.InvokeAsync(() =>
+                    AddinManager.Current.InitializeAddinsUi(this);
+                }
+                catch (Exception exception)
                 {
-                    try
-                    {
-                        AddinManager.Current.InitializeAddinsUi(this);
-                    }
-                    catch (Exception exception)
-                    {
-                        mmApp.Log("Addin UI Loading failed.", exception);                        
-                    }
+                    mmApp.Log("Addin UI Loading failed.", exception);                        
+                }
 
-                    AddinManager.Current.RaiseOnWindowLoaded();                    
-                });
-
-
-            });
+                AddinManager.Current.RaiseOnWindowLoaded();                    
+            },DispatcherPriority.ApplicationIdle);
 
 
             KeyBindings = new MarkdownMonsterKeybindings(this);
