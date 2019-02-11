@@ -7,7 +7,17 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.15.2 
+
+### 1.15.4
+<small>not released yet</small>
+
+* **Add `Shift-Enter` Key Combo for Soft Returns**  
+You can now press `Shift-Enter` to insert a soft return which expands to two spaces and a return which is a Markdown Soft Return.
+
+* **Add Symbol Configurations for some Markdown Expansions**  
+You can now specify a few options for how certain symbol shortcuts are expanded using `MarkdownOptions.Symbols`. Initial keys are `italic` and `softReturn` expansions which determine the `ctrl-i` and `shift-enter` default expansion formatting.
+
+### 1.15.2
 <small>February 9th, 2019</small>
 
 * **Git Commit Dialog Remembers last Commit Operation**  
@@ -18,7 +28,7 @@ Fixed issue where a misbehaving addin had the ability to crash Markdown Monster 
 pin down which addins might be causing problems.
 
 * **Fix: Startup Rendering**  
-Improve startup rendering by removing some unncessary nested delay loading. Also fixed a couple of issues related to screen positioning which caused startup jank in some load scenarios. Fixed.
+Improve startup rendering by removing some unnecessary nested delay loading. Also fixed a couple of issues related to screen positioning which caused startup jank in some load scenarios. Fixed.
 
 * **Fix: File Change Notifications**  
 Fixed issue with file change notifications not properly clearing the dirty buffer flag after updating file from disk which resulted in repeated dialogs even if no changes were pending. Fixed.

@@ -82,8 +82,7 @@ namespace MarkdownMonster.Windows
                 
                 // move to first position
                 panel.Items.Remove(ButtonCommitAndPush);
-                panel.Items.Insert(0, ButtonCommitAndPush);
-            
+                panel.Items.Insert(0, ButtonCommitAndPush);            
             }            
             else
             {
