@@ -11,6 +11,9 @@
 ### 1.15.4
 <small>not released yet</small>
 
+* **Improved Math Support**  
+Added custom Markdig parser to support MathJax expression rendering. You can now enable the Markdown `UseMathematics` settings switch to automatically expand Math expressions using `$$` or `$` expressions, MathML, or `<div class="math">`. With the new extension, most math expressions are now rendering reliably.
+
 * **Add `Shift-Enter` Key Combo for Soft Returns**  
 You can now press `Shift-Enter` to insert a soft return which expands to two spaces and a return which is a Markdown Soft Return.
 
