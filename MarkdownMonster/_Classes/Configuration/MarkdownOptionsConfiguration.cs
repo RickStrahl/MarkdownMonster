@@ -89,9 +89,8 @@ namespace MarkdownMonster
         /// <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
         /// <script type="text/javascript" src="http://js2math.github.com/JsMath/jsmath.tablet.js"></script>
         /// </summary>
-        //[Obsolete("Please remove use of this property. This is handled via MathRenderExtension now.")]
-        //public bool Mathematics { get; set;  } 
-        
+        public bool UseMathematics { get; set; }
+
         /// <summary>
         /// Use Abbreviations which are linked to definitions
         /// </summary>
@@ -108,7 +107,7 @@ namespace MarkdownMonster
         /// Allows for attribute syntax
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/GenericAttributesSpecs.md
         /// </summary>
-        public bool Attributes { get; set; } = false;
+        public bool GenericAttributes { get; set; } = false;
 
 
         /// <summary>
@@ -249,6 +248,7 @@ namespace MarkdownMonster
 
         public MarkdownSymbols MarkdownSymbols { get; set; } = new MarkdownSymbols();
         
+
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;

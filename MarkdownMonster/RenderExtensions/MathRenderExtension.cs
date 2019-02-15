@@ -16,7 +16,7 @@
         /// <returns></returns>
         public string RenderHeader(string html, string markdown, MarkdownDocument document)
         {
-            if (markdown.StartsWith("---") && markdown.Contains("useMath:"))
+            if (markdown.Contains(" class=\"math\""))                
                 return MathJaxScript;
 
             return null;
@@ -31,7 +31,7 @@
         /// <param name="document"></param>
         public void InsertContent(ref string html, string markdown, MarkdownDocument document)
         {
-            
+
         }
 
         public void BeforeRender(ref string markdown, MarkdownDocument document)
@@ -40,29 +40,37 @@
 
 
         public bool ShouldProcessBeforeRender(string markdown, MarkdownDocument document) => false;
-        
+
         public const string MathJaxScript = @"
 <script type=""text/x-mathjax-config"">
     // enable inline parsing with single $ instead of /
     MathJax.Hub.Config({
-                    // tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-
-tex2jax: {
-            inlineMath: [['$','$'],['\\(','\\)']],
-            displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
+        tex2jax: {
+            //inlineMath: [['$','$'],['\\(','\\)']],
+            //displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
             processEscapes: true
         },
-    asciimath2jax: {
-    delimiters: [['`','`']]
-    },
-                });
+        //asciimath2jax: {
+        //    delimiters: [['`','`']]
+        //},
+        TeX: {
+            extensions: ['autoload-all.js']
+        }
+    });
+
+    // refresh when the document is refreshed via code
     $(document).on('previewUpdated',function() {
-    setTimeout(function() {
-                MathJax.Hub.Queue(['Typeset',MathJax.Hub,'#MainContent']);
-    },10);
+        setTimeout(function() {
+                    MathJax.Hub.Queue(['Typeset',MathJax.Hub,'#MainContent']);
+        },10);
     });
 </script>
-<script async src=""https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML""></script>
+<style>
+    span.math span.MJXc-display {
+        display: inline-block;
+    }
+</style>
+<script src=""https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"" async></script>
 ";
 
 

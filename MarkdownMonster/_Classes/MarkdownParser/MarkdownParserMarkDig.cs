@@ -35,6 +35,7 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using Markdig;
+using Markdig.Extensions.Mathematics;
 using Markdig.Extensions.Tables;
 using Markdig.Renderers;
 using Westwind.Utilities;
@@ -101,6 +102,12 @@ namespace MarkdownMonster
         /// <returns></returns>
         protected virtual MarkdownPipelineBuilder BuildPipeline(MarkdownOptionsConfiguration options, MarkdownPipelineBuilder builder)
         {
+            
+            if(options.UseMathematics)
+                //builder = builder.UseMathematics();
+                builder = builder.UseMathJax();
+
+
             if (options.AutoLinks)
                 builder = builder.UseAutoLinks();
             if (options.AutoHeaderIdentifiers)
@@ -130,11 +137,13 @@ namespace MarkdownMonster
                 builder = builder.UseTaskLists();
             if (options.SmartyPants)
                 builder = builder.UseSmartyPants();
+
+
             
             if (options.CustomContainers)
                 builder = builder.UseCustomContainers();
 
-            if (options.Attributes)
+            if (options.GenericAttributes)
                 builder = builder.UseGenericAttributes();
             
             if (options.FootersAndFootnotes)

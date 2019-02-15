@@ -246,6 +246,9 @@
     <Compile Include="_Classes\AddInInterfaces\MarkdownMonsterAddin.cs" />
     <Compile Include="_Classes\Configuration\GitConfiguration.cs" />
     <Compile Include="_Classes\Keybindings\AppKeyBinding.cs" />
+    <Compile Include="_Classes\MarkdownParser\MarkdigExtensions\MathJaxExtension\HtmlMathJaxBlockRenderer.cs" />
+    <Compile Include="_Classes\MarkdownParser\MarkdigExtensions\MathJaxExtension\HtmlMathJaxInlineRenderer.cs" />
+    <Compile Include="_Classes\MarkdownParser\MarkdigExtensions\MathJaxExtension\MathJaxExtension.cs" />
     <Compile Include="_Classes\Utilities\GitHelper.cs" />
     <Compile Include="_Classes\Utilities\FileSaver.cs" />
     <None Include="Addins\ScreenCapture\_addin">
