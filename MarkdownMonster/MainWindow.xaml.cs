@@ -2370,6 +2370,9 @@ namespace MarkdownMonster
             }
             else if (button == ButtonStatusEncrypted)
             {
+                if (Model.ActiveDocument == null)
+                    return;
+
                 var dialog = new FilePasswordDialog(Model.ActiveDocument, false)
                 {
                     Owner = this
