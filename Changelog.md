@@ -12,7 +12,7 @@
 <small>not released yet</small>
 
 * **Improved Math Support**  
-Added custom Markdig parser to support MathJax expression rendering. You can now enable the Markdown `UseMathematics` settings switch to automatically expand Math expressions using `$$` or `$` expressions, MathML, or `<div class="math">`. With the new extension, most math expressions are now rendering reliably.
+Added custom Markdig parser to support MathJax expression rendering. You can now enable the Markdown `UseMathematics` settings switch to automatically expand Math expressions using `$$` or `$` expressions, MathML, or `<div class="math">`. With the new extension, most math expressions are now rendering reliably. The `useMath: true` YAML header is no longer necessary - MM now scans the document for embedded math expressions automatically.
 
 * **Add `Shift-Enter` Key Combo for Soft Returns**  
 You can now press `Shift-Enter` to insert a soft return which expands to two spaces and a return which is a Markdown Soft Return.
@@ -24,7 +24,7 @@ You can now specify a few options for how certain symbol shortcuts are expanded 
 <small>February 9th, 2019</small>
 
 * **Git Commit Dialog Remembers last Commit Operation**  
-Remember last Git Commit Operation: Commit or Commit and Push and show last button first and bold.
+Remember last Git Commit Operation: **Commit** or **Commit and Push** and show last option used first and bolded.
 
 * **Fix: Addin Error Handling**  
 Fixed issue where a misbehaving addin had the ability to crash Markdown Monster during startup and quit without any errors or notice. Added additional error checks and additional logging to try to
