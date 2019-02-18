@@ -8,7 +8,6 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         TitleCharacterCasing="Normal"
-        TitleBarHeight="35"                       
         WindowStyle="SingleBorderWindow" 
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterOwner"    

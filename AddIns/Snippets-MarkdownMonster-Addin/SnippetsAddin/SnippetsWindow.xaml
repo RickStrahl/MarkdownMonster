@@ -14,7 +14,6 @@
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="900" Height="700" MinHeight="500"  MinWidth="700"                     
         Icon="icon.png"
-        TitleBarHeight="35"
          WindowTransitionsEnabled="False"                       
                        >
     
