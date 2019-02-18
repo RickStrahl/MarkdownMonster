@@ -10,7 +10,7 @@
         Icon="../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Open Markdown from Url"
         TitleCharacterCasing="Normal"
-        TitlebarHeight="35"                       
+        TitleBarHeight="35"                       
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
