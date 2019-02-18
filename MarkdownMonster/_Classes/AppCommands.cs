@@ -1723,7 +1723,7 @@ We're now shutting down the application.
             PrintPreviewCommand = new CommandBase(
                 (p, e) => {
                     try
-                    {
+                    {                        
                         Model.Window.PreviewBrowser.ExecuteCommand("PrintPreview");
                     }
                     catch(Exception ex)
