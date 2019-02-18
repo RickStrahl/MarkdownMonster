@@ -41,6 +41,7 @@
     <System:Double x:Key="ToggleSwitchFontSize.Win10">15</System:Double>
     <System:Double x:Key="ToggleSwitchHeaderFontSize.Win10">15</System:Double>
 
+    <Style TargetType="{x:Type controls:WindowButtonCommands}" BasedOn="{StaticResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
         <Setter Property="Padding" Value="3,2" />
     </Style>
