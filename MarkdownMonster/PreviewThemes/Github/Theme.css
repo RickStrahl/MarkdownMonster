@@ -63,7 +63,7 @@ code {
     font-size: 0.85em;
 }
 pre {
-    font-family: Consolas, monospace;
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
     font-weight: normal;    
     font-size: 85%;
     line-height: 1.45;
@@ -76,11 +76,15 @@ pre {
     white-space:  pre;
     word-break: normal;
     word-wrap: normal;
+
+    background: #f2f2f2f2;
 }
 pre>code {
     white-space: pre;
-    background: #eee !important;
-    padding: 1em !important;
+    padding: 0.8em !important;
+    display: block;
+    
+    background: transparent;
 }
 
 table {

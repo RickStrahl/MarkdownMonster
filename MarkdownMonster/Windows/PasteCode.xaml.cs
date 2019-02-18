@@ -94,8 +94,7 @@ namespace MarkdownMonster.Windows
                 {"perl", "Perl"},
                 {"diff", "Diff file"},
 
-
-                {"txt", "Text - plain text, no formatting" }
+                {"text", "Text - plain text, no formatting" }
             }
             .OrderBy(kv => kv.Key.ToLower())
             .ToDictionary(kv=> kv.Key, kv=> kv.Value);
