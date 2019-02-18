@@ -197,7 +197,7 @@ namespace MarkdownMonster
             splashScreen?.Close(TimeSpan.MinValue);
 
             // Shut down application
-            Environment.Exit(0);            
+            Environment.Exit(0);
         }
 
 
@@ -380,7 +380,7 @@ namespace MarkdownMonster
         private void ThemeCustomizations()
         {
             // Custom MahApps Light Theme based on Blue
-            ThemeManager.AddAccent("MahLight", new Uri("Styles/MahLightAccents.xaml", UriKind.RelativeOrAbsolute));
+            ThemeManager.AddTheme(new Uri("pack://application:,,,/MarkdownMonster;component/Styles/MahLightAccents.xaml"));
 
             Uri resourceUri = null;
 

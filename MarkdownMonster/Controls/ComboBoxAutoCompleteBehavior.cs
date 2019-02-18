@@ -35,8 +35,8 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interactivity;
 using System.Windows.Input;
+using Microsoft.Xaml.Behaviors;
 
 namespace MarkdownMonster.Controls
 {
