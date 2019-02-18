@@ -7,7 +7,7 @@
 		xmlns:localwindows="clr-namespace:MarkdownMonster.Windows"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"

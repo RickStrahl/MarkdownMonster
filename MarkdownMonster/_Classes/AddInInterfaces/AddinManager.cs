@@ -34,12 +34,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interactivity;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
 using MarkdownMonster.Utilities;
+using Microsoft.Xaml.Behaviors;
 
 namespace MarkdownMonster.AddIns
 {

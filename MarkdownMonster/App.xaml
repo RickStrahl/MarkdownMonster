@@ -6,22 +6,17 @@
              StartupUri="MainWindow.xaml"             
              >
     <Application.Resources>
-        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
 
-             
                 <!-- Mah Base Accent and AppTheme setting -->
-                <ResourceDictionary Source="Styles/MahLightAccents.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MarkdownMonster;component/Styles/MahLightAccents.xaml" />
 
                 <ResourceDictionary Source="Styles/Common.xaml"/>
                 <ResourceDictionary Source="Styles/Buttons.xaml"/>
-
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

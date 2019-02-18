@@ -147,7 +147,7 @@ namespace MarkdownMonster
                     AppRunTelemetry =
                         AppInsights.StartOperation<RequestTelemetry>(
                             $"{GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
-                    AppRunTelemetry.Telemetry.Start();                    
+                    AppRunTelemetry.Telemetry.Start();
                 }
             }
             catch (Exception ex)
@@ -184,8 +184,8 @@ namespace MarkdownMonster
                 {
                     LogLocal("Failed to Stop Telemetry Client: " + ex.GetBaseException().Message);
                 }
-                
-                AppInsights.Flush();              
+
+                AppInsights.Flush();
                 AppInsights = null;
                 AppRunTelemetry.Dispose();
             }
@@ -252,17 +252,17 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Logs messages to the standard log output for Markdown Monster:
-        /// 
+        ///
         /// * Application Insights
         /// * Local Log File
-        /// 
+        ///
         /// </summary>
         /// <param name="msg"></param>
         public static void Log(string msg, Exception ex = null, bool unhandledException = false)
         {
             string version = GetVersion();
             string winVersion = null;
-            
+
             if (Telemetry.UseApplicationInsights)
             {
                 if (ex != null)
@@ -300,7 +300,7 @@ namespace MarkdownMonster
                     AppInsights.TrackTrace(msg, props);
                 }
             }
-            
+
             // also log to the local error log
             LogLocal(msg,ex);
         }
@@ -353,10 +353,10 @@ namespace MarkdownMonster
                 exMsg = $@"{ex.Message}
 Markdown Monster v{version}
 {winVersion}
-{CultureInfo.CurrentCulture.IetfLanguageTag} - {CultureInfo.CurrentUICulture.IetfLanguageTag}    
+{CultureInfo.CurrentCulture.IetfLanguageTag} - {CultureInfo.CurrentUICulture.IetfLanguageTag}
 ---
 {ex.Source}
-{ex.StackTrace}          
+{ex.StackTrace}
 ---------------------------
 ";
             }
@@ -439,7 +439,7 @@ Markdown Monster v{version}
                 Access = accessCount,
                 Operation = operation,
                 Time = Convert.ToInt32((DateTime.UtcNow - Started).TotalSeconds),
-                Data = data                                
+                Data = data
             };
 
             try
@@ -499,7 +499,7 @@ Markdown Monster v{version}
                 version = version.Substring(0, version.Length - 4);
             else if (version.EndsWith(".0"))
                 version = version.Substring(0, version.Length - 2);
-            
+
             return version;
         }
 
@@ -588,33 +588,17 @@ Markdown Monster v{version}
 
             if (theme == Themes.Light)
             {
-                // get the current app style (theme and accent) from the application
-                // you can then use the current theme and custom accent instead set a new theme
-                Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
-
                 // now set the Green accent and light theme
-                ThemeManager.ChangeAppStyle(Application.Current,
-                    ThemeManager.GetAccent("MahLight"),
-                    ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1
+                ThemeManager.ChangeTheme(Application.Current, "MahLight");
             }
             else
             {
-                // get the current app style (theme and accent) from the application
-                // you can then use the current theme and custom accent instead set a new theme
-                Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
-
-
                 // now set the highlight accent and dark theme
-                ThemeManager.ChangeAppStyle(Application.Current,
-                    ThemeManager.GetAccent("Blue"),
-                    ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
-
-
+                ThemeManager.ChangeTheme(Application.Current, "Dark.Blue");
             }
 
             if (window != null)
                 SetThemeWindowOverride(window);
-
         }
 
         /// <summary>
