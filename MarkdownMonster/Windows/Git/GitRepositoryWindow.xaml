@@ -12,7 +12,6 @@
         Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Git Repository"
         TitleCharacterCasing="Normal"
-        TitleBarHeight="35"                       
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         SizeToContent="Height"
         WindowStartupLocation="CenterOwner"    MaxHeight="800"     

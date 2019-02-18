@@ -15,7 +15,6 @@
         Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
         Title="Table Editor"
         TitleCharacterCasing="Normal"
-        TitleBarHeight="35"                       
         WindowStyle="SingleBorderWindow" ResizeMode="CanResize"                      
         WindowStartupLocation="CenterOwner" 
         FontSize="15"
