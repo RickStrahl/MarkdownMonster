@@ -227,31 +227,4 @@
 
     <SolidColorBrush x:Key="MahApps.Metro.Brushes.Badged.DisabledBackgroundBrush" Color="#FF999999" options:Freeze="True" />
 
-    <!--  HamburgerMenu  -->
-
-    <SolidColorBrush x:Key="MahApps.Metro.HamburgerMenu.PaneBackgroundBrush" Color="#FF444444" options:Freeze="True" />
-    <SolidColorBrush x:Key="MahApps.Metro.HamburgerMenu.PaneForegroundBrush" Color="#FFFFFFFF" options:Freeze="True" />
-
-    <!-- THIS IS NOT WORKING? -->
-    <Style x:Key="LightBorderColor" TargetType="{x:Type controls:MetroWindow}" BasedOn="{x:Null}">
-        <Setter Property="BorderBrush" Value="#ddd" />
-    </Style>
-
-    <!--<Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MahAppsTabablzControlStyle}">-->
-    <Style x:Key="MarkdownMonsterTrapezoidDragableTabItemStyle"
-           TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource TrapezoidDragableTabItemStyle}">
-        <Setter Property="ContextMenu" Value="{DynamicResource TabItemContextMenu}" />
-    </Style>
-
-    <Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource {x:Type dragablz:TabablzControl}}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource MarkdownMonsterTrapezoidDragableTabItemStyle}" />
-        <Setter Property="AdjacentHeaderItemOffset" Value="-12" />
-        <Setter Property="ShowDefaultAddButton" Value="True" />
-        <Setter Property="ShowDefaultCloseButton" Value="True" />
-    </Style>
-
-    <SolidColorBrush x:Key="BlueItem" Color="#70B8FF" options:Freeze="True" />
-    <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" options:Freeze="True" />
-    <SolidColorBrush x:Key="HeadlineColor" Color="LightSteelBlue" options:Freeze="True" />
-
 </ResourceDictionary>
