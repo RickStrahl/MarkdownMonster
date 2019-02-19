@@ -58,10 +58,10 @@
         <Setter Property="Margin" Value="0,18,0,2" />
     </Style>
 
-    <!-- this doesn't work-->
+    <!-- this doesn't work--><!--
     <Style TargetType="{x:Type controls:MetroWindow}" BasedOn="{x:Null}">
         <Setter Property="BorderBrush" Value="#999999" />
-    </Style>
+    </Style>-->
 
     <!-- TreeView Item High-->
     <Style TargetType="{x:Type TreeView}">
