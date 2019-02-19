@@ -7,6 +7,7 @@
                     mc:Ignorable="options">
 
 
+    <!-- Tab Styling -->
     <!--<Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MahAppsTabablzControlStyle}">-->
     <Style x:Key="MarkdownMonsterTrapezoidDragableTabItemStyle"
            TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource TrapezoidDragableTabItemStyle}">
@@ -20,6 +21,8 @@
         <Setter Property="ShowDefaultCloseButton" Value="True" />
     </Style>
 
+
+    <!-- General Color Highlights custom for MM -->
     <SolidColorBrush x:Key="BlueItem" Color="#0173C6" />
     <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
     <SolidColorBrush x:Key="LightThemeContentBackground" Color="#555" />
@@ -34,9 +37,15 @@
         <Setter Property="Padding" Value="5,2,5,3" />
     </Style>
 
+    <!--  HamburgerMenu  -->
+
+    <!--<SolidColorBrush x:Key="MahApps.Metro.HamburgerMenu.PaneBackgroundBrush" Color="#FF444444" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Metro.HamburgerMenu.PaneForegroundBrush" Color="#FFFFFFFF" options:Freeze="True" />-->
+
+
     <!-- this doesn't work-->
     <Style TargetType="{x:Type controls:MetroWindow}" BasedOn="{x:Null}">
-        <Setter Property="BorderBrush" Value="#cccccc" />
+        <Setter Property="BorderBrush" Value="#ddd" />
     </Style>
 
     <!-- TreeView Item Highlighting -->
@@ -46,4 +55,6 @@
                              Color="LightGray" />
         </Style.Resources>
     </Style>
+
+
 </ResourceDictionary>
