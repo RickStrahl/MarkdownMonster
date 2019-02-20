@@ -1517,12 +1517,17 @@ namespace MarkdownMonster
 
                 var menuItems = mmApp.Model.Window.GenerateContextMenuItemsFromOpenTabs();
 
-                button.ContextMenu = new ContextMenu();
+                var contextMenu = new ContextMenu();
                 foreach (var mi in menuItems)
-                    button.ContextMenu.Items.Add(mi);
+                    contextMenu.Items.Add(mi);
 
-                button.ContextMenu.IsOpen = true;
-                button.ContextMenu.Closed += (o, args) => button.ContextMenu.Items.Clear();
+                //contextMenu.StaysOpen = true;
+                
+                contextMenu.PlacementTarget = button;
+                contextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                contextMenu.IsOpen = true;
+
+                //button.ContextMenu.Closed += (o, args) => button.ContextMenu.Items.Clear();
             });
         }
 
