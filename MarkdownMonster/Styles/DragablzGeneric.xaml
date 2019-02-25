@@ -663,13 +663,18 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
-            <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"
+            <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" 
+                       Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableHeight}" 
+                       Minimum="0" Grid.Row="1" 
+                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" 
+                       Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                       ViewportSize="{TemplateBinding ViewportHeight}"
                        Margin="0 1 0 0" />
-            
+
             <!-- RAS: Added drop down button-->
-            <Button Grid.Column="1" x:Name="PART_WindowListButton" Command="{x:Static mm:AppCommands.TabWindowListCommand}"
+            <Button Grid.Column="1" Grid.Row="0" x:Name="PART_WindowListButton" Command="{x:Static mm:AppCommands.TabWindowListCommand}"
                     Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Height="25" Width="16" Margin="5,4,3,0"
-                    fa:Awesome.Content="CaretDown" Background="#242424" BorderBrush="#333333"
+                    fa:Awesome.Content="CaretDown" Background="#242424" BorderBrush="#333333" Focusable="False"
                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" />
 
             <!--<Button Grid.Column="2" x:Name="PART_ToggleRightSidebarButton" 

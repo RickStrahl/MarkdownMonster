@@ -6,6 +6,11 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.15.5
+<small>not released yet</small>
+
+* **[New Console Addin Available](https://github.com/RickStrahl/Console-MarkdownMonster-Addin)**  
+There's a new **Console** Addin available in the Addin Manager that lets you attach a Terminal Console window that is 'pinned' to the bottom of your Markdown Monster instance. As you move or activate MM the Console sticks with the application. You can customize what Terminal tool to use and it defaults to Powershell.
 
 ### 1.15.4
 <small>February 19th, 2019</small>

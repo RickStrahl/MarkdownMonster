@@ -1520,14 +1520,10 @@ namespace MarkdownMonster
                 var contextMenu = new ContextMenu();
                 foreach (var mi in menuItems)
                     contextMenu.Items.Add(mi);
-
-                //contextMenu.StaysOpen = true;
-                
+               
                 contextMenu.PlacementTarget = button;
                 contextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
                 contextMenu.IsOpen = true;
-
-                //button.ContextMenu.Closed += (o, args) => button.ContextMenu.Items.Clear();
             });
         }
 

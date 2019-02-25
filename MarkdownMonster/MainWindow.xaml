@@ -16,7 +16,7 @@
         Name="MainApplicationWindow"                      
         Title="Markdown Monster" TitleCharacterCasing="Normal"
         Icon="Assets\MarkdownMonster_Icon_256.png"
-        BorderThickness="0" 
+        BorderThickness="0"
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"		
         Height="600" Width="1000"  
