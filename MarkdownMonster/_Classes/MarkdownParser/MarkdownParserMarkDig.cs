@@ -104,9 +104,7 @@ namespace MarkdownMonster
         {
             
             if(options.UseMathematics)
-                //builder = builder.UseMathematics();
-                builder = builder.UseMathJax();
-
+                builder = builder.UseMathematics();                
 
             if (options.AutoLinks)
                 builder = builder.UseAutoLinks();

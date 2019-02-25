@@ -1,7 +1,6 @@
 ﻿# Math Expressions using MathJax
 Markdown Monster has built in support for rendering Math expressions using Latex, MathML and AsciiMath syntax. 
 
-
 In order to use Math expressions on your page you have to make sure that you enable the `Markdown.UseMathematics` setting to `true`.
 
 ### Syntax
@@ -26,7 +25,6 @@ $$
 ```
 
 `$$` followed by a block of TeX markup is rendered as math expressions.
-
 
 ### Inline Expressions
 You can use also inline expressions using a single `$` to delimit an expression:
@@ -55,7 +53,9 @@ The following is a mixture of inline and block operations:
 ---
 When $a \ne 0$, there are two solutions to $ax^2 + bx + c = 0$ and they are
 
-$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$
+$$
+x = {-b \pm \sqrt{b^2-4ac} \over 2a}
+$$
 
 ---
 
@@ -64,7 +64,9 @@ $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$
 ```text
 When $a \ne 0$, there are two solutions to $ax^2 + bx + c = 0$ and they are
 
-$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$
+$$
+x = {-b \pm \sqrt{b^2-4ac} \over 2a}
+$$
 ```
 
 ### HTML Math Markup
