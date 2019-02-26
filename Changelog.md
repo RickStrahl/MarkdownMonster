@@ -12,6 +12,12 @@
 * **[New Console Addin Available](https://github.com/RickStrahl/Console-MarkdownMonster-Addin)**  
 There's a new **Console** Addin available in the Addin Manager that lets you attach a Terminal Console window that is 'pinned' to the bottom of your Markdown Monster instance. As you move or activate MM the Console sticks with the application. You can customize what Terminal tool to use and it defaults to Powershell.
 
+* **Update MarkDig for Math Parsing**  
+Updated to latest MarkDig version that includes new Math handling that removes need for our custom Math MarkDig extensions that is now the stock behavior in MarkDig.
+
+* **Library Updates**  
+Update all .NET dependencies to latest versions of libraries.
+
 ### 1.15.4
 <small>February 19th, 2019</small>
 
