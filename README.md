@@ -173,6 +173,7 @@ JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
 * `mm reset` - reset all Markdown Monster settings
 * `mm uninstall` - remove all non-local system settings
 
+
 ### Extensibility
 * Automate Markdown Monster with C# using the [Commander Addin](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
 * Create Addins with .NET code
