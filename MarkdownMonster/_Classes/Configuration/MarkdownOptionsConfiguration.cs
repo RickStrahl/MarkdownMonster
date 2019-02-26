@@ -117,12 +117,7 @@ namespace MarkdownMonster
         /// </summary>
         public bool SmartyPants { get; set; }
 
-        /// <summary>
-        /// Renders Mermaid and Nonoml markup 
-        /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/DiagramsSpecs.md
-        /// </summary>
-        //public bool Diagrams { get; set; }
-
+      
         /// <summary>
         /// If true inline HTML blocks are not rendered        
         /// </summary>

@@ -20,7 +20,7 @@ Or you can you use [Chocolatey](https://chocolatey.org/) to install from the Win
 c:\> choco install markdownmonster
 ```
 
-[What's New](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)
+[See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)
 
 ## Overview
 Here's what Markdown Monster looks like using the default **Dark Theme**: 

@@ -1747,6 +1747,9 @@ We're now shutting down the application.
 
             TestButtonCommand = new CommandBase((parameter, command) =>
             {
+
+                throw new ApplicationException("Thrown error on purpose.");
+
                 //Model.ActiveEditor.AceEditor.helloWorld("Testing things out");
                 try
                 {

@@ -47,15 +47,7 @@ namespace MarkdownMonster.Windows
             }
             catch(Exception ex)
             {
-                mmApp.Log("DoEvents failed", ex);
-                //try
-                //{
-                //        Dispatcher.ExitAllFrames();
-                //}
-                //catch (Exception ex2)
-                //{
-                //    mmApp.Log("DoEvents ExitAllFrames failed", ex2);
-                //}
+                mmApp.Log("DoEvents failed", ex);              
             }
         }
 

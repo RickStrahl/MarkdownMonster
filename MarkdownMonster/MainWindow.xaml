@@ -445,7 +445,7 @@
                 <Separator  />
                 <MenuItem Name="ButtonAbout" Header="_About" Click="Button_Handler"/>
 
-                <!--<MenuItem Name="ButtonTest" Header="Test" Command="{Binding Commands.TestButtonCommand}" />-->
+                <MenuItem Name="ButtonTest" Header="Test" Command="{Binding Commands.TestButtonCommand}" />
             </MenuItem>
         </Menu>
 

@@ -260,9 +260,9 @@ namespace WeblogAddin
             });
         }
 
-        private void ListViewPosts_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private async void ListViewPosts_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            CreateDownloadedPost();
+             await CreateDownloadedPost();
         }
 
         private async void ButtonDownloadPost_Click(object sender, RoutedEventArgs e)
@@ -274,10 +274,10 @@ namespace WeblogAddin
             await CreateDownloadedPost();
         }
 
-        private void ListViewPosts_KeyDown(object sender, KeyEventArgs e)
+        private async void ListViewPosts_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-                CreateDownloadedPost();
+               await CreateDownloadedPost();
         }
 
         #endregion
@@ -295,7 +295,6 @@ namespace WeblogAddin
 
             string postId = item.PostId.ToString();
             WeblogInfo weblogInfo = Model.ActiveWeblogInfo;
-
 
             Post post = null;
 
