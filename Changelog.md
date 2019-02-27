@@ -24,7 +24,6 @@ Update all .NET dependencies to latest versions of libraries.
 * **Add `Shift-Enter` Key Combo for Soft Returns**  
 You can now press `Shift-Enter` to insert a soft return which expands to two spaces and a return which is a Markdown Soft Return.
 
-
 * **[Improved Math Support](https://markdownmonster.west-wind.com/docs/_59l0mv2uw.htm)**  
 Added custom Markdig parser to support MathJax expression rendering. You can now enable the Markdown `UseMathematics` settings switch to automatically expand Math expressions using `$$` or `$` expressions, MathML, or `<div class="math">`. With the new extension, most math expressions are now rendering reliably. The `useMath: true` YAML header is no longer necessary - MM now scans the document for embedded math expressions automatically.
 
@@ -36,7 +35,6 @@ Fixed issue with file change notifications not properly clearing the dirty buffe
 
 * **Fix: Password Dialog When no Doc is Open**  
 Fix issue that would crash if no document is open. Also key icon is no longer shown when no document is open preventing the issue in the first place.
-
 
 ### 1.15.2
 <small>February 9th, 2019</small>
