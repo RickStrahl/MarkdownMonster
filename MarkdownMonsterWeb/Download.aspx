@@ -161,7 +161,7 @@ c:\> choco install markdownmonster.portable
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft .NET Framework 4.7.1 or later<small>
+                                Microsoft .NET Framework 4.6.2 or later<small>
                                     <a href="http://smallestdotnet.com/">check</a> or <a href="https://www.microsoft.com/net/download/all">download</a></small>
                             </div>   
                             <div>
@@ -235,7 +235,7 @@ or - just as likely - I'll be contacting you.
 Microsoft MVPs, ASP.NET Insiders and Microsoft employees as well as employees of any company offering free tools to 
 the Microsoft MVP program also qualify for a free license.
 	            
-<a href="https://store.west-wind.com/mvpperks.aspx" target="top">Apply for free license</a>.
+<a href="https://store.west-wind.com/mvpperks.aspx" target="top">Apply for a free license</a>.
          
 --- 
          
@@ -243,7 +243,7 @@ the Microsoft MVP program also qualify for a free license.
          
 Markdown Monster comes in several license modes: Evaluation, Single User, Multiple User and Site License.
 
-Markdown Monster is source open with source code available on GitHub, but it is a licensed product that requires a paid-for license for continued use. The software is licensed as © Rick Strahl, West Wind Technologies, 2015-2018. 
+Markdown Monster is **Source Open** with source code available on GitHub, but it is a licensed product that requires a paid-for license for continued use. The software is licensed as © Rick Strahl, West Wind Technologies, 2015-2019. 
 
 A fully functional, free evaluation version is available for evaluation use, but continued use requires purchase of a license. 
 
@@ -253,13 +253,13 @@ http://store.west-wind.com/product/markdown_monster
 
 #### Evaluation License
 
-The evaluation version is unrestricted and has all the features and functionality of the registered version, but shows occasional freeware notices in the user interface. Tampering with or removing of the notice is not allowed with the evaluation license.
+The Evaluation version is unrestricted and has all the features and functionality of the registered version, except that it shows occasional freeware notices. Tampering with or removing of the notices is not allowed with the evaluation license.
 
-Evaluation is allowed for up to 50 uses of running Markdown Monster. After 50 uses you need to purchase a license.
+You can use the evaluation version as long as you want with the notices enabled, but if you use Markdown Monster regularly please consider registering and supporting further development and maintenance.
 
 #### Purchased License
 
-For continued used of Markdown Monster a paid-for license is required. The paid-for license removes the freeware notices.
+For continued use of Markdown Monster a paid-for license is required. The paid-for license removes the freeware notices.
 
 Each licensed user must have a separate license, but a single user may use multiple copies of Markdown Monster on multiple machines, given that only one copy at a time is in use.
 
