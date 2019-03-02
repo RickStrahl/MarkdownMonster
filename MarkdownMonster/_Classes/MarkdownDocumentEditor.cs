@@ -1434,7 +1434,7 @@ namespace MarkdownMonster
             }
             catch (Exception ex)
             {
-                mmApp.Log("Handled: AceEditor.setfocus failed", ex);
+                mmApp.Log("Handled: AceEditor.setfocus() failed", ex);
             }
         }
 
