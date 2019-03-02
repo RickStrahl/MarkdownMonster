@@ -1010,13 +1010,18 @@ namespace MarkdownMonster
 
             var config = mmApp.Configuration;
 
+            // CenteredModeMaxWidth is rendered based on Centered Mode only            
+            int maxWidth = config.Editor.CenteredModeMaxWidth;
+            if (!config.Editor.CenteredMode)
+                maxWidth = 0;  // 0 means stretch full width
+
             var style = new
             {
                 Theme = config.EditorTheme,
                 config.Editor.Font,
                 FontSize = (int)fontSize,
                 config.Editor.LineHeight,
-                config.Editor.MaxWidth,
+                MaxWidth = maxWidth,
                 config.Editor.Padding,
                 config.Editor.HighlightActiveLine,
                 config.Editor.WrapText,
@@ -1457,6 +1462,9 @@ namespace MarkdownMonster
         /// </summary>
         public void PreviewMarkdownCallback(bool dontGetMarkdown = false, int editorLineNumber = -1)
         {
+            if (EditorSyntax != "markdown" && EditorSyntax != "html")
+                return;
+
             if (!dontGetMarkdown)
                 GetMarkdown();
 
