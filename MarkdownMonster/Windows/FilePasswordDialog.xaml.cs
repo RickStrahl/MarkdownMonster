@@ -32,14 +32,16 @@ namespace MarkdownMonster.Windows
             DataContext = this;
             mmApp.SetThemeWindowOverride(this);
 
-            
+
             if (decrypt)
             {
                 ButtonLabel.Text = "Decrypt";
-                Title = "Decrypt file: " + document.FilenamePathWithIndicator;
+                Title = "Decrypt Password Protected File";
+                TextEncryptDecrypt.Text = "Decrypt file:";
             }
-            else
-                Title = "Encrypt file: " + document.FilenamePathWithIndicator;
+
+            TextFilename.Text = System.IO.Path.GetFileName(document.Filename);
+            TextPath.Text = System.IO.Path.GetDirectoryName(document.Filename);
 
             TextPassword.Focus();
         }
