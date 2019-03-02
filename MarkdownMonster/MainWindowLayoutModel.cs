@@ -326,13 +326,13 @@ namespace MarkdownMonster.Windows {
 
                 Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
 
-                Model.Configuration.Editor.MaxWidth = savedEditorWidth;
+                Model.Configuration.Editor.CenteredModeMaxWidth = savedEditorWidth;
                 Model.ActiveEditor?.RestyleEditor();
                 Model.ActiveEditor?.AceEditor?.adjustPadding(true);
             }
             else
             {
-                savedEditorWidth = Model.Configuration.Editor.MaxWidth;
+                savedEditorWidth = Model.Configuration.Editor.CenteredModeMaxWidth;
 
                 // normalize first if we're in presentation mode
                 if (Model.IsPresentationMode)                
@@ -370,7 +370,7 @@ namespace MarkdownMonster.Windows {
 
                     if (int.TryParse(token, out int width))
                     {
-                        Model.Configuration.Editor.MaxWidth = width;
+                        Model.Configuration.Editor.CenteredModeMaxWidth = width;
                         Model.ActiveEditor?.RestyleEditor();
                     }
                 }
