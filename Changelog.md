@@ -10,10 +10,17 @@
 <small>not released yet</small>
 
 * **[New Console Addin Available](https://github.com/RickStrahl/Console-MarkdownMonster-Addin)**  
-There's a new **Console** Addin available in the Addin Manager that lets you attach a Terminal Console window that is 'pinned' to the bottom of your Markdown Monster instance. As you move or activate MM the Console sticks with the application. You can customize what Terminal tool to use and it defaults to Powershell.
+There's a new **Console** Addin available in the Addin Manager that lets you attach a Terminal Console window that is 'pinned' to the bottom of your Markdown Monster instance. As you move or activate MM the Console sticks with the application. You can customize what Terminal tool to use (Powershell, Command, Base, ConEmu, Commander etc.) and it defaults to PowerShell.
+
+* [Refactored MaxWidth and Padding as Centered Layout](https://markdownmonster.west-wind.com/docs/_5ed0rj891.htm)  
+Refactored the previous Padding and MaxWidth settings using a new Centered Layout option that can be quickly toggled from the **Views -> Toggle Centered Layout**. Centered layout applies a max width (default of 970 pixels) to limit the width of the editor content, so on very wide screens you don't get overwhelmed by a massive wall of text. Properties have been refactored to `CenteredMode`, `CenteredModeMaxWidth` and `Padding`.
+
 
 * **Update MarkDig for Math Parsing**  
-Updated to latest MarkDig version that includes new Math handling that removes need for our custom Math MarkDig extensions that is now the stock behavior in MarkDig.
+Updated to latest MarkDig version that includes new Math expression wrapping from our PR that removes need for our custom Math MarkDig extensions. The behavior of our previous fix is now built into MarkDig directly. Yay!
+
+* **Update Save As Encrypted File Dialog**  
+Made the dialog easier to visually parse at a glance and work with. Add filename and path to the make the file you're encrypting or decrypting more obvious.
 
 * **Library Updates**  
 Update all .NET dependencies to latest versions of libraries.
