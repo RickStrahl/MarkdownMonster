@@ -144,6 +144,20 @@ namespace MarkdownMonster.Windows
         private string _Branch;
 
 
+        public List<Branch> LocalBranches
+        {
+            get
+            {
+                if (GitHelper.Repository?.Branches == null)
+                    return null;
+
+                return GitHelper.Repository.Branches
+                    .Where(b => b.IsRemote == false)                 
+                    .ToList();
+            }
+        }
+
+
         public string Remote
         {
             get { return _Remote; }
@@ -168,7 +182,7 @@ namespace MarkdownMonster.Windows
             }
         }
         private ObservableCollection<RepositoryStatusItem> _repositoryStatusItems;
-
+        
         public AppModel AppModel { get; set; }
 
         public MainWindow Window { get; set; }
@@ -191,6 +205,9 @@ namespace MarkdownMonster.Windows
             }
         }
 
+        
+
+
         #region Load
 
         public GitCommitModel(string fileOrFolder, bool commitRepository = false)
@@ -208,9 +225,11 @@ namespace MarkdownMonster.Windows
                 var userEmail = GitHelper.GetGitNameAndEmailFromGitConfig();
                 GitUsername = userEmail[0];
                 GitEmail = userEmail[1];
-            }
+            }            
 
             ShowUserInfo = string.IsNullOrEmpty(GitUsername);
+
+            
         }
         #endregion
 

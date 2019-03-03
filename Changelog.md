@@ -15,6 +15,8 @@ There's a new **Console** Addin available in the Addin Manager that lets you att
 * [Refactored MaxWidth and Padding as Centered Layout](https://markdownmonster.west-wind.com/docs/_5ed0rj891.htm)  
 Refactored the previous Padding and MaxWidth settings using a new Centered Layout option that can be quickly toggled from the **Views -> Toggle Centered Layout**. Centered layout applies a max width (default of 970 pixels) to limit the width of the editor content, so on very wide screens you don't get overwhelmed by a massive wall of text. Properties have been refactored to `CenteredMode`, `CenteredModeMaxWidth` and `Padding`.
 
+* **Change Branch DropDown on Git Commit Dialog**  
+You can now change branches in the Commit dialog assuming there are no pending changes. Currently no support for creating new branches, we'll add that in a subsequent update.
 
 * **Update MarkDig for Math Parsing**  
 Updated to latest MarkDig version that includes new Math expression wrapping from our PR that removes need for our custom Math MarkDig extensions. The behavior of our previous fix is now built into MarkDig directly. Yay!

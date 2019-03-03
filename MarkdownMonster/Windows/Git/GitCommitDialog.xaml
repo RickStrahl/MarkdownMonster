@@ -242,7 +242,21 @@
             <StatusBarItem Grid.Column="3" Margin="0,0,15,0">
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="CodeFork" Margin="0,1,4,0" FontSize="15" Foreground="DarkGoldenrod"/>
-                    <TextBlock Text="{Binding Branch,StringFormat='Branch: {0}'}" />
+                    <TextBlock Text="Branch:" />
+
+                    <ComboBox Name="ComboBranch"
+                              DisplayMemberPath="FriendlyName" 
+                              SelectedValuePath="FriendlyName" 
+                              SelectedValue="{Binding Branch}"
+                              ItemsSource="{Binding LocalBranches}"  
+                              BorderThickness="0"
+                              FontSize="14" Padding="0" Margin="2,-12,0,-8" Height="25"
+                              SelectionChanged="ComboBranch_OnSelectionChanged" 
+                               
+                              Background="Transparent"
+
+
+                              />
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

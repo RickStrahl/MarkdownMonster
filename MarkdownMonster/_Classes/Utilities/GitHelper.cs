@@ -262,6 +262,18 @@ namespace MarkdownMonster.Utilities
         }
 
         /// <summary>
+        /// Retrieves a listing of Branches
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public BranchCollection GetBranches(string path)
+        {
+            var repo = OpenRepository(path);
+            return repo.Branches;
+
+        }
+
+        /// <summary>
         /// Adds a remote to the current Repository.
         ///
         /// Requires that you open a repository first

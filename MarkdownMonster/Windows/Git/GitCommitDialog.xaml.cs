@@ -59,6 +59,7 @@ namespace MarkdownMonster.Windows
         private void GitCommitDialog_Loaded(object sender, RoutedEventArgs e)
         {
             CommitModel.GitHelper.OpenRepository(CommitModel.Filename);
+            CommitModel.Repository = CommitModel.GitHelper.Repository;
 
             // Check if a remote exists and disable push if not
             CommitModel.Remote = CommitModel.GitHelper.Repository.Network.Remotes?.FirstOrDefault()?.Name;
@@ -70,7 +71,7 @@ namespace MarkdownMonster.Windows
             }
 
             // get the main branch
-            CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
+            CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;            
             
             string defaultText = null;
             if (AppModel.Configuration.Git.GitCommitBehavior == GitCommitBehaviors.CommitAndPush)
@@ -519,6 +520,36 @@ namespace MarkdownMonster.Windows
         }
 
         #endregion
+
+        private bool firstBranchLoad = true;
+        private void ComboBranch_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (firstBranchLoad)
+            {
+                firstBranchLoad = false;
+                return;
+            }
+
+            if (CommitModel.RepositoryStatusItems.Count > 0)
+            {
+                CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
+                StatusBar.ShowStatusError("Can't change branches when there are pending items on the current branch.");
+                return;
+            }
+
+            if (MessageBox.Show("You're about to change your branch to:\r\n\r\n" +
+                            this.CommitModel.Branch + "\r\n\r\n" +
+                            "Are you sure you want to change branches?", "Change Branch",
+                            MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) != MessageBoxResult.Yes)
+                return;
+
+            if (!CommitModel.GitHelper.Checkout(CommitModel.Branch, CommitModel.Filename))
+            {
+                CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
+                StatusBar.ShowStatusError(CommitModel.GitHelper.ErrorMessage);               
+            }
+
+        }
     }
 
 }
