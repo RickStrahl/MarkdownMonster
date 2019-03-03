@@ -503,7 +503,9 @@ namespace WeblogAddin
                 Abstract = post.mt_excerpt,
                 PostId = post.PostId.ToString(),
                 WeblogName = weblogName,
-                FeaturedImageUrl = featuredImage         
+                FeaturedImageUrl = featuredImage,
+                PostDate = post.DateCreated,
+                PostStatus = post.PostStatus
             };
             
             string newPostMarkdown = NewWeblogPost(meta);
