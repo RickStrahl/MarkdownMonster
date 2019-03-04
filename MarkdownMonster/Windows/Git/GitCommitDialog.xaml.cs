@@ -528,7 +528,7 @@ namespace MarkdownMonster.Windows
                 {
                     HeaderText = "Create new Git Branch",
                     DescriptionText = "Enter the name for a new branch name for this Git respository.",
-                    Button1Text = "Create new Branch",
+                    Button1Text = "Create Branch",
                     Button2Text = "Cancel",
                     Image = "../../Assets/git.png",
                     InputPlaceholderText = "enter a new branch name",
@@ -537,7 +537,8 @@ namespace MarkdownMonster.Windows
                 string branchName = input.Show();
                 if (branchName == null || input.Cancelled)
                 {
-                    CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
+                    firstBranchLoad = true;
+                    CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;                     
                     return;
                 }                    
                 
@@ -547,6 +548,7 @@ namespace MarkdownMonster.Windows
                     StatusBar.ShowStatusError(CommitModel.GitHelper.ErrorMessage);
                     return;
                 }
+
                 CommitModel.Branch = newBranch.FriendlyName;
                 CommitModel.OnPropertyChanged("LocalBranches");
             }

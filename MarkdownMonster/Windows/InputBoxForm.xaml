@@ -39,7 +39,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                 <Button Name="Button1" Margin="15,10"  MinWidth="70" Padding="15,10"
-                        Click="Button_Click" >
+                        Click="Button_Click" IsDefault="True" >
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="{Binding Button1FontAwesomeIcon}" Margin="0,2,8,0" FontSize="18"
@@ -52,7 +52,7 @@
 
 
                 <Button Name="Button2" Margin="15,10,10,10" MinWidth="70" Padding="15,10"
-                        Visibility="Collapsed" Click="Button_Click">
+                        Visibility="Collapsed" Click="Button_Click" IsCancel="True">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="{Binding Button2FontAwesomeIcon}" Margin="0,2,8,0" FontSize="18"
