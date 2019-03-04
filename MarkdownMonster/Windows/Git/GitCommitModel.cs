@@ -144,17 +144,21 @@ namespace MarkdownMonster.Windows
         private string _Branch;
 
 
-        public List<Branch> LocalBranches
+        public List<string> LocalBranches
         {
             get
             {
                 if (GitHelper.Repository?.Branches == null)
                     return null;
 
-                return GitHelper.Repository.Branches
-                    .Where(b => b.IsRemote == false)                 
+                var list = GitHelper.Repository.Branches
+                    .Where(b => b.IsRemote == false)
+                    .Select( b=> b.FriendlyName)                    
                     .ToList();
-            }
+
+                list.Insert(0, "<Create new Branch...>");
+                return list;
+            }            
         }
 
 

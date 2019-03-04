@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using FontAwesome.WPF;
 using LibGit2Sharp;
@@ -530,18 +522,51 @@ namespace MarkdownMonster.Windows
                 return;
             }
 
-            if (CommitModel.RepositoryStatusItems.Count > 0)
+            if (CommitModel.Branch.StartsWith("<Create "))
             {
-                CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
-                StatusBar.ShowStatusError("Can't change branches when there are pending items on the current branch.");
-                return;
+                var input = new InputBox()
+                {
+                    HeaderText = "Create new Git Branch",
+                    DescriptionText = "Enter the name for a new branch name for this Git respository.",
+                    Button1Text = "Create new Branch",
+                    Button2Text = "Cancel",
+                    Image = "../../Assets/git.png",
+                    InputPlaceholderText = "enter a new branch name",
+                    ParentWindow = this
+                };
+                string branchName = input.Show();
+                if (branchName == null || input.Cancelled)
+                {
+                    CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
+                    return;
+                }                    
+                
+                var newBranch = CommitModel.GitHelper.Repository.CreateBranch(branchName);
+                if (newBranch == null)
+                {
+                    StatusBar.ShowStatusError(CommitModel.GitHelper.ErrorMessage);
+                    return;
+                }
+                CommitModel.Branch = newBranch.FriendlyName;
+                CommitModel.OnPropertyChanged("LocalBranches");
             }
+            else
+            {
 
-            if (MessageBox.Show("You're about to change your branch to:\r\n\r\n" +
-                            this.CommitModel.Branch + "\r\n\r\n" +
-                            "Are you sure you want to change branches?", "Change Branch",
-                            MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) != MessageBoxResult.Yes)
-                return;
+                if (CommitModel.RepositoryStatusItems.Count > 0)
+                {
+                    CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
+                    StatusBar.ShowStatusError(
+                        "Can't change branches when there are pending changes on the current branch.");
+                    return;
+                }
+
+                if (MessageBox.Show("You're about to change your branch to:\r\n\r\n" +
+                                    this.CommitModel.Branch + "\r\n\r\n" +
+                                    "Are you sure you want to change branches?", "Change Branch",
+                        MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) != MessageBoxResult.Yes)
+                    return;
+            }
 
             if (!CommitModel.GitHelper.Checkout(CommitModel.Branch, CommitModel.Filename))
             {

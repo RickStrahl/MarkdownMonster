@@ -216,6 +216,9 @@
     <Compile Include="Windows\PreviewBrowser\PreviewBrowserWindow.xaml.cs">
       <DependentUpon>PreviewBrowserWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\InputBoxForm.xaml.cs">
+      <DependentUpon>InputBoxForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\TableEditor\GridTable.cs" />
     <Compile Include="Windows\TableEditor\TableEditor.xaml.cs">
       <DependentUpon>TableEditor.xaml</DependentUpon>
@@ -505,6 +508,10 @@
     <Page Include="Windows\RegisterDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\InputBoxForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\RegistrationForm.xaml">
       <SubType>Designer</SubType>
