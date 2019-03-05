@@ -6,19 +6,35 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
-
-### 1.15.4
+### 1.15.5
 <small>not released yet</small>
 
-* **Improved Math Support**  
-Added custom Markdig parser to support MathJax expression rendering. You can now enable the Markdown `UseMathematics` settings switch to automatically expand Math expressions using `$$` or `$` expressions, MathML, or `<div class="math">`. With the new extension, most math expressions are now rendering reliably. The `useMath: true` YAML header is no longer necessary - MM now scans the document for embedded math expressions automatically.
+* **[New Console Addin Available](https://github.com/RickStrahl/Console-MarkdownMonster-Addin)**  
+There's a new **Console** Addin available in the Addin Manager that lets you attach a Terminal Console window that is 'pinned' to the bottom of your Markdown Monster instance. As you move or activate MM the Console sticks with the application. You can customize what Terminal tool to use and it defaults to Powershell.
+
+* **Update MarkDig for Math Parsing**  
+Updated to latest MarkDig version that includes new Math handling that removes need for our custom Math MarkDig extensions that is now the stock behavior in MarkDig.
+
+* **Library Updates**  
+Update all .NET dependencies to latest versions of libraries.
+
+### 1.15.4
+<small>February 19th, 2019</small>
 
 * **Add `Shift-Enter` Key Combo for Soft Returns**  
 You can now press `Shift-Enter` to insert a soft return which expands to two spaces and a return which is a Markdown Soft Return.
 
+* **[Improved Math Support](https://markdownmonster.west-wind.com/docs/_59l0mv2uw.htm)**  
+Added custom Markdig parser to support MathJax expression rendering. You can now enable the Markdown `UseMathematics` settings switch to automatically expand Math expressions using `$$` or `$` expressions, MathML, or `<div class="math">`. With the new extension, most math expressions are now rendering reliably. The `useMath: true` YAML header is no longer necessary - MM now scans the document for embedded math expressions automatically.
+
 * **Add Symbol Configurations for some Markdown Expansions**  
 You can now specify a few options for how certain symbol shortcuts are expanded using `MarkdownOptions.Symbols`. Initial keys are `italic` and `softReturn` expansions which determine the `ctrl-i` and `shift-enter` default expansion formatting.
+
+* **Fix: File Change Notifications**  
+Fixed issue with file change notifications not properly clearing the dirty buffer flag after updating file from disk which resulted in repeated dialogs even if no changes were pending. Fixed.
+
+* **Fix: Password Dialog When no Doc is Open**  
+Fix issue that would crash if no document is open. Also key icon is no longer shown when no document is open preventing the issue in the first place.
 
 ### 1.15.2
 <small>February 9th, 2019</small>
@@ -33,8 +49,6 @@ pin down which addins might be causing problems.
 * **Fix: Startup Rendering**  
 Improve startup rendering by removing some unnecessary nested delay loading. Also fixed a couple of issues related to screen positioning which caused startup jank in some load scenarios. Fixed.
 
-* **Fix: File Change Notifications**  
-Fixed issue with file change notifications not properly clearing the dirty buffer flag after updating file from disk which resulted in repeated dialogs even if no changes were pending. Fixed.
 
 * **Addins: Expose Folder Browser**  
 We've now made the Folder Browser more easily accessible through the `Model.Window.FolderBrowser`. You can also easily get the selected item in the folder browser via `GetSelectedPathItem()`.

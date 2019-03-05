@@ -1517,12 +1517,13 @@ namespace MarkdownMonster
 
                 var menuItems = mmApp.Model.Window.GenerateContextMenuItemsFromOpenTabs();
 
-                button.ContextMenu = new ContextMenu();
+                var contextMenu = new ContextMenu();
                 foreach (var mi in menuItems)
-                    button.ContextMenu.Items.Add(mi);
-
-                button.ContextMenu.IsOpen = true;
-                button.ContextMenu.Closed += (o, args) => button.ContextMenu.Items.Clear();
+                    contextMenu.Items.Add(mi);
+               
+                contextMenu.PlacementTarget = button;
+                contextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                contextMenu.IsOpen = true;
             });
         }
 
@@ -1746,6 +1747,9 @@ We're now shutting down the application.
 
             TestButtonCommand = new CommandBase((parameter, command) =>
             {
+
+                throw new ApplicationException("Thrown error on purpose.");
+
                 //Model.ActiveEditor.AceEditor.helloWorld("Testing things out");
                 try
                 {

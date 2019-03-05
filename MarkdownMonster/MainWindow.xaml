@@ -16,7 +16,7 @@
         Name="MainApplicationWindow"                      
         Title="Markdown Monster" TitleCharacterCasing="Normal"
         Icon="Assets\MarkdownMonster_Icon_256.png"
-        BorderThickness="0" 
+        BorderThickness="0"
         GlowBrush="Black"                           
         ResizeMode="CanResizeWithGrip"		
         Height="600" Width="1000"  
@@ -445,7 +445,7 @@
                 <Separator  />
                 <MenuItem Name="ButtonAbout" Header="_About" Click="Button_Handler"/>
 
-                <!--<MenuItem Name="ButtonTest" Header="Test" Command="{Binding Commands.TestButtonCommand}" />-->
+                <MenuItem Name="ButtonTest" Header="Test" Command="{Binding Commands.TestButtonCommand}" />
             </MenuItem>
         </Menu>
 

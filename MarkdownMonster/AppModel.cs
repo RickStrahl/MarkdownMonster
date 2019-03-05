@@ -127,7 +127,28 @@ namespace MarkdownMonster
 
         private List<MarkdownDocument> _openDocuments;
 
-        
+        /// <summary>
+        /// Returns a list of open editor instances inside of open tabs
+        /// </summary>
+        public List<MarkdownDocumentEditor> OpenEditors
+        {
+            get
+            {
+                var list  = new List<MarkdownDocumentEditor>();
+                if (Window.TabControl.Items.Count < 1)
+                    return list;
+
+                foreach (System.Windows.Controls.TabItem tab in Window.TabControl.Items)
+                {
+                    var editor = tab.Tag as MarkdownDocumentEditor;
+                    if (editor != null)
+                        list.Add(editor);
+                }
+                return list;
+            }
+        }
+
+
         /// <summary>
         /// Determines whether there are open tabs
         /// </summary>
@@ -396,9 +417,9 @@ namespace MarkdownMonster
                 return _documentTypes;
             }
         }
-
         List<string> _documentTypes = null;
         
+
         /// <summary>
         /// Returns the width of the column containing
         /// the Markdown Parser selection combo box

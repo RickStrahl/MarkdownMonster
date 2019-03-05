@@ -9,6 +9,20 @@
 
 Markdown Monster is an easy to use and extensible **Markdown Editor**, **Viewer** and **Weblog Publisher** for Windows. Our goal is to provide the best Markdown specific editor for Windows and make it as easy as possible to create Markdown documents. We provide a core editor and previewer, and a number of non-intrusive helpers to help embed content like images, links, tables, code and more into your documents with minimal effort.
 
+## Installation
+You can download Markdown Monster using the self-contained installer:
+
+[Download Markdown Monster](http://markdownmonster.west-wind.com/download.aspx)
+
+Or you can you use [Chocolatey](https://chocolatey.org/) to install from the Windows Command Prompt:
+
+```ps
+c:\> choco install markdownmonster
+```
+
+[See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)
+
+## Overview
 Here's what Markdown Monster looks like using the default **Dark Theme**: 
 
 ![Markdown Monster Screen Shot](ScreenShot.png)
@@ -17,32 +31,27 @@ and here is the **Light Theme**:
 
 ![Markdown Monster Screen Shot](ScreenShot_Light.png)
 
-### Customizable
-Markdown Monster is highly customizable with themes for the main shell, editor and preview displays. The editor and preview themes can be easily customized using HTML and CSS based templates. There are also many options to customize the editor's fonts, sizes and many display options.
+### Productive
+Markdown Monster has a lot of features, but we work hard to keep those features out of your way when you don't need them. If you just want to write, MM provides a minimal editing experience that provides pleasant white space around your content and an optional distraction free mode. But if you want to be more productive use shortcuts and helpers to enhance your editing experience, we help you with many useful tools to enhance your editing experience with thoughtful productivity features. Most commands have keyboard shortcuts and can be accomplished with one or two keystrokes.
 
-You can also run in distraction free mode, that removes toolbars, menus, preview, sidebar and other distractions to let you focus on your code. Or use Presentation mode to view only the rendered Markdown.
+Easily embed things like images, links, tables, code snippets and more with a couple of keystrokes and smart link fix ups. Because images are such a big part of content creation, our image embedding support is especially rich and supports pasting images from the clipboard, embedding with the image file/url dialog, drag and drop from explorer or a browser, and even a built-in image capture utility.
+
+### Customizable
+Markdown Monster is highly customizable with themes for the main shell, editor and preview displays. The editor and preview themes can be easily customized using HTML and CSS based templates so you can make Markdown Monster your own. There are also many options to customize the editor's fonts, sizes and many display options.
+
+You can also run in distraction free mode, that removes toolbars, menus, preview, sidebar and other distractions to let you focus on your code. Or use Presentation mode to focus on reading content without the editor view.
  
-### Extensible with .NET
-One of the big features of Markdown Monster is that it's extensible with .NET code. You can use our Snippets or Commander addins to create custom text expansions, or automate common tasks using .NET Code snippets. A full addin extensibility model allows deep integration with most of Markdown Monster's features and UI to create sophisticated extensions using a straightforward Addin model. We use this extensibility model to extend base features of MM ourselves - the same is available to you. You can also share your addins in our addin registry.
+### Extensible
+Markdown Monster is extensible with .NET code. You can use our Snippets or Commander addins to create custom text expansions, or automate common tasks using .NET Code snippets. A full addin extensibility model allows deep integration with most of Markdown Monster's features and UI to create sophisticated extensions using a straightforward Addin model. There is an Addin Manager that lets you easily install, update and manage available Addins.
 
 ### Weblog Publishing
-Want to write your blog posts in Markdown? You can use Markdown Monster to write your posts in Markdown and publish the generated HTML content directly to your Wordpress, Medium, MetaWeblog or West Wind Post API Weblog engine in seconds. You can also use any Git based service for your posts by simply saving the post and its post meta data to disk. Basic Git integration is built-in to Markdown Monster to commit current documents or open your favority Git Client.
+If you have a blog chances are you can use Markdown Monster to create your content and publish it to your blogging service. Markdown Monster can publish to many common Weblog engines including WordPress, Medium and any service that use MetaWeblog API. MM automatically handles converting your Markdown content to HTML, fixing up links and publishing and re-publishing your Markdown content cleanly to blogging services.
 
-## Installation
-You can download Markdown Monster and use the self-contained installer <small>(requires [Chocolatey](https://chocolatey.org/) is installed)</small>:
+The **New Weblog Post** feature automatically sets up a post folder in a Weblog Posts directory hierarchy to let you organize posts in a shared DropBox or OneDrive (if available) folder so you can easily work on posts from multiple machines.
 
-* **[Go to the Download Page](http://markdownmonster.west-wind.com/download.aspx)**
+Markdown Monster's integrated Git features also work great for  any Git based service like Jekyll, Ghost, Hugo or Wyam to write your posts locally and immediately push them to your remote Git repository to publish. Git integration is built into MM to commit your changes either individually or in batch or you can open your favorite Git Client to publish your changes to your hosted content blog.
 
 
-Or you can you use [Chocolatey](https://chocolatey.org/) to install from the Windows Comand Line:
-
-```ps
-c:\> choco install markdownmonster
-```
-To update to the latest version:
-```ps
-c:\> choco upgrade markdownmonster
-```
 
 ## Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
@@ -81,6 +90,7 @@ Markdown Monster provides many useful features:
 ### Previewer
 * Scroll synced preview window
 * Optional external previewer for multi-screen
+* External Browser preview
 * Presentation mode support
 * Distraction-free mode support
 
@@ -91,7 +101,7 @@ Markdown Monster provides many useful features:
 * Drag images from Explorer
 * Edit images in your image editor of choice
 * Built-in screen capture
-* Automatic PNG image compression
+* Automatic image compression on pasted images
 
 ### Editing Features
 * Easy link embedding from clipboard or disk
@@ -100,51 +110,57 @@ Markdown Monster provides many useful features:
 * Text Snippet Expansion with C# Code via [Snippets Addin](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
 * Embed Emojii
 * Smart, unobtrusive toolbar and shortcut key helpers
+* Snippet expansion from text templates
 * Many Editor customization options
 
 ### Output and Selections
-* Save Markdown output as raw or packaged HTML
-* Paste HTML text as Markdown
-* Copy Markdown selection as HTML
-* Open rendered output in your favorite Web browser
-* Save rendered output to HTML
+* Save rendered output to raw or packaged HTML
 * Save rendered output to PDF
-* Print rendered output to the printer
+* Copy Markdown selection as HTML
+* Paste HTML text as Markdown
+* Open rendered output in your favorite Web browser
+* Print rendered output to the printer or PDF driver
 * Generate and embed document Table of Contents
 
 ### Theme Support
 * Dark and Light application themes
-* Separate Application, Editor and Preview Themes
-* Support for many editor themes
-* Customizable HTML preview themes
+* Customizable Editor Themes
+* Customizable Preview Themes
+* Customizable output syntax coloring themes
 * Use HTML and CSS to customize Preview and Editor Themes
-* Customizable preview HTML syntax coloring themes
 
 ### File Operations
 * Editor remembers open documents by default (optional)
 * Auto-Save and Auto-Backup support
 * Integrated file and folder browser
+* Many file common file operations on each file
+    * Show in viewers
+    * Edit in appropriate editors
+    * Commit to Git
+    * Compress images
 * Save files with encryption
 * Drag and drop documents from Explorer and Folder Browser
-* Open Command Window or Explorer for active document
+* Open a Terminal, Explorer or Git Client
 
 ### Git Integration
 * Show Git Status in Folder Browser
 * Commit and push Dialog
 * Commit and push active file, folder browser file
 * Commit and push all pending changes
+* Compare changes in configured Git Diff client
 * Undo Changes
 * Add Ignored Files
 * Clone Repository
 * Open in Git Client
 
-### Weblog Publisher
+### Weblog Publishing
 * Create or edit Weblog posts using Markdown
 * Publish your Markdown directly to your blog
-* Re-publish post at any time
+* Re-publish posts at any time
 * Post data stored as YAML metadata in Markdown
 * Send custom meta data with posts
 * Supports MetaWebLog, Wordpress and Medium (limited)
+* Supports document based blogs (Jekyll, Hugo, Wyam, Ghost etc.)
 * Download and edit existing posts
 * Very fast publish and download process
 * Support for multiple blogs
@@ -162,24 +178,25 @@ JSON, XML, CSS, JavaScript, Typescript, FoxPro, CSharp and more
 * Markdown Monster path added to user path
 * `mm readme.md` - open single file
 * `mm readme.md changelog.md` - open multiple files
-* `mm .` - open folder browser in folder
+* `mm .` - open folder browser in current folder
 * `mm reset` - reset all Markdown Monster settings
 * `mm uninstall` - remove all non-local system settings
 
+
 ### Extensibility
-* Automate Markdown Monster using C# and the [Commander Addin](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
+* Automate Markdown Monster with C# using the [Commander Addin](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
 * Create Addins with .NET code
+* Visual Studio Project Template available
 * Simple interface, easy to implement
 * Access UI, menu and active documents
 * Access document and application lifecycle events
 * Add Custom Markdown Parsers
 * Replace the Preview Rendering Engine
 * Add Tabs to left and right sidebar panels
-* Published addins available:
-    * [Snippets: Scripted Text Expansions](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
+* Some published addins available:
+    * [Console: A pinned Terminal Window](https://github.com/RickStrahl/Console-MarkdownMonster-Addin)
     * [Commander: C# based Script Automation](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
-    * [Pandoc Markdown Parser and Conversions](https://github.com/RickStrahl/Pandoc-MarkdownMonster-Addin)
-    * [Paste Code as Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)
+    * [Gist: Open from and Save As Gists, and Paste Code as Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)
     * [Save Image to Azure Blob Storage](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin)
 
 
@@ -230,7 +247,40 @@ Want a different editor theme than the dark default or a preview theme that matc
 The editor and previewer are HTML and JavaScript based, so you can also apply any custom styling and even hook up custom JavaScript code if you want to get fancy beyond the basic configuration. The preview themes are easy to modify as they are simply HTML and CSS templates.
 
 ## Extensible with .NET Add-ins
-But the **key feature** and the main reason I built this tool, is that it is **extensible**, so that you and I can plug additional functionality into it. Markdown Monster includes an add-in model that lets you add buttons to the UI, interact with the active document and the entire UI and attach to life cycle event to get notifications of various application events like documents opening and closing, documents being saved and the application shutting down, etc..
+One of the **key feature** and the main reason I built Markdown Monster is that it is **extensible**, so that you and I can plug additional functionality into it without bloating the main product. 
+
+You can find available public Addins you can install in the **Markdown Monster Addin Manager** from the **Tools** menu:  
+
+![Addin Manager](Assets/AddinManager.png)
+
+There is a variety of functionality available in addins. Here are a few examples:
+
+Right now the registry is pretty sparse, but here are a few Addins you can check out:
+
+* [Console](https://github.com/RickStrahl/Console-MarkdownMonster-Addin)  
+Lets you pin an always-active Terminal Console window to the bottom of Markdown Monster.
+
+* [Commander C# Scripting](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)  
+A C# based scripting addin that lets you automate tasks using script code. For simple tasks this is quicker and easier than creating a full addin.
+
+* [Save Image to Azure Blob Storage](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin)  
+Lets you save images as Azure Blob storage items and embeds a link to the an uploaded resoure into your Markdown.
+
+* [Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)  
+This addin allows you to **Open from Gist** and **Save as Gist** as well as letting you create code snippets and embed them as Gists into your Markdown content.
+
+* [Pandoc Markdown Parser](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)  
+This addin provides a PanDoc Markdown processor that can be used instead of the default MarkDig parser. This addin also provides a host of document conversion options to convert your Markdown to PDF, DOC, EPub and a few other formats using an interactive dialog.
+
+### .NET Based Extensibility
+Markdown Monster Addins have access to an add-in model that lets you manipulate and automate any open documents and the editor, lets you load new documents, launch external processes, add menu options and other UI features, open a new sidebar, generally interact with the entire UI and attach to life cycle events to get notifications of various application events like documents opening and closing, documents being saved and the application shutting down, etc...
+
+Complexity of Addins can vary greatly from very simple automation tools like the Console Addin that simply pins a Terminal window to Markdown Monster, or something as complex as the KavaDocs addin that manages an entire documentation application with many custom windows and sidebars that are integrated into Markdown Monster.
+
+Addins have access to most features of Markdown Monster and they are fairly easy to create. We as well as several third parties have created a number of useful addins using the powerful addin model and I encourage you to browse addins to see what you can do.
+
+### Creating Addins
+One of the key features of Markdown Monster is that you can also create your own addins using the .NET based Markdown Monster Addin model. It's very easy to create new addins and we provide a [Visual Studio Project Template Extension](https://marketplace.visualstudio.com/items?itemname=rickstrahl.markdownmonsteraddinproject) to facilitate the process of getting started with creating an Addin. All of our plug-ins are also available on GitHub, so you can easily check out how other addins were created.
 
 You can find documentation for creating Addins here:
 
@@ -241,21 +291,13 @@ You can find documentation for creating Addins here:
 
 
 ### Markdown Monster Addin Registry
-You can create addins for your own use, simply by copying them into the Addins folder, or if you created an Addin that you think might be useful for others you can publish on the Markdown Monster Addin Registry. The registry holds public Addins that show in the Addin Manager inside of Markdown Monster:
-
-![Addin Manager](Assets/AddinManager.png)
+You can create addins for your own use, simply by copying them into the `%appdata%\Addins` folder, or if you created an Addin that you think might be useful for others you can publish on the [Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry). The registry holds public Addins that show in the Addin Manager inside of Markdown Monster:
 
 You can find out more on how to publish your Addins in this GitHub repository:
 
 * [Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)
 
-Right now the registry is pretty sparse, but here are a few Addins you can check out:
 
-* [Snippets Text Expansion](https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin)
-* [Commander C# Scripting](https://github.com/RickStrahl/Commander-MarkdownMonster-Addin)
-* [Save Image to Azure Blob Storage](https://github.com/RickStrahl/SaveToAzureBlob-MarkdownMonster-Addin)
-* [Paste Code as Gist](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin)
-* [Pandoc Markdown Parser](https://github.com/RickStrahl/PasteCodeAsGist-MarkdownMonster-Addin) 
 
 ## Provided Add-ins
 Not only does Markdown Monster allow extension via Addins - it also uses Addins for some built-in features. Specifically the Screen Capture the Weblog Publishing modules are implemented as Add-ins and demonstrate the power of the Add-in model.

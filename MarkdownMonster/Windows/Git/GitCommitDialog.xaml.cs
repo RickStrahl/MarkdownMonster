@@ -138,8 +138,8 @@ namespace MarkdownMonster.Windows
                 }
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
-                    await Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
-                
+                    UpdateFolderBrowserGitStatus();
+
                 mmApp.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.Commit;
                 
             }
@@ -167,13 +167,13 @@ namespace MarkdownMonster.Windows
                     {
                         // reload settings                    
                         CommitModel.GetRepositoryChanges();                        
-                    }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                    }, DispatcherPriority.ApplicationIdle);
 
                     StatusBar.ShowStatusSuccess("Files have been committed and pushed to the remote.");                    
                 }
 
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
-                    await Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(),System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                    UpdateFolderBrowserGitStatus();
 
                 mmApp.Configuration.Git.GitCommitBehavior = GitCommitBehaviors.CommitAndPush;               
             }            
@@ -190,7 +190,7 @@ namespace MarkdownMonster.Windows
 
                 // Refresh the folder browser Git status icons
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
-                    await Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                    UpdateFolderBrowserGitStatus();
 
                 StatusBar.ShowStatusSuccess("Changes have been pulled from the remote origin.");
                 return;
@@ -207,10 +207,10 @@ namespace MarkdownMonster.Windows
             {
                 // refresh the file model
                 CommitModel.GetRepositoryChanges();
-
+                
                 // Refresh the folder browser Git status icons
                 if (AppModel.WindowLayout.IsLeftSidebarVisible)
-                    Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                    UpdateFolderBrowserGitStatus();
 
                 StatusBar.ShowStatusSuccess("Changes pushed to the remote origin.");
                 return;
@@ -269,6 +269,14 @@ namespace MarkdownMonster.Windows
             {                
                 item.Selected = isChecked.Value;
             }
+        }
+
+        /// <summary>
+        /// Asynchronously update the FolderBrowser's Git Status
+        /// </summary>
+        void UpdateFolderBrowserGitStatus()
+        {
+            _ = Dispatcher.InvokeAsync(() => AppModel.Window.FolderBrowser.UpdateGitStatus(), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
 
         #endregion
