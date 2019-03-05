@@ -527,7 +527,7 @@ namespace MarkdownMonster.Windows
                 var input = new InputBox()
                 {
                     HeaderText = "Create new Git Branch",
-                    DescriptionText = "Enter the name for a new branch name for this Git respository.",
+                    DescriptionText = "Enter the name for a new branch on this Git repository.",
                     Button1Text = "Create Branch",
                     Button2Text = "Cancel",
                     Image = "../../Assets/git.png",
