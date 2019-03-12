@@ -247,31 +247,29 @@ Markdown Monster is **Source Open** with source code available on GitHub, but it
 
 A fully functional, free evaluation version is available for evaluation use, but continued use requires purchase of a license. 
 
-Licenses can be purchased from:
-http://store.west-wind.com/product/markdown_monster
+Licenses can be purchased from:  
+https://store.west-wind.com/product/markdown_monster
 
 
 #### Evaluation License
 
-The Evaluation version is unrestricted and has all the features and functionality of the registered version, except that it shows occasional freeware notices. Tampering with or removing of the notices is not allowed with the evaluation license.
+The Evaluation version has all the features and functionality of the registered version, except that it shows occasional freeware notices. Tampering with or removing of the notices is not allowed with the evaluation license.
 
-You can use the evaluation version as long as you want with the notices enabled, but if you use Markdown Monster regularly please consider registering and supporting further development and maintenance.
+You can use the evaluation version with the notices enabled, but if you use Markdown Monster regularly or for commercial use, please register and support further development and maintenance.
 
 #### Purchased License
 
-For continued use of Markdown Monster a paid-for license is required. The paid-for license removes the freeware notices.
+For continued or commercial use of Markdown Monster a paid-for license is required. The paid-for license removes the freeware notices.
 
-Each licensed user must have a separate license, but a single user may use multiple copies of Markdown Monster on multiple machines, given that only one copy at a time is in use.
+Each licensed user must have a separate license, but a single user may use multiple copies of Markdown Monster on multiple machines.
 
-The multi-user license works the same as a single user license applied to the number of users specified on the licensed purchased.
+The multi-user licenses work the same as a single user license applied to the number of users specified on the license purchased. An organizational site license is available to allow any number of users running unlimited numbers of Markdown Monster instances within a single organization.
 
-An organizational site license is available to allow any number of users running unlimited numbers of Markdown Monster instances within a single organization.
-
-Any purchased license is valid for the duration of the major release that it was purchased for (ie. 1.00-1.99) and updates within the major version are always free. Upgrade pricing is available for major version upgrades and it's our policy to allow for free upgrades to the next major version within a year of purchase.
+Any purchased license is valid for the duration of the major release that it was purchased for (ie. 1.00-1.99) and minor version updates within that major version are always free. Upgrade pricing is available for major version upgrades, usually at half of full price, and it's our policy to allow for free upgrades to the next major version within a year of purchase.
 
 #### Source Code
 
-The Markdown Monster source code is available on GitHub at https://github.com/RickStrahl/MarkdownMonster, and we allow modification of source code for internal use of Markdown Monster in your organization or for submitting pull requests to the Markdown Monster main repository. Under no circumstances are you allowed to re-package and re-distribute any part of Markdown Monster outside of your organization.
+Markdown Monster is **Source Open** and source code is available on GitHub at https://github.com/RickStrahl/MarkdownMonster, but the licensing outlined above is applies regardless. We allow modification of source code for internal use of Markdown Monster in your organization or for submitting pull requests to the Markdown Monster main repository. Under no circumstances are you allowed to re-package and re-distribute any part of Markdown Monster outside of your organization.
 
 #### Help us out - Get a free License
 

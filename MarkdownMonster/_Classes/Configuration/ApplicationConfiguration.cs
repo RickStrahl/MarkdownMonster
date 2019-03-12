@@ -860,7 +860,7 @@ namespace MarkdownMonster
             {
                 // Use PortableSettings in Install Folder
                 workFolder = Path.Combine(App.InitialStartDirectory, "PortableSettings");
-
+                
                 if (Directory.Exists(workFolder))
                 {
                     InternalCommonFolder = workFolder;
