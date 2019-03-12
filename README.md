@@ -55,17 +55,20 @@ Markdown Monster's integrated Git features also work great for  any Git based se
 
 ## Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
-* **[What's New](Changelog.md)** (change log)
-* **[Video: Getting Started with Markdown Monster](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
-* **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
-* **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
+* **[What's New Change Log](Changelog.md)**
+* **[Documentation](https://markdownmonster.west-wind.com/docs/)**
+* **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
+* **[Support Forum for Questions & Discussions](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[License](#license)**
 
-* **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
-* **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
 
+* **[Video: Getting Started with Markdown Monster ](https://www.youtube.com/watch?v=XjFf57Ap9VE)** (old) 
 * **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
-* **[Documentation](https://markdownmonster.west-wind.com/docs/)**
+
+## Addins
+* **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
+* **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
+
 
 > ### Show your Support
 > If you like what you see here, please consider **starring this repo** (click the :star: in the top right corner of this page). If you have a favorite feature in Markdown Monster, it'd be awesome if you could tweet about it and mention [@markdownmonstr](https://twitter.com/markdownmonstr). Please help us spread the word. 
