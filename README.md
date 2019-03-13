@@ -51,8 +51,6 @@ The **New Weblog Post** feature automatically sets up a post folder in a Weblog 
 
 Markdown Monster's integrated Git features also work great for  any Git based service like Jekyll, Ghost, Hugo or Wyam to write your posts locally and immediately push them to your remote Git repository to publish. Git integration is built into MM to commit your changes either individually or in batch or you can open your favorite Git Client to publish your changes to your hosted content blog.
 
-
-
 ## Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
 * **[What's New Change Log](Changelog.md)**
@@ -65,7 +63,7 @@ Markdown Monster's integrated Git features also work great for  any Git based se
 * **[Video: Getting Started with Markdown Monster ](https://www.youtube.com/watch?v=XjFf57Ap9VE)** (old) 
 * **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
 
-## Addins
+#### Addins
 * **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
 * **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
 
@@ -75,7 +73,7 @@ Markdown Monster's integrated Git features also work great for  any Git based se
 
 
 > ### Please report any Issues you run into!
-> If you run into a problem with Markdown Monster, **please** let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature request here on GitHub. We want to know what doesn't work and get it fixed. **Help us make Markdown Monster better**!
+> If you run into a problem with Markdown Monster, **please** let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature request here on GitHub. We want to know what doesn't work and get it fixed. **Help us make Markdown Monster better**! We know your time is valuable, but we really appreciate any feedback.
 
 
 ## Features

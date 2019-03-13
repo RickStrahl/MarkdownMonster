@@ -26,6 +26,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -108,9 +109,9 @@ namespace MarkdownMonster
                 return;
 
             var dotnetVersion = WindowsUtils.GetDotnetVersion();
-            if (string.Compare(dotnetVersion, "4.7.1", StringComparison.Ordinal) < 0)
+            if (string.Compare(dotnetVersion, "4.6.2", StringComparison.Ordinal) < 0)
             {
-                Task.Run(() => MessageBox.Show("Markdown Monster requires .NET 4.7.1 or later to run.\r\n\r\n" +
+                Task.Run(() => MessageBox.Show("Markdown Monster requires .NET 4.6.2 or later to run.\r\n\r\n" +
                                                "Please download and install the latest version of .NET version from:\r\n" +
                                                "https://www.microsoft.com/net/download/framework\r\n\r\n" +
                                                "Exiting application and navigating to .NET Runtime Downloads page.",
@@ -144,10 +145,14 @@ namespace MarkdownMonster
                 mmFileUtils.EnsureAssociations();
 
                 if (!IsPortableMode && !Directory.Exists(mmApp.Configuration.InternalCommonFolder))
+                {
                     Directory.CreateDirectory(mmApp.Configuration.InternalCommonFolder);
+                    UnblockDlls();
+                }
             });
 
         }
+
 
 
 
@@ -197,7 +202,7 @@ namespace MarkdownMonster
             splashScreen?.Close(TimeSpan.MinValue);
 
             // Shut down application
-            Environment.Exit(0);            
+            Environment.Exit(0);
         }
 
 
@@ -274,6 +279,36 @@ namespace MarkdownMonster
             }
         }
 
+        #region UnblockDlls
+        private void UnblockDlls()
+        {
+            // DeleteFile(FULLPATH("wwDotNetBridge.dll") + ":Zone.Identifier")
+            foreach (var dir in Directory.GetDirectories(Path.Combine(App.InitialStartDirectory, "Addins")))
+            {
+                foreach (var file in Directory.GetFiles(dir,"*.dll"))
+                {
+                    UnblockDll(file);
+                }
+            }
+
+
+        }
+
+        [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool DeleteFile(string name);
+
+        private void UnblockDll(string filename)
+        {
+            LanguageUtils.IgnoreErrors(() =>
+            {
+                if (File.Exists(filename))
+                    DeleteFile(filename + ":Zone.Identifier");
+            });
+
+        }
+
+        #endregion
 
         /// <summary>
         /// Uninstall registry and configuration settings
