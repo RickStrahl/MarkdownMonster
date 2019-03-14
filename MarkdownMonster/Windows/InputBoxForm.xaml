@@ -8,7 +8,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d" FontSize="17"
         IsCloseButtonEnabled="False"
-        TitlebarHeight="0"  
+        ShowTitleBar="False"
         ResizeMode="NoResize"         
         ShowInTaskbar="False" 
         WindowStartupLocation="CenterOwner"
