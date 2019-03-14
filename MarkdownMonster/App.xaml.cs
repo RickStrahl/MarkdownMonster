@@ -23,6 +23,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -36,6 +37,7 @@ using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
 using Westwind.Utilities;
+using MessageBox = System.Windows.MessageBox;
 
 namespace MarkdownMonster
 {
@@ -50,7 +52,13 @@ namespace MarkdownMonster
 
         public static string InitialStartDirectory { get; }
 
+        /// <summary>
+        /// Startup Command Arguments without the initial full
+        /// command line. arg[0] is the first parameter on the
+        /// command line.
+        /// </summary>
         public static string[] CommandArgs { get; set; }
+
 
         // Flag to indicate that app shouldn't start
         // Need this so OnStartup doesn't fire
@@ -144,10 +152,11 @@ namespace MarkdownMonster
                 mmFileUtils.EnsureSystemPath();
                 mmFileUtils.EnsureAssociations();
 
-                if (!IsPortableMode && !Directory.Exists(mmApp.Configuration.InternalCommonFolder))
+                if (!Directory.Exists(mmApp.Configuration.InternalCommonFolder))
                 {
                     Directory.CreateDirectory(mmApp.Configuration.InternalCommonFolder);
-                    UnblockDlls();
+
+
                 }
             });
 
@@ -206,23 +215,49 @@ namespace MarkdownMonster
         }
 
 
+        #region Console Command handling
+
+        [DllImport("Kernel32.dll")]
+        private static extern bool AttachConsole(int processId);
+
+        [DllImport("kernel32.dll")]
+        private static extern bool FreeConsole();
+
         private void HandleCommandLineArguments(string[] commandArgs)
         {
-            var arg0 = CommandArgs[0].ToLower().TrimStart('-');
+           var arg0 = CommandArgs[0].ToLower().TrimStart('-');
+            if (CommandArgs[0] == "-")
+                arg0 = "-";
 
             switch (arg0)
             {
+                case "version":
+                    // just display the header
+                    break;
                 case "uninstall":
                     _noStart = true;
                     UninstallSettings();
-                    Environment.Exit(0);
-                    return;
+
+                    ConsoleHeader();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Markdown Monster Machine Wide Settings uninstalled.");
+                    ConsoleFooter();
+
+                    break;
                 case "reset":
                     // load old config and backup
                     mmApp.Configuration.Backup();
                     mmApp.Configuration.Reset(); // forces exit
-                    return;
+
+                    ConsoleHeader();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Markdown Monster Settings reset to defaults.");
+                    ConsoleFooter();
+
+                    break;
                 case "setportable":
+                    ConsoleHeader();
+
                     // Note: Startup logic to handle portable startup is in AppConfiguration::FindCommonFolder
                     try
                     {
@@ -254,12 +289,14 @@ namespace MarkdownMonster
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Unable to set portable mode: " + ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Unable to set portable mode: " + ex.Message);
                     }
 
-                    Environment.Exit(0);
-                    return;
+                    ConsoleFooter();
+                    break;
                 case "unsetportable":
+                    ConsoleHeader();
                     try
                     {
                         File.Delete("_IsPortable");
@@ -267,47 +304,138 @@ namespace MarkdownMonster
                             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
                         mmApp.Configuration.CommonFolder = mmApp.Configuration.InternalCommonFolder;
                         mmApp.Configuration.Write();
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Removed Portable settings for this installation. Use `mm SetPortable` to reenable.");
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(
-                            $"Unable to delete portable settings switch file\r\n_IsPortable\r\n\r\n{ex.Message}");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Unable to delete portable settings switch file\r\n_IsPortable\r\n\r\n{ex.Message}");
                     }
 
-                    Environment.Exit(0);
-                    return;
+                    break;
+                case "register":
+                    ConsoleHeader();
+                    if (CommandArgs.Length < 2)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Missing registration code. Please pass a registration code.");
+                    }
+                    else
+                    {
+                        if (!UnlockKey.Register(CommandArgs[1]))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Invalid registration code. Please pass a valid registration code.");
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Registration succeeded. Thank your for playing fair.");
+                        }
+                    }
+                    ConsoleFooter();
+                    break;
+                // Standard In Re-Routing
+                case "stdin":
+                    string stdin = null;
+                    if (Console.IsInputRedirected)
+                    {
+                        using (Stream stream = Console.OpenStandardInput())
+                        {
+                            byte[] buffer = new byte[1000];  // Use whatever size you want
+                            StringBuilder builder = new StringBuilder();
+                            int read = -1;
+                            while (true)
+                            {
+                                AutoResetEvent gotInput = new AutoResetEvent(false);
+                                Thread inputThread = new Thread(() =>
+                                {
+                                    try
+                                    {
+                                        read = stream.Read(buffer, 0, buffer.Length);
+                                        gotInput.Set();
+                                    }
+                                    catch (ThreadAbortException)
+                                    {
+                                        Thread.ResetAbort();
+                                    }
+                                })
+                                {
+                                    IsBackground = true
+                                };
+
+                                inputThread.Start();
+
+                                // Timeout expired?
+                                if (!gotInput.WaitOne(100))
+                                {
+                                    inputThread.Abort();
+                                    break;
+                                }
+
+                                // End of stream?
+                                if (read == 0)
+                                {
+                                    stdin = builder.ToString();
+                                    break;
+                                }
+
+                                // Got data
+                                builder.Append(Console.InputEncoding.GetString(buffer, 0, read));
+                            }
+
+                            if (builder.Length > 0)
+                            {
+                                var tempFile = Path.ChangeExtension(Path.GetTempFileName(), "md");
+                                File.WriteAllText(tempFile,builder.ToString());
+                                CommandArgs[0] = tempFile;
+                            }
+                            else
+                            {
+                                CommandArgs[0] = null;
+                            }
+                        }
+                    }
+
+                    break;
             }
         }
 
-        #region UnblockDlls
-        private void UnblockDlls()
+        /// <summary>
+        /// Method used to set up the header for Console operation
+        /// </summary>
+        void ConsoleHeader()
         {
-            // DeleteFile(FULLPATH("wwDotNetBridge.dll") + ":Zone.Identifier")
-            foreach (var dir in Directory.GetDirectories(Path.Combine(App.InitialStartDirectory, "Addins")))
+            AttachConsole(-1);
+
+            var arg0 = CommandArgs[0].ToLower().TrimStart('-');
+            //Console.Clear();
+            Console.WriteLine(" ");
+            var title = "Markdown Monster Console v" + Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
+            Console.WriteLine(title);
+            Console.WriteLine(StringUtils.Replicate("-", title.Length));
+            Console.WriteLine("  Command: " + arg0  );
+            if (CommandArgs.Length > 1 && arg0 != "register" )
             {
-                foreach (var file in Directory.GetFiles(dir,"*.dll"))
-                {
-                    UnblockDll(file);
-                }
+                Console.Write("Arguments: ");
+                foreach (var arg in CommandArgs.Skip(1))
+                    Console.Write("\"" + arg + "\" ");
             }
-
-
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
-        [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool DeleteFile(string name);
-
-        private void UnblockDll(string filename)
+        /// <summary>
+        /// Resets console and exits
+        /// </summary>
+        void ConsoleFooter()
         {
-            LanguageUtils.IgnoreErrors(() =>
-            {
-                if (File.Exists(filename))
-                    DeleteFile(filename + ":Zone.Identifier");
-            });
-
+            Console.ResetColor();
+            FreeConsole();
+            Environment.Exit(0);
         }
-
         #endregion
 
         /// <summary>
@@ -319,8 +447,7 @@ namespace MarkdownMonster
             mmFileUtils.EnsureSystemPath(uninstall: true);
             mmFileUtils.EnsureAssociations(uninstall: true);
 
-            Console.WriteLine("Markdown Monster settings uninstalled from registry");
-            MessageBox.Show("Markdown Monster settings uninstalled from registry");
+            MessageBox.Show("Permanent Markdown Monster settings have been uninstalled from the registry.","Markdown Monster Uninstall Settings");
 
             _noStart = true;
             Environment.Exit(0);
