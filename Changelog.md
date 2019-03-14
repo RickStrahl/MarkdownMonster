@@ -11,7 +11,13 @@
 <small>not released yet</small>
 
 * **Unblock Portable Mode DLLs in Addins Folder**  
-When running for the first time in portable mode MM will try to unblock the DLLs in the `Addins` folder which otherwise fail to load if installed from a Zip file off the Internet or other unknown location.
+When running for the first time in portable mode MM will try to unblock the DLLs in the `Addins` folder which otherwise fail to load if installed from a Zip file off the Internet or other unknown location. This should fix startup addin load errors for portable installs.
+
+* **Open Content from Console StdIn**  
+You can now open content piped from StdIn into Markdown Monster. You can use a command like `DIR | markdownmonster stdin` to open the output from the stdin directly in MM.
+
+* **New Command Line Registration Option**  
+You can now register Markdown Monster with `mm register regKey` to automate the registration process for larger organizations that need to install Markdown Monster on many machines.
 
 ### 1.15.5
 <small>March 5th, 2019</small>
