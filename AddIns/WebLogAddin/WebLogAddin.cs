@@ -2,10 +2,10 @@
 #region License
 /*
  **************************************************************
- *  Author: Rick Strahl 
+ *  Author: Rick Strahl
  *          © West Wind Technologies, 2016
  *          http://www.west-wind.com/
- * 
+ *
  * Created: 05/15/2016
  *
  * Permission is hereby granted, free of charge, to any person
@@ -16,10 +16,10 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,7 +28,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- **************************************************************  
+ **************************************************************
 */
 #endregion
 
@@ -65,8 +65,8 @@ namespace WeblogAddin
             base.OnApplicationStart();
 
             WeblogModel = new WeblogAddinModel()
-            {                
-                Addin = this,                              
+            {
+                Addin = this,
             };
 
             Id = "weblog";
@@ -75,7 +75,7 @@ namespace WeblogAddin
             // Create addin and automatically hook menu events
             var menuItem = new AddInMenuItem(this)
             {
-                Caption = "Weblog Publishing",                
+                Caption = "Weblog Publishing",
                 FontawesomeIcon = FontAwesomeIcon.Rss,
                 KeyboardShortcut = WeblogAddinConfiguration.Current.KeyboardShortcut
             };
@@ -108,14 +108,14 @@ namespace WeblogAddin
                 Owner = Model.Window
             };
             WeblogModel.AppModel = Model;
-            
-            WeblogForm.Show();                       
+
+            WeblogForm.Show();
         }
 
 
         public override bool OnCanExecute(object sender)
         {
-            return Model.IsEditorActive;            
+            return Model.IsEditorActive;
         }
 
         public override void OnExecuteConfiguration(object sender)
@@ -127,7 +127,7 @@ namespace WeblogAddin
 
         public override void OnNotifyAddin(string command, object parameter)
         {
-            if (command == "newweblogpost")            
+            if (command == "newweblogpost")
                 WeblogFormCommand.Execute("newweblogpost");
         }
 
@@ -135,7 +135,7 @@ namespace WeblogAddin
 
         /// <summary>
         /// High level method that sends posts to the Weblog
-        /// 
+        ///
         /// </summary>
         /// <returns></returns>
         public async Task<bool> SendPost(WeblogInfo weblogInfo, bool sendAsDraft = false)
@@ -162,10 +162,11 @@ namespace WeblogAddin
             WeblogModel.ActivePost.Body = html;
             WeblogModel.ActivePost.PostId = meta.PostId;
 	        WeblogModel.ActivePost.PostStatus = meta.PostStatus;
+            WeblogModel.ActivePost.Permalink = meta.Permalink;
 
             // Custom Field Processing:
             // Add custom fields from existing post
-            // then add or update our custom fields            
+            // then add or update our custom fields
             var customFields = new Dictionary<string, CustomField>();
 
             // load existing custom fields from post online if possible
@@ -228,6 +229,7 @@ namespace WeblogAddin
                 client.FeaturedImageUrl = meta.FeaturedImageUrl;
                 client.FeatureImageId = meta.FeaturedImageId;
 
+
                 var result = await Task.Run<bool>(() => client.PublishCompletePost(WeblogModel.ActivePost, basePath,
                     sendAsDraft, markdown));
 
@@ -245,7 +247,10 @@ namespace WeblogAddin
 
                 var post = client.GetPost(WeblogModel.ActivePost.PostId);
                 if (post != null)
+                {
                     postUrl = post.Url;
+                    meta.Permalink = post.Permalink;
+                }
             }
             if (type == WeblogTypes.Medium)
             {
@@ -262,10 +267,11 @@ namespace WeblogAddin
                 }
 
                 // this is null
-                postUrl = client.PostUrl;                
+                postUrl = client.PostUrl;
             }
-            
+
             meta.PostId = WeblogModel.ActivePost.PostId?.ToString();
+
 
             // retrieve the raw editor markdown
             markdown = editor.MarkdownDocument.CurrentText;
@@ -273,7 +279,7 @@ namespace WeblogAddin
 
             // add the meta configuration to it
             markdown = meta.SetPostYaml();
-           
+
             // write it back out to editor
             editor.SetMarkdown(markdown, updateDirtyFlag: true, keepUndoBuffer: true);
 
@@ -294,7 +300,7 @@ namespace WeblogAddin
                 }
             }
             catch
-			{ 
+			{
                 mmApp.Log("Failed to display Weblog Url after posting: " +
                           weblogInfo.PreviewUrl ?? postUrl ?? weblogInfo.ApiUrl);
             }
@@ -372,7 +378,7 @@ namespace WeblogAddin
 
             if(!hasFrontMatter)
                 post = meta.SetPostYaml();
-            
+
             return post;
         }
 
@@ -472,22 +478,22 @@ namespace WeblogAddin
                     featuredImage = cf.Value;
             }
             if (!isMarkdown)
-            {                
+            {
                 if (!string.IsNullOrEmpty(post.mt_text_more))
                 {
                     // Wordpress ReadMore syntax - SERIOUSLY???
-                    if (string.IsNullOrEmpty(post.mt_excerpt))                    
-                        post.mt_excerpt = HtmlUtils.StripHtml(post.Body);                     
-                    
+                    if (string.IsNullOrEmpty(post.mt_excerpt))
+                        post.mt_excerpt = HtmlUtils.StripHtml(post.Body);
+
                     body = MarkdownUtilities.HtmlToMarkdown(body) +
                             "\n\n<!--more-->\n\n" +
-                            MarkdownUtilities.HtmlToMarkdown(post.mt_text_more);                    
+                            MarkdownUtilities.HtmlToMarkdown(post.mt_text_more);
                 }
                 else
                     body = MarkdownUtilities.HtmlToMarkdown(body);
 
             }
-            
+
             string categories = null;
             if (post.Categories != null && post.Categories.Length > 0)
                 categories = string.Join(",", post.Categories);
@@ -505,12 +511,13 @@ namespace WeblogAddin
                 WeblogName = weblogName,
                 FeaturedImageUrl = featuredImage,
                 PostDate = post.DateCreated,
-                PostStatus = post.PostStatus
+                PostStatus = post.PostStatus,
+                Permalink = post.Permalink
             };
-            
+
             string newPostMarkdown = NewWeblogPost(meta);
             File.WriteAllText(outputFile, newPostMarkdown);
-            
+
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
 
             if (isMarkdown)
@@ -519,7 +526,7 @@ namespace WeblogAddin
                 string path = mmApp.Configuration.LastFolder;
 
                 // do this synchronously so images show up :-<
-                ShowStatus("Downloading post images...", mmApp.Configuration.StatusMessageTimeout);                   
+                ShowStatus("Downloading post images...", mmApp.Configuration.StatusMessageTimeout);
                 SaveMarkdownImages(html, path);
                 ShowStatus("Post download complete.", mmApp.Configuration.StatusMessageTimeout);
 
@@ -666,7 +673,7 @@ namespace WeblogAddin
                         break;
                     case "configureweblog":
                         form.TabControl.SelectedIndex = 3;
-                        break;                                       
+                        break;
                 }
             }, (p, c) =>
             {
