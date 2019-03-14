@@ -771,21 +771,25 @@
 
       // single pane
       if (!te.splitInstance || te.splitInstance.$splits < 2) {
+        var ed = te.splitInstance.getEditor(0);
+
         // just apply fixed padding
         if (te.lastStyle.maxWidth == 0) {                    
-          te.editor.renderer.setPadding(lastPad);
+          ed.renderer.setPadding(lastPad);
         } else {
 
           // Apply width
           var w = window.innerWidth - te.lastStyle.maxWidth;
           if (w > lastPad * 2) {
             var pad = w / 2;
-            te.editor.renderer.setPadding(w / 2);
+            ed.renderer.setPadding(w / 2);
           } else
-            te.editor.renderer.setPadding(lastPad);
+            ed.renderer.setPadding(lastPad);
         }
-        te.splitInstance.resize();
 
+        ed.resize(true);
+        te.splitInstance.resize();
+        
         return;
       }
 

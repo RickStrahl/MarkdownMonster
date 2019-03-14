@@ -2364,7 +2364,8 @@ namespace MarkdownMonster
             }
             else if (button == ButtonWordWrap ||
                      button == ButtonLineNumbers ||
-                     button == ButtonShowInvisibles)
+                     button == ButtonShowInvisibles ||
+                     button == ButtonCenteredView)
             {
                 Model.ActiveEditor?.RestyleEditor();
             }

@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using FontAwesome.WPF;
 using LibGit2Sharp;
@@ -59,6 +51,7 @@ namespace MarkdownMonster.Windows
         private void GitCommitDialog_Loaded(object sender, RoutedEventArgs e)
         {
             CommitModel.GitHelper.OpenRepository(CommitModel.Filename);
+            CommitModel.Repository = CommitModel.GitHelper.Repository;
 
             // Check if a remote exists and disable push if not
             CommitModel.Remote = CommitModel.GitHelper.Repository.Network.Remotes?.FirstOrDefault()?.Name;
@@ -70,7 +63,7 @@ namespace MarkdownMonster.Windows
             }
 
             // get the main branch
-            CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
+            CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;            
             
             string defaultText = null;
             if (AppModel.Configuration.Git.GitCommitBehavior == GitCommitBehaviors.CommitAndPush)
@@ -519,6 +512,71 @@ namespace MarkdownMonster.Windows
         }
 
         #endregion
+
+        private bool firstBranchLoad = true;
+        private void ComboBranch_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (firstBranchLoad)
+            {
+                firstBranchLoad = false;
+                return;
+            }
+
+            if (CommitModel.Branch.StartsWith("<Create "))
+            {
+                var input = new InputBox()
+                {
+                    HeaderText = "Create new Git Branch",
+                    DescriptionText = "Enter the name for a new branch on this Git repository.",
+                    Button1Text = "Create Branch",
+                    Button2Text = "Cancel",
+                    Image = "../../Assets/git.png",
+                    InputPlaceholderText = "enter a new branch name",
+                    ParentWindow = this
+                };
+                string branchName = input.Show();
+                if (branchName == null || input.Cancelled)
+                {
+                    firstBranchLoad = true;
+                    CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;                     
+                    return;
+                }                    
+                
+                var newBranch = CommitModel.GitHelper.Repository.CreateBranch(branchName);
+                if (newBranch == null)
+                {
+                    StatusBar.ShowStatusError(CommitModel.GitHelper.ErrorMessage);
+                    return;
+                }
+
+                CommitModel.Branch = newBranch.FriendlyName;
+                CommitModel.OnPropertyChanged("LocalBranches");
+            }
+            else
+            {
+
+                if (CommitModel.RepositoryStatusItems.Count > 0)
+                {
+                    CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
+                    StatusBar.ShowStatusError(
+                        "Can't change branches when there are pending changes on the current branch.");
+                    return;
+                }
+
+                if (MessageBox.Show("You're about to change your branch to:\r\n\r\n" +
+                                    this.CommitModel.Branch + "\r\n\r\n" +
+                                    "Are you sure you want to change branches?", "Change Branch",
+                        MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) != MessageBoxResult.Yes)
+                    return;
+            }
+
+            if (!CommitModel.GitHelper.Checkout(CommitModel.Branch, CommitModel.Filename))
+            {
+                CommitModel.Branch = CommitModel.GitHelper.Repository?.Head?.FriendlyName;
+                StatusBar.ShowStatusError(CommitModel.GitHelper.ErrorMessage);               
+            }
+
+        }
     }
 
 }

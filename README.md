@@ -51,28 +51,29 @@ The **New Weblog Post** feature automatically sets up a post folder in a Weblog 
 
 Markdown Monster's integrated Git features also work great for  any Git based service like Jekyll, Ghost, Hugo or Wyam to write your posts locally and immediately push them to your remote Git repository to publish. Git integration is built into MM to commit your changes either individually or in batch or you can open your favorite Git Client to publish your changes to your hosted content blog.
 
-
-
 ## Links
 * **[Markdown Monster Site](http://markdownmonster.west-wind.com)**
-* **[What's New](Changelog.md)** (change log)
-* **[Video: Getting Started with Markdown Monster](https://www.youtube.com/watch?v=XjFf57Ap9VE)**  
-* **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
-* **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
+* **[What's New Change Log](Changelog.md)**
+* **[Documentation](https://markdownmonster.west-wind.com/docs/)**
+* **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
+* **[Support Forum for Questions & Discussions](http://support.west-wind.com?forum=Markdown+Monster)**
 * **[License](#license)**
 
-* **[Bug Reports & Feature Requests](https://github.com/rickstrahl/MarkdownMonster/issues)**
-* **[Discussion Forum](http://support.west-wind.com?forum=Markdown+Monster)**
 
+* **[Video: Getting Started with Markdown Monster ](https://www.youtube.com/watch?v=XjFf57Ap9VE)** (old) 
 * **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
-* **[Documentation](https://markdownmonster.west-wind.com/docs/)**
+
+#### Addins
+* **[Markdown Monster Addin Registry](https://github.com/RickStrahl/MarkdownMonsterAddinsRegistry)**  
+* **[Create Addins with .NET](http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm)**
+
 
 > ### Show your Support
 > If you like what you see here, please consider **starring this repo** (click the :star: in the top right corner of this page). If you have a favorite feature in Markdown Monster, it'd be awesome if you could tweet about it and mention [@markdownmonstr](https://twitter.com/markdownmonstr). Please help us spread the word. 
 
 
 > ### Please report any Issues you run into!
-> If you run into a problem with Markdown Monster, **please** let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature request here on GitHub. We want to know what doesn't work and get it fixed. **Help us make Markdown Monster better**!
+> If you run into a problem with Markdown Monster, **please** let us know by [filing an issue](https://github.com/rickstrahl/MarkdownMonster/issues) or feature request here on GitHub. We want to know what doesn't work and get it fixed. **Help us make Markdown Monster better**! We know your time is valuable, but we really appreciate any feedback.
 
 
 ## Features

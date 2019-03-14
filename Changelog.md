@@ -6,14 +6,39 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.15.8
+<small>March 14th, 2019</small>
+
+* **Unblock Portable Mode DLLs in Addins Folder**  
+When running for the first time in portable mode MM will try to unblock the DLLs in the `Addins` folder which otherwise fail to load if installed from a Zip file off the Internet or other unknown location. This should fix startup addin load errors for portable installs.
+
+* **Open Content from Console StdIn**  
+You can now open content piped from StdIn into Markdown Monster. You can use a command like `DIR | markdownmonster stdin` to open the output from the stdin directly in MM.
+
+* **New Command Line Registration Option**  
+You can now register Markdown Monster with `mm register regKey` to automate the registration process for larger organizations that need to install Markdown Monster on many machines.
+
+* **Add Permalink to Weblog Meta Data**  
+The Weblog addin now downloads and also sends the permalink of a Weblog post so you get a direct URL where your post can be accessed. If the engine supports it it's also possible to change the permalink.
+
 ### 1.15.5
-<small>not released yet</small>
+<small>March 5th, 2019</small>
 
 * **[New Console Addin Available](https://github.com/RickStrahl/Console-MarkdownMonster-Addin)**  
-There's a new **Console** Addin available in the Addin Manager that lets you attach a Terminal Console window that is 'pinned' to the bottom of your Markdown Monster instance. As you move or activate MM the Console sticks with the application. You can customize what Terminal tool to use and it defaults to Powershell.
+There's a new **Console** Addin available in the Addin Manager that lets you attach a Terminal Console window that is 'pinned' to the bottom of your Markdown Monster instance. As you move or activate MM the Console sticks with the application. You can customize what Terminal tool to use (Powershell, Command, Base, ConEmu, Commander etc.) and it defaults to PowerShell.
+
+* **[Refactored MaxWidth and Padding as Centered Layout](https://markdownmonster.west-wind.com/docs/_5ed0rj891.htm)**  
+Refactored the previous Padding and MaxWidth settings using a new Centered Layout option that can be quickly toggled from the **Views -> Toggle Centered Layout**. Centered layout applies a max width (default of 970 pixels) to limit the width of the editor content, so on very wide screens you don't get overwhelmed by a massive wall of text. Properties have been refactored to `CenteredMode`, `CenteredModeMaxWidth` and `Padding`.
+
+* **Change Branch DropDown on Git Commit Dialog**  
+You can now change branches in the Commit dialog assuming there are no pending changes. Currently no support for creating new branches, we'll add that in a subsequent update.
 
 * **Update MarkDig for Math Parsing**  
-Updated to latest MarkDig version that includes new Math handling that removes need for our custom Math MarkDig extensions that is now the stock behavior in MarkDig.
+Updated to latest MarkDig version that includes new Math expression wrapping from our PR that removes need for our custom Math MarkDig extensions. The behavior of our previous fix is now built into MarkDig directly. Yay!
+
+* **Update Save As Encrypted File Dialog**  
+Made the dialog easier to visually parse at a glance and work with. Add filename and path to the make the file you're encrypting or decrypting more obvious.
 
 * **Library Updates**  
 Update all .NET dependencies to latest versions of libraries.

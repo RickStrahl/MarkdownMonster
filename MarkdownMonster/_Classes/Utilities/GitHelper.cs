@@ -204,7 +204,7 @@ namespace MarkdownMonster.Utilities
         /// Creates a new repository which is the equivalent of a Git Init.
         /// </summary>
         /// <remarks>Note until you make your first commit there's no active branch.</remarks>
-        /// <param name="path">Path where to create a repository. Path should not exist yet.</param>        
+        /// <param name="path">Path where to create a repository. Path should not exist yet.</param>
         /// <param name="gitIgnoreText">Text for the .gitignore file in the Git root</param>
         /// <returns></returns>
         public bool CreateRepository(string path, string gitIgnoreText = null)
@@ -247,7 +247,50 @@ namespace MarkdownMonster.Utilities
                 var gitBranch = Commands.Checkout(repo, branch);
                 if (gitBranch == null)
                 {
-                    SetError($"Couldn't change out branch {branch}.");
+                    SetError($"Couldn't checkout branch {branch}.");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                SetError($"Couldn't checkout branch {branch}: {ex.Message}");
+                return false;
+            }
+
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// Creates a new branch and optionally checks it out
+        /// </summary>
+        /// <param name="branch"></param>
+        /// <param name="path"></param>
+        /// <param name="checkoutBranch"></param>
+        /// <returns></returns>
+        public bool CreateBranch(string branch, string path, bool checkoutBranch = true)
+        {
+            var repo = OpenRepository(path);
+            if (repo == null)
+                return false;
+
+            var newBranch = repo.CreateBranch(branch);
+            if (newBranch == null)
+            {
+                SetError($"Couldn't create branch {branch}.");
+                return false;
+            }
+
+            if (!checkoutBranch)
+                return true;
+
+            try
+            {
+                var gitBranch = Commands.Checkout(repo, branch);
+                if (gitBranch == null)
+                {
+                    SetError($"Couldn't checkout to branch {branch}.");
                     return false;
                 }
             }
@@ -257,9 +300,21 @@ namespace MarkdownMonster.Utilities
                 return false;
             }
 
-
             return true;
         }
+
+        /// <summary>
+        /// Retrieves a listing of Branches
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public BranchCollection GetBranches(string path)
+        {
+            var repo = OpenRepository(path);
+            return repo.Branches;
+
+        }
+
 
         /// <summary>
         /// Adds a remote to the current Repository.
@@ -280,7 +335,7 @@ namespace MarkdownMonster.Utilities
             string origPath = Environment.CurrentDirectory;
             try
             {
-                //git remote add origin https://github.com/RickStrahl/Test.git                
+                //git remote add origin https://github.com/RickStrahl/Test.git
                 Repository.Network.Remotes.Add(remoteName, githubUrl);
             }
             catch (Exception ex)
@@ -305,7 +360,7 @@ namespace MarkdownMonster.Utilities
             //try
             //{
             //    //git remote add origin https://github.com/RickStrahl/Test.git
-            //    Repository.Network.Remotes.Add(remoteName, githubUrl);                
+            //    Repository.Network.Remotes.Add(remoteName, githubUrl);
             //}
             //catch (Exception ex)
             //{
@@ -383,6 +438,45 @@ namespace MarkdownMonster.Utilities
 
             return true;
         }
+
+
+        /// <summary>
+        /// Merges changes from a branch into the current HEAD of the repository
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="mergeBranch"></param>
+        /// <param name="name"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public bool Merge(string path, string mergeBranch, string name, string email)
+        {
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email))
+            {
+                SetError("Commit failed: Git requires a commit name and email address.");
+                return false;
+            }
+
+            var repo = OpenRepository(path);
+            if (repo == null)
+                return false;
+
+            try
+            {
+                var sig = new Signature(name, email, DateTimeOffset.UtcNow);
+
+                var branch = Repository.Branches[mergeBranch];
+                Repository.Merge(branch, sig);
+            }
+            catch (Exception ex)
+            {
+                SetError($"Failed to merge {mergeBranch}: {ex.Message}.");
+                return false;
+            }
+
+            return true;
+        }
+
 
         public async Task<bool> PushAsync(string path, string branch = null)
         {
@@ -793,7 +887,7 @@ namespace MarkdownMonster.Utilities
 
         /// <summary>
         /// Retrieves Username and Email as a two item array from .gitconfig
-        /// file if it exists.                
+        /// file if it exists.
         /// </summary>
         /// <returns>
         /// Two Item String Array. Items: 0 - Username, 1 - Email

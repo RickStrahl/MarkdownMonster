@@ -42,17 +42,33 @@ namespace MarkdownMonster.Configuration
 
 
         /// <summary>
-        /// Horizontal padding for the editor
+        /// 
         /// </summary>
-        public int Padding { get; set; } = 20;
-
+        public bool CenteredMode
+        {
+            get {  return _centeredMode; }
+            set
+            {
+                if (value == _centeredMode) return;
+                _centeredMode = value;
+                if (_centeredMode && CenteredModeMaxWidth == 0)
+                    CenteredModeMaxWidth = 970;
+                
+                OnPropertyChanged();             
+            }
+        }
+        private bool _centeredMode = true;
 
         /// <summary>
         /// If set to a non-zero value will keep the editor's content width to
         /// this specified size
         /// </summary>
-        public int MaxWidth { get; set; }
+        public int CenteredModeMaxWidth { get; set; } = 970;
 
+        /// <summary>
+        /// Horizontal padding for the editor
+        /// </summary>
+        public int Padding { get; set; } = 20;
 
         /// <summary>
         /// Zoom level percentage on top of the EditorFontSize
@@ -216,6 +232,7 @@ namespace MarkdownMonster.Configuration
         }
 
         private bool _rightToLeft;
+        
 
         /// <summary>
         /// If enabled prefills bullets and auto-numbers. Disabled

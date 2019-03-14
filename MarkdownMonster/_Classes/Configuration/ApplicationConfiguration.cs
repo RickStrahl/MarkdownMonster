@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using MarkdownMonster.Configuration;
 using Newtonsoft.Json;
 using Westwind.Utilities.Configuration;
 using MarkdownMonster.Annotations;
-using MarkdownMonster.Favorites;
-
 using Westwind.Utilities;
 
 
@@ -21,12 +19,12 @@ namespace MarkdownMonster
     /// <summary>
     /// Application level configuration for Markdown Monster
     /// </summary>
-    public class ApplicationConfiguration : AppConfiguration, 
+    public class ApplicationConfiguration : AppConfiguration,
                                             INotifyPropertyChanged
     {
         /// <summary>
         /// The name of the application
-        /// </summary>        
+        /// </summary>
         public Themes ApplicationTheme
         {
             get { return _applicationTheme; }
@@ -48,7 +46,7 @@ namespace MarkdownMonster
         /// </summary>
         public bool UseSingleWindow { get; set; }
 
-        
+
         /// <summary>
         /// The theme used for the editor. Can be any of AceEditor themes
         /// twilight, visualstudio, github, monokai etc.
@@ -71,7 +69,7 @@ namespace MarkdownMonster
         /// </summary>
         public EditorConfiguration Editor { get; set; }
 
-        
+
         /// <summary>
         /// Themes used to render the Preview. Preview themes are
         /// located in the .\PreviewThemes folder and you can add
@@ -90,7 +88,7 @@ namespace MarkdownMonster
         private string _previewTheme;
 
         /// <summary>
-        /// Determines whether the preview attempts to sync to 
+        /// Determines whether the preview attempts to sync to
         /// the editor when previewing HTML.
         /// </summary>
         public PreviewSyncMode PreviewSyncMode
@@ -166,7 +164,7 @@ namespace MarkdownMonster
         /// String that holds any of the following as a comma delimited string
         /// in all lower case:
         /// "toolbar,statusbar,menu,preview,tabs";
-        /// 
+        ///
         /// Any of those are hidden in distraction free mode.
         /// </summary>
         public string DistractionFreeModeHideOptions
@@ -189,7 +187,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Determines whether documents are automatically saved
         /// whenever changes are made.
-        /// 
+        ///
         /// AutoSaveDocuments takes precedence over AutoSaveBackups
         /// </summary>
         public bool AutoSaveDocuments
@@ -198,7 +196,7 @@ namespace MarkdownMonster
             set
             {
                 if (value == _autoSaveDocuments) return;
-                _autoSaveDocuments = value;                                
+                _autoSaveDocuments = value;
                 OnPropertyChanged(nameof(AutoSaveDocuments));
             }
         }
@@ -209,13 +207,13 @@ namespace MarkdownMonster
         /// specified. 0 turns this feature off.
         /// </summary>
         public bool AutoSaveBackups { get; set; }
-        
-        
+
+
         /// <summary>
-        /// Determines whether the Preview browser always does a full 
+        /// Determines whether the Preview browser always does a full
         /// refresh when the preview is updated. Normally MM tries to
         /// update just the document content. Use this setting if you
-        /// are rendering custom content that includes script tags that 
+        /// are rendering custom content that includes script tags that
         /// need to execute in the page in the rendered content.
         /// </summary>
         public bool AlwaysUsePreviewRefresh
@@ -230,7 +228,7 @@ namespace MarkdownMonster
         }
         private bool _alwaysUsePreviewRefresh;
 
-     
+
         /// <summary>
         /// Default code syntax displayed in the Paste Code dialog
         /// </summary>
@@ -254,10 +252,10 @@ namespace MarkdownMonster
         public int JpegImageCompressionLevel { get; set; } = 80;
 
         /// <summary>
-        /// Web Browser Preview Executable - use this to force 
+        /// Web Browser Preview Executable - use this to force
         /// a specific browser since Windows seems to not be able
         /// to maintain a proper association long term.
-        /// 
+        ///
         /// If not set or path doesn't exist, uses Windows default
         /// configuration.
         /// </summary>
@@ -305,12 +303,12 @@ namespace MarkdownMonster
                 if (value == _recentDocuments) return;
                 _recentDocuments = value;
                 OnPropertyChanged(nameof(RecentDocuments));
-                //OnPropertyChanged(nameof(RecentDocumentList));                
+                //OnPropertyChanged(nameof(RecentDocumentList));
             }
         }
         private ObservableCollection<string> _recentDocuments = new ObservableCollection<string>();
 
-        
+
         ///// <summary>
         ///// Internal property used to display the recent document list
         ///// </summary>
@@ -327,7 +325,7 @@ namespace MarkdownMonster
         //            {
         //                Filename = doc,
         //                DisplayFilename = FileUtils.GetCompactPath(doc, 70)
-        //            });                    
+        //            });
         //        }
         //        return docs;
         //    }
@@ -340,7 +338,7 @@ namespace MarkdownMonster
         public int RecentDocumentsLength { get; set; }
 
         /// <summary>
-        /// Determines how many of the last documents are remembered and 
+        /// Determines how many of the last documents are remembered and
         /// reopened at most
         /// </summary>
         public int RememberLastDocumentsLength { get; set; }
@@ -351,9 +349,9 @@ namespace MarkdownMonster
         public MarkdownOptionsConfiguration MarkdownOptions { get; set; }
 
 	    /// <summary>
-	    /// Editor to editor syntax mappings that maps file extensions to 
+	    /// Editor to editor syntax mappings that maps file extensions to
 	    /// specific Ace Editor syntax formats. If a file with the given
-	    /// extension is opened it uses the specified syntax highlighting 
+	    /// extension is opened it uses the specified syntax highlighting
 	    /// in the editor.
 	    /// </summary>
 	    public Dictionary<string, string> EditorExtensionMappings { get; set; } = new Dictionary<string, string>
@@ -364,7 +362,7 @@ namespace MarkdownMonster
 	        {"mdown", "markdown" },
 	        {"mkd", "markdown" },
 	        {"mkdn", "markdown" },
-	        
+
             {"json", "json"},
 	        { "kavadocs", "json"},
 		    {"html", "html"},
@@ -387,7 +385,7 @@ namespace MarkdownMonster
 		    {"sh", "bash"},
 		    {"bat", "batchfile"},
 		    {"cmd", "batchfile"},
-			
+
 		    {"asp", "html"},
 		    {"aspx", "html"},
 		    {"jsx", "jsx"},
@@ -403,7 +401,7 @@ namespace MarkdownMonster
 		    {"wsdl", "xml"},
 		    {"config", "xml"},
 	        {"user", "xml" },
-	        {"dotsettings", "xml" },	        
+	        {"dotsettings", "xml" },
             {"csproj", "xml"},
             {"sln", "xml" },
 		    {"nuspec", "xml"},
@@ -412,7 +410,7 @@ namespace MarkdownMonster
 	        {"yml", "yaml"},
 	        {"diff", "diff" },
             {"txt", "text"},
-		    {"log", "text"}	        
+		    {"log", "text"}
 	    };
 
 		/// <summary>
@@ -436,7 +434,7 @@ namespace MarkdownMonster
         /// Configuration Settings for Git Integration
         /// </summary>
         public GitConfiguration Git { get; set; }
-               
+
 
         #endregion
 
@@ -543,7 +541,7 @@ namespace MarkdownMonster
         /// By default passwords in addins are encrypted with machine encryption
         /// keys which means they are not portable. When false a fixed password
         /// is used that is portable which is not as secure.
-        /// 
+        ///
         /// Changing this scheme will cause Registration Keys to require
         /// re-entering passwords.
         /// </summary>
@@ -563,12 +561,12 @@ namespace MarkdownMonster
         /// </summary>
         public string LastFolder { get; set; }
 
-	    
+
 
 	    /// <summary>
 	    /// Common folder where configuration files are stored. Can be moved
 	    /// to an alternate location to allow sharing.
-	    /// </summary>        
+	    /// </summary>
 	    public string CommonFolder
 	    {
 		    get
@@ -584,20 +582,20 @@ namespace MarkdownMonster
 
         internal string InternalCommonFolder { get; set; }
 
-        internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");        
+        internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
         #endregion
 
         public ApplicationConfiguration()
-        {            
+        {
             Editor = new EditorConfiguration();
             Git = new GitConfiguration();
             MarkdownOptions = new MarkdownOptionsConfiguration();
             WindowPosition = new WindowPositionConfiguration();
-	        FolderBrowser = new FolderBrowserConfiguration();	        
+	        FolderBrowser = new FolderBrowserConfiguration();
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
             OpenDocuments = new List<MarkdownDocument>();
-            
-            
+
+
             InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
             CommonFolder = InternalCommonFolder;
             LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -609,8 +607,8 @@ namespace MarkdownMonster
 
             RecentDocumentsLength = 10;
             RememberLastDocumentsLength = 5;
-            
-            
+
+
             BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost.fiddler/MarkdownMonster/bugreport/bugreport.ashx?method=ReportBug";
             TelemetryUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=Telemetry";
@@ -619,20 +617,20 @@ namespace MarkdownMonster
             ApplicationTheme = Themes.Dark;
             PreviewTheme = "Dharkan";
             EditorTheme = "vscodedark";
-            
+
 
             DefaultCodeSyntax = "csharp";
 
             PreviewHttpLinksExternal = true;
 
             UseMachineEncryptionKeyForPasswords = true;
-	        
+
 			TerminalCommand = "powershell.exe";
 			TerminalCommandArgs = "-noexit -command \"cd '{0}'\"";
-            OpenFolderCommand = "explorer.exe";            
-            
+            OpenFolderCommand = "explorer.exe";
+
             WebBrowserPreviewExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),@"Google\Chrome\Application\chrome.exe");
-            
+
             ReportErrors = true;
 
             UseSingleWindow = true;
@@ -668,7 +666,7 @@ namespace MarkdownMonster
                 RecentDocuments.Clear();
                 foreach (var recent in recents)
                     RecentDocuments.Add(recent);
-            }            
+            }
         }
 
         /// <summary>
@@ -783,7 +781,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <returns>
         /// Backup file name
-        /// </returns>        
+        /// </returns>
         public string Backup()
         {
             var filename = Path.Combine(CommonFolder, $"markdownmonster-backup-{DateTime.Now:MM-dd-yyyy-HH-mm-ss}.json");
@@ -824,7 +822,7 @@ namespace MarkdownMonster
             if (Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            File.WriteAllText(filename, configData);        
+            File.WriteAllText(filename, configData);
         }
 
         public override string WriteAsString()
@@ -872,11 +870,15 @@ namespace MarkdownMonster
                 {
                     InternalCommonFolder = workFolder;
                     App.IsPortableMode = true;
+
+                    // try to unblock DLLs downloaded from Internet via Zip file
+                    UnblockDlls();
+
                     return workFolder;
                 }
             }
 
-            // Check for Common Folder override 
+            // Check for Common Folder override
             cfFile = Path.Combine(InternalCommonFolder, "CommonFolderLocation.txt");
             bool cflExists = File.Exists(cfFile);
 
@@ -887,22 +889,47 @@ namespace MarkdownMonster
                 {
                     commonFolderToSet = InternalCommonFolder;
                     File.Delete(cfFile);
-                }                
+                }
             }
             else
                 commonFolderToSet = CommonFolder;
 
             if (!Directory.Exists(commonFolderToSet))
                 commonFolderToSet = InternalCommonFolder;
-            
+
             return commonFolderToSet;
         }
         #endregion
-    }
-    
 
-      
-    
+        #region UnblockDlls
+
+        [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool DeleteFile(string name);
+
+        /// <summary>
+        /// Unblocks DLLS that are downloaded from the Internet either directly
+        /// or directly installed from an Internet Downloaded Zip file
+        /// </summary>
+        private void UnblockDlls()
+        {
+            // DeleteFile(FULLPATH("wwDotNetBridge.dll") + ":Zone.Identifier")
+            foreach (var dir in Directory.GetDirectories(Path.Combine(App.InitialStartDirectory, "Addins")))
+            {
+                foreach (var filename in Directory.GetFiles(dir,"*.dll"))
+                {
+                    if (File.Exists(filename))
+                        DeleteFile(filename + ":Zone.Identifier"); // API call never throws/only false result
+                }
+            }
+        }
+
+        #endregion
+    }
+
+
+
+
 
     public enum MarkdownStyles
     {
@@ -921,7 +948,7 @@ namespace MarkdownMonster
     {
         EditorToPreview,
         PreviewToEditor,
-        EditorAndPreview,        
+        EditorAndPreview,
         None
     }
 

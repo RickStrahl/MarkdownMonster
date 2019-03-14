@@ -51,7 +51,7 @@
 
                     <Button Name="ButtonCommitAndPush"   Click="ButtonCommitAndPush_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="5,2,5,0" Icon="Upload"                                             
+                            <fa:FontAwesome Margin="5,2,5,0" Icon="Upload"                                            
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                             Foreground="#1F9B3C" />
                             <TextBlock>Commit &amp; Push</TextBlock>
@@ -241,7 +241,15 @@
             <StatusBarItem Grid.Column="3" Margin="0,0,15,0">
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="CodeFork" Margin="0,1,4,0" FontSize="15" Foreground="DarkGoldenrod"/>
-                    <TextBlock Text="{Binding Branch,StringFormat='Branch: {0}'}" />
+                    <TextBlock Text="Branch:" />
+                    <ComboBox Name="ComboBranch"
+                              SelectedValue="{Binding Branch}"
+                              ItemsSource="{Binding LocalBranches}"  
+                              BorderThickness="0"
+                              FontSize="14" Padding="0" Margin="2,-10,0,-8" Height="25"
+                              SelectionChanged="ComboBranch_OnSelectionChanged"                               
+                              Background="Transparent"
+                              />
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>

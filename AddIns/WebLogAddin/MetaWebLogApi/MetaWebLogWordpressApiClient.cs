@@ -19,10 +19,10 @@ namespace WebLogAddin.MetaWebLogApi
 
         /// <summary>
         /// If true tries to use the first image as the featured image.
-        /// If false, no featured image is implicitly assigned.        
+        /// If false, no featured image is implicitly assigned.
         /// </summary>
         public bool DontInferFeaturedImage { get; set; } = true;
-        
+
         /// <summary>
         /// Featured image Id captured in the request
         /// </summary>
@@ -33,23 +33,23 @@ namespace WebLogAddin.MetaWebLogApi
         /// </summary>
         public string FeaturedImageUrl { get; set; }
 
-        
+
         /// <summary>
         /// The URL of the new post created
         /// </summary>
         public string PostUrl { get; set; }
 
-        private readonly WeblogInfo WeblogInfo;       
+        private readonly WeblogInfo WeblogInfo;
 
         public MetaWebLogWordpressApiClient(WeblogInfo weblogInfo)
         {
             WeblogInfo = weblogInfo;
-            
+
         }
 
 
         /// <summary>
-        /// Sends a complete post to a server. Parses the post and sends 
+        /// Sends a complete post to a server. Parses the post and sends
         /// embedded images as media attachments.
         /// </summary>
         /// <param name="post"></param>
@@ -57,20 +57,18 @@ namespace WebLogAddin.MetaWebLogApi
         /// <param name="sendAsDraft"></param>
         /// <param name="markdown"></param>
         /// <returns></returns>
-        public bool PublishCompletePost(Post post,  
-            string basePath = null, 
+        public bool PublishCompletePost(Post post,
+            string basePath = null,
             bool sendAsDraft = false,
             string markdown = null)
-        {            
+        {
             WeblogTypes type = WeblogInfo.Type;
             if (type == WeblogTypes.Unknown)
                 type = WeblogInfo.Type;
 
-            
-
             var wrapper = GetWrapper();
 
-            string body = post.Body;            
+            string body = post.Body;
             try
             {
                 body = SendImages(body, basePath, wrapper);
@@ -137,7 +135,7 @@ namespace WebLogAddin.MetaWebLogApi
             return true;
         }
 
-        
+
 
         /// <summary>
         /// Retrieves a post and gets the link for the post
@@ -147,7 +145,7 @@ namespace WebLogAddin.MetaWebLogApi
         public string GetPostUrl(object postId)
         {
             string link = null;
-            
+
 
             try
             {
@@ -155,13 +153,13 @@ namespace WebLogAddin.MetaWebLogApi
                 var postRaw = wrapper.GetPostRaw(postId);
                 link = postRaw.link;
             }
-            catch { }                
-            
+            catch { }
+
 
             if (string.IsNullOrEmpty(link) || (!link.StartsWith("http://") && !link.StartsWith("https://")))
                 // just go to the base domain - assume posts are listed there
                 link = new Uri(WeblogInfo.ApiUrl).GetLeftPart(UriPartial.Authority);
-            
+
             return link;
         }
 
@@ -234,17 +232,17 @@ namespace WebLogAddin.MetaWebLogApi
                     foreach (HtmlNode img in images)
                     {
                         string origImageLink = img.Attributes["src"]?.Value;
-                        string imgFile = StringUtils.UrlDecode(origImageLink);                        
+                        string imgFile = StringUtils.UrlDecode(origImageLink);
 
                         if (imgFile == null)
                             continue;
-                        
+
                         if (!imgFile.StartsWith("http://") && !imgFile.StartsWith("https://"))
                         {
                             if (!imgFile.Contains(":\\"))
                                 imgFile = Path.Combine(basePath, imgFile.Replace("/", "\\"));
 
-                            
+
                             if (System.IO.File.Exists(imgFile))
                             {
                                 var uploadFilename = Path.GetFileName(imgFile);
@@ -292,7 +290,7 @@ namespace WebLogAddin.MetaWebLogApi
             return html;
         }
 
-        
+
 
         public IEnumerable<UserBlog> GetBlogs()
         {
@@ -325,7 +323,7 @@ namespace WebLogAddin.MetaWebLogApi
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        MetaWeblogWrapper GetWrapper()            
+        MetaWeblogWrapper GetWrapper()
         {
 
             MetaWeblogWrapper wrapper;

@@ -391,30 +391,38 @@
                           IsChecked="{Binding Configuration.IsDocumentOutlineVisible, Mode=TwoWay}" />
                 <Separator />
                 <MenuItem Name="ButtonWordWrap" 
-                          Header="_Word Wrap"      
-                          Command="{Binding Commands.WordWrapCommand}"                                                                   
-                          Click="Button_Handler"
+                          Header="Toggle _Word Wrap"      
+                          Command="{Binding Commands.WordWrapCommand}"                                                                                             
                           IsCheckable="True"
                           InputGestureText="{Binding Commands.WordWrapCommand.KeyboardShortcut}"
                           IsChecked="{Binding Configuration.Editor.WrapText, Mode=OneWay}" />
 
                 <MenuItem Name="ButtonLineNumbers" 
-                          Header="Line _Numbers"                         
+                          Header="Toggle Line _Numbers"                         
                           Click="Button_Handler"
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.Editor.ShowLineNumbers}" />
 
                 <MenuItem Name="ButtonShowInvisibles" 
-                          Header="Show Invisible Characters"
+                          Header="Toggle Invisible Characters"
                           Click="Button_Handler"
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.Editor.ShowInvisibles}" />
 
+                <Separator />
+
+                <MenuItem Name="ButtonCenteredView" 
+                          Header="Toggle _Centered Layout"     
+                          Click="Button_Handler"
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.Editor.CenteredMode}"
+                           />
+
                 <MenuItem Header="_Split Editor">
-                    <MenuItem Header="_None" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="None" />
+                    <MenuItem Header="_Single Pane" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="None" />
                     <Separator/>
                     <MenuItem Header="_Below" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Below" />
-                    <MenuItem Header="Be_side" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Beside" />
+                    <MenuItem Header="Besi_de" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Beside" />
                 </MenuItem>
 
             </MenuItem>
@@ -445,7 +453,7 @@
                 <Separator  />
                 <MenuItem Name="ButtonAbout" Header="_About" Click="Button_Handler"/>
 
-                <MenuItem Name="ButtonTest" Header="Test" Command="{Binding Commands.TestButtonCommand}" />
+                <!--<MenuItem Name="ButtonTest" Header="Test" Command="{Binding Commands.TestButtonCommand}" />-->
             </MenuItem>
         </Menu>
 

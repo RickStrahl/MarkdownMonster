@@ -39,27 +39,27 @@
             margin: 5px 11%;
         }
         #ShareBox {
-                    flex-direction: row;
-                    padding: 0 20px;
-                    height: 50px;
-                    background: #252525;
+            flex-direction: row;
+            padding: 0 20px;
+            height: 50px;
+            background: #252525;
 
-                    display: flex;
-                    flex-direction: row;                    
-                }
-                .share-buttons {
-                    display: inline;
-                    font-size: 35px;
-                    padding: 0;                    
-                }
-                .share-buttons li {
-                    display: inline;
-                    list-style: none;
-                    padding-right: 20px;
-                }
-                    .share-buttons a {
-                        text-decoration: none;
-                    }
+            display: flex;
+            flex-direction: row;                    
+        }
+        .share-buttons {
+            display: inline;
+            font-size: 35px;
+            padding: 0;                    
+        }
+        .share-buttons li {
+            display: inline;
+            list-style: none;
+            padding-right: 20px;
+        }
+        .share-buttons a {
+            text-decoration: none;
+        }
     </style>
     
         
@@ -270,7 +270,13 @@
                 
 </div>
             </header>
-
+           
+           <style>
+               article p {
+                   line-height: 1.5em;
+                   font-size: 1.1em;
+               }
+           </style>
             <article class="content" >
            
 
@@ -284,20 +290,19 @@
             <p>                    
                 Markdown Monster is a Markdown editor and viewer that lets you edit Markdown with syntax highlighting
                 and fast text entry. A collapsible, synced, live preview lets you see your output as you type.
-                You can easily embed images, links, emojis and code as text or by using our gentle UI
-                helpers that simplify many operations. You can also paste and drag images directly into the editor.
+                Easily embed images, links, emojis and code using Markdown text or use our gentle UI
+                helpers that simplify many operations a couple of keystrokes. Paste images from the clipboard or drag and drop from Explorer or our built-in folder browser.
                 Inline spell-checking and word counts keep your content streamlined unobtrusively.
             </p>
                 
                 
             <p>
-                You can export Markdown to HTML by saving to disk or by copying Markdown selections as
+                Export your Markdown to HTML or PDF by saving to disk or by copying Markdown selections as
                 HTML directly to the clipboard. The HTML preview can display syntax colored code snippets 
                 for most common coding languages, and can easily be customized with HTML and CSS template to match 
                 your own sites. You can choose from a light and dark theme, and choose individual editor and  
-                preview themes. You can even use Vim or EMacs type conventions. Other convenience features let you browse for and 
-                select files in the built-in folder browser, jump to the current folder in Explorer or Terminal,
-                commit to Git and more.
+                preview themes that are fully customizable. You can even use Vim or EMacs type conventions. Other convenience features let you browse for and 
+                select files in the built-in folder browser, use the document outline to jump through sections in your Markdown, or shell out to Explorer, Terminal or your favorite Git client. It's all about convenience - everything you need at your finger tips.
             </p>
                 
                 <div class="content" style="padding: 0 0 20px">
@@ -374,16 +379,14 @@
                 <h4>Weblog Publishing</h4>
                 <p>
                     Markdown Monster can also publish your Markdown directly to your Weblog. If your blog supports 
-					WordPress, MetaWeblog or Medium, you can publish your documents with one click. You can also 
-					edit and republish, or download existing posts and even convert existing posts from HTML to Markdown.
+					WordPress, MetaWeblog or Medium, you can publish your documents with one click. You can also edit and republish, or download existing posts and even convert existing posts from HTML to Markdown.
                  </p>
                 
-                <h4>Extensible via .NET Addins</h4>
+                <h4>Extensible via .NET</h4>
                  <p>
-                    We also wanted to make sure <b>the editor is highly extensible</b>, so you can add custom features
-                    of your own. Markdown Monster includes an addin model that makes it easy to build
+                    We also wanted to make sure <b>the editor is highly extensible</b>, so you can add custom features of your own. Markdown Monster includes an addin model that makes it easy to build
                     extensions that let you hook into the UI, the editor behavior and the publishing
-                    process. We also provide useful .NET Scripting and Text Templating addins that
+                    process. We also provide useful Scripting and Text Templating addins that
 					let you automate many tasks without creating an addin. Find out more about 
                     <a href="http://markdownmonster.west-wind.com/docs/_4ne0s0qoi.htm" target="top">
                     creating an addin with .NET</a>.

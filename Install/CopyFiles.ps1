@@ -15,19 +15,24 @@ robocopy ${source}\bin\Release\lib\win32 ${target}\lib\win32 /MIR /XF git2*.pdb
 Copy-Item ${cur}\mm.exe ${target}\mm.exe
 Copy-Item ${cur}\license.md ${target}\license.md
 
+# Cleanup output
 Remove-Item ${target}\*.vshost.*
 Remove-Item ${target}\*.xml
+Remove-Item ${target}\*.user
+Remove-Item ${target}\*.dll.config
+Remove-Item ${target}\.vs -Recurse -Force
 
+
+# Roslyn - remove extra files
 Remove-Item ${target}\Addins\Snippets\roslyn -Recurse -Force
 Remove-Item ${target}\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 Remove-Item ${target}\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 Remove-Item ${target}\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 
-# Want to ship main PDB but not any others
-Rename-Item ${target}\markdownmonster.pdb ${target}\markdownmonster.TPDB
-Remove-Item ${target}\*.pdb
-Rename-Item ${target}\markdownmonster.TPDB ${target}\markdownmonster.pdb
+# Want to ship MM PDB but not any others
+Remove-Item ${target}\*.pdb -Exclude markdownmonster.pdb
 
-get-childitem .\distribution\addins\*.pdb -Recurse | Remove-Item
-get-childitem .\distribution\addins\*.config -Recurse | Remove-Item
-get-childitem .\distribution\addins\*.xml -Recurse | Remove-Item
+# Cleanup Addins folder
+get-childitem ${target}\Addins\*.pdb -Recurse | Remove-Item
+get-childitem ${target}\Addins\*.config -Recurse | Remove-Item
+get-childitem ${target}\Addins\*.xml -Recurse | Remove-Item
