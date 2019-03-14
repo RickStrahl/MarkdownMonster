@@ -1,10 +1,10 @@
-﻿#region 
+﻿#region
 /*
  **************************************************************
- *  Author: Rick Strahl 
+ *  Author: Rick Strahl
  *          © West Wind Technologies, 2016
  *          http://www.west-wind.com/
- * 
+ *
  * Created: 04/28/2016
  *
  * Permission is hereby granted, free of charge, to any person
@@ -15,10 +15,10 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -27,7 +27,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- **************************************************************  
+ **************************************************************
 */
 #endregion
 using System;
@@ -63,7 +63,7 @@ namespace MarkdownMonster
 
     /// <summary>
     /// Wrapper around the Editor WebBrowser Control and the embedded
-    /// Ace Editor instance that is contained within it. This class 
+    /// Ace Editor instance that is contained within it. This class
     /// manages creation of the WebBrowser instance and handles configuration
     /// and event firing. It also provides event interfaces for AceEditor
     /// callbacks and methods to affect the behavior of the AceEditor instance
@@ -80,13 +80,13 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Reference back to the main Markdown Monster window that 
+        /// Reference back to the main Markdown Monster window that
         /// </summary>
         public MainWindow Window { get; set; }
 
 
         /// <summary>
-        /// References the loaded MarkdownDocument instance. Note this 
+        /// References the loaded MarkdownDocument instance. Note this
         /// value can be null before the document has been loaded.
         /// </summary>
         public MarkdownDocument MarkdownDocument { get; set; }
@@ -108,7 +108,7 @@ namespace MarkdownMonster
         private string _editorSyntax;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public EditorSplitModes SplitMode
         {
@@ -165,7 +165,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Optional identifier that lets you specify what type of
         /// document we're dealing with.
-        /// 
+        ///
         /// Can be used by Addins to create customer editors or handle
         /// displaying the document a different way.
         /// </summary>
@@ -199,9 +199,9 @@ namespace MarkdownMonster
         }
 
 
-        
+
         /// <summary>
-        /// Loads a new document into the active editor using 
+        /// Loads a new document into the active editor using
         /// MarkdownDocument instance.
         /// </summary>
         /// <param name="mdDoc"></param>
@@ -253,8 +253,8 @@ namespace MarkdownMonster
                 else
                     // always disable for non-markdown text
                     AceEditor?.enablespellchecking(true, mmApp.Configuration.Editor.Dictionary);
-                
-                
+
+
                 if (!NoInitialFocus)
                     SetEditorFocus();
 
@@ -286,7 +286,7 @@ namespace MarkdownMonster
 
         public void RemovePreviewBrowser()
         {
-        
+
             // add it to the current editor
             //Window.PreviewBrowserContainer.SetValue(Grid.ColumnProperty, 2);
         }
@@ -364,12 +364,12 @@ namespace MarkdownMonster
         /// <summary>
         /// Saves the active document to file using the filename
         /// defined on the MarkdownDocument.
-        /// 
+        ///
         /// If there's no active filename a file save dialog
         /// If there's no active filename a file save dialog
-        /// is popped up. 
+        /// is popped up.
         /// </summary>
-        /// <param name="isEncrypted">Determines if the file is using local encryption</param>        
+        /// <param name="isEncrypted">Determines if the file is using local encryption</param>
         public bool SaveDocument(bool isEncrypted = false)
         {
             if (MarkdownDocument == null || AceEditor == null ||
@@ -936,7 +936,7 @@ namespace MarkdownMonster
         /// Returns the font size of the editor. Note font-size automatically
         /// affects all open editor instances .
         /// </summary>
-        /// <returns></returns>        
+        /// <returns></returns>
         public int GetFontSize()
         {
             if (AceEditor == null)
@@ -948,13 +948,13 @@ namespace MarkdownMonster
 
             return Convert.ToInt32(fontsize);
 
-            //// If we have a fontsize, force the zoom level to 100% 
+            //// If we have a fontsize, force the zoom level to 100%
             //// The font-size has been adjusted to reflect the zoom percentage
             //var wb = (dynamic)WebBrowser.GetType().GetField("_axIWebBrowser2",
             //        BindingFlags.Instance | BindingFlags.NonPublic)
             //    .GetValue(WebBrowser);
             //int zoomLevel = 100; // Between 10 and 1000
-            //wb.ExecWB(63, 2, zoomLevel, ref zoomLevel);   // OLECMDID_OPTICAL_ZOOM (63) - don't prompt (2)                     
+            //wb.ExecWB(63, 2, zoomLevel, ref zoomLevel);   // OLECMDID_OPTICAL_ZOOM (63) - don't prompt (2)
         }
 
 
@@ -1010,7 +1010,7 @@ namespace MarkdownMonster
 
             var config = mmApp.Configuration;
 
-            // CenteredModeMaxWidth is rendered based on Centered Mode only            
+            // CenteredModeMaxWidth is rendered based on Centered Mode only
             int maxWidth = config.Editor.CenteredModeMaxWidth;
             if (!config.Editor.CenteredMode)
                 maxWidth = 0;  // 0 means stretch full width
@@ -1034,18 +1034,18 @@ namespace MarkdownMonster
                 config.Editor.EnableBulletAutoCompletion,
                 config.Editor.TabSize,
                 config.Editor.UseSoftTabs,
-                config.Editor.RightToLeft                
+                config.Editor.RightToLeft
             };
 
             var settings = new JsonSerializerSettings()
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),                                
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
             };
             return JsonConvert.SerializeObject(style,settings);
         }
 
         /// <summary>
-        /// Sets line number gutter on and off. Separated out from Restyle Editor to 
+        /// Sets line number gutter on and off. Separated out from Restyle Editor to
         /// allow line number config to be set separately from main editor settings
         /// for specialty file editing.
         /// </summary>
@@ -1072,9 +1072,9 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Makes the document readonly or read-write
-        /// 
+        ///
         /// Fires event when ReadOnly document is double clicked:
-        /// OnNotifyAddin("ReadOnlyEditorDoubleClick",editor) 
+        /// OnNotifyAddin("ReadOnlyEditorDoubleClick",editor)
         /// </summary>
         /// <param name="show"></param>
         public void SetReadOnly(bool show = true)
@@ -1144,9 +1144,9 @@ namespace MarkdownMonster
         #region Selection and Line Operations
 
         /// <summary>
-        /// Replaces the editor's content without completely 
-        /// reloading the document. 
-        /// 
+        /// Replaces the editor's content without completely
+        /// reloading the document.
+        ///
         /// Leaves scroll position intact.
         /// </summary>
         /// <param name="text"></param>
@@ -1165,7 +1165,7 @@ namespace MarkdownMonster
             return AceEditor?.getselection(false);
         }
 
-     
+
         /// <summary>
         /// Returns an object that holds the current selection's
         /// start and end position row and column values.
@@ -1187,8 +1187,8 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Pastes text into the editor at the current 
-        /// insertion/selection point. Replaces any 
+        /// Pastes text into the editor at the current
+        /// insertion/selection point. Replaces any
         /// selected text.
         /// </summary>
         /// <param name="text"></param>
@@ -1415,7 +1415,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="mode"></param>
         public void SplitEditor(EditorSplitModes mode)
-        {            
+        {
             AceEditor?.split(mode.ToString());
         }
 
@@ -1450,7 +1450,7 @@ namespace MarkdownMonster
 
         public void ResizeWindow()
         {
-            // nothing to do at the moment             
+            // nothing to do at the moment
         }
 
         #endregion
@@ -1469,7 +1469,7 @@ namespace MarkdownMonster
                 GetMarkdown();
 
             //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") + "  - Preview Markdown  called");
-            
+
             Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true, editorLineNumber: editorLineNumber);
 
             var isDocumentOutlineActive = Window.SidebarContainer?.SelectedItem == Window.TabDocumentOutline;
@@ -1613,7 +1613,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Performs the special key operation that is tied
         /// to the key in the application.
-        /// 
+        ///
         /// ctrl-s,ctrl-n, ctrl-o, cltr-i,ctrl-b,ctrl-l,ctrl-k,alt-c,ctrl-shift-v,ctrl-shift-c,ctlr-shift-down,ctrl-shift-up
         /// </summary>
         /// <param name="key"></param>
@@ -1649,7 +1649,7 @@ namespace MarkdownMonster
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("bold");
                 }
-                
+
                 else if (key == "InsertItalic")
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("italic");
@@ -1781,7 +1781,7 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Pre-processing for HREF link clicks in the Preview document
-        /// 
+        ///
         /// .md documents are navigated by opening
         /// http links are navigated with Shell browsers if PreviewExternal is enabled
         /// Addins can intercept and if return true handle navigation completely.
@@ -1823,7 +1823,7 @@ namespace MarkdownMonster
                 // relative path
                 var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
                 urlPath = Path.Combine(docPath, urlPath);
-                                
+
                 if (File.Exists(urlPath))
                 {
                     var tab = Window.RefreshTabFromFile(docPath); // open or activate
@@ -1852,16 +1852,25 @@ namespace MarkdownMonster
         /// </summary>
         public void PasteOperation()
         {
-            if (Clipboard.ContainsText())
+            if (ClipboardHelper.ContainsText())
             {
-                // just paste as is at cursor or selection
-                SetSelection(Clipboard.GetText());
+                var txt = ClipboardHelper.GetText();
+                if (txt != null)
+                    SetSelection(txt);
+                else
+                    Window.ShowStatusError("An error occurred pasting text from the clipboard.");
             }
             else if (ClipboardHelper.ContainsImage())
             {
                 string imagePath = null;
 
-                using (var bitMap = System.Windows.Forms.Clipboard.GetImage())
+                var bitMap = System.Windows.Forms.Clipboard.GetImage();
+                if (bitMap == null)
+                {
+                    Window.ShowStatusError("An error occurred pasting an image from the clipboard.");
+                    return;
+                }
+                using (bitMap)
                 {
                     imagePath = AddinManager.Current.RaiseOnSaveImage(bitMap);
 
@@ -1895,7 +1904,7 @@ namespace MarkdownMonster
                     var result = sd.ShowDialog();
                     if (result != null && result.Value)
                     {
-                        
+
                         imagePath = sd.FileName;
                         var ext = Path.GetExtension(imagePath)?.ToLower();
 
@@ -1917,7 +1926,7 @@ namespace MarkdownMonster
                                 bitMap.Dispose();
 
                                 if (ext == ".png" || ext == ".jpeg")
-                                    mmFileUtils.OptimizeImage(sd.FileName); // async                            
+                                    mmFileUtils.OptimizeImage(sd.FileName); // async
                             }
                         }
                         catch (Exception ex)
@@ -1933,7 +1942,7 @@ namespace MarkdownMonster
                         {
                             try
                             {
-                                relPath = FileUtils.GetRelativePath(sd.FileName, documentPath);                                
+                                relPath = FileUtils.GetRelativePath(sd.FileName, documentPath);
                             }
                             catch (Exception ex)
                             {
@@ -1950,13 +1959,13 @@ namespace MarkdownMonster
                             imagePath = imagePath.Replace("\\", "/");
 
                         SetSelectionAndFocus($"![]({imagePath.Replace(" ", "%20")})");
-                        
+
                         // Force the browser to refresh completely so image changes show up
                         Window.PreviewBrowser.Refresh(true);
                         //PreviewMarkdownCallback(); // force a preview refresh
                     }
                 }
-            }            
+            }
         }
 
         /// <summary>
@@ -1970,9 +1979,9 @@ namespace MarkdownMonster
 
             if (ext == ".png" || ext == ".gif" || ext == ".jpg" || ext == ".jpeg" || ext == ".svg")
             {
-                var docPath = MarkdownDocument.LastImageFolder;                
+                var docPath = MarkdownDocument.LastImageFolder;
                 if (string.IsNullOrEmpty(docPath))
-                    docPath = Path.GetDirectoryName(MarkdownDocument.Filename); 
+                    docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
 
                 // if lower than 1 level down off base path ask to save the file
                 string relFilePath = FileUtils.GetRelativePath(file, docPath);
@@ -2107,7 +2116,7 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Shows the Editor Context Menu at the current position
-        /// 
+        ///
         /// called from editor
         /// </summary>
         public void EditorContextMenu()
@@ -2141,7 +2150,7 @@ namespace MarkdownMonster
         #region Events Raised by the editor calling back to WPF
 
         /// <summary>
-        /// Allows the Editor to raise events that can be captured by 
+        /// Allows the Editor to raise events that can be captured by
         /// Addins that are subscribed to OnNotifyAddin.
         /// </summary>
         public void NotifyAddins(string command, object parameter)
@@ -2155,7 +2164,7 @@ namespace MarkdownMonster
         #endregion
 
         /// <summary>
-        /// Handle dropping of files 
+        /// Handle dropping of files
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
