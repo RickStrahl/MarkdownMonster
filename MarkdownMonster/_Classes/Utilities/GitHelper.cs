@@ -204,7 +204,7 @@ namespace MarkdownMonster.Utilities
         /// Creates a new repository which is the equivalent of a Git Init.
         /// </summary>
         /// <remarks>Note until you make your first commit there's no active branch.</remarks>
-        /// <param name="path">Path where to create a repository. Path should not exist yet.</param>        
+        /// <param name="path">Path where to create a repository. Path should not exist yet.</param>
         /// <param name="gitIgnoreText">Text for the .gitignore file in the Git root</param>
         /// <returns></returns>
         public bool CreateRepository(string path, string gitIgnoreText = null)
@@ -274,14 +274,14 @@ namespace MarkdownMonster.Utilities
             var repo = OpenRepository(path);
             if (repo == null)
                 return false;
-            
+
             var newBranch = repo.CreateBranch(branch);
             if (newBranch == null)
             {
                 SetError($"Couldn't create branch {branch}.");
                 return false;
             }
-                
+
             if (!checkoutBranch)
                 return true;
 
@@ -335,7 +335,7 @@ namespace MarkdownMonster.Utilities
             string origPath = Environment.CurrentDirectory;
             try
             {
-                //git remote add origin https://github.com/RickStrahl/Test.git                
+                //git remote add origin https://github.com/RickStrahl/Test.git
                 Repository.Network.Remotes.Add(remoteName, githubUrl);
             }
             catch (Exception ex)
@@ -360,7 +360,7 @@ namespace MarkdownMonster.Utilities
             //try
             //{
             //    //git remote add origin https://github.com/RickStrahl/Test.git
-            //    Repository.Network.Remotes.Add(remoteName, githubUrl);                
+            //    Repository.Network.Remotes.Add(remoteName, githubUrl);
             //}
             //catch (Exception ex)
             //{
@@ -444,7 +444,6 @@ namespace MarkdownMonster.Utilities
         /// Merges changes from a branch into the current HEAD of the repository
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="baseBranch"></param>
         /// <param name="mergeBranch"></param>
         /// <param name="name"></param>
         /// <param name="email"></param>
@@ -468,7 +467,7 @@ namespace MarkdownMonster.Utilities
 
                 var branch = Repository.Branches[mergeBranch];
                 Repository.Merge(branch, sig);
-            }            
+            }
             catch (Exception ex)
             {
                 SetError($"Failed to merge {mergeBranch}: {ex.Message}.");
@@ -888,7 +887,7 @@ namespace MarkdownMonster.Utilities
 
         /// <summary>
         /// Retrieves Username and Email as a two item array from .gitconfig
-        /// file if it exists.                
+        /// file if it exists.
         /// </summary>
         /// <returns>
         /// Two Item String Array. Items: 0 - Username, 1 - Email

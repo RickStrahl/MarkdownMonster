@@ -22,7 +22,7 @@ namespace MarkdownMonster.Windows
         public string InputText { get; set; }
 
         /// <summary>
-        /// Optional place holder text to display 
+        /// Optional place holder text to display
         /// </summary>
         public string InputPlaceholderText { get; set; }
 
@@ -47,7 +47,7 @@ namespace MarkdownMonster.Windows
 
         public string Button1FontAwesomeIcon { get; set; } = "Check";
         public string Button2FontAwesomeIcon { get; set; } = "Remove";
-        
+
 
         /// <summary>
         /// The width of the dialog
@@ -75,11 +75,11 @@ namespace MarkdownMonster.Windows
 
         /// <summary>
         /// On Click Handler fired when one of the buttons is clicked.
-        /// Passed the button, the window and the button index (1-3) 
+        /// Passed the button, the window and the button index (1-3)
         /// </summary>
         public Func<Button,Window,int, object> OnClickHandler;
 
-        
+
 
         public string Show()
         {
@@ -98,7 +98,7 @@ namespace MarkdownMonster.Windows
     public partial class InputBoxForm : MetroWindow
     {
         public InputBoxForm(InputBox inputBox)
-        {            
+        {
             InputBox = inputBox;
 
             // Binding for some reason doesn't work right so explictly setting width and height
@@ -119,15 +119,13 @@ namespace MarkdownMonster.Windows
         public InputBox InputBox { get; set; }
 
 
-
-
         private void OnLoaded(object s, RoutedEventArgs e)
         {
-            
+
             if (InputBox.ButtonCount > 1)
                 Button2.Visibility = Visibility.Visible;
 
-            TextInput.Focus();
+            TextInputText.Focus();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -137,14 +135,14 @@ namespace MarkdownMonster.Windows
 
             if (sender == Button1)
             {
-                buttonId = 1;                
+                buttonId = 1;
             }
             else if (sender == Button2)
             {
                 buttonId = 2;
                 InputBox.Cancelled = true;
             }
-            
+
             if (InputBox.OnClickHandler != null)
                InputBox.Result =  InputBox.OnClickHandler.Invoke(sender as Button,this, buttonId);
 

@@ -31,7 +31,7 @@
                        Text="{Binding DescriptionText}" FontSize="17"              
                         />
 
-            <TextBox Name="TextInput" Margin="15,0,10,25"  
+            <TextBox Name="TextInputText" Margin="15,0,10,25"  
                      Text="{Binding InputText}" FontSize="17"
                      mah:TextBoxHelper.Watermark="{Binding InputPlaceholderText}" 
                      mah:TextBoxHelper.SelectAllOnFocus="True" />

@@ -139,7 +139,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <Label Margin="0,5,0,0" Target="{Binding ElementName=ComboWeblogSite}">Web Site to post to:</Label>
+                        <Label Margin="0,5,0,0" Target="{Binding ElementName=ComboWebLogSite}">Web Site to post to:</Label>
                         <ComboBox  Grid.Row="1" Grid.Column="0" ToolTip="Weblog selection" Name="ComboWebLogSite"   
                                    AutomationProperties.Name="{Binding ActivePostMetadata.WeblogName}"                                   
                            SelectedValuePath="Value.Name"
