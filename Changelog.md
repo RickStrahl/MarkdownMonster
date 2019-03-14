@@ -7,8 +7,8 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.15.7
-<small>not released yet</small>
+### 1.15.8
+<small>March 14th, 2019</small>
 
 * **Unblock Portable Mode DLLs in Addins Folder**  
 When running for the first time in portable mode MM will try to unblock the DLLs in the `Addins` folder which otherwise fail to load if installed from a Zip file off the Internet or other unknown location. This should fix startup addin load errors for portable installs.
@@ -18,6 +18,9 @@ You can now open content piped from StdIn into Markdown Monster. You can use a c
 
 * **New Command Line Registration Option**  
 You can now register Markdown Monster with `mm register regKey` to automate the registration process for larger organizations that need to install Markdown Monster on many machines.
+
+* **Add Permalink to Weblog Meta Data**  
+The Weblog addin now downloads and also sends the permalink of a Weblog post so you get a direct URL where your post can be accessed. If the engine supports it it's also possible to change the permalink.
 
 ### 1.15.5
 <small>March 5th, 2019</small>
