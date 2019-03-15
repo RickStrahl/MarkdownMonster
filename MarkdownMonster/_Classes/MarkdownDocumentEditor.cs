@@ -681,6 +681,8 @@ namespace MarkdownMonster
                         AceEditor.gotoBottom(false);
                         SetSelection(html);
 
+                        WindowUtilities.DoEvents();
+
                         // reset the selection point
                         AceEditor.setcursorposition(pos); //pos.column,pos.row);
 
@@ -688,10 +690,8 @@ namespace MarkdownMonster
                             AceEditor.setscrolltop(scroll);
 
                         WindowUtilities.DoEvents();
-                        html = $"![{form.ImageText}][{id}]";
 
-                        // Force a refresh of the window
-                        Window.PreviewBrowser.Refresh(true);
+                        html = $"\r\n![{form.ImageText}][{id}]";
                     }
                 }
             }
@@ -831,6 +831,8 @@ namespace MarkdownMonster
                         AceEditor.gotoBottom(false);
                         SetSelection(html);
 
+                        WindowUtilities.DoEvents();
+
                         // reset the selection point
                         AceEditor.setcursorposition(pos); //pos.column,pos.row);
 
@@ -838,7 +840,8 @@ namespace MarkdownMonster
                             AceEditor.setscrolltop(scroll);
 
                         WindowUtilities.DoEvents();
-                        html = $"![{form.ImageText}][{id}]";
+
+                        html = $"\r\n![{form.ImageText}][{id}]";
                     }
 
                     if (!string.IsNullOrEmpty(html))
@@ -847,7 +850,7 @@ namespace MarkdownMonster
                         PreviewMarkdownCallback();
 
                         // Force the browser to refresh so the image gets updated.
-                        Window.PreviewBrowser.Refresh(true);
+                        Window.PreviewMarkdownAsync();
                     }
 
                 }

@@ -4,12 +4,12 @@
 /// <reference path="scripts/ace/ace.js" />
 
 (function () {
- 
+
   var Split = ace.require("ace/split").Split;
   var allowSplitMode = true;
 
   var te = window.textEditor = {
-    mm: null, // Markdown Monster MarkdownDocumentEditor COM object    
+    mm: null, // Markdown Monster MarkdownDocumentEditor COM object
 
     // Editor and Split instances
     splitInstance: null,
@@ -43,7 +43,7 @@
         if (!allowSplitMode)
           te.editor = ace.edit(te.editorElement);
         else {
-          //Splitting          
+          //Splitting
           var theme = "ace/theme/" + styleSettings.theme;
           var split = new Split(te.editorElement, theme, 1);
           te.splitInstance = split;
@@ -59,7 +59,7 @@
 
         te.setlanguage(codeLang);
         te.configureAceEditor(te.editor, styleSettings);
-        
+
       } catch (ex) {
         if (typeof console !== "undefined")
           console.log("Failed to bind syntax: " + codeLang + " - " + ex.message);
@@ -85,11 +85,11 @@
         // fill entire view
         maxLines: 0,
         minLines: 0
-        //wrapBehavioursEnabled: editorSettings.wrapText                       
+        //wrapBehavioursEnabled: editorSettings.wrapText
       });
 
       te.setEditorStyle(editorSettings, editor);
-      
+
       var updateDocument = debounce(function() {
           if (!te.mm)
             return;
@@ -139,7 +139,7 @@
         function(e) {
           // these don't really have any effect'
           //e.stopPropagation();
-          //e.preventDefault();		    
+          //e.preventDefault();
           var file = e.dataTransfer.getData('text');
 
           // image file names dropped from FolderBrowser
@@ -161,10 +161,10 @@
         };
       // this doesn't fire
       //te.editor.on("dragover",
-      //    function (e) {                
+      //    function (e) {
       //        alert('drag over');
       //        te.mousePos = e.getDocumentPosition();
-      //    });        
+      //    });
 
       var changeScrollTop = debounce(function(e) {
           // don't do anything if we moved without requesting
@@ -178,7 +178,7 @@
 
           // if there is a selection don't set cursor position
           // or preview. Mouseup will scroll to position at end
-          // of selection            
+          // of selection
           var sel = te.getselection();
           if (sel && sel.length > 0)
             return;
@@ -254,13 +254,13 @@
       if (te.editor.readOnly == status)
         return;
       te.editor.setReadOnly(status);
-      //.readOnly = status;        
+      //.readOnly = status;
       if (status) {
         te.editor.container.style.opacity = 0.70;
         $(te.editor.container).on("dblclick", te.readOnlyDoubleClick);
       } else {
         $(te.editor.container).off("dblclick", te.readOnlyDoubleClick);
-        te.editor.container.style.opacity = 1; // or use svg filter to make it gray            
+        te.editor.container.style.opacity = 1; // or use svg filter to make it gray
       }
     },
     readOnlyDoubleClick: function() {
@@ -303,34 +303,34 @@
     },
 
     gotoLine: function(line, noRefresh, noSelection) {
-      setTimeout(function() {
-          te.editor.scrollToLine(line);
+      //setTimeout(function() {
+      te.editor.scrollToLine(line);
 
-          if (!noSelection) {
-            var sel = te.editor.getSelection();
-            var range = sel.getRange();
-            range.setStart({ row: line, column: 0 });
-            range.setEnd({ row: line, column: 0 });
-            sel.setSelectionRange(range);
-          }
-          if (!noRefresh)
-            setTimeout(te.refreshPreview, 10);
-          else
-            te.codeScrolled = new Date().getTime();
+      if (!noSelection) {
+        var sel = te.editor.getSelection();
+        var range = sel.getRange();
+        range.setStart({row: line, column: 0});
+        range.setEnd({row: line, column: 0});
+        sel.setSelectionRange(range);
+      }
+      if (!noRefresh)
+        setTimeout(te.refreshPreview, 10);
+      else
+        te.codeScrolled = new Date().getTime();
 
-        },
-        70);
+      //},
+      //70);
     },
     gotoBottom: function(noRefresh) {
-      setTimeout(function() {
-          var row = te.editor.session.getLength() - 1;
-          var column = te.editor.session.getLine(row).length; // or simply Infinity
-          te.editor.selection.moveTo(row, column);
+      //setTimeout(function() {
+      var row = te.editor.session.getLength() - 1;
+      var column = te.editor.session.getLine(row).length; // or simply Infinity
+      te.editor.selection.moveTo(row, column);
 
-          if (!noRefresh)
-            setTimeout(te.refreshPreview, 10);
-        },
-        70);
+      if (!noRefresh)
+        setTimeout(te.refreshPreview, 10);
+      //},
+      //70);
     },
     refreshPreview: function(ignored) {
       te.mm.textbox.PreviewMarkdownCallback();
@@ -353,7 +353,7 @@
         endColumn: range.end.column
       };
     },
-    getCursorPosition: function(ignored) { // returns {row: y, column: x}               
+    getCursorPosition: function(ignored) { // returns {row: y, column: x}
       return te.editor.selection.getCursor();
     },
     setselposition: function(index, count) {
@@ -393,7 +393,7 @@
       range.setEnd(pos);
       sel.setSelectionRange(range);
     },
-    setCursorPosition: function(row, column) { // col and also be pos: { row: y, column: x }  
+    setCursorPosition: function(row, column) { // col and also be pos: { row: y, column: x }
       var pos;
       if (typeof row === "object")
         pos = row;
@@ -517,7 +517,7 @@
       if (!editor)
         editor = te.editor;
 
-      //setTimeout(function () {        
+      //setTimeout(function () {
         var style;
         if (typeof styleJson === "object")
           style = styleJson;
@@ -537,7 +537,7 @@
           fontFamily: style.font,
           fontSize: style.fontSize
         });
-        //setRightToLeft(style.RightToLeft);          
+        //setRightToLeft(style.RightToLeft);
 
         var wrapText = style.wrapText;
 
@@ -555,7 +555,7 @@
         // these value are used in Resize to keep the editor size
         // limited to a max-width
         te.adjustPadding(true);
-        
+
         if (style.showPrintMargin) {
           te.editor.setShowPrintMargin(true);
           te.editor.setPrintMarginColumn(style.printMargin + 1);
@@ -571,12 +571,12 @@
 
         //style.wrapMargin = 50;
         //if (style.wrapMargin > 0) {
-        //    
+        //
         //    te.editor.setShowPrintMargin(true);
         //    te.editor.setPrintMarginColumn(style.wrapMargin + 1);
         //} else {
         //    session.setWrapLimitRange(null, null);
-        //    te.editor.setShowPrintMargin(false);                
+        //    te.editor.setShowPrintMargin(false);
         //}
 
         //var keyboardHandler = style.KeyboardHandler.toLowerCase();
@@ -668,7 +668,7 @@
       if (!word || !editorSettings.enableSpellChecking)
         return true;
       if (te.mm)
-      // use COM object        
+      // use COM object
         return te.mm.textbox.CheckSpelling(word, editorSettings.dictionary, false);
     },
     showSuggestions: function(e) {
@@ -755,7 +755,7 @@
         mstimeout = 50;
 
       te.noRefreshPreview = true;
-      te.editor.blur(); // HACK: avoid letter o insertion into document                 
+      te.editor.blur(); // HACK: avoid letter o insertion into document
       setTimeout(function() {
           te.editor.focus();
           te.noRefreshPreview = false;
@@ -774,7 +774,7 @@
         var ed = te.splitInstance.getEditor(0);
 
         // just apply fixed padding
-        if (te.lastStyle.maxWidth == 0) {                    
+        if (te.lastStyle.maxWidth == 0) {
           ed.renderer.setPadding(lastPad);
         } else {
 
@@ -789,7 +789,7 @@
 
         ed.resize(true);
         te.splitInstance.resize();
-        
+
         return;
       }
 
@@ -805,7 +805,7 @@
         ed2.renderer.setPadding(lastPad);
         ed.renderer.setPadding(lastPad);
       }
-      // Horizontal splits      
+      // Horizontal splits
       else if (te.splitInstance.getOrientation() == te.splitInstance.BESIDE) {
         // Set padding for two horizontal splits
         var w = window.innerWidth / 2 - te.lastStyle.maxWidth;
@@ -816,9 +816,9 @@
           ed2.renderer.setPadding(pad);
           ed.renderer.setPadding(pad);
         } else {
-          // smaller than max width - use padding setting          
+          // smaller than max width - use padding setting
           ed.renderer.setPadding(lastPad);
-          ed2.renderer.setPadding(lastPad);          
+          ed2.renderer.setPadding(lastPad);
         }
       }
       // vertical splits
@@ -850,7 +850,7 @@
         // IMPORTANT: reset large padding first - if padding is too large panel won't render right
         te.mainEditor.renderer.setPadding(te.lastStyle.padding);
         te.mainEditor.resize(true);
-        
+
         // setSplits creates a second editor instance
         var editor2 = split.getEditor(1);
         editor2.Name = "Editor2";
@@ -914,13 +914,13 @@
   function windowResize() {
     //if (te.mm && te.mm.textbox)
     //  te.mm.textbox.resizeWindow();
-    
+
     te.adjustPadding();
   }
   window.onresize = windowResize; //debounce(windowResize, 1);
 
 
-  window.onmousewheel = function (e) {   
+  window.onmousewheel = function (e) {
     if (e.ctrlKey) {
       e.cancelBubble = true;
       e.returnValue = false;
@@ -936,11 +936,11 @@
 
 
 //window.ondragover = function (e) {
-//    te.mousePos = e.getDocumentPosition(); 
+//    te.mousePos = e.getDocumentPosition();
 //    console.log('ondragover');
 //}
-//window.ondragstart = function (e) {    
-//    e.dataTransfer.effectAllowed = 'all';  
+//window.ondragstart = function (e) {
+//    e.dataTransfer.effectAllowed = 'all';
 //    console.log('ondragstart');
 //}
 
@@ -990,7 +990,7 @@
 // to pass in the form object and pass back the text
 // editor instance that allows the parent to make
 // calls into this component
-function initializeinterop(textbox, jsonStyle) {  
+function initializeinterop(textbox, jsonStyle) {
   var te = window.textEditor;
 
   te.mm = {};
