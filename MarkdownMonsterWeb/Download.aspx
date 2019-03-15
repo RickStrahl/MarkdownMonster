@@ -89,8 +89,20 @@
 						
                         <div class="small" style="margin-top: 10px">alternates: 
                             <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip" title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> | 
-                            <a href="https://west-wind.com/files/MarkdownMonsterPortable.zip" title="Fully self contained folder structure for Markdown Monster that can run without installation. Adds some limitations: No .md file association, no global command line access and Addins may not install if running out of a non-privileged folder.">Portable Zip</a> | 
-                            <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe" title="Latest pre-release installer that might be slightly ahead of the current release version.">Latest pre-Release</a>
+
+                            <a href="https://west-wind.com/files/MarkdownMonsterPortable.zip" 
+                               title="Self contained, non-admin installation for Markdown Monster.
+Simply unzip into a folder and run MarkdownMonster.exe!
+
+Preferably install into a folder under your User Account folder 
+to allow writing of settings that can move with your installation.
+
+If you install in a folder or drive without write permissions, 
+settings are stored in the `%appdata%\Markdown Monster` 
+user folder.">Portable Zip</a> | 
+
+                            <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe" 
+                               title="Latest pre-release installer that might be slightly ahead of the current release version.">Latest pre-Release</a>
                             <small style="font-size: 0.7em">(<%= LatestVersion %>)</small>
                         </div> 
                         <div style="margin-top: 15px;">
@@ -182,11 +194,11 @@ c:\> choco install markdownmonster.portable
                         <div id="FeatureList" class="panel-body">
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Download the zip file
+                                Download the exe or zip file
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Run the contained <b>MarkdownMonsterSetup.exe</b>
+                                Run <b>MarkdownMonsterSetup.exe</b>
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
