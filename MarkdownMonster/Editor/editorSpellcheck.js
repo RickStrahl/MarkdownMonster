@@ -55,7 +55,7 @@
       te.spellcheck = sc;
 
       // You also need to load in typo.js and jquery.js
-      // You should configure these classes.                        
+      // You should configure these classes.
       var dicData, affData;
       //var misspelledDict = [];
       var intervalTimeout = 1800;
@@ -69,7 +69,7 @@
           .appendTo("head");
       }
 
-      if (te.mm) //te.dic && te.aff) {  
+      if (te.mm) //te.dic && te.aff) {
       {
         //dictionary = new Typo(lang, te.aff, te.dic);
         // use .net type checking
@@ -82,7 +82,7 @@
 
         // Load the dictionary from url
         // Make sure MIME type exists for .dic and .aff
-        // We have to load the dictionary files sequentially to ensure                
+        // We have to load the dictionary files sequentially to ensure
         $.get(dicPath,
           function (data) {
             dicData = data;
@@ -159,9 +159,16 @@
             setTimeout(function (line, isLast) {
               var lineText = lines[line];
 
+              // skip embedded images
+              if(lineText.indexOf("]: data:image/") > -1)
+                return;
+
               var trimText = lineText.trim();
+
+              // end front matter check
               if (isFrontMatter && (trimText == "---" || trimText == "..."))
                 isFrontMatter = false;
+              // start front matter check
               if (line == 0 && trimText == "---")
                 isFrontMatter = true;
 
@@ -242,27 +249,27 @@
         match = matches[i];
         line = line.replace(match, new Array(match.length + 1).join("9")); // repeat
       }
-    }    
+    }
 
     // ignore links
     matches = line.match(/\]\(.*?\)/g);
-    if (matches) {      
+    if (matches) {
       for (var i = 0; i < matches.length; i++) {
         match = matches[i];
-        line = line.replace(match, " " + new Array(match.length).join("9")); // repeat                         
+        line = line.replace(match, " " + new Array(match.length).join("9")); // repeat
       }
     }
 
     // ignore raw links
-    matches = line.match(/(http|https):\/\/.*?(\s|\,|\/\.\s|$)/g);    
+    matches = line.match(/(http|https):\/\/.*?(\s|\,|\/\.\s|$)/g);
     if (matches) {
       for (var i = 0; i < matches.length; i++) {
-        
+
         match = matches[i].trim();
-        line = line.replace(match, new Array(match.length).join("9")+ " "); // repeat                         
+        line = line.replace(match, new Array(match.length).join("9")+ " "); // repeat
       }
     }
-  
+
     // split line by word boundaries - any non alpha-numeric characters plus ' (\u0027) and white space
     //var words = line.split(/[^a-zA-Z0-9\u00C0-\u02AF']|\s/);
 
