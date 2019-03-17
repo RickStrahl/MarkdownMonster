@@ -81,7 +81,7 @@
       editor.$blockScrolling = Infinity;
       session.setTabSize(editorSettings.tabSpaces);
 
-      te.editor.setOptions({
+      editor.setOptions({
         // fill entire view
         maxLines: 0,
         minLines: 0
@@ -105,11 +105,11 @@
 
 
       // always have mouse position available when drop or paste
-      te.editor.on("mousemove",
+      editor.on("mousemove",
         function(e) {
           te.mousePos = e.getDocumentPosition();
         });
-      te.editor.on("mouseup",
+      editor.on("mouseup",
         function() {
           if (te.mm)
             te.mm.textbox.PreviewMarkdownCallback(true);
@@ -120,8 +120,8 @@
         });
 
       // Notify WPF of focus change
-      te.editor.on("blur", te.onBlur);
-      te.editor.on("focus", te.onGotFocus);
+      editor.on("blur", te.onBlur);
+      editor.on("focus", te.onGotFocus);
 
       // used to force mouse position to whatever the existing cursor position is
       // when dragging from explorer. Without this files are always dropped at the
@@ -129,14 +129,14 @@
       // (better but not optimal)
       window.ondragover = function(e) {
         te.mousePos = te.editor.getCursorPosition();
-      }
+      };
+
       // Let browser navigate events handle drop operations
       // in the WPF host application
       // handle file browser dragged files dropped
       // *** Don't Remove! Explorer dragging captures navigation event in WPF
       //     This captures requests from the Filebrowser
-      window.ondrop =
-        function(e) {
+      window.ondrop = function(e) {
           // these don't really have any effect'
           //e.stopPropagation();
           //e.preventDefault();
@@ -158,7 +158,8 @@
 
             return false;
           }
-        };
+      };
+
       // this doesn't fire
       //te.editor.on("dragover",
       //    function (e) {
@@ -198,7 +199,8 @@
         },
         35);
 
-      te.editor.session.on("changeScrollTop", changeScrollTop);
+      editor.session.on("changeScrollTop", changeScrollTop);
+
       return editor;
     },
     initializeeditor: function() {

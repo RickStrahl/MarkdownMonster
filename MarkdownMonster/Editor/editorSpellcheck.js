@@ -20,7 +20,8 @@
     dictionary: null, // Typo instance
     markers: [],
     excludedWords:
-      "body,html,xml,div,span,td,th,tr,thead,tbody,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,http,https,---,--",
+      "body,html,xml,div,span,td,th,tr,thead,tbody,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,http,https," +
+      "www,com,---,--",
     clearMarkers: function () {
       for (var i in sc.markers) {
         te.editor.session.removeMarker(sc.markers[i]);
