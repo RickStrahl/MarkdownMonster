@@ -59,7 +59,7 @@ namespace WeblogAddin
 
         public WeblogForm WeblogForm { get; set; }
 
-
+        #region Addin Events
         public override void OnApplicationStart()
         {
             base.OnApplicationStart();
@@ -130,6 +130,7 @@ namespace WeblogAddin
             if (command == "newweblogpost")
                 WeblogFormCommand.Execute("newweblogpost");
         }
+        #endregion
 
         #region Post Send Operations
 
@@ -578,18 +579,27 @@ namespace WeblogAddin
 
         #region Main Menu Pad for WebLog
 
+        MenuItem MainMenuItem = null;
+
         void AddMainMenuItems()
         {
-
             // create commands
             Command_WeblogForm();
 
 
-            var mainMenuItem = new MenuItem
+            MainMenuItem = new MenuItem
             {
                 Header = "Web_log"
             };
-            AddMenuItem(mainMenuItem, "MainMenuTools", mode: 0);
+            AddMenuItem(MainMenuItem, "MainMenuTools", mode: 0);
+            MainMenuItem.Items.Add(new Separator());
+
+            MainMenuItem.SubmenuOpened += MainMenuItem_SubmenuOpened;
+        }
+
+        private void MainMenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+            MainMenuItem.Items.Clear();
 
             var mi = new MenuItem
             {
@@ -597,7 +607,7 @@ namespace WeblogAddin
                 Command = WeblogFormCommand,
                 CommandParameter = "posttoweblog",
             };
-            mainMenuItem.Items.Add(mi);
+            MainMenuItem.Items.Add(mi);
 
             mi = new MenuItem
             {
@@ -605,7 +615,7 @@ namespace WeblogAddin
                 Command = WeblogFormCommand,
                 CommandParameter = "newweblogpost"
             };
-            mainMenuItem.Items.Add(mi);
+            MainMenuItem.Items.Add(mi);
 
 
             mi = new MenuItem
@@ -614,7 +624,7 @@ namespace WeblogAddin
                 Command = WeblogFormCommand,
                 CommandParameter = "downloadweblogpost"
             };
-            mainMenuItem.Items.Add(mi);
+            MainMenuItem.Items.Add(mi);
 
             mi = new MenuItem
             {
@@ -622,9 +632,25 @@ namespace WeblogAddin
                 Command = WeblogFormCommand,
                 CommandParameter = "openweblogfolder"
             };
-            mainMenuItem.Items.Add(mi);
+            MainMenuItem.Items.Add(mi);
 
-            mainMenuItem.Items.Add(new Separator());
+            MainMenuItem.Items.Add(new Separator());
+
+            var curText = Model.ActiveDocument?.CurrentText;
+            if (!string.IsNullOrEmpty(curText) &&
+                curText.Contains("permalink: ", StringComparison.InvariantCultureIgnoreCase))
+            {
+
+                MainMenuItem.Items.Add(new Separator());
+                mi = new MenuItem
+                {
+                    Header = "Open Blog Post in _Browser",
+                    Command = WeblogFormCommand,
+                    CommandParameter = "openblogpost"
+                };
+                MainMenuItem.Items.Add(mi);
+                MainMenuItem.Items.Add(new Separator());
+            }
 
             mi = new MenuItem
             {
@@ -632,8 +658,9 @@ namespace WeblogAddin
                 Command = WeblogFormCommand,
                 CommandParameter = "configureweblog"
             };
-            mainMenuItem.Items.Add(mi);
+            MainMenuItem.Items.Add(mi);
 
+            MainMenuItem.IsSubmenuOpen = true;
         }
 
         public CommandBase WeblogFormCommand { get; set; }
@@ -649,6 +676,14 @@ namespace WeblogAddin
                 if (action == "openweblogfolder")
                 {
                     ShellUtils.OpenFileInExplorer(WeblogModel.Configuration.PostsFolder);
+                    return;
+                }
+                else if (action == "openblogpost")
+                {
+                    var link = StringUtils.ExtractString(Model.ActiveDocument?.CurrentText, "\npermalink: ", "\n",
+                        true);
+                    if (!string.IsNullOrEmpty(link))
+                        mmFileUtils.ShowExternalBrowser(link);
                     return;
                 }
 
