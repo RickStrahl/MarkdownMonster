@@ -47,6 +47,7 @@ namespace MarkdownMonster.Utilities
             }
             catch (Exception ex)
             {
+                // TODO: Throw critical exceptions directly from GitHelper or make Exception object public to get details of callstack, etc
                 SetError(ex);
             }
 

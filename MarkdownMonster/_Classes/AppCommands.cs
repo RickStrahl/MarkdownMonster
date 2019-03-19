@@ -1429,7 +1429,15 @@ namespace MarkdownMonster
                 var repo = gh.OpenRepository(file);
                 if (repo == null)
                 {
-                    Model.Window.ShowStatusError("This file or folder is not in a Git repository.");
+                    if (string.IsNullOrEmpty(gh.ErrorMessage))
+                    {
+                        Model.Window.ShowStatusError("This file or folder is not in a Git repository.");
+                    }
+                    else
+                    {
+                        mmApp.Log("Git failed: " + gh.ErrorMessage);    // TODO: Throw critical exceptions directly from GitHelper or make Exception object public to get details of callstack, etc
+                        Model.Window.ShowStatusError($"Git failed: {gh.ErrorMessage}");
+                    }
                     return;
                 }
 
