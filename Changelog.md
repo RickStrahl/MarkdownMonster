@@ -7,32 +7,38 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.15.8
-<small>March 14th, 2019</small>
+### 1.16
+<small>March 20th, 2019</small>
 
-* **Unblock Portable Mode DLLs in Addins Folder**  
-When running for the first time in portable mode MM will try to unblock the DLLs in the `Addins` folder which otherwise fail to load if installed from a Zip file off the Internet or other unknown location. This should fix startup addin load errors for portable installs.
+* **[Centered Layout for Editor Surface](https://markdownmonster.west-wind.com/docs/_5ed0rj891.htm)**  
+Refactored the previous `Padding` and `MaxWidth` settings using a new **Centered Layout** option that can be quickly toggled from the **Views -> Toggle Centered Layout**. Centered layout applies a max width (default of 970 pixels) to limit the width of the editor content, so on very wide screens you don't get overwhelmed by a massive wall of text. Properties have been refactored to `CenteredMode`, `CenteredModeMaxWidth` and `Padding`.
+
+* **Add `Shift-Enter` Key Combo for Soft Returns**  
+You can now press `Shift-Enter` to insert a soft return which expands to two spaces and a return which is a Markdown Soft Return.
 
 * **Open Content from Console StdIn**  
 You can now open content piped from StdIn into Markdown Monster. You can use a command like `DIR | markdownmonster stdin` to open the output from the stdin directly in MM.
 
-* **New Command Line Registration Option**  
-You can now register Markdown Monster with `mm register regKey` to automate the registration process for larger organizations that need to install Markdown Monster on many machines.
-
-* **Add Permalink to Weblog Meta Data**  
-The Weblog addin now downloads and also sends the permalink of a Weblog post so you get a direct URL where your post can be accessed. If the engine supports it it's also possible to change the permalink.
-
-### 1.15.5
-<small>March 5th, 2019</small>
+* **[Improved Math Support](https://markdownmonster.west-wind.com/docs/_59l0mv2uw.htm)**  
+Added custom Markdig parser to support MathJax expression rendering. You can now enable the Markdown `UseMathematics` settings switch to automatically expand Math expressions using `$$` or `$` expressions, MathML, or `<div class="math">`. With the new extension, most math expressions are now rendering reliably. The `useMath: true` YAML header is no longer necessary - MM now scans the document for embedded math expressions automatically.
 
 * **[New Console Addin Available](https://github.com/RickStrahl/Console-MarkdownMonster-Addin)**  
 There's a new **Console** Addin available in the Addin Manager that lets you attach a Terminal Console window that is 'pinned' to the bottom of your Markdown Monster instance. As you move or activate MM the Console sticks with the application. You can customize what Terminal tool to use (Powershell, Command, Base, ConEmu, Commander etc.) and it defaults to PowerShell.
 
-* **[Refactored MaxWidth and Padding as Centered Layout](https://markdownmonster.west-wind.com/docs/_5ed0rj891.htm)**  
-Refactored the previous Padding and MaxWidth settings using a new Centered Layout option that can be quickly toggled from the **Views -> Toggle Centered Layout**. Centered layout applies a max width (default of 970 pixels) to limit the width of the editor content, so on very wide screens you don't get overwhelmed by a massive wall of text. Properties have been refactored to `CenteredMode`, `CenteredModeMaxWidth` and `Padding`.
+* **Open Blog Post in Browser**  
+Added option on the Weblog menu to open the Weblog post in a Web Browser if the `permalink` YAML meta property is set. Perma link downloads with published post data now if available from the server.
+
+* **Add Permalink to Weblog Meta Data**  
+The Weblog addin now downloads and also sends the permalink of a Weblog post so you get a direct URL where your post can be accessed. If the engine supports it it's also possible to change the permalink.
+
+* **Unblock Portable Mode DLLs in Addins Folder**  
+When running for the first time in portable mode MM will try to unblock the DLLs in the `Addins` folder which otherwise fail to load if installed from a Zip file off the Internet or other unknown location. This should fix startup addin load errors for portable installs.
 
 * **Change Branch DropDown on Git Commit Dialog**  
 You can now change branches in the Commit dialog assuming there are no pending changes. Currently no support for creating new branches, we'll add that in a subsequent update.
+
+* **Git Commit Dialog Remembers last Commit Operation**  
+Remember last Git Commit Operation: **Commit** or **Commit and Push** and show last option used first and bolded.
 
 * **Update MarkDig for Math Parsing**  
 Updated to latest MarkDig version that includes new Math expression wrapping from our PR that removes need for our custom Math MarkDig extensions. The behavior of our previous fix is now built into MarkDig directly. Yay!
@@ -40,20 +46,15 @@ Updated to latest MarkDig version that includes new Math expression wrapping fro
 * **Update Save As Encrypted File Dialog**  
 Made the dialog easier to visually parse at a glance and work with. Add filename and path to the make the file you're encrypting or decrypting more obvious.
 
-* **Library Updates**  
-Update all .NET dependencies to latest versions of libraries.
-
-### 1.15.4
-<small>February 19th, 2019</small>
-
-* **Add `Shift-Enter` Key Combo for Soft Returns**  
-You can now press `Shift-Enter` to insert a soft return which expands to two spaces and a return which is a Markdown Soft Return.
-
-* **[Improved Math Support](https://markdownmonster.west-wind.com/docs/_59l0mv2uw.htm)**  
-Added custom Markdig parser to support MathJax expression rendering. You can now enable the Markdown `UseMathematics` settings switch to automatically expand Math expressions using `$$` or `$` expressions, MathML, or `<div class="math">`. With the new extension, most math expressions are now rendering reliably. The `useMath: true` YAML header is no longer necessary - MM now scans the document for embedded math expressions automatically.
 
 * **Add Symbol Configurations for some Markdown Expansions**  
 You can now specify a few options for how certain symbol shortcuts are expanded using `MarkdownOptions.Symbols`. Initial keys are `italic` and `softReturn` expansions which determine the `ctrl-i` and `shift-enter` default expansion formatting.
+
+* **New Command Line Registration Option**  
+You can now register Markdown Monster with `mm register regKey` to automate the registration process for larger organizations that need to install Markdown Monster on many machines.
+
+* **Library Updates**  
+Update all .NET dependencies to latest versions of libraries.
 
 * **Fix: File Change Notifications**  
 Fixed issue with file change notifications not properly clearing the dirty buffer flag after updating file from disk which resulted in repeated dialogs even if no changes were pending. Fixed.
@@ -61,19 +62,12 @@ Fixed issue with file change notifications not properly clearing the dirty buffe
 * **Fix: Password Dialog When no Doc is Open**  
 Fix issue that would crash if no document is open. Also key icon is no longer shown when no document is open preventing the issue in the first place.
 
-### 1.15.2
-<small>February 9th, 2019</small>
-
-* **Git Commit Dialog Remembers last Commit Operation**  
-Remember last Git Commit Operation: **Commit** or **Commit and Push** and show last option used first and bolded.
-
 * **Fix: Addin Error Handling**  
 Fixed issue where a misbehaving addin had the ability to crash Markdown Monster during startup and quit without any errors or notice. Added additional error checks and additional logging to try to
 pin down which addins might be causing problems.
 
 * **Fix: Startup Rendering**  
 Improve startup rendering by removing some unnecessary nested delay loading. Also fixed a couple of issues related to screen positioning which caused startup jank in some load scenarios. Fixed.
-
 
 * **Addins: Expose Folder Browser**  
 We've now made the Folder Browser more easily accessible through the `Model.Window.FolderBrowser`. You can also easily get the selected item in the folder browser via `GetSelectedPathItem()`.
