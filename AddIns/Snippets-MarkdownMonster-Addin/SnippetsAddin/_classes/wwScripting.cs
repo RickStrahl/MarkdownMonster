@@ -426,36 +426,37 @@ namespace Westwind.wwScripting
 			return null;
 		}
 
-		public bool CreateAppDomain(string lcAppDomain) 
-		{
-			if (lcAppDomain == null)
-				lcAppDomain = "wwscript";
+		//public bool CreateAppDomain(string lcAppDomain) 
+		//{
+		//	if (lcAppDomain == null)
+		//		lcAppDomain = "wwscript";
 
-			AppDomainSetup loSetup = new AppDomainSetup();
-			loSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+		//	AppDomainSetup loSetup = new AppDomainSetup();
+		//	loSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
 
-			AppDomain = AppDomain.CreateDomain(lcAppDomain,null,loSetup);
-			return true;
-		}
+		//	AppDomain = AppDomain.CreateDomain(lcAppDomain,null,loSetup);
+		//	return true;
+		//}
 
-		public bool UnloadAppDomain()
-		{
-			if (AppDomain != null)
-			   AppDomain.Unload(AppDomain);
+		//public bool UnloadAppDomain()
+		//{
+		//	if (AppDomain != null)
+		//	   AppDomain.Unload(AppDomain);
 
-			AppDomain = null;
+		//	AppDomain = null;
 
-			if (OutputAssembly != null) 
-			{
-				try 
-				{
-					File.Delete(OutputAssembly);
-				}
-				catch(Exception) {;}
-			}
+		//	if (OutputAssembly != null) 
+		//	{
+		//		try 
+		//		{
+		//			File.Delete(OutputAssembly);
+		//		}
+		//		catch(Exception) {;}
+		//	}
 
-			return true;
-		}
+		//	return true;
+		//}
+
 		public void Release() 
 		{
 			ObjRef = null;
@@ -464,7 +465,7 @@ namespace Westwind.wwScripting
 		public void Dispose() 
 		{
 			Release();
-			UnloadAppDomain();
+			//UnloadAppDomain();
 		}
 
 		~wwScripting() 
