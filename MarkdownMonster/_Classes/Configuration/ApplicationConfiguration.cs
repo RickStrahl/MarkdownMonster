@@ -708,9 +708,9 @@ namespace MarkdownMonster
                 CommonFolder = FindCommonFolder();
 
             if (string.IsNullOrEmpty(Git.GitClientExecutable))
-                Git.GitClientExecutable = mmFileUtils.FindGitClient();
+                Git.GitClientExecutable = GitClientUtils.FindGitClient();
             if (string.IsNullOrEmpty(Git.GitDiffExecutable))
-                Git.GitDiffExecutable = mmFileUtils.FindGitDiffTool();
+                Git.GitDiffExecutable = GitClientUtils.FindGitDiffTool();
 
             if (string.IsNullOrEmpty(ImageEditor))
                 ImageEditor = mmFileUtils.FindImageEditor();

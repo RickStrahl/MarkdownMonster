@@ -1470,7 +1470,7 @@ namespace MarkdownMonster
                 if (string.IsNullOrEmpty(path))
                     return;
 
-                if (!mmFileUtils.OpenGitClient(path))
+                if (!GitClientUtils.OpenGitClient(path))
                     Model.Window.ShowStatusError("Unabled to open Git client.");
                 else
                     Model.Window.ShowStatus("Git client opened.",mmApp.Configuration.StatusMessageTimeout);
