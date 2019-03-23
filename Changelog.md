@@ -6,9 +6,21 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-https://west-wind.com
+### 1.16.2
+<small>not released yet</small>
 
+* **Add -presentation Command Line Switch**  
+Using the `-presentation` command line switch you can start Markdown Monster in presentation mode which shows the preview full screen.  
+Example:  `mm file.md -presentation`
 
+* **[Add Option to set `previewWebRootPath` to Document](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
+You can now specify a custom YAML header to specify a Web Root path that resolves `/` to the path you specify when rendering the Preview. This allows greater documentation systems to work with non-relative, site relative URLs and still render images and links properly in the previewer.
+
+* **Fix: OpenInPresentationMode Mode Setting**  
+Fix `"OpenInPresentationMode": true` configuraiton setting to work properly. Due to timing issues this setting was popping up initially, then quickly reverting to default layout. Fixed.
+
+* **Fix: Emacs and Vim Keyboard Emulation**  
+Enable Vim and Emacs keyboard emulation which had been temporarily disabled due to the editor loading refactoring recently. It works again now.
 
 ### 1.16
 <small>March 20th, 2019</small>
