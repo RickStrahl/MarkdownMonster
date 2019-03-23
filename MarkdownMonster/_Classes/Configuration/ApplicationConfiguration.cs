@@ -61,7 +61,6 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(EditorTheme));
             }
         }
-
         private string _editorTheme;
 
         /// <summary>

@@ -82,6 +82,27 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// Path that maps `/` in the rendered document.
+        /// If non-null this value is fixed up for special
+        /// case translation in the HTML output.
+        ///
+        /// Useful for fixing up root links when generating
+        /// previews so the renderer can figure out a base
+        /// path to render `~/` or `/` links from.        
+        /// </summary>
+        public string PreviewWebRootPath
+        {
+            get { return _previewWebRootPath; }
+            set
+            {
+                if (value == _previewWebRootPath) return;
+                _previewWebRootPath = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _previewWebRootPath;
+
+        /// <summary>
         /// Holds the disk file Crc of the document. This value is
         /// used to determine if the document on disk has changed when
         /// activating a document after having navigated off and when
@@ -503,7 +524,7 @@ namespace MarkdownMonster
 
         private object _SaveLock = new object();
         private bool _IsSaving = false;
-
+        
         /// <summary>
         /// Saves the CurrentText into the specified filename
         /// </summary>
@@ -813,18 +834,31 @@ namespace MarkdownMonster
         /// <param name="renderLinksExternal">Determines whether links have a target='top' attribute</param>
         /// <param name="usePragmaLines">renders line numbers into html output as ID tags for editor positioning</param>
         /// <returns></returns>
-        public string RenderHtml(string markdown = null, bool renderLinksExternal = false, bool usePragmaLines = false)
+        public string RenderHtml(string markdown = null,
+            bool renderLinksExternal = false,
+            bool usePragmaLines = false)
         {
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
-            
-            OnBeforeDocumentRendered(ref markdown);            
-            
-            var parser = MarkdownParserFactory.GetParser(usePragmaLines: usePragmaLines,                                                         
-                                                         forceLoad: true, 
-                                                         parserAddinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName);
 
-            // allow override of RenderScriptTags if set
+            if (string.IsNullOrEmpty(markdown))
+                return markdown;
+
+            OnBeforeDocumentRendered(ref markdown);
+
+            var parser = MarkdownParserFactory.GetParser(usePragmaLines: usePragmaLines,
+                forceLoad: true,
+                parserAddinId: mmApp.Configuration.MarkdownOptions.MarkdownParserName);
+
+
+            if (!string.IsNullOrEmpty(PreviewWebRootPath))
+            {
+                var path = FileUtils.AddTrailingSlash(PreviewWebRootPath).Replace("\\","/");
+                markdown = markdown.Replace("](~/", "](" + path);
+                markdown = markdown.Replace("](/", "](" + path);
+            }
+
+        // allow override of RenderScriptTags if set
             var oldAllowScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
             if (ProcessScripts)            
                 mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = false;
@@ -840,11 +874,11 @@ namespace MarkdownMonster
             if (!string.IsNullOrEmpty(html) && !UnlockKey.IsRegistered() && mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
             {
                 html += @"
-<div style=""margin-top: 30px;margin-bottom: 10px;font-size: 0.8em;border-top: 1px solid #eee;padding-top: 8px;opacity: 0.75;""
-     title=""This message doesn't display in the registered version of Markdown Monster."">
+<div style=""margin-top: 30px;margin-bottom: 10px;font-size: 0.8em;border-top: 1px solid #eee;padding-top: 8px;cursor: pointer;""
+     title=""This message doesn't display in the registered version of Markdown Monster."" onclick=""window.open('https://markdownmonster.west-wind.com')"">
     <img src=""https://markdownmonster.west-wind.com/favicon.png""
          style=""height: 20px;float: left; margin-right: 10px;""/>
-    created with the free version of
+    created with the free version of 
     <a href=""https://markdownmonster.west-wind.com"" 
        target=""top"">Markdown Monster</a> 
 </div>
@@ -943,6 +977,27 @@ namespace MarkdownMonster
         {
             ExtraHtmlHeaders += ExtraHtmlHeaders + extraHeaderText + "\r\n";
         }
+
+        /// <summary>
+        /// Sets the PreviewWebRootPath from content in the YAML of the document:
+        /// webRootPath: c:\temp\post\Topic\
+        /// </summary>
+        public string GetPreviewWebRootPathFromDocument()
+        {
+            
+            if (CurrentText.StartsWith("---"))
+            {
+                var yaml = StringUtils.ExtractString(CurrentText, "---", "---");
+                if (!string.IsNullOrEmpty(yaml))
+                {
+                    PreviewWebRootPath = StringUtils.ExtractString(CurrentText, "\npreviewWebRootPath:", "\n", true, false, false);
+                    if (string.IsNullOrEmpty(PreviewWebRootPath))
+                        return null;
+                }
+            }
+            return null;
+        }
+
         #endregion
 
         #region INotifyPropertyChanged
@@ -952,6 +1007,7 @@ namespace MarkdownMonster
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
 
         ~MarkdownDocument()

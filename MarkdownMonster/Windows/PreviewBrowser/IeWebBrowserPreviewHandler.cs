@@ -92,7 +92,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                 var ext = Path.GetExtension(doc.Filename).ToLower().Replace(".", "");
                 
                 string mappedTo = "markdown";
-                
+
                 if (!string.IsNullOrEmpty(renderedHtml))
                 {
                     mappedTo = "html";
@@ -133,6 +133,10 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     }
                     else
                     {
+                        // Fix up `\` or `~\` Web RootPaths via `webRootPath: <path>` in YAML header
+                        // Specify a physical or relative path that `\` or `~\` maps to                        
+                        doc.GetPreviewWebRootPathFromDocument();
+
                         bool usePragma = !showInBrowser && mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.None;
                         if (string.IsNullOrEmpty(renderedHtml))
                             renderedHtml = doc.RenderHtmlToFile(usePragmaLines: usePragma,
