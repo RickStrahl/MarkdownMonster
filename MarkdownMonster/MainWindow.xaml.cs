@@ -888,7 +888,7 @@ namespace MarkdownMonster
                     // Explicitly let this fail for now so we can report this issue better 
                     headers = TabControl.HeaderItemsOrganiser.Sort(ditems);
                 }
-                catch (Exception ex)
+                catch
                 {
                     // mmApp.Log("TabControl.GetOrderedHeaders() failed. Saving unordered.", ex);
 
@@ -1756,12 +1756,10 @@ namespace MarkdownMonster
                     Converter = new FontWeightFromBoolConverter()
                 };
                 BindingOperations.SetBinding(textBlock, TextBlock.FontWeightProperty, fontWeightBinding);
-
-
-
+                
                 grid.Children.Add(textBlock);
             }
-            catch (Exception ex)
+            catch
             {
                 // mmApp.Log("SetTabHeaderBinding Failed. Assigning explicit path", ex);
                 tab.Header = document.FilenameWithIndicator;

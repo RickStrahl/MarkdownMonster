@@ -99,7 +99,7 @@ namespace MarkdownMonster
             CheckCommandLineForSingletonLaunch(splashScreen);
 
             // We have to manage assembly loading for Addins
-            AppDomain currentDomain = AppDomain.CurrentDomain;
+            var currentDomain = AppDomain.CurrentDomain;
             currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
 #if !DEBUG
@@ -217,7 +217,7 @@ namespace MarkdownMonster
         }
 
 
-        #region Console Command handling
+        #region Console Command Line handling
 
         [DllImport("Kernel32.dll")]
         private static extern bool AttachConsole(int processId);
@@ -349,15 +349,15 @@ namespace MarkdownMonster
                     string stdin = null;
                     if (Console.IsInputRedirected)
                     {
-                        using (Stream stream = Console.OpenStandardInput())
+                        using (var stream = Console.OpenStandardInput())
                         {
                             byte[] buffer = new byte[1000];  // Use whatever size you want
-                            StringBuilder builder = new StringBuilder();
+                            var builder = new StringBuilder();
                             int read = -1;
                             while (true)
                             {
-                                AutoResetEvent gotInput = new AutoResetEvent(false);
-                                Thread inputThread = new Thread(() =>
+                                var gotInput = new AutoResetEvent(false);
+                                var inputThread = new Thread(() =>
                                 {
                                     try
                                     {
