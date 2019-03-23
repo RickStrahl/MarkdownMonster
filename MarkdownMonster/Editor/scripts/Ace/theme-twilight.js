@@ -31,7 +31,7 @@ margin: -1px 0 0 -1px;\
 border: 1px solid rgba(255, 255, 255, 0.25)\
 }\
 .ace-twilight .ace_marker-layer .ace_active-line {\
-background: rgba(255, 255, 255, 0.031)\
+background: #262626;\
 }\
 .ace-twilight .ace_gutter-active-line {\
 background-color: rgba(255, 255, 255, 0.031)\
@@ -113,4 +113,3 @@ dom.importCssString(exports.cssText, exports.cssClass);
                         }
                     });
                 })();
-            
