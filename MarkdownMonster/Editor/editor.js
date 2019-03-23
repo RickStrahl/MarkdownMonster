@@ -581,11 +581,11 @@
         //    te.editor.setShowPrintMargin(false);
         //}
 
-        //var keyboardHandler = style.KeyboardHandler.toLowerCase();
-        //if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
-        //    te.editor.setKeyboardHandler("");
-        //else
-        //    te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
+        var keyboardHandler = style.keyboardHandler;
+        if (!keyboardHandler || keyboardHandler == "default" || keyboardHandler == "ace")
+            te.editor.setKeyboardHandler("");
+        else
+            te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
 
 
         if (!style.enableBulletAutoCompletion) {
