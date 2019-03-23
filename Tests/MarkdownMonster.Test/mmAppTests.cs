@@ -37,5 +37,14 @@ namespace MarkdownMonster.Test
             Console.WriteLine(editor);
             Assert.IsNotNull(editor);
         }
+
+
+        [TestMethod]
+        public void ApplicationInsightLogTest()
+        {
+            mmApp.InitializeLogging();
+            mmApp.Log($"Test Message {DateTime.Now}" , new ApplicationException("Nothing to do nowhere to hide"));
+            mmApp.ShutdownLogging();
+        }
     }
 }

@@ -134,65 +134,12 @@ namespace MarkdownMonster
             Started = DateTime.UtcNow;
 	        Urls = new ApplicationUrls();
 
-            try
-            {
-                if (Configuration.SendTelemetry &&
-                    Telemetry.UseApplicationInsights &&
-                    AppInsights == null)
-                {
-                    AppInsights = new TelemetryClient {InstrumentationKey = Telemetry.Key};
-                    AppInsights.Context.Session.Id = Guid.NewGuid().ToString();
-                    AppInsights.Context.Component.Version = GetVersion();
-
-                    AppRunTelemetry =
-                        AppInsights.StartOperation<RequestTelemetry>(
-                            $"{GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
-                    AppRunTelemetry.Telemetry.Start();                    
-                }
-            }
-            catch (Exception ex)
-            {
-                Telemetry.UseApplicationInsights = false;
-                LogLocal("Application Insights initialization failure: " + ex.GetBaseException().Message);
-            }
+            InitializeLogging();
         }
 
         public static void Shutdown(bool errorShutdown = false)
-        {
-            if (Configuration.SendTelemetry &&  Telemetry.UseApplicationInsights && AppInsights != null)
-            {
-                var t = AppRunTelemetry.Telemetry;
-
-                // multi-instance shutdown - ignore
-                if (t.Properties.ContainsKey("usage"))
-                {
-                    return;
-                }
-
-                t.Properties.Add("usage", Configuration.ApplicationUpdates.AccessCount.ToString());
-	            t.Properties.Add("registered", UnlockKey.IsRegistered().ToString());
-				t.Properties.Add("version", GetVersion());
-	            t.Properties.Add("dotnetversion", WindowsUtils.GetDotnetVersion());
-                t.Properties.Add("culture", CultureInfo.CurrentUICulture.IetfLanguageTag);
-                t.Stop();
-
-                try
-                {
-                    AppInsights.StopOperation(AppRunTelemetry);
-                }
-                catch(Exception ex)
-                {
-                    LogLocal("Failed to Stop Telemetry Client: " + ex.GetBaseException().Message);
-                }
-                
-                AppInsights.Flush();              
-                AppInsights = null;
-                AppRunTelemetry.Dispose();
-            }
-            else
-            {
-                SendTelemetry("shutdown");
-            }
+        {            
+            ShutdownLogging();
 
             var tempPath = Path.GetTempPath();
 
@@ -239,7 +186,149 @@ namespace MarkdownMonster
             return true;
         }
 
+        public static void SetWorkingSet(int lnMaxSize, int lnMinSize)
+        {
+            try
+            {
+                Process loProcess = Process.GetCurrentProcess();
+                loProcess.MaxWorkingSet = (IntPtr) lnMaxSize;
+                loProcess.MinWorkingSet = (IntPtr) lnMinSize;
+            }
+            catch
+            {
+            }
+        }
 
+        //public static void SendBugReport(Exception ex, string msg = null)
+        //{
+        //    var bug = new BugReport()
+        //    {
+        //        TimeStamp = DateTime.UtcNow,
+        //        Message = ex.Message,
+        //        Product = "Markdown Monster",
+        //        Version = mmApp.GetVersion(),
+        //        WinVersion = WindowsUtils.GetWindowsVersion() +
+        //                     " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
+        //                     " - .NET " + WindowsUtils.GetDotnetVersion() + " - " +
+        //                     (Environment.Is64BitProcess ? "64 bit" : "32 bit"),
+        //        StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()
+        //    };
+        //    if (!string.IsNullOrEmpty(msg))
+        //        bug.Message = msg + "\r\n" + bug.Message;
+
+        //    new TaskFactory().StartNew(
+        //        (bg) =>
+        //        {
+        //            try
+        //            {
+        //                var temp = HttpUtils.JsonRequest<BugReport>(new HttpRequestSettings()
+        //                {
+        //                    Url = mmApp.Configuration.BugReportUrl,
+        //                    HttpVerb = "POST",
+        //                    Content = bg,
+        //                    Timeout = 3000
+        //                });
+        //            }
+        //            catch (Exception ex2)
+        //            {
+        //                // don't log with exception otherwise we get an endless loop
+        //                Log("Unable to report bug: " + ex2.Message);
+        //            }
+        //        }, bug);
+        //}
+
+
+        /// <summary>
+		/// Returns a fully qualified Help URL to a topic in the online
+		/// documentation based on a topic id.
+		/// </summary>
+		/// <param name="topic">The topic id or topic .html file</param>
+		/// <returns>Fully qualified URL</returns>
+	    public static string GetDocumentionUrl(string topic)
+	    {
+		    if (!topic.Contains(".htm"))
+			    topic += ".htm";
+
+			return Urls.DocumentationBaseUrl + topic;
+	    }
+
+        #region Logging
+
+        /// <summary>
+        /// Starts the Application Insights logging functionality
+        /// Note: this should be set on application startup once
+        /// and will not fire multiple times.
+        /// </summary>
+        public static void InitializeLogging()
+        {
+            try
+            {
+                if (Configuration.SendTelemetry &&
+                    Telemetry.UseApplicationInsights &&
+                    AppInsights == null)
+                {
+                    AppInsights = new TelemetryClient
+                    {
+                        InstrumentationKey = Telemetry.Key
+                    };
+                    AppInsights.Context.Session.Id = Guid.NewGuid().ToString();
+                    AppInsights.Context.Component.Version = GetVersion();
+
+                    AppRunTelemetry =
+                        AppInsights.StartOperation<RequestTelemetry>(
+                            $"{GetVersion()} - {Configuration.ApplicationUpdates.AccessCount + 1} - {(UnlockKey.IsRegistered() ? "registered" : "unregistered")}");
+                    AppRunTelemetry.Telemetry.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                Telemetry.UseApplicationInsights = false;
+                LogLocal("Application Insights initialization failure: " + ex.GetBaseException().Message);
+            }
+        }
+
+        /// <summary>
+        /// Shuts down the Application Insights Logging functionality
+        /// and flushes any pending requests.
+        ///
+        /// This handles start and stop times and the application lifetime
+        /// log entry that logs duration of operation.
+        /// </summary>
+        public static void ShutdownLogging()
+        {
+            if (Configuration.SendTelemetry &&
+                Telemetry.UseApplicationInsights &&
+                AppInsights != null)
+            {
+                var t = AppRunTelemetry.Telemetry;
+
+                // multi-instance shutdown - ignore
+                if (t.Properties.ContainsKey("usage"))
+                {
+                    return;
+                }
+
+                t.Properties.Add("usage", Configuration.ApplicationUpdates.AccessCount.ToString());
+                t.Properties.Add("registered", UnlockKey.IsRegistered().ToString());
+                t.Properties.Add("version", GetVersion());
+                t.Properties.Add("dotnetversion", WindowsUtils.GetDotnetVersion());
+                t.Properties.Add("culture", CultureInfo.CurrentUICulture.IetfLanguageTag);
+                t.Stop();
+
+                try
+                {
+                    AppInsights.StopOperation(AppRunTelemetry);
+                }
+                catch (Exception ex)
+                {
+                    LogLocal("Failed to Stop Telemetry Client: " + ex.GetBaseException().Message);
+                }
+
+                AppInsights.Flush();
+                AppInsights = null;                
+                AppRunTelemetry.Dispose();
+            }          
+        }
 
         /// <summary>
         /// Logs exceptions in the applications
@@ -364,64 +453,12 @@ Markdown Monster v{version}
             return exMsg;
         }
 
-        public static void SetWorkingSet(int lnMaxSize, int lnMinSize)
-        {
-            try
-            {
-                Process loProcess = Process.GetCurrentProcess();
-                loProcess.MaxWorkingSet = (IntPtr) lnMaxSize;
-                loProcess.MinWorkingSet = (IntPtr) lnMinSize;
-            }
-            catch
-            {
-            }
-        }
-
-        //public static void SendBugReport(Exception ex, string msg = null)
-        //{
-        //    var bug = new BugReport()
-        //    {
-        //        TimeStamp = DateTime.UtcNow,
-        //        Message = ex.Message,
-        //        Product = "Markdown Monster",
-        //        Version = mmApp.GetVersion(),
-        //        WinVersion = WindowsUtils.GetWindowsVersion() +
-        //                     " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
-        //                     " - .NET " + WindowsUtils.GetDotnetVersion() + " - " +
-        //                     (Environment.Is64BitProcess ? "64 bit" : "32 bit"),
-        //        StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()
-        //    };
-        //    if (!string.IsNullOrEmpty(msg))
-        //        bug.Message = msg + "\r\n" + bug.Message;
-
-        //    new TaskFactory().StartNew(
-        //        (bg) =>
-        //        {
-        //            try
-        //            {
-        //                var temp = HttpUtils.JsonRequest<BugReport>(new HttpRequestSettings()
-        //                {
-        //                    Url = mmApp.Configuration.BugReportUrl,
-        //                    HttpVerb = "POST",
-        //                    Content = bg,
-        //                    Timeout = 3000
-        //                });
-        //            }
-        //            catch (Exception ex2)
-        //            {
-        //                // don't log with exception otherwise we get an endless loop
-        //                Log("Unable to report bug: " + ex2.Message);
-        //            }
-        //        }, bug);
-        //}
-
-
-
         /// <summary>
         /// Sends usage information to server
         /// </summary>
         /// <param name="operation"></param>
         /// <param name="data"></param>
+        [Obsolete("Please use mmApp.Log() and Application Insights")]
         public static void SendTelemetry(string operation, string data = null)
         {
             if (!Configuration.SendTelemetry)
@@ -459,19 +496,8 @@ Markdown Monster v{version}
             }
         }
 
-		/// <summary>
-		/// Returns a fully qualified Help URL to a topic in the online
-		/// documentation based on a topic id.
-		/// </summary>
-		/// <param name="topic">The topic id or topic .html file</param>
-		/// <returns>Fully qualified URL</returns>
-	    public static string GetDocumentionUrl(string topic)
-	    {
-		    if (!topic.Contains(".htm"))
-			    topic += ".htm";
+        #endregion
 
-			return Urls.DocumentationBaseUrl + topic;
-	    }
         #endregion
 
         #region Version information
