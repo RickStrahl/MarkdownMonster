@@ -6,6 +6,9 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+https://west-wind.com
+
+
 
 ### 1.16
 <small>March 20th, 2019</small>
@@ -21,6 +24,12 @@ You can now open content piped from StdIn into Markdown Monster. You can use a c
 
 * **[Improved Math Support](https://markdownmonster.west-wind.com/docs/_59l0mv2uw.htm)**  
 Added custom Markdig parser to support MathJax expression rendering. You can now enable the Markdown `UseMathematics` settings switch to automatically expand Math expressions using `$$` or `$` expressions, MathML, or `<div class="math">`. With the new extension, most math expressions are now rendering reliably. The `useMath: true` YAML header is no longer necessary - MM now scans the document for embedded math expressions automatically.
+
+* **Update MarkDig for Math Parsing**  
+Updated to latest MarkDig version that includes new Math expression wrapping from our PR that removes need for our custom Math MarkDig extensions. The behavior of our previous fix is now built into MarkDig directly. Yay!
+
+* **Update Save As Encrypted File Dialog**  
+Made the dialog easier to visually parse at a glance and work with. Add filename and path to the make the file you're encrypting or decrypting more obvious.
 
 * **[New Console Addin Available](https://github.com/RickStrahl/Console-MarkdownMonster-Addin)**  
 There's a new **Console** Addin available in the Addin Manager that lets you attach a Terminal Console window that is 'pinned' to the bottom of your Markdown Monster instance. As you move or activate MM the Console sticks with the application. You can customize what Terminal tool to use (Powershell, Command, Base, ConEmu, Commander etc.) and it defaults to PowerShell.
@@ -39,13 +48,6 @@ You can now change branches in the Commit dialog assuming there are no pending c
 
 * **Git Commit Dialog Remembers last Commit Operation**  
 Remember last Git Commit Operation: **Commit** or **Commit and Push** and show last option used first and bolded.
-
-* **Update MarkDig for Math Parsing**  
-Updated to latest MarkDig version that includes new Math expression wrapping from our PR that removes need for our custom Math MarkDig extensions. The behavior of our previous fix is now built into MarkDig directly. Yay!
-
-* **Update Save As Encrypted File Dialog**  
-Made the dialog easier to visually parse at a glance and work with. Add filename and path to the make the file you're encrypting or decrypting more obvious.
-
 
 * **Add Symbol Configurations for some Markdown Expansions**  
 You can now specify a few options for how certain symbol shortcuts are expanded using `MarkdownOptions.Symbols`. Initial keys are `italic` and `softReturn` expansions which determine the `ctrl-i` and `shift-enter` default expansion formatting.

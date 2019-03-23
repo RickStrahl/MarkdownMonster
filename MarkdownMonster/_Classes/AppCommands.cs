@@ -1747,9 +1747,11 @@ We're now shutting down the application.
 
             TestButtonCommand = new CommandBase((parameter, command) =>
             {
-                
+                MessageBox.Show("Test Command");
+                object obj = null;
+                obj.ToString();
 
-            }, (p, c) => true);
+            });
         }
 
     }

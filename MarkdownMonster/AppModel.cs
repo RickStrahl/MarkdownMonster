@@ -284,10 +284,30 @@ namespace MarkdownMonster
 
         private bool _isPresentationMode;
 
-        #endregion
+
+        /// <summary>
+        /// Determines whether the application is compiled in Debug Mode
+        /// Provided here mainly as an aid for turning on and off debugging menu
+        /// and UI options.
+        /// </summary>
+        public bool IsDebugMode
+        {
+            get
+            {                
+#if DEBUG
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+        private bool _isDebugMode;
 
 
-        #region Statusbar Item Props
+#endregion
+
+
+#region Statusbar Item Props
 
         /// <summary>
         /// A list of PreviewThemes as retrieved based on the folder structure of hte
@@ -435,9 +455,9 @@ namespace MarkdownMonster
             }
         }
 
-        #endregion
+#endregion
 
-        #region Initialization
+#region Initialization
 
         public AppModel(MainWindow window)
         {
@@ -452,12 +472,12 @@ namespace MarkdownMonster
 
         }
 
-        #endregion
+#endregion
 
 
        
 
-        #region INotifyPropertyChanged
+#region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -467,7 +487,7 @@ namespace MarkdownMonster
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #endregion
+#endregion
 
     }
 

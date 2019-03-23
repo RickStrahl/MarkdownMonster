@@ -893,7 +893,7 @@ namespace MarkdownMonster
                 }
                 catch (Exception ex)
                 {
-                    mmApp.Log("TabControl.GetOrderedHeaders() failed. Saving unordered.", ex);
+                    // mmApp.Log("TabControl.GetOrderedHeaders() failed. Saving unordered.", ex);
 
                     // This works, but doesn't keep tab order intact
                     headers = new List<DragablzItem>();
@@ -1766,7 +1766,7 @@ namespace MarkdownMonster
             }
             catch (Exception ex)
             {
-                mmApp.Log("SetTabHeaderBinding Failed. Assigning explicit path", ex);
+                // mmApp.Log("SetTabHeaderBinding Failed. Assigning explicit path", ex);
                 tab.Header = document.FilenameWithIndicator;
             }
         }
