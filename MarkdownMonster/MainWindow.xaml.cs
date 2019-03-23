@@ -161,8 +161,7 @@ namespace MarkdownMonster
 
             // Singleton App startup - server code that listens for other instances
             if (mmApp.Configuration.UseSingleWindow)
-            {
-                // Listen for other instances launching and pick up
+            {                // Listen for other instances launching and pick up
                 // forwarded command line arguments
                 PipeManager = new NamedPipeManager("MarkdownMonster");
                 PipeManager.StartServer();
@@ -179,12 +178,12 @@ namespace MarkdownMonster
         #region Opening and Closing
 
         private void OnLoaded(object sender, RoutedEventArgs e)
-        {
+        {            
             // Load either default preview browser or addin-overridden browser
             LoadPreviewBrowser();
 
             RestoreSettings();
-
+            
             OpenFilesFromCommandLine();
 
             CheckForFirstRun();
@@ -192,17 +191,13 @@ namespace MarkdownMonster
             BindTabHeaders();
             SetWindowTitle();
 
-            if (mmApp.Configuration.IsPreviewVisible)
-            {
-                ButtonHtmlPreview.IsChecked = true;
-                ToolButtonPreview.IsChecked = true;
-                //Model.TogglePreviewBrowserCommand.Execute(ButtonHtmlPreview);
-            }
-
             var left = Left;
             Left = 300000;
-            
-                  
+
+            Model.IsPresentationMode = App.StartInPresentationMode;
+            if (!Model.IsPresentationMode)
+                Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
+
             // run out of band
             Dispatcher.InvokeAsync(() =>
             {
@@ -210,9 +205,11 @@ namespace MarkdownMonster
 
                 FixMonitorPosition();
 
-                Model.IsPresentationMode = mmApp.Configuration.OpenInPresentationMode;
                 if (Model.IsPresentationMode)
-                    Model.WindowLayout.SetPresentationMode();
+                {                    
+                    Dispatcher.InvokeAsync(() => Model.WindowLayout.SetPresentationMode(),
+                        DispatcherPriority.ApplicationIdle);
+                }
 
                 OpenFavorites(noActivate: true);
 

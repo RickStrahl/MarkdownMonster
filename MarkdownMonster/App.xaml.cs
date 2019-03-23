@@ -52,6 +52,8 @@ namespace MarkdownMonster
 
         public static string InitialStartDirectory { get; }
 
+        public static bool StartInPresentationMode { get; set; }
+
         /// <summary>
         /// Startup Command Arguments without the initial full
         /// command line. arg[0] is the first parameter on the
@@ -228,6 +230,11 @@ namespace MarkdownMonster
            var arg0 = CommandArgs[0].ToLower().TrimStart('-');
             if (CommandArgs[0] == "-")
                 arg0 = "-";
+            
+            if (Environment.CommandLine.Contains("-presentation"))
+            {
+                StartInPresentationMode = true;
+            }
 
             switch (arg0)
             {
