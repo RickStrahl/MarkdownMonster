@@ -29,7 +29,7 @@ namespace MarkdownMonster
         /// <remarks>
         /// This routine relies on a browser window
         /// and an HTML file that handles the actual
-        /// parsing: Editor\HtmlToMarkdown.htm       
+        /// parsing: Editor\HtmlToMarkdown.htm
         /// </remarks>
         /// <param name="html"></param>
         /// <returns></returns>
@@ -38,14 +38,14 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(html))
                 return "";
 #if false
-            var config = new ReverseMarkdown.Config(githubFlavored: true);            
-            var converter = new ReverseMarkdown.Converter(config);            
+            var config = new ReverseMarkdown.Config(githubFlavored: true);
+            var converter = new ReverseMarkdown.Converter(config);
             string markdown = converter.Convert(html);
             return markdown ?? html;
 #else
             // Old code that uses JavaScript in a WebBrowser Control
             string markdown = null;
-            string htmlFile = Path.Combine(Environment.CurrentDirectory, "Editor\\htmltomarkdown.htm");
+            string htmlFile = Path.Combine(App.InitialStartDirectory, "Editor\\htmltomarkdown.htm");
 
             var form = new BrowserDialog();
             form.ShowInTaskbar = false;
@@ -84,7 +84,7 @@ namespace MarkdownMonster
         public static readonly Regex YamlExtractionRegex = new Regex(@"\A---[ \t]*\r?\n[\s\S]+?\r?\n(---|\.\.\.)[ \t]*\r?\n", RegexOptions.Multiline | RegexOptions.Compiled);
 
         /// <summary>
-        /// Strips 
+        /// Strips
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>

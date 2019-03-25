@@ -1,15 +1,15 @@
 ﻿#region License
 /*
  **************************************************************
- *  Author: Rick Strahl 
+ *  Author: Rick Strahl
  *          © West Wind Technologies, 2016
  *          http://www.west-wind.com/
- * 
+ *
  * Created: 04/28/2016
  *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -18,7 +18,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- **************************************************************  
+ **************************************************************
 */
 #endregion
 
@@ -38,16 +38,16 @@ using Westwind.Utilities;
 namespace MarkdownMonster
 {
     /// <summary>
-    /// Global App model for the application. Holds references to 
+    /// Global App model for the application. Holds references to
     /// top level components like the Window, configuration and more
     /// as well as includes a number of helper functions.
-    /// 
+    ///
     /// Available to Addins as `this.Model`.
     /// </summary>
     public class AppModel : INotifyPropertyChanged
     {
 
-        
+
         /// <summary>
         /// An instance of the main application WPF form
         /// </summary>
@@ -69,7 +69,7 @@ namespace MarkdownMonster
         public MainWindowLayoutModel WindowLayout { get; internal set; }
 
 
-        
+
 
         #region Document Open/Active State
 
@@ -77,15 +77,15 @@ namespace MarkdownMonster
         /// Returns an instance of the Active Editor instance. The editor contains
         /// editor behavior of the browser control as well as all interactions with
         /// the editor's event model and text selection interfaces.
-        /// 
-        /// Contains an `AceEditor` property that references the underlying 
+        ///
+        /// Contains an `AceEditor` property that references the underlying
         /// JavaScript editor wrapper instance.
         /// </summary>
         public MarkdownDocumentEditor ActiveEditor
-        {            
+        {
             get
             {
-                var editor = Window.GetActiveMarkdownEditor();                
+                var editor = Window.GetActiveMarkdownEditor();
                 return editor;
             }
         }
@@ -102,10 +102,10 @@ namespace MarkdownMonster
                 _activeDocument = value;
 
                 OnPropertyChanged(nameof(ActiveDocument));
-                OnPropertyChanged(nameof(ActiveEditor));                
+                OnPropertyChanged(nameof(ActiveEditor));
                 OnPropertyChanged(nameof(IsEditorActive));
                 OnPropertyChanged(nameof(IsTabOpen));
-                OnPropertyChanged(nameof(IsNoTabOpen));             
+                OnPropertyChanged(nameof(IsNoTabOpen));
             }
         }
         private MarkdownDocument _activeDocument;
@@ -121,7 +121,7 @@ namespace MarkdownMonster
             {
                 if (Equals(value, _openDocuments)) return;
                 _openDocuments = value;
-                OnPropertyChanged(nameof(OpenDocuments));              
+                OnPropertyChanged(nameof(OpenDocuments));
             }
         }
 
@@ -163,21 +163,21 @@ namespace MarkdownMonster
         {
             get
             {
-                return Window.TabControl.Items.Count < 1;                           
+                return Window.TabControl.Items.Count < 1;
             }
         }
 
 
         /// <summary>
-        /// Determines if there's a document loaded 
+        /// Determines if there's a document loaded
         /// </summary>
         public bool IsEditorActive
         {
             get
             {
-                if (ActiveEditor != null && ActiveDocument != null)                                    
+                if (ActiveEditor != null && ActiveDocument != null)
                     return true;
-                
+
                 return false;
             }
         }
@@ -190,7 +190,7 @@ namespace MarkdownMonster
         {
             get => _isEditorFocused;
             set
-            {                
+            {
   			    if (Equals(value, _openDocuments)) return;
                 _isEditorFocused = value;
                 OnPropertyChanged(nameof(IsEditorFocused));
@@ -229,12 +229,12 @@ namespace MarkdownMonster
                     Configuration.PreviewMode = PreviewModes.ExternalPreviewWindow;
                 else
                 {
-                    Configuration.PreviewMode = PreviewModes.InternalPreview;                    
+                    Configuration.PreviewMode = PreviewModes.InternalPreview;
                 }
                 OnPropertyChanged(nameof(IsExternalPreview));
-                OnPropertyChanged(nameof(IsInternalPreview));                                
+                OnPropertyChanged(nameof(IsInternalPreview));
             }
-        }        
+        }
 
 
         /// <summary>
@@ -247,13 +247,13 @@ namespace MarkdownMonster
             {
                 if (value)
                     Configuration.PreviewMode = PreviewModes.InternalPreview;
-                else                
+                else
                     Configuration.PreviewMode = PreviewModes.ExternalPreviewWindow;
 
                 OnPropertyChanged(nameof(IsInternalPreview));
-                OnPropertyChanged(nameof(IsExternalPreview));                
+                OnPropertyChanged(nameof(IsExternalPreview));
             }
-        }        
+        }
 
 
 
@@ -275,7 +275,7 @@ namespace MarkdownMonster
         {
             get => _isPresentationMode;
             set
-            {                
+            {
                 if (_isPresentationMode == value) return;
                 _isPresentationMode = value;
                 OnPropertyChanged(nameof(IsPresentationMode));
@@ -293,7 +293,7 @@ namespace MarkdownMonster
         public bool IsDebugMode
         {
             get
-            {                
+            {
 #if DEBUG
                 return true;
 #else
@@ -320,7 +320,7 @@ namespace MarkdownMonster
                 if (_previewThemeNames == null || _previewThemeNames.Count < 1)
                 {
                     var directories =
-                        Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "PreviewThemes"));
+                        Directory.GetDirectories(Path.Combine(App.InitialStartDirectory, "PreviewThemes"));
                     foreach (string dir in directories.OrderBy(d => d))
                     {
                         var dirName = Path.GetFileName(dir);
@@ -389,7 +389,7 @@ namespace MarkdownMonster
             {
                 if (_editorThemeNames == null || _editorThemeNames.Count < 1)
                 {
-                    var files = Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, "Editor\\Scripts\\Ace"),
+                    var files = Directory.GetFiles(Path.Combine(App.InitialStartDirectory, "Editor\\Scripts\\Ace"),
                         "theme-*.js");
                     foreach (string file in files.OrderBy(d => d))
                     {
@@ -438,7 +438,7 @@ namespace MarkdownMonster
             }
         }
         List<string> _documentTypes = null;
-        
+
 
         /// <summary>
         /// Returns the width of the column containing
@@ -461,21 +461,21 @@ namespace MarkdownMonster
 
         public AppModel(MainWindow window)
         {
-            
+
             Configuration = mmApp.Configuration;
             _openDocuments = new List<MarkdownDocument>();
             Window = window;
 
             Commands = new AppCommands(this);
             mmApp.Model = this;
-            
+
 
         }
 
 #endregion
 
 
-       
+
 
 #region INotifyPropertyChanged
 
@@ -499,5 +499,5 @@ namespace MarkdownMonster
         public string IconString { get; set; }
     }
 
-    
+
 }

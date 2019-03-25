@@ -50,12 +50,12 @@ namespace MarkdownMonster.Windows
 
             return LintingErrors;
         }
-        
+
 
         public static List<MarkdownLintError> MarkdownLinting(string markdown, bool noErrorUi = false)
         {
-            // Old code that uses JavaScript in a WebBrowser Control            
-            string htmlFile = Path.Combine(Environment.CurrentDirectory, "Editor\\markdownlinting.htm");
+            // Old code that uses JavaScript in a WebBrowser Control
+            string htmlFile = Path.Combine(App.InitialStartDirectory, "Editor\\markdownlinting.htm");
 
             var form = new BrowserDialog();
             form.ShowInTaskbar = false;

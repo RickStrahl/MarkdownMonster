@@ -332,7 +332,7 @@ namespace MarkdownMonster.Utilities
                 return false;
             }
 
-            string origPath = Environment.CurrentDirectory;
+            string origPath = App.InitialStartDirectory;
             try
             {
                 //git remote add origin https://github.com/RickStrahl/Test.git
@@ -356,7 +356,7 @@ namespace MarkdownMonster.Utilities
             //    return false;
             //}
 
-            //string origPath = Environment.CurrentDirectory;
+            //string origPath = App.InitialStartDirectory;
             //try
             //{
             //    //git remote add origin https://github.com/RickStrahl/Test.git

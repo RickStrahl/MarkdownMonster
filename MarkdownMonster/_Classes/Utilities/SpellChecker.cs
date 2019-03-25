@@ -18,7 +18,7 @@ namespace MarkdownMonster.Utilities
     public class SpellChecker
     {
         public static readonly string ExternalDictionaryFolder = Path.Combine(mmApp.Configuration.CommonFolder, "DownloadedDictionaries");
-        public static readonly string InternalDictionaryFolder = Path.Combine(Environment.CurrentDirectory, "Editor");
+        public static readonly string InternalDictionaryFolder = Path.Combine(App.InitialStartDirectory, "Editor");
         public static Hunspell GetSpellChecker(string language = "en-US", bool reload = false)
         {
             if (reload || _spellChecker == null)
@@ -27,7 +27,7 @@ namespace MarkdownMonster.Utilities
                 string aff = Path.ChangeExtension(dic, "aff");
 
                 if (!File.Exists(dic))
-                {                    
+                {
                     dic = Path.Combine(ExternalDictionaryFolder, language + ".dic");
                     aff = Path.ChangeExtension(dic, "aff");
 
@@ -38,9 +38,9 @@ namespace MarkdownMonster.Utilities
                             mmApp.Model.Window.ShowStatusError($"Dictionary for language {language} not found. Resetting to en-US. Please reinstall your language.");
 
                         return GetSpellChecker("en-US", true);
-                    }                        
+                    }
                 }
-                
+
                 _spellChecker?.Dispose();
                 try
                 {
@@ -111,7 +111,7 @@ namespace MarkdownMonster.Utilities
             }
             else
                 suggestions = new string[] {};
-            
+
             return suggestions;
         }
 
@@ -139,7 +139,7 @@ namespace MarkdownMonster.Utilities
 
             return false;
         }
-        
+
         const string DictionaryDownloadUrl = "https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{0}/index.dic";
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace MarkdownMonster.Utilities
         {
             if (basePath == null)
                 basePath = ExternalDictionaryFolder;
-            
+
             try
             {
                 var diItem = DictionaryDownloads.FirstOrDefault(di => language.Equals(di.Code, StringComparison.InvariantCultureIgnoreCase));
@@ -166,11 +166,11 @@ namespace MarkdownMonster.Utilities
 
                     if (!Directory.Exists(basePath))
                         Directory.CreateDirectory(basePath);
-                        
+
                     var dicFile = Path.Combine(basePath,  language + ".dic");
                     var web = new WebClient();
                     web.DownloadFile(new Uri(url), dicFile);
-					
+
                     var affFile = dicFile.Replace(".dic", ".aff");
                     url = url.Replace(".dic", ".aff");
                     web.DownloadFile(new Uri(url), affFile);
@@ -221,7 +221,7 @@ namespace MarkdownMonster.Utilities
             form.ButtonOkText.Text = "Accept";
             form.SetMessage("Please accept the license for the dictionary:");
             form.ShowDialog();
-            
+
             return form.ButtonResult == form.ButtonOk;
         }
 
@@ -262,27 +262,27 @@ namespace MarkdownMonster.Utilities
                 Name = "English (US)",
                 Code = "en-US",
                 PreInstalled = true,
-                
+
             },
             new DictionaryLanguage
             {
                 Name = "German",
                 Code = "de",
                 PreInstalled = true,
-                
+
             },
             new DictionaryLanguage
             {
                 Name = "French",
                 Code = "fr",
                 PreInstalled = true,
-                
+
             },
             new DictionaryLanguage
             {
                 Name = "Spanish",
                 Code = "es",
-                PreInstalled = true,                
+                PreInstalled = true,
             },
             new DictionaryLanguage
             {
@@ -599,7 +599,7 @@ namespace MarkdownMonster.Utilities
         public int SortOrder { get; set; }
 
         public string CustomDownloadUrlForLicense { get; set; }
-        public string CustomDownloadUrlForDic { get; set; }        
+        public string CustomDownloadUrlForDic { get; set; }
         public string CustomDownloadUrlForZip { get; set; }
     }
 

@@ -1,15 +1,15 @@
 ﻿#region License
 /*
  **************************************************************
- *  Author: Rick Strahl 
+ *  Author: Rick Strahl
  *          © West Wind Technologies, 2016
  *          http://www.west-wind.com/
- * 
+ *
  * Created: 04/28/2016
  *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -18,7 +18,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- **************************************************************  
+ **************************************************************
 */
 #endregion
 
@@ -40,7 +40,7 @@ namespace MarkdownMonster
     /// as well as in various addins. Similar behavior and hookup, but doesn't
     /// include all the Markdown parsing features and uses a separate template
     /// that is simpler and less resource intensive.
-    /// 
+    ///
     /// If you need to use a code editor as part of an Addin this is the class
     /// to use. For a usage example, see the PasteCode.xaml form and code behind.
     /// </summary>
@@ -58,7 +58,7 @@ namespace MarkdownMonster
         public string CurrentText { get; set; }
 
         public string EditorSyntax { get; set; } = "markdown";
-               
+
 
 
         public MarkdownEditorSimple(WebBrowser wb, string initialValue = null, string editorSyntax = "markdown")
@@ -67,9 +67,9 @@ namespace MarkdownMonster
 
             WebBrowser = wb;
             wb.Visibility = Visibility.Hidden;
-            
+
             wb.LoadCompleted += OnDocumentCompleted;
-            string path = System.IO.Path.Combine(Environment.CurrentDirectory, "Editor\\editorSimple.htm");
+            string path = System.IO.Path.Combine(App.InitialStartDirectory, "Editor\\editorSimple.htm");
             wb.Navigate("file:///" + path);
 
             InitialValue = initialValue;
@@ -152,13 +152,13 @@ namespace MarkdownMonster
         /// </summary>
         public void SetEditorFocus()
         {
-            AceEditor?.setfocus(true);         
+            AceEditor?.setfocus(true);
         }
 
 
         /// <summary>
-        /// Pastes text into the editor at the current 
-        /// insertion/selection point. Replaces any 
+        /// Pastes text into the editor at the current
+        /// insertion/selection point. Replaces any
         /// selected text.
         /// </summary>
         /// <param name="text"></param>
@@ -193,7 +193,7 @@ namespace MarkdownMonster
             if (fontsize == null || !(fontsize is double || fontsize is int))
                 return 0;
 
-            // If we have a fontsize, force the zoom level to 100% 
+            // If we have a fontsize, force the zoom level to 100%
             // The font-size has been adjusted to reflect the zoom percentage
             var wb = (dynamic)WebBrowser.GetType().GetField("_axIWebBrowser2",
                       BindingFlags.Instance | BindingFlags.NonPublic)
@@ -243,7 +243,7 @@ namespace MarkdownMonster
         {
             if (AceEditor == null)
                 return;
-            
+
             try
             {
                 // determine if we want to rescale the editor fontsize

@@ -217,7 +217,7 @@ namespace MarkdownMonster
                     "-auto \"" + pngFilename + "\"");
 
                 pi.WindowStyle = ProcessWindowStyle.Hidden;
-                pi.WorkingDirectory = Environment.CurrentDirectory;
+                pi.WorkingDirectory = App.InitialStartDirectory;
                 Process.Start(pi);
             }
             catch { }

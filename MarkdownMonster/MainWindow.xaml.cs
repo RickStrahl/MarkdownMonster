@@ -1,4 +1,4 @@
-﻿#region 
+﻿#region
 
 /*
  **************************************************************
@@ -138,7 +138,7 @@ namespace MarkdownMonster
 
 
         public MainWindow()
-        {                        
+        {
             InitializeComponent();
 
             Model = new AppModel(this);
@@ -178,12 +178,12 @@ namespace MarkdownMonster
         #region Opening and Closing
 
         private void OnLoaded(object sender, RoutedEventArgs e)
-        {            
+        {
             // Load either default preview browser or addin-overridden browser
             LoadPreviewBrowser();
 
             RestoreSettings();
-            
+
             OpenFilesFromCommandLine();
 
             CheckForFirstRun();
@@ -206,7 +206,7 @@ namespace MarkdownMonster
                 FixMonitorPosition();
 
                 if (Model.IsPresentationMode)
-                {                    
+                {
                     Dispatcher.InvokeAsync(() => Model.WindowLayout.SetPresentationMode(),
                         DispatcherPriority.ApplicationIdle);
                 }
@@ -224,10 +224,10 @@ namespace MarkdownMonster
                 }
                 catch (Exception exception)
                 {
-                    mmApp.Log("Addin UI Loading failed.", exception);                        
+                    mmApp.Log("Addin UI Loading failed.", exception);
                 }
 
-                AddinManager.Current.RaiseOnWindowLoaded();                    
+                AddinManager.Current.RaiseOnWindowLoaded();
             },DispatcherPriority.ApplicationIdle);
 
 
@@ -269,7 +269,7 @@ namespace MarkdownMonster
                     try
                     {
                         string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
-                        File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"), tempFile, true);
+                        File.Copy(Path.Combine(App.InitialStartDirectory, "SampleMarkdown.md"), tempFile, true);
                         OpenTab(tempFile);
                     }
                     catch (Exception ex)
@@ -285,7 +285,7 @@ namespace MarkdownMonster
 
         /// <summary>
         /// This is called only if addin loading takes very long
-        /// Potentially fired off 
+        /// Potentially fired off
         /// </summary>
         public void OnAddinsLoaded()
         {
@@ -409,7 +409,7 @@ namespace MarkdownMonster
 
             mmApp.SetWorkingSet(10000000, 5000000);
         }
-        
+
         protected void OnActivated(object sender, EventArgs e)
         {
             CheckFileChangeInOpenDocuments();
@@ -511,7 +511,7 @@ namespace MarkdownMonster
 
             if (!CloseAllTabs())
             {
-                // tab closing was cancelled                
+                // tab closing was cancelled
                 e.Cancel = true;
                 return;
             }
@@ -529,14 +529,14 @@ namespace MarkdownMonster
                 mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
                 !UnlockKey.IsRegistered())
             {
-                
-                
+
+
                 var rd = new RegisterDialog(true);
                 rd.Owner = this;
 
                 //Top -= 10000; // hide by making transparent - hiding causes odd close behavior with MahApps at times
 
-                rd.ShowDialog();                            
+                rd.ShowDialog();
             }
             else
                 Top -= 10000;  // quickest way to hide
@@ -627,7 +627,7 @@ namespace MarkdownMonster
 
 
             mmApp.Configuration.CleanupRecentFilesAndFolders();
-            
+
             foreach (string file in mmApp.Configuration.RecentDocuments)
             {
                 var fileOnly = Path.GetFileName(file).Replace("_", "__");
@@ -678,7 +678,7 @@ namespace MarkdownMonster
                     ButtonRecentFiles.Items.Add(mi);
             }
 
-            
+
             if (mmApp.Configuration.FolderBrowser.RecentFolders.Count > 0)
             {
 
@@ -694,7 +694,7 @@ namespace MarkdownMonster
                     ButtonRecentFiles.Items.Add(mi);
 
                 foreach (var folder in mmApp.Configuration.FolderBrowser.RecentFolders.Take(7))
-                {          
+                {
                     var pathOnly = Path.GetFileName(folder).Replace("_", "__");
                     var path = folder.Replace("_", "__");
 
@@ -885,7 +885,7 @@ namespace MarkdownMonster
                     var ditems = ReflectionUtils.CallMethod(control, "DragablzItems") as List<DragablzItem>;
 
                     // TODO: Put proper null checks later and logic to return unordered list
-                    // Explicitly let this fail for now so we can report this issue better 
+                    // Explicitly let this fail for now so we can report this issue better
                     headers = TabControl.HeaderItemsOrganiser.Sort(ditems);
                 }
                 catch
@@ -1144,7 +1144,7 @@ namespace MarkdownMonster
                     }
                 }
             }
-            
+
             if (existingTab != null)
                 TabControl.Items.Remove(existingTab);
 
@@ -1152,9 +1152,9 @@ namespace MarkdownMonster
             TabControl.Items.Insert(0, tab);
 
             if (selectTab)
-            {                
-                TabControl.SelectedItem = tab;                
-                SetWindowTitle();                
+            {
+                TabControl.SelectedItem = tab;
+                SetWindowTitle();
             }
             Model.OpenDocuments.Add(editor.MarkdownDocument);
 
@@ -1317,7 +1317,7 @@ namespace MarkdownMonster
             {
                 var tab = PreviewTab;
                 PreviewTab = null;
-                CloseTab(tab);             
+                CloseTab(tab);
             }
 
             if (PreviewTab == null)
@@ -1756,7 +1756,7 @@ namespace MarkdownMonster
                     Converter = new FontWeightFromBoolConverter()
                 };
                 BindingOperations.SetBinding(textBlock, TextBlock.FontWeightProperty, fontWeightBinding);
-                
+
                 grid.Children.Add(textBlock);
             }
             catch
@@ -1803,7 +1803,7 @@ namespace MarkdownMonster
                         Height = 22,
                         ToolTip = tabHeaderText
                     };
-                    //panel.Children.Add(new TextBlock { Text = tabHeaderText });                    
+                    //panel.Children.Add(new TextBlock { Text = tabHeaderText });
                 }
                 else if (!string.IsNullOrEmpty(tabHeaderText))
                 {
@@ -2112,7 +2112,7 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Create an instance of the Preview Browser either using the 
+        /// Create an instance of the Preview Browser either using the
         /// default IE based preview browser, or if an addin has registered
         /// a custom preview browser.
         /// </summary>
@@ -2279,7 +2279,7 @@ namespace MarkdownMonster
             }
             else if (button == MenuOpenPreviewFolder)
             {
-                ShellUtils.GoUrl(Path.Combine(Environment.CurrentDirectory, "PreviewThemes",
+                ShellUtils.GoUrl(Path.Combine(App.InitialStartDirectory, "PreviewThemes",
                     mmApp.Configuration.PreviewTheme));
             }
             else if (button == MenuMarkdownMonsterSite)
@@ -2390,7 +2390,7 @@ namespace MarkdownMonster
             else if (button == MenuCreateAddinDocumentation)
                 ShellUtils.GoUrl(mmApp.Urls.DocumentationBaseUrl + "_4ne0s0qoi.htm");
             else if (button == MenuShowSampleDocument)
-                OpenTab(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"));
+                OpenTab(Path.Combine(App.InitialStartDirectory, "SampleMarkdown.md"));
             else if (button == MenuShowErrorLog)
             {
                 string logFile = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonsterErrors.txt");
@@ -2498,7 +2498,7 @@ namespace MarkdownMonster
 
                 mmApp.Configuration.Write();
                 Close();
-                ShellUtils.ExecuteProcess(Path.Combine(Environment.CurrentDirectory, "MarkdownMonster.exe"), "");
+                ShellUtils.ExecuteProcess(Path.Combine(App.InitialStartDirectory, "MarkdownMonster.exe"), "");
             }
         }
 

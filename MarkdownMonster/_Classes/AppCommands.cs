@@ -740,7 +740,7 @@ namespace MarkdownMonster
 
 
                 string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
-                File.Copy(Path.Combine(Environment.CurrentDirectory, "SampleMarkdown.md"), tempFile, true);
+                File.Copy(Path.Combine(App.InitialStartDirectory, "SampleMarkdown.md"), tempFile, true);
                 Model.Window.OpenTab(tempFile, rebindTabHeaders: true);
             });
         }

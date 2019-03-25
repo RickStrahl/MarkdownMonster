@@ -38,6 +38,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using MarkdownMonster;
 using Westwind.Utilities;
 
 
@@ -176,7 +177,7 @@ namespace Westwind.HtmlPackager
                 }
                 docBase?.Remove();
 
-                string oldPath = Environment.CurrentDirectory;
+                string oldPath = App.InitialStartDirectory;
                 try
                 {
                     if (string.IsNullOrEmpty(basePath))
