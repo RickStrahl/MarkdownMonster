@@ -8,19 +8,41 @@
 </head>
 <body>
     <b>Place holder</b>
-    <script src="scripts/to-markdown.js"></script>     
-    <!--<script src="scripts/turndown.js"></script>-->     
+    
+    <script src="scripts/to-markdown.js"></script>
+    
+    <!--<script src="scripts/turndown.browser.umd.js"></script> -->
+    <!--<script src="scripts/bluebird.core.min.js"></script>-->
+    <!--<script src="scripts/upndown.bundle.min.js"></script>-->
 <script>
+       
+       
+       
+        
         function htmltomarkdown(html) {
             // to-markdown
             try {
                 return toMarkdown(html);
             } catch (ex) {
                 return null;
-            }           
+            }
 
-            // turndown
-            //try {
+            // upndown - lots of issues with parsing inline elements wrong 
+            // var und = new upndown();
+            // var markdown = null;
+            // und.convert(html, function(err, convertedMarkdown) {
+            //     if (err) {
+            //         window.resultMarkdown = "ERROR: " + err.message;
+            //     } else {
+            //         window.resultMarkdown = convertedMarkdown;
+            //     }
+            // });
+            
+           return markdown;
+                
+            
+            // turndown - doesn't work worth a crap if HTML contains non-parsable raw HTML       
+            // try {
             //    var turndownService = new TurndownService({
             //        headingStyle: 'atx',
             //        codeBlockStyle: 'fenced',
@@ -32,14 +54,15 @@
             //            return node.isBlock ? '\n\n' + node.innerText + '\n\n' : node.innerText;
             //        }   
             //    });
-            //    turndownService.turndown(html);
-            //}
-            //catch(ex)
-            //{
-            //    alert(ex.message);
+            //    return turndownService.turndown(html);
+            // }
+            // catch(ex)
+            // {
+            //    alert("Markdown Conversion failed: " + ex.message);
             //    return null;
-            //}
+            // }
         }
     </script>
+
 </body>
 </html>
