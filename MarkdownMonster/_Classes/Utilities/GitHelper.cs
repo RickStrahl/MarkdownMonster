@@ -478,6 +478,78 @@ namespace MarkdownMonster.Utilities
             return true;
         }
 
+        public void PushLibGit2Sharp(string branch)
+        {
+            var options = new LibGit2Sharp.PushOptions();
+            options.CredentialsProvider = (url, usernameFromUrl, types) =>
+            {
+                string username = null;
+                string password = null;
+
+                var uri = new Uri(url);
+                string hostname = uri.Host;
+
+                // TODO: test with fixed variables
+                // hostname is "github.com"
+                //hostname = "https://github.com/gerardo-lijs/testing.git";
+
+                // usernameFromUrl is null when called by Repository.Network.Push
+                usernameFromUrl = @"https://github.com/gerardo-lijs/testing.git";
+
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.UseShellExecute = false;
+
+                startInfo.RedirectStandardInput = true;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+
+                startInfo.FileName = "git.exe";
+                startInfo.Arguments = "credential fill";
+
+                Process process = new Process();
+                process.StartInfo = startInfo;
+                process.Start();
+
+                //process.StandardInput.WriteLine("hostname={0}", hostname);
+                //process.StandardInput.WriteLine("username={0}", usernameFromUrl);
+
+                process.StandardInput.WriteLine("protocol=https");
+                process.StandardInput.WriteLine("host=github.com");
+                process.StandardInput.WriteLine($"path={usernameFromUrl}");
+
+                // TODO: 2019-03-25 - Not working! I get the Git Window asking for credential once I close MM...but it looks like the right way!
+
+                string line;
+                while ((line = process.StandardOutput.ReadLine()) != null)
+                {
+                    string[] details = line.Split('=');
+                    if (details[0] == "username")
+                    {
+                        username = details[1];
+                    }
+                    else if (details[0] == "password")
+                    {
+                        password = details[1];
+                    }
+                }
+
+                return new UsernamePasswordCredentials()
+                {
+                    Username = username,
+                    Password = password
+                };
+            };
+
+            //CredentialsProvider = new LibGit2Sharp.Handlers.CredentialsHandler(
+            //(url, usernameFromUrl, types) =>
+            //    new UsernamePasswordCredentials()
+            //    {
+            //        Username = "gerardo-lijs",
+            //        Password = "pass"
+            //    })
+            Repository.Network.Push(Repository.Branches[branch], options);
+        }
+
 
         public async Task<bool> PushAsync(string path, string branch = null)
         {

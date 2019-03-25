@@ -300,11 +300,15 @@ namespace MarkdownMonster.Windows
                                       .FriendlyName;
                 branch = branch?.Substring(branch.IndexOf("/") + 1);
 
+#if DEBUG
+                GitHelper.PushLibGit2Sharp(branch);
+#else
                 if (!await GitHelper.PushAsync(repo.Info.WorkingDirectory,branch) )
                 {
                     CommitWindow.StatusBar.ShowStatusError(GitHelper.ErrorMessage);
                     return false;
                 }
+#endif
             }
 
             return true;
