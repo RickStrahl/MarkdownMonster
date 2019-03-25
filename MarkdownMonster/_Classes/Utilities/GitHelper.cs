@@ -918,7 +918,7 @@ namespace MarkdownMonster.Utilities
         /// <returns></returns>
         public static string FindGitExecutable()
         {
-            string exe = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Git\\bin\\git.exe");
+            string exe = Path.Combine(Environment.ExpandEnvironmentVariables("%ProgramW6432%"), "Git\\bin\\git.exe");
             if (File.Exists(exe))
                 return exe;
 
