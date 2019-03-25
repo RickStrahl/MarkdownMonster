@@ -101,7 +101,14 @@
         },
         te.previewRefresh);
 
-      $("pre[lang]").on("keyup", updateDocument);
+      var previewRefresh = debounce(function() {te.mm.textbox.PreviewMarkdownCallback(true); },80);
+      $("pre[lang]").on("keyup", function(event) {
+        updateDocument();
+
+        // up and down handling - force a preview refresh
+        if (event.keyCode === 38 || event.keyCode === 40)
+          previewRefresh();
+      });
 
 
       // always have mouse position available when drop or paste
@@ -431,20 +438,23 @@
     moveCursorLeft: function(count) {
       if (!count)
         count = 1;
-      var sel = te.editor.getSelection();
-
-      for (var i = 0; i < count; i++) {
-        sel.moveCursorLeft();
+        te.editor.navigateLeft(count);
       }
     },
     moveCursorRight: function(count) {
       if (!count)
         count = 1;
-      var sel = te.editor.getSelection();
-      for (var i = 0; i < count; i++) {
-        sel.moveCursorRight();
-      }
-
+      te.editor.navigateRight(count);
+    },
+    moveCursorUp: function(count){
+      if (!count)
+        count = 1;
+      te.editor.navigateUp(count);
+    },
+    moveCursorDown: function(count){
+      if (!count)
+        count = 1;
+      te.editor.navigateDown(count);
     },
     getLineNumber: function(ignored) {
       var selectionRange = te.editor.getSelectionRange();
