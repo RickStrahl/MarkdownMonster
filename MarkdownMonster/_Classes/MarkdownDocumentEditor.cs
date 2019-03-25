@@ -1681,14 +1681,6 @@ namespace MarkdownMonster
                 {
                     Window.Model.Commands.ToolbarInsertMarkdownCommand.Execute("code");
                 }
-                else if (key == "PasteHtmlAsMarkdown")
-                {
-                    Window.Model.Commands.PasteMarkdownFromHtmlCommand.Execute(null);
-                }
-                else if (key == "CopyMarkdownAsHtml")
-                {
-                    Window.Model.Commands.CopyAsHtmlCommand.Execute(null);
-                }
                 else if (key == "RemoveMarkdownFormatting")
                 {
                     Window.Model.Commands.RemoveMarkdownFormattingCommand.Execute(null);

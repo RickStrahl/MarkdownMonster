@@ -9,7 +9,7 @@ namespace MarkdownMonster.Utilities
     /// Either set a Command/Command parameter for a binding
     /// and/or add HasJavaScript = true to force JavaScript
     /// processing
-    /// 
+    ///
     /// To use:
     /// * Add keybindings in ctor()
     /// * Instantiate
@@ -132,7 +132,7 @@ namespace MarkdownMonster.Utilities
                     Command = model.Commands.CloseActiveDocumentCommand
                 },
                 new AppKeyBinding
-                {                    
+                {
                     Key="Alt+G",
                     CommandName="CommitToGit",
                     Command = model.Commands.CommitToGitCommand
@@ -205,6 +205,7 @@ namespace MarkdownMonster.Utilities
                     HasJavaScriptHandler= true
                 },
 
+
                 new AppKeyBinding
                 {
                     Key = "Alt+I",
@@ -271,20 +272,23 @@ namespace MarkdownMonster.Utilities
                 new AppKeyBinding
                 {
                     Key = "Ctrl+Shift+C",
-                    CommandName = "CopyMarkdownAsHtml",
-                    HasJavaScriptHandler= true
+                    CommandName = "CopyAsHtml",
+                    Command = model.Commands.CopyAsHtmlCommand,
+                    HasJavaScriptHandler= false
                 },
                 new AppKeyBinding
                 {
                     Key = "Ctrl+Shift+V",
-                    CommandName = "PasteHtmlAsMarkdown",
-                    HasJavaScriptHandler= true
+                    CommandName="PasteMarkdownFromHtml",
+                    Command = model.Commands.PasteMarkdownFromHtmlCommand,
+                    HasJavaScriptHandler= false
                 },
                 new AppKeyBinding
                 {
                     Key = "Ctrl+Shift+Z",
                     CommandName = "RemoveMarkdownFormatting",
-                    HasJavaScriptHandler= true
+                    Command = model.Commands.RemoveMarkdownFormattingCommand,
+                    HasJavaScriptHandler= false
                 },
 
                 new AppKeyBinding
@@ -303,12 +307,12 @@ namespace MarkdownMonster.Utilities
                 new AppKeyBinding
                 {
                     Key="F7",
-                    CommandName = "NextSpellCheckError",                    
+                    CommandName = "NextSpellCheckError",
                     HasJavaScriptHandler = true
                 }, new AppKeyBinding
                 {
                     Key="Shift+F7",
-                    CommandName = "PreviousSpellCheckError",                    
+                    CommandName = "PreviousSpellCheckError",
                     HasJavaScriptHandler = true
                 }
 
