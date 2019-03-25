@@ -3,14 +3,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Threading;
-using FontAwesome.WPF;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows.PreviewBrowser
@@ -26,21 +23,21 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
 
         IEWebBrowserEditorHandler wbHandler;
-        
+
         /// <summary>
-        /// Reference back to the main Markdown Monster window that 
+        /// Reference back to the main Markdown Monster window that
         /// </summary>
         public MainWindow Window { get; set; }
 
         public AppModel Model { get; set; }
-        
+
         public bool IsVisible
         {
             get { return this.WebBrowser.Visibility == Visibility.Visible; }
             set { _isVisible = value; }
         }
 
-      
+
 
         private bool _isVisible;
 
@@ -49,14 +46,14 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             WebBrowser = browser;
             Model = mmApp.Model;
             Window = Model.Window;
-            
-            InitializePreviewBrowser();
-            
-            wbHandler = new IEWebBrowserEditorHandler(browser);            
-        }
-        
 
-        
+            InitializePreviewBrowser();
+
+            wbHandler = new IEWebBrowserEditorHandler(browser);
+        }
+
+
+
         // IMPORTANT: for browser COM CSE errors which can happen with script errors
 
         /// <summary>
@@ -90,7 +87,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
                 var doc = editor.MarkdownDocument;
                 var ext = Path.GetExtension(doc.Filename).ToLower().Replace(".", "");
-                
+
                 string mappedTo = "markdown";
 
                 if (!string.IsNullOrEmpty(renderedHtml))
@@ -134,7 +131,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     else
                     {
                         // Fix up `\` or `~\` Web RootPaths via `webRootPath: <path>` in YAML header
-                        // Specify a physical or relative path that `\` or `~\` maps to                        
+                        // Specify a physical or relative path that `\` or `~\` maps to
                         doc.GetPreviewWebRootPathFromDocument();
 
                         bool usePragma = !showInBrowser && mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.None;
@@ -158,7 +155,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                             Window.ShowPreviewBrowser();
                             return;
                         }
-                        
+
                         renderedHtml = StringUtils.ExtractString(renderedHtml,
                             "<!-- Markdown Monster Content -->",
                             "<!-- End Markdown Monster Content -->");
@@ -199,7 +196,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                     // explicitly update the document with JavaScript code
                                     // much more efficient and non-jumpy and no wait cursor
                                     var window = dom.parentWindow;
-                                    
+
                                     try
                                     {
                                         // scroll preview to selected line
@@ -324,7 +321,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         {
             // wbhandle has additional browser initialization code
             // using the WebBrowserHostUIHandler
-            WebBrowser.LoadCompleted += PreviewBrowserOnLoadCompleted;            
+            WebBrowser.LoadCompleted += PreviewBrowserOnLoadCompleted;
         }
 
 
@@ -350,6 +347,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                 dom.documentElement.scrollTop = editor.MarkdownDocument.LastEditorLineNumber;
 
                 window.initializeinterop(editor);
+                window.previewer.highlightTimeout = Model.Configuration.Editor.PreviewHighlightTimeout;
 
                 if (shouldScrollToEditor)
                 {
@@ -372,18 +370,20 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
             catch
             {
-                // try again
-                Task.Delay(500).ContinueWith(t =>
+                // try again after a short wait
+                Model.Window.Dispatcher.Delay(500,(w)=>
                 {
+                    dynamic win = (dynamic) w;
                     try
                     {
-                        window.initializeinterop(editor);
+                        win.initializeinterop(editor);
+                        win.previewer.highlightTimeout = Model.Configuration.Editor.PreviewHighlightTimeout;
                     }
                     catch
                     {
                         //mmApp.Log("Preview InitializeInterop failed: " + url, ex);
                     }
-                });
+                },(object) window);
             }
         }
 
@@ -394,5 +394,5 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
     }
 
-    
+
 }
