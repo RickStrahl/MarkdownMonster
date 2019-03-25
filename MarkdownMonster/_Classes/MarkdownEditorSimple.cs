@@ -69,7 +69,7 @@ namespace MarkdownMonster
             wb.Visibility = Visibility.Hidden;
             
             wb.LoadCompleted += OnDocumentCompleted;
-            string path = System.IO.Path.Combine(Environment.CurrentDirectory, "Editor\\editorSimple.htm");
+            string path = System.IO.Path.Combine(App.InitialStartDirectory, "Editor\\editorSimple.htm");
             wb.Navigate("file:///" + path);
 
             InitialValue = initialValue;

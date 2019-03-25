@@ -10,14 +10,6 @@ namespace MarkdownMonster
 {
     public static class GitClientUtils
     {
-        public enum GitClientType
-        {
-            SmartGit,
-            GitHubDesktop,
-            SourceTree,
-            GitKraken
-        }
-
         /// <summary>
         /// Opens the configured Git Client in the specified folder
         /// </summary>
@@ -51,7 +43,7 @@ namespace MarkdownMonster
         /// Returns null if not found
         /// </summary>
         /// <returns>Null if not found</returns>
-        private static string FindGitClient_GitHubDesktop()
+        public static string FindGitClient_GitHubDesktop()
         {
             // Find installation in registry
             using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\GitHubDesktop"))

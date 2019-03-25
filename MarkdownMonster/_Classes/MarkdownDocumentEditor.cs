@@ -213,11 +213,11 @@ namespace MarkdownMonster
             if (AceEditor == null)
             {
                 WebBrowser.LoadCompleted += OnDocumentCompleted;
-                WebBrowser.Navigate(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm")));
+                WebBrowser.Navigate(new Uri(Path.Combine(App.InitialStartDirectory, "Editor\\editor.htm")));
                 //WebBrowser.Navigate("http://localhost:8080/editor.htm");
             }
             else if (forceReload)
-                WebBrowser.Navigate(new Uri(Path.Combine(Environment.CurrentDirectory, "Editor\\editor.htm")));
+                WebBrowser.Navigate(new Uri(Path.Combine(App.InitialStartDirectory, "Editor\\editor.htm")));
 
             EditorSyntax = mmFileUtils.GetEditorSyntaxFromFileType(MarkdownDocument.Filename);
         }

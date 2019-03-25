@@ -222,6 +222,14 @@ namespace MarkdownMonster.Windows
             Window = AppModel.Window;
 
             GitHelper = new GitHelper();
+
+            // Check that "git.exe" is installed
+            if (GitHelper.IsGitInstalled() == false)
+            {
+                // TODO: We display error message here if MM does not find a working git in path.
+                // and ask user to install Git for Windows (which is currently the working solution)
+            }
+
             GitHelper.OpenRepository(Filename);            
             
             if (string.IsNullOrEmpty(GitEmail) && string.IsNullOrEmpty(GitUsername))

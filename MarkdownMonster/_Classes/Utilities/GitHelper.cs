@@ -594,7 +594,7 @@ namespace MarkdownMonster.Utilities
             {
                 using (process = new Process())
                 {
-                    process.StartInfo.FileName = "git.exe";
+                    process.StartInfo.FileName = FindGitExecutable() ?? "git.exe";
                     process.StartInfo.Arguments = arguments;
                     process.StartInfo.WindowStyle = windowStyle;
                     if (windowStyle == ProcessWindowStyle.Hidden)
@@ -918,14 +918,20 @@ namespace MarkdownMonster.Utilities
         /// <returns></returns>
         public static string FindGitExecutable()
         {
-            string exe = Path.Combine(Environment.GetEnvironmentVariable("Program6432"), "Git\\bin\\git.exe");
-            if (!File.Exists(exe))
+            string exe = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Git\\bin\\git.exe");
+            if (File.Exists(exe))
                 return exe;
 
             exe = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
                 "Git\\bin\\git.exe");
-            if (!File.Exists(exe))
+            if (File.Exists(exe))
                 return exe;
+
+#if DEBUG
+            string git = GitClientUtils.FindGitClient_GitHubDesktop();
+            if (git != null)
+                return @"C:\Users\Gerardo\AppData\Local\GitHubDesktop\app-1.6.5\resources\app\git\cmd\git.exe";
+#endif
 
             return null;
         }

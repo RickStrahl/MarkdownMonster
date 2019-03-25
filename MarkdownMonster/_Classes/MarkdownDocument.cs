@@ -887,13 +887,13 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(theme))
                 theme = mmApp.Configuration.PreviewTheme;
 
-            var themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\" + theme);
+            var themePath = Path.Combine(App.InitialStartDirectory, "PreviewThemes\\" + theme);      //NOTE: Environment.CurrentDirectory get modified after calling Process.Start in some cases. EntreAssembly Location is always the same.
             var docPath = Path.GetDirectoryName(Filename) + "\\";
 
             if (!Directory.Exists(themePath))
             {
                 mmApp.Configuration.PreviewTheme = "Dharkan";
-                themePath = Path.Combine(Environment.CurrentDirectory, "PreviewThemes\\Dharkan");
+                themePath = Path.Combine(App.InitialStartDirectory, "PreviewThemes\\Dharkan");
                 theme = "Dharkan";
             }
 
