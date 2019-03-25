@@ -4,7 +4,7 @@ te.keyBindings = {
   setupKeyBindings: function() {
     var kbJson = te.mm.textbox.GetKeyBindingsJson();
     var keyBindings = JSON.parse(kbJson);
-    
+
     for (var i = 0; i < keyBindings.length; i++) {
       var kb = keyBindings[i];
       if (!kb.CommandName)
@@ -58,7 +58,7 @@ te.keyBindings = {
   findNext: function() { te.editor.execCommand("findnext") },
   // embed code
   insertCodeblock: function() { te.keyboardCommand("InsertCodeblock"); },
-  // inline code 
+  // inline code
   insertInlineCode: function() { te.keyboardCommand("InsertInlineCode"); },
 
   deleteCurrentLine: te.deleteCurrentLine,
@@ -77,9 +77,7 @@ te.keyBindings = {
     return null;
   },
 
-  // Paste as Markdown/From Html
-  copyMarkdownAsHtml: function() { te.keyboardCommand("CopyMarkdownAsHtml"); },
-  pasteHtmlAsMarkdown: function() { te.keyboardCommand("PasteMarkdownAsHtml"); },
+
 
   // remove markdown formatting
   removeMarkdownFormatting: function() { te.keyboardCommand("RemoveMarkdownFormatting"); },
@@ -103,13 +101,13 @@ te.keyBindings = {
       if (range.end.row > pos.row || range.end.row === pos.row && range.end.column > pos.column) {
         te.editor.scrollToLine(range.end.row);
         var sel = te.editor.getSelection();
-        sel.setSelectionRange(range);               
+        sel.setSelectionRange(range);
         return;
       }
     }
 
     if (te.editor.renderer.getLastVisibleRow()  >= te.editor.session.getLength() -1)
-      return;    
+      return;
 
     te.editor.gotoPageDown();
     sc.contentModified = true;
@@ -117,7 +115,7 @@ te.keyBindings = {
 
     setTimeout(te.keyBindings.nextSpellCheckError, 200);
   },
-  previousSpellCheckError: function () {    
+  previousSpellCheckError: function () {
       var pos = te.getCursorPosition();
       var markers = te.editor.session.getMarkers(true);
 
@@ -144,6 +142,6 @@ te.keyBindings = {
       te.editor.gotoPageUp();
       sc.contentModified = true;
       sc.spellCheck();
-      setTimeout(te.keyBindings.nextSpellCheckError, 200);   
+      setTimeout(te.keyBindings.nextSpellCheckError, 200);
   }
 };
