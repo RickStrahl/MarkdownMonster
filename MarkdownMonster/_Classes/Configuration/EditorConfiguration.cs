@@ -14,6 +14,7 @@ namespace MarkdownMonster.Configuration
             Font = "Consolas";
             FontSize = 17;
             LineHeight = 1.35M;
+            PreviewHighlightTimeout = 1800;  // 0 means it stays highlighted
 
             WrapText = true;
             HighlightActiveLine = true;
@@ -42,7 +43,7 @@ namespace MarkdownMonster.Configuration
 
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public bool CenteredMode
         {
@@ -53,8 +54,8 @@ namespace MarkdownMonster.Configuration
                 _centeredMode = value;
                 if (_centeredMode && CenteredModeMaxWidth == 0)
                     CenteredModeMaxWidth = 970;
-                
-                OnPropertyChanged();             
+
+                OnPropertyChanged();
             }
         }
         private bool _centeredMode = true;
@@ -232,15 +233,24 @@ namespace MarkdownMonster.Configuration
         }
 
         private bool _rightToLeft;
-        
+
 
         /// <summary>
         /// If enabled prefills bullets and auto-numbers. Disabled
-        /// by default because it has some side effects that 
+        /// by default because it has some side effects that
         /// are not desired by some.
         /// </summary>
         public bool EnableBulletAutoCompletion { get; set; }
 
+        #endregion
+
+        #region Preview Properties
+
+        /// <summary>
+        /// Setting for the Preview HighlightRefresh timeout
+        /// in milliseconds. Set to 0 to not clear.
+        /// </summary>
+        public int PreviewHighlightTimeout { get; set; }
         #endregion
 
 
@@ -259,5 +269,5 @@ namespace MarkdownMonster.Configuration
         #endregion
     }
 
-  
+
 }

@@ -1,8 +1,9 @@
-var te = {
+var te = window.previewer = {
     mmEditor: null,
     isPreviewEditorSync: false,
-    codeScrolled: new Date().getTime() + 2500
-}
+    codeScrolled: new Date().getTime() + 2500,
+    highlightTimeout: 1800
+};
 var isDebug = false;
 
 // This function is global and called by the parent
@@ -11,13 +12,13 @@ var isDebug = false;
 // calls into this component
 function initializeinterop(editor) {
     if (window.dotnetProxy) {
-        te.mmEditor = window.dotnetProxy;        
+        te.mmEditor = window.dotnetProxy;
     } else
         te.mmEditor = editor;
 
     te.isPreviewEditorSync = te.mmEditor.isPreviewToEditorSync();
-    scroll();    
-    
+    scroll();
+
 }
 
 $(document).ready(function() {
@@ -29,18 +30,18 @@ $(document).ready(function() {
             var url = this.href;
             var rawHref = $(this).attr("href");
             var hash = this.hash;
-            
+
             // Notify of link navigation and handle external urls
             // if not handled elsewhere
             if (te.mmEditor && te.mmEditor.PreviewLinkNavigation(url, rawHref)) {
                 // it true editor handled the navigation
-                e.preventDefault(); 
+                e.preventDefault();
                 return false;
             }
-                       
-            if (hash) {                
-                var sel = "a[name='" + hash.substr(1) + "'],#"+ hash.substr(1);                                          
-                var $el = $(sel);                
+
+            if (hash) {
+                var sel = "a[name='" + hash.substr(1) + "'],#"+ hash.substr(1);
+                var $el = $(sel);
                 $("html,body").scrollTop($el.offset().top - 100);
                 return false;
             }
@@ -60,7 +61,7 @@ window.ondrop = function (event) {
     event.preventDefault();
     event.stopPropagation();
 
-    setTimeout(function () {        
+    setTimeout(function () {
         alert("To open dropped files in Markdown Monster, please drop files onto the header area of the window.");
     }, 50);
 }
@@ -74,15 +75,15 @@ var scroll = debounce(function (event) {
 
     if (!te.mmEditor || !te.isPreviewEditorSync) return;
 
-    // prevent repositioning editor scroll sync 
-    // when selecting line in editor (w/ two way sync)    
+    // prevent repositioning editor scroll sync
+    // when selecting line in editor (w/ two way sync)
     // te.codeScrolled is set in scrollToPragmaLines so that we don't
     // re-navigate
     var t = new Date().getTime();
     if (te.codeScrolled > t - 970)
         return;
 
-    var st = $(window).scrollTop();    
+    var st = $(window).scrollTop();
     if (st < 3) {
         te.mmEditor.gotoLine(0, true);
         return;
@@ -113,23 +114,23 @@ var scroll = debounce(function (event) {
 },100);
 window.onscroll = scroll;
 
-function highlightCode(lineno) {    
+function highlightCode(lineno) {
 
-    var pres = document.querySelectorAll("pre>code");   
-    
+    var pres = document.querySelectorAll("pre>code");
+
     // Try to find lineno in doc - if lineno is passed
     // and render only those plus padding above and below
-    var linePos = 0;    
+    var linePos = 0;
     if (lineno && pres.length > 200) {
         var $el = $("#pragma-line-" + lineno);
-        if ($el.length < 1) {            
+        if ($el.length < 1) {
             for (var j = 0; j < 10; j++) {
                 if (lineno - j < 0)
                     break;
                 var $el = $("#pragma-line-" + (lineno - j) );
                 if ($el.length > 0)
                     break;
-            }            
+            }
             if ($el.length < 1) {
                 for (var k = 0; k < 10; k++) {
                     var $el = $("#pragma-line-" + (lineno + k) );
@@ -137,18 +138,18 @@ function highlightCode(lineno) {
                         break;
                 }
             }
-        }        
+        }
         if ($el.length > 0) {
             linePos = $el.position().top;
         }
     }
     //console.log("Line Pos:" + linePos + " " + lineno + " " + $el);
-    
+
     for (var i = 0; i < pres.length; i++) {
         var block = pres[i];
         var $code = $(block);
-        
-        // too many code blocks to render or text/plain styles - just style        
+
+        // too many code blocks to render or text/plain styles - just style
         if ((pres.length > 400) ||
             $code.hasClass("language-text") ||
             $code.hasClass("language-plain")) {
@@ -167,7 +168,7 @@ function highlightCode(lineno) {
             }
             if (top > linePos + 2000) {
                 //console.log("Breaking larger: " + top, linePos);
-                //$code.addClass("hljs");                
+                //$code.addClass("hljs");
                 break;
             }
         }
@@ -192,17 +193,17 @@ function highlightCode(lineno) {
 
 //    script = script.src.replace("/preview.js", "/highlightJsWorker.js");
 //    console.log(script);
-    
+
 
 //    $("pre code")
 //        .each(function (i, block) {
 //            var $block = $(block);
 //            var code = $block.text().trimEnd();
-           
-//            console.log("worker loaded", worker);            
+
+//            console.log("worker loaded", worker);
 
 //            var worker = new Worker(script);
-//            worker.onmessage = function (event) {                
+//            worker.onmessage = function (event) {
 //                var result = event.data;
 //                console.log("Result: ", result.value);
 //                $block[0].outerHTML =
@@ -219,7 +220,7 @@ function highlightCode(lineno) {
 //                code: code,
 //                lang: lang,
 //                script: script.replace("/highlightJsWorker.js", "/highlightjs/highlight.pack.js")
-//            };            
+//            };
 //            worker.postMessage(d);
 //            console.log("PostMessage called", d);
 //        });
@@ -235,8 +236,8 @@ function updateDocumentContent(html, lineno) {
     return;
   el.innerHTML = html;
 
-  highlightCode(lineno); 
- 
+  highlightCode(lineno);
+
   // Raise a previewUpdated event
   var event = document.createEvent("Event");
   event.initEvent("previewUpdated", false, true);
@@ -248,6 +249,7 @@ function updateDocumentContent(html, lineno) {
 
 function scrollToPragmaLine(lineno) {
   if (typeof lineno !== "number" || lineno < 0) return;
+
   setTimeout(function() {
       if (lineno < 3) {
         $("html").scrollTop(0);
@@ -281,7 +283,8 @@ function scrollToPragmaLine(lineno) {
         }
 
         $el.addClass("line-highlight");
-        setTimeout(function() { $el.removeClass("line-highlight"); }, 1800);
+        if (te.highlightTimeout > 0)
+          setTimeout(function() { $el.removeClass("line-highlight"); }, te.highlightTimeout);
 
         te.codeScrolled = new Date().getTime();
         if (lineno > 3)
@@ -316,7 +319,7 @@ function status(msg,append) {
 window.onerror = function windowError(message, filename, lineno, colno, error) {
     if (!isDebug)
         return true;
-    
+
     var msg = "";
     if (message)
         msg = message;
@@ -332,7 +335,7 @@ window.onerror = function windowError(message, filename, lineno, colno, error) {
         status(msg);
 
     console.log("Error: " + msg);
-    
+
     // don't let errors trigger browser window
     return true;
 }
@@ -351,7 +354,7 @@ function debounce(func, wait, immediate) {
         if (callNow)
             func.apply(context, args);
     };
-}; 
+};
 
 String.prototype.trimEnd = function (c) {
     if (c)

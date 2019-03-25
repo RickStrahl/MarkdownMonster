@@ -13,6 +13,9 @@
 Using the `-presentation` command line switch you can start Markdown Monster in presentation mode which shows the preview full screen.  
 Example:  `mm file.md -presentation`
 
+* **Editor.PreviewHighlightTimeout Configuration Switch**  
+Add new configuration key for Editor.PreviewHighlightTimeout that controls how long the currently active line is highlighted in the previewer. Value is in milliseconds and 0 never hides it.
+
 * **[Add Option to set `previewWebRootPath` to Document](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
 You can now specify a custom YAML header to specify a Web Root path that resolves `/` to the path you specify when rendering the Preview. This allows greater documentation systems to work with non-relative, site relative URLs and still render images and links properly in the previewer.
 
