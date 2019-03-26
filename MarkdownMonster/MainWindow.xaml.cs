@@ -874,6 +874,7 @@ namespace MarkdownMonster
                 IEnumerable<DragablzItem> headers = null;
                 try
                 {
+                    
                     // Work around bug in Dragablz.GetOrderedHeaders() which throws occasional null exceptions
                     //headers = TabControl.GetOrderedHeaders();
                     //return this._dragablzItemsControl.ItemsOrganiser.Sort(this._dragablzItemsControl.DragablzItems());
@@ -1040,6 +1041,7 @@ namespace MarkdownMonster
 
                 tab.Content = editor.EditorPreviewPane;
                 tab.Tag = editor;
+                
 
                 // tab is temporary until edited
                 if (isPreview)
@@ -1151,6 +1153,12 @@ namespace MarkdownMonster
             tab.IsSelected = false;
             TabControl.Items.Insert(0, tab);
 
+
+            var dragablzItem = this.GetDragablzItemFromTabItem(tab);
+            if (dragablzItem != null)
+                dragablzItem.MouseMove += DragablzItem_PreviewMouseMove;
+
+
             if (selectTab)
             {
                 TabControl.SelectedItem = tab;
@@ -1169,6 +1177,33 @@ namespace MarkdownMonster
 
             return tab;
         }
+
+        /// <summary>
+        ///  Drag and Drop into the BookMarks dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DragablzItem_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+         
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                var drag = sender as DragablzItem;
+                if (drag == null)
+                    return;
+                var tab = drag.Content as TabItem;
+
+                var editor = tab.Tag as MarkdownDocumentEditor;
+                var dragData = new DataObject(DataFormats.UnicodeText, editor.MarkdownDocument.Filename);
+                
+                var fav = FavoritesTab.Content as FavoritesControl;
+                if (fav != null)
+                    fav.IsDragging = true;
+
+                DragDrop.DoDragDrop(tab, dragData, DragDropEffects.All);
+            }
+        }
+
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1685,9 +1720,36 @@ namespace MarkdownMonster
             }
         }
 
+        /// <summary>
+        /// Returns a list of DragablzItems
+        /// </summary>
+        /// <returns></returns>
+        public List<DragablzItem> GetDragablzItems()
+        {
+            // UGLY UGLY Hack but only way to get access to the internal controls of Dragablz
+            var control = ReflectionUtils.GetField(TabControl, "_dragablzItemsControl") as DragablzItemsControl;
+            if (control == null)
+                throw new InvalidOperationException("_dragablzItemsControl is null");
+
+            var ditems = ReflectionUtils.CallMethod(control, "DragablzItems") as List<DragablzItem>;
+            return ditems;
+        }
 
         /// <summary>
-        /// Binds the tab header to an expression
+        /// Returns a DragablzItem from a TabItem
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        public DragablzItem GetDragablzItemFromTabItem(TabItem tab)
+        {
+            var items = GetDragablzItems();
+            return items.FirstOrDefault(it => it.Content as TabItem == tab);
+        }
+
+
+        /// <summary>
+        /// Binds the tab header to our custom controls/container that
+        /// shows a customized tab header
         /// </summary>
         /// <param name="tab"></param>
         /// <param name="document"></param>
@@ -1703,12 +1765,14 @@ namespace MarkdownMonster
             try
             {
                 var grid = new Grid();
+                
                 tab.Header = grid;
                 var col1 = new ColumnDefinition { Width = new GridLength(20) };
                 var col2 = new ColumnDefinition { Width = GridLength.Auto };
                 grid.ColumnDefinitions.Add(col1);
                 grid.ColumnDefinitions.Add(col2);
 
+               
 
                 if (icon == null)
                 {
@@ -1729,6 +1793,7 @@ namespace MarkdownMonster
 
                 var textBlock = new TextBlock();
                 textBlock.SetValue(Grid.ColumnProperty, 1);
+                
 
                 var headerBinding = new Binding
                 {
@@ -1764,8 +1829,12 @@ namespace MarkdownMonster
                 // mmApp.Log("SetTabHeaderBinding Failed. Assigning explicit path", ex);
                 tab.Header = document.FilenameWithIndicator;
             }
+
+            
+                
         }
 
+     
 
         private void TabControlDragablz_TabItemClosing(ItemActionCallbackArgs<TabablzControl> e)
         {

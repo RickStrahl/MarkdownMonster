@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -197,7 +198,7 @@ namespace MarkdownMonster.Windows
         #region Drag Operations
 
         private System.Windows.Point startPoint;
-        private bool IsDragging = false;
+        public bool IsDragging { get; set; } 
 
         private void TreeFavorites_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -262,19 +263,41 @@ namespace MarkdownMonster.Windows
             if (string.IsNullOrEmpty(path))
                 return;
 
+            FavoriteItem sourceItem = null;
+            ObservableCollection<FavoriteItem> parentList = null;
+            
+
             var tokens = path.Split('|');
+            if (tokens.Length == 1)
+            {
+                // just a filename
+                var newItem = new FavoriteItem
+                {
+                    File = path,
+                    Title = System.IO.Path.GetFileName(path)
+                };
 
-            var sourceItem = FavoritesModel.FindFavoriteByFilenameAndTitle(FavoritesModel.Favorites, tokens[0], tokens[1]);
+                sourceItem =
+                    FavoritesModel.FindFavoriteByFilenameAndTitle(FavoritesModel.Favorites, newItem.Filename, newItem.File);
+                if (sourceItem == null)
+                    sourceItem = newItem;
+            }
+            else
+            {
+                sourceItem =
+                    FavoritesModel.FindFavoriteByFilenameAndTitle(FavoritesModel.Favorites, tokens[0], tokens[1]);
+            }
+
             if (sourceItem == null)
-                return;
-            
-            var parentList = sourceItem.Parent?.Items;
-            if (parentList == null)
-                parentList = FavoritesModel.Favorites;
+                    return;
 
-            parentList.Remove(sourceItem);
-            parentList = null;
+                parentList = sourceItem.Parent?.Items;
+                if (parentList == null)
+                    parentList = FavoritesModel.Favorites;
+                parentList.Remove(sourceItem);
+                parentList = null;
             
+
 
             if (targetItem.IsFolder && !sourceItem.IsFolder)
             {
