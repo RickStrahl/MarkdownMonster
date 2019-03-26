@@ -911,8 +911,7 @@ namespace MarkdownMonster
         /// or directly installed from an Internet Downloaded Zip file
         /// </summary>
         private void UnblockDlls()
-        {
-            // DeleteFile(FULLPATH("wwDotNetBridge.dll") + ":Zone.Identifier")
+        {            
             foreach (var dir in Directory.GetDirectories(Path.Combine(App.InitialStartDirectory, "Addins")))
             {
                 foreach (var filename in Directory.GetFiles(dir,"*.dll"))

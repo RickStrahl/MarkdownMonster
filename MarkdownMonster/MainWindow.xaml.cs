@@ -1200,7 +1200,7 @@ namespace MarkdownMonster
                 if (fav != null)
                     fav.IsDragging = true;
 
-                DragDrop.DoDragDrop(tab, dragData, DragDropEffects.All);
+                DragDrop.DoDragDrop(tab, dragData, DragDropEffects.Link);
             }
         }
 

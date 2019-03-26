@@ -16,6 +16,9 @@ Example:  `mm file.md -presentation`
 * **Editor.PreviewHighlightTimeout Configuration Switch**  
 Add new configuration key for Editor.PreviewHighlightTimeout that controls how long the currently active line is highlighted in the previewer. Value is in milliseconds and 0 never hides it.
 
+* **Drag and Drop Tabs into the Favorites Sidebar**  
+You can now drag a tab from the editor into the Favorites tab to create a new favorite shortcut more easily. This external drag and drop behavior augments the internal drag and drop that lets you re-arrange favorite entries.
+
 * **Preview Highlight now updated on Keyboard Up/Down Navigation**  
 The preview highlight previously only updated on scroll operations or if the view ended up getting scrolled by keyboard operations. This change now hooks to the up/down key navigation to update the preview highlight.
 
@@ -23,7 +26,7 @@ The preview highlight previously only updated on scroll operations or if the vie
 You can now specify a custom YAML header to specify a Web Root path that resolves `/` to the path you specify when rendering the Preview. This allows greater documentation systems to work with non-relative, site relative URLs and still render images and links properly in the previewer.
 
 * **Fix: OpenInPresentationMode Mode Setting**  
-Fix `"OpenInPresentationMode": true` configuraiton setting to work properly. Due to timing issues this setting was popping up initially, then quickly reverting to default layout. Fixed.
+Fix `"OpenInPresentationMode": true` configuration setting to work properly. Due to timing issues this setting was popping up initially, then quickly reverting to default layout. Fixed.
 
 * **Fix: Emacs and Vim Keyboard Emulation**  
 Enable Vim and Emacs keyboard emulation which had been temporarily disabled due to the editor loading refactoring recently. It works again now.
