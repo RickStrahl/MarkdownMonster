@@ -438,13 +438,20 @@
     moveCursorLeft: function(count) {
       if (!count)
         count = 1;
-        te.editor.navigateLeft(count);
+      var sel = te.editor.getSelection();
+
+      for (var i = 0; i < count; i++) {
+        sel.moveCursorLeft();
       }
     },
     moveCursorRight: function(count) {
       if (!count)
         count = 1;
-      te.editor.navigateRight(count);
+      var sel = te.editor.getSelection();
+      for (var i = 0; i < count; i++) {
+        sel.moveCursorRight();
+      }
+
     },
     moveCursorUp: function(count){
       if (!count)
