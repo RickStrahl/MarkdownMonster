@@ -331,6 +331,8 @@ namespace MarkdownMonster
         {
             string file = null;
             var programFiles64 = Environment.GetEnvironmentVariable("ProgramW6432");
+            if (string.IsNullOrEmpty(programFiles64))
+                programFiles64 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
             file = Path.Combine(programFiles64, "Techsmith", "Snagit 2018", "SnagItEditor.exe");
             if (File.Exists(file))
@@ -541,7 +543,11 @@ namespace MarkdownMonster
         {
             string diff = null;
 
-            diff = Path.Combine(Environment.GetEnvironmentVariable("ProgramW6432"),
+            var path64 = Environment.GetEnvironmentVariable("ProgramW6432");
+            if (string.IsNullOrEmpty(path64))
+                path64 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+
+            diff = Path.Combine(path64,
                 "Beyond Compare 4\\BCompare.exe");
             if (File.Exists(diff))
                 return diff;
@@ -551,7 +557,7 @@ namespace MarkdownMonster
             if (File.Exists(diff))
                 return diff;
 
-            diff = Path.Combine(Environment.GetEnvironmentVariable("ProgramW6432"),
+            diff = Path.Combine(path64,
                 "KDiff\\KDiff.exe");
             if (File.Exists(diff))
                 return diff;
