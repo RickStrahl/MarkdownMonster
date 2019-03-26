@@ -9,11 +9,11 @@
 ### 1.16.4
 <small>not released yet</small>
 
-* **Add -presentation Command Line Switch**  
+* **[Add -presentation Command Line Switch](http://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm)**  
 Using the `-presentation` command line switch you can start Markdown Monster in presentation mode which shows the preview full screen.  
 Example:  `mm file.md -presentation`
 
-* **Drag and Drop Tabs into the Favorites Sidebar**  
+* **[Drag and Drop Tabs into the Favorites Sidebar](http://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
 You can now drag a tab from the editor into the Favorites tab to create a new favorite shortcut more easily. This external drag and drop behavior augments the internal drag and drop that lets you re-arrange favorite entries.
 
 * **[Add Option to set `previewWebRootPath` to Document](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
