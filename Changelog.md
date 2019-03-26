@@ -25,7 +25,7 @@ Add new configuration key for `Editor.PreviewHighlightTimeout` that controls how
 * **Preview Highlight now updated on Keyboard Up/Down Navigation**  
 The preview highlight previously only updated on scroll operations or if the view ended up getting scrolled by keyboard operations. This change now hooks to the up/down key navigation to update the preview highlight.
 
-* **Fix: OpenInPresentationMode Mode Setting**  
+* **Fix: [OpenInPresentationMode](http://markdownmonster.west-wind.com/docs/_4wn1ditb5.htm) Mode Setting**  
 Fix `"OpenInPresentationMode": true` configuration setting to work properly. Due to timing issues this setting was popping up initially, then quickly reverting to default layout. Fixed.
 
 * **Fix: Emacs and Vim Keyboard Emulation**  
