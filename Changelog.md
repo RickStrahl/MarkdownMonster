@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.16.4
-<small>not released yet</small>
+<small>March 24th, 2019</small>
 
 * **[Add -presentation Command Line Switch](http://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm)**  
 Using the `-presentation` command line switch you can start Markdown Monster in presentation mode which shows the preview full screen.  
