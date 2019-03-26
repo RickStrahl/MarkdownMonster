@@ -108,7 +108,10 @@
         // up and down handling - force a preview refresh
         if (event.keyCode === 38 || event.keyCode === 40)
           previewRefresh();
+        // else if (te.lastStyle.keyboardHandler === "vim") 
+        //   previewRefresh();
       });
+      
 
 
       // always have mouse position available when drop or paste
@@ -431,27 +434,18 @@
         document.execCommand('cut');
         return;
       }
-
       te.editor.selection.selectLine();
       te.editor.removeLines();
     },
     moveCursorLeft: function(count) {
       if (!count)
         count = 1;
-      var sel = te.editor.getSelection();
-
-      for (var i = 0; i < count; i++) {
-        sel.moveCursorLeft();
-      }
+      te.editor.navigateLeft(count);
     },
     moveCursorRight: function(count) {
       if (!count)
         count = 1;
-      var sel = te.editor.getSelection();
-      for (var i = 0; i < count; i++) {
-        sel.moveCursorRight();
-      }
-
+      te.editor.navigateRight(count);
     },
     moveCursorUp: function(count){
       if (!count)
