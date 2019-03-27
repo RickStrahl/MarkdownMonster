@@ -1805,12 +1805,15 @@ namespace MarkdownMonster
                 }
             }
             // it's a relative URL and ends with .md open in editor
-            else if (url.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase))
+            else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) || urlPath.Contains(".md",StringComparison.InvariantCultureIgnoreCase))
             {
+                if (urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
+                    urlPath = urlPath.Substring(0, urlPath.IndexOf('#'));
+
                // full path
                 if (File.Exists(urlPath))
                 {
-                    var tab = Window.RefreshTabFromFile(urlPath); // open or activate
+                    var tab = Window.ActivateTab(urlPath,openIfNotFound: true); // open or activate
                     if (tab != null)
                         return true;
                 }
