@@ -102,15 +102,19 @@
         te.previewRefresh);
 
       var previewRefresh = debounce(function() {te.mm.textbox.PreviewMarkdownCallback(true); },80);
-      $("pre[lang]").on("keyup", function(event) {
-        updateDocument();
+      $("pre[lang]").on("keyup",
+        function(event) {
+          updateDocument();
 
-        // up and down handling - force a preview refresh
-        if (event.keyCode === 38 || event.keyCode === 40)
-          previewRefresh();
-        // else if (te.lastStyle.keyboardHandler === "vim") 
-        //   previewRefresh();
-      });
+          // up and down handling - force a preview refresh
+          if (event.keyCode === 38 || event.keyCode === 40)
+            previewRefresh();
+          else if (te.editor.$keybindingId === "ace/keyboard/vim"
+               && (event.keyCode === 74 || event.keyCode == 75)) {
+            if (!te.editor.state.cm.state.vim.insertMode)
+              previewRefresh();
+          }
+        });
       
 
 
