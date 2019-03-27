@@ -444,6 +444,12 @@
                             </div>
                             
                             <div class="item">
+                                <img src="Images/Tweets/DanClarke.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            
+                            <div class="item">
                                 <img src="Images/Tweets/honeycutt.png" />
                                 <div class="carousel-caption">
                                 </div>
@@ -557,6 +563,10 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
+                                        Favorites Manager
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-check-circle"></i>
                                         Document Outline
                                     </div>                                                                         
                                     <div>
@@ -587,7 +597,7 @@
                                     </div>                                    
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Customize Preview Themes
+                                        Customizable Preview Themes
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
@@ -595,7 +605,7 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
-                                        Weblog publishing and editing
+                                        Weblog Publishing and Editing
                                     </div>
                                     <div>
                                         <i class="fa fa-check-circle"></i>
