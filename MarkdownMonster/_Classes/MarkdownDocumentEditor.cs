@@ -1805,7 +1805,7 @@ namespace MarkdownMonster
                 }
             }
             // it's a relative URL and ends with .md open in editor
-            else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) || urlPath.Contains(".md",StringComparison.InvariantCultureIgnoreCase))
+            else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) || urlPath.Contains(".md#",StringComparison.InvariantCultureIgnoreCase))
             {
                 if (urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
                     urlPath = urlPath.Substring(0, urlPath.IndexOf('#'));
