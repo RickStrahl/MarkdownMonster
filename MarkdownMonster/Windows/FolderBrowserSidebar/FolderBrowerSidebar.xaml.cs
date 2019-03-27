@@ -466,9 +466,8 @@ namespace MarkdownMonster.Windows
                 else
                     folder = KnownFolders.GetPath(KnownFolder.Libraries);
             }
-
+           
             var dlg = new CommonOpenFileDialog();
-
             dlg.Title = "Select folderOrFilePath to open in the Folder Browser";
             dlg.IsFolderPicker = true;
             dlg.InitialDirectory = folder;

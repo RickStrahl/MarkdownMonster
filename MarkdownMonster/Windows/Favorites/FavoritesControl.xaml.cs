@@ -17,7 +17,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MarkdownMonster.Controls;
 using MarkdownMonster.Favorites;
-using Microsoft.WindowsAPICodePack.Dialogs;
+using Microsoft.Win32;
+
 
 namespace MarkdownMonster.Windows
 {
@@ -175,21 +176,19 @@ namespace MarkdownMonster.Windows
             string folder = mmApp.Configuration.LastFolder;
             if (FavoritesModel.EditedFavorite?.File != null)
                 folder = System.IO.Path.GetDirectoryName(FavoritesModel.EditedFavorite.File);
-            
-            var dlg = new CommonOpenFileDialog();
+
+            var dlg = new OpenFileDialog();
 
             dlg.Title = "Select a file for this Favorite";
             dlg.InitialDirectory = folder;
             dlg.RestoreDirectory = true;
-            dlg.ShowHiddenItems = true;
-            dlg.ShowPlacesList = true;
-            dlg.EnsurePathExists = true;
-
-            var result = dlg.ShowDialog();
-
-            if (result != CommonFileDialogResult.Ok)
+            dlg.CheckPathExists = true;
+            dlg.CheckPathExists = true;
+            
+            bool? result = dlg.ShowDialog();
+            if (result == null || !result.Value)
                 return;
-
+            
             FavoritesModel.EditedFavorite.File = dlg.FileName;
         }
 
