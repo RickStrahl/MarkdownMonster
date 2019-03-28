@@ -1805,28 +1805,31 @@ namespace MarkdownMonster
                 }
             }
             // it's a relative URL and ends with .md open in editor
-            else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) || urlPath.Contains(".md#",StringComparison.InvariantCultureIgnoreCase))
+            else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) || urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
             {
+                string anchorLink = null;
                 if (urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
-                    urlPath = urlPath.Substring(0, urlPath.IndexOf('#'));
-
-               // full path
-                if (File.Exists(urlPath))
                 {
-                    var tab = Window.ActivateTab(urlPath,openIfNotFound: true); // open or activate
-                    if (tab != null)
-                        return true;
+                    int numSignIndex = urlPath.IndexOf('#');
+                    anchorLink = urlPath.Substring(numSignIndex);
+                    urlPath = urlPath.Remove(numSignIndex);
                 }
 
-                // relative path
-                var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
-                urlPath = Path.Combine(docPath, urlPath);
+                if (!File.Exists(urlPath))
+                {
+                    // relative path
+                    var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+                    urlPath = Path.Combine(docPath, urlPath);
+                }
 
+                // full or relative path
                 if (File.Exists(urlPath))
                 {
-                    var tab = Window.RefreshTabFromFile(docPath); // open or activate
+                    var tab = Window.ActivateTab(urlPath, openIfNotFound: true); // open or activate
                     if (tab != null)
-                        return true;
+                    {
+                        return anchorLink == null;
+                    }
                 }
             }
             else if (url.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
