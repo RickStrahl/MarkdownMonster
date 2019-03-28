@@ -322,7 +322,7 @@ I can think of a few add-in ideas - a quick way to commit to Git and Push would 
 Or maybe you have custom applications that use Markdown text and provide an API that allows you to post the Markdown (or HTML) to the server. It's easy to build a custom add-in that lets you take either the Markdown text or rendered HTML and push it to a custom REST interface in your custom application.
 
 ## Acknowledgements
-This application heavily leans several third party libraries without which this tool would not have been possible. Many thanks for the producers of these libraries:
+This application heavily leans several third party libraries without which this tool would not have been possible. Many thanks for the producers of these libraries that are used extensively in Markdown Monster:
 
 * **[Ace Editor](https://ace.c9.io)**  
 Ace Editor is a power HTML based editor platform that makes it easy to plug syntax highlighted software style editing possible in a browser. Markdown Monster uses Ace Editor for the main Markdown editing experience inside of a Web browser control that interacts with the WPF application.
@@ -338,6 +338,16 @@ This library provides the tab control support for the editor allowing for nicely
 
 * **[nHunspell Spell Checking](http://www.crawler-lib.net/nhunspell)**  
 Spell checking is handled via the hunspell library and the .NET wrapper in nhunspell. This library checks for mispellings and provides lookups for misspelled words. Word parsing is done in JavaScript and the spell checking is done in .NET by piping word lists to .NET to check which is drastically faster than doing the spell checking in the browser using JavaScript.
+
+Additional shout outs to these libraries used:
+
+* [HtmlAgility Pack](https://html-agility-pack.net/)
+* [LibGit2Sharp](https://github.com/libgit2/libgit2sharp)
+* [YamlDotnet](https://github.com/aaubry/YamlDotNet)
+* [Windows API Codepack](https://github.com/aybe/Windows-API-Code-Pack-1.1)
+* [FontAwesome.WPF](https://github.com/charri/Font-Awesome-WPF/)
+* [ReverseMarkdown](https://github.com/mysticmind/reversemarkdown-net)
+
 
 ## Spread the Word about Markdown Monster
 If you like Markdown Monster please pass it on to help spread the word. Let your friends know, mention it to others who ask about Markdown and help us grow this community to encourage building the best Markdown Editor around.
@@ -355,7 +365,7 @@ Here are a few things you can do to help spread the word:
 The support from the community so far with feedback, bug reports and ideas for new features has been awesome, and I look forward for that to continue with a growing community of active users and contributors.
 
 ## License
-Although we provide the source in the open, Markdown Monster is licensed software &copy; West Wind Technologies, 2016-2017.
+Although we provide the source in the open, Markdown Monster is licensed software &copy; West Wind Technologies, 2016-2019.
 
 Markdown Monster can be downloaded and evaluated for free, but a [reasonably priced license](http://store.west-wind.com/product/MARKDOWN_MONSTER) must be purchased for continued use. Licenses are **per user**, rather than per machine, so an individual user can use Markdown Monster on as many computers they wish with their license. <a href="https://store.west-wind.com/product/markdown_monster_site">Organization licenses</a> are also available.
 

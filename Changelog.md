@@ -6,6 +6,15 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.16.5
+<small>not released yet</small>
+
+* **New HTML to Markdown Parser**  
+Switched to ReverseMarkdown parser for HTML to Markdown conversions that are cleaner and more reliable in the conversion process. This affects the `Ctrl-Shift-V` shortcut that lets you paste HTML as Markdown, and WebLog HTML import.
+
+* **Fix: Link Preview Document Navigation Issues**  
+Fix support for Preview link navigation when pointing back to a local Markdown file. Fixed for links with Hashes(`#`) and for wiping out dirty document changes when navigating back to a document that was already open.
+
 ### 1.16.4
 <small>March 24th, 2019</small>
 
