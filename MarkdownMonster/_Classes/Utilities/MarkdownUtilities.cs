@@ -38,17 +38,16 @@ namespace MarkdownMonster
         {
             if (string.IsNullOrEmpty(html))
                 return "";
-#if false
-            var config = new ReverseMarkdown.Config {
-                 GithubFlavored = true,
-                 UnknownTags = ReverseMarkdown.Config.UnknownTagsOption.PassThrough, // Include the unknown tag completely in the result (default as well)
-                 SmartHrefHandling = true // remove markdown output for links where appropriate
+#if true
+            var config = new ReverseMarkdown.Config
+            {
+                GithubFlavored = true,
+                UnknownTags = ReverseMarkdown.Config.UnknownTagsOption.PassThrough, // Include the unknown tag completely in the result (default as well)
+                SmartHrefHandling = true // remove markdown output for links where appropriate
             };
             var converter = new ReverseMarkdown.Converter(config);
             string markdown = converter.Convert(html);
 
-//            if (!string.IsNullOrEmpty(markdown))
-//                markdown = markdown.Replace("\n\n", "\r\n").Replace("\r\n\r\n", "\r\n");
             return markdown ?? html;
 #else
             // Old code that uses JavaScript in a WebBrowser Control
