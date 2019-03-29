@@ -1807,12 +1807,12 @@ namespace MarkdownMonster
             // it's a relative URL and ends with .md open in editor
             else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) || urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
             {
-                string anchorLink = null;
+                bool linkHasAnchor = false;
                 if (urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
                 {
                     int numSignIndex = urlPath.IndexOf('#');
-                    anchorLink = urlPath.Substring(numSignIndex);
                     urlPath = urlPath.Remove(numSignIndex);
+                    linkHasAnchor = true;
                 }
 
                 if (!File.Exists(urlPath))
@@ -1828,7 +1828,7 @@ namespace MarkdownMonster
                     var tab = Window.ActivateTab(urlPath, openIfNotFound: true); // open or activate
                     if (tab != null)
                     {
-                        return anchorLink == null;
+                        return !linkHasAnchor;  // let Preview Browser navigate to the anchor, if the link has one
                     }
                 }
             }
