@@ -367,6 +367,23 @@
                           InputGestureText="{Binding Commands.ToggleLeftSidebarPanelCommand.KeyboardShortcut}"
                           ToolTip="Toggles the left sidebar panel" 
                 />
+
+
+                <MenuItem Name="ButtonShowFolderBrowser" 
+                          Header="Activate _Folder Browser"                                                                                                                       
+                          Command="{Binding Commands.ShowSidebarTabCommand}" CommandParameter="FolderBrowser" InputGestureText="Alt-V-F"/>
+                <MenuItem Name="ButtonShowDocumentOutline" 
+                          Header="Activate Markdown Document _Outline"                                                                                                                       
+                          Command="{Binding Commands.ShowSidebarTabCommand}" CommandParameter="DocumentOutline" InputGestureText="Alt-V-O"/>
+
+
+                <MenuItem Name="ButtonShowFavorites" 
+                          Header="Activate Fa_vorites"                                                                                                                       
+                          Command="{Binding Commands.ShowSidebarTabCommand}" CommandParameter="Favorites" InputGestureText="Alt-V-V"/>
+
+                <Separator />
+
+
                 <MenuItem Name="ButtonDistractionFreeMode" 
                           Header="Toggle Distraction Free Mode"                         
                           Command="{Binding Commands.DistractionFreeModeCommand}"
@@ -384,12 +401,8 @@
                           InputGestureText="F11" 
                           IsEnabled="{Binding IsEditorActive}" />
                 <Separator />
-                <MenuItem Name="ButtonDocumentOutlineVisible" 
-                          Header="Markdown Document Outline"                                                                                             
-                          IsCheckable="True"    
-                          Click="Button_Handler"
-                          IsChecked="{Binding Configuration.IsDocumentOutlineVisible, Mode=TwoWay}" />
-                <Separator />
+                
+
                 <MenuItem Name="ButtonWordWrap" 
                           Header="Toggle _Word Wrap"      
                           Command="{Binding Commands.WordWrapCommand}"                                                                                             
@@ -742,7 +755,7 @@
                                      ShowDefaultCloseButton="True"                                     
                                      ShowDefaultAddButton="False"
                                      SelectionChanged="TabControl_SelectionChanged"
-                                     PreviewMouseLeftButtonUp="TabControl_OnPreviewMouseLeftButtonUp"
+                                     PreviewMouseLeftButtonUp="TabControl_OnPreviewMouseLeftButtonUp"                                     
                                      controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}">
             </dragablz:TabablzControl>
 

@@ -314,7 +314,34 @@ namespace MarkdownMonster.Utilities
                     Key="Shift+F7",
                     CommandName = "PreviousSpellCheckError",
                     HasJavaScriptHandler = true
-                }
+                },
+
+
+                new AppKeyBinding
+                {
+                    Key="Ctrl-1",
+                    CommandName = "SidebarTabActivationCommand",
+                    CommandParameter = "1"
+                },
+                new AppKeyBinding
+                {
+                    Key="Ctrl-2",
+                    CommandName = "SidebarTabActivationCommand",
+                    CommandParameter = "2"
+                },
+                new AppKeyBinding
+                {
+                    Key="Ctrl-3",
+                    CommandName = "SidebarTabActivationCommand",
+                    CommandParameter = "3"
+                },
+                new AppKeyBinding
+                {
+                    Key="Ctrl-4",
+                    CommandName = "SidebarTabActivationCommand",
+                    CommandParameter = "4"
+                },
+
 
             };
         }

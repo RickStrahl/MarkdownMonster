@@ -87,6 +87,7 @@ namespace MarkdownMonster
 
             // Miscellaneous
             OpenAddinManager();
+            ShowSidebarTab();
 
             Help();
             CopyFolderToClipboard();
@@ -1360,14 +1361,14 @@ namespace MarkdownMonster
 
                 if (topicId != null)
                     url = mmApp.GetDocumentionUrl(topicId as string);
-
+                
                 ShellUtils.GoUrl(url);
             });
         }
 
-#endregion
+        #endregion
 
-#region Git
+        #region Git
 
 
         public CommandBase OpenFromGitRepoCommand { get; set; }
@@ -1609,7 +1610,45 @@ namespace MarkdownMonster
                 mmApp.Model.Window.SidebarContainer.SelectedItem = mmApp.Model.Window.TabFolderBrowser;
                 mmApp.Model.Window.ShowFolderBrowser(folder: fileOrFolderPath);
 
-            }, (p, c) => true);
+            });
+        }
+
+        public CommandBase ShowSidebarTabCommand { get; set; }
+
+        void ShowSidebarTab()
+        {
+            ShowSidebarTabCommand = new CommandBase((parameter, command) =>
+            {
+                string action = parameter as string;
+
+
+                if (action == "DocumentOutline")
+                {
+                    if (Model.ActiveEditor == null && Model.ActiveEditor.EditorSyntax != "markdown")
+                        return;
+
+                    if (!Model.Configuration.IsDocumentOutlineVisible)
+                        Model.Configuration.IsDocumentOutlineVisible = true;
+
+
+                    Model.Window.SidebarContainer.SelectedItem = Model.Window.TabDocumentOutline;
+                }
+                else if (action == "FolderBrowser")
+                {
+                    Model.WindowLayout.IsLeftSidebarVisible = true;
+                    Model.Window.SidebarContainer.SelectedItem = Model.Window.TabFolderBrowser;
+                }
+                else if (action == "Favorites")
+                {
+                    Model.WindowLayout.IsLeftSidebarVisible = true;
+                    Model.Window.SidebarContainer.SelectedItem = Model.Window.FavoritesTab;
+                }
+                else
+                    return;
+
+                Model.WindowLayout.IsLeftSidebarVisible = true;
+
+            }, (p, c) => Model.IsEditorActive);
         }
 
         #endregion
