@@ -1156,7 +1156,10 @@ namespace MarkdownMonster
 
             var dragablzItem = this.GetDragablzItemFromTabItem(tab);
             if (dragablzItem != null)
-                dragablzItem.MouseMove += DragablzItem_PreviewMouseMove;
+            {
+                dragablzItem.PreviewMouseMove += DragablzItem_PreviewMouseMove;
+                dragablzItem.PreviewMouseLeftButtonDown += DragablzItem_PreviewMouseLeftButtonDown;
+            }
 
 
             if (selectTab)
@@ -1178,6 +1181,13 @@ namespace MarkdownMonster
             return tab;
         }
 
+        private System.Windows.Point _dragablzStartPoint;
+
+        private void DragablzItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _dragablzStartPoint = e.GetPosition(null);            
+        }
+
         /// <summary>
         ///  Drag and Drop into the BookMarks dialog
         /// </summary>
@@ -1188,19 +1198,27 @@ namespace MarkdownMonster
          
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                var drag = sender as DragablzItem;
-                if (drag == null)
-                    return;
-                var tab = drag.Content as TabItem;
+                var curPoint = e.GetPosition(null);
+                var diff = curPoint - _dragablzStartPoint;
+                if (_dragablzStartPoint.Y > 0 && diff.Y > 30)                        
+                {
+                    var drag = sender as DragablzItem;
+                    if (drag == null)
+                        return;
+                    var tab = drag.Content as TabItem;
 
-                var editor = tab.Tag as MarkdownDocumentEditor;
-                var dragData = new DataObject(DataFormats.UnicodeText, editor.MarkdownDocument.Filename);
-                
-                var fav = FavoritesTab.Content as FavoritesControl;
-                if (fav != null)
-                    fav.IsDragging = true;
+                    var editor = tab.Tag as MarkdownDocumentEditor;
+                    var dragData = new DataObject(DataFormats.UnicodeText, editor.MarkdownDocument.Filename);
 
-                DragDrop.DoDragDrop(tab, dragData, DragDropEffects.Link);
+                    var fav = FavoritesTab.Content as FavoritesControl;
+                    if (fav != null)
+                        fav.IsDragging = true;
+
+                    DragDrop.DoDragDrop(tab, dragData, DragDropEffects.Link);
+
+                    _dragablzStartPoint.Y = 0;
+                    _dragablzStartPoint.X = 0;
+                }
             }
         }
 
@@ -2417,15 +2435,15 @@ namespace MarkdownMonster
             //        return;
             //    editor.KeyboardCommand("ctrl-shift-d");
             //}
-            else if (button == ButtonDocumentOutlineVisible)
-            {
-                // Only activate/deactivate the tab
-                if (Model.ActiveEditor != null && Model.ActiveEditor.EditorSyntax == "markdown" &&
-                    Model.Configuration.IsDocumentOutlineVisible)
-                    SidebarContainer.SelectedItem = TabDocumentOutline;
-                else
-                    SidebarContainer.SelectedItem = TabFolderBrowser;
-            }
+            //else if (button == ButtonDocumentOutlineVisible)
+            //{
+            //    // Only activate/deactivate the tab
+            //    if (Model.ActiveEditor != null && Model.ActiveEditor.EditorSyntax == "markdown" &&
+            //        Model.Configuration.IsDocumentOutlineVisible)
+            //        SidebarContainer.SelectedItem = TabDocumentOutline;
+            //    else
+            //        SidebarContainer.SelectedItem = TabFolderBrowser;
+            //}
             else if (button == ButtonWordWrap ||
                      button == ButtonLineNumbers ||
                      button == ButtonShowInvisibles ||
