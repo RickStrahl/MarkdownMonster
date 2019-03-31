@@ -1154,7 +1154,9 @@ namespace MarkdownMonster
             TabControl.Items.Insert(0, tab);
 
 
-            var dragablzItem = this.GetDragablzItemFromTabItem(tab);
+            // Make the tab draggable for moving into bookmarks or anything else that can accept filenames
+            // have to drag down - sideways drag re-orders.
+            var dragablzItem = GetDragablzItemFromTabItem(tab);
             if (dragablzItem != null)
             {
                 dragablzItem.PreviewMouseMove += DragablzItem_PreviewMouseMove;
@@ -1348,6 +1350,61 @@ namespace MarkdownMonster
 
             if (!noPreview)
                 PreviewMarkdownAsync();
+
+            return tab;
+        }
+
+        /// <summary>
+        /// Activates a tab from an active tab instance
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        public TabItem ActivateTab(TabItem tab)
+        {
+            TabControl.SelectedItem = tab;
+            return tab;           
+        }
+
+        /// <summary>
+        /// Activates a tab by checking from a filename
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public TabItem ActivateTab(string filename, bool openIfNotFound = false,
+            bool maintainScrollPosition = false,
+            bool noPreview = false,
+            bool noSelectTab = false,
+            bool noFocus = false,
+            bool readOnly = false,
+            bool isPreview = false) 
+        {
+            var tab = GetTabFromFilename(filename);
+            if (tab == null)
+                return OpenTab(filename, rebindTabHeaders: true, readOnly: readOnly, noFocus: noFocus, selectTab: !noSelectTab, isPreview: isPreview);
+
+            // load the underlying document
+            var editor = tab.Tag as MarkdownDocumentEditor;
+            if (editor == null)
+                return null;
+
+            editor.IsPreview = isPreview;
+            if (isPreview)
+                PreviewTab = tab;
+            else
+                PreviewTab = null;           
+
+            if (!maintainScrollPosition)
+                editor.SetCursorPosition(0, 0);
+            
+            if (!noSelectTab)
+                TabControl.SelectedItem = tab;
+            if (!noFocus)
+                editor.SetEditorFocus();
+
+            if (!noPreview)
+                PreviewMarkdownAsync();
+
+            ActivateTab(tab);
 
             return tab;
         }
@@ -1659,35 +1716,6 @@ namespace MarkdownMonster
             }
 
             return tab;
-        }
-
-        /// <summary>
-        /// Activates a tab from an active tab instance
-        /// </summary>
-        /// <param name="tab"></param>
-        /// <returns></returns>
-        public TabItem ActivateTab(TabItem tab)
-        {
-            TabControl.SelectedItem = tab;
-            return tab;
-        }
-
-        /// <summary>
-        /// Activates a tab by checking from a filename
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public TabItem ActivateTab(string filename, bool openIfNotFound = false)
-        {
-            var tab = GetTabFromFilename(filename);
-            if (tab == null)
-            {
-                if (openIfNotFound)
-                    return OpenTab(filename, rebindTabHeaders: true);
-
-                return null;
-            }
-            return ActivateTab(tab);
         }
 
         private void TabControl_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

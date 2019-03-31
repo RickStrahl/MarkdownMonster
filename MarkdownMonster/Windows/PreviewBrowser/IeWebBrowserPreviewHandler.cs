@@ -95,6 +95,10 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     mappedTo = "html";
                     ext = null;
                 }
+                else if (doc.Filename == "untitled")
+                {
+                    mappedTo = "markdown";
+                }
                 else
                 {
                     // only show preview for Markdown and HTML documents

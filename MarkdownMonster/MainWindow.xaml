@@ -308,7 +308,7 @@
                           Click="Button_Handler"
                           InputGestureText="Ctrl+H" />
             </MenuItem>
-            <MenuItem Header="_Tools" Name="MainMenuTools">                 
+            <MenuItem Header="_Tools" Name="MainMenuTools" x:FieldModifier="public">                 
                 <MenuItem Name="MenuAddinManager" Header="_Add-in Manager" Command="{Binding Commands.AddinManagerCommand}"/>
                 <MenuItem Name="MenuAddins" Header="Add-ins" />
                 <Separator/>
@@ -335,7 +335,7 @@
 
                 <MenuItem Header="Settings" Command="{Binding Commands.SettingsCommand}"/>
             </MenuItem>
-            <MenuItem Header="_View" Name="MainMenuView">
+            <MenuItem Header="_View" Name="MainMenuView"  x:FieldModifier="public" >
                 <MenuItem Name="ButtonHtmlPreview" 
                           Header="Toggle _Preview Window"
                           IsCheckable="True" 
@@ -377,9 +377,10 @@
                           Command="{Binding Commands.ShowSidebarTabCommand}" CommandParameter="DocumentOutline" InputGestureText="Alt-V-O"/>
 
 
-                <MenuItem Name="ButtonShowFavorites" 
+                <MenuItem Name="ButtonShowFavorites"  x:FieldModifier="public"
                           Header="Activate Fa_vorites"                                                                                                                       
-                          Command="{Binding Commands.ShowSidebarTabCommand}" CommandParameter="Favorites" InputGestureText="Alt-V-V"/>
+                          Command="{Binding Commands.ShowSidebarTabCommand}" 
+                          CommandParameter="Favorites" InputGestureText="Alt-V-V"/>
 
                 <Separator />
 
