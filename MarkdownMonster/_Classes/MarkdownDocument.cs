@@ -325,24 +325,40 @@ namespace MarkdownMonster
         {
             get
             {
+                if (_htmlRenderFilename != null)
+                    return _htmlRenderFilename;
+
+                SetHtmlRenderFilename(null);                                
+                return _htmlRenderFilename;
+            }            
+        }
+
+        private string _htmlRenderFilename;
+
+        /// <summary>
+        /// Allows you to explicitly override the render filename
+        /// used for previewing. This allows addins to render out of
+        /// custom folders when previewing since the previewer uses
+        /// the HtmlRenderFilename.
+        ///
+        /// This overrides the default location in the temp folder.
+        /// </summary>
+        /// <param name="filename">Filename or null to reset to default location</param>
+        public void SetHtmlRenderFilename(string filename)
+        {
+            if (!string.IsNullOrEmpty(filename))
+                _htmlRenderFilename = filename;
+            else
+            {
                 string path = null;
                 string file = null;
 
-                if (Filename == "untitled")
-                {
-                    path = Path.GetDirectoryName(mmApp.Configuration.CommonFolder);
-                    file = "__untitled.htm";
-                }
-                else
-                {
-                    path = Path.GetTempPath();  //Path.GetDirectoryName(Filename);
-                    file = "_MarkdownMonster_Preview.html";
-                }
+                path = Path.GetTempPath(); 
+                file = "_MarkdownMonster_Preview.html";
 
-                return Path.Combine(path, file);
+                _htmlRenderFilename = Path.Combine(path, file);
             }
         }
-
 
         /// <summary>
         /// Holds the last preview window browser scroll position so it can be restored
@@ -983,9 +999,8 @@ namespace MarkdownMonster
         /// webRootPath: c:\temp\post\Topic\
         /// </summary>
         public string GetPreviewWebRootPathFromDocument()
-        {
-
-            if (CurrentText.StartsWith("---"))
+        {            
+            if (CurrentText != null && CurrentText.StartsWith("---"))
             {
                 var yaml = StringUtils.ExtractString(CurrentText, "---", "---");
                 if (!string.IsNullOrEmpty(yaml))
