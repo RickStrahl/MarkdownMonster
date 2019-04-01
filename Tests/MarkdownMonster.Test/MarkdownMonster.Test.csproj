@@ -52,6 +52,9 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ReverseMarkdown">
+      <HintPath>..\..\packages\ReverseMarkdown.3.2.0\lib\net46\ReverseMarkdown.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />

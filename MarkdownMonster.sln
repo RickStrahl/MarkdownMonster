@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28714.193
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster", "MarkdownMonster\MarkdownMonster.csproj", "{CB4EAB0E-1796-476E-83A0-20DA826E1C02}"
 EndProject
@@ -56,6 +56,7 @@ Global
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3FCE345-F767-487F-86BF-DFA78B4BC218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Debug|Any CPU.Build.0 = Debug|Any CPU

@@ -9,8 +9,14 @@
 ### 1.16.5
 <small>not released yet</small>
 
+* **Explicit Menu Commands for Folder Browser, Outline and Favorites**  
+Added menu commands on the View menu for these operations which make them keyboard navigable via `Alt-V-F`, `Alt-V-O` and `Alt-V-V` respectively. For now these are not mappable via keybindings.
+
 * **New HTML to Markdown Parser**  
 Switched to ReverseMarkdown parser for HTML to Markdown conversions that are cleaner and more reliable in the conversion process. This affects the `Ctrl-Shift-V` shortcut that lets you paste HTML as Markdown, and WebLog HTML import.
+
+* **Addins: MarkdownDocument.SetHtmlRenderFilename()**  
+Added method that allows custom renderers to override the location of the HTML render filename. This allows for rendering HTML in a custom folder that has the proper base path for finding resources.
 
 * **Fix: Link Preview Document Navigation Issues**  
 Fix support for Preview link navigation when pointing back to a local Markdown file. Fixed for links with Hashes(`#`) and for wiping out dirty document changes when navigating back to a document that was already open.

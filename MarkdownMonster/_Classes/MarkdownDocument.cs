@@ -974,7 +974,7 @@ namespace MarkdownMonster
                 .Replace("{$markdown}", markdown ?? CurrentText)
                 .Replace("{$extraHeaders}", ExtraHtmlHeaders);
 
-            html = AddinManager.Current.RaiseOnModifyPreviewHtml( html, markdownHtml );
+             html = AddinManager.Current.RaiseOnModifyPreviewHtml( html, markdownHtml );
 
             if (!noFileWrite)
             {
