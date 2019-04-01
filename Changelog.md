@@ -15,6 +15,9 @@ Added menu commands on the View menu for these operations which make them keyboa
 * **New HTML to Markdown Parser**  
 Switched to ReverseMarkdown parser for HTML to Markdown conversions that are cleaner and more reliable in the conversion process. This affects the `Ctrl-Shift-V` shortcut that lets you paste HTML as Markdown, and WebLog HTML import.
 
+* **[Drag and Drop Tabs into the Favorites Sidebar](http://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
+You can now drag a tab from the editor into the Favorites tab to create a new favorite shortcut more easily. This external drag and drop behavior augments the internal drag and drop that lets you re-arrange favorite entries.
+
 * **Addins: MarkdownDocument.SetHtmlRenderFilename()**  
 Added method that allows custom renderers to override the location of the HTML render filename. This allows for rendering HTML in a custom folder that has the proper base path for finding resources.
 
@@ -28,8 +31,6 @@ Fix support for Preview link navigation when pointing back to a local Markdown f
 Using the `-presentation` command line switch you can start Markdown Monster in presentation mode which shows the preview full screen.  
 Example:  `mm file.md -presentation`
 
-* **[Drag and Drop Tabs into the Favorites Sidebar](http://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
-You can now drag a tab from the editor into the Favorites tab to create a new favorite shortcut more easily. This external drag and drop behavior augments the internal drag and drop that lets you re-arrange favorite entries.
 
 * **[Add Option to set `previewWebRootPath` to Document](https://markdownmonster.west-wind.com/docs/_5fz0ozkln.htm)**  
 You can now specify a custom YAML header to specify a Web Root path that resolves `/` to the path you specify when rendering the Preview. This allows greater documentation systems to work with non-relative, site relative URLs and still render images and links properly in the previewer.
