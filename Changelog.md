@@ -13,7 +13,7 @@
 Added menu commands on the View menu for these operations which make them keyboard navigable via `Alt-V-F`, `Alt-V-O` and `Alt-V-V` respectively. For now these are not mappable via keybindings.
 
 * **New HTML to Markdown Parser**  
-Switched to ReverseMarkdown parser for HTML to Markdown conversions that are cleaner and more reliable in the conversion process. This affects the `Ctrl-Shift-V` shortcut that lets you paste HTML as Markdown, and WebLog HTML import.
+Switched to [ReverseMarkdown](https://github.com/mysticmind/reversemarkdown-net) parser for HTML to Markdown conversions that are cleaner and more reliable in the conversion process. This affects the `Ctrl-Shift-V` shortcut that lets you paste HTML as Markdown, and WebLog HTML imports.
 
 * **[Drag and Drop Tabs into the Favorites Sidebar](http://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
 You can now drag a tab from the editor into the Favorites tab to create a new favorite shortcut more easily. This external drag and drop behavior augments the internal drag and drop that lets you re-arrange favorite entries.
