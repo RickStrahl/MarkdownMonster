@@ -58,13 +58,15 @@ namespace MarkdownMonster.Windows
 
             if (stopEditing)
             {
-                FavoritesModel.EditedFavorite = null;
+                FavoritesModel.EditedFavorite = null;                
             }
             else
             {
                 FavoritesModel.EditedFavorite = favorite;
                 favorite.DisplayState.IsEditing = true;
+                TextFavoriteTitle.Focus();
             }
+            
         }
 
         private void ButtonFavorite_Click(object sender, RoutedEventArgs e)
@@ -345,6 +347,27 @@ namespace MarkdownMonster.Windows
             FavoritesModel.SaveFavoritesAsync();            
         }
 
-     
+
+        private void TreeFavorites_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            var favorite = TreeFavorites.SelectedItem as FavoriteItem;
+            if (favorite == null)
+                return;
+
+            if (e.Key == Key.Delete)
+            {
+                FavoritesModel.DeleteFavorite(favorite);
+            }
+            if (e.Key == Key.F2)
+            {
+                StartEditing(favorite);
+            }
+            if(e.Key == Key.N && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                favorite = FavoritesModel.AddFavorite(favorite);
+                FavoritesModel.SaveFavorites();
+                StartEditing(favorite);
+            }
+        }
     }
 }

@@ -101,8 +101,44 @@ namespace MarkdownMonster.Favorites
             FilterList(favorites);
             
             Favorites = favorites;
+
+            RemoveMissingFavorites(Favorites);
+        
             
             return true;
+        }
+
+        #region Collection Walkers
+        public void WalkFavorites(ObservableCollection<FavoriteItem> favoriteItems, Action<FavoriteItem> operation)
+        {
+            for (var index = favoriteItems.Count - 1; index > -1; index--)
+            {
+                var fav = favoriteItems[index];
+
+                if (fav.Items != null)
+                    WalkFavorites(fav.Items, operation);
+
+                operation?.Invoke(fav);
+            }
+        }
+
+        public void RemoveMissingFavorites(ObservableCollection<FavoriteItem> favoriteItems)
+        {
+            for (var index = favoriteItems.Count - 1; index > -1; index--)
+            {
+                var fav = favoriteItems[index];
+
+                if (fav.Items != null && fav.Items.Count > 0)
+                    RemoveMissingFavorites(fav.Items);
+
+                if (!string.IsNullOrEmpty(fav.File))
+                {
+                    if (Directory.Exists(fav.File) || File.Exists(fav.File))
+                        fav.IsMissing = false;
+                    else
+                        fav.IsMissing = true;
+                }
+            }
         }
 
         void FilterList(ObservableCollection<FavoriteItem> favorites)
@@ -147,7 +183,10 @@ namespace MarkdownMonster.Favorites
                     UpdateParents(fav.Items, fav);
             }
         }
+        #endregion
 
+
+        #region Favorite Operations
 
         public FavoriteItem AddFavorite(FavoriteItem baseItem, FavoriteItem favoriteToAdd = null)
         {
@@ -247,6 +286,8 @@ namespace MarkdownMonster.Favorites
 
             return null;
         }
+
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 

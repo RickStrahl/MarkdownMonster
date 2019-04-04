@@ -6,8 +6,14 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.16.5
+### 1.16.6
 <small>not released yet</small>
+
+* **Favorites Improvements**  
+Favorites now have keyboard shortcuts for common tasks like deleting and editing. If a bookmark file or folder doesn't exist any longer the entry is marked as missing in the favorites list so you can fix it or remove it more easily.
+
+### 1.16.5
+<small>April 1st, 2019</small>
 
 * **Explicit Menu Commands for Folder Browser, Outline and Favorites**  
 Added menu commands on the View menu for these operations which make them keyboard navigable via `Alt-V-F`, `Alt-V-O` and `Alt-V-V` respectively. For now these are not mappable via keybindings.

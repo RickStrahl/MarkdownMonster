@@ -31,6 +31,11 @@ Here are a few useful Markdown Monster shortcuts to remember:
 * Alt-Z - Toggle Word Wrap
 
 
+### Favorites Tab Dragging
+Did you know that in Markdown Monster you can drag a tab into the Favorites sidebar? Favorites let you bookmark and organize common files and folders in a convenient list, and now you can more easily add Favorites by simply dragging an open tab into the Favorites sidebar. 
+
+Simply grab the tab and drag it into the Favorites sidebar at the position you want.
+
 
 
 ## Open Markdown Monster from the Command Line

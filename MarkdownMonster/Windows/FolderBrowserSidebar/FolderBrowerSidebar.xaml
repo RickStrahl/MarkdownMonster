@@ -220,11 +220,12 @@
                 </TreeView.ContextMenu>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
-                        <!-- We have to select the item which is right-clicked on -->
-                        <EventSetter Event="TreeViewItem.PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>
                         <Setter Property="Visibility" Value="{Binding IsVisible,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />
+
+                        <!-- We have to select the item which is right-clicked on -->
+                        <EventSetter Event="TreeViewItem.PreviewMouseRightButtonUp" Handler="TreeViewItem_PreviewMouseRightButtonUp"/>
 
                         <!--<EventSetter Event="DragOver" Handler="TreeViewItem_DragOver" />-->
                         <EventSetter Event="Drop" Handler="TreeViewItem_Drop" />

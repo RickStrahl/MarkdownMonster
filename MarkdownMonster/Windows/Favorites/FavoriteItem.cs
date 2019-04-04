@@ -89,6 +89,17 @@ namespace MarkdownMonster.Favorites
         }
         private bool _IsExpanded;
 
+        public bool IsMissing
+        {
+            get => _isMissing;
+            set
+            {
+                if (value == _isMissing) return;
+                _isMissing = value;
+                OnPropertyChanged();
+            }
+        }
+
         [JsonIgnore]
         public FavoriteDisplayState DisplayState
         {
@@ -97,6 +108,7 @@ namespace MarkdownMonster.Favorites
         }
 
         private FavoriteDisplayState _DisplayState;
+        private bool _isMissing;
 
         public FavoriteItem()
         {
@@ -104,6 +116,7 @@ namespace MarkdownMonster.Favorites
         }
 
         public ObservableCollection<FavoriteItem> Items { get; set; } = new ObservableCollection<FavoriteItem>();
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

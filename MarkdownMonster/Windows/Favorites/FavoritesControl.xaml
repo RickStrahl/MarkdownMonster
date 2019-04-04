@@ -13,23 +13,29 @@
         <windows:FullFolderNameFromPathConverter x:Key="FullFolderNameFromPathConverter" />
         <windows:FavoritesTitleConverter x:Key="FavoritesTitleConverter" />
         <windows:FavoritesIconConverter x:Key="FavoritesIconConverter"  />
+        <windows:FavoritesMissingBackgroundConverter x:Key="FavoritesMissingBackgroundConverter"  />
         <HierarchicalDataTemplate x:Key="FolderTemplate"  ItemsSource="{Binding Path=Items}" >
-            <StackPanel>
-                <Button Cursor="Hand" Background="Transparent" Name="ButtonFavorite"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Name="ButtonAddFavorite" Header="Add" Click="ButtonAddFavorite_Click" InputGestureText="Ctrl-N"  />
+                        <MenuItem Name="ButtonAddFolder" Header="Add Folder" Click="ButtonAddFolder_Click"   />
+                        <Separator />
+                        <MenuItem Name="ButtonDeleteFavorite" Header="Delete" Click="ButtonDeleteFavorite_Click" InputGestureText="Del"/>
+                        <MenuItem Name="ButtonEditFavorite" Header="Edit" Click="ButtonStartEditing_Click" InputGestureText="F2" />
+                        <Separator/>
+                        <MenuItem Name="ButtonOpenFolder" Header="Open in Explorer" 
+                                  Command="{Binding AppModel.Commands.OpenInExplorerCommand}"
+                                  CommandParameter="{Binding DataContext.File}"/>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+
+                <Button Cursor="Hand" Background="Transparent" Name="ButtonFavorite" HorizontalAlignment="Stretch"                       
                     Click="ButtonFavorite_Click">
-                    <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Name="ButtonAddFavorite" Header="Add" Click="ButtonAddFavorite_Click"  />
-                            <MenuItem Name="ButtonAddFolder" Header="Add Folder" Click="ButtonAddFolder_Click"  />
-                            <Separator />
-                            <MenuItem Name="ButtonDeleteFavorite" Header="Delete" Click="ButtonDeleteFavorite_Click" />
-                            <MenuItem Name="ButtonEditFavorite" Header="Edit" Click="ButtonStartEditing_Click"  />
-                            <Separator/>
-                            <MenuItem Name="ButtonOpenFolder" Header="Open in Explorer" 
-                                      Command="{Binding AppModel.Commands.OpenInExplorerCommand}"
-                                      CommandParameter="{Binding DataContext.File}"/>
-                        </ContextMenu>
-                    </Button.ContextMenu>
+               
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Background="Transparent" x:Name="BorderBg" Padding="5,2,20,3">
@@ -46,14 +52,17 @@
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{Binding .,Converter={StaticResource FavoritesIconConverter}}" Width="14.5" Margin="0,3,7,0"/>
                             <TextBlock  Text="{Binding ., Converter={StaticResource FavoritesTitleConverter }}" FontSize="13.5"  FontWeight="SemiBold" />
+                            <TextBlock Text="missing" mah:VisibilityHelper.IsVisible="{Binding IsMissing}" 
+                                       FontSize="11" Margin="15,2.5" FontStyle="Italic" Foreground="Red" FontWeight="normal"></TextBlock>
                         </StackPanel>
                         <TextBlock Text="{Binding File}" FontStyle="Italic" FontSize="11" FontWeight="Normal" Margin="25,0,0,0" Foreground="#bbb"
                            mah:VisibilityHelper.IsCollapsed="{Binding IsFolder}"
                            />
+                        
                     </StackPanel>
                 </Button>
 
-            </StackPanel>
+            </Grid>
             <!--</Grid>-->
         </HierarchicalDataTemplate>
     </UserControl.Resources>
@@ -151,7 +160,7 @@
             </Grid>
 
             <TextBox Text="{Binding EditedFavorite.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                             
-                     mah:TextBoxHelper.Watermark="Title" Foreground="LightSteelBlue"
+                     mah:TextBoxHelper.Watermark="Title" Foreground="LightSteelBlue" Name="TextFavoriteTitle"
                      FontSize="14"  FontWeight="SemiBold" Margin="5,5,5,3" Width="Auto"/>
             <Grid  Margin="5,3">
                 <Grid.ColumnDefinitions>
@@ -187,6 +196,7 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ItemsSource="{Binding Favorites}"                   
                   PreviewMouseMove="TreeFavorites_MouseMove" 
+                  KeyDown="TreeFavorites_OnKeyDown"
                   BorderThickness="0">
             <TreeView.ContextMenu>
                 <ContextMenu />
