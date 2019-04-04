@@ -836,8 +836,14 @@ namespace MarkdownMonster
         {
             if (filename == null)
                 filename = Filename;
-
-            Encoding = mmFileUtils.GetFileEncoding(filename);
+            try
+            {
+                Encoding = mmFileUtils.GetFileEncoding(filename);
+            }
+            catch (Exception ex)
+            {
+                Encoding = Encoding.UTF8;
+            }
         }
         #endregion
 
