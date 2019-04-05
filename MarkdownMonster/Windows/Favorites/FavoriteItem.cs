@@ -30,6 +30,7 @@ namespace MarkdownMonster.Favorites
                 _file = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Filename));
+                OnPropertyChanged(nameof(IsMissing));
             }
         }
         private string _file;
@@ -91,14 +92,15 @@ namespace MarkdownMonster.Favorites
 
         public bool IsMissing
         {
-            get => _isMissing;
-            set
+            get
             {
-                if (value == _isMissing) return;
-                _isMissing = value;
-                OnPropertyChanged();
+                if (string.IsNullOrEmpty(File)) return false;
+                return !System.IO.File.Exists(File) && !Directory.Exists(File);
             }
         }
+
+
+
 
         [JsonIgnore]
         public FavoriteDisplayState DisplayState
@@ -108,7 +110,7 @@ namespace MarkdownMonster.Favorites
         }
 
         private FavoriteDisplayState _DisplayState;
-        private bool _isMissing;
+        
 
         public FavoriteItem()
         {

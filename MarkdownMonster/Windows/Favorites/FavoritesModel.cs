@@ -102,7 +102,7 @@ namespace MarkdownMonster.Favorites
             
             Favorites = favorites;
 
-            RemoveMissingFavorites(Favorites);
+            
         
             
             return true;
@@ -122,24 +122,7 @@ namespace MarkdownMonster.Favorites
             }
         }
 
-        public void RemoveMissingFavorites(ObservableCollection<FavoriteItem> favoriteItems)
-        {
-            for (var index = favoriteItems.Count - 1; index > -1; index--)
-            {
-                var fav = favoriteItems[index];
-
-                if (fav.Items != null && fav.Items.Count > 0)
-                    RemoveMissingFavorites(fav.Items);
-
-                if (!string.IsNullOrEmpty(fav.File))
-                {
-                    if (Directory.Exists(fav.File) || File.Exists(fav.File))
-                        fav.IsMissing = false;
-                    else
-                        fav.IsMissing = true;
-                }
-            }
-        }
+        
 
         void FilterList(ObservableCollection<FavoriteItem> favorites)
         {
