@@ -1,182 +1,219 @@
 html, body {
-    font-family:'Open Sans',Arial, sans-serif;
-    font-size: 18px;
-    height: 100%;    
-    line-height: 1.55em;
-    padding: 5px 20px 5px 15px !important;
-    margin: 0;
-    scrollbar-track-color: Whitesmoke;
-    scrollbar-arrow-color: silver;   
-    scrollbar-base-color: #ddd;
-    scrollbar-face-color: #ddd;  
-} 
+  font-family: -apple-system, BlinkMacSystemFont,"Segoe UI", Helvetica, Helvetica, Arial, sans-serif;
+  font-size: 18.5px;
+  height: 100%;
+  line-height: 1.65;
+  padding: 5px 20px 5px 15px !important;
+  margin: 0;
+  scrollbar-track-color: Whitesmoke;
+  scrollbar-arrow-color: silver;
+  scrollbar-base-color: #ddd;
+  scrollbar-face-color: #ddd;
+}
 
-h1,h2,h3,h4,h5,h6, .byline,.content-title {
+h1, h2, h3, h4, h5, h6, .byline, .content-title {
   color: #535353;
-  font-weight: bold;  
+  font-weight: 600;
+  margin-top: 1.2em;
+  margin-bottom: 0.3em;
 }
+
 h1 {
-    font-size: 1.8em
+  font-size: 1.8em
 }
+
 h2 {
-    font-size: 1.5em
+  font-size: 1.55em
 }
+
 h3 {
-    font-size: 1.3em
+  font-size: 1.35em
 }
+
 h4 {
-    font-size: 1.15em
+  font-size: 1.15em
 }
-h5, h6 { 
-    font-size: 1.03em;
+
+h5, h6 {
+  font-size: 1.05em;
+  color: #656565;
 }
+
 a {
-    font-weight: 600;
+  font-weight: 600;
+  color: rgb(44, 89, 214);
+  text-decoration: none;
+}
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+p {
+  margin: 0.5rem 0 1rem 0;
 }
 
 code {
-    background: #eee;
-    color: #555;
-    padding: 2px 5px;
-    font-weight: 600;
-    font-family: consolas,monospace;
-    border-radius: 3px;
+  background: #eee;
+  color: #555;
+  padding: 2px 5px;
+  font-weight: 600;
+  font-family: consolas,monospace;
+  border-radius: 3px;
 }
 
 pre {
-    font-family: consolas,monospace;
-    font-size: 0.875em !important;
-    font-weight: normal;
-    line-height: 1.45;
-    margin: 7px 0 !important;
-    padding: 0;
-    border: 1px solid silver;
-    border-radius: 4px;
-    
-    overflow-x: auto;
-    white-space: pre;
-    word-break: normal;
-    word-wrap: normal;
-
-    background: #333;
-    color: #eee;
+  font-family: consolas,monospace;
+  font-weight: normal;
+  line-height: 1.45;
+  margin: 7px 0 !important;
+  padding: 0;
+  border: 1px solid silver;
+  border-radius: 4px;
+  overflow-x: auto;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+  background: #333;
+  color: #eee;
 }
 
-    pre > code {
-        white-space: pre;
-        padding: 0.8em !important;
-        display: block;
-
-        font-weight: normal;
-        color: #f5f5f5 !important;
-        background: transparent;        
-    }
+  pre > code {
+    white-space: pre;
+    padding: 0.8em !important;
+    display: block;
+    font-weight: normal;
+    color: #f5f5f5 !important;
+    background: transparent;
+  }
 
 
 table {
-    width: 100%;
-    overflow: auto;
-    display: block;
-    border-spacing: 0;
-    border-collapse: collapse;
-    margin: 15px 0;
-    border-color: gray;
+  width: 100%;
+  overflow: auto;
+  display: block;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: 15px 0;
+  border-color: gray;
 }
+
 td, th {
-    border: 1px solid #ddd;
-    padding: 6px 13px;
-    display: table-cell;
-    vertical-align: top;
+  border: 1px solid #ddd;
+  padding: 6px 13px;
+  display: table-cell;
+  vertical-align: top;
 }
+
 th {
-    font-weight: bold;
-    color: white; 
-    background: #555;
+  font-weight: bold;
+  color: white;
+  background: #555;
 }
-tbody>tr:nth-child(even) {
-    background: #eee;
+
+tbody > tr:nth-child(even) {
+  background: #eee;
 }
+
 img {
-	max-width: 100%;
+  max-width: 100%;
 }
 
 ul, ol {
-    margin: 0.6em 0;
+  margin: 0.6em 0;
 }
 
 li {
-    margin: 0.6em 0.2em 0.6em 1em;
+  margin: 0.6em 0.2em 0.6em 1em;
 }
+
 ul > li > ul > li > ul > li {
-    list-style: disc;
+  list-style: disc;
 }
 
 ul > li > ul > li {
-    list-style: square;
+  list-style: square;
 }
+
 blockquote {
-    font-size: 1em;
-    background: #fcfcfc;
-    color: #777;
+  background: #f7f7f7;
+  color: #777;
+  font-size: 1.02em;
+  padding: 15px 20px;
+  margin: 1.2em;
+  border-left: 9px #569ad4 solid;
+  border-radius: 4px 0 0 4px;
 }
-blockquote h3, blockquote h4, blockquote h5 {
-    margin-top: 5px;
-}
-hr{
-    margin: 12px 0;    
-}
-.figure .caption, figure figcaption {
-    font-size: 0.8em;
-    font-style: italic;
+
+  blockquote *:first-child {
     margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  blockquote *:last-child {
+    margin-bottom: 0;
+  }
+
+hr {
+  margin: 12px 0;
+}
+
+.figure .caption, figure figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin-top: 0;
 }
 /* hidden display, but still part of document flow */
 .hidden {
-    display: none;
+  display: none;
 }
+
 .hidden-nowidth {
-    width: 0;    
+  width: 0;
 }
+
 .visually-hidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px; 
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
 .line-highlight {
-    background: #e9f5ff !important;
-}
-p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.line-highlight {
-    border-radius: 4px;
-    margin-left: -10px;
-    margin-right: -10px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-code.line-highlight {
-    background: #444 !important;
+  background: #e9f5ff !important;
 }
 
-@media(min-width: 1080px){
-    html,body{
-        font-size: 1.08em;
-    }
+p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.line-highlight {
+  border-radius: 4px;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+code.line-highlight {
+  background: #444 !important;
+}
+
+@media(min-width: 1080px) {
+  html, body {
+    font-size: 1.08em;
+  }
 }
 
 @media print {
-    pre {
-        white-space: pre-wrap;
-        word-break: normal;
-        word-wrap: normal;
-    }
+  pre {
+    white-space: pre-wrap;
+    word-break: normal;
+    word-wrap: normal;
+  }
 
     pre > code {
-        white-space: pre-wrap;
-        padding: 1em !important;
+      white-space: pre-wrap;
+      padding: 1em !important;
     }
 }

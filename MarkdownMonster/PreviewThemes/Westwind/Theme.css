@@ -1,280 +1,300 @@
 html, body {
-    color: #333;
-    font-family: -apple-system, BlinkMacSystemFont,"Segoe UI", Helvetica, Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    height: 100%;
-    line-height: 1.5em;
-    margin: 0;
-    scrollbar-track-color: Whitesmoke;
-    scrollbar-arrow-color: silver;
-    scrollbar-base-color: #ddd;
-    scrollbar-face-color: #ddd;
-    -ms-overflow-style: -ms-autohiding-scrollbar !important;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont,"Segoe UI", Helvetica, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  margin: 0;
+  scrollbar-track-color: Whitesmoke;
+  scrollbar-arrow-color: silver;
+  scrollbar-base-color: #ddd;
+  scrollbar-face-color: #ddd;
+  -ms-overflow-style: -ms-autohiding-scrollbar !important;
 }
 
 #MainContent {
-    margin: 20px 20px 20px 30px;
+  margin: 20px 25px 0 40px;
 }
 
 h1, h2, h3, h4, h5, h6, .byline, .content-title {
-    /*font-family: Trebuchet,'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
-    font-weight: 600;
-    margin-top: 1.2em;
-    margin-bottom: 0.5em;
+  color: steelblue;
+  font-weight: 600;
+  margin-top: 1.2em;
+  margin-bottom: 0.3em;
 }
 
 h1 {
-    font-size: 1.7em;
-    padding-bottom: 10px;
-    color: steelblue;
-    border-bottom: 1px solid #eee;
+  font-size: 1.8em;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
 }
 
 h2 {
-    color: Steelblue;
-    font-size: 1.5em;
+  font-size: 1.6em;
 }
 
 h3 {
-    color: steelblue;
-    font-size: 1.25em;
+  font-size: 1.35em;
 }
 
 h4 {
-    color: #555;
-    font-size: 1.1em;
+  color: #555;
+  font-size: 1.18em;
 }
 
 h5, h6 {
-    color: #676767;
-    font-size: 1em;
+  color: #606060;
+  font-size: 1.09em;
+}
+
+h6 {
+  color: #707070;
+  font-size: 1.03em;
 }
 
 table {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 th, td {
-    padding: 5px 9px;
-    border-bottom: 1px solid #eee;
-    vertical-align: top;
+  padding: 5px 9px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
 }
 
 th {
-    background: #eee
+  background: #eee
 }
 
 p {
-    margin: 10px 0 10px 0;
+  margin: 0.5rem 0 1rem 0;
 }
 
 a {
-    font-weight: 600;
+  font-weight: 600;
+  text-decoration: none;
+  color: #4582B4;
 }
 
+  a:hover {
+    text-decoration: underline;
+  }
+
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 ul, ol {
-    margin: 1.1em 0;
+  margin: 1.1em 0;
 }
 
 li {
-    margin: 0.6em 0.2em 0.6em 1em;
+  margin: 0.6em 0.2em 0.6em 1em;
 }
+
 ul > li > ul > li > ul > li {
-    list-style: disc;
+  list-style: disc;
 }
+
 ul > li > ul > li {
-    list-style: square;
+  list-style: square;
+}
+/* definition lists can be toggled*/
+dt {
+  font-size: 1.08em;
+  font-weight: bold;
+  text-decoration: underline;
+  padding-top: 0.5em;
+  cursor: pointer;
+}
+
+dd {
+  margin: 0.1em;
+  padding: 0 0 0.2em 1em;
 }
 
 b, strong {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 
 
 /* hidden display, but still part of document flow */
 .hidden {
-    display: none;
+  display: none;
 }
 
 .hidden-nowidth {
-    width: 0;
+  width: 0;
 }
 
 .visually-hidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
 
 @media(min-width: 1080px) {
-    html, body {
-        font-size: 1.06em;
-    }
+  html, body {
+    font-size: 1.06em;
+  }
 }
 
 
 blockquote {
-    background: #f2f7fb;
-    font-size: 1.02em;
-    padding: 10px 20px;
-    margin: 1.2em;
-    border-left: 9px #569ad4 solid;
-    border-radius: 4px 0 0 4px;  
+  background: #f2f7fb;
+  font-size: 1.02em;
+  padding: 10px 20px;
+  margin: 1.2em;
+  border-left: 9px #569ad4 solid;
+  border-radius: 4px 0 0 4px;
 }
-    blockquote *:first-child { margin-top: 0; }
-    blockquote *:last-child { margin-bottom: 0; }
 
-dd {
-    margin-top: 8px;
-    padding: 10px;
-    background: #f9f9f9;
-}    
+  blockquote *:first-child {
+    margin-top: 0;
+  }
+
+  blockquote *:last-child {
+    margin-bottom: 0;
+  }
+
 
 hr {
-    margin: 12px 0;
+  margin: 12px 0;
 }
 
 .figure .caption, figure figcaption {
-    font-size: 0.8em;
-    font-style: italic;
-    margin-top: 0;
+  font-size: 0.8em;
+  font-style: italic;
+  margin-top: 0;
 }
 
 code {
-    padding: 2px 5px;    
-    font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
-    border-radius: 3px;
-
-    font-weight: 600;
-    background: #eee;
-    color: #555;    
+  padding: 2px 5px;
+  font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  border-radius: 3px;
+  font-weight: 600;
+  background: #eee;
+  color: #555;
 }
 
 pre {
-    font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
-    font-size: 0.875em !important;
-    font-weight: normal;
-    line-height: 1.45;
- 
-    margin: 7px 0 !important;
-    padding: 0;
-    border: 1px solid silver;
-    border-radius: 4px;
-    
-    overflow-x: auto;
-    white-space: pre;
-    word-break: normal;
-    word-wrap: normal;
-
-    background: #333;
-    color: #eee;
+  font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  font-size: 0.875em !important;
+  font-weight: normal;
+  line-height: 1.45;
+  margin: 7px 0 !important;
+  padding: 0;
+  border: 1px solid silver;
+  border-radius: 4px;
+  overflow-x: auto;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+  background: #333;
+  color: #eee;
 }
-    pre > code {
-        white-space: pre;
-        padding: 0.8em !important;
-        display: block;
 
-        color: #f5f5f5 !important;
-        background: transparent;
-        font-weight: normal;
-    }
+  pre > code {
+    white-space: pre;
+    padding: 0.8em !important;
+    display: block;
+    color: #f5f5f5 !important;
+    background: transparent;
+    font-weight: normal;
+  }
 
 table {
-    width: 100%;
-    overflow: auto;
-    display: block;
-    border-spacing: 0;
-    border-collapse: collapse;
-    margin: 15px 0;
-    border-color: gray;
+  width: 100%;
+  overflow: auto;
+  display: block;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: 15px 0;
+  border-color: gray;
 }
 
 td, th {
-    border: 1px solid #ddd;
-    padding: 6px 13px;
-    display: table-cell;
-    vertical-align: top;
+  border: 1px solid #ddd;
+  padding: 6px 13px;
+  display: table-cell;
+  vertical-align: top;
 }
 
 th {
-    font-weight: bold;
-    color: white;
-    background: #444;
+  font-weight: bold;
+  color: white;
+  background: #555;
 }
 
 tbody > tr:nth-child(even) {
-    background: #eee;
+  background: #eee;
 }
 
 .line-highlight {
-    background: #e9f5ff !important;
+  background: #e9f5ff !important;
 }
 
 p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.line-highlight {
-    border-radius: 4px;
-    margin-left: -10px;
-    margin-right: -10px;
-    padding-left: 10px;
-    padding-right: 10px;
+  border-radius: 4px;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 code.line-highlight {
-    background: #555 !important;
+  background: #555 !important;
 }
 
 /* hidden display, but still part of document flow */
 .hidden {
-    display: none;
+  display: none;
 }
 
 .hidden-nowidth {
-    width: 0;
+  width: 0;
 }
 
 .visually-hidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
 .line-highlight {
-    background: #f5f5f5;
-    border-radius: 3px;
+  background: #f5f5f5;
+  border-radius: 3px;
 }
 
 @media(min-width: 1080px) {
-    html, body {
-        font-size: 1.05em;
-    }
+  html, body {
+    font-size: 1.05em;
+  }
 }
 
 /* for PDF generation and print output */
 @media print {
-    pre {
-        white-space: pre-wrap;
-        word-break: normal;
-        word-wrap: normal;
-    }
+  pre {
+    white-space: pre-wrap;
+    word-break: normal;
+    word-wrap: normal;
+  }
 
     pre > code {
-        white-space: pre-wrap;
-        padding: 1em !important;
+      white-space: pre-wrap;
+      padding: 1em !important;
     }
 }

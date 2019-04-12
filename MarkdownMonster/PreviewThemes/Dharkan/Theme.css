@@ -1,250 +1,312 @@
 html, body {
-    color: #333;    
-    font-family:  -apple-system, BlinkMacSystemFont,"Segoe UI", Helvetica,  Helvetica, Arial, sans-serif;        
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    
-    height: 100%;    
-    line-height: 1.5em;
-    padding: 5px 20px 5px 10px !important;
-    margin: 0;
-    scrollbar-track-color: Whitesmoke;
-    scrollbar-arrow-color: silver;   
-    scrollbar-base-color: #ddd;
-    scrollbar-face-color: #ddd;
-    -ms-overflow-style: -ms-autohiding-scrollbar !important;
-} 
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont,"Segoe UI", Helvetica, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  line-height: 1.55;
+  margin: 0;
+  scrollbar-track-color: Whitesmoke;
+  scrollbar-arrow-color: silver;
+  scrollbar-base-color: #ddd;
+  scrollbar-face-color: #ddd;
+  -ms-overflow-style: -ms-autohiding-scrollbar !important;
+}
 
-h1,h2,h3,h4,h5,h6, .byline,.content-title {
-  color: #444;
+#MainContent {
+  margin: 20px 20px 20px 30px;
+}
+
+
+h1, h2, h3, h4, h5, h6, .byline, .content-title {
+  color: #505050;
   font-weight: 600;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
   margin-top: 1.2em;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.4em;
 }
 
 h1 {
-    font-size: 1.7em;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+  color: #444;
+  font-weight: bold;
+  font-size: 1.9em;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
 }
 
 h2 {
-    font-size: 1.45em;
+  font-size: 1.6em;
+  font-weight: bold;
 }
 
-h3 {    
-    font-size: 1.3em;
+h3 {
+  font-size: 1.35em;
 }
 
 h4 {
-    font-size: 1.1em;
+  font-size: 1.18em;
 }
 
 h5, h6 {
-    font-size: 1em;
+  color: #656565;
+  font-size: 1.09em;
 }
+
+h6 {
+  color: #777;
+  font-size: 1.03em;
+}
+
 table {
-    margin: 20px 0;    
+  margin: 20px 0;
 }
+
 th, td {
-    padding: 5px 9px;
-    border-bottom: 1px solid #eee;
-    vertical-align: top;
+  padding: 5px 9px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
 }
+
 th {
-    background: #eee    
+  background: #eee
 }
+
 p {
-	margin: 10px 0 10px 0;
+  margin: 0.5rem 0 1rem 0;
 }
+
 a {
-    font-weight: 600;
+  font-weight: 600;
+  color: #337ab7;
+  text-decoration: none;
 }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
 img {
-	max-width: 100%;
+  max-width: 100%;
 }
 
 ul, ol {
-    margin: 1.1em 0;
+  margin: 1.1em 0;
 }
+
 li {
-    margin: 0.6em 0.2em 0.6em 1em;
+  margin: 0.6em 0.2em 0.6em 1em;
 }
-ul > li > ul > li > ul > li { list-style: disc; }
-ul > li > ul > li { list-style: square; }
+
+ul > li > ul > li > ul > li {
+  list-style: disc;
+}
+
+ul > li > ul > li {
+  list-style: square;
+}
+/* definition lists can be toggled*/
+dt {
+  font-size: 1.08em;
+  font-weight: bold;
+  text-decoration: underline;
+  padding-top: 0.5em;
+  cursor: pointer;
+}
+
+dd {
+  margin: 0;
+  padding: 0 0 0.2em 1em;
+  display: none;
+}
 
 b, strong {
-    font-weight: 600;
+  font-weight: 600;
 }
 
+dt {
+  font-size: 1.08em;
+  font-weight: bold;
+  text-decoration: underline;
+  padding-top: 0.5em;
+}
+
+dd {
+  margin: 0;
+  padding: 0 0 0.2em 1em;
+}
 
 
 /* hidden display, but still part of document flow */
 .hidden {
-    display: none;
+  display: none;
 }
+
 .hidden-nowidth {
-    width: 0;    
+  width: 0;
 }
+
 .visually-hidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px; 
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
 
-    @media(min-width: 1080px) {
-        html, body {
-            font-size: 1.06em;
-        }
-    }
+@media(min-width: 1080px) {
+  html, body {
+    font-size: 1.06em;
+  }
+}
 
-    html, body {
-    color: #333;    
-    font-family:  -apple-system, BlinkMacSystemFont,"Segoe UI", Helvetica,  Helvetica, Arial, sans-serif;        
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    
-    height: 100%;    
-    line-height: 1.5em;
-    padding: 5px 20px 5px 10px !important;
-    margin: 0;
-    scrollbar-track-color: Whitesmoke;
-    scrollbar-arrow-color: silver;   
-    scrollbar-base-color: #ddd;
-    scrollbar-face-color: #ddd;
-    -ms-overflow-style: -ms-autohiding-scrollbar !important;
-} 
 
 
 blockquote {
-    background: #f5f5f5;
-    color: #656565;
-    border-left: 8px #aaa solid;
-    border-radius: 4px;
-    padding: 10px 20px;
-    margin: 30px 20px;
-    font-size: 1.03em;
+  background: #f5f5f5;
+  color: #656565;
+  border-left: 8px #aaa solid;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin: 30px 20px;
+  font-size: 1.03em;
 }
-    blockquote *:first-child { margin-top: 0; }
-    blockquote *:last-child { margin-bottom: 0; }
+
+  blockquote *:first-child {
+    margin-top: 0;
+  }
+
+  blockquote *:last-child {
+    margin-bottom: 0;
+  }
 
 hr {
-    margin: 12px 0;    
+  margin: 12px 0;
 }
+
 .figure .caption, figure figcaption {
-    font-size: 0.8em;
-    font-style: italic;
-    margin-top: 0;
+  font-size: 0.8em;
+  font-style: italic;
+  margin-top: 0;
 }
+
 code {
-    color: #555;
-    padding: 2px 5px;
-    font-weight: bold;
-    background: #eee;    
+  color: #555;
+  padding: 2px 5px;
+  font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  font-weight: 600;
+  background: #eee;
 }
+
 pre {
-    font-family: menlo,consolas,monospace;
-    font-weight: normal;    
-    font-size: 87%;
-    line-height: 1.40;
-    margin: 7px 0;
-    padding: 0;
-    border: 1px solid silver;
-    border-radius: 5px;
-    overflow-x: auto;    
-    max-width: 98%;
-    white-space:  pre;
-    word-break: normal;
-    word-wrap: normal;
+  font-family: menlo,consolas,monospace;
+  font-weight: normal;
+  font-size: 87%;
+  line-height: 1.40;
+  margin: 7px 0;
+  padding: 0;
+  border: 1px solid silver;
+  border-radius: 5px;
+  overflow-x: auto;
+  max-width: 98%;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
 }
-pre>code {
+
+  pre > code {
     white-space: pre;
     padding: 1em !important;
-}
+  }
+
 table {
-    width: 100%;
-    overflow: auto;
-    display: block;
-    border-spacing: 0;
-    border-collapse: collapse;
-    margin: 15px 0;
-    border-color: gray;
+  width: 100%;
+  overflow: auto;
+  display: block;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: 15px 0;
+  border-color: gray;
 }
+
 td, th {
-    border: 1px solid #ddd;
-    padding: 6px 13px;
-    display: table-cell;
-    vertical-align: top;
+  border: 1px solid #ddd;
+  padding: 6px 13px;
+  display: table-cell;
+  vertical-align: top;
 }
+
 th {
-    font-weight: bold;
-    color: white; 
-    background: #555;
+  font-weight: bold;
+  color: white;
+  background: #555;
 }
-tbody>tr:nth-child(even) {
-    background: #eee;
+
+tbody > tr:nth-child(even) {
+  background: #eee;
 }
 
 .line-highlight {
-    background: #e9f5ff !important;
+  background: #e9f5ff !important;
 }
-p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.line-highlight {    
-    border-radius: 4px;
-    margin-left: -10px;
-    margin-right: -10px;
-    padding-left: 10px;
-    padding-right: 10px;
+
+p.line-highlight, h1.line-highlight, h2.line-highlight, h3.line-highlight, h4.line-highlight {
+  border-radius: 4px;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
+
 code.line-highlight {
-    background: #555 !important;
+  background: #555 !important;
 }
 
 
 
 /* hidden display, but still part of document flow */
 .hidden {
-    display: none;
-}
-.hidden-nowidth {
-    width: 0;    
-}
-.visually-hidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px; 
-}
-.line-highlight {
-    background: #f5f5f5;
-    border-radius: 3px;
+  display: none;
 }
 
-@media(min-width: 1080px){
-    html,body{
-        font-size: 1.06em;
-    }
+.hidden-nowidth {
+  width: 0;
+}
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.line-highlight {
+  background: #f5f5f5;
+  border-radius: 3px;
+}
+
+@media(min-width: 1080px) {
+  html, body {
+    font-size: 1.06em;
+  }
 }
 
 @media print {
-    pre {
-        white-space: pre-wrap;
-        word-break: normal;
-        word-wrap: normal;
-    }
+  pre {
+    white-space: pre-wrap;
+    word-break: normal;
+    word-wrap: normal;
+  }
 
     pre > code {
-        white-space: pre-wrap;
-        padding: 1em !important;
+      white-space: pre-wrap;
+      padding: 1em !important;
     }
 }

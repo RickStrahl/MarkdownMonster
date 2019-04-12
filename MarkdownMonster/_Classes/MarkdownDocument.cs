@@ -883,7 +883,7 @@ namespace MarkdownMonster
         // allow override of RenderScriptTags if set
             var oldAllowScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
             if (ProcessScripts)
-                mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = false;
+                mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = true;
 
             var html = parser.Parse(markdown);
 

@@ -25,7 +25,8 @@ $(document).ready(function() {
     highlightCode();
 
     // navigate all links externally in default browser
-    $(document).on("click","a",
+    $(document).on("click",
+        "a",
         function(e) {
             var url = this.href;
             var rawHref = $(this).attr("href");
@@ -40,11 +41,17 @@ $(document).ready(function() {
             }
 
             if (hash) {
-                var sel = "a[name='" + hash.substr(1) + "'],#"+ hash.substr(1);
+                var sel = "a[name='" + hash.substr(1) + "'],#" + hash.substr(1);
                 var $el = $(sel);
                 $("html,body").scrollTop($el.offset().top - 100);
                 return false;
             }
+        });
+    // definition lists
+    $(document).on("click",
+        "dt",
+        function() {
+            $(this).nextUntil("dt").toggle();
         });
 });
 

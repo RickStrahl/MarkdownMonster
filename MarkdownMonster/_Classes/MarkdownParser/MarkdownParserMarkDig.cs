@@ -124,11 +124,11 @@ namespace MarkdownMonster
                 builder = builder.UseEmojiAndSmiley(true);
             if (options.MediaLinks)
                 builder = builder.UseMediaLinks();
-            if (options.ListExtras)            
+            if (options.ListExtras)
                 builder = builder
                             .UseListExtras()
                             .UseDefinitionLists();
-            
+
             if (options.Figures)
                 builder = builder.UseFigures();
             if (options.GithubTaskLists)

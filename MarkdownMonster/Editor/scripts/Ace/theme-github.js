@@ -8,11 +8,11 @@ background: #e8e8e8;\
 color: #AAA;\
 }\
 .ace-github  {\
-background: #fff;\
+background:  #f6f8fa;\
 color: #000;\
 }\
 .ace-github .ace_keyword {\
-font-weight: bold;\
+color:#d73a49;\
 }\
 .ace-github .ace_string {\
 color: #D14;\
@@ -43,7 +43,7 @@ font-weight: bold;\
 font-weight: bold;\
 }\
 .ace-github .ace_string.ace_regexp {\
-color: #009926;\
+color: #032f62;\
 font-weight: normal;\
 }\
 .ace-github .ace_variable.ace_instance {\
@@ -107,4 +107,3 @@ background: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZ
                         }
                     });
                 })();
-            
