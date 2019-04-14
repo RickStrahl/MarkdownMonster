@@ -9,14 +9,17 @@
 ### 1.16.6
 <small>not released yet</small>
 
+* **Close Editor File from the Command Line**  
+Added new `-close filename` command line option that allows you to close a file via the command line. This allows a limited amount of remote automation of MM via command line operations to launch and close a file. This allows for integrations like `Open in document in Markdown Monster` from external applications.
+
 * **Favorites Improvements**  
 Favorites now have keyboard shortcuts for common tasks like deleting and editing. If a bookmark file or folder doesn't exist any longer the entry is marked as missing in the favorites list so you can fix it or remove it more easily.
 
 * **Improved support for Definition Lists**  
-Definition lists are now rendered with header and indentation and are collapsible via header click.
+Definition lists are now rendered with header and indentation and are collapsible via header click in the preview styling.
 
-* **Remove Bootstrap Preview Dependency**  
-Removed the dependency on Bootstrap in the preview templates. MM never really used any of the Bootstrap features internally for previewing - it was more of a convenience for people explicitly embedding raw Bootstrap HTML into pages. You can still easily use Bootstrap by [creating your own custom preview templates](https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm) and simply adding Bootstrap to the header of the `Theme.html`. The stock MM styles co-operate just fine with Bootstrap 3 and 4.
+* **Remove Bootstrap Preview Theme Dependency**  
+Removed the dependency on Bootstrap in the preview templates. MM never really used any of the Bootstrap features internally for previewing - it was more of a convenience for people explicitly embedding raw Bootstrap HTML into pages. You can still easily use Bootstrap by [creating your own custom preview templates](https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm) and simply adding Bootstrap to the header of the `Theme.html`.
 
 ### 1.16.5
 <small>April 1st, 2019</small>
