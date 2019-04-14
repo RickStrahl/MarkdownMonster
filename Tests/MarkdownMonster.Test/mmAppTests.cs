@@ -43,7 +43,32 @@ namespace MarkdownMonster.Test
         public void ApplicationInsightLogTest()
         {
             mmApp.InitializeLogging();
-            mmApp.Log($"Test Message {DateTime.Now}" , new ApplicationException("Nothing to do nowhere to hide"));
+            mmApp.Log($"Test Message {DateTime.Now}" , new ApplicationException("Exception: Nothing to do nowhere to hide"),logLevel: LogLevels.Critical);
+            mmApp.ShutdownLogging();
+        }
+
+        [TestMethod]
+        public void ApplicationInsightExceptionTest()
+        {
+            mmApp.InitializeLogging();
+            
+
+            var ex = new ApplicationException($"Test Exception thrown as Error");
+            mmApp.Log(ex);
+
+            ex = new ApplicationException($"Another Test Exception thrown as Warning");
+            mmApp.Log(ex,logLevel: LogLevels.Warning);
+
+            mmApp.ShutdownLogging();            
+        }
+
+
+        [TestMethod]
+        public void ApplicationInsightInfoAndTest()
+        {
+            mmApp.InitializeLogging();            
+            mmApp.LogInfo("Logging an Information message");
+            mmApp.LogTrace("Logging a Trace Message");
             mmApp.ShutdownLogging();
         }
     }

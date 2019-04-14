@@ -166,7 +166,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public static bool HandleApplicationException(Exception ex, ApplicationErrorModes errorMode)
         {
-            Log($"{errorMode} Error: " + ex.Message, ex, unhandledException: true);
+            Log($"{errorMode} Error: " + ex.Message, ex, unhandledException: true, logLevel: LogLevels.Critical);
 
             var msg = $"Yikes! Something went wrong...\r\n\r\n{ex.Message}\r\n\r\n" +
                         "The error has been recorded and written to a log file and you can " +
@@ -198,45 +198,6 @@ namespace MarkdownMonster
             {
             }
         }
-
-        //public static void SendBugReport(Exception ex, string msg = null)
-        //{
-        //    var bug = new BugReport()
-        //    {
-        //        TimeStamp = DateTime.UtcNow,
-        //        Message = ex.Message,
-        //        Product = "Markdown Monster",
-        //        Version = mmApp.GetVersion(),
-        //        WinVersion = WindowsUtils.GetWindowsVersion() +
-        //                     " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
-        //                     " - .NET " + WindowsUtils.GetDotnetVersion() + " - " +
-        //                     (Environment.Is64BitProcess ? "64 bit" : "32 bit"),
-        //        StackTrace = (ex.Source + "\r\n\r\n" + ex.StackTrace).Trim()
-        //    };
-        //    if (!string.IsNullOrEmpty(msg))
-        //        bug.Message = msg + "\r\n" + bug.Message;
-
-        //    new TaskFactory().StartNew(
-        //        (bg) =>
-        //        {
-        //            try
-        //            {
-        //                var temp = HttpUtils.JsonRequest<BugReport>(new HttpRequestSettings()
-        //                {
-        //                    Url = mmApp.Configuration.BugReportUrl,
-        //                    HttpVerb = "POST",
-        //                    Content = bg,
-        //                    Timeout = 3000
-        //                });
-        //            }
-        //            catch (Exception ex2)
-        //            {
-        //                // don't log with exception otherwise we get an endless loop
-        //                Log("Unable to report bug: " + ex2.Message);
-        //            }
-        //        }, bug);
-        //}
-
 
         /// <summary>
 		/// Returns a fully qualified Help URL to a topic in the online
@@ -334,9 +295,9 @@ namespace MarkdownMonster
         /// Logs exceptions in the applications
         /// </summary>
         /// <param name="ex"></param>
-        public static void Log(Exception ex)
+        public static void Log(Exception ex, LogLevels logLevel = LogLevels.Error)
         {
-            Log(ex.GetBaseException().Message, ex);
+            Log(ex.GetBaseException().Message, ex, logLevel: logLevel);
         }
 
         /// <summary>
@@ -347,16 +308,18 @@ namespace MarkdownMonster
         /// 
         /// </summary>
         /// <param name="msg"></param>
-        public static void Log(string msg, Exception ex = null, bool unhandledException = false)
+        public static void Log(string msg, Exception ex = null, bool unhandledException = false, LogLevels logLevel = LogLevels.Error)
         {
             string version = GetVersion();
             string winVersion = null;
             
             if (Telemetry.UseApplicationInsights)
             {
+                var secs = (int) DateTimeOffset.UtcNow.Subtract(AppRunTelemetry.Telemetry.Timestamp).TotalSeconds;
+
                 if (ex != null)
                 {
-                    AppRunTelemetry.Telemetry.Success = false;
+                    AppRunTelemetry.Telemetry.Success = false;                                        
                     AppInsights.TrackException(ex,
                         new Dictionary<string, string>
                         {
@@ -371,8 +334,10 @@ namespace MarkdownMonster
                             {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
                             {"registered", UnlockKey.IsRegistered().ToString()},
                             {"culture", CultureInfo.CurrentCulture.IetfLanguageTag},
-                            {"uiculture", CultureInfo.CurrentUICulture.IetfLanguageTag}
-                        });
+                            {"uiculture", CultureInfo.CurrentUICulture.IetfLanguageTag},
+                            {"seconds", secs.ToString() },
+                            {"level", ((int) logLevel).ToString() + " - " + logLevel.ToString() }
+                        });                    
                 }
                 else
                 {
@@ -384,9 +349,11 @@ namespace MarkdownMonster
                         {"registered", UnlockKey.IsRegistered().ToString()},
                         {"version", GetVersion()},
                         {"culture", CultureInfo.CurrentCulture.IetfLanguageTag},
-                        {"uiculture", CultureInfo.CurrentUICulture.IetfLanguageTag}
+                        {"uiculture", CultureInfo.CurrentUICulture.IetfLanguageTag},
+                        {"seconds", secs.ToString() },
+                        {"level", ((int) logLevel).ToString() + " - " + logLevel.ToString() }
                     };
-                    AppInsights.TrackTrace(msg, props);
+                    AppInsights.TrackTrace(msg, props);                    
                 }
             }
             
@@ -398,11 +365,20 @@ namespace MarkdownMonster
         /// Writes a trace message
         /// </summary>
         /// <param name="msg"></param>
-        public void Trace(string msg)
+        public static void LogTrace(string msg, LogLevels logLevel = LogLevels.Trace)
         {
-            Log(msg);
+            Log(msg, logLevel: logLevel);
         }
 
+        /// <summary>
+        /// Logs an information message
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="logLevel"></param>
+        public static void LogInfo(string msg, LogLevels logLevel = LogLevels.Information)
+        {
+            Log(msg, logLevel: logLevel);
+        }
 
         /// <summary>
         /// This method logs only to the local file, not to
@@ -671,6 +647,16 @@ Markdown Monster v{version}
             }
         }
         #endregion
+    }
+
+    public enum LogLevels
+    {
+        Error = 4,
+        Critical = 5,        
+        Warning =3,
+        Information = 2,       
+        Debug = 1,
+        Trace = 0
     }
 
 

@@ -239,7 +239,7 @@ namespace MarkdownMonster
                 }
                 catch (Exception ex)
                 {
-                    mmApp.Log($"Editor InitializeInterop failed: {e.Uri}", ex);
+                    mmApp.Log($"Editor InitializeInterop failed: {e.Uri}", ex,logLevel: LogLevels.Warning);
                     //throw;
                 }
 
@@ -1437,7 +1437,7 @@ namespace MarkdownMonster
             }
             catch (Exception ex)
             {
-                mmApp.Log("Handled: AceEditor.setfocus() failed", ex);
+                mmApp.Log("Handled: AceEditor.setfocus() failed", ex, logLevel: LogLevels.Warning);
             }
         }
 

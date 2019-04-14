@@ -889,9 +889,9 @@ namespace MarkdownMonster
                     // Explicitly let this fail for now so we can report this issue better
                     headers = TabControl.HeaderItemsOrganiser.Sort(ditems);
                 }
-                catch
+                catch(Exception ex)
                 {
-                    // mmApp.Log("TabControl.GetOrderedHeaders() failed. Saving unordered.", ex);
+                    mmApp.Log("TabControl.GetOrderedHeaders() failed. Saving unordered.", ex, logLevel: LogLevels.Warning);
 
                     // This works, but doesn't keep tab order intact
                     headers = new List<DragablzItem>();
