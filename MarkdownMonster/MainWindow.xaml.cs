@@ -313,12 +313,39 @@ namespace MarkdownMonster
                     return;
             }
 
+            var autoSave = App.CommandArgs.Any(a => a.Equals("-autosave", StringComparison.InvariantCultureIgnoreCase));
+
+            bool closeNextFile = false;
             foreach (var fileArgs in args)
             {
                 var file = fileArgs;
                 if (string.IsNullOrEmpty(file))
                     continue;
-
+                
+                // handle file closing
+                if (file == "-close")
+                {
+                    closeNextFile = true;
+                    continue;
+                }
+                if (closeNextFile)
+                {
+                    closeNextFile = false;
+                    var tab = GetTabFromFilename(file);
+                    if (tab != null)
+                    {
+                        var editor = tab.Tag as MarkdownDocumentEditor;
+                        if (editor != null)
+                        {
+                            if (editor.IsDirty())
+                                editor.SaveDocument();
+                            CloseTab(tab, dontPromptForSave: true);
+                        }
+                    }                                       
+                    
+                    continue;
+                }
+                
                 file = file.TrimEnd('\\');
 
                 try
@@ -335,7 +362,12 @@ namespace MarkdownMonster
                 WindowUtilities.DoEvents();
 
                 if (File.Exists(file))
-                    OpenTab(mdFile: file, batchOpen: true);
+                {
+                    var tab = OpenTab(mdFile: file, batchOpen: true);
+                    var editor = tab.Tag as MarkdownDocumentEditor;
+                    if (editor != null)
+                        editor.MarkdownDocument.AutoSaveBackups = true;
+                }
                 else if (Directory.Exists(file))
                 {
                     ShowFolderBrowser(false, file);
@@ -345,7 +377,12 @@ namespace MarkdownMonster
                     file = Path.Combine(App.InitialStartDirectory, file);
                     file = Path.GetFullPath(file);
                     if (File.Exists(file))
-                        OpenTab(mdFile: file, batchOpen: true);
+                    {
+                        var tab = OpenTab(mdFile: file, batchOpen: true);
+                        var editor = tab.Tag as MarkdownDocumentEditor;
+                        if (editor != null)
+                            editor.MarkdownDocument.AutoSaveBackups = true;
+                    }
                     else if (Directory.Exists(file))
                         ShowFolderBrowser(false, file);
                 }
@@ -1554,6 +1591,7 @@ namespace MarkdownMonster
         /// When true tab headers are rebound to handle duplicate filenames
         /// with path additions.
         /// </param>
+        /// <param name="dontPromptForSave"></param>
         /// <returns>true if tab can close, false if it should stay open</returns>
         public bool CloseTab(TabItem tab, bool rebindTabHeaders = true, bool dontPromptForSave = false)
         {

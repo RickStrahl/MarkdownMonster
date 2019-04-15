@@ -360,7 +360,7 @@ namespace SnagItAddin
 
         internal void StopCapture(bool cancelCapture = false)
         {
-            Debug.WriteLine("StopCapture: " + cancelCapture);
+            //Debug.WriteLine("StopCapture: " + cancelCapture);
             if (!IsMouseClickCapturing)
                 return;
                         

@@ -71,7 +71,7 @@ namespace MarkdownMonster.Windows
 
         private void RepopulateChildren(ObservableCollection<ObservableCollection<CellContent>> data)
         {
-            Debug.WriteLine("RepopulateChildren called.");
+            //Debug.WriteLine("RepopulateChildren called.");
 
             bool origRecursiveUpdates = PreventRecursiveUpdates;
             PreventRecursiveUpdates = true;

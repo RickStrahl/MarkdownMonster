@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using MarkdownMonster.Windows;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Test
 {
@@ -38,6 +44,51 @@ namespace MarkdownMonster.Test
             Assert.IsNotNull(editor);
         }
 
+        [TestMethod]
+        public void ApplicationInsightsOutputBug()
+        {
+
+            var appInsights = new TelemetryClient
+            {
+                InstrumentationKey = Telemetry.Key
+            };
+            appInsights.Context.Session.Id = Guid.NewGuid().ToString();
+            var unique = Guid.NewGuid().ToString();
+            
+            var appRunTelemetry =
+                appInsights.StartOperation<RequestTelemetry>(
+                    $"{unique}");
+            appRunTelemetry.Telemetry.Start();
+
+
+            var ex = new ApplicationException("Oops - did it again.");
+            var version = mmApp.GetVersion();
+            var dotnetVersion = WindowsUtils.GetDotnetVersion();
+
+            appRunTelemetry.Telemetry.Success = false;
+            appInsights.TrackException(ex,
+                new Dictionary<string, string>
+                {
+                    {"msg", "Test"},
+                    {"version", version },
+                    {"dotnetVersion", dotnetVersion }
+                });
+
+            try
+            {
+                appInsights.StopOperation(appRunTelemetry);
+            }
+            catch
+            {
+                // LogLocal("Failed to Stop Telemetry Client: " + ex.GetBaseException().Message);
+            }
+
+            appInsights.Flush();
+            appInsights = null;
+            appRunTelemetry.Dispose();
+            
+        }
+
 
         [TestMethod]
         public void ApplicationInsightLogTest()
@@ -59,7 +110,7 @@ namespace MarkdownMonster.Test
             ex = new ApplicationException($"Another Test Exception thrown as Warning");
             mmApp.Log(ex,logLevel: LogLevels.Warning);
 
-            mmApp.ShutdownLogging();            
+            //mmApp.ShutdownLogging();            
         }
 
 

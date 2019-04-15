@@ -319,7 +319,7 @@ namespace MarkdownMonster
 
                 if (ex != null)
                 {
-                    AppRunTelemetry.Telemetry.Success = false;                                        
+                    AppRunTelemetry.Telemetry.Success = false;
                     AppInsights.TrackException(ex,
                         new Dictionary<string, string>
                         {
@@ -336,8 +336,9 @@ namespace MarkdownMonster
                             {"culture", CultureInfo.CurrentCulture.IetfLanguageTag},
                             {"uiculture", CultureInfo.CurrentUICulture.IetfLanguageTag},
                             {"seconds", secs.ToString() },
-                            {"level", ((int) logLevel).ToString() + " - " + logLevel.ToString() }
-                        });                    
+                            {"level", ((int) logLevel).ToString() + " - " + logLevel.ToString()}
+                        });
+
                 }
                 else
                 {
@@ -358,7 +359,7 @@ namespace MarkdownMonster
             }
             
             // also log to the local error log
-            LogLocal(msg,ex);
+            LogLocal(msg,ex);            
         }
 
         /// <summary>

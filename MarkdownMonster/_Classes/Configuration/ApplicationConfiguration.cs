@@ -581,7 +581,8 @@ namespace MarkdownMonster
 
         internal string InternalCommonFolder { get; set; }
 
-        internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
+        internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");        
+
         #endregion
 
         public ApplicationConfiguration()
@@ -649,8 +650,10 @@ namespace MarkdownMonster
 
         public void AddRecentFile(string filename)
         {
-            if (string.IsNullOrEmpty(filename) || filename.ToLower() == "untitled")
-                return;
+            if (string.IsNullOrEmpty(filename) ||
+                filename.Equals("untitled",StringComparison.InvariantCultureIgnoreCase) ||
+                filename.StartsWith("_HelpBuilder_",StringComparison.InvariantCultureIgnoreCase) )
+            return;
 
             if (RecentDocuments.Contains(filename))
                 RecentDocuments.Remove(filename);

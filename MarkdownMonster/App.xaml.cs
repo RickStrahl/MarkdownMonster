@@ -29,6 +29,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -187,8 +188,12 @@ namespace MarkdownMonster
                 if (string.IsNullOrEmpty(file))
                     continue;
 
-                file = file.TrimEnd('\\');
-                file = Path.GetFullPath(file);
+                if (!file.StartsWith("-"))
+                {
+                    file = file.TrimEnd('\\');
+                    file = Path.GetFullPath(file);
+                }
+                
                 sb.AppendLine(file);
 
                 // write fixed up path arguments
@@ -236,6 +241,7 @@ namespace MarkdownMonster
                 StartInPresentationMode = true;
             }
 
+           
             switch (arg0)
             {
                 case "version":
@@ -409,6 +415,8 @@ namespace MarkdownMonster
                     break;
             }
         }
+
+        
 
         /// <summary>
         /// Method used to set up the header for Console operation

@@ -233,13 +233,13 @@ namespace MarkdownMonster
         /// <summary>
         /// Determines whether documents are automatically saved in
         /// the background as soon as changes are made and you stop
-        /// typiing for a second. This setting takes precendence over
+        /// typing for a second. This setting takes precendence over
         /// AutoSaveBackups.
         ///
         /// Defaults to Configuration.AutoSaveDocuments
         /// </summary>
         [JsonIgnore]
-        public bool AutoSaveDocuments { get; set; }
+        public bool AutoSaveDocument { get; set; }
 
         /// <summary>
         /// Determines whether backups are automatically saved
@@ -353,7 +353,8 @@ namespace MarkdownMonster
                 string path = null;
                 string file = null;
 
-                path = Path.GetTempPath(); 
+                path = Path.GetTempPath();
+
                 file = "_MarkdownMonster_Preview.html";
 
                 _htmlRenderFilename = Path.Combine(path, file);
@@ -481,7 +482,7 @@ namespace MarkdownMonster
         public MarkdownDocument()
         {
             AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
-            AutoSaveDocuments = mmApp.Configuration.AutoSaveDocuments;
+            AutoSaveDocument = mmApp.Configuration.AutoSaveDocuments;
         }
 
         /// <summary>
@@ -526,9 +527,9 @@ namespace MarkdownMonster
 
                 OriginalText = CurrentText;
                 AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
-                AutoSaveDocuments = mmApp.Configuration.AutoSaveDocuments;
+                AutoSaveDocument = mmApp.Configuration.AutoSaveDocuments;
                 ProcessScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
-                IsDirty = false;
+                IsDirty = false;                
             }
             catch
             {
@@ -656,7 +657,7 @@ namespace MarkdownMonster
         /// <param name="filename"></param>
         public void AutoSaveAsync(string filename = null)
         {
-            if (AutoSaveDocuments)
+            if (AutoSaveDocument)
             {
                 if (_IsSaving)
                     return;

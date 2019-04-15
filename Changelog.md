@@ -10,7 +10,10 @@
 <small>not released yet</small>
 
 * **Close Editor File from the Command Line**  
-Added new `-close filename` command line option that allows you to close a file via the command line. This allows a limited amount of remote automation of MM via command line operations to launch and close a file. This allows for integrations like `Open in document in Markdown Monster` from external applications.
+Added new `-close filename` command line option that allows you to close a file via the command line. This allows a limited amount of remote automation of MM via command line operations to launch and close files. This allows for integrations like `Open in document in Markdown Monster` from external applications and change monitoring.
+
+* **Custom Filename to allow for AutoSave**  
+When automating files it's sometimes useful to force MM to save output to file immediately as you write without explicitly setting the option inside of Markdown Monster. By specifying a file name to open with `*_autosave.md` postfix MM will automatically force the file to be auto-saved as you type.
 
 * **Favorites Improvements**  
 Favorites now have keyboard shortcuts for common tasks like deleting and editing. If a bookmark file or folder doesn't exist any longer the entry is marked as missing in the favorites list so you can fix it or remove it more easily.

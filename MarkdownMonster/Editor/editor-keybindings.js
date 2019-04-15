@@ -2,25 +2,27 @@ var te = window.textEditor;
 
 te.keyBindings = {
   setupKeyBindings: function() {
-    var kbJson = te.mm.textbox.GetKeyBindingsJson();
-    var keyBindings = JSON.parse(kbJson);
+        setTimeout(function() {
+            var kbJson = te.mm.textbox.GetKeyBindingsJson();
+            var keyBindings = JSON.parse(kbJson);
 
-    for (var i = 0; i < keyBindings.length; i++) {
-      var kb = keyBindings[i];
-      if (!kb.CommandName)
-        continue;
-      var handlerName = kb.CommandName[0].toLowerCase() + kb.CommandName.substr(1);
-      var handler = eval("te.keyBindings." + handlerName);
-      if (!handler)
-        continue;
+            for (var i = 0; i < keyBindings.length; i++) {
+                var kb = keyBindings[i];
+                if (!kb.CommandName)
+                    continue;
+                var handlerName = kb.CommandName[0].toLowerCase() + kb.CommandName.substr(1);
+                var handler = eval("te.keyBindings." + handlerName);
+                if (!handler)
+                    continue;
 
-      //alert(kb.CommandName + ": " + kb.Key + " - " + handler + " " + typeof(handler));
-      te.editor.commands.addCommand({
-        name: kb.CommandName,
-        bindKey: { win: kb.Key },
-        exec: handler
-      });
-    }
+                //alert(kb.CommandName + ": " + kb.Key + " - " + handler + " " + typeof(handler));
+                te.editor.commands.addCommand({
+                    name: kb.CommandName,
+                    bindKey: { win: kb.Key },
+                    exec: handler
+                });
+            }
+        },1500);
   },
   saveDocument: function() {
     te.mm.textbox.IsDirty(); // force document to update
