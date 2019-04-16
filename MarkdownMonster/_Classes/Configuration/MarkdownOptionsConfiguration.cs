@@ -104,7 +104,7 @@ namespace MarkdownMonster
         public bool CustomContainers { get; set; } = true;
 
         /// <summary>
-        /// Allows for attribute syntax
+        /// Allows for attribute syntax `{#id .class [color:red]}`
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/GenericAttributesSpecs.md
         /// </summary>
         public bool GenericAttributes { get; set; } = false;

@@ -7,22 +7,34 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.16.6
-<small>not released yet</small>
+<small>April 16th, 2019</small>
 
-* **Close Editor File from the Command Line**  
+* **[`-close`: Close Editor File from the Command Line](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#close-filename-command)**  
 Added new `-close filename` command line option that allows you to close a file via the command line. This allows a limited amount of remote automation of MM via command line operations to launch and close files. This allows for integrations like `Open in document in Markdown Monster` from external applications and change monitoring.
 
-* **Custom Filename to allow for AutoSave**  
-When automating files it's sometimes useful to force MM to save output to file immediately as you write without explicitly setting the option inside of Markdown Monster. By specifying a file name to open with `*_autosave.md` postfix MM will automatically force the file to be auto-saved as you type.
+* **[`-autosave`: Command Line Option to automatically save Opened Files](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#autosave-mode)**  
+Added a new `-autosave` command line switch When automating files it's sometimes useful to force MM to save output to file immediately as you write without explicitly setting the option inside of Markdown Monster. By specifying a file name to open with `*_autosave.md` postfix MM will automatically force the file to be auto-saved as you type.
 
-* **Favorites Improvements**  
-Favorites now have keyboard shortcuts for common tasks like deleting and editing. If a bookmark file or folder doesn't exist any longer the entry is marked as missing in the favorites list so you can fix it or remove it more easily.
+* **[Favorites Improvements](https://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
+Favorites now have keyboard shortcuts for common tasks like deleting and editing. If a bookmark file or folder doesn't exist any longer the entry is marked as missing in the favorites list so you can fix it or remove it more easily. Fixed a few issues with tab drag and drop into Favorites.
 
 * **Improved support for Definition Lists**  
-Definition lists are now rendered with header and indentation and are collapsible via header click in the preview styling.
+Definition lists are now rendered with header and indentation and are collapsible via header click in the preview styling. Definition lists by default render with a bold header and are collapsible:
+    
+    ```markdown
+    Header Text
+    :   Detailed content below
+        More content on a new line
+    ```
+    Header Text
+    :   Detailed content below  
+        More content
 
 * **Remove Bootstrap Preview Theme Dependency**  
 Removed the dependency on Bootstrap in the preview templates. MM never really used any of the Bootstrap features internally for previewing - it was more of a convenience for people explicitly embedding raw Bootstrap HTML into pages. You can still easily use Bootstrap by [creating your own custom preview templates](https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm) and simply adding Bootstrap to the header of the `Theme.html`.
+
+* **Remove unneeded FontAwesome Font Files**  
+Removed unused FontAwesome font files only leaving the `.woff` (required for IE and the Preview) and `.woff2` (everything else). This reduces the size of exported, embedded HTML by a few hundred kbytes of font files that don't need to be embedded.
 
 ### 1.16.5
 <small>April 1st, 2019</small>
