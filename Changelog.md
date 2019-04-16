@@ -26,9 +26,6 @@ Definition lists are now rendered with header and indentation and are collapsibl
     :   Detailed content below
         More content on a new line
     ```
-    Header Text
-    :   Detailed content below  
-        More content
 
 * **Remove Bootstrap Preview Theme Dependency**  
 Removed the dependency on Bootstrap in the preview templates. MM never really used any of the Bootstrap features internally for previewing - it was more of a convenience for people explicitly embedding raw Bootstrap HTML into pages. You can still easily use Bootstrap by [creating your own custom preview templates](https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm) and simply adding Bootstrap to the header of the `Theme.html`.
