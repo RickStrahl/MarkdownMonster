@@ -340,6 +340,8 @@ namespace MarkdownMonster
                             if (editor.IsDirty())
                                 editor.SaveDocument();
                             CloseTab(tab, dontPromptForSave: true);
+                            if (TabControl.Items.Count < 1)
+                                Close();
                         }
                     }                                       
                     

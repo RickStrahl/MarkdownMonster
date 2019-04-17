@@ -650,10 +650,16 @@ namespace MarkdownMonster
 
         public void AddRecentFile(string filename)
         {
-            if (string.IsNullOrEmpty(filename) ||
-                filename.Equals("untitled",StringComparison.InvariantCultureIgnoreCase) ||
-                filename.StartsWith("_HelpBuilder_",StringComparison.InvariantCultureIgnoreCase) )
-            return;
+            if (string.IsNullOrEmpty(filename) )   return;
+            
+            var justFile = Path.GetFileName(filename);
+
+            if (filename.Equals("untitled", StringComparison.InvariantCultureIgnoreCase) ||
+                justFile.StartsWith("__") )
+                return;
+
+            if (!File.Exists(filename))
+                return;
 
             if (RecentDocuments.Contains(filename))
                 RecentDocuments.Remove(filename);
