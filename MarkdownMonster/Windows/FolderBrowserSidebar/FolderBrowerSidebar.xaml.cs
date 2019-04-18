@@ -162,7 +162,7 @@ namespace MarkdownMonster.Windows
             AppModel = mmApp.Model;
             Window = AppModel.Window;
             DataContext = this;
-
+           
             // Load explicitly here to fire *after* behavior has attached
             ComboFolderPath.PreviewKeyUp += ComboFolderPath_PreviewKeyDown;
 
@@ -170,7 +170,7 @@ namespace MarkdownMonster.Windows
             ComboFolderPath.GotFocus += TreeFolderBrowser_GotFocus;
         }
 
-
+        
         private void TreeFolderBrowser_GotFocus(object sender, RoutedEventArgs e)
         {
             // ensure that directory wasn't deleted under us
@@ -334,10 +334,16 @@ namespace MarkdownMonster.Windows
             if (FileWatcher != null)
             {
                 FileWatcher.Changed -= FileWatcher_Changed;
-                FileWatcher.Created -= FileWatcher_CreateOrDelete;
                 FileWatcher.Deleted -= FileWatcher_CreateOrDelete;
-                FileWatcher.Renamed -= FileWatcher_Renamed;                
-                FileWatcher.Dispose();
+                FileWatcher.Created -= FileWatcher_CreateOrDelete;
+                FileWatcher.Renamed -= FileWatcher_Renamed;
+
+                // TODO: MAKE SURE THIS DOESN'T HAVE SIDE EFFECTS (Hanging on shutdown)
+                // This can hang in weird ways when application is shutting down
+                // Since this is the only time this should go away this is probably safe but ugly                
+                //FileWatcher.Dispose();
+
+                FileWatcher = null;
             }
         }
         #endregion
