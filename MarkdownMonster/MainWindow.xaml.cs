@@ -340,8 +340,14 @@ namespace MarkdownMonster
                             if (editor.IsDirty())
                                 editor.SaveDocument();
                             CloseTab(tab, dontPromptForSave: true);
+                            
                             if (TabControl.Items.Count < 1)
+                            {
+                                WindowUtilities.DoEvents();
                                 Close();
+                                return;
+                            }
+                            
                         }
                     }                                       
                     
@@ -368,7 +374,10 @@ namespace MarkdownMonster
                     var tab = OpenTab(mdFile: file, batchOpen: true);
                     var editor = tab.Tag as MarkdownDocumentEditor;
                     if (editor != null)
-                        editor.MarkdownDocument.AutoSaveBackups = true;
+                    {
+                        editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
+                        editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
+                    }
                 }
                 else if (Directory.Exists(file))
                 {
@@ -383,7 +392,10 @@ namespace MarkdownMonster
                         var tab = OpenTab(mdFile: file, batchOpen: true);
                         var editor = tab.Tag as MarkdownDocumentEditor;
                         if (editor != null)
-                            editor.MarkdownDocument.AutoSaveBackups = true;
+                        {
+                            editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
+                            editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
+                        }
                     }
                     else if (Directory.Exists(file))
                         ShowFolderBrowser(false, file);

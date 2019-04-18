@@ -239,7 +239,20 @@ namespace MarkdownMonster
         /// Defaults to Configuration.AutoSaveDocuments
         /// </summary>
         [JsonIgnore]
-        public bool AutoSaveDocument { get; set; }
+        public bool AutoSaveDocument
+        {
+            get => _autoSaveDocument;
+            set
+            {
+                if (value == _autoSaveDocument) return;
+                _autoSaveDocument = value;
+                OnPropertyChanged(nameof(AutoSaveDocument));
+
+                if (_autoSaveDocument)
+                    AutoSaveBackup = false;
+            }
+        }
+        private bool _autoSaveDocument;
 
         /// <summary>
         /// Determines whether backups are automatically saved
@@ -247,8 +260,19 @@ namespace MarkdownMonster
         /// Defaults to Configuration.AutoSaveBackups
         /// </summary>
         [JsonIgnore]
-        public bool AutoSaveBackups { get; set; }
-
+        public bool AutoSaveBackup
+        {
+            get => _autoSaveBackup;
+            set
+            {
+                if (value == _autoSaveBackup) return;
+                _autoSaveBackup = value;
+                OnPropertyChanged(nameof(AutoSaveBackup));
+                if (_autoSaveBackup)
+                    AutoSaveDocument = false;                
+            }
+        }
+        private bool _autoSaveBackup;
 
         /// <summary>
         /// Internal property used to identify whether scripts are processed
@@ -354,7 +378,6 @@ namespace MarkdownMonster
                 string file = null;
 
                 path = Path.GetTempPath();
-
                 file = "_MarkdownMonster_Preview.html";
 
                 _htmlRenderFilename = Path.Combine(path, file);
@@ -481,7 +504,7 @@ namespace MarkdownMonster
 
         public MarkdownDocument()
         {
-            AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
+            AutoSaveBackup = mmApp.Configuration.AutoSaveBackups;
             AutoSaveDocument = mmApp.Configuration.AutoSaveDocuments;
         }
 
@@ -526,7 +549,7 @@ namespace MarkdownMonster
                 }
 
                 OriginalText = CurrentText;
-                AutoSaveBackups = mmApp.Configuration.AutoSaveBackups;
+                AutoSaveBackup = mmApp.Configuration.AutoSaveBackups;
                 AutoSaveDocument = mmApp.Configuration.AutoSaveDocuments;
                 ProcessScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
                 IsDirty = false;                
@@ -672,7 +695,7 @@ namespace MarkdownMonster
                     Save(filename,true);
                 });
             }
-            else if (AutoSaveBackups)
+            else if (AutoSaveBackup)
             {
                 // fire and forget
                 Task.Run(() =>
@@ -702,7 +725,7 @@ namespace MarkdownMonster
         /// <param name="filename"></param>
         public void CleanupBackupFile(string filename = null)
         {
-            if (!AutoSaveBackups)
+            if (!AutoSaveBackup)
                 return;
 
             if (string.IsNullOrEmpty(filename))

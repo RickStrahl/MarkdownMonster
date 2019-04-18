@@ -276,6 +276,17 @@
                 <MenuItem Header="Next Spellcheck Error" Command="{Binding Commands.SpellCheckNextCommand}" InputGestureText="F7" />
                 <MenuItem Header="Previous Spellcheck Error" Command="{Binding Commands.SpellCheckPreviousCommand}" InputGestureText="Shift-F7" />
                 <Separator />
+                    <MenuItem Name="ButtonAutoSaveDocuments" 
+                          Header="Auto Save Document"                          
+                          IsCheckable="True"
+                          IsEnabled="{Binding IsEditorActive}"
+                          IsChecked="{Binding ActiveDocument.AutoSaveDocument}" />
+                <MenuItem Name="ButtonAutoBackupDocument"
+                          Header="Auto Backup Document"                          
+                          IsCheckable="True"
+                          IsEnabled="{Binding IsEditorActive}"
+                          IsChecked="{Binding ActiveDocument.AutoSaveBackup}" />
+                <Separator />
                 <MenuItem Name="ButtonAllowScriptTags" 
                           Header="Allow Script in Markdown"                          
                           IsCheckable="True"
