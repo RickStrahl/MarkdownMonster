@@ -43,6 +43,7 @@ using Newtonsoft.Json;
 using Westwind.Utilities;
 using System.Linq;
 using System.Security;
+using MarkdownMonster.Windows;
 using MarkdownMonster.RenderExtensions;
 
 namespace MarkdownMonster
@@ -395,6 +396,8 @@ namespace MarkdownMonster
         /// </summary>
         public string LastImageFolder { get; set; }
 
+        private DebounceDispatcher debounceSaveOperation = new DebounceDispatcher();
+
         /// <summary>
         /// Holds the actively edited Markdown text
         /// </summary>
@@ -403,12 +406,13 @@ namespace MarkdownMonster
         {
             get { return _currentText; }
             set
-            {
-                bool isDirty = IsDirty;
+            {                
                 _currentText = value;
+                IsDirty = _currentText != OriginalText;
 
-                if (isDirty)
-                    AutoSaveAsync();
+                if (IsDirty)
+                    //AutoSaveAsync();
+                    debounceSaveOperation.Debounce(5000, (p) => AutoSaveAsync());                    
             }
         }
         private string _currentText;
@@ -580,35 +584,42 @@ namespace MarkdownMonster
             {
                 lock (_SaveLock)
                 {
-                    _IsSaving = true;
-
-                    string fileText = CurrentText;
-
-                    password = password ?? Password;
-
-                    if (password != null)
+                    
+                    try
                     {
-                        fileText = ENCRYPTION_PREFIX + Encryption.EncryptString(fileText, password.GetString());
-                        if (Password == null)
-                            Password = password;
+                        _IsSaving = true;
+                        string fileText = CurrentText;
+
+                        password = password ?? Password;
+
+                        if (password != null)
+                        {
+                            fileText = ENCRYPTION_PREFIX + Encryption.EncryptString(fileText, password.GetString());
+                            if (Password == null)
+                                Password = password;
+                        }
+
+                        File.WriteAllText(filename, fileText, Encoding);
+                        OriginalText = CurrentText;
+                        if (Dispatcher != null)
+                            // need dispatcher in order to handle the
+                            // hooked up OnPropertyChanged events that fire
+                            // on the UI which otherwise fail.
+                            Dispatcher.InvokeAsync(() => { IsDirty = false; });
+                        else
+                            IsDirty = false;
+
+                        UpdateCrc(filename);
+
+                        if (!noBackupFileCleanup)
+                            CleanupBackupFile();
+
                     }
-
-                    File.WriteAllText(filename, fileText, Encoding);
-                    OriginalText = CurrentText;
-                    if (Dispatcher != null)
-                        // need dispatcher in order to handle the
-                        // hooked up OnPropertyChanged events that fire
-                        // on the UI which otherwise fail.
-                        Dispatcher.InvokeAsync(() => { IsDirty = false; });
-                    else
-                        IsDirty = false;
-
-                    UpdateCrc(filename);
-
-                    if (!noBackupFileCleanup)
-                        CleanupBackupFile();
-
-                    _IsSaving = false;
+					catch { }
+                    finally
+                    {
+                        _IsSaving = false;
+                    }
                 }
             }
             catch

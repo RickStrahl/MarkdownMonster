@@ -1565,8 +1565,6 @@ namespace MarkdownMonster
             if (IsReadOnly)
                 return false;
 
-            MarkdownDocument.IsDirty = MarkdownDocument.CurrentText != MarkdownDocument.OriginalText;
-
             if (MarkdownDocument.IsDirty)
             {
                 AddinManager.Current.RaiseOnDocumentChanged();
