@@ -1,12 +1,19 @@
 <img src="MarkdownMonster/Assets/MarkdownMonster_Icon_256.png" width=100 align="right" />
 
-asddasdasw asddd
-
 # Markdown Monster Change Log
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
+
+### 1.16.8
+<small>not released yet</small>
+
+* **Fix Dirty State Indicator when in Auto-Save Mode**  
+Fixed issue where auto-save mode would not properly reflect the document dirty state. Auto-save now saves in 2 second intervals when idle.
+
+* **Add Auto-Save and Auto-Backup to Edit Menu**  
+These allow setting the per document auto-save and auto-backup options. These values can override the default setting that's set in the configuration file.
 
 ### 1.16.6
 <small>April 16th, 2019</small>

@@ -412,7 +412,7 @@ namespace MarkdownMonster
 
                 if (IsDirty)
                     //AutoSaveAsync();
-                    debounceSaveOperation.Debounce(5000, (p) => AutoSaveAsync());                    
+                    debounceSaveOperation.Debounce(2000, (p) => AutoSaveAsync());                    
             }
         }
         private string _currentText;
