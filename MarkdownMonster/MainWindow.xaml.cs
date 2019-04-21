@@ -43,6 +43,7 @@ using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.PreviewBrowser;
@@ -321,7 +322,7 @@ namespace MarkdownMonster
                 var file = fileArgs;
                 if (string.IsNullOrEmpty(file))
                     continue;
-                
+
                 // handle file closing
                 if (file == "-close")
                 {
@@ -340,20 +341,20 @@ namespace MarkdownMonster
                             if (editor.IsDirty())
                                 editor.SaveDocument();
                             CloseTab(tab, dontPromptForSave: true);
-                            
+
                             if (TabControl.Items.Count < 1)
                             {
                                 WindowUtilities.DoEvents();
                                 Close();
                                 return;
                             }
-                            
+
                         }
-                    }                                       
-                    
+                    }
+
                     continue;
                 }
-                
+
                 file = file.TrimEnd('\\');
 
                 try
@@ -925,7 +926,7 @@ namespace MarkdownMonster
                 IEnumerable<DragablzItem> headers = null;
                 try
                 {
-                    
+
                     // Work around bug in Dragablz.GetOrderedHeaders() which throws occasional null exceptions
                     //headers = TabControl.GetOrderedHeaders();
                     //return this._dragablzItemsControl.ItemsOrganiser.Sort(this._dragablzItemsControl.DragablzItems());
@@ -1092,7 +1093,7 @@ namespace MarkdownMonster
 
                 tab.Content = editor.EditorPreviewPane;
                 tab.Tag = editor;
-                
+
 
                 // tab is temporary until edited
                 if (isPreview)
@@ -1238,7 +1239,7 @@ namespace MarkdownMonster
 
         private void DragablzItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _dragablzStartPoint = e.GetPosition(null);            
+            _dragablzStartPoint = e.GetPosition(null);
         }
 
         /// <summary>
@@ -1248,12 +1249,12 @@ namespace MarkdownMonster
         /// <param name="e"></param>
         private void DragablzItem_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-         
+
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 var curPoint = e.GetPosition(null);
                 var diff = curPoint - _dragablzStartPoint;
-                if (_dragablzStartPoint.Y > 0 && diff.Y > 30)                        
+                if (_dragablzStartPoint.Y > 0 && diff.Y > 30)
                 {
                     var drag = sender as DragablzItem;
                     if (drag == null)
@@ -1413,7 +1414,7 @@ namespace MarkdownMonster
         public TabItem ActivateTab(TabItem tab)
         {
             TabControl.SelectedItem = tab;
-            return tab;           
+            return tab;
         }
 
         /// <summary>
@@ -1427,7 +1428,7 @@ namespace MarkdownMonster
             bool noSelectTab = false,
             bool noFocus = false,
             bool readOnly = false,
-            bool isPreview = false) 
+            bool isPreview = false)
         {
             var tab = GetTabFromFilename(filename);
             if (tab == null)
@@ -1442,11 +1443,11 @@ namespace MarkdownMonster
             if (isPreview)
                 PreviewTab = tab;
             else
-                PreviewTab = null;           
+                PreviewTab = null;
 
             if (!maintainScrollPosition)
                 editor.SetCursorPosition(0, 0);
-            
+
             if (!noSelectTab)
                 TabControl.SelectedItem = tab;
             if (!noFocus)
@@ -1863,14 +1864,14 @@ namespace MarkdownMonster
             try
             {
                 var grid = new Grid();
-                
+
                 tab.Header = grid;
                 var col1 = new ColumnDefinition { Width = new GridLength(20) };
                 var col2 = new ColumnDefinition { Width = GridLength.Auto };
                 grid.ColumnDefinitions.Add(col1);
                 grid.ColumnDefinitions.Add(col2);
 
-               
+
 
                 if (icon == null)
                 {
@@ -1891,7 +1892,7 @@ namespace MarkdownMonster
 
                 var textBlock = new TextBlock();
                 textBlock.SetValue(Grid.ColumnProperty, 1);
-                
+
 
                 var headerBinding = new Binding
                 {
@@ -1927,12 +1928,8 @@ namespace MarkdownMonster
                 // mmApp.Log("SetTabHeaderBinding Failed. Assigning explicit path", ex);
                 tab.Header = document.FilenameWithIndicator;
             }
-
-            
-                
         }
 
-     
 
         private void TabControlDragablz_TabItemClosing(ItemActionCallbackArgs<TabablzControl> e)
         {
@@ -1941,7 +1938,7 @@ namespace MarkdownMonster
                 return;
 
             if (!CloseTab(tab))
-                e.Cancel();
+                e.Cancel(); // don't do default tab removal
         }
 
         /// <summary>
@@ -2061,6 +2058,13 @@ namespace MarkdownMonster
         public void SetEditorFocus()
         {
             Dispatcher.Invoke(() => Model.ActiveEditor?.SetEditorFocus());
+        }
+
+        private void TabControl_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            ShowStatusSuccess("Tab Context Menu opening");
+            var context = new TabContextMenu();
+            context.ShowContextMenuAll();
         }
         #endregion
 
@@ -2941,6 +2945,8 @@ namespace MarkdownMonster
             ctx.IsOpen = true;
             WindowUtilities.DoEvents();
         }
+
+
     }
 
     public class RecentDocumentListItem

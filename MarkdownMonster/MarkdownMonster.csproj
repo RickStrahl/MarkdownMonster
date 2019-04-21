@@ -167,7 +167,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\EditorContextMenu.cs" />
+    <Compile Include="Controls\ContextMenus\TabContextMenu.cs" />
+    <Compile Include="Controls\ContextMenus\EditorContextMenu.cs" />
     <Compile Include="Controls\ComboBoxAutoCompleteBehavior.cs" />
     <Compile Include="Controls\ElementHelper.cs" />
     <Compile Include="Controls\FileSystemAutoCompleteBehavior.cs" />

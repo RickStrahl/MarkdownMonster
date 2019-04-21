@@ -371,6 +371,25 @@ namespace MarkdownMonster.Utilities
             //return true;
         }
 
+
+        /// <summary>
+        /// Retrieves the active repository Remote URL
+        /// </summary>
+        /// <returns></returns>
+        public string GetActiveRemoteUrl()
+        {
+            if (Repository == null)
+            {
+                SetError("Repository has to be open before retrieving a Remote name. Call OpenRepository first.");
+                return null;
+            }
+
+            var repoUrl = Repository.Network?.Remotes.FirstOrDefault()?.Url;
+            if (repoUrl == null)
+                SetError("No remotes in this repository.");
+
+            return repoUrl;
+        }
         //public Credential GetGitCredentials(string gitUrl)
         //{
         //    var secrets = new SecretStore("git");

@@ -10,7 +10,6 @@
     <!--<Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MahAppsTabablzControlStyle}">-->
     <Style x:Key="MarkdownMonsterTrapezoidDragableTabItemStyle"
            TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource TrapezoidDragableTabItemStyle}">
-        <Setter Property="ContextMenu" Value="{DynamicResource TabItemContextMenu}" />
     </Style>
 
     <Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource {x:Type dragablz:TabablzControl}}">

@@ -30,6 +30,7 @@
  **************************************************************
 */
 #endregion
+
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -43,14 +44,13 @@ using Newtonsoft.Json;
 using Westwind.Utilities;
 using System.Linq;
 using System.Security;
+using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows;
 using MarkdownMonster.RenderExtensions;
 
 namespace MarkdownMonster
 {
-    using System.Diagnostics;
-    using AddIns;
-
+    
     /// <summary>
     /// Class that wraps the Active Markdown document used in the
     /// editor.

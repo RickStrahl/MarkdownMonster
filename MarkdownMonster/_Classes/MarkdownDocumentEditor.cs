@@ -49,6 +49,7 @@ using Markdig;
 using Markdig.Syntax;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;

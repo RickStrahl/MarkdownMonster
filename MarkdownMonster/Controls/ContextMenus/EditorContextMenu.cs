@@ -12,7 +12,7 @@ using MarkdownMonster.Windows;
 using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Westwind.Utilities;
 
-namespace MarkdownMonster
+namespace MarkdownMonster.Controls.ContextMenus
 {
     /// <summary>
     /// Class that handles display and execution of the editors

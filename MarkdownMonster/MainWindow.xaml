@@ -36,25 +36,6 @@
                 <x:Type TypeName="local:Themes"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-
-        <ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
-            <MenuItem Header="_Close Document" Command="{Binding DataContext.Commands.CloseActiveDocumentCommand}" />
-            <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}"/>
-            <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document"  Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}" CommandParameter="AllBut" />
-            <Separator/>
-            <MenuItem Name="MenuAddFavoriteTab" Header="Add to Favorites"  Command="{Binding DataContext.Commands.AddFavoriteCommand}" CommandParameter="{Binding DataContext.ActiveDocument.Filename}" />
-            <Separator />
-            <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Command="{Binding DataContext.Commands.CommandWindowCommand}"  />
-            <MenuItem Name="ContextOpenInFolder" Header="Show in Explorer" Command="{Binding DataContext.Commands.OpenInExplorerCommand}"  />
-            <MenuItem Name="ContextOpenInFolderBrowser" Header="Show in Folder _Browser" Command="{Binding DataContext.Commands.OpenFolderBrowserCommand}" />
-            <Separator/>
-            <MenuItem Name="ContextCommitToGit" Header="Commit to _Git..."
-                      Command="{Binding DataContext.Commands.CommitToGitCommand}" />
-            <MenuItem Name="ContextOpenGitClient" Header="Open in Git Client"
-                      Command="{Binding DataContext.Commands.OpenGitClientCommand}"   IsEnabled="{Binding DataContext.Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
-            <Separator/>
-            <MenuItem Name="ContextCopyFoldername" Header="Copy Full Path" Command="{Binding DataContext.Commands.CopyFullPathToClipboardCommand}" />
-        </ContextMenu>
     </Window.Resources>
     <Window.ContextMenu>
         <ContextMenu Name="EditorContextMenu" MinWidth="175">
@@ -70,16 +51,6 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <StackPanel Orientation="Horizontal">
-						
-                <!--<ToggleButton
-                            fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
-                            IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
-                            ToolTip="enable/disable spell-checking"
-                            Click="ButtonSpellCheck_Click"
-                            
-                            TextElement.FontSize="16"
-                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                />-->
                 <ToggleButton
                     fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
                     IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
@@ -555,16 +526,6 @@
                                 FontWeight="Medium"  
 								TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
                         >`{ }`</Button>
-                                                               
-                        
-                        <!--<Button Name="ButtonFontAwesome" Margin="7,0" ToolTip="Insert FontAwesome Icon"
-                                Command="{Binding Commands.ToolbarInsertMarkdownCommand}" 
-                                CommandParameter="fontawesome"
-                                fa:Awesome.Content="FontAwesome" IsEnabled="False"
-                                Height="24" Width="24"
-                                TextElement.FontSize="16"                                
-                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
-                        />-->
                         
                         <Separator />
 
@@ -767,8 +728,14 @@
                                      ShowDefaultCloseButton="True"                                     
                                      ShowDefaultAddButton="False"
                                      SelectionChanged="TabControl_SelectionChanged"
+                                     ContextMenuOpening="TabControl_ContextMenuOpening"
                                      PreviewMouseLeftButtonUp="TabControl_OnPreviewMouseLeftButtonUp"                                     
                                      controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}">
+                <TabControl.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem/>
+                    </ContextMenu>
+                </TabControl.ContextMenu>
             </dragablz:TabablzControl>
 
             <mmcontrols:StartMenuUserControl Grid.Column="2" controls:VisibilityHelper.IsCollapsed="{Binding IsTabOpen}" />
@@ -795,23 +762,7 @@
                 </GridSplitter.Template>
             </GridSplitter>
 
-            <!--<Grid Grid.Column="4" Name="PreviewBrowserContainer" Visibility="Collapsed">
-            </Grid>-->
-
-
-            <!--<GridSplitter Grid.Column="4"                               
-                          HorizontalAlignment="Center"                          
-                          BorderThickness="0" IsTabStop="False"
-                          VerticalAlignment="Stretch">
-                <GridSplitter.Template>
-                    <ControlTemplate TargetType="{x:Type GridSplitter}">
-                        <Grid Background="Transparent">
-                            <Image Source="Assets/vsizegrip.png" Height="30" VerticalAlignment="Center" />
-                        </Grid>
-                    </ControlTemplate>
-                </GridSplitter.Template>
-            </GridSplitter>-->
-
+    
             <controls:MetroTabControl Grid.Column="4" x:Name="RightSidebarContainer"
                                       Margin="0,5,0,0"
                                       FontSize="13"  x:FieldModifier="public"                                      
@@ -834,16 +785,7 @@
                         </Style.Setters>
                     </Style>
                 </TabControl.Resources>
-
-                <!--<TabItem Name="TestTab"  x:FieldModifier="public"
-                         Margin="0,0,5,0" Visibility="Visible" 
-                         controls:ControlsHelper.HeaderFontSize="14">
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock   Text="{Binding WindowLayout.RightSidebarSeparatorWidth.Value}"/>
-                        </StackPanel>
-                    </TabItem.Header>
-                </TabItem>-->
+                
             </controls:MetroTabControl>
 
         </Grid>
