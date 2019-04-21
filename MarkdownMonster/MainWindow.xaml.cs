@@ -1282,9 +1282,12 @@ namespace MarkdownMonster
             if (batchTabAction)
                 return;
 
+            
+
             var editor = GetActiveMarkdownEditor();
-            if (editor == null)
+            if (editor == null)                            
                 return;
+            
 
             var tab = TabControl.SelectedItem as TabItem;
 
@@ -1475,7 +1478,7 @@ namespace MarkdownMonster
         {
 
             // if a document preview tab is open close it
-            if (PreviewTab?.Tag != null)
+            if (PreviewTab?.Tag is MarkdownDocumentEditor)
             {
                 var tab = PreviewTab;
                 PreviewTab = null;
@@ -1484,7 +1487,7 @@ namespace MarkdownMonster
 
             if (PreviewTab == null)
             {
-                PreviewTab = new TabItem();
+                PreviewTab = new TabItem();                
 
                 var grid = new Grid();
                 PreviewTab.Header = grid;
@@ -1532,7 +1535,7 @@ namespace MarkdownMonster
                 PreviewTab.HorizontalContentAlignment = HorizontalAlignment.Right;
             }
             else
-            {
+            {                
                 if (icon == null)
                 {
                     if (isImageFile)
@@ -1541,6 +1544,7 @@ namespace MarkdownMonster
                         icon = FolderStructure.IconList.GetIconFromType("preview");
                 }
 
+                
                 var grid = PreviewTab.Header as Grid;
 
 

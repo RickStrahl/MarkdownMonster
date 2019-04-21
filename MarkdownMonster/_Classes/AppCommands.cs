@@ -877,7 +877,7 @@ namespace MarkdownMonster
 
 #endregion
 
-#region Editor Commands
+#region Editor CommandsToolTip;ToolTip;
 
         public CommandBase ToolbarInsertMarkdownCommand { get; set; }
 
@@ -1092,39 +1092,6 @@ namespace MarkdownMonster
         }
 
 
-
-
-        public CommandBase CommandWindowCommand { get; set; }
-
-        void CommandWindow()
-        {
-            CommandWindowCommand = new CommandBase((parameter, command) =>
-            {
-                var editor = Model.ActiveEditor;
-                if (editor == null)
-                    return;
-
-                string path = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
-                mmFileUtils.OpenTerminal(path);
-            }, (p, c) => true);
-        }
-
-
-        public CommandBase OpenInExplorerCommand { get; set; }
-
-        void OpenInExplorer()
-        {
-            OpenInExplorerCommand = new CommandBase((parameter, command) =>
-            {
-                var editor = Model.ActiveEditor;
-                if (editor == null)
-                    return;
-
-                ShellUtils.OpenFileInExplorer(editor.MarkdownDocument.Filename);
-            }, (p, c) => true);
-        }
-
-
         public CommandBase OpenWithCommand { get; set; }
 
         void OpenWith()
@@ -1295,14 +1262,11 @@ namespace MarkdownMonster
         {
             CopyFolderToClipboardCommand = new CommandBase((parameter, command) =>
             {
-                var editor = Model.ActiveEditor;
-                if (editor == null)
+                var filename = Model.ActiveTabFilename;
+                if (string.IsNullOrEmpty(filename) || filename == "untitled")
                     return;
-
-                if (editor.MarkdownDocument.Filename == "untitled")
-                    return;
-
-                string path = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
+                
+                string path = Path.GetDirectoryName(filename);
 
                 if(ClipboardHelper.SetText(path))
                     Model.Window.ShowStatus($"Path copied to clipboard: {path}", mmApp.Configuration.StatusMessageTimeout);
@@ -1317,17 +1281,46 @@ namespace MarkdownMonster
         {
             CopyFullPathToClipboardCommand = new CommandBase((parameter, command) =>
             {
-                var editor = Model.ActiveEditor;
-                if (editor == null)
+                var filename = Model.ActiveTabFilename;
+                if (string.IsNullOrEmpty(filename) || filename == "untitled")
+                    return;
+                
+                if (ClipboardHelper.SetText(filename))
+                    Model.Window.ShowStatus($"Path copied to clipboard: {filename}", mmApp.Configuration.StatusMessageTimeout);
+            }, (p, c) => true);
+        }
+
+
+        /// <summary>
+        ///  Open in Terminal Window
+        /// </summary>
+        public CommandBase CommandWindowCommand { get; set; }
+
+        void CommandWindow()
+        {
+            CommandWindowCommand = new CommandBase((parameter, command) =>
+            {
+                var filename = Model.ActiveTabFilename;
+                if (string.IsNullOrEmpty(filename))
                     return;
 
-                if (editor.MarkdownDocument.Filename == "untitled")
+                string path = Path.GetDirectoryName(filename);
+                mmFileUtils.OpenTerminal(path);
+            }, (p, c) => true);
+        }
+
+
+        public CommandBase OpenInExplorerCommand { get; set; }
+
+        void OpenInExplorer()
+        {
+            OpenInExplorerCommand = new CommandBase((parameter, command) =>
+            {
+                var filename = Model.ActiveTabFilename;
+                if (string.IsNullOrEmpty(filename))
                     return;
 
-                string path = editor.MarkdownDocument.Filename;
-
-                if (ClipboardHelper.SetText(path))
-                    Model.Window.ShowStatus($"Path copied to clipboard: {path}", mmApp.Configuration.StatusMessageTimeout);
+                ShellUtils.OpenFileInExplorer(filename);
             }, (p, c) => true);
         }
 
@@ -1457,7 +1450,7 @@ namespace MarkdownMonster
                 var path = parameter as string;
                 if (path == null)
                 {
-                    path = Model.ActiveDocument?.Filename;
+                    path = Model.ActiveTabFilename;
                     if(!string.IsNullOrEmpty(path))
                         path = Path.GetDirectoryName(path);
                 }
@@ -1600,11 +1593,10 @@ namespace MarkdownMonster
             {
                 string fileOrFolderPath = parameter as string;
                 if (string.IsNullOrEmpty(fileOrFolderPath))
-                {
-                    var editor = mmApp.Model.ActiveEditor;
-                    if (editor == null)
+                {                    
+                    fileOrFolderPath = Model.ActiveTabFilename;
+                    if (string.IsNullOrEmpty(fileOrFolderPath))
                         return;
-                    fileOrFolderPath = editor.MarkdownDocument.Filename;
                 }
 
                 mmApp.Model.Window.SidebarContainer.SelectedItem = mmApp.Model.Window.TabFolderBrowser;

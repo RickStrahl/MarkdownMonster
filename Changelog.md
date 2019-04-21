@@ -15,6 +15,12 @@ Fixed issue where auto-save mode would not properly reflect the document dirty s
 * **Add Auto-Save and Auto-Backup to Edit Menu**  
 These allow setting the per document auto-save and auto-backup options. These values can override the default setting that's set in the configuration file.
 
+* **Add Open on GitHub on Tab Context Menu**  
+You can now open the current document on GitHub if the document is in a GitHub repository.
+
+* **Tab Context Menu Context Sensitivity**  
+The tab context menu is now properly context sensitive and displays only documents that are relevant for current operations. Options now also work correctly for preview tabs.
+
 ### 1.16.6
 <small>April 16th, 2019</small>
 

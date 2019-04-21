@@ -175,7 +175,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                         Header = "Open on Git_Hub",
                         Name = "ContextOpenOnGithub",
                         Command = Model.Commands.OpenOnGithubCommand,
-                        CommandParameter=Model.ActiveDocument?.Filename
+                        CommandParameter=Model.ActiveTabFilename
                     };
                     ContextMenu.Items.Add(mi);
                 }

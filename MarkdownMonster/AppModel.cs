@@ -28,6 +28,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
@@ -87,6 +88,25 @@ namespace MarkdownMonster
             {
                 var editor = Window.GetActiveMarkdownEditor();
                 return editor;
+            }
+        }
+
+
+        /// <summary>
+        /// Returns the active Tab's file name - this can either be
+        /// the name of a Markdown Doducment editor or just a filename
+        /// or URL from a preview tab.
+        /// </summary>
+        public string ActiveTabFilename
+        {
+            get
+            {
+                var editor = Window.GetActiveMarkdownEditor();
+                if (editor != null)                
+                    return editor.MarkdownDocument?.Filename;
+
+                var tab = Window.TabControl.SelectedItem as TabItem;
+                return tab?.ToolTip as string;
             }
         }
 
