@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Forms;
@@ -11,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using Button = System.Windows.Controls.Button;
 
@@ -108,20 +111,43 @@ namespace MarkdownMonster.Windows
         /// </summary>
         public string HtmlTemplatePath { get; set; }
 
+
+        /// <summary>
+        /// Renders a Markdown string as HTML using the
+        /// currently active Markdown Monster Preview theme.
+        /// </summary>
+        /// <param name="markdown"></param>
         public void ShowMarkdown(string markdown)
         {
             var doc = new MarkdownDocument();
             doc.CurrentText = markdown;
-            doc.RenderHtmlToFile();
+            doc.RenderHtmlToFile(noBanner: true);
 
             Navigate(doc.HtmlRenderFilename);
         }
 
-        public void ShowHtml(string html, bool isFullHtmlDocument)
+        public void ShowHtml(string html, bool isFullHtmlDocument = false)
         {
-            throw new NotImplementedException();
+            var doc = new MarkdownDocument();
+            if (!isFullHtmlDocument)
+            {                
+                doc.Filename = "test.html";
+                doc.CurrentText = html;
+                doc.RenderHtmlToFile(noBanner:true);
+            }
+            else
+            {
+                var filename = doc.HtmlRenderFilename;
+                File.WriteAllText(filename,html);
+            }
+
+            Navigate(doc.HtmlRenderFilename);
         }
 
+        /// <summary>
+        /// Raw text to display in the 
+        /// </summary>
+        /// <param name="messageText"></param>
         public void SetMessage(string messageText)
         {
             TextMessage.Text = messageText;
@@ -137,19 +163,48 @@ namespace MarkdownMonster.Windows
 
         private int buttonCount = 0;
 
-        public void AddButton(Button button, string text = null, ImageSource icon = null, Colors color = default(Colors))
+        public Button AddButton(string text = null, FontAwesomeIcon icon = FontAwesomeIcon.None, Brush iconColor = null)
         {
-            if (button.MinWidth < 100)
-                button.MinWidth = 100;
+            var button = new Button();
+            if (iconColor == null)
+                iconColor = Brushes.LightGray;
+
+            var sp = new StackPanel();
+            sp.Orientation = System.Windows.Controls.Orientation.Horizontal;
+
+            var fa = new FontAwesome.WPF.FontAwesome();
+            fa.Icon = icon;
+            fa.FontSize = 15;
+            fa.FontFamily = new FontFamily(new Uri("pack://application:,,,/"),"./FontAwesome.WPF;component/#FontAwesome");
+            fa.Foreground = iconColor;
+            fa.Margin = new Thickness(5, 2, 8, 0);
+
+            sp.Children.Add(fa);
+
+
+            var tb = new TextBlock();
+            tb.Text = text;
+            tb.Margin = new Thickness(0, 0, 5, 0);
+
+            sp.Children.Add(tb);
+
+            button.Content = sp;
+            button.Click += OnButtonClicked;
+            
+            if (button.MinWidth < 80)
+                button.MinWidth = 80;
             PanelButtonContainer.Children.Add(button);
-            button.Margin = new Thickness(5, 0, 5, 0);
+            button.Margin = new Thickness(5,5,5,5);
+            button.Height = 40;
 
             buttonCount++;
             if (button.CommandParameter == null)
                 button.CommandParameter = buttonCount;
 
             button.Tag = this;
-        }
+
+            return button;
+        }   
 
 
         void OnButtonClicked(object sender, RoutedEventArgs ev)

@@ -6,9 +6,12 @@
         xmlns:local="clr-namespace:MarkdownMonster.Windows"
         TitleCaps="False"
         WindowStartupLocation="CenterOwner"
+
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
+        WindowTransitionsEnabled="False"
+        ShowInTaskbar="False"
         Title="Web Content" Height="500" Width="800">
     <Grid>
 
@@ -18,29 +21,33 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Name="TextMessage" Background="#444" Padding="7">Please review the dictionary license:</TextBlock>
+        <TextBlock Name="TextMessage" Background="#444" Foreground="#eee" Padding="7"></TextBlock>
 
         <WebBrowser Name="Browser" Grid.Row="1" />
 
-        <StackPanel Name="PanelButtonContainer" Grid.Row="2"  Orientation="Horizontal"  HorizontalAlignment="Right" Margin="0,6">
+        <StackPanel Name="PanelButtonContainer" Grid.Row="2"  Orientation="Horizontal"  
+                    HorizontalAlignment="Right" 
+                    Margin="0,6">
 
-            <Button Name="ButtonOk"  IsDefault="True"  Click="OnButtonClicked" MinWidth="80" CommandParameter="1"
-                    Visibility="{Binding IsFileImage, Converter={StaticResource BooleanToVisibilityConverter}}" >
+            <Button Name="ButtonOk"  IsDefault="True"  Click="OnButtonClicked" Height="40" MinWidth="80"
+                    CommandParameter="1" Margin="0,5,5,5">
                 <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Margin="5,2,5,0" Icon="CheckCircleOutline"                                             
+                    <fa:FontAwesome Margin="5,2,8,0" Icon="CheckCircleOutline"                                             
                                     FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                    FontSize="15"
                                     Foreground="#1F9B3C" />
-                    <TextBlock Name="ButtonOkText">OK</TextBlock>
+                    <TextBlock Name="ButtonOkText" Margin="0,0,5,0">OK</TextBlock>
                 </StackPanel>
             </Button>
 
-            <Button Name="ButtonCancel" IsCancel="True" Click="OnButtonClicked" CommandParameter="2" 
-                    MinWidth="80" Margin="4,0">
+            <Button Name="ButtonCancel" IsCancel="True" Click="OnButtonClicked" CommandParameter="2" Height="40"
+                    MinWidth="80" Margin="5,5">
                 <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Remove" Margin="5,4,5,0"  
-                                    FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
+                    <fa:FontAwesome Icon="Remove" Margin="5,2,8,0"  
+                                    FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                    FontSize="15"
                                     Foreground="Firebrick"/>
-                    <TextBlock Name="ButtonCancelText">Cancel</TextBlock>
+                    <TextBlock Name="ButtonCancelText" Margin="0,0,5,0">Cancel</TextBlock>
                 </StackPanel>
             </Button>
         </StackPanel>

@@ -714,10 +714,13 @@ namespace MarkdownMonster
                     if (string.IsNullOrEmpty(filename))
                         filename = BackupFilename;
 
-                    if (Filename.Contains("saved.bak"))
+                    if (filename == null)
                         return;
 
-                    if (Filename == "untitled")
+                    if (filename.Contains("saved.bak"))
+                        return;
+
+                    if (filename == "untitled")
                         filename = Path.Combine(Path.GetTempPath(), "untitled.saved.md");
 
                     try
@@ -893,7 +896,8 @@ namespace MarkdownMonster
         /// <returns></returns>
         public string RenderHtml(string markdown = null,
             bool renderLinksExternal = false,
-            bool usePragmaLines = false)
+            bool usePragmaLines = false,
+            bool noBanner = false)
         {
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
@@ -928,7 +932,7 @@ namespace MarkdownMonster
             OnDocumentRendered(ref html, ref markdown);
 
 
-            if (!string.IsNullOrEmpty(html) && !UnlockKey.IsRegistered() && mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
+            if (!noBanner && !string.IsNullOrEmpty(html) && !UnlockKey.Unlocked && mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
             {
                 html += @"
 <div style=""margin-top: 30px;margin-bottom: 10px;font-size: 0.8em;border-top: 1px solid #eee;padding-top: 8px;cursor: pointer;""
@@ -963,14 +967,14 @@ namespace MarkdownMonster
                                        bool renderLinksExternal = false, string theme = null,
                                        bool usePragmaLines = false,
                                        bool noFileWrite = false,
-                                       bool removeBaseTag = false)
+                                       bool removeBaseTag = false, bool noBanner = false)
         {
             ExtraHtmlHeaders = null;
 
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
 
-            string markdownHtml = RenderHtml(markdown, renderLinksExternal, usePragmaLines);
+            string markdownHtml = RenderHtml(markdown, renderLinksExternal, usePragmaLines,noBanner);
 
             if (string.IsNullOrEmpty(filename))
                 filename = HtmlRenderFilename;

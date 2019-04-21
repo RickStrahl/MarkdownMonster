@@ -722,6 +722,8 @@ namespace MarkdownMonster
 
                 return true;
             });
+            GeneratePdfCommand.PremiumFeatureName = "PDF Output Generation";
+            GeneratePdfCommand.PremiumFeatureLink = "https://markdownmonster.west-wind.com/docs/_53u1b1dsc.htm";
         }
 
 #endregion
@@ -1140,6 +1142,8 @@ namespace MarkdownMonster
                 Model.Window.PreviewBrowser.PreviewMarkdownAsync(editor, true);
 
             }, (p, c) => true);
+            PasteMarkdownFromHtmlCommand.PremiumFeatureName = "HTML to Markdown Conversion";
+            
         }
 
 
@@ -1217,6 +1221,9 @@ namespace MarkdownMonster
                         break;
                 }
             }, (p, c) => Model.IsEditorActive);
+            EditorSplitModeCommand.PremiumFeatureName = "Editor Split Mode";
+            EditorSplitModeCommand.PremiumFeatureLink = "https://markdownmonster.west-wind.com/docs/_5ea0q9ne2.htm";
+            
         }
 
 
@@ -1404,6 +1411,8 @@ namespace MarkdownMonster
                 form.ShowDialog();
 
             });
+            OpenFromGitRepoCommand.PremiumFeatureName = "Git Support";
+            OpenFromGitRepoCommand.PremiumFeatureLink = "https://markdownmonster.west-wind.com/docs/_4xp0yygt2.htm";
         }
 
 
@@ -1439,6 +1448,8 @@ namespace MarkdownMonster
                 var form = new GitCommitDialog(file, false); // GitCommitFormModes.ActiveDocument);
                 form.Show();
             }, (s, e) => Model.IsEditorActive);
+            CommitToGitCommand.PremiumFeatureName = "Git Support";
+            CommitToGitCommand.PremiumFeatureLink = "https://markdownmonster.west-wind.com/docs/_4xp0yygt2.htm";
         }
 
         public CommandBase OpenGitClientCommand { get; set; }
@@ -1463,6 +1474,8 @@ namespace MarkdownMonster
                 else
                     Model.Window.ShowStatus("Git client opened.",mmApp.Configuration.StatusMessageTimeout);
             }, (p, c) => !string.IsNullOrEmpty(Model.Configuration.Git.GitClientExecutable));
+            OpenGitClientCommand.PremiumFeatureName = "Git Support";
+            OpenGitClientCommand.PremiumFeatureLink = "https://markdownmonster.west-wind.com/docs/_4xp0yygt2.htm";
         }
 
 
@@ -1666,7 +1679,7 @@ namespace MarkdownMonster
                     string fileText = File.ReadAllText(file);
                     if (!fileText.StartsWith("//"))
                     {
-                        fileText = "// Reference: http://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm\r\n" +
+                        fileText = "// Reference: https://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm\r\n" +
                                    fileText;
                         File.WriteAllText(file, fileText);
                     }

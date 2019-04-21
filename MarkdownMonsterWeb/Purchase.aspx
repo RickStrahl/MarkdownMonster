@@ -154,7 +154,7 @@ Thank you for playing fair.
                         <small>Single User License</small>
                     </td>
                     <td class="price">                                                
-                        $39                        
+                        $49                        
                     </td>
                 </tr>
            
@@ -170,7 +170,7 @@ Thank you for playing fair.
                         <small>5 Users</small>
                     </td>
                     <td class="price">                                                
-                        $169                        
+                        $199                        
                     </td>
                 </tr>
                 <tr>
@@ -185,9 +185,25 @@ Thank you for playing fair.
                         <small>10 Users</small>
                     </td>
                     <td class="price">                                                
-                        $299                       
+                        $379                       
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <a href="https://store.west-wind.com/product/order/markdown_monster_25user" 
+                           class="pull-right btn btn-sm btn-primary" 
+                           title="Buy Markdown Monster 25 User License">
+                            <i class="fa fa-credit-card"></i>
+                            Buy
+                        </a>
+                        <a href="https://store.west-wind.com/product/order/markdown_monster_25user">Markdown Monster 25 User License</a><br/>
+                        <small>10 Users</small>
+                    </td>
+                    <td class="price">                                                
+                        $999                       
+                    </td>
+                </tr>
+                
                 <tr>
                     <td>
                         <a href="https://store.west-wind.com/product/markdown_monster_site" 
@@ -201,7 +217,7 @@ Thank you for playing fair.
                         <small>Site license that can be used by any number of users within a single organization.</small>                       
                     </td>
                     <td class="price">                                                
-                        $899                        
+                        $1,799                        
                     </td>
                 </tr>
                 
