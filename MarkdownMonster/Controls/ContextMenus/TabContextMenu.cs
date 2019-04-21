@@ -16,48 +16,25 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster.Controls.ContextMenus
 {
-
-      //<!--<ContextMenu x:Key="TabItemContextMenu" Name="TabItemContextMenu">
-      //      <MenuItem Header="_Close Document" Command="{Binding DataContext.Commands.CloseActiveDocumentCommand}" />
-      //      <MenuItem Name="MenuCloseAllTabs" Header="Close All Documents" Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}"/>
-      //      <MenuItem Name="MenuCloseAllButThisTab" Header="Close All But This Document"  Command="{Binding DataContext.Commands.CloseAllDocumentsCommand}" CommandParameter="AllBut" />
-      //      <Separator/>
-      //      <MenuItem Name="MenuAddFavoriteTab" Header="Add to Favorites"  Command="{Binding DataContext.Commands.AddFavoriteCommand}" CommandParameter="{Binding DataContext.ActiveDocument.Filename}" />
-      //      <Separator />
-      //      <MenuItem Name="ContextOpenInCommandWindow" Header="Open _Terminal" Command="{Binding DataContext.Commands.CommandWindowCommand}"  />
-      //      <MenuItem Name="ContextOpenInFolder" Header="Show in Explorer" Command="{Binding DataContext.Commands.OpenInExplorerCommand}"  />
-      //      <MenuItem Name="ContextOpenInFolderBrowser" Header="Show in Folder _Browser" Command="{Binding DataContext.Commands.OpenFolderBrowserCommand}" />
-      //      <Separator/>
-      //      <MenuItem Name="ContextCommitToGit" Header="Commit to _Git..."
-      //                Command="{Binding DataContext.Commands.CommitToGitCommand}" />
-      //      <MenuItem Name="ContextOpenGitClient" Header="Open in Git Client"
-      //                Command="{Binding DataContext.Commands.OpenGitClientCommand}"   
-      //                IsEnabled="{Binding DataContext.Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
-      //      <MenuItem Name="ContextOpenOnGithub" Header="Open on Github" 
-      //                IsEnabled="{Binding DataContext.Configuration.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
-      //                />
-      //      <Separator/>
-      //      <MenuItem Name="ContextCopyFoldername" Header="Copy Full Path" Command="{Binding DataContext.Commands.CopyFullPathToClipboardCommand}" />
-      //  </ContextMenu>-->
-
-
     /// <summary>
-    /// Class that handles display and execution of the editors
-    /// context menu.
+    /// Class that handles display and execution of the Tab Context Menu
     /// </summary>
     public class TabContextMenu
     {
         private ContextMenu ContextMenu;
         private AppModel Model;
+        private bool firstAccess;
 
         public TabContextMenu()
         {
             Model = mmApp.Model;
+            if (firstAccess)
+            {
+                ContextMenu.Closed += ContextMenu_Closed;
+                firstAccess = false;
+            }
 
-            if (Model.Window.TabControl.ContextMenu == null)
-                Model.Window.TabControl.ContextMenu = new ContextMenu();
-            ContextMenu = Model.Window.TabControl.ContextMenu;
-            ContextMenu.Closed += ContextMenu_Closed;
+            ClearMenu();
         }
 
         private void ContextMenu_Closed(object sender, RoutedEventArgs e)
@@ -95,10 +72,10 @@ namespace MarkdownMonster.Controls.ContextMenus
 
                 var item = ContextMenu.Items[0] as MenuItem;
                 item.Focus();
-            }         
+            }
         }
 
-        public void ShowContextMenuAll()
+        public void ShowContextMenu()
         {
             ClearMenu();
             var model = Model;
@@ -109,7 +86,7 @@ namespace MarkdownMonster.Controls.ContextMenus
             {
                 Header = "_Close Document",
                 Command = Model.Commands.CloseActiveDocumentCommand
-            };            
+            };
             ContextMenu.Items.Add(mi);
 
             mi = new MenuItem
@@ -137,7 +114,7 @@ namespace MarkdownMonster.Controls.ContextMenus
             {
                 Header = "Open _Terminal",
                 Name = "ContextOpenInCommandWindow",
-                Command = Model.Commands.CommandWindowCommand,                
+                Command = Model.Commands.CommandWindowCommand,
             };
             ContextMenu.Items.Add(mi);
 
@@ -145,7 +122,7 @@ namespace MarkdownMonster.Controls.ContextMenus
             {
                 Header = "Open in Explorer",
                 Name = "ContextOpenInFolder",
-                Command = Model.Commands.OpenInExplorerCommand,                
+                Command = Model.Commands.OpenInExplorerCommand,
             };
             ContextMenu.Items.Add(mi);
 
@@ -153,7 +130,7 @@ namespace MarkdownMonster.Controls.ContextMenus
             {
                 Header = "Show in Folder _Browser",
                 Name = "OpenInFolderBrowser",
-                Command = Model.Commands.OpenFolderBrowserCommand,                
+                Command = Model.Commands.OpenFolderBrowserCommand,
             };
             ContextMenu.Items.Add(mi);
 
@@ -170,7 +147,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     showGitOperations = repo != null;
                     if (showGitOperations)
                         gitRemoteUrl = git.GetActiveRemoteUrl();
-                }               
+                }
             }
 
             if (showGitOperations)

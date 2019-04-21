@@ -2062,9 +2062,9 @@ namespace MarkdownMonster
 
         private void TabControl_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            ShowStatusSuccess("Tab Context Menu opening");
             var context = new TabContextMenu();
-            context.ShowContextMenuAll();
+            context.ShowContextMenu();
+            e.Handled = true;
         }
         #endregion
 
