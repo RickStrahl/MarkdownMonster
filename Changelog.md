@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.16.8
-<small>not released yet</small>
+<small>April 22nd, 2019</small>
 
 * **Fix Dirty State Indicator when in Auto-Save Mode**  
 Fixed issue where auto-save mode would not properly reflect the document dirty state. Auto-save now saves in 2 second intervals when idle.
@@ -20,6 +20,12 @@ You can now open the current document on GitHub if the document is in a GitHub r
 
 * **Tab Context Menu Context Sensitivity**  
 The tab context menu is now properly context sensitive and displays only documents that are relevant for current operations. Options now also work correctly for preview tabs.
+
+* **Add Markdown Link  Navigation in Preview**  
+You can now click on a Markdown document link (typically in documentation solutions)  in the editor and open that document in a new editor document.
+
+* **Improved AppInsights Error Logging**  
+Error log now includes log level additional state to make it easier to group errors and failures by severity.
 
 ### 1.16.6
 <small>April 16th, 2019</small>
