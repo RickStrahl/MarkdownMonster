@@ -1953,7 +1953,10 @@ namespace MarkdownMonster
         /// <param name="tabHeaderText">Optional - header text to set on the tab either just text or in combination with icon</param>
         /// <param name="tabHeaderIcon">Optional - Icon for the tab as an Image Source</param>
         /// <param name="selectItem"></param>
-        public void AddLeftSidebarPanelTabItem(TabItem tabItem, string tabHeaderText = null, ImageSource tabHeaderIcon = null, bool selectItem = true)
+        public void AddLeftSidebarPanelTabItem(TabItem tabItem,
+            string tabHeaderText = null,
+            ImageSource tabHeaderIcon = null,
+            bool selectItem = true)
         {
             if (tabItem != null)
             {
@@ -1982,6 +1985,7 @@ namespace MarkdownMonster
 
                     };
                 }
+
                 panel.Children.Add(img);
                 tabItem.Header = panel;
 
@@ -2000,16 +2004,20 @@ namespace MarkdownMonster
         /// <param name="tabHeaderText"></param>
         /// <param name="tabHeaderIcon"></param>
         /// <param name="selectItem"></param>
-        public void AddRightSidebarPanelTabItem(TabItem tabItem = null, string tabHeaderText = null, ImageSource tabHeaderIcon = null, bool selectItem = true)
+        public void AddRightSidebarPanelTabItem(TabItem tabItem = null,
+            string tabHeaderText = null,
+            ImageSource tabHeaderIcon = null,
+            bool selectItem = true)
         {
             if (tabItem != null)
             {
                 if (tabHeaderIcon != null)
                 {
                     // Create the header as Icon and Text
-                    var panel = new StackPanel { Orientation = Orientation.Horizontal };
-                    panel.Children.Add(new Image { Source = tabHeaderIcon, Height = 16, Margin = new Thickness(4, 0, 4, 0) });
-                    panel.Children.Add(new TextBlock { Text = tabHeaderText });
+                    var panel = new StackPanel {Orientation = Orientation.Horizontal};
+                    panel.Children.Add(new Image
+                        {Source = tabHeaderIcon, Height = 16, Margin = new Thickness(4, 0, 4, 0)});
+                    panel.Children.Add(new TextBlock {Text = tabHeaderText});
                     tabItem.Header = panel;
 
                 }

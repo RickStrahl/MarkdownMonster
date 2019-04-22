@@ -234,6 +234,11 @@ namespace MarkdownMonster
             AceEditor?.setlanguage(syntax);
         }
 
+        public void ResizeWindow()
+        {
+            // nothing to do at the moment
+        }
+
         /// <summary>
         /// Restyles the current editor with configuration settings
         /// from the mmApp.Configuration object (or Model.Configuration

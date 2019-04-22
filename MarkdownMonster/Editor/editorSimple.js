@@ -454,8 +454,9 @@ window.onerror = function windowError(message, filename, lineno, colno, error) {
     return true;
 }
 
-window.onresize = debounce(function() {
-        te.mm.textbox.resizeWindow();
+window.onresize = debounce(function () {
+        if (te.mm)
+            te.mm.textbox.resizeWindow();
     },
     200);
 

@@ -3,13 +3,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
-using Westwind.Utilities;
 
 namespace SnippetsAddin
 {
@@ -94,6 +92,14 @@ namespace SnippetsAddin
         {
             if (snippetsWindow == null || !snippetsWindow.IsLoaded)
             {
+
+                if (!UnlockKey.UnlockedPremium)
+                {
+                    UnlockKey.ShowPremiumDialog("Snippet Template Expansion",
+                        "https://github.com/RickStrahl/Snippets-MarkdownMonster-Addin");
+                    return;
+                }
+
                 snippetsWindow = new SnippetsWindow(this);
 
                 snippetsWindow.Top = Model.Window.Top;
@@ -190,8 +196,6 @@ namespace SnippetsAddin
         
         public override void OnDocumentUpdated()
         {
-            base.OnDocumentUpdated();
-
             var editor = GetMarkdownEditor();
             string line = editor.GetCurrentLine();
             if (string.IsNullOrEmpty(line))

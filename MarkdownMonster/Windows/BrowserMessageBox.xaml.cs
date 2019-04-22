@@ -32,16 +32,16 @@ namespace MarkdownMonster.Windows
         /// Hold the button that was clicked to close this form
         /// </summary>
         public Button ButtonResult { get; set;  }
-       
 
+        
         public BrowserMessageBox()
         {
+            
             InitializeComponent();
 
-            this.Browser.LoadCompleted += Browser_LoadCompleted;
+            Browser.LoadCompleted += Browser_LoadCompleted;
 
-            mmApp.SetThemeWindowOverride(this);
-
+            mmApp.SetThemeWindowOverride(this);           
         }
 
         /// <summary>
@@ -74,31 +74,56 @@ namespace MarkdownMonster.Windows
                     WindowUtilities.DoEvents();
                 }
             }
-
+            
             return IsLoaded;
         }
 
         private void Browser_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
-            IsLoaded = true;
+            IsLoaded = true;            
         }
 
-        public new bool? ShowDialog()
+
+        /// <summary>
+        /// Shows the dialog modally and sets focus to the specified button
+        /// </summary>
+        /// <param name="focusedButton">0-n button to select. -1 to set no focus</param>
+        /// <returns></returns>
+        public new bool? ShowDialog(int focusedButton = 0)
         {
             if (string.IsNullOrEmpty(TextMessage.Text))
                 TextMessage.Visibility = Visibility.Collapsed;
             else
                 TextMessage.Visibility = Visibility.Visible;
+
+            if (focusedButton > -1 && focusedButton < PanelButtonContainer.Children.Count)
+            {
+                var button = PanelButtonContainer.Children[focusedButton] as Button;
+                button.Focus();
+            }
 
             return base.ShowDialog();
         }
 
-        public new void Show()
+
+        /// <summary>
+        /// Shows the dialog without waiting for completion
+        /// </summary>
+        /// <param name="focusedButton"></param>
+        public new void Show(int focusedButton = 0)
         {
             if (string.IsNullOrEmpty(TextMessage.Text))
                 TextMessage.Visibility = Visibility.Collapsed;
             else
                 TextMessage.Visibility = Visibility.Visible;
+
+            if (focusedButton > -1 && focusedButton < PanelButtonContainer.Children.Count)
+            {
+                var button = PanelButtonContainer.Children[focusedButton] as Button;
+                button.Focus();
+            }
+
+
             base.Show();
         }
 

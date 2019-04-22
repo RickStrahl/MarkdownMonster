@@ -11,7 +11,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         WindowTransitionsEnabled="False"
-        ShowInTaskbar="False"
+        ShowInTaskbar="False"        
         Title="Web Content" Height="500" Width="800">
     <Grid>
 

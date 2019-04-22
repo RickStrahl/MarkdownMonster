@@ -60,40 +60,9 @@ namespace MarkdownMonster
 
         public bool PreviewExecute(object parameter)
         {
-            if (!string.IsNullOrEmpty(PremiumFeatureName) && !UnlockKey.Unlocked)
+            if (!string.IsNullOrEmpty(PremiumFeatureName) && !UnlockKey.UnlockedPremium)
             {
-                var form = new BrowserMessageBox();
-                form.Owner = mmApp.Model?.Window;
-                form.Title = "Feature not available";
-                form.Width = 550;
-                form.Height = 350;
-                form.SetMessage(string.Empty);
-
-                string md = $@"### {PremiumFeatureName} is a Premium Feature
-
-This feature is only available in the registered version
-of Markdown Monster. If you would like to use **{PremiumFeatureName}** in Markdown Monster,
-you can purchase a licensed copy of the software on our Web site.";
-
-
-                form.ShowMarkdown(md);
-                form.Icon = mmApp.Model.Window.Icon;
-                form.ButtonOkText.Text = "Buy a License";                
-                form.ButtonCancelText.Text = "Continue Unlicensed";
-
-                Button featureButton = null;
-                if (!string.IsNullOrEmpty(PremiumFeatureLink))
-                {
-                    featureButton = form.AddButton("Feature Info",FontAwesomeIcon.InfoCircle,Brushes.SteelBlue);
-                }
-
-                var result = form.ShowDialog();
-
-                if (form.ButtonResult == form.ButtonOk)
-                    ShellUtils.GoUrl("https://markdownmonster.west-wind.com/purchase.aspx");
-                else if (form.ButtonResult == featureButton)
-                    ShellUtils.GoUrl(PremiumFeatureLink);
-
+                UnlockKey.ShowPremiumDialog(PremiumFeatureName, PremiumFeatureLink);
                 return false;
             }
 
