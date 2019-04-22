@@ -70,8 +70,8 @@
     <Reference Include="Westwind.Utilities, Version=3.0.25.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Westwind.Utilities.3.0.25\lib\net46\Westwind.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="YamlDotNet, Version=4.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\YamlDotNet.4.2.3\lib\net35\YamlDotNet.dll</HintPath>
+    <Reference Include="YamlDotNet, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\YamlDotNet.5.2.1\lib\net35\YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
