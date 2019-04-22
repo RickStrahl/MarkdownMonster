@@ -208,7 +208,7 @@ namespace MarkdownMonster
             var form = new BrowserMessageBox();
             form.Owner = mmApp.Model?.Window;
             form.Title = "Premium Feature not available";
-            form.Width = 580;
+            form.Width = 550;
             form.Height = 370;
             form.SetMessage(string.Empty);
 

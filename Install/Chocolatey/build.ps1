@@ -1,4 +1,4 @@
-# Script builds a Chocolatey Package and tests it locally
+    # Script builds a Chocolatey Package and tests it locally
 # 
 #  Assumes: Uses latest release out of Pre-release folder
 #           Release has been checked in to GitHub Repo
@@ -33,7 +33,7 @@ out-file -filepath .\tools\chocolateyinstall.ps1 -inputobject $filetext
 del *.nupkg
 
 # Create .nupkg from .nuspec
-choco pack
+choco pack "MarkdownMonster.nuspec"
 
 choco uninstall "MarkdownMonster" -f
 

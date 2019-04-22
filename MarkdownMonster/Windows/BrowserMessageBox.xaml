@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:MarkdownMonster.Windows"
         TitleCaps="False"
         WindowStartupLocation="CenterOwner"
-
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"

@@ -5,8 +5,6 @@ $release = "v1.16"
 $releaseFile = "$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe"
 
 
-
-
 $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($releaseFile).FileVersion
 "Raw version: " + $version
 $version = $version.Trim().Replace(".0","") 
@@ -22,3 +20,10 @@ git commit -m "$version"
 git push origin master
 
 cd "$PSScriptRoot" 
+
+$chocoNuspec = ".\chocolatey\markdownmonster.template.nuspec"
+$content = Get-Content -Path $chocoNuspec
+$content = $content.Replace("{{version}}",$version)
+out-file -filepath $chocoNuSpec.Replace(".template","")  -inputobject $content
+
+

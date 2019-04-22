@@ -1804,7 +1804,8 @@ namespace MarkdownMonster
                 }
             }
             // it's a relative URL and ends with .md open in editor
-            else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) || urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
+            else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) ||
+                     urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
             {
                 bool linkHasAnchor = false;
                 if (urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
@@ -1827,6 +1828,7 @@ namespace MarkdownMonster
                     var tab = Window.ActivateTab(urlPath, openIfNotFound: true); // open or activate
                     if (tab != null)
                     {
+                        // TODO: This doesn't navigate the new tab's preview if false
                         return !linkHasAnchor;  // let Preview Browser navigate to the anchor, if the link has one
                     }
                 }
