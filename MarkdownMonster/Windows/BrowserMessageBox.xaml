@@ -12,6 +12,8 @@
         mc:Ignorable="d"
         WindowTransitionsEnabled="False"
         ShowInTaskbar="False"        
+        MinWidth="500"
+        MinHeight="350"
         Title="Web Content" Height="500" Width="800">
     <Grid>
 
