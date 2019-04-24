@@ -13,9 +13,12 @@ namespace MarkdownMonster.Windows
     /// </summary>
     public partial class RegisterDialog : Window, INotifyPropertyChanged
     {
+        public bool CloseOwner { get; }
 
         public RegisterDialog(bool closeOwner = false)
         {
+            CloseOwner = closeOwner;
+
             InitializeComponent();
             var accessCount = mmApp.Configuration.ApplicationUpdates.AccessCount;
             RunUsage.Text = $"{accessCount} times";
@@ -34,8 +37,8 @@ namespace MarkdownMonster.Windows
             DataContext = this;
 
             Topmost = true;
-        }
 
+        }
 
 
         protected override void OnActivated(EventArgs e)
@@ -44,7 +47,8 @@ namespace MarkdownMonster.Windows
 
             // hide the MainWindow when showing the reminder window
             // have to do this here or else the window won't activate in the right place
-            Owner.Top -= 10000;
+            if (CloseOwner)
+                Owner.Top -= 10000;
 
             Topmost = false;
         }
@@ -59,6 +63,8 @@ namespace MarkdownMonster.Windows
 
             Close();
         }
+
+        
 
         private void Register_Click(object sender, RoutedEventArgs routedEventArgs)
         {

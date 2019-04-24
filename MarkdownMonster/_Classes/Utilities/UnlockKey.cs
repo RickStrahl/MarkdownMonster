@@ -154,10 +154,13 @@ namespace MarkdownMonster
         static RegisterDialog regDialog;
 
         public static void Startup()
-        {
+        {            
+            if (regDialog != null)
+                return; // already up
+
             if (!Unlocked && mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
             {               
-                timer = new System.Timers.Timer(25 * 1000 * 60);
+                timer = new System.Timers.Timer(25 * 1000 * 60); // 25 minutes
                 timer.Elapsed += (s, ev) =>
                 {
                     mmApp.Model?.Window?.Dispatcher?.Invoke(() =>
@@ -172,6 +175,7 @@ namespace MarkdownMonster
                                 Owner = mmApp.Model.Window
                             };
                             regDialog.ShowDialog();
+                            regDialog = null;
 
                             timer.Stop();
                             timer.Start();
