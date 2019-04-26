@@ -1502,7 +1502,7 @@ namespace MarkdownMonster
         /// Callback to force updating of the status bar document stats
         /// </summary>
         /// <param name="stats"></param>
-        public void UpdateDocumentStats(dynamic stats)
+        public void UpdateDocumentStats(object stats)
         {
             if (stats == null)
             {
@@ -1510,9 +1510,9 @@ namespace MarkdownMonster
                 return;
             }
 
-            int words = Convert.ToInt32(stats.wordCount);
-            int lines = Convert.ToInt32(stats.lines);
-            int chars = Convert.ToInt32(stats.characters);
+            int words = Convert.ToInt32(ReflectionUtils.GetPropertyCom(stats,"wordCount"));
+            int lines = Convert.ToInt32(ReflectionUtils.GetPropertyCom(stats,"lines"));
+            int chars = Convert.ToInt32(ReflectionUtils.GetPropertyCom(stats,"characters"));
 
             Window.StatusStats.Text = $"{words:n0} words   {lines:n0} lines   {chars:n0} chars";
 

@@ -69,6 +69,16 @@ namespace MarkdownMonster
             Invoke("findAndReplaceText",search, replace);
         }
 
+        public void DeleteCurrentLine()
+        {
+            Invoke("deleteCurrentLine", false);
+        }
+
+        public void FindAndReplaceTextInCurrentLine(string search, string replace)
+        {
+            Invoke("findAndReplaceTextInCurrentLine", search, replace);
+        }
+
         /// <summary>
         /// Forces the cursor position to be set to the mouse
         /// position.
@@ -165,6 +175,25 @@ namespace MarkdownMonster
             return (int) Invoke("getLineNumber", false);
         }
 
+        public void MoveCursorLeft(int count)
+        {
+            Invoke("moveCursorLeft", count);
+        }
+
+        public void MoveCursorRight(int count)
+        {
+            Invoke("moveCursorRight", count);
+        }
+
+        public void MoveCursorUp(int count)
+        {
+            Invoke("moveCursorUp", count);
+        }
+
+        public void MoveCursorDown(int count)
+        {
+            Invoke("moveCursorDown", count);
+        }
         #endregion
 
         #region Values and Stats
@@ -185,10 +214,20 @@ namespace MarkdownMonster
             return Invoke("getvalue", false) as string;
         }
 
+
+        /// <summary>
+        /// Method used to send Configuration to the editor.
+        /// Sets things like font sizes, Word Wrap, padding etc.
+        /// Called from Markdown Document.
+        ///
+        /// Use <seealso cref="MarkdownDocumentEditor.RestyleEditor" /> instead.
+        /// </summary>
+        /// <param name="jsonStyleInfo"></param>
         public void SetEditorStyle(string jsonStyleInfo)
         {
             Invoke("setEditorStyle", jsonStyleInfo);
         }
+
 
 
         public void UpdateDocumentStats()
@@ -236,9 +275,9 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Sets the language
+        /// Sets the language syntax for the document
         /// </summary>
-        /// <param name="syntax"></param>
+        /// <param name="syntax">Syntax like markdown, xmls, csharp and so on</param>
         public void SetLanguage(string syntax)
         {
             Invoke("setlanguage", syntax);
@@ -276,6 +315,13 @@ namespace MarkdownMonster
         {
             Invoke("setWordWrap", enable);
         }
+
+        public void ExecCommand(string action, string parm)
+        {
+            Invoke("execcommand", action, parm);
+        }
+
+
 
         #endregion
 
@@ -423,7 +469,7 @@ namespace MarkdownMonster
 
         public void SetFocus()
         {
-            Invoke("setFocus", false);
+            Invoke("setfocus", false);
         }
 
         /// <summary>
