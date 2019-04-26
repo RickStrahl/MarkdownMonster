@@ -55,7 +55,7 @@ line because there's no double space at the end.
 The following line has a soft break at the end (two spaces or a `\` at end)  
 This line should be following on the very next line.
 
-You can use **View -> Show Invisible Characters** to show all white space and returns.
+You can use **View -> Toggle Invisible Characters** to show all white space and returns.
 
 ---
 
