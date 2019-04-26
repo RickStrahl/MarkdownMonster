@@ -89,7 +89,7 @@ namespace MarkdownMonster.Windows
         /// </summary>
         /// <param name="focusedButton">0-n button to select. -1 to set no focus</param>
         /// <returns></returns>
-        public new bool? ShowDialog(int focusedButton = 0)
+        public bool? ShowDialog(int focusedButton = 0)
         {
             if (string.IsNullOrEmpty(TextMessage.Text))
                 TextMessage.Visibility = Visibility.Collapsed;
@@ -110,7 +110,7 @@ namespace MarkdownMonster.Windows
         /// Shows the dialog without waiting for completion
         /// </summary>
         /// <param name="focusedButton"></param>
-        public new void Show(int focusedButton = 0)
+        public void Show(int focusedButton = 0)
         {
             if (string.IsNullOrEmpty(TextMessage.Text))
                 TextMessage.Visibility = Visibility.Collapsed;

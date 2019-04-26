@@ -13,7 +13,7 @@ namespace MarkdownMonster.Configuration
         {
             Font = "Consolas";
             FontSize = 17;
-            LineHeight = 1.35M;
+            LineHeight = 1.45M;
             PreviewHighlightTimeout = 1800;  // 0 means it stays highlighted
 
             WrapText = true;

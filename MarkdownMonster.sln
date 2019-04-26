@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.539
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster", "MarkdownMonster\MarkdownMonster.csproj", "{CB4EAB0E-1796-476E-83A0-20DA826E1C02}"
 EndProject
@@ -31,6 +31,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddIns", "AddIns", "{4F5BF002-399D-4830-BA4E-23EE97D97956}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnippetsAddin", "AddIns\Snippets-MarkdownMonster-Addin\SnippetsAddin\SnippetsAddin.csproj", "{44A962C6-B414-4184-9E05-EFCCDB575D82}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Westwind.Utilities", "..\Westwind.Utilities\Westwind.Utilities\Westwind.Utilities.csproj", "{B51F5B3E-0292-489E-88D9-90C4CF05B344}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +64,10 @@ Global
 		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44A962C6-B414-4184-9E05-EFCCDB575D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B51F5B3E-0292-489E-88D9-90C4CF05B344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B51F5B3E-0292-489E-88D9-90C4CF05B344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B51F5B3E-0292-489E-88D9-90C4CF05B344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B51F5B3E-0292-489E-88D9-90C4CF05B344}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

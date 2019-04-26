@@ -602,19 +602,23 @@
         else
             te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
 
-
+        
+        
         if (!style.enableBulletAutoCompletion) {
           // turn off bullet auto-completion (or any new line auto-completion)
           editor.getSession().getMode().getNextLineIndent = function (state, line) {
             return this.$getIndent(line);
           };
+
         }
       //},1);
 
+
       setTimeout(te.updateDocumentStats, 30);
     },
-    setShowLineNumbers: function(showLineNumbers) {
-      te.editor.renderer.setShowGutter(showLineNumbers);
+      setShowLineNumbers: function (showLineNumbers) {
+          alert("showLine Numbers")
+         te.editor.renderer.setShowGutter(showLineNumbers);
     },
     setShowInvisibles: function(showInvisibles) {
       te.editor.renderer.setShowInvisibles(showInvisibles);
@@ -670,8 +674,8 @@
     },
     // force document to check spelling
     spellcheckDocument: function(force) {
-      if (te.spellcheck)
-        te.spellcheck.spellCheck(force);
+        if (te.spellcheck)
+            te.spellcheck.spellCheck(force);
     },
     spellcheckNext: function(ignored) {
       if (te.spellcheck)

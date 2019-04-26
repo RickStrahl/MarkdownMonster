@@ -526,7 +526,7 @@ namespace MarkdownMonster
                             {
                                 int scroll = editor.GetScrollPosition();
                                 editor.SetMarkdown(doc.CurrentText);
-                                editor.AceEditor?.updateDocumentStats(false);
+                                editor.AceEditorCom?.UpdateDocumentStats();
 
                                 if (scroll > -1)
                                     editor.SetScrollPosition(scroll);

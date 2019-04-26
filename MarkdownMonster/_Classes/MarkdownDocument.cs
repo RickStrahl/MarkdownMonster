@@ -878,7 +878,7 @@ namespace MarkdownMonster
             {
                 Encoding = mmFileUtils.GetFileEncoding(filename);
             }
-            catch (Exception ex)
+            catch
             {
                 Encoding = Encoding.UTF8;
             }

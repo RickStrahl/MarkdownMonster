@@ -131,8 +131,7 @@ namespace MarkdownMonster.Windows
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             int buttonId = 0;
-            string result = null;
-
+            
             if (sender == Button1)
             {
                 buttonId = 1;

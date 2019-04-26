@@ -321,10 +321,9 @@ namespace MarkdownMonster
 #endif
             }
         }
-        private bool _isDebugMode;
 
 
-#endregion
+        #endregion
 
 
 #region Statusbar Item Props

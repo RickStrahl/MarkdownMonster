@@ -1085,7 +1085,7 @@ namespace MarkdownMonster
         {
             SpellCheckNextCommand = new CommandBase((parameter, command) =>
                 {
-                    Model.ActiveEditor?.AceEditor?.spellcheckNext(false);
+                    Model.ActiveEditor?.AceEditorCom?.Invoke("spellcheckNext",false);
                 }, (p, c) => Model.ActiveEditor?.EditorSyntax == "markdown");
         }
 
@@ -1096,7 +1096,7 @@ namespace MarkdownMonster
         {
             SpellCheckPreviousCommand = new CommandBase((parameter, command) =>
             {
-                Model.ActiveEditor?.AceEditor?.spellcheckPrevious(false);
+                Model.ActiveEditor?.AceEditorCom?.Invoke("spellcheckPrevious",false);
             }, (p, c) => Model.ActiveEditor?.EditorSyntax == "markdown");
         }
 
@@ -1218,13 +1218,13 @@ namespace MarkdownMonster
                 switch (mode)
                 {
                     case "Beside":
-                        editor.AceEditor?.split("Beside");
+                        editor.AceEditorCom?.Split("Beside");
                         break;
                     case "Below":
-                        editor.AceEditor?.split("Below");
+                        editor.AceEditorCom?.Split("Below");
                         break;
                     case "None":
-                        editor.AceEditor?.split("None");
+                        editor.AceEditorCom?.Split("None");
                         break;
                 }
             }, (p, c) => Model.IsEditorActive);

@@ -98,7 +98,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 };
                 mi.Click += (o, args) =>
                 {
-                    model.ActiveEditor.AceEditor.replaceSpellRange(range, sg);
+                    model.ActiveEditor.AceEditorCom.Invoke("replaceSpellRange",range, sg);
                     model.ActiveEditor.IsDirty();
                     model.ActiveEditor.SpellCheckDocument();
                 };
@@ -139,7 +139,7 @@ namespace MarkdownMonster.Controls.ContextMenus
         /// </summary>
         public void AddCopyPaste()
         {
-            var selText = Model.ActiveEditor?.AceEditor?.getselection(false);
+            var selText = Model.ActiveEditor?.AceEditorCom?.GetSelection();
             var model = Model;
 
             var miCut = new MenuItem { Header = "Cut", InputGestureText="Ctrl-X" };
@@ -205,20 +205,19 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             var editor = Model.ActiveEditor;
 
-            var undoManager = editor.AceEditor.editor.session.getUndoManager(false);
-            bool hasUndo = undoManager.hasUndo(false);
-            bool hasRedo = undoManager.hasRedo(false);
+            bool hasUndo = editor.AceEditorCom.HasUndo();
+            bool hasRedo = editor.AceEditorCom.HasRedo();
 
             var miUndo = new MenuItem { Header = "Undo", InputGestureText = "Ctrl-Z" };
             if (!hasUndo)
                 miUndo.IsEnabled = false;
-            miUndo.Click += (o, args) => Model.ActiveEditor.AceEditor.editor.undo(false);
+            miUndo.Click += (o, args) => Model.ActiveEditor.AceEditorCom.Undo();
             ContextMenu.Items.Add(miUndo);
 
             var miRedo = new MenuItem() { Header = "Redo", InputGestureText = "Ctrl-Y" };
             if (!hasRedo)
                 miRedo.IsEnabled = false;
-            miRedo.Click += (o, args) => Model.ActiveEditor.AceEditor.editor.redo(false);            
+            miRedo.Click += (o, args) => Model.ActiveEditor.AceEditorCom.Redo();
             ContextMenu.Items.Add(miRedo);
            
             ContextMenu.Items.Add(new Separator());
@@ -268,8 +267,8 @@ namespace MarkdownMonster.Controls.ContextMenus
                         };
                         mi2.Click += (o, args) =>
                         {
-                            Model.ActiveEditor.AceEditor.SetSelectionRange(pos.row, match.Index, pos.row,
-                                match.Index + val.Length, pos);
+                            Model.ActiveEditor.AceEditorCom.SetSelectionRange(pos.row, match.Index, pos.row,
+                                match.Index + val.Length);
                             Model.ActiveEditor.EditorSelectionOperation("hyperlink", val);
                         };
                         ContextMenu.Items.Add(mi2);
@@ -299,8 +298,8 @@ namespace MarkdownMonster.Controls.ContextMenus
                         };
                         mi.Click += (o, args) =>
                         {
-                            Model.ActiveEditor.AceEditor.SetSelectionRange(pos.row, match.Index, pos.row,
-                                match.Index + val.Length, pos);
+                            Model.ActiveEditor.AceEditorCom.SetSelectionRange(pos.row, match.Index, pos.row,
+                                match.Index + val.Length);
                             string text = StringUtils.ExtractString(val, "[", "]");
                             Model.ActiveEditor.SetSelection(text);
                         };
@@ -345,8 +344,8 @@ namespace MarkdownMonster.Controls.ContextMenus
                         };
                         mi2.Click += (o, args) =>
                         {
-                            Model.ActiveEditor.AceEditor.SetSelectionRange(pos.row, match.Index, pos.row,
-                                match.Index + val.Length, pos);
+                            Model.ActiveEditor.AceEditorCom.SetSelectionRange(pos.row, match.Index, pos.row,
+                                match.Index + val.Length);
                             Model.ActiveEditor.EditorSelectionOperation("image", val);
                         };
                         ContextMenu.Items.Add(mi2);
@@ -425,7 +424,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     }
 
                     // select the entire table
-                    Model.ActiveEditor.AceEditor.SetSelectionRange(startRow , 0, endRow + 1,0, pos);
+                    Model.ActiveEditor.AceEditorCom.SetSelectionRange(startRow , 0, endRow + 1,0);
                                 
                     Model.ActiveEditor.EditorSelectionOperation("table", sb.ToString());
                 };
@@ -487,7 +486,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     }
                     
                     // select the entire table
-                    Model.ActiveEditor.AceEditor.SetSelectionRange(startRow - 1, 0, endRow + 1, 0, pos);
+                    Model.ActiveEditor.AceEditorCom.SetSelectionRange(startRow - 1, 0, endRow + 1, 0);
 
                     Model.ActiveEditor.EditorSelectionOperation("table", sb.ToString());
                 };

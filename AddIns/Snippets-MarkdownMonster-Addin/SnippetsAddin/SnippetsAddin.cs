@@ -187,7 +187,7 @@ namespace SnippetsAddin
                 try
                 {
                     var editor = GetMarkdownEditor();
-                    editor.AceEditor.moveCursorLeft(move);                    
+                    editor.AceEditorCom.Invoke("moveCursorLeft",move);                    
                 }
                 catch { }
             }
