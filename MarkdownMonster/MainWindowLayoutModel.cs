@@ -328,7 +328,7 @@ namespace MarkdownMonster.Windows {
 
                 Model.Configuration.Editor.CenteredModeMaxWidth = savedEditorWidth;
                 Model.ActiveEditor?.RestyleEditor();
-                Model.ActiveEditor?.AceEditorCom?.AdjustPadding(true);
+                Model.ActiveEditor?.AceEditor?.AdjustPadding(true);
             }
             else
             {

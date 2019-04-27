@@ -17,7 +17,7 @@
     mainEditor: null, // The main editor instance (root instance)
     editorElement: null, // Ace Editor DOM element bount to
 
-    previewRefresh: 800,
+    previewRefreshTimeout: 800,
     settings: editorSettings,
     lastError: null,
     dic: null,
@@ -93,13 +93,13 @@
       var updateDocument = debounce(function() {
           if (!te.mm)
             return;
-          te.isDirty = te.mm.textbox.IsDirty();
+
+          // check for dirty stats and preview
+          te.isDirty = te.mm.textbox.IsDirty(true);
           if (te.isDirty) {
-            te.mm.textbox.PreviewMarkdownCallback(true); // don't get markdown again
             te.updateDocumentStats();
           }
-        },
-        te.previewRefresh);
+        }, te.previewRefreshTimeout);
 
       var previewRefresh = debounce(function() {te.mm.textbox.PreviewMarkdownCallback(true); },80);
       $("pre[lang]").on("keyup",
@@ -115,7 +115,7 @@
               previewRefresh();
           }
         });
-      
+
 
 
       // always have mouse position available when drop or paste
@@ -602,8 +602,8 @@
         else
             te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
 
-        
-        
+
+
         if (!style.enableBulletAutoCompletion) {
           // turn off bullet auto-completion (or any new line auto-completion)
           editor.getSession().getMode().getNextLineIndent = function (state, line) {

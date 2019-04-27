@@ -1,24 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Configuration;
+using MarkdownMonster.Windows;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
 {
 
     /// <summary>
-    /// Wrapper around the Ace Editor COM interface
+    /// Wrapper around the Ace Editor JavaScript COM interface that
+    /// allows calling into the editor to perform various operations
     /// </summary>
     public class AceEditorCom
     {
+        /// <summary>
+        /// The actual raw COM instance of the `te` instance
+        /// inside of  `editor.js`. The internal members use
+        /// this instance to access the members of the underlying
+        /// JavaScript object.
+        ///
+        /// You can use ReflectionUtils to further use Reflection
+        /// on this instance to automate Ace Editor.
+        ///
+        /// Example:
+        /// var udm = ReflectionUtils.InvokeMethod(AceEditor.Instance,"editor.session.getUndoManager",false)
+        /// RelectionManager.Invoke(udm,"undo",false);
+        ///
+        /// Note methods with no parameters should pass `false`
+        /// </summary>
         public object Instance { get; }
 
         public Type InstanceType { get;  }
+
+        /// <summary>
+        /// This is a Write Only property that  allows you to update
+        /// the dirty status inside of the editor. This is not used
+        /// frequently as the editor IsDirty flag is internally updated
+        /// but if you need to force some action in the editor (like a spellcheck)
+        /// to fire then this is the property to set.
+        /// </summary>
+        public bool IsDirty
+        {
+            set { SetIsDirty(value); }
+        }
 
         public AceEditorCom(object instance)
         {
@@ -27,6 +52,11 @@ namespace MarkdownMonster
         }
 
         #region Selections
+
+        public void SetFocus()
+        {
+            Invoke("setfocus", false);
+        }
 
         public void SetSelectionRange(int startRow, int startColumn, int endRow, int endColumn)
         {
@@ -48,7 +78,7 @@ namespace MarkdownMonster
             };
         }
 
-        
+
         public string GetSelection()
         {
             return Invoke("getselection", false) as string;
@@ -90,6 +120,7 @@ namespace MarkdownMonster
         #endregion
 
         #region Navigation
+
         /// <summary>
         /// Sets the cursor position
         /// </summary>
@@ -102,7 +133,8 @@ namespace MarkdownMonster
         /// <summary>
         /// Sets the cursor position
         /// </summary>
-        /// <param name="pos">Previously captured position (column, row props)</param>
+        /// <param name="row">row to to goto</param>
+        /// <<param name="col">column to goto</param>
         public void SetCursorPosition(int row, int col)
         {
             Invoke("setCursorPosition", row, col);
@@ -132,7 +164,6 @@ namespace MarkdownMonster
         {
             Invoke("gotoLine", line, noRefresh, noSelection);
         }
-
 
         /// <summary>
         /// Sets scroll position from a scroll object (captured via COM)
@@ -215,21 +246,6 @@ namespace MarkdownMonster
         }
 
 
-        /// <summary>
-        /// Method used to send Configuration to the editor.
-        /// Sets things like font sizes, Word Wrap, padding etc.
-        /// Called from Markdown Document.
-        ///
-        /// Use <seealso cref="MarkdownDocumentEditor.RestyleEditor" /> instead.
-        /// </summary>
-        /// <param name="jsonStyleInfo"></param>
-        public void SetEditorStyle(string jsonStyleInfo)
-        {
-            Invoke("setEditorStyle", jsonStyleInfo);
-        }
-
-
-
         public void UpdateDocumentStats()
         {
             Invoke("updateDocumentStats", false);
@@ -243,7 +259,7 @@ namespace MarkdownMonster
         /// Sets the editors internal dirty flag
         /// </summary>
         /// <param name="isDirty"></param>
-        public void SetIsDirty(bool isDirty)
+        private void SetIsDirty(bool isDirty)
         {
             Set("isDirty", isDirty);
         }
@@ -268,6 +284,82 @@ namespace MarkdownMonster
         #endregion
 
         #region Editor Styling
+
+        /// <summary>
+        /// Method used to send Configuration to the editor.
+        /// Sets things like font sizes, Word Wrap, padding etc.
+        /// Called from Markdown Document.
+        ///
+        /// Use <seealso cref="MarkdownDocumentEditor.RestyleEditor" /> instead.
+        /// </summary>
+        public void SetEditorStyling()
+        {
+            Invoke("setEditorStyle", GetJsonStyleInfo());
+        }
+
+        /// <summary>
+        /// Gets a JSON string of all the settings that are exported to the
+        /// ACE Editor instance when styling the editor.
+        ///
+        /// This object is passed down to ACE which can then uses these settings
+        /// to update the editor styling in `setEditorStyle` and also with
+        /// a few additional settings.
+        /// </summary>
+        /// <returns>JSON string of all settings set by the editor</returns>
+        public static string GetJsonStyleInfo()
+        {
+            // determine if we want to rescale the editor fontsize
+            // based on DPI Screen Size
+            decimal dpiRatio = 1;
+            try
+            {
+                dpiRatio = WindowUtilities.GetDpiRatio(mmApp.Model.Window);
+            }
+            catch
+            {
+            }
+
+            var fontSize = mmApp.Configuration.Editor.FontSize *
+                           ((decimal)mmApp.Configuration.Editor.ZoomLevel / 100) * dpiRatio;
+
+            var config = mmApp.Configuration;
+
+            // CenteredModeMaxWidth is rendered based on Centered Mode only
+            int maxWidth = config.Editor.CenteredModeMaxWidth;
+            if (!config.Editor.CenteredMode)
+                maxWidth = 0;  // 0 means stretch full width
+
+            var style = new
+            {
+                Theme = config.EditorTheme,
+                FontSize = (int)fontSize,
+                MaxWidth = maxWidth,
+
+                config.Editor.Font,
+                config.Editor.LineHeight,
+                config.Editor.Padding,
+                config.Editor.HighlightActiveLine,
+                config.Editor.WrapText,
+                config.Editor.ShowLineNumbers,
+                config.Editor.ShowInvisibles,
+                config.Editor.ShowPrintMargin,
+                config.Editor.PrintMargin,
+                config.Editor.WrapMargin,
+                config.Editor.KeyboardHandler,
+                config.Editor.EnableBulletAutoCompletion,
+                config.Editor.TabSize,
+                config.Editor.UseSoftTabs,
+                config.Editor.RightToLeft
+            };
+
+            var settings = new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            };
+            return JsonConvert.SerializeObject(style, settings);
+        }
+
+
 
         public void EnableSpellChecking(bool enable , string dictionary = "en-us")
         {
@@ -294,7 +386,7 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="show"></param>
         public void SetShowLineNumbers(bool show)
@@ -314,6 +406,21 @@ namespace MarkdownMonster
         public void SetWordWrap(bool enable)
         {
             Invoke("setWordWrap", enable);
+        }
+
+        public void AdjustPadding(bool forceRefresh)
+        {
+            Invoke("adjustPadding", forceRefresh);
+        }
+
+        /// <summary>
+        /// Sets the editor split mode
+        /// - Beside, Below, None
+        /// </summary>
+        /// <param name="location"></param>
+        public void Split(string location)
+        {
+            Invoke("split", location);
         }
 
         public void ExecCommand(string action, string parm)
@@ -386,6 +493,9 @@ namespace MarkdownMonster
         /// <returns></returns>
         public object Invoke(string method, params object[] parameters)
         {
+            // Instance methods have to have a parameter to be found (arguments array)
+            if (parameters == null)
+                parameters = new object[] {false};
 #if DEBUG
             try
             {
@@ -413,6 +523,9 @@ namespace MarkdownMonster
         /// <returns></returns>
         public T Invoke<T>(string method, params object[] parameters)
         {
+            // Instance methods have to have a parameter to be found (arguments array)
+            if (parameters == null)
+                parameters = new object[] {false};
 
             //var res = ReflectionUtils.CallMethod(Instance, method, parameters);
             var res = InstanceType.InvokeMember(method, flags | BindingFlags.InvokeMethod, null, Instance,
@@ -421,6 +534,36 @@ namespace MarkdownMonster
                 return default(T);
 
             return (T)res;
+        }
+
+        /// <summary>
+        /// Extended method invocation that can use . syntax to walk
+        /// an object property hierarchy. Slower, but provides support
+        /// for . and indexer [] syntax.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public object InvokeEx(string method, params object[] parameters)
+        {
+            // Instance methods have to have a parameter to be found (arguments array)
+            if (parameters == null)
+                parameters = new object[] {false};
+
+            return ReflectionUtils.CallMethodExCom(Instance, method, parameters);
+        }
+
+
+        /// <summary>
+        /// Extended method invocation that can use . syntax to walk
+        /// an object property hierarchy.
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="method"></param>
+        /// <<param name="parameters">optional list of parameters. Leave blank if no parameters</param>
+        /// <returns></returns>
+        public object InvokeEx(object instance, string method, params object[] parameters)
+        {
+            return ReflectionUtils.CallMethodExCom(instance, method, parameters);
         }
 
 
@@ -461,26 +604,6 @@ namespace MarkdownMonster
             //ReflectionUtils.SetProperty(Instance, property, value);
         }
         #endregion
-
-        public void AdjustPadding(bool forceRefresh)
-        {
-            Invoke("adjustPadding", forceRefresh);
-        }
-
-        public void SetFocus()
-        {
-            Invoke("setfocus", false);
-        }
-
-        /// <summary>
-        /// Sets the editor split mode
-        /// - Beside, Below, None
-        /// </summary>
-        /// <param name="location"></param>
-        public void Split(string location)
-        {
-            Invoke("split", location);
-        }
     }
 }
 

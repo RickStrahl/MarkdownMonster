@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="Westwind.Utilities, Version=3.0.26.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Westwind.Utilities.3.0.26\lib\net46\Westwind.Utilities.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>

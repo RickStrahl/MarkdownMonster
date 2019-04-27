@@ -92,9 +92,20 @@ namespace MarkdownMonster
         /// </summary>
         public MarkdownDocument MarkdownDocument { get; set; }
 
-        public dynamic xAceEditor { get; set; }
 
-        public AceEditorCom AceEditorCom { get; set; }
+
+        /// <summary>
+        /// Ace Editor Bridge instance. This is a wrapper around the
+        /// Ace Editor JavaScript object in `editor.js` that holds
+        /// most of the interop methods. You can also use `Invoke`
+        /// and `Get()` and `Set()` to dynamically access any other
+        /// members directly.
+        ///
+        /// NOTE: This has changed from the raw Dynamic instance of previous
+        /// versions due to incompatibilities with .NET Core 3.0. This
+        /// Bridge layer will be used instead going forward
+        /// </summary>
+        public AceEditorCom AceEditor { get; set; }
 
 
         public string EditorSyntax
@@ -213,7 +224,7 @@ namespace MarkdownMonster
             if (mdDoc != null)
                 MarkdownDocument = mdDoc;
 
-            if (AceEditorCom == null)
+            if (AceEditor == null)
             {
                 WebBrowser.LoadCompleted += OnDocumentCompleted;
                 WebBrowser.Navigate(new Uri(Path.Combine(App.InitialStartDirectory, "Editor\\editor.htm")));
@@ -228,22 +239,19 @@ namespace MarkdownMonster
 
         private void OnDocumentCompleted(object sender, NavigationEventArgs e)
         {
-            if (AceEditorCom == null)
+            if (AceEditor == null)
             {
                 // Get the JavaScript Ace Editor Instance
                 dynamic doc = WebBrowser.Document;
                 var window = doc.parentWindow;
 
-
                 try
                 {
 
-                    var jsonStyle = GetJsonStyleInfo();
-                    var inst = WebBrowser.InvokeScript("initializeinterop", this, jsonStyle);
-                    //AceEditor =   WebBrowser.InvokeScript("initializeinterop",this,jsonStyle);
-                    AceEditorCom = new AceEditorCom(inst);
-
-
+                    var jsonStyle = AceEditorCom.GetJsonStyleInfo();
+                    var inst = WebBrowser.InvokeScript("initializeinterop",this,jsonStyle);
+                    AceEditor = new AceEditorCom(inst);
+                    
                 }
                 catch (Exception ex)
                 {
@@ -252,15 +260,15 @@ namespace MarkdownMonster
                 }
 
                 if (EditorSyntax != "markdown")
-                    AceEditorCom?.SetLanguage(EditorSyntax);
+                    AceEditor?.SetLanguage(EditorSyntax);
 
 
                 if (EditorSyntax == "markdown" || EditorSyntax == "text")
-                    AceEditorCom?.EnableSpellChecking(!mmApp.Configuration.Editor.EnableSpellcheck,
+                    AceEditor?.EnableSpellChecking(!mmApp.Configuration.Editor.EnableSpellcheck,
                         mmApp.Configuration.Editor.Dictionary);
                 else
                     // always disable for non-markdown text
-                    AceEditorCom?.EnableSpellChecking(true, mmApp.Configuration.Editor.Dictionary);
+                    AceEditor?.EnableSpellChecking(true, mmApp.Configuration.Editor.Dictionary);
 
 
                 if (!NoInitialFocus)
@@ -335,12 +343,12 @@ namespace MarkdownMonster
                     SetDirty(true);
             }
 
-            if (AceEditorCom != null)
+            if (AceEditor != null)
             {
                 if (position == null)
                     position = -2; // keep position
 
-                AceEditorCom.SetValue(markdown ?? string.Empty, position, keepUndoBuffer);
+                AceEditor.SetValue(markdown ?? string.Empty, position, keepUndoBuffer);
             }
 
             if (updateDirtyFlag)
@@ -353,10 +361,10 @@ namespace MarkdownMonster
         /// <returns></returns>
         public string GetMarkdown()
         {
-            if (AceEditorCom == null)
+            if (AceEditor == null)
                 return "";
 
-            MarkdownDocument.CurrentText = AceEditorCom.GetValue();
+            MarkdownDocument.CurrentText = AceEditor.GetValue();
             return MarkdownDocument.CurrentText;
         }
 
@@ -382,7 +390,7 @@ namespace MarkdownMonster
         /// <param name="isEncrypted">Determines if the file is using local encryption</param>
         public bool SaveDocument(bool isEncrypted = false)
         {
-            if (MarkdownDocument == null || AceEditorCom == null ||
+            if (MarkdownDocument == null || AceEditor == null ||
                 !AddinManager.Current.RaiseOnBeforeSaveDocument(MarkdownDocument))
                 return false;
 
@@ -409,7 +417,8 @@ namespace MarkdownMonster
 
             AddinManager.Current.RaiseOnAfterSaveDocument(MarkdownDocument);
 
-            AceEditorCom.SetIsDirty(false);
+            // let the document know it's now clean
+            AceEditor.IsDirty = false;
 
             // reload settings if we were editing the app config file.
             var justfile = Path.GetFileName(MarkdownDocument.Filename).ToLower();
@@ -680,23 +689,23 @@ namespace MarkdownMonster
                     {
                         var id = "image_ref_" + DataUtils.GenerateUniqueId();
 
-                        dynamic pos = AceEditorCom.GetCursorPosition();
-                        dynamic scroll = AceEditorCom.GetScrollTop();
+                        dynamic pos = AceEditor.GetCursorPosition();
+                        dynamic scroll = AceEditor.GetScrollTop();
 
                         // the ID tag
                         html = $"\r\n\r\n[{id}]: {image}\r\n";
 
                         // set selction position to bottom of document
-                        AceEditorCom.GotoBottom();
+                        AceEditor.GotoBottom();
                         SetSelection(html);
 
                         WindowUtilities.DoEvents();
 
                         // reset the selection point
-                        AceEditorCom.SetCursorPosition(pos); //pos.column,pos.row);
+                        AceEditor.SetCursorPosition(pos); //pos.column,pos.row);
 
                         if (scroll != null)
-                            AceEditorCom.SetScrollTop(scroll);
+                            AceEditor.SetScrollTop(scroll);
 
                         WindowUtilities.DoEvents();
 
@@ -780,10 +789,10 @@ namespace MarkdownMonster
         /// <param name="action"></param>
         public void ProcessEditorUpdateCommand(string action)
         {
-            if (AceEditorCom == null)
+            if (AceEditor == null)
                 return;
 
-            string html = AceEditorCom.GetSelection();
+            string html = AceEditor.GetSelection();
 
             var result = MarkupMarkdown(action, html);
 
@@ -830,23 +839,23 @@ namespace MarkdownMonster
                     {
                         var id = "image_ref_" + DataUtils.GenerateUniqueId();
 
-                        dynamic pos = AceEditorCom.GetCursorPosition();
-                        dynamic scroll = AceEditorCom.GetScrollTop();
+                        dynamic pos = AceEditor.GetCursorPosition();
+                        dynamic scroll = AceEditor.GetScrollTop();
 
                         // the ID tag
                         html = $"\r\n\r\n[{id}]: {image}\r\n";
 
                         // set selction position to bottom of document
-                        AceEditorCom.GotoBottom();
+                        AceEditor.GotoBottom();
                         SetSelection(html);
 
                         WindowUtilities.DoEvents();
 
                         // reset the selection point
-                        AceEditorCom.SetCursorPosition(pos); //pos.column,pos.row);
+                        AceEditor.SetCursorPosition(pos); //pos.column,pos.row);
 
                         if (scroll != null)
-                            AceEditorCom.SetScrollTop(scroll);
+                            AceEditor.SetScrollTop(scroll);
 
                         WindowUtilities.DoEvents();
 
@@ -916,7 +925,7 @@ namespace MarkdownMonster
             if (action == null)
                 return;
 
-            AceEditorCom?.Invoke("execcommand", action, parm);
+            AceEditor?.Invoke("execcommand", action, parm);
         }
 
         #endregion
@@ -940,7 +949,7 @@ namespace MarkdownMonster
         /// <param name="syntax"></param>
         public void SetEditorSyntax(string syntax = "markdown")
         {
-            AceEditorCom?.SetLanguage(syntax);
+            AceEditor?.SetLanguage(syntax);
         }
 
 
@@ -951,10 +960,10 @@ namespace MarkdownMonster
         /// <returns></returns>
         public int GetFontSize()
         {
-            if (AceEditorCom == null)
+            if (AceEditor == null)
                 return 0;
 
-            object fontsize = AceEditorCom.GetFontSize();
+            object fontsize = AceEditor.GetFontSize();
             if (fontsize == null || !(fontsize is double || fontsize is int))
                 return 0;
 
@@ -978,22 +987,23 @@ namespace MarkdownMonster
         /// <param name="forceSync">Forces higher priority on this operation - use when editor initializes at first</param>
         public void RestyleEditor(bool forceSync = false, bool initialize = false)
         {
-            if (AceEditorCom == null)
+            if (AceEditor == null)
                 return;
 
             Window.Dispatcher.InvokeAsync(() =>
                 {
                     try
                     {
-                        var jsonStyle = GetJsonStyleInfo();
-                        AceEditorCom.SetEditorStyle(jsonStyle);
+                        // pass config settings to the editor and force
+                        // editor to apply new settings
+                        AceEditor.SetEditorStyling();
 
                         if (EditorSyntax == "markdown" || EditorSyntax == "text")
-                            AceEditorCom.EnableSpellChecking(!mmApp.Configuration.Editor.EnableSpellcheck,
+                            AceEditor.EnableSpellChecking(!mmApp.Configuration.Editor.EnableSpellcheck,
                                 mmApp.Configuration.Editor.Dictionary);
                         else
                             // always disable for non-markdown text
-                            AceEditorCom.EnableSpellChecking(true, mmApp.Configuration.Editor.Dictionary);
+                            AceEditor.EnableSpellChecking(true, mmApp.Configuration.Editor.Dictionary);
                     }
                     catch
                     {
@@ -1004,58 +1014,7 @@ namespace MarkdownMonster
                     : System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
 
-        string GetJsonStyleInfo()
-        {
-            // determine if we want to rescale the editor fontsize
-            // based on DPI Screen Size
-            decimal dpiRatio = 1;
-            try
-            {
-                dpiRatio = WindowUtilities.GetDpiRatio(Window);
-            }
-            catch
-            {
-            }
-
-            var fontSize = mmApp.Configuration.Editor.FontSize *
-                           ((decimal)mmApp.Configuration.Editor.ZoomLevel / 100) * dpiRatio;
-
-            var config = mmApp.Configuration;
-
-            // CenteredModeMaxWidth is rendered based on Centered Mode only
-            int maxWidth = config.Editor.CenteredModeMaxWidth;
-            if (!config.Editor.CenteredMode)
-                maxWidth = 0;  // 0 means stretch full width
-
-            var style = new
-            {
-                Theme = config.EditorTheme,
-                config.Editor.Font,
-                FontSize = (int)fontSize,
-                config.Editor.LineHeight,
-                MaxWidth = maxWidth,
-                config.Editor.Padding,
-                config.Editor.HighlightActiveLine,
-                config.Editor.WrapText,
-                config.Editor.ShowLineNumbers,
-                config.Editor.ShowInvisibles,
-                config.Editor.ShowPrintMargin,
-                config.Editor.PrintMargin,
-                config.Editor.WrapMargin,
-                config.Editor.KeyboardHandler,
-                config.Editor.EnableBulletAutoCompletion,
-                config.Editor.TabSize,
-                config.Editor.UseSoftTabs,
-                config.Editor.RightToLeft,
-            };
-
-            var settings = new JsonSerializerSettings()
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            };
-            return JsonConvert.SerializeObject(style, settings);
-        }
-
+      
         /// <summary>
         /// Sets line number gutter on and off. Separated out from Restyle Editor to
         /// allow line number config to be set separately from main editor settings
@@ -1067,7 +1026,7 @@ namespace MarkdownMonster
             if (show == null)
                 show = mmApp.Configuration.Editor.ShowLineNumbers;
 
-            AceEditorCom?.SetShowLineNumbers(show.Value);
+            AceEditor?.SetShowLineNumbers(show.Value);
         }
 
         /// <summary>
@@ -1079,7 +1038,7 @@ namespace MarkdownMonster
             if (show == null)
                 show = mmApp.Configuration.Editor.ShowInvisibles;
 
-            AceEditorCom?.SetShowInvisibles(show.Value);
+            AceEditor?.SetShowInvisibles(show.Value);
         }
 
         /// <summary>
@@ -1091,7 +1050,7 @@ namespace MarkdownMonster
         /// <param name="show"></param>
         public void SetReadOnly(bool show = true)
         {
-            AceEditorCom?.SetReadOnly(show);
+            AceEditor?.SetReadOnly(show);
         }
 
         /// <summary>
@@ -1100,7 +1059,7 @@ namespace MarkdownMonster
         /// <param name="enable"></param>
         public void SetWordWrap(bool enable)
         {
-            AceEditorCom?.SetWordWrap(enable);
+            AceEditor?.SetWordWrap(enable);
         }
 
         #endregion
@@ -1164,7 +1123,7 @@ namespace MarkdownMonster
         /// <param name="text"></param>
         public void ReplaceContent(string text)
         {
-            AceEditorCom?.ReplaceContent(text);
+            AceEditor?.ReplaceContent(text);
         }
 
 
@@ -1174,7 +1133,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public string GetSelection()
         {
-            return AceEditorCom?.GetSelection();
+            return AceEditor?.GetSelection();
         }
 
 
@@ -1185,7 +1144,7 @@ namespace MarkdownMonster
         /// <returns>SelectionRange object or null if no selection is active</returns>
         public SelectionRange GetSelectionRange()
         {
-            return AceEditorCom?.GetSelectionRange();
+            return AceEditor?.GetSelectionRange();
         }
 
         /// <summary>
@@ -1196,10 +1155,10 @@ namespace MarkdownMonster
         /// <param name="text"></param>
         public void SetSelection(string text)
         {
-            if (AceEditorCom == null)
+            if (AceEditor == null)
                 return;
 
-            AceEditorCom.SetSelection(text);
+            AceEditor.SetSelection(text);
             IsDirty();
             MarkdownDocument.CurrentText = GetMarkdown();
         }
@@ -1211,7 +1170,7 @@ namespace MarkdownMonster
         /// <param name="text"></param>
         public void SetSelectionAndFocus(string text)
         {
-            if (AceEditorCom == null)
+            if (AceEditor == null)
                 return;
 
             SetSelection(text);
@@ -1227,7 +1186,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public string GetCurrentLine()
         {
-            return AceEditorCom?.GetCurrentLine();
+            return AceEditor?.GetCurrentLine();
         }
 
         /// <summary>
@@ -1239,7 +1198,7 @@ namespace MarkdownMonster
         {
             try
             {
-                return AceEditorCom?.GetLine(rowNumber);
+                return AceEditor?.GetLine(rowNumber);
             }
             catch
             {
@@ -1254,12 +1213,12 @@ namespace MarkdownMonster
         /// <returns></returns>
         public int GetLineNumber()
         {
-            if (AceEditorCom == null)
+            if (AceEditor == null)
                 return -1;
 
             try
             {
-                int lineNo = AceEditorCom.GetLineNumber();
+                int lineNo = AceEditor.GetLineNumber();
                 return lineNo;
             }
             catch
@@ -1282,7 +1241,7 @@ namespace MarkdownMonster
 
             try
             {
-                AceEditorCom?.GotoLine(line, noRefresh, noSelection);
+                AceEditor?.GotoLine(line, noRefresh, noSelection);
             }
             catch
             {
@@ -1291,7 +1250,7 @@ namespace MarkdownMonster
 
         public void FindAndReplaceTextInCurrentLine(string search, string replace)
         {
-            AceEditorCom?.Invoke("findAndReplaceTextInCurrentLine", search, replace);
+            AceEditor?.Invoke("findAndReplaceTextInCurrentLine", search, replace);
         }
 
 
@@ -1301,7 +1260,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public AcePosition GetCursorPosition()
         {
-            dynamic pos = AceEditorCom.GetCursorPosition();
+            dynamic pos = AceEditor.GetCursorPosition();
             if (pos == null)
                 return new AcePosition { row = -1, column = -1 };
             var pt = new AcePosition()
@@ -1321,7 +1280,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public void SetCursorPosition(int col, int row)
         {
-            AceEditorCom?.SetCursorPosition(row, col);
+            AceEditor?.SetCursorPosition(row, col);
         }
 
         /// <summary>
@@ -1329,25 +1288,25 @@ namespace MarkdownMonster
         /// </summary>
         public void SetCursorPosition(AcePosition pos)
         {
-            AceEditorCom?.SetCursorPosition(pos.row, pos.column);
+            AceEditor?.SetCursorPosition(pos.row, pos.column);
         }
 
         public void MoveCursorPosition(int column, int row = 0)
         {
             if (column > 0)
-                AceEditorCom.Invoke("moveCursorRight", column);
+                AceEditor.Invoke("moveCursorRight", column);
             else if (column < 0)
-                AceEditorCom.Invoke("moveCursorLeft", column * -1);
+                AceEditor.Invoke("moveCursorLeft", column * -1);
         }
 
         public void SetSelectionRange(AcePosition start, AcePosition end)
         {
-            AceEditorCom?.SetSelectionRange(start.row, start.column, end.row, end.column);
+            AceEditor?.SetSelectionRange(start.row, start.column, end.row, end.column);
         }
 
         public void SetSelectionRange(int startRow, int startColumn, int endRow, int endColumn)
         {
-            AceEditorCom?.SetSelectionRange(startRow, startColumn, endRow, endColumn);
+            AceEditor?.SetSelectionRange(startRow, startColumn, endRow, endColumn);
         }
 
         /// <summary>
@@ -1356,12 +1315,12 @@ namespace MarkdownMonster
         /// <returns></returns>
         public int GetScrollPosition()
         {
-            if (AceEditorCom == null)
+            if (AceEditor == null)
                 return -1;
 
             try
             {
-                object st = AceEditorCom.GetScrollTop();
+                object st = AceEditor.GetScrollTop();
                 int scrollTop = (int)st;
                 return scrollTop;
             }
@@ -1378,12 +1337,12 @@ namespace MarkdownMonster
         /// <param name="top"></param>
         public void SetScrollPosition(int top)
         {
-            if (AceEditorCom == null)
+            if (AceEditor == null)
                 return;
 
             try
             {
-                AceEditorCom.SetScrollTop(top);
+                AceEditor.SetScrollTop(top);
             }
             catch
             {
@@ -1418,7 +1377,7 @@ namespace MarkdownMonster
         /// <param name="mode"></param>
         public void SplitEditor(EditorSplitModes mode)
         {
-            AceEditorCom?.Split(mode.ToString());
+            AceEditor?.Split(mode.ToString());
         }
 
         #endregion
@@ -1432,7 +1391,7 @@ namespace MarkdownMonster
         {
             try
             {
-                AceEditorCom?.SetFocus();
+                AceEditor?.SetFocus();
             }
             catch (Exception ex)
             {
@@ -1557,7 +1516,7 @@ namespace MarkdownMonster
         /// Determines whether current document is dirty and requires saving
         /// </summary>
         /// <returns></returns>
-        public bool IsDirty()
+        public bool IsDirty(bool previewIfDirty = false)
         {
             GetMarkdown();
 
@@ -1573,6 +1532,9 @@ namespace MarkdownMonster
                     IsPreview = false;
                     Window.PreviewTab = null;
                 }
+
+                if (previewIfDirty)
+                    Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true);
             }
 
             return MarkdownDocument.IsDirty;
@@ -1694,7 +1656,7 @@ namespace MarkdownMonster
                             return;
                     }
 
-                    AceEditorCom = null;
+                    AceEditor = null;
                     MarkdownDocument.Load();
                     LoadDocument(MarkdownDocument, true);
                     PreviewMarkdownCallback();
@@ -1767,7 +1729,7 @@ namespace MarkdownMonster
 
         public void FindAndReplaceText(string search, string replace)
         {
-            AceEditorCom?.FindAndReplaceText(search, replace);
+            AceEditor?.FindAndReplaceText(search, replace);
         }
 
 
@@ -2016,7 +1978,7 @@ namespace MarkdownMonster
                 else
                     relFilePath = "file:///" + relFilePath;
 
-                AceEditorCom.SetSelPositionFromMouse();
+                AceEditor.SetSelPositionFromMouse();
 
                 Window.Dispatcher.InvokeAsync(() =>
                 {
@@ -2065,7 +2027,7 @@ namespace MarkdownMonster
         public void SpellCheckDocument()
         {
             if (mmApp.Configuration.Editor.EnableSpellcheck)
-                AceEditorCom?.SpellCheckDocument(true);
+                AceEditor?.SpellCheckDocument(true);
         }
 
         public void SetSpellChecking(bool turnOff)
@@ -2121,7 +2083,7 @@ namespace MarkdownMonster
         /// </summary>
         public void EditorContextMenu()
         {
-            AceEditorCom?.ShowSuggestions();
+            AceEditor?.ShowSuggestions();
         }
 
 
@@ -2140,7 +2102,8 @@ namespace MarkdownMonster
                     "Couldn't add word to dictionary. Most likely you don't have write access in the settings folder.");
             else
             {
-                AceEditorCom.SetIsDirty(true);
+                // force the editor to spellcheck on next cycle
+                AceEditor.IsDirty = true;
             }
         }
 
