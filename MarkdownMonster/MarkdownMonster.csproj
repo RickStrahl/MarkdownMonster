@@ -2,11 +2,23 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>net462</TargetFrameworks>
+    <Version>1.16.11</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <StartupObject>StartUp</StartupObject>
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
+    <PackageProjectUrl>https://markdownmonster.west-wind.com</PackageProjectUrl>
+    <PackageIconUrl>http://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_256.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/rickstrahl/MarkdownMonster</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
+    <PackageTags>markdown editor weblog-publishing blogging documentation writing westwind admin</PackageTags>
+    <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,14 +31,17 @@
     <PackageReference Include="Markdig" Version="0.16.0" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.3.3" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.9.1" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
     <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
-    <PackageReference Include="Westwind.Utilities" Version="3.0.25" />
+    <PackageReference Include="Westwind.Utilities" Version="3.0.26" />
     <PackageReference Include="ReverseMarkdown" Version="3.6.0" />
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
+  </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
@@ -46,12 +61,22 @@
     <None Update="Editor\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="PreviewThemes\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Hunspellx64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Hunspellx86.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
   </ItemGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
+    <DefineConstants>NETFULL</DefineConstants>
+  </PropertyGroup>
 </Project>

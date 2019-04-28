@@ -58,7 +58,6 @@ using Newtonsoft.Json.Serialization;
 using NHunspell;
 using Westwind.Utilities;
 
-
 namespace MarkdownMonster
 {
 
@@ -241,10 +240,6 @@ namespace MarkdownMonster
         {
             if (AceEditor == null)
             {
-                // Get the JavaScript Ace Editor Instance
-                dynamic doc = WebBrowser.Document;
-                var window = doc.parentWindow;
-
                 try
                 {
 
@@ -1478,7 +1473,11 @@ namespace MarkdownMonster
             string enc = string.Empty;
             bool hasBom = true;
             if (MarkdownDocument.Encoding.WebName == "utf-8")
+#if NETFULL
                 hasBom = (bool)ReflectionUtils.GetField(MarkdownDocument.Encoding, "emitUtf8Identifier");
+#else
+                hasBom = (bool)ReflectionUtils.GetField(MarkdownDocument.Encoding, "_emitUTF8Identifier");
+#endif
 
             if (hasBom)
             {
@@ -1852,6 +1851,8 @@ namespace MarkdownMonster
                             initialFolder = documentPath;
                     }
 
+                    WindowUtilities.DoEvents();
+
                     var sd = new SaveFileDialog
                     {
                         Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
@@ -1878,12 +1879,12 @@ namespace MarkdownMonster
                             {
                                 using (var bmp = new Bitmap(bitMap))
                                 {
-                                    ImageUtils.SaveJpeg(bmp, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
+                                    MarkdownMonster.Utilities.ImageUtils.SaveJpeg(bmp, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
                                 }
                             }
                             else
                             {
-                                var format = ImageUtils.GetImageFormatFromFilename(imagePath);
+                                var format = MarkdownMonster.Utilities.ImageUtils.GetImageFormatFromFilename(imagePath);
                                 bitMap.Save(imagePath, format);
                                 bitMap.Dispose();
 
@@ -2015,10 +2016,10 @@ namespace MarkdownMonster
                 mmApp.Model.Window.KeyBindings.KeyBindings.Where(kb => kb.HasJavaScriptHandler));
         }
 
-        #endregion
+#endregion
 
 
-        #region SpellChecking interactions
+#region SpellChecking interactions
 
         /// <summary>
         /// Forces the document to be spell checked again
@@ -2107,10 +2108,10 @@ namespace MarkdownMonster
             }
         }
 
-        #endregion
+#endregion
 
 
-        #region Events Raised by the editor calling back to WPF
+#region Events Raised by the editor calling back to WPF
 
         /// <summary>
         /// Allows the Editor to raise events that can be captured by
@@ -2124,7 +2125,7 @@ namespace MarkdownMonster
             AddinManager.Current.RaiseOnNotifyAddin(command, parameter);
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// Handle dropping of files

@@ -271,7 +271,7 @@ namespace MarkdownMonster.Windows
                         var ext = Path.GetExtension(imagePath)?.ToLower();
 
                         if (ext == ".jpg" || ext == ".jpeg")
-                            ImageUtils.SaveJpeg(bitMap, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
+                            MarkdownMonster.Utilities.ImageUtils.SaveJpeg(bitMap, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
 
                         else
                         {

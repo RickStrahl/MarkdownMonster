@@ -84,7 +84,7 @@ namespace MarkdownMonster
                 var mmRegKey = @"SOFTWARE\West Wind Technologies\Markdown Monster";
 
                 dynamic data;
-                if (!WindowsUtils.TryGetRegistryKey(mmRegKey, "MachineKey", out data, UseCurrentUser: true))
+                if (!MarkdownMonster.Utilities.WindowsUtils.TryGetRegistryKey(mmRegKey, "MachineKey", out data, UseCurrentUser: true))
                 {
                     data = Guid.NewGuid().ToString();
                     var rk = Registry.CurrentUser.OpenSubKey(mmRegKey, true);
@@ -272,7 +272,7 @@ namespace MarkdownMonster
                 t.Properties.Add("usage", Configuration.ApplicationUpdates.AccessCount.ToString());
                 t.Properties.Add("registered", UnlockKey.IsRegistered().ToString());
                 t.Properties.Add("version", GetVersion());
-                t.Properties.Add("dotnetversion", WindowsUtils.GetDotnetVersion());
+                t.Properties.Add("dotnetversion", MarkdownMonster.Utilities.WindowsUtils.GetDotnetVersion());
                 t.Properties.Add("culture", CultureInfo.CurrentUICulture.IetfLanguageTag);
                 t.Stop();
 
@@ -330,7 +330,7 @@ namespace MarkdownMonster
                             {"severity", unhandledException ? "unhandled" : ""},
                             {"version", version},
                             {"winversion", winVersion},
-                            {"dotnetversion", WindowsUtils.GetDotnetVersion()},
+                            {"dotnetversion", MarkdownMonster.Utilities.WindowsUtils.GetDotnetVersion()},
                             {"usage", Configuration.ApplicationUpdates.AccessCount.ToString()},
                             {"registered", UnlockKey.IsRegistered().ToString()},
                             {"culture", CultureInfo.CurrentCulture.IetfLanguageTag},
@@ -410,9 +410,9 @@ namespace MarkdownMonster
             {
                 string version = GetVersion();
                 string winVersion;
-                winVersion = WindowsUtils.GetWindowsVersion() +
+                winVersion = MarkdownMonster.Utilities.WindowsUtils.GetWindowsVersion() +
                              " - " + CultureInfo.CurrentUICulture.IetfLanguageTag +
-                             " - NET " + WindowsUtils.GetDotnetVersion() + " - " +
+                             " - NET " + MarkdownMonster.Utilities.WindowsUtils.GetDotnetVersion() + " - " +
                              (Environment.Is64BitProcess ? "64 bit" : "32 bit");
 
                 ex = ex.GetBaseException();

@@ -20,7 +20,7 @@ namespace MarkdownMonster.Windows
             VersionLabel.Content = "Version " +  mmApp.GetVersionForDisplay();
             VersionDateLabel.Content = mmApp.GetVersionDate();
             OsLabel.Content = (Environment.Is64BitProcess ? "64 bit" : "32 bit") + " • " +
-                             ".NET " + WindowsUtils.GetDotnetVersion();
+                             ".NET " + MarkdownMonster.Utilities.WindowsUtils.GetDotnetVersion();
             if(App.IsPortableMode)
                 PortableMode.Content = "Portable mode";
 

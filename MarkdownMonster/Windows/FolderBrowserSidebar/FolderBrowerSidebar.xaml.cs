@@ -473,21 +473,40 @@ namespace MarkdownMonster.Windows
                     folder = KnownFolders.GetPath(KnownFolder.Libraries);
             }
            
-            var dlg = new CommonOpenFileDialog();
-            dlg.Title = "Select folderOrFilePath to open in the Folder Browser";
-            dlg.IsFolderPicker = true;
-            dlg.InitialDirectory = folder;
-            dlg.RestoreDirectory = true;
-            dlg.ShowHiddenItems = true;
-            dlg.ShowPlacesList = true;
-            dlg.EnsurePathExists = true;
+            //var dlg = new CommonOpenFileDialog();
+            //dlg.Title = "Select folderOrFilePath to open in the Folder Browser";
+            //dlg.IsFolderPicker = true;
+            //dlg.InitialDirectory = folder;
+            //dlg.RestoreDirectory = true;
+            //dlg.ShowHiddenItems = true;
+            //dlg.ShowPlacesList = true;
+            //dlg.EnsurePathExists = true;
 
+            //var result = dlg.ShowDialog();
+            
+            //if (result != CommonFileDialogResult.Ok)
+            //    return;
+
+            
+            //FolderPath = dlg.FileName;
+            
+            var oldPath = Environment.CurrentDirectory;
+            var dlg = new System.Windows.Forms.FolderBrowserDialog();
+            dlg.Description = "Select folderOrFilePath to open in the Folder Browser";
+
+            dlg.SelectedPath = folder;
+            dlg.ShowNewFolderButton = true;
+            //g..UseDescriptionForTitle = true;
             var result = dlg.ShowDialog();
 
-            if (result != CommonFileDialogResult.Ok)
+            Directory.SetCurrentDirectory(oldPath);
+
+
+            if (result != System.Windows.Forms.DialogResult.OK || !Directory.Exists(dlg.SelectedPath))
                 return;
 
-            FolderPath = dlg.FileName;
+            FolderPath = dlg.SelectedPath;
+
 
             TreeFolderBrowser.Focus();
         }

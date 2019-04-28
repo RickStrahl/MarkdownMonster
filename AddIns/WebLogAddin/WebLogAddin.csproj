@@ -1,242 +1,64 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebLogAddin</RootNamespace>
-    <AssemblyName>WebLogAddin</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworks>net462</TargetFrameworks>
+    <AssemblyName>WeblogAddin</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\Addins\Weblog</OutDir>
+
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\MarkdownMonster\bin\Debug\Addins\Weblog\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\MarkdownMonster\bin\Release\Addins\Weblog\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="CookComputing.XmlRpcV2">
-      <HintPath>..\..\packages\xmlrpcnet.3.0.0.266\lib\net20\CookComputing.XmlRpcV2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Dragablz, Version=0.0.3.203, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dragablz.0.0.3.203\lib\net45\Dragablz.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.11.3.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a">
-      <HintPath>..\..\packages\HtmlAgilityPack.1.11.3\lib\Net45\HtmlAgilityPack.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="PresentationCore">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="PresentationFramework">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Configuration">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Core">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Drawing">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Security">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Web">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net462\System.Windows.Interactivity.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Xaml">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.CSharp">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Data">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Net.Http">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Xml">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Westwind.Utilities, Version=3.0.26.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Westwind.Utilities.3.0.26\lib\net46\Westwind.Utilities.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="WindowsBase">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="YamlDotNet, Version=6.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e">
-      <HintPath>..\..\packages\YamlDotNet.6.0.0\lib\net45\YamlDotNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <PackageReference Include="MahApps.Metro" version="1.6.5">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Dragablz" version="0.0.3.203">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" version="1.0.1">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="HtmlAgilityPack" version="1.11.3">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" version="12.0.1">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Westwind.Utilities" version="3.0.26">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="xmlrpcnet" version="3.0.0.266" />
+    <PackageReference Include="YamlDotNet" version="6.0.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="BlogEndpointDiscovery.cs" />
-    <Compile Include="Medium\MediumApiClient.cs" />
-    <Compile Include="Medium\MediumEntities.cs" />
-    <Compile Include="MetaWebLogApi\MetaWebLogWordpressApiClient.cs" />
-    <Compile Include="WeblogAddinModel.cs" />
-    <Compile Include="WeblogInfo.cs" />
-    <Compile Include="WeblogPostMetadata.cs" />
-    <Compile Include="WebLogForm.xaml.cs">
-      <DependentUpon>WebLogForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MetaWebLogApi\classes\Author.cs" />
-    <Compile Include="MetaWebLogApi\classes\Category.cs" />
-    <Compile Include="MetaWebLogApi\classes\Comment.cs" />
-    <Compile Include="MetaWebLogApi\classes\CommentCount.cs" />
-    <Compile Include="MetaWebLogApi\classes\CommentFilter.cs" />
-    <Compile Include="MetaWebLogApi\classes\CustomField.cs" />
-    <Compile Include="MetaWebLogApi\classes\Data.cs" />
-    <Compile Include="MetaWebLogApi\classes\Enums.cs" />
-    <Compile Include="MetaWebLogApi\classes\File.cs" />
-    <Compile Include="MetaWebLogApi\classes\MediaObject.cs" />
-    <Compile Include="MetaWebLogApi\classes\MediaObjectInfo.cs" />
-    <Compile Include="MetaWebLogApi\classes\Option.cs" />
-    <Compile Include="MetaWebLogApi\classes\Page.cs" />
-    <Compile Include="MetaWebLogApi\classes\PageMin.cs" />
-    <Compile Include="MetaWebLogApi\classes\PageTemplate.cs" />
-    <Compile Include="MetaWebLogApi\classes\Post.cs" />
-    <Compile Include="MetaWebLogApi\classes\PostStatusList.cs" />
-    <Compile Include="MetaWebLogApi\classes\TagInfo.cs" />
-    <Compile Include="MetaWebLogApi\classes\Term.cs" />
-    <Compile Include="MetaWebLogApi\classes\UserBlog.cs" />
-    <Compile Include="MetaWebLogApi\classes\UserInfo.cs" />
-    <Compile Include="MetaWebLogApi\helpers\EnumsHelper.cs" />
-    <Compile Include="MetaWebLogApi\helpers\FileSystemHelper.cs" />
-    <Compile Include="MetaWebLogApi\helpers\ImagesUtility.cs" />
-    <Compile Include="MetaWebLogApi\helpers\StringExtensionMethods.cs" />
-    <Compile Include="MetaWebLogApi\Mapper.cs" />
-    <Compile Include="MetaWebLogApi\wrappers\IMetaWeblogWrapper.cs" />
-    <Compile Include="MetaWebLogApi\wrappers\IWordPressWrapper.cs" />
-    <Compile Include="MetaWebLogApi\wrappers\MetaWeblogWrapper.cs" />
-    <Compile Include="MetaWebLogApi\wrappers\WordPressWrapper.cs" />
-    <Compile Include="MetaWebLogApi\wrappers\BaseWrapper.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcInterfaces\IMetaWeblogXmlRpc.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcInterfaces\IWordPressXmlRpc.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\Author.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\Category.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\Comment.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\CommentCount.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\CommentFilter.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\CustomField.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\Data.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\File.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\MediaObject.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\MediaObjectInfo.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\NewComment.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\Option.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\Page.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\PageMin.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\PageTemplate.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\Post.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\PostStatusList.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\RecentPost.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\TagInfo.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\Term.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\UserBlog.cs" />
-    <Compile Include="MetaWebLogApi\xmlRpcStructs\UserInfo.cs" />
-    <Compile Include="WebLogAddin.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebLogAddinConfiguration.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj">
-      <Project>{cb4eab0e-1796-476e-83a0-20da826e1c02}</Project>
-      <Name>MarkdownMonster</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="WebLogForm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="MarkdownMonster_Icon_128.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icon_22.png" />
-  </ItemGroup>
+    <!--<ProjectReference Include="$(SolutionDir)MarkdownMonster\MarkdownMonster.csproj" >
+     <IncludeAssets>build</IncludeAssets>
+    </ProjectReference>-->
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\MarkdownMonster.exe">
+      <Private>false</Private>
+    </Reference> 
+  </ItemGroup>  
+
   <ItemGroup>
     <Resource Include="icon.png" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <Resource Include="icon_22.png" />
+    <Resource Include="MarkdownMonster_Icon_128.png" />
+  </ItemGroup>  
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
+    <DefineConstants>NETFULL</DefineConstants>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
