@@ -105,7 +105,7 @@ namespace MarkdownMonster
         /// versions due to incompatibilities with .NET Core 3.0. This
         /// Bridge layer will be used instead going forward
         /// </summary>
-        public AceEditorCom AceEditor { get; set; }
+        public AceEditorInterop AceEditor { get; set; }
 
 
         public string EditorSyntax
@@ -248,9 +248,9 @@ namespace MarkdownMonster
                 try
                 {
 
-                    var jsonStyle = AceEditorCom.GetJsonStyleInfo();
+                    var jsonStyle = AceEditorInterop.GetJsonStyleInfo();
                     var inst = WebBrowser.InvokeScript("initializeinterop",this,jsonStyle);
-                    AceEditor = new AceEditorCom(inst);
+                    AceEditor = new AceEditorInterop(inst);
                     
                 }
                 catch (Exception ex)
