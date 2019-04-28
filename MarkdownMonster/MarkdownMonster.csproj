@@ -217,6 +217,7 @@
     </Compile>
     <Compile Include="Windows\PreviewBrowser\IEWebBrowserEditorHandler.cs" />
     <Compile Include="Windows\PreviewBrowser\IPreviewBrowser.cs" />
+    <Compile Include="_Classes\BrowserComInterop\PreviewBrowserInterop.cs" />
     <Compile Include="Windows\PreviewBrowser\PreviewBrowserWindow.xaml.cs">
       <DependentUpon>PreviewBrowserWindow.xaml</DependentUpon>
     </Compile>
@@ -246,12 +247,13 @@
     <Compile Include="Windows\GeneratePdfWindow.xaml.cs">
       <DependentUpon>GeneratePdfWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_Classes\AceEditorCom.cs" />
+    <Compile Include="_Classes\BrowserComInterop\AceEditorInterop.cs" />
     <Compile Include="_Classes\AddInInterfaces\AddinItem.cs" />
     <Compile Include="_Classes\AddInInterfaces\AddinManager.cs" />
     <Compile Include="_Classes\AddInInterfaces\AddInMenuItem.cs" />
     <Compile Include="_Classes\AddInInterfaces\IMarkdownMonsterAddin.cs" />
     <Compile Include="_Classes\AddInInterfaces\MarkdownMonsterAddin.cs" />
+    <Compile Include="_Classes\BrowserComInterop\BaseBrowserInterop.cs" />
     <Compile Include="_Classes\Configuration\GitConfiguration.cs" />
     <Compile Include="_Classes\Keybindings\AppKeyBinding.cs" />
     <Compile Include="_Classes\Utilities\GitHelper.cs" />

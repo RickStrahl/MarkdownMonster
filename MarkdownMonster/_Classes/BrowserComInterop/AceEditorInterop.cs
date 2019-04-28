@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using MarkdownMonster.Windows;
+﻿using MarkdownMonster.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Westwind.Utilities;
@@ -12,27 +10,8 @@ namespace MarkdownMonster
     /// Wrapper around the Ace Editor JavaScript COM interface that
     /// allows calling into the editor to perform various operations
     /// </summary>
-    public class AceEditorCom
+    public class AceEditorInterop : BaseBrowserInterop
     {
-        /// <summary>
-        /// The actual raw COM instance of the `te` instance
-        /// inside of  `editor.js`. The internal members use
-        /// this instance to access the members of the underlying
-        /// JavaScript object.
-        ///
-        /// You can use ReflectionUtils to further use Reflection
-        /// on this instance to automate Ace Editor.
-        ///
-        /// Example:
-        /// var udm = ReflectionUtils.InvokeMethod(AceEditor.Instance,"editor.session.getUndoManager",false)
-        /// RelectionManager.Invoke(udm,"undo",false);
-        ///
-        /// Note methods with no parameters should pass `false`
-        /// </summary>
-        public object Instance { get; }
-
-        public Type InstanceType { get;  }
-
         /// <summary>
         /// This is a Write Only property that  allows you to update
         /// the dirty status inside of the editor. This is not used
@@ -45,10 +24,8 @@ namespace MarkdownMonster
             set { SetIsDirty(value); }
         }
 
-        public AceEditorCom(object instance)
+        public AceEditorInterop(object instance) : base(instance)
         {
-            Instance = instance;
-            InstanceType = instance.GetType();
         }
 
         #region Selections
@@ -65,16 +42,16 @@ namespace MarkdownMonster
 
         public SelectionRange GetSelectionRange()
         {
-            var range =  Invoke("getselectionrange");
+            var range = Invoke("getselectionrange");
             if (range == null)
                 return null;
 
             return new SelectionRange
             {
-                StartRow = (int)ReflectionUtils.GetPropertyCom(range, "startRow"),
-                EndRow = (int)ReflectionUtils.GetPropertyCom(range, "endRow"),
-                StartColumn = (int)ReflectionUtils.GetPropertyCom(range, "startColumn"),
-                EndColumn = (int)ReflectionUtils.GetPropertyCom(range, "endColumn")
+                StartRow = (int) ReflectionUtils.GetPropertyCom(range, "startRow"),
+                EndRow = (int) ReflectionUtils.GetPropertyCom(range, "endRow"),
+                StartColumn = (int) ReflectionUtils.GetPropertyCom(range, "startColumn"),
+                EndColumn = (int) ReflectionUtils.GetPropertyCom(range, "endColumn")
             };
         }
 
@@ -96,7 +73,7 @@ namespace MarkdownMonster
 
         public void FindAndReplaceText(string search, string replace)
         {
-            Invoke("findAndReplaceText",search, replace);
+            Invoke("findAndReplaceText", search, replace);
         }
 
         public void DeleteCurrentLine()
@@ -115,8 +92,9 @@ namespace MarkdownMonster
         /// </summary>
         public void SetSelPositionFromMouse()
         {
-            Invoke("setselpositionfrommouse",false);
+            Invoke("setselpositionfrommouse", false);
         }
+
         #endregion
 
         #region Navigation
@@ -134,7 +112,7 @@ namespace MarkdownMonster
         /// Sets the cursor position
         /// </summary>
         /// <param name="row">row to to goto</param>
-        /// <<param name="col">column to goto</param>
+        /// <param name="col">column to goto</param>
         public void SetCursorPosition(int row, int col)
         {
             Invoke("setCursorPosition", row, col);
@@ -225,9 +203,11 @@ namespace MarkdownMonster
         {
             Invoke("moveCursorDown", count);
         }
+
         #endregion
 
         #region Values and Stats
+
         /// <summary>
         /// Set the value of the Editor
         /// </summary>
@@ -270,7 +250,7 @@ namespace MarkdownMonster
         /// <param name="force">if true forces the document to be rechecked otherwise dirty flag and timing is checked and may not actually spell check.</param>
         public void SpellCheckDocument(bool force)
         {
-            Invoke("spellcheckDocument",force);
+            Invoke("spellcheckDocument", force);
         }
 
 
@@ -281,6 +261,7 @@ namespace MarkdownMonster
         {
             Invoke("showSuggestions", false);
         }
+
         #endregion
 
         #region Editor Styling
@@ -320,21 +301,20 @@ namespace MarkdownMonster
             }
 
             var fontSize = mmApp.Configuration.Editor.FontSize *
-                           ((decimal)mmApp.Configuration.Editor.ZoomLevel / 100) * dpiRatio;
+                           ((decimal) mmApp.Configuration.Editor.ZoomLevel / 100) * dpiRatio;
 
             var config = mmApp.Configuration;
 
             // CenteredModeMaxWidth is rendered based on Centered Mode only
             int maxWidth = config.Editor.CenteredModeMaxWidth;
             if (!config.Editor.CenteredMode)
-                maxWidth = 0;  // 0 means stretch full width
+                maxWidth = 0; // 0 means stretch full width
 
             var style = new
             {
                 Theme = config.EditorTheme,
-                FontSize = (int)fontSize,
+                FontSize = (int) fontSize,
                 MaxWidth = maxWidth,
-
                 config.Editor.Font,
                 config.Editor.LineHeight,
                 config.Editor.Padding,
@@ -361,7 +341,7 @@ namespace MarkdownMonster
 
 
 
-        public void EnableSpellChecking(bool enable , string dictionary = "en-us")
+        public void EnableSpellChecking(bool enable, string dictionary = "en-us")
         {
             Invoke("enablespellchecking", enable, dictionary);
         }
@@ -382,7 +362,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public object GetFontSize()
         {
-            return Invoke("getfontsize",false);
+            return Invoke("getfontsize", false);
         }
 
         /// <summary>
@@ -403,6 +383,7 @@ namespace MarkdownMonster
         {
             Invoke("setReadOnly", show);
         }
+
         public void SetWordWrap(bool enable)
         {
             Invoke("setWordWrap", enable);
@@ -443,6 +424,7 @@ namespace MarkdownMonster
 
 
         #region UndoManager
+
         /// <summary>
         /// Returns the JavaScript UndoManager
         /// </summary>
@@ -450,7 +432,7 @@ namespace MarkdownMonster
         public object GetUndoManager()
         {
             var session = ReflectionUtils.GetPropertyExCom(Instance, "editor.session");
-            return ReflectionUtils.CallMethodCom(session, "getUndoManager",false);
+            return ReflectionUtils.CallMethodCom(session, "getUndoManager", false);
         }
 
         public bool HasUndo(object undoManager = null)
@@ -459,151 +441,27 @@ namespace MarkdownMonster
                 undoManager = GetUndoManager();
             return (bool) ReflectionUtils.CallMethodCom(undoManager, "hasUndo", false);
         }
+
         public bool HasRedo(object undoManager = null)
         {
             if (undoManager == null)
                 undoManager = GetUndoManager();
-            return (bool)ReflectionUtils.CallMethodCom(undoManager, "hasRedo", false);
+            return (bool) ReflectionUtils.CallMethodCom(undoManager, "hasRedo", false);
         }
 
         public void Undo()
         {
-            ReflectionUtils.CallMethodExCom(Instance, "editor.undo",false);
+            ReflectionUtils.CallMethodExCom(Instance, "editor.undo", false);
         }
 
         public void Redo()
         {
-            ReflectionUtils.CallMethodExCom(Instance, "editor.redo",false);
+            ReflectionUtils.CallMethodExCom(Instance, "editor.redo", false);
         }
 
         #endregion
 
-        #region COM Invocation
 
-        private const BindingFlags flags =
-            BindingFlags.Public | BindingFlags.NonPublic |
-            BindingFlags.Static | BindingFlags.Instance |
-            BindingFlags.IgnoreCase;
-
-        /// <summary>
-        /// Invokes a method on the editor by name with parameters
-        /// </summary>
-        /// <param name="method"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public object Invoke(string method, params object[] parameters)
-        {
-            // Instance methods have to have a parameter to be found (arguments array)
-            if (parameters == null)
-                parameters = new object[] {false};
-#if DEBUG
-            try
-            {
-#endif
-                return InstanceType.InvokeMember(method, flags | BindingFlags.InvokeMethod, null, Instance,
-                     parameters );
-#if DEBUG
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.GetBaseException().Message);
-                throw ex;
-            }
-#endif
-            //return ReflectionUtils.CallMethod(Instance, method, parameters);
-        }
-
-
-        /// <summary>
-        /// Invokes a method on the editor by name with parameters
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="method"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public T Invoke<T>(string method, params object[] parameters)
-        {
-            // Instance methods have to have a parameter to be found (arguments array)
-            if (parameters == null)
-                parameters = new object[] {false};
-
-            //var res = ReflectionUtils.CallMethod(Instance, method, parameters);
-            var res = InstanceType.InvokeMember(method, flags | BindingFlags.InvokeMethod, null, Instance,
-                new object[] { parameters });
-            if (res == null || res == DBNull.Value)
-                return default(T);
-
-            return (T)res;
-        }
-
-        /// <summary>
-        /// Extended method invocation that can use . syntax to walk
-        /// an object property hierarchy. Slower, but provides support
-        /// for . and indexer [] syntax.
-        /// </summary>
-        /// <param name="method"></param>
-        /// <returns></returns>
-        public object InvokeEx(string method, params object[] parameters)
-        {
-            // Instance methods have to have a parameter to be found (arguments array)
-            if (parameters == null)
-                parameters = new object[] {false};
-
-            return ReflectionUtils.CallMethodExCom(Instance, method, parameters);
-        }
-
-
-        /// <summary>
-        /// Extended method invocation that can use . syntax to walk
-        /// an object property hierarchy.
-        /// </summary>
-        /// <param name="instance"></param>
-        /// <param name="method"></param>
-        /// <<param name="parameters">optional list of parameters. Leave blank if no parameters</param>
-        /// <returns></returns>
-        public object InvokeEx(object instance, string method, params object[] parameters)
-        {
-            return ReflectionUtils.CallMethodExCom(instance, method, parameters);
-        }
-
-
-        /// <summary>
-        /// Retrieves a property value from the editor by name
-        /// </summary>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
-        public object Get(string propertyName)
-        {
-            return InstanceType.InvokeMember(propertyName, flags | BindingFlags.GetProperty, null, Instance, null);
-        }
-
-
-        /// <summary>
-        /// Retrieves a property from the editor by name
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
-        public T Get<T>(string propertyName)
-        {
-            var res = InstanceType.InvokeMember(propertyName, flags | BindingFlags.GetProperty, null, Instance, null);
-            if (res == null || res == DBNull.Value)
-                return default(T);
-
-            return (T) res;
-        }
-
-        /// <summary>
-        /// Sets a property on the editor by name
-        /// </summary>
-        /// <param name="propertyName"></param>
-        /// <param name="value"></param>
-        public void Set(string propertyName, object value)
-        {
-            InstanceType.InvokeMember(propertyName, flags | BindingFlags.SetProperty, null, Instance, new [] { value });
-            //ReflectionUtils.SetProperty(Instance, property, value);
-        }
-        #endregion
     }
 }
 

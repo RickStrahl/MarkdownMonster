@@ -41,6 +41,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         private bool _isVisible;
 
+        #region Initialization
         public IEWebBrowserPreviewHandler(WebBrowser browser)
         {
             WebBrowser = browser;
@@ -52,10 +53,91 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             wbHandler = new IEWebBrowserEditorHandler(browser);
         }
 
-
+        
 
         // IMPORTANT: for browser COM CSE errors which can happen with script errors
 
+        private void InitializePreviewBrowser()
+        {
+            // wbhandle has additional browser initialization code
+            // using the WebBrowserHostUIHandler
+            WebBrowser.LoadCompleted += PreviewBrowserOnLoadCompleted;
+        }
+
+
+        private void PreviewBrowserOnLoadCompleted(object sender, NavigationEventArgs e)
+        {
+            if (e.Uri == null)
+                return;
+
+            string url = e.Uri.ToString();
+            if (!url.Contains("_MarkdownMonster_Preview") && !url.Contains("__untitled.htm"))
+                return;
+
+            bool shouldScrollToEditor = WebBrowser.Tag != null && WebBrowser.Tag.ToString() == "EDITORSCROLL";
+            WebBrowser.Tag = null;
+
+            PreviewBrowserInterop interop = null;
+            MarkdownDocumentEditor editor = null;
+            try
+            {
+                editor = Window.GetActiveMarkdownEditor();
+                interop = new PreviewBrowserInterop(PreviewBrowserInterop.GetWindow(WebBrowser));
+
+                //ReflectionUtils.
+                //dom.documentElement.scrollTop = editor.MarkdownDocument.LastEditorLineNumber;
+
+                interop.InitializeInterop(editor);
+                interop.SetHighlightTimeout(Model.Configuration.Editor.PreviewHighlightTimeout);
+
+                //window.previewer.highlightTimeout = Model.Configuration.Editor.PreviewHighlightTimeout;
+
+                if (shouldScrollToEditor)
+                {
+                    try
+                    {
+                        // scroll preview to selected line
+                        if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
+                            mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
+                        {
+                            int lineno = editor.GetLineNumber();
+                            if (lineno > -1)
+                                interop.ScrollToPragmaLine(lineno);
+                        }
+                    }
+                    catch
+                    {
+                        /* ignore scroll error */
+                    }
+                }
+            }
+            catch
+            {
+                // try again after a short wait
+                Model.Window.Dispatcher.Delay(500,(i)=>
+                {
+                    var introp = i as PreviewBrowserInterop;
+                    try
+                    {
+                        introp.InitializeInterop(editor);
+                        introp.SetHighlightTimeout(Model.Configuration.Editor.PreviewHighlightTimeout);
+                    }
+                    catch
+                    {
+                        //mmApp.Log("Preview InitializeInterop failed: " + url, ex);
+                    }
+                },interop);
+            }
+        }
+
+        public void Dispose()
+        {
+            WebBrowser.Dispose();
+        }
+
+        #endregion
+
+        #region Preview
         /// <summary>
         /// Renders the current document or passed in HTML in the Web Browser preview
         /// or external preview
@@ -106,20 +188,21 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     mappedTo = mappedTo ?? string.Empty;
                 }
 
+                
+                PreviewBrowserInterop interop = null;
                 if (string.IsNullOrEmpty(ext) || mappedTo == "markdown" || mappedTo == "html")
                 {
-                    dynamic dom = null;
+
                     if (!showInBrowser)
                     {
                         if (keepScrollPosition)
                         {
-                            dom = WebBrowser.Document;
-                            doc.LastEditorLineNumber = dom.documentElement.scrollTop;
+                            interop = new PreviewBrowserInterop(PreviewBrowserInterop.GetWindow(WebBrowser));
                         }
                         else
                         {
                             Window.ShowPreviewBrowser(false, false);
-                            doc.LastEditorLineNumber = 0;
+                            
                         }
                     }
 
@@ -187,19 +270,12 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                                   .ToLower();
                         if (browserUrl == documentFile)
                         {
-                            dom = WebBrowser.Document;
-                            //var content = dom.getElementById("MainContent");
-
-
                             if (string.IsNullOrEmpty(renderedHtml))
                                 PreviewMarkdown(editor, false, false); // fully reload document
                             else
                             {
                                 try
                                 {
-                                    // explicitly update the document with JavaScript code
-                                    // much more efficient and non-jumpy and no wait cursor
-                                    var window = dom.parentWindow;
 
                                     try
                                     {
@@ -217,11 +293,11 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                             if (renderedHtml.Length < 80000)
                                                 highlightLineNo = 0; // no special handling render all code snippets
 
-                                            window.updateDocumentContent(renderedHtml,highlightLineNo);
-                                            window.scrollToPragmaLine(editorLineNumber);
+                                            interop.UpdateDocumentContent(renderedHtml,highlightLineNo);
+                                            interop.ScrollToPragmaLine(editorLineNumber);
                                         }
                                         else
-                                            window.updateDocumentContent(renderedHtml);
+                                            interop.UpdateDocumentContent(renderedHtml,0);
 
                                     }
                                     catch
@@ -235,8 +311,6 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                     // the page is not getting initiallized properly
                                     //PreviewBrowser.Refresh(true);
                                     WebBrowser.Tag = "EDITORSCROLL";
-
-
                                     WebBrowser.Navigate(new Uri(doc.HtmlRenderFilename));
                                 }
                             }
@@ -256,7 +330,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             catch (Exception ex)
             {
                 //mmApp.Log("PreviewMarkdown failed (Exception captured - continuing)", ex);
-                Debug.WriteLine("PreviewMarkdown failed (Exception captured - continuing)", ex);
+                Debug.WriteLine("PreviewMarkdown failed (Exception captured - continuing): " + ex.Message,ex);
             }
         }
 
@@ -291,6 +365,9 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
         }
 
+        #endregion
+
+        #region Navigation
         public void Navigate(string url)
         {
             WebBrowser.Navigate(new Uri(url));
@@ -320,82 +397,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             }
         }
 
-
-        private void InitializePreviewBrowser()
-        {
-            // wbhandle has additional browser initialization code
-            // using the WebBrowserHostUIHandler
-            WebBrowser.LoadCompleted += PreviewBrowserOnLoadCompleted;
-        }
-
-
-        private void PreviewBrowserOnLoadCompleted(object sender, NavigationEventArgs e)
-        {
-            if (e.Uri == null)
-                return;
-
-            string url = e.Uri.ToString();
-            if (!url.Contains("_MarkdownMonster_Preview") && !url.Contains("__untitled.htm"))
-                return;
-
-            bool shouldScrollToEditor = WebBrowser.Tag != null && WebBrowser.Tag.ToString() == "EDITORSCROLL";
-            WebBrowser.Tag = null;
-
-            dynamic window = null;
-            MarkdownDocumentEditor editor = null;
-            try
-            {
-                editor = Window.GetActiveMarkdownEditor();
-                dynamic dom = WebBrowser.Document;
-                window = dom.parentWindow;
-                dom.documentElement.scrollTop = editor.MarkdownDocument.LastEditorLineNumber;
-
-                window.initializeinterop(editor);
-                window.previewer.highlightTimeout = Model.Configuration.Editor.PreviewHighlightTimeout;
-
-                if (shouldScrollToEditor)
-                {
-                    try
-                    {
-                        // scroll preview to selected line
-                        if (mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorAndPreview ||
-                            mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
-                        {
-                            int lineno = editor.GetLineNumber();
-                            if (lineno > -1)
-                                window.scrollToPragmaLine(lineno);
-                        }
-                    }
-                    catch
-                    {
-                        /* ignore scroll error */
-                    }
-                }
-            }
-            catch
-            {
-                // try again after a short wait
-                Model.Window.Dispatcher.Delay(500,(w)=>
-                {
-                    dynamic win = (dynamic) w;
-                    try
-                    {
-                        win.initializeinterop(editor);
-                        win.previewer.highlightTimeout = Model.Configuration.Editor.PreviewHighlightTimeout;
-                    }
-                    catch
-                    {
-                        //mmApp.Log("Preview InitializeInterop failed: " + url, ex);
-                    }
-                },(object) window);
-            }
-        }
-
-        public void Dispose()
-        {
-            WebBrowser.Dispose();
-        }
-
+        #endregion
     }
 
 

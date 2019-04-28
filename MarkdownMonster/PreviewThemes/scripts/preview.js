@@ -302,6 +302,14 @@ function scrollToPragmaLine(lineno) {
     20);
 }
 
+function getScrollTop() {
+
+    var st = document.documentElement.scrollTop;
+    if (!st)
+        return 0;
+    return st;
+}
+
 function status(msg,append) {
     var $el = $("#statusmessage");
     if ($el.length < 1) {
