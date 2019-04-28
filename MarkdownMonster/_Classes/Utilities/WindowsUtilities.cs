@@ -15,7 +15,7 @@ namespace MarkdownMonster.Utilities
     /// Windows specific system and information helpers
     /// Helper class that provides Windows and .NET Version numbers.    
     /// </summary>
-    public static class WindowsUtils
+    public static class mmWindowsUtils
     {
         /// <summary>
         /// Returns the Windows major version number for this computer.
@@ -233,7 +233,7 @@ namespace MarkdownMonster.Utilities
     }
 
 
-    public static class ImageUtils
+    public static class mmImageUtils
     {
 
         /// <summary>

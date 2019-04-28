@@ -612,17 +612,17 @@ namespace MarkdownMonster
             {
                 Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\Markdown Monster", false);
 
-                if (MarkdownMonster.Utilities.WindowsUtils.TryGetRegistryKey("Software\\Classes\\.md", null, out value, true) && value == "Markdown Monster")
+                if (MarkdownMonster.Utilities.mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.md", null, out value, true) && value == "Markdown Monster")
                     Registry.CurrentUser.DeleteSubKey("Software\\Classes\\.md");
 
-                if (MarkdownMonster.Utilities.WindowsUtils.TryGetRegistryKey("Software\\Classes\\.markdown", null, out value, true) && value == "Markdown Monster")
+                if (MarkdownMonster.Utilities.mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.markdown", null, out value, true) && value == "Markdown Monster")
                     Registry.CurrentUser.DeleteSubKey("Software\\Classes\\.markdown");
 
                 return;
             }
 
 
-            if (!MarkdownMonster.Utilities.WindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster", null, out value, true))
+            if (mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster", null, out value, true))
             {
                 using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster", true))
                 {
@@ -635,7 +635,7 @@ namespace MarkdownMonster
                     return; // already exists
             }
 
-            if (!MarkdownMonster.Utilities.WindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", null, out value, true))
+            if (mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", null, out value, true))
             {
                 using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\shell\\open\\command", true))
                 {
@@ -643,27 +643,27 @@ namespace MarkdownMonster
                 }
             }
 
-            if (!MarkdownMonster.Utilities.WindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster\\DefaultIcon", null, out value, true))
+            if (mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\Markdown Monster\\DefaultIcon", null, out value, true))
             {
                 var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\Markdown Monster\\DefaultIcon", true);
                 rk.SetValue(null, $"{installFolder}\\MarkdownMonster.exe,0");
             }
 
 
-            if (!MarkdownMonster.Utilities.WindowsUtils.TryGetRegistryKey("Software\\Classes\\.md", null, out value, true))
+            if (mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.md", null, out value, true))
             {
                 var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.md");
                 rk.SetValue(null, "Markdown Monster");
             }
 
-            if (!MarkdownMonster.Utilities.WindowsUtils.TryGetRegistryKey("Software\\Classes\\.markdown", null, out value, true))
+            if (mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.markdown", null, out value, true))
             {
                 using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.markdown"))
                 {
                     rk.SetValue(null, "Markdown Monster");
                 }
             }
-            if (!MarkdownMonster.Utilities.WindowsUtils.TryGetRegistryKey("Software\\Classes\\.mdcrypt", null, out value, true))
+            if (mmWindowsUtils.TryGetRegistryKey("Software\\Classes\\.mdcrypt", null, out value, true))
             {
                 using (var rk = Registry.CurrentUser.CreateSubKey("Software\\Classes\\.mdcrypt"))
                 {

@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Utilities;
 using Microsoft.Win32;
 using Westwind.Utilities;
 
@@ -271,7 +272,7 @@ namespace MarkdownMonster.Windows
                         var ext = Path.GetExtension(imagePath)?.ToLower();
 
                         if (ext == ".jpg" || ext == ".jpeg")
-                            MarkdownMonster.Utilities.ImageUtils.SaveJpeg(bitMap, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
+                            mmImageUtils.SaveJpeg(bitMap, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
 
                         else
                         {

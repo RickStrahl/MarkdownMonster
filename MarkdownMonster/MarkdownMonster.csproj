@@ -34,6 +34,8 @@
     <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
     <PackageReference Include="Westwind.Utilities" Version="3.0.26" />
     <PackageReference Include="ReverseMarkdown" Version="3.6.0" />
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
+    
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">

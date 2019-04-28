@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
+    <Version>1.16.11</Version>
     <TargetFrameworks>net462</TargetFrameworks>
     <AssemblyName>WeblogAddin</AssemblyName>
     <UseWPF>true</UseWPF>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-
+    
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\Addins\Weblog</OutDir>
 
     <Authors>Rick Strahl, West Wind Technologies</Authors>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,16 +20,10 @@
     <PackageReference Include="Dragablz" version="0.0.3.203">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" version="1.0.1">
-      <IncludeAssets>compile</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack" version="1.11.3">
-      <IncludeAssets>compile</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" version="12.0.1">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Westwind.Utilities" version="3.0.26">

@@ -1879,12 +1879,12 @@ namespace MarkdownMonster
                             {
                                 using (var bmp = new Bitmap(bitMap))
                                 {
-                                    MarkdownMonster.Utilities.ImageUtils.SaveJpeg(bmp, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
+                                    mmImageUtils.SaveJpeg(bmp, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
                                 }
                             }
                             else
                             {
-                                var format = MarkdownMonster.Utilities.ImageUtils.GetImageFormatFromFilename(imagePath);
+                                var format = mmImageUtils.GetImageFormatFromFilename(imagePath);
                                 bitMap.Save(imagePath, format);
                                 bitMap.Dispose();
 

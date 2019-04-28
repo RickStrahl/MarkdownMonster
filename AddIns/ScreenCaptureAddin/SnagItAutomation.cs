@@ -1,4 +1,4 @@
-/*
+﻿/*
  **************************************************************
  * Snagit Automation Class
  **************************************************************
@@ -200,8 +200,6 @@ namespace SnagItAddin
 
             dynamic snagIt = SnagItCom;
 
-			
-            
             try
             {
                 snagIt.OutputImageFile.Directory =  CapturePath;

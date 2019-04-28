@@ -153,7 +153,7 @@ namespace MarkdownMonster.Windows
 
 			get
 			{
-				if (MarkdownMonster.Utilities.ImageUtils.GetImageMediaTypeFromFilename(FullPath) == "application/image")
+				if (mmImageUtils.GetImageMediaTypeFromFilename(FullPath) == "application/image")
 					return false;
 				return true;
 			}

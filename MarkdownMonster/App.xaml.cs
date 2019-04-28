@@ -119,7 +119,7 @@ namespace MarkdownMonster
             if (_noStart)
                 return;
 
-            var dotnetVersion = MarkdownMonster.Utilities.WindowsUtils.GetDotnetVersion();
+            var dotnetVersion = MarkdownMonster.Utilities.mmWindowsUtils.GetDotnetVersion();
             if (string.Compare(dotnetVersion, "4.6.2", StringComparison.Ordinal) < 0)
             {
                 Task.Run(() => MessageBox.Show("Markdown Monster requires .NET 4.6.2 or later to run.\r\n\r\n" +
