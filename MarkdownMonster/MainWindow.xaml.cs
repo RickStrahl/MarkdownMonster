@@ -1208,11 +1208,19 @@ namespace MarkdownMonster
 
             // Make the tab draggable for moving into bookmarks or anything else that can accept filenames
             // have to drag down - sideways drag re-orders.
-            var dragablzItem = GetDragablzItemFromTabItem(tab);
-            if (dragablzItem != null)
+            try
             {
-                dragablzItem.PreviewMouseMove += DragablzItem_PreviewMouseMove;
-                dragablzItem.PreviewMouseLeftButtonDown += DragablzItem_PreviewMouseLeftButtonDown;
+                var dragablzItem = GetDragablzItemFromTabItem(tab);
+                if (dragablzItem != null)
+                {
+                    dragablzItem.PreviewMouseMove += DragablzItem_PreviewMouseMove;
+                    dragablzItem.PreviewMouseLeftButtonDown += DragablzItem_PreviewMouseLeftButtonDown;
+                }
+            }
+            catch (Exception ex)
+            {
+                // this failure can be caused if there's a modal dialog popped up when the app starts
+                mmApp.Log("Failed to load DragablzItem for tab drag and drop", ex,false, LogLevels.Warning);
             }
 
 
@@ -1235,6 +1243,7 @@ namespace MarkdownMonster
             return tab;
         }
 
+        #region Tab Drag and Drop
         private System.Windows.Point _dragablzStartPoint;
 
         private void DragablzItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1275,7 +1284,7 @@ namespace MarkdownMonster
                 }
             }
         }
-
+        #endregion
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1832,7 +1841,9 @@ namespace MarkdownMonster
             // UGLY UGLY Hack but only way to get access to the internal controls of Dragablz
             var control = ReflectionUtils.GetField(TabControl, "_dragablzItemsControl") as DragablzItemsControl;
             if (control == null)
+            {
                 throw new InvalidOperationException("_dragablzItemsControl is null");
+            }
 
             var ditems = ReflectionUtils.CallMethod(control, "DragablzItems") as List<DragablzItem>;
             return ditems;
