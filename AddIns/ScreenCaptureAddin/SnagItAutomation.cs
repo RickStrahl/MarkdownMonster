@@ -21,6 +21,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Windows;
 using MarkdownMonster.Windows;
+using Westwind.Utilities;
 
 namespace SnagItAddin
 {
@@ -198,11 +199,11 @@ namespace SnagItAddin
                 ActiveForm.WindowState = WindowState.Minimized;
             }
 
-            dynamic snagIt = SnagItCom;
+            object snagIt = SnagItCom;
 
             try
             {
-                snagIt.OutputImageFile.Directory =  CapturePath;
+                ReflectionUtils.SetPropertyExCom(snagIt, "OutputImageFile.Directory", CapturePath);
             }
             catch
             {
@@ -211,20 +212,23 @@ namespace SnagItAddin
             }
 
 
-            snagIt.Input = CaptureMode;
-            snagIt.EnablePreviewWindow = ShowPreviewWindow;
+            ReflectionUtils.SetPropertyCom(snagIt, "Input", CaptureMode);
+            ReflectionUtils.SetPropertyCom(snagIt, "EnablePreviewWindow", ShowPreviewWindow);
 
-            snagIt.OutputImageFile.Filename = OutputCaptureFile;
-            snagIt.OutputImageFile.Quality = 86; //86% quality
-            snagIt.OutputImageFile.FileType = (int) OutputFileCaptureFormat;
-            snagIt.OutputImageFile.ColorDepth = ColorDepth;
 
-            snagIt.IncludeCursor = IncludeCursor;
+            ReflectionUtils.SetPropertyExCom(snagIt, "OutputImageFile.Filename", OutputCaptureFile);
+
+            ReflectionUtils.SetPropertyExCom(snagIt, "OutputImageFile.Quality", 86); //86% quality
+            int type = (int) OutputFileCaptureFormat;
+            ReflectionUtils.SetPropertyExCom(snagIt,"OutputImageFile.FileType",type);
+            ReflectionUtils.SetPropertyExCom(snagIt,"OutputImageFile.ColorDepth", ColorDepth);
+
+            ReflectionUtils.SetPropertyCom(snagIt, "IncludeCursor",IncludeCursor);
             
             if (DelayInSeconds > 0)
             {
-                snagIt.DelayOptions.EnableDelayedCapture = true;
-                snagIt.DelayOptions.DelaySeconds = DelayInSeconds;
+                ReflectionUtils.SetPropertyExCom(snagIt,"DelayOptions.EnableDelayedCapture", true);
+                ReflectionUtils.SetPropertyExCom(snagIt, "DelayOptions.DelaySeconds", DelayInSeconds);
             }
 
 
@@ -239,15 +243,16 @@ namespace SnagItAddin
                 }
             }
 
-            snagIt.OnStateChange += new Action<CaptureState>(SnagImg_OnStateChange);            
+            //snagIt.OnStateChange += new Action<CaptureState>(SnagImg_OnStateChange);            
 
             try
             {
                 IsDone = false;
-                snagIt.Capture();
+                ReflectionUtils.CallMethodCom(snagIt,"Capture");
 
                 while (!IsDone && !HasError)
-                {     
+                {
+                    IsDone = (bool) ReflectionUtils.GetPropertyCom(snagIt, "IsCaptureDone");
                     WindowUtilities.DoEvents();
                     Thread.Sleep(20);
                 }
@@ -260,7 +265,7 @@ namespace SnagItAddin
             finally
             {
                 if (IsDone)
-                    _outputCaptureFile = snagIt.LastFileWritten;
+                    _outputCaptureFile = ReflectionUtils.GetPropertyCom(snagIt,"LastFileWritten") as string;
                 else
                 {
                     _outputCaptureFile = null;

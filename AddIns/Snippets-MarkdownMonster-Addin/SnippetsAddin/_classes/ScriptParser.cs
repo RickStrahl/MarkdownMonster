@@ -78,8 +78,8 @@ namespace SnippetsAddin
 
             Debug.WriteLine("wwScripting Code: \r\n" + code);
             
-            var scripting = new wwScripting();
-            //var scripting = new wwScriptingRoslyn();
+            //var scripting = new wwScripting();
+            var scripting = new wwScriptingRoslyn();
             string result = scripting.ExecuteCode(code,model) as string;
             
             if (result == null)

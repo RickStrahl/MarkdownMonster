@@ -232,7 +232,7 @@ namespace Westwind.wwScripting
 				if (ScriptingLanguage == "CSharp") 
 				{
 					// *** Namespace headers and class definition
-					sb.Append("namespace " + AssemblyNamespace + "{\r\npublic class " + ClassName + ":MarshalByRefObject {\r\n");	
+					sb.Append("namespace " + AssemblyNamespace + "{\r\npublic class " + ClassName + " {\r\n");	
 				
 					// *** Generic Invoke method required for the remote call interface
 					sb.Append(
@@ -431,7 +431,8 @@ namespace Westwind.wwScripting
 			return null;
 		}
 
-		public bool CreateAppDomain(string lcAppDomain) 
+#if NETFULL
+        public bool CreateAppDomain(string lcAppDomain) 
 		{
 			if (lcAppDomain == null)
 				lcAppDomain = "wwscript";
@@ -461,7 +462,9 @@ namespace Westwind.wwScripting
 
 			return true;
 		}
-		public void Release() 
+#endif
+
+        public void Release() 
 		{
 			ObjRef = null;
 		}
@@ -469,8 +472,11 @@ namespace Westwind.wwScripting
 		public void Dispose() 
 		{
 			Release();
-			UnloadAppDomain();
-		}
+
+#if NETFULL
+            UnloadAppDomain();
+#endif
+        }
 
 		~wwScriptingRoslyn() 
 		{

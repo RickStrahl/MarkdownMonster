@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using ScreenCaptureAddin;
 using Westwind.Utilities;
@@ -499,7 +500,7 @@ namespace SnagItAddin
             if (string.IsNullOrEmpty(SaveFolder))
                 SaveFolder = Path.GetTempPath();
 
-            SaveFileDialog sd = new SaveFileDialog
+            var sd = new SaveFileDialog
             {
                 Filter = "png files (*.png)|*.png|jpg files (*.jpg)|*.jpg",
                 FilterIndex = 1,
@@ -520,7 +521,7 @@ namespace SnagItAddin
             try
             {
                 if (ext == ".jpg" || ext == "jpeg")
-                    ImageUtils.SaveJpeg(CapturedBitmap, SavedImageFile, mmApp.Configuration.JpegImageCompressionLevel);
+                    mmImageUtils.SaveJpeg(CapturedBitmap, SavedImageFile, mmApp.Configuration.JpegImageCompressionLevel);
                 else
                     CapturedBitmap.Save(SavedImageFile);
             }

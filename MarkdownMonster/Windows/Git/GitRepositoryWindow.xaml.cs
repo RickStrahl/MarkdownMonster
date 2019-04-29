@@ -6,13 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using FontAwesome.WPF;
 using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster.Utilities;
-using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {

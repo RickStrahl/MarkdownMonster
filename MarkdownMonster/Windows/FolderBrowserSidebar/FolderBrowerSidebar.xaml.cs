@@ -15,7 +15,6 @@ using FontAwesome.WPF;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Controls;
 using MarkdownMonster.Utilities;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using Westwind.Utilities;
 using Brushes = System.Windows.Media.Brushes;
 

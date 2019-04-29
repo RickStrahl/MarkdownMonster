@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net462</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0;net462</TargetFrameworks>
     <Version>1.16.12</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
@@ -14,6 +14,7 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>markdown editor weblog-publishing blogging documentation writing westwind admin</PackageTags>
     <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

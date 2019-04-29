@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Version>1.16.11</Version>
-    <TargetFrameworks>net462</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
     <AssemblyName>WeblogAddin</AssemblyName>
     <UseWPF>true</UseWPF>
     
@@ -34,14 +34,16 @@
     <PackageReference Include="YamlDotNet" version="6.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!--<ProjectReference Include="$(SolutionDir)MarkdownMonster\MarkdownMonster.csproj" >
-     <IncludeAssets>build</IncludeAssets>
-    </ProjectReference>-->
-    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\MarkdownMonster.exe">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\MarkdownMonster.dll">
       <Private>false</Private>
     </Reference> 
-  </ItemGroup>  
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462'">
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\MarkdownMonster.exe">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
 
   <ItemGroup>
     <Resource Include="icon.png" />

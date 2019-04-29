@@ -119,14 +119,13 @@ namespace SnagItAddin
                 Path.GetDirectoryName(SnagIt.CapturePath) :
                 editor.MarkdownDocument.LastImageFolder;
 
-            
 
             string capturedFile = SnagIt.CaptureImageToFile();
             if (string.IsNullOrEmpty(capturedFile) || !File.Exists(capturedFile))
                 return;
 
-            capturedFile = FileUtils.GetRelativePath(capturedFile, SnagIt.CapturePath);
-            string relPath = capturedFile.Replace("\\", "/");
+            string relPath = FileUtils.GetRelativePath(capturedFile, SnagIt.CapturePath);
+            relPath = relPath.Replace("\\", "/");
             if (relPath.StartsWith(".."))
                 relPath = capturedFile;
 

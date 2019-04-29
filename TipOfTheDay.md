@@ -1,20 +1,28 @@
 <!-- Start Document Outline -->
 
-* [Generate HTML Output](#generate-html-output)
-* [Generate PDFs from your Markdown Topics](#generate-pdfs-from-your-markdown-topics)
-* [Distraction Free Mode](#distraction-free-mode)
-* [Viewer Mode](#viewer-mode)
-* [Right Click To Edit Images, Links and Tables](#right-click-to-edit-images-links-and-tables)
-* [Using Gists for Bug Reports and general Purpose Web Pages](#using-gists-for-bug-reports-and-general-purpose-web-pages)
-* [3 ways to Image Embedding](#3-ways-to-image-embedding)
-* [Changing Update Check Interval](#changing-update-check-interval)
-* [FontAwesome Icons](#fontawesome-icons)
-* [Snippet Add-in](#snippet-add-in)
-* [Portable Version](#portable-version)
-* [Pasting Images into Content](#pasting-images-into-content)
-* [Build your own Markdown Monster Add-ins](#build-your-own-markdown-monster-add-ins)
-* [Embed Font-Awesome Icons](#embed-font-awesome-icons)
-* [Html Editing](#html-editing)
+* [Markdown Monster Tip of the Day](#markdown-monster-tip-of-the-day)
+	* [Markdown Monster Shortcut Keys](#markdown-monster-shortcut-keys)
+	* [Open from Url](#open-from-url)
+	* [Favorites Tab Dragging](#favorites-tab-dragging)
+	* [Open Markdown Monster from the Command Line](#open-markdown-monster-from-the-command-line)
+	* [Open Markdown Files from Preview HTML Links](#open-markdown-files-from-preview-html-links)
+	* [Edit Images](#edit-images)
+	* [Convert to Word Document](#convert-to-word-document)
+	* [Generate HTML Output](#generate-html-output)
+	* [Generate PDFs from your Markdown Topics](#generate-pdfs-from-your-markdown-topics)
+	* [Custom Preview Themes](#custom-preview-themes)
+	* [Distraction Free Mode](#distraction-free-mode)
+	* [Viewer Mode](#viewer-mode)
+	* [Right Click To Edit Images, Links and Tables](#right-click-to-edit-images-links-and-tables)
+	* [Using Gists for Bug Reports and general Purpose Web Pages](#using-gists-for-bug-reports-and-general-purpose-web-pages)
+	* [3 ways to Image Embedding](#3-ways-to-image-embedding)
+	* [FontAwesome Icons](#fontawesome-icons)
+	* [Snippet Add-in](#snippet-add-in)
+	* [Portable Version](#portable-version)
+	* [Pasting Images into Content](#pasting-images-into-content)
+	* [Build your own Markdown Monster Add-ins](#build-your-own-markdown-monster-add-ins)
+	* [Embed Font-Awesome Icons](#embed-font-awesome-icons)
+	* [Html Editing](#html-editing)
 
 <!-- End Document Outline -->
 # Markdown Monster Tip of the Day
@@ -30,8 +38,16 @@ Here are a few useful Markdown Monster shortcuts to remember:
 * Alt-G - Open Git Window
 * Alt-Z - Toggle Word Wrap
 
+## Open from Url
+Did you know that Markdown Monster can open Markdown documents from a Url?
 
-### Favorites Tab Dragging
+Use the *File -> Open -> Open from Url*.
+
+MM understands and fixes up common Urls from Github, BitBucket, Gists, Microsoft Docs and a few other places.
+
+https://markdownmonster.west-wind.com #markdown
+
+## Favorites Tab Dragging
 Did you know that in Markdown Monster you can drag a tab into the Favorites sidebar? Favorites let you bookmark and organize common files and folders in a convenient list, and now you can more easily add Favorites by simply dragging an open tab into the Favorites sidebar. 
 
 Simply grab the tab and drag it into the Favorites sidebar at the position you want.

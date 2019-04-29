@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Win32;
+#if NETFULL
 using Microsoft.WindowsAPICodePack.Dialogs;
+#endif
 
 namespace MarkdownMonster.Utilities
 {
@@ -252,11 +255,11 @@ namespace MarkdownMonster.Utilities
             return dlg.FileName;
 #else
             // Use updated FolderBrowserDialog
-            var oldPath = Environment.CurrentPath;
+            var oldPath = Directory.GetCurrentDirectory();
             var dlg = new System.Windows.Forms.FolderBrowserDialog();
             dlg.Description = title;
 
-            dlg.SelectedPath = folder;
+            dlg.SelectedPath = initialPath;
             dlg.ShowNewFolderButton = true;
             dlg.UseDescriptionForTitle = true;
             var result = dlg.ShowDialog();

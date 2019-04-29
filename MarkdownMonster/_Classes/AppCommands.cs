@@ -1237,7 +1237,7 @@ namespace MarkdownMonster
 
         #endregion
 
-        #region Preview
+       #region Preview
 
         public CommandBase EditPreviewThemeCommand { get; set; }
 
@@ -1266,7 +1266,7 @@ namespace MarkdownMonster
             });
         }
 
-#endregion
+#endregion 
 
 #region Open Document Operations
 
