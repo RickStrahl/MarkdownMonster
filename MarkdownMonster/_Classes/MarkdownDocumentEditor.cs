@@ -1862,7 +1862,8 @@ namespace MarkdownMonster
                         CheckFileExists = false,
                         OverwritePrompt = true,
                         CheckPathExists = true,
-                        RestoreDirectory = true
+                        RestoreDirectory = true,
+                        ValidateNames = true
                     };
                     var result = sd.ShowDialog();
                     if (result != null && result.Value)

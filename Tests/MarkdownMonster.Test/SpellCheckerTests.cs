@@ -22,7 +22,7 @@ namespace MarkdownMonster.Test
         {
             var code = SpellChecker.GetDictionaryListStringFromWebSite();
             Console.WriteLine(code);
-            Clipboard.SetText(code);
+            System.Windows.Clipboard.SetText(code);
 
         }
     }

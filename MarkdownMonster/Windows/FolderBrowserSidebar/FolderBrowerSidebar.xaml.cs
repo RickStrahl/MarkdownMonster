@@ -472,42 +472,12 @@ namespace MarkdownMonster.Windows
                 else
                     folder = KnownFolders.GetPath(KnownFolder.Libraries);
             }
-           
-            //var dlg = new CommonOpenFileDialog();
-            //dlg.Title = "Select folderOrFilePath to open in the Folder Browser";
-            //dlg.IsFolderPicker = true;
-            //dlg.InitialDirectory = folder;
-            //dlg.RestoreDirectory = true;
-            //dlg.ShowHiddenItems = true;
-            //dlg.ShowPlacesList = true;
-            //dlg.EnsurePathExists = true;
 
-            //var result = dlg.ShowDialog();
-            
-            //if (result != CommonFileDialogResult.Ok)
-            //    return;
-
-            
-            //FolderPath = dlg.FileName;
-            
-            var oldPath = Environment.CurrentDirectory;
-            var dlg = new System.Windows.Forms.FolderBrowserDialog();
-            dlg.Description = "Select folderOrFilePath to open in the Folder Browser";
-
-            dlg.SelectedPath = folder;
-            dlg.ShowNewFolderButton = true;
-            //g..UseDescriptionForTitle = true;
-            var result = dlg.ShowDialog();
-
-            Directory.SetCurrentDirectory(oldPath);
-
-
-            if (result != System.Windows.Forms.DialogResult.OK || !Directory.Exists(dlg.SelectedPath))
+            folder = mmWindowsUtils.ShowFolderDialog(folder, "Select folderOrFilePath to open in the Folder Browser");
+            if (folder == null)
                 return;
 
-            FolderPath = dlg.SelectedPath;
-
-
+            FolderPath = folder;
             TreeFolderBrowser.Focus();
         }
 
@@ -564,10 +534,10 @@ namespace MarkdownMonster.Windows
                 .ContainerFromItem(item);
         }
 
-        #endregion
+#endregion
 
 
-        #region TreeView Selection Handling
+#region TreeView Selection Handling
 
         private string searchFilter = string.Empty;
         private DateTime searchFilterLast = DateTime.MinValue;
@@ -951,9 +921,9 @@ namespace MarkdownMonster.Windows
             }
         }
 
-        #endregion
+#endregion
 
-        #region Search Textbox
+#region Search Textbox
 
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
@@ -990,9 +960,9 @@ namespace MarkdownMonster.Windows
             TextSearch.Focus();
         }
 
-        #endregion
+#endregion
 
-        #region Context Menu Actions
+#region Context Menu Actions
 
         private void TreeFolderBrowser_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
@@ -1397,10 +1367,10 @@ namespace MarkdownMonster.Windows
             Window.Model.Commands.OpenGitClientCommand.Execute(path);
         }
 
-        #endregion
+#endregion
 
 
-        #region Shell/Terminal Operations
+#region Shell/Terminal Operations
 
         private void MenuOpenInExplorer_Click(object sender, RoutedEventArgs e)
         {
@@ -1551,9 +1521,9 @@ namespace MarkdownMonster.Windows
 
         }
 
-        #endregion
+#endregion
 
-        #region Items and Item Selection
+#region Items and Item Selection
 
         private DateTime LastClickTime;
         private PathItem LastItem;
@@ -1604,9 +1574,9 @@ namespace MarkdownMonster.Windows
             }
         }
 
-        #endregion
+#endregion
 
-        #region Drag Operations
+#region Drag Operations
 
         private System.Windows.Point startPoint;
 
@@ -1722,9 +1692,9 @@ namespace MarkdownMonster.Windows
             AppModel.Window.ShowStatus($"File moved to: {newPath}",mmApp.Configuration.StatusMessageTimeout);
         }
 
-        #endregion
+#endregion
 
-        #region INotifyPropertyChanged
+#region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -1733,7 +1703,7 @@ namespace MarkdownMonster.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #endregion
+#endregion
 
     }
 

@@ -177,23 +177,13 @@ namespace MarkdownMonster.Windows
 
         private void BrowseForFolder_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new CommonOpenFileDialog();
-
-            dlg.Title = "Select or create a folder to clone Repository to:";
-            dlg.IsFolderPicker = true;
-            dlg.InitialDirectory = mmApp.Configuration.LastFolder;
-            dlg.RestoreDirectory = true;
-            dlg.ShowHiddenItems = true;
-            dlg.ShowPlacesList = true;
-            dlg.EnsurePathExists = true;
-
-            var result = dlg.ShowDialog();
-
-            if (result != CommonFileDialogResult.Ok)
+            var folder = mmWindowsUtils.ShowFolderDialog(mmApp.Configuration.LastFolder,"Select Git Folder");
+            if (folder == null)
                 return;
-
-            LocalPath = dlg.FileName;
+            LocalPath = folder;
         }
+
+
 
 
         private async void ButtonClone_Click(object sender, RoutedEventArgs e)
@@ -348,7 +338,7 @@ namespace MarkdownMonster.Windows
         }
 
 
-        #region INotifyPropertyChanged
+#region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -357,7 +347,7 @@ namespace MarkdownMonster.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #endregion
+#endregion
     }
 
     public enum GitRepositoryWindowMode

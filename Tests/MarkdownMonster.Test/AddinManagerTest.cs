@@ -11,7 +11,6 @@ namespace MarkdownMonster.Test
     [TestClass]
     public class AddinManagerTest
     {
-
         [TestMethod]
         public void GetAddinListTest()
         {

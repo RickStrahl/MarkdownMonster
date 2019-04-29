@@ -85,7 +85,7 @@ namespace MarkdownMonster
                 var mmRegKey = @"SOFTWARE\West Wind Technologies\Markdown Monster";
 
                 dynamic data;
-                if (mmWindowsUtils.TryGetRegistryKey(mmRegKey, "MachineKey", out data, UseCurrentUser: true))
+                if (!mmWindowsUtils.TryGetRegistryKey(mmRegKey, "MachineKey", out data, UseCurrentUser: true))
                 {
                     data = Guid.NewGuid().ToString();
                     var rk = Registry.CurrentUser.OpenSubKey(mmRegKey, true);
