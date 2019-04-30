@@ -341,27 +341,35 @@ namespace Westwind.HtmlPackager
 
                 string cssText;
 
-                if (url.StartsWith("http"))
+                try
                 {
-                    var http = new WebClient();
-                    cssText = http.DownloadString(url);
-                }
-                else if (url.StartsWith("file:///"))
-                {
-                   url = url.Substring(8);
-                   cssText = File.ReadAllText(WebUtility.UrlDecode(url));
-                }
-                else // Relative Path
-                {
-                    var uri = new Uri(BaseUri, url);
-                    url = uri.AbsoluteUri;
-                    if (url.StartsWith("http") && url.Contains("://"))
+                    if (url.StartsWith("http"))
                     {
                         var http = new WebClient();
                         cssText = http.DownloadString(url);
                     }
-                    else
+                    else if (url.StartsWith("file:///"))
+                    {
+                        url = url.Substring(8);
                         cssText = File.ReadAllText(WebUtility.UrlDecode(url));
+                    }
+                    else // Relative Path
+                    {
+                        var uri = new Uri(BaseUri, url);
+                        url = uri.AbsoluteUri;
+                        if (url.StartsWith("http") && url.Contains("://"))
+                        {
+                            var http = new WebClient();
+                            cssText = http.DownloadString(url);
+                        }
+                        else
+                            cssText = File.ReadAllText(WebUtility.UrlDecode(url));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Error occurred retrieving a file - continue processing
+                    continue;
                 }
 
                 cssText = ProcessUrls(cssText, url);
@@ -404,19 +412,21 @@ namespace Westwind.HtmlPackager
                     continue;
 
                 byte[] scriptData;
-                if (url.StartsWith("http"))
+
+
+                try
                 {
-                    var http = new WebClient();
-                    scriptData = http.DownloadData(url);
-                }
-                else if (url.StartsWith("file:///"))
-                {
-                    url = url.Substring(8);
-                    scriptData = File.ReadAllBytes(WebUtility.UrlDecode(url));                    ;
-                }
-                else // Relative Path
-                {
-                    try
+                    if (url.StartsWith("http"))
+                    {
+                        var http = new WebClient();
+                        scriptData = http.DownloadData(url);
+                    }
+                    else if (url.StartsWith("file:///"))
+                    {
+                        url = url.Substring(8);
+                        scriptData = File.ReadAllBytes(WebUtility.UrlDecode(url));
+                    }
+                    else // Relative Path
                     {
                         var uri = new Uri(BaseUri, url);
                         url = uri.AbsoluteUri;
@@ -428,10 +438,11 @@ namespace Westwind.HtmlPackager
                         else
                             scriptData = File.ReadAllBytes(WebUtility.UrlDecode(url));
                     }
-                    catch
-                    {
-                        continue;
-                    }
+                }
+                catch
+                {
+                    // Error retrieving flie
+                    continue;
                 }
 
                 if (CreateExternalFiles)
@@ -467,29 +478,23 @@ namespace Westwind.HtmlPackager
 
                 byte[] imageData;
                 string contentType;
-                if (url.StartsWith("http"))
-                {
-                    var http = new WebClient();
-                    imageData = http.DownloadData(url);
-                    contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
-                }
-                else if(url.StartsWith("file:///"))
-                {
-                    url = url.Substring(8);
 
-                    try
+                try
+                {
+                    if (url.StartsWith("http"))
                     {
+                        var http = new WebClient();
+                        imageData = http.DownloadData(url);
+                        contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
+                    }
+                    else if (url.StartsWith("file:///"))
+                    {
+                        url = url.Substring(8);
+
                         imageData = File.ReadAllBytes(url);
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                     }
-                    catch
-                    {
-                        continue;
-                    }
-                }
-                else // Relative Path
-                {
-                    try
+                    else // Relative Path
                     {
                         var uri = new Uri(BaseUri, url);
                         url = uri.AbsoluteUri;
@@ -503,10 +508,11 @@ namespace Westwind.HtmlPackager
 
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                     }
-                    catch
-                    {
-                        continue;
-                    }
+                }
+                catch
+                {
+                    // error retrieving file - just go on
+                    continue;
                 }
 
                 if (imageData == null)
@@ -554,8 +560,6 @@ namespace Westwind.HtmlPackager
         private string ProcessUrls(string html, string baseUrl)
         {
             var matches = urlRegEx.Matches(html);
-            string contentType = null;
-            byte[] linkData = null;
 
             foreach (Match match in matches)
             {
@@ -571,34 +575,32 @@ namespace Westwind.HtmlPackager
                 if (url.EndsWith(".eot") || url.EndsWith(".ttf"))
                     continue;
 
-                if (url.StartsWith("http"))
-                {
-                    var http = new WebClient();
-                    linkData = http.DownloadData(url);
-                    contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
-                }
-                else if(url.StartsWith("file:///"))
-                {
-                    var baseUri = new Uri(baseUrl);
-                    url = new Uri(baseUri, new Uri(url)).AbsoluteUri;
 
-                    try
+                byte[] linkData = null;
+                string contentType = null;
+                try
+                {
+                    if (url.StartsWith("http"))
                     {
+                        var http = new WebClient();
+                        linkData = http.DownloadData(url);
+                        contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
+                    }
+                    else if (url.StartsWith("file:///"))
+                    {
+                        var baseUri = new Uri(baseUrl);
+                        url = new Uri(baseUri, new Uri(url)).AbsoluteUri;
+
+
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                         if (contentType == "application/image")
                             continue;
 
-                         linkData = File.ReadAllBytes(WebUtility.UrlDecode(url));
+                        linkData = File.ReadAllBytes(WebUtility.UrlDecode(url));
                     }
-                    catch
+                    else
                     {
-                        continue;
-                    }
-                }
-                else
-                {
-                    try
-                    {
+
                         var baseUri = new Uri(baseUrl);
                         var uri = new Uri(baseUri, url);
                         url = uri.AbsoluteUri;
@@ -608,14 +610,15 @@ namespace Westwind.HtmlPackager
                             linkData = http.DownloadData(url);
                         }
                         else
-                            linkData = File.ReadAllBytes(WebUtility.UrlDecode(url.Replace("file:///","")));
+                            linkData = File.ReadAllBytes(WebUtility.UrlDecode(url.Replace("file:///", "")));
 
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                     }
-                    catch
-                    {
-                        continue;
-                    }
+                }
+                catch
+                {
+                    // if a file can't be found or download - just continue without
+                    continue;
                 }
 
                 if (linkData == null)
