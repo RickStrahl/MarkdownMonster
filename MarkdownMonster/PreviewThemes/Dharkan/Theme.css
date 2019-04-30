@@ -1,7 +1,7 @@
 html, body {
   color: #333;
   font-family: -apple-system, BlinkMacSystemFont,"Segoe UI", Helvetica, Helvetica, Arial, sans-serif;
-  font-size: 16px;
+  font-size: 17px;
   -webkit-font-smoothing: antialiased;
   height: 100%;
   line-height: 1.55;
@@ -19,24 +19,21 @@ html, body {
 
 
 h1, h2, h3, h4, h5, h6, .byline, .content-title {
-  color: #505050;
-  font-weight: 600;
+  color: #555;
+  font-weight: bold;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
   margin-top: 1.2em;
   margin-bottom: 0.4em;
 }
 
 h1 {
-  color: #444;
-  font-weight: bold;
   font-size: 1.9em;
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
 
 h2 {
-  font-size: 1.6em;
-  font-weight: bold;
+  font-size: 1.55em;
 }
 
 h3 {
