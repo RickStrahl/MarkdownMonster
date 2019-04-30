@@ -15,6 +15,7 @@
     <PackageTags>markdown editor weblog-publishing blogging documentation writing westwind admin</PackageTags>
     <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <TieredCompilation>true</TieredCompilation>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

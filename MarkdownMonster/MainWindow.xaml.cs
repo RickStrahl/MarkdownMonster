@@ -214,7 +214,7 @@ namespace MarkdownMonster
 
                 OpenFavorites(noActivate: true);
 
-                mmApp.SetWorkingSet(10000000, 5000000);
+                //mmApp.SetWorkingSet(10000000, 5000000);
             }, DispatcherPriority.Background);
 
             Dispatcher.InvokeAsync(() =>
