@@ -603,7 +603,7 @@ namespace MarkdownMonster
 
         public static void EnsureAssociations(bool force = false, bool uninstall = false)
         {
-            dynamic value = null;
+            dynamic value;
 
             string installFolder = App.InitialStartDirectory;
             //.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);

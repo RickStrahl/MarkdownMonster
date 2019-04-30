@@ -82,7 +82,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             PreviewMarkdownAsync();
         }
 
-        public void ExecuteCommand(string command, params dynamic[] args)
+        public void ExecuteCommand(string command, params object[] args)
         {
             PreviewBrowserHandler.ExecuteCommand(command, args);
         }

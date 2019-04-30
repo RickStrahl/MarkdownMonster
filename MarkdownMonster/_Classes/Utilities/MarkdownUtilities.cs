@@ -38,7 +38,7 @@ namespace MarkdownMonster
         {
             if (string.IsNullOrEmpty(html))
                 return "";
-#if true
+
             var config = new ReverseMarkdown.Config
             {
                 GithubFlavored = true,
@@ -49,40 +49,7 @@ namespace MarkdownMonster
             string markdown = converter.Convert(html);
 
             return markdown ?? html;
-#else
-            // Old code that uses JavaScript in a WebBrowser Control
-            string markdown = null;
-            string htmlFile = Path.Combine(App.InitialStartDirectory, "Editor\\htmltomarkdown.htm");
 
-            var form = new BrowserDialog();
-            form.ShowInTaskbar = false;
-            form.Width = 1;
-            form.Height = 1;
-            form.Left = -10000;
-            form.Show();
-
-            bool exists = File.Exists(htmlFile);
-            form.NavigateAndWaitForCompletion(htmlFile);
-
-            WindowUtilities.DoEvents();
-
-            try
-            {
-                dynamic doc = form.Browser.Document;
-                markdown = doc.ParentWindow.htmltomarkdown(html);
-            }
-            catch (Exception ex)
-            {
-                mmApp.Log("Failed to convert Html to Markdown", ex);
-                if (!noErrorUI)
-                    MessageBox.Show("Unable to convert Html to Markdown. Returning Html.", "Html to Markdown Conversion Failed.", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-
-            form.Close();
-            form = null;
-
-            return markdown ?? html;
-#endif
         }
 
 

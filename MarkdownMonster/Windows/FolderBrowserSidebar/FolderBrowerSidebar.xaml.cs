@@ -693,6 +693,7 @@ namespace MarkdownMonster.Windows
             // single click - image preview  MUST BE ON MOUSEUP so we can still drag
             dynamic s = sender;
             var selected = s.DataContext as PathItem;
+
             if (selected == null)
                 return;
 

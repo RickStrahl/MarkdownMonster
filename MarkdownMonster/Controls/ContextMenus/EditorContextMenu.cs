@@ -124,7 +124,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     return;
                 }
 
-                var text = ((dynamic) range).misspelled as string;
+                var text = model.ActiveEditor.AceEditor.Get(range, "misspelled") as string;
                 model.ActiveEditor.AddWordToDictionary(text);
                 model.ActiveEditor.SpellCheckDocument();
                 model.Window.ShowStatus("Word added to dictionary.", mmApp.Configuration.StatusMessageTimeout);

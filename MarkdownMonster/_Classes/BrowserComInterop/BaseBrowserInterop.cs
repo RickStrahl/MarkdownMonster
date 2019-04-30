@@ -134,6 +134,17 @@ namespace MarkdownMonster
             return InstanceType.InvokeMember(propertyName, flags | BindingFlags.GetProperty, null, Instance, null);
         }
 
+        /// <summary>
+        /// Retrieves a property from an object instance
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public object Get(object instance, string propertyName)
+        {
+            return ReflectionUtils.GetPropertyCom(instance, propertyName);
+        }
+
 
         /// <summary>
         /// Retrieves a property from the editor by name
@@ -157,6 +168,17 @@ namespace MarkdownMonster
         public object GetEx(string propertyName)
         {
             return ReflectionUtils.GetPropertyExCom(Instance, propertyName);
+        }
+
+        /// <summary>
+        /// Retrieves a property from an object instance with . or [] syntax
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public object GetEx(object instance, string propertyName)
+        {
+            return ReflectionUtils.GetPropertyExCom(instance, propertyName);
         }
 
         /// <summary>

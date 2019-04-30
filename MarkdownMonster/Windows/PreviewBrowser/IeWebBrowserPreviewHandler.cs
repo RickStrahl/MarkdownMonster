@@ -19,7 +19,6 @@ namespace MarkdownMonster.Windows.PreviewBrowser
         /// </summary>
         public WebBrowser WebBrowser { get; set; }
 
-        public dynamic BrowserPreview { get; set; }
 
 
         IEWebBrowserEditorHandler wbHandler;
@@ -380,7 +379,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
             PreviewMarkdownAsync();
         }
 
-        public void ExecuteCommand(string command, params dynamic[] args)
+        public void ExecuteCommand(string command, params object[] args)
         {
             if (command == "PreviewContextMenu")
             {
@@ -392,8 +391,8 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
             if (command == "PrintPreview")
             {
-                dynamic dom = WebBrowser.Document;
-                dom.execCommand("print", true, null);
+                object dom = WebBrowser.Document;
+                ReflectionUtils.CallMethodCom(dom,"execCommand","print", true, null);
             }
         }
 

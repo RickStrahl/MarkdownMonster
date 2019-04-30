@@ -10,6 +10,7 @@ using System.Windows;
 using MarkdownMonster;
 using MarkdownMonster.Annotations;
 using Newtonsoft.Json.Linq;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
@@ -73,8 +74,8 @@ namespace MarkdownMonster.Windows
             var errorList = new List<MarkdownLintError>();
             try
             {
-                dynamic doc = form.Browser.Document;
-                string result = doc.ParentWindow.markdownlinting(markdown) as string;
+                object doc = form.Browser.Document;
+                string result = ReflectionUtils.CallMethodExCom(doc,"ParentWindow.markdownlinting",markdown) as string;
 
                 // ClipboardHelper.SetText(result);
 

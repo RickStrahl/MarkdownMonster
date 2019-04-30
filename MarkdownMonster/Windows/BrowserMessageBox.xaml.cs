@@ -66,8 +66,6 @@ namespace MarkdownMonster.Windows
 
             for (int i = 0; i < 200; i++)
             {
-                dynamic doc = Browser.Document;
-
                 if (!IsLoaded)
                 {
                     Task.Delay(10);

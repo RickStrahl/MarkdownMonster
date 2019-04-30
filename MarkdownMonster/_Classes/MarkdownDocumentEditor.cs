@@ -684,8 +684,8 @@ namespace MarkdownMonster
                     {
                         var id = "image_ref_" + DataUtils.GenerateUniqueId();
 
-                        dynamic pos = AceEditor.GetCursorPosition();
-                        dynamic scroll = AceEditor.GetScrollTop();
+                        object pos = AceEditor.GetCursorPosition();
+                        object scroll = AceEditor.GetScrollTop();
 
                         // the ID tag
                         html = $"\r\n\r\n[{id}]: {image}\r\n";
@@ -834,8 +834,8 @@ namespace MarkdownMonster
                     {
                         var id = "image_ref_" + DataUtils.GenerateUniqueId();
 
-                        dynamic pos = AceEditor.GetCursorPosition();
-                        dynamic scroll = AceEditor.GetScrollTop();
+                        object pos = AceEditor.GetCursorPosition();
+                        object scroll = AceEditor.GetScrollTop();
 
                         // the ID tag
                         html = $"\r\n\r\n[{id}]: {image}\r\n";
@@ -1255,13 +1255,13 @@ namespace MarkdownMonster
         /// <returns></returns>
         public AcePosition GetCursorPosition()
         {
-            dynamic pos = AceEditor.GetCursorPosition();
+            object pos = AceEditor.GetCursorPosition();
             if (pos == null)
                 return new AcePosition { row = -1, column = -1 };
             var pt = new AcePosition()
             {
-                row = (int)pos.row,
-                column = (int)pos.column
+                row = (int) AceEditor.Get(pos,"row"),
+                column = (int) AceEditor.Get(pos,"column")
             };
             return pt;
         }
