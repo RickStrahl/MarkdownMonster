@@ -205,9 +205,8 @@
               if (sc)
                 sc.contentModified = true;
             },
-            80);
-        },
-        100);
+            10);
+        }, 80);
 
       editor.session.on("changeScrollTop", changeScrollTop);
 

@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <Version>1.16.11</Version>
-    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <Version>1.16</Version>
+    <TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>
     <AssemblyName>WeblogAddin</AssemblyName>
     <UseWPF>true</UseWPF>
     
