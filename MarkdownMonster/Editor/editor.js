@@ -104,19 +104,15 @@
       var previewRefresh = debounce(function() {te.mm.textbox.PreviewMarkdownCallback(true); },80);
       $("pre[lang]").on("keyup",
         function(event) {
-          updateDocument();
-
-          // up and down handling - force a preview refresh
-          if (event.keyCode === 38 || event.keyCode === 40)
-            previewRefresh();
-          else if (te.editor.$keybindingId === "ace/keyboard/vim"
-               && (event.keyCode === 74 || event.keyCode == 75)) {
-            if (!te.editor.state.cm.state.vim.insertMode)
-              previewRefresh();
-          }
+            // up and down handling - force a preview refresh
+            if (event.keyCode === 38 || event.keyCode === 40)
+                previewRefresh();
+            else if (te.editor.$keybindingId === "ace/keyboard/vim" && (event.keyCode === 74 || event.keyCode == 75)) {
+                if (!te.editor.state.cm.state.vim.insertMode)
+                    previewRefresh();
+            } else 
+                updateDocument();
         });
-
-
 
       // always have mouse position available when drop or paste
       editor.on("mousemove",
@@ -209,9 +205,9 @@
               if (sc)
                 sc.contentModified = true;
             },
-            90);
+            80);
         },
-        35);
+        100);
 
       editor.session.on("changeScrollTop", changeScrollTop);
 

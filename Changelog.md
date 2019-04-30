@@ -6,6 +6,22 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.16.15
+<small>April 30th, 2019</small>
+
+* **Improved Up/Down key Scroll Speed**    
+MM monitors scroll operations in the editor in order to sync the preview as you navigate. Previously the treshold for updating the preview was too low causing scroll speed slow-downs. Bumped the treshold up a bit for much improved cursor scroll speed. Still not great as there are still checks for scroll changes, but they happen much less frequent now.
+
+* **Fix Packaged HTML Exports for Missing Local Links**  
+Fix local links in packaged HTML Exports. If a  file or other link is missing the export now properly continues instead of showing an error. If a file or link is missing the export just skips over the file - this may cause a loss of document fidelity in some cases, but it's better than failing to produce any output.
+
+* **Development: Markdown Monster now uses SDK Style Projects**  
+Under the hood Markdown Monster now uses .NET SDK style projects to build for all projects. This means MM requires Visual Studio 2019 and the .NET Core 3.0 Preview 5 or later SDK.
+
+* **Development: Prepare Markdown Monster for .NET Core 3.0**  
+Markdown Monster now **dual targets** for **.NET 4.62** (as always) as well as **.NET Core 3.0**. A lot of work was done to fix a number of incompatibilities for .NET Core 3.0 and MM can now run under .NET Core 3.0 Preview 5. You'll need to make sure you have .NET Core 3.0 Preview 5 SDK installed to compile and run MM at this point under 3.0.
+
 ### 1.16.8
 <small>April 22nd, 2019</small>
 
