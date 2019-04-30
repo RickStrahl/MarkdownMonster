@@ -1,3 +1,5 @@
+# Markdown Monster License
+
 Markdown Monster comes in several license modes: Evaluation, Single User, Multiple User and Site License.
 
 Markdown Monster is **Source Open** with source code available on GitHub, but it is a licensed product that requires a paid-for license for continued use. The software is licensed as © Rick Strahl, West Wind Technologies, 2015-2019. 
