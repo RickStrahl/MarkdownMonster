@@ -20,7 +20,8 @@ Or you can you use [Chocolatey](https://chocolatey.org/) to install from the Win
 c:\> choco install markdownmonster
 ```
 
-[See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)
+* [See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)  
+* [License](#license)
 
 > Note in order to open and build the Markdown Monster project you need the [SDK Core 3.0 SDK Preview 5](https://dotnet.microsoft.com/download) or later.
 
