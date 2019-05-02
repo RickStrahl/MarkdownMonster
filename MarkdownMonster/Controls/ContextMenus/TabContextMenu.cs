@@ -108,6 +108,18 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             ContextMenu.Items.Add(new Separator());
 
+
+            mi = new MenuItem
+            {
+                Header = "Add to Favorites",
+                Name = "AddFavorite",
+                Command = Model.Commands.AddFavoriteCommand,
+                CommandParameter = model.ActiveDocument?.Filename
+            };
+            ContextMenu.Items.Add(mi);
+
+            ContextMenu.Items.Add(new Separator());
+
             // TERMINAL AND FOLDER BROWSING
 
             mi = new MenuItem

@@ -241,9 +241,18 @@ namespace MarkdownMonster.Windows
 
         private void TreeViewItem_Drop(object sender, DragEventArgs e)
         {
+            string rawFilename = null;
+
             // avoid double drop events?
             if (!IsDragging)
-                return;
+            {
+                // Explorer Drag and Drop - just look for the filename 
+                var tkens = e.Data.GetData("FileName") as string[];
+                if (tkens == null)
+                    return;
+                rawFilename = tkens[0] as string;
+            }
+
             IsDragging = false;
 
             FavoriteItem targetItem;            
@@ -260,14 +269,13 @@ namespace MarkdownMonster.Windows
                 return;
 
             //  "path|title"
-            var path = e.Data.GetData(DataFormats.UnicodeText) as string;
+            var path = rawFilename ?? e.Data.GetData(DataFormats.UnicodeText) as string;
             if (string.IsNullOrEmpty(path))
                 return;
 
             FavoriteItem sourceItem = null;
             ObservableCollection<FavoriteItem> parentList = null;
             
-
             var tokens = path.Split('|');
             if (tokens.Length == 1)
             {

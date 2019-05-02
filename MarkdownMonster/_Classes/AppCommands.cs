@@ -1196,6 +1196,10 @@ namespace MarkdownMonster
 
                 fav.EditedFavorite = favorite;
                 favorite.DisplayState.IsEditing = true;
+
+                Model.Window.Dispatcher.InvokeAsync(() => control.TextFavoriteTitle.Focus(),
+                    System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+
             }, (p, c) => true);
         }
 
