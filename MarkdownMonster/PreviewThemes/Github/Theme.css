@@ -1,5 +1,5 @@
 html, body {
-  color: #333;
+  color: #24292e;  
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   font-size: 16px;
   line-height: 1.5;
@@ -20,15 +20,15 @@ strong, b {
 
 h1, h2, h3, h4, h5, h6, .byline, .content-title {
   margin-top: 1em;
-  margin-bottom: 16px;
-  color: #333;
+  margin-bottom: 0.75em;
+  
   font-weight: 600;
   line-height: 1.25;
   margin-bottom: 0em;
 }
 
 h1 {
-  font-size: 1.8em;
+  font-size: 2em;
   line-height: 1.2;
   padding-bottom: 0.3em;
   border-bottom: 1px solid #eaecef;
