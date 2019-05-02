@@ -7,8 +7,11 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.16.15
-<small>April 30th, 2019</small>
+### 1.16.16
+<small>not released yet</small>
+
+* **Drag and Drop into Favorites from Explorer**  
+You can now drag and drop into Favorites from Explorer in addition to dragging a tab, and the various context menu options.
 
 * **Improved Up/Down key Scroll Speed**    
 MM monitors scroll operations in the editor in order to sync the preview as you navigate. Previously the treshold for updating the preview was too low causing scroll speed slow-downs. Bumped the treshold up a bit for much improved cursor scroll speed. Still not great as there are still checks for scroll changes, but they happen much less frequent now.
