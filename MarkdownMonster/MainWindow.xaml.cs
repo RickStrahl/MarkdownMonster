@@ -43,6 +43,7 @@ using FontAwesome.WPF;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Annotations;
 using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
@@ -1758,7 +1759,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public TabItem GetTabFromFilename(string filename)
+        public TabItem GetTabFromFilename([CanBeNull] string filename)
         {
             if (string.IsNullOrEmpty(filename))
                 return null;
@@ -1769,12 +1770,14 @@ namespace MarkdownMonster
             TabItem tab = null;
             foreach (TabItem tabItem in TabControl.Items.Cast<TabItem>())
             {
-                var markdownEditor = tabItem.Tag as MarkdownDocumentEditor;
-                if (markdownEditor == null)
+                string tabFile =
+                    (tabItem.Tag as MarkdownDocumentEditor)?.MarkdownDocument?.Filename ??
+                    (tabItem.ToolTip as string);
+
+                if (tabFile == null)
                     continue;
 
-                if (markdownEditor.MarkdownDocument.Filename.Equals(filename,
-                    StringComparison.InvariantCultureIgnoreCase))
+                if (tabFile.Equals(filename, StringComparison.InvariantCultureIgnoreCase))
                 {
                     tab = tabItem;
                     break;

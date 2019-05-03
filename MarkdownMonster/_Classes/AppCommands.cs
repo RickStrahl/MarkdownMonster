@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Favorites;
@@ -93,6 +95,8 @@ namespace MarkdownMonster
             CopyFolderToClipboard();
             CopyFullPathToClipboard();
             TabControlFileList();
+
+            PasteImageToFile(); // folder browser
 
             // Git
             OpenGitClient();
@@ -1150,7 +1154,7 @@ namespace MarkdownMonster
 
             }, (p, c) => true);
             PasteMarkdownFromHtmlCommand.PremiumFeatureName = "HTML to Markdown Conversion";
-            
+
         }
 
 
@@ -1234,7 +1238,7 @@ namespace MarkdownMonster
             }, (p, c) => Model.IsEditorActive);
             EditorSplitModeCommand.PremiumFeatureName = "Editor Split Mode";
             EditorSplitModeCommand.PremiumFeatureLink = "https://markdownmonster.west-wind.com/docs/_5ea0q9ne2.htm";
-            
+
         }
 
 
@@ -1270,7 +1274,7 @@ namespace MarkdownMonster
             });
         }
 
-#endregion 
+#endregion
 
 #region Open Document Operations
 
@@ -1283,7 +1287,7 @@ namespace MarkdownMonster
                 var filename = Model.ActiveTabFilename;
                 if (string.IsNullOrEmpty(filename) || filename == "untitled")
                     return;
-                
+
                 string path = Path.GetDirectoryName(filename);
 
                 if(ClipboardHelper.SetText(path))
@@ -1302,7 +1306,7 @@ namespace MarkdownMonster
                 var filename = Model.ActiveTabFilename;
                 if (string.IsNullOrEmpty(filename) || filename == "untitled")
                     return;
-                
+
                 if (ClipboardHelper.SetText(filename))
                     Model.Window.ShowStatus($"Path copied to clipboard: {filename}", mmApp.Configuration.StatusMessageTimeout);
             }, (p, c) => true);
@@ -1372,9 +1376,103 @@ namespace MarkdownMonster
 
                 if (topicId != null)
                     url = mmApp.GetDocumentionUrl(topicId as string);
-                
+
                 ShellUtils.GoUrl(url);
             });
+        }
+
+
+        public CommandBase PasteImageToFileCommand { get; set; }
+
+        void PasteImageToFile()
+        {
+            PasteImageToFileCommand = new CommandBase((parameter, command) =>
+            {
+                if (!Clipboard.ContainsImage())
+                {
+                    Model.Window.ShowStatusError("No image found on the Clipboard.");
+                    return;
+                }
+
+                using (var bitMap = System.Windows.Forms.Clipboard.GetImage())
+                {
+                    if (bitMap == null)
+                    {
+                        Model.Window.ShowStatusError("An error occurred pasting an image from the clipboard.");
+                        return;
+                    }
+
+                    var initialFolder = parameter as string;
+                    if (initialFolder is null)
+                        return;
+
+                    if (initialFolder == "..")
+                        initialFolder = Model.Window.FolderBrowser.FolderPath;
+
+                    if (File.Exists(initialFolder))
+                        initialFolder = Path.GetDirectoryName(initialFolder);
+
+                    WindowUtilities.DoEvents();
+
+                    var sd = new SaveFileDialog
+                    {
+                        Filter = "Image files (*.png;*.jpg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif|All Files (*.*)|*.*",
+                        FilterIndex = 1,
+                        Title = "Save Image from Clipboard as",
+                        InitialDirectory = initialFolder,
+                        CheckFileExists = false,
+                        OverwritePrompt = true,
+                        CheckPathExists = true,
+                        RestoreDirectory = true,
+                        ValidateNames = true
+                    };
+                    var result = sd.ShowDialog();
+                    string imagePath = null;
+                    if (result != null && result.Value)
+                    {
+                        imagePath = sd.FileName;
+                        var ext = Path.GetExtension(imagePath)?.ToLower();
+
+                        try
+                        {
+                            File.Delete(imagePath);
+
+                            if (ext == ".jpg" || ext == ".jpeg")
+                            {
+                                using (var bmp = new Bitmap(bitMap))
+                                {
+                                    mmImageUtils.SaveJpeg(bmp, imagePath,
+                                        Model.Configuration.JpegImageCompressionLevel);
+                                }
+                            }
+                            else
+                            {
+                                var format = mmImageUtils.GetImageFormatFromFilename(imagePath);
+                                bitMap.Save(imagePath, format);
+                            }
+
+                            if (ext == ".png" || ext == ".jpeg" || ext == ".jpg")
+                                mmFileUtils.OptimizeImage(sd.FileName); // async
+
+                            // need to delay as item is added by file watcher
+                            Model.Window.Dispatcher.Delay(150, (p) =>
+                            {
+                                Model.Window.SidebarContainer.SelectedItem = mmApp.Model.Window.TabFolderBrowser;
+                                Model.Window.ShowFolderBrowser(folder: imagePath);
+
+                                Model.Window.Dispatcher.InvokeAsync(() =>
+                                    Model.Window.FolderBrowser.HandleItemSelection(forceEditorFocus: true),DispatcherPriority.ApplicationIdle); 
+
+                            },DispatcherPriority.ApplicationIdle);
+                        }
+                        catch (Exception ex)
+                        {
+                            Model.Window.ShowStatusError("Couldn't save image file: " + ex.Message);
+                            return;
+                        }
+                    }
+                }
+            }, (p, c) => true);
         }
 
         #endregion
@@ -1617,7 +1715,7 @@ namespace MarkdownMonster
             {
                 string fileOrFolderPath = parameter as string;
                 if (string.IsNullOrEmpty(fileOrFolderPath))
-                {                    
+                {
                     fileOrFolderPath = Model.ActiveTabFilename;
                     if (string.IsNullOrEmpty(fileOrFolderPath))
                         return;
