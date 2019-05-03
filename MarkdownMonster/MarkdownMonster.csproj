@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>netcoreapp3.0;net462</TargetFrameworks>
-    <Version>1.16.15</Version>
+    <TargetFramework>net462</TargetFramework>
+    <!--<TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>-->
+    <Version>1.16.16</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
     <StartupObject>StartUp</StartupObject>
@@ -16,9 +17,8 @@
     <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <TieredCompilation>true</TieredCompilation>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <!--<RuntimeIdentifier>win-x86</RuntimeIdentifier>-->
+    <!--<SelfContained>false</SelfContained>-->
     <PlatformTarget>AnyCpu</PlatformTarget>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
@@ -95,9 +95,5 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DefineConstants>NETFULL</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
 </Project>

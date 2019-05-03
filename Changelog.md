@@ -13,6 +13,12 @@
 * **Drag and Drop into Favorites from Explorer**  
 You can now drag and drop into Favorites from Explorer in addition to dragging a tab, and the various context menu options.
 
+* **Drag and Drop Files and Folders from Explorer into Folder Browser**  
+You can now drag and drop files from Explorer into the folder browser to quickly move one or more file or folders.
+
+* **Paste Image From Clipboard into Folder Browser**  
+You can now paste an image from the clipboard directly to a file in the folder browser. This is in addition to the ability to paste clipboard images into documents, create a file on disk and embed the reference in the document.
+
 * **Improved Up/Down key Scroll Speed**    
 MM monitors scroll operations in the editor in order to sync the preview as you navigate. Previously the treshold for updating the preview was too low causing scroll speed slow-downs. Bumped the treshold up a bit for much improved cursor scroll speed. Still not great as there are still checks for scroll changes, but they happen much less frequent now.
 
