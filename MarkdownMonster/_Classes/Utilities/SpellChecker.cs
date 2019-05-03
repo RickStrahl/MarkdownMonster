@@ -17,8 +17,10 @@ namespace MarkdownMonster.Utilities
 {
     public class SpellChecker
     {
-        public static readonly string ExternalDictionaryFolder = Path.Combine(mmApp.Configuration.CommonFolder, "DownloadedDictionaries");
+        public static string ExternalDictionaryFolder { get; } = Path.Combine(mmApp.Configuration.CommonFolder, "DownloadedDictionaries");
+
         public static readonly string InternalDictionaryFolder = Path.Combine(App.InitialStartDirectory, "Editor");
+
         public static Hunspell GetSpellChecker(string language = "en-US", bool reload = false)
         {
             if (reload || _spellChecker == null)
@@ -28,9 +30,12 @@ namespace MarkdownMonster.Utilities
 
                 if (!File.Exists(dic))
                 {
+                    if (!Directory.Exists(ExternalDictionaryFolder))
+                        Directory.CreateDirectory(ExternalDictionaryFolder);
+
                     dic = Path.Combine(ExternalDictionaryFolder, language + ".dic");
                     aff = Path.ChangeExtension(dic, "aff");
-
+                    
                     if (!File.Exists(dic))
                     {
                         mmApp.Configuration.Editor.Dictionary = "en-US";
