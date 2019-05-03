@@ -366,7 +366,7 @@ namespace Westwind.HtmlPackager
                             cssText = File.ReadAllText(WebUtility.UrlDecode(url));
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
                     // Error occurred retrieving a file - continue processing
                     continue;

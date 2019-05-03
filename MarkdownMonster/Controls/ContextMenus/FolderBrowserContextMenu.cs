@@ -28,7 +28,6 @@
             private TreeView TreeFolderBrowser { get; set; }
 
             private AppModel Model;
-            private bool firstAccess;
 
             public FolderBrowserContextMenu(FolderBrowerSidebar sidebar)
             {
@@ -38,7 +37,7 @@
             }
 
 
-            #region Context Menu Operations 
+            #region Context Menu Operations
 
             private void ContextMenu_Closed(object sender, RoutedEventArgs e)
             {
@@ -57,7 +56,6 @@
                 {
                     ContextMenu = new ContextMenu();
                     ContextMenu.Closed += ContextMenu_Closed;
-                    firstAccess = false;
                 }
                 else
                     ContextMenu?.Items.Clear();

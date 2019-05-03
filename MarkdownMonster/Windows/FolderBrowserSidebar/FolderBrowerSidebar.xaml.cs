@@ -3,9 +3,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.Annotations;
@@ -1083,12 +1085,14 @@ namespace MarkdownMonster.Windows
         private void TreeViewItem_Drop(object sender, DragEventArgs e)
         {
 
-            PathItem targetItem;
+            PathItem targetItem = ActivePathItem;
+
+
+            var formats = e.Data.GetFormats();
 
             if (sender is TreeView)
             {
                 // dropped into treeview open space
-                targetItem = ActivePathItem;
             }
             else
             {
@@ -1098,18 +1102,39 @@ namespace MarkdownMonster.Windows
             }
             e.Handled = true;
 
+
+            if (formats.Contains("FileDrop"))
+            {
+                HandleDroppedFiles(e.Data.GetData("FileDrop") as string[]);
+                return;
+            }
+
+
             if (!targetItem.IsFolder)
                 targetItem = targetItem.Parent;
 
             var path = e.Data.GetData(DataFormats.UnicodeText) as string;
             if (string.IsNullOrEmpty(path))
-                return;
+            {
+               return;
+            }
 
+            string newPath;
             var sourceItem = FolderStructure.FindPathItemByFilename(ActivePathItem, path);
             if (sourceItem == null)
-                return;
+            {
+                // Handle dropped new files (from Explorer perhaps)
+                if (File.Exists(path))
+                {
+                    newPath = Path.Combine(targetItem.FullPath, Path.GetFileName(path));
+                    File.Copy(path, newPath);
+                    AppModel.Window.ShowStatusSuccess($"File copied.");
+                }
 
-            var newPath = Path.Combine(targetItem.FullPath, sourceItem.DisplayName);
+                return;
+            }
+
+            newPath = Path.Combine(targetItem.FullPath, sourceItem.DisplayName);
 
             if (sourceItem.FullPath.Equals(newPath, StringComparison.InvariantCultureIgnoreCase))
             {
@@ -1142,6 +1167,52 @@ namespace MarkdownMonster.Windows
             AppModel.Window.ShowStatus($"File moved to: {newPath}",mmApp.Configuration.StatusMessageTimeout);
         }
 
+        /// <summary>
+        /// Handles files that were dropped on the tree view
+        /// </summary>
+        /// <param name="files">array of files</param>
+        void HandleDroppedFiles(string[] files)
+        {
+            if (files == null)
+                return;
+
+            Window.ShowStatusProgress("Copying files and folders...");
+            WindowUtilities.DoEvents();
+
+            string errors = "";
+
+            Task.Run(() =>
+            {
+                foreach (var file in files)
+                {
+                    var isFile = File.Exists(file);
+                    var isDir = Directory.Exists(file);
+                    if (!isDir && !isFile)
+                        continue;
+
+                    string nPath;
+                    if (isFile)
+                    {
+                        nPath = Path.Combine(ActivePathItem.FullPath, Path.GetFileName(file));
+                        if (!LanguageUtils.IgnoreErrors(() => File.Copy(file, nPath, overwrite: true)))
+                            errors += $"{nPath},";
+                    }
+                    else
+                    {
+                        nPath = Path.Combine(ActivePathItem.FullPath, Path.GetFileName(file));
+                        if (!LanguageUtils.IgnoreErrors(() => FileUtils.CopyDirectory(file, nPath)))
+                            errors += $"{nPath},";
+                    }
+                }
+                Dispatcher.InvokeAsync(() =>
+                {
+                    if (string.IsNullOrEmpty(errors))
+                        Window.ShowStatusSuccess($"Files and Folders copied.");
+                    else
+                        Window.ShowStatusError($"There were errors copying files and folders.");
+                });
+            });
+        }
 #endregion
 
 #region INotifyPropertyChanged
