@@ -107,7 +107,7 @@
 <ww:Markdown runat="server" id="license" NormalizeWhiteSpace="true">
 ## Purchase Markdown Monster
 
-Markdown Monster can be [downloaded](download.aspx) and evaluated for free and we 
+Markdown Monster can be [downloaded](download.aspx) and evaluated for free. We also 
 provide the [source code](https://github.com/RickStrahl/MarkdownMonster) 
 in the open, but a reasonably priced license must be purchased for continued use. 
     
@@ -115,7 +115,7 @@ We offer individual and organizational licences to purchase, as well as **free**
 and certain developer organizations. For more licensing information, please check out 
 our [Licensing Page](download.aspx#License).
     
-Thank you for playing fair.
+Thanks for playing fair.
 </ww:Markdown>
             
             <hr />
@@ -131,11 +131,11 @@ Thank you for playing fair.
                 </thead>
                 <tr>
                     <td>
-                        <a href="download.aspx" class="pull-right btn btn-sm btn-primary">
-                            <i class="fa fa-play-circle"></i>
-                            Try out now
+                        <a href="download.aspx" class="pull-right btn btn-sm btn-success">
+                            <i class="fa fa-download"></i>
+                            Download
                         </a>
-                        <a href="download.aspx">Markdown Monster Trial</a><br/>
+                        <a href="download.aspx">Markdown Monster Evaluation</a><br/>
                         <small>(for checking out Markdown Monster features)</small>
                     </td>
                     <td class="price">
