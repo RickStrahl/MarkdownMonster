@@ -273,10 +273,13 @@
 
     // split line by word boundaries - any non alpha-numeric characters plus ' (\u0027) and white space
     //var words = line.split(/[^a-zA-Z0-9\u00C0-\u02AF']|\s/);
+    //var words = line.Split(/[\P{L}]/);  // not supported in IE/JavaScript
 
     // split line by word boundaries and non-alpha numeric chars by unicode range. ' (\u0027) is handled special
-    var words = line.split(/[\u0000-\u0026\u0028-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u00BF\u02B9-\u0385]/);
-
+    // Exclusion list: Include a-zA-Z0-9 - everything
+    var words = line.split(/[\u0000-\u0026\u0028-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u00BF\u02B9-\u0385\u1ffd-\u2c66]/);
+    
+      
     var i = 0;
     var bads = [];
     for (var wordIndex in words) {
