@@ -25,7 +25,7 @@ namespace Westwind.wwScripting
 	/// Class that enables running of code dynamcially created at runtime.
 	/// Provides functionality for evaluating and executing compiled code.
 	/// </summary>
-    public class wwScriptingRoslyn
+    public class wwScriptingRoslyn : IDisposable
 	{
 		/// <summary>
 		/// Compiler object used to compile our code
@@ -467,7 +467,8 @@ namespace Westwind.wwScripting
         public void Release() 
 		{
 			ObjRef = null;
-		}
+            Compiler.Dispose();
+        }
 
 		public void Dispose() 
 		{

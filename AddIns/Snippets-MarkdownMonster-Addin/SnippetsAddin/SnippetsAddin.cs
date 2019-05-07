@@ -29,8 +29,8 @@ namespace SnippetsAddin
             var menuItem = new AddInMenuItem(this)
             {
                 FontawesomeIcon = FontAwesomeIcon.PencilSquareOutline,
-                Caption = "Snippets Template Expansions",                
-                KeyboardShortcut = SnippetsAddinConfiguration.Current.KeyboardShortcut                
+                Caption = "Snippets Template Expansions",
+                KeyboardShortcut = SnippetsAddinConfiguration.Current.KeyboardShortcut
             };
             try
             {
@@ -42,8 +42,8 @@ namespace SnippetsAddin
             // if you don't want to display config or main menu item clear handler
             //menuItem.ExecuteConfiguration = null;
 
-            // Must add the menu to the collection to display menu and toolbar items            
-            this.MenuItems.Add(menuItem);            
+            // Must add the menu to the collection to display menu and toolbar items
+            this.MenuItems.Add(menuItem);
         }
 
         public override void OnWindowLoaded()
@@ -83,7 +83,7 @@ namespace SnippetsAddin
                         KeyConverter k = new KeyConverter();
                         kb.Key = (Key)k.ConvertFromString(key);
                     }
-                    
+
                     // Whatever command you need to bind to
                     kb.Command = new CommandBase((s, e) => InsertSnippet(snippet),
                                                  (s,e) => Model.IsEditorActive);
@@ -97,9 +97,10 @@ namespace SnippetsAddin
                 // warm up Roslyn
                 Task.Run(() =>
                 {
-                    var script = new wwScriptingRoslyn();
-                    var x = script.ExecuteCode("int x = 1; return x;");
-                    mmApp.SetWorkingSet(10000000, 5000000);
+                    using (var script = new wwScriptingRoslyn())
+                    {
+                        script.ExecuteCode("int x = 1; return x;",null);
+                    }
                 });
             }
         }
@@ -128,7 +129,7 @@ namespace SnippetsAddin
 
         public override void OnExecuteConfiguration(object sender)
         {
-            Model.Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "snippetsaddin.json"));         
+            Model.Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "snippetsaddin.json"));
         }
 
         public override bool OnCanExecute(object sender)
@@ -193,10 +194,10 @@ namespace SnippetsAddin
             snippetText = snippetText.Replace("~", "");
 
             SetSelection(snippetText);
-            
+
             if (idx > -1)
             {
-                var snipRemain = snippetText.Substring(idx);                               
+                var snipRemain = snippetText.Substring(idx);
                 int move = snipRemain.Replace("\r","").Length;
 
                 // older versions don't have these APIs
@@ -209,18 +210,18 @@ namespace SnippetsAddin
             }
 
         }
-        
+
         public override void OnDocumentUpdated()
         {
             var editor = GetMarkdownEditor();
             string line = editor.GetCurrentLine();
             if (string.IsNullOrEmpty(line))
-                return;            
-            
+                return;
+
             var snippet = SnippetsAddinConfiguration.Current.Snippets
                                                     .FirstOrDefault(sn => !string.IsNullOrEmpty(sn.Shortcut) && line.Trim().EndsWith(sn.Shortcut));
             if (snippet != null)
-            {                               
+            {
                 editor.FindAndReplaceTextInCurrentLine(snippet.Shortcut, "");
                 InsertSnippet(snippet);
             }

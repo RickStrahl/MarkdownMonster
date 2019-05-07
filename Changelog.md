@@ -7,7 +7,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.16.16
+### 1.16.18
 <small>not released yet</small>
 
 * **Drag and Drop into Favorites from Explorer**  
@@ -30,6 +30,9 @@ Under the hood Markdown Monster now uses .NET SDK style projects to build for al
 
 * **Development: Prepare Markdown Monster for .NET Core 3.0**  
 Markdown Monster now **dual targets** for **.NET 4.62** (as always) as well as **.NET Core 3.0**. A lot of work was done to fix a number of incompatibilities for .NET Core 3.0 and MM can now run under .NET Core 3.0 Preview 5. You'll need to make sure you have .NET Core 3.0 Preview 5 SDK installed to compile and run MM at this point under 3.0.
+
+* **Fix: Snippet Addin Slow First Activation**  
+Due to our recent switch to using Roslyn for compilation, startup for first time snippet use can be fairly slow taking a few seconds. Offloaded initialization of Roslyn onto a background thread during startup, gives quick response on first use now.
 
 ### 1.16.8
 <small>April 22nd, 2019</small>
