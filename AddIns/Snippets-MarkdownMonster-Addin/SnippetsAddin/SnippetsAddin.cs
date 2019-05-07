@@ -2,12 +2,14 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
+using Westwind.wwScripting;
 
 namespace SnippetsAddin
 {
@@ -46,10 +48,13 @@ namespace SnippetsAddin
 
         public override void OnWindowLoaded()
         {
-
-
+            bool requiresCompiler = false;
             foreach (var snippet in SnippetsAddinConfiguration.Current.Snippets)
             {
+                if (!requiresCompiler && snippet.SnippetText.Contains("{{") || snippet.SnippetText.Contains("@"))
+                    requiresCompiler = true;
+
+
                 if (!string.IsNullOrEmpty(snippet.KeyboardShortcut))
                 {
                     var ksc = snippet.KeyboardShortcut.ToLower();
@@ -85,6 +90,17 @@ namespace SnippetsAddin
 
                     Model.Window.InputBindings.Add(kb);
                 }
+            }
+
+            if (requiresCompiler)
+            {
+                // warm up Roslyn
+                Task.Run(() =>
+                {
+                    var script = new wwScriptingRoslyn();
+                    var x = script.ExecuteCode("int x = 1; return x;");
+                    mmApp.SetWorkingSet(10000000, 5000000);
+                });
             }
         }
 
