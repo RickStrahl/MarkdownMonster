@@ -1880,18 +1880,17 @@ namespace MarkdownMonster
                             {
                                 using (var bmp = new Bitmap(bitMap))
                                 {
-                                    mmImageUtils.SaveJpeg(bmp, imagePath, mmApp.Configuration.JpegImageCompressionLevel);
+                                    mmImageUtils.SaveJpeg(bmp, imagePath, mmApp.Configuration.Images.JpegImageCompressionLevel);
                                 }
                             }
                             else
                             {
                                 var format = mmImageUtils.GetImageFormatFromFilename(imagePath);
                                 bitMap.Save(imagePath, format);
-                                bitMap.Dispose();
-
-                                if (ext == ".png" || ext == ".jpeg")
-                                    mmFileUtils.OptimizeImage(sd.FileName); // async
                             }
+
+                            if (ext == ".png" || ext == ".jpeg" || ext == ".jpg")
+                                mmFileUtils.OptimizeImage(sd.FileName); // async
                         }
                         catch (Exception ex)
                         {

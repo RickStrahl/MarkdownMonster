@@ -521,9 +521,13 @@ namespace SnagItAddin
             try
             {
                 if (ext == ".jpg" || ext == "jpeg")
-                    mmImageUtils.SaveJpeg(CapturedBitmap, SavedImageFile, mmApp.Configuration.JpegImageCompressionLevel);
+                    mmImageUtils.SaveJpeg(CapturedBitmap, SavedImageFile,
+                                           mmApp.Configuration.Images.JpegImageCompressionLevel);
                 else
                     CapturedBitmap.Save(SavedImageFile);
+
+                if (ext == ".png" || ext == ".jpeg" || ext == ".jpg")
+                    mmFileUtils.OptimizeImage(sd.FileName); // async
             }
             catch (Exception ex)
             {
