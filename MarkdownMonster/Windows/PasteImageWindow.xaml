@@ -15,13 +15,13 @@
         WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
         WindowStartupLocation="CenterOwner"                
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="620" Height="320" MinWidth="600" MinHeight="320">
+        Width="620" Height="340" MinWidth="600" MinHeight="320">
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4s01ezteq.htm"/>
     </Window.InputBindings>
     <Grid Name="PageGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="34" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
             <RowDefinition Height="30" />
@@ -41,8 +41,7 @@
                     </Button>
 
                     <Button Name="ButtonSaveImage" IsDefault="True"
-                            Visibility="{Binding IsMemoryImage, Converter={StaticResource BooleanToVisibilityConverter}}" 
-                            Click="Button_SaveImage" >
+                            Click="Button_SaveImage"  Visibility="{Binding IsMemoryImage, Converter={StaticResource BooleanToVisibilityConverter}}" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,4,5,0" Icon="FloppyOutline" 
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
@@ -50,6 +49,7 @@
                             <TextBlock>Save to Disk</TextBlock>
                         </StackPanel>
                     </Button>
+
 
                     <Button Name="ButtonCancel" IsCancel="True" Click="Button_Click" >
                         <StackPanel Orientation="Horizontal">
@@ -61,11 +61,13 @@
                     </Button>
 
                 </ToolBar>
+
                 <ToolBar>
                     
-                    <Button Name="ToolButtonEditImage" Click="Button_EditImage"
+                    <Button Name="ToolButtonEditImage" 
                             IsEnabled="{Binding IsEditable}"
-                            ToolTip="Edit Image.">
+                            Click="Button_EditImage"
+                            ToolTip="Edit Image in your configured Image Editor via 'Configuration.Images.ImageEditor'.">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Edit"  Name="FaEditImage"                                           
                                           
@@ -106,7 +108,44 @@
                     </Button>
                 </ToolBar>
             </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal"  Visibility="{Binding IsMemoryImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ToolBar FontWeight="Normal" Padding="0,2,0,2" >
+
+                    <TextBlock Margin="0,2,5,0" FontWeight="Semibold">Image Resizing:</TextBlock>
+                    <!--<TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Width:</TextBlock>-->
+                    
+                    <TextBox Name="TextBoxImageWidth" Margin="5,0,0,0" Text="{Binding ImageWidth}"  Width="50"  
+                                 Style="{StaticResource SmallTextBox}" ToolTip="Image Width"
+                                 LostFocus="TextBox_ImageSizeChanged" />
+                    <TextBlock Margin="5,0,5,0" VerticalAlignment="Center">x</TextBlock>
+
+                    <!--<TextBlock Margin="8,0,0,0" VerticalAlignment="Center">Height:</TextBlock>-->
+                    <TextBox Name="TextBoxImageHeight" Text="{Binding ImageHeight}"  Width="50" 
+                             ToolTip="Image Height" 
+                             LostFocus="TextBox_ImageSizeChanged" Style="{StaticResource SmallTextBox}"  />
+
+                    <Button Name="ButtonRememberLastSize"  Click="ButtonRememberLastSize_Click"
+                            ToolTip="Recall last saved image size" >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Refresh" Margin="2,4,2,0"  
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
+                                            Foreground="Orange"/>
+                        </StackPanel>
+                    </Button>
+
+                    <CheckBox IsChecked="{Binding IsImageFixedRatio}" 
+                              Margin="10,0"
+                              Style="{StaticResource CompactCheckBox}">keep aspect ratio</CheckBox>
+
+                </ToolBar>
+            </StackPanel>
+
         </ToolBarPanel>
+
+
+
         
         <StackPanel Grid.Row="1" Margin="20,10,20,0">
             <Label  Content="Web URL or Local Image File: (relative path recommended)"/>
@@ -131,9 +170,11 @@
             <CheckBox x:Name="CheckPasteAsBase64Content" Margin="0,10,0,0"
                       Checked="CheckPasteAsBase64Content_Checked"
                       Unchecked="CheckPasteAsBase64Content_Checked"
+                      FontSize="19"
                       IsTabStop="False"
                       IsChecked="{Binding PasteAsBase64Content}"                       
                       Content="Paste as base64 content"
+                      Style="{StaticResource CompactCheckBox}"
                       ToolTip="Embeds the picture as inline base64 content in the HTML document. Can result in very large rendered HTML documents and recommended only for smaller images."/>
 
             
