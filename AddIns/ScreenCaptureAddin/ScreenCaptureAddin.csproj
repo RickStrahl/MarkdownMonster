@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Version>1.16</Version>
-    <TargetFrameworks>netcoreapp3.0;net462</TargetFrameworks>
+    <TargetFrameworks>net462</TargetFrameworks>
     <AssemblyName>ScreenCaptureAddin</AssemblyName>
     <UseWPF>true</UseWPF>
 

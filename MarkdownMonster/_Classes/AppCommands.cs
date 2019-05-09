@@ -1442,7 +1442,7 @@ namespace MarkdownMonster
                                 using (var bmp = new Bitmap(bitMap))
                                 {
                                     mmImageUtils.SaveJpeg(bmp, imagePath,
-                                        Model.Configuration.JpegImageCompressionLevel);
+                                        Model.Configuration.Images.JpegImageCompressionLevel);
                                 }
                             }
                             else

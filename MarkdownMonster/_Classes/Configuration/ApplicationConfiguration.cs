@@ -233,23 +233,6 @@ namespace MarkdownMonster
         /// </summary>
         public string DefaultCodeSyntax { get; set; }
 
-
-        /// <summary>
-        /// Image editor used to edit images. Empty uses system default editor
-        /// </summary>
-        public string ImageEditor { get; set; }
-
-		/// <summary>
-		/// Image viewer used to open images. Empty setting uses the default viewer
-		/// </summary>
-		public string ImageViewer { get; set;  }
-
-
-        /// <summary>
-        /// Jpeg Image Compression level from 50 to 100. Defaults 80.
-        /// </summary>
-        public int JpegImageCompressionLevel { get; set; } = 80;
-
         /// <summary>
         /// Web Browser Preview Executable - use this to force
         /// a specific browser since Windows seems to not be able
@@ -344,6 +327,8 @@ namespace MarkdownMonster
         #endregion
 
         #region Nested Objects
+
+        public ImageConfiguration Images { get; set; }
 
         public MarkdownOptionsConfiguration MarkdownOptions { get; set; }
 
@@ -581,7 +566,8 @@ namespace MarkdownMonster
 
         internal string InternalCommonFolder { get; set; }
 
-        internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");        
+        internal string AddinsFolder => Path.Combine(CommonFolder, "Addins");
+    
 
         #endregion
 
@@ -589,6 +575,8 @@ namespace MarkdownMonster
         {
             Editor = new EditorConfiguration();
             Git = new GitConfiguration();
+            Images = new ImageConfiguration();
+
             MarkdownOptions = new MarkdownOptionsConfiguration();
             WindowPosition = new WindowPositionConfiguration();
 	        FolderBrowser = new FolderBrowserConfiguration();
@@ -720,8 +708,8 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(Git.GitDiffExecutable))
                 Git.GitDiffExecutable = mmFileUtils.FindGitDiffTool();
 
-            if (string.IsNullOrEmpty(ImageEditor))
-                ImageEditor = mmFileUtils.FindImageEditor();
+            if (string.IsNullOrEmpty(Images.ImageEditor))
+                Images.ImageEditor = mmFileUtils.FindImageEditor();
 
 
             CleanupRecentFilesAndFolders();

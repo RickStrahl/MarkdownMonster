@@ -45,7 +45,20 @@
         <Setter Property="Padding" Value="3,2" />
     </Style>
     <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MetroComboBox}">
-        <Setter Property="Padding" Value="3,6" />
+        <Setter Property="Padding" Value="3,5" />
+    </Style>
+    <Style x:Key="SmallTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style x:Key="CompactCheckBox" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MetroCheckBox}">
+        <Setter Property="LayoutTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+            </Setter.Value>
+        </Setter>
+        
     </Style>
 
 </ResourceDictionary>

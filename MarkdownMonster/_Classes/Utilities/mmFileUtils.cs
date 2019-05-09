@@ -268,7 +268,7 @@ namespace MarkdownMonster
 
             try
             {
-                string exe = mmApp.Configuration.ImageEditor;
+                string exe = mmApp.Configuration.Images.ImageEditor;
                 if (!string.IsNullOrEmpty(exe))
                     Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
                 else
@@ -300,7 +300,7 @@ namespace MarkdownMonster
 
             try
             {
-                string exe = mmApp.Configuration.ImageViewer;
+                string exe = mmApp.Configuration.Images.ImageViewer;
                 if (!string.IsNullOrEmpty(exe))
                     Process.Start(new ProcessStartInfo(exe, $"\"{imageFile}\""));
                 else

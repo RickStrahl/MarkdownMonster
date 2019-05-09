@@ -1,4 +1,3 @@
-<img src="MarkdownMonster/Assets/MarkdownMonster_Icon_256.png" width=100 align="right" />
 
 # Markdown Monster Change Log
 
@@ -6,9 +5,14 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
 ### 1.16.18
 <small>not released yet</small>
+
+* **Image Dialog Enhancements**  
+The image dialog now supports resizing images and opening images from the clipboard in your selected image editor. You can easily save images to disk multiple times (or with multiple filenames) and you can also re-paste images from the clipboard after saving. Editing automatically can pick up changes from the clipboard upon return to MM.
+
+* **Image Configuration Changes**  
+Image configuration in the `MarkdownMonster.json` file now has a separate `Images` section to contain all image related settings like editor selection, last folder, last image size set etc.
 
 * **Drag and Drop into Favorites from Explorer**  
 You can now drag and drop into Favorites from Explorer in addition to dragging a tab, and the various context menu options.

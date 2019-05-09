@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Version>1.16</Version>
-    <TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net462;</TargetFrameworks>
     <AssemblyName>WeblogAddin</AssemblyName>
     <UseWPF>true</UseWPF>
     
