@@ -44,7 +44,8 @@ namespace SnippetsAddin
         /// </summary>        
         public List<string> References = new List<string>();
 
-        
+
+        static wwScriptingRoslyn ScriptCompiler = new wwScriptingRoslyn();
 
         public string ErrorMessage { get; set; }
 
@@ -62,7 +63,10 @@ namespace SnippetsAddin
         /// <returns></returns>
         public string EvaluateScript(string snippet, object model = null)
         {
-
+#if DEBUG
+            var sw = new Stopwatch();
+            sw.Start();
+#endif
             var tokens = TokenizeString(ref snippet, "{{", "}}");
 
             snippet = snippet.Replace("\"","\"\"");
@@ -76,16 +80,18 @@ namespace SnippetsAddin
             string code = "dynamic Model = Parameters[0];\r\n" +                          
                           "return " + snippet + ";";
 
-            Debug.WriteLine("wwScripting Code: \r\n" + code);
-            
-            //var scripting = new wwScripting();
-            var scripting = new wwScriptingRoslyn();
-            string result = scripting.ExecuteCode(code,model) as string;
+            string result = ScriptCompiler.ExecuteCode(code,model) as string;
             
             if (result == null)
-                ErrorMessage = scripting.ErrorMessage;
+                ErrorMessage = ScriptCompiler.ErrorMessage;
             else
                 ErrorMessage = null;
+
+#if DEBUG
+            sw.Stop();
+            Debug.WriteLine("ScriptParser Code: \r\n" + code);
+            Debug.WriteLine("Snippet EvaluateScript Execution Time: " + sw.ElapsedMilliseconds + "ms");
+#endif
 
             return result;
         }
