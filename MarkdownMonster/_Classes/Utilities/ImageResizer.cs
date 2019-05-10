@@ -31,8 +31,11 @@ namespace MarkdownMonster.Utilities
         public static Bitmap ResizeImageByMode(Bitmap bmp, int width, int height, ResizeModes resizeMode,
                                          InterpolationMode mode = InterpolationMode.HighQualityBicubic)
         {
+
+#if NETFULL
             if (resizeMode == ResizeModes.Auto)
                 return ImageUtils.ResizeImage(bmp, width, height, mode);
+#endif
 
             Bitmap bmpOut = null;
 
@@ -55,7 +58,16 @@ namespace MarkdownMonster.Utilities
                 }
                 else
                 {
-                    if (resizeMode == ResizeModes.ByWidth)
+                    if (resizeMode == ResizeModes.Auto)
+                    {
+                        if (width > height)
+                            resizeMode = ResizeModes.ByWidth;
+                        else
+                            resizeMode = ResizeModes.ByHeight;
+
+                    }
+
+                    if (resizeMode == ResizeModes.ByWidth )
                     {
                         ratio = (decimal)width / bmp.Width;
                         newWidth = width;
