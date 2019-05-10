@@ -12,16 +12,17 @@
 The image dialog now supports resizing images and opening images from the clipboard in your selected image editor. You can easily save images to disk multiple times (or with multiple filenames) and you can also re-paste images from the clipboard after saving. Editing automatically can pick up changes from the clipboard upon return to MM.
 
 * **Image Configuration Changes**  
-Image configuration in the `MarkdownMonster.json` file now has a separate `Images` section to contain all image related settings like editor selection, last folder, last image size set etc.
+Image configuration in the `MarkdownMonster.json` file now has a separate `Images` section to contain all image related settings like editor selection, last folder, last image size set etc.    
+***Breaking Change**: you may have to reset your image editor/viewer in the configuration file if you had them previously set* 
 
-* **Drag and Drop into Favorites from Explorer**  
-You can now drag and drop into Favorites from Explorer in addition to dragging a tab, and the various context menu options.
+* **Paste Image From Clipboard into Folder Browser**  
+You can now paste an image from the clipboard directly to a file in the folder browser. This is in addition to the ability to paste clipboard images into documents, create a file on disk and embed the reference in the document.
 
 * **Drag and Drop Files and Folders from Explorer into Folder Browser**  
 You can now drag and drop files from Explorer into the folder browser to quickly move one or more file or folders.
 
-* **Paste Image From Clipboard into Folder Browser**  
-You can now paste an image from the clipboard directly to a file in the folder browser. This is in addition to the ability to paste clipboard images into documents, create a file on disk and embed the reference in the document.
+* **Drag and Drop into Favorites from Explorer**  
+You can now drag and drop into Favorites from Explorer in addition to dragging a tab, and the various context menu options.
 
 * **Improved Up/Down key Scroll Speed**    
 MM monitors scroll operations in the editor in order to sync the preview as you navigate. Previously the treshold for updating the preview was too low causing scroll speed slow-downs. Bumped the treshold up a bit for much improved cursor scroll speed. Still not great as there are still checks for scroll changes, but they happen much less frequent now.
@@ -33,7 +34,7 @@ If a local file or other link is missing the export now properly continues inste
 Under the hood Markdown Monster now uses .NET SDK style projects to build for all projects. This means MM requires Visual Studio 2019 and the .NET Core 3.0 Preview 5 or later SDK.
 
 * **Development: Prepare Markdown Monster for .NET Core 3.0**  
-Markdown Monster now **dual targets** for **.NET 4.62** (as always) as well as **.NET Core 3.0**. A lot of work was done to fix a number of incompatibilities for .NET Core 3.0 and MM can now run under .NET Core 3.0 Preview 5. You'll need to make sure you have .NET Core 3.0 Preview 5 SDK installed to compile and run MM at this point under 3.0.
+Markdown Monster now **dual targets** for **.NET 4.62** (as always) as well as **.NET Core 3.0**. A lot of internal work was done to fix a number of incompatibilities for .NET Core 3.0 and MM can now run under .NET Core 3.0 Preview 5. You'll need to make sure you have .NET Core 3.0 Preview 5 SDK installed to compile and run MM at this point under 3.0.
 
 * **Fix: Snippet Addin Slow First Activation**  
 Due to our recent switch to using Roslyn for compilation, startup for first time snippet use can be fairly slow taking a few seconds. Offloaded initialization of Roslyn onto a background thread during startup, gives quick response on first use now.
