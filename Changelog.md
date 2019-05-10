@@ -45,6 +45,9 @@ Registration dialog now updates the title immediately after changing registratio
 * **Fix: Path Cleanup**  
 Due to a small bug MM would write multiple paths into the global user path when running MM in development mode piling on all paths that MM would run out of. Updated so only one path is written and updated.
 
+* **Fix: Snippet Plugin Slow Initial Load**  
+Recent updates to the underlying compiler used for snippet compilation have caused a slowdown during first time execution of snippets in the Snippets addin. We added preloading and time managing the compiler lifetime to improve startup and continued execution speediness.
+
 ### 1.16.8
 <small>April 22nd, 2019</small>
 
