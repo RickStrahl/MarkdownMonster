@@ -2055,7 +2055,11 @@ namespace MarkdownMonster
         /// Sets the Window Title followed by Markdown Monster (registration status)
         /// by default the filename is used and it's updated whenever tabs are changed.
         ///
-        /// Generally just call this when you need to have the title updated due to
+        /// Note: ActiveTab change causes the title to be automatically updates and
+        /// generally you **don't want to set a custom title** because it'll get
+        /// overwritten.
+        /// 
+        /// Just call this when you need to have the title updated due to
         /// file name change that doesn't change the active tab.
         /// </summary>
         /// <param name="title"></param>

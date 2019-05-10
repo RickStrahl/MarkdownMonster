@@ -36,7 +36,13 @@ namespace MarkdownMonster.Windows
 
         private void Register_Click(object sender, RoutedEventArgs routedEventArgs)
         {
-            if (UnlockKey.Register(TextRegKey.Password))
+
+            bool registered = UnlockKey.Register(TextRegKey.Password);
+
+            mmApp.Model.Window.SetWindowTitle();
+            WindowUtilities.DoEvents();
+
+            if (registered)
             {
                 MessageBox.Show("Thank you for your registration.", mmApp.ApplicationName,
                     MessageBoxButton.OK, MessageBoxImage.Information);
@@ -53,6 +59,8 @@ namespace MarkdownMonster.Windows
                 LabelIsRegistered.Foreground = new SolidColorBrush(Colors.Red);
                 UnlockKey.UnRegister();
             }
+
+            
         }
 
         private void Exit_Click(object sender, MouseButtonEventArgs e)
