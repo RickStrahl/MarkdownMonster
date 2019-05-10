@@ -160,19 +160,20 @@ namespace MarkdownMonster.Utilities
 
             try
             {
-                var diItem = DictionaryDownloads.FirstOrDefault(di => language.Equals(di.Code, StringComparison.InvariantCultureIgnoreCase));
+                var diItem = DictionaryDownloads.FirstOrDefault(di =>
+                    language.Equals(di.Code, StringComparison.InvariantCultureIgnoreCase));
                 if (diItem != null)
                 {
                     string url = null;
                     if (!string.IsNullOrEmpty(diItem.CustomDownloadUrlForDic))
                         url = diItem.CustomDownloadUrlForDic;
                     else
-                         url = string.Format(DictionaryDownloadUrl,diItem.Code);
+                        url = string.Format(DictionaryDownloadUrl, diItem.Code);
 
                     if (!Directory.Exists(basePath))
                         Directory.CreateDirectory(basePath);
 
-                    var dicFile = Path.Combine(basePath,  language + ".dic");
+                    var dicFile = Path.Combine(basePath, language + ".dic");
                     var web = new WebClient();
                     web.DownloadFile(new Uri(url), dicFile);
 
@@ -183,7 +184,10 @@ namespace MarkdownMonster.Utilities
                     return File.Exists(dicFile) && File.Exists(affFile);
                 }
             }
-            catch { }
+            catch(Exception ex)
+            {
+                mmApp.Log("Failed to download dictionary", ex, false, LogLevels.Warning);
+            }
 
             return false;
         }
@@ -201,7 +205,7 @@ namespace MarkdownMonster.Utilities
             var wc = new WebClient();
             wc.Encoding = Encoding.UTF8;
 
-            var url = $"https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{language}/LICENSE";
+            var url = $"https://raw.githubusercontent.com/wooorm/dictionaries/master/dictionaries/{language}/license";
             var dd = DictionaryDownloads.FirstOrDefault(dx => dx.Code == language);
             if (!string.IsNullOrEmpty(dd?.CustomDownloadUrlForLicense))
                 url = dd.CustomDownloadUrlForLicense;
