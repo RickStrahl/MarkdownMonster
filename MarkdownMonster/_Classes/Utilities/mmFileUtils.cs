@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -678,23 +679,36 @@ namespace MarkdownMonster
             {
                 using (var sk = Registry.CurrentUser.OpenSubKey("Environment", true))
                 {
-                    string mmFolder = Path.Combine(App.InitialStartDirectory, "Markdown Monster");
+                    string mmFolder = App.InitialStartDirectory;
                     string path = sk.GetValue("Path").ToString();
 
                     if (uninstall)
                     {
                         path = path.Replace(";" + mmFolder, "");
                         sk.SetValue("Path", path);
+                        return;
+                    }
+
+                    // TODO: Switch to this after a few versions
+                    //if (path.Contains("\\Markdown Monster\\"))
+                    if (path.Contains(mmFolder)) 
+                        return;
+
+                    var pathList = path.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                    // remove any others
+                    if (path.Contains("Markdown Monster"))
+                    {
+                        pathList = pathList.Where(p => !p.Contains("Markdown Monster")).ToList();
+                        pathList.Add(mmFolder);
                     }
                     else if (!path.Contains(mmFolder))
                     {
-                        var pathList = path.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                         pathList.Add(mmFolder);
-                        path = string.Join(";", pathList.Distinct().ToArray());
-
-                        sk.SetValue("Path", path);
                     }
+                    path = string.Join(";", pathList.Distinct().ToArray());
 
+                    sk.SetValue("Path", path);
                 }
             }
             catch
