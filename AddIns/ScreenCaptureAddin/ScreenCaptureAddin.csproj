@@ -2,16 +2,14 @@
 
   <PropertyGroup>
     <Version>1.16</Version>
-    <TargetFrameworks>net462</TargetFrameworks>
+    <TargetFramework>net462</TargetFramework>
+    <!--<TargetFrameworks>netcoreapp3.0;net462</TargetFrameworks>-->
     <AssemblyName>ScreenCaptureAddin</AssemblyName>
     <UseWPF>true</UseWPF>
 
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\Addins\ScreenCapture</OutDir>
-
-
+    <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\Addins\ScreenCapture</OutDir>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
-
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,18 +27,23 @@
     </PackageReference>
   </ItemGroup>
 
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
-    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\MarkdownMonster.dll">
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.dll">
       <Private>false</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462'">
-    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\MarkdownMonster.exe">
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
       <Private>false</Private>
     </Reference>
   </ItemGroup>

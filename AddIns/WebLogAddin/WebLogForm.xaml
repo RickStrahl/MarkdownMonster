@@ -6,11 +6,12 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarkdownMonster;assembly=MarkdownMonster"
+        xmlns:windows="clr-namespace:MarkdownMonster.Windows;assembly=MarkdownMonster"
         xmlns:weblog="clr-namespace:WeblogAddin"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
-        xmlns:windows="clr-namespace:MarkdownMonster.Windows;assembly=MarkdownMonster"
+        
         mc:Ignorable="d"        
         Icon="icon.png"
         Title="Markdown Monster Weblog Publishing" 

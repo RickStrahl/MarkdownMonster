@@ -33,7 +33,7 @@
         </StackPanel>
 
         
-        <StackPanel x:Name="PanelFreeNotice" Width="Auto"  Canvas.Left="213" Canvas.Top="460" Height="65" HorizontalAlignment="Center" >
+        <StackPanel x:Name="PanelFreeNotice" Width="Auto"  Canvas.Left="213" Canvas.Top="475" Height="65" HorizontalAlignment="Center" >
             <TextBlock Name="LabelUsingFreeVersion" Foreground="WhiteSmoke">You've been using the Free version</TextBlock>
             <Button Margin="0,2,0,30" Content="Register your copy" FontSize="21" FontWeight="Bold" IsDefault="True"
             	HorizontalAlignment="Left" Click="Register_Click" 

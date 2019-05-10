@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <Version>1.16</Version>
-    <TargetFrameworks>net462;</TargetFrameworks>
+    <TargetFramework>net462</TargetFramework>
+    <!--<TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>-->
     <AssemblyName>SnippetsAddin</AssemblyName>
     <UseWPF>true</UseWPF>
 
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\Addins\Snippets</OutDir>
+    <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\Addins\Snippets</OutDir>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
   </PropertyGroup>
 
@@ -36,18 +37,23 @@
     <PackageReference Include="Westwind.RazorHosting" version="3.3.9" />
   </ItemGroup>
 
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
-    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\MarkdownMonster.dll">
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.dll">
       <Private>false</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462'">
-    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\MarkdownMonster.exe">
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
       <Private>false</Private>
     </Reference>
   </ItemGroup>
@@ -61,11 +67,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\MarkdownMonster\MarkdownMonster.csproj" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+ <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
     <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
