@@ -6,7 +6,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.16.18
-<small>not released yet</small>
+<small>May 10th, 2019</small>
 
 * **Image Dialog Enhancements**  
 The image dialog now supports resizing images and opening images from the clipboard in your selected image editor. You can easily save images to disk multiple times (or with multiple filenames) and you can also re-paste images from the clipboard after saving. Editing automatically can pick up changes from the clipboard upon return to MM.
@@ -37,6 +37,12 @@ Markdown Monster now **dual targets** for **.NET 4.62** (as always) as well as *
 
 * **Fix: Snippet Addin Slow First Activation**  
 Due to our recent switch to using Roslyn for compilation, startup for first time snippet use can be fairly slow taking a few seconds. Offloaded initialization of Roslyn onto a background thread during startup, gives quick response on first use now.
+
+* **Fix: Registration Dialog Title Update**  
+Registration dialog now updates the title immediately after changing registration status. Previously a tab switch was required.
+
+* **Fix: Path Cleanup**  
+Due to a small bug MM would write multiple paths into the global user path when running MM in development mode piling on all paths that MM would run out of. Updated so only one path is written and updated.
 
 ### 1.16.8
 <small>April 22nd, 2019</small>
