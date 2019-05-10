@@ -9,6 +9,7 @@ using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
+using Westwind.Scripting;
 
 namespace SnippetsAddin
 {
@@ -93,7 +94,7 @@ namespace SnippetsAddin
 
             if (requiresCompiler)
             {
-                ScriptParser.WarmupRoslyn();
+                ScriptRunnerRoslyn.WarmupRoslyn();
             }
         }
 
@@ -132,7 +133,7 @@ namespace SnippetsAddin
         public override void OnApplicationShutdown()
         {
             // if Roslyn is running shut it down
-            ScriptParser.ShutdownRoslyn();
+            ScriptRunnerRoslyn.ShutdownRoslyn();
             snippetsWindow?.Close();
         }
 

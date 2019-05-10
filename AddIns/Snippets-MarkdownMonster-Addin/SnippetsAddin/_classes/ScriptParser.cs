@@ -216,7 +216,6 @@ namespace SnippetsAddin
             return strings;
         }
 
-
         /// <summary>
         /// Detokenizes a string tokenized with TokenizeString. Requires the collection created
         /// by detokenization
@@ -225,7 +224,7 @@ namespace SnippetsAddin
         /// <param name="tokens"></param>
         /// <param name="replaceDelimiter"></param>
         /// <returns></returns>
-        public string DetokenizeString(string text, List<string> tokens, string replaceDelimiter = "#@#")
+        private string DetokenizeString(string text, List<string> tokens, string replaceDelimiter = "#@#")
         {
             int i = 0;
             foreach (string token in tokens)
@@ -235,56 +234,6 @@ namespace SnippetsAddin
             }
 
             return text;
-        }
-
-        /// <summary>
-        /// Run a script execution asynchronously in the background to warm up Roslyn.
-        /// Call this during application startup or anytime before you run the first
-        /// script to ensure scripts execute quickly.
-        /// </summary>
-        public static void WarmupRoslyn()
-        {
-            // warm up Roslyn
-            Task.Run(() =>
-            {
-                using (var script = new ScriptRunnerRoslyn())
-                {
-                    script.ExecuteCode("int x = 1; return x;", null);
-                }
-            });
-        }
-
-        /// <summary>
-        /// Call this method to shut down the VBCSCompiler if our
-        /// application started it.
-        /// </summary>
-        public static void ShutdownRoslyn()
-        {
-            var processes = Process.GetProcessesByName("VBCSCompiler");
-            if (processes != null)
-            {
-                foreach (var process in processes)
-                {
-                    // only shut down 'our' VBCSCompiler
-                    var fn = GetMainModuleFileName(process);
-                    if (fn.Contains(App.InitialStartDirectory, StringComparison.InvariantCultureIgnoreCase))
-                        LanguageUtils.IgnoreErrors(() => process.Kill());
-                }
-            }
-        }
-
-
-        [DllImport("Kernel32.dll")]
-        private static extern bool QueryFullProcessImageName([In] IntPtr hProcess, [In] uint dwFlags,
-            [Out] StringBuilder lpExeName, [In, Out] ref uint lpdwSize);
-
-        public static string GetMainModuleFileName(Process process)
-        {
-            var fileNameBuilder = new StringBuilder(1024);
-            uint bufferLength = (uint) fileNameBuilder.Capacity + 1;
-            return QueryFullProcessImageName(process.Handle, 0, fileNameBuilder, ref bufferLength)
-                ? fileNameBuilder.ToString()
-                : null;
         }
 
         #endregion

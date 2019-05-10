@@ -8,15 +8,17 @@ using Microsoft.CSharp;
 using System.Reflection;
 
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using MarkdownMonster;
+using Westwind.Utilities;
 
 
 namespace Westwind.Scripting
 {
-	/// <summary>
-	/// Deletgate for the Completed Event
-	/// </summary>
-	public delegate void DelegateCompleted(object sender,EventArgs e);
-
+	
 	/// <summary>
 	/// Class that enables running of code dynamically created at runtime.
 	/// Provides functionality for evaluating and executing compiled code.
@@ -43,18 +45,25 @@ namespace Westwind.Scripting
 		/// </summary>
 		protected CompilerResults CompilerResults = null;
 		protected string OutputAssembly = null;
-        protected StringBuilder Namespaces = new StringBuilder(200);
+
+        /// <summary>
+        /// Flag uus
+        /// </summary>
 		protected bool FirstLoad = true;
 
+        /// <summary>
+        /// Namespaces added to generated code
+        /// </summary>
+        protected StringBuilder Namespaces { get; } = new StringBuilder(200);
 
 
-		/// <summary>
-		/// The object reference to the compiled object available after the first method call.
-		/// You can use this method to call additional methods on the object.
-		/// For example, you can use CallMethod and pass multiple methods of code each of
-		/// which can be executed indirectly by using CallMethod() on this object reference.
-		/// </summary>
-		public object ObjRef = null;
+        /// <summary>
+        /// The object reference to the compiled object available after the first method call.
+        /// You can use this method to call additional methods on the object.
+        /// For example, you can use InvokeMethod and pass multiple methods of code each of
+        /// which can be executed indirectly by using CallMethod() on this object reference.
+        /// </summary>
+        public object ObjRef = null;
 
 		/// <summary>
 		/// If true saves source code before compiling to the cSourceCode property.
@@ -114,13 +123,14 @@ namespace Westwind.Scripting
             Parameters = new CompilerParameters();
         }
 
+        #region Execution Setup
 
         /// <summary>
-		/// Adds an assembly to the compiled code
-		/// </summary>
-		/// <param name="assemblyDll">DLL assembly file name</param>
-		/// <param name="nameSpace">Namespace to add if any. Pass null if no namespace is to be added</param>
-		public void AddAssembly(string assemblyDll,string nameSpace) 
+        /// Adds an assembly to the compiled code
+        /// </summary>
+        /// <param name="assemblyDll">DLL assembly file name</param>
+        /// <param name="nameSpace">Namespace to add if any. Pass null if no namespace is to be added</param>
+        public void AddAssembly(string assemblyDll,string nameSpace) 
 		{
 			if (assemblyDll==null && nameSpace == null) 
 			{
@@ -169,15 +179,18 @@ namespace Westwind.Scripting
 
 		}
 
+        #endregion
 
-		/// <summary>
-		/// Executes a complete method by wrapping it into a class.
-		/// </summary>
-		/// <param name="code">One or more complete methods.</param>
-		/// <param name="methodName">Name of the method to call.</param>
-		/// <param name="parameters">any number of variable parameters</param>
-		/// <returns></returns>
-		public object ExecuteMethod(string code, string methodName, params object[] parameters) 
+        #region Execution
+
+        /// <summary>
+        /// Executes a complete method by wrapping it into a class.
+        /// </summary>
+        /// <param name="code">One or more complete methods.</param>
+        /// <param name="methodName">Name of the method to call.</param>
+        /// <param name="parameters">any number of variable parameters</param>
+        /// <returns></returns>
+        public object ExecuteMethod(string code, string methodName, params object[] parameters) 
 		{
 			
 			if (ObjRef == null) 
@@ -188,12 +201,10 @@ namespace Westwind.Scripting
 					{
 						AddDefaultAssemblies();
 					}
-					//this.AddAssembly(this.SupportAssemblyPath + "RemoteLoader.dll","Westwind.RemoteLoader");
-					//this.AddAssembly(this.SupportAssemblyPath + "wwScripting.dll","Westwind.wwScripting");
 					FirstLoad = false;
 				}
 
-				StringBuilder sb = new StringBuilder("");
+				var sb = new StringBuilder(300);
 
 				//*** Program lead in and class header
 				sb.Append(Namespaces);
@@ -214,20 +225,17 @@ namespace Westwind.Scripting
 					sb.Append("\r\n} }");  // Class and namespace closed
 				
 				if (SaveSourceCode)
-				{
-					SourceCode = sb.ToString();
-					//MessageBox.Show(this.cSourceCode);
-				}
+                    SourceCode = sb.ToString();
 
-				if (!CompileAssembly(sb.ToString()) )
+                if (!CompileAssembly(sb.ToString()) )
 					return null;
 
-				object loTemp = CreateInstance();
-				if (loTemp == null)
+				object instance = CreateInstance();
+				if (instance == null)
 					return null;
 			}
 
-			return CallMethod(ObjRef,methodName,parameters);
+			return InvokeMethod(ObjRef,methodName,parameters);
 		}
 
         /// <summary>
@@ -246,12 +254,80 @@ namespace Westwind.Scripting
                 "ExecuteCode", parameters);
         }
 
+       
+
+
         /// <summary>
-		/// Compiles and runs the source code for a complete assembly.
-		/// </summary>
-		/// <param name="source"></param>
-		/// <returns></returns>
-		public bool CompileAssembly(string source) 
+        /// Invoke a method on an object generically. Used to dynamically invoke
+        /// the generated method on the instance.
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="lcMethod"></param>
+        /// <param name="loParameters"></param>
+        /// <returns></returns>
+        public object InvokeMethod(object instance, string lcMethod, params object[] loParameters)
+        {
+            // *** Try to run it
+            try
+            {
+                if (AppDomain == null)
+                    // *** Just invoke the method directly through Reflection
+                    return instance.GetType().InvokeMember(lcMethod, BindingFlags.InvokeMethod, null, instance, loParameters);
+                else
+                {
+#if useRemoteLoader
+					// *** Invoke the method through the Remote interface and the Invoke method
+					object loResult;
+					try 
+					{
+						// *** Cast the object to the remote interface to avoid loading type info
+						IRemoteInterface loRemote = (IRemoteInterface) loObject;
+
+						// *** Indirectly call the remote interface
+						loResult = loRemote.Invoke(lcMethod,loParameters);
+					}
+					catch(Exception ex) 
+					{
+						this.bError = true;
+						this.cErrorMsg = ex.Message;
+						return null;
+					}
+					return loResult;
+#endif  
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Error = true;
+                ErrorMessage = ex.Message;
+            }
+            return null;
+        }
+
+
+        /// <summary>
+        /// Invokes a method on the previously generated and compiled instance
+        /// stored in ObjRef.
+        /// </summary>
+        /// <param name="lcMethod"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public object InvokeMethod(string lcMethod, params object[] parameters)
+        {
+            return InvokeMethod(ObjRef, lcMethod, parameters);
+        }
+
+        #endregion
+
+        #region Compilation
+
+        /// <summary>
+        /// Compiles and runs the source code for a complete assembly.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public bool CompileAssembly(string source) 
 		{
 			//this.oParameters.GenerateExecutable = false;
 
@@ -332,45 +408,6 @@ namespace Westwind.Scripting
 				
 		}
 
-		public object CallMethod(object loObject,string lcMethod, params object[] loParameters) 
-		{
-			// *** Try to run it
-			try 
-			{
-				if (AppDomain == null)
-					// *** Just invoke the method directly through Reflection
-					return loObject.GetType().InvokeMember(lcMethod,BindingFlags.InvokeMethod,null,loObject,loParameters );
-				else 
-				{
-#if useRemoteLoader
-					// *** Invoke the method through the Remote interface and the Invoke method
-					object loResult;
-					try 
-					{
-						// *** Cast the object to the remote interface to avoid loading type info
-						IRemoteInterface loRemote = (IRemoteInterface) loObject;
-
-						// *** Indirectly call the remote interface
-						loResult = loRemote.Invoke(lcMethod,loParameters);
-					}
-					catch(Exception ex) 
-					{
-						this.bError = true;
-						this.cErrorMsg = ex.Message;
-						return null;
-					}
-					return loResult;
-#endif  
-                }	
-
-            }
-            catch (Exception ex) 
-			{
-				Error = true;
-				ErrorMessage = ex.Message;
-			}
-			return null;
-		}
 
 
         /// <summary>
@@ -386,6 +423,8 @@ namespace Westwind.Scripting
             var timeToLiveField = compilerSettings.GetType().GetField("_compilerServerTimeToLive", privateField);
             timeToLiveField.SetValue(compilerSettings, (int)timeToLive.TotalSeconds);
         }
+
+        #endregion
 
         #region App Domains
 
@@ -444,7 +483,63 @@ namespace Westwind.Scripting
 		{
 			Dispose();
 		}
-	}
+
+
+        #region Warmup and ShutDown
+        /// <summary>
+        /// Run a script execution asynchronously in the background to warm up Roslyn.
+        /// Call this during application startup or anytime before you run the first
+        /// script to ensure scripts execute quickly.
+        /// </summary>
+        public static void WarmupRoslyn()
+        {
+            // warm up Roslyn
+            Task.Run(() =>
+            {
+                using (var script = new ScriptRunnerRoslyn())
+                {
+                    script.ExecuteCode("int x = 1; return x;", null);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Call this method to shut down the VBCSCompiler if our
+        /// application started it.
+        /// </summary>
+        public static void ShutdownRoslyn()
+        {
+            var processes = Process.GetProcessesByName("VBCSCompiler");
+            if (processes != null)
+            {
+                foreach (var process in processes)
+                {
+                    // only shut down 'our' VBCSCompiler
+                    var fn = GetMainModuleFileName(process);
+                    if (fn.Contains(App.InitialStartDirectory, StringComparison.InvariantCultureIgnoreCase))
+                        LanguageUtils.IgnoreErrors(() => process.Kill());
+                }
+            }
+        }
+
+
+        [DllImport("Kernel32.dll")]
+        private static extern bool QueryFullProcessImageName(
+            [In] IntPtr hProcess,
+            [In] uint dwFlags,
+            [Out] StringBuilder lpExeName,
+            [In, Out] ref uint lpdwSize);
+
+        public static string GetMainModuleFileName(Process process)
+        {
+            var fileNameBuilder = new StringBuilder(1024);
+            uint bufferLength = (uint)fileNameBuilder.Capacity + 1;
+            return QueryFullProcessImageName(process.Handle, 0, fileNameBuilder, ref bufferLength)
+                ? fileNameBuilder.ToString()
+                : null;
+        }
+#endregion
+    }
 
 
 }
