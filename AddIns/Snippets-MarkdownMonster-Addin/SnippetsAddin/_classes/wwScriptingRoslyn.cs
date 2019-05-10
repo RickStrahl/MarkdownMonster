@@ -137,6 +137,7 @@ namespace Westwind.wwScripting
 			{
 #pragma warning disable CS0618 // Type or member is obsolete
                 Compiler = CodeDomProvider.CreateProvider("CSharp");
+                SetCompilerServerTimeToLive(Compiler as CSharpCodeProvider, new TimeSpan(0, 20, 0));
 #pragma warning restore CS0618 // Type or member is obsolete
                 ScriptingLanguage = "CSharp";
 			}	
@@ -430,6 +431,21 @@ namespace Westwind.wwScripting
 			}
 			return null;
 		}
+
+
+        /// <summary>
+        /// Force the compiler to live for longer than 10 seconds which is the default for Roslyn
+        /// </summary>
+        private static void SetCompilerServerTimeToLive(CSharpCodeProvider codeProvider, TimeSpan timeToLive)
+        {
+            const BindingFlags privateField = BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance;
+
+            var compilerSettingField = codeProvider.GetType().GetField("_compilerSettings", privateField);
+            var compilerSettings = compilerSettingField.GetValue(codeProvider);
+
+            var timeToLiveField = compilerSettings.GetType().GetField("_compilerServerTimeToLive", privateField);
+            timeToLiveField.SetValue(compilerSettings, (int)timeToLive.TotalSeconds);
+        }
 
 #if NETFULL
         public bool CreateAppDomain(string lcAppDomain) 

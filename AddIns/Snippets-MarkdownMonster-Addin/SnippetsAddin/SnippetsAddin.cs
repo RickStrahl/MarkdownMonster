@@ -97,9 +97,10 @@ namespace SnippetsAddin
                 // warm up Roslyn
                 Task.Run(() =>
                 {
-                    var scriptParser = new ScriptParser();
-                    scriptParser.EvaluateScript("DateTime.Now", null);
-                    scriptParser = null;
+                    using (var script = new wwScriptingRoslyn())
+                    {
+                        script.ExecuteCode("int x = 1; return x;", null);
+                    }
                 });
             }
         }

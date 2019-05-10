@@ -44,8 +44,7 @@ namespace SnippetsAddin
         /// </summary>        
         public List<string> References = new List<string>();
 
-
-        static wwScriptingRoslyn ScriptCompiler = new wwScriptingRoslyn();
+        //wwScriptingRoslyn ScriptCompiler = new wwScriptingRoslyn();
 
         public string ErrorMessage { get; set; }
 
@@ -80,10 +79,11 @@ namespace SnippetsAddin
             string code = "dynamic Model = Parameters[0];\r\n" +                          
                           "return " + snippet + ";";
 
-            string result = ScriptCompiler.ExecuteCode(code,model) as string;
+            var scriptCompiler = new wwScriptingRoslyn();
+            string result = scriptCompiler.ExecuteCode(code,model) as string;
             
             if (result == null)
-                ErrorMessage = ScriptCompiler.ErrorMessage;
+                ErrorMessage = scriptCompiler.ErrorMessage;
             else
                 ErrorMessage = null;
 
