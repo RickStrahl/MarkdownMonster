@@ -630,7 +630,12 @@ namespace MarkdownMonster.Windows
             TextImageText.Focus();
         }
 
-
+        private void ButtonRememberLastSize_Click(object sender, RoutedEventArgs e)
+        {
+            ImageWidth = Model.Configuration.Images.LastImageWidth;
+            ImageHeight = Model.Configuration.Images.LastImageHeight;
+            ImageSizeChanged(ResizeModes.Auto);
+        }
 
         #endregion
 
@@ -840,7 +845,7 @@ namespace MarkdownMonster.Windows
             var resizeMode = ResizeModes.ByWidth;
             if (sender == TextBoxImageHeight)
                 resizeMode = ResizeModes.ByHeight;
-            if (IsImageFixedRatio)
+            if (!IsImageFixedRatio)
                 resizeMode = ResizeModes.DontKeepAspectRatio;
 
 
@@ -904,12 +909,6 @@ namespace MarkdownMonster.Windows
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        
-        private void ButtonRememberLastSize_Click(object sender, RoutedEventArgs e)
-        {
-            ImageWidth = Model.Configuration.Images.LastImageWidth;
-            ImageHeight = Model.Configuration.Images.LastImageHeight;
         }
     }
 }

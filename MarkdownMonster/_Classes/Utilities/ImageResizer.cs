@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Utilities
 {
@@ -30,6 +31,9 @@ namespace MarkdownMonster.Utilities
         public static Bitmap ResizeImageByMode(Bitmap bmp, int width, int height, ResizeModes resizeMode,
                                          InterpolationMode mode = InterpolationMode.HighQualityBicubic)
         {
+            if (resizeMode == ResizeModes.Auto)
+                return ImageUtils.ResizeImage(bmp, width, height, mode);
+
             Bitmap bmpOut = null;
 
             try

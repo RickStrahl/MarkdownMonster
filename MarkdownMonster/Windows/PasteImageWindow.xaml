@@ -129,7 +129,7 @@
                     <Button Name="ButtonRememberLastSize"  Click="ButtonRememberLastSize_Click"
                             ToolTip="Recall last saved image size" >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Refresh" Margin="2,4,2,0"  
+                            <fa:FontAwesome Icon="Gear" Margin="2,4,2,0"  
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
                                             Foreground="Orange"/>
                         </StackPanel>
