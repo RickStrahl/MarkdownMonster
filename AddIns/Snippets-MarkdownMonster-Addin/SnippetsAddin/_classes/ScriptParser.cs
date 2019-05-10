@@ -5,21 +5,14 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using MahApps.Metro.Controls;
 using MarkdownMonster;
 using Westwind.RazorHosting;
 using Westwind.Utilities;
-//using Microsoft.CodeAnalysis.CSharp.Scripting;
-//using Microsoft.CodeAnalysis.Scripting;
-using Westwind.wwScripting;
+using Westwind.Scripting;
 
 namespace SnippetsAddin
 {
@@ -34,7 +27,7 @@ namespace SnippetsAddin
     /// string result = await parser.EvaluateScriptAsync(script, new Globals { Name = "Rick" });
     /// </example>
     public class ScriptParser
-    {        
+    {
         // Additional namespaces to add to the script
         public List<string> Namespaces = new List<string>();
 
@@ -44,58 +37,9 @@ namespace SnippetsAddin
         /// </summary>        
         public List<string> References = new List<string>();
 
-        //wwScriptingRoslyn ScriptCompiler = new wwScriptingRoslyn();
-
         public string ErrorMessage { get; set; }
 
-
-
-        /// <summary>
-        /// Evaluates the embedded script parsing out {{ C# Expression }} 
-        /// blocks and evaluating the expressions and embedding the string
-        /// output into the result string.
-        /// 
-        /// 
-        /// </summary>
-        /// <param name="snippet">The snippet template to expand</param>
-        /// <param name="model">Optional model data accessible in Expressions as `Model`</param>
-        /// <returns></returns>
-        public string EvaluateScript(string snippet, object model = null)
-        {
-#if DEBUG
-            var sw = new Stopwatch();
-            sw.Start();
-#endif
-            var tokens = TokenizeString(ref snippet, "{{", "}}");
-
-            snippet = snippet.Replace("\"","\"\"");
-
-            snippet = DetokenizeString(snippet,tokens);
-                                
-            snippet = snippet.Replace("{{", "\" + ").Replace("}}", " + @\"");
-            snippet = "@\"" + snippet + "\"";            
-
-            
-            string code = "dynamic Model = Parameters[0];\r\n" +                          
-                          "return " + snippet + ";";
-
-            var scriptCompiler = new wwScriptingRoslyn();
-            string result = scriptCompiler.ExecuteCode(code,model) as string;
-            
-            if (result == null)
-                ErrorMessage = scriptCompiler.ErrorMessage;
-            else
-                ErrorMessage = null;
-
-#if DEBUG
-            sw.Stop();
-            Debug.WriteLine("ScriptParser Code: \r\n" + code);
-            Debug.WriteLine("Snippet EvaluateScript Execution Time: " + sw.ElapsedMilliseconds + "ms");
-#endif
-
-            return result;
-        }
-       
+        #region Razor Script Execution
 
         public static RazorStringHostContainer RazorHost
         {
@@ -105,29 +49,32 @@ namespace SnippetsAddin
                 {
                     _razorHost = new RazorStringHostContainer();
                     _razorHost.UseAppDomain = false;
-                    
-                    _razorHost.CodeProvider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
 
-                    RazorHost.AddAssemblyFromType(typeof(MainWindow));   // MarkdownMonster.exe
-                    RazorHost.AddAssemblyFromType(typeof(StringUtils));  // Westwind.Utilities
-                    RazorHost.AddAssemblyFromType(typeof(DbConnection));  // System.Data
-                    RazorHost.AddAssemblyFromType(typeof(Graphics));  // System.Data
-                    
+                    _razorHost.CodeProvider =
+                        new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
+
+                    RazorHost.AddAssemblyFromType(typeof(MainWindow)); // MarkdownMonster.exe
+                    RazorHost.AddAssemblyFromType(typeof(StringUtils)); // Westwind.Utilities
+                    RazorHost.AddAssemblyFromType(typeof(DbConnection)); // System.Data
+                    RazorHost.AddAssemblyFromType(typeof(Graphics)); // System.Data
+
                     RazorHost.ReferencedNamespaces.Add("MarkdownMonster");
                     RazorHost.ReferencedNamespaces.Add("Westwind.Utilities");
                     RazorHost.ReferencedNamespaces.Add("System.IO");
                     RazorHost.ReferencedNamespaces.Add("System.Text");
                     RazorHost.ReferencedNamespaces.Add("System.Drawing");
                     RazorHost.ReferencedNamespaces.Add("System.Data");
-                    RazorHost.ReferencedNamespaces.Add("System.Data.SqlClient");                    
+                    RazorHost.ReferencedNamespaces.Add("System.Data.SqlClient");
 
                     _razorHost.Start();
-                                    
+
                 }
+
                 return _razorHost;
             }
 
         }
+
         private static RazorStringHostContainer _razorHost;
 
 
@@ -149,7 +96,7 @@ namespace SnippetsAddin
                 {
                     string assemblyName = line.Replace("@reference ", "").Trim();
 
-                    if (assemblyName.Contains("\\") || assemblyName.Contains("/") )
+                    if (assemblyName.Contains("\\") || assemblyName.Contains("/"))
                     {
                         ErrorMessage = "Assemblies loaded from external folders are not allowed: " + assemblyName +
                                        "\r\n\r\n" +
@@ -165,12 +112,13 @@ namespace SnippetsAddin
                     RazorHost.Engine.AddAssembly(assemblyName);
                     continue;
                 }
+
                 if (line.Trim().Contains("@using "))
                 {
                     string ns = line.Replace("@using ", "").Trim();
 
                     // Add to Engine since host is already instantiated
-                    RazorHost.Engine.AddNamespace(ns);                                            
+                    RazorHost.Engine.AddNamespace(ns);
                     continue;
                 }
 
@@ -180,9 +128,58 @@ namespace SnippetsAddin
             snippet = sb.ToString();
 
             // Render the actual template and pass the model
-            result = RazorHost.RenderTemplate(snippet,state);
+            result = RazorHost.RenderTemplate(snippet, state);
             if (result == null)
                 ErrorMessage = RazorHost.ErrorMessage + "\r\n" + RazorHost.Engine?.LastGeneratedCode;
+
+            return result;
+        }
+        #endregion
+
+
+        #region Script Execution 
+        /// <summary>
+        /// Evaluates the embedded script parsing out {{ C# Expression }} 
+        /// blocks and evaluating the expressions and embedding the string
+        /// output into the result string.
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="snippet">The snippet template to expand</param>
+        /// <param name="model">Optional model data accessible in Expressions as `Model`</param>
+        /// <returns></returns>
+        public string EvaluateScript(string snippet, object model = null)
+        {
+#if DEBUG
+            var sw = new Stopwatch();
+            sw.Start();
+#endif
+            var tokens = TokenizeString(ref snippet, "{{", "}}");
+
+            snippet = snippet.Replace("\"", "\"\"");
+
+            snippet = DetokenizeString(snippet, tokens);
+
+            snippet = snippet.Replace("{{", "\" + ").Replace("}}", " + @\"");
+            snippet = "@\"" + snippet + "\"";
+
+
+            string code = "dynamic Model = Parameters[0];\r\n" +
+                          "return " + snippet + ";";
+
+            var scriptCompiler = new ScriptRunnerRoslyn();
+            string result = scriptCompiler.ExecuteCode(code, model) as string;
+
+            if (result == null)
+                ErrorMessage = scriptCompiler.ErrorMessage;
+            else
+                ErrorMessage = null;
+
+#if DEBUG
+            sw.Stop();
+            Debug.WriteLine("ScriptParser Code: \r\n" + code);
+            Debug.WriteLine("Snippet EvaluateScript Execution Time: " + sw.ElapsedMilliseconds + "ms");
+#endif
 
             return result;
         }
@@ -211,11 +208,11 @@ namespace SnippetsAddin
             foreach (Match match in matches)
             {
                 regex = new Regex(Regex.Escape(match.Value));
-                text = regex.Replace(text, $"{replaceDelimiter}{i}{replaceDelimiter}",1);
+                text = regex.Replace(text, $"{replaceDelimiter}{i}{replaceDelimiter}", 1);
                 strings.Add(match.Value);
                 i++;
             }
-            
+
             return strings;
         }
 
@@ -236,8 +233,62 @@ namespace SnippetsAddin
                 text = text.Replace($"{replaceDelimiter}{i}{replaceDelimiter}", token);
                 i++;
             }
+
             return text;
         }
+
+        /// <summary>
+        /// Run a script execution asynchronously in the background to warm up Roslyn.
+        /// Call this during application startup or anytime before you run the first
+        /// script to ensure scripts execute quickly.
+        /// </summary>
+        public static void WarmupRoslyn()
+        {
+            // warm up Roslyn
+            Task.Run(() =>
+            {
+                using (var script = new ScriptRunnerRoslyn())
+                {
+                    script.ExecuteCode("int x = 1; return x;", null);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Call this method to shut down the VBCSCompiler if our
+        /// application started it.
+        /// </summary>
+        public static void ShutdownRoslyn()
+        {
+            var processes = Process.GetProcessesByName("VBCSCompiler");
+            if (processes != null)
+            {
+                foreach (var process in processes)
+                {
+                    // only shut down 'our' VBCSCompiler
+                    var fn = GetMainModuleFileName(process);
+                    if (fn.Contains(App.InitialStartDirectory, StringComparison.InvariantCultureIgnoreCase))
+                        LanguageUtils.IgnoreErrors(() => process.Kill());
+                }
+            }
+        }
+
+
+        [DllImport("Kernel32.dll")]
+        private static extern bool QueryFullProcessImageName([In] IntPtr hProcess, [In] uint dwFlags,
+            [Out] StringBuilder lpExeName, [In, Out] ref uint lpdwSize);
+
+        public static string GetMainModuleFileName(Process process)
+        {
+            var fileNameBuilder = new StringBuilder(1024);
+            uint bufferLength = (uint) fileNameBuilder.Capacity + 1;
+            return QueryFullProcessImageName(process.Handle, 0, fileNameBuilder, ref bufferLength)
+                ? fileNameBuilder.ToString()
+                : null;
+        }
+
+        #endregion
+
     }
 }
 //#endif

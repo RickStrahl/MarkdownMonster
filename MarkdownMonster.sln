@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster", "MarkdownMonster\MarkdownMonster.csproj", "{CB4EAB0E-1796-476E-83A0-20DA826E1C02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkdownMonster", "MarkdownMonster\MarkdownMonster.csproj", "{CB4EAB0E-1796-476E-83A0-20DA826E1C02}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D99D7B57-1FA8-43F4-99D5-DA37D316F960}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,9 +16,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Todo.md = Todo.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCaptureAddin", "AddIns\ScreenCaptureAddin\ScreenCaptureAddin.csproj", "{3827411C-B50A-4696-9BD3-B7A71F25801A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreenCaptureAddin", "AddIns\ScreenCaptureAddin\ScreenCaptureAddin.csproj", "{3827411C-B50A-4696-9BD3-B7A71F25801A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02} = {CB4EAB0E-1796-476E-83A0-20DA826E1C02}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebLogAddin", "AddIns\WebLogAddin\WebLogAddin.csproj", "{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLogAddin", "AddIns\WebLogAddin\WebLogAddin.csproj", "{A9FDC380-DAB2-4E40-B5D1-563B5023AAFC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02} = {CB4EAB0E-1796-476E-83A0-20DA826E1C02}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}"
 EndProject
@@ -26,11 +32,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCaptureAdd.Test", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeblogAddin.Test", "Tests\WeblogAddin.Test\WeblogAddin.Test.csproj", "{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownMonster.Test", "Tests\MarkdownMonster.Test\MarkdownMonster.Test.csproj", "{A3FCE345-F767-487F-86BF-DFA78B4BC218}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkdownMonster.Test", "Tests\MarkdownMonster.Test\MarkdownMonster.Test.csproj", "{A3FCE345-F767-487F-86BF-DFA78B4BC218}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddIns", "AddIns", "{4F5BF002-399D-4830-BA4E-23EE97D97956}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnippetsAddin", "AddIns\Snippets-MarkdownMonster-Addin\SnippetsAddin\SnippetsAddin.csproj", "{44A962C6-B414-4184-9E05-EFCCDB575D82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnippetsAddin", "AddIns\Snippets-MarkdownMonster-Addin\SnippetsAddin\SnippetsAddin.csproj", "{44A962C6-B414-4184-9E05-EFCCDB575D82}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB4EAB0E-1796-476E-83A0-20DA826E1C02} = {CB4EAB0E-1796-476E-83A0-20DA826E1C02}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

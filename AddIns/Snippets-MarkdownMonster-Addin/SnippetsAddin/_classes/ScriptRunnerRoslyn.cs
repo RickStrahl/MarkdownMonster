@@ -1,31 +1,32 @@
-﻿
-//#define useRemoteLoader 
+﻿//#define useRemoteLoader 
 
 using System;
 using System.IO;
 using System.Text;
-//using System.Collections.Specialized;
-//using System.Collections;
 
 using Microsoft.CSharp;
-using Microsoft.VisualBasic;
 using System.Reflection;
-using System.Runtime.Remoting;
+
 using System.CodeDom.Compiler;
 
 
-namespace Westwind.wwScripting
+namespace Westwind.Scripting
 {
 	/// <summary>
-	/// Class that enables running of code dynamcially created at runtime.
+	/// Deletgate for the Completed Event
+	/// </summary>
+	public delegate void DelegateCompleted(object sender,EventArgs e);
+
+	/// <summary>
+	/// Class that enables running of code dynamically created at runtime.
 	/// Provides functionality for evaluating and executing compiled code.
 	/// </summary>
-    public class wwScripting
+    public class ScriptRunnerRoslyn : IDisposable
 	{
 		/// <summary>
 		/// Compiler object used to compile our code
 		/// </summary>
-		protected ICodeCompiler Compiler = null;
+		protected CodeDomProvider Compiler = null;
 
 		/// <summary>
 		/// Reference to the Compiler Parameter object
@@ -42,7 +43,7 @@ namespace Westwind.wwScripting
 		/// </summary>
 		protected CompilerResults CompilerResults = null;
 		protected string OutputAssembly = null;
-		protected string Namespaces = "";
+        protected StringBuilder Namespaces = new StringBuilder(200);
 		protected bool FirstLoad = true;
 
 
@@ -76,12 +77,12 @@ namespace Westwind.wwScripting
 		/// Namespace of the assembly created by the script processor. Determines
 		/// how the class will be referenced and loaded.
 		/// </summary>
-		public string AssemblyNamespace = "WestWindScripting";
+		public string AssemblyNamespace = "__ScriptRunner_Ns";
 
 		/// <summary>
 		/// Name of the class created by the script processor. Script code becomes methods in the class.
 		/// </summary>
-		public string ClassName = "WestWindScript";
+		public string ClassName = "__ScriptRunner";
 
 		/// <summary>
 		/// Determines if default assemblies are added. System, System.IO, System.Reflection
@@ -102,52 +103,19 @@ namespace Westwind.wwScripting
 		//[Description("Path for the support assemblies wwScripting and RemoteLoader. Blank by default. Include trailing dash.")]
 		public string SupportAssemblyPath = "";
 
-		/// <summary>
-		/// The scripting language used. CSharp, VB, JScript
-		/// </summary>
-		public string ScriptingLanguage = "CSharp";
-		
-		/// <summary>
-		/// The language to be used by this scripting class. Currently only C# is supported 
-		/// with VB syntax available but not tested.
-		/// </summary>
-		/// <param name="language">CSharp or VB</param>
-		public wwScripting(string language = "CSharp")
-		{			
-			SetLanguage(language);
-		}
-		
-		
 
-		/// <summary>
-		/// Specifies the language that is used. Supported languages include
-		/// CSHARP C# VB
-		/// </summary>
-		/// <param name="language"></param>
-		public void SetLanguage(string language) 
-		{
-			ScriptingLanguage = language;
-
-			if (ScriptingLanguage == "CSharp" || ScriptingLanguage == "C#") 
-			{
+        public ScriptRunnerRoslyn()
+        {
 #pragma warning disable CS0618 // Type or member is obsolete
-                Compiler = new Microsoft.CSharp.CSharpCodeProvider().CreateCompiler();
+            Compiler = CodeDomProvider.CreateProvider("CSharp");
+            SetCompilerServerTimeToLive(Compiler as CSharpCodeProvider, new TimeSpan(0, 20, 0));
 #pragma warning restore CS0618 // Type or member is obsolete
-                ScriptingLanguage = "CSharp";
-			}	
-			else if (ScriptingLanguage == "VB")	
-			{
-#pragma warning disable CS0618 // Type or member is obsolete
-                Compiler = new Microsoft.VisualBasic.VBCodeProvider().CreateCompiler();
-#pragma warning restore CS0618 // Type or member is obsolete
-            }										   
-			// else throw(Exception ex);
 
-			Parameters = new CompilerParameters();
-		}
+            Parameters = new CompilerParameters();
+        }
 
 
-		/// <summary>
+        /// <summary>
 		/// Adds an assembly to the compiled code
 		/// </summary>
 		/// <param name="assemblyDll">DLL assembly file name</param>
@@ -158,19 +126,15 @@ namespace Westwind.wwScripting
 			{
 				// *** clear out assemblies and namespaces
 				Parameters.ReferencedAssemblies.Clear();
-				Namespaces = "";
-				return;
+                return;
 			}
 			
 			if (assemblyDll != null)
 				Parameters.ReferencedAssemblies.Add(assemblyDll);
-		
-			if (nameSpace != null) 
-				if (ScriptingLanguage == "CSharp")
-					Namespaces = Namespaces + "using " + nameSpace + ";\r\n";
-				else
-					Namespaces = Namespaces + "imports " + nameSpace + "\r\n";
-		}
+
+            if (nameSpace != null)
+                Namespaces.AppendLine("using " + nameSpace + ";");
+        }
 
 		/// <summary>
 		/// Adds an assembly to the compiled code.
@@ -180,10 +144,21 @@ namespace Westwind.wwScripting
 		{
 			AddAssembly(assemblyDll,null);
 		}
+
+        /// <summary>
+        /// Adds an assembly reference from a type
+        /// </summary>
+        /// <param name="type"></param>
+        public void AddAssembly(Type type)
+        {
+            AddAssembly(type.Assembly.Location);
+        }
+
 		public void AddNamespace(string nameSpace)
-		{
-			AddAssembly(null,nameSpace);
-		}
+        {
+            if (nameSpace != null)
+                Namespaces.AppendLine("using " + nameSpace + ";");
+        }
 		public void AddDefaultAssemblies()
 		{
 			AddAssembly("System.dll","System");
@@ -224,10 +199,8 @@ namespace Westwind.wwScripting
 				sb.Append(Namespaces);
 				sb.Append("\r\n");
 
-				if (ScriptingLanguage == "CSharp") 
-				{
 					// *** Namespace headers and class definition
-					sb.Append("namespace " + AssemblyNamespace + "{\r\npublic class " + ClassName + ":MarshalByRefObject {\r\n");	
+					sb.Append("namespace " + AssemblyNamespace + "{\r\npublic class " + ClassName + " {\r\n");	
 				
 					// *** Generic Invoke method required for the remote call interface
 					sb.Append(
@@ -239,26 +212,7 @@ namespace Westwind.wwScripting
 					sb.Append(code);
 
 					sb.Append("\r\n} }");  // Class and namespace closed
-				}
-				else if (ScriptingLanguage == "VB") 
-				{
-					// *** Namespace headers and class definition
-					sb.Append("Namespace " + AssemblyNamespace + "\r\npublic class " + ClassName + "\r\n");
-					sb.Append("Inherits MarshalByRefObject\r\nImplements IRemoteInterface\r\n\r\n");	
 				
-					// *** Generic Invoke method required for the remote call interface
-					sb.Append(
-						"Public Overridable Overloads Function Invoke(ByVal lcMethod As String, ByVal Parameters() As Object) As Object _\r\n" +
-						"Implements IRemoteInterface.Invoke\r\n" + 
-						"return me.GetType().InvokeMember(lcMethod,BindingFlags.InvokeMethod,nothing,me,Parameters)\r\n" +
-						"End Function\r\n\r\n" );
-
-					//*** The actual code to run in the form of a full method definition.
-					sb.Append(code);
-
-					sb.Append("\r\n\r\nEnd Class\r\nEnd Namespace\r\n");  // Class and namespace closed
-				}
-
 				if (SaveSourceCode)
 				{
 					SourceCode = sb.ToString();
@@ -276,31 +230,23 @@ namespace Westwind.wwScripting
 			return CallMethod(ObjRef,methodName,parameters);
 		}
 
-		/// <summary>
-		///  Executes a snippet of code. Pass in a variable number of parameters
-		///  (accessible via the loParameters[0..n] array) and return an object parameter.
-		///  Code should include:  return (object) SomeValue as the last line or return null
-		/// </summary>
-		/// <param name="code">The code to execute</param>
-		/// <param name="parameters">The parameters to pass the code</param>
-		/// <returns></returns>
-		public object ExecuteCode(string code, params object[] parameters) 
-		{	
-			if (ScriptingLanguage == "CSharp")
-				return ExecuteMethod("public object ExecuteCode(params object[] Parameters) \r\n{\r\n" + 
-						code + 
-						"\r\n}",
-						"ExecuteCode",parameters);
-			else if (ScriptingLanguage == "VB")
-				return ExecuteMethod("public function ExecuteCode(ParamArray Parameters() As Object) as object\r\n" + 
-					code + 
-					"\r\nend function\r\n",
-					"ExecuteCode",parameters);
+        /// <summary>
+        ///  Executes a snippet of code. Pass in a variable number of parameters
+        ///  (accessible via the loParameters[0..n] array) and return an object parameter.
+        ///  Code should include:  return (object) SomeValue as the last line or return null
+        /// </summary>
+        /// <param name="code">The code to execute</param>
+        /// <param name="parameters">The parameters to pass the code</param>
+        /// <returns></returns>
+        public object ExecuteCode(string code, params object[] parameters)
+        {
+            return ExecuteMethod("public object ExecuteCode(params object[] Parameters) \r\n{\r\n" +
+                                 code +
+                                 "\r\n}",
+                "ExecuteCode", parameters);
+        }
 
-			return null;
-		}
-	    
-		/// <summary>
+        /// <summary>
 		/// Compiles and runs the source code for a complete assembly.
 		/// </summary>
 		/// <param name="source"></param>
@@ -426,49 +372,75 @@ namespace Westwind.wwScripting
 			return null;
 		}
 
-		//public bool CreateAppDomain(string lcAppDomain) 
-		//{
-		//	if (lcAppDomain == null)
-		//		lcAppDomain = "wwscript";
 
-		//	AppDomainSetup loSetup = new AppDomainSetup();
-		//	loSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+        /// <summary>
+        /// Force the compiler to live for longer than 10 seconds which is the default for Roslyn
+        /// </summary>
+        private static void SetCompilerServerTimeToLive(CSharpCodeProvider codeProvider, TimeSpan timeToLive)
+        {
+            const BindingFlags privateField = BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance;
 
-		//	AppDomain = AppDomain.CreateDomain(lcAppDomain,null,loSetup);
-		//	return true;
-		//}
+            var compilerSettingField = codeProvider.GetType().GetField("_compilerSettings", privateField);
+            var compilerSettings = compilerSettingField.GetValue(codeProvider);
 
-		//public bool UnloadAppDomain()
-		//{
-		//	if (AppDomain != null)
-		//	   AppDomain.Unload(AppDomain);
+            var timeToLiveField = compilerSettings.GetType().GetField("_compilerServerTimeToLive", privateField);
+            timeToLiveField.SetValue(compilerSettings, (int)timeToLive.TotalSeconds);
+        }
 
-		//	AppDomain = null;
+        #region App Domains
 
-		//	if (OutputAssembly != null) 
-		//	{
-		//		try 
-		//		{
-		//			File.Delete(OutputAssembly);
-		//		}
-		//		catch(Exception) {;}
-		//	}
+#if NETFULL
+        public bool CreateAppDomain(string lcAppDomain) 
+		{
+			if (lcAppDomain == null)
+				lcAppDomain = "wwscript";
 
-		//	return true;
-		//}
+			AppDomainSetup loSetup = new AppDomainSetup();
+			loSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
 
-		public void Release() 
+			AppDomain = AppDomain.CreateDomain(lcAppDomain,null,loSetup);
+			return true;
+		}
+
+		public bool UnloadAppDomain()
+		{
+			if (AppDomain != null)
+			   AppDomain.Unload(AppDomain);
+
+			AppDomain = null;
+
+			if (OutputAssembly != null) 
+			{
+				try 
+				{
+					File.Delete(OutputAssembly);
+				}
+				catch(Exception) {;}
+			}
+
+			return true;
+		}
+#endif
+
+        #endregion
+
+
+        public void Release() 
 		{
 			ObjRef = null;
-		}
+            Compiler.Dispose();
+        }
 
 		public void Dispose() 
 		{
 			Release();
-			//UnloadAppDomain();
-		}
 
-		~wwScripting() 
+#if NETFULL
+            UnloadAppDomain();
+#endif
+        }
+
+        ~ScriptRunnerRoslyn() 
 		{
 			Dispose();
 		}
