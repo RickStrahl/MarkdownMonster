@@ -228,7 +228,7 @@
 
                     
                     <Button Margin="0,30" Height="36" Width="175" HorizontalAlignment="Left" 
-                        Click="ButtonNewPost_Click" >
+                        Click="ButtonNewPost_Click" IsDefault="True">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
                             <TextBlock Margin="10,0,0,0" FontSize="14">Create new Post</TextBlock>
