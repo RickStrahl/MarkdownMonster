@@ -154,6 +154,8 @@ namespace MarkdownMonster
                     return;
                 }
 
+                WindowUtilities.DoEvents();
+
                 var fd = new OpenFileDialog
                 {
                     DefaultExt = ".md",
@@ -1461,7 +1463,7 @@ namespace MarkdownMonster
                                 Model.Window.ShowFolderBrowser(folder: imagePath);
 
                                 Model.Window.Dispatcher.InvokeAsync(() =>
-                                    Model.Window.FolderBrowser.HandleItemSelection(forceEditorFocus: true),DispatcherPriority.ApplicationIdle); 
+                                    Model.Window.FolderBrowser.HandleItemSelection(forceEditorFocus: true),DispatcherPriority.ApplicationIdle);
 
                             },DispatcherPriority.ApplicationIdle);
                         }

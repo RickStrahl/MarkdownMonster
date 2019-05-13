@@ -7,7 +7,6 @@
     <AssemblyName>WeblogAddin</AssemblyName>
     <UseWPF>true</UseWPF>
     
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\Addins\Weblog</OutDir>
 
     <Authors>Rick Strahl, West Wind Technologies</Authors>
@@ -35,9 +34,19 @@
     <PackageReference Include="YamlDotNet" version="6.0.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
-  </ItemGroup>
+<!--  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">-->
+<!--    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />-->
+<!--  </ItemGroup>-->
+
+  <!-- This pulls in the reference and all dependencies - not what we want  here-->
+<!--<ItemGroup>
+    <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj">
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
+  </ItemGroup>-->
+
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
     <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.dll">
@@ -49,6 +58,7 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
+
 
   <ItemGroup>
     <Resource Include="icon.png" />

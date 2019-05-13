@@ -9,7 +9,7 @@ namespace MarkdownMonster.Utilities
 {
     /// <summary>
     /// Windows specific system and information helpers
-    /// Helper class that provides Windows and .NET Version numbers.    
+    /// Helper class that provides Windows and .NET Version numbers.
     /// </summary>
     public static class mmWindowsUtils
     {
@@ -22,7 +22,7 @@ namespace MarkdownMonster.Utilities
             get
             {
                 dynamic major;
-                // The 'CurrentMajorVersionNumber' string value in the CurrentVersion key is new for Windows 10, 
+                // The 'CurrentMajorVersionNumber' string value in the CurrentVersion key is new for Windows 10,
                 // and will most likely (hopefully) be there for some time before MS decides to change this - again...
                 if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentMajorVersionNumber",
                     out major))
@@ -51,7 +51,7 @@ namespace MarkdownMonster.Utilities
             get
             {
                 dynamic minor;
-                // The 'CurrentMinorVersionNumber' string value in the CurrentVersion key is new for Windows 10, 
+                // The 'CurrentMinorVersionNumber' string value in the CurrentVersion key is new for Windows 10,
                 // and will most likely (hopefully) be there for some time before MS decides to change this - again...
                 if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentMinorVersionNumber",
                     out minor))
@@ -80,7 +80,7 @@ namespace MarkdownMonster.Utilities
             get
             {
                 dynamic buildNumber;
-                // The 'CurrentMinorVersionNumber' string value in the CurrentVersion key is new for Windows 10, 
+                // The 'CurrentMinorVersionNumber' string value in the CurrentVersion key is new for Windows 10,
                 // and will most likely (hopefully) be there for some time before MS decides to change this - again...
                 if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentBuildNumber",
                     out buildNumber))
@@ -105,7 +105,7 @@ namespace MarkdownMonster.Utilities
             get
             {
                 dynamic buildNumber;
-                // The 'CurrentMinorVersionNumber' string value in the CurrentVersion key is new for Windows 10, 
+                // The 'CurrentMinorVersionNumber' string value in the CurrentVersion key is new for Windows 10,
                 // and will most likely (hopefully) be there for some time before MS decides to change this - again...
                 if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "BuildLabEx",
                     out buildNumber))
@@ -137,7 +137,7 @@ namespace MarkdownMonster.Utilities
 
         static string DotnetVersion = null;
 
-        /// <summary> 
+        /// <summary>
         /// Returns the .NET framework version installed on the machine
         /// as a string  of 4.x.y version
         /// </summary>
@@ -182,8 +182,8 @@ namespace MarkdownMonster.Utilities
             else if ((releaseKey >= 378389))
                 DotnetVersion = "4.5";
 
-            // This line should never execute. A non-null release key should mean 
-            // that 4.5 or later is installed. 
+            // This line should never execute. A non-null release key should mean
+            // that 4.5 or later is installed.
             else
                 DotnetVersion = "4.0";
 

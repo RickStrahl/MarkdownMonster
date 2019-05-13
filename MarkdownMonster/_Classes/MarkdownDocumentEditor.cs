@@ -246,7 +246,7 @@ namespace MarkdownMonster
                     var jsonStyle = AceEditorInterop.GetJsonStyleInfo();
                     var inst = WebBrowser.InvokeScript("initializeinterop",this,jsonStyle);
                     AceEditor = new AceEditorInterop(inst);
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -1009,7 +1009,7 @@ namespace MarkdownMonster
                     : System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
 
-      
+
         /// <summary>
         /// Sets line number gutter on and off. Separated out from Restyle Editor to
         /// allow line number config to be set separately from main editor settings
@@ -1667,7 +1667,7 @@ namespace MarkdownMonster
                     var tab = Window.TabControl.SelectedItem;
                     var tabs = Window.TabControl.GetOrderedHeaders().ToList();
                     var selIndex = 0;
-                    bool found = false;
+                    
                     foreach (var t in tabs)
                     {
                         selIndex++;
