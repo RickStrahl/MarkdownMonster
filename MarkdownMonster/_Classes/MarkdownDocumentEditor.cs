@@ -270,7 +270,8 @@ namespace MarkdownMonster
                     SetEditorFocus();
 
                 if (InitialLineNumber > 0)
-                    GotoLine(InitialLineNumber);
+                    Window.Dispatcher.InvokeAsync(() => GotoLine(InitialLineNumber),
+                        DispatcherPriority.ApplicationIdle);
 
                 WebBrowser.Visibility = Visibility.Visible;
             }
