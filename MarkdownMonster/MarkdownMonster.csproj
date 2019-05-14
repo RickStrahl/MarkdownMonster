@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-<!--     <TargetFramework>net462</TargetFramework> -->
+    <TargetFramework>net462</TargetFramework> 
     <TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>
-    <Version>1.16.18.2</Version>
+    <Version>1.17</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
     <StartupObject>StartUp</StartupObject>
@@ -18,7 +18,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <TieredCompilation>true</TieredCompilation>
     <RuntimeIdentifier>win-x86</RuntimeIdentifier>
-    <SelfContained>true</SelfContained>
+    <SelfContained>false</SelfContained>
     <PlatformTarget>AnyCpu</PlatformTarget>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
@@ -36,7 +36,6 @@
     <PackageReference Include="Westwind.Utilities" Version="3.0.26" />
     <PackageReference Include="ReverseMarkdown" Version="3.6.0" />
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
-    
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
