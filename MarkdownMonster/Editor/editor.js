@@ -338,9 +338,13 @@
         sel.setSelectionRange(range);
       }
       if (!noRefresh)
-        setTimeout(te.refreshPreview, 10);
+          setTimeout(function() {
+              te.refreshPreview();
+              te.updateDocumentStats();
+          }, 10);
       else
-        te.codeScrolled = new Date().getTime();
+          te.codeScrolled = new Date().getTime();
+
 
       //},
       //70);
