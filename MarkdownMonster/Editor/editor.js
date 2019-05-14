@@ -90,14 +90,19 @@
 
       te.setEditorStyle(editorSettings, editor);
 
-      var updateDocument = debounce(function() {
+      var updateDocument = debounce(function(force) {
           if (!te.mm)
             return;
 
           // check for dirty stats and preview
-          te.isDirty = te.mm.textbox.IsDirty(true);
-          if (te.isDirty) {
-            te.updateDocumentStats();
+          if (force)
+          {
+              previewRefresh();
+              updateDocumentStats();
+          }else {
+              te.isDirty = te.mm.textbox.IsDirty(true);
+              if (te.isDirty || force)
+                  te.updateDocumentStats();
           }
         }, te.previewRefreshTimeout);
 
@@ -105,12 +110,18 @@
       $("pre[lang]").on("keyup",
         function(event) {
             // up and down handling - force a preview refresh
-            if (event.keyCode === 38 || event.keyCode === 40)
+            if (event.keyCode === 38 || event.keyCode === 40) {
                 previewRefresh();
+                te.updateDocumentStats();
+            }
+            else if (event.keyCode === 37 || event.keyCode === 39)
+                te.updateDocumentStats();
             else if (te.editor.$keybindingId === "ace/keyboard/vim" && (event.keyCode === 74 || event.keyCode == 75)) {
-                if (!te.editor.state.cm.state.vim.insertMode)
+                if (!te.editor.state.cm.state.vim.insertMode) {
                     previewRefresh();
-            } else 
+                    updateDocumentStats();
+                }
+            } else
                 updateDocument();
         });
 
@@ -127,6 +138,8 @@
           // spellcheck - force recheck on next cycle
           if (sc)
             sc.contentModified = true;
+
+          te.updateDocumentStats();
         });
 
       // Notify WPF of focus change
@@ -627,6 +640,9 @@
     curStats: { wordCount: 0, lines: 0, characters: 0 },
     getDocumentStats: function() {
       var text = te.getvalue();
+      pos =  te.editor.selection.getCursor();
+      if (pos.row == 0)
+          pos = te.mousePos;
 
       // strip off front matter.
       var frontMatterExp = /^---[ \t]*$[^]+?^(---|...)[ \t]*$/m;
@@ -640,10 +656,12 @@
       var chars = text.length;
 
       te.curStats = {
-        wordCount: wordCount,
-        lines: lines,
-        characters: chars
-      }
+          wordCount: wordCount,
+          lines: lines,
+          characters: chars,
+          row: pos.row,
+          column: pos.column
+      };
 
       return te.curStats;
     },

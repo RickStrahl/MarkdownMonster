@@ -1466,9 +1466,11 @@ namespace MarkdownMonster
 
             int words = Convert.ToInt32(ReflectionUtils.GetPropertyCom(stats,"wordCount"));
             int lines = Convert.ToInt32(ReflectionUtils.GetPropertyCom(stats,"lines"));
-            int chars = Convert.ToInt32(ReflectionUtils.GetPropertyCom(stats,"characters"));
+            int chars = Convert.ToInt32(ReflectionUtils.GetPropertyCom(stats, "characters"));
+            int row = Convert.ToInt32(ReflectionUtils.GetPropertyCom(stats, "row"));
+            int column = Convert.ToInt32(ReflectionUtils.GetPropertyCom(stats, "column"));
 
-            Window.StatusStats.Text = $"{words:n0} words   {lines:n0} lines   {chars:n0} chars";
+            Window.StatusStats.Text = $"{words:n0} words   {lines:n0} lines   {chars:n0} chars     Ln {row:n0}, Col {column}";
 
             string enc = string.Empty;
             bool hasBom = true;
@@ -1667,7 +1669,8 @@ namespace MarkdownMonster
                     var tab = Window.TabControl.SelectedItem;
                     var tabs = Window.TabControl.GetOrderedHeaders().ToList();
                     var selIndex = 0;
-                    
+                    bool found = false;
+
                     foreach (var t in tabs)
                     {
                         selIndex++;

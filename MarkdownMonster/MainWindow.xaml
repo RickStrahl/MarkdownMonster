@@ -827,13 +827,14 @@
 
 
             <StatusBarItem Grid.Column="3">
-                <TextBlock  Name="StatusStats" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock  Name="StatusStats" x:FieldModifier="public" Margin="0,2,0,0"
+                            HorizontalAlignment="Left"></TextBlock>
             </StatusBarItem>
 
             <StatusBarItem  Grid.Column="4" >
                 <ComboBox Name="StatusZoomLevel"
                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
-                          IsEditable="True" FontSize="13"  Padding="1"
+                          IsEditable="True" FontSize="13"  Padding="1" 
                           IsSynchronizedWithCurrentItem="True"
                           MouseDoubleClick="StatusZoomLevel_MouseDoubleClick"  
                           SelectionChanged="StatusZoomLevel_SelectionChanged"
