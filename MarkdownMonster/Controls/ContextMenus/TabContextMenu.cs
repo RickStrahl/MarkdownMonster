@@ -78,16 +78,23 @@ namespace MarkdownMonster.Controls.ContextMenus
         public void ShowContextMenu()
         {
             ClearMenu();
-            var model = Model;
+            AddContextMenuItems();
+            Show();
+        }
 
-            // CLOSE DOCUMENTS
+        public void AddContextMenuItems(ContextMenu contextMenu = null)
+        {
+            if (contextMenu == null)
+                contextMenu = ContextMenu;
+
+            var model = Model;
 
             var mi = new MenuItem
             {
                 Header = "_Close Document",
                 Command = Model.Commands.CloseActiveDocumentCommand
             };
-            ContextMenu.Items.Add(mi);
+            contextMenu.Items.Add(mi);
 
             mi = new MenuItem
             {
@@ -95,7 +102,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 Name= "MenuCloseAllTabs",
                 Command = Model.Commands.CloseAllDocumentsCommand
             };
-            ContextMenu.Items.Add(mi);
+            contextMenu.Items.Add(mi);
 
             mi = new MenuItem
             {
@@ -104,9 +111,9 @@ namespace MarkdownMonster.Controls.ContextMenus
                 Command = Model.Commands.CloseAllDocumentsCommand,
                 CommandParameter="AllBut"
             };
-            ContextMenu.Items.Add(mi);
+            contextMenu.Items.Add(mi);
 
-            ContextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(new Separator());
 
 
             mi = new MenuItem
@@ -116,9 +123,9 @@ namespace MarkdownMonster.Controls.ContextMenus
                 Command = Model.Commands.AddFavoriteCommand,
                 CommandParameter = model.ActiveDocument?.Filename
             };
-            ContextMenu.Items.Add(mi);
+            contextMenu.Items.Add(mi);
 
-            ContextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(new Separator());
 
             // TERMINAL AND FOLDER BROWSING
 
@@ -128,7 +135,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 Name = "ContextOpenInCommandWindow",
                 Command = Model.Commands.CommandWindowCommand,
             };
-            ContextMenu.Items.Add(mi);
+            contextMenu.Items.Add(mi);
 
             mi = new MenuItem
             {
@@ -136,7 +143,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 Name = "ContextOpenInFolder",
                 Command = Model.Commands.OpenInExplorerCommand,
             };
-            ContextMenu.Items.Add(mi);
+            contextMenu.Items.Add(mi);
 
             mi = new MenuItem
             {
@@ -144,9 +151,9 @@ namespace MarkdownMonster.Controls.ContextMenus
                 Name = "OpenInFolderBrowser",
                 Command = Model.Commands.OpenFolderBrowserCommand,
             };
-            ContextMenu.Items.Add(mi);
+            contextMenu.Items.Add(mi);
 
-            ContextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(new Separator());
 
             // GIT OPERATIONS
             bool showGitOperations = false;
@@ -170,7 +177,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     Name = "ContextContextCommitToGit",
                     Command = Model.Commands.CommitToGitCommand,
                 };
-                ContextMenu.Items.Add(mi);
+                contextMenu.Items.Add(mi);
 
                 mi = new MenuItem
                 {
@@ -178,7 +185,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     Name = "ContextOpenGitClient",
                     Command = Model.Commands.OpenGitClientCommand,
                 };
-                ContextMenu.Items.Add(mi);
+                contextMenu.Items.Add(mi);
 
                 if (gitRemoteUrl != null && gitRemoteUrl.Contains("github.com"))
                 {
@@ -189,12 +196,11 @@ namespace MarkdownMonster.Controls.ContextMenus
                         Command = Model.Commands.OpenOnGithubCommand,
                         CommandParameter=Model.ActiveTabFilename
                     };
-                    ContextMenu.Items.Add(mi);
+                    contextMenu.Items.Add(mi);
                 }
 
-                ContextMenu.Items.Add(new Separator());
+                contextMenu.Items.Add(new Separator());
             }
-
 
             // FOLDER PATH
 
@@ -204,9 +210,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 Name = "ContextCopyFolderName",
                 Command = Model.Commands.CopyFullPathToClipboardCommand
             };
-            ContextMenu.Items.Add(mi);
-
-            Show();
+            contextMenu.Items.Add(mi);
         }
 
 

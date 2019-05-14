@@ -71,6 +71,12 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             AddUndoRedo();
             AddCopyPaste();
+
+
+            ContextMenu.Items.Add(new Separator());
+            var tabMenu = new TabContextMenu();
+            tabMenu.AddContextMenuItems(ContextMenu);
+
             
             Show();
         }
