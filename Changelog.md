@@ -5,8 +5,9 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.16.18
-<small>May 10th, 2019</small>
+
+### 1.17
+<small>May 14th, 2019</small>
 
 * **Image Dialog Enhancements**  
 The image dialog now supports resizing images and opening images from the clipboard in your selected image editor. You can easily save images to disk multiple times (or with multiple filenames) and you can also re-paste images from the clipboard after saving. Editing automatically can pick up changes from the clipboard upon return to MM.
@@ -23,6 +24,9 @@ You can now drag and drop files from Explorer into the folder browser to quickly
 
 * **Drag and Drop into Favorites from Explorer**  
 You can now drag and drop into Favorites from Explorer in addition to dragging a tab, and the various context menu options.
+
+* **Row and Column on the Status Bar**  
+The current row and column position in the document now shows on the status bar in the stats section.
 
 * **Improved Up/Down key Scroll Speed**    
 MM monitors scroll operations in the editor in order to sync the preview as you navigate. Previously the treshold for updating the preview was too low causing scroll speed slow-downs. Bumped the treshold up a bit for much improved cursor scroll speed. Still not great as there are still checks for scroll changes, but they happen much less frequent now.
@@ -47,9 +51,6 @@ Due to a small bug MM would write multiple paths into the global user path when 
 
 * **Fix: Snippet Plugin Slow Initial Load**  
 Recent updates to the underlying compiler used for snippet compilation have caused a slowdown during first time execution of snippets in the Snippets addin. We added preloading and time managing the compiler lifetime to improve startup and continued execution speediness.
-
-### 1.16.8
-<small>April 22nd, 2019</small>
 
 * **Fix Dirty State Indicator when in Auto-Save Mode**  
 Fixed issue where auto-save mode would not properly reflect the document dirty state. Auto-save now saves in 2 second intervals when idle.
@@ -96,9 +97,6 @@ Removed the dependency on Bootstrap in the preview templates. MM never really us
 * **Remove unneeded FontAwesome Font Files**  
 Removed unused FontAwesome font files only leaving the `.woff` (required for IE and the Preview) and `.woff2` (everything else). This reduces the size of exported, embedded HTML by a few hundred kbytes of font files that don't need to be embedded.
 
-### 1.16.5
-<small>April 1st, 2019</small>
-
 * **Explicit Menu Commands for Folder Browser, Outline and Favorites**  
 Added menu commands on the View menu for these operations which make them keyboard navigable via `Alt-V-F`, `Alt-V-O` and `Alt-V-V` respectively. For now these are not mappable via keybindings.
 
@@ -113,9 +111,6 @@ Added method that allows custom renderers to override the location of the HTML r
 
 * **Fix: Link Preview Document Navigation Issues**  
 Fix support for Preview link navigation when pointing back to a local Markdown file. Fixed for links with Hashes(`#`) and for wiping out dirty document changes when navigating back to a document that was already open.
-
-### 1.16.4
-<small>March 24th, 2019</small>
 
 * **[Add -presentation Command Line Switch](http://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm)**  
 Using the `-presentation` command line switch you can start Markdown Monster in presentation mode which shows the preview full screen.  
