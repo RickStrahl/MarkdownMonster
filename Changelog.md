@@ -1,4 +1,3 @@
-
 # Markdown Monster Change Log
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
@@ -10,7 +9,7 @@
 <small>May 14th, 2019</small>
 
 * **Image Dialog Enhancements**  
-The image dialog now supports resizing images and opening images from the clipboard in your selected image editor. You can easily save images to disk multiple times (or with multiple filenames) and you can also re-paste images from the clipboard after saving. Editing automatically can pick up changes from the clipboard upon return to MM.
+The image dialog now supports resizing images and opening images from the clipboard in your selected image editor. You can easily save images to disk multiple times (or with multiple filenames) and you can also re-paste images from the clipboard after saving. Editing automatically can pick up changes from the clipboard upon return to MM. You can also use Alt-I as an interactive alternative for Ctrl-V Image pasting.
 
 * **Image Configuration Changes**  
 Image configuration in the `MarkdownMonster.json` file now has a separate `Images` section to contain all image related settings like editor selection, last folder, last image size set etc.    
@@ -25,35 +24,14 @@ You can now drag and drop files from Explorer into the folder browser to quickly
 * **Drag and Drop into Favorites from Explorer**  
 You can now drag and drop into Favorites from Explorer in addition to dragging a tab, and the various context menu options.
 
-* **Row and Column on the Status Bar**  
+* **Add New Favorite File Name Improvements**  
+The Add New Favorite context menu option now fixes up file names by replacing `-` and `_` with spaces, and reversing Camel Case syntax. Also fixed focus issues.
+
+* **Row and Column Display on the Status Bar**  
 The current row and column position in the document now shows on the status bar in the stats section.
 
 * **Improved Up/Down key Scroll Speed**    
-MM monitors scroll operations in the editor in order to sync the preview as you navigate. Previously the treshold for updating the preview was too low causing scroll speed slow-downs. Bumped the treshold up a bit for much improved cursor scroll speed. Still not great as there are still checks for scroll changes, but they happen much less frequent now.
-
-* **Fix: Local links in packaged HTML Exports**  
-If a local file or other link is missing the export now properly continues instead of displaying an error. If a file or link is missing the export just skips over the file - this may cause a loss of document display fidelity in some cases, but it's better than failing to produce any output at all.
-
-* **Development: Markdown Monster now uses SDK Style Projects**  
-Under the hood Markdown Monster now uses .NET SDK style projects to build for all projects. This means MM requires Visual Studio 2019 and the .NET Core 3.0 Preview 5 or later SDK.
-
-* **Development: Prepare Markdown Monster for .NET Core 3.0**  
-Markdown Monster now **dual targets** for **.NET 4.62** (as always) as well as **.NET Core 3.0**. A lot of internal work was done to fix a number of incompatibilities for .NET Core 3.0 and MM can now run under .NET Core 3.0 Preview 5. You'll need to make sure you have .NET Core 3.0 Preview 5 SDK installed to compile and run MM at this point under 3.0.
-
-* **Fix: Snippet Addin Slow First Activation**  
-Due to our recent switch to using Roslyn for compilation, startup for first time snippet use can be fairly slow taking a few seconds. Offloaded initialization of Roslyn onto a background thread during startup, gives quick response on first use now.
-
-* **Fix: Registration Dialog Title Update**  
-Registration dialog now updates the title immediately after changing registration status. Previously a tab switch was required.
-
-* **Fix: Path Cleanup**  
-Due to a small bug MM would write multiple paths into the global user path when running MM in development mode piling on all paths that MM would run out of. Updated so only one path is written and updated.
-
-* **Fix: Snippet Plugin Slow Initial Load**  
-Recent updates to the underlying compiler used for snippet compilation have caused a slowdown during first time execution of snippets in the Snippets addin. We added preloading and time managing the compiler lifetime to improve startup and continued execution speediness.
-
-* **Fix Dirty State Indicator when in Auto-Save Mode**  
-Fixed issue where auto-save mode would not properly reflect the document dirty state. Auto-save now saves in 2 second intervals when idle.
+MM monitors scroll operations in the editor in order to sync the preview as you navigate. Previously the threshold for updating the preview was too low causing scroll speed slow-downs. Bumped the threshold up a bit for much improved cursor scroll speed. Still not great as there are still checks for scroll changes, but they happen much less frequent now.
 
 * **Add Auto-Save and Auto-Backup to Edit Menu**  
 These allow setting the per document auto-save and auto-backup options. These values can override the default setting that's set in the configuration file.
@@ -64,20 +42,17 @@ You can now open the current document on GitHub if the document is in a GitHub r
 * **Tab Context Menu Context Sensitivity**  
 The tab context menu is now properly context sensitive and displays only documents that are relevant for current operations. Options now also work correctly for preview tabs.
 
+* **Editor Context Menu Combines Tab Menu**  
+The Editor Context Menu now also displays the tab context menu options for easier access to those options. New users often don't think to use the tab context menu so options have been combined.
+
 * **Add Markdown Link  Navigation in Preview**  
 You can now click on a Markdown document link (typically in documentation solutions)  in the editor and open that document in a new editor document.
-
-* **Improved AppInsights Error Logging**  
-Error log now includes log level additional state to make it easier to group errors and failures by severity.
-
-### 1.16.6
-<small>April 16th, 2019</small>
 
 * **[`-close`: Close Editor File from the Command Line](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#close-filename-command)**  
 Added new `-close filename` command line option that allows you to close a file via the command line. This allows a limited amount of remote automation of MM via command line operations to launch and close files. This allows for integrations like `Open in document in Markdown Monster` from external applications and change monitoring.
 
 * **[`-autosave`: Command Line Option to automatically save Opened Files](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#autosave-mode)**  
-Added a new `-autosave` command line switch When automating files it's sometimes useful to force MM to save output to file immediately as you write without explicitly setting the option inside of Markdown Monster. By specifying a file name to open with `*_autosave.md` postfix MM will automatically force the file to be auto-saved as you type.
+Added a new `-autosave` command line switch When automating files it's sometimes useful to force MM to save output to file immediately as you write without explicitly setting the option inside of Markdown Monster. By specifying a file name to open with `*_autosave.md` post-fix MM will automatically force the file to be auto-saved as you type.
 
 * **[Favorites Improvements](https://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
 Favorites now have keyboard shortcuts for common tasks like deleting and editing. If a bookmark file or folder doesn't exist any longer the entry is marked as missing in the favorites list so you can fix it or remove it more easily. Fixed a few issues with tab drag and drop into Favorites.
@@ -106,11 +81,6 @@ Switched to [ReverseMarkdown](https://github.com/mysticmind/reversemarkdown-net)
 * **[Drag and Drop Tabs into the Favorites Sidebar](http://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
 You can now drag a tab from the editor into the Favorites tab to create a new favorite shortcut more easily. This external drag and drop behavior augments the internal drag and drop that lets you re-arrange favorite entries.
 
-* **Addins: MarkdownDocument.SetHtmlRenderFilename()**  
-Added method that allows custom renderers to override the location of the HTML render filename. This allows for rendering HTML in a custom folder that has the proper base path for finding resources.
-
-* **Fix: Link Preview Document Navigation Issues**  
-Fix support for Preview link navigation when pointing back to a local Markdown file. Fixed for links with Hashes(`#`) and for wiping out dirty document changes when navigating back to a document that was already open.
 
 * **[Add -presentation Command Line Switch](http://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm)**  
 Using the `-presentation` command line switch you can start Markdown Monster in presentation mode which shows the preview full screen.  
@@ -125,6 +95,41 @@ Add new configuration key for `Editor.PreviewHighlightTimeout` that controls how
 
 * **Preview Highlight now updated on Keyboard Up/Down Navigation**  
 The preview highlight previously only updated on scroll operations or if the view ended up getting scrolled by keyboard operations. This change now hooks to the up/down key navigation to update the preview highlight.
+
+* **Addins: MarkdownDocument.SetHtmlRenderFilename()**  
+Added method that allows custom renderers to override the location of the HTML render filename. This allows for rendering HTML in a custom folder that has the proper base path for finding resources.
+
+* **Development: Markdown Monster now uses SDK Style Projects**  
+Under the hood Markdown Monster now uses .NET SDK style projects to build for all projects. This means MM requires Visual Studio 2019 and the .NET Core 3.0 Preview 5 or later SDK.
+
+* **Development: Prepare Markdown Monster for .NET Core 3.0**  
+Markdown Monster now **dual targets** for **.NET 4.62** (as always) as well as **.NET Core 3.0**. A lot of internal work was done to fix a number of incompatibilities for .NET Core 3.0 and MM can now run under .NET Core 3.0 Preview 5. You'll need to make sure you have .NET Core 3.0 Preview 5 SDK installed to compile and run MM at this point under 3.0.
+
+* **Development: Improved AppInsights Error Logging**  
+Error log now includes log level additional state to make it easier to group errors and failures by severity.
+
+* **Fix: Local links in packaged HTML Exports**  
+If a local file or other link is missing the export now properly continues instead of displaying an error. If a file or link is missing the export just skips over the file - this may cause a loss of document display fidelity in some cases, but it's better than failing to produce any output at all.
+
+* **Fix: Link Preview Document Navigation Issues**  
+Fix support for Preview link navigation when pointing back to a local Markdown file. Fixed for links with Hashes(`#`) and for wiping out dirty document changes when navigating back to a document that was already open.
+
+* **Fix: Snippet Addin Slow First Activation**  
+Due to our recent switch to using Roslyn for compilation, startup for first time snippet use can be fairly slow taking a few seconds. Offloaded initialization of Roslyn onto a background thread during startup, gives quick response on first use now.
+
+* **Fix: Registration Dialog Title Update**  
+Registration dialog now updates the title immediately after changing registration status. Previously a tab switch was required.
+
+* **Fix: Path Cleanup**  
+Due to a small bug MM would write multiple paths into the global user path when running MM in development mode piling on all paths that MM would run out of. Updated so only one path is written and updated.
+
+* **Fix: Snippet Plugin Slow Initial Load**  
+Recent updates to the underlying compiler used for snippet compilation have caused a slowdown during first time execution of snippets in the Snippets addin. We added preloading and time managing the compiler lifetime to improve startup and continued execution speediness.
+
+* **Fix Dirty State Indicator when in Auto-Save Mode**  
+Fixed issue where auto-save mode would not properly reflect the document dirty state. Auto-save now saves in 2 second intervals when idle.
+
+
 
 * **Fix: [OpenInPresentationMode](http://markdownmonster.west-wind.com/docs/_4wn1ditb5.htm) Mode Setting**  
 Fix `"OpenInPresentationMode": true` configuration setting to work properly. Due to timing issues this setting was popping up initially, then quickly reverting to default layout. Fixed.
