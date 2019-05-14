@@ -1197,14 +1197,17 @@ namespace MarkdownMonster
                 var control = Model.Window.FavoritesTab.Content as FavoritesControl;
                 var fav = control.FavoritesModel;
 
-                var favorite = fav.AddFavorite(null, new FavoriteItem {File = file} );
+                var display = Path.GetFileNameWithoutExtension(file).Replace("-", " ").Replace("_", " ");
+                display = StringUtils.FromCamelCase(display);
+                    
+                var favorite = fav.AddFavorite(null, new FavoriteItem {File = file, Title = display } );
                 fav.SaveFavorites();
 
                 fav.EditedFavorite = favorite;
                 favorite.DisplayState.IsEditing = true;
+                control.TextFavoriteTitle.Focus();
 
-                Model.Window.Dispatcher.InvokeAsync(() => control.TextFavoriteTitle.Focus(),
-                    System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                Model.Window.Dispatcher.Delay(900, (p) => control.TextFavoriteTitle.Focus(), null);
 
             }, (p, c) => true);
         }

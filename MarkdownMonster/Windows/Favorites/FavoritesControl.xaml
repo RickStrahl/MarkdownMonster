@@ -160,7 +160,9 @@
             </Grid>
 
             <TextBox Text="{Binding EditedFavorite.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                             
-                     mah:TextBoxHelper.Watermark="Title" Foreground="LightSteelBlue" Name="TextFavoriteTitle"
+                     mah:TextBoxHelper.Watermark="Title" 
+                     mah:TextBoxHelper.SelectAllOnFocus="True"
+                     Foreground="LightSteelBlue" Name="TextFavoriteTitle"
                      FontSize="14"  FontWeight="SemiBold" Margin="5,5,5,3" Width="Auto"/>
             <Grid  Margin="5,3">
                 <Grid.ColumnDefinitions>
@@ -170,13 +172,14 @@
 
                 <TextBox Text="{Binding EditedFavorite.File, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                          mah:TextBoxHelper.Watermark="File Name"  
+                         mah:TextBoxHelper.SelectAllOnFocus="True"
                          FontSize="12" FontWeight="Normal" 
                 />
                 <Button Grid.Column="1" Padding="6,0" Margin="3,0,0,0" Click="ButtonFileSelection_Click">...</Button>
             </Grid>
 
             <CheckBox IsChecked="{Binding EditedFavorite.IsFolder}" Content="Is Grouping" 
-                      FontSize="12" FontWeight="Normal" Margin="5,3" />
+                      FontSize="12" FontWeight="Normal" Margin="5,3" Style="{StaticResource CompactCheckBox}" />
 
             <!--<Button Name="ButtonEditComplete" 
                     HorizontalAlignment="Left"
