@@ -120,6 +120,42 @@ img {
     margin: 0 auto;
 }
 
+ul, ol {
+    margin: 1.1em 0;
+  }
+  
+  li {
+    margin: 0.6em 0.2em 0.6em 1em;
+  }
+  
+  ul > li > ul > li > ul > li {
+    list-style: disc;
+  }
+  
+  ul > li > ul > li {
+    list-style: square;
+  }
+  .task-list-item
+  {
+    list-style: none;
+    margin-left: -2em;
+  }
+  /* definition lists can be toggled*/
+  dt {
+    font-size: 1.08em;
+    font-weight: bold;
+    text-decoration: underline;
+    padding-top: 0.5em;
+    cursor: pointer;
+  }
+  
+  dd {
+    margin: 0;
+    padding: 0 0 0.2em 1em;
+    display: none;
+  }
+  
+
 blockquote {
     background: #f8f8f8;
     font-size: 1.1em;

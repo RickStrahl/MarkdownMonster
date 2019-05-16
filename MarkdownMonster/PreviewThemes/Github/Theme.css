@@ -67,21 +67,6 @@ p {
   margin: 0.5rem 0 1rem;
 }
 
-/* definition lists can be toggled*/
-dt {
-  font-size: 1.08em;
-  font-weight: bold;
-  text-decoration: underline;
-  padding-top: 0.5em;
-  cursor: pointer;
-}
-
-dd {
-  margin: 0;
-  padding: 0 0 0.2em 1em;
-  display: none;
-}
-
 
 code {
   font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
@@ -145,11 +130,32 @@ img {
   max-width: 100%;
 }
 
-ul ul {
-  list-style: circle;
-  padding-left: 30px;
+ul > li > ul > li > ul > li {
+  list-style: disc;
 }
 
+ul > li > ul > li {
+  list-style: circle;
+}
+.task-list-item
+{
+  list-style: none;
+  margin-left: -2em;
+}
+/* definition lists can be toggled*/
+dt {
+  font-size: 1.08em;
+  font-weight: bold;
+  text-decoration: underline;
+  padding-top: 0.5em;
+  cursor: pointer;
+}
+
+dd {
+  margin: 0;
+  padding: 0 0 0.2em 1em;
+  display: none;
+}
 
 blockquote {
   color: #6a737d;

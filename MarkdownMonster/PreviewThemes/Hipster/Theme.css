@@ -134,7 +134,11 @@ ul > li > ul > li > ul > li {
 ul > li > ul > li {
   list-style: square;
 }
-
+.task-list-item
+{
+  list-style: none;
+  margin-left: -2em;
+}
 blockquote {
   background: #f7f7f7;
   color: #777;
