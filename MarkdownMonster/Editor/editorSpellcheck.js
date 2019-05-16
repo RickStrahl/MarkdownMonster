@@ -271,6 +271,9 @@
       }
     }
 
+    // Fix up 'special apostrophies
+    line = line.replace(/[´,’]/, "'");
+
     // split line by word boundaries - any non alpha-numeric characters plus ' (\u0027) and white space
     //var words = line.split(/[^a-zA-Z0-9\u00C0-\u02AF']|\s/);
     //var words = line.Split(/[\P{L}]/);  // not supported in IE/JavaScript
