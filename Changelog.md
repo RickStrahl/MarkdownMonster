@@ -5,6 +5,21 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
+### 1.17.4
+<small>not released yet</small>
+
+* **New Documents open at the front of the TabList**
+Changed behavior that opens new tabs at the beginning of the list of tabs. This makes the newly opened documents more prominent if many tabs are open.
+
+* **Fix: Commandline now creates non-Existant Markdown Files**  
+If you specify to open a Markdown file that doesn't exist in a command line filename parameter, MM now opens an empty file that has a filename and is ready to be saved with `Ctrl-S`. Only works with Markdown files. Other files are ignored causing the folder to be opened in the folder browser.
+
+* **Fix: Task List Styling**  
+Fixed task list styling to match GitHub's styling. Removed the bullet and extra indent.
+
+* **Fix: Apostrophe Handling for Spellchecking**  
+Fixed issue with *special single quotes* from Word Processors and other desktop application. Normalized special apostrophes so they are respected in word spell checking.
+
 ### 1.17
 <small>May 14th, 2019</small>
 
@@ -21,11 +36,18 @@ You can now paste an image from the clipboard directly to a file in the folder b
 * **Drag and Drop Files and Folders from Explorer into Folder Browser**  
 You can now drag and drop files from Explorer into the folder browser to quickly move one or more file or folders.
 
+
+* **[Drag and Drop Tabs into the Favorites Sidebar](http://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
+You can now drag a tab from the editor into the Favorites tab to create a new favorite shortcut more easily. This external drag and drop behavior augments the internal drag and drop that lets you re-arrange favorite entries.
+
 * **Drag and Drop into Favorites from Explorer**  
 You can now drag and drop into Favorites from Explorer in addition to dragging a tab, and the various context menu options.
 
 * **Add New Favorite File Name Improvements**  
 The Add New Favorite context menu option now fixes up file names by replacing `-` and `_` with spaces, and reversing Camel Case syntax. Also fixed focus issues.
+
+* **[Favorites Improvements](https://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
+Favorites now have keyboard shortcuts for common tasks like deleting and editing. If a bookmark file or folder doesn't exist any longer the entry is marked as missing in the favorites list so you can fix it or remove it more easily.
 
 * **Row and Column Display on the Status Bar**  
 The current row and column position in the document now shows on the status bar in the stats section.
@@ -54,9 +76,6 @@ Added new `-close filename` command line option that allows you to close a file 
 * **[`-autosave`: Command Line Option to automatically save Opened Files](https://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm#autosave-mode)**  
 Added a new `-autosave` command line switch When automating files it's sometimes useful to force MM to save output to file immediately as you write without explicitly setting the option inside of Markdown Monster. By specifying a file name to open with `*_autosave.md` post-fix MM will automatically force the file to be auto-saved as you type.
 
-* **[Favorites Improvements](https://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
-Favorites now have keyboard shortcuts for common tasks like deleting and editing. If a bookmark file or folder doesn't exist any longer the entry is marked as missing in the favorites list so you can fix it or remove it more easily. Fixed a few issues with tab drag and drop into Favorites.
-
 * **Improved support for Definition Lists**  
 Definition lists are now rendered with header and indentation and are collapsible via header click in the preview styling. Definition lists by default render with a bold header and are collapsible:
     
@@ -77,10 +96,6 @@ Added menu commands on the View menu for these operations which make them keyboa
 
 * **New HTML to Markdown Parser**  
 Switched to [ReverseMarkdown](https://github.com/mysticmind/reversemarkdown-net) parser for HTML to Markdown conversions that are cleaner and more reliable in the conversion process. This affects the `Ctrl-Shift-V` shortcut that lets you paste HTML as Markdown, and WebLog HTML imports.
-
-* **[Drag and Drop Tabs into the Favorites Sidebar](http://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
-You can now drag a tab from the editor into the Favorites tab to create a new favorite shortcut more easily. This external drag and drop behavior augments the internal drag and drop that lets you re-arrange favorite entries.
-
 
 * **[Add -presentation Command Line Switch](http://markdownmonster.west-wind.com/docs/_5fp0xp68p.htm)**  
 Using the `-presentation` command line switch you can start Markdown Monster in presentation mode which shows the preview full screen.  
@@ -128,8 +143,6 @@ Recent updates to the underlying compiler used for snippet compilation have caus
 
 * **Fix Dirty State Indicator when in Auto-Save Mode**  
 Fixed issue where auto-save mode would not properly reflect the document dirty state. Auto-save now saves in 2 second intervals when idle.
-
-
 
 * **Fix: [OpenInPresentationMode](http://markdownmonster.west-wind.com/docs/_4wn1ditb5.htm) Mode Setting**  
 Fix `"OpenInPresentationMode": true` configuration setting to work properly. Due to timing issues this setting was popping up initially, then quickly reverting to default layout. Fixed.
