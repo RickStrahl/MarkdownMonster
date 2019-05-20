@@ -370,6 +370,7 @@ namespace MarkdownMonster
 
                 Topmost = true;
                 WindowUtilities.DoEvents();
+                var ext = Path.GetExtension(file);
 
                 if (File.Exists(file))
                 {
@@ -385,6 +386,25 @@ namespace MarkdownMonster
                 {
                     ShowFolderBrowser(false, file);
                 }
+                // file is an .md file but doesn't exist but folder exists - create it
+                else if ((ext.Equals(".md", StringComparison.InvariantCultureIgnoreCase) ||
+                          ext.Equals(".mkdown", StringComparison.InvariantCultureIgnoreCase) ||
+                          ext.Equals(".mdcrypt", StringComparison.InvariantCultureIgnoreCase)
+                         ) &&
+                         Directory.Exists(Path.GetDirectoryName(file)))
+                {
+                    File.WriteAllText(file, "");
+                    var tab = OpenTab(mdFile: file, batchOpen: true);
+                    var editor = tab.Tag as MarkdownDocumentEditor;
+                    if (editor != null)
+                    {
+                        editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
+                        editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
+                    }
+
+                    // delete the file if we abort
+                    Dispatcher.Delay(1000, p => File.Delete(file),null);
+                }
                 else
                 {
                     file = Path.Combine(App.InitialStartDirectory, file);
@@ -396,7 +416,8 @@ namespace MarkdownMonster
                         if (editor != null)
                         {
                             editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
-                            editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
+                            editor.MarkdownDocument.AutoSaveDocument =
+                                autoSave || Model.Configuration.AutoSaveDocuments;
                         }
                     }
                     else if (Directory.Exists(file))
@@ -821,7 +842,7 @@ namespace MarkdownMonster
                 batchTabAction = true;
 
                 // since docs are inserted at the beginning we need to go in reverse
-                foreach (var doc in conf.OpenDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength).Reverse())
+                foreach (var doc in conf.OpenDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength))   //.Reverse();
                 {
                     if (doc.Filename == null)
                         continue;
@@ -1204,7 +1225,10 @@ namespace MarkdownMonster
                 TabControl.Items.Remove(existingTab);
 
             tab.IsSelected = false;
-            TabControl.Items.Insert(0, tab);
+            if (TabControl.Items.Count > 0)
+                TabablzControl.AddItem(tab, TabControl.Items[0], AddLocationHint.First);
+            else
+                TabControl.Items.Insert(0, tab);
 
 
             // Make the tab draggable for moving into bookmarks or anything else that can accept filenames
@@ -1243,49 +1267,6 @@ namespace MarkdownMonster
 
             return tab;
         }
-
-        #region Tab Drag and Drop
-        private System.Windows.Point _dragablzStartPoint;
-
-        private void DragablzItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _dragablzStartPoint = e.GetPosition(null);
-        }
-
-        /// <summary>
-        ///  Drag and Drop into the BookMarks dialog
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DragablzItem_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                var curPoint = e.GetPosition(null);
-                var diff = curPoint - _dragablzStartPoint;
-                if (_dragablzStartPoint.Y > 0 && diff.Y > 30)
-                {
-                    var drag = sender as DragablzItem;
-                    if (drag == null)
-                        return;
-                    var tab = drag.Content as TabItem;
-
-                    var editor = tab.Tag as MarkdownDocumentEditor;
-                    var dragData = new DataObject(DataFormats.UnicodeText, editor.MarkdownDocument.Filename);
-
-                    var fav = FavoritesTab.Content as FavoritesControl;
-                    if (fav != null)
-                        fav.IsDragging = true;
-
-                    DragDrop.DoDragDrop(tab, dragData, DragDropEffects.Link);
-
-                    _dragablzStartPoint.Y = 0;
-                    _dragablzStartPoint.X = 0;
-                }
-            }
-        }
-        #endregion
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -2095,6 +2076,49 @@ namespace MarkdownMonster
             var context = new TabContextMenu();
             context.ShowContextMenu();
             e.Handled = true;
+        }
+        #endregion
+
+        #region Tab Drag and Drop
+        private System.Windows.Point _dragablzStartPoint;
+
+        private void DragablzItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _dragablzStartPoint = e.GetPosition(null);
+        }
+
+        /// <summary>
+        ///  Drag and Drop into the BookMarks dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DragablzItem_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                var curPoint = e.GetPosition(null);
+                var diff = curPoint - _dragablzStartPoint;
+                if (_dragablzStartPoint.Y > 0 && diff.Y > 30)
+                {
+                    var drag = sender as DragablzItem;
+                    if (drag == null)
+                        return;
+                    var tab = drag.Content as TabItem;
+
+                    var editor = tab.Tag as MarkdownDocumentEditor;
+                    var dragData = new DataObject(DataFormats.UnicodeText, editor.MarkdownDocument.Filename);
+
+                    var fav = FavoritesTab.Content as FavoritesControl;
+                    if (fav != null)
+                        fav.IsDragging = true;
+
+                    DragDrop.DoDragDrop(tab, dragData, DragDropEffects.Link);
+
+                    _dragablzStartPoint.Y = 0;
+                    _dragablzStartPoint.X = 0;
+                }
+            }
         }
         #endregion
 
