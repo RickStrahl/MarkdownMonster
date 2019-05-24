@@ -2267,8 +2267,8 @@ namespace MarkdownMonster
                 {
                     Model.WindowLayout.IsPreviewVisible = false;
 
-                    // clear the preview
-                    ((IPreviewBrowser)PreviewBrowserContainer.Children[0]).Navigate("about:blank");
+                    // clear the preview - have to delay otherwise the browser loses the doc
+                    //((IPreviewBrowser) PreviewBrowserContainer.Children[0]).Navigate("about:blank");
                 }
                 else if (Model.Configuration.PreviewMode == PreviewModes.ExternalPreviewWindow)
                 {

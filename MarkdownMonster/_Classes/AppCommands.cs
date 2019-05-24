@@ -868,7 +868,7 @@ namespace MarkdownMonster
 
                 window.ShowPreviewBrowser(!Model.IsPreviewBrowserVisible);
                 if (Model.IsPreviewBrowserVisible)
-                    window.PreviewMarkdownAsync(editor);
+                    window.PreviewMarkdown(editor);
 
             }, null);
         }

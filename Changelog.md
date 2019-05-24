@@ -20,6 +20,9 @@ Fixed task list styling to match GitHub's styling. Removed the bullet and extra 
 * **Fix: Apostrophe Handling for Spellchecking**  
 Fixed issue with *special single quotes* from Word Processors and other desktop application. Normalized special apostrophes so they are respected in word spell checking.
 
+* **Fix: Browser Syncing not working after Preview Close**  
+On occasion when closing the preview and re-opening the preview would not longer sync to the editor or vice versa. A restart was request. Fixed.
+
 ### 1.17
 <small>May 14th, 2019</small>
 
