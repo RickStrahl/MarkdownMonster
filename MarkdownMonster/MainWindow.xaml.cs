@@ -1099,6 +1099,17 @@ namespace MarkdownMonster
             var tab = new TabItem();
             tab.Background = Background;
 
+
+            if (mdFile != null)
+            {
+                var ext = Path.GetExtension(mdFile).ToLowerInvariant();
+                if (ext == ".jpg" || ext == ".png" || ext == ".gif" || ext == ".jpeg")
+                {
+                    return OpenBrowserTab(mdFile, isImageFile: true);
+                }
+            }
+
+
             ControlsHelper.SetHeaderFontSize(tab, 13F);
 
             if (editor == null)

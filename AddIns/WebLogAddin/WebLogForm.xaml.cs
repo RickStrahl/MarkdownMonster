@@ -345,7 +345,7 @@ namespace WeblogAddin
             ShellUtils.GoUrl("http://markdownmonster.west-wind.com/docs/_4rg0qzg1i.htm");
         }
 
-        private void ButtonDiscoverEndpoint_Click(object sender, RoutedEventArgs e)
+        private async void ButtonDiscoverEndpoint_Click(object sender, RoutedEventArgs e)
         {
             if (Model.ActiveWeblogInfo == null)
                 return;
@@ -358,13 +358,15 @@ namespace WeblogAddin
 
             StatusBar.ShowStatusProgress("Checking Endpoint Url...");
 
-            if (discover.CheckRpcEndpoint(url))
+            if (await discover.CheckRpcEndpointAsync(url))
             {
                 StatusBar.ShowStatusSuccess("The Weblog Endpoint is a valid RPC endpoint.", 10000);
                 return;
             }
 
-            var blogInfo = discover.DiscoverBlogEndpoint(url, Model.ActiveWeblogInfo.BlogId as string,
+            StatusBar.ShowStatusProgress("Checking for RSD links...");
+
+            var blogInfo = await discover.DiscoverBlogEndpointAsync(url, Model.ActiveWeblogInfo.BlogId as string,
                 Model.ActiveWeblogInfo.Type.ToString());
 
             if (blogInfo.HasError)

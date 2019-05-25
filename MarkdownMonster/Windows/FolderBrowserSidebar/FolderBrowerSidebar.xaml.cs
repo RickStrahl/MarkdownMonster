@@ -855,7 +855,7 @@ namespace MarkdownMonster.Windows
                     {
                         Window.CloseTab(oldFile);
                         WindowUtilities.DoEvents();
-                        Window.OpenTab(newPath);
+                        Window.OpenTab(newPath, isPreview: true) ;
                         WindowUtilities.DoEvents();
                     }
                 }

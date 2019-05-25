@@ -116,7 +116,7 @@ namespace MarkdownMonster.Windows
         public void ShowStatusProgress(string message, int timeout = -1, FontAwesomeIcon icon = FontAwesomeIcon.CircleOutlineNotch, Color color = default(Color), bool spin = true)
         {
             if (timeout == -1)
-                timeout = mmApp.Configuration.StatusMessageTimeout;
+                timeout = 0; // don't timeout
 
             if (color == default(Color))
                 color = Colors.Goldenrod;
