@@ -63,7 +63,7 @@
                     <EventSetter Event="MouseUp" Handler="ListOutlineItem_MouseUp"/>
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Focusable" Value="True" />
-                    <!--<Setter Property="ToolTip" Value="{Binding LinkId}" />-->
+                    <Setter Property="ToolTip" Value="{Binding LinkId}" />
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ContextMenu>

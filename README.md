@@ -23,7 +23,7 @@ c:\> choco install markdownmonster
 * [See what's new](https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md)  
 * [License](#license)
 
-> Note in order to open and build the Markdown Monster project you need the [SDK Core 3.0 SDK Preview 5](https://dotnet.microsoft.com/download) or later.
+> Note in order to open and build the Markdown Monster project you need the [SDK Core 3.0 SDK Preview 5](https://dotnet.microsoft.com/download) and [Visual Studio 2019.1](https://visualstudio.microsoft.com/vs/preview/) or later.
 
 ## Overview
 Here's what Markdown Monster looks like using the default **Dark Theme**: 

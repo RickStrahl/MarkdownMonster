@@ -5,11 +5,15 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
+
 ### 1.17.4
 <small>not released yet</small>
 
 * **New Documents open at the front of the TabList**
 Changed behavior that opens new tabs at the beginning of the list of tabs. This makes the newly opened documents more prominent if many tabs are open.
+
+* **Show Link Id in Document Outline Header Tooltip**  
+Document headers now show a tooltip for the link Id as preview of an Id that you can copy from the context menu.
 
 * **Fix: Commandline now creates non-Existant Markdown Files**  
 If you specify to open a Markdown file that doesn't exist in a command line filename parameter, MM now opens an empty file that has a filename and is ready to be saved with `Ctrl-S`. Only works with Markdown files. Other files are ignored causing the folder to be opened in the folder browser.
@@ -22,6 +26,7 @@ Fixed issue with *special single quotes* from Word Processors and other desktop 
 
 * **Fix: Browser Syncing not working after Preview Close**  
 On occasion when closing the preview and re-opening the preview would not longer sync to the editor or vice versa. A restart was request. Fixed.
+
 
 ### 1.17
 <small>May 14th, 2019</small>

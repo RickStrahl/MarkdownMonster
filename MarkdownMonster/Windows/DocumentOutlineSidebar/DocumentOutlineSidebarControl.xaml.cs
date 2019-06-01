@@ -183,7 +183,7 @@ namespace MarkdownMonster.Windows
                 return;
 
             if (ClipboardHelper.SetText("#" + selected.LinkId))
-                Model.Window.ShowStatus($"Pasted id to clipboard: #{selected.LinkId}");
+                Model.Window.ShowStatusSuccess($"Pasted id to clipboard: #{selected.LinkId}");
         }
 
 
