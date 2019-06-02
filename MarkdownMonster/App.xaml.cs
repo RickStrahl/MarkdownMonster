@@ -49,9 +49,14 @@ namespace MarkdownMonster
 
         public static bool IsPortableMode { get; set; }
 
+
         public static string InitialStartDirectory { get; }
 
         public static bool StartInPresentationMode { get; set; }
+
+        public static bool ForceNewWindow { get; set; }
+
+        public static bool NoSplash { get; set; }
 
         /// <summary>
         /// Startup Command Arguments without the initial full
@@ -87,10 +92,10 @@ namespace MarkdownMonster
                 var processor = new CommandLineProcessor(this);
                 processor.HandleCommandLineArguments();
             }
-                
+
 
             SplashScreen splashScreen = null;
-            if (!mmApp.Configuration.DisableSplashScreen)
+            if (!mmApp.Configuration.DisableSplashScreen && !NoSplash)
             {
                 splashScreen = new SplashScreen("assets/markdownmonstersplash.png");
                 splashScreen.Show(true);
@@ -99,7 +104,8 @@ namespace MarkdownMonster
 
             // Singleton launch marshalls subsequent launches to the singleton instance
             // via named pipes communication
-            CheckCommandLineForSingletonLaunch(splashScreen);
+            if (!ForceNewWindow && mmApp.Configuration.UseSingleWindow)
+                CheckCommandLineForSingletonLaunch(splashScreen);
 
             // We have to manage assembly loading for Addins
             var currentDomain = AppDomain.CurrentDomain;
@@ -180,6 +186,9 @@ namespace MarkdownMonster
         /// <param name="splashScreen"></param>
         private void CheckCommandLineForSingletonLaunch(SplashScreen splashScreen)
         {
+            if (App.ForceNewWindow || !mmApp.Configuration.UseSingleWindow)
+                return;
+
             // fix up the startup path
             string filesToOpen = " ";
             StringBuilder sb = new StringBuilder();
@@ -195,7 +204,7 @@ namespace MarkdownMonster
                     file = file.TrimEnd('\\');
                     file = Path.GetFullPath(file);
                 }
-                
+
                 sb.AppendLine(file);
 
                 // write fixed up path arguments
@@ -203,10 +212,6 @@ namespace MarkdownMonster
             }
 
             filesToOpen = sb.ToString();
-
-
-            if (!mmApp.Configuration.UseSingleWindow)
-                return;
 
             Mutex = new Mutex(true, @"MarkdownMonster", out bool isOnlyInstance);
             if (isOnlyInstance)
@@ -309,6 +314,7 @@ namespace MarkdownMonster
 
         public static string UserDataPath { get; internal set; }
         public static string VersionCheckUrl { get; internal set; }
+
 
 
         private void ThemeCustomizations()

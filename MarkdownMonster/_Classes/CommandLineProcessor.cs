@@ -32,7 +32,7 @@ namespace MarkdownMonster
         {
             App = app;
         }
-        
+
         public void HandleCommandLineArguments()
         {
             var arg0 = App.CommandArgs[0].ToLower().TrimStart('-');
@@ -40,10 +40,14 @@ namespace MarkdownMonster
                 arg0 = "-";
 
             if (Environment.CommandLine.Contains("-presentation"))
-            {
                 App.StartInPresentationMode = true;
-            }
-            
+
+            if (Environment.CommandLine.Contains("-newwindow", StringComparison.InvariantCultureIgnoreCase))
+                App.ForceNewWindow = true;
+
+            if (Environment.CommandLine.Contains("-nosplash",StringComparison.InvariantCultureIgnoreCase))
+                App.NoSplash = true;
+
             switch (arg0)
             {
                 case "version":

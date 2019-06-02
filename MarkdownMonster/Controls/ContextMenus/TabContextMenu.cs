@@ -116,6 +116,7 @@ namespace MarkdownMonster.Controls.ContextMenus
             contextMenu.Items.Add(new Separator());
 
 
+
             mi = new MenuItem
             {
                 Header = "Add to Favorites",
@@ -126,6 +127,16 @@ namespace MarkdownMonster.Controls.ContextMenus
             contextMenu.Items.Add(mi);
 
             contextMenu.Items.Add(new Separator());
+
+
+            mi = new MenuItem
+            {
+                Header = "Open in New Window",
+                Name = "OpenInNewWindow",
+                Command = Model.Commands.OpenInNewWindowCommand,
+                CommandParameter = model.ActiveDocument?.Filename
+            };
+            contextMenu.Items.Add(mi);
 
             // TERMINAL AND FOLDER BROWSING
 

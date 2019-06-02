@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -162,7 +163,7 @@ namespace MarkdownMonster
             Activated += OnActivated;
 
             // Singleton App startup - server code that listens for other instances
-            if (mmApp.Configuration.UseSingleWindow)
+            if (mmApp.Configuration.UseSingleWindow && !App.ForceNewWindow)
             {                // Listen for other instances launching and pick up
                 // forwarded command line arguments
                 PipeManager = new NamedPipeManager("MarkdownMonster");
@@ -838,45 +839,16 @@ namespace MarkdownMonster
 
                 string firstDoc = conf.RecentDocuments.FirstOrDefault();
 
-                // prevent TabSelectionChanged to fire
-                batchTabAction = true;
-
-                // since docs are inserted at the beginning we need to go in reverse
-                foreach (var doc in conf.OpenDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength))   //.Reverse();
-                {
-                    if (doc.Filename == null)
-                        continue;
-
-                    if (File.Exists(doc.Filename))
-                    {
-                        var tab = OpenTab(doc.Filename, selectTab: false,
-                            batchOpen: true,
-                            initialLineNumber: doc.LastEditorLineNumber);
-
-                        if (tab == null)
-                            continue;
-
-                        if (doc.IsActive)
-                        {
-                            selectedTab = tab;
-
-                            // have to explicitly notify initial activation
-                            // since we surpress it on all tabs during startup
-                            AddinManager.Current.RaiseOnDocumentActivated(doc);
-                        }
-                    }
-                }
-
-                batchTabAction = false;
-
+                
+                if (!App.ForceNewWindow)
+                    selectedTab = OpenRecentDocuments();
+                
                 if (selectedTab == null)
                     TabControl.SelectedIndex = 0;
                 else
                     TabControl.SelectedItem = selectedTab;
 
-
                 BindTabHeaders();
-
             }
 
             Model.IsPreviewBrowserVisible = mmApp.Configuration.IsPreviewVisible;
@@ -891,6 +863,46 @@ namespace MarkdownMonster
             }
             else
                 ContentGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#333");
+        }
+
+        private TabItem OpenRecentDocuments()
+        {
+            ApplicationConfiguration conf = Model.Configuration;
+            TabItem selectedTab = null;
+
+            // prevent TabSelectionChanged to fire
+            batchTabAction = true;
+
+            // since docs are inserted at the beginning we need to go in reverse
+            foreach (var doc in conf.OpenDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength)) //.Reverse();
+            {
+                if (doc.Filename == null)
+                    continue;
+
+                if (File.Exists(doc.Filename))
+                {
+                    var tab = OpenTab(doc.Filename, selectTab: false,
+                        batchOpen: true,
+                        initialLineNumber: doc.LastEditorLineNumber);
+
+                    if (tab == null)
+                        continue;
+
+                    if (doc.IsActive)
+                    {
+                        selectedTab = tab;
+
+                        // have to explicitly notify initial activation
+                        // since we surpress it on all tabs during startup
+                        AddinManager.Current.RaiseOnDocumentActivated(doc);
+                    }
+                }
+            }
+
+
+            batchTabAction = false;
+
+            return selectedTab;
         }
 
 
@@ -928,7 +940,17 @@ namespace MarkdownMonster
 
             config.FolderBrowser.FolderPath = FolderBrowser.FolderPath;
 
-            SaveOpenDocuments();
+
+            if (!App.ForceNewWindow) 
+                SaveOpenDocuments();
+            else
+            {
+                // only save if no other instances are open
+                if (!Process.GetProcesses()
+                     .Any(p => p.ProcessName.Equals("markdownmonster", StringComparison.InvariantCultureIgnoreCase)))
+                    SaveOpenDocuments();
+            }
+
 
             config.Write();
         }

@@ -72,12 +72,15 @@ namespace MarkdownMonster.Controls.ContextMenus
             AddUndoRedo();
             AddCopyPaste();
 
+            // if we dont' have suggestions show the tab context menu
+            if (suggestions != null)
+            {
+                ContextMenu.Items.Add(new Separator());
+                var tabMenu = new TabContextMenu();
+                tabMenu.AddContextMenuItems(ContextMenu);
+            }
 
-            ContextMenu.Items.Add(new Separator());
-            var tabMenu = new TabContextMenu();
-            tabMenu.AddContextMenuItems(ContextMenu);
 
-            
             Show();
         }
 
@@ -121,7 +124,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 HorizontalContentAlignment = HorizontalAlignment.Right
             };
 
-            
+
             mi2.Click += (o, args) =>
             {
                 if (range == DBNull.Value)
@@ -169,7 +172,7 @@ namespace MarkdownMonster.Controls.ContextMenus
             {
                 hasClipboardData = true;
                 miPaste.Header = "Paste Image";
-                miPaste.Click += (o, args) => model.ActiveEditor?.PasteOperation();                
+                miPaste.Click += (o, args) => model.ActiveEditor?.PasteOperation();
             }
             else
             {
@@ -187,7 +190,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 miCopyHtml.IsEnabled = false;
                 miCut.IsEnabled = false;
             }
-            else { 
+            else {
                 if (Model.ActiveEditor?.EditorSyntax != "markdown")
                     miCopyHtml.IsEnabled = false;
                 else
@@ -203,9 +206,9 @@ namespace MarkdownMonster.Controls.ContextMenus
                 }
             }
 
-            
+
         }
-        
+
         public void AddUndoRedo()
         {
 
@@ -225,7 +228,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 miRedo.IsEnabled = false;
             miRedo.Click += (o, args) => Model.ActiveEditor.AceEditor.Redo();
             ContextMenu.Items.Add(miRedo);
-           
+
             ContextMenu.Items.Add(new Separator());
         }
 
@@ -288,7 +291,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                             mi2.Click += (o, args) =>
                             {
                                 var anchor = StringUtils.ExtractString(val, "](#", ")");
-                                
+
                                 var docModel = new DocumentOutlineModel();
                                 int lineNo =docModel.FindHeaderHeadline(Model.ActiveEditor?.GetMarkdown(), anchor);
 
@@ -381,7 +384,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 mi.Click += (o, args) =>
                 {
                     var editor = Model.ActiveEditor;
-                  
+
                     var lineText = editor?.GetCurrentLine();
                     if (string.IsNullOrEmpty(lineText) ||
                         !(lineText.Contains("|") &&
@@ -407,11 +410,11 @@ namespace MarkdownMonster.Controls.ContextMenus
                             break;
                         }
                     }
-                    
+
                     var endRow = startPos.row;
                     for (int i = row + 1; i < 99999999; i++)
                     {
-                        lineText = editor.GetLine(i);                       
+                        lineText = editor.GetLine(i);
                         if (!lineText.Contains("|")  &&
                             !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
                         {
@@ -426,17 +429,17 @@ namespace MarkdownMonster.Controls.ContextMenus
                     StringBuilder sb = new StringBuilder();
                     for (int i = startRow; i <= endRow; i++)
                     {
-                        sb.AppendLine(editor.GetLine(i));                        
+                        sb.AppendLine(editor.GetLine(i));
                     }
 
                     // select the entire table
                     Model.ActiveEditor.AceEditor.SetSelectionRange(startRow , 0, endRow + 1,0);
-                                
+
                     Model.ActiveEditor.EditorSelectionOperation("table", sb.ToString());
                 };
                 ContextMenu.Items.Add(mi);
                 return true;
-            }            
+            }
             else if (line.Trim().StartsWith("<td ",StringComparison.InvariantCultureIgnoreCase)  ||
                      line.Trim().StartsWith("<tr ", StringComparison.InvariantCultureIgnoreCase) ||
                      line.Trim().StartsWith("<th ", StringComparison.InvariantCultureIgnoreCase) ||
@@ -458,7 +461,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     var startPos = editor.GetCursorPosition();
                     var row = startPos.row;
                     var startRow = -1;
-                    
+
                     for (int i = row - 1; i > -1; i--)
                     {
                         lineText = editor.GetLine(i);
@@ -490,7 +493,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     {
                         sb.AppendLine(editor.GetLine(i));
                     }
-                    
+
                     // select the entire table
                     Model.ActiveEditor.AceEditor.SetSelectionRange(startRow - 1, 0, endRow + 1, 0);
 

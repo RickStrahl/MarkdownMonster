@@ -62,6 +62,7 @@ namespace MarkdownMonster
             ToolbarInsertMarkdown();
             CloseActiveDocument();
             CloseAllDocuments();
+            OpenInNewWindow();
             ShowActiveTabsList();
             CopyAsHtml();
             SetDictionary();
@@ -936,8 +937,44 @@ namespace MarkdownMonster
 
                 Model.Window.CloseAllTabs(except);
                 Model.Window.BindTabHeaders();
-
             }, (p, c) => Model.IsEditorActive);
+        }
+
+        public CommandBase OpenInNewWindowCommand { get; set; }
+
+        void OpenInNewWindow()
+        {
+            OpenInNewWindowCommand = new CommandBase((parameter, command) =>
+            {
+                var file = parameter as string;
+                if (parameter == null)
+                    file = Model.ActiveDocument?.Filename;
+                if (file == null)
+                    return;
+
+                var tab = Model.Window.GetTabFromFilename(file);
+                if (tab != null)
+                    Model.Window.CloseTab(tab);
+
+                var args = $"-newwindow -nosplash \"{file}\"";
+                ShellUtils.ExecuteProcess("markdownmonster.exe", args);
+
+                Model.Window.ShowStatusProgress($"Opening document {file} in a new window...",3000);
+            }, (p, c) => Model.IsEditorActive);
+        }
+
+        void MarkdownLinting()
+        {
+            MarkdownLintingCommand = new CommandBase((parameter, command) =>
+            {
+                var editor = Model.ActiveEditor;
+                if (editor == null)
+                    return;
+
+                var markdown = editor.GetMarkdown();
+
+                var errors = LintingErrorsModel.MarkdownLinting(markdown);
+            }, (p, c) => true);
         }
 
 
@@ -961,6 +998,7 @@ namespace MarkdownMonster
 
 
         public CommandBase WindowMenuCommand { get; set; }
+        private bool _firstWindowMenu = true;
 
         void ShowActiveTabsList()
         {
@@ -969,23 +1007,41 @@ namespace MarkdownMonster
                 var mi = Model.Window.MainMenuWindow;
                 mi.Items.Clear();
 
+                if (_firstWindowMenu)
+                {
+                    _firstWindowMenu = false;
+                    mi.ContextMenuClosing += (m, e) => { mi.Visibility = Visibility.Collapsed; };
+                }
+
                 mi.Items.Add(new MenuItem
                 {
-                    Header = "_Close Document",
-                    Command = Model.Commands.CloseActiveDocumentCommand
+                    Header = "_Close Document", Command = Model.Commands.CloseActiveDocumentCommand
                 });
+
                 mi.Items.Add(new MenuItem
                 {
                     Header = "C_lose All Documents",
                     Command = Model.Commands.CloseAllDocumentsCommand,
                     CommandParameter = "All"
                 });
+
                 mi.Items.Add(new MenuItem
                 {
                     Header = "Close All _But This Document",
                     Command = Model.Commands.CloseAllDocumentsCommand,
                     CommandParameter = "AllBut"
                 });
+
+                mi.Items.Add(new Separator());
+
+                mi.Items.Add(new MenuItem
+                {
+                    Header = "Open Document in New Window",
+                    Command = Model.Commands.OpenInNewWindowCommand,
+                });
+
+
+
 
                 var menuItems = Model.Window.GenerateContextMenuItemsFromOpenTabs();
                 if (menuItems.Count < 1)
@@ -1162,25 +1218,6 @@ namespace MarkdownMonster
 
         public CommandBase MarkdownLintingCommand { get; set; }
 
-        void MarkdownLinting()
-        {
-            MarkdownLintingCommand = new CommandBase((parameter, command) =>
-            {
-                var editor = Model.ActiveEditor;
-                if (editor == null)
-                    return;
-
-                var markdown = editor.GetMarkdown();
-
-
-                var errors = LintingErrorsModel.MarkdownLinting(markdown);
-
-
-            }, (p, c) => true);
-        }
-
-
-
 
         public CommandBase AddFavoriteCommand { get; set; }
 
@@ -1199,7 +1236,7 @@ namespace MarkdownMonster
 
                 var display = Path.GetFileNameWithoutExtension(file).Replace("-", " ").Replace("_", " ");
                 display = StringUtils.FromCamelCase(display);
-                    
+
                 var favorite = fav.AddFavorite(null, new FavoriteItem {File = file, Title = display } );
                 fav.SaveFavorites();
 
