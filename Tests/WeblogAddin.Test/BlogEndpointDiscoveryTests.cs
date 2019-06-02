@@ -9,7 +9,7 @@ namespace WeblogAddin.Test
     {
         [TestMethod]
         public void DiscoverWordpress()
-        {            
+        {
             string discoveryUrl = "https://rickstrahl.wordpress.com";
             RsdToUrlTest(discoveryUrl);
         }
@@ -17,7 +17,7 @@ namespace WeblogAddin.Test
         [TestMethod]
         public void DiscoverCodeplex()
         {
-            string discoveryUrl = "https://markdownmonstertest.codeplex.com/";            
+            string discoveryUrl = "https://markdownmonstertest.codeplex.com/";
             RsdToUrlTest(discoveryUrl);
         }
 
@@ -29,27 +29,27 @@ namespace WeblogAddin.Test
         }
 
         [TestMethod]
-        public void DiscoverFSharpForWestWindBlogNoRDS()
+        public async void DiscoverFSharpForWestWindBlogNoRDS()
         {
             // no RDS
             string discoveryUrl = "http://weblog.west-wind.com/metaweblogapi.ashx";
 
             var discover = new BlogEndpointDiscovery();
-            BlogApiEndpoint ep = discover.DiscoverBlogEndpoint(discoveryUrl, "1", "MetaWeblog");
+            BlogApiEndpoint ep = await discover.DiscoverBlogEndpointAsync(discoveryUrl, "1", "MetaWeblog");
 
-            
-            Assert.IsNotNull(ep);            
+
+            Assert.IsNotNull(ep);
             Console.WriteLine(ep.ApiUrl + " " + ep.BlogType + " - " + ep.BlogId + "\r\n" + ep.Rsd);
             Assert.AreEqual(discoveryUrl, ep.ApiUrl);
         }
 
 
-        private void RsdToUrlTest(string discoveryUrl)
+        private async void RsdToUrlTest(string discoveryUrl)
         {
-            
+
             var discover = new BlogEndpointDiscovery();
-            BlogApiEndpoint ep = discover.DiscoverBlogEndpoint(discoveryUrl,"1","MetaWeblog");
-            
+            BlogApiEndpoint ep = await discover.DiscoverBlogEndpointAsync(discoveryUrl,"1","MetaWeblog");
+
             Assert.IsNotNull(ep);
             Console.WriteLine(ep.ApiUrl + " " + ep.BlogType + " - " + ep.BlogId + "\r\n" + ep.Rsd );
             Assert.AreNotEqual(discoveryUrl, ep.ApiUrl);
@@ -57,22 +57,22 @@ namespace WeblogAddin.Test
 
 
         [TestMethod]
-        public void CheckRpcEndPointCodeplex()
+        public async void CheckRpcEndPointCodeplex()
         {
             string endpoint = "https://www.codeplex.com/site/metaweblog";
             var discover = new BlogEndpointDiscovery();
 
-            Assert.IsTrue(discover.CheckRpcEndpoint(endpoint));
+            Assert.IsTrue(await discover.CheckRpcEndpointAsync(endpoint));
 
         }
 
         [TestMethod]
-        public void CheckRpcEndPointWordpress()
+        public async void CheckRpcEndPointWordpress()
         {
             string endpoint = "https://rickstrahl.wordpress.com/xmlrpc.php";
             var discover = new BlogEndpointDiscovery();
 
-            Assert.IsTrue(discover.CheckRpcEndpoint(endpoint));
+            Assert.IsTrue(await discover.CheckRpcEndpointAsync(endpoint));
 
         }
 
