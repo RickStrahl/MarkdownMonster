@@ -66,20 +66,19 @@ namespace MarkdownMonster.Controls.ContextMenus
             ClearMenu();
             var model = Model;
 
-            SpellcheckSuggestions(suggestions, range);
+            bool hasSuggestions = SpellcheckSuggestions(suggestions, range);
             AddEditorContext();
 
             AddUndoRedo();
             AddCopyPaste();
 
             // if we dont' have suggestions show the tab context menu
-            if (suggestions != null)
+            if (!hasSuggestions)
             {
                 ContextMenu.Items.Add(new Separator());
                 var tabMenu = new TabContextMenu();
                 tabMenu.AddContextMenuItems(ContextMenu);
             }
-
 
             Show();
         }
@@ -90,10 +89,10 @@ namespace MarkdownMonster.Controls.ContextMenus
         /// </summary>
         /// <param name="suggestions"></param>
         /// <param name="range"></param>
-        public void SpellcheckSuggestions(IEnumerable<string> suggestions, object range)
+        public bool SpellcheckSuggestions(IEnumerable<string> suggestions, object range)
         {
-            if (suggestions == null || range == null)
-                return;
+            if (suggestions == null || range == null || range == DBNull.Value)
+                return false;
 
             var model = Model;
 
@@ -140,6 +139,8 @@ namespace MarkdownMonster.Controls.ContextMenus
             };
             ContextMenu.Items.Add(mi2);
             ContextMenu.Items.Add(new Separator());
+
+            return hasSuggestions;
 
         }
 
