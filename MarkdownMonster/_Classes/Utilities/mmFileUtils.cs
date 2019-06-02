@@ -691,21 +691,18 @@ namespace MarkdownMonster
 
                     // TODO: Switch to this after a few versions
                     //if (path.Contains("\\Markdown Monster\\"))
-                     if (path.Contains(mmFolder,StringComparison.InvariantCultureIgnoreCase)) 
-                        return;
+                     //if (path.Contains(mmFolder,StringComparison.InvariantCultureIgnoreCase)) 
+                     //   return;
 
                     var pathList = path.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
                     // remove any others
-                    if (path.Contains("Markdown Monster"))
+                    if (path.Contains("Markdown Monster") || path.Contains("MarkdownMonster"))
                     {
                         pathList = pathList.Where(p => !p.Contains("Markdown Monster") && !p.Contains("MarkdownMonster")).ToList();
-                        pathList.Add(mmFolder);
                     }
-                    else if (!path.Contains(mmFolder))
-                    {
-                        pathList.Add(mmFolder);
-                    }
+                    pathList.Add(mmFolder);
+
                     path = string.Join(";", pathList.Distinct().ToArray());
 
                     sk.SetValue("Path", path);
