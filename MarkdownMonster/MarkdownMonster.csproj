@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net462</TargetFramework> 
     <!--<TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>-->
-    <Version>1.17.3</Version>
+    <Version>1.17.3.11</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
     <StartupObject>StartUp</StartupObject>
@@ -26,15 +26,15 @@
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.203" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.4" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.7" />
     <PackageReference Include="LibGit2Sharp" Version="0.26.0" />
     <PackageReference Include="LumenWorksCsvReader" Version="4.0.0" />
     <PackageReference Include="MahApps.Metro" Version="1.6.5" />
     <PackageReference Include="Markdig" Version="0.17.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.9.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.10.0" />
     <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
     <PackageReference Include="Westwind.Utilities" Version="3.0.27" />
-    <PackageReference Include="ReverseMarkdown" Version="3.7.0" />
+    <PackageReference Include="ReverseMarkdown" Version="3.8.0" />
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
   </ItemGroup>
 

@@ -4,10 +4,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
-
 ### 1.17.4
 <small>not released yet</small>
+
+* **Open in New Window**  
+Added context menu option on the editor tab to open a new instance of Markdown Monster with the current document loaded. This makes it easier to display multiple windows side by side for copying content between them.
+
+* **New `-newwindow` Command Line Option**  
+To make Open in New Window work, a new `-newwindow` Command Line option to force a new Markdown Monster instance to open regardless of the `SingleInstance` configuration option. When this option is used the window is opened with a single document and does not re-open previously opened windows.
+
+* **New `-nosplash` Command Line Option**  
+You can now explicitly disable the splash screen via startup command. This startup switch overrides the `DisableSplashScreen` configuration setting.
 
 * **New Documents open at the front of the TabList**
 Changed behavior that opens new tabs at the beginning of the list of tabs. This makes the newly opened documents more prominent if many tabs are open.
@@ -15,8 +22,17 @@ Changed behavior that opens new tabs at the beginning of the list of tabs. This 
 * **Show Link Id in Document Outline Header Tooltip**  
 Document headers now show a tooltip for the link Id as preview of an Id that you can copy from the context menu.
 
+* **Open common files in the Previewer with Shell**  
+If you link to local files in the editor MM now opens many common file formats in their respective applications. So a `.docx` file opens in Word, a .zip file in 7zip or WinZip. Some files are opened in Explorer and highlighted.
+
+* **Fix: Weblog Endpoint Discovery doesn't block any longer**  
+EndPoint discovery was previously checking synchronously for discovery URLs. Apparently WordPress slows RPC/XML requests and these requests can be slow to respond. Switched to async code so UI doesn't lock.
+
 * **Fix: Commandline now creates non-Existant Markdown Files**  
 If you specify to open a Markdown file that doesn't exist in a command line filename parameter, MM now opens an empty file that has a filename and is ready to be saved with `Ctrl-S`. Only works with Markdown files. Other files are ignored causing the folder to be opened in the folder browser.
+
+* **Fix: Spell Check Suggestions Dropdown**  
+When showing spell check suggestions don't show the full context menu, only suggestions and Add To Dictionary. Fix issue with Add to Dictionary always showing on the context menu even when not on a spell check item. 
 
 * **Fix: Task List Styling**  
 Fixed task list styling to match GitHub's styling. Removed the bullet and extra indent.
