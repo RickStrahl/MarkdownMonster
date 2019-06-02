@@ -1796,15 +1796,32 @@ namespace MarkdownMonster
                     }
                 }
             }
-            else if (url.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
+            else
             {
-                // relative path
-                var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
-                urlPath = Path.Combine(docPath, urlPath);
-                if (File.Exists(urlPath))
+                // check for common file types
+                var ext = Path.GetExtension(url);
+                if (!string.IsNullOrEmpty(ext))
                 {
-                    ShellUtils.GoUrl(urlPath);
-                    return true;
+                    ext = ext.ToLowerInvariant();
+
+                    if (StringUtils.Inlist(ext,
+                        ".pdf", ".docx", ".doc", ".pptx", ".ppt", ".xls",
+                        ".pub", ".csv", ".zip", ".mp3", ".mp4", ".xml", ".json",
+                        ".exe",".bat",".cmd",".ps1"))
+                    {
+                        // relative path
+                        var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+                        urlPath = Path.Combine(docPath, urlPath);
+                        if (File.Exists(urlPath))
+                        {
+                            if (StringUtils.Inlist(ext, ".exe",".bat",".cmd",".ps1"))
+                                ShellUtils.OpenFileInExplorer(urlPath);
+                            else
+                                ShellUtils.GoUrl(urlPath);
+
+                            return true;
+                        }
+                    }
                 }
             }
 
