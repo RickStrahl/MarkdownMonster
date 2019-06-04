@@ -1806,7 +1806,7 @@ namespace MarkdownMonster
 
                     if (StringUtils.Inlist(ext,
                         ".pdf", ".docx", ".doc", ".pptx", ".ppt", ".xls",
-                        ".pub", ".csv", ".zip", ".mp3", ".mp4",
+                        ".pub", ".csv", ".zip", ".7z",".tar", ".mp3", ".mp4",
                         ".xml", ".json",
                         ".exe",".bat",".cmd",".ps1"))
                     {

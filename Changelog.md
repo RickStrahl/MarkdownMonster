@@ -4,8 +4,8 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.17.4
-<small>not released yet</small>
+### 1.17.5
+<small>June 4th, 2019</small>
 
 * **Open in New Window**  
 Added context menu option on the editor tab to open a new instance of Markdown Monster with the current document loaded. This makes it easier to display multiple windows side by side for copying content between them.
