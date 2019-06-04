@@ -2132,7 +2132,7 @@ namespace MarkdownMonster
             {
                 var curPoint = e.GetPosition(null);
                 var diff = curPoint - _dragablzStartPoint;
-                if (_dragablzStartPoint.Y > 0 && diff.Y > 30)
+                if (_dragablzStartPoint.Y > 0 && (diff.Y > 30 || diff.Y < -30))
                 {
                     var drag = sender as DragablzItem;
                     if (drag == null)
