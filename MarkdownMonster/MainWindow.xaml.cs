@@ -957,7 +957,6 @@ namespace MarkdownMonster
                     SaveOpenDocuments();
             }
 
-
             config.Write();
         }
 
@@ -1027,7 +1026,7 @@ namespace MarkdownMonster
                         if (doc.LastEditorLineNumber < 0)
                             doc.LastEditorLineNumber = 0;
 
-                        config.OpenDocuments.Add(new OpenMarkdownDocument(doc));
+                        config.OpenDocuments.Add(new OpenFileDocument(doc));
                     }
                 }
 
@@ -1035,7 +1034,7 @@ namespace MarkdownMonster
                 var recents = mmApp.Configuration.RecentDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength).ToList();
 
                 // remove all those that aren't in the recent list
-                List<OpenMarkdownDocument> removeList = new List<OpenMarkdownDocument>();
+                var removeList = new List<OpenFileDocument>();
                 foreach (var doc in config.OpenDocuments)
                 {
                     if (!recents.Any(r => r.Equals(doc.Filename, StringComparison.InvariantCultureIgnoreCase)))
@@ -1044,7 +1043,6 @@ namespace MarkdownMonster
                 foreach (var remove in removeList)
                     config.OpenDocuments.Remove(remove);
             }
-
         }
 
 
@@ -1820,7 +1818,7 @@ namespace MarkdownMonster
         /// <summary>
         ///  Flag used to let us know we don't want to perform tab selection operations
         /// </summary>
-        private bool batchTabAction = false;
+        internal bool batchTabAction = false;
 
         /// <summary>
         /// Binds all Tab Headers

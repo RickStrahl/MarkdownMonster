@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using MarkdownMonster.Annotations;
 using Newtonsoft.Json;
 using Westwind.Utilities;
 
-namespace MarkdownMonster._Classes
+namespace MarkdownMonster
 {
 
+    /// <summary>
+    /// Project file format that can load and save a bunch of files
+    /// as a group of files.
+    /// </summary>
     public class MarkdownMonsterProject : INotifyPropertyChanged
     {
-        public string Title { get; set; }
 
-
+        [JsonIgnore]
         public string Filename
         {
             get { return _Filename; }
@@ -29,7 +28,6 @@ namespace MarkdownMonster._Classes
                 OnPropertyChanged(nameof(ProjectPath));
             }
         }
-
         private string _Filename;
 
 
@@ -45,7 +43,7 @@ namespace MarkdownMonster._Classes
             }
         }
 
-        public List<OpenMarkdownDocument> OpenDocuments { get; set; } = new List<OpenMarkdownDocument>();
+        public List<OpenFileDocument> OpenDocuments { get; set; } = new List<OpenFileDocument>();
 
 
         /// <summary>
@@ -56,7 +54,7 @@ namespace MarkdownMonster._Classes
         /// <param name="isActive"></param>
         /// <param name="imageFolder"></param>
         /// <returns></returns>
-        public OpenMarkdownDocument AddDocuments(string filename,
+        public OpenFileDocument AddDocuments(string filename,
             int lineNumber = 0,
             bool isActive = false,
             string imageFolder = null)
@@ -67,7 +65,7 @@ namespace MarkdownMonster._Classes
             if (!File.Exists(filename))
                 return null;
 
-            var doc = new OpenMarkdownDocument() {
+            var doc = new OpenFileDocument() {
                 Filename = filename,
                 LastEditorLineNumber = lineNumber,
                 IsActive = isActive,
@@ -80,6 +78,13 @@ namespace MarkdownMonster._Classes
         }
 
 
+        [JsonIgnore]
+        public bool IsEmpty
+        {
+            get => string.IsNullOrEmpty(Filename);
+        }
+
+
         /// <summary>
         /// Loads a new project
         /// </summary>
@@ -87,6 +92,9 @@ namespace MarkdownMonster._Classes
         /// <returns></returns>
         public static MarkdownMonsterProject Load(string filename)
         {
+            if (!File.Exists(filename))
+                return null;
+
             return JsonSerializationUtils.DeserializeFromFile(filename,
                                                               typeof(MarkdownMonsterProject))
                                                               as MarkdownMonsterProject;
@@ -99,6 +107,11 @@ namespace MarkdownMonster._Classes
         /// <returns></returns>
         public bool Save(string filename = null)
         {
+            if (string.IsNullOrEmpty(filename))
+                filename = Filename;
+            else
+                Filename = filename;
+
             return JsonSerializationUtils.SerializeToFile(this, filename, formatJsonOutput: true);
         }
         
@@ -110,7 +123,6 @@ namespace MarkdownMonster._Classes
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            OnPropertyChanged(nameof(Filename));
         }
 
     }

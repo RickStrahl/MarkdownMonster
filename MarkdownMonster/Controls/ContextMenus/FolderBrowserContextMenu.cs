@@ -314,8 +314,6 @@
                         if (tab != null)
                             Model.Window.CloseTab(tab, dontPromptForSave: true);
 
-
-
                         if (parent != null)
                         {
                             index = parent.Files.IndexOf(selected);

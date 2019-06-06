@@ -181,6 +181,8 @@
                           SubmenuOpened="ButtonRecentFiles_SubmenuOpened"  >
                     <MenuItem>.</MenuItem>
                 </MenuItem>
+                <MenuItem Name="LoadProject" Header="Load Project" Command="{Binding Commands.LoadProjectCommand}" />
+                <Separator/>
 
                 <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding Commands.SaveCommand}"  
                           InputGestureText="{Binding Commands.SaveCommand.KeyboardShortcut}" />
@@ -188,7 +190,7 @@
                           InputGestureText="{Binding Commands.SaveAsCommand.KeyboardShortcut}"/>
                 <MenuItem Name="ButtonSaveAll" Header="Save A_ll " Command="{Binding Commands.SaveAllCommand}"  
                           InputGestureText="{Binding Commands.SaveAllCommand.KeyboardShortcut}" />
-
+                <MenuItem Name="ButtonSaveProject" Header="Save As Project" Command="{Binding Commands.SaveProjectCommand}" />
                 <Separator />
                 
                 <MenuItem Name="ButtonSaveAsSecureFile" Header="Save As _Encrypted File" Command="{Binding Commands.SaveAsCommand}" CommandParameter="Secure"  />

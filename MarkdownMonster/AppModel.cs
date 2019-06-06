@@ -59,6 +59,9 @@ namespace MarkdownMonster
         /// </summary>
         public ApplicationConfiguration Configuration { get; set; }
 
+
+        public MarkdownMonsterProject ActiveProject { get; set; } = new MarkdownMonsterProject();
+
         /// <summary>
         /// Commands
         /// </summary>

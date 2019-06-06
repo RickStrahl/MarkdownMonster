@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -10,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Dragablz;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Favorites;
@@ -39,6 +41,10 @@ namespace MarkdownMonster
             Save();
             SaveAs();
             SaveAll();
+
+            SaveProject();
+            LoadProject();
+
             NewWeblogPost();
 
             SaveAsHtml();
@@ -477,6 +483,202 @@ namespace MarkdownMonster
                         SaveAsCommand.Execute(tab);
                 }
             }, (p, c) => Model.IsEditorActive);
+        }
+
+
+
+        public CommandBase SaveProjectCommand { get; set; }
+
+        void SaveProject()
+        {
+            SaveProjectCommand = new CommandBase((parameter, command) =>
+            {
+                WindowUtilities.DoEvents();
+
+                string filename = null;
+                string folder = Model.Configuration.LastFolder;
+
+                if (!Model.ActiveProject.IsEmpty && File.Exists(Model.ActiveProject.Filename))
+                {
+                    folder = Path.GetDirectoryName(Model.ActiveProject.Filename);
+                    filename = Path.GetFileName(Model.ActiveProject.Filename);
+                }
+
+                var sd = new SaveFileDialog
+                {
+                    FilterIndex = 1,
+                    InitialDirectory = folder,
+                    FileName = filename,
+                    CheckFileExists = false,
+                    OverwritePrompt = true,
+                    CheckPathExists = true,
+                    RestoreDirectory = true
+                };
+
+
+                sd.Filter =
+                    "Markdown files (*.mdproj)|*.mdproj|All files (*.*)|*.*";
+
+                bool? result = null;
+                try
+                {
+                    result = sd.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log("Unable to save project file: " + filename, ex);
+                    MessageBox.Show(
+                        $@"Unable to open file:\r\n\r\n" + ex.Message,
+                        "An error occurred trying to open a file",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+
+                if (result == null || !result.Value)
+                    return;
+
+                filename = sd.FileName;
+
+
+                IEnumerable<DragablzItem> headers = null;
+                try
+                {
+                    // Get Ordered Headers
+                    var ditems = Model.Window.GetDragablzItems();
+                    headers = Model.Window.TabControl.HeaderItemsOrganiser.Sort(ditems);
+                    //headers = Model.Window.TabControl.GetOrderedHeaders();
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log("TabControl.GetOrderedHeaders() failed. Saving unordered.", ex,
+                        logLevel: LogLevels.Warning);
+
+                    // This works, but doesn't keep tab order intact
+                    headers = new List<DragablzItem>();
+                    foreach (DragablzItem tab in Model.Window.TabControl.Items)
+                    {
+                        ((List<DragablzItem>) headers).Add(tab);
+                    }
+                }
+
+                var documents = new List<OpenFileDocument>();
+                if (headers != null)
+                {
+                    // Important: collect all open tabs in the **original tab order**
+                    foreach (var dragablzItem in headers)
+                    {
+                        if (dragablzItem == null)
+                            continue;
+
+                        var tab = dragablzItem.Content as TabItem;
+
+                        var editor = tab.Tag as MarkdownDocumentEditor;
+                        var doc = editor?.MarkdownDocument;
+                        if (doc == null)
+                            continue;
+
+                        doc.LastEditorLineNumber = editor.GetLineNumber();
+                        if (doc.LastEditorLineNumber < 1)
+                            doc.LastEditorLineNumber =
+                                editor.InitialLineNumber; // if document wasn't accessed line is never set
+                        if (doc.LastEditorLineNumber < 0)
+                            doc.LastEditorLineNumber = 0;
+
+                        documents.Add(new OpenFileDocument(doc));
+                    }
+                }
+
+                Model.ActiveProject.Filename = filename;
+                Model.ActiveProject.OpenDocuments = documents;
+                if (!Model.ActiveProject.Save(filename))
+                    Model.Window.ShowStatusError("Failed to save the project file.");
+                else
+                {
+                    Model.Window.ShowStatusSuccess("Project file saved.");
+                    Model.Configuration.LastFolder = Path.GetDirectoryName(filename);
+                }
+            }, (p, c) => true);
+        }
+
+
+
+        public CommandBase LoadProjectCommand { get; set; }
+
+        void LoadProject()
+        {
+            LoadProjectCommand = new CommandBase((parameter, command) =>
+            {
+                WindowUtilities.DoEvents();
+
+                string filename = null;
+                string folder = Model.Configuration.LastFolder;
+
+
+                var fd = new OpenFileDialog
+                {
+                    DefaultExt = ".mdproj",
+                    Filter = "Html files (*.mdproj)|*.mdproj|" +
+                             "All files (*.*)|*.*",
+                    CheckFileExists = true,
+                    RestoreDirectory = true,
+                    Multiselect = false,
+                    Title = "Open Markdown Project"
+                };
+
+                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
+                    fd.InitialDirectory = mmApp.Configuration.LastFolder;
+
+                var res = fd.ShowDialog();
+                if (res == null || !res.Value)
+                    return;
+                
+
+                Model.Window.CloseAllTabs();
+
+                var project = MarkdownMonsterProject.Load(fd.FileName);
+
+                Model.Window.batchTabAction = true;
+                TabItem selectedTab = null;
+                foreach (var doc in project.OpenDocuments)
+                {
+                    if(doc.Filename == null)
+                    continue;
+
+                    if (File.Exists(doc.Filename))
+                    {
+                        var tab = Model.Window.OpenTab(doc.Filename, selectTab: false,
+                            batchOpen: true,
+                            initialLineNumber: doc.LastEditorLineNumber);
+
+                        if (tab == null)
+                            continue;
+
+                        var editor = tab.Tag as MarkdownDocumentEditor;
+                        if (editor == null)
+                            continue;
+
+                        if (doc.IsActive)
+                        {
+                            selectedTab = tab;
+
+                            // have to explicitly notify initial activation
+                            // since we surpress it on all tabs during startup
+
+                            AddinManager.Current.RaiseOnDocumentActivated(editor.MarkdownDocument);
+                        }
+                    }
+                }
+                Model.Window.batchTabAction = false;
+
+                if (selectedTab == null)
+                    Model.Window.TabControl.SelectedIndex = 0;
+                else
+                    Model.Window.TabControl.SelectedItem = selectedTab;
+
+                filename = fd.FileName;
+                Model.Window.ShowStatusSuccess("Project opened: " + filename);
+
+            }, (p, c) => true);
         }
 
 
