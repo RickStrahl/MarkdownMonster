@@ -270,7 +270,7 @@ namespace MarkdownMonster
         /// <summary>
         /// A collection of the open Markdown documents.
         /// </summary>
-        public List<MarkdownDocument> OpenDocuments { get; set; }
+        public List<OpenFileDocument> OpenDocuments { get; set; }
 
 
         /// <summary>
@@ -347,9 +347,12 @@ namespace MarkdownMonster
 	        {"mkd", "markdown" },
 	        {"mkdn", "markdown" },
 
+            
             {"json", "json"},
 	        { "kavadocs", "json"},
-		    {"html", "html"},
+            { "mdproj", "json" },
+
+            {"html", "html"},
 			{"htm", "html" },
 
 		    {"cs", "csharp"},
@@ -581,7 +584,7 @@ namespace MarkdownMonster
             WindowPosition = new WindowPositionConfiguration();
 	        FolderBrowser = new FolderBrowserConfiguration();
             ApplicationUpdates = new ApplicationUpdatesConfiguration();
-            OpenDocuments = new List<MarkdownDocument>();
+            OpenDocuments = new List<OpenFileDocument>();
 
 
             InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
@@ -922,8 +925,33 @@ namespace MarkdownMonster
         #endregion
     }
 
+    
+    public class OpenFileDocument
+    {
 
+        public OpenFileDocument()
+        {
 
+        }
+
+        public OpenFileDocument(MarkdownDocument doc)
+        {
+            if (doc != null)
+            {
+                Filename = doc.Filename;
+                IsActive = doc.IsActive;
+                LastEditorLineNumber = doc.LastEditorLineNumber;
+                LastImageFolder = doc.LastImageFolder;
+            };
+            
+        }
+
+        public string Filename { get; set; }
+        public bool IsActive { get; set; }
+
+        public int LastEditorLineNumber { get; set; }
+        public string LastImageFolder { get; set; }
+    }
 
 
     public enum MarkdownStyles

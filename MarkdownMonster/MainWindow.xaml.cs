@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -839,10 +840,10 @@ namespace MarkdownMonster
 
                 string firstDoc = conf.RecentDocuments.FirstOrDefault();
 
-                
+
                 if (!App.ForceNewWindow)
                     selectedTab = OpenRecentDocuments();
-                
+
                 if (selectedTab == null)
                     TabControl.SelectedIndex = 0;
                 else
@@ -888,13 +889,18 @@ namespace MarkdownMonster
                     if (tab == null)
                         continue;
 
+                    var editor = tab.Tag as MarkdownDocumentEditor;
+                    if (editor == null)
+                        continue;
+
                     if (doc.IsActive)
                     {
                         selectedTab = tab;
 
                         // have to explicitly notify initial activation
                         // since we surpress it on all tabs during startup
-                        AddinManager.Current.RaiseOnDocumentActivated(doc);
+                        
+                        AddinManager.Current.RaiseOnDocumentActivated(editor.MarkdownDocument);
                     }
                 }
             }
@@ -941,7 +947,7 @@ namespace MarkdownMonster
             config.FolderBrowser.FolderPath = FolderBrowser.FolderPath;
 
 
-            if (!App.ForceNewWindow) 
+            if (!App.ForceNewWindow)
                 SaveOpenDocuments();
             else
             {
@@ -1021,7 +1027,7 @@ namespace MarkdownMonster
                         if (doc.LastEditorLineNumber < 0)
                             doc.LastEditorLineNumber = 0;
 
-                        config.OpenDocuments.Add(doc);
+                        config.OpenDocuments.Add(new OpenMarkdownDocument(doc));
                     }
                 }
 
@@ -1029,7 +1035,7 @@ namespace MarkdownMonster
                 var recents = mmApp.Configuration.RecentDocuments.Take(mmApp.Configuration.RememberLastDocumentsLength).ToList();
 
                 // remove all those that aren't in the recent list
-                List<MarkdownDocument> removeList = new List<MarkdownDocument>();
+                List<OpenMarkdownDocument> removeList = new List<OpenMarkdownDocument>();
                 foreach (var doc in config.OpenDocuments)
                 {
                     if (!recents.Any(r => r.Equals(doc.Filename, StringComparison.InvariantCultureIgnoreCase)))
@@ -1301,17 +1307,18 @@ namespace MarkdownMonster
             return tab;
         }
 
+
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (batchTabAction)
                 return;
 
-            
+
 
             var editor = GetActiveMarkdownEditor();
-            if (editor == null)                            
+            if (editor == null)
                 return;
-            
+
 
             var tab = TabControl.SelectedItem as TabItem;
 
@@ -1511,7 +1518,7 @@ namespace MarkdownMonster
 
             if (PreviewTab == null)
             {
-                PreviewTab = new TabItem();                
+                PreviewTab = new TabItem();
 
                 var grid = new Grid();
                 PreviewTab.Header = grid;
@@ -1559,7 +1566,7 @@ namespace MarkdownMonster
                 PreviewTab.HorizontalContentAlignment = HorizontalAlignment.Right;
             }
             else
-            {                
+            {
                 if (icon == null)
                 {
                     if (isImageFile)
@@ -1568,7 +1575,7 @@ namespace MarkdownMonster
                         icon = FolderStructure.IconList.GetIconFromType("preview");
                 }
 
-                
+
                 var grid = PreviewTab.Header as Grid;
 
 
@@ -2072,7 +2079,7 @@ namespace MarkdownMonster
         /// Note: ActiveTab change causes the title to be automatically updates and
         /// generally you **don't want to set a custom title** because it'll get
         /// overwritten.
-        /// 
+        ///
         /// Just call this when you need to have the title updated due to
         /// file name change that doesn't change the active tab.
         /// </summary>
@@ -2140,13 +2147,18 @@ namespace MarkdownMonster
                     var tab = drag.Content as TabItem;
 
                     var editor = tab.Tag as MarkdownDocumentEditor;
-                    var dragData = new DataObject(DataFormats.UnicodeText, editor.MarkdownDocument.Filename);
+                    if (editor == null)
+                        return;
 
+                    //var dragData = new DataObject(DataFormats.UnicodeText, editor.MarkdownDocument.Filename);
+                    var files = new[] {editor.MarkdownDocument.Filename} ;
+                    var dragData = new DataObject(DataFormats.FileDrop,files);
+                
                     var fav = FavoritesTab.Content as FavoritesControl;
                     if (fav != null)
-                        fav.IsDragging = true;
-
-                    DragDrop.DoDragDrop(tab, dragData, DragDropEffects.Link);
+                        fav.IsDragging = true;  // notify that we're ready to drop on favorites potentially
+                    
+                    DragDrop.DoDragDrop(drag, dragData, DragDropEffects.Copy);
 
                     _dragablzStartPoint.Y = 0;
                     _dragablzStartPoint.X = 0;
