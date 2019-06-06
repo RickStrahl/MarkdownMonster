@@ -185,6 +185,7 @@ namespace MarkdownMonster.Utilities
             {".md", "md"},
             {".markdown", "md"},
             {".mdcrypt", "md"},
+            {".mdproj", "mdproj" },
 
             // .NET
             {".cs", "csharp"},

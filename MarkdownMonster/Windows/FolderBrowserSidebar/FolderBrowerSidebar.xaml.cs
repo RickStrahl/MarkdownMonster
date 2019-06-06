@@ -711,6 +711,7 @@ namespace MarkdownMonster.Windows
                 Window.OpenBrowserTab(filePath, isImageFile: true);
                 return;
             }
+          
 
             var tab = AppModel.Window.GetTabFromFilename(filePath);
             if(tab != null)
@@ -723,6 +724,8 @@ namespace MarkdownMonster.Windows
                 Window.RefreshTabFromFile(filePath, isPreview: true, noFocus: true);
             else if (ext == ".html" || ext == ".htm")
                 Window.OpenBrowserTab(filePath);
+            
+
         }
 
         private void TreeFolderBrowser_Expanded(object sender, RoutedEventArgs e)
@@ -876,6 +879,14 @@ namespace MarkdownMonster.Windows
 
         public void OpenFile(string file, bool forceEditorFocus = false)
         {
+            var ext = Path.GetExtension(file).ToLower().Replace(".", "");
+            if (ext == "mdproj")
+            {
+                AppModel.Commands.LoadProjectCommand.Execute(file);
+                return;
+            }
+
+
             string format = mmFileUtils.GetEditorSyntaxFromFileType(file);
             if (!string.IsNullOrEmpty(format))
             {
@@ -886,7 +897,7 @@ namespace MarkdownMonster.Windows
                 return;
             }
 
-            var ext = Path.GetExtension(file).ToLower().Replace(".", "");
+            
             if (StringUtils.Inlist(ext, "jpg", "png", "gif", "jpeg"))
             {
                 Window.OpenBrowserTab(file, isImageFile: true);

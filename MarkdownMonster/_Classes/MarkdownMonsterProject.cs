@@ -26,9 +26,25 @@ namespace MarkdownMonster
                 _Filename = value;
                 OnPropertyChanged(nameof(Filename));
                 OnPropertyChanged(nameof(ProjectPath));
+                OnPropertyChanged(nameof(SaveProjectFilename));
             }
         }
         private string _Filename;
+
+
+        [JsonIgnore]
+        public string SaveProjectFilename
+        {
+            get
+            {
+                string result = "Save Project";
+
+                if (string.IsNullOrEmpty(Filename))
+                    return result;
+
+                return result + " " + Path.GetFileName(Filename);
+            }
+        }
 
 
         [JsonIgnore]
@@ -95,9 +111,16 @@ namespace MarkdownMonster
             if (!File.Exists(filename))
                 return null;
 
-            return JsonSerializationUtils.DeserializeFromFile(filename,
+            
+            var project =  JsonSerializationUtils.DeserializeFromFile(filename,
                                                               typeof(MarkdownMonsterProject))
                                                               as MarkdownMonsterProject;
+            if (project == null)
+                return null;
+
+            project.Filename = filename;
+
+            return project;
         }
 
         /// <summary>

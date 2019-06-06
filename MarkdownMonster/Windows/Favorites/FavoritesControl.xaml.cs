@@ -88,7 +88,15 @@ namespace MarkdownMonster.Windows
             if (Directory.Exists(favorite.File))
                 FavoritesModel.AppModel.Commands.OpenFolderBrowserCommand.Execute(favorite.File);
             else
+            {
+                var ext = System.IO.Path.GetExtension(favorite.File);
+                if (ext == ".mdproj")
+                {
+                    FavoritesModel.AppModel.Commands.LoadProjectCommand.Execute(favorite.File);
+                    return;
+                }
                 FavoritesModel.AppModel.Commands.OpenRecentDocumentCommand.Execute(favorite.File);
+            }
         }
 
 

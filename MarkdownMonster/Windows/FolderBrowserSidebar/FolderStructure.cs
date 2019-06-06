@@ -66,7 +66,7 @@ namespace MarkdownMonster.Windows
 				folders = Directory.GetDirectories(baseFolder);			   
 			}
 			catch { }
-
+            
 			if (folders != null)
 			{
                 foreach (var folder in folders.OrderBy(f=> f.ToLower()))

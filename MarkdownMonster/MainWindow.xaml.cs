@@ -1277,6 +1277,13 @@ namespace MarkdownMonster
                 {
                     dragablzItem.PreviewMouseMove += DragablzItem_PreviewMouseMove;
                     dragablzItem.PreviewMouseLeftButtonDown += DragablzItem_PreviewMouseLeftButtonDown;
+                    //dragablzItem.PreviewGiveFeedback += (object sender, GiveFeedbackEventArgs e) =>
+                    //{
+                    //    //e.Effects = DragDropEffects.Copy;
+                    //    e.UseDefaultCursors = true;
+                    //    if (Cursor != Cursors.Cross)
+                    //        Mouse.SetCursor(Cursors.Cross);
+                    //};
                 }
             }
             catch (Exception ex)
@@ -1305,6 +1312,8 @@ namespace MarkdownMonster
             return tab;
         }
 
+        
+       
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -2094,6 +2103,9 @@ namespace MarkdownMonster
                     title = editor.MarkdownDocument.Filename;
                 else
                     title = editor.MarkdownDocument.FilenameWithIndicator.Replace("*", "");
+
+                if (!Model.ActiveProject.IsEmpty)
+                    title = title + " • " + Path.GetFileName(Model.ActiveProject.Filename);
             }
 
             Title = title +

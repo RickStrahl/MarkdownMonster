@@ -60,8 +60,6 @@ namespace MarkdownMonster
         public ApplicationConfiguration Configuration { get; set; }
 
 
-        public MarkdownMonsterProject ActiveProject { get; set; } = new MarkdownMonsterProject();
-
         /// <summary>
         /// Commands
         /// </summary>
@@ -133,6 +131,20 @@ namespace MarkdownMonster
         }
         private MarkdownDocument _activeDocument;
 
+
+        public MarkdownMonsterProject ActiveProject
+        {
+            get => _activeProject;
+            set
+            {
+                if (Equals(value, _activeProject))
+                    return;
+                _activeProject = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private MarkdownMonsterProject _activeProject = new MarkdownMonsterProject();
 
         /// <summary>
         /// Gives a list of all the open documents as Markdown document instances
