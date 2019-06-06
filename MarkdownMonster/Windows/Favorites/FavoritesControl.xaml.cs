@@ -244,15 +244,17 @@ namespace MarkdownMonster.Windows
             string rawFilename = null;
 
             // avoid double drop events?
-            if (!IsDragging)
+            if (IsDragging)
             {
                 // Explorer Drag and Drop - just look for the filename 
-                var tkens = e.Data.GetData("FileName") as string[];
+                var tkens = e.Data.GetData(DataFormats.FileDrop) as string[];
                 if (tkens == null)
+                {
                     return;
+                }
+
                 rawFilename = tkens[0] as string;
             }
-
             IsDragging = false;
 
             FavoriteItem targetItem;            
