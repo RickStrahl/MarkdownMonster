@@ -1,4 +1,5 @@
-﻿using MarkdownMonster.Windows;
+﻿using System;
+using MarkdownMonster.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Westwind.Utilities;
@@ -43,7 +44,7 @@ namespace MarkdownMonster
         public SelectionRange GetSelectionRange()
         {
             var range = Invoke("getselectionrange");
-            if (range == null)
+            if (range == null || range == DBNull.Value)
                 return null;
 
             return new SelectionRange
