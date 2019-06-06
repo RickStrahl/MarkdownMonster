@@ -74,8 +74,9 @@ namespace MarkdownMonster.Windows
 					var name = Path.GetFileName(folder);
 					if (!string.IsNullOrEmpty(name))
 					{
-						if (name.StartsWith("."))
+						if (name == "." || name == "..")
 							continue;
+
 						// skip folders
 						if (("," + ignoredFolders + ",").Contains("," + name.ToLower() + ","))
 							continue;
