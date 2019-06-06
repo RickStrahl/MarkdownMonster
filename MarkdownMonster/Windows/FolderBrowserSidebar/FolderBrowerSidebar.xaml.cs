@@ -858,7 +858,7 @@ namespace MarkdownMonster.Windows
                     {
                         Window.CloseTab(oldFile);
                         WindowUtilities.DoEvents();
-                        Window.OpenTab(newPath, isPreview: true) ;
+                        Window.OpenFile(newPath, isPreview: true) ;
                         WindowUtilities.DoEvents();
                     }
                 }
@@ -868,9 +868,6 @@ namespace MarkdownMonster.Windows
                                     newPath + "\r\n" + ex.Message, "File Creation Error",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-
-                // Open the document
-                // HandleItemSelection();
             }
 
             fileItem.FullPath = newPath;
@@ -879,60 +876,7 @@ namespace MarkdownMonster.Windows
 
         public void OpenFile(string file, bool forceEditorFocus = false)
         {
-            var ext = Path.GetExtension(file).ToLower().Replace(".", "");
-            if (ext == "mdproj")
-            {
-                AppModel.Commands.LoadProjectCommand.Execute(file);
-                return;
-            }
-
-
-            string format = mmFileUtils.GetEditorSyntaxFromFileType(file);
-            if (!string.IsNullOrEmpty(format))
-            {
-                if (forceEditorFocus && Window.PreviewTab != null)
-                    Window.CloseTab(Window.PreviewTab);
-                Window.RefreshTabFromFile(file, noFocus: !forceEditorFocus, isPreview: false);
-                Window.BindTabHeaders();
-                return;
-            }
-
-            
-            if (StringUtils.Inlist(ext, "jpg", "png", "gif", "jpeg"))
-            {
-                Window.OpenBrowserTab(file, isImageFile: true);
-
-                //if (!mmFileUtils.OpenImageInImageViewer(file))
-                //{
-                //    MessageBox.Show("Unable to launch image viewer " +
-                //                    Path.GetFileName(mmApp.Configuration.ImageViewer) +
-                //                    "\r\n\r\n" +
-                //                    "Most likely the image viewer configured in settings is not valid. Please check the 'ImageEditor' key in the Markdown Monster Settings." +
-                //                    "\r\n\r\n" +
-                //                    "We're opening the Settings file for you in the editor now.",
-                //        "Image Launching Error",
-                //        MessageBoxButton.OK, MessageBoxImage.Warning);
-
-                //    Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json"),noFocus: !forceEditorFocus);
-                //}
-            }
-            else
-            {
-                try
-                {
-                    ShellUtils.GoUrl(file);
-                }
-                catch
-                {
-                    Window.ShowStatusError($"Unable to open file {file}");
-
-                    if (MessageBox.Show(
-                            "Unable to open this file. Do you want to open it as a text document in the editor?",
-                            mmApp.ApplicationName,
-                            MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                        Window.OpenTab(file, rebindTabHeaders: true,noFocus: true);
-                }
-            }
+            Window.OpenFile(file, noFocus: !forceEditorFocus );
         }
 
 #endregion
@@ -1006,8 +950,8 @@ namespace MarkdownMonster.Windows
 
                 if (LastItem == selected)
                 {
-                    if (t >= LastClickTime.AddMilliseconds(System.Windows.Forms.SystemInformation.DoubleClickTime + 100) &&
-                        t <= LastClickTime.AddMilliseconds(System.Windows.Forms.SystemInformation.DoubleClickTime * 2 + 100))
+                    if (t >= LastClickTime.AddMilliseconds(System.Windows.Forms.SystemInformation.DoubleClickTime + 200) &&
+                        t <= LastClickTime.AddMilliseconds(System.Windows.Forms.SystemInformation.DoubleClickTime * 2 + 200))
                     {
                         FolderBrowserContextMenu.MenuRenameFile_Click(null, null);
                     }

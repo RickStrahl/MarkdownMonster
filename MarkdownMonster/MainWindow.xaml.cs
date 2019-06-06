@@ -1081,6 +1081,75 @@ namespace MarkdownMonster
 
         #region Tab Handling
 
+        /// <summary>
+        /// High level wrapper around OpenTab() that checks for
+        /// different file types like images and projects that
+        /// have non-tab behavior.
+        ///
+        /// Use this function for generically opening files
+        /// by filename .
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="showPreviewIfActive"></param>
+        /// <param name="syntax"></param>
+        /// <param name="selectTab"></param>
+        /// <param name="rebindTabHeaders"></param>
+        /// <param name="batchOpen"></param>
+        /// <param name="initialLineNumber"></param>
+        /// <param name="readOnly"></param>
+        /// <param name="noFocus"></param>
+        /// <param name="isPreview"></param>
+        /// <returns>Tab or Null</returns>
+        public TabItem OpenFile(string filename,
+            MarkdownDocumentEditor editor = null,
+            bool showPreviewIfActive = false,
+            string syntax = "markdown",
+            bool selectTab = true,
+            bool rebindTabHeaders = false,
+            bool batchOpen = false,
+            int initialLineNumber = 0,
+            bool readOnly = false,
+            bool noFocus = false,
+            bool isPreview = false)
+        {
+            var ext = Path.GetExtension(filename).ToLowerInvariant();
+            if (ext == ".jpg" || ext == ".png" || ext == ".gif" || ext == ".jpeg")
+            {
+                return OpenBrowserTab(filename, isImageFile: true);
+            }
+            if (ext == ".mdproj")
+            {
+                Model.Commands.LoadProjectCommand.Execute(filename);
+                return null;
+            }
+
+            
+            var tab = ActivateTab(filename, false, !selectTab, false, readOnly, isPreview);
+            if (tab != null)
+                return tab;
+
+            string format = mmFileUtils.GetEditorSyntaxFromFileType(filename);
+            if (!string.IsNullOrEmpty(format))
+            {
+                if (!noFocus && PreviewTab != null)
+                    CloseTab(PreviewTab);
+
+                return OpenTab(filename, editor, showPreviewIfActive, syntax, selectTab, rebindTabHeaders, batchOpen,
+                    initialLineNumber, readOnly, noFocus, isPreview);
+            }
+
+            try
+            {
+                ShellUtils.GoUrl(filename);
+            }
+            catch
+            {
+                ShowStatusError($"Unable to open file {filename}");
+            }
+
+            return null;
+        }
+
 
         ///  <summary>
         ///  Opens a tab by a filename

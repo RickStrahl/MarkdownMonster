@@ -969,6 +969,8 @@ namespace MarkdownMonster
                 Model.Configuration.LastFolder = Path.GetDirectoryName(filename);
                 Model.Window.FolderBrowser.FolderPath = Model.Configuration.LastFolder;
 
+                Model.Window.AddRecentFile(filename);
+
                 // force window title to update
                 Model.Window.SetWindowTitle();
             }, (p, c) => true);
