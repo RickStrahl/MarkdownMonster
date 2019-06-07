@@ -30,6 +30,7 @@ namespace MarkdownMonster
             }
         }
         private string _Filename;
+        
 
 
         [JsonIgnore]
@@ -37,7 +38,7 @@ namespace MarkdownMonster
         {
             get
             {
-                string result = "Save Project";
+                string result = "_Save Project";
 
                 if (string.IsNullOrEmpty(Filename))
                     return result;
@@ -45,7 +46,6 @@ namespace MarkdownMonster
                 return result + " " + Path.GetFileName(Filename);
             }
         }
-
 
         [JsonIgnore]
         public string ProjectPath
@@ -59,6 +59,20 @@ namespace MarkdownMonster
             }
         }
 
+        [JsonIgnore]
+        public bool IsEmpty
+        {
+            get => string.IsNullOrEmpty(Filename);
+        }
+
+        /// <summary>
+        /// The active folder when the project is saved
+        /// </summary>
+        public string ActiveFolder { get; set; }
+
+        /// <summary>
+        /// A list of documents that were open when the project is saved
+        /// </summary>
         public List<OpenFileDocument> OpenDocuments { get; set; } = new List<OpenFileDocument>();
 
 
@@ -93,12 +107,6 @@ namespace MarkdownMonster
             return doc;
         }
 
-
-        [JsonIgnore]
-        public bool IsEmpty
-        {
-            get => string.IsNullOrEmpty(Filename);
-        }
 
 
         /// <summary>

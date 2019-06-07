@@ -4,6 +4,16 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.17.6
+<small>not released yet</small>
+
+* **Added Project Support**  
+You can now save the open document collection and folder browser configuration as a project. You can save and load projects.
+
+* **Fix: 
+
+
+
 ### 1.17.5
 <small>June 4th, 2019</small>
 

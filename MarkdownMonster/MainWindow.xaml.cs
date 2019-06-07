@@ -1359,7 +1359,7 @@ namespace MarkdownMonster
             {
                 // this failure can be caused if there's a modal dialog popped up when the app starts
                 mmApp.Log("Failed to load DragablzItem for tab drag and drop", ex,false, LogLevels.Warning);
-            }h
+            }
 
 
             if (selectTab)

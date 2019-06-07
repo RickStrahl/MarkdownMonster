@@ -760,52 +760,54 @@ namespace MarkdownMonster
         {
             SaveProjectCommand = new CommandBase((parameter, command) =>
             {
+                var filename = parameter as string;
+
                 WindowUtilities.DoEvents();
 
-                string filename = null;
                 string folder = Model.Configuration.LastFolder;
 
-                if (!Model.ActiveProject.IsEmpty && File.Exists(Model.ActiveProject.Filename))
+                if (string.IsNullOrEmpty(filename))
                 {
-                    folder = Path.GetDirectoryName(Model.ActiveProject.Filename);
-                    filename = Path.GetFileName(Model.ActiveProject.Filename);
+                    if (!Model.ActiveProject.IsEmpty && File.Exists(Model.ActiveProject.Filename))
+                    {
+                        folder = Path.GetDirectoryName(Model.ActiveProject.Filename);
+                        filename = Path.GetFileName(Model.ActiveProject.Filename);
+                    }
+
+                    var sd = new SaveFileDialog
+                    {
+                        FilterIndex = 1,
+                        InitialDirectory = folder,
+                        FileName = filename,
+                        CheckFileExists = false,
+                        OverwritePrompt = false,
+                        CheckPathExists = true,
+                        RestoreDirectory = true
+                    };
+
+                    sd.Filter =
+                        "Markdown files (*.mdproj)|*.mdproj|All files (*.*)|*.*";
+
+                    bool? result = null;
+                    try
+                    {
+                        result = sd.ShowDialog();
+                    }
+                    catch (Exception ex)
+                    {
+                        mmApp.Log("Unable to save project file: " + filename, ex);
+                        MessageBox.Show(
+                            $@"Unable to open file:\r\n\r\n" + ex.Message,
+                            "An error occurred trying to open a file",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                    }
+
+                    if (result == null || !result.Value)
+                        return;
+
+                    filename = sd.FileName;
                 }
-
-                var sd = new SaveFileDialog
-                {
-                    FilterIndex = 1,
-                    InitialDirectory = folder,
-                    FileName = filename,
-                    CheckFileExists = false,
-                    OverwritePrompt = false,
-                    CheckPathExists = true,
-                    RestoreDirectory = true
-                };
-
-
-                sd.Filter =
-                    "Markdown files (*.mdproj)|*.mdproj|All files (*.*)|*.*";
-
-                bool? result = null;
-                try
-                {
-                    result = sd.ShowDialog();
-                }
-                catch (Exception ex)
-                {
-                    mmApp.Log("Unable to save project file: " + filename, ex);
-                    MessageBox.Show(
-                        $@"Unable to open file:\r\n\r\n" + ex.Message,
-                        "An error occurred trying to open a file",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-
-                if (result == null || !result.Value)
-                    return;
-
-                filename = sd.FileName;
-
 
                 IEnumerable<DragablzItem> headers = null;
                 try
@@ -856,6 +858,12 @@ namespace MarkdownMonster
                 }
 
                 Model.ActiveProject.Filename = filename;
+
+                Model.ActiveProject.ActiveFolder = Model.Window.FolderBrowser.FolderPath;
+                if (string.IsNullOrEmpty(Model.ActiveProject.ActiveFolder))
+                    Model.ActiveProject.ActiveFolder = Path.GetDirectoryName(filename);
+
+
                 Model.ActiveProject.OpenDocuments = documents;
                 if (!Model.ActiveProject.Save(filename))
                     Model.Window.ShowStatusError("Failed to save the project file.");
@@ -864,7 +872,7 @@ namespace MarkdownMonster
                     Model.Window.ShowStatusSuccess("Project file saved.");
                     Model.Configuration.LastFolder = Path.GetDirectoryName(filename);
                 }
-            }, (p, c) => true);
+            }, (p, c) => !Model.ActiveProject.IsEmpty);
         }
 
         
@@ -973,16 +981,22 @@ namespace MarkdownMonster
                 Model.Configuration.LastFolder = Path.GetDirectoryName(filename);
 
                 window.Dispatcher.InvokeAsync(
-                    () => Model.Window.FolderBrowser.FolderPath = Model.Configuration.LastFolder,
+                    () =>
+                    {
+                        // force window title to update
+                        window.SetWindowTitle();
+
+                        string activeFolder = project.ActiveFolder;
+                        if (string.IsNullOrEmpty(activeFolder) || !Directory.Exists(activeFolder))
+                            activeFolder = Path.GetDirectoryName(project.Filename);
+
+                        Model.Window.FolderBrowser.FolderPath = activeFolder;
+                    },
                     DispatcherPriority.ApplicationIdle);
 
-                // force window title to update
-                window.SetWindowTitle();
 
                 Model.ActiveProject = project;
                 window.AddRecentFile(filename);
-
-
 
                 window.ShowStatusSuccess("Project opened: " + filename);
             }, (p, c) => true);
