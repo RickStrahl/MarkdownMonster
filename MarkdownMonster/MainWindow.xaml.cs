@@ -338,8 +338,7 @@ namespace MarkdownMonster
                     var tab = GetTabFromFilename(file);
                     if (tab != null)
                     {
-                        var editor = tab.Tag as MarkdownDocumentEditor;
-                        if (editor != null)
+                        if (tab.Tag is MarkdownDocumentEditor editor)
                         {
                             if (editor.IsDirty())
                                 editor.SaveDocument();
@@ -376,9 +375,10 @@ namespace MarkdownMonster
 
                 if (File.Exists(file))
                 {
-                    var tab = OpenTab(mdFile: file, batchOpen: true);
-                    var editor = tab.Tag as MarkdownDocumentEditor;
-                    if (editor != null)
+                    // open file which may or may not open a tab (like a project)
+                    var tab = OpenFile(filename: file, batchOpen: true);
+                    //var tab = OpenTab(mdFile: file, batchOpen: true);
+                    if (tab?.Tag is MarkdownDocumentEditor editor)
                     {
                         editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
                         editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
@@ -388,6 +388,7 @@ namespace MarkdownMonster
                 {
                     ShowFolderBrowser(false, file);
                 }
+               
                 // file is an .md file but doesn't exist but folder exists - create it
                 else if ((ext.Equals(".md", StringComparison.InvariantCultureIgnoreCase) ||
                           ext.Equals(".mkdown", StringComparison.InvariantCultureIgnoreCase) ||
@@ -397,8 +398,7 @@ namespace MarkdownMonster
                 {
                     File.WriteAllText(file, "");
                     var tab = OpenTab(mdFile: file, batchOpen: true);
-                    var editor = tab.Tag as MarkdownDocumentEditor;
-                    if (editor != null)
+                    if (tab?.Tag is MarkdownDocumentEditor editor)
                     {
                         editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
                         editor.MarkdownDocument.AutoSaveDocument = autoSave || Model.Configuration.AutoSaveDocuments;
@@ -414,8 +414,7 @@ namespace MarkdownMonster
                     if (File.Exists(file))
                     {
                         var tab = OpenTab(mdFile: file, batchOpen: true);
-                        var editor = tab.Tag as MarkdownDocumentEditor;
-                        if (editor != null)
+                        if (tab.Tag is MarkdownDocumentEditor editor)
                         {
                             editor.MarkdownDocument.AutoSaveBackup = Model.Configuration.AutoSaveBackups;
                             editor.MarkdownDocument.AutoSaveDocument =
@@ -844,6 +843,8 @@ namespace MarkdownMonster
                 if (!App.ForceNewWindow)
                     selectedTab = OpenRecentDocuments();
 
+                TabControl.SelectedIndex = -1;
+                TabControl.SelectedItem = null;
                 if (selectedTab == null)
                     TabControl.SelectedIndex = 0;
                 else
@@ -904,7 +905,6 @@ namespace MarkdownMonster
                     }
                 }
             }
-
 
             batchTabAction = false;
 
@@ -1359,7 +1359,7 @@ namespace MarkdownMonster
             {
                 // this failure can be caused if there's a modal dialog popped up when the app starts
                 mmApp.Log("Failed to load DragablzItem for tab drag and drop", ex,false, LogLevels.Warning);
-            }
+            }h
 
 
             if (selectTab)

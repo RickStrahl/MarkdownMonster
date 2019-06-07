@@ -873,9 +873,13 @@ namespace MarkdownMonster
 
         void LoadProject()
         {
+            
+
             LoadProjectCommand = new CommandBase((parameter, command) =>
             {
-                WindowUtilities.DoEvents();
+                var window = Model.Window;
+
+                window.CloseAllTabs();
 
                 string filename = null;
                 string folder = Model.Configuration.LastFolder;
@@ -886,7 +890,6 @@ namespace MarkdownMonster
                 }
                 else
                 {
-
                     var fd = new OpenFileDialog
                     {
                         DefaultExt = ".mdproj",
@@ -910,31 +913,31 @@ namespace MarkdownMonster
 
                 if (!File.Exists(filename))
                 {
-                    Model.Window.ShowStatusError("Project file doesn't exist: " + filename);
+                    window.ShowStatusError("Project file doesn't exist: " + filename);
                     return;
                 }
 
                 var project = MarkdownMonsterProject.Load(filename);
                 if (project == null)
                 {
-                    Model.Window.ShowStatusError("Project file is invalid: " + filename);
-                    Model.Window.OpenTab(filename);
+                    window.ShowStatusError("Project file is invalid: " + filename);
+                    window.OpenTab(filename);
                     return;
                 }
+                //WindowUtilities.DoEvents();
 
-                Model.Window.CloseAllTabs();
+                window.batchTabAction = true;
 
-                
-                Model.Window.batchTabAction = true;
                 TabItem selectedTab = null;
                 foreach (var doc in project.OpenDocuments)
                 {
-                    if(doc.Filename == null)
+                    if (doc.Filename == null)
                         continue;
 
                     if (File.Exists(doc.Filename))
                     {
-                        var tab = Model.Window.OpenTab(doc.Filename, selectTab: false,
+                        var tab = window.OpenTab(doc.Filename,
+                            selectTab: false,
                             batchOpen: true,
                             initialLineNumber: doc.LastEditorLineNumber);
 
@@ -956,23 +959,32 @@ namespace MarkdownMonster
                         }
                     }
                 }
-                Model.Window.batchTabAction = false;
+
+                window.batchTabAction = false;
+
+                window.TabControl.SelectedIndex = -1;
+                window.TabControl.SelectedItem = null;
 
                 if (selectedTab == null)
-                    Model.Window.TabControl.SelectedIndex = 0;
+                    window.TabControl.SelectedIndex = 0;
                 else
-                    Model.Window.TabControl.SelectedItem = selectedTab;
+                    window.TabControl.SelectedItem = selectedTab;
 
-                Model.ActiveProject = project;
-
-                Model.Window.ShowStatusSuccess("Project opened: " + filename);
                 Model.Configuration.LastFolder = Path.GetDirectoryName(filename);
-                Model.Window.FolderBrowser.FolderPath = Model.Configuration.LastFolder;
 
-                Model.Window.AddRecentFile(filename);
+                window.Dispatcher.InvokeAsync(
+                    () => Model.Window.FolderBrowser.FolderPath = Model.Configuration.LastFolder,
+                    DispatcherPriority.ApplicationIdle);
 
                 // force window title to update
-                Model.Window.SetWindowTitle();
+                window.SetWindowTitle();
+
+                Model.ActiveProject = project;
+                window.AddRecentFile(filename);
+
+
+
+                window.ShowStatusSuccess("Project opened: " + filename);
             }, (p, c) => true);
         }
 
