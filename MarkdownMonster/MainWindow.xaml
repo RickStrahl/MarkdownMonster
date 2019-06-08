@@ -172,7 +172,7 @@
                 <Separator/>
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="{Binding Commands.OpenDocumentCommand.KeyboardShortcut}"/>
 
-                <MenuItem Header="Open from...">
+                <MenuItem Header="Open from">
                     <MenuItem Name="ButtonOpenFromUrl" Header="Open from _Url" Command="{Binding Commands.OpenFromUrlCommand}" />
                     <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
                     <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
@@ -192,7 +192,7 @@
                 <MenuItem Name="ButtonSaveAll" Header="Save A_ll " Command="{Binding Commands.SaveAllCommand}"  
                           InputGestureText="{Binding Commands.SaveAllCommand.KeyboardShortcut}" />
 
-                <MenuItem Header="Save To...">
+                <MenuItem Header="Save To">
                     <MenuItem Name="ButtonSaveAsSecureFile" Header="Save to _Encrypted File" Command="{Binding Commands.SaveAsCommand}" CommandParameter="Secure"  />
                     <MenuItem Name="ButtonSaveAsHtml" Header="Save to _Html" Command="{Binding Commands.SaveAsHtmlCommand}" />
                     <MenuItem x:Name="ButtonGeneratePdf" Header="Save to Pdf" Command="{Binding Commands.GeneratePdfCommand}" />
@@ -200,7 +200,7 @@
 
                 <Separator/>
 
-                <MenuItem Header="Pro_ject...">
+                <MenuItem Header="Pro_ject">
                     <MenuItem Name="ButtonLoadProject" 
                               Header="_Load Project" 
                               Command="{Binding Commands.LoadProjectCommand}" />
