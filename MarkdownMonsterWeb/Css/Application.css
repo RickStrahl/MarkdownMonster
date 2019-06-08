@@ -98,12 +98,14 @@ a {
 }
 .hidable-xs {    
 }
-#ContentContainer {    
-    max-width: 1200px;     
+#ContentContainer {
+    max-width: 1200px;
     background: white;
     border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;    
-    margin-bottom: 20px;    
+    border-bottom-left-radius: 3px;
+    margin: 0 auto !important;
+    margin-bottom: 30px;
+    overflow-x: auto;
 }
 .top-bullet-box {
     background: #000000;

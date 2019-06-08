@@ -19,8 +19,12 @@
         dt { float: left;width: 90px; font-weight: normal}
         dd { font-size: 100% }        
         .panel {
-            min-height: 110px;
+            min-height: 140px;
         }
+        #ContentContainer {
+            max-width: 970px;
+        }
+       
     </style>
 </head>
 <body>
@@ -73,28 +77,29 @@
                             <dd>10 mb</dd>
                        </dl> 
                              
-
-                        <p id="License" style="margin-top: 35px;">
-                            
-
-                        <a id="Licensing" href="purchase.aspx" class="btn btn-primary" style="width: 200px">
-                            <i class="fa fa-check" style="color: lightgreen"></i>&nbsp;
-                            Purchase a License
-                        </a>
+                        <p style="margin-top: 35px;">
+                            <a href="purchase.aspx#License" class="btn btn-primary" style="width: 210px">
+                                <i class="fa fa-info-circle" style="color: #ddd"></i>&nbsp;
+                                License Information
+                            </a>
                         </p>
-                        <p>
-                            <a href="purchase.aspx#License" class="btn btn-primary" style="width: 200px">
-                            <i class="fa fa-info-circle" style="color: #ccc"></i>&nbsp;
-                            Licensing Information
-                        </a>
-                            
+                        <p id="License" >
+                            <a id="Licensing" href="purchase.aspx" class="btn btn-primary" style="width: 210px">
+                                <i class="fa fa-check" style="color: lightgreen"></i>&nbsp;
+                                Buy Markdown Monster
+                            </a>
                         </p>
+                       
 
                     </div>
                     <div class=" col-sm-7">
 	                    
 						<a class="btn btn-lg btn-primary" href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
-                           style=" border-radius: 4px;padding: 12px 20px; font-weight: 600;">
+                           style=" border-radius: 4px;padding: 12px 20px; font-weight: 600;"
+                           title="Download the full Markdown Monster Setup Installation Executable.&#013;This Installer is the recommended way to install Markdown Monster."
+                           
+                           
+                           >
                             <i class="fa fa-download text-success" style="font-size: 1.4em; color: #e2c271; "></i> &nbsp; 
                             Download Markdown Monster
                         </a>
@@ -105,7 +110,8 @@
                         
 						
                         <div class="small" style="margin-top: 10px">alternates: 
-                            <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip" title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> | 
+                            <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip" 
+                               title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> | 
 
                             <a href="https://west-wind.com/files/MarkdownMonsterPortable.zip" 
                                title="Self contained, non-admin installation for Markdown Monster.
@@ -179,7 +185,7 @@ c:\> choco install markdownmonster.portable
             
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default ">
                         <div class="panel-heading">
                             <h5 class="panel-title">System Requirements</h5>
                         </div>
@@ -232,7 +238,7 @@ c:\> choco install markdownmonster.portable
         
     </div>
         
-    <nav class="banner banner-bottom" style="font-size: 8pt; padding: 10px; height: 80px; border-top: solid black 4px;border-bottom: none;">
+    <nav class="banner banner-bottom" style="font-size: 8pt; margin-top: 100px; padding: 10px; height: 80px; border-top: solid black 4px;border-bottom: none;">
         <div class="right">
             created by:<br />
             <a href="http://west-wind.com/" style="padding: 0;">

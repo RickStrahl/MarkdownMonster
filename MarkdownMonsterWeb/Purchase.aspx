@@ -105,8 +105,8 @@
         <div id="ContentContainer" class="content" >
             
         <div class="row">
-        <div class=" col-sm-2" style="padding: 37px 10px 10px">
-            <img src="Images/MarkdownMonster_Icon_256.png" style="display: block; margin-bottom: 15px; width: 210px"/>
+        <div class=" col-sm-2" style="padding: 37px 10px 1px">
+            <img src="Images/MarkdownMonster_Icon_256.png" style="display: block; width: 210px"/>
         </div>
         <div class=" col-sm-10">
 <ww:Markdown runat="server" id="license" NormalizeWhiteSpace="true">
@@ -143,7 +143,7 @@ Thanks for playing fair.
                             Download
                         </a>
                         <a href="download.aspx">Markdown Monster Evaluation</a><br/>
-                        <small>(for checking out Markdown Monster features)</small>
+                        <small>try it out, check out features, fully functional.</small>
                     </td>
                     <td class="price">
                         FREE
@@ -158,7 +158,7 @@ Thanks for playing fair.
                             Buy
                         </a>
                         <a href="https://store.west-wind.com/product/order/markdown_monster">Markdown Monster Single User</a><br/>
-                        <small>Single User License</small>
+                        <small>Single User License (valid for multiple machines)</small>
                     </td>
                     <td class="price">                                                
                         $49                        
@@ -239,9 +239,10 @@ Thanks for playing fair.
                 
             
             
-            <div id="License" class="panel panel-default" style="margin-top: 1.5em;">
+            <div id="License" class="panel panel-default"
+                 style="margin-top: 1.5em;margin-bottom: 50px;">
 
-            <div class="panel-heading">                    
+            <div class="panel-heading" >                    
 
             <h5 class="panel-title">Licensing</h5>
             </div>
@@ -249,11 +250,20 @@ Thanks for playing fair.
 
      <ww:Markdown runat="server" id="Markdown1" NormalizeWhiteSpace="true">
 
-Although we provide the <a href="https://github.com/RickStrahl/MarkdownMonster">source in the open</a>, Markdown Monster is licensed software. Markdown Monster can be downloaded and evaluated for free, but [a reasonably priced license](https://store.west-wind.com/product/order/markdown_monster) must be purchased for continued use. 
+Although we provide the <a href="https://github.com/RickStrahl/MarkdownMonster">source in the open</a> on GitHub,
+Markdown Monster is <b>licensed software</b>. Markdown Monster can be downloaded and evaluated for free,
+but [a reasonably priced license](https://store.west-wind.com/product/order/markdown_monster) must be purchased for continued use. 
 
 <a href="#License">More detailed license information can be found below</a>.
                     
 **Thank you for playing fair.**
+         
+ <p>
+     <a href="#Licenses" class="btn btn-primary" style="width: 210px">
+         <i class="fa fa-check" style="color: lightgreen"></i>&nbsp;
+         Purchase a License
+     </a>
+ </p>
 
 ---
          
@@ -323,15 +333,14 @@ IN NO EVENT SHALL THE AUTHOR, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIB
      </ww:Markdown>
 
             </div>
-            
 
-            
-            
+            </div>
 
         </div>
+
         <div class="clearfix"></div>
         
-        <nav class="banner banner-bottom" style="margin-top: 90px;">
+        <nav class="banner banner-bottom" style="margin-top: 50px;">
             <div class="right">
                 created by:<br />
                 <a href="http://west-wind.com/" style="padding: 0;">
