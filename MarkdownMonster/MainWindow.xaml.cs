@@ -513,60 +513,61 @@ namespace MarkdownMonster
             {
                 var tab = TabControl.Items[i] as TabItem;
 
-                if (tab != null)
+                if (tab == null)
+                    continue;
+
+                var editor = tab.Tag as MarkdownDocumentEditor;
+                var doc = editor?.MarkdownDocument;
+                if (doc == null)
+                    continue;
+
+                if (doc.HasFileCrcChanged())
                 {
-                    var editor = tab.Tag as MarkdownDocumentEditor;
-                    var doc = editor?.MarkdownDocument;
-                    if (doc == null)
-                        continue;
+                    // force update to what's on disk so it doesn't fire again
+                    // do here prior to dialogs so this code doesn't fire recursively
+                    doc.UpdateCrc();
 
-                    if (doc.HasFileCrcChanged())
+                    string filename = doc.FilenamePathWithIndicator.Replace("*", "");
+                    string template = filename +
+                                      "\r\n\r\n" +
+                                      "This file has been modified by another program.\r\n" +
+                                      "Do you want to reload it?";
+
+                    if (!doc.IsDirty || MessageBox.Show(this, template,
+                            "Reload",
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                     {
-                        // force update to what's on disk so it doesn't fire again
-                        // do here prior to dialogs so this code doesn't fire recursively
-                        doc.UpdateCrc();
-
-                        string filename = doc.FilenamePathWithIndicator.Replace("*", "");
-                        string template = filename +
-                                          "\r\n\r\n" +
-                                          "This file has been modified by another program.\r\n" +
-                                          "Do you want to reload it?";
-
-                        if (!doc.IsDirty || MessageBox.Show(this, template,
-                                "Reload",
-                                MessageBoxButton.YesNo,
-                                MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                        if (!doc.Load(doc.Filename))
                         {
-                            if (!doc.Load(doc.Filename))
-                            {
-                                MessageBox.Show(this, "Unable to re-load current document.",
-                                    "Error re-loading file",
-                                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                                continue;
-                            }
-
-                            try
-                            {
-                                int scroll = editor.GetScrollPosition();
-                                editor.SetMarkdown(doc.CurrentText);
-                                editor.AceEditor?.UpdateDocumentStats();
-
-                                if (scroll > -1)
-                                    editor.SetScrollPosition(scroll);
-                            }
-                            catch (Exception ex)
-                            {
-                                mmApp.Log("Changed File Notification failed.", ex);
-                                MessageBox.Show(this, "Unable to re-load current document.",
-                                    "Error re-loading file",
-                                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                            }
-
-                            if (tab == selectedTab)
-                                PreviewBrowser.PreviewMarkdown(editor, keepScrollPosition: true);
+                            MessageBox.Show(this, "Unable to re-load current document.",
+                                "Error re-loading file",
+                                MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                            continue;
                         }
+
+                        try
+                        {
+                            int scroll = editor.GetScrollPosition();
+                            editor.SetMarkdown(doc.CurrentText);
+                            editor.AceEditor?.UpdateDocumentStats();
+
+                            if (scroll > -1)
+                                editor.SetScrollPosition(scroll);
+                        }
+                        catch (Exception ex)
+                        {
+                            mmApp.Log("Changed File Notification failed.", ex);
+                            MessageBox.Show(this, "Unable to re-load current document.",
+                                "Error re-loading file",
+                                MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        }
+
+                        if (tab == selectedTab)
+                            PreviewBrowser?.PreviewMarkdown(editor, keepScrollPosition: true);
                     }
                 }
+
 
             }
         }
