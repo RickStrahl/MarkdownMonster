@@ -400,7 +400,30 @@ namespace WeblogAddin
                 Title = title,
                 WeblogName = weblogName
             });
-            File.WriteAllText(outputFile, newPostMarkdown);
+
+            string msg = null;
+            Exception ex = null;
+            try
+            {
+                File.WriteAllText(outputFile, newPostMarkdown);
+
+                if (!File.Exists(outputFile))
+                    msg = "Couldn't create the Weblog Post output file.";
+            }
+            catch (Exception exc)
+            {
+                ex = exc;
+                msg = ex.Message;
+            }
+
+            if (msg != null)
+            {
+                MessageBox.Show($"Couldn't write new Weblog Post file:\r\n\r\n{outputFile}\r\n\r\n{msg}",
+                    "New Weblog Post", MessageBoxButton.OK, MessageBoxImage.Error);
+                mmApp.Log($"New Weblog Post Creation Error\r\n{outputFile}", ex, false, LogLevels.Warning);
+                return;
+            }
+
             Model.Window.OpenTab(outputFile);
 
             mmApp.Configuration.LastFolder = Path.GetDirectoryName(outputFile);
