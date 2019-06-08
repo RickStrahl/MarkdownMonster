@@ -219,7 +219,10 @@ namespace MarkdownMonster.Utilities
 
             // office docs
             {".ppt", "ppt"},
+            {".pptx", "ppt"},
+            {".doc", "docx"},
             {".docx", "docx"},
+            {"xls","xls" },
             {".one", "onenote"},
             {".onenote", "onenote"},
             {".pdf", "pdf"},
