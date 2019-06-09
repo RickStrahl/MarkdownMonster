@@ -688,7 +688,8 @@ Markdown Monster v{version}
 		/// Url to go to purchase a registered version of Markdown Monster
 		/// </summary>
 		public string RegistrationUrl { get; internal set; } =
-			"https://store.west-wind.com/product/order/markdown_monster";
+            "http://markdownmonster.west-wind.com/purchase.aspx";
+			//"https://store.west-wind.com/product/order/markdown_monster";
 
 
 		/// <summary>
