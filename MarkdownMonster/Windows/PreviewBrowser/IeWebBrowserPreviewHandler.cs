@@ -222,8 +222,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
                         bool usePragma = !showInBrowser && mmApp.Configuration.PreviewSyncMode != PreviewSyncMode.None;
                         if (string.IsNullOrEmpty(renderedHtml))
-                            renderedHtml = doc.RenderHtmlToFile(usePragmaLines: usePragma,
-                                renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
+                            renderedHtml = doc.RenderHtmlToFile(usePragmaLines: usePragma);
 
                         if (renderedHtml == null)
                         {

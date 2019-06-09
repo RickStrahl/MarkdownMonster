@@ -466,18 +466,6 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Event that fires after the document has been rendered
-        /// Parameters:
-        /// * Rendered Html
-        /// * Original Markdown
-        ///
-        /// You return:
-        /// * Updated (or unaltered) HTML
-        /// </summary>
-        public event Func<string, string, string> DocumentRendered;
-
-
-        /// <summary>
         /// Event that fires just before the document is rendered. It's
         /// passed the Markdown text **before** it is converted to HTML
         /// so you can intercept and modify the markdown before rendering.
@@ -486,17 +474,82 @@ namespace MarkdownMonster
         /// </summary>
         public event Func<string, string> BeforeDocumentRendered;
 
+        /// <summary>
+        /// Event that fires after the raw markdown has been rendered
+        /// to html. Note this will be an HTML fragment not an HTML
+        /// document.
+        /// 
+        /// Parameters:
+        /// * Rendered Html
+        /// * Original Markdown
+        ///
+        /// You return:
+        /// * Updated (or unaltered) HTML
+        /// </summary>
+        public event Func<string, string, string> MarkdownRendered;
+
+        /// <summary>
+        /// Event that fires after the final HTML document has been created
+        /// when merging with a preview template. The html contains the fully
+        /// rendered HTML document before it is returned or written to file.
+        ///
+        /// Parameters:
+        /// * Rendered Html
+        /// * Original Markdown
+        ///
+        /// You return:
+        /// * Updated (or unaltered) HTML 
+        /// </summary>
+        /// <remarks>This method **is not fired** unless the document is rendered
+        /// using `RenderHtmlToFile()` or `RenderHtmlWithTemplate()`</remarks>
+        public event Func<string, string,string> DocumentRendered;
+        
+        
+
         private void OnBeforeDocumentRendered(ref string  markdown)
         {
-            RenderExtensionsManager.Current.ProcessAllBeforeRenderExtensions(ref markdown, this);
+            var args = new ModifyMarkdownArguments(markdown, this);
+            RenderExtensionsManager.Current.ProcessAllBeforeMarkdownRenderedHooks(args);
+
+            markdown = args.Markdown;
 
             if (BeforeDocumentRendered!=null)
                 markdown = BeforeDocumentRendered(markdown);
         }
 
+
+        /// <summary>
+        /// Post processing of the the rendered markdown fragment that has been turned
+        /// into html (before it has been merged into the document template).
+        /// </summary>
+        /// <param name="html">rendered HTML from the Markdown. Html Fragment.</param>
+        /// <param name="markdown">original Markdown document text passed in for reference - shouldn't be changed</param>
+        private void OnMarkdownRendered(ref string html, ref string markdown)
+        {
+            var args = new ModifyHtmlAndHeadersArguments(html, markdown, this);
+
+            RenderExtensionsManager.Current.ProcessAllAfterMarkdownRenderedHooks(args);
+
+            html = args.Html;
+
+            if (MarkdownRendered != null)
+                html = MarkdownRendered(html, markdown);
+        }
+
+        /// <summary>
+        /// Fires after HTML has been generated from Markdown and has been merged
+        /// into the template. At this point HTML contains a full HTML document.
+        ///
+        /// You can also set additional HEAD content for the HTML header.
+        /// </summary>
+        /// <param name="html">rendered HTML from the Markdown. Html Fragment.</param>
+        /// <param name="markdown">original Markdown document text passed in for reference - shouldn't be changed</param>
         private void OnDocumentRendered(ref string html, ref string markdown)
         {
-            RenderExtensionsManager.Current.ProcessAllExtensions(ref html, markdown, this);
+            var args = new ModifyHtmlArguments(html, markdown, this);
+            RenderExtensionsManager.Current.ProcessAllAfterDocumentRenderedHooks(args);
+
+            html = args.Html;
 
             if (DocumentRendered != null)
                 html = DocumentRendered(html, markdown);
@@ -895,7 +948,6 @@ namespace MarkdownMonster
         /// <param name="usePragmaLines">renders line numbers into html output as ID tags for editor positioning</param>
         /// <returns></returns>
         public string RenderHtml(string markdown = null,
-            bool renderLinksExternal = false,
             bool usePragmaLines = false,
             bool noBanner = false)
         {
@@ -929,7 +981,7 @@ namespace MarkdownMonster
             mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = oldAllowScripts;
 
 
-            OnDocumentRendered(ref html, ref markdown);
+            OnMarkdownRendered(ref html, ref markdown);
 
 
             if (!noBanner && !string.IsNullOrEmpty(html) && !UnlockKey.Unlocked && mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
@@ -964,7 +1016,7 @@ namespace MarkdownMonster
         /// <param name="noFileWrite"></param>
         /// <returns></returns>
         public string RenderHtmlToFile(string markdown = null, string filename = null,
-                                       bool renderLinksExternal = false, string theme = null,
+            string theme = null,
                                        bool usePragmaLines = false,
                                        bool noFileWrite = false,
                                        bool removeBaseTag = false, bool noBanner = false)
@@ -974,7 +1026,7 @@ namespace MarkdownMonster
             if (string.IsNullOrEmpty(markdown))
                 markdown = CurrentText;
 
-            string markdownHtml = RenderHtml(markdown, renderLinksExternal, usePragmaLines,noBanner);
+            string markdownHtml = RenderHtml(markdown, usePragmaLines,noBanner);
 
             if (string.IsNullOrEmpty(filename))
                 filename = HtmlRenderFilename;
@@ -1021,6 +1073,9 @@ namespace MarkdownMonster
 
              html = AddinManager.Current.RaiseOnModifyPreviewHtml( html, markdownHtml );
 
+
+             OnDocumentRendered(ref html, ref markdown);
+
             if (!noFileWrite)
             {
                 if (!WriteFile(filename, html))
@@ -1030,8 +1085,32 @@ namespace MarkdownMonster
             return html;
         }
 
+
         /// <summary>
-        /// Adds extra headers that are embedded into the HTML output file's head tag
+        /// Renders HTML output with the active Template to a
+        /// full HTML document as a string.
+        /// </summary>
+        /// <param name="markdown"></param>
+        /// <param name="renderLinksExternal"></param>
+        /// <param name="theme"></param>
+        /// <param name="usePragmaLines"></param>
+        /// <param name="removeBaseTag"></param>
+        /// <param name="noBanner"></param>
+        /// <returns></returns>
+        public string RenderHtmlWithTemplate(string markdown = null,
+            string theme = null,
+            bool usePragmaLines = false,
+            bool removeBaseTag = false,
+            bool noBanner = false)
+        {
+            return RenderHtmlToFile(markdown, null,
+                theme,
+                usePragmaLines, true,
+                removeBaseTag, noBanner);
+        }
+
+        /// <summary>
+        /// Allows adding extra headers that are embedded into the HTML output file's HEAD section
         /// </summary>
         /// <param name="extraHeaderText"></param>
         public void AddExtraHeaders(string extraHeaderText)

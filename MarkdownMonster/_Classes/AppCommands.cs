@@ -617,7 +617,6 @@ namespace MarkdownMonster
 
 
                         if (sd.FilterIndex != 4 && doc.MarkdownDocument.RenderHtmlToFile(usePragmaLines: false,
-                                renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal,
                                 filename: sd.FileName) == null)
                         {
                             MessageBox.Show(Model.Window,
@@ -636,8 +635,7 @@ namespace MarkdownMonster
                         if (sd.FilterIndex == 4)
                         {
                             // render in-place in the standard preview location
-                            doc.MarkdownDocument.RenderHtmlToFile(usePragmaLines: false,
-                                renderLinksExternal: mmApp.Configuration.MarkdownOptions.RenderLinksAsExternal);
+                            doc.MarkdownDocument.RenderHtmlToFile(usePragmaLines: false);
 
                             var basePath = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
                             packageResult = packager.PackageHtmlToZipFile(doc.MarkdownDocument.HtmlRenderFilename, sd.FileName, basePath);
