@@ -24,45 +24,65 @@ namespace MarkdownMonster.RenderExtensions
             Current.LoadDefaultExtensions();
         }
 
-        public void ProcessAllExtensions(ref string html, string markdown, MarkdownDocument document)
-        {
-            foreach (var extension in RenderExtensions)
-            {
-                ProcessExtension(extension,ref  html, markdown, document);
-            }
-        }
 
         /// <summary>
         /// Process all BeforeRender Extensions
         /// </summary>
         /// <param name="markdown"></param>
         /// <param name="document"></param>
-        public void ProcessAllBeforeRenderExtensions(ref string markdown, MarkdownDocument document)
+        public void ProcessAllBeforeMarkdownRenderedHooks(ModifyMarkdownArguments args)
         {
             foreach (var extension in RenderExtensions)
             {
-                extension.BeforeRender(ref markdown, document);
+                extension.BeforeMarkdownRendered(args);
             }
         }
 
 
-        public void ProcessExtension(IRenderExtension extension,
-            ref string html, string markdown,
-            MarkdownDocument document)
-        {          
-            // append any custom headers to the top section of the document
-            var headers = extension.RenderHeader(html,markdown,document);
-            if (headers != null)
-                document.AddExtraHeaders(headers);
+        /// <summary>
+        /// Processed after Markdown has been rendered into HTML, but not been
+        /// merged into the template.
+        ///
+        /// You can modify the HTML and also add headers to be rendered into the HEAD
+        /// of the template here.
+        /// </summary>
+        /// <param name="args"></param>
+        public void ProcessAllAfterMarkdownRenderedHooks(ModifyHtmlAndHeadersArguments args)
+        {
+            foreach (var extension in RenderExtensions)
+            {
+                args.HeadersToEmbed = null;
 
-            // update html content using the ref HTML parameter
-            extension.InsertContent(ref html, markdown,document);
+                // update html content using the ref HTML parameter
+                extension.AfterMarkdownRendered(args);
+
+                if (args.HeadersToEmbed != null)
+                {
+                    args.MarkdownDocument.AddExtraHeaders(args.HeadersToEmbed);
+                }
+            }
         }
+
+        public void ProcessAllAfterDocumentRenderedHooks(ModifyHtmlArguments args)
+        {
+            foreach (var extension in RenderExtensions)
+            {
+                extension.AfterDocumentRendered(args);
+            }
+        }
+
+
+
+
+
+        
 
         public void LoadDefaultExtensions()
         {
             Current.RenderExtensions.Add(new MermaidRenderExtension());
             Current.RenderExtensions.Add(new MathRenderExtension());
         }
+
+      
     }
 }

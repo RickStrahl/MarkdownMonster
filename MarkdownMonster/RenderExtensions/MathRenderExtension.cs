@@ -7,19 +7,8 @@
     public class MathRenderExtension : IRenderExtension
     {
 
-        /// <summary>
-        /// Embeds the MathJax header and processes dynamically when the document is updated.
-        /// </summary>
-        /// <param name="html"></param>
-        /// <param name="markdown"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public string RenderHeader(string html, string markdown, MarkdownDocument document)
+        public void BeforeMarkdownRendered(ModifyMarkdownArguments args)
         {
-            if (markdown.Contains(" class=\"math\""))                
-                return MathJaxScript;
-
-            return null;
         }
 
 
@@ -29,17 +18,23 @@
         /// <param name="html"></param>
         /// <param name="markdown"></param>
         /// <param name="document"></param>
-        public void InsertContent(ref string html, string markdown, MarkdownDocument document)
+        public void AfterMarkdownRendered(ModifyHtmlAndHeadersArguments args)
         {
-
-        }
-
-        public void BeforeRender(ref string markdown, MarkdownDocument document)
-        {
+            if (args.Markdown.Contains(" class=\"math\""))
+                args.HeadersToEmbed = MathJaxScript;
         }
 
 
-        public bool ShouldProcessBeforeRender(string markdown, MarkdownDocument document) => false;
+        /// <summary>
+        /// After HTML has been rendered we need to make sure that
+        /// script is rendered into the header.
+        /// </summary>
+        /// <param name="args"></param>
+        public void AfterDocumentRendered(ModifyHtmlArguments args)
+        {
+            
+
+        }
 
         public const string MathJaxScript = @"
 <script type=""text/x-mathjax-config"">

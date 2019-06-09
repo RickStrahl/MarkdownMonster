@@ -16,48 +16,48 @@ namespace MarkdownMonster.RenderExtensions
     /// </summary>
     public class MermaidRenderExtension : IRenderExtension
     {
-        public string RenderHeader(string html, string markdown, MarkdownDocument document)
-        {
-            if (markdown.Contains(" class=\"mermaid\"") || markdown.Contains("\n```mermaid"))
-                return MermaidHeaderScript;
 
-            return null;
-        }
-
+        
         /// <summary>
-        /// Replace ```mermaid block with HTML equivalent
+        /// Add script block into the document
         /// </summary>
-        /// <param name="html"></param>
-        /// <param name="markdown"></param>
-        /// <param name="document"></param>
-        public void InsertContent(ref string html, string markdown, MarkdownDocument document)
+        /// <param name="args"></param>
+        public void AfterMarkdownRendered(ModifyHtmlAndHeadersArguments args)
         {
-
+            if (args.Markdown.Contains(" class=\"mermaid\"") || args.Markdown.Contains("\n```mermaid"))
+                args.HeadersToEmbed = MermaidHeaderScript;
         }
 
 
         /// <summary>
-        /// Check for ```markdown blocks and replace them with div blocks
+        /// Check for ```markdown blocks and replace them with DIV blocks
         /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="document"></param>
-        public void BeforeRender(ref string markdown, MarkdownDocument document)
-        {           
-
+        /// <param name="args"></param>
+        public void BeforeMarkdownRendered(ModifyMarkdownArguments args)
+        {
             while (true)
             {
-                string extract = StringUtils.ExtractString(markdown, "\n```mermaid", "```", returnDelimiters: true);
+                string extract = StringUtils.ExtractString(args.Markdown, "\n```mermaid", "```", returnDelimiters: true);
                 if (string.IsNullOrEmpty(extract))
                     break;
 
                 string newExtract = extract.Replace("```mermaid", "<div class=\"mermaid\">")
                     .Replace("```", "</div>");
 
-                markdown = markdown.Replace(extract, newExtract);
+                args.Markdown = args.Markdown.Replace(extract, newExtract);
             }
+        }
 
+        /// <summary>
+        /// Embed the Mermaid script link into the head of the page
+        /// </summary>
+        /// <param name="args"></param>
+        public void AfterDocumentRendered(ModifyHtmlArguments args)
+        {
 
         }
+
+
 
         private const string MermaidHeaderScript =
             @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.1.2/mermaid.min.js""></script>
