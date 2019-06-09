@@ -245,7 +245,7 @@ function updateDocumentContent(html, lineno) {
 
   highlightCode(lineno);
 
-  // Raise a previewUpdated event
+  // Raise a previewUpdated event on the document
   var event = document.createEvent("Event");
   event.initEvent("previewUpdated", false, true);
 

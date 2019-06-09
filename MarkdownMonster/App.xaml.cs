@@ -127,6 +127,7 @@ namespace MarkdownMonster
             if (_noStart)
                 return;
 
+#if false
             var dotnetVersion = MarkdownMonster.Utilities.mmWindowsUtils.GetDotnetVersion();
             if (string.Compare(dotnetVersion, "4.6.2", StringComparison.Ordinal) < 0)
             {
@@ -143,7 +144,7 @@ namespace MarkdownMonster
                 ShellUtils.GoUrl("https://www.microsoft.com/net/download/framework");
                 Environment.Exit(0);
             }
-
+#endif
 
             if (mmApp.Configuration.DisableHardwareAcceleration)
                 RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;

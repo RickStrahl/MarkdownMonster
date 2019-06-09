@@ -1,6 +1,7 @@
 ﻿cd "$PSScriptRoot" 
 & "$PSScriptRoot\CopyFiles.ps1"
 
+"Signing binaries..."
 & ".\signtool.exe" sign /v /n "West Wind Technologies" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\MarkdownMonster.exe"
 & ".\signtool.exe" sign /v /n "West Wind Technologies" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\Distribution\mm.exe"
 

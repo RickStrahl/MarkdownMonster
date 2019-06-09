@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		Install\Build.ps1 = Install\Build.ps1
 		Changelog.md = Changelog.md
+		Install\CopyFiles.ps1 = Install\CopyFiles.ps1
 		README.md = README.md
 		TipOfTheDay.md = TipOfTheDay.md
 		Todo.md = Todo.md

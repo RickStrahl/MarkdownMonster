@@ -1,23 +1,16 @@
 ﻿using Westwind.Utilities;
 
 namespace MarkdownMonster.RenderExtensions
-{
+{   
 
     /// <summary>
     /// Handles Mermaid charts based on one of two sytnax:
     ///
-    /// <div class="mermaid">
-    /// </div>
-    ///
-    /// or
-    ///
-    /// ```mermaid
-    /// ```
+    /// * Converts ```mermaid syntax into div syntax
+    /// * Adds the mermaid script from CDN
     /// </summary>
     public class MermaidRenderExtension : IRenderExtension
     {
-
-        
         /// <summary>
         /// Add script block into the document
         /// </summary>
@@ -27,8 +20,7 @@ namespace MarkdownMonster.RenderExtensions
             if (args.Markdown.Contains(" class=\"mermaid\"") || args.Markdown.Contains("\n```mermaid"))
                 args.HeadersToEmbed = MermaidHeaderScript;
         }
-
-
+        
         /// <summary>
         /// Check for ```markdown blocks and replace them with DIV blocks
         /// </summary>

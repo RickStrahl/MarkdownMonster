@@ -97,6 +97,7 @@ Markdown Monster provides many useful features:
 * External Browser preview
 * Presentation mode support
 * Distraction-free mode support
+* Document Navigation from embedded Markdown Links
 
 ### Image Features
 * Paste images from Clipboard
@@ -136,7 +137,6 @@ Markdown Monster provides many useful features:
 ### File Operations
 * Editor remembers open documents by default (optional)
 * Auto-Save and Auto-Backup support
-* Integrated file and folder browser
 * Many file common file operations on each file
     * Show in viewers
     * Edit in appropriate editors
@@ -145,6 +145,12 @@ Markdown Monster provides many useful features:
 * Save files with encryption
 * Drag and drop documents from Explorer and Folder Browser
 * Open a Terminal, Explorer or Git Client
+
+### Organization and File Access
+* Integrated File and Folder browser
+* Group files into Projects
+* Add files and folders into Favorites
+* Drag and Drop files everywhere
 
 ### Git Integration
 * Show Git Status in Folder Browser
