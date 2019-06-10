@@ -4,13 +4,20 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.17.6
-<small>not released yet</small>
+### 1.17.8
+<small>June 10th, 2019</small>
 
-* **Added Project Support**  
-You can now save the open document collection and folder browser configuration as a project. You can save and load projects.
+* **Project Support**  
+You can now save the open document collection and folder browser configuration as a project file (`.mdproj`). At a later point you can re-open the project and restore all the documents, document positions and the folder browser to the last point the project was saved. Once opened a project stays open and can be easily resaved.
 
-* **Fix: 
+* **[Updated RenderExtension Interface for Addins](https://markdownmonster.west-wind.com/docs/_5i30sba89.htm)**  
+Addins now get a much simpler `IRenderExtensions` interface that makes it easy to create an addin that provides customization to the HTML output by inspecting either the pre-render Markdown or post-render HTML.
+
+* **[Drag and Drop Documents between Instances](https://markdownmonster.west-wind.com/docs/_5i10rquxc.htm)**  
+You can now drag and drop documents between two open instances of Markdown Monster in addition to the new **Open in New Window** feature introduced in the last update.
+
+* **Fix: Excel icon in File Browser**  
+Add missing Excel icon in file browser.
 
 
 
