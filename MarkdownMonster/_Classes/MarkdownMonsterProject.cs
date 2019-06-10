@@ -27,6 +27,7 @@ namespace MarkdownMonster
                 OnPropertyChanged(nameof(Filename));
                 OnPropertyChanged(nameof(ProjectPath));
                 OnPropertyChanged(nameof(SaveProjectFilename));
+                OnPropertyChanged(nameof(IsEmpty));
             }
         }
         private string _Filename;

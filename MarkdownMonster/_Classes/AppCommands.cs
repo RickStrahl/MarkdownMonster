@@ -870,7 +870,10 @@ namespace MarkdownMonster
                     Model.Window.ShowStatusSuccess("Project file saved.");
                     Model.Configuration.LastFolder = Path.GetDirectoryName(filename);
                 }
-            }, (p, c) => !Model.ActiveProject.IsEmpty);
+
+                // force window title to update
+                Model.Window.SetWindowTitle();
+            }, (p, c) => true);
         }
 
         
@@ -885,8 +888,7 @@ namespace MarkdownMonster
             {
                 var window = Model.Window;
 
-                window.CloseAllTabs();
-
+              
                 string filename = null;
                 string folder = Model.Configuration.LastFolder;
 
@@ -930,7 +932,9 @@ namespace MarkdownMonster
                     window.OpenTab(filename);
                     return;
                 }
-                //WindowUtilities.DoEvents();
+                
+
+                window.CloseAllTabs();
 
                 window.batchTabAction = true;
 
