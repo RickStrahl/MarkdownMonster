@@ -7,18 +7,32 @@
 ### 1.17.8
 <small>June 10th, 2019</small>
 
-* **Project Support**  
+* **[Project Support](https://markdownmonster.west-wind.com/docs/_5i51e89dw.htm)**  
 You can now save the open document collection and folder browser configuration as a project file (`.mdproj`). At a later point you can re-open the project and restore all the documents, document positions and the folder browser to the last point the project was saved. Once opened a project stays open and can be easily resaved.
-
-* **[Updated RenderExtension Interface for Addins](https://markdownmonster.west-wind.com/docs/_5i30sba89.htm)**  
-Addins now get a much simpler `IRenderExtensions` interface that makes it easy to create an addin that provides customization to the HTML output by inspecting either the pre-render Markdown or post-render HTML.
 
 * **[Drag and Drop Documents between Instances](https://markdownmonster.west-wind.com/docs/_5i10rquxc.htm)**  
 You can now drag and drop documents between two open instances of Markdown Monster in addition to the new **Open in New Window** feature introduced in the last update.
 
+* **Refactored File Menu**  
+Broke out **Open From**, **Save To** and **Project** options into submenus to reduce clutter in the File menu.
+
+* **[Addins: Updated RenderExtension Interface for Addins](https://markdownmonster.west-wind.com/docs/_5i30sba89.htm)**  
+Addins now get a much simpler `IRenderExtensions` interface that makes it easy to create an addin that provides customization to the HTML output by inspecting either the pre-render Markdown or post-render HTML.
+
+* **Addins: Consolidated Window.OpenFile() to Open Documents Generically**  
+Addins have a new `Model.Window.OpenFile()` method they can use to open all sorts of documents in a generic fashion. Unlike `OpenTab()` which explcitly opens a new document tab, `OpenFile()` can open documents, images and external file formats. For example, `OpenFile()` can be used to open an `.mdproj` file as a project, a markdown document in the editor, an image in a preview tab, and a Word document via the Shell.
+
+* **Addins: New Document.RenderHtmlWithTemplate() method**  
+`MarkdownDocument` now has an additional method to create a full HTML document using the selected Preview Template into a string. This functionality was previously available only via parameter settings in `RenderHtmlToFile()`. Added for clarity.
+
+* **Fix: Preview Browser Initial Refresh**  
+Fixed bug where Preview Browser would occasionally not show unless another tab is activated. Traced to a selection timing bug and fixed.
+
 * **Fix: Excel icon in File Browser**  
 Add missing Excel icon in file browser.
 
+* **Fix: Folder Browser doesn't display files with leading `.`**  
+Fixed issue where files and folders starting with `.` were not displayed in the Folder Browser.
 
 
 ### 1.17.5
