@@ -22,7 +22,7 @@
             min-height: 140px;
         }
         #ContentContainer {
-            max-width: 970px;
+            max-width: 1000px;
         }
        
     </style>

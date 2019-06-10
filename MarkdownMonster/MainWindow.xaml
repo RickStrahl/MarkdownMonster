@@ -172,10 +172,11 @@
                 <Separator/>
                 <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="{Binding Commands.OpenDocumentCommand.KeyboardShortcut}"/>
 
-                <MenuItem Header="Open from">
+                <MenuItem Header="Open _From">
                     <MenuItem Name="ButtonOpenFromUrl" Header="Open from _Url" Command="{Binding Commands.OpenFromUrlCommand}" />
                     <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
-                    <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
+                    <Separator />
+                    <MenuItem  Header="Clone _Git Repository" Command="{Binding Commands.OpenFromGitRepoCommand}" />
                 </MenuItem>
 
                 <MenuItem Name="ButtonRecentFiles" Header="Recent Documents"

@@ -12,7 +12,8 @@ namespace MarkdownMonster.RenderExtensions
     /// into the document header prior to rendering.
     ///
     /// Use the `RenderExtensionsManager.Current.RenderExtensions.Add()` to
-    /// add any custom extensions you create.
+    /// add any custom extensions you create. Typically you do this in 
+    /// the `Addin.OnApplicationStart()` method.
     /// </summary>
     public interface IRenderExtension
     {
@@ -59,8 +60,6 @@ namespace MarkdownMonster.RenderExtensions
         }
 
         public string Markdown { get; set; }
-
-    
 
         public MarkdownDocument MarkdownDocument { get; }
     }
