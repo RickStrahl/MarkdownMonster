@@ -33,6 +33,23 @@ namespace MarkdownMonster
         private string _Filename;
         
 
+        /// <summary>
+        /// The active folder when the project is saved
+        /// </summary>
+        public string ActiveFolder { get; set; }
+
+        /// <summary>
+        /// Index of the sidebar that is active
+        /// </summary>
+        public int ActiveSidebarIndex { get; set; } = -1;
+
+        /// <summary>
+        /// A list of documents that were open when the project is saved
+        /// </summary>
+        public List<OpenFileDocument> OpenDocuments { get; set; } = new List<OpenFileDocument>();
+
+
+        #region Internally used Properties
 
         [JsonIgnore]
         public string SaveProjectFilename
@@ -65,17 +82,7 @@ namespace MarkdownMonster
         {
             get => string.IsNullOrEmpty(Filename);
         }
-
-        /// <summary>
-        /// The active folder when the project is saved
-        /// </summary>
-        public string ActiveFolder { get; set; }
-
-        /// <summary>
-        /// A list of documents that were open when the project is saved
-        /// </summary>
-        public List<OpenFileDocument> OpenDocuments { get; set; } = new List<OpenFileDocument>();
-
+        #endregion
 
         /// <summary>
         /// 

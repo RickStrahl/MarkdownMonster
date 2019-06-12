@@ -1123,18 +1123,26 @@ namespace MarkdownMonster
                 Model.Commands.LoadProjectCommand.Execute(filename);
                 return null;
             }
+            // Executables - don't execute but open in Explorer
+            if (StringUtils.Inlist(ext, ".exe", ".ps1", ".bat", ".cmd", ".vbs",".sh",".com",".reg"))
+            {
+                ShellUtils.OpenFileInExplorer(filename);
+                return null;
+            }
 
             
-            var tab = ActivateTab(filename, false, !selectTab, false, readOnly, isPreview);
-            if (tab != null)
-                return tab;
-
             string format = mmFileUtils.GetEditorSyntaxFromFileType(filename);
+
+            // Open a Tab for editable formats
             if (!string.IsNullOrEmpty(format))
             {
                 if (!noFocus && PreviewTab != null)
                     CloseTab(PreviewTab);
 
+
+                var tab = ActivateTab(filename, false, false,!showPreviewIfActive,!selectTab,noFocus,readOnly,isPreview);
+                if (tab != null)
+                    return tab;
                 return OpenTab(filename, editor, showPreviewIfActive, syntax, selectTab, rebindTabHeaders, batchOpen,
                     initialLineNumber, readOnly, noFocus, isPreview);
             }
