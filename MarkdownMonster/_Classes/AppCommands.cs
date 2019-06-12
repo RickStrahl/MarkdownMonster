@@ -856,6 +856,7 @@ namespace MarkdownMonster
                 }
 
                 Model.ActiveProject.Filename = filename;
+                Model.ActiveProject.ActiveSidebarIndex = Model.Window.SidebarContainer.SelectedIndex;
 
                 Model.ActiveProject.ActiveFolder = Model.Window.FolderBrowser.FolderPath;
                 if (string.IsNullOrEmpty(Model.ActiveProject.ActiveFolder))
@@ -993,6 +994,9 @@ namespace MarkdownMonster
                             activeFolder = Path.GetDirectoryName(project.Filename);
 
                         Model.Window.FolderBrowser.FolderPath = activeFolder;
+
+                        if (project.ActiveSidebarIndex > -1)
+                            Model.Window.SidebarContainer.SelectedIndex = project.ActiveSidebarIndex;
                     },
                     DispatcherPriority.ApplicationIdle);
 
