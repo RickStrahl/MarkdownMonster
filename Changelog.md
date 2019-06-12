@@ -4,6 +4,15 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.17.9
+<small>not released yet</small>
+
+* **Add Save Active Sidebar Tab to Project Save Operation**  
+When you save a project, the active Tab is now preserved along with the active documents and folder in the Folder Browser.
+
+* **Fix: Add additional File Types for Window.OpenFile()**
+Additional file format operations for the new generic OpenFile() operation. Specifically catch common executable operations and show file in Explorer rather than directly executing as an extra 'verification' step.
+
 ### 1.17.8
 <small>June 10th, 2019</small>
 
