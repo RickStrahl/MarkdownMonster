@@ -222,7 +222,7 @@ namespace MarkdownMonster.Utilities
             {".pptx", "ppt"},
             {".doc", "docx"},
             {".docx", "docx"},
-            {"xls","xls" },
+            {".xls","xls" },
             {".one", "onenote"},
             {".onenote", "onenote"},
             {".pdf", "pdf"},
@@ -230,6 +230,7 @@ namespace MarkdownMonster.Utilities
             // Scripts
             {".cshtml", "razor"},
             {".vbhtml", "razor"},
+            {".razor", "razor"},
             {".aspx", "aspx"},
             {".asax", "aspx"},
             {".asp", "aspx"},
@@ -309,10 +310,11 @@ namespace MarkdownMonster.Utilities
             {".ps1", "ps1"},
             {".dll", "bat"},
             {".exe", "bat"},
-            {".bat", "bat"},
-            {".cmd", "bat"},
-            {".sh", "bat"},
+            {".bat", "shell"},
+            {".cmd", "shell"},
+            {".sh", "shell"},
             {".zip", "zip"},
+            {".7z", "zip"},
             {".reg", "reg"}
 
         };
