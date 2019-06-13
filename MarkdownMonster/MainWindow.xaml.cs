@@ -1149,7 +1149,10 @@ namespace MarkdownMonster
 
             try
             {
-                ShellUtils.GoUrl(filename);
+                if (File.Exists(filename))
+                    ShellUtils.GoUrl(filename);
+                else
+                    ShowStatusError($"Can't open file {filename}. File doesn't exist.");
             }
             catch
             {
