@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
+using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -380,12 +382,16 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         public void ExecuteCommand(string command, params object[] args)
         {
-            if (command == "PreviewContextMenu")
+            if (command ==  "PreviewContextMenu")
             {
-                var ctm = WebBrowser.ContextMenu;
-                ctm.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-                ctm.PlacementTarget = WebBrowser;
-                ctm.IsOpen = true;
+                object parms = null;
+                if (args != null && args.Length > 0)
+                    parms = args[0];
+
+                var menu = new PreviewBrowserContextMenu();
+                menu.ShowContextMenu(new PositionAndDocumentType(parms),
+                    Window.Model,
+                    WebBrowser);
             }
 
             if (command == "PrintPreview")
@@ -397,6 +403,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
         #endregion
     }
+
 
 
 }
