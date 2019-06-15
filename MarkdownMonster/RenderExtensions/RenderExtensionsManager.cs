@@ -73,14 +73,13 @@ namespace MarkdownMonster.RenderExtensions
 
 
 
-
-
-        
-
         public void LoadDefaultExtensions()
         {
             Current.RenderExtensions.Add(new MermaidRenderExtension());
             Current.RenderExtensions.Add(new MathRenderExtension());
+
+            if (mmApp.Model.Configuration.MarkdownOptions.ParseDocFx)
+                Current.RenderExtensions.Add(new DocFxRenderExtension());
         }
 
       

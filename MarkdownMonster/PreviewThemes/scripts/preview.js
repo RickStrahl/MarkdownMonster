@@ -56,11 +56,26 @@ $(document).ready(function() {
 });
 
 $(document).on("contextmenu",
-    function() {
-        te.mmEditor.previewContextMenu({ Top: 1, Left: 1 });
+    function (e) {
+        var parm = { Top: 1, Left: 1, Id: '', Type: '', Src:'', Href: '' };
 
+        if (e.target) {
+            parm.Id = e.target.id;
+            parm.Type = e.target.nodeName;
+
+            if (e.target.src)
+                parm.Src = e.target.src;
+            if (e.target.href)
+                parm.Href = e.target.href;
+        }
+        
+        if (te.mmEditor) {
+            te.mmEditor.previewContextMenu(parm);
+            return false;
+        }
+        return true;
         // inside of WebBrowser control don't show context menu
-        return navigator.userAgent.indexOf("Trident") > -1 ? false : true;
+        //return navigator.userAgent.indexOf("Trident") > -1 ? false : true;
     });
 
 window.ondrop = function (event) {
