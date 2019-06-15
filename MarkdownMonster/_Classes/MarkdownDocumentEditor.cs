@@ -1737,76 +1737,6 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Pre-processing for HREF link clicks in the Preview document
-        ///
-        /// .md documents are navigated by opening
-        /// http links are navigated with Shell browsers if PreviewExternal is enabled
-        /// Addins can intercept and if return true handle navigation completely.
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns>true if the navigation is handled, false to continue letting app handle navigation</returns>
-        public bool PreviewLinkNavigation(string url, string src)
-        {
-            if (string.IsNullOrEmpty(url))
-                return false;
-
-            if (AddinManager.Current.RaiseOnPreviewLinkNavigation(url, src))
-                return true;
-
-            // file urls are fully qualified paths with file:/// syntax
-            var urlPath = url.Replace("file:///", "");
-            urlPath = StringUtils.UrlDecode(urlPath);
-            urlPath = FileUtils.NormalizePath(urlPath);
-
-            if (url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
-            {
-                if (mmApp.Configuration.PreviewHttpLinksExternal)
-                {
-                    ShellUtils.GoUrl(url);
-                    return true;
-                }
-            }
-            // it's a relative URL and ends with .md open in editor
-            else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) ||
-                     urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
-            {
-                bool linkHasAnchor = false;
-                if (urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    int numSignIndex = urlPath.IndexOf('#');
-                    urlPath = urlPath.Remove(numSignIndex);
-                    linkHasAnchor = true;
-                }
-
-                if (!File.Exists(urlPath))
-                {
-                    // relative path
-                    var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
-                    urlPath = Path.Combine(docPath, urlPath);
-                }
-
-                // full or relative path
-                if (File.Exists(urlPath))
-                {
-                    var tab = Window.ActivateTab(urlPath, openIfNotFound: true); // open or activate
-                    if (tab != null)
-                    {
-                        // TODO: This doesn't navigate the new tab's preview if false
-                        return !linkHasAnchor;  // let Preview Browser navigate to the anchor, if the link has one
-                    }
-                }
-            }
-            else
-            {
-                Window.OpenFile(urlPath);
-                return true;
-            }
-
-            // default browser behavior
-            return false;
-        }
-
-        /// <summary>
         /// Handle pasting and handle images
         /// </summary>
         public void PasteOperation()
@@ -1997,12 +1927,6 @@ namespace MarkdownMonster
             }
         }
 
-        public void PreviewContextMenu(dynamic position)
-        {
-            Window.PreviewBrowser.ExecuteCommand("PreviewContextMenu");
-        }
-
-
         /// <summary>
         /// Return keyboard bindings object as a JSON string so we can bind inside
         /// of the editor JavaScript
@@ -2016,6 +1940,85 @@ namespace MarkdownMonster
 
 #endregion
 
+
+#region Previewer Operations
+
+/// <summary>
+/// Pre-processing for HREF link clicks in the Preview document
+///
+/// .md documents are navigated by opening
+/// http links are navigated with Shell browsers if PreviewExternal is enabled
+/// Addins can intercept and if return true handle navigation completely.
+/// </summary>
+/// <param name="url"></param>
+/// <returns>true if the navigation is handled, false to continue letting app handle navigation</returns>
+public bool PreviewLinkNavigation(string url, string src)
+{
+    if (string.IsNullOrEmpty(url))
+        return false;
+
+    if (AddinManager.Current.RaiseOnPreviewLinkNavigation(url, src))
+        return true;
+
+    // file urls are fully qualified paths with file:/// syntax
+    var urlPath = url.Replace("file:///", "");
+    urlPath = StringUtils.UrlDecode(urlPath);
+    urlPath = FileUtils.NormalizePath(urlPath);
+
+    if (url.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || url.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
+    {
+        if (mmApp.Configuration.PreviewHttpLinksExternal)
+        {
+            ShellUtils.GoUrl(url);
+            return true;
+        }
+    }
+    // it's a relative URL and ends with .md open in editor
+    else if (urlPath.EndsWith(".md", StringComparison.InvariantCultureIgnoreCase) ||
+             urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
+    {
+        bool linkHasAnchor = false;
+        if (urlPath.Contains(".md#", StringComparison.InvariantCultureIgnoreCase))
+        {
+            int numSignIndex = urlPath.IndexOf('#');
+            urlPath = urlPath.Remove(numSignIndex);
+            linkHasAnchor = true;
+        }
+
+        if (!File.Exists(urlPath))
+        {
+            // relative path
+            var docPath = Path.GetDirectoryName(MarkdownDocument.Filename);
+            urlPath = Path.Combine(docPath, urlPath);
+        }
+
+        // full or relative path
+        if (File.Exists(urlPath))
+        {
+            var tab = Window.ActivateTab(urlPath, openIfNotFound: true); // open or activate
+            if (tab != null)
+            {
+                // TODO: This doesn't navigate the new tab's preview if false
+                return !linkHasAnchor;  // let Preview Browser navigate to the anchor, if the link has one
+            }
+        }
+    }
+    else
+    {
+        Window.OpenFile(urlPath);
+        return true;
+    }
+
+    // default browser behavior
+    return false;
+}
+
+public void PreviewContextMenu(object positionAndElementType)
+{
+    Window.PreviewBrowser.ExecuteCommand("PreviewContextMenu", positionAndElementType);
+}
+
+#endregion
 
 #region SpellChecking interactions
 
