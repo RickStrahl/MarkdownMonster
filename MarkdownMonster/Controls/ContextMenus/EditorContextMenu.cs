@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -341,7 +342,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                         };
                         mi.Click += (o, args) =>
                         {
-                            var image = StringUtils.ExtractString(val, "(", ")");
+                            var image = HttpUtility.UrlDecode(StringUtils.ExtractString(val, "(", ")"));
                             image = mmFileUtils.NormalizeFilenameWithBasePath(image,
                                 Path.GetDirectoryName(Model.ActiveDocument.Filename));
                             mmFileUtils.OpenImageInImageEditor(image);
