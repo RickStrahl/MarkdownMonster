@@ -22,8 +22,8 @@ namespace MarkdownMonster.RenderExtensions
 
         public void BeforeMarkdownRendered(ModifyMarkdownArguments args)
         {
-            args.Markdown = ParseDocFxIncludeFiles(args.Markdown);
-            args.Markdown = ParseNoteTipWarningImportant(args.Markdown);
+            ParseDocFxIncludeFiles(args);
+            ParseNoteTipWarningImportant(args);
         }
 
 
@@ -40,9 +40,10 @@ namespace MarkdownMonster.RenderExtensions
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>
-        protected string ParseDocFxIncludeFiles(string markdown)
+        protected void ParseDocFxIncludeFiles(ModifyMarkdownArguments args)
         {
-            var matches = includeFileRegEx.Matches(markdown);
+            var matches = includeFileRegEx.Matches(args.Markdown);
+
             foreach (Match match in matches)
             {
                 string value = match.Value;
@@ -82,10 +83,8 @@ namespace MarkdownMonster.RenderExtensions
                 markdownDocument.Load(includeFile);
                 string includeContent = markdownDocument.RenderHtml();
 
-                markdown = markdown.Replace(value, includeContent);
+                args.Markdown = args.Markdown.Replace(value, includeContent);
             }
-
-            return markdown;
         }
 
 
@@ -98,11 +97,14 @@ namespace MarkdownMonster.RenderExtensions
         /// </summary>
         /// <param name="markdown"></param>
         /// <returns></returns>
-        public string ParseNoteTipWarningImportant(string markdown)
+        /// <remarks>
+        /// Note: Markdown is expected to be in LineFeed only mode for line breaks (StringUtils.NormalizeLinefeeds()).
+        /// If you have CR/LF the value needs to be fixed up.  RenderExtensions automatically fix up inbound Markdown
+        /// to normalized linefeeds for rendering, but if you test locally make sure to pre-format the args.Markdown
+        /// </remarks>
+        public void ParseNoteTipWarningImportant(ModifyMarkdownArguments args)
         {
-            markdown =StringUtils.NormalizeLineFeeds(markdown, LineFeedTypes.Lf);
-
-            var matches = TipNoteWarningImportantFileRegEx.Matches(markdown);
+            var matches = TipNoteWarningImportantFileRegEx.Matches(args.Markdown);
             foreach(Match match in matches)
             {
                 string value = match.Value.Trim();
@@ -148,10 +150,8 @@ namespace MarkdownMonster.RenderExtensions
                 sb.AppendLine("</div>");
                 sb.AppendLine();
 
-                markdown = markdown.Replace(value, sb.ToString());
+                args.Markdown = args.Markdown.Replace(value, sb.ToString());
             }
-
-            return markdown;
         }
 
     }

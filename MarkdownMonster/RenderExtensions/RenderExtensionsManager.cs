@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MarkdownMonster.RenderExtensions
 {
@@ -26,7 +27,7 @@ namespace MarkdownMonster.RenderExtensions
 
 
         /// <summary>
-        /// Process all BeforeRender Extensions
+        /// Process all BeforeRenderMarkdown Extensions
         /// </summary>
         /// <param name="markdown"></param>
         /// <param name="document"></param>
@@ -34,7 +35,14 @@ namespace MarkdownMonster.RenderExtensions
         {
             foreach (var extension in RenderExtensions)
             {
-                extension.BeforeMarkdownRendered(args);
+                try
+                {
+                    extension.BeforeMarkdownRendered(args);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log($"BeforeMarkdownRendered RenderExtension failed: {extension.GetType().Name}", ex);
+                }
             }
         }
 
@@ -54,7 +62,14 @@ namespace MarkdownMonster.RenderExtensions
                 args.HeadersToEmbed = null;
 
                 // update html content using the ref HTML parameter
-                extension.AfterMarkdownRendered(args);
+                try
+                {
+                    extension.AfterMarkdownRendered(args);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log($"AfterMarkdownRendered RenderExtension failed: {extension.GetType().Name}", ex);
+                }
 
                 if (args.HeadersToEmbed != null)
                 {
@@ -67,10 +82,16 @@ namespace MarkdownMonster.RenderExtensions
         {
             foreach (var extension in RenderExtensions)
             {
-                extension.AfterDocumentRendered(args);
+                try
+                {
+                    extension.AfterDocumentRendered(args);
+                }
+                catch (Exception ex)
+                {
+                    mmApp.Log($"AfterDocumentRendered RenderExtension failed: {extension.GetType().Name}", ex);
+                }
             }
         }
-
 
 
         public void LoadDefaultExtensions()

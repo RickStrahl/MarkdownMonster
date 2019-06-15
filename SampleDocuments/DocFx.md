@@ -1,4 +1,8 @@
 ﻿
+[A link](#include-another-document)
+
+[Another Link](#math-expressions-using-mathjax)
+
 > [!WARNING]
 > This is some **Note Text**
 > that spreads across two lines

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MarkdownMonster.RenderExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Test
 {
@@ -15,7 +16,6 @@ namespace MarkdownMonster.Test
         [TestMethod]
         public void TipNoteWarningTest()
         {
-
             string markdown = @"
 > [!WARNING]
 > This is some Note Text
@@ -40,11 +40,15 @@ More text here
 ";
 
             var ext = new DocFxRenderExtension();
-            string resultMarkdown = ext.ParseNoteTipWarningImportant(markdown);
 
-            Assert.AreNotEqual(markdown, resultMarkdown);
+            markdown = StringUtils.NormalizeLineFeeds(markdown, LineFeedTypes.Lf);
 
-            Console.WriteLine(resultMarkdown);
+            var args = new ModifyMarkdownArguments {Markdown = markdown};
+            ext.ParseNoteTipWarningImportant(args);
+
+            Assert.AreNotEqual(markdown, args.Markdown);
+
+            Console.WriteLine(args.Markdown);
         }
         
     }

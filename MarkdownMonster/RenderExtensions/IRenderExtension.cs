@@ -20,6 +20,8 @@ namespace MarkdownMonster.RenderExtensions
         /// <summary>
         /// Method that is fired on the inbound pass before the document is rendered and that
         /// allows you to modify the *markdown* before it is sent out for rendering.
+        ///
+        /// Markdown text is in Linefeeds only (\n) mode.
         /// </summary>
         /// <param name="args">Arguments that allow you to update the markdown text
         ///  and also see the original document.
