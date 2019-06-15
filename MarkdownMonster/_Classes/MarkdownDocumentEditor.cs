@@ -2003,6 +2003,10 @@ public bool PreviewLinkNavigation(string url, string src)
             }
         }
     }
+    else if (src.StartsWith("#"))
+    {
+        return false; // let browser navigate
+    }
     else
     {
         Window.OpenFile(urlPath);
