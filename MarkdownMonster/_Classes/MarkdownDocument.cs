@@ -956,6 +956,8 @@ namespace MarkdownMonster
 
             if (string.IsNullOrEmpty(markdown))
                 return markdown;
+             
+            markdown = StringUtils.NormalizeLineFeeds(markdown, LineFeedTypes.Lf);
 
             OnBeforeDocumentRendered(ref markdown);
 
@@ -966,12 +968,12 @@ namespace MarkdownMonster
 
             if (!string.IsNullOrEmpty(PreviewWebRootPath))
             {
-                var path = FileUtils.AddTrailingSlash(PreviewWebRootPath).Replace("\\","/");
+                var path = FileUtils.AddTrailingSlash(PreviewWebRootPath).Replace("\\", "/");
                 markdown = markdown.Replace("](~/", "](" + path);
                 markdown = markdown.Replace("](/", "](" + path);
             }
 
-        // allow override of RenderScriptTags if set
+            // allow override of RenderScriptTags if set
             var oldAllowScripts = mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags;
             if (ProcessScripts)
                 mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = true;
@@ -980,11 +982,10 @@ namespace MarkdownMonster
 
             mmApp.Configuration.MarkdownOptions.AllowRenderScriptTags = oldAllowScripts;
 
-
             OnMarkdownRendered(ref html, ref markdown);
 
-
-            if (!noBanner && !string.IsNullOrEmpty(html) && !UnlockKey.Unlocked && mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
+            if (!noBanner && !string.IsNullOrEmpty(html) && !UnlockKey.Unlocked &&
+                mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
             {
                 html += @"
 <div style=""margin-top: 30px;margin-bottom: 10px;font-size: 0.8em;border-top: 1px solid #eee;padding-top: 8px;cursor: pointer;""
@@ -997,7 +998,6 @@ namespace MarkdownMonster
 </div>
 ";
             }
-
 
 
             return html;
