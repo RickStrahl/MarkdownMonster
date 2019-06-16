@@ -236,7 +236,7 @@ namespace MarkdownMonster
                         ((MarkdownDocumentEditor) urlTab.Tag).MarkdownDocument = doc;
                         Model.Window.PreviewMarkdownAsync();
                     }
-
+                    
                     return;
                 }
 
@@ -261,9 +261,10 @@ namespace MarkdownMonster
                 {
                     markdown = HttpUtils.HttpRequestString(url);
                 }
-                catch (System.Net.WebException ex)
+                catch (Exception ex)
                 {
                     Model.Window.ShowStatusError($"Can't open from url: {ex.Message}");
+                    mmApp.Log($"OpenFromUrl failed for {url}: {ex.Message}",ex);
                     return;
                 }
 
@@ -317,9 +318,9 @@ namespace MarkdownMonster
                 }
 
                 var tab = Model.Window.OpenTab("untitled");
-                ((MarkdownDocumentEditor) tab.Tag).MarkdownDocument.CurrentText = markdown;
+                var editor = tab.Tag as MarkdownDocumentEditor;
+                editor.SetMarkdown(markdown);
                 Model.Window.PreviewMarkdownAsync();
-
             });
         }
 
