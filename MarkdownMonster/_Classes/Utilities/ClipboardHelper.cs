@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading;
 using System.Windows;
+using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -18,6 +19,12 @@ namespace MarkdownMonster
     public static class ClipboardHelper
     {
         #region Fields and Consts
+
+        /// <summary>
+        /// Number of retry attempts when clipboard access fails
+        /// </summary>
+        private  static int RetyAttempts = 10;
+
 
         /// <summary>
         /// The string contains index references to  other spots in the string, so we need placeholders so we can compute the  offsets. <br/>
@@ -48,6 +55,8 @@ EndSelection:<<<<<<<<4";
         /// </summary>
         private static readonly char[] _byteCount = new char[1];
 
+
+        
         #endregion
 
 
@@ -283,7 +292,7 @@ EndSelection:<<<<<<<<4";
         public static string GetText()
         {
             int x = 0;
-            while (x++ < 10)
+            while (x++ < RetyAttempts)
             {
                 try
                 {
@@ -291,7 +300,7 @@ EndSelection:<<<<<<<<4";
                 }
                 catch
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(5);
                 }
             }
 
@@ -305,7 +314,7 @@ EndSelection:<<<<<<<<4";
         public static bool ContainsImage()
         {
             int x = 0;
-            while (x++ < 10)
+            while (x++ < RetyAttempts)
             {
                 try
                 {
@@ -313,7 +322,7 @@ EndSelection:<<<<<<<<4";
                 }
                 catch
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(5);
                 }
             }
 
@@ -327,7 +336,7 @@ EndSelection:<<<<<<<<4";
         public static bool ContainsText()
         {
             int x = 0;
-            while (x++ < 10)
+            while (x++ < RetyAttempts)
             {
                 try
                 {
@@ -335,7 +344,7 @@ EndSelection:<<<<<<<<4";
                 }
                 catch
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(5);
                 }
             }
 
