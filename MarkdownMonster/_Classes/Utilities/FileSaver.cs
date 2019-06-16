@@ -328,6 +328,7 @@ namespace MarkdownMonster.Utilities
                 }
                 catch
                 {
+                    // try different README variations
                     if (settings.Url.Contains("README.md"))
                         settings.Url = settings.Url.Replace("README.md", "readme.md");
                     else if (settings.Url.Contains("readme.md"))

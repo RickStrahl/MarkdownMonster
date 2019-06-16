@@ -98,14 +98,13 @@ namespace MarkdownMonster.Windows
                         Link = clipText;
                 }
             }
-
             if (string.IsNullOrEmpty(LinkText) && !string.IsNullOrEmpty(Link))
                 LinkText = Link;
 
             if (string.IsNullOrEmpty(LinkText))
-                this.TextLinkText.Focus();
+                TextLinkText.Focus();
             else
-                this.TextLink.Focus();
+                TextLink.Focus();
         }
 
         private void PasteHref_Activated(object sender, EventArgs e)

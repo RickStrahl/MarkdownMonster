@@ -41,8 +41,12 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal">
-            <CheckBox Name="CheckExternalLink" IsChecked="{Binding IsExternal}" Margin="0,12,0,0" Click="Checkbox_Handler">Open link in new window</CheckBox>
-            <CheckBox Name="CheckLinkReference" IsChecked="{Binding IsLinkReference}" Margin="30,12,0,0" Click="Checkbox_Handler">Link as a reference</CheckBox>
+            <CheckBox Name="CheckExternalLink" IsChecked="{Binding IsExternal}" Margin="0,12,0,0" 
+                      ToolTip="Adds a `target=_blank` tag to the link that always forces it to open externally."
+                      Click="Checkbox_Handler">Open link in new window</CheckBox>
+            <CheckBox Name="CheckLinkReference" IsChecked="{Binding IsLinkReference}" Margin="30,12,0,0" 
+                      ToolTip="Embeds the link as a reference Id rather than the image URL, and creates the refererence at the bottom of the document."
+                      Click="Checkbox_Handler">Link as a reference</CheckBox>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0 10">
