@@ -972,23 +972,10 @@ namespace MarkdownMonster
             config.OpenDocuments.Clear();
             if (mmApp.Configuration.RememberLastDocumentsLength > 0)
             {
-                // TODO: Try to isolate why this code is failing
                 IEnumerable<DragablzItem> headers = null;
                 try
                 {
-
-                    // Work around bug in Dragablz.GetOrderedHeaders() which throws occasional null exceptions
-                    //headers = TabControl.GetOrderedHeaders();
-                    //return this._dragablzItemsControl.ItemsOrganiser.Sort(this._dragablzItemsControl.DragablzItems());
-
-                    var control = ReflectionUtils.GetField(TabControl, "_dragablzItemsControl") as DragablzItemsControl;
-                    if (control == null)
-                        throw new InvalidOperationException("_dragablzItemsControl is null");
-
-                    var ditems = ReflectionUtils.CallMethod(control, "DragablzItems") as List<DragablzItem>;
-
-                    // TODO: Put proper null checks later and logic to return unordered list
-                    // Explicitly let this fail for now so we can report this issue better
+                    var ditems = GetDragablzItems();
                     headers = TabControl.HeaderItemsOrganiser.Sort(ditems);
                 }
                 catch(Exception ex)
