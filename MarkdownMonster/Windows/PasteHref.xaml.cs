@@ -87,9 +87,7 @@ namespace MarkdownMonster.Windows
         private void PasteHref_Activated(object sender, EventArgs e)
         {
             string clip = Clipboard.GetText(TextDataFormat.Text);
-            if (string.IsNullOrEmpty(Link) &&
-                clip.StartsWith("http://") || clip.StartsWith("https://") || clip.StartsWith("mail:") ||
-                clip.StartsWith("ftp://"))
+            if (IsLink(Link)) 
                 Link = clip;
         }
 
@@ -97,12 +95,12 @@ namespace MarkdownMonster.Windows
         {
             if (string.IsNullOrEmpty(Link))
             {
-                if (LinkText != null && LinkText.Contains("://") && !LinkText.Contains("\n"))
+                if (IsLink(Link))
                     Link = LinkText;
                 else
                 {
                     string clipText = Clipboard.GetText();
-                    if (clipText != null && clipText.Contains("://") && !clipText.Contains("\n"))
+                    if (IsLink(clipText))
                         Link = clipText;
                 }
             }
@@ -142,7 +140,7 @@ namespace MarkdownMonster.Windows
             var fd = new OpenFileDialog
             {
                 DefaultExt = ".html",
-                Filter = "Linkable Files (*.html,*.htm,*.md,*.pdf;*.zip)|*.html;*.htm;*.md;*.pdf;*.zip|All Files (*.*)|*.*",
+                Filter = "Linkable Files (*.html,*.htm,*.md,*.pdf;*.zip;.7z)|*.html;*.htm;*.md;*.pdf;*.zip;*.7z;|All Files (*.*)|*.*",
                 CheckFileExists = true,
                 RestoreDirectory = true,
                 Multiselect = false,
@@ -211,6 +209,27 @@ namespace MarkdownMonster.Windows
                 }
             }
 
+        }
+
+
+        private bool IsLink(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return false;
+
+            return text.StartsWith("http://") ||
+                   text.StartsWith("https://") ||
+                   text.StartsWith("mail:") ||
+                   text.StartsWith("ftp://") ||
+                   IsLinkHash(text);
+        }
+
+        private bool IsLinkHash(string text)
+        {
+            if (text == null || text.Length < 2 )
+                return false;
+            
+            return text[0] == '#' && !char.IsWhiteSpace(text[1]);
         }
     }
 }
