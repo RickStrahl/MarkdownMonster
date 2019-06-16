@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Web;
 using System.Windows.Controls;
+using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows.PreviewBrowser
@@ -80,7 +81,6 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     ClipboardHelper.SetText("#" + parms.Id);
                 };
                 ctm.Items.Add(mi);
-
             }
 
             if (!string.IsNullOrEmpty(parms.Src))
@@ -90,7 +90,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     ctm.Items.Add(new Separator());
                     separatorAdded = true;
                 }
-
+                
                 mi = new MenuItem()
                 {
                     Header = "Edit Image in Image editor"
@@ -103,6 +103,44 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     mmFileUtils.OpenImageInImageEditor(image);
                 };
                 ctm.Items.Add(mi);
+            }
+
+            if (!string.IsNullOrEmpty(parms.Href))
+            {
+                // Navigate relative hash links in the document
+                if (parms.Href.StartsWith("#") && parms.Href.Length > 1)
+                {
+                    if (!separatorAdded)
+                    {
+                        ctm.Items.Add(new Separator());
+                        separatorAdded = true;
+                    }
+
+                    var docModel = new DocumentOutlineModel();
+                    int lineNo = docModel.FindHeaderHeadline(model.ActiveEditor?.GetMarkdown(), parms.Href?.Substring(1));
+                    if (lineNo > -1)
+                    {
+                        mi = new MenuItem()
+                        {
+                            Header = "Jump to: " + parms.Href, CommandParameter = parms.Href.Substring(1)
+                        };
+                        mi.Click += (s, e) =>
+                        {
+                            var mitem = s as MenuItem;
+
+                            var anchor = mitem.CommandParameter as string;
+                            if (string.IsNullOrEmpty(anchor))
+                                return;
+
+                            docModel = new DocumentOutlineModel();
+                            lineNo = docModel.FindHeaderHeadline(model.ActiveEditor?.GetMarkdown(), anchor);
+
+                            if (lineNo != -1)
+                                model.ActiveEditor.GotoLine(lineNo);
+                        };
+                        ctm.Items.Add(mi);
+                    }
+                }
             }
 
 

@@ -66,7 +66,7 @@ $(document).on("contextmenu",
             if (e.target.src)
                 parm.Src = e.target.src;
             if (e.target.href)
-                parm.Href = e.target.href;
+                parm.Href = $(e.target).attr("href");
         }
         
         if (te.mmEditor) {
