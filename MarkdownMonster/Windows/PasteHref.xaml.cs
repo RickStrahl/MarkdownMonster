@@ -84,22 +84,16 @@ namespace MarkdownMonster.Windows
 
         }
 
-        private void PasteHref_Activated(object sender, EventArgs e)
-        {
-            string clip = Clipboard.GetText(TextDataFormat.Text);
-            if (IsLink(Link)) 
-                Link = clip;
-        }
-
+     
         private void PasteHref_Loaded(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(Link))
             {
-                if (IsLink(Link))
+                if (IsLink(LinkText))
                     Link = LinkText;
                 else
                 {
-                    string clipText = Clipboard.GetText();
+                    string clipText = ClipboardHelper.GetText();
                     if (IsLink(clipText))
                         Link = clipText;
                 }
@@ -112,6 +106,19 @@ namespace MarkdownMonster.Windows
                 this.TextLinkText.Focus();
             else
                 this.TextLink.Focus();
+        }
+
+        private void PasteHref_Activated(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(Link))
+            {
+                string clip = ClipboardHelper.GetText();
+                if (IsLink(clip))
+                {
+                    Link = clip;
+                    TextLink.SelectAll();
+                }
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
