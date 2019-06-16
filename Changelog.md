@@ -10,8 +10,27 @@
 * **Add Save Active Sidebar Tab to Project Save Operation**  
 When you save a project, the active Tab is now preserved along with the active documents and folder in the Folder Browser.
 
+*  **Add Copy Id to Clipboard in Preview Browser**  
+The Preview Browser context menu now has an option to capture the document id of the element under the cursor and to copy that value to the clipboard as `#doc-id-value`.
+
+* **Add Edit Image in Image Editor to Preview Browser**  
+The preview browser now lets you right click on an image in the editor and just to the configured image editor to edit the image.
+
+* **Support for DocFx Note/Warning/Tip/Caution etc** 
+Move DocFx Processing to DocFx Render Extension and add support for handling DocFx Note Blocks.
+
+* **Renamed `ParseDocFxIncludes` to `ParseDocFx` Config Setting**  
+Renamed the `Markdown.ParseDocFxIncludes` setting to `Markdown.ParseDocFx` to indicate that multiple DocFx features are rendered.
+
+* **Improved Hash Navigation in the Previewer**  
+Hash navigation is now intercepted more effectively and navigates the previewer and editor when you click a link. You can also use the context menu on a link in the Previewer to explicitly navigate to its hash source in the editor.
+
+* **Pick up Hash Links from Clipboard in the HREF Dialog**  
+In addition to automatically picking up URLs from the clipboard, the URL Dialog now also automatically detects and fills in Hash links (`#link-id`) for quick fill operations. You can use `Ctrl-K -> Ctrl-Enter` to quickly embed links if links or hashes are on the clipboard.
+
 * **Fix: Add additional File Types for Window.OpenFile()**
-Additional file format operations for the new generic OpenFile() operation. Specifically catch common executable operations and show file in Explorer rather than directly executing as an extra 'verification' step.
+Additional file format operations for the new generic `Window.OpenFile()` operation. Specifically catch common executables and show file in Explorer rather than directly executing as an extra 'verification' step.
+
 
 ### 1.17.8
 <small>June 10th, 2019</small>
