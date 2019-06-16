@@ -1419,12 +1419,14 @@ namespace MarkdownMonster
         /// </summary>
         public void PreviewMarkdownCallback(bool dontGetMarkdown = false, int editorLineNumber = -1)
         {
+            if (Window.PreviewBrowser == null) return;
+
             if (EditorSyntax != "markdown" && EditorSyntax != "html")
                 return;
 
             if (!dontGetMarkdown)
                 GetMarkdown();
-
+            
             //Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") + "  - Preview Markdown  called");
 
             Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true, editorLineNumber: editorLineNumber);
