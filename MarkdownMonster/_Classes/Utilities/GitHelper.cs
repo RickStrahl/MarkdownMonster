@@ -829,11 +829,12 @@ namespace MarkdownMonster.Utilities
             }
 
             var relPath = FileUtils.GetRelativePath(path, repo.Info.WorkingDirectory);
+            var gitPath = relPath.Replace("\\", "/");
 
             TreeEntry entry;
             try
             {
-                entry = repo.Head.Tip.Tree[relPath];
+                entry = repo.Head.Tip.Tree[gitPath];
             }
             catch
             {
@@ -843,7 +844,7 @@ namespace MarkdownMonster.Utilities
 
             if (entry == null)
             {
-                SetError("File has no previous commit data.");
+                SetError($"File {gitPath} has no previous commit data.");
                 return null;
             }
 

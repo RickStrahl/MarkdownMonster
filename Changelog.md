@@ -92,6 +92,9 @@ Fixed issue with *special single quotes* from Word Processors and other desktop 
 * **Fix: Browser Syncing not working after Preview Close**  
 On occasion when closing the preview and re-opening the preview would not longer sync to the editor or vice versa. A restart was request. Fixed.
 
+* **Fix: Preview Git Changes for files in subfolders**  
+Fix bug with 'Open in External Gif Tool' failing for files in subdirectories.
+
 
 ### 1.17
 <small>May 14th, 2019</small>
