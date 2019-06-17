@@ -23,6 +23,6 @@ Some other text
 > [!CAUTION]
 > Objects are closer *than they appear*. Move away.
 
-# Include another document's content
+# Include another document's content 
 
 [!include[Title](MathJax.md)]

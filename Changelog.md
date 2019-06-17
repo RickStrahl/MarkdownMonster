@@ -4,11 +4,42 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.17.9
-<small>not released yet</small>
+### 1.18
+<small>June 17th, 2019</small>
 
-* **Add Save Active Sidebar Tab to Project Save Operation**  
-When you save a project, the active Tab is now preserved along with the active documents and folder in the Folder Browser.
+
+* **[Project Support](https://markdownmonster.west-wind.com/docs/_5i51e89dw.htm)**  
+You can now save the open document collection and folder browser configuration as a project file (`.mdproj`). At a later point you can re-open the project and restore all the documents, document positions and the folder browser to the last point the project was saved. Once opened a project stays open and can be easily re-saved.
+
+* **Open in New Window**  
+Added context menu option on the editor tab to open a new instance of Markdown Monster with the current document loaded. This makes it easier to display multiple windows side by side for copying content between them.
+
+* **Support for DocFx Note/Warning/Tip/Caution etc** 
+Move DocFx Processing to DocFx Render Extension and add support for handling DocFx Note Blocks and DocFx Include File operations.
+
+* **Renamed `ParseDocFxIncludes` to `ParseDocFx` Config Setting**  
+Renamed the `Markdown.ParseDocFxIncludes` setting to `Markdown.ParseDocFx` to indicate that multiple DocFx features are rendered.
+
+* **Pick up Hash Links from Clipboard in the HREF Dialog**  
+In addition to automatically picking up URLs from the clipboard, the URL Dialog now also automatically detects and fills in Hash links (`#link-id`) for quick fill operations. You can use `Ctrl-K -> Ctrl-Enter` to quickly embed links if links or hashes are on the clipboard.
+
+* **[Drag and Drop Documents between Instances](https://markdownmonster.west-wind.com/docs/_5i10rquxc.htm)**  
+You can now drag and drop documents between two open instances of Markdown Monster in addition to the new **Open in New Window** feature introduced in the last update.
+
+* **Refactored File Menu**  
+Broke out **Open From**, **Save To** and **Project** options into submenus to reduce clutter in the File menu.
+
+* **New Documents open at the front of the TabList**
+Changed behavior that opens new tabs at the beginning of the list of tabs. This makes the newly opened documents more prominent if many tabs are open.
+
+* **Open common files in the Previewer with Shell**  
+If you link to local files in the editor MM now opens many common file formats in their respective applications. So a `.docx` file opens in Word, a .zip file in 7zip or WinZip. Some files are opened in Explorer and highlighted.
+
+* **Improved Hash Navigation in the Previewer**  
+Hash navigation is now intercepted more effectively and navigates the previewer and editor when you click a link. You can also use the context menu on a link in the Previewer to explicitly navigate to its hash source in the editor.
+
+* **Show Link Id in Document Outline Header Tooltip**  
+Document headers now show a tooltip for the link Id as preview of an Id that you can copy from the context menu.
 
 *  **Add Copy Id to Clipboard in Preview Browser**  
 The Preview Browser context menu now has an option to capture the document id of the element under the cursor and to copy that value to the clipboard as `#doc-id-value`.
@@ -16,33 +47,11 @@ The Preview Browser context menu now has an option to capture the document id of
 * **Add Edit Image in Image Editor to Preview Browser**  
 The preview browser now lets you right click on an image in the editor and just to the configured image editor to edit the image.
 
-* **Support for DocFx Note/Warning/Tip/Caution etc** 
-Move DocFx Processing to DocFx Render Extension and add support for handling DocFx Note Blocks.
+* **New `-newwindow` Command Line Option**  
+To make Open in New Window work, a new `-newwindow` Command Line option to force a new Markdown Monster instance to open regardless of the `SingleInstance` configuration option. When this option is used the window is opened with a single document and does not re-open previously opened windows.
 
-* **Renamed `ParseDocFxIncludes` to `ParseDocFx` Config Setting**  
-Renamed the `Markdown.ParseDocFxIncludes` setting to `Markdown.ParseDocFx` to indicate that multiple DocFx features are rendered.
-
-* **Improved Hash Navigation in the Previewer**  
-Hash navigation is now intercepted more effectively and navigates the previewer and editor when you click a link. You can also use the context menu on a link in the Previewer to explicitly navigate to its hash source in the editor.
-
-* **Pick up Hash Links from Clipboard in the HREF Dialog**  
-In addition to automatically picking up URLs from the clipboard, the URL Dialog now also automatically detects and fills in Hash links (`#link-id`) for quick fill operations. You can use `Ctrl-K -> Ctrl-Enter` to quickly embed links if links or hashes are on the clipboard.
-
-* **Fix: Add additional File Types for Window.OpenFile()**
-Additional file format operations for the new generic `Window.OpenFile()` operation. Specifically catch common executables and show file in Explorer rather than directly executing as an extra 'verification' step.
-
-
-### 1.17.8
-<small>June 10th, 2019</small>
-
-* **[Project Support](https://markdownmonster.west-wind.com/docs/_5i51e89dw.htm)**  
-You can now save the open document collection and folder browser configuration as a project file (`.mdproj`). At a later point you can re-open the project and restore all the documents, document positions and the folder browser to the last point the project was saved. Once opened a project stays open and can be easily resaved.
-
-* **[Drag and Drop Documents between Instances](https://markdownmonster.west-wind.com/docs/_5i10rquxc.htm)**  
-You can now drag and drop documents between two open instances of Markdown Monster in addition to the new **Open in New Window** feature introduced in the last update.
-
-* **Refactored File Menu**  
-Broke out **Open From**, **Save To** and **Project** options into submenus to reduce clutter in the File menu.
+* **New `-nosplash` Command Line Option**  
+You can now explicitly disable the splash screen via startup command. This startup switch overrides the `DisableSplashScreen` configuration setting.
 
 * **[Addins: Updated RenderExtension Interface for Addins](https://markdownmonster.west-wind.com/docs/_5i30sba89.htm)**  
 Addins now get a much simpler `IRenderExtensions` interface that makes it easy to create an addin that provides customization to the HTML output by inspecting either the pre-render Markdown or post-render HTML.
@@ -62,27 +71,8 @@ Add missing Excel icon in file browser.
 * **Fix: Folder Browser doesn't display files with leading `.`**  
 Fixed issue where files and folders starting with `.` were not displayed in the Folder Browser.
 
-
-### 1.17.5
-<small>June 4th, 2019</small>
-
-* **Open in New Window**  
-Added context menu option on the editor tab to open a new instance of Markdown Monster with the current document loaded. This makes it easier to display multiple windows side by side for copying content between them.
-
-* **New `-newwindow` Command Line Option**  
-To make Open in New Window work, a new `-newwindow` Command Line option to force a new Markdown Monster instance to open regardless of the `SingleInstance` configuration option. When this option is used the window is opened with a single document and does not re-open previously opened windows.
-
-* **New `-nosplash` Command Line Option**  
-You can now explicitly disable the splash screen via startup command. This startup switch overrides the `DisableSplashScreen` configuration setting.
-
-* **New Documents open at the front of the TabList**
-Changed behavior that opens new tabs at the beginning of the list of tabs. This makes the newly opened documents more prominent if many tabs are open.
-
-* **Show Link Id in Document Outline Header Tooltip**  
-Document headers now show a tooltip for the link Id as preview of an Id that you can copy from the context menu.
-
-* **Open common files in the Previewer with Shell**  
-If you link to local files in the editor MM now opens many common file formats in their respective applications. So a `.docx` file opens in Word, a .zip file in 7zip or WinZip. Some files are opened in Explorer and highlighted.
+* **Fix: Add additional File Types for Window.OpenFile()**
+Additional file format operations for the new generic `Window.OpenFile()` operation. Specifically catch common executables and show file in Explorer rather than directly executing as an extra 'verification' step.
 
 * **Fix: Weblog Endpoint Discovery doesn't block any longer**  
 EndPoint discovery was previously checking synchronously for discovery URLs. Apparently WordPress slows RPC/XML requests and these requests can be slow to respond. Switched to async code so UI doesn't lock.
