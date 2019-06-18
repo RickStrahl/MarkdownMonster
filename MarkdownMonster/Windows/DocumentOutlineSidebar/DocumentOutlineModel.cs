@@ -194,6 +194,10 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             var xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4]";
             var nodes = doc.DocumentNode.SelectNodes(xpath);
 
+            // nothing to do
+            if (nodes == null)
+                return null;
+
 
             var headers = new List<HeaderItem>();
             foreach (var node in nodes)
