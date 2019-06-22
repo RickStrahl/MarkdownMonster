@@ -4,9 +4,17 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+### 1.18.4
+<small>not released yet</small>
+
+* **Support for Cut, Copy, Paste of Files in Folder Browser**  
+The folder browser now supports cut, copy and paste operations for files both for files from the folder browser as well as to and from the Windows Shell/Explorer.
+
+* **Fix: Git Show in External Diff Tool**  
+Fixed bug that wouldn't show diffs for files in subfolders of the tree.
+
 ### 1.18
 <small>June 17th, 2019</small>
-
 
 * **[Project Support](https://markdownmonster.west-wind.com/docs/_5i51e89dw.htm)**  
 You can now save the open document collection and folder browser configuration as a project file (`.mdproj`). At a later point you can re-open the project and restore all the documents, document positions and the folder browser to the last point the project was saved. Once opened a project stays open and can be easily re-saved.
