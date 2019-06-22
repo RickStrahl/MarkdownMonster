@@ -104,6 +104,68 @@
 
                 cm.Items.Add(new Separator());
 
+
+                var ciOpen = new MenuItem() {Header = "Open"};
+                cm.Items.Add(ciOpen);
+
+                if (pathItem.IsImage)
+                {
+
+                    cm.Items.Add(new Separator());
+
+                    ci = new MenuItem();
+                    ci.Header = "Show Image";
+                    ci.Click += MenuShowImage_Click;
+                    cm.Items.Add(ci);
+
+                    ci = new MenuItem();
+                    ci.Header = "Edit Image";
+                    ci.Click += MenuEditImage_Click;
+                    cm.Items.Add(ci);
+
+                    ci = new MenuItem();
+                    ci.Header = "Optimize Image";
+                    ci.Click += MenuOptimizeImage_Click;
+                    cm.Items.Add(ci);
+
+                    cm.Items.Add(new Separator());
+                }
+                else
+                {
+                    if (pathItem.IsFile)
+                    {
+                        ci = new MenuItem();
+                        ci.Header = "Open in Editor";
+                        ci.Click += MenuOpenInEditor_Click;
+                        ciOpen.Items.Add(ci);
+                    }
+
+                    ci = new MenuItem();
+                    ci.Header = "Open in Shell";
+                    ci.Click += MenuOpenWithShell_Click;
+                    ciOpen.Items.Add(ci);
+                }
+
+
+                ci = new MenuItem();
+                ci.Header = "Open With...";
+                ci.Command = Model.Commands.OpenWithCommand;
+                ci.CommandParameter = pathItem.FullPath;
+                ciOpen.Items.Add(ci);
+
+                ciOpen.Items.Add(new Separator());
+
+                ci = new MenuItem();
+                ci.Header = "Open in Terminal";
+                ci.Click += MenuOpenTerminal_Click;
+                ciOpen.Items.Add(ci);
+
+                ci = new MenuItem();
+                ci.Header = "Show in Explorer";
+                ci.Click += MenuOpenInExplorer_Click;
+                ciOpen.Items.Add(ci);
+
+
                 ci = new MenuItem();
 
                 if (pathItem.DisplayName != "..")
@@ -150,11 +212,17 @@
                         ci.Click += MenuPasteFile_Click;
                         cm.Items.Add(ci);
                     }
+                    else if (Clipboard.ContainsImage())
+                    {
+                        ci = new MenuItem();
+                        ci.Header = "Paste Clipboard Image as File";
+                        ci.Command = Model.Commands.PasteImageToFileCommand;
+                        ci.CommandParameter = pathItem.FullPath;
+                        cm.Items.Add(ci);
+                    }
 
                     cm.Items.Add(new Separator());
                 }
-
-
 
                 ci = new MenuItem();
                 ci.Header = "Find Files";
@@ -170,72 +238,9 @@
 
                 cm.Items.Add(new Separator());
 
-                if (Clipboard.ContainsImage())
-                {
-                    cm.Items.Add(new Separator());
-                    ci = new MenuItem();
-                    ci.Header = "Paste Image File from Clipboard";
-                    ci.Command = Model.Commands.PasteImageToFileCommand;
-                    ci.CommandParameter = pathItem.FullPath;
-                    cm.Items.Add(ci);
-                    cm.Items.Add(new Separator());
-                }
 
 
-                if (pathItem.IsImage)
-                {
-                    ci = new MenuItem();
-                    ci.Header = "Show Image";
-                    ci.Click += MenuShowImage_Click;
-                    cm.Items.Add(ci);
 
-                    ci = new MenuItem();
-                    ci.Header = "Edit Image";
-                    ci.Click += MenuEditImage_Click;
-                    cm.Items.Add(ci);
-
-                    ci = new MenuItem();
-                    ci.Header = "Optimize Image";
-                    ci.Click += MenuOptimizeImage_Click;
-                    cm.Items.Add(ci);
-
-                }
-                else
-                {
-                    if (pathItem.IsFile)
-                    {
-                        ci = new MenuItem();
-                        ci.Header = "Open in Editor";
-                        ci.Click += MenuOpenInEditor_Click;
-                        cm.Items.Add(ci);
-                    }
-
-                    ci = new MenuItem();
-                    ci.Header = "Open in Shell";
-                    ci.Click += MenuOpenWithShell_Click;
-                    cm.Items.Add(ci);
-                }
-
-
-                ci = new MenuItem();
-                ci.Header = "Open With...";
-                ci.Command = Model.Commands.OpenWithCommand;
-                ci.CommandParameter = pathItem.FullPath;
-                cm.Items.Add(ci);
-
-                cm.Items.Add(new Separator());
-
-                ci = new MenuItem();
-                ci.Header = "Open in Terminal";
-                ci.Click += MenuOpenTerminal_Click;
-                cm.Items.Add(ci);
-
-                ci = new MenuItem();
-                ci.Header = "Show in Explorer";
-                ci.Click += MenuOpenInExplorer_Click;
-                cm.Items.Add(ci);
-
-                cm.Items.Add(new Separator());
 
 
                 bool isGit = false;
@@ -250,11 +255,14 @@
 
                 if (isGit)
                 {
+                    var ciGit = new MenuItem() { Header = "Git"};
+                    cm.Items.Add(ciGit);
+
                     ci = new MenuItem();
                     ci.Header = "Commit to _Git...";
                     ci.InputGestureText = "Ctrl-G";
                     ci.Click += MenuCommitGit_Click;
-                    cm.Items.Add(ci);
+                    ciGit.Items.Add(ci);
 
                     if (pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInIndex ||
                         pathItem.FileStatus == LibGit2Sharp.FileStatus.ModifiedInWorkdir)
@@ -263,7 +271,7 @@
                         ci.Header = "_Undo Changes in Git";
                         ci.InputGestureText = "Ctrl-Z";
                         ci.Click += MenuUndoGit_Click;
-                        cm.Items.Add(ci);
+                        ciGit.Items.Add(ci);
                     }
 
                     ci = new MenuItem();
@@ -271,7 +279,7 @@
                     ci.Click += MenuGitClient_Click;
                     ci.IsEnabled = Model.Configuration.Git.GitClientExecutable != null &&
                                    File.Exists(Model.Configuration.Git.GitClientExecutable);
-                    cm.Items.Add(ci);
+                    ciGit.Items.Add(ci);
 
                     if (pathItem.FileStatus != LibGit2Sharp.FileStatus.Nonexistent)
                     {
@@ -281,12 +289,13 @@
                             ci.Header = "Open on GitHub";
                             ci.Command = mmApp.Model.Commands.OpenOnGithubCommand;
                             ci.CommandParameter = pathItem.FullPath;
-                            cm.Items.Add(ci);
+                            ciGit.Items.Add(ci);
                         }
                     }
 
-                    cm.Items.Add(new Separator());
                 }
+
+                cm.Items.Add(new Separator());
 
                 ci = new MenuItem();
                 ci.Header = "Copy Path to Clipboard";

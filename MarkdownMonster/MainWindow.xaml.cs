@@ -581,15 +581,12 @@ namespace MarkdownMonster
 
             IsClosing = true;
 
-            FolderBrowser?.ReleaseFileWatcher();
-
+            // have to do this here to capture open windows etc. in SaveSettings()
+            mmApp.Configuration.ApplicationUpdates.AccessCount++;
             _previewBrowserWindow?.Close();
             _previewBrowserWindow = null;
-
-            bool isNewVersion = CheckForNewVersion(false, false);
-
-            mmApp.Configuration.ApplicationUpdates.AccessCount++;
-
+            PreviewBrowser = null;
+            PreviewBrowserContainer = null;
             SaveSettings();
 
             if (!CloseAllTabs())
@@ -597,10 +594,12 @@ namespace MarkdownMonster
                 // tab closing was cancelled
                 e.Cancel = true;
                 IsClosing = false;
+                mmApp.Configuration.ApplicationUpdates.AccessCount--;
                 return;
             }
-            PreviewBrowser = null;
-            PreviewBrowserContainer = null;
+
+            FolderBrowser?.ReleaseFileWatcher();
+            bool isNewVersion = CheckForNewVersion(false, false);
 
             var displayCount = 6;
             if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
