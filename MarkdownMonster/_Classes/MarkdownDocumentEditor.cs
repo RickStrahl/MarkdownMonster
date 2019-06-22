@@ -279,6 +279,32 @@ namespace MarkdownMonster
             SetMarkdown();
         }
 
+        /// <summary>
+        /// Handle dropping of files.
+        ///
+        /// Note: This only handles a single file drop. For multi-file drops
+        ///       drop on the window (toolbar for example)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WebBrowser_NavigatingAndDroppingFiles(object sender, NavigatingCancelEventArgs e)
+        {
+            var url = e.Uri.ToString().ToLower();
+
+            if (url.Contains("editor.htm") || url.Contains("editorsimple.htm"))
+                return; // continue navigating
+            
+            // otherwise we either handle or don't allow
+            e.Cancel = true;
+
+            // if it's a URL or ??? don't navigate
+            if (!e.Uri.IsFile)
+                return;
+
+            string file = e.Uri.LocalPath;
+
+            EmbedDroppedFileAsImage(file);
+        }
 
 
         /// <summary>
@@ -2134,31 +2160,7 @@ public void PreviewContextMenu(object positionAndElementType)
 
 #endregion
 
-        /// <summary>
-        /// Handle dropping of files
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void WebBrowser_NavigatingAndDroppingFiles(object sender, NavigatingCancelEventArgs e)
-        {
-            var url = e.Uri.ToString().ToLower();
-
-            if (url.Contains("editor.htm") || url.Contains("editorsimple.htm"))
-                return; // continue navigating
-
-            // otherwise we either handle or don't allow
-            e.Cancel = true;
-
-            // if it's a URL or ??? don't navigate
-            if (!e.Uri.IsFile)
-                return;
-
-            string file = e.Uri.LocalPath;
-
-            EmbedDroppedFileAsImage(file);
-        }
-
-        public override string ToString()
+public override string ToString()
         {
             return MarkdownDocument?.Filename ?? base.ToString();
         }

@@ -120,7 +120,41 @@
                     cm.Items.Add(ci);
 
                     cm.Items.Add(new Separator());
+
+                    ci = new MenuItem
+                    {
+                        Header = "Cut",
+                        ToolTip = "Cut currently selected file(s)",
+                        InputGestureText =  "Ctrl-X",
+                    };
+                    ci.Click += MenuCutFile_Click;
+                    cm.Items.Add(ci);
+
+                    ci = new MenuItem
+                    {
+                        Header = "Copy",
+                        ToolTip = "Copy currently selected file(s)",
+                        InputGestureText =  "Ctrl-C",
+                    };
+                    ci.Click += MenuCopyFile_Click;
+                    cm.Items.Add(ci);
+
+                    if (Clipboard.ContainsFileDropList())
+                    {
+                        ci = new MenuItem
+                        {
+                            Header = "Paste",
+                            InputGestureText = "Ctrl-V",
+                            ToolTip = "Paste copied files from the Folder Browser or Explorer into the current folder."
+                        };
+                        ci.Click += MenuPasteFile_Click;
+                        cm.Items.Add(ci);
+                    }
+
+                    cm.Items.Add(new Separator());
                 }
+
+
 
                 ci = new MenuItem();
                 ci.Header = "Find Files";
@@ -431,6 +465,88 @@
                     var tb = WindowUtilities.FindVisualChild<TextBox>(tvItem);
                     tb?.Focus();
                 }
+            }
+
+
+
+            public void MenuCopyFile_Click(object sender, RoutedEventArgs e)
+            {
+                FileBrowserCopyFile();
+            }
+            public void MenuCutFile_Click(object sender, RoutedEventArgs e)
+            {
+                FileBrowserCopyFile(true);
+            }
+            public void MenuPasteFile_Click(object sender, RoutedEventArgs e)
+            {
+                FileBrowserPasteFile();
+            }
+
+            public void FileBrowserCopyFile(bool isCut = false)
+            {
+                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                if (selected == null)
+                    return;
+
+                if (selected.IsEditing)
+                    return;
+
+                var files = new string[] {selected.FullPath};
+
+                IDataObject data = new DataObject(DataFormats.FileDrop, files);
+                MemoryStream memo = new MemoryStream(4);
+                byte[] bytes = new byte[]{(byte)(isCut ? 2 : 5), 0, 0, 0};
+                memo.Write(bytes, 0, bytes.Length);
+                data.SetData("Preferred DropEffect", memo);
+                Clipboard.SetDataObject(data);
+
+                Model.Window.ShowStatusSuccess("File copied to clipboard.");
+            }
+
+            public void FileBrowserPasteFile(){
+                var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                if (selected == null)
+                    return;
+
+                var data = Clipboard.GetDataObject();
+                if (selected.IsEditing && !data.GetDataPresent(DataFormats.FileDrop))
+                    return;
+
+                var dl = data.GetData(DataFormats.FileDrop) as string[];
+                var ms = data.GetData("Preferred DropEffect") as MemoryStream;
+                bool isCut = false;
+                if (ms != null)
+                {
+                    var bytes = ms.ToArray();
+                    if (bytes.Length == 4 && bytes[0] == 2 && bytes[1] == 0)
+                        isCut = true;
+                }
+
+                string path = selected.FullPath;
+                if (selected.IsFile)
+                    path = Path.GetDirectoryName(selected.FullPath);
+
+                foreach (var sourceFile in dl)
+                {
+                    string filename = Path.GetFileName(sourceFile);
+                    string targetFile = Path.Combine(path, filename);
+
+                    if (!isCut)
+                        File.Copy(sourceFile,targetFile, true );
+                    else
+                    {
+                        if (File.Exists(targetFile))
+                            File.Delete(targetFile);
+
+                        File.Move(sourceFile, targetFile);
+                    }
+                }
+
+                path = Path.GetDirectoryName(path);
+                if (isCut)
+                    Model.Window.ShowStatus($"{dl.Length} file(s) have been cut and copied into to {path}.");
+                else
+                    Model.Window.ShowStatus($"{dl.Length} file(s) have been copied into to {path}.");
             }
 
             #endregion

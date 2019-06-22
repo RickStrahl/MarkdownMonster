@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Web.UI;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,6 +17,7 @@ using MarkdownMonster.Controls;
 using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Utilities;
 using Westwind.Utilities;
+using UserControl = System.Windows.Controls.UserControl;
 
 
 namespace MarkdownMonster.Windows
@@ -657,6 +660,8 @@ namespace MarkdownMonster.Windows
 
         private void FolderBrowserGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            var selected = TreeFolderBrowser.SelectedItem as PathItem;
+
             if (e.Key == Key.F1)
             {
                 AppModel.Commands.HelpCommand.Execute("_4xs10gaui.htm");
@@ -674,7 +679,24 @@ namespace MarkdownMonster.Windows
                     SearchPanel.Visibility = Visibility.Collapsed;
                     TextSearch.Text = string.Empty;
                 }
+
+                e.Handled = true;
             }
+             // Copy File to 'clipboard'
+            else if ((e.Key == Key.C || e.Key == Key.X) && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                var menu = new FolderBrowserContextMenu(this);
+                menu.FileBrowserCopyFile( e.Key == Key.X);
+                e.Handled = true;
+            }
+            // Paste Files(s) from clipboard
+            else if (e.Key == Key.V && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                var menu = new FolderBrowserContextMenu(this);
+                menu.FileBrowserPasteFile();
+                e.Handled = true;
+            }
+
 
         }
 
@@ -686,7 +708,6 @@ namespace MarkdownMonster.Windows
                 HandleItemSelection(forceEditorFocus:true);
             }
         }
-
 
         private void TreeViewItem_MouseUpClick(object sender, MouseButtonEventArgs e)
         {
@@ -711,7 +732,7 @@ namespace MarkdownMonster.Windows
                 Window.OpenBrowserTab(filePath, isImageFile: true);
                 return;
             }
-          
+
 
             var tab = AppModel.Window.GetTabFromFilename(filePath);
             if(tab != null)
@@ -724,7 +745,7 @@ namespace MarkdownMonster.Windows
                 Window.RefreshTabFromFile(filePath, isPreview: true, noFocus: true);
             else if (ext == ".html" || ext == ".htm")
                 Window.OpenBrowserTab(filePath);
-            
+
 
         }
 
@@ -1039,7 +1060,6 @@ namespace MarkdownMonster.Windows
 
         private void TreeViewItem_Drop(object sender, DragEventArgs e)
         {
-
             PathItem targetItem = ActivePathItem;
 
 
