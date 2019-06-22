@@ -388,7 +388,7 @@ namespace MarkdownMonster
                 {
                     ShowFolderBrowser(false, file);
                 }
-               
+
                 // file is an .md file but doesn't exist but folder exists - create it
                 else if ((ext.Equals(".md", StringComparison.InvariantCultureIgnoreCase) ||
                           ext.Equals(".mkdown", StringComparison.InvariantCultureIgnoreCase) ||
@@ -572,8 +572,15 @@ namespace MarkdownMonster
             }
         }
 
+        private bool IsClosing = false;
+
         protected override void OnClosing(CancelEventArgs e)
         {
+            if (IsClosing)
+                return;
+
+            IsClosing = true;
+
             FolderBrowser?.ReleaseFileWatcher();
 
             _previewBrowserWindow?.Close();
@@ -589,6 +596,7 @@ namespace MarkdownMonster
             {
                 // tab closing was cancelled
                 e.Cancel = true;
+                IsClosing = false;
                 return;
             }
             PreviewBrowser = null;
@@ -605,13 +613,9 @@ namespace MarkdownMonster
                 mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
                 !UnlockKey.IsRegistered())
             {
-
-
                 var rd = new RegisterDialog(true);
                 rd.Owner = this;
-
-                //Top -= 10000; // hide by making transparent - hiding causes odd close behavior with MahApps at times
-
+                //Top -= 10000;
                 rd.ShowDialog();
             }
             else
@@ -622,16 +626,18 @@ namespace MarkdownMonster
             e.Cancel = false;
 
             // let window events catch up!
-            WindowUtilities.DoEvents();
+            //WindowUtilities.DoEvents();
+            Dispatcher.Invoke(() =>
+            {
+                AddinManager.Current.RaiseOnApplicationShutdown();
+                AddinManager.Current.UnloadAddins();
 
-            AddinManager.Current.RaiseOnApplicationShutdown();
-            AddinManager.Current.UnloadAddins();
+                if (App.Mutex != null)
+                    App.Mutex.Dispose();
 
-            if (App.Mutex != null)
-                App.Mutex.Dispose();
-
-            PipeManager?.WaitForThreadShutDown(5000);
-            mmApp.Shutdown();
+                PipeManager?.WaitForThreadShutDown(5000);
+                mmApp.Shutdown();
+            },DispatcherPriority.ApplicationIdle);
         }
 
         public void AddRecentFile(string file, bool noConfigWrite = false)
@@ -901,7 +907,7 @@ namespace MarkdownMonster
 
                         // have to explicitly notify initial activation
                         // since we surpress it on all tabs during startup
-                        
+
                         AddinManager.Current.RaiseOnDocumentActivated(editor.MarkdownDocument);
                     }
                 }
@@ -1117,7 +1123,7 @@ namespace MarkdownMonster
                 return null;
             }
 
-            
+
             string format = mmFileUtils.GetEditorSyntaxFromFileType(filename);
 
             // Open a Tab for editable formats
@@ -1380,8 +1386,8 @@ namespace MarkdownMonster
             return tab;
         }
 
-        
-       
+
+
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -2231,11 +2237,11 @@ namespace MarkdownMonster
                     //var dragData = new DataObject(DataFormats.UnicodeText, editor.MarkdownDocument.Filename);
                     var files = new[] {editor.MarkdownDocument.Filename} ;
                     var dragData = new DataObject(DataFormats.FileDrop,files);
-                
+
                     var fav = FavoritesTab.Content as FavoritesControl;
                     if (fav != null)
                         fav.IsDragging = true;  // notify that we're ready to drop on favorites potentially
-                    
+
                     DragDrop.DoDragDrop(drag, dragData, DragDropEffects.Copy);
 
                     _dragablzStartPoint.Y = 0;
@@ -2645,7 +2651,7 @@ namespace MarkdownMonster
                 {
                     ShowStatusSuccess("Your version of Markdown Monster is up to date.");
                     MessageBox.Show(
-                        "Your version of Markdown Monster is v" + mmApp.GetVersion() + " and you are up to date.",
+                        "Your version of Markdown Monster is v" + mmApp.GetVersion() + "\r\nand you are up to date.",
                         mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
