@@ -486,6 +486,8 @@
             {
                 var selected = TreeFolderBrowser.SelectedItem as PathItem;
                 if (selected == null)
+                    selected = Model.Window.FolderBrowser.ActivePathItem;
+                if (selected == null)
                     return;
 
                 if (selected.IsEditing)
@@ -500,11 +502,16 @@
                 data.SetData("Preferred DropEffect", memo);
                 Clipboard.SetDataObject(data);
 
+                if (isCut)
+                    selected.IsCut = true;
+
                 Model.Window.ShowStatusSuccess("File copied to clipboard.");
             }
 
             public void FileBrowserPasteFile(){
                 var selected = TreeFolderBrowser.SelectedItem as PathItem;
+                if (selected == null)
+                    selected = Model.Window.FolderBrowser.ActivePathItem;
                 if (selected == null)
                     return;
 

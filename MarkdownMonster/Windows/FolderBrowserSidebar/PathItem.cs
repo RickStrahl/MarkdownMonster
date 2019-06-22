@@ -75,7 +75,7 @@ namespace MarkdownMonster.Windows
 	    private bool _isFile;
 
 
-	    
+
 	    public bool IsVisible
 	    {
 	        get { return _isVisible; }
@@ -145,6 +145,19 @@ namespace MarkdownMonster.Windows
             }
 		}
 		private bool _isSelected;
+
+
+        public bool IsCut
+        {
+            get { return _IsCut; }
+            set
+            {
+                if (value == _IsCut) return;
+                _IsCut = value;
+                OnPropertyChanged(nameof(IsCut));
+            }
+        }
+        private bool _IsCut;
 
 
 

@@ -42,6 +42,9 @@
                                     <DataTrigger Binding="{Binding IsExpanded}" Value="False">
                                         <Setter Property="Source" Value="{Binding Icon}"/>
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsCut}" Value="True">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Image.Style>
@@ -61,6 +64,9 @@
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsFolder}" Value="False">
                                     <Setter Property="FontWeight" Value="Normal"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsCut}" Value="True">
+                                    <Setter Property="Opacity" Value="0.5"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
