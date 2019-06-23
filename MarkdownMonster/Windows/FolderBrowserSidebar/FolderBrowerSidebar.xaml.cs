@@ -270,7 +270,10 @@ namespace MarkdownMonster.Windows
                     // does the path exist?
                     var parentPathItem =
                         FolderStructure.FindPathItemByFilename(ActivePathItem, Path.GetDirectoryName(file));
-                    if (parentPathItem == null) // path is not expanced yet
+
+                    // Path either doesn't exist or is not expanded yet so don't attach - opening will trigger
+                    if (parentPathItem == null ||
+                        (parentPathItem.Files.Count == 1 && parentPathItem.Files[0] == PathItem.Empty) )
                         return;
 
                     bool isFolder = Directory.Exists(file);

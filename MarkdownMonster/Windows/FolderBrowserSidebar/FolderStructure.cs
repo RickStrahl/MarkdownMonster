@@ -13,9 +13,9 @@ namespace MarkdownMonster.Windows
 	{
 	    internal static AssociatedIcons IconList = new AssociatedIcons();
 
-        
+
 		/// <summary>
-		/// Gets a folder hierarchy and attach to an existing folder item or 
+		/// Gets a folder hierarchy and attach to an existing folder item or
 		/// </summary>
 		/// <param name="baseFolder">The folder for which to retrieve files for</param>
 		/// <param name="parentPathItem">The parent item to which the retrieved files are attached</param>
@@ -50,8 +50,8 @@ namespace MarkdownMonster.Windows
                 };
 			    if (mmApp.Configuration.FolderBrowser.ShowIcons)
 			    {
-			        activeItem.SetIcon();			        
-			    }                
+			        activeItem.SetIcon();
+			    }
 			}
 			else
 			{
@@ -63,10 +63,10 @@ namespace MarkdownMonster.Windows
 
 			try
 			{
-				folders = Directory.GetDirectories(baseFolder);			   
+				folders = Directory.GetDirectories(baseFolder);
 			}
 			catch { }
-            
+
 			if (folders != null)
 			{
                 foreach (var folder in folders.OrderBy(f=> f.ToLower()))
@@ -92,10 +92,11 @@ namespace MarkdownMonster.Windows
 				        folderPath.SetIcon();
 				    activeItem.Files.Add(folderPath);
 
-                    if (!nonRecursive)				        
+                    if (!nonRecursive)
                         GetFilesAndFolders(folder, folderPath, ignoredFolders);
                     else
 				    {
+                        // Add an empty path item to a path so it shows as an expandable node
 				        folderPath.Files.Add(PathItem.Empty);
 				    }
 				}
@@ -104,7 +105,7 @@ namespace MarkdownMonster.Windows
 			string[] files = null;
 			try
 			{
-				files = Directory.GetFiles(baseFolder);			    
+				files = Directory.GetFiles(baseFolder);
             }
             catch { }
 
@@ -112,19 +113,19 @@ namespace MarkdownMonster.Windows
 			{
                 // Skip Extensions
                 string[] extensions = null;
-			    if (!string.IsNullOrEmpty(ignoredFileExtensions))			    
+			    if (!string.IsNullOrEmpty(ignoredFileExtensions))
 			        extensions = ignoredFileExtensions.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-			                        
+
 				foreach (var file in files.OrderBy(f=> f.ToLower()))
 				{
                     if (extensions != null &&
                         extensions.Any(ext => file.EndsWith(ext,StringComparison.InvariantCultureIgnoreCase)))
                         continue;
-                    
+
                     var item = new PathItem {FullPath = file, Parent = activeItem, IsFolder = false, IsFile = true};
 				    if (mmApp.Configuration.FolderBrowser.ShowIcons)
 				        item.Icon = IconList.GetIconFromFile(file);
-                    
+
 				    activeItem.Files.Add(item);
 				}
 			}
@@ -139,7 +140,7 @@ namespace MarkdownMonster.Windows
 		        parentFolder.SetIcon();
 		        activeItem.Files.Insert(0, parentFolder);
 		    }
-            
+
 		    return activeItem;
 		}
 
@@ -211,7 +212,7 @@ namespace MarkdownMonster.Windows
 
             // then directories recursively
             foreach (var item in parent.Files.Where(pi => pi.IsFolder))
-            {                
+            {
                 if (item.FullPath.Equals(fullName,StringComparison.InvariantCultureIgnoreCase))
                     return item;
 
@@ -220,7 +221,7 @@ namespace MarkdownMonster.Windows
 	                var childItem = FindPathItemByFilename(item, fullName);
                     if (childItem != null)
                         return childItem;
-	            } 
+	            }
 	        }
 
             return null;
@@ -232,7 +233,7 @@ namespace MarkdownMonster.Windows
         /// <param name="pi"></param>
         /// <param name="parent"></param>
 	    public void InsertPathItemInOrder(PathItem pi, PathItem parent)
-	    {            
+	    {
             int foundIndex = -1;
 	        foreach (var pitem in parent.Files)
 	        {
@@ -242,7 +243,7 @@ namespace MarkdownMonster.Windows
 	            foundIndex++;
 	            if (pitem.IsFolder && !pi.IsFolder || !pitem.IsFolder && pi.IsFolder)
 	                continue;
-               
+
 	            if (string.Compare(pi.FullPath,pitem.FullPath,StringComparison.InvariantCultureIgnoreCase) < 0)
 	                break;
 	        }
@@ -266,7 +267,7 @@ namespace MarkdownMonster.Windows
             if (searchText == null)
                 searchText = string.Empty;
 	        searchText = searchText.ToLower();
-            
+
             // no items below
 	        if (pathItem.Files.Count == 1 && pathItem.Files[0] == PathItem.Empty)
 	        {
@@ -284,8 +285,8 @@ namespace MarkdownMonster.Windows
 	        }
 
 	        foreach (var pi in pathItem.Files)
-	        {                
-	            if (string.IsNullOrEmpty(searchText) || pi.FullPath == "..")	            
+	        {
+	            if (string.IsNullOrEmpty(searchText) || pi.FullPath == "..")
 	            {
 	                pi.IsVisible = true;
                     pi.IsExpanded = false;
@@ -310,7 +311,7 @@ namespace MarkdownMonster.Windows
 	            if (pi.IsFolder && recursive)
 	                SetSearchVisibility(searchText, pi, recursive);
 	        }
-            
+
 	    }
 
 

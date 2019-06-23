@@ -547,6 +547,12 @@
                     string filename = Path.GetFileName(sourceFile);
                     string targetFile = Path.Combine(path, filename);
 
+                    if (sourceFile == targetFile)
+                    {
+                        Model.Window.ShowStatusError("Can't copy file: Source and target are the same.");
+                        return;
+                    }
+
                     if (!isCut)
                         File.Copy(sourceFile,targetFile, true );
                     else

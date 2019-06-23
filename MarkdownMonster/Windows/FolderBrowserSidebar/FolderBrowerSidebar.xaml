@@ -62,9 +62,9 @@
                                 <DataTrigger Binding="{Binding IsFolder}" Value="True">
                                     <Setter Property="FontWeight" Value="SemiBold"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding IsFolder}" Value="False">
-                                    <Setter Property="FontWeight" Value="Normal"/>
-                                </DataTrigger>
+                                <!-- <DataTrigger Binding="{Binding IsFolder}" Value="False"> -->
+                                <!--     <Setter Property="FontWeight" Value="Normal"/> -->
+                                <!-- </DataTrigger> -->
                                 <DataTrigger Binding="{Binding IsCut}" Value="True">
                                     <Setter Property="Opacity" Value="0.5"/>
                                 </DataTrigger>
