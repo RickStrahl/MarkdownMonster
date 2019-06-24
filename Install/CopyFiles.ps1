@@ -16,7 +16,7 @@ edpnotify.exe
 remove-item -recurse -force ${target}
 
 # copy but exclude libGit extra folders
-robocopy ${source} ${target} /MIR /XD lib /XD runtimes
+robocopy ${source} ${target} /MIR /XD lib /XD runtimes 
 
 if ($netfull) {
     robocopy ${source}\lib\win32 ${target}\lib\win32 /MIR /XF *.pdb
