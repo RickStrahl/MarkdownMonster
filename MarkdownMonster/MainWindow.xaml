@@ -263,7 +263,25 @@
                           Command="{Binding Commands.RemoveMarkdownFormattingCommand}"
                           ToolTip="Removes Markdown formatting from a selection." 
                           InputGestureText="{Binding Commands.RemoveMarkdownFormattingCommand.KeyboardShortcut}" />
+                
+                <MenuItem Header="Speak">
+                    <MenuItem Header="Speak Selection"  
+                              Command="{Binding Commands.Speech.SpeakSelectionCommand}"
+                              ToolTip="Speaks the current editor selection using your default audio device." />
+                    <MenuItem Header="Speak Document"  
+                              Command="{Binding Commands.Speech.SpeakDocumentCommand}"
+                              ToolTip="Speaks the entire document in the editor." />
+                    <MenuItem Header="Speak Text from Clipboard"  
+                              Command="{Binding Commands.Speech.SpeakFromClipboardCommand}"
+                              ToolTip="Speaks the entire document in the editor." />
+                    <Separator />
+                    <MenuItem Header="Stop Speaking"  
+                              Command="{Binding Commands.Speech.CancelSpeakCommand}"
+                              ToolTip="Stops any active speaking operation." />
+                </MenuItem>
+                
                 <Separator />
+                
                 <MenuItem Name="Button_Spellcheck" Header="Toggle _Spellchecking" Command="{Binding Commands.SpellCheckCommand}"  
                           IsCheckable="True"                          
                           IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"/>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Speech.Synthesis;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Dragablz;
 using FontAwesome.WPF;
+using Markdig;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Favorites;
 using MarkdownMonster.Utilities;
@@ -24,6 +26,8 @@ namespace MarkdownMonster
         AppCommands
     {
         AppModel Model;
+
+        public SpeechCommands Speech { get;  }
 
         public AppCommands(AppModel model)
         {
@@ -100,7 +104,6 @@ namespace MarkdownMonster
             CopyFolderToClipboard();
             CopyFullPathToClipboard();
             TabControlFileList();
-
             PasteImageToFile(); // folder browser
 
             // Git
@@ -119,6 +122,7 @@ namespace MarkdownMonster
             ToggleFolderBrowser();
             OpenFolderBrowser();
 
+            Speech = new SpeechCommands(model);
 
 #if DEBUG
             TestButton();
@@ -131,18 +135,14 @@ namespace MarkdownMonster
 #endif
         }
 
-#region Files And File Management
+        #region Files And File Management
 
         public CommandBase NewDocumentCommand { get; set; }
 
         void NewDocument()
         {
-
             // NEW DOCUMENT COMMAND (ctrl-n)
-            NewDocumentCommand = new CommandBase((s, e) =>
-            {
-                Model.Window.OpenTab("untitled");
-            });
+            NewDocumentCommand = new CommandBase((s, e) => { Model.Window.OpenTab("untitled"); });
         }
 
         public CommandBase OpenDocumentCommand { get; set; }
@@ -182,10 +182,10 @@ namespace MarkdownMonster
                     RestoreDirectory = true,
                     Multiselect = true,
                     Title = "Open Markdown File"
-
                 };
 
-                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder) && Directory.Exists(mmApp.Configuration.LastFolder))
+                if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder) &&
+                    Directory.Exists(mmApp.Configuration.LastFolder))
                     fd.InitialDirectory = mmApp.Configuration.LastFolder;
 
                 bool? res = null;
@@ -203,6 +203,7 @@ namespace MarkdownMonster
                         MessageBoxImage.Error);
                     return;
                 }
+
                 if (res == null || !res.Value)
                     return;
 
@@ -210,7 +211,6 @@ namespace MarkdownMonster
                 {
                     Model.Window.OpenTab(filename, rebindTabHeaders: true);
                 }
-
             });
         }
 
@@ -236,7 +236,7 @@ namespace MarkdownMonster
                         ((MarkdownDocumentEditor) urlTab.Tag).MarkdownDocument = doc;
                         Model.Window.PreviewMarkdownAsync();
                     }
-                    
+
                     return;
                 }
 
@@ -264,7 +264,7 @@ namespace MarkdownMonster
                 catch (Exception ex)
                 {
                     Model.Window.ShowStatusError($"Can't open from url: {ex.Message}");
-                    mmApp.Log($"OpenFromUrl failed for {url}: {ex.Message}",ex);
+                    mmApp.Log($"OpenFromUrl failed for {url}: {ex.Message}", ex);
                     return;
                 }
 
@@ -325,7 +325,6 @@ namespace MarkdownMonster
         }
 
 
-
         public CommandBase SaveCommand { get; set; }
 
         void Save()
@@ -361,7 +360,8 @@ namespace MarkdownMonster
 
                 if (!UnlockKey.Unlocked && isEncrypted)
                 {
-                    UnlockKey.ShowPremiumDialog("Encrypted File Saving", "https://markdownmonster.west-wind.com/docs/_5fd0qopxq.htm");
+                    UnlockKey.ShowPremiumDialog("Encrypted File Saving",
+                        "https://markdownmonster.west-wind.com/docs/_5fd0qopxq.htm");
                     return;
                 }
 
@@ -431,10 +431,7 @@ namespace MarkdownMonster
                     doc.MarkdownDocument.Password = null;
                 else
                 {
-                    var pwdDialog = new FilePasswordDialog(doc.MarkdownDocument, false)
-                    {
-                        Owner = Model.Window
-                    };
+                    var pwdDialog = new FilePasswordDialog(doc.MarkdownDocument, false) {Owner = Model.Window};
                     bool? pwdResult = pwdDialog.ShowDialog();
                 }
 
@@ -449,15 +446,13 @@ namespace MarkdownMonster
                         SaveAsCommand.Execute(tab);
                         return;
                     }
+
                     mmApp.Configuration.LastFolder = Path.GetDirectoryName(sd.FileName);
                 }
 
                 Model.Window.SetWindowTitle();
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
-            }, (s, e) =>
-            {
-                return Model.IsEditorActive;
-            });
+            }, (s, e) => { return Model.IsEditorActive; });
         }
 
         public CommandBase SaveAllCommand { get; set; }
@@ -491,7 +486,6 @@ namespace MarkdownMonster
         {
             NewWeblogPostCommand = new CommandBase((parameter, command) =>
             {
-
                 AddinManager.Current.RaiseOnNotifyAddin("newweblogpost", null);
             });
         }
@@ -535,7 +529,6 @@ namespace MarkdownMonster
                 }
             });
         }
-
 
 
         public CommandBase SaveAsHtmlCommand { get; set; }
@@ -605,8 +598,6 @@ namespace MarkdownMonster
                     }
 
 
-
-
                     try
                     {
                         Model.Window.ShowStatus("Packing HTML File. This can take a little while.",
@@ -625,7 +616,6 @@ namespace MarkdownMonster
                                 "Unable to save Document", MessageBoxButton.OK, MessageBoxImage.Warning);
                             SaveAsHtmlCommand.Execute(null);
                             return;
-
                         }
 
                         if (sd.FilterIndex == 2) // single file
@@ -633,13 +623,15 @@ namespace MarkdownMonster
                             var basePath = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
                             packageResult = packager.PackageHtmlToFile(sd.FileName, sd.FileName, basePath);
                         }
+
                         if (sd.FilterIndex == 4)
                         {
                             // render in-place in the standard preview location
                             doc.MarkdownDocument.RenderHtmlToFile(usePragmaLines: false);
 
                             var basePath = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
-                            packageResult = packager.PackageHtmlToZipFile(doc.MarkdownDocument.HtmlRenderFilename, sd.FileName, basePath);
+                            packageResult = packager.PackageHtmlToZipFile(doc.MarkdownDocument.HtmlRenderFilename,
+                                sd.FileName, basePath);
                         }
 
                         else if (sd.FilterIndex == 3) // directory
@@ -689,8 +681,6 @@ namespace MarkdownMonster
         }
 
 
-
-
         public CommandBase CopyAsHtmlCommand { get; set; }
 
         void CopyAsHtml()
@@ -720,7 +710,6 @@ namespace MarkdownMonster
                 editor.SetEditorFocus();
                 editor.Window.PreviewMarkdownAsync();
             }, (p, c) => Model.IsEditorActive);
-
         }
 
         public CommandBase GeneratePdfCommand { get; set; }
@@ -730,10 +719,7 @@ namespace MarkdownMonster
             // PDF GENERATION PREVIEW
             GeneratePdfCommand = new CommandBase((s, e) =>
             {
-                var form = new GeneratePdfWindow()
-                {
-                    Owner = mmApp.Model.Window
-                };
+                var form = new GeneratePdfWindow() {Owner = mmApp.Model.Window};
                 form.Show();
             }, (s, e) =>
             {
@@ -749,10 +735,12 @@ namespace MarkdownMonster
             GeneratePdfCommand.PremiumFeatureName = "PDF Output Generation";
             GeneratePdfCommand.PremiumFeatureLink = "https://markdownmonster.west-wind.com/docs/_53u1b1dsc.htm";
         }
+
         #endregion
 
 
         #region Projects
+
         public CommandBase SaveProjectCommand { get; set; }
 
         void SaveProject()
@@ -878,19 +866,16 @@ namespace MarkdownMonster
             }, (p, c) => true);
         }
 
-        
 
         public CommandBase LoadProjectCommand { get; set; }
 
         void LoadProject()
         {
-            
-
             LoadProjectCommand = new CommandBase((parameter, command) =>
             {
                 var window = Model.Window;
 
-              
+
                 string filename = null;
                 string folder = Model.Configuration.LastFolder;
 
@@ -934,7 +919,7 @@ namespace MarkdownMonster
                     window.OpenTab(filename);
                     return;
                 }
-                
+
 
                 window.CloseAllTabs();
 
@@ -1031,7 +1016,7 @@ namespace MarkdownMonster
         #endregion
 
 
-#region Links and External Access Commands
+        #region Links and External Access Commands
 
         public CommandBase OpenSampleMarkdownCommand { get; set; }
 
@@ -1043,17 +1028,17 @@ namespace MarkdownMonster
                     "https://github.com/RickStrahl/MarkdownMonster/blob/master/SampleDocuments/SampleMarkdown.md");
 
 
-
                 string tempFile = Path.Combine(Path.GetTempPath(), "SampleMarkdown.md");
                 File.Copy(Path.Combine(App.InitialStartDirectory, "SampleMarkdown.md"), tempFile, true);
                 Model.Window.OpenTab(tempFile, rebindTabHeaders: true);
             });
         }
 
-#endregion
+        #endregion
 
 
-#region Settings Commands
+        #region Settings Commands
+
         public CommandBase PreviewModesCommand { get; set; }
 
         void PreviewModes()
@@ -1089,12 +1074,11 @@ namespace MarkdownMonster
 
                 if (!editor.RemoveMarkdownFormatting())
                 {
-
-                    Model.Window.ShowStatusError("Didn't remove formatting. No selection or document is not a Markdown document.");
+                    Model.Window.ShowStatusError(
+                        "Didn't remove formatting. No selection or document is not a Markdown document.");
                 }
             });
         }
-
 
 
         public CommandBase DistractionFreeModeCommand { get; set; }
@@ -1128,7 +1112,6 @@ namespace MarkdownMonster
         }
 
 
-
         public CommandBase TogglePreviewBrowserCommand { get; set; }
 
         void TogglePreviewBrowser()
@@ -1143,7 +1126,7 @@ namespace MarkdownMonster
                 if (editor == null)
                     return;
 
-                bool toggle = p?.ToString()  == "Toggle";
+                bool toggle = p?.ToString() == "Toggle";
                 if (toggle)
                     Model.IsPreviewBrowserVisible = !Model.IsPreviewBrowserVisible;
 
@@ -1158,7 +1141,6 @@ namespace MarkdownMonster
                 window.ShowPreviewBrowser(!Model.IsPreviewBrowserVisible);
                 if (Model.IsPreviewBrowserVisible)
                     window.PreviewMarkdown(editor);
-
             }, null);
         }
 
@@ -1166,7 +1148,6 @@ namespace MarkdownMonster
 
         void WordWrap()
         {
-
             // WORD WRAP COMMAND
             WordWrapCommand = new CommandBase((parameter, command) =>
                 {
@@ -1177,11 +1158,9 @@ namespace MarkdownMonster
                 (p, c) => Model.IsEditorActive);
         }
 
+        #endregion
 
-
-#endregion
-
-#region Editor CommandsToolTip;ToolTip;
+        #region Editor CommandsToolTip;ToolTip;
 
         public CommandBase ToolbarInsertMarkdownCommand { get; set; }
 
@@ -1247,7 +1226,7 @@ namespace MarkdownMonster
                 var args = $"-newwindow -nosplash \"{file}\"";
                 ShellUtils.ExecuteProcess("markdownmonster.exe", args);
 
-                Model.Window.ShowStatusProgress($"Opening document {file} in a new window...",3000);
+                Model.Window.ShowStatusProgress($"Opening document {file} in a new window...", 3000);
             }, (p, c) => Model.IsEditorActive);
         }
 
@@ -1324,11 +1303,8 @@ namespace MarkdownMonster
 
                 mi.Items.Add(new MenuItem
                 {
-                    Header = "Open Document in New Window",
-                    Command = Model.Commands.OpenInNewWindowCommand,
+                    Header = "Open Document in New Window", Command = Model.Commands.OpenInNewWindowCommand,
                 });
-
-
 
 
                 var menuItems = Model.Window.GenerateContextMenuItemsFromOpenTabs();
@@ -1367,10 +1343,14 @@ namespace MarkdownMonster
                             {
                                 File.Delete(file);
                             }
-                            catch {  error = true;}
+                            catch
+                            {
+                                error = true;
+                            }
                         }
                     }
-                    if(error)
+
+                    if (error)
                         Model.Window.ShowStatusError("Some dictionaries were not deleted.");
                     else
                         Model.Window.ShowStatusSuccess("Dictionaries deleted.");
@@ -1424,7 +1404,8 @@ namespace MarkdownMonster
             SpellCheckCommand = new CommandBase((parameter, command) =>
             {
                 Model.ActiveEditor?.RestyleEditor();
-                Model.Window.ShowStatusSuccess($"Spell checking has been turned {(Model.Configuration.Editor.EnableSpellcheck ? "on" : "off")}.");
+                Model.Window.ShowStatusSuccess(
+                    $"Spell checking has been turned {(Model.Configuration.Editor.EnableSpellcheck ? "on" : "off")}.");
             }, (p, c) => true);
         }
 
@@ -1433,10 +1414,10 @@ namespace MarkdownMonster
 
         void SpellCheckNext()
         {
-            SpellCheckNextCommand = new CommandBase((parameter, command) =>
-                {
-                    Model.ActiveEditor?.AceEditor?.Invoke("spellcheckNext",false);
-                }, (p, c) => Model.ActiveEditor?.EditorSyntax == "markdown");
+            SpellCheckNextCommand =
+                new CommandBase(
+                    (parameter, command) => { Model.ActiveEditor?.AceEditor?.Invoke("spellcheckNext", false); },
+                    (p, c) => Model.ActiveEditor?.EditorSyntax == "markdown");
         }
 
 
@@ -1444,10 +1425,10 @@ namespace MarkdownMonster
 
         void SpellCheckPrevious()
         {
-            SpellCheckPreviousCommand = new CommandBase((parameter, command) =>
-            {
-                Model.ActiveEditor?.AceEditor?.Invoke("spellcheckPrevious",false);
-            }, (p, c) => Model.ActiveEditor?.EditorSyntax == "markdown");
+            SpellCheckPreviousCommand =
+                new CommandBase(
+                    (parameter, command) => { Model.ActiveEditor?.AceEditor?.Invoke("spellcheckPrevious", false); },
+                    (p, c) => Model.ActiveEditor?.EditorSyntax == "markdown");
         }
 
 
@@ -1464,7 +1445,6 @@ namespace MarkdownMonster
                 mmFileUtils.ShowOpenWithDialog(file);
             }, (p, c) => true);
         }
-
 
 
         public CommandBase PasteMarkdownFromHtmlCommand { get; set; }
@@ -1497,10 +1477,8 @@ namespace MarkdownMonster
                 editor.SetEditorFocus();
 
                 Model.Window.PreviewBrowser.PreviewMarkdownAsync(editor, true);
-
             }, (p, c) => true);
             PasteMarkdownFromHtmlCommand.PremiumFeatureName = "HTML to Markdown Conversion";
-
         }
 
 
@@ -1525,7 +1503,7 @@ namespace MarkdownMonster
                 var display = Path.GetFileNameWithoutExtension(file).Replace("-", " ").Replace("_", " ");
                 display = StringUtils.FromCamelCase(display);
 
-                var favorite = fav.AddFavorite(null, new FavoriteItem {File = file, Title = display } );
+                var favorite = fav.AddFavorite(null, new FavoriteItem {File = file, Title = display});
                 fav.SaveFavorites();
 
                 fav.EditedFavorite = favorite;
@@ -1533,10 +1511,8 @@ namespace MarkdownMonster
                 control.TextFavoriteTitle.Focus();
 
                 Model.Window.Dispatcher.Delay(900, (p) => control.TextFavoriteTitle.Focus(), null);
-
             }, (p, c) => true);
         }
-
 
 
         public CommandBase EditorSplitModeCommand { get; set; }
@@ -1568,14 +1544,11 @@ namespace MarkdownMonster
             }, (p, c) => Model.IsEditorActive);
             EditorSplitModeCommand.PremiumFeatureName = "Editor Split Mode";
             EditorSplitModeCommand.PremiumFeatureLink = "https://markdownmonster.west-wind.com/docs/_5ea0q9ne2.htm";
-
         }
-
-
 
         #endregion
 
-       #region Preview
+        #region Preview
 
         public CommandBase EditPreviewThemeCommand { get; set; }
 
@@ -1583,7 +1556,7 @@ namespace MarkdownMonster
         {
             EditPreviewThemeCommand = new CommandBase((parameter, command) =>
             {
-                var path = Path.Combine(App.InitialStartDirectory, "PreviewThemes",Model.Configuration.PreviewTheme);
+                var path = Path.Combine(App.InitialStartDirectory, "PreviewThemes", Model.Configuration.PreviewTheme);
                 ShellUtils.OpenFileInExplorer(path);
 
                 mmFileUtils.ShowExternalBrowser("https://markdownmonster.west-wind.com/docs/_4nn17bfic.htm");
@@ -1597,16 +1570,15 @@ namespace MarkdownMonster
         {
             PreviewSyncModeCommand = new CommandBase((parameter, command) =>
             {
-
                 Model.Window.ComboBoxPreviewSyncModes.Focus();
                 WindowUtilities.DoEvents();
                 Model.Window.ComboBoxPreviewSyncModes.IsDropDownOpen = true;
             });
         }
 
-#endregion
+        #endregion
 
-#region Open Document Operations
+        #region Open Document Operations
 
         public CommandBase CopyFolderToClipboardCommand { get; set; }
 
@@ -1620,11 +1592,11 @@ namespace MarkdownMonster
 
                 string path = Path.GetDirectoryName(filename);
 
-                if(ClipboardHelper.SetText(path))
-                    Model.Window.ShowStatus($"Path copied to clipboard: {path}", mmApp.Configuration.StatusMessageTimeout);
+                if (ClipboardHelper.SetText(path))
+                    Model.Window.ShowStatus($"Path copied to clipboard: {path}",
+                        mmApp.Configuration.StatusMessageTimeout);
             });
         }
-
 
 
         public CommandBase CopyFullPathToClipboardCommand { get; set; }
@@ -1638,7 +1610,8 @@ namespace MarkdownMonster
                     return;
 
                 if (ClipboardHelper.SetText(filename))
-                    Model.Window.ShowStatus($"Path copied to clipboard: {filename}", mmApp.Configuration.StatusMessageTimeout);
+                    Model.Window.ShowStatus($"Path copied to clipboard: {filename}",
+                        mmApp.Configuration.StatusMessageTimeout);
             }, (p, c) => true);
         }
 
@@ -1687,10 +1660,7 @@ namespace MarkdownMonster
         {
             AddinManagerCommand = new CommandBase((parameter, command) =>
             {
-                var form = new AddinManagerWindow
-                {
-                    Owner = Model.Window
-                };
+                var form = new AddinManagerWindow {Owner = Model.Window};
                 form.Show();
             });
         }
@@ -1791,9 +1761,9 @@ namespace MarkdownMonster
                                 Model.Window.ShowFolderBrowser(folder: imagePath);
 
                                 Model.Window.Dispatcher.InvokeAsync(() =>
-                                    Model.Window.FolderBrowser.HandleItemSelection(forceEditorFocus: true),DispatcherPriority.ApplicationIdle);
-
-                            },DispatcherPriority.ApplicationIdle);
+                                        Model.Window.FolderBrowser.HandleItemSelection(forceEditorFocus: true),
+                                    DispatcherPriority.ApplicationIdle);
+                            }, DispatcherPriority.ApplicationIdle);
                         }
                         catch (Exception ex)
                         {
@@ -1805,10 +1775,10 @@ namespace MarkdownMonster
             }, (p, c) => true);
         }
 
+
         #endregion
 
         #region Git
-
 
         public CommandBase OpenFromGitRepoCommand { get; set; }
 
@@ -1816,7 +1786,6 @@ namespace MarkdownMonster
         {
             OpenFromGitRepoCommand = new CommandBase((parameter, command) =>
             {
-
                 GitRepositoryWindowMode startupMode = GitRepositoryWindowMode.Clone;
                 var parm = parameter as string;
                 if (!string.IsNullOrEmpty(parm))
@@ -1848,7 +1817,6 @@ namespace MarkdownMonster
                 }
 
                 form.ShowDialog();
-
             });
             OpenFromGitRepoCommand.PremiumFeatureName = "Git Support";
             OpenFromGitRepoCommand.PremiumFeatureLink = "https://markdownmonster.west-wind.com/docs/_4xp0yygt2.htm";
@@ -1860,11 +1828,11 @@ namespace MarkdownMonster
         void CommitToGit()
         {
             // COMMIT TO GIT Command
-            CommitToGitCommand = new CommandBase( (parameter, e) =>
+            CommitToGitCommand = new CommandBase((parameter, e) =>
             {
                 var file = parameter as string;
                 if (string.IsNullOrEmpty(file))
-                file = Model.ActiveDocument?.Filename;
+                    file = Model.ActiveDocument?.Filename;
 
                 if (string.IsNullOrEmpty(file))
                     return;
@@ -1879,7 +1847,8 @@ namespace MarkdownMonster
 
                 var changes = gh.GetRepositoryChanges(repo.Info.WorkingDirectory);
                 if (changes.Count < 1)
-                    Model.Window.ShowStatusError($"There are no pending changes for this Git repository: {repo.Info.WorkingDirectory}");
+                    Model.Window.ShowStatusError(
+                        $"There are no pending changes for this Git repository: {repo.Info.WorkingDirectory}");
 
                 if (Model.ActiveEditor != null)
                     Model.ActiveEditor.SaveDocument(Model.ActiveDocument.IsEncrypted);
@@ -1901,7 +1870,7 @@ namespace MarkdownMonster
                 if (path == null)
                 {
                     path = Model.ActiveTabFilename;
-                    if(!string.IsNullOrEmpty(path))
+                    if (!string.IsNullOrEmpty(path))
                         path = Path.GetDirectoryName(path);
                 }
 
@@ -1911,12 +1880,11 @@ namespace MarkdownMonster
                 if (!mmFileUtils.OpenGitClient(path))
                     Model.Window.ShowStatusError("Unabled to open Git client.");
                 else
-                    Model.Window.ShowStatus("Git client opened.",mmApp.Configuration.StatusMessageTimeout);
+                    Model.Window.ShowStatus("Git client opened.", mmApp.Configuration.StatusMessageTimeout);
             }, (p, c) => !string.IsNullOrEmpty(Model.Configuration.Git.GitClientExecutable));
             OpenGitClientCommand.PremiumFeatureName = "Git Support";
             OpenGitClientCommand.PremiumFeatureLink = "https://markdownmonster.west-wind.com/docs/_4xp0yygt2.htm";
         }
-
 
 
         public CommandBase OpenOnGithubCommand { get; set; }
@@ -1926,7 +1894,7 @@ namespace MarkdownMonster
             OpenOnGithubCommand = new CommandBase((parameter, command) =>
             {
                 var filename = parameter as string;
-                if(parameter == null)
+                if (parameter == null)
                     return;
 
                 var CommitModel = new GitCommitModel(filename);
@@ -1937,7 +1905,8 @@ namespace MarkdownMonster
                     if (remoteUrl == null)
                         return;
 
-                    var relativeFilename = FileUtils.GetRelativePath(filename, repo.Info.WorkingDirectory).Replace("\\","/");
+                    var relativeFilename = FileUtils.GetRelativePath(filename, repo.Info.WorkingDirectory)
+                        .Replace("\\", "/");
 
                     remoteUrl = remoteUrl.Replace(".git", "");
                     remoteUrl += "/blob/master/" + relativeFilename;
@@ -1945,7 +1914,6 @@ namespace MarkdownMonster
                     Model.Window.ShowStatus("Opening Url: " + remoteUrl);
                     ShellUtils.GoUrl(remoteUrl);
                 }
-
             });
         }
 
@@ -1975,9 +1943,9 @@ namespace MarkdownMonster
             });
         }
 
-#endregion
+        #endregion
 
-#region Sidebar
+        #region Sidebar
 
         public CommandBase CloseLeftSidebarPanelCommand { get; set; }
 
@@ -1995,10 +1963,7 @@ namespace MarkdownMonster
 
         void OpenLeftSidebarPanel()
         {
-            OpenLeftSidebarPanelCommand = new CommandBase((parameter, command) =>
-            {
-                Model.Window.ShowLeftSidebar();
-            });
+            OpenLeftSidebarPanelCommand = new CommandBase((parameter, command) => { Model.Window.ShowLeftSidebar(); });
         }
 
         public CommandBase ToggleLeftSidebarPanelCommand { get; set; }
@@ -2016,10 +1981,10 @@ namespace MarkdownMonster
         void CloseRightSidebarPanel()
         {
             CloseRightSidebarPanelCommand = new CommandBase((parameter, command) =>
-                {
-                    Model.Window.ShowRightSidebar(hide: true);
-                    Model.ActiveEditor?.SetEditorFocus();
-                });
+            {
+                Model.Window.ShowRightSidebar(hide: true);
+                Model.ActiveEditor?.SetEditorFocus();
+            });
         }
 
         public CommandBase ToggleFolderBrowserCommand { get; set; }
@@ -2034,7 +1999,6 @@ namespace MarkdownMonster
                 mmApp.Model.Window.ShowFolderBrowser(!mmApp.Configuration.FolderBrowser.Visible);
             });
         }
-
 
 
         public CommandBase OpenFolderBrowserCommand { get; set; }
@@ -2053,7 +2017,6 @@ namespace MarkdownMonster
 
                 mmApp.Model.Window.SidebarContainer.SelectedItem = mmApp.Model.Window.TabFolderBrowser;
                 mmApp.Model.Window.ShowFolderBrowser(folder: fileOrFolderPath);
-
             });
         }
 
@@ -2091,15 +2054,12 @@ namespace MarkdownMonster
                     return;
 
                 Model.WindowLayout.IsLeftSidebarVisible = true;
-
             }, (p, c) => Model.IsEditorActive);
         }
 
         #endregion
 
         #region Commands
-
-
 
         public CommandBase SettingsCommand { get; set; }
 
@@ -2127,7 +2087,8 @@ namespace MarkdownMonster
                 }
                 catch
                 {
-                    if (!App.IsPortableMode && mmApp.Configuration.CommonFolder != mmApp.Configuration.InternalCommonFolder)
+                    if (!App.IsPortableMode &&
+                        mmApp.Configuration.CommonFolder != mmApp.Configuration.InternalCommonFolder)
                     {
                         mmApp.Configuration.CommonFolder = mmApp.Configuration.InternalCommonFolder;
                         Settings();
@@ -2151,14 +2112,9 @@ We're now shutting down the application.
 
                         App.Current.Shutdown();
                     }
-
                 }
             });
         }
-
-
-
-
 
 
         public CommandBase ViewInExternalBrowserCommand { get; set; }
@@ -2189,15 +2145,14 @@ We're now shutting down the application.
         }
 
 
-
         public CommandBase RefreshPreviewCommand { get; set; }
 
         void RefreshPreview()
         {
             RefreshPreviewCommand = new CommandBase((parameter, command) =>
-                {
-                    Model.Window.PreviewBrowser.Refresh(true);
-                });
+            {
+                Model.Window.PreviewBrowser.Refresh(true);
+            });
         }
 
 
@@ -2207,37 +2162,34 @@ We're now shutting down the application.
         void PrintPreview()
         {
             PrintPreviewCommand = new CommandBase(
-                (p, e) => {
+                (p, e) =>
+                {
                     try
                     {
                         Model.Window.PreviewBrowser.ExecuteCommand("PrintPreview");
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         mmApp.Log("Print Preview failed: " + ex.Message, ex);
                         Model.Window.ShowStatusError("Print Preview failed: " + ex.Message);
                     }
-
                 },
                 (p, e) => Model.IsEditorActive);
-
         }
-#endregion
+
+        #endregion
 
 
         public CommandBase TestButtonCommand { get; set; }
 
         void TestButton()
         {
-
             TestButtonCommand = new CommandBase((parameter, command) =>
             {
                 MessageBox.Show("Test Command");
                 object obj = null;
                 obj.ToString();
-
             });
         }
-
     }
 }
