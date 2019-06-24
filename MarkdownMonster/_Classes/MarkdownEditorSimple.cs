@@ -70,7 +70,7 @@ namespace MarkdownMonster
             wb.Visibility = Visibility.Hidden;
 
             wb.LoadCompleted += OnDocumentCompleted;
-            string path = System.IO.Path.Combine(App.InitialStartDirectory, "Editor\\editorSimple.htm");
+            string path = System.IO.Path.Combine(App.InitialStartDirectory, "Editor\\editor.htm");
             wb.Navigate("file:///" + path);
 
             InitialValue = initialValue;
@@ -83,12 +83,12 @@ namespace MarkdownMonster
                 try
                 {
                     // Get the JavaScript Ace Editor Instance
-                    var inst = WebBrowser.InvokeScript("initializeinterop", this);
+                    var inst = WebBrowser.InvokeScript("initializeinteropSimple", this);
                     AceEditor = new AceEditorInterop(inst);
                 }
                 catch (Exception ex)
                 {
-                    mmApp.Log($"Editor failed to load initializeinterop {e.Uri}", ex);
+                    mmApp.Log($"Editor failed to load initializeinteropSimple {e.Uri}", ex);
                     //throw;
                 }
 
@@ -230,53 +230,122 @@ namespace MarkdownMonster
             AceEditor?.SetLanguage(syntax);
         }
 
-        public void ResizeWindow()
-        {
-            // nothing to do at the moment
-        }
+
+
 
         /// <summary>
         /// Restyles the current editor with configuration settings
         /// from the mmApp.Configuration object (or Model.Configuration
         /// from an addin).
         /// </summary>
-        public void RestyleEditor()
+        /// <param name="forceSync">Forces higher priority on this operation - use when editor initializes at first</param>
+        public void RestyleEditor(bool forceSync = false, bool initialize = false)
         {
             if (AceEditor == null)
                 return;
 
-            try
-            {
-                // determine if we want to rescale the editor fontsize
-                // based on DPI Screen Size
-                decimal dpiRatio = 1;
-                try
+            mmApp.Model.Window.Dispatcher.InvokeAsync(() =>
                 {
-                    var window = VisualTreeHelper.GetParent(WebBrowser);
-                    while (!(window is Window))
+                    try
                     {
-                        window = VisualTreeHelper.GetParent(window);
+                        // pass config settings to the editor and force
+                        // editor to apply new settings
+                        AceEditor.SetEditorStyling();
+
+                        if (EditorSyntax == "markdown" || EditorSyntax == "text")
+                            AceEditor.EnableSpellChecking(!mmApp.Configuration.Editor.EnableSpellcheck,
+                                mmApp.Configuration.Editor.Dictionary);
+                        else
+                            // always disable for non-markdown text
+                            AceEditor.EnableSpellChecking(true, mmApp.Configuration.Editor.Dictionary);
                     }
-                    dpiRatio = WindowUtilities.GetDpiRatio(window as Window);
-                }
-                catch { }
-
-                AceEditor.SetEditorStyling();
-
-                if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
-                    AceEditor.EnableSpellChecking(!mmApp.Configuration.Editor.EnableSpellcheck, mmApp.Configuration.Editor.Dictionary);
-                else
-                    // always disable for non-markdown text
-                    AceEditor.EnableSpellChecking(false,mmApp.Configuration.Editor.Dictionary);
-            }
-            catch { }
+                    catch
+                    {
+                    }
+                },
+                forceSync
+                    ? System.Windows.Threading.DispatcherPriority.Send
+                    : System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
+
+        ///// <summary>
+        ///// Restyles the current editor with configuration settings
+        ///// from the mmApp.Configuration object (or Model.Configuration
+        ///// from an addin).
+        ///// </summary>
+        //public void RestyleEditor()
+        //{
+        //    if (AceEditor == null)
+        //        return;
+
+        //    try
+        //    {
+        //        // determine if we want to rescale the editor fontsize
+        //        // based on DPI Screen Size
+        //        decimal dpiRatio = 1;
+        //        try
+        //        {
+        //            var window = VisualTreeHelper.GetParent(WebBrowser);
+        //            while (!(window is Window))
+        //            {
+        //                window = VisualTreeHelper.GetParent(window);
+        //            }
+        //            dpiRatio = WindowUtilities.GetDpiRatio(window as Window);
+        //        }
+        //        catch { }
+
+        //        AceEditor.SetEditorStyling();
+
+        //        if (EditorSyntax == "markdown" || this.EditorSyntax == "text")
+        //            AceEditor.EnableSpellChecking(!mmApp.Configuration.Editor.EnableSpellcheck, mmApp.Configuration.Editor.Dictionary);
+        //        else
+        //            // always disable for non-markdown text
+        //            AceEditor.EnableSpellChecking(false,mmApp.Configuration.Editor.Dictionary);
+        //    }
+        //    catch { }
+        //}
 
         #endregion
 
-        #region Markdown Editor Callbacks
+        #region Callback functions from the Html Editor
 
-        public bool IsDirty()
+        /// <summary>
+        /// Callback handler callable from JavaScript editor
+        /// </summary>
+        public void PreviewMarkdownCallback(bool dontGetMarkdown = false, int editorLineNumber = -1)
+        {
+        }
+
+        /// <summary>
+        /// ACE Editor Notification when focus is lost
+        /// </summary>
+        public void LostFocus()
+        {
+         
+        }
+
+        /// <summary>
+        /// ACE Editor Notification when focus is set to the editor
+        /// </summary>
+        public void GotFocus()
+        {
+        }
+        
+        public void ResizeWindow()
+        {
+            // nothing to do at the moment
+        }
+
+        /// <summary>
+        /// Callback to force updating of the status bar document stats
+        /// </summary>
+        /// <param name="stats"></param>
+        public void UpdateDocumentStats(object stats)
+        {
+        }
+
+
+        public bool IsDirty(bool previewIfDirty = false)
         {
             if (IsDirtyAction != null)
                 return IsDirtyAction.Invoke();
