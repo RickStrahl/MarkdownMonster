@@ -193,10 +193,11 @@
                 <MenuItem Name="ButtonSaveAll" Header="Save A_ll " Command="{Binding Commands.SaveAllCommand}"  
                           InputGestureText="{Binding Commands.SaveAllCommand.KeyboardShortcut}" />
 
-                <MenuItem Header="Save To">
-                    <MenuItem Name="ButtonSaveAsSecureFile" Header="Save to _Encrypted File" Command="{Binding Commands.SaveAsCommand}" CommandParameter="Secure"  />
+                <MenuItem Header="Save _To">
                     <MenuItem Name="ButtonSaveAsHtml" Header="Save to _Html" Command="{Binding Commands.SaveAsHtmlCommand}" />
-                    <MenuItem x:Name="ButtonGeneratePdf" Header="Save to Pdf" Command="{Binding Commands.GeneratePdfCommand}" />
+                    <MenuItem x:Name="ButtonGeneratePdf" Header="Save to _Pdf" Command="{Binding Commands.GeneratePdfCommand}" />
+                    <Separator/>
+                    <MenuItem Name="ButtonSaveAsSecureFile" Header="Save as _Encrypted File" Command="{Binding Commands.SaveAsCommand}" CommandParameter="Secure"  />
                 </MenuItem>
 
                 <Separator/>
