@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +21,10 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
     public class DocumentOutlineModel : INotifyPropertyChanged
     {
         public DocumentOutlineModel()
-        {            
-            AppModel = mmApp.Model;            
+        {
+            AppModel = mmApp.Model;
             Window = AppModel.Window;
-            Commands = AppModel.Commands;            
+            Commands = AppModel.Commands;
         }
 
         public AppModel AppModel{ get; set; }
@@ -31,9 +32,9 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
         public AppCommands Commands { get; set; }
 
         public MainWindow Window { get; set; }
-        
 
-    
+
+
 
         public ObservableCollection<HeaderItem> DocumentOutline
         {
@@ -48,7 +49,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                     OnPropertyChanged(nameof(DocumentOutline));
                 }
                 else if (value == null)
-                {                    
+                {
                     OnPropertyChanged(nameof(DocumentOutline));
                 }
 
@@ -57,12 +58,12 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                 {
                     foreach (var item in value)
                         _DocumentOutline.Add(item);
-                }                
-                
+                }
+
             }
         }
         private ObservableCollection<HeaderItem> _DocumentOutline;
-        
+
 
 
         public ObservableCollection<HeaderItem> CreateDocumentOutline(string md)
@@ -73,28 +74,40 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             // create a full pipeline to strip out front matter/yaml
             var parser = new MarkdownParserMarkdig();
             var builder = parser.CreatePipelineBuilder();
-            var syntax = Markdig.Markdown.Parse(md,builder.Build());            
+            var syntax = Markdig.Markdown.Parse(md,builder.Build());
 
             var list = new ObservableCollection<HeaderItem>();
 
             foreach (var item in syntax)
-            {                
+            {
                 var line = item.Line;
-                
+
                 if (item is HeadingBlock)
-                {                    
+                {
                     var heading = item as HeadingBlock;
-                    var inline = heading?.Inline?.FirstChild as LiteralInline;
+                    var inline = heading?.Inline?.FirstChild;
                     if (inline == null)
                         continue;
 
-                    var content = inline.Content.ToString();
-                    if (content.Contains("\n"))                                                            
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var inl in heading.Inline)
+                    {
+                        if (inl is HtmlEntityInline)
+                        {
+                            var htmlEntity = inl as HtmlEntityInline;
+                            sb.Append(WebUtility.HtmlDecode(htmlEntity.Transcoded.ToString()));
+                        }
+                        else
+                            sb.Append(inl.ToString());
+                    }
+                    var content = sb.ToString();
+
+                    if (content.Contains("\n"))
                         continue;
 
                     if (heading.Level > AppModel.Configuration.MaxDocumentOutlineLevel)
                         continue;
-                    
+
                     var headerItem = new HeaderItem()
                     {
                         Text = $"{content}",
@@ -108,8 +121,8 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             }
 
 
-            
-            
+
+
             return list;
         }
 
@@ -117,7 +130,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
         /// <summary>
         /// Search the outline for a given header text and return the line number
         /// or -1 on error
-        /// </summary>        
+        /// </summary>
         /// <param name="md">Markdown document</param>
         /// <param name="headerLink">anchor to search for - should be generated using Github Style header encoding</param>
         /// <returns>line number or -1</returns>
@@ -166,7 +179,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                     if (link == headerLink)
                         return line;
                 }
-            }            
+            }
 
             return -1;
         }
@@ -189,7 +202,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             doc.LoadHtml(html);
 
             var sb = new StringBuilder();
-            
+
 
             var xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4]";
             var nodes = doc.DocumentNode.SelectNodes(xpath);
@@ -216,7 +229,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
             if (startOffset < 0)
                 startOffset = 0;
 
-            int lastLevel = 0;  // check that we don't skip multiple levels - won't work in Markdown            
+            int lastLevel = 0;  // check that we don't skip multiple levels - won't work in Markdown
 
             for (var index = 0; index < headers.Count; index++)
             {
@@ -230,7 +243,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                     level = lastLevel + 1;
 
                     // read forward and adjust all items at the same level to this level
-                    var index2 = index;                    
+                    var index2 = index;
                     while (index2 < headers.Count && headers[index2].Level == origLevel)
                     {
                         headers[index2].Level = level;
@@ -242,7 +255,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
 
                 if (level > 0)
                     leadin = StringUtils.Replicate("\t", level - 1);
-                
+
                 sb.AppendLine($"{leadin}* [{header.Text}](#{header.LinkId})");
             }
 
@@ -250,7 +263,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
         }
 
 
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
