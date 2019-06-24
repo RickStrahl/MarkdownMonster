@@ -455,6 +455,25 @@ namespace MarkdownMonster
             }
         }
 
+        
+        public List<string> EncodingTypes
+        {
+            get
+            {
+                var encodings = new List<string>();
+                encodings.AddRange(new string[]
+                {
+                    "UTF-8",
+                    "UTF-8 with BOM",
+                    "Unicode",
+                    "Unicode BE"
+                });
+                
+                return encodings;
+            }
+        }
+
+
         public List<string> DocumentTypes
         {
             get

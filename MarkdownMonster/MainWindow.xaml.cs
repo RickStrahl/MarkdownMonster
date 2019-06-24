@@ -32,6 +32,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -3126,6 +3127,24 @@ namespace MarkdownMonster
             ctx.MaxHeight = 800;
             ctx.IsOpen = true;
             WindowUtilities.DoEvents();
+        }
+
+        private void StatusEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Model.ActiveDocument == null)
+                return;
+
+
+            string enc = StatusEncoding.SelectedValue as string;
+
+            if (enc == "Unicode")
+                Model.ActiveDocument.Encoding = Encoding.Unicode;
+            else if (enc == "Unicode BE")
+                Model.ActiveDocument.Encoding = Encoding.BigEndianUnicode;
+            else if (enc.Contains("with BOM"))
+                Model.ActiveDocument.Encoding = Encoding.UTF8; 
+            else
+                Model.ActiveDocument.Encoding = new UTF8Encoding(false);
         }
 
 

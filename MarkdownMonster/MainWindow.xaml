@@ -903,8 +903,17 @@
        
           
             <StatusBarItem Grid.Column="5">
-                <TextBlock  Name="StatusEncoding" x:FieldModifier="public" HorizontalAlignment="Left"
-                            ToolTip="Document Encoding"></TextBlock>
+                <ComboBox  Name="StatusEncoding" x:FieldModifier="public"
+                           HorizontalAlignment="Right"  Width="130" ToolTip="Document Encoding"  
+                           FontSize="13" Padding="2,1"
+                           IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
+                           ItemsSource="{Binding EncodingTypes}"
+                           SelectionChanged="StatusEncoding_SelectionChanged"
+                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"                           
+                />
+
+                <!--<TextBlock  Name="StatusEncoding" x:FieldModifier="public" HorizontalAlignment="Left"
+                            ToolTip="Document Encoding"></TextBlock>-->
             </StatusBarItem>
 
             <StatusBarItem Grid.Column="6" Margin="6,0,0,0">

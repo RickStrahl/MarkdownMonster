@@ -37,7 +37,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -46,16 +45,12 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using Markdig;
-using Markdig.Syntax;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Controls.ContextMenus;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Microsoft.Win32;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using NHunspell;
 using Westwind.Utilities;
 
 namespace MarkdownMonster
@@ -1501,25 +1496,7 @@ namespace MarkdownMonster
 
             Window.StatusStats.Text = $"{words:n0} words   {lines:n0} lines   {chars:n0} chars     Ln {row:n0}, Col {column}";
 
-            string enc = string.Empty;
-            bool hasBom = true;
-            if (MarkdownDocument.Encoding.WebName == "utf-8")
-#if NETFULL
-                hasBom = (bool)ReflectionUtils.GetField(MarkdownDocument.Encoding, "emitUtf8Identifier");
-#else
-                hasBom = (bool)ReflectionUtils.GetField(MarkdownDocument.Encoding, "_emitUTF8Identifier");
-#endif
-
-            if (hasBom)
-            {
-                enc = MarkdownDocument.Encoding.EncodingName;
-                if (MarkdownDocument.Encoding == Encoding.UTF8)
-                    enc = "UTF-8";
-            }
-            else
-                enc = "UTF-8 (no BOM)";
-
-            Window.StatusEncoding.Text = enc;
+            Window.StatusEncoding.Text = mmFileUtils.GetEncodingName(MarkdownDocument.Encoding);
         }
 
         /// <summary>

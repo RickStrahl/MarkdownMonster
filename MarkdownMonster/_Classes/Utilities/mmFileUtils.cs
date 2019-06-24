@@ -141,6 +141,37 @@ namespace MarkdownMonster
 
 
         /// <summary>
+        /// Gets an encoding name from 
+        /// </summary>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static string GetEncodingName(Encoding encoding)
+        {
+            string enc = string.Empty;
+            bool hasBom = true;
+            string name = encoding.BodyName;
+            if (name == "utf-8")
+            {
+#if NETFULL
+                hasBom = (bool) ReflectionUtils.GetField(encoding, "emitUtf8Identifier");
+#else
+                hasBom = (bool)ReflectionUtils.GetField(encoding, "_emitUTF8Identifier");
+#endif
+                if (hasBom)
+                    enc = "UTF-8 with BOM";
+                else
+                    enc = "UTF-8";
+            }
+            else if(name == "utf-16BE")
+                    enc = "Unicode BE";
+            else
+                enc = encoding.EncodingName;
+
+            return enc;
+        }
+
+
+        /// <summary>
         /// Retrieves the editor syntax for a file based on extension for use in the editor
         ///
         /// Unknown file types returning null
