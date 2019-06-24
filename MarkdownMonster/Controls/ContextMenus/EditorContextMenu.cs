@@ -208,7 +208,50 @@ namespace MarkdownMonster.Controls.ContextMenus
                 }
             }
 
+            AddSpeech();
+        }
 
+        public void AddSpeech()
+        {
+            var hasDocumentSelection = !string.IsNullOrEmpty(Model.ActiveEditor?.AceEditor?.GetSelection());
+            var hasClipText = Clipboard.ContainsText();
+
+            var mi = new MenuItem() { Header = "Speak" };
+            ContextMenu.Items.Add(mi);
+
+            
+            var   mi2 = new MenuItem()
+                {
+                    Header = "Speak _Selection", Command = Model.Commands.Speech.SpeakSelectionCommand,
+                    IsEnabled = hasDocumentSelection
+                };
+                mi.Items.Add(mi2);
+            
+
+            mi2 = new MenuItem()
+            {
+                Header = "Speak _Document",
+                Command = Model.Commands.Speech.SpeakDocumentCommand
+            };
+            mi.Items.Add(mi2);
+
+
+            mi2 = new MenuItem()
+            {
+                Header = "Speak Text from _Clipboard",
+                Command = Model.Commands.Speech.SpeakFromClipboardCommand,
+                IsEnabled = hasClipText
+            };
+            mi.Items.Add(mi2);
+
+            mi.Items.Add(new Separator());
+
+            mi2 = new MenuItem()
+            {
+                Header = "Cancel Speaking",
+                Command = Model.Commands.Speech.CancelSpeakCommand
+            };
+            mi.Items.Add(mi2);
         }
 
         public void AddUndoRedo()
