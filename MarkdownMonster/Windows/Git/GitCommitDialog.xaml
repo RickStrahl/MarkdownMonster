@@ -96,7 +96,7 @@
 
                     <Button Name="ButtonOpenGitClient"  
                             ToolTip="Open this repository in your Git client."
-                            Command="{Binding AppModel.Commands.OpenGitClientCommand}" CommandParameter="{Binding Filename}" >
+                            Command="{Binding AppModel.Commands.Git.OpenGitClientCommand}" CommandParameter="{Binding Filename}" >
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="5,2,5,0" Icon="ExternalLink"                                             
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />

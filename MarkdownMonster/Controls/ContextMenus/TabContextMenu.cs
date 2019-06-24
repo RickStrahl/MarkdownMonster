@@ -186,7 +186,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 {
                     Header = "Commit to _Git",
                     Name = "ContextContextCommitToGit",
-                    Command = Model.Commands.CommitToGitCommand,
+                    Command = Model.Commands.Git.CommitToGitCommand,
                 };
                 contextMenu.Items.Add(mi);
 
@@ -194,7 +194,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                 {
                     Header = "Open in Git Client",
                     Name = "ContextOpenGitClient",
-                    Command = Model.Commands.OpenGitClientCommand,
+                    Command = Model.Commands.Git.OpenGitClientCommand,
                 };
                 contextMenu.Items.Add(mi);
 
@@ -204,7 +204,7 @@ namespace MarkdownMonster.Controls.ContextMenus
                     {
                         Header = "Open on Git_Hub",
                         Name = "ContextOpenOnGithub",
-                        Command = Model.Commands.OpenOnGithubCommand,
+                        Command = Model.Commands.Git.OpenOnGithubCommand,
                         CommandParameter=Model.ActiveTabFilename
                     };
                     contextMenu.Items.Add(mi);

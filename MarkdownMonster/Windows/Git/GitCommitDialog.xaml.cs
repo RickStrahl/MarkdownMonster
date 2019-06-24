@@ -490,21 +490,21 @@ namespace MarkdownMonster.Windows
             var mi = new MenuItem
             {
                 Header = "Clone Repository",
-                Command = AppModel.Commands.OpenFromGitRepoCommand,                
+                Command = AppModel.Commands.Git.OpenFromGitRepoCommand,                
             };            
             ctx.Items.Add(mi);
 
             mi = new MenuItem
             {
                 Header = "Create Repository",
-                Command = AppModel.Commands.OpenFromGitRepoCommand,
+                Command = AppModel.Commands.Git.OpenFromGitRepoCommand,
                 CommandParameter="Create"
             };
             ctx.Items.Add(mi);
             mi = new MenuItem
             {
                 Header = "Add Git Remote",
-                Command = AppModel.Commands.OpenFromGitRepoCommand,
+                Command = AppModel.Commands.Git.OpenFromGitRepoCommand,
                 CommandParameter = "AddRemote"
             };
             ctx.Items.Add(mi);            

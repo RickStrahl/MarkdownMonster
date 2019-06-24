@@ -135,7 +135,7 @@ namespace MarkdownMonster.Utilities
                 {
                     Key="Alt+G",
                     CommandName="CommitToGit",
-                    Command = model.Commands.CommitToGitCommand
+                    Command = model.Commands.Git.CommitToGitCommand
 
                 },
 

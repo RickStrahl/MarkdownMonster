@@ -287,7 +287,7 @@
                         {
                             ci = new MenuItem();
                             ci.Header = "Open on GitHub";
-                            ci.Command = mmApp.Model.Commands.OpenOnGithubCommand;
+                            ci.Command = mmApp.Model.Commands.Git.OpenOnGithubCommand;
                             ci.CommandParameter = pathItem.FullPath;
                             ciGit.Items.Add(ci);
                         }
@@ -589,7 +589,7 @@
                     return;
 
                 bool pushToGit = mmApp.Configuration.Git.GitCommitBehavior == GitCommitBehaviors.CommitAndPush;
-                model.Commands.CommitToGitCommand.Execute(file);
+                model.Commands.Git.CommitToGitCommand.Execute(file);
             }
 
             public void MenuUndoGit_Click(object sende, RoutedEventArgs e)
@@ -622,7 +622,7 @@
                 if (selected.IsFile)
                     path = Path.GetDirectoryName(path);
 
-                Model.Commands.OpenGitClientCommand.Execute(path);
+                Model.Commands.Git.OpenGitClientCommand.Execute(path);
             }
 
             #endregion

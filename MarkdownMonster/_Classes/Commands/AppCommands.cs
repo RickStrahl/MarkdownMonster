@@ -28,6 +28,7 @@ namespace MarkdownMonster
         AppModel Model;
 
         public SpeechCommands Speech { get;  }
+        public GitCommands Git { get;  }
 
         public AppCommands(AppModel model)
         {
@@ -106,13 +107,6 @@ namespace MarkdownMonster
             TabControlFileList();
             PasteImageToFile(); // folder browser
 
-            // Git
-            OpenGitClient();
-            OpenFromGitRepo();
-            CommitToGit();
-            OpenOnGithub();
-
-
             // Sidebar
             CloseLeftSidebarPanel();
             CloseRightSidebarPanel();
@@ -123,6 +117,7 @@ namespace MarkdownMonster
             OpenFolderBrowser();
 
             Speech = new SpeechCommands(model);
+            Git = new GitCommands(model);
 
 #if DEBUG
             TestButton();
