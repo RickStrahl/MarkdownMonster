@@ -38,9 +38,6 @@ namespace MarkdownMonster
             }, (p, c) => true);
         }
 
-
-
-
         public CommandBase SpeakDocumentCommand { get; set; }
 
         void SpeakDocument()

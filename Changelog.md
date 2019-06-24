@@ -10,8 +10,14 @@
 * **Support for Cut, Copy, Paste of Files in Folder Browser**  
 The folder browser now supports cut, copy and paste operations for files both for files from the folder browser as well as to and from the Windows Shell/Explorer.
 
+* **Add Support for Text to Speech of Editor Text**  
+You can now use **Edit->Speak** to speak the current selection, the entire document or text from the clipboard using the Windows Speech API.
+
 * **Fix: Git Show in External Diff Tool**  
 Fixed bug that wouldn't show diffs for files in subfolders of the tree.
+
+* **Fix: Html Entity Display in Document View**  
+Fix bug with HTML Entities in headers in the Document View. Headers now properly decode HTML entities and capture the entire content.
 
 ### 1.18
 <small>June 17th, 2019</small>

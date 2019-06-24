@@ -13,16 +13,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" version="1.6.5">
+    <PackageReference Include="MahApps.Metro" Version="1.6.5">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Dragablz" version="0.0.3.203">
+    <PackageReference Include="Dragablz" Version="0.0.3.203">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" version="3.0.27">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.29">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1">
@@ -30,11 +30,11 @@
     </PackageReference>
     
     
-    <PackageReference Include="System.CodeDom" version="4.5.0">
+    <PackageReference Include="System.CodeDom" Version="4.5.0">
     <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
 
-    <PackageReference Include="Westwind.RazorHosting" version="3.3.9" />
+    <PackageReference Include="Westwind.RazorHosting" Version="3.3.9" />
   </ItemGroup>
 
 

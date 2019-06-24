@@ -14,24 +14,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" version="1.6.5">
+    <PackageReference Include="MahApps.Metro" Version="1.6.5">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Dragablz" version="0.0.3.203">
+    <PackageReference Include="Dragablz" Version="0.0.3.203">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="HtmlAgilityPack" version="1.11.7">
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.7">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" version="3.0.27">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.29">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
 
-    <PackageReference Include="xmlrpcnet" version="3.0.0.266" />
-    <PackageReference Include="YamlDotNet" version="6.0.0" />
+    <PackageReference Include="xmlrpcnet" Version="3.0.0.266" />
+    <PackageReference Include="YamlDotNet" Version="6.0.0" />
   </ItemGroup>
 
 <!--  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">-->
