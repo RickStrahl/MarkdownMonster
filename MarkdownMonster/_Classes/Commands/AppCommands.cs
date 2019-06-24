@@ -116,7 +116,10 @@ namespace MarkdownMonster
             ToggleFolderBrowser();
             OpenFolderBrowser();
 
+#if NETFULL
             Speech = new SpeechCommands(model);
+#endif
+
             Git = new GitCommands(model);
 
 #if DEBUG

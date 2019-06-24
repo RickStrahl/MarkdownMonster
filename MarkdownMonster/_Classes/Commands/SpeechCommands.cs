@@ -1,3 +1,5 @@
+﻿#if NETFULL
+
 using System.Speech.Synthesis;
 using System.Threading;
 using System.Windows;
@@ -106,3 +108,4 @@ namespace MarkdownMonster
 
     }
 }
+#endif
