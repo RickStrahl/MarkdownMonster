@@ -60,3 +60,7 @@
 .ace_search_options > span:hover {
     background: #777 !important;    
 }
+
+body .ace_scrollbar-h {
+  overflow-x: auto;
+}
