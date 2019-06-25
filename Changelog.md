@@ -1,4 +1,4 @@
-# Markdown Monster Change Log
+﻿# Markdown Monster Change Log
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
@@ -12,6 +12,12 @@ The folder browser now supports cut, copy and paste operations for files both fo
 
 * **Add Support for Text to Speech of Editor Text**  
 You can now use **Edit->Speak** to speak the current selection, the entire document or text from the clipboard using the Windows Speech API.
+
+* **Support for setting Document Encoding**  
+You can now set document encoding to UTF-8 or Unicode encodings on your documents. Previously new docs defaulted to UTF-8 with BOM and for other documents respected and maintained existing encodings.
+
+* **Dev: Refactor Support Editor Usage**  
+Internally consolidated the internal editor usage for various editor operations like Code blocks and Snippet Templates to use the same HTML editor and script code as the main editor. The JavaScript client editor selectively disables features not used/usable for the 'EditorSimple' implementation.
 
 * **Fix: Git Show in External Diff Tool**  
 Fixed bug that wouldn't show diffs for files in subfolders of the tree.

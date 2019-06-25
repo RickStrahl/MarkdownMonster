@@ -24,7 +24,7 @@
         Width="800" Height="768" MinHeight="768" MinWidth="600">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-		<windows:StringComparisonToBooleanConverter x:Key="StringComparisonToBooleanConverter" />
+        <windows:StringComparisonToBooleanConverter x:Key="StringComparisonToBooleanConverter" />
         <ContextMenu x:Key="BlogsContextMenu" Name="BlogsContextMenu">
         </ContextMenu>
     </Window.Resources>
