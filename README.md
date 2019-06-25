@@ -34,6 +34,8 @@ and here is the **Light Theme**:
 
 ![Markdown Monster Screen Shot](ScreenShot_Light.png)
 
+<small>*Note that you can individually customize the theming for the editor, the preview and even the code snippet display in the previewer.*</small>
+
 ### Productive
 Markdown Monster has a lot of features, but we work hard to keep those features out of your way when you don't need them. If you just want to write, MM provides a minimal editing experience that provides pleasant white space around your content and an optional distraction free mode. But if you want to be more productive use shortcuts and helpers to enhance your editing experience, we help you with many useful tools to enhance your editing experience with thoughtful productivity features. Most commands have keyboard shortcuts and can be accomplished with one or two keystrokes.
 

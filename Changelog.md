@@ -4,8 +4,8 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.18.4
-<small>not released yet</small>
+### 1.18.5
+<small>June 25th, 2019</small>
 
 * **Support for Cut, Copy, Paste of Files in Folder Browser**  
 The folder browser now supports cut, copy and paste operations for files both for files from the folder browser as well as to and from the Windows Shell/Explorer.
