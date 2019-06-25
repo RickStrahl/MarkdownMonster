@@ -1,6 +1,7 @@
 /// <reference path="editorsettings.js"/>
 /// <reference path="editorSpellcheck.js"/>
 /// <reference path="editorSpellcheck.js"/>
+/// <reference path="editor-helpers.js" />
 /// <reference path="scripts/ace/ace.js" />
 
 (function () {
@@ -112,6 +113,7 @@
                         previewRefresh();
                         te.updateDocumentStats();
                     }
+                    // left right
                     else if (event.keyCode === 37 || event.keyCode === 39)
                         te.updateDocumentStats();
                     else if (te.editor.$keybindingId === "ace/keyboard/vim" && (event.keyCode === 74 || event.keyCode == 75)) {
@@ -216,10 +218,10 @@
                     te.mm.textbox.PreviewMarkdownCallback(true, firstRow);
 
                     if (sc)
-                        sc.contentModified = true;
+                        sc.contentModified = true;  // force spell check to run
                 },
                     10);
-            }, 80);
+            }, 100);
 
             editor.session.on("changeScrollTop", changeScrollTop);
 
@@ -568,12 +570,11 @@
             });
             //setRightToLeft(style.RightToLeft);
 
-            var wrapText = style.wrapText;
-
             var session = editor.getSession();
 
-            session.setUseWrapMode(wrapText);
+            session.setUseWrapMode(style.wrapText);
             session.setOption("indentedSoftWrap", true);
+
             session.setOptions({ useSoftTabs: style.useSoftTabs, tabSize: style.tabSize });
 
             editor.setHighlightActiveLine(style.highlightActiveLine);

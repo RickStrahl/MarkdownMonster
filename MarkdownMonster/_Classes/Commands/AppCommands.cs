@@ -1146,16 +1146,13 @@ namespace MarkdownMonster
 
         void WordWrap()
         {
-            // WORD WRAP COMMAND
             WordWrapCommand = new CommandBase((parameter, command) =>
                 {
-                    //MessageBox.Show("alt-z WPF");
                     Model.Configuration.Editor.WrapText = !mmApp.Model.Configuration.Editor.WrapText;
                     Model.ActiveEditor?.RestyleEditor();
                 },
                 (p, c) => Model.IsEditorActive);
         }
-
         #endregion
 
         #region Editor CommandsToolTip;ToolTip;
