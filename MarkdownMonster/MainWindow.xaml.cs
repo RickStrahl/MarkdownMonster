@@ -2892,6 +2892,53 @@ namespace MarkdownMonster
             }
         }
 
+        private void ButtonLangugeDropDown_Click(object sender, RoutedEventArgs e)
+        {
+            var ctx = new ContextMenu();
+
+            foreach (var lang in SpellChecker.DictionaryDownloads)
+            {
+                var fname = Path.Combine(SpellChecker.InternalDictionaryFolder, lang.Code + ".dic");
+                bool exists = File.Exists(fname);
+                if (!exists)
+                {
+                    fname = Path.Combine(SpellChecker.ExternalDictionaryFolder, lang.Code + ".dic");
+                    exists = File.Exists(fname);
+                }
+
+                string header = lang.Name;
+                if (!exists)
+                    header = header + " ↆ";
+
+                var menuItem = new MenuItem()
+                {
+                    Header = header,
+                    Tag = fname,
+                    Command = Model.Commands.SetDictionaryCommand,
+                    CommandParameter = lang.Code
+                };
+                if (lang.Code.Equals(Model.Configuration.Editor.Dictionary, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    menuItem.IsCheckable = true;
+                    menuItem.IsChecked = true;
+                }
+
+                ctx.Items.Add(menuItem);
+            }
+
+            ctx.Items.Add(new Separator());
+            ctx.Items.Add(new MenuItem
+            {
+                Header = "Remove downloaded Dictionaries",
+                Command = Model.Commands.SetDictionaryCommand,
+                CommandParameter = "REMOVE-DICTIONARIES"
+            });
+
+            ctx.MaxHeight = 800;
+            ctx.IsOpen = true;
+            WindowUtilities.DoEvents();
+        }
+
         #endregion
 
         #region Window Menu Items
@@ -3079,56 +3126,6 @@ namespace MarkdownMonster
             Model.ActiveEditor?.RestyleEditor();
         }
 
-        #endregion
-
-
-        private void ButtonLangugeDropDown_Click(object sender, RoutedEventArgs e)
-        {
-            var ctx = new ContextMenu();
-
-            foreach (var lang in SpellChecker.DictionaryDownloads)
-            {
-                var fname = Path.Combine(SpellChecker.InternalDictionaryFolder, lang.Code + ".dic");
-                bool exists = File.Exists(fname);
-                if (!exists)
-                {
-                    fname = Path.Combine(SpellChecker.ExternalDictionaryFolder, lang.Code + ".dic");
-                    exists = File.Exists(fname);
-                }
-
-                string header = lang.Name;
-                if (!exists)
-                    header = header + " ↆ";
-
-                var menuItem = new MenuItem()
-                {
-                    Header = header,
-                    Tag = fname,
-                    Command = Model.Commands.SetDictionaryCommand,
-                    CommandParameter = lang.Code
-                };
-                if (lang.Code.Equals(Model.Configuration.Editor.Dictionary, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    menuItem.IsCheckable = true;
-                    menuItem.IsChecked = true;
-                }
-
-                ctx.Items.Add(menuItem);
-            }
-
-            ctx.Items.Add(new Separator());
-            ctx.Items.Add(new MenuItem
-            {
-                Header = "Remove downloaded Dictionaries",
-                Command = Model.Commands.SetDictionaryCommand,
-                CommandParameter = "REMOVE-DICTIONARIES"
-            });
-
-            ctx.MaxHeight = 800;
-            ctx.IsOpen = true;
-            WindowUtilities.DoEvents();
-        }
-
         private void StatusEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Model.ActiveDocument == null)
@@ -3137,9 +3134,9 @@ namespace MarkdownMonster
 
             string enc = StatusEncoding.SelectedValue as string;
 
-            if (enc == "Unicode")
+            if (enc == "UTF-16 LE")
                 Model.ActiveDocument.Encoding = Encoding.Unicode;
-            else if (enc == "Unicode BE")
+            else if (enc == "UTF-16 BE")
                 Model.ActiveDocument.Encoding = Encoding.BigEndianUnicode;
             else if (enc.Contains("with BOM"))
                 Model.ActiveDocument.Encoding = Encoding.UTF8; 
@@ -3147,7 +3144,7 @@ namespace MarkdownMonster
                 Model.ActiveDocument.Encoding = new UTF8Encoding(false);
         }
 
-
+        #endregion
     }
 
     public class RecentDocumentListItem

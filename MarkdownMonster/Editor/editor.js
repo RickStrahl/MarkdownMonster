@@ -671,10 +671,10 @@
         },
         updateDocumentStats: function () {
             if (te.isEditorSimple) return;
-            setTimeout(function () {
-                te.mm.textbox.updateDocumentStats(te.getDocumentStats());
-            },
-                50);
+            setTimeout(function() {
+                    var stats = te.getDocumentStats();
+                    te.mm.textbox.updateDocumentStats(stats);
+                },50);
         },
         enablespellchecking: function (disable, dictionary) {
             if (dictionary)

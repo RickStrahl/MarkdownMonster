@@ -465,8 +465,8 @@ namespace MarkdownMonster
                 {
                     "UTF-8",
                     "UTF-8 with BOM",
-                    "Unicode",
-                    "Unicode BE"
+                    "UTF-16 LE",
+                    "UTF-16 BE"
                 });
                 
                 return encodings;

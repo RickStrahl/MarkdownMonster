@@ -163,7 +163,9 @@ namespace MarkdownMonster
                     enc = "UTF-8";
             }
             else if(name == "utf-16BE")
-                    enc = "Unicode BE";
+                    enc = "UTF-16 BE";
+            else if (name == "utf-16LE")
+                enc = "UTF-16 LE";
             else
                 enc = encoding.EncodingName;
 
