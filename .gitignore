@@ -56,9 +56,9 @@ __Todo.htm
 MarkdownMonsterWeb/website.publishproj
 MarkdownMonsterWeb/App_Data/PublishProfiles/Markdown Monster Web Site.pubxml
 MarkdownMonsterWeb/BugReport/telemetry.txt
-MarkdownMonster/Editor/scripts/Ace/theme-twilight - Copy.js
 /Install/Chocolatey/push.ps1
-/Install/Chocolatey.Portable/tools
+/Install/Chocolatey.Portable/tools/*.zip
+/Install/Chocolatey.Portable/tools/Verification.txt
 /MediumApi.websurge
 /mm.vshost.exe.config
 /mm.vshost.exe.manifest
