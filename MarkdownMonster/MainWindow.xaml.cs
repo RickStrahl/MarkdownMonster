@@ -889,6 +889,15 @@ namespace MarkdownMonster
             
         }
 
+
+        /// <summary>
+        /// Adds a fontawesome icon to the editor toolbar (or any toolbar you specify explicitly).
+        /// Specify the FontAwesome Icon image name (FontAwesome.Wpf proper Case Syntax) 
+        /// </summary>
+        /// <param name="iconName">FontAwesome.WPF Icon name (proper case name)</param>
+        /// <param name="markdownActionCommand">string action from MarkupMarkdow() implementation or wrap with `html|tag`</param>
+        /// <param name="toolbar"></param>
+        /// <param name="command"></param>
         public void AddEditToolbarIcon(string iconName, string markdownActionCommand, ToolBar toolbar = null, ICommand command = null )
         {
             ImageSource icon = null;
@@ -896,9 +905,17 @@ namespace MarkdownMonster
             {
                 icon = ImageAwesome.CreateImageSource(iconId, ToolbarEdit.Foreground);
             }
-            AddEditToolbarIcon(icon, markdownActionCommand);
+            AddEditToolbarIcon(icon, markdownActionCommand, toolbar, command);
         }
 
+
+        /// <summary>
+        /// Adds an image icon to the editor toolbar 
+        /// </summary>
+        /// <param name="icon">An image source icon - should size well for 16px high</param>
+        /// <param name="markdownActionCommand">string action from MarkupMarkdow() implementation or wrap with `html|tag`</param>
+        /// <param name="toolbar"></param>
+        /// <param name="command"></param>
         public void AddEditToolbarIcon(ImageSource icon, string markdownActionCommand, ToolBar toolbar = null, ICommand command = null)
         {
             if (toolbar == null) toolbar = ToolbarEdit;
@@ -920,7 +937,6 @@ namespace MarkdownMonster
                 ToolTip = markdownActionCommand
             };
             
-
             toolbar.Items.Add(tb);
         }
 
