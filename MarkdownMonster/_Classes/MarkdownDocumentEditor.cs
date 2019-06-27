@@ -548,7 +548,7 @@ namespace MarkdownMonster
             {
                 // :-( no markdown spec for this - use HTML
                 html = wrapValue(input, "<small>", "</small>", stripSpaces: true);
-                cursorMovement = -7;
+                cursorMovement = -8;
             }
             else if (action == "underline")
             {
@@ -560,6 +560,11 @@ namespace MarkdownMonster
             {
                 html = wrapValue(input, "~~", "~~", stripSpaces: true);
                 cursorMovement = -2;
+            }
+            else if (action == "mark")
+            {
+                html = wrapValue(input, "<mark>", "</mark>", stripSpaces: true);
+                cursorMovement = -7;
             }
             else if (action == "inlinecode")
             {
@@ -756,6 +761,15 @@ namespace MarkdownMonster
                            form.Code.Trim() + "\r\n" +
                            "```\r\n";
                 }
+            }
+            // Custom HTML commands like
+            // html|mark   html|small   html|custom
+            // creates wrapped element with start/end tag wrapped around selected text
+            else if (action.StartsWith("html|"))
+            {
+                action = action.Substring(5);
+                html = wrapValue(input, $"<{action}>", $"</{action}>", stripSpaces: true);
+                cursorMovement = (action.Length + 3) * -1;
             }
             else
             {

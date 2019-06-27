@@ -872,6 +872,56 @@ namespace MarkdownMonster
             }
             else
                 ContentGrid.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#333");
+
+
+            //Button Name = "ButtonLink" Margin = "7,0" ToolTip = "Insert link (Ctrl+K)"
+            //Command = "{Binding Commands.ToolbarInsertMarkdownCommand }"
+            //CommandParameter = "href"
+            //fa: Awesome.Content = "ExternalLink"
+
+
+            //TextElement.FontFamily = "pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+            //                         />
+            foreach (var buttonItem in Model.Configuration.Editor.AdditionalToolbarIcons)
+            {
+                AddEditToolbarIcon(buttonItem.Key, buttonItem.Value);
+            }
+            
+        }
+
+        public void AddEditToolbarIcon(string iconName, string markdownActionCommand, ToolBar toolbar = null, ICommand command = null )
+        {
+            ImageSource icon = null;
+            if (FontAwesomeIcon.TryParse(iconName, out FontAwesomeIcon iconId))
+            {
+                icon = ImageAwesome.CreateImageSource(iconId, ToolbarEdit.Foreground);
+            }
+            AddEditToolbarIcon(icon, markdownActionCommand);
+        }
+
+        public void AddEditToolbarIcon(ImageSource icon, string markdownActionCommand, ToolBar toolbar = null, ICommand command = null)
+        {
+            if (toolbar == null) toolbar = ToolbarEdit;
+            if (command == null) command = Model.Commands.ToolbarInsertMarkdownCommand;
+
+            var tb = new Button()
+            {
+                Command = command,
+                CommandParameter = markdownActionCommand
+            };
+            if (icon == null)
+                icon = ImageAwesome.CreateImageSource(FontAwesomeIcon.QuestionCircle, ToolbarEdit.Foreground);
+
+            tb.Content = new Image()
+            {
+                Source = icon,
+                Height = 16,
+                Margin = new Thickness(5, 0, 5, 0),
+                ToolTip = markdownActionCommand
+            };
+            
+
+            toolbar.Items.Add(tb);
         }
 
         private TabItem OpenRecentDocuments()

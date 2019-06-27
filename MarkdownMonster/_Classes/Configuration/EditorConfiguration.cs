@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Documents;
 using MarkdownMonster.Annotations;
 
 namespace MarkdownMonster.Configuration
@@ -241,6 +243,13 @@ namespace MarkdownMonster.Configuration
         /// are not desired by some.
         /// </summary>
         public bool EnableBulletAutoCompletion { get; set; }
+
+        /// <summary>
+        /// Additional Toolbar Icons:
+        /// FontAwesomeIconId  /  MarkupMarkdown() action name
+        /// https://github.com/RickStrahl/MarkdownMonster/blob/master/MarkdownMonster/_Classes/MarkdownDocumentEditor.cs#L508
+        /// </summary>
+        public Dictionary<string, string> AdditionalToolbarIcons = new Dictionary<string, string>();
 
         #endregion
 

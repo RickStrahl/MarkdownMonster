@@ -18,6 +18,16 @@ $filetext = @"
 "@
 out-file -filepath .\tools\Verification.txt -inputobject $filetext
 
+# dont' add shims for support exes
+out-file -filepath ..\Distribution\pingo.exe.ignore  -InputObject ""
+out-file -filepath ..\Distribution\wkhtmltopdf.exe.ignore  -InputObject ""
+
+out-file -filepath ..\Distribution\roslyn\csc.exe.ignore  -InputObject ""
+out-file -filepath ..\Distribution\roslyn\csi.exe.ignore  -InputObject ""
+out-file -filepath ..\Distribution\roslyn\vbc.exe.ignore  -InputObject ""
+out-file -filepath ..\Distribution\roslyn\VBCSCompile.exe.ignore  -InputObject ""
+
+
 Remove-Item *.nupkg
 
 # Create .nupkg from .nuspec    

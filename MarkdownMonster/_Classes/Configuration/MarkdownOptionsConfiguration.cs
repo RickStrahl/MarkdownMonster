@@ -262,7 +262,6 @@ namespace MarkdownMonster
     public class MarkdownSymbols
     {
         public string Italic { get; set; } = "*";   // "_"
-        public string SoftReturn { get; set; } = "  ";  // "\\"
-
+        public string SoftReturn { get; set; } = "  ";  // "\\" or "<br />"
     }
 }

@@ -4,6 +4,13 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.18.7
+<small>not released yet</small>
+
+* **[Additional Edit Toolbar Icons on Toolbar](https://markdownmonster.west-wind.com/docs/_5im10bjpw.htmhttps://markdownmonster.west-wind.com/docs/_5im10bjpw.htm)**  
+You can now add additional toolbar icons via configuration in `Editor.AdditionalToolbarIcons` by using additional built-in toolbar commands as well as custom HTML or markup tags that wrap selected text. Also added new `MainWindow.AddEditToolbarIcon()` that allow addins to easily add toolbar buttons.
+
 ### 1.18.5
 <small>June 25th, 2019</small>
 
