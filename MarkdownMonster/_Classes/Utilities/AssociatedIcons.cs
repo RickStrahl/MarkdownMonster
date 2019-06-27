@@ -223,6 +223,7 @@ namespace MarkdownMonster.Utilities
             {".doc", "docx"},
             {".docx", "docx"},
             {".xls","xls" },
+            {".xlsx","xls" },
             {".one", "onenote"},
             {".onenote", "onenote"},
             {".pdf", "pdf"},
