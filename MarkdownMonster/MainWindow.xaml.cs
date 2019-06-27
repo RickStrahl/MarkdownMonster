@@ -177,6 +177,7 @@ namespace MarkdownMonster
             mmApp.SetThemeWindowOverride(this);
 
             StatusBarHelper = new StatusBarHelper(StatusText, StatusIcon);
+
         }
 
 
@@ -184,6 +185,7 @@ namespace MarkdownMonster
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            
             // Load either default preview browser or addin-overridden browser
             LoadPreviewBrowser();
 
@@ -233,7 +235,13 @@ namespace MarkdownMonster
                 }
 
                 AddinManager.Current.RaiseOnWindowLoaded();
-            },DispatcherPriority.ApplicationIdle);
+
+
+                // Handle Tab Header double click for new tab
+                var tabHeaderContainer = TabControl.FindChild<Grid>("HeaderContainerGrid");
+                tabHeaderContainer.Background = Brushes.Transparent; // REQUIRED OR CLICK NOT FIRING!
+                tabHeaderContainer.MouseLeftButtonDown += TabHeader_DoubleClick;
+            }, DispatcherPriority.ApplicationIdle);
 
 
             KeyBindings = new MarkdownMonsterKeybindings(this);
@@ -246,6 +254,9 @@ namespace MarkdownMonster
                 Task.Run(() => KeyBindings.SaveKeyBindings());
             }
             KeyBindings.SetKeyBindings();
+
+
+            
         }
 
 
@@ -2267,10 +2278,16 @@ namespace MarkdownMonster
             context.ShowContextMenu();
             e.Handled = true;
         }
-        #endregion
 
-        #region Tab Drag and Drop
-        private System.Windows.Point _dragablzStartPoint;
+        private void TabHeader_DoubleClick(object sender, MouseButtonEventArgs ev)
+        {
+            if (ev.ClickCount == 2)
+                OpenTab("untitled");
+        }
+    #endregion
+
+    #region Tab Drag and Drop
+    private System.Windows.Point _dragablzStartPoint;
 
         private void DragablzItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
