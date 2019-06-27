@@ -219,10 +219,9 @@ namespace MarkdownMonster
                 }
 
                 OpenFavorites(noActivate: true);
-
-                //mmApp.SetWorkingSet(10000000, 5000000);
             }, DispatcherPriority.Background);
 
+            // run when app is loaded
             Dispatcher.InvokeAsync(() =>
             {
                 try
@@ -237,13 +236,15 @@ namespace MarkdownMonster
                 AddinManager.Current.RaiseOnWindowLoaded();
 
 
-                // Handle Tab Header double click for new tab
+                // Tab Header double click to open new tab
                 var tabHeaderContainer = TabControl.FindChild<Grid>("HeaderContainerGrid");
                 tabHeaderContainer.Background = Brushes.Transparent; // REQUIRED OR CLICK NOT FIRING!
                 tabHeaderContainer.MouseLeftButtonDown += TabHeader_DoubleClick;
+
             }, DispatcherPriority.ApplicationIdle);
 
-
+            // TODO: Check to see why this fails in async block above ^^^
+            // this fails to load asynchronously so do it here
             KeyBindings = new MarkdownMonsterKeybindings(this);
             if (!File.Exists(KeyBindings.KeyBindingsFilename))
                 KeyBindings.SaveKeyBindings();
@@ -255,8 +256,6 @@ namespace MarkdownMonster
             }
             KeyBindings.SetKeyBindings();
 
-
-            
         }
 
 

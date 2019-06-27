@@ -11,6 +11,13 @@
 * **[Additional Edit Toolbar Icons on Toolbar](https://markdownmonster.west-wind.com/docs/_5im10bjpw.htmhttps://markdownmonster.west-wind.com/docs/_5im10bjpw.htm)**  
 You can now add additional toolbar icons via configuration in `Editor.AdditionalToolbarIcons` by using additional built-in toolbar commands as well as custom HTML or markup tags that wrap selected text. Also added new `MainWindow.AddEditToolbarIcon()` that allow addins to easily add toolbar buttons.
 
+* **Double Click on Empty Tab Header to open new Document**  
+You can now double click the empty tab header to open a new document.
+
+* **Fix: DPI Sizing of Editor MaxWidth**  
+Add DPI adjustment for scaled displayed in the Editor MaxWidth setting for centered view in the editor. This avoids the problem of the display 'shrinking' on scaled displays.
+
+
 ### 1.18.5
 <small>June 25th, 2019</small>
 
