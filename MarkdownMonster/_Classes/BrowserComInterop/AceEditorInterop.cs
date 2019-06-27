@@ -315,7 +315,7 @@ namespace MarkdownMonster
             {
                 Theme = config.EditorTheme,
                 FontSize = (int) fontSize,
-                MaxWidth = maxWidth,
+                MaxWidth = maxWidth * dpiRatio,
                 config.Editor.Font,
                 config.Editor.LineHeight,
                 config.Editor.Padding,
