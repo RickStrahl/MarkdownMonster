@@ -104,8 +104,9 @@ namespace MarkdownMonster
         /// <param name="md"></param>
         /// <param name="selectionRange"></param>
         /// <param name="link"></param>
+        /// <param name="text">If link text is passed it's used instead of selection</param>
         /// <returns></returns>
-        public static LinkReferenceResult AddLinkReference(string md, SelectionRange selectionRange, string link)
+        public static LinkReferenceResult AddLinkReference(string md, SelectionRange selectionRange, string link, string text = null)
         {
             const string STR_NEWID_PLACEHOLDER = "999999";
 
@@ -131,11 +132,15 @@ namespace MarkdownMonster
                 }
             }
 
+            
             var lines = StringUtils.GetLines(md);
             var activeLine = lines[selectionRange.StartRow];
-            string selText = activeLine.Substring(selectionRange.StartColumn, selectionRange.EndColumn - selectionRange.StartColumn);
+
+            if (string.IsNullOrEmpty(text))
+                text = activeLine.Substring(selectionRange.StartColumn, selectionRange.EndColumn - selectionRange.StartColumn);
+            
             activeLine = activeLine.Remove(selectionRange.StartColumn, selectionRange.EndColumn - selectionRange.StartColumn);
-            activeLine = activeLine.Insert(selectionRange.StartColumn, $"[{selText}][{STR_NEWID_PLACEHOLDER}]");
+            activeLine = activeLine.Insert(selectionRange.StartColumn, $"[{text}][{STR_NEWID_PLACEHOLDER}]");
             lines[selectionRange.StartRow] = activeLine;
 
             md = string.Join("\r\n", lines);

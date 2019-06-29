@@ -794,7 +794,7 @@ namespace MarkdownMonster
             LinkReferenceResult markdownResult = null;
             try
             {
-                markdownResult = MarkdownUtilities.AddLinkReference(MarkdownDocument.CurrentText, origRange, form.Link);
+                markdownResult = MarkdownUtilities.AddLinkReference(MarkdownDocument.CurrentText, origRange, form.Link, form.LinkText);
             }
             catch (Exception ex)
             {

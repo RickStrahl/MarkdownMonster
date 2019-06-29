@@ -49,10 +49,10 @@ namespace MarkdownMonster
 
             return new SelectionRange
             {
-                StartRow = (int) ReflectionUtils.GetPropertyCom(range, "startRow"),
-                EndRow = (int) ReflectionUtils.GetPropertyCom(range, "endRow"),
-                StartColumn = (int) ReflectionUtils.GetPropertyCom(range, "startColumn"),
-                EndColumn = (int) ReflectionUtils.GetPropertyCom(range, "endColumn")
+                StartRow = Convert.ToInt32( ReflectionUtils.GetPropertyCom(range, "startRow")),
+                EndRow = Convert.ToInt32(ReflectionUtils.GetPropertyCom(range, "endRow")),
+                StartColumn = Convert.ToInt32(ReflectionUtils.GetPropertyCom(range, "startColumn")),
+                EndColumn = Convert.ToInt32(ReflectionUtils.GetPropertyCom(range, "endColumn"))
             };
         }
 
