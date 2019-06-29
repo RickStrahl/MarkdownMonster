@@ -444,6 +444,9 @@ namespace MarkdownMonster.Windows
             {
                 var rowColumns = new ObservableCollection<CellContent>();
                 var cols = trNode.SelectNodes("td");
+                if (cols == null)
+                    continue;
+                
                 foreach (var node in cols)
                 {
                     string text;

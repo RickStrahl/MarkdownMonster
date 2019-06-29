@@ -529,6 +529,9 @@
                     return;
 
                 var dl = data.GetData(DataFormats.FileDrop) as string[];
+                if (dl == null)
+                    return;
+
                 var ms = data.GetData("Preferred DropEffect") as MemoryStream;
                 bool isCut = false;
                 if (ms != null)
