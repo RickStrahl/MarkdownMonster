@@ -14,6 +14,9 @@ You can now add additional toolbar icons via configuration in `Editor.Additional
 * **Double Click on Empty Tab Header to open new Document**  
 You can now double click the empty tab header to open a new document.
 
+* **Additional Languages for Code Highlighting**  
+Added Dart, Kotlin, Nginx and Apache as additional syntax languages to display in the preview.
+
 * **Fix: DPI Sizing of Editor MaxWidth**  
 Add DPI adjustment for scaled displayed in the Editor MaxWidth setting for centered view in the editor. This avoids the problem of the display 'shrinking' on scaled displays.
 

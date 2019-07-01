@@ -415,7 +415,7 @@ namespace MarkdownMonster
                     debounceSaveOperation.Debounce(2000, (p) => AutoSaveAsync());                    
             }
         }
-        private string _currentText;
+        private string _currentText = string.Empty;
 
 
         /// <summary>
@@ -946,6 +946,7 @@ namespace MarkdownMonster
         /// <param name="markdown">markdown to render</param>
         /// <param name="renderLinksExternal">Determines whether links have a target='top' attribute</param>
         /// <param name="usePragmaLines">renders line numbers into html output as ID tags for editor positioning</param>
+        /// <param name="noBanner"></param>
         /// <returns></returns>
         public string RenderHtml(string markdown = null,
             bool usePragmaLines = false,
@@ -984,7 +985,8 @@ namespace MarkdownMonster
 
             OnMarkdownRendered(ref html, ref markdown);
 
-            if (!noBanner && !string.IsNullOrEmpty(html) && !UnlockKey.Unlocked &&
+            if (!noBanner && !string.IsNullOrEmpty(html) &&
+                !UnlockKey.Unlocked &&
                 mmApp.Configuration.ApplicationUpdates.AccessCount > 20)
             {
                 html += @"
