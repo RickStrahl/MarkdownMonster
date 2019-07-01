@@ -20,7 +20,7 @@ namespace MarkdownMonster.Test
         {
 
             var finder = new SearchInFilesFinder(STR_Folder,"*.*");
-
+            finder.NoMatchDetails = true;
             var result = finder.SearchFiles("Markdown");
 
             Assert.IsTrue(result.Count > 0, "No matches - should have matched");

@@ -1,0 +1,108 @@
+﻿    <UserControl x:Class="MarkdownMonster.Windows.FileSearchControl"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
+                 xmlns:windows="clr-namespace:MarkdownMonster.Windows"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 mc:Ignorable="d" 
+                 d:DesignHeight="600" d:DesignWidth="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" /> 
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Background="{StaticResource SidebarHeaderBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <fa:FontAwesome Icon="Search" Foreground="Goldenrod" Height="16" Width="16" Margin="5,2,0,0" />
+                <TextBlock Height="Auto" 
+                           Text="Search"  
+                           FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
+            </StackPanel>
+            <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
+                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="4"  
+                     Name="ButtonClosePanel" BorderThickness="0" FontSize="12"                     
+                     ToolTip="Close Sidebar Panel" 
+                     Command="{Binding AppModel.Commands.CloseLeftSidebarPanelCommand}" />
+        </Grid>
+
+        <StackPanel Name="SearchBox" Grid.Row="1">
+
+            <TextBox x:Name="SearchPhrase"  Margin="10,10,10,5" Grid.Row="1"             
+                     Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" 
+                     BorderThickness="0.3" Padding="1"
+                     mah:TextBoxHelper.SelectAllOnFocus="True"
+                     Opacity="0.8"  FontSize="13" FontWeight="Normal"    
+                     mah:TextBoxHelper.Watermark="Search text in files" 
+                     mah:TextBoxHelper.ClearTextButton="True" />
+
+            <TextBox x:Name="ReplaceText"  Margin="10,0,10,10" Grid.Row="1"             
+                     Text="{Binding ReplaceText}" 
+                     BorderThickness="0.3" Padding="1"
+                     mah:TextBoxHelper.SelectAllOnFocus="True"
+                     Opacity="0.8"  FontSize="13" FontWeight="Normal"    
+                     mah:TextBoxHelper.Watermark="Replace text" 
+                     mah:TextBoxHelper.ClearTextButton="True" />
+
+
+            <TextBox x:Name="SearchFolder"  Margin="10,0,10,5" Grid.Row="1"             
+                     Text="{Binding SearchFolder, UpdateSourceTrigger=PropertyChanged, Delay=200}" 
+                     ToolTip="{Binding SearchFolder}" 
+                     BorderThickness="0.3" Padding="1"
+                     mah:TextBoxHelper.SelectAllOnFocus="True"
+                     Opacity="0.8"  FontSize="13" FontWeight="Normal"    
+                     mah:TextBoxHelper.Watermark="Folder to search" 
+                     mah:TextBoxHelper.ClearTextButton="True" />
+
+            <CheckBox x:Name="SearchSubFolders" IsChecked="{Binding SearchSubFolders}"
+                      FontSize="14" FontWeight="Normal" Margin="10,0,10,10" Style="{StaticResource CompactCheckBox}" 
+                      Content="search sub-folders"
+                      />
+
+            <TextBox x:Name="FileFilters"  Margin="10,0,10,10" Grid.Row="1"             
+                     Text="{Binding FileFilters}" 
+                     ToolTip="Comma delimited list of wildcard file filters. Examples: '*.md' or '*.md,*.txt,*.markdown'"
+                     BorderThickness="0.3" Padding="1"
+                     mah:TextBoxHelper.SelectAllOnFocus="True"
+                     Opacity="0.8"  FontSize="13" FontWeight="Normal"    
+                     mah:TextBoxHelper.Watermark="File Filters" 
+                     mah:TextBoxHelper.ClearTextButton="True" />
+
+
+            <Button Name="ButtonSearch"  FontSize="13" 
+                    Width="80" HorizontalAlignment="Left"  Margin="10,0,0,10"
+                    IsEnabled="{Binding IsSearchValid}"
+                    IsDefault="True" Click="Search_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="Search" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                    Foreground="Green" FontSize="15"/>
+                    <TextBlock Margin="5,0,0,0">Search</TextBlock>
+                </StackPanel>
+            </Button>
+
+        </StackPanel>
+
+        <Grid Name="ResultPane" Grid.Row="2">
+            <ListBox Name="ListResults" ItemsSource="{Binding SearchResults}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Filename}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+</UserControl>

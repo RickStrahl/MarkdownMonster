@@ -132,6 +132,8 @@ namespace MarkdownMonster
 
         public TabItem FavoritesTab { get; set; }
 
+        public TabItem SearchTab { get; set; }
+
         public TabItem LintingErrorTab { get; set; }
 
 
@@ -219,6 +221,7 @@ namespace MarkdownMonster
                 }
 
                 OpenFavorites(noActivate: true);
+                //OpenSearchPane(noActivate: true);
             }, DispatcherPriority.Background);
 
             // run when app is loaded
@@ -2363,8 +2366,7 @@ namespace MarkdownMonster
             if (FavoritesTab == null)
             {
                 FavoritesTab = new MetroTabItem();
-                var favorites = new FavoritesControl();
-                FavoritesTab.Content = favorites;
+                FavoritesTab.Content = new FavoritesControl();
 
                 AddLeftSidebarPanelTabItem(FavoritesTab, "Favorite Files and Folders",
                     ImageAwesome.CreateImageSource(FontAwesomeIcon.Star, Brushes.Goldenrod, 11),
@@ -2380,6 +2382,30 @@ namespace MarkdownMonster
                     control?.TextSearch.Focus();
                 });
             }
+        }
+
+        
+
+        public void OpenSearchPane(bool noActivate = false)
+        {
+            if (SearchTab == null)
+            {
+                SearchTab = new MetroTabItem() {Content = new FileSearchControl()};
+
+                AddLeftSidebarPanelTabItem(SearchTab, "File Search",
+                    ImageAwesome.CreateImageSource(FontAwesomeIcon.Search, Brushes.SteelBlue, 11),!noActivate);
+            }
+            else
+            {
+                SidebarContainer.SelectedItem = SearchTab;
+
+                Dispatcher.InvokeAsync(() =>
+                {
+                    var control = SearchTab.Content as FileSearchControl;
+                    control?.SearchPhrase.Focus();
+                });
+            }
+
         }
 
         #endregion

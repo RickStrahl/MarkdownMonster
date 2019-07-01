@@ -11,23 +11,25 @@ namespace MarkdownMonster.Utilities
     public class SearchInFilesFinder
     {
         public string Path { get; set; }
-        public string SearchPattern { get; set; }
-        public string[] Extensions { get; set; }
+        public string SearchFilePattern { get; set; }
 
         public string SearchPhrase { get; set; }
 
+        public string ReplacePhrase { get; set; }
+
+        public bool NoMatchDetails { get; set; }
+
+        public bool SearchSubFolders { get; set; } = true;
+
         private byte[] SearchPhraseBytes { get; set;  }
 
-        public SearchInFilesFinder(string path, string searchPattern, params string[] extensions)
+        public SearchInFilesFinder(string path, string searchFilePattern, params string[] extensions)
         {
             Path = path;
-            SearchPattern = searchPattern;
-            if (searchPattern == null)
-                SearchPattern = "*.*";
-            if (extensions == null || extensions.Length == 0)
-                extensions = new string[] {".md", ".markdown", ".txt"};
-            Extensions = extensions;
-
+            SearchFilePattern = searchFilePattern;
+            if (searchFilePattern == null)
+                SearchFilePattern = "*.*";
+            
         }
 
 
@@ -56,24 +58,40 @@ namespace MarkdownMonster.Utilities
 
         private void SearchFolder(List<SearchFileResult> list, string folder)
         {
-            var files = Directory.GetFiles(folder, SearchPattern);
-            foreach (var file in files)
+            var filters = SearchFilePattern.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var filter in filters)
             {
-                var ext = System.IO.Path.GetExtension(file);
-                if (!StringUtils.Inlist(ext, Extensions))
+                string[] files;
+                try
+                {
+                    files = Directory.GetFiles(folder, filter, SearchOption.TopDirectoryOnly);
+                }
+                catch
+                {
                     continue;
+                }
 
-                var result = new SearchFileResult {Filename = file};
-                if (SearchFile(result)  > 0 ||
-                    file.Contains(SearchPhrase, StringComparison.InvariantCultureIgnoreCase))
-                    list.Add(result);
+                foreach (var file in files)
+                {
+                    var result = new SearchFileResult {Filename = file};
+                    if (SearchFile(result) > 0 ||
+                        file.Contains(SearchPhrase, StringComparison.InvariantCultureIgnoreCase))
+                        list.Add(result);
+                }
             }
 
-            var dirs = Directory.GetDirectories(folder, "*.*", SearchOption.TopDirectoryOnly);
-            foreach (var dir in dirs)
-                SearchFolder(list, dir);
-        }
+            if (!SearchSubFolders)
+                return;
 
+            try
+            {
+                var folders = Directory.GetDirectories(folder, "*.*");
+                foreach (var childFolder in folders)
+                    SearchFolder(list, childFolder);
+            }
+            catch { }
+
+        }
 
         private int SearchFile(SearchFileResult result)
         {
@@ -88,6 +106,9 @@ namespace MarkdownMonster.Utilities
                 if (pos == -1)
                     break;
 
+                if (NoMatchDetails)
+                    return 1;
+
                 matches++;
 
                 var match = new SearchTextMatch();
@@ -99,9 +120,6 @@ namespace MarkdownMonster.Utilities
 
             return matches;
         }
-
-
-
 
     }
 
