@@ -405,6 +405,14 @@ namespace MarkdownMonster
             Invoke("split", location);
         }
 
+        public void OpenSearch(string searchText)
+        {
+            Invoke("openSearch", searchText);
+        }
+        public void OpenSearchAndReplace(string searchText, string replaceText)
+        {
+            Invoke("openSearchAndReplace", searchText,replaceText);
+        }
         public void ExecCommand(string action, string parm)
         {
             Invoke("execcommand", action, parm);

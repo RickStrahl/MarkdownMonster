@@ -129,6 +129,11 @@ namespace MarkdownMonster.Utilities
         
         public string Filename { get; set; }
 
+        public string FilePath => Path.GetDirectoryName(Filename);
+
+        public string FileOnly => Path.GetFileName(Filename);
+
+
         public List<SearchTextMatch> Matches
         {
             get
@@ -145,7 +150,7 @@ namespace MarkdownMonster.Utilities
     public class SearchTextMatch {
         public int StartPos { get; set; }
         public int EndPos { get; set; }
-        public string MatchedLine  { get; set; }
+        public string MatchedLines  { get; set; }
     }
 
     public enum SearchTypes

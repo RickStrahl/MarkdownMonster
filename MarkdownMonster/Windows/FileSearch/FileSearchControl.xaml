@@ -97,11 +97,15 @@
             <ListBox Name="ListResults" ItemsSource="{Binding SearchResults}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Filename}" />
-                        </StackPanel>
+                        <Border Padding="3,5" MouseUp="Border_MouseUp">
+                            <StackPanel>
+                                <TextBlock Text="{Binding FileOnly}" />
+                                <TextBlock Text="{Binding FilePath}" FontSize="11" Foreground="Silver" />
+                            </StackPanel>
+                        </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+
             </ListBox>
         </Grid>
     </Grid>

@@ -523,6 +523,24 @@
 
             te.editor.session.replace(range, replace);
         },
+        openSearch: function(searchText) {
+            te.editor.execCommand("find");
+            setTimeout(function() {
+                var el$ = $(".ace_search_form .ace_search_field");
+                el$.val(searchText);
+            },50);
+            //this.replaceBox = sb.querySelector(".ace_replace_form");
+        },
+        openSearchAndReplace: function (searchText, replaceText) {
+            te.editor.execCommand("find");
+            setTimeout(function () {
+                var el$ = $(".ace_search_form  .ace_search_field").val(searchText);
+                $(".ace_replace_form  .ace_search_field").val(replaceText);
+
+                el$.val(searchText);
+                el$.focus();
+            }, 100);
+        },
 
         setlanguage: function (lang) {
 
@@ -1059,4 +1077,10 @@ function initializeinteropSimple(textbox) {
 
     return window.textEditor;
 }
+
+
+// Standalone testing - uncomment this
+//setTimeout(function() {
+//    window.textEditor.initialize(null);
+//},400);
 

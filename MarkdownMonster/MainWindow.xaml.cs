@@ -221,7 +221,7 @@ namespace MarkdownMonster
                 }
 
                 OpenFavorites(noActivate: true);
-                //OpenSearchPane(noActivate: true);
+                OpenSearchPane(noActivate: true);
             }, DispatcherPriority.Background);
 
             // run when app is loaded
