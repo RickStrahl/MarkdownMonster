@@ -159,7 +159,7 @@ namespace WeblogAddin
             // so we render without the config data
             var meta = WeblogPostMetadata.GetPostConfigFromMarkdown(markdown, WeblogModel.ActivePost, weblogInfo);
 
-            string html = doc.RenderHtml(meta.MarkdownBody, WeblogAddinConfiguration.Current.RenderLinksOpenExternal);
+            string html = doc.RenderHtml(meta.MarkdownBody,false);
             WeblogModel.ActivePost.Body = html;
             WeblogModel.ActivePost.PostId = meta.PostId;
 	        WeblogModel.ActivePost.PostStatus = meta.PostStatus;
