@@ -110,8 +110,8 @@ namespace MarkdownMonster
         {
             const string STR_NEWID_PLACEHOLDER = "999999";
 
-            if (string.IsNullOrEmpty(md))
-                return null;
+            if (md == null)
+                md = string.Empty;
 
             var result = new LinkReferenceResult();
 
