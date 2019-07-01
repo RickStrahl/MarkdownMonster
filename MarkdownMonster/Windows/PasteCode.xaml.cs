@@ -62,6 +62,8 @@ namespace MarkdownMonster.Windows
                 {"typescript", "TypeScript"},
                 {"json", "Json"},
                 {"xml", "Xml" },
+                {"yaml", "Yaml" },
+                {"markdown","Markdown" },
 
                 {"sql","SQL" },
                 {"vbnet", "Vb.Net"},
@@ -73,6 +75,8 @@ namespace MarkdownMonster.Windows
                 {"python", "Python"},
                 {"php", "PHP"},
                 {"java", "Java"},
+                {"dart", "Dart" },
+                {"kotlin", "Kotlin" },
                 {"swift", "Swift"},
                 {"objectivec", "Objective C"},
                 {"vbscript", "VB Script"},
@@ -82,10 +86,8 @@ namespace MarkdownMonster.Windows
                 {"dockerfile", "Docker file"},
                 {"makefile", "Make file"},
                 {"nginx", "NgInx"},
-
-                {"markdown","Markdown" },
-                {"yaml", "Yaml" },
-
+                {"apache", "Apache"},
+                
                 {"powershell", "PowerShell"},
                 {"dos", "DOS"},
                 {"bash", "Bash" },
@@ -94,7 +96,7 @@ namespace MarkdownMonster.Windows
                 {"perl", "Perl"},
                 {"diff", "Diff file"},
 
-                {"text", "Text - plain text, no formatting" }
+                {"text", "Text - no formatting" }
             }
             .OrderBy(kv => kv.Key.ToLower())
             .ToDictionary(kv=> kv.Key, kv=> kv.Value);
