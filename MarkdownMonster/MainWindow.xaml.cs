@@ -26,12 +26,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -221,7 +220,8 @@ namespace MarkdownMonster
                 }
 
                 OpenFavorites(noActivate: true);
-                OpenSearchPane(noActivate: true);
+
+                //OpenSearchPane(noActivate: true);
             }, DispatcherPriority.Background);
 
             // run when app is loaded
@@ -2386,7 +2386,7 @@ namespace MarkdownMonster
 
         
 
-        public void OpenSearchPane(bool noActivate = false)
+        public FileSearchControl OpenSearchPane(bool noActivate = false)
         {
             if (SearchTab == null)
             {
@@ -2406,6 +2406,7 @@ namespace MarkdownMonster
                 });
             }
 
+            return SearchTab.Content as FileSearchControl;
         }
 
         #endregion

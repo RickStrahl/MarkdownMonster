@@ -220,6 +220,12 @@ namespace MarkdownMonster.Utilities
                 },
                 new AppKeyBinding
                 {
+                    Key="Ctrl+Shift+F",
+                    CommandName="FindInFiles",
+                    Command= model.Commands.OpenSearchSidebarCommand
+                },
+                new AppKeyBinding
+                {
                     Key = "F12",
                     CommandName = "TogglePreviewBrowser",
                     HasJavaScriptHandler= false

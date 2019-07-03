@@ -156,6 +156,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal">
@@ -175,20 +176,25 @@
                     Name="ButtonRecentFolders" BorderThickness="0"  FontSize="12"
                     ToolTip="Recent Folders" 
                     Click="ButtonRecentFolders_Click" />
+                <Button fa:Awesome.Content="Search" Grid.Column="3" Background="Transparent"
+                        Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" 
+                        Name="ButtonSearchFiles" BorderThickness="0"  FontSize="12"
+                        ToolTip="Search in Files"
+                        Command="{Binding AppModel.Commands.OpenSearchSidebarCommand}"
+                        CommandParameter="{Binding ActivePathItem.FullPath}" />
                 <Button  fa:Awesome.Content="LocationArrow" Background="Transparent" 
-			         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="3"  
+			         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="4"  
 					 Name="ButtonUseCurrentFolder" BorderThickness="0" FontSize="12"
 			         ToolTip="Set Folder to Active Document's Folder" 
                      Command="{Binding AppModel.Commands.OpenFolderBrowserCommand}"
-
-			         controls:VisibilityHelper.IsVisible="{Binding AppModel.IsEditorActive}" />
+                     controls:VisibilityHelper.IsVisible="{Binding AppModel.IsEditorActive}" />
                 <Button  fa:Awesome.Content="Refresh" Background="Transparent" 
-			         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="4"  
+			         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="5"  
 			         Name="ButtonRefreshFolder" BorderThickness="0"  FontSize="12"
 			         ToolTip="Refresh Folder"
 			         Click="ButtonRefreshFolder_Click" />
                 <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
-			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="5"  
+			         Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="6"  
 			         Name="ButtonClosePanel" BorderThickness="0" FontSize="12"
 			         ToolTip="Close Folder Browser Panel" 
                          Command="{Binding AppModel.Commands.CloseLeftSidebarPanelCommand}"  /> 			         

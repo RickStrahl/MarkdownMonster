@@ -1,8 +1,7 @@
 {
   "profiles": {
     "MarkdownMonster": {
-      "commandName": "Project",
-      "commandLineArgs": "."
+      "commandName": "Project"
     }
   }
 }

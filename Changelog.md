@@ -20,7 +20,6 @@ Added Dart, Kotlin, Nginx and Apache as additional syntax languages to display i
 * **Fix: DPI Sizing of Editor MaxWidth**  
 Add DPI adjustment for scaled displayed in the Editor MaxWidth setting for centered view in the editor. This avoids the problem of the display 'shrinking' on scaled displays.
 
-
 ### 1.18.5
 <small>June 25th, 2019</small>
 

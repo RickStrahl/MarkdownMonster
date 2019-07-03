@@ -99,6 +99,7 @@ namespace MarkdownMonster
 
             // Miscellaneous
             OpenAddinManager();
+            OpenSearchSidebar();
             ShowSidebarTab();
 
             Help();
@@ -1658,6 +1659,32 @@ namespace MarkdownMonster
                 var form = new AddinManagerWindow {Owner = Model.Window};
                 form.Show();
             });
+        }
+
+
+
+        public CommandBase OpenSearchSidebarCommand { get; set; }
+
+        void OpenSearchSidebar()
+        {
+            OpenSearchSidebarCommand = new CommandBase((parameter, command) =>
+            {
+                var path = parameter as string;
+                if (string.IsNullOrEmpty(path))
+                {
+                    path = Model.ActiveProject?.Filename;
+                    if (string.IsNullOrEmpty(path))
+                       path = Path.GetDirectoryName(Model.ActiveDocument?.Filename);
+                }
+
+                var searchControl = Model.Window.OpenSearchPane();
+
+                if (!string.IsNullOrEmpty(path))
+                    searchControl.Model.SearchFolder = path;
+
+                Model.Window.Dispatcher.InvokeAsync(() => searchControl.SearchPhrase.Focus(),
+                    DispatcherPriority.ApplicationIdle);
+            }, (p, c) => true);
         }
 
 

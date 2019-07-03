@@ -167,7 +167,7 @@ namespace MarkdownMonster.Windows.FileSearch
             if (result.Count < 1)
                 Window.ShowStatusError("No matching files found.");
             else
-                Window.ShowStatusSuccess(result.Count + " match(es) found.");
+                Window.ShowStatusSuccess($"{result.Count} file{(result.Count > 1 ? "s" : "")} found.");
         }
 
 

@@ -54,7 +54,9 @@
                      Command="{Binding AppModel.Commands.CloseLeftSidebarPanelCommand}" />
         </Grid>
 
-        <StackPanel Name="SearchBox" Grid.Row="1">
+
+        <StackPanel Name="SearchBox" Grid.Row="1" PreviewKeyDown="SearchBox_PreviewKeyDown"
+                    FocusManager.FocusedElement="{Binding ElementName=SearchPhrase}">
 
             <TextBox x:Name="SearchPhrase"  Margin="10,10,10,5" Grid.Row="1"             
                      Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" 
@@ -102,20 +104,17 @@
                           FontSize="14" FontWeight="Normal" Margin="5,0,10,10" Style="{StaticResource CompactCheckBox}" 
                           Content="search sub-folders"
                 />
-
             </Grid>
 
             <Button Name="ButtonSearch"  FontSize="13" 
                     Width="80" HorizontalAlignment="Left"  Margin="10,0,0,10"
-                    IsEnabled="{Binding IsSearchValid}"
-                    IsDefault="True" Click="Search_Click" >
+                    IsEnabled="{Binding IsSearchValid}" Click="Search_Click" >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Search" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                     Foreground="Green" FontSize="15"/>
                     <TextBlock Margin="5,0,0,0">Search</TextBlock>
                 </StackPanel>
             </Button>
-
         </StackPanel>
 
         <Grid Name="ResultPane" Grid.Row="2">

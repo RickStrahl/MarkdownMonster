@@ -331,6 +331,9 @@
                           ToolTip="Find text in the active document" 
                           Click="Button_Handler"
                           InputGestureText="Ctrl+H" />
+                <MenuItem Header="Find in Files" 
+                          Command="{Binding Commands.OpenSearchSidebarCommand}"
+                />
             </MenuItem>
             <MenuItem Header="_Tools" Name="MainMenuTools" x:FieldModifier="public">                 
                 <MenuItem Name="MenuAddinManager" Header="_Add-in Manager" Command="{Binding Commands.AddinManagerCommand}"/>
