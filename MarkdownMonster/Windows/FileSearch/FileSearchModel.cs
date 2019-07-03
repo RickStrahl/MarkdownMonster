@@ -101,7 +101,7 @@ namespace MarkdownMonster.Windows.FileSearch
                 OnPropertyChanged(nameof(FileFilters));
             }
         }
-        private string _FileFilters = "*.md,*.markdown,*.txt";
+        private string _FileFilters = "*.md";
 
 
 
@@ -160,7 +160,7 @@ namespace MarkdownMonster.Windows.FileSearch
             finder.SearchSubFolders = SearchSubFolders;
             var result = await finder.SearchFilesAsync(SearchPhrase);
             if (result != null)
-                SearchResults = new ObservableCollection<SearchFileResult>(result);
+                SearchResults = new ObservableCollection<SearchFileResult>(result.OrderBy( r=> r.FilePath + "!" + r.FileOnly) );
             else
                 SearchResults = new ObservableCollection<SearchFileResult>();
 

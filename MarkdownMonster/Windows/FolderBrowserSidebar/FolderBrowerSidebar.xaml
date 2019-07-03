@@ -167,7 +167,7 @@
 
                 <Button fa:Awesome.Content="FolderOpen" Grid.Column="1" Background="Transparent"
 			        Foreground="{DynamicResource BlueItem}" Padding="5,0,5,0"
-			        Name="ButtonSelecttFolder" BorderThickness="0"  FontSize="12"
+			        Name="ButtonSelectFolder" BorderThickness="0"  FontSize="12"
 			        ToolTip="Browse for Folder" 
 			        Click="ButtonSelectFolder_Click" />
                 <Button fa:Awesome.Content="History" Grid.Column="2" Background="Transparent"

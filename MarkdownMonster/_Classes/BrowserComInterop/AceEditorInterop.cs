@@ -405,15 +405,33 @@ namespace MarkdownMonster
             Invoke("split", location);
         }
 
+        /// <summary>
+        /// Opens the Editor's Search box and fills in the Search text
+        /// </summary>
+        /// <param name="searchText"></param>
         public void OpenSearch(string searchText)
         {
             Invoke("openSearch", searchText);
         }
+        
+        /// <summary>
+        /// Opens the Search and Replace box and fills in the
+        /// search and replace text
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="replaceText"></param>
         public void OpenSearchAndReplace(string searchText, string replaceText)
         {
             Invoke("openSearchAndReplace", searchText,replaceText);
         }
-        public void ExecCommand(string action, string parm)
+
+
+        /// <summary>
+        /// Execute an ACE Editor Command with an optional parameter
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="parm"></param>
+        public void ExecCommand(string action, string parm = null)
         {
             Invoke("execcommand", action, parm);
         }

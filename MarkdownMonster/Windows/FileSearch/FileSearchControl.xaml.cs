@@ -42,6 +42,9 @@ namespace MarkdownMonster.Windows
 
         private async void Search_Click(object sender, RoutedEventArgs e)
         {
+            // clear list
+            Model.SearchResults = new System.Collections.ObjectModel.ObservableCollection<SearchFileResult>();
+
             await Model.SearchAsync();
         }
 
@@ -50,7 +53,7 @@ namespace MarkdownMonster.Windows
             var border = sender as Border;
             var searchResult = border.DataContext as SearchFileResult;
 
-            var tab = Model.Window.ActivateTab(searchResult.Filename, openIfNotFound: true);
+            var tab = Model.Window.ActivateTab(searchResult.Filename, openIfNotFound: true, isPreview: true);
             if (tab == null)
                 return;
 
@@ -62,6 +65,41 @@ namespace MarkdownMonster.Windows
                 editor?.AceEditor.OpenSearch(Model.SearchPhrase);
 
             },System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+
+        }
+
+        private void ButtonProjectOrDocumentPath_Click(object sender, RoutedEventArgs e)
+        {
+            string folder = Model.AppModel.ActiveProject?.ActiveFolder;
+            if (string.IsNullOrEmpty(folder))
+            {
+                folder = Model.AppModel.ActiveDocument?.Filename;
+                if (string.IsNullOrEmpty(folder))
+                    return;
+                folder = System.IO.Path.GetDirectoryName(folder);
+            }
+
+            Model.SearchFolder = folder;
+        }
+
+        private void ButtonSelectFolder_Click(object sender, RoutedEventArgs e)
+        {
+            string folder = Model.SearchFolder;
+
+            if (string.IsNullOrEmpty(folder))
+            {
+                folder = Model.AppModel.ActiveDocument?.Filename;
+                if (string.IsNullOrEmpty(folder))
+                    folder = System.IO.Path.GetDirectoryName(folder);
+                else
+                    folder = KnownFolders.GetPath(KnownFolder.Libraries);
+            }
+
+            folder = mmWindowsUtils.ShowFolderDialog(folder, "Select Search Folder");
+            if (folder == null)
+                return;
+
+            Model.SearchFolder = folder;
 
         }
     }

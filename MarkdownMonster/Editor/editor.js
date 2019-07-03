@@ -526,20 +526,21 @@
         openSearch: function(searchText) {
             te.editor.execCommand("find");
             setTimeout(function() {
-                var el$ = $(".ace_search_form .ace_search_field");
-                el$.val(searchText);
-            },50);
-            //this.replaceBox = sb.querySelector(".ace_replace_form");
+                    var el$ = $(".ace_search_form .ace_search_field");
+                    el$.val(searchText);
+                    te.editor.searchBox.findNext();
+                },
+                80);
         },
         openSearchAndReplace: function (searchText, replaceText) {
             te.editor.execCommand("find");
             setTimeout(function () {
                 var el$ = $(".ace_search_form  .ace_search_field").val(searchText);
-                $(".ace_replace_form  .ace_search_field").val(replaceText);
-
                 el$.val(searchText);
                 el$.focus();
-            }, 100);
+                $(".ace_replace_form  .ace_search_field").val(replaceText);
+                te.editor.searchBox.findNext();
+            }, 80);
         },
 
         setlanguage: function (lang) {

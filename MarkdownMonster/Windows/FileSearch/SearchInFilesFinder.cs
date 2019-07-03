@@ -75,8 +75,10 @@ namespace MarkdownMonster.Utilities
                 {
                     var result = new SearchFileResult {Filename = file};
                     if (SearchFile(result) > 0 ||
-                        file.Contains(SearchPhrase, StringComparison.InvariantCultureIgnoreCase))
+                        System.IO.Path.GetFileName(file)
+                            .Contains(SearchPhrase, StringComparison.InvariantCultureIgnoreCase))
                         list.Add(result);
+                    
                 }
             }
 

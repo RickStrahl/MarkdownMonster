@@ -27,9 +27,26 @@
             <StackPanel Orientation="Horizontal">
                 <fa:FontAwesome Icon="Search" Foreground="Goldenrod" Height="16" Width="16" Margin="5,2,0,0" />
                 <TextBlock Height="Auto" 
-                           Text="Search"  
+                           Text="Search in Files (experimental)"  
                            FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
             </StackPanel>
+
+
+            <Button  fa:Awesome.Content="LocationArrow" Background="Transparent" 
+                     Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" Grid.Column="3"  
+                     Name="ButtonProjectOrDocumentPath" BorderThickness="0" FontSize="12"
+                     ToolTip="Set Search Folder to Active Project or Document's Folder" 
+                     Click="ButtonProjectOrDocumentPath_Click" />
+
+
+            <Button fa:Awesome.Content="FolderOpen" Grid.Column="1" Background="Transparent"
+                    Foreground="{DynamicResource BlueItem}" Padding="5,0,5,0"
+                    Name="ButtonSelectFolder" BorderThickness="0"  FontSize="12"
+                    ToolTip="Browse for Folder" 
+                    Click="ButtonSelectFolder_Click" />
+
+
+
             <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
                      Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="4"  
                      Name="ButtonClosePanel" BorderThickness="0" FontSize="12"                     
@@ -65,20 +82,28 @@
                      mah:TextBoxHelper.Watermark="Folder to search" 
                      mah:TextBoxHelper.ClearTextButton="True" />
 
-            <CheckBox x:Name="SearchSubFolders" IsChecked="{Binding SearchSubFolders}"
-                      FontSize="14" FontWeight="Normal" Margin="10,0,10,10" Style="{StaticResource CompactCheckBox}" 
-                      Content="search sub-folders"
-                      />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <TextBox x:Name="FileFilters"  Margin="10,0,10,10" Grid.Row="1"             
+                <TextBox x:Name="FileFilters"  Margin="10,0,5,10"             
                      Text="{Binding FileFilters}" 
-                     ToolTip="Comma delimited list of wildcard file filters. Examples: '*.md' or '*.md,*.txt,*.markdown'"
+                     ToolTip="Comma delimited list of wildcard file filters: '*.md' or '*.md,*.txt,*.markdown'"
                      BorderThickness="0.3" Padding="1"
                      mah:TextBoxHelper.SelectAllOnFocus="True"
                      Opacity="0.8"  FontSize="13" FontWeight="Normal"    
                      mah:TextBoxHelper.Watermark="File Filters" 
                      mah:TextBoxHelper.ClearTextButton="True" />
 
+                <CheckBox x:Name="SearchSubFolders" Grid.Column="1"
+                          IsChecked="{Binding SearchSubFolders}" 
+                          FontSize="14" FontWeight="Normal" Margin="5,0,10,10" Style="{StaticResource CompactCheckBox}" 
+                          Content="search sub-folders"
+                />
+
+            </Grid>
 
             <Button Name="ButtonSearch"  FontSize="13" 
                     Width="80" HorizontalAlignment="Left"  Margin="10,0,0,10"
@@ -97,9 +122,13 @@
             <ListBox Name="ListResults" ItemsSource="{Binding SearchResults}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="3,5" MouseUp="Border_MouseUp">
+                        <Border Padding="3,3" MouseUp="Border_MouseUp">
                             <StackPanel>
-                                <TextBlock Text="{Binding FileOnly}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding FileOnly}" />
+                                    <TextBlock Text="{Binding Matches.Count,StringFormat=({0})}" 
+                                               Margin="8,2,0,0" FontSize="11" Foreground="Silver"/>
+                                </StackPanel>
                                 <TextBlock Text="{Binding FilePath}" FontSize="11" Foreground="Silver" />
                             </StackPanel>
                         </Border>
