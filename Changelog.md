@@ -5,7 +5,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.18.7
+### 1.18.8
 <small>not released yet</small>
 
 * **[Additional Edit Toolbar Icons on Toolbar](https://markdownmonster.west-wind.com/docs/_5im10bjpw.htmhttps://markdownmonster.west-wind.com/docs/_5im10bjpw.htm)**  
@@ -16,6 +16,9 @@ You can now double click the empty tab header to open a new document.
 
 * **Additional Languages for Code Highlighting**  
 Added Dart, Kotlin, Nginx and Apache as additional syntax languages to display in the preview.
+
+* **New Document Default Filename in Folder Browser**  
+When you create a new file in the Folder browser it now defaults to `README.md` (or `NewFile.md` if it exists) and pre-selects the file stem portion of the file name for quick typing. Related: Fix issue where escaping didn't always clear the newly typed filename when aborting a new file operation (Shift-F2) in the Folder Browser.
 
 * **Fix: DPI Sizing of Editor MaxWidth**  
 Add DPI adjustment for scaled displayed in the Editor MaxWidth setting for centered view in the editor. This avoids the problem of the display 'shrinking' on scaled displays.
