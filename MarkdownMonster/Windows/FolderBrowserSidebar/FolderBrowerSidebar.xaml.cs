@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using FontAwesome.WPF;
@@ -476,6 +477,24 @@ namespace MarkdownMonster.Windows
                     ((TreeViewItem) treeitem.Parent).IsExpanded = true;
 
                 treeitem.IsSelected = true;
+
+                // show edited filename with file stem selected
+                if (item.IsEditing &&  item.IsFile &&
+                    item.DisplayName != null && item.DisplayName.Contains('.'))
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        var tb = WindowUtilities.FindVisualChild<TextBox>(treeitem);
+                        if (tb == null)
+                            return;
+                        var idx = item.DisplayName.IndexOf(".");
+                        if (idx > 0)
+                        {
+                            tb.SelectionStart = 0;
+                            tb.SelectionLength = idx;
+                        }
+                    }, DispatcherPriority.ApplicationIdle);
+                }
             }
         }
 
@@ -580,7 +599,10 @@ namespace MarkdownMonster.Windows
             else if (e.Key == Key.Escape)
             {
                 if (selected.IsEditing)
+                {
                     selected.IsEditing = false;
+                    selected.Parent?.Files?.Remove(selected);
+                }
             }
             else if (e.Key == Key.F2)
             {

@@ -387,16 +387,30 @@
 
                 string path;
                 if (selected.FullPath == "..")
-                    path = Path.Combine(Sidebar.FolderPath, "NewFile.md");
-                if (!selected.IsFolder)
-                    path = Path.Combine(Path.GetDirectoryName(selected.FullPath), "NewFile.md");
+                    path = Path.Combine(Sidebar.FolderPath, "README.md");
+                else if (!selected.IsFolder)
+                    path = Path.Combine(Path.GetDirectoryName(selected.FullPath), "README.md");
                 else
                 {
                     var treeItem = Sidebar.GetTreeviewItem(selected);
                     if (treeItem != null)
                         treeItem.IsExpanded = true;
 
-                    path = Path.Combine(selected.FullPath, "NewFile.md");
+                    path = Path.Combine(selected.FullPath, "README.md");
+                }
+
+                if (File.Exists(path))
+                {
+                    path = Path.Combine(Path.GetDirectoryName(path), "NewFile.md");
+                    if(File.Exists(path))
+                    {
+                        for (int i = 1; i < 30; i++)
+                        {
+                            path = Path.Combine(Path.GetDirectoryName(path), $"NewFile{i}.md");
+                            if (!File.Exists(path))
+                                break;
+                        }
+                    }
                 }
 
                 var item = new PathItem
@@ -407,6 +421,7 @@
                     IsEditing = true,
                     IsSelected = true
                 };
+                item.EditName = item.DisplayName;
                 item.SetIcon();
 
                 if (selected.FullPath == "..")
