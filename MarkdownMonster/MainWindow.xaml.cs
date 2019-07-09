@@ -612,6 +612,9 @@ namespace MarkdownMonster
                 return;
             }
 
+            // hide the window quickly
+            Top -= 10000;
+            
             FolderBrowser?.ReleaseFileWatcher();
             bool isNewVersion = CheckForNewVersion(false, false);
 
@@ -622,17 +625,19 @@ namespace MarkdownMonster
                 displayCount = 2;
             else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
                 displayCount = 5;
+
             if (!isNewVersion &&
                 mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
                 !UnlockKey.IsRegistered())
             {
+                // bring the window back
+                Top += 10000;
+                Opacity = 0;
+
                 var rd = new RegisterDialog(true);
                 rd.Owner = this;
-                //Top -= 10000;
                 rd.ShowDialog();
             }
-            else
-                Top -= 10000;  // quickest way to hide
 
             PipeManager?.StopServer();
 
