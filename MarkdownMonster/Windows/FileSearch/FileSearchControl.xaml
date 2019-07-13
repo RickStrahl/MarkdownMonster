@@ -22,12 +22,13 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal">
                 <fa:FontAwesome Icon="Search" Foreground="Goldenrod" Height="16" Width="16" Margin="5,2,0,0" />
                 <TextBlock Height="Auto" 
-                           Text="Search in Files (experimental)"  
+                           Text="Find in Files (experimental)"  
                            FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
             </StackPanel>
 
@@ -45,10 +46,14 @@
                     ToolTip="Browse for Folder" 
                     Click="ButtonSelectFolder_Click" />
 
-
+            <Button  fa:Awesome.Content="TimesCircleOutline" Background="Transparent" 
+                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="4"  
+                     Name="ButtonCloseSearch" BorderThickness="0" FontSize="13"                     
+                     ToolTip="Close Find in Files Sidebar" 
+                     Click="ButtonCloseSearch_Click" />
 
             <Button  fa:Awesome.Content="ChevronCircleLeft" Background="Transparent" 
-                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="4"  
+                     Foreground="{DynamicResource BlueItem}" Padding="7,0,7,0" Grid.Column="5"  
                      Name="ButtonClosePanel" BorderThickness="0" FontSize="12"                     
                      ToolTip="Close Sidebar Panel" 
                      Command="{Binding AppModel.Commands.CloseLeftSidebarPanelCommand}" />

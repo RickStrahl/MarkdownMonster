@@ -110,5 +110,13 @@ namespace MarkdownMonster.Windows
                 Search_Click(this, null);
             }
         }
+
+        private void ButtonCloseSearch_Click(object sender, RoutedEventArgs e)
+        {
+            Model.Window.SidebarContainer.Items.Remove(Model.Window.SearchTab);
+            Model.Window.SearchTab = null;
+
+            Model.AppModel.Commands.OpenFolderBrowserCommand.Execute(null);
+        }
     }
 }

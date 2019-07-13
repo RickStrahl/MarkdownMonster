@@ -122,21 +122,41 @@
                         Click="Button_CloseSearch_Click" />
             </Grid>
 
-            <TextBox x:Name="TextSearch"  Margin="10,10,10,5"             
-             Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
-             BorderThickness="0.3"
-             controls:TextBoxHelper.SelectAllOnFocus="True"
-             Opacity="0.7"             
-             PreviewKeyDown="TextSearch_PreviewKeyUp"
-             controls:TextBoxHelper.Watermark="Search Folder"  controls:TextBoxHelper.ClearTextButton="True" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="TextSearch"  Margin="10,10,2,5"             
+                     Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
+                     BorderThickness="0.3"
+                     controls:TextBoxHelper.SelectAllOnFocus="True"
+                     Opacity="0.7"             
+                     PreviewKeyDown="TextSearch_PreviewKeyUp"
+                     controls:TextBoxHelper.Watermark="Search file names in folder"  
+                     controls:TextBoxHelper.ClearTextButton="True" />
+
+                <Button fa:Awesome.Content="SearchPlus" Grid.Column="1" 
+                        Background="Transparent"
+                        FontWeight="Thin"
+                        Name="ButtonSearchFiles2" BorderThickness="0"  
+                        FontSize="15" Foreground="#bbb"
+                        Height="32" Margin="0,5,2,1"
+                        ToolTip="Find in File Names and Content"
+                    Command="{Binding AppModel.Commands.OpenSearchSidebarCommand}"
+                    CommandParameter="{Binding ActivePathItem.FullPath}" />
+            </Grid>
 
             <CheckBox IsChecked="{Binding SearchSubTrees}"
                       Click="CheckBox_Click" Content="Search subtrees"                      
                       Margin="17,0,10,10">
-                <CheckBox.LayoutTransform>
-                    <ScaleTransform ScaleX="0.85" ScaleY="0.85" />
-                </CheckBox.LayoutTransform>
-            </CheckBox>
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="0.85" ScaleY="0.85" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                
         </StackPanel>
 
         <Grid Name="GridFolderBrowser" Grid.Row="1" >
@@ -179,7 +199,7 @@
                 <Button fa:Awesome.Content="Search" Grid.Column="3" Background="Transparent"
                         Foreground="{DynamicResource BlueItem}" Padding="6,0,6,0" 
                         Name="ButtonSearchFiles" BorderThickness="0"  FontSize="12"
-                        ToolTip="Search in Files"
+                        ToolTip="Find in Files"
                         Command="{Binding AppModel.Commands.OpenSearchSidebarCommand}"
                         CommandParameter="{Binding ActivePathItem.FullPath}" />
                 <Button  fa:Awesome.Content="LocationArrow" Background="Transparent" 
@@ -214,7 +234,6 @@
                     <mmcontrols:FileSystemAutoCompleteBehavior />
                 </i:Interaction.Behaviors>
             </ComboBox>
-
 
             <!--ContextMenuOpening="TreeFolderBrowser_ContextMenuOpening"-->
             <TreeView Grid.Row="3" x:Name="TreeFolderBrowser"
