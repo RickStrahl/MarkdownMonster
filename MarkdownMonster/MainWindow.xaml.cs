@@ -1872,13 +1872,8 @@ namespace MarkdownMonster
             TabControl.Items.Remove(tab);
             tab = null;
 
-            //WindowUtilities.DoEvents();
-
-
             if (TabControl.Items.Count == 0)
             {
-                //PreviewBrowser?.Navigate("about:blank");
-
                 Model.ActiveDocument = null;
                 StatusStats.Text = null;
 
@@ -1886,6 +1881,7 @@ namespace MarkdownMonster
 
                 Title = "Markdown Monster" +
                         (UnlockKey.Unlocked ? "" : " (unregistered)");
+                Model.Window.Focus();
             }
 
             if (rebindTabHeaders)
