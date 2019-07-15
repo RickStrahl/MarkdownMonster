@@ -5,8 +5,22 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.18.8
+### 1.18.9
+
+* **Close Search Bar**  
+You can now close the search panel from the Find in File panel.
+
+* **Link to Find in Files**  
+You can now click the button next to the Folder Browser search text to go to the extended **Find in Files** panel.
+
+* **Fix: No menu focus after closing last Tab**  
+Fix issue where focus is lost after closing the last tab in Markdown Monster.
+
+### 1.18.8 { class='error' }
 <small>not released yet</small>
+
+* **Search in Files (experimental)**  
+Initial implementation of Search in Files functionality that lets you search for files and content in a given folder/subfolders. Access via **Edit -> Find in Files** or via **File Browser -> Search Icon**.
 
 * **[Additional Edit Toolbar Icons on Toolbar](https://markdownmonster.west-wind.com/docs/_5im10bjpw.htmhttps://markdownmonster.west-wind.com/docs/_5im10bjpw.htm)**  
 You can now add additional toolbar icons via configuration in `Editor.AdditionalToolbarIcons` by using additional built-in toolbar commands as well as custom HTML or markup tags that wrap selected text. Also added new `MainWindow.AddEditToolbarIcon()` that allow addins to easily add toolbar buttons.

@@ -2037,7 +2037,7 @@ namespace MarkdownMonster
                         return;
                 }
 
-                mmApp.Model.Window.SidebarContainer.SelectedItem = mmApp.Model.Window.TabFolderBrowser;
+                mmApp.Model.Window.SidebarContainer.SelectedItem = Model.Window.TabFolderBrowser;
                 mmApp.Model.Window.ShowFolderBrowser(folder: fileOrFolderPath);
             });
         }
