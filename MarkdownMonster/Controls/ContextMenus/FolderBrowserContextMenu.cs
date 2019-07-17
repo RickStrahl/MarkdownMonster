@@ -99,6 +99,7 @@
 
                 ci = new MenuItem();
                 ci.Header = "New Folder";
+                ci.InputGestureText = "F8";
                 ci.Click += MenuAddDirectory_Click;
                 cm.Items.Add(ci);
 
@@ -386,15 +387,16 @@
                 }
 
                 string path;
+                TreeViewItem parentTreeViewItem = Sidebar.GetTreeviewItem(selected);
+
                 if (selected.FullPath == "..")
                     path = Path.Combine(Sidebar.FolderPath, "README.md");
                 else if (!selected.IsFolder)
                     path = Path.Combine(Path.GetDirectoryName(selected.FullPath), "README.md");
                 else
                 {
-                    var treeItem = Sidebar.GetTreeviewItem(selected);
-                    if (treeItem != null)
-                        treeItem.IsExpanded = true;
+                    if (parentTreeViewItem != null)
+                        parentTreeViewItem.IsExpanded = true;
 
                     path = Path.Combine(selected.FullPath, "README.md");
                 }
@@ -402,7 +404,7 @@
                 if (File.Exists(path))
                 {
                     path = Path.Combine(Path.GetDirectoryName(path), "NewFile.md");
-                    if(File.Exists(path))
+                    if (File.Exists(path))
                     {
                         for (int i = 1; i < 30; i++)
                         {
@@ -432,17 +434,23 @@
                     item.Parent = selected;
 
                 item.Parent.Files.Insert(0, item);
-                Sidebar.SetTreeViewSelectionByItem(item);
+                Sidebar.SetTreeViewSelectionByItem(item, parentTreeViewItem);
+
             }
 
-
-            private void MenuAddDirectory_Click(object sender, RoutedEventArgs e)
+            public void MenuAddDirectory_Click(object sender, RoutedEventArgs e)
             {
                 var selected = TreeFolderBrowser.SelectedItem as PathItem;
                 if (selected == null || selected.Parent == null)
                 {
                     // No files/folders
-                    selected = new PathItem() {IsFolder = true, FullPath = Sidebar.FolderPath};
+                    selected = new PathItem()
+                    {
+                        IsFolder = true,
+                        FullPath = Sidebar.FolderPath,
+                        Parent = Sidebar.ActivePathItem.Parent,
+                        Files = Sidebar.ActivePathItem.Files
+                    };
                     Sidebar.ActivePathItem = selected;
                 }
 
@@ -458,7 +466,11 @@
                     path = Path.Combine(selected.FullPath, "NewFolder");
                 }
 
-                var item = new PathItem {FullPath = path, IsFolder = true, IsEditing = true, IsSelected = true};
+                var item = new PathItem {FullPath = path,
+                    IsFolder = true,
+                    IsEditing = true,
+                    IsSelected = true
+                };
                 item.SetIcon();
 
                 if (!selected.IsFolder)
@@ -469,6 +481,8 @@
                 item.Parent.Files.Insert(0, item);
 
                 Sidebar.SetTreeViewSelectionByItem(item);
+
+
             }
 
 
@@ -481,7 +495,6 @@
                 // Start Editing the file name
                 selected.EditName = selected.DisplayName;
                 selected.IsEditing = true;
-
 
                 var tvItem = Sidebar.GetTreeviewItem(selected);
                 if (tvItem != null)

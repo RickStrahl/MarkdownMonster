@@ -460,15 +460,18 @@ namespace MarkdownMonster.Windows
 
         public void SetTreeViewSelectionByIndex(int index)
         {
-            TreeViewItem item = (TreeViewItem) TreeFolderBrowser
+            TreeViewItem item = TreeFolderBrowser
                 .ItemContainerGenerator
-                .ContainerFromIndex(index);
-            item.IsSelected = true;
+                .ContainerFromIndex(index) as TreeViewItem;
+
+            if (item != null)
+                item.IsSelected = true;
         }
 
-        public void SetTreeViewSelectionByItem(PathItem item)
+        public void SetTreeViewSelectionByItem(PathItem item, TreeViewItem parentTreeViewItem = null)
         {
-            TreeViewItem treeitem = GetTreeviewItem(item);
+            TreeViewItem treeitem = GetTreeviewItem(item, parentTreeViewItem);
+
             if (treeitem != null)
             {
                 treeitem.BringIntoView();
@@ -498,8 +501,11 @@ namespace MarkdownMonster.Windows
             }
         }
 
-        public TreeViewItem GetTreeviewItem(object item)
+        public TreeViewItem GetTreeviewItem(object item, TreeViewItem treeItem = null)
         {
+            if (treeItem != null)
+                return treeItem.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+
             return (TreeViewItem) TreeFolderBrowser
                 .ItemContainerGenerator
                 .ContainerFromItem(item);
@@ -582,6 +588,15 @@ namespace MarkdownMonster.Windows
                     e.Handled = true;
                 }
                 return;
+            }
+
+            if (e.Key == Key.F8)
+            {
+                if (selected == null || !selected.IsEditing)
+                {
+                    FolderBrowserContextMenu.MenuAddDirectory_Click(sender, null);
+                    e.Handled = true;
+                }
             }
 
             if (selected == null)
