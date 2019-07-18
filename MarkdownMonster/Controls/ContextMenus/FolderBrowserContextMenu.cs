@@ -434,7 +434,10 @@
                     item.Parent = selected;
 
                 item.Parent.Files.Insert(0, item);
-                Sidebar.SetTreeViewSelectionByItem(item, parentTreeViewItem);
+
+                Model.Window.Dispatcher.InvokeAsync(
+                    ()=> Sidebar.SetTreeViewSelectionByItem(item, parentTreeViewItem),
+                    DispatcherPriority.ApplicationIdle);
 
             }
 
