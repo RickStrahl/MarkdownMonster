@@ -7,17 +7,17 @@
 
 ### 1.18.9
 
-* **Close Search Bar**  
-You can now close the search panel from the Find in File panel.
-
 * **Link to Find in Files**  
-You can now click the button next to the Folder Browser search text to go to the extended **Find in Files** panel.
+You can now click the button next to the Folder Browser search text to go to the extended **Find in Files** panel. There are two buttons: One in the main tool panel (atop the folder browser panel) and one next to the search panel's Search text to make it easier to discover the 'advanced search' functionality in addition to the filename-only search.
+
+* **Close Find in Files Panel**  
+You can now close the Find in Files panel using a close icon.
 
 * **Fix: No menu focus after closing last Tab**  
 Fix issue where focus is lost after closing the last tab in Markdown Monster.
 
-### 1.18.8 { class='error' }
-<small>not released yet</small>
+### 1.18.8
+<small>July 9th,</small>
 
 * **Search in Files (experimental)**  
 Initial implementation of Search in Files functionality that lets you search for files and content in a given folder/subfolders. Access via **Edit -> Find in Files** or via **File Browser -> Search Icon**.

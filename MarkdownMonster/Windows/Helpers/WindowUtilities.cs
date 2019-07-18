@@ -10,12 +10,14 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using MarkdownMonster.Annotations;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Drawing.Point;
 
@@ -128,6 +130,41 @@ namespace MarkdownMonster.Windows
 
             return null;
         }
+
+
+        /// <summary>
+        /// Retrieves a nested TreeViewItem by walking the hierarchy.
+        /// Specify a root treeview or treeviewitem and it then walks
+        /// the hierarchy to find the item
+        /// </summary>
+        /// <param name="item">Item to find</param>
+        /// <param name="treeItem">Parent item to start search from</param>
+        /// <returns></returns>
+        public static TreeViewItem GetNestedTreeviewItem(object item, [NotNull] ItemsControl treeItem)
+        {
+            var titem = treeItem
+                .ItemContainerGenerator
+                .ContainerFromItem(item) as TreeViewItem;
+
+            if (titem != null)
+                return titem;
+
+            foreach (var childItem in treeItem.Items)
+            {
+                titem = treeItem
+                    .ItemContainerGenerator
+                    .ContainerFromItem(childItem) as TreeViewItem;
+
+                if (titem == null) continue;
+
+                titem = GetNestedTreeviewItem(item, titem);
+                if (titem != null)
+                    return titem;
+            }
+
+            return null;
+        }
+
 
         /// <summary>
         /// Creates a keyboard shortcut from a 

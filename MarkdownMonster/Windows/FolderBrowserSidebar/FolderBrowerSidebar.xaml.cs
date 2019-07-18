@@ -470,7 +470,7 @@ namespace MarkdownMonster.Windows
 
         public void SetTreeViewSelectionByItem(PathItem item, TreeViewItem parentTreeViewItem = null)
         {
-            TreeViewItem treeitem = GetTreeviewItem(item, parentTreeViewItem);
+            TreeViewItem treeitem = GetNestedTreeviewItem(item);
 
             if (treeitem != null)
             {
@@ -501,14 +501,38 @@ namespace MarkdownMonster.Windows
             }
         }
 
-        public TreeViewItem GetTreeviewItem(object item, TreeViewItem treeItem = null)
+        /// <summary>
+        /// Returns a treeview item from an items object. Note it doesn't
+        /// walk the hierarchy of items, so you can pass in the parent
+        /// tree node to look in.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="treeItem"></param>
+        /// <returns></returns>
+        public TreeViewItem xGetTreeviewItem(object item, ItemsControl treeItem = null)
         {
-            if (treeItem != null)
-                return treeItem.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+            if (treeItem == null)
+                treeItem = TreeFolderBrowser;
 
-            return (TreeViewItem) TreeFolderBrowser
+            return treeItem
                 .ItemContainerGenerator
-                .ContainerFromItem(item);
+                .ContainerFromItem(item) as TreeViewItem;
+        }
+
+        /// <summary>
+        /// Retrieves a nested TreeViewItem by walking the hierarchy.
+        /// Specify a root treeview or treeviewitem and it then walks
+        /// the hierarchy to find the item
+        /// </summary>
+        /// <param name="item">Item to find</param>
+        /// <param name="treeItem">Parent item to start search from</param>
+        /// <returns></returns>
+        public TreeViewItem GetNestedTreeviewItem(object item, ItemsControl treeItem = null)
+        {
+            if (treeItem == null)
+                treeItem = TreeFolderBrowser;
+
+            return WindowUtilities.GetNestedTreeviewItem(item, treeItem);
         }
 
         private void ComboFolderPath_PreviewKeyDown(object sender, KeyEventArgs e)

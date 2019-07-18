@@ -387,7 +387,7 @@
                 }
 
                 string path;
-                TreeViewItem parentTreeViewItem = Sidebar.GetTreeviewItem(selected);
+                TreeViewItem parentTreeViewItem = Sidebar.GetNestedTreeviewItem(selected);
 
                 if (selected.FullPath == "..")
                     path = Path.Combine(Sidebar.FolderPath, "README.md");
@@ -459,7 +459,7 @@
                     path = Path.Combine(Path.GetDirectoryName(selected.FullPath), "NewFolder");
                 else
                 {
-                    var treeItem = Sidebar.GetTreeviewItem(selected);
+                    var treeItem = Sidebar.GetNestedTreeviewItem(selected);
                     if (treeItem != null)
                         treeItem.IsExpanded = true;
 
@@ -496,14 +496,13 @@
                 selected.EditName = selected.DisplayName;
                 selected.IsEditing = true;
 
-                var tvItem = Sidebar.GetTreeviewItem(selected);
+                var tvItem = Sidebar.GetNestedTreeviewItem(selected);
                 if (tvItem != null)
                 {
                     var tb = WindowUtilities.FindVisualChild<TextBox>(tvItem);
                     tb?.Focus();
                 }
             }
-
 
 
             public void MenuCopyFile_Click(object sender, RoutedEventArgs e)
