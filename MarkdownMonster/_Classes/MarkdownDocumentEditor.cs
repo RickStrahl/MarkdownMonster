@@ -1706,7 +1706,8 @@ namespace MarkdownMonster
                     if (!found)
                         return;
 
-                    Window.TabControl.SelectedItem = tabs[selIndex].Content;
+                    var selectedTab = tabs[selIndex].Content as TabItem;
+                    Window.ActivateTab(selectedTab, true);
                 }
 
                 else if (key == "PreviousTab")
@@ -1732,7 +1733,8 @@ namespace MarkdownMonster
                     if (!found)
                         return;
 
-                    Window.TabControl.SelectedItem = tabs[selIndex].Content;
+                    var selectedTab = tabs[selIndex].Content as TabItem;
+                    Window.ActivateTab(selectedTab, true);
                 }
                 // zooming
                 else if (key == "ZoomEditorUp")

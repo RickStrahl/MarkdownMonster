@@ -1610,9 +1610,13 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="tab"></param>
         /// <returns></returns>
-        public TabItem ActivateTab(TabItem tab)
+        public TabItem ActivateTab(TabItem tab, bool setFocus = false)
         {
             TabControl.SelectedItem = tab;
+
+            if (setFocus)
+                Dispatcher.Invoke(()=>Model.ActiveEditor.SetEditorFocus(),DispatcherPriority.ApplicationIdle);
+
             return tab;
         }
 
