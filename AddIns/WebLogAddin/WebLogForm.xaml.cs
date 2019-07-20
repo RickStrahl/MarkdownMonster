@@ -173,7 +173,7 @@ namespace WeblogAddin
 
         private void TextWeblogPassword_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(TextWeblogPassword.Password))
+            if (!string.IsNullOrEmpty(TextWeblogPassword.Password) && Model.ActiveWeblogInfo != null)
             {
                 Model.ActiveWeblogInfo.Password = TextWeblogPassword.Password;
                 TextWeblogPassword.Password = string.Empty;
@@ -182,8 +182,11 @@ namespace WeblogAddin
 
         private void TextWeblogToken_LostFocus(object sender, RoutedEventArgs e)
         {
-            Model.ActiveWeblogInfo.AccessToken = TextWeblogToken.Password;
-            TextWeblogToken.Password = string.Empty;
+            if (Model.ActiveWeblogInfo != null)
+            {
+                Model.ActiveWeblogInfo.AccessToken = TextWeblogToken.Password;
+                TextWeblogToken.Password = string.Empty;
+            }
         }
 
         private void ComboWebLogName_SelectionChanged(object sender,
