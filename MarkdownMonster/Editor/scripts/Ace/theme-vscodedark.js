@@ -41,6 +41,9 @@ background-color: rgba(255, 255, 255, 0.031)\
 .ace-vscodedark .ace_marker-layer .ace_selected-word {\
 border: 1px solid rgba(221, 240, 255, 0.20)\
 }\
+.ace_underline {\
+color: #CEAA78;\
+}\
 .ace-vscodedark .ace_invisible {\
 color: rgba(255, 255, 255, 0.25)\
 }\

@@ -2960,9 +2960,9 @@ namespace MarkdownMonster
             {
 
                 if (mmApp.Configuration.ApplicationTheme == Themes.Light)
-                    mmApp.Configuration.EditorTheme = "visualstudio";
+                    mmApp.Configuration.EditorTheme = "vscodelight";
                 else
-                    mmApp.Configuration.EditorTheme = "twilight";
+                    mmApp.Configuration.EditorTheme = "vscodedark";
 
                 mmApp.Configuration.Write();
                 Close();
