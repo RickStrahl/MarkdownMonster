@@ -97,6 +97,11 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
                             var htmlEntity = inl as HtmlEntityInline;
                             sb.Append(WebUtility.HtmlDecode(htmlEntity.Transcoded.ToString()));
                         }
+                        else if (inl is CodeInline)
+                        {
+                            var codeInline = inl as CodeInline;
+                            sb.Append(WebUtility.HtmlDecode(codeInline.Content.ToString()));
+                        }
                         else
                             sb.Append(inl.ToString());
                     }
