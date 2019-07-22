@@ -438,7 +438,6 @@
                 Model.Window.Dispatcher.InvokeAsync(
                     ()=> Sidebar.SetTreeViewSelectionByItem(item, parentTreeViewItem),
                     DispatcherPriority.ApplicationIdle);
-
             }
 
             public void MenuAddDirectory_Click(object sender, RoutedEventArgs e)

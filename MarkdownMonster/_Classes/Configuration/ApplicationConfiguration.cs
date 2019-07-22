@@ -609,7 +609,6 @@ namespace MarkdownMonster
             PreviewTheme = "Dharkan";
             EditorTheme = "vscodedark";
 
-
             DefaultCodeSyntax = "csharp";
 
             PreviewHttpLinksExternal = true;

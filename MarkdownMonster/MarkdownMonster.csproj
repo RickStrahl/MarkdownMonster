@@ -4,11 +4,11 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net462</TargetFramework> 
     <!--<TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>-->
-    <Version>1.18.8.7</Version>
+    <Version>1.18.10</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
     <StartupObject>StartUp</StartupObject>
-    <Authors>Rick Strahl, West Wi.5nd Technologies</Authors>
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
     <PackageProjectUrl>https://markdownmonster.west-wind.com</PackageProjectUrl>
     <PackageIconUrl>https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_256.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/rickstrahl/MarkdownMonster</RepositoryUrl>

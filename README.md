@@ -65,6 +65,7 @@ Markdown Monster's integrated Git features also work great for  any Git based se
 * **[License](#license)**
 
 
+
 * **[Video: Getting Started with Markdown Monster ](https://www.youtube.com/watch?v=XjFf57Ap9VE)** (old) 
 * **[Follow @MarkdownMonstr on Twitter](https://twitter.com/markdownmonstr)**
 

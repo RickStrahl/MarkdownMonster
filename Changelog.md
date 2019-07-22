@@ -1,11 +1,18 @@
-﻿# Markdown Monster Change Log
+# Markdown Monster Change Log
 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
-### 1.18.9
+### 1.18.10
+*<small>July 21st, 2019</small>*
+
+* **Add Visual Studio Code Light Theme**  
+Add a new Visual Studio Code Light theme that's similar (but not identical) to the Visual Studio Code Markdown theme colors. Also adjust  colors for the Visual Studio Dark theme. 
+
+* **Find in Files Improvements**  
+Add a number of small adjustments to find in files to make it easier to navigate files and easier to get to the feature. Also add options to select current current project/file's folder, or more easily select a folder to search from.
 
 * **Link to Find in Files**  
 You can now click the button next to the Folder Browser search text to go to the extended **Find in Files** panel. There are two buttons: One in the main tool panel (atop the folder browser panel) and one next to the search panel's Search text to make it easier to discover the 'advanced search' functionality in addition to the filename-only search.
@@ -16,10 +23,13 @@ You can now close the Find in Files panel using a close icon.
 * **Fix: No menu focus after closing last Tab**  
 Fix issue where focus is lost after closing the last tab in Markdown Monster.
 
+* **Fix: Ctrl-Tab/Next Tab navigation Focus Issues**  
+Fix problem with Ctrl-Tab navigation of tabs and Ctrl-F4 tab closing operations losing proper tab focus.
+
 ### 1.18.8
 <small>July 9th,</small>
 
-* **Search in Files (experimental)**  
+* **Find in Files (experimental)**  
 Initial implementation of Search in Files functionality that lets you search for files and content in a given folder/subfolders. Access via **Edit -> Find in Files** or via **File Browser -> Search Icon**.
 
 * **[Additional Edit Toolbar Icons on Toolbar](https://markdownmonster.west-wind.com/docs/_5im10bjpw.htmhttps://markdownmonster.west-wind.com/docs/_5im10bjpw.htm)**  
