@@ -151,6 +151,8 @@ Markdown Monster provides many useful features:
 
 ### Organization and File Access
 * Integrated File and Folder browser
+* Quick File Search
+* Find in Files (search files and content)
 * Group files into Projects
 * Add files and folders into Favorites
 * Drag and Drop files everywhere
