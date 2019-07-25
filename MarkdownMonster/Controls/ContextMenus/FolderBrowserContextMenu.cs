@@ -494,8 +494,12 @@
                 if (selected == null)
                     return;
 
+                if (selected.FullPath == "..")
+                    return;
+
                 // Start Editing the file name
                 selected.EditName = selected.DisplayName;
+                selected.OriginalPath = selected.FullPath;
                 selected.IsEditing = true;
 
                 var tvItem = Sidebar.GetNestedTreeviewItem(selected);
@@ -585,14 +589,22 @@
                         return;
                     }
 
-                    if (!isCut)
-                        File.Copy(sourceFile,targetFile, true );
-                    else
+                    try
                     {
-                        if (File.Exists(targetFile))
-                            File.Delete(targetFile);
+                        if (!isCut)
+                            File.Copy(sourceFile, targetFile, true);
+                        else
+                        {
+                            if (File.Exists(targetFile))
+                                File.Delete(targetFile);
 
-                        File.Move(sourceFile, targetFile);
+                            File.Move(sourceFile, targetFile);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Model.Window.ShowStatusError($"Can't copy to {targetFile}: {ex.Message}");
+                        return;
                     }
                 }
 

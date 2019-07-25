@@ -116,8 +116,24 @@ namespace MarkdownMonster.Windows
 		}
 		private string _editName;
 
+        /// <summary>
+        /// Original path if editing the path
+        /// </summary>
+        public string OriginalPath
+        {
+            get => _originalPath;
+            set
+            {
+                if (value == _originalPath)
+                    return;
+                _originalPath = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(DisplayName));
+            }
+        }
 
-		public bool IsEditing
+
+        public bool IsEditing
 		{
 			get => _isEditing;
 		    set
@@ -230,8 +246,8 @@ namespace MarkdownMonster.Windows
 	    }
 
 	    public static PathItem Empty { get; } = new PathItem();
-
-	    private ImageSource _openicon;
+        
+        private ImageSource _openicon;
 
         private ObservableCollection<PathItem> _files;
 
@@ -262,8 +278,9 @@ namespace MarkdownMonster.Windows
         }
 
         private GitHelper gitHelper = null;
+        private string _originalPath;
 
-	    public void UpdateGitFileStatus()
+        public void UpdateGitFileStatus()
 	    {
             if (gitHelper == null)
                 gitHelper = new GitHelper();

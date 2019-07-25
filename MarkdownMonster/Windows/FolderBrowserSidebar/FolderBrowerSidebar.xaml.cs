@@ -502,24 +502,6 @@ namespace MarkdownMonster.Windows
         }
 
         /// <summary>
-        /// Returns a treeview item from an items object. Note it doesn't
-        /// walk the hierarchy of items, so you can pass in the parent
-        /// tree node to look in.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="treeItem"></param>
-        /// <returns></returns>
-        public TreeViewItem xGetTreeviewItem(object item, ItemsControl treeItem = null)
-        {
-            if (treeItem == null)
-                treeItem = TreeFolderBrowser;
-
-            return treeItem
-                .ItemContainerGenerator
-                .ContainerFromItem(item) as TreeViewItem;
-        }
-
-        /// <summary>
         /// Retrieves a nested TreeViewItem by walking the hierarchy.
         /// Specify a root treeview or treeviewitem and it then walks
         /// the hierarchy to find the item
@@ -640,7 +622,13 @@ namespace MarkdownMonster.Windows
                 if (selected.IsEditing)
                 {
                     selected.IsEditing = false;
-                    selected.Parent?.Files?.Remove(selected);
+                    if (!string.IsNullOrEmpty(selected.OriginalPath))
+                    {
+                        selected.FullPath = selected.OriginalPath;
+                        selected.OriginalPath = null;
+                    }
+                    else
+                        selected.Parent?.Files?.Remove(selected);
                 }
             }
             else if (e.Key == Key.F2)
