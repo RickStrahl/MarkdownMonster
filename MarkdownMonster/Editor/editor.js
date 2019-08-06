@@ -594,11 +594,14 @@
             session.setOption("indentedSoftWrap", true);
 
             session.setOptions({ useSoftTabs: style.useSoftTabs, tabSize: style.tabSize });
+            session.setNewLineMode(style.linefeedMode);
 
             editor.setHighlightActiveLine(style.highlightActiveLine);
 
             editor.renderer.setShowGutter(style.showLineNumbers);
             editor.renderer.setShowInvisibles(style.showInvisibles);
+
+           
 
             // these value are used in Resize to keep the editor size
             // limited to a max-width
@@ -632,8 +635,6 @@
                 te.editor.setKeyboardHandler("");
             else
                 te.editor.setKeyboardHandler("ace/keyboard/" + keyboardHandler);
-
-
 
             if (!style.enableBulletAutoCompletion) {
                 // turn off bullet auto-completion (or any new line auto-completion)

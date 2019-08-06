@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Documents;
 using MarkdownMonster.Annotations;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Configuration
 {
@@ -130,6 +131,27 @@ namespace MarkdownMonster.Configuration
             }
         }
         private bool _showInvisibles = false;
+
+
+        /// <summary>
+        /// Determines how linefeeds are treated by the editor for copy and paste
+        /// operations and new text entered. `CrLf` or `Lf`.
+        ///
+        /// Note: It doesn't affect existing content in the document and doesn't
+        /// re-write all line endings.
+        /// </summary>
+        public LineFeedModes LinefeedMode
+        {
+            get { return _linefeedMode; }
+            set
+            {
+                if (value == _linefeedMode) return;
+                _linefeedMode = value;
+                OnPropertyChanged(nameof(LinefeedMode));
+            }
+        }
+        private LineFeedModes _linefeedMode = LineFeedModes.Lf;
+
 
         #endregion
 
@@ -278,5 +300,9 @@ namespace MarkdownMonster.Configuration
         #endregion
     }
 
-
+    public enum LineFeedModes
+    {
+        Lf,
+        CrLf
+    }
 }

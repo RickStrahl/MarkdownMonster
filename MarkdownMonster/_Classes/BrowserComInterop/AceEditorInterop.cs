@@ -330,7 +330,8 @@ namespace MarkdownMonster
                 config.Editor.EnableBulletAutoCompletion,
                 config.Editor.TabSize,
                 config.Editor.UseSoftTabs,
-                config.Editor.RightToLeft
+                config.Editor.RightToLeft,
+                LinefeedMode = (config.Editor.LinefeedMode == Configuration.LineFeedModes.CrLf ? "windows" : "unix")
             };
 
             var settings = new JsonSerializerSettings()
