@@ -1,6 +1,5 @@
 /// <reference path="editorsettings.js"/>
 /// <reference path="editorSpellcheck.js"/>
-/// <reference path="editorSpellcheck.js"/>
 /// <reference path="editor-helpers.js" />
 /// <reference path="scripts/ace/ace.js" />
 
@@ -649,7 +648,6 @@
             setTimeout(te.updateDocumentStats, 30);
         },
         setShowLineNumbers: function (showLineNumbers) {
-            alert("showLine Numbers")
             te.editor.renderer.setShowGutter(showLineNumbers);
         },
         setShowInvisibles: function (showInvisibles) {
