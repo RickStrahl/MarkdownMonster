@@ -140,7 +140,7 @@ namespace MarkdownMonster.Configuration
         /// Note: It doesn't affect existing content in the document and doesn't
         /// re-write all line endings.
         /// </summary>
-        public LineFeedModes LinefeedMode
+        public LinefeedModes LinefeedMode
         {
             get { return _linefeedMode; }
             set
@@ -150,7 +150,7 @@ namespace MarkdownMonster.Configuration
                 OnPropertyChanged(nameof(LinefeedMode));
             }
         }
-        private LineFeedModes _linefeedMode = LineFeedModes.Lf;
+        private LinefeedModes _linefeedMode = LinefeedModes.Lf;
 
 
         #endregion
@@ -300,7 +300,7 @@ namespace MarkdownMonster.Configuration
         #endregion
     }
 
-    public enum LineFeedModes
+    public enum LinefeedModes
     {
         Lf,
         CrLf

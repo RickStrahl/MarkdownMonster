@@ -331,7 +331,7 @@ namespace MarkdownMonster
                 config.Editor.TabSize,
                 config.Editor.UseSoftTabs,
                 config.Editor.RightToLeft,
-                LinefeedMode = (config.Editor.LinefeedMode == Configuration.LineFeedModes.CrLf ? "windows" : "unix")
+                LinefeedMode = (config.Editor.LinefeedMode == Configuration.LinefeedModes.CrLf ? "windows" : "unix")
             };
 
             var settings = new JsonSerializerSettings()
