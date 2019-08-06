@@ -622,10 +622,10 @@ namespace MarkdownMonster.Windows
                 if (selected.IsEditing)
                 {
                     selected.IsEditing = false;
-                    if (!string.IsNullOrEmpty(selected.OriginalPath))
+                    if (!string.IsNullOrEmpty(selected.OriginalRenamePath))
                     {
-                        selected.FullPath = selected.OriginalPath;
-                        selected.OriginalPath = null;
+                        selected.FullPath = selected.OriginalRenamePath;
+                        selected.OriginalRenamePath = null;
                     }
                     else
                         selected.Parent?.Files?.Remove(selected);

@@ -499,7 +499,7 @@
 
                 // Start Editing the file name
                 selected.EditName = selected.DisplayName;
-                selected.OriginalPath = selected.FullPath;
+                selected.OriginalRenamePath = selected.FullPath;
                 selected.IsEditing = true;
 
                 var tvItem = Sidebar.GetNestedTreeviewItem(selected);

@@ -119,14 +119,14 @@ namespace MarkdownMonster.Windows
         /// <summary>
         /// Original path if editing the path
         /// </summary>
-        public string OriginalPath
+        public string OriginalRenamePath
         {
-            get => _originalPath;
+            get => _originalRenamePath;
             set
             {
-                if (value == _originalPath)
+                if (value == _originalRenamePath)
                     return;
-                _originalPath = value;
+                _originalRenamePath = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(DisplayName));
             }
@@ -278,7 +278,7 @@ namespace MarkdownMonster.Windows
         }
 
         private GitHelper gitHelper = null;
-        private string _originalPath;
+        private string _originalRenamePath;
 
         public void UpdateGitFileStatus()
 	    {
