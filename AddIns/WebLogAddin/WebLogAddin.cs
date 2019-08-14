@@ -454,21 +454,6 @@ namespace WeblogAddin
             return false;
         }
 
-        /// <summary>
-        /// Adds a post id to Weblog configuration in a weblog post document.
-        /// Only works if [categories] key exists.
-        /// </summary>
-        /// <param name="markdown"></param>
-        /// <param name="postId"></param>
-        /// <returns></returns>
-        public string AddPostId(string markdown, int postId)
-        {
-            markdown = markdown.Replace("</categories>",
-                    "</categories>\r\n" +
-                    "<postid>" + WeblogModel.ActivePost.PostId + "</postid>");
-
-            return markdown;
-        }
 
 #endregion
 
@@ -515,7 +500,7 @@ namespace WeblogAddin
                         post.mt_excerpt = HtmlUtils.StripHtml(post.Body);
 
                     body = MarkdownUtilities.HtmlToMarkdown(body) +
-                            "\n\n<!--more-->\n\n" +
+                            $"{mmApp.NewLine}{mmApp.NewLine}<!--more-->{mmApp.NewLine}{mmApp.NewLine}" +
                             MarkdownUtilities.HtmlToMarkdown(post.mt_text_more);
                 }
                 else

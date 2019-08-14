@@ -715,7 +715,7 @@ namespace MarkdownMonster
                         object scroll = AceEditor.GetScrollTop();
 
                         // the ID tag
-                        html = $"\r\n\r\n[{id}]: {image}\r\n";
+                        html = $"{mmApp.NewLine}{mmApp.NewLine}[{id}]: {image}{mmApp.NewLine}";
 
                         // set selction position to bottom of document
                         AceEditor.GotoBottom();
@@ -731,7 +731,7 @@ namespace MarkdownMonster
 
                         WindowUtilities.DoEvents();
 
-                        html = $"\r\n![{form.ImageText}][{id}]";
+                        html = $"{mmApp.NewLine}![{form.ImageText}][{id}]";
                     }
                 }
             }
@@ -757,9 +757,9 @@ namespace MarkdownMonster
 
                 if (res != null && res.Value && !string.IsNullOrEmpty(form.Code))
                 {
-                    html = "```" + form.CodeLanguage + "\r\n" +
-                           form.Code.Trim() + "\r\n" +
-                           "```\r\n";
+                    html = "```" + form.CodeLanguage +  mmApp.NewLine +
+                           form.Code.Trim() + mmApp.NewLine +
+                           $"```{mmApp.NewLine}";
                 }
             }
             // Custom HTML commands like
@@ -874,7 +874,7 @@ namespace MarkdownMonster
                         object scroll = AceEditor.GetScrollTop();
 
                         // the ID tag
-                        html = $"\r\n\r\n[{id}]: {image}\r\n";
+                        html = $"{mmApp.NewLine}{mmApp.NewLine}[{id}]: {image}{mmApp.NewLine}";
 
                         // set selction position to bottom of document
                         AceEditor.GotoBottom();
@@ -890,7 +890,7 @@ namespace MarkdownMonster
 
                         WindowUtilities.DoEvents();
 
-                        html = $"\r\n![{form.ImageText}][{id}]";
+                        html = $"{mmApp.NewLine}![{form.ImageText}][{id}]";
                     }
 
                     if (!string.IsNullOrEmpty(html))
@@ -938,7 +938,7 @@ namespace MarkdownMonster
                 {
                     if (!string.IsNullOrEmpty(form.TableHtml))
                     {
-                        SetSelectionAndFocus(form.TableHtml.TrimEnd() + "\r\n");
+                        SetSelectionAndFocus(form.TableHtml.TrimEnd() + mmApp.NewLine);
                         PreviewMarkdownCallback();
                     }
                 }
@@ -1932,7 +1932,7 @@ namespace MarkdownMonster
 
                 Window.Dispatcher.InvokeAsync(() =>
                 {
-                    SetSelectionAndFocus($"\r\n![]({relFilePath.Replace(" ", "%20")})\r\n");
+                    SetSelectionAndFocus($"{mmApp.NewLine}![]({relFilePath.Replace(" ", "%20")}){mmApp.NewLine}");
 
                     // Force the browser to refresh completely so image changes show up
                     Window.PreviewBrowser.Refresh(true);

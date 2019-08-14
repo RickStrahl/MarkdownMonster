@@ -52,6 +52,13 @@ namespace MarkdownMonster
         public static string AllowedFileExtensions { get; } =
             ",.md,.markdown,.mdown,.mkd,.mkdn,.txt,.htm,.html,.xml,.json,.js,.ts,.css,.ps1,.bat,.cs,.prg,.config,.ini";
 
+
+        public static string NewLine => 
+               Configuration.Editor.LinefeedMode == MarkdownMonster.Configuration.LinefeedModes.CrLf ? 
+                    "\r\n" :
+                    "\n";
+    
+
         /// <summary>
         /// Returns a machine specific encryption key that can be used for passwords
         /// and other settings.

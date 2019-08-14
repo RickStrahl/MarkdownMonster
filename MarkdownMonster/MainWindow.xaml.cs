@@ -543,8 +543,8 @@ namespace MarkdownMonster
 
                     string filename = doc.FilenamePathWithIndicator.Replace("*", "");
                     string template = filename +
-                                      "\r\n\r\n" +
-                                      "This file has been modified by another program.\r\n" +
+                                      Environment.NewLine + Environment.NewLine +
+                                      "This file has been modified by another program." + Environment.NewLine +
                                       "Do you want to reload it?";
 
                     if (!doc.IsDirty || MessageBox.Show(this, template,

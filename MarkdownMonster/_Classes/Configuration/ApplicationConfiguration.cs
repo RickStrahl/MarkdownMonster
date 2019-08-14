@@ -400,7 +400,7 @@ namespace MarkdownMonster
 		    {"log", "text"}
 	    };
 
-		/// <summary>
+        /// <summary>
 		/// Configuration object that olds info about how applications are updated
 		/// </summary>
 		public ApplicationUpdatesConfiguration ApplicationUpdates { get; set; }

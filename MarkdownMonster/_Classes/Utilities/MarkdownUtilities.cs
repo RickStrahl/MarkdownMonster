@@ -143,7 +143,7 @@ namespace MarkdownMonster
             activeLine = activeLine.Insert(selectionRange.StartColumn, $"[{text}][{STR_NEWID_PLACEHOLDER}]");
             lines[selectionRange.StartRow] = activeLine;
 
-            md = string.Join("\r\n", lines);
+            md = string.Join(mmApp.NewLine, lines);
 
             var sbLinkList = new StringBuilder();
 
@@ -194,7 +194,7 @@ namespace MarkdownMonster
 
             result.Markdown = sb.ToString().TrimEnd();
 
-            result.Markdown += "\r\n\r\n" + sbLinkList;
+            result.Markdown += mmApp.NewLine + mmApp.NewLine  + sbLinkList;
 
             return result;
         }

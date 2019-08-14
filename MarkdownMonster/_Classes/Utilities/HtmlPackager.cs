@@ -389,7 +389,7 @@ namespace Westwind.HtmlPackager
                 {
                     var el = new HtmlNode(HtmlNodeType.Element, doc, ctr++);
                     el.Name = "style";
-                    el.InnerHtml = "\r\n" + cssText + "\r\n";
+                    el.InnerHtml = Environment.NewLine + cssText + Environment.NewLine;
 
                     link.ParentNode.InsertAfter(el, link);
                     link.Remove();

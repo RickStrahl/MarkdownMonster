@@ -71,7 +71,7 @@ namespace MarkdownMonster.Windows
             StringBuilder sb = new StringBuilder();
             sb.Clear();
 
-            string line = "\n| ";
+            string line = $"{mmApp.NewLine}| ";
             string separator = "|";
             for (int i = 0; i < columnInfo.Count; i++)
             {
@@ -118,7 +118,7 @@ namespace MarkdownMonster.Windows
                 sb.AppendLine(line.Trim());
             }
 
-            return sb + "\n";
+            return sb + mmApp.NewLine;
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace MarkdownMonster.Windows
             }
 
 
-            return sb + "\n";
+            return sb + mmApp.NewLine;
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace MarkdownMonster.Windows
             }
 
             sb.AppendLine("</tbody>");
-            sb.AppendLine("</table>\n");
+            sb.AppendLine($"</table>{mmApp.NewLine}");
 
             return sb.ToString();
         }
