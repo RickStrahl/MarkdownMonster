@@ -33,8 +33,8 @@
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.203" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.11" />
-    <PackageReference Include="LibGit2Sharp" Version="0.26.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.12" />
+    <PackageReference Include="LibGit2Sharp" Version="0.26.1" />
     <PackageReference Include="LumenWorksCsvReader" Version="4.0.0" />
     <PackageReference Include="MahApps.Metro" Version="1.6.5" />
     <PackageReference Include="Markdig" Version="0.17.1" />
@@ -43,6 +43,15 @@
     <PackageReference Include="Westwind.Utilities" Version="3.0.29" />
     <PackageReference Include="ReverseMarkdown" Version="3.8.0" />
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
+    <PackageReference Include="Mono.Cecil" Version="0.10.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MarkdownMonsterAddins\KavaDocsAddin\Westwind.TypeImporter\Westwind.TypeImporter.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
@@ -51,13 +60,6 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
     <!--<PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />-->
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Speech" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <Resource Include="Assets/MarkdownMonsterSplash.png" />
@@ -121,8 +123,9 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DefineConstants>NETFULL</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <DocumentationFile>C:\projects2010\MarkdownMonster\MarkdownMonster\MarkdownMonster.xml</DocumentationFile>
   </PropertyGroup>
 </Project>
