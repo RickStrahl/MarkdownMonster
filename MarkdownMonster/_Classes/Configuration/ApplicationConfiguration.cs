@@ -23,7 +23,7 @@ namespace MarkdownMonster
                                             INotifyPropertyChanged
     {
         /// <summary>
-        /// The name of the application
+        /// Dark or Light overall application theme selection for Markdown Monster
         /// </summary>
         public Themes ApplicationTheme
         {
@@ -37,6 +37,12 @@ namespace MarkdownMonster
         }
         private Themes _applicationTheme;
 
+
+        /// <summary>
+        /// If set this property controls whether the editor is opened in
+        /// presentation mode which shows only the preview pane with the editor
+        /// collapsed.
+        /// </summary>
         public bool OpenInPresentationMode { get; set; }
 
         /// <summary>
@@ -48,8 +54,14 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// The theme used for the editor. Can be any of AceEditor themes
-        /// twilight, visualstudio, github, monokai etc.
+        /// The theme used for the editor. Can be any of the available AceEditor
+        /// themes which include twilight, vscodedark, vscodelight, visualstudio,
+        /// github, monokai etc. Themes available based on files in:
+        /// 
+        /// \Editor\scripts\Ace\theme-XXXX.js
+        ///
+        /// You can create additional editor themes by copying and modifying existing
+        /// editor themes and using the same naming convention.
         /// </summary>
         public string EditorTheme
         {
@@ -71,8 +83,12 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Themes used to render the Preview. Preview themes are
-        /// located in the .\PreviewThemes folder and you can add
-        /// custom themes to this folder.
+        /// located in the following folder:
+        ///
+        /// \PreviewThemes\XXXX
+        ///
+        /// You can create additional Preview Themes by copying an existing
+        /// theme folder and modifying the CSS and HTML templates as needed.
         /// </summary>
         public string PreviewTheme
         {
@@ -437,7 +453,7 @@ namespace MarkdownMonster
 		/// <summary>
 		/// Custom Bug Reporting url. Obsolete - in lieu of ApplicationInsights
 		/// </summary>
-		[JsonIgnore]
+		[JsonIgnore,Obsolete("No longer used - using AppInsights instead")]
 		public string BugReportUrl { get; set; }
 
 
@@ -445,7 +461,7 @@ namespace MarkdownMonster
 		/// <summary>
 		/// Custom Bug Reporting url. Obsolete - in lieu of ApplicationInsights
 		/// </summary>
-		[JsonIgnore]
+		[JsonIgnore,Obsolete("No longer used - using AppInsights instead")]
 		public string TelemetryUrl { get; set; }
 
 
