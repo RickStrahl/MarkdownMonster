@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -28,7 +26,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Determines whether the app is unlocked
         /// </summary>
-        public static bool Unlocked
+        internal static bool Unlocked
         {
             get
             {
@@ -43,7 +41,7 @@ namespace MarkdownMonster
 
         /// <summary>
         /// Special Unlock check for Premium features.
-        /// Premium features will work 2 out of 3 time;
+        /// Premium features will work 2 out of 3 time when not registered
         /// </summary>
         public static bool UnlockedPremium {
             get
@@ -59,7 +57,7 @@ namespace MarkdownMonster
         /// Determines whether the app is running the Pro Version
         /// </summary>
         /// <returns></returns>
-        public static RegTypes RegType
+        internal static RegTypes RegType
         {
             get
             {
@@ -81,7 +79,7 @@ namespace MarkdownMonster
         /// Figures out if this copy is registered
         /// </summary>
         /// <returns></returns>
-        public static bool IsRegistered()
+        internal static bool IsRegistered()
         {
             lock (LockKey)
             {
@@ -111,7 +109,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Writes out the registration information
         /// </summary>
-        public static bool Register(string key)
+        internal static bool Register(string key)
         {
             lock (LockKey)
             {
@@ -132,7 +130,7 @@ namespace MarkdownMonster
             return true;
         }
 
-        public static void UnRegister()
+        internal static void UnRegister()
         {
             _unlocked = false;
             _regType = RegTypes.Free;
@@ -153,7 +151,7 @@ namespace MarkdownMonster
         static System.Timers.Timer timer;
         static RegisterDialog regDialog;
 
-        public static void Startup()
+        internal static void Startup()
         {            
             if (regDialog != null)
                 return; // already up
@@ -187,7 +185,7 @@ namespace MarkdownMonster
             }
         }
 
-        public static void Shutdown()
+        internal static void Shutdown()
         {
             timer?.Stop();
             timer?.Dispose();            
