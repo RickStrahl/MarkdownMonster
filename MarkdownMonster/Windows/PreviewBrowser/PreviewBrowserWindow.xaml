@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
 
 
-        <Grid Grid.Row="0"  Name="PreviewBrowserContainer">
+        <Grid Grid.Row="0" Margin="1,0" Name="PreviewBrowserContainer">
         </Grid>
 
         <StatusBar  Grid.Row ="1"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
