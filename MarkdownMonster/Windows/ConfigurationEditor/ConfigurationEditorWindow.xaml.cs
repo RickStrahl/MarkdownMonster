@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using MahApps.Metro.Controls;
 
 namespace MarkdownMonster.Windows.ConfigurationEditor
@@ -29,17 +30,26 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             Model = new ConfigurationEditorModel();
             DataContext = Model;
             Model.EditorWindow = this;
-
             mmApp.SetThemeWindowOverride(this);
 
             
 
             Loaded += ConfigurationEditorWindow_Loaded;
+
+            Model.PropertyChanged += Model_PropertyChanged;
+        }
+
+        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SearchText" || e.PropertyName == "SectionName")
+            {
+                RefreshPropertyListAsync();
+            }
         }
 
         private async void RefreshPropertyListAsync()
         {
-            Dispatcher.InvokeAsync(() => Model.AddConfigurationsAsync(PropertiesPanel), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+            Model.AddConfigurationsAsync(PropertiesPanel);
         }
 
         private async void ConfigurationEditorWindow_Loaded(object sender, RoutedEventArgs e)

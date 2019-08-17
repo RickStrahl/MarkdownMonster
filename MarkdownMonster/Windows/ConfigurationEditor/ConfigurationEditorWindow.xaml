@@ -50,8 +50,7 @@
 
                     <TextBlock VerticalAlignment="Center" Margin="5,0">Search Filter:</TextBlock>
                     <TextBox Name="Search" controls:TextBoxHelper.Watermark="Search Settings..." 
-                             Text="{Binding SearchText,Delay=140,UpdateSourceTrigger=PropertyChanged }"
-                             PreviewKeyUp="Search_PreviewKeyUp"
+                             Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged,Delay=40}"
                              Width="200" ></TextBox>
                     <TextBox Name="SearchSection" 
                              Text="{Binding SearchSection}"
@@ -72,20 +71,22 @@
 
         </ToolBarPanel>
 
-        <ScrollViewer VerticalScrollBarVisibility="Visible" 
-                      HorizontalScrollBarVisibility="Disabled" 
-                      HorizontalAlignment="Left"
-                      Grid.Row="1">
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
 
-                <StackPanel Name="SectionsPanel" Margin="20,15,0,0" />
-                <StackPanel Name="PropertiesPanel" Margin="20,0,15,0" Grid.Column="1"/>
-            </Grid>
-        </ScrollViewer>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Name="SectionsPanel" Margin="20,15,0,0" />
+            <ScrollViewer VerticalScrollBarVisibility="Visible" 
+                          HorizontalScrollBarVisibility="Disabled" 
+                          HorizontalAlignment="Left" Grid.Column="1"
+            >
+                <StackPanel Name="PropertiesPanel" Margin="20,0,15,0"/>
+            </ScrollViewer>
+        </Grid>
+        
 
 
         <StatusBar  Grid.Row="2" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">

@@ -46,7 +46,7 @@ namespace MarkdownMonster.Test
                 Console.WriteLine("  *** Properties:");
                 foreach (var prop in type.Properties)
                 {
-                    Console.WriteLine($"* {prop}  -  {prop.Signature}");
+                    Console.WriteLine($"* {prop}  -  {prop.Signature} - {prop.Type}");
                     Console.WriteLine($"{prop.HelpText}");
                     Console.WriteLine("---");
                 }
@@ -59,7 +59,7 @@ namespace MarkdownMonster.Test
         {
             foreach (var item in items)
             {
-                Console.WriteLine(item.SectionDisplayName + " - " + item.Property.Name);
+                Console.WriteLine(item.SectionDisplayName + " - " + item.Property.Name );
                 Console.WriteLine(item.Property.HelpText);
                 Console.WriteLine("---");
             }
