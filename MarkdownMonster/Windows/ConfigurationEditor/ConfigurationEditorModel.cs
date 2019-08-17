@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -70,150 +71,146 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             EditorWindow.PropertiesPanel.Children.Clear();
             EditorWindow.SectionsPanel.Children.Clear();
 
-            //Dispatcher.CurrentDispatcher.Invoke(() =>
-            //{
-            //    using (var d = Dispatcher.CurrentDispatcher.DisableProcessing())
-            //    {
-            //        EditorWindow.PropertiesPanel.Children.Clear();
-            //    }
-            //}, DispatcherPriority.Normal);
-
-            bool sectionsRendered = EditorWindow.PropertiesPanel.Children.Count > 0;
-
             await Dispatcher.CurrentDispatcher.InvokeAsync(() =>
             {
-                string section = null;
-                object instance = null;
-
-                foreach (var item in listFilteredProperties)
-                {
-                    if (item.Section == "Application")
-                        instance = mmApp.Configuration;
-                    else
-                    {
-                        try
-                        {
-                            instance = ReflectionUtils.GetProperty(
-                                mmApp.Configuration, item.Section); 
-                        }
-                        catch
-                        {
-                            instance = null;
-                        }
-                    }
-
-                    if (instance == null)
-                        continue;
-                    
-                    if (item.Section != section)
-                    {
-                        var sectionHeader = new TextBlock()
-                        {
-                            FontSize = 27,
-                            FontWeight = FontWeights.SemiBold,
-                            Foreground = Brushes.LightSteelBlue,
-                            Margin = new Thickness(0, 20, 0, 5),
-                            Text = item.SectionDisplayName
-                        };
-                        panel.Children.Add(sectionHeader);
-
-
-                        var sectionHeader2 = new TextBlock()
-                        {
-                            FontSize = 18,
-                            FontWeight = FontWeights.SemiBold,
-                            Foreground = Brushes.LightSteelBlue,
-                            Margin = new Thickness(0, 3, 0, 3),
-                            Text = item.SectionDisplayName
-                        };                        
-                        EditorWindow.SectionsPanel.Children.Add(sectionHeader2);
-
-                        section = item.Section;
-                    }
-
-
-                    // set up a binding for the value
-                    var valueBinding = new Binding
-                    {
-                        Source = mmApp.Model.Configuration,
-                        Mode = BindingMode.TwoWay
-                    };
-                    if (item.Section == "ApplicationUpdates"  || item.Section == "WindowPosition")
-                        continue;
-
-                    if (item.Section == "Application")
-                        valueBinding.Path = new PropertyPath(item.Property.Name);
-                    else
-                        valueBinding.Path = new PropertyPath(item.Section + "." + item.Property.Name);
-
-                    var header = new TextBlock()
-                    {
-                        FontSize = 16.5,
-                        Foreground = Brushes.Silver,
-                        FontWeight = FontWeights.SemiBold,
-                        Margin = new Thickness(0, 15, 0, 3),
-                        Text = StringUtils.FromCamelCase(item.Property.Name)
-                    };
-
-                    // bool uses a checkbox before the Header label
-                    if (item.Property.Type == "bool")
-                    {
-                        var tpanel = new StackPanel {Orientation = Orientation.Horizontal};
-                        var checkbox = new CheckBox() {Margin = new Thickness(0, 15, 0, 0)};
-                        BindingOperations.SetBinding(checkbox, CheckBox.IsCheckedProperty, valueBinding);
-                        tpanel.Children.Add(checkbox);
-                        tpanel.Children.Add(header);
-                        panel.Children.Add(tpanel);
-                    }
-                    else
-                        // otherwise just render the header
-                        panel.Children.Add(header);
-                    
-
-                    if (item.Property.Type == "string")
-                    {
-                        var textBox = new TextBox() { Margin = new Thickness(0, 5, 0, 10) };
-                        BindingOperations.SetBinding(textBox, TextBox.TextProperty, valueBinding);
-                        panel.Children.Add(textBox);
-                    }
-
-                    if (item.Property.Type == "int" || item.Property.Type == "decimal" || item.Property.Type == "double")
-                    {
-                        var textBox = new TextBox()
-                        {
-                            Margin = new Thickness(0, 5, 0, 10),
-                            Width = 120,
-                            HorizontalAlignment = HorizontalAlignment.Left,
-                            TextAlignment = TextAlignment.Right
-                        };
-                        BindingOperations.SetBinding(textBox, TextBox.TextProperty, valueBinding);
-                        panel.Children.Add(textBox);
-
-                    }
-                    else
-                    {
-                        // Enums
-                    }
-
-
-                    if (!string.IsNullOrEmpty(item.Property.HelpText))
-                    {
-                        var description = new TextBlock()
-                        {
-                            FontStyle = FontStyles.Italic,
-                            FontSize = 12.4,
-                            Text = item.Property.HelpText
-                        };
-                        panel.Children.Add(description);
-                    }
-
-
-                    var val = ReflectionUtils.GetProperty(instance, item.Property.Name);
-                    if (val == null)
-                        val = string.Empty;
-                }
+                RenderPropertyFields(panel, listFilteredProperties);
             });
 
+        }
+
+        private void RenderPropertyFields(StackPanel panel, List<ConfigurationPropertyItem> listFilteredProperties)
+        {
+            string section = null;
+            object instance = null;
+
+            foreach (var item in listFilteredProperties)
+            {
+                
+                if (item.Section == "Application")
+                    instance = mmApp.Configuration;
+                else
+                {
+                    try
+                    {
+                        instance = ReflectionUtils.GetProperty(
+                            mmApp.Configuration, item.Section);
+                    }
+                    catch
+                    {
+                        instance = null;
+                    }
+                }
+
+                if (instance == null)
+                    continue;
+
+                if (item.Section != section)
+                {
+                    var sectionHeader = new TextBlock()
+                    {
+                        FontSize = 27,
+                        FontWeight = FontWeights.SemiBold,
+                        Foreground = Brushes.LightSteelBlue,
+                        Margin = new Thickness(0, 20, 0, 5),
+                        Text = item.SectionDisplayName
+                    };
+                    panel.Children.Add(sectionHeader);
+
+
+                    var sectionHeader2 = new TextBlock()
+                    {
+                        FontSize = 18,
+                        FontWeight = FontWeights.SemiBold,
+                        Foreground = Brushes.LightSteelBlue,
+                        Margin = new Thickness(0, 3, 0, 3),
+                        Text = item.SectionDisplayName
+                    };
+                    EditorWindow.SectionsPanel.Children.Add(sectionHeader2);
+
+                    section = item.Section;
+                }
+
+
+                // set up a binding for the value
+                var valueBinding = new Binding
+                {
+                    Source = mmApp.Model.Configuration,
+                    Mode = BindingMode.TwoWay
+                };
+                if (item.Section == "ApplicationUpdates" || item.Section == "WindowPosition")
+                    continue;
+
+                if (item.Section == "Application")
+                    valueBinding.Path = new PropertyPath(item.Property.Name);
+                else
+                    valueBinding.Path = new PropertyPath(item.Section + "." + item.Property.Name);
+
+                var header = new TextBlock()
+                {
+                    FontSize = 16.5,
+                    Foreground = Brushes.Silver,
+                    FontWeight = FontWeights.SemiBold,
+                    Margin = new Thickness(0, 15, 0, 3),
+                    Text = StringUtils.FromCamelCase(item.Property.Name)
+                };
+
+                // bool uses a checkbox before the Header label
+                if (item.Property.Type == "bool")
+                {
+                    var tpanel = new StackPanel {Orientation = Orientation.Horizontal};
+                    var checkbox = new CheckBox() {Margin = new Thickness(0, 15, 0, 0)};
+                    BindingOperations.SetBinding(checkbox, CheckBox.IsCheckedProperty, valueBinding);
+                    tpanel.Children.Add(checkbox);
+                    tpanel.Children.Add(header);
+                    panel.Children.Add(tpanel);
+                }
+                else
+                    // otherwise just render the header
+                    panel.Children.Add(header);
+
+
+                if (item.Property.Type == "string")
+                {
+                    var textBox = new TextBox() {Margin = new Thickness(0, 5, 0, 10)};
+                    BindingOperations.SetBinding(textBox, TextBox.TextProperty, valueBinding);
+                    panel.Children.Add(textBox);
+                }
+
+                else if (item.Property.Type == "int" || item.Property.Type == "decimal" || item.Property.Type == "double")
+                {
+                    var textBox = new TextBox()
+                    {
+                        Margin = new Thickness(0, 5, 0, 10),
+                        Width = 120,
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        TextAlignment = TextAlignment.Right
+                    };
+                    BindingOperations.SetBinding(textBox, TextBox.TextProperty, valueBinding);
+                    panel.Children.Add(textBox);
+                }
+                else
+                {
+                    // Enums
+                    int x = 1;
+                }
+
+
+                if (!string.IsNullOrEmpty(item.Property.HelpText))
+                {
+                    var description = new TextBlock()
+                    {
+                        FontStyle = FontStyles.Italic,
+                        FontSize = 12.4,
+                        Text = item.Property.HelpText
+                    };
+                    panel.Children.Add(description);
+                }
+
+
+                var val = ReflectionUtils.GetProperty(instance, item.Property.Name);
+                if (val == null)
+                    val = string.Empty;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

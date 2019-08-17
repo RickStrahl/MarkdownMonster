@@ -52,9 +52,9 @@
                     <TextBox Name="Search" controls:TextBoxHelper.Watermark="Search Settings..." 
                              Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged,Delay=40}"
                              Width="200" ></TextBox>
-                    <TextBox Name="SearchSection" 
+                    <!--<TextBox Name="SearchSection" 
                              Text="{Binding SearchSection}"
-                             controls:TextBoxHelper.Watermark="Search Section..." Width="100" ></TextBox>
+                             controls:TextBoxHelper.Watermark="Search Section..." Width="100" ></TextBox>-->
                 </ToolBar>
                 <ToolBar>
                     <Button Name="ButtonManualSettings" 
