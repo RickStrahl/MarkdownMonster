@@ -344,7 +344,7 @@ namespace MarkdownMonster
 
         #region Nested Objects
 
-        public ImageConfiguration Images { get; set; }
+        public ImagesConfiguration Images { get; set; }
 
         public MarkdownOptionsConfiguration MarkdownOptions { get; set; }
 
@@ -594,7 +594,7 @@ namespace MarkdownMonster
         {
             Editor = new EditorConfiguration();
             Git = new GitConfiguration();
-            Images = new ImageConfiguration();
+            Images = new ImagesConfiguration();
 
             MarkdownOptions = new MarkdownOptionsConfiguration();
             WindowPosition = new WindowPositionConfiguration();

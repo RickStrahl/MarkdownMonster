@@ -59,7 +59,7 @@ namespace MarkdownMonster.Test
         {
             foreach (var item in items)
             {
-                Console.WriteLine(item.Section + " - " + item.Property.Name);
+                Console.WriteLine(item.SectionDisplayName + " - " + item.Property.Name);
                 Console.WriteLine(item.Property.HelpText);
                 Console.WriteLine("---");
             }

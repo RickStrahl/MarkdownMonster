@@ -146,7 +146,7 @@
                                       />
 
                 <Button Name="ToolButtonSettings" Foreground="{StaticResource BlueItem}" 
-                        Command="{Binding Commands.SettingsCommand}"
+                        Command="{Binding Commands.SettingsVisualCommand}"
                         fa:Awesome.Content="Gear" 
                         ToolTip="Configuration Settings for Markdown Monster"                        
                         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  />
@@ -360,7 +360,7 @@
                 <Separator/>
                 
 
-                <MenuItem Header="Settings" Command="{Binding Commands.SettingsCommand}"/>
+                <MenuItem Header="Settings" Command="{Binding Commands.SettingsVisualCommand}"/>
             </MenuItem>
             <MenuItem Header="_View" Name="MainMenuView"  x:FieldModifier="public" >
                 <MenuItem Name="ButtonHtmlPreview" 

@@ -16,6 +16,7 @@ using MarkdownMonster.AddIns;
 using MarkdownMonster.Favorites;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
+using MarkdownMonster.Windows.ConfigurationEditor;
 using Microsoft.Win32;
 using Westwind.HtmlPackager;
 using Westwind.Utilities;
@@ -65,6 +66,7 @@ namespace MarkdownMonster
             PresentationMode();
             TogglePreviewBrowser();
             Settings();
+            SettingsVisual();
 
 
             // Editor Commands
@@ -2082,6 +2084,21 @@ namespace MarkdownMonster
         #endregion
 
         #region Commands
+
+
+        public CommandBase SettingsVisualCommand { get; set; }
+
+        void SettingsVisual()
+        {
+            SettingsVisualCommand = new CommandBase((parameter, command) =>
+            {
+                var form = new ConfigurationEditorWindow() {Owner = Model.Window};
+                form.Show();
+
+            }, (p, c) => true);
+        }
+
+
 
         public CommandBase SettingsCommand { get; set; }
 

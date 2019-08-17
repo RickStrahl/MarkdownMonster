@@ -7,7 +7,7 @@ namespace MarkdownMonster.Configuration
     /// <summary>
     /// Holds all Image Configuration Options related configuration options
     /// </summary>
-    public class ImageConfiguration
+    public class ImagesConfiguration
     {
         /// <summary>
         /// Image editor used to edit images. Empty uses system default editor

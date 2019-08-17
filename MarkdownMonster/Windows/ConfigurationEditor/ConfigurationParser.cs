@@ -20,7 +20,6 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
 
         public List<DotnetObject> ConfigObjects = new List<DotnetObject>();
 
-        public ObservableCollection<ObjectProperty> FilteredProperties = new ObservableCollection<ObjectProperty>();
         
         public DotnetObject ParseConfigurationObject(Type appConfigType, bool addToCollection = false)
         {
@@ -49,7 +48,7 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             ParseConfigurationObject(typeof(MarkdownOptionsConfiguration), true);
             ParseConfigurationObject(typeof(GitConfiguration), true);
             ParseConfigurationObject(typeof(FolderBrowserConfiguration), true);
-            ParseConfigurationObject(typeof(ImageConfiguration), true);
+            ParseConfigurationObject(typeof(ImagesConfiguration), true);
             ParseConfigurationObject(typeof(WindowPositionConfiguration), true);
             ParseConfigurationObject(typeof(ApplicationUpdatesConfiguration), true);
         }
@@ -58,6 +57,10 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
 
         public List<ConfigurationPropertyItem> FindProperty(string textToFind)
         {
+
+            if (textToFind == null)
+                textToFind = string.Empty;
+
             var list = new List<ConfigurationPropertyItem>();
 
             foreach (var obj in ConfigObjects)
@@ -65,16 +68,18 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
                 foreach (var prop in obj.Properties)
                 {
 
-                    if (!prop.Name.Contains(textToFind, StringComparison.InvariantCultureIgnoreCase) &&
+                    if (!string.IsNullOrEmpty(textToFind) &&
+                        !prop.Name.Contains(textToFind, StringComparison.InvariantCultureIgnoreCase) &&
                         !prop.HelpText.Contains(textToFind, StringComparison.InvariantCultureIgnoreCase))
                         continue;
 
                     var item = new ConfigurationPropertyItem
                     {
                         Property = prop,
-                        Section = obj.Name
+                        Section = obj.Name.Replace("Configuration", "")
                     };
-                    item.Section = StringUtils.FromCamelCase(item.Section.Replace("Configuration",""));
+                    item.SectionDisplayName = StringUtils.FromCamelCase(item.Section);
+                    
 
                     list.Add(item);
                 }
@@ -121,7 +126,8 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
     public class ConfigurationPropertyItem
     {
         public ObjectProperty Property { get; set; }
-        public string Section { get; set;  }
+        public string SectionDisplayName { get; set;  }
+        public string Section { get; set; }
     }
 
 

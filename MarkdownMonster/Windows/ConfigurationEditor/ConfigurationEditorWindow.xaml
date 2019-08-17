@@ -1,0 +1,119 @@
+﻿<controls:MetroWindow  
+    x:Class="MarkdownMonster.Windows.ConfigurationEditor.ConfigurationEditorWindow"                      
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:local="clr-namespace:MarkdownMonster"
+                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                       xmlns:fa="http://schemas.fontawesome.io/icons/"        
+                       mc:Ignorable="d"
+                       Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
+                       Title="Markdown Monster Configuration Settings"
+                       TitleCharacterCasing="Normal"
+                       TitlebarHeight="35"                  
+                       ShowInTaskbar="False"
+                       WindowStyle="SingleBorderWindow" ResizeMode="CanResize"
+                       WindowStartupLocation="CenterOwner"         
+                       IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
+                       Width="800" Height="600">
+
+    <Grid VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ToolBarPanel Grid.Row ="0">
+            <StackPanel Orientation="Horizontal" >
+                <ToolBar FontWeight="Normal" Padding="0,2,0,2" >
+                    <Button Name="ButtonSave" IsDefault="True" Click="ButtonSave_Click"
+                            ToolTip="Explicitly saves all current settings to the configuration file. Settings are always 'live' but this rights">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Check" Margin="5,4,5,0"  
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
+                                            Foreground="LightGreen"/>
+                            <TextBlock>Save</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ButtonExit" IsCancel="True" Click="ButtonExit_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="SignOut" Margin="5,4,5,0"  
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
+                                            Foreground="Firebrick"/>
+                            <TextBlock>Exit</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                    <Separator/>
+
+                    <TextBlock VerticalAlignment="Center" Margin="5,0">Search Filter:</TextBlock>
+                    <TextBox Name="Search" controls:TextBoxHelper.Watermark="Search Settings..." 
+                             Text="{Binding SearchText,Delay=140,UpdateSourceTrigger=PropertyChanged }"
+                             PreviewKeyUp="Search_PreviewKeyUp"
+                             Width="200" ></TextBox>
+                    <TextBox Name="SearchSection" 
+                             Text="{Binding SearchSection}"
+                             controls:TextBoxHelper.Watermark="Search Section..." Width="100" ></TextBox>
+                </ToolBar>
+                <ToolBar>
+                    <Button Name="ButtonManualSettings" 
+                            Click="ButtonManualSettings_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Pencil" Margin="5,4,5,0"  
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
+                                            />
+                            <TextBlock>Edit Json</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+            </StackPanel>
+
+        </ToolBarPanel>
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible" 
+                      HorizontalScrollBarVisibility="Disabled" 
+                      HorizontalAlignment="Left"
+                      Grid.Row="1">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Name="SectionsPanel" Margin="20,15,0,0" />
+                <StackPanel Name="PropertiesPanel" Margin="20,0,15,0" Grid.Column="1"/>
+            </Grid>
+        </ScrollViewer>
+
+
+        <StatusBar  Grid.Row="2" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+
+                            <ColumnDefinition Width="Auto"  />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
+                <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1">
+                <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Name="StatusImageSize" x:FieldModifier="public" 
+                           HorizontalAlignment="Left" Margin="0,0,10,0"
+                           Text="{Binding DisplayCount,StringFormat='{}{0} items'}"></TextBlock>
+            </StatusBarItem>
+
+        </StatusBar>
+
+    </Grid>
+</controls:MetroWindow>

@@ -935,6 +935,29 @@
             InitializeComponent
             </summary>
         </member>
+        <member name="T:MarkdownMonster.Windows.ConfigurationEditor.ConfigurationEditorWindow">
+            <summary>
+            Interaction logic for ConfigurationEditorWindow.xaml
+            </summary>
+            <summary>
+            ConfigurationEditorWindow
+            </summary>
+        </member>
+        <member name="F:MarkdownMonster.Windows.ConfigurationEditor.ConfigurationEditorWindow.StatusText">
+            <summary>
+            StatusText Name Field
+            </summary>
+        </member>
+        <member name="F:MarkdownMonster.Windows.ConfigurationEditor.ConfigurationEditorWindow.StatusImageSize">
+            <summary>
+            StatusImageSize Name Field
+            </summary>
+        </member>
+        <member name="M:MarkdownMonster.Windows.ConfigurationEditor.ConfigurationEditorWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
         <member name="T:MarkdownMonster.Windows.ConfigurationEditor.ConfigurationParser">
             <summary>
             Parses Configuration Classes into an object
@@ -4881,32 +4904,32 @@
             Git Email used for commits
             </summary>
         </member>
-        <member name="T:MarkdownMonster.Configuration.ImageConfiguration">
+        <member name="T:MarkdownMonster.Configuration.ImagesConfiguration">
             <summary>
             Holds all Image Configuration Options related configuration options
             </summary>
         </member>
-        <member name="P:MarkdownMonster.Configuration.ImageConfiguration.ImageEditor">
+        <member name="P:MarkdownMonster.Configuration.ImagesConfiguration.ImageEditor">
             <summary>
             Image editor used to edit images. Empty uses system default editor
             </summary>
         </member>
-        <member name="P:MarkdownMonster.Configuration.ImageConfiguration.ImageViewer">
+        <member name="P:MarkdownMonster.Configuration.ImagesConfiguration.ImageViewer">
             <summary>
             Image viewer used to open images. Empty setting uses the default viewer
             </summary>
         </member>
-        <member name="P:MarkdownMonster.Configuration.ImageConfiguration.JpegImageCompressionLevel">
+        <member name="P:MarkdownMonster.Configuration.ImagesConfiguration.JpegImageCompressionLevel">
             <summary>
             Jpeg Image Compression level from 50 to 100. Defaults 80.
             </summary>
         </member>
-        <member name="P:MarkdownMonster.Configuration.ImageConfiguration.LastImageWidth">
+        <member name="P:MarkdownMonster.Configuration.ImagesConfiguration.LastImageWidth">
             <summary>
             Last Image Width Saved in Image Dialog so it can be restored
             </summary>
         </member>
-        <member name="P:MarkdownMonster.Configuration.ImageConfiguration.LastImageHeight">
+        <member name="P:MarkdownMonster.Configuration.ImagesConfiguration.LastImageHeight">
             <summary>
             Last Image Height Saved in Image Dialog so it can be restored
             </summary>
