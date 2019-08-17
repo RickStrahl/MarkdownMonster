@@ -46,7 +46,11 @@ namespace MarkdownMonster.Configuration
 
 
         /// <summary>
+        /// Sets the editor to render in the center of the canvas if a max width or
+        /// padding is applied to the editor. Causes text to be rendered with surrounding
+        /// white space if the canvas is larger than the width.
         ///
+        /// Used in combination with `CenteredModeMaxWidth`.
         /// </summary>
         public bool CenteredMode
         {
@@ -65,7 +69,8 @@ namespace MarkdownMonster.Configuration
 
         /// <summary>
         /// If set to a non-zero value will keep the editor's content width to
-        /// this specified size
+        /// this specified size. If the  canvas size is bigger the text is centered
+        /// within the canvas area with whitespace on each side.
         /// </summary>
         public int CenteredModeMaxWidth { get; set; } = 970;
 

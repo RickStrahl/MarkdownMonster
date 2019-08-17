@@ -22,6 +22,8 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
     public partial class ConfigurationEditorWindow 
     {
         public ConfigurationEditorModel Model { get; set; }
+
+        public StatusBarHelper StatusBar { get; set; }
         
         public ConfigurationEditorWindow()
         {
@@ -32,7 +34,7 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             Model.EditorWindow = this;
             mmApp.SetThemeWindowOverride(this);
 
-            
+            StatusBar = new StatusBarHelper(StatusText, StatusIcon);
 
             Loaded += ConfigurationEditorWindow_Loaded;
 
@@ -44,6 +46,7 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             if (e.PropertyName == "SearchText" || e.PropertyName == "SectionName")
             {
                 RefreshPropertyListAsync();
+                PropertiesScrollContainer.ScrollToHome();
             }
         }
 
@@ -55,6 +58,7 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         private async void ConfigurationEditorWindow_Loaded(object sender, RoutedEventArgs e)
         {
             RefreshPropertyListAsync();
+            TextSearch.Focus();
         }
 
 
@@ -79,7 +83,6 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         {
             Model.Window.SaveSettings();
             Model.AppModel.ActiveEditor?.RestyleEditor();
-            Close();
         }
     }
 }

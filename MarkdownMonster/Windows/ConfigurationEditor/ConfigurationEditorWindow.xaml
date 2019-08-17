@@ -9,7 +9,7 @@
                        xmlns:fa="http://schemas.fontawesome.io/icons/"        
                        mc:Ignorable="d"
                        Icon="../../Assets/MarkdownMonster_Icon_256.png"                     
-                       Title="Markdown Monster Configuration Settings"
+                       Title="Markdown Monster Settings"
                        TitleCharacterCasing="Normal"
                        TitlebarHeight="35"                  
                        ShowInTaskbar="False"
@@ -18,7 +18,7 @@
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
                        Width="800" Height="600">
 
-    <Grid VerticalAlignment="Top">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -28,14 +28,22 @@
         <ToolBarPanel Grid.Row ="0">
             <StackPanel Orientation="Horizontal" >
                 <ToolBar FontWeight="Normal" Padding="0,2,0,2" >
-                    <Button Name="ButtonSave" IsDefault="True" Click="ButtonSave_Click"
-                            ToolTip="Explicitly saves all current settings to the configuration file. Settings are always 'live' but this rights">
+                    <Button Name="ButtonSave" IsDefault="True" 
+                            Click="ButtonSave_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Check" Margin="5,4,5,0"  
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
                                             Foreground="LightGreen"/>
-                            <TextBlock>Save</TextBlock>
+                            <TextBlock>Apply</TextBlock>
                         </StackPanel>
+                        <Button.ToolTip>
+                            <TextBlock>Explicitly saves all current settings and applies them.
+<LineBreak/>
+<LineBreak/>
+Settings are always 'live' and updated as soon as you change them, <LineBreak/>
+but they may not be visible in the current editor immediately<LineBreak/>
+unless you apply the changes explicitly.</TextBlock>
+                        </Button.ToolTip>
                     </Button>
                     <Button Name="ButtonExit" IsCancel="True" Click="ButtonExit_Click">
                         <StackPanel Orientation="Horizontal">
@@ -49,7 +57,7 @@
                     <Separator/>
 
                     <TextBlock VerticalAlignment="Center" Margin="5,0">Search Filter:</TextBlock>
-                    <TextBox Name="Search" controls:TextBoxHelper.Watermark="Search Settings..." 
+                    <TextBox Name="TextSearch" controls:TextBoxHelper.Watermark="Search Settings..." 
                              Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged,Delay=40}"
                              Width="200" ></TextBox>
                     <!--<TextBox Name="SearchSection" 
@@ -72,19 +80,29 @@
         </ToolBarPanel>
 
 
+
+     
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="190"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Name="SectionsPanel" Margin="20,15,0,0" />
-            <ScrollViewer VerticalScrollBarVisibility="Visible" 
+            <StackPanel Name="SectionsPanel" Margin="20,35,0,0" />
+
+            <ScrollViewer Name="PropertiesScrollContainer" 
+                          Grid.Column="1"
+                          VerticalScrollBarVisibility="Visible" 
                           HorizontalScrollBarVisibility="Disabled" 
-                          HorizontalAlignment="Left" Grid.Column="1"
+                          VerticalAlignment="Stretch"
+                          Padding="0,10,0,10" 
+                          Height="{Binding ElementName=GridSizing,XPath=ActualHeight}"
             >
-                <StackPanel Name="PropertiesPanel" Margin="20,0,15,0"/>
+                <StackPanel Name="PropertiesPanel" 
+                            Margin="20,0,15,0" />
             </ScrollViewer>
+            
         </Grid>
         
 

@@ -360,7 +360,7 @@
                 <Separator/>
                 
 
-                <MenuItem Header="Settings" Command="{Binding Commands.SettingsVisualCommand}"/>
+                <MenuItem Header="_Settings" Command="{Binding Commands.SettingsVisualCommand}"/>
             </MenuItem>
             <MenuItem Header="_View" Name="MainMenuView"  x:FieldModifier="public" >
                 <MenuItem Name="ButtonHtmlPreview" 
