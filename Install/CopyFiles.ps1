@@ -34,7 +34,7 @@ Copy-Item ${cur}\license.md ${target}\license.md
 
 # Cleanup output
 Remove-Item ${target}\*.vshost.*
-Remove-Item ${target}\*.xml
+Remove-Item ${target}\*.xml -Exclude MarkdownMonster.xml
 Remove-Item ${target}\*.user
 Remove-Item ${target}\*.dll.config
 
