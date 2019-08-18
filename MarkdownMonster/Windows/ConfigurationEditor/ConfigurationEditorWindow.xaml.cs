@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using MahApps.Metro.Controls;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows.ConfigurationEditor
 {
@@ -78,6 +79,10 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         {
             Close();
         }
-        
+
+        private void ButtonHelp_Click(object sender, RoutedEventArgs e)
+        {
+            ShellUtils.GoUrl("https://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm");
+        }
     }
 }

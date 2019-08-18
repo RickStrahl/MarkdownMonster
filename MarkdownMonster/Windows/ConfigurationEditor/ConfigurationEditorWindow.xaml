@@ -75,6 +75,15 @@ unless you apply the changes explicitly.</TextBlock>
                             <TextBlock>Edit Json</TextBlock>
                         </StackPanel>
                     </Button>
+                    <Button Name="ButtonHelp" 
+                            Click="ButtonHelp_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="InfoCircle" Margin="5,4,5,0"  
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
+                            />
+                            <TextBlock>Help</TextBlock>
+                        </StackPanel>
+                    </Button>
                 </ToolBar>
             </StackPanel>
 
