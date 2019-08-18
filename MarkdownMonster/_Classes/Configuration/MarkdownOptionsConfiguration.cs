@@ -239,11 +239,12 @@ namespace MarkdownMonster
             }
         }
 
-
-
-        public MarkdownSymbols MarkdownSymbols { get; set; } = new MarkdownSymbols();
+        /// <summary>
+        /// Allows configuration of certain markdown sequences that have multiple
+        /// representations.
+        /// </summary>
+        public MarkdownSymbolsConfiguration MarkdownSymbolsConfiguration { get; set; } = new MarkdownSymbolsConfiguration();
         
-
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -257,9 +258,9 @@ namespace MarkdownMonster
 
 
     /// <summary>
-    /// Markdown Symbols to use for certain extensions
+    /// Markdown Symbols to use for certain text expansions.
     /// </summary>
-    public class MarkdownSymbols
+    public class MarkdownSymbolsConfiguration
     {
         public string Italic { get; set; } = "*";   // "_"
         public string SoftReturn { get; set; } = "  ";  // "\\" or "<br />"

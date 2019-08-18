@@ -122,8 +122,7 @@ namespace MarkdownMonster.Configuration
         private bool _showLineNumbers = false;
 
         /// <summary>
-        /// Determines whether the editor should shows white space.
-        /// Default is <see langword="false" />.
+        /// Shows special symbols for white space characters in the editor.
         /// </summary>
         public bool ShowInvisibles
         {
@@ -226,6 +225,9 @@ namespace MarkdownMonster.Configuration
 
         private bool _wrapText;
 
+        /// <summary>
+        /// A numeric value for the column when the editor wraps for long lines. Default is 0 which wraps at the editor's full width.
+        /// </summary>
         public int WrapMargin { get; set; }
 
         /// <summary>

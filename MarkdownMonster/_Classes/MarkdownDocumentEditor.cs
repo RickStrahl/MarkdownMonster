@@ -531,7 +531,7 @@ namespace MarkdownMonster
 
             if (action == "softbreak")
             {
-                html = input + mmApp.Configuration.MarkdownOptions.MarkdownSymbols.SoftReturn + System.Environment.NewLine;
+                html = input + mmApp.Configuration.MarkdownOptions.MarkdownSymbolsConfiguration.SoftReturn + System.Environment.NewLine;
             }
             if (action == "bold")
             {
@@ -540,7 +540,7 @@ namespace MarkdownMonster
             }
             else if (action == "italic")
             {
-                var italic = mmApp.Configuration.MarkdownOptions.MarkdownSymbols.Italic;
+                var italic = mmApp.Configuration.MarkdownOptions.MarkdownSymbolsConfiguration.Italic;
                 html = wrapValue(input, italic, italic, stripSpaces: true);
                 cursorMovement = -1;
             }
@@ -1555,7 +1555,7 @@ namespace MarkdownMonster
                 }
 
                 if (previewIfDirty)
-                    Window.PreviewBrowser.PreviewMarkdownAsync(keepScrollPosition: true);
+                    Window.PreviewBrowser?.PreviewMarkdownAsync(keepScrollPosition: true);
             }
 
             return MarkdownDocument.IsDirty;

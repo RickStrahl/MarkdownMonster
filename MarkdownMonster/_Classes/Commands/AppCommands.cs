@@ -2092,9 +2092,9 @@ namespace MarkdownMonster
         {
             SettingsVisualCommand = new CommandBase((parameter, command) =>
             {
-                var form = new ConfigurationEditorWindow() {Owner = Model.Window};
-                form.Show();
-
+                if (mmApp.OpenWindows.ConfigurationEditor == null || !mmApp.OpenWindows.ConfigurationEditor.IsLoaded)
+                    mmApp.OpenWindows.ConfigurationEditor = new ConfigurationEditorWindow() {Owner = Model.Window};
+                mmApp.OpenWindows.ConfigurationEditor.Show();
             }, (p, c) => true);
         }
 

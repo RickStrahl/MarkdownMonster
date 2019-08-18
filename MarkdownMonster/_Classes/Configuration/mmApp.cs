@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
+using MarkdownMonster.Windows.ConfigurationEditor;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -41,6 +42,12 @@ namespace MarkdownMonster
         /// Holds a static instance of the Application Model
         /// </summary>
         public static AppModel Model { get; set; }
+
+
+        /// <summary>
+        /// A static class that holds singleton window references
+        /// </summary>
+        public static OpenWindows OpenWindows { get; set; } = new OpenWindows();
 
         /// <summary>
         /// The full name of the application displayed on toolbar and dialogs
@@ -764,5 +771,10 @@ Markdown Monster v{version}
     {
         AppDispatcher,
         AppRoot
+    }
+
+    public class OpenWindows
+    {
+        public ConfigurationEditorWindow ConfigurationEditor { get; set; }
     }
 }

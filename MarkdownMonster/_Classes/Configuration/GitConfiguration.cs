@@ -15,6 +15,9 @@ namespace MarkdownMonster.Configuration
         /// </summary>
         public GitCommitBehaviors GitCommitBehavior { get; set; } = GitCommitBehaviors.CommitAndPush;
 
+        /// <summary>
+        /// Determines whether the Git Commit dialog is closed after committing a changeset.
+        /// </summary>
         public bool CloseAfterCommit { get; set; } = true;
         
         /// <summary>

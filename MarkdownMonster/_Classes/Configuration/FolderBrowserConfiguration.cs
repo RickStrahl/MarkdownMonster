@@ -63,10 +63,20 @@ namespace MarkdownMonster.Configuration
 	    private string _folderPath;
 
 
+        /// <summary>
+        /// Folders that are not shown by the Folder Browser. Defaults to some system folders.
+        /// </summary>
 	    public string IgnoredFolders { get; set; } = ".git,node_modules,.vs";
 
+
+        /// <summary>
+        /// File extensions that are not shown by the Folder browser.
+        /// </summary>
 	    public string IgnoredFileExtensions { get; set; } = ".saved.bak,kavadocstopic.md,.saved.bak.md";
 
+        /// <summary>
+        /// A list of recently accessed folders
+        /// </summary>
 
 	    public List<string> RecentFolders
 	    {

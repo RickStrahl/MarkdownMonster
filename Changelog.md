@@ -4,15 +4,13 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-
-
-### 1.18.14
+### 1.18.12
 *<small>not released yet</small>*
 
 * **Add Configuration Editor**  
-Added a VS Code style Configuration setting editor UI that allows searching for settings and can help prevent entering invalid JSON data. If you loved the JSON based configuration - it's still available from the new window as well.
+Added a VS Code style Configuration settings editor UI, that allows searching for settings. It also prevents entering invalid JSON data into any non text fields that expect specific values. If you loved the JSON based configuration, not to worry: You can still edit the raw JSON to make settings changes too.
 
-* **Add explict Editor Linefeed Format**  
+* **Add explicit Editor Linefeed Format**  
 You can now explicitly specify the linefeed format of the editor in the Editor configuration. Previously MM always used Unix style `Lf` formatting (the default for ACE Editor). You can now specify `CrLf` for Windows specific formatting. This setting affects how files are saved and how Copy/Cut/Paste works. The default remains at `Lf` only since that appears to be the more compatible format that works for almost everything.
 
 ### 1.18.10

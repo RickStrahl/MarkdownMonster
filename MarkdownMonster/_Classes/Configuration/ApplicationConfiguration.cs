@@ -489,6 +489,9 @@ namespace MarkdownMonster
         private bool _isPreviewVisible;
 
 
+        /// <summary>
+        /// Determines if the Document Outline sidebar is visible.
+        /// </summary>
         public bool IsDocumentOutlineVisible
         {
             get { return _IsDocumentOutlineVisible; }
@@ -502,6 +505,9 @@ namespace MarkdownMonster
         private bool _IsDocumentOutlineVisible;
 
 
+        /// <summary>
+        /// Maximum outline level that is rendered based on H1,H2,H3 etc. tags. Default is 4.
+        /// </summary>
         public int MaxDocumentOutlineLevel
         {
             get => _maxOutlineLevel;
@@ -529,6 +535,9 @@ namespace MarkdownMonster
         /// </summary>
         public bool DisableAddins { get; set; }
 
+        /// <summary>
+        /// Starts up the application without showing the Splash screen.
+        /// </summary>
         public bool DisableSplashScreen { get; set; }
 
         /// <summary>

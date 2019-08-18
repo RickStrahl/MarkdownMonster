@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net462</TargetFramework> 
     <!--<TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>-->
-    <Version>1.18.11</Version>
+    <Version>1.18.11.2</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
     <StartupObject>StartUp</StartupObject>
@@ -49,9 +49,9 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Speech" />
     <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\MarkdownMonsterAddins\KavaDocsAddin\Westwind.TypeImporter\Westwind.TypeImporter.csproj" />
+    <Reference Include="Westwind.TypeImporter">
+      <HintPath>..\SupportAssemblies\Westwind.TypeImporter.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
