@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
+using MahApps.Metro.Controls;
 using MarkdownMonster.Annotations;
 using Westwind.Utilities;
 
@@ -63,7 +66,6 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         public async System.Threading.Tasks.Task AddConfigurationsAsync(StackPanel panel)
         {
             EditorWindow.StatusBar.ShowStatusProgress("Loading settings...");
-            WindowUtilities.DoEvents();
 
             var parser = new ConfigurationParser();
             parser.ParseAllConfigurationObjects();
@@ -85,58 +87,60 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         private void RenderPropertyFields(StackPanel panel, List<ConfigurationPropertyItem> listFilteredProperties)
         {
             string section = null;
-            object instance = null;
+            object configInstance = null;
+
+            Brush headerColor = mmApp.Configuration.ApplicationTheme == Themes.Dark ? Brushes.LightSteelBlue : Brushes.SteelBlue;
+            Brush sectionColor = mmApp.Configuration.ApplicationTheme == Themes.Dark ? Brushes.LightSlateGray : Brushes.DarkSlateBlue;
 
             foreach (var item in listFilteredProperties)
             {
-                if (item.Section == "WindowPosition" || item.Section == "ApplicationUpdates")
+                if (item.Section == "WindowPosition" || item.Section == "ApplicationUpdates" || item.Property.Scope != "public")
                     continue;
 
                 if (item.Section == "Application")
-                    instance = mmApp.Configuration;
+                    configInstance = mmApp.Configuration;
                 else
                 {
                     try
                     {
-                        instance = ReflectionUtils.GetProperty(
+                        configInstance = ReflectionUtils.GetProperty(
                             mmApp.Configuration, item.Section);
                     }
                     catch
                     {
-                        instance = null;
+                        configInstance = null;
                     }
                 }
 
-                if (instance == null)
+                if (configInstance == null)
                     continue;
 
                 if (item.Section != section)
                 {
                     var sectionHeader = new TextBlock()
                     {
-                        FontSize = 27,
-                        FontWeight = FontWeights.SemiBold,
-                        Foreground = Brushes.LightSteelBlue,
-                        Margin = new Thickness(0, 20, 0, 5),
+                        FontSize = 28,
+                        FontWeight = FontWeights.Bold,
+                        Foreground = sectionColor,
+                        Margin = new Thickness(0, 15, 0, 0),
                         Text = item.SectionDisplayName
                     };
                     panel.Children.Add(sectionHeader);
 
 
-
-                    var sectionHeader2 = new TextBlock()
+                    var sectionLink = new Button()
                     {
-                        FontSize = 17,
+                        FontSize = 18,
                         FontWeight = FontWeights.SemiBold,
-                        Foreground = Brushes.LightSteelBlue,
-                        Margin = new Thickness(0, 5, 20, 5),
-                        TextAlignment = TextAlignment.Right,
-                        Text = item.SectionDisplayName
+                        Foreground = sectionColor,
+                        Margin = new Thickness(0, 5, 20, 8),
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        Content = item.SectionDisplayName
                     };
-                    EditorWindow.SectionsPanel.Children.Add(sectionHeader2);
-                    sectionHeader2.PreviewMouseLeftButtonDown += SectionHeader2_PreviewMouseLeftButtonDown;
+                    sectionLink.SetResourceReference(TextBlock.StyleProperty, "LinkButtonStyle");
+                    EditorWindow.SectionsPanel.Children.Add(sectionLink);
+                    sectionLink.PreviewMouseLeftButtonDown += SectionHeader2_PreviewMouseLeftButtonDown;
                     
-
                     section = item.Section;
                 }
 
@@ -161,10 +165,14 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
                     var checkbox = new CheckBox() {
                         Margin = new Thickness(0, 15, 0, 3),
                         FontSize= 16.5,
-                        Foreground = Brushes.Silver,
+                        Foreground = headerColor,
                         FontWeight = FontWeights.SemiBold,
                         Content = StringUtils.FromCamelCase(item.Property.Name)
                     };
+
+                    checkbox.Checked += SaveAndRestyle;  // (object s, RoutedEventArgs a) =>  mmApp.Model.ActiveEditor?.RestyleEditor();
+                    checkbox.Unchecked += SaveAndRestyle; // (object s, RoutedEventArgs a) => mmApp.Model.ActiveEditor?.RestyleEditor();
+
                     BindingOperations.SetBinding(checkbox, CheckBox.IsCheckedProperty, valueBinding);
                     panel.Children.Add(checkbox);
                 }
@@ -174,18 +182,20 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
                     var header = new TextBlock()
                     {
                         FontSize = 16.5,
-                        Foreground = Brushes.Silver,
+                        Foreground = headerColor,
                         FontWeight = FontWeights.SemiBold,
                         Margin = new Thickness(0, 15, 0, 3),
                         Text = StringUtils.FromCamelCase(item.Property.Name)
                     };
                     panel.Children.Add(header);
+
                 }
 
                 
                 if (item.Property.Type == "string")
                 {
                     var textBox = new TextBox() {Margin = new Thickness(0, 5, 0, 10)};
+                    textBox.LostFocus += SaveAndRestyle;
                     BindingOperations.SetBinding(textBox, TextBox.TextProperty, valueBinding);
                     panel.Children.Add(textBox);
                 }
@@ -200,17 +210,60 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
                         HorizontalAlignment = HorizontalAlignment.Left,
                         TextAlignment = TextAlignment.Right
                     };
+                    textBox.LostFocus += SaveAndRestyle; 
+
                     BindingOperations.SetBinding(textBox, TextBox.TextProperty, valueBinding);
                     panel.Children.Add(textBox);
                 }
                 else if (item.Property.Type == "bool")
                 {
-                    // do nothing
+                    // do nothing - already added the control
                 }
                 else
                 {
-                    // Enums
-                    var type = item.Property.Type;
+
+                    var val = ReflectionUtils.GetProperty(configInstance, item.Property.Name);
+                    if (val == null)
+                        continue;
+
+                    var type = val.GetType();
+                    if (type.IsEnum)
+                    {
+                        var enumItems = ReflectionUtils.GetEnumList(type);
+
+                        var combo = new ComboBox()
+                        {
+                            ItemsSource = enumItems,
+                            DisplayMemberPath = "Value",
+                            Margin = new Thickness(0, 5, 0, 8)
+                        };
+                        combo.SelectedItem = enumItems.First(kv => kv.Key == val.ToString());
+                        combo.Tag = configInstance;
+                        combo.SelectionChanged += (s,a) =>
+                        {
+                            var cmbo = s as ComboBox;
+                            var key = (KeyValuePair<string,string>) cmbo.SelectedValue;
+                            var enumVal = Enum.Parse(type, key.Key);
+                            var prop = cmbo.Tag.GetType().GetProperty(item.Property.Name,
+                                BindingFlags.Public | BindingFlags.Instance);
+                            prop.SetValue(cmbo.Tag, enumVal, null);
+                            //ReflectionUtils.SetPropertyEx(configInstance, , enumVal);
+
+                            Dispatcher.CurrentDispatcher.Invoke(() => SaveAndRestyle(null,null));
+                        };
+                        panel.Children.Add(combo);
+                    }
+                    else if (item.Property.Type == "DateTime")
+                    {
+                        var timePicker = new DateTimePicker {Margin = new Thickness(0, 5, 0, 10)};
+                        BindingOperations.SetBinding(timePicker, DateTimePicker.SelectedDateProperty,valueBinding);
+                        panel.Children.Add(timePicker);
+                    }
+                    else if (type.IsClass)
+                    {
+                        var childPanel = new StackPanel {Margin = new Thickness(20, 30, 10, 0)};
+
+                    }
                 }
 
 
@@ -224,27 +277,31 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
                     };
                     panel.Children.Add(description);
                 }
-
-
-                var val = ReflectionUtils.GetProperty(instance, item.Property.Name);
-                if (val == null)
-                    val = string.Empty;
+                else
+                    Debug.WriteLine("Missing Configuration Help Property: " + item.Property.Name);
             }
+        }
+
+        private void SaveAndRestyle(object sender, RoutedEventArgs e)
+        {
+            mmApp.Configuration.Write();
+            mmApp.Model.ActiveEditor?.RestyleEditor();
         }
 
         private void SectionHeader2_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var clickedSection = sender as TextBlock;
-            var clickedSectionText = clickedSection.Text;
-            foreach (TextBlock tb in EditorWindow.SectionsPanel.Children)
+            var clickedSection = sender as Button;
+            var clickedSectionText = clickedSection.Content as string;
+
+            foreach (Button tb in EditorWindow.SectionsPanel.Children)
             {
-                if (clickedSection.Text == "Application")
+                if (clickedSectionText == "Application")
                 {
                     EditorWindow.PropertiesScrollContainer.ScrollToHome();
                     return;
                 }
 
-                if(clickedSectionText == tb.Text)
+                if(clickedSectionText == tb.Content as string)
                 {
                     tb.Focus();
 
@@ -256,7 +313,7 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
                             if (tb3 == null || tb3.Text == null)
                                 return false;
                             
-                            if (tb3.Text == clickedSection.Text)
+                            if (tb3.Text == clickedSectionText)
                                 return true;
 
                             return false;

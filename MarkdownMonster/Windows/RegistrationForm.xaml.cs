@@ -36,7 +36,6 @@ namespace MarkdownMonster.Windows
 
         private void Register_Click(object sender, RoutedEventArgs routedEventArgs)
         {
-
             bool registered = UnlockKey.Register(TextRegKey.Password);
 
             mmApp.Model.Window.SetWindowTitle();

@@ -62,7 +62,6 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         }
 
 
-
         private void ButtonManualSettings_Click(object sender, RoutedEventArgs e)
         {
             Model.AppModel.Commands.SettingsCommand.Execute(null);
@@ -79,10 +78,6 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         {
             Close();
         }
-        private void ButtonSave_Click(object sender, RoutedEventArgs e)
-        {
-            Model.Window.SaveSettings();
-            Model.AppModel.ActiveEditor?.RestyleEditor();
-        }
+        
     }
 }

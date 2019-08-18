@@ -16,7 +16,7 @@
                        WindowStyle="SingleBorderWindow" ResizeMode="CanResize"
                        WindowStartupLocation="CenterOwner"         
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-                       Width="800" Height="600">
+                       Width="800" Height="700" MinHeight="400" MinWidth="700">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -28,7 +28,7 @@
         <ToolBarPanel Grid.Row ="0">
             <StackPanel Orientation="Horizontal" >
                 <ToolBar FontWeight="Normal" Padding="0,2,0,2" >
-                    <Button Name="ButtonSave" IsDefault="True" 
+                    <!--<Button Name="ButtonSave" IsDefault="True" 
                             Click="ButtonSave_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="Check" Margin="5,4,5,0"  
@@ -44,7 +44,8 @@ Settings are always 'live' and updated as soon as you change them, <LineBreak/>
 but they may not be visible in the current editor immediately<LineBreak/>
 unless you apply the changes explicitly.</TextBlock>
                         </Button.ToolTip>
-                    </Button>
+                    </Button>-->
+
                     <Button Name="ButtonExit" IsCancel="True" Click="ButtonExit_Click">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Icon="SignOut" Margin="5,4,5,0"  
@@ -56,10 +57,10 @@ unless you apply the changes explicitly.</TextBlock>
 
                     <Separator/>
 
-                    <TextBlock VerticalAlignment="Center" Margin="5,0">Search Filter:</TextBlock>
-                    <TextBox Name="TextSearch" controls:TextBoxHelper.Watermark="Search Settings..." 
+                    <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Search Filter:</TextBlock>
+                    <TextBox Name="TextSearch" controls:TextBoxHelper.Watermark="Search settings" 
                              Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged,Delay=40}"
-                             Width="200" ></TextBox>
+                             Width="250" ></TextBox>
                     <!--<TextBox Name="SearchSection" 
                              Text="{Binding SearchSection}"
                              controls:TextBoxHelper.Watermark="Search Section..." Width="100" ></TextBox>-->
@@ -85,11 +86,11 @@ unless you apply the changes explicitly.</TextBlock>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="190"/>
+                <ColumnDefinition Width="205"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Name="SectionsPanel" Margin="20,35,0,0" />
+            <StackPanel Name="SectionsPanel" Margin="0,25,0,0" />
 
             <ScrollViewer Name="PropertiesScrollContainer" 
                           Grid.Column="1"
