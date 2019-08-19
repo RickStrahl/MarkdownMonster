@@ -71,6 +71,7 @@ Root: HKCU; Subkey: "Software\Classes\.mdproj";                       ValueData:
 
 ; IE 11 mode
 Root: HKCU; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"; ValueType: dword; ValueName: "MarkdownMonster.exe"; ValueData: "11001"; Flags: createvalueifdoesntexist
+Root: HKCU; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_GPU_RENDERING"; ValueType: dword; ValueName: "MarkdownMonster.exe"; ValueData: "1"; Flags: createvalueifdoesntexist
 
 ; Add MM to user's system path
 Root: HKCU; Subkey: "Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{localappdata}\{#MyAppName}" ; Check: NeedsAddPath('{localappdata}\{#MyAppName}')

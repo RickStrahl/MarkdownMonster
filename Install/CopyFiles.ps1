@@ -34,14 +34,13 @@ Copy-Item ${cur}\license.md ${target}\license.md
 
 # Cleanup output
 Remove-Item ${target}\*.vshost.*
-Remove-Item ${target}\*.xml -Exclude MarkdownMonster.xml
 Remove-Item ${target}\*.user
 Remove-Item ${target}\*.dll.config
+Remove-Item ${target}\*.xml -Exclude MarkdownMonster.xml
 
 if ([System.IO.Directory]::Exists($target + "\.vs")) {
     Remove-Item ${target}\.vs -Recurse -Force
 }
-
 
 # Roslyn - remove extra files
 # Remove-Item ${target}\Addins\Snippets\roslyn -Recurse -Force
@@ -50,8 +49,11 @@ Remove-Item ${target}\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 Remove-Item ${target}\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 Remove-Item ${target}\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 
-# Want to ship MM PDB but not any others
+# Ship MM PDB but none of the others
 Remove-Item ${target}\*.pdb -Exclude markdownmonster.pdb
+
+# Remove Cecil unused assemblies
+Remove-item ${target}\mono.Cecil.*.dll
 
 # Cleanup Addins folder
 get-childitem ${target}\Addins\*.pdb -Recurse | Remove-Item

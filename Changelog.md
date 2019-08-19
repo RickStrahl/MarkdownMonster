@@ -5,7 +5,7 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.18.12
-*<small>not released yet</small>*
+*<small>August 19th, 2019</small>*
 
 * **Add Configuration Editor**  
 Added a VS Code style Configuration settings editor UI, that allows searching for settings. It also prevents entering invalid JSON data into any non text fields that expect specific values. If you loved the JSON based configuration, not to worry: You can still edit the raw JSON to make settings changes too.
@@ -35,7 +35,7 @@ Fix issue where focus is lost after closing the last tab in Markdown Monster.
 Fix problem with Ctrl-Tab navigation of tabs and Ctrl-F4 tab closing operations losing proper tab focus.
 
 ### 1.18.8
-<small>July 9th,</small>
+<small>July 9th, 2019</small>
 
 * **Find in Files (experimental)**  
 Initial implementation of Search in Files functionality that lets you search for files and content in a given folder/subfolders. Access via **Edit -> Find in Files** or via **File Browser -> Search Icon**.

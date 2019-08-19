@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net462</TargetFramework> 
     <!--<TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>-->
-    <Version>1.18.11.5</Version>
+    <Version>1.18.12</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
     <StartupObject>StartUp</StartupObject>
@@ -26,9 +26,6 @@
     <Copyright>West Wind Technologies, 2016-2019</Copyright>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Windows\FileSearch\FileSearchControl.xaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.203" />
