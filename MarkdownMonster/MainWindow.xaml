@@ -24,10 +24,6 @@
         WindowTransitionsEnabled="False">
 
     <Window.Resources>
-        <!--<localwindows:FileNameFromPathConverter x:Key="FileNameFromPathConverter" />
-        <localwindows:FolderNameFromPathConverter x:Key="FolderNameFromPathConverter" />
-        <localwindows:FullFolderNameFromPathConverter x:Key="FullFolderNameFromPathConverter" />
-        <localwindows:FileIconFromPathConverter x:Key="FileIconFromPathConverter"/>-->
         <localwindows:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
         <localwindows:NotEmptyStringToBooleanConverter x:Key="NotEmptyStringToBooleanConverter" />
 

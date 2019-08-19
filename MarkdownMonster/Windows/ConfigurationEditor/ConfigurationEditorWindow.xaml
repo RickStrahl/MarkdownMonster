@@ -15,6 +15,7 @@
                        ShowInTaskbar="False"
                        WindowStyle="SingleBorderWindow" ResizeMode="CanResize"
                        WindowStartupLocation="CenterOwner"         
+                       WindowTransitionsEnabled="False"
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
                        Width="800" Height="700" MinHeight="400" MinWidth="700">
 
@@ -27,49 +28,37 @@
 
         <ToolBarPanel Grid.Row ="0">
             <StackPanel Orientation="Horizontal" >
-                <ToolBar FontWeight="Normal" Padding="0,2,0,2" >
-                    <!--<Button Name="ButtonSave" IsDefault="True" 
-                            Click="ButtonSave_Click">
+                <ToolBar >
+                    <Button Name="ButtonExit" IsCancel="True" Click="ButtonExit_Click"
+                            ToolTip="Closes the form. Note: Any changes made are applied and saved immediately.">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Check" Margin="5,4,5,0"  
-                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
-                                            Foreground="LightGreen"/>
-                            <TextBlock>Apply</TextBlock>
-                        </StackPanel>
-                        <Button.ToolTip>
-                            <TextBlock>Explicitly saves all current settings and applies them.
-<LineBreak/>
-<LineBreak/>
-Settings are always 'live' and updated as soon as you change them, <LineBreak/>
-but they may not be visible in the current editor immediately<LineBreak/>
-unless you apply the changes explicitly.</TextBlock>
-                        </Button.ToolTip>
-                    </Button>-->
-
-                    <Button Name="ButtonExit" IsCancel="True" Click="ButtonExit_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="SignOut" Margin="5,4,5,0"  
+                            <fa:FontAwesome Icon="SignOut" Margin="5,2,5,0"
+                                            FontSize="19"
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
                                             Foreground="Firebrick"/>
                             <TextBlock>Exit</TextBlock>
                         </StackPanel>
                     </Button>
+                    </ToolBar >
 
-                    <Separator/>
+                    <ToolBar >
 
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Search Filter:</TextBlock>
-                    <TextBox Name="TextSearch" controls:TextBoxHelper.Watermark="Search settings" 
-                             Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged,Delay=40}"
-                             Width="250" ></TextBox>
-                    <!--<TextBox Name="SearchSection" 
-                             Text="{Binding SearchSection}"
-                             controls:TextBoxHelper.Watermark="Search Section..." Width="100" ></TextBox>-->
+                    <!--<TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Search Filter:</TextBlock>-->
+                    <TextBox Name="TextSearch" 
+                             controls:TextBoxHelper.Watermark="Search settings..."  
+                             controls:TextBoxHelper.ClearTextButton="True"
+                             Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged,Delay=150}" 
+                              
+                             Width="250" Margin="10,0,0,0">
+                    </TextBox>
                 </ToolBar>
                 <ToolBar>
                     <Button Name="ButtonManualSettings" 
                             Click="ButtonManualSettings_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Pencil" Margin="5,4,5,0"  
+                            <fa:FontAwesome Icon="PencilSquareOutline" Margin="5,2,5,0"  
+                                            Foreground="DarkGoldenrod"
+                                            FontSize="17"
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
                                             />
                             <TextBlock>Edit Json</TextBlock>
@@ -78,7 +67,9 @@ unless you apply the changes explicitly.</TextBlock>
                     <Button Name="ButtonHelp" 
                             Click="ButtonHelp_Click">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="InfoCircle" Margin="5,4,5,0"  
+                            <fa:FontAwesome Icon="InfoCircle" Margin="5,1,5,0"  
+                                            Foreground="SteelBlue"
+                                            FontSize="17"
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
                             />
                             <TextBlock>Help</TextBlock>

@@ -2109,6 +2109,9 @@ namespace MarkdownMonster
             {
                 try
                 {
+                    if (mmApp.OpenWindows.ConfigurationEditor != null)
+                        mmApp.OpenWindows.ConfigurationEditor = null;
+
                     var file = Path.Combine(mmApp.Configuration.CommonFolder, "MarkdownMonster.json");
 
                     // save settings first so we're looking at current setting

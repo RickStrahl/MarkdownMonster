@@ -34,6 +34,10 @@
         </Style.Triggers>
     </Style>
 
+    <!-- Colors -->
+    <Color x:Key="Gray6">DarkGray</Color>
+    <SolidColorBrush x:Key="TextBoxBorderBrush" Color="{StaticResource Gray6}" options:Freeze="True" />
+
     <SolidColorBrush x:Key="BlueItem" Color="#70B8FF" />
     <SolidColorBrush x:Key="LightThemeTitleBackground" Color="#D5DAE8" />
     <SolidColorBrush x:Key="HeadlineColor" Color="#569AD4" />

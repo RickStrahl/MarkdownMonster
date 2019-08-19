@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -63,26 +64,27 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         }
 
 
-        public async System.Threading.Tasks.Task AddConfigurationsAsync(StackPanel panel)
+        public async Task AddConfigurationsAsync(StackPanel panel)
         {
             EditorWindow.StatusBar.ShowStatusProgress("Loading settings...");
-
-            var parser = new ConfigurationParser();
-            parser.ParseAllConfigurationObjects();
-
-            var listFilteredProperties = parser.FindProperty(SearchText);
-
-            DisplayCount = listFilteredProperties.Count;
-
-            EditorWindow.PropertiesPanel.Children.Clear();
-            EditorWindow.SectionsPanel.Children.Clear();
-
-            await Dispatcher.CurrentDispatcher.InvokeAsync(() =>
+            await Dispatcher.CurrentDispatcher.InvokeAsync( () =>
             {
-                RenderPropertyFields(panel, listFilteredProperties);
-                EditorWindow.StatusBar.ShowStatus();
-            });
+                var parser = new ConfigurationParser();
+                parser.ParseAllConfigurationObjects();
 
+                var listFilteredProperties = parser.FindProperty(SearchText);
+
+                DisplayCount = listFilteredProperties.Count;
+
+                EditorWindow.PropertiesPanel.Children.Clear();
+                EditorWindow.SectionsPanel.Children.Clear();
+
+                Dispatcher.CurrentDispatcher.InvokeAsync(() =>
+                {
+                    RenderPropertyFields(panel, listFilteredProperties);
+                    EditorWindow.StatusBar.ShowStatus();
+                },DispatcherPriority.Normal);
+            },DispatcherPriority.Render);
         }
         private void RenderPropertyFields(StackPanel panel, List<ConfigurationPropertyItem> listFilteredProperties)
         {
@@ -221,12 +223,33 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
                 }
                 else
                 {
-
                     var val = ReflectionUtils.GetProperty(configInstance, item.Property.Name);
                     if (val == null)
                         continue;
 
                     var type = val.GetType();
+                    if (val is IDictionary<string,string>)
+                    {
+                        var button = new Button()
+                        {
+                            FontWeight = FontWeights.SemiBold,
+                            Margin = new Thickness(10, 5, 0, 15),
+                            Content="Please edit this list of values in the JSON file",
+                            Command = mmApp.Model.Commands.SettingsCommand
+                        };
+                        button.SetResourceReference(TextBlock.StyleProperty, "LinkButtonStyle");
+                        panel.Children.Add(button);
+                        
+                        //var grid = new DataGrid
+                        //{
+                        //    ItemsSource = val as Dictionary<string, string>,
+                        //    Height = 100,
+                        //    Margin = new Thickness(10, 5, 0, 8),
+                        //    HeadersVisibility = DataGridHeadersVisibility.None,
+                        //};
+                        //panel.Children.Add(grid);
+
+                    }
                     if (type.IsEnum)
                     {
                         var enumItems = ReflectionUtils.GetEnumList(type);
