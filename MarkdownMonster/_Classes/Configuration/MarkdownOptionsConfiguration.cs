@@ -22,7 +22,7 @@ namespace MarkdownMonster
         public bool AutoLinks { get; set; } = true;
 
         /// <summary>
-        /// Determines if headers automatically generate 
+        /// Determines if headers automatically generate
         /// ids. We use the Github Flavored version of it.
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/AutoIdentifierSpecs.md
         /// </summary>
@@ -53,7 +53,7 @@ namespace MarkdownMonster
         /// https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/ListExtraSpecs.md
         /// </summary>
         public bool ListExtras { get; set; } = true;
-        
+
 
         /// <summary>
         /// If true expand Emoji in the format of :smile: and common Smileys  like :-)
@@ -117,9 +117,9 @@ namespace MarkdownMonster
         /// </summary>
         public bool SmartyPants { get; set; }
 
-      
+
         /// <summary>
-        /// If true inline HTML blocks are not rendered        
+        /// If true inline HTML blocks are not rendered
         /// </summary>
         public bool NoHtml { get; set; }
 
@@ -133,27 +133,27 @@ namespace MarkdownMonster
         /// Gets or sets the Markdig extensions to be enabled.
         /// Allows you to add extensions dynamically at runtime
         /// or set non-supported (via these options) settings
-        /// 
+        ///
         /// This shouldn't be needed - use the options instead
         /// but this can be used in case Markdig adds extensions
         /// that aren't exposed here.
-        /// 
+        ///
         /// Comma or + separated list of extension names:
         /// gridtables+pipetables+customcontainers
-        /// 
-        /// If options are availe         
+        ///
+        /// If options are availe
         /// </summary>
         public string MarkdigExtensions
         {
             get { return _markdigExtensions; }
             set
             {
-                if (value == _markdigExtensions) return;                
+                if (value == _markdigExtensions) return;
                 _markdigExtensions = value;
                 OnPropertyChanged();
             }
         }
-        private string _markdigExtensions = string.Empty;      
+        private string _markdigExtensions = string.Empty;
 
         #endregion
 
@@ -161,11 +161,11 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Determines whether the Markdown rendering allows script tags 
+        /// Determines whether the Markdown rendering allows script tags
         /// in generated HTML output. Set this to true
         /// if you want to allow script tags to be rendered into
         /// HTML script tags and execute - such as embedding
-        /// Gists or other Widgets that use scripts.        
+        /// Gists or other Widgets that use scripts.
         /// </summary>
         public bool AllowRenderScriptTags
         {
@@ -190,9 +190,9 @@ namespace MarkdownMonster
 
         /// <summary>
         /// The name of the Markdown Parser used to render
-        /// output. New parsers or parser configurations can be 
+        /// output. New parsers or parser configurations can be
         /// added via Addins.
-        /// </summary>        
+        /// </summary>
         public string MarkdownParserName
         {
             get { return _markdownParserName; }
@@ -205,8 +205,8 @@ namespace MarkdownMonster
         }
 
         /// <summary>
-        /// Parses DocFx include file links with a format of
-        /// ![include[title](file)]
+        /// Parses some DocFx expressions like note boxes, and file includes
+        /// This setting requires a restart to be applied.
         /// </summary>
         public bool ParseDocFx
         {
@@ -244,7 +244,7 @@ namespace MarkdownMonster
         /// representations.
         /// </summary>
         public MarkdownSymbolsConfiguration MarkdownSymbolsConfiguration { get; set; } = new MarkdownSymbolsConfiguration();
-        
+
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;

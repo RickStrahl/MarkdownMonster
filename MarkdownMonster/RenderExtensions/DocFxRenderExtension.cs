@@ -13,11 +13,11 @@ namespace MarkdownMonster.RenderExtensions
     {
         public void AfterDocumentRendered(ModifyHtmlArguments args)
         {
-            
+
         }
 
         public void AfterMarkdownRendered(ModifyHtmlAndHeadersArguments args)
-        {            
+        {
         }
 
         public void BeforeMarkdownRendered(ModifyMarkdownArguments args)
@@ -153,7 +153,5 @@ namespace MarkdownMonster.RenderExtensions
                 args.Markdown = args.Markdown.Replace(value, sb.ToString());
             }
         }
-
     }
-
 }

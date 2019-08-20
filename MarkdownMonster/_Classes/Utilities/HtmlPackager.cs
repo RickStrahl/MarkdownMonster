@@ -184,7 +184,7 @@ namespace Westwind.HtmlPackager
                         basePath = Path.GetDirectoryName(urlOrFile);
 
                     Directory.SetCurrentDirectory(basePath);
-                    BaseUri = new Uri(basePath);
+                    BaseUri = new Uri("file:///" + basePath);
 
                     ctr = 0;
                     ProcessCss(doc);
@@ -363,7 +363,7 @@ namespace Westwind.HtmlPackager
                             cssText = http.DownloadString(url);
                         }
                         else
-                            cssText = File.ReadAllText(WebUtility.UrlDecode(url));
+                            cssText = File.ReadAllText(uri.LocalPath);
                     }
                 }
                 catch
@@ -436,7 +436,7 @@ namespace Westwind.HtmlPackager
                             scriptData = http.DownloadData(url);
                         }
                         else
-                            scriptData = File.ReadAllBytes(WebUtility.UrlDecode(url));
+                            scriptData = File.ReadAllBytes(uri.LocalPath);
                     }
                 }
                 catch
@@ -489,22 +489,21 @@ namespace Westwind.HtmlPackager
                     }
                     else if (url.StartsWith("file:///"))
                     {
-                        url = url.Substring(8);
-
+                        url = WebUtility.UrlDecode(url.Substring(8));
                         imageData = File.ReadAllBytes(url);
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                     }
                     else // Relative Path
                     {
                         var uri = new Uri(BaseUri, url);
-                        url = uri.AbsoluteUri;
-                        if (url.StartsWith("http") && url.Contains("://"))
+                        
+                        if (uri.Scheme.StartsWith("http"))
                         {
                             var http = new WebClient();
-                            imageData = http.DownloadData(url);
+                            imageData = http.DownloadData(uri.AbsoluteUri);
                         }
                         else
-                            imageData = File.ReadAllBytes(WebUtility.UrlDecode(url.Replace("file:///", "")));
+                            imageData = File.ReadAllBytes(uri.LocalPath);
 
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                     }
@@ -584,25 +583,22 @@ namespace Westwind.HtmlPackager
                     {
                         var http = new WebClient();
                         linkData = http.DownloadData(url);
-                        contentType = http.ResponseHeaders[System.Net.HttpResponseHeader.ContentType];
+                        contentType = http.ResponseHeaders[HttpResponseHeader.ContentType];
                     }
                     else if (url.StartsWith("file:///"))
                     {
-                        var baseUri = new Uri(baseUrl);
-                        url = new Uri(baseUri, new Uri(url)).AbsoluteUri;
-
-
+                        var uri = new Uri(BaseUri, new Uri(url));
+                        url = uri.AbsoluteUri;
+                        
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                         if (contentType == "application/image")
                             continue;
 
-                        linkData = File.ReadAllBytes(WebUtility.UrlDecode(url));
+                        linkData = File.ReadAllBytes(uri.LocalPath);
                     }
                     else
                     {
-
-                        var baseUri = new Uri(baseUrl);
-                        var uri = new Uri(baseUri, url);
+                        var uri = new Uri(BaseUri, url);
                         url = uri.AbsoluteUri;
                         if (url.StartsWith("http") && url.Contains("://"))
                         {
@@ -610,7 +606,7 @@ namespace Westwind.HtmlPackager
                             linkData = http.DownloadData(url);
                         }
                         else
-                            linkData = File.ReadAllBytes(WebUtility.UrlDecode(url.Replace("file:///", "")));
+                            linkData = File.ReadAllBytes(uri.LocalPath);
 
                         contentType = ImageUtils.GetImageMediaTypeFromFilename(url);
                     }

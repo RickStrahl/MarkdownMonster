@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.UI.WebControls;
 
 namespace MarkdownMonster.RenderExtensions
 {
@@ -103,6 +104,5 @@ namespace MarkdownMonster.RenderExtensions
                 Current.RenderExtensions.Add(new DocFxRenderExtension());
         }
 
-      
     }
 }

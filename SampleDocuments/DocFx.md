@@ -9,7 +9,6 @@
 
 Some other text
 
-
 > [!TIP]
 > What do we have here?
 > * Item 1
