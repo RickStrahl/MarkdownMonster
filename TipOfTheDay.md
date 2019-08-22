@@ -67,6 +67,12 @@ to open a file from the current folder? You can specify multiple files, use full
 
 https://markdownmonster.west-wind.com/docs/_4x313dneu.htm
 
+## Quickliy Open the Folder Browser
+Did you know you can quickly open the active file's folder in the Folder Browser by clicking the location icon in the Folder Browser toolbar, or `Show in Folder Browser` in the tab context menu?
+
+It's a quick way to navigate and work with files in the current folder.
+
+
 ## Open Markdown Files from Preview HTML Links
 Did you know that in Markdown Monster you can click on Markdown links in the Previewer to open related Markdown documents in the Editor? MM  intercepts relative or local file Markdown links and opens the appropriate Markdown document in the editor. 
 

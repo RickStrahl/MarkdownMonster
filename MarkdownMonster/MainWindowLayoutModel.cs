@@ -432,45 +432,48 @@ namespace MarkdownMonster.Windows {
             {
                 Window.SaveSettings();
 
-                // force internal preview to become active
                 Model.Commands.PreviewModesCommand.Execute("InternalPreview");
                 
-                //mmApp.Configuration.WindowPosition.SplitterPosition =
-                //    Convert.ToInt32(window.MainWindowPreviewColumn.Width.Value);
-
-                // don't allow presentation mode for non-Markdown documents
-                var editor = Window.GetActiveMarkdownEditor();
-                if (editor != null)
+                // force internal preview to become active
+                Model.Window.Dispatcher.Invoke(() =>
                 {
-                    var file = editor.MarkdownDocument.Filename.ToLower();
-                    var ext = Path.GetExtension(file).Replace(".", "");
+                    //mmApp.Configuration.WindowPosition.SplitterPosition =
+                    //    Convert.ToInt32(window.MainWindowPreviewColumn.Width.Value);
 
-                    Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
-                    mappedTo = mappedTo ?? string.Empty;
-                    if (file != "untitled" && mappedTo != "markdown" && mappedTo != "html")
+                    // don't allow presentation mode for non-Markdown documents
+                    var editor = Window.GetActiveMarkdownEditor();
+                    if (editor != null)
                     {
-                        // don't allow presentation mode for non markdown files
-                        Model.IsPresentationMode = false;
-                        Model.IsPreviewBrowserVisible = false;
-                        Window.ShowPreviewBrowser(true);
-                        return;
+                        var file = editor.MarkdownDocument.Filename.ToLower();
+                        var ext = Path.GetExtension(file).Replace(".", "");
+
+                        Model.Configuration.EditorExtensionMappings.TryGetValue(ext, out string mappedTo);
+                        mappedTo = mappedTo ?? string.Empty;
+                        if (file != "untitled" && mappedTo != "markdown" && mappedTo != "html")
+                        {
+                            // don't allow presentation mode for non markdown files
+                            Model.IsPresentationMode = false;
+                            Model.IsPreviewBrowserVisible = false;
+                            Window.ShowPreviewBrowser(true);
+                            return;
+                        }
                     }
-                }
 
-                layout.IsLeftSidebarVisible = false;
-                layout.IsRightSidebarVisible = false;
-                layout.PreviewWidth = GridLengthHelper.Star;
-                layout.EditorWidth = GridLengthHelper.Zero;
+                    layout.IsLeftSidebarVisible = false;
+                    layout.IsRightSidebarVisible = false;
+                    layout.PreviewWidth = GridLengthHelper.Star;
+                    layout.EditorWidth = GridLengthHelper.Zero;
 
-                Model.Window.ToolbarGridRow.Height = GridLengthHelper.Zero;
-                Window.TabControl.IsHeaderPanelVisible = false;
-                Window.StatusBarGridRow.Height = GridLengthHelper.Zero;
+                    Model.Window.ToolbarGridRow.Height = GridLengthHelper.Zero;
+                    Window.TabControl.IsHeaderPanelVisible = false;
+                    Window.StatusBarGridRow.Height = GridLengthHelper.Zero;
 
-                //window.ShowPreviewBrowser();
-                Window.ShowFolderBrowser(true);
+                    //window.ShowPreviewBrowser();
+                    Window.ShowFolderBrowser(true);
 
-                Model.IsPresentationMode = true;
-                Model.IsPreviewBrowserVisible = true;
+                    Model.IsPresentationMode = true;
+                    Model.IsPreviewBrowserVisible = true;
+                },System.Windows.Threading.DispatcherPriority.ApplicationIdle);
             }            
         }
         #endregion
