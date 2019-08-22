@@ -432,7 +432,8 @@ namespace MarkdownMonster.Windows {
             {
                 Window.SaveSettings();
 
-                Model.Commands.PreviewModesCommand.Execute("InternalPreview");
+                if(Model.Configuration.PreviewMode != PreviewModes.InternalPreview)
+                    Model.Commands.PreviewModesCommand.Execute("InternalPreview");
                 
                 // force internal preview to become active
                 Model.Window.Dispatcher.Invoke(() =>
