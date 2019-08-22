@@ -177,7 +177,8 @@
                       Style="{StaticResource CompactCheckBox}"
                       ToolTip="Embeds the picture as inline base64 content in the HTML document. Can result in very large rendered HTML documents and recommended only for smaller images."/>
 
-            
+            <TextBlock FontSize="12" FontStyle="Italic" Foreground="silver"
+                       Margin="0,15,0,10">Note: You can also paste images from the clipboard here or directly into the document</TextBlock>
         </StackPanel>
 
         <Image Name="ImagePreview" Grid.Row="2" Margin="7,5,7,0"/>

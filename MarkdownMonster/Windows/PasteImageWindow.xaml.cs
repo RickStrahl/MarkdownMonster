@@ -386,6 +386,7 @@ namespace MarkdownMonster.Windows
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             WindowUtilities.FixFocus(this, CheckPasteAsBase64Content);
+
             if (sender == ButtonCancel)
                 DialogResult = false;
             else
