@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using MahApps.Metro.Controls;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Windows.PreviewBrowser;
+using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows
 {
@@ -19,7 +23,9 @@ namespace MarkdownMonster.Windows
 
         IPreviewBrowser PreviewBrowser { get; set; }
 
-         public PreviewBrowserWindow()
+        public List<KeyValuePair<string, string>> WindowDisplayModes { get; set; } 
+
+        public PreviewBrowserWindow()
         {
             InitializeComponent();
 
@@ -30,6 +36,17 @@ namespace MarkdownMonster.Windows
             
             LoadInternalPreviewBrowser();
             SetWindowPositionFromConfig();
+
+            WindowDisplayModes = new List<KeyValuePair<string, string>>();
+            WindowDisplayModes.Add(
+                new KeyValuePair<string, string>("ActivatedByMainWindow", "Activated by main window"));
+            WindowDisplayModes.Add(
+                new KeyValuePair<string, string>("AlwaysOnTop", "Always on top"));
+            WindowDisplayModes.Add(
+                new KeyValuePair<string, string>("ManualActivation", "Manually activated"));
+
+            ComboWindowDisplayModes.ItemsSource = WindowDisplayModes;
+            ComboWindowDisplayModes.BorderBrush = Brushes.Silver;
         }
 
         void LoadInternalPreviewBrowser()
@@ -55,7 +72,7 @@ namespace MarkdownMonster.Windows
             Width = config.PreviewWidth;
             Height = config.PreviewHeight;
 
-            Topmost = config.PreviewAlwaysOntop;
+            Topmost = config.PreviewDisplayMode == PreviewWindowDisplayModes.AlwaysOnTop;
             if (config.PreviewDocked)
                 AttachDockingBehavior();
 
@@ -147,13 +164,6 @@ namespace MarkdownMonster.Windows
             DockToMainWindow();
         }
 
-        private void CheckPreviewAlwaysOnTop_Click(object sender, RoutedEventArgs e)
-        {
-            if (Model.Configuration.WindowPosition.PreviewAlwaysOntop)
-                Topmost = true;
-            else
-                Topmost = false;
-        }
 
         private void CheckPreviewDocked_Click(object sender, RoutedEventArgs e)
         {
@@ -196,6 +206,23 @@ namespace MarkdownMonster.Windows
         public void Dispose()
         {
             PreviewBrowser.Dispose();
+        }
+
+        bool firstLoad = true;
+
+        private void ComboWindowDisplayModes_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (firstLoad)
+            {
+                firstLoad = false;
+                return;
+            }
+
+            Close();
+
+            // reload the form
+            Dispatcher.Invoke(() => Model.Commands.PreviewModesCommand.Execute("ExternalPreviewWindow"),
+                System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         }
     }
 }

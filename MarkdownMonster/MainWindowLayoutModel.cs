@@ -432,6 +432,9 @@ namespace MarkdownMonster.Windows {
             {
                 Window.SaveSettings();
 
+                // force internal preview to become active
+                Model.Commands.PreviewModesCommand.Execute("InternalPreview");
+                
                 //mmApp.Configuration.WindowPosition.SplitterPosition =
                 //    Convert.ToInt32(window.MainWindowPreviewColumn.Width.Value);
 

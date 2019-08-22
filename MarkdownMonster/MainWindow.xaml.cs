@@ -102,10 +102,10 @@ namespace MarkdownMonster
             {
                 if (_previewBrowserWindow == null || _previewBrowserWindow.IsClosed)
                 {
-                    _previewBrowserWindow = new PreviewBrowserWindow()
-                    {
-                        Owner = this
-                    };
+                    _previewBrowserWindow = new PreviewBrowserWindow();
+                    if(Model.Configuration.WindowPosition.PreviewDisplayMode == PreviewWindowDisplayModes.ActivatedByMainWindow)
+                        _previewBrowserWindow.Owner = this;
+                    
                 }
 
                 return _previewBrowserWindow;

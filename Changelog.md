@@ -4,6 +4,13 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.18.14
+*not released yet*
+
+* **Improved External Preview Window Configuration**  
+The preview window now has additional options for managing the window z-order state including synced to main window, always on top or manually activated.
+
 ### 1.18.12
 *<small>August 19th, 2019</small>*
 

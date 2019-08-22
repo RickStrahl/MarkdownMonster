@@ -24,20 +24,24 @@ namespace MarkdownMonster
         public int PreviewWidth { get; set; } = 500;
 
 
-        public bool PreviewAlwaysOntop
+        public PreviewWindowDisplayModes PreviewDisplayMode
         {
-            get { return _PreviewAlwaysOntop; }
+            get => _previewDisplayMode;
             set
             {
-                if (value == _PreviewAlwaysOntop) return;
-                _PreviewAlwaysOntop = value;
-                OnPropertyChanged(nameof(PreviewAlwaysOntop));
+                if (value == _previewDisplayMode)
+                    return;
+                _previewDisplayMode = value;
+                OnPropertyChanged();
             }
         }
+        private PreviewWindowDisplayModes _previewDisplayMode = PreviewWindowDisplayModes.ActivatedByMainWindow;
 
-        private bool _PreviewAlwaysOntop;
 
-
+        /// <summary>
+        /// Determines whether the preview docks and moves with the main window
+        /// when the main window is moved, sized, restored or hidden.
+        /// </summary>
         public bool PreviewDocked
         {
             get { return _PreviewDocked; }
@@ -50,6 +54,7 @@ namespace MarkdownMonster
         }
 
         private bool _PreviewDocked;
+
 
 
 
@@ -89,7 +94,7 @@ namespace MarkdownMonster
         }
 
         private bool _IsTabHeaderPanelVisible = true;
-
+        
 
         /// <summary>
         /// Hold last window state.
@@ -108,5 +113,12 @@ namespace MarkdownMonster
         }
 
         #endregion
+    }
+
+    public enum PreviewWindowDisplayModes
+    {
+        ActivatedByMainWindow,
+        AlwaysOnTop,
+        ManualActivation
     }
 }
