@@ -21,8 +21,16 @@ namespace MarkdownMonster
         private readonly Func<object, ICommand, bool> _previewExecute;
 
         public string Caption { get; set; }
-        
+
+        /// <summary>
+        /// Allows setting a premium feature name that shows a dialog
+        /// when the feature is accessed while not registered.
+        /// </summary>
         public string PremiumFeatureName { get; set; }
+
+        /// <summary>
+        /// Feature URL to more information if not registered.
+        /// </summary>
         public string PremiumFeatureLink { get; set; }
 
         private string _keyboardShortcut;
