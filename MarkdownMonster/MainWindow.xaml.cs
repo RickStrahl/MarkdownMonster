@@ -164,10 +164,13 @@ namespace MarkdownMonster
             Drop += MainWindow_Drop;
             AllowDrop = true;
             Activated += OnActivated;
+            StateChanged += MainWindow_StateChanged;
+     
 
             // Singleton App startup - server code that listens for other instances
             if (mmApp.Configuration.UseSingleWindow && !App.ForceNewWindow)
-            {                // Listen for other instances launching and pick up
+            {
+                // Listen for other instances launching and pick up
                 // forwarded command line arguments
                 PipeManager = new NamedPipeManager("MarkdownMonster");
                 PipeManager.StartServer();
@@ -178,8 +181,9 @@ namespace MarkdownMonster
             mmApp.SetThemeWindowOverride(this);
 
             StatusBarHelper = new StatusBarHelper(StatusText, StatusIcon);
-
         }
+
+        
 
 
         #region Opening and Closing
@@ -261,6 +265,25 @@ namespace MarkdownMonster
 
         }
 
+        /// <summary>
+        /// Capture WindowState and 'old' size for maximized windows
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                // capture window size before maximizing
+                Model.Configuration.WindowPosition.WindowState = WindowState.Maximized;
+                Model.Configuration.WindowPosition.Top = (int)Top;
+                Model.Configuration.WindowPosition.Left = (int)Left;
+                Model.Configuration.WindowPosition.Width = (int)Width;
+                Model.Configuration.WindowPosition.Height = (int)Height;
+            }
+            else
+                WindowState = WindowState.Normal;
+        }
 
         void CheckForFirstRun()
         {
@@ -469,7 +492,6 @@ namespace MarkdownMonster
         protected override void OnContentRendered(EventArgs e)
         {
             base.OnContentRendered(e);
-            WindowState = mmApp.Configuration.WindowPosition.WindowState;
         }
 
 
@@ -857,6 +879,10 @@ namespace MarkdownMonster
                 Height = conf.WindowPosition.Height;
             }
 
+            if (conf.WindowPosition.WindowState == WindowState.Maximized)
+                Dispatcher.InvokeAsync(() => WindowState = WindowState.Maximized, DispatcherPriority.ApplicationIdle);
+            
+
             if (mmApp.Configuration.RememberLastDocumentsLength > 0 && mmApp.Configuration.UseSingleWindow)
             {
                 //var selectedDoc = conf.RecentDocuments.FirstOrDefault();
@@ -1021,9 +1047,9 @@ namespace MarkdownMonster
                 config.WindowPosition.Width = mmFileUtils.TryConvertToInt32(Width, 900);
                 config.WindowPosition.Height = mmFileUtils.TryConvertToInt32(Height, 700);
             }
-
             if (WindowState != WindowState.Minimized)
                 config.WindowPosition.WindowState = WindowState;
+
 
             if (LeftSidebarColumn.Width.Value > 20)
             {
