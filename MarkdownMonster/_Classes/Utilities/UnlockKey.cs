@@ -241,7 +241,7 @@ Note: premium features are randomly disabled in the free edition
 
             if (form.ButtonResult == form.ButtonOk)
                 ShellUtils.GoUrl("https://markdownmonster.west-wind.com/purchase.aspx");
-            else if (form.ButtonResult == featureButton)
+            else if (form.ButtonResult == featureButton && !string.IsNullOrEmpty(premiumFeatureLink))
                 ShellUtils.GoUrl(premiumFeatureLink);
 
             if (form.ButtonResult == null)
