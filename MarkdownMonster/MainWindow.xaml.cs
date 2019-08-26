@@ -281,8 +281,6 @@ namespace MarkdownMonster
                 Model.Configuration.WindowPosition.Width = (int)Width;
                 Model.Configuration.WindowPosition.Height = (int)Height;
             }
-            else
-                WindowState = WindowState.Normal;
         }
 
         void CheckForFirstRun()
