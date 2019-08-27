@@ -15,7 +15,7 @@ The preview window now has additional options for managing the window z-order st
 Fixed a number issues related to multi-monitor positioning when restoring settings. Maximized windows now restore to their previously un-maximized position when restored.
 
 * **Fix: Presentation Mode from External Preview**  
-* Fix issue with the Presentation View when activated when the external preview is active. New behavior switches to internal preview before acticating presentation view.
+* Fix issue with the Presentation View when activated when the external preview is active. New behavior switches to internal preview before activating presentation view.
 
 * **Fix: Preview of inline, wrapped Code Style in various Themes**  
 Fixed display of inline code that wraps across multiple lines in the GitHub and Medium styles. These styles were previously set to not wrap causing long lines for long `<code>` content.
