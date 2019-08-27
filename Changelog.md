@@ -6,10 +6,19 @@
 
 
 ### 1.18.14
-*not released yet*
+*<small>August 27th, 2019</small>*
 
 * **Improved External Preview Window Configuration**  
 The preview window now has additional options for managing the window z-order state including synced to main window, always on top or manually activated.
+
+* **Fix: Multi-Monitor Location Preservation**  
+Fixed a number issues related to multi-monitor positioning when restoring settings. Maximized windows now restore to their previously un-maximized position when restored.
+
+* **Fix: Presentation Mode from External Preview**  
+* Fix issue with the Presentation View when activated when the external preview is active. New behavior switches to internal preview before acticating presentation view.
+
+* **Fix: Preview of inline, wrapped Code Style in various Themes**  
+Fixed display of inline code that wraps across multiple lines in the GitHub and Medium styles. These styles were previously set to not wrap causing long lines for long `<code>` content.
 
 ### 1.18.12
 *<small>August 19th, 2019</small>*
