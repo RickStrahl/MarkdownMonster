@@ -69,7 +69,7 @@
                 <Button 
                         Name="ButtonLanguages"
                         Margin="-12,0,0,0"
-                    FontSize="11"
+                        FontSize="11"
 						ToolTip="Languages"                                
 				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				                             
 				        Click="ButtonLangugeDropDown_Click"
@@ -141,11 +141,35 @@
                                 TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
                                       />
 
+               
+
                 <Button Name="ToolButtonSettings" Foreground="{StaticResource BlueItem}" 
                         Command="{Binding Commands.SettingsVisualCommand}"
                         fa:Awesome.Content="Gear" 
                         ToolTip="Configuration Settings for Markdown Monster"                        
                         TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  />
+
+                <Button 
+                    Margin="-4,0,0,0" Name="ButtonWindowSizes"
+                    Click="ButtonWindowSizesDropdown_Click"
+                    fa:Awesome.Content="CaretDown"
+                    FontSize="12"
+                    Foreground="{StaticResource BlueItem}"				                             
+                    TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                >
+                    <i:Interaction.Behaviors>
+                        <local:DropDownButtonBehavior />
+                    </i:Interaction.Behaviors>
+                    <Button.ToolTip>
+                        <ToolTip>
+                        <TextBlock>Resize main window to a pre-configured size.
+                            <LineBreak/>
+                            You can configure custom sizes in the configuration file.
+                        </TextBlock>
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
+
             </StackPanel>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
@@ -779,7 +803,7 @@
                 </TabControl.ContextMenu>
             </dragablz:TabablzControl>
 
-            <mmcontrols:StartMenuUserControl Grid.Column="2" controls:VisibilityHelper.IsCollapsed="{Binding IsTabOpen}" />
+            <mmcontrols:StartMenuUserControl Grid.Column="2"  controls:VisibilityHelper.IsCollapsed="{Binding IsTabOpen}" />
 
             <GridSplitter Grid.Column="3"  x:Name="RightSidebarContainerSeparator"                                                                   
                           HorizontalAlignment="Center"                          

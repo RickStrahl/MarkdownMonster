@@ -30,8 +30,12 @@ namespace MarkdownMonster.Windows
     {
 
 
-        static readonly FieldInfo DisableProcessCountField = typeof(Dispatcher).GetField("_disableProcessingCount", BindingFlags.Instance | BindingFlags.NonPublic);
-        private static void EmptyMethod() { }
+        static readonly FieldInfo DisableProcessCountField =
+            typeof(Dispatcher).GetField("_disableProcessingCount", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private static void EmptyMethod()
+        {
+        }
 
         /// <summary>
         /// Idle loop to let events fire in the UI
@@ -42,14 +46,14 @@ namespace MarkdownMonster.Windows
         public static void DoEvents()
         {
             try
-            {                
+            {
                 // This can fail if the dispatcher is disabled by another process
                 if (!IsDispatcherDisabled())
                     Dispatcher.CurrentDispatcher.Invoke(EmptyMethod, DispatcherPriority.Background);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                mmApp.Log("DoEvents failed", ex);              
+                mmApp.Log("DoEvents failed", ex);
             }
         }
 
@@ -66,15 +70,15 @@ namespace MarkdownMonster.Windows
         }
 
         /// <summary>
-    /// Forces lost focus on the active control in a Window to force the selected control
-    /// to databind.
-    /// Typical scenario: Toolbar clicks (which don't cause a focus change) don't see
-    /// latest control state of the active control because it doesn't know focus has
-    /// changed. This forces the active control to unbind       
-    /// </summary>
-    /// <param name="window">Active window</param>
-    /// <param name="control">Control to force focus to briefly to force active control to bind</param>
-    public static void FixFocus(Window window, System.Windows.Controls.Control control)
+        /// Forces lost focus on the active control in a Window to force the selected control
+        /// to databind.
+        /// Typical scenario: Toolbar clicks (which don't cause a focus change) don't see
+        /// latest control state of the active control because it doesn't know focus has
+        /// changed. This forces the active control to unbind       
+        /// </summary>
+        /// <param name="window">Active window</param>
+        /// <param name="control">Control to force focus to briefly to force active control to bind</param>
+        public static void FixFocus(Window window, System.Windows.Controls.Control control)
         {
             var ctl = FocusManager.GetFocusedElement(window);
             if (ctl == null)
@@ -100,13 +104,14 @@ namespace MarkdownMonster.Windows
                     var child = VisualTreeHelper.GetChild(obj, i);
                     if (child is T)
                     {
-                        return (T)child;
+                        return (T) child;
                     }
 
                     T childItem = FindVisualChild<T>(child);
                     if (childItem != null) return childItem;
                 }
             }
+
             return null;
         }
 
@@ -125,8 +130,7 @@ namespace MarkdownMonster.Windows
                 if (current is T) return (T) current;
 
                 current = VisualTreeHelper.GetParent(current);
-            }
-            while (current != null);
+            } while (current != null);
 
             return null;
         }
@@ -172,7 +176,8 @@ namespace MarkdownMonster.Windows
         /// <param name="ksc"></param>
         /// <param name="command"></param>
         /// <returns>KeyBinding - Window.InputBindings.Add(keyBinding)</returns>
-        public static KeyBinding xCreateKeyboardShortcutBinding(string ksc, ICommand command, object commandParameter = null)
+        public static KeyBinding xCreateKeyboardShortcutBinding(string ksc, ICommand command,
+            object commandParameter = null)
         {
             if (string.IsNullOrEmpty(ksc))
                 return null;
@@ -211,15 +216,15 @@ namespace MarkdownMonster.Windows
                 // Whatever command you need to bind to
                 kb.Command = command;
                 if (commandParameter != null)
-                   kb.CommandParameter = commandParameter;
+                    kb.CommandParameter = commandParameter;
 
                 return kb;
             }
             // deal with invalid bindings - ignore them
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 mmApp.Log("Unable to assign key binding: " + ksc, ex);
-                return null; 
+                return null;
             }
         }
 
@@ -265,6 +270,7 @@ namespace MarkdownMonster.Windows
                     InvalidateSubmenuCommands(mi);
             }
         }
+
         #endregion
 
         #region Bitmap Conversions
@@ -293,11 +299,11 @@ namespace MarkdownMonster.Windows
             source.CopyPixels(
                 Int32Rect.Empty,
                 data.Scan0,
-                data.Height*data.Stride,
+                data.Height * data.Stride,
                 data.Stride);
 
             bmp.UnlockBits(data);
-			
+
             return bmp;
         }
 
@@ -309,7 +315,8 @@ namespace MarkdownMonster.Windows
         public static BitmapSource BitmapToBitmapSource(Bitmap bmp)
         {
             var hBitmap = bmp.GetHbitmap();
-            var imageSource = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, System.Windows.Int32Rect.Empty, System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+            var imageSource = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero,
+                System.Windows.Int32Rect.Empty, System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
             DeleteObject(hBitmap);
             return imageSource;
         }
@@ -318,6 +325,7 @@ namespace MarkdownMonster.Windows
         #endregion
 
         #region Make Window Transparent
+
         /// <summary>
         /// Call this to make a window completely click through including all controls
         /// on it.
@@ -345,6 +353,7 @@ namespace MarkdownMonster.Windows
 
         [DllImport("user32.dll")]
         static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+
         #endregion
 
 
@@ -355,7 +364,7 @@ namespace MarkdownMonster.Windows
             var dpi = WindowUtilities.GetDpi(window, DpiType.Effective);
             decimal ratio = 1;
             if (dpi > 96)
-                ratio = (decimal)dpi / 96M;
+                ratio = (decimal) dpi / 96M;
 
             return ratio;
         }
@@ -364,11 +373,11 @@ namespace MarkdownMonster.Windows
 
 
         public static decimal GetDpiRatio(IntPtr hwnd)
-        {            
-            var dpi = GetDpi(hwnd, DpiType.Effective);            
+        {
+            var dpi = GetDpi(hwnd, DpiType.Effective);
             decimal ratio = 1;
             if (dpi > 96)
-                ratio = (decimal)dpi / 96M;
+                ratio = (decimal) dpi / 96M;
 
             //Debug.WriteLine($"Scale: {factor} {ratio}");
             return ratio;
@@ -378,7 +387,7 @@ namespace MarkdownMonster.Windows
 
         public static uint GetDpi(IntPtr hwnd, DpiType dpiType)
         {
-            var screen = Screen.FromHandle(hwnd);            
+            var screen = Screen.FromHandle(hwnd);
             var pnt = new Point(screen.Bounds.Left, screen.Bounds.Top);
 
             var mon = MonitorFromPoint(pnt, 2 /*MONITOR_DEFAULTTONEAREST*/);
@@ -395,13 +404,13 @@ namespace MarkdownMonster.Windows
             {
                 // fallback for Windows 7 and older - not 100% reliable
                 Graphics graphics = Graphics.FromHwnd(hwnd);
-                float dpiXX = graphics.DpiX;                
+                float dpiXX = graphics.DpiX;
                 return Convert.ToUInt32(dpiXX);
             }
         }
 
         public static uint GetDpi(System.Drawing.Point point, DpiType dpiType)
-        {                       
+        {
             var mon = MonitorFromPoint(point, 2 /*MONITOR_DEFAULTTONEAREST*/);
 
             try
@@ -428,14 +437,15 @@ namespace MarkdownMonster.Windows
             return GetDpi(hwnd, dpiType);
         }
 
-   
+
         //https://msdn.microsoft.com/en-us/library/windows/desktop/dd145062(v=vs.85).aspx
         [DllImport("User32.dll")]
-        private static extern IntPtr MonitorFromPoint([In]System.Drawing.Point pt, [In]uint dwFlags);
+        private static extern IntPtr MonitorFromPoint([In] System.Drawing.Point pt, [In] uint dwFlags);
 
         //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280510(v=vs.85).aspx
         [DllImport("Shcore.dll")]
-        private static extern IntPtr GetDpiForMonitor([In]IntPtr hmonitor, [In]DpiType dpiType, [Out]out uint dpiX, [Out]out uint dpiY);
+        private static extern IntPtr GetDpiForMonitor([In] IntPtr hmonitor, [In] DpiType dpiType, [Out] out uint dpiX,
+            [Out] out uint dpiY);
 
         #endregion
 
@@ -445,7 +455,8 @@ namespace MarkdownMonster.Windows
         /// IMPORTANT: This only works if this is called in the immediate startup code
         /// of the application. For WPF this means `static App() { }`.
         /// </summary>
-        public static bool SetPerMonitorDpiAwareness(ProcessDpiAwareness type = ProcessDpiAwareness.Process_Per_Monitor_DPI_Aware)
+        public static bool SetPerMonitorDpiAwareness(
+            ProcessDpiAwareness type = ProcessDpiAwareness.Process_Per_Monitor_DPI_Aware)
         {
             try
             {
@@ -460,9 +471,9 @@ namespace MarkdownMonster.Windows
             catch
             {
                 return false;
-            }            
+            }
         }
-        
+
         [DllImport("SHCore.dll", SetLastError = true)]
         private static extern bool SetProcessDpiAwareness(ProcessDpiAwareness awareness);
 
@@ -481,6 +492,27 @@ namespace MarkdownMonster.Windows
         {
             var screen = Screen.FromHandle(new WindowInteropHelper(window).Handle);
             return screen.Bounds;
+        }
+
+        /// <summary>
+        ///  Centers a window in the 
+        /// </summary>
+        /// <param name="window"></param>
+        public static void CenterWindow(MainWindow window)
+        {
+            var screen = Screen.FromHandle(window.Hwnd);
+
+            var ratio = Convert.ToDouble(GetDpiRatio(window.Hwnd));
+            var windowWidth = (double) (screen.Bounds.Width * ratio);
+            var windowHeight = (double) (screen.Bounds.Height * ratio);
+
+            
+            var offsetWidth = (windowWidth - window.Width) /  2 + (screen.Bounds.X * ratio);
+            var offsetHeight = (windowHeight -  window.Height) / 2 + (screen.Bounds.Y * ratio);
+
+            window.Left = Convert.ToDouble(offsetWidth);
+            window.Top = Convert.ToDouble(offsetHeight);
+            
         }
     }
 

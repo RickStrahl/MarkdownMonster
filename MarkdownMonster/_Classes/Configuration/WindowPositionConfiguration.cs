@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using MarkdownMonster.Annotations;
@@ -100,6 +101,30 @@ namespace MarkdownMonster
         /// Hold last window state.
         /// </summary>
         public WindowState WindowState { get; set; }
+
+
+        /// <summary>
+        /// A pre-defined list of Window Sizes you can resize
+        /// Markdown Monster to with the COntrol menu.
+        /// </summary>
+        public HashSet<string> WindowSizes { get; set; }
+
+        public WindowPositionConfiguration()
+        {
+            if (WindowSizes == null)
+            {
+                WindowSizes = new HashSet<string>()
+                {
+                    "2500 x 1750",
+                    "1900 x 1020",
+                    "1600 x 850",
+                    "1250 x 680",
+                    "950 x 620",
+                    "770 x 560"
+                };
+            }
+        }
+        
 
 
         #region INotifyPropertyChanged

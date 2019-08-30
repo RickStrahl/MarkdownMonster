@@ -36,6 +36,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -53,15 +54,22 @@ using MarkdownMonster.Windows.PreviewBrowser;
 using Westwind.Utilities;
 using Binding = System.Windows.Data.Binding;
 using Brushes = System.Windows.Media.Brushes;
+using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using DataFormats = System.Windows.DataFormats;
+using DataObject = System.Windows.DataObject;
+using DragDropEffects = System.Windows.DragDropEffects;
 using DragEventArgs = System.Windows.DragEventArgs;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
 using Image = System.Windows.Controls.Image;
 using MenuItem = System.Windows.Controls.MenuItem;
 using MessageBox = System.Windows.MessageBox;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using Orientation = System.Windows.Controls.Orientation;
+using ToolBar = System.Windows.Controls.ToolBar;
 
 namespace MarkdownMonster
 {
@@ -3077,6 +3085,82 @@ namespace MarkdownMonster
             WindowUtilities.DoEvents();
         }
 
+
+        private void ButtonWindowSizesDropdown_Click(object sender, RoutedEventArgs e)
+        {
+            var ctx = new ContextMenu();
+            ctx.Items.Add(new MenuItem { Header = "Select Window Size", IsEnabled = false,  Foreground=Brushes.DarkGray });
+            ctx.Items.Add(new Separator());
+            
+            foreach (string size in Model.Configuration.WindowPosition.WindowSizes)
+            {
+                var menuItem = new MenuItem()
+                {
+                    Header = size
+                };
+                menuItem.Click += ButtonWindowResize_Click;
+                ctx.Items.Add(menuItem);
+            }
+
+            ctx.IsOpen = true;
+            ctx.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
+            ctx.VerticalOffset = 8;
+            ctx.HorizontalOffset = 10;
+            WindowUtilities.DoEvents();
+        }
+
+        private void ButtonWindowResize_Click(object sender, RoutedEventArgs e)
+        {
+            var size = ((MenuItem)sender).Header as string;
+            var tokens = size.Split('x');
+            Width = double.Parse(tokens[0].Trim());
+            Height = double.Parse(tokens[1].Trim());
+
+            if (Model.ActiveEditor?.EditorPreviewPane == null)
+                return;
+
+            var width = Model.ActiveEditor.EditorPreviewPane.ActualWidth;
+            
+            if (width < 2000 && width > 800)
+            {
+                Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserEditorColumn.Width = GridLengthHelper.Star;
+                Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserPreviewColumn.Width = new GridLength(width * 0.45);
+            }
+            else if (width > 2000)
+            {
+                ShowLeftSidebar();
+                if(Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserPreviewColumn.Width.Value < 750)
+                    Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserPreviewColumn.Width = new GridLength(750);
+            }
+            else if (width <= 900)
+            {
+                ShowLeftSidebar(hide: true);
+                WindowUtilities.DoEvents();
+
+                width = Model.ActiveEditor.EditorPreviewPane.ActualWidth;
+                Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserEditorColumn.Width = GridLengthHelper.Star;
+                Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserPreviewColumn.Width =
+                    new GridLength(width * 0.45);
+            }
+
+
+            var screen = Screen.FromHandle(Hwnd);
+            var ratio = (double) WindowUtilities.GetDpiRatio(Hwnd);
+            var windowWidth = screen.Bounds.Width * ratio;
+            var windowHeight = screen.Bounds.Height * ratio;
+
+            if (windowWidth < Width || windowHeight < Height)
+            {
+                Top = screen.Bounds.Y * ratio;
+                Left = screen.Bounds.X * ratio;
+                Width = windowWidth - 20;
+                Height = windowHeight - 40;                
+            }
+
+            if (windowWidth < Width + Left ||
+                windowHeight < Height + Top)
+                WindowUtilities.CenterWindow(this);
+        }
         #endregion
 
         #region Window Menu Items
@@ -3283,6 +3367,7 @@ namespace MarkdownMonster
         }
 
         #endregion
+
     }
 
     public class RecentDocumentListItem
