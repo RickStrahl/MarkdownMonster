@@ -5,6 +5,11 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 
+### 1.18.15
+
+* **Pre-Configured Window Size Selection**  
+The Control Box now has a dropdown that lets you select a pre-configured Window size and resize your window to one of these sizes. The list is customizable and you can modify or add your own sizes. Resizing is smart enough to create windows that fit onto the active screen and translates for high DPI modes.
+
 ### 1.18.14
 *<small>August 27th, 2019</small>*
 
