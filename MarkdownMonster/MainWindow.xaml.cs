@@ -706,173 +706,7 @@ namespace MarkdownMonster
         }
 
 
-
-        /// <summary>
-        /// Creates/Updates the Recent Items Context list
-        /// from recent file and recent folder configuration
-        /// </summary>
-        public void UpdateRecentDocumentsContextMenu(RecentFileDropdownModes mode)
-        {
-            var contextMenu = new ContextMenu { FontSize = 12.5, Padding = new Thickness(8) };
-
-            if (mode == RecentFileDropdownModes.MenuDropDown)
-                ButtonRecentFiles.Items.Clear();
-            else if (mode == RecentFileDropdownModes.ToolbarDropdown)
-                ToolbarButtonRecentFiles.ContextMenu = contextMenu;
-
-            var icon = new AssociatedIcons();
-            MenuItem mi = null;
-            var lowlightColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#aaa"));
-
-
-            if (true)
-            {
-                var content = new StackPanel
-                {
-                    Orientation = Orientation.Vertical
-                };
-
-                // image/textblock panel
-                var panel = new StackPanel { Orientation = Orientation.Horizontal };
-                panel.Children.Add(new Image
-                {
-                    Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Star, Brushes.Goldenrod, 17),
-                    Height = 16
-                });
-                panel.Children.Add(new TextBlock
-                {
-                    Text = "Favorites...",
-                    FontWeight = FontWeights.SemiBold,
-                    Margin = new Thickness(5, 2, 0, 0)
-                });
-                content.Children.Add(panel);
-
-                mi = new MenuItem() { Header = content, Padding = new Thickness(0, 2, 0, 3) };
-                mi.Click += (o, args) => OpenFavorites();
-                contextMenu.Items.Add(mi);
-                contextMenu.Items.Add(new Separator());
-            }
-
-
-            mmApp.Configuration.CleanupRecentFilesAndFolders();
-
-            foreach (string file in mmApp.Configuration.RecentDocuments)
-            {
-                var fileOnly = Path.GetFileName(file).Replace("_", "__");
-                var path = Path.GetDirectoryName(file).Replace("_", "__");
-
-                var content = new StackPanel
-                {
-                    Orientation = Orientation.Vertical
-                };
-
-                // image/textblock panel
-                var panel = new StackPanel { Orientation = Orientation.Horizontal };
-                panel.Children.Add(new Image
-                {
-                    Source = icon.GetIconFromFile(file),
-                    Height = 14
-                });
-                panel.Children.Add(new TextBlock
-                {
-                    Text = fileOnly,
-                    FontWeight = FontWeights.Medium,
-                    Margin = new Thickness(5, 0, 0, 0)
-                });
-                content.Children.Add(panel);
-
-                // folder
-                content.Children.Add(new TextBlock
-                {
-                    Text = path,
-                    FontStyle = FontStyles.Italic,
-                    FontSize = 10.25,
-                    //Margin = new Thickness(0, 2, 0, 0),
-                    Foreground = lowlightColor
-                });
-
-
-                mi = new MenuItem
-                {
-                    Header = content,
-                    Command = Model.Commands.OpenRecentDocumentCommand,
-                    CommandParameter = file,
-                    Padding = new Thickness(0, 2, 0, 3)
-                };
-
-                if (mode == RecentFileDropdownModes.ToolbarDropdown)
-                    contextMenu.Items.Add(mi);
-                else
-                    ButtonRecentFiles.Items.Add(mi);
-            }
-
-
-            if (mmApp.Configuration.FolderBrowser.RecentFolders.Count > 0)
-            {
-
-                mi = new MenuItem
-                {
-                    IsEnabled = false,
-                    Header = "————————— Recent Folders —————————"
-                };
-
-                if (mode == RecentFileDropdownModes.ToolbarDropdown)
-                    contextMenu.Items.Add(mi);
-                else
-                    ButtonRecentFiles.Items.Add(mi);
-
-                foreach (var folder in mmApp.Configuration.FolderBrowser.RecentFolders.Take(7))
-                {
-                    var pathOnly = Path.GetFileName(folder).Replace("_", "__");
-                    var path = folder.Replace("_", "__");
-
-                    var content = new StackPanel()
-                    {
-                        Orientation = Orientation.Vertical
-                    };
-
-                    // image/textblock panel
-                    var panel = new StackPanel { Orientation = Orientation.Horizontal };
-                    panel.Children.Add(new Image
-                    {
-                        Source = icon.GetIconFromFile("folder.folder"),
-                        Height = 14
-                    });
-                    panel.Children.Add(new TextBlock
-                    {
-                        Text = pathOnly,
-                        FontWeight = FontWeights.Medium,
-                        Margin = new Thickness(5, 0, 0, 0)
-                    });
-                    content.Children.Add(panel);
-
-                    content.Children.Add(new TextBlock
-                    {
-                        Text = path,
-                        FontStyle = FontStyles.Italic,
-                        FontSize = 10.25,
-                        Margin = new Thickness(0, 2, 0, 0),
-                        Opacity = 0.8
-                    });
-
-                    mi = new MenuItem()
-                    {
-                        Header = content,
-                        Command = Model.Commands.OpenRecentDocumentCommand,
-                        CommandParameter = folder,
-                        Padding = new Thickness(0, 2, 0, 3)
-                    };
-
-                    if (mode == RecentFileDropdownModes.ToolbarDropdown)
-                        contextMenu.Items.Add(mi);
-                    else
-                        ButtonRecentFiles.Items.Add(mi);
-                }
-            }
-
-        }
-
-
+        
         void RestoreSettings()
         {
             var conf = mmApp.Configuration;
@@ -2719,12 +2553,6 @@ namespace MarkdownMonster
             if (button == null)
                 return;
 
-
-            //if (button == ToolButtonFavorites)
-            //{
-            //    OpenFavorites();
-            //}
-
             if (button == ButtonOpenFromHtml)
             {
                 var fd = new OpenFileDialog
@@ -2754,16 +2582,13 @@ namespace MarkdownMonster
                 editor.MarkdownDocument.CurrentText = markdown;
                 PreviewBrowser.PreviewMarkdown();
             }
-            //else if (button == ButtonRecentFiles)
-            //{
-            //    var mi = button as MenuItem;
-            //    UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.MenuDropDown);
-            //    mi.IsSubmenuOpen = true;
-            //}
             else if (button == ToolbarButtonRecentFiles)
             {
                 var mi = button as Button;
-                UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.ToolbarDropdown);
+
+                var contextMenu = new RecentDocumentsContextMenu(this);
+                contextMenu.UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.ToolbarDropdown);
+
                 if (mi.ContextMenu != null)
                     mi.ContextMenu.IsOpen = true;
                 e.Handled = true;
@@ -2834,29 +2659,6 @@ namespace MarkdownMonster
                     return;
                 editor.ExecEditorCommand("replace");
             }
-            //else if (button == ButtonScrollBrowserDown)
-            //{
-            //    var editor = GetActiveMarkdownEditor();
-            //    if (editor == null)
-            //        return;
-            //    editor.KeyboardCommand("ctrl-shift-down");
-            //}
-            //else if (button == ButtonScrollBrowserUp)
-            //{
-            //    var editor = GetActiveMarkdownEditor();
-            //    if (editor == null)
-            //        return;
-            //    editor.KeyboardCommand("ctrl-shift-d");
-            //}
-            //else if (button == ButtonDocumentOutlineVisible)
-            //{
-            //    // Only activate/deactivate the tab
-            //    if (Model.ActiveEditor != null && Model.ActiveEditor.EditorSyntax == "markdown" &&
-            //        Model.Configuration.IsDocumentOutlineVisible)
-            //        SidebarContainer.SelectedItem = TabDocumentOutline;
-            //    else
-            //        SidebarContainer.SelectedItem = TabFolderBrowser;
-            //}
             else if (button == ButtonWordWrap ||
                      button == ButtonLineNumbers ||
                      button == ButtonShowInvisibles ||
@@ -2875,14 +2677,6 @@ namespace MarkdownMonster
                 };
                 dialog.ShowDialog();
             }
-            //else if (button == ButtonRefreshBrowser)
-            //{
-            //	var editor = GetActiveMarkdownEditor();
-            //	if (editor == null)
-            //		return;
-
-            //	this.PreviewMarkdownAsync();
-            //}
             else if (button == MenuDocumentation)
                 ShellUtils.GoUrl(mmApp.Urls.DocumentationBaseUrl);
             else if (button == MenuMarkdownBasics)
@@ -2920,9 +2714,6 @@ namespace MarkdownMonster
                 ShellUtils.OpenFileInExplorer(filename);
             }
         }
-
-
-
         #endregion
 
         #region Miscelleaneous Events
@@ -3013,7 +2804,8 @@ namespace MarkdownMonster
 
         private void ButtonRecentFiles_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.MenuDropDown);
+            var menu = new RecentDocumentsContextMenu(this);
+            menu.UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.MenuDropDown);
         }
 
         private void LeftSidebarExpand_MouseDown(object sender, MouseButtonEventArgs e)
@@ -3040,126 +2832,15 @@ namespace MarkdownMonster
 
         private void ButtonLangugeDropDown_Click(object sender, RoutedEventArgs e)
         {
-            var ctx = new ContextMenu();
-
-            foreach (var lang in SpellChecker.DictionaryDownloads)
-            {
-                var fname = Path.Combine(SpellChecker.InternalDictionaryFolder, lang.Code + ".dic");
-                bool exists = File.Exists(fname);
-                if (!exists)
-                {
-                    fname = Path.Combine(SpellChecker.ExternalDictionaryFolder, lang.Code + ".dic");
-                    exists = File.Exists(fname);
-                }
-
-                string header = lang.Name;
-                if (!exists)
-                    header = header + " ↆ";
-
-                var menuItem = new MenuItem()
-                {
-                    Header = header,
-                    Tag = fname,
-                    Command = Model.Commands.SetDictionaryCommand,
-                    CommandParameter = lang.Code
-                };
-                if (lang.Code.Equals(Model.Configuration.Editor.Dictionary, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    menuItem.IsCheckable = true;
-                    menuItem.IsChecked = true;
-                }
-
-                ctx.Items.Add(menuItem);
-            }
-
-            ctx.Items.Add(new Separator());
-            ctx.Items.Add(new MenuItem
-            {
-                Header = "Remove downloaded Dictionaries",
-                Command = Model.Commands.SetDictionaryCommand,
-                CommandParameter = "REMOVE-DICTIONARIES"
-            });
-
-            ctx.MaxHeight = 800;
-            ctx.IsOpen = true;
-            WindowUtilities.DoEvents();
+            var context = new LanguagesContextMenu(this);
+            context.OpenContextMenu();
         }
 
 
         private void ButtonWindowSizesDropdown_Click(object sender, RoutedEventArgs e)
         {
-            var ctx = new ContextMenu();
-            ctx.Items.Add(new MenuItem { Header = "Select Window Size", IsEnabled = false,  Foreground=Brushes.DarkGray });
-            ctx.Items.Add(new Separator());
-            
-            foreach (string size in Model.Configuration.WindowPosition.WindowSizes)
-            {
-                var menuItem = new MenuItem()
-                {
-                    Header = size
-                };
-                menuItem.Click += ButtonWindowResize_Click;
-                ctx.Items.Add(menuItem);
-            }
-
-            ctx.IsOpen = true;
-            ctx.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-            ctx.VerticalOffset = 8;
-            ctx.HorizontalOffset = 10;
-            WindowUtilities.DoEvents();
-        }
-
-        private void ButtonWindowResize_Click(object sender, RoutedEventArgs e)
-        {
-            var size = ((MenuItem)sender).Header as string;
-            var tokens = size.Split('x');
-            Width = double.Parse(tokens[0].Trim());
-            Height = double.Parse(tokens[1].Trim());
-
-            if (Model.ActiveEditor?.EditorPreviewPane == null)
-                return;
-
-            var width = Model.ActiveEditor.EditorPreviewPane.ActualWidth;
-            
-            if (width < 2000 && width > 800)
-            {
-                Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserEditorColumn.Width = GridLengthHelper.Star;
-                Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserPreviewColumn.Width = new GridLength(width * 0.45);
-            }
-            else if (width > 2000)
-            {
-                ShowLeftSidebar();
-                if(Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserPreviewColumn.Width.Value < 750)
-                    Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserPreviewColumn.Width = new GridLength(750);
-            }
-            else if (width <= 900)
-            {
-                ShowLeftSidebar(hide: true);
-                WindowUtilities.DoEvents();
-
-                width = Model.ActiveEditor.EditorPreviewPane.ActualWidth;
-                Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserEditorColumn.Width = GridLengthHelper.Star;
-                Model.ActiveEditor.EditorPreviewPane.EditorWebBrowserPreviewColumn.Width =
-                    new GridLength(width * 0.45);
-            }
-
-
-            var screen = Screen.FromHandle(Hwnd);
-            var ratio = (double) WindowUtilities.GetDpiRatio(Hwnd);
-            var windowWidth = screen.Bounds.Width * ratio;
-            var windowHeight = screen.Bounds.Height * ratio;
-
-            if (windowWidth < Width || windowHeight < Height)
-            {
-                Top = screen.Bounds.Y * ratio;
-                Left = screen.Bounds.X * ratio;
-                Width = windowWidth - 20;
-                Height = windowHeight - 40;                
-            }
-
-            if (windowWidth < Width + Left ||
-                windowHeight < Height + Top)
-                WindowUtilities.CenterWindow(this);
+            var menu = new WindowSizesContextMenu(this);
+            menu.OpenContextMenu();
         }
         #endregion
 
