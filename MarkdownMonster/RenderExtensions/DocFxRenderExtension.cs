@@ -38,7 +38,6 @@ namespace MarkdownMonster.RenderExtensions
         /// Should run **prior** to Markdown parsing of the main document
         /// as it will embed the file content as is.
         /// </summary>
-        /// <param name="markdown"></param>
         /// <returns></returns>
         protected void ParseDocFxIncludeFiles(ModifyMarkdownArguments args)
         {
@@ -95,7 +94,6 @@ namespace MarkdownMonster.RenderExtensions
         /// Handles rendering of Tip/Warning/Important/Caution/Note
         /// blocks.
         /// </summary>
-        /// <param name="markdown"></param>
         /// <returns></returns>
         /// <remarks>
         /// Note: Markdown is expected to be in LineFeed only mode for line breaks (StringUtils.NormalizeLinefeeds()).

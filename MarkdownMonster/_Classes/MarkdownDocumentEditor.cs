@@ -350,6 +350,8 @@ namespace MarkdownMonster
         /// Sets the markdown text into the editor control
         /// </summary>
         /// <param name="markdown"></param>
+        /// <param name="updateDirtyFlag"></param>
+        /// <param name="keepUndoBuffer"></param>
         public void SetMarkdown(string markdown = null, object position = null, bool updateDirtyFlag = false, bool keepUndoBuffer = false)
         {
             if (MarkdownDocument != null)
@@ -390,6 +392,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="markdown">Markdown text to turn into HTML</param>
         /// <param name="renderLinksExternal">If true creates all links with target='top'</param>
+        /// <param name="usePragmaLines">if true renders linenumber mapping to editor lines as ids</param>
         /// <returns></returns>
         public string RenderMarkdown(string markdown, bool renderLinksExternal = false, bool usePragmaLines = false)
         {

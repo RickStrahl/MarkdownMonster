@@ -451,21 +451,6 @@ namespace MarkdownMonster
 
 
 		/// <summary>
-		/// Custom Bug Reporting url. Obsolete - in lieu of ApplicationInsights
-		/// </summary>
-		[JsonIgnore,Obsolete("No longer used - using AppInsights instead")]
-		public string BugReportUrl { get; set; }
-
-
-
-		/// <summary>
-		/// Custom Bug Reporting url. Obsolete - in lieu of ApplicationInsights
-		/// </summary>
-		[JsonIgnore,Obsolete("No longer used - using AppInsights instead")]
-		public string TelemetryUrl { get; set; }
-
-
-		/// <summary>
 		/// Flag to determine whether telemetry is sent
 		/// </summary>
 		public bool SendTelemetry { get; set; }
@@ -625,9 +610,9 @@ namespace MarkdownMonster
             RememberLastDocumentsLength = 5;
 
 
-            BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
+            //BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
             //BugReportUrl = "http://localhost.fiddler/MarkdownMonster/bugreport/bugreport.ashx?method=ReportBug";
-            TelemetryUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=Telemetry";
+            //TelemetryUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=Telemetry";
             SendTelemetry = true;
 
             ApplicationTheme = Themes.Dark;

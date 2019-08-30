@@ -15,9 +15,7 @@
         /// <summary>
         /// No content is added by this extension - it's all handled via script header and javascript events
         /// </summary>
-        /// <param name="html"></param>
-        /// <param name="markdown"></param>
-        /// <param name="document"></param>
+        /// <param name="args"></param>
         public void AfterMarkdownRendered(ModifyHtmlAndHeadersArguments args)
         {
             if (args.Markdown.Contains(" class=\"math\""))

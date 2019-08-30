@@ -228,6 +228,8 @@ namespace MarkdownMonster
 			return Urls.DocumentationBaseUrl + topic;
 	    }
 
+        #endregion
+
         #region Logging
 
         /// <summary>
@@ -445,53 +447,9 @@ Markdown Monster v{version}
             return exMsg;
         }
 
-        /// <summary>
-        /// Sends usage information to server
-        /// </summary>
-        /// <param name="operation"></param>
-        /// <param name="data"></param>
-        [Obsolete("Please use mmApp.Log() and Application Insights")]
-        public static void SendTelemetry(string operation, string data = null)
-        {
-            if (!Configuration.SendTelemetry)
-                return;
 
-            bool isRegistered = UnlockKey.IsRegistered();
-            int accessCount = mmApp.Configuration.ApplicationUpdates.AccessCount;
-
-            string version = GetVersion();
-
-            var t = new Telemetry
-            {
-                Version = version,
-                Registered = isRegistered,
-                Access = accessCount,
-                Operation = operation,
-                Time = Convert.ToInt32((DateTime.UtcNow - Started).TotalSeconds),
-                Data = data                                
-            };
-
-            try
-            {
-                HttpUtils.JsonRequest<string>(new HttpRequestSettings()
-                {
-                    Url = mmApp.Configuration.TelemetryUrl,
-                    HttpVerb = "POST",
-                    Content = t,
-                    Timeout = 1000
-                });
-            }
-            catch (Exception ex2)
-            {
-                // don't log with exception otherwise we get an endless loop
-                Log("Unable to send telemetry: " + ex2.Message);
-            }
-        }
-
+       
         #endregion
-
-        #endregion
-
         #region Version information
 
         /// <summary>

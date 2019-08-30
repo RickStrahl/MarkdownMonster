@@ -8,11 +8,12 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 {
     public class PreviewBrowserContextMenu
     {
-
         /// <summary>
         /// Creates a context menu. 
         /// </summary>
         /// <param name="parms"></param>
+        /// <param name="model"></param>
+        /// <param name="webBrowser"></param>
         public void ShowContextMenu(PositionAndDocumentType parms, AppModel model, WebBrowser webBrowser)
         {
             var ctm = new ContextMenu();

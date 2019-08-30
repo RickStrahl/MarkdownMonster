@@ -944,7 +944,6 @@ namespace MarkdownMonster
         /// Renders markdown of the current document text into raw HTML
         /// </summary>
         /// <param name="markdown">markdown to render</param>
-        /// <param name="renderLinksExternal">Determines whether links have a target='top' attribute</param>
         /// <param name="usePragmaLines">renders line numbers into html output as ID tags for editor positioning</param>
         /// <param name="noBanner"></param>
         /// <returns></returns>
@@ -1012,13 +1011,14 @@ namespace MarkdownMonster
         /// </summary>
         /// <param name="markdown"></param>
         /// <param name="filename"></param>
-        /// <param name="renderLinksExternal"></param>
         /// <param name="theme">The theme to use to render this topic</param>
-        /// <param name="usePragmaLines"></param>
+        /// <param name="usePragmaLines">if true renders editor line number mapping ids</param>
         /// <param name="noFileWrite"></param>
+        /// <param name="removeBaseTag">removes the `base` tag from the document</param>
+        /// <param name="noBanner">if set will not render shareware banner</param>
         /// <returns></returns>
         public string RenderHtmlToFile(string markdown = null, string filename = null,
-            string theme = null,
+                                       string theme = null,
                                        bool usePragmaLines = false,
                                        bool noFileWrite = false,
                                        bool removeBaseTag = false, bool noBanner = false)
@@ -1093,7 +1093,6 @@ namespace MarkdownMonster
         /// full HTML document as a string.
         /// </summary>
         /// <param name="markdown"></param>
-        /// <param name="renderLinksExternal"></param>
         /// <param name="theme"></param>
         /// <param name="usePragmaLines"></param>
         /// <param name="removeBaseTag"></param>

@@ -51,12 +51,12 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             }
         }
 
-        private async void RefreshPropertyListAsync()
+        private void RefreshPropertyListAsync()
         {
-            Model.AddConfigurationsAsync(PropertiesPanel);
+            var t = Model.AddConfigurationsAsync(PropertiesPanel);
         }
 
-        private async void ConfigurationEditorWindow_Loaded(object sender, RoutedEventArgs e)
+        private void ConfigurationEditorWindow_Loaded(object sender, RoutedEventArgs e)
         {
             RefreshPropertyListAsync();
             TextSearch.Focus();
@@ -70,7 +70,7 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         }
 
 
-        private async void Search_PreviewKeyUp(object sender, KeyEventArgs e)
+        private void Search_PreviewKeyUp(object sender, KeyEventArgs e)
         {
             RefreshPropertyListAsync();
         }
