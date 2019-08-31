@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using MahApps.Metro.Controls;
+using MarkdownMonster.Utilities;
+using Microsoft.Win32;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows.ConfigurationEditor
@@ -51,22 +42,15 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             }
         }
 
-        private void RefreshPropertyListAsync()
-        {
-            var t = Model.AddConfigurationsAsync(PropertiesPanel);
-        }
-
         private void ConfigurationEditorWindow_Loaded(object sender, RoutedEventArgs e)
         {
             RefreshPropertyListAsync();
             TextSearch.Focus();
         }
 
-
-        private void ButtonManualSettings_Click(object sender, RoutedEventArgs e)
+        private void RefreshPropertyListAsync()
         {
-            Model.AppModel.Commands.SettingsCommand.Execute(null);
-            Close();
+            var t = Model.AddConfigurationsAsync(PropertiesPanel);
         }
 
 
@@ -75,8 +59,16 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             RefreshPropertyListAsync();
         }
 
+        #region Toolbar Buttons
+
         private void ButtonExit_Click(object sender, RoutedEventArgs e)
         {
+            Close();
+        }
+
+        private void ButtonManualSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Model.AppModel.Commands.SettingsCommand.Execute(null);
             Close();
         }
 
@@ -84,5 +76,66 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         {
             ShellUtils.GoUrl("https://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm");
         }
+        #endregion
+
+        #region Backup Operations
+
+        private void ButtonBackup_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonBackup.ContextMenu.IsOpen = true;
+        }
+
+        private void Button_BackupToZip(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sd = new SaveFileDialog
+            {
+                FilterIndex = 1,
+                InitialDirectory = Model.AppModel.Configuration.CommonFolder,
+                FileName = $"Markdown-Monster-Configuration-Backup-{DateTime.Now.ToString("yyyy-MM-dd")}.zip",
+                CheckFileExists = false,
+                OverwritePrompt = true,
+                CheckPathExists = true,
+                RestoreDirectory = true
+            };
+            sd.Filter =
+                "Zip files (*.zip)|*.zip|All files (*.*)|*.*";
+
+            bool? result = null;
+            result = sd.ShowDialog();
+            if (result == null || !result.Value)
+                return;
+
+            var outputZipFile = sd.FileName;
+
+            var bu = new BackupManager();
+            if (!bu.BackupToZip(sd.FileName))
+                StatusBar.ShowStatusError("Backup failed. Files have not been backed up.");
+            else
+            {
+                StatusBar.ShowStatusSuccess("Backup completed.");
+                ShellUtils.OpenFileInExplorer(sd.FileName);
+            }
+
+        }
+
+        private void Button_BackupToFolder(object sender, RoutedEventArgs e)
+        {
+            var folder = mmWindowsUtils.ShowFolderDialog(Path.GetTempPath(),"Backup Configuration Files");
+
+            if (string.IsNullOrEmpty(folder))
+                return;
+
+            
+            var bu = new BackupManager();
+            if (!bu.BackupToFolder(folder))
+                StatusBar.ShowStatusError("Backup failed. Files have not been backed up to a Zip file.");
+            else
+            {
+                StatusBar.ShowStatusSuccess("Backup to Folder completed.");
+                ShellUtils.GoUrl(folder);
+            }
+
+        }
+        #endregion
     }
 }

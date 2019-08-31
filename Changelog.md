@@ -6,9 +6,13 @@
 
 
 ### 1.18.15
+*<small>not released yet</small>*
 
 * **Pre-Configured Window Size Selection**  
 The Control Box now has a dropdown that lets you select a pre-configured Window size and resize your window to one of these sizes. The list is customizable and you can modify or add your own sizes. Resizing is smart enough to create windows that fit onto the active screen and translates for high DPI modes.
+
+* **Add Configuration Backup**  
+You can now backup your Markdown Monster configuration to Zip file or to a disk folder. This feature writes out all files from the configuration folder into the zip or folder as a backup mechanism.
 
 ### 1.18.14
 *<small>August 27th, 2019</small>*

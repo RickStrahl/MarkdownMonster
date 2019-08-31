@@ -64,6 +64,28 @@
                             <TextBlock>Edit Json</TextBlock>
                         </StackPanel>
                     </Button>
+                    
+                    <Button Name="ButtonBackup" 
+                            ToolTip="Backup configuration to various backup sources"
+                            Click="ButtonBackup_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Download" Margin="5,1,5,0"  
+                                            Foreground="SteelBlue"
+                                            FontSize="17"
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
+                            />
+                            <TextBlock>Backup</TextBlock>
+                        </StackPanel>
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Backup configuration folder to _Zip File" Click="Button_BackupToZip" />
+                                <MenuItem Header="Backup configuration folder to a _Folder" Click="Button_BackupToFolder" />
+                                <MenuItem Header="Backup configuration file to _Gist" IsEnabled="False"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+
+
                     <Button Name="ButtonHelp" 
                             Click="ButtonHelp_Click">
                         <StackPanel Orientation="Horizontal">
