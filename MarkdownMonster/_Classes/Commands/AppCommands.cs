@@ -1332,6 +1332,10 @@ namespace MarkdownMonster
 
                 if (lang == "REMOVE-DICTIONARIES")
                 {
+                    if (string.IsNullOrEmpty(SpellChecker.ExternalDictionaryFolder) ||
+                        !Directory.Exists(SpellChecker.ExternalDictionaryFolder))
+                        return;
+
                     bool error = false;
                     foreach (var file in Directory.GetFiles(SpellChecker.ExternalDictionaryFolder))
                     {
@@ -2105,8 +2109,11 @@ namespace MarkdownMonster
         void Settings()
         {
             // Settings
-            SettingsCommand = new CommandBase((s, e) =>
+            SettingsCommand = new CommandBase((parm, command) =>
             {
+                // optional parameter for text to jump to
+                var searchFor = parm as string;
+
                 try
                 {
                     if (mmApp.OpenWindows.ConfigurationEditor != null)
@@ -2126,6 +2133,14 @@ namespace MarkdownMonster
                     }
 
                     Model.Window.OpenTab(file, syntax: "json");
+
+                    if (searchFor != null)
+                    {
+                        Model.Window.Dispatcher.InvokeAsync(() =>
+                        {
+                            Model.ActiveEditor.AceEditor.FindText(searchFor);
+                        },DispatcherPriority.ApplicationIdle);
+                    }
                 }
                 catch
                 {
