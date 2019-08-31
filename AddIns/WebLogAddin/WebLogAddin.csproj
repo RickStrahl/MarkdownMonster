@@ -72,5 +72,4 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DefineConstants>NETFULL</DefineConstants>
   </PropertyGroup>
-
 </Project>

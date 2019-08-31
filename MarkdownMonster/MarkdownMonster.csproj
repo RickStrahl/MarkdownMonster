@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net462</TargetFramework> 
     <!--<TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>-->
-    <Version>1.18.14.5</Version>
+    <Version>1.18.14.7</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
     <StartupObject>StartUp</StartupObject>
@@ -125,7 +125,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DocumentationFile>C:\projects2010\MarkdownMonster\MarkdownMonster\MarkdownMonster.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup >
     <NoWarn>1701;1702;1573;1572;1591</NoWarn>
   </PropertyGroup>
 </Project>
