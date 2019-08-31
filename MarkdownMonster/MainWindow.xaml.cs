@@ -614,77 +614,91 @@ namespace MarkdownMonster
             }
         }
 
-        private bool IsClosing = false;
+        bool ForceClose = false;
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (IsClosing)
-                return;
+            // force method to abort - we'll force a close explicitly
+            e.Cancel = true;
 
-            IsClosing = true;
-
-            // have to do this here to capture open windows etc. in SaveSettings()
-            mmApp.Configuration.ApplicationUpdates.AccessCount++;
-            _previewBrowserWindow?.Close();
-            _previewBrowserWindow = null;
-            PreviewBrowser = null;
-            PreviewBrowserContainer = null;
-            SaveSettings();
-
-            if (!CloseAllTabs())
-            {
-                // tab closing was cancelled
-                e.Cancel = true;
-                IsClosing = false;
-                mmApp.Configuration.ApplicationUpdates.AccessCount--;
+            if (ForceClose)
+            { 
+                // cleanup code already ran
+                e.Cancel = false;
                 return;
             }
 
-            // hide the window quickly
-            Top -= 10000;
-            
-            FolderBrowser?.ReleaseFileWatcher();
-            bool isNewVersion = CheckForNewVersion(false, false);
-
-            var displayCount = 6;
-            if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
-                displayCount = 1;
-            else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 100)
-                displayCount = 2;
-            else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
-                displayCount = 5;
-
-            if (!isNewVersion &&
-                mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 &&
-                !UnlockKey.IsRegistered())
-            {
-                // bring the window back
-                Top += 10000;
-                Opacity = 0;
-
-                var rd = new RegisterDialog(true);
-                rd.Owner = this;
-                rd.ShowDialog();
-            }
-
-            PipeManager?.StopServer();
-
-            e.Cancel = false;
-
-            // let window events catch up!
-            //WindowUtilities.DoEvents();
-            Dispatcher.Invoke(() =>
-            {
-                AddinManager.Current.RaiseOnApplicationShutdown();
-                AddinManager.Current.UnloadAddins();
-
-                if (App.Mutex != null)
-                    App.Mutex.Dispose();
-
-                PipeManager?.WaitForThreadShutDown(5000);
-                mmApp.Shutdown();
-            },DispatcherPriority.ApplicationIdle);
+            // execute shutdown logic - set ForceClose and call Close() to
+            // actually close the window
+            Dispatcher.InvokeAsync(ShutdownApplication, DispatcherPriority.Normal);
         }
+
+private void ShutdownApplication()
+{
+    try
+    {
+        // have to do this here to capture open windows etc. in SaveSettings()
+        mmApp.Configuration.ApplicationUpdates.AccessCount++;
+        _previewBrowserWindow?.Close();
+        _previewBrowserWindow = null;
+        PreviewBrowser = null;
+        PreviewBrowserContainer = null;
+        SaveSettings();
+
+        if (!CloseAllTabs())
+        {
+            // tab closing was cancelled
+            mmApp.Configuration.ApplicationUpdates.AccessCount--;
+            return;
+        }
+
+        // hide the window quickly
+        Top -= 10000;
+
+
+        FolderBrowser?.ReleaseFileWatcher();
+        bool isNewVersion = CheckForNewVersion(false, false);
+
+        var displayCount = 6;
+        if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
+            displayCount = 1;
+        else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 100)
+            displayCount = 2;
+        else if (mmApp.Configuration.ApplicationUpdates.AccessCount > 50)
+            displayCount = 5;
+
+        if (!isNewVersion && mmApp.Configuration.ApplicationUpdates.AccessCount % displayCount == 0 && !UnlockKey.IsRegistered())
+        {
+            // bring the window back
+            Top += 10000;
+            Opacity = 0;
+
+            var rd = new RegisterDialog(true);
+            rd.Owner = this;
+            rd.ShowDialog();
+        }
+
+        PipeManager?.StopServer();
+
+
+        AddinManager.Current.RaiseOnApplicationShutdown();
+        AddinManager.Current.UnloadAddins();
+        
+        App.Mutex?.Dispose();
+
+        PipeManager?.WaitForThreadShutDown(5000);
+        mmApp.Shutdown();
+
+        ForceClose = true;
+        Close();
+    }
+    catch(Exception ex)
+    {
+        mmApp.Log("Shutdown: " + ex.Message, ex, logLevel: LogLevels.Error);
+        ForceClose = true;
+        Close();
+    }
+}
 
         public void AddRecentFile(string file, bool noConfigWrite = false)
         {
