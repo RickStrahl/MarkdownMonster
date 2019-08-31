@@ -116,6 +116,7 @@ namespace MarkdownMonster
                 WindowSizes = new HashSet<string>()
                 {
                     "2500 x 1750",
+                    "2350 x 1500",
                     "1900 x 1020",
                     "1600 x 850",
                     "1250 x 680",

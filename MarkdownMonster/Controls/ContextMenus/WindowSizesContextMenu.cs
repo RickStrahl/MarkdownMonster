@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
@@ -13,6 +8,9 @@ using MenuItem = System.Windows.Controls.MenuItem;
 
 namespace MarkdownMonster.Controls.ContextMenus
 {
+    /// <summary>
+    /// Shows the Window Sizes Controlbox drop down menu
+    /// </summary>
     public class WindowSizesContextMenu
     {
         private MainWindow Window { get; }
@@ -22,19 +20,42 @@ namespace MarkdownMonster.Controls.ContextMenus
             Window = window;
         }
 
+        /// <summary>
+        /// Displays the context menu
+        /// </summary>
         public void OpenContextMenu()
         {
             var ctx = new ContextMenu();
             ctx.Items.Add(
                 new MenuItem {Header = "Select Window Size", IsEnabled = false, Foreground = Brushes.DarkGray});
+
             ctx.Items.Add(new Separator());
 
+            
             foreach (string size in Window.Model.Configuration.WindowPosition.WindowSizes)
             {
                 var menuItem = new MenuItem() {Header = size};
                 menuItem.Click += ButtonWindowResize_Click;
                 ctx.Items.Add(menuItem);
             }
+
+            ctx.Items.Add(new Separator());
+
+            var addButton = new MenuItem { Header = $"_Add current: {Window.Width} x {Window.Height}", Foreground = Brushes.Silver };
+            addButton.Click += (s, a) =>
+            {
+                Window.Model.Configuration.WindowPosition.WindowSizes.Add($"{Window.Width} x {Window.Height}");
+                Window.Model.Configuration.Write(); // Save
+                Window.ShowStatusSuccess("Window sizes added to pre-configured Window sizes");
+            };
+            ctx.Items.Add(addButton);
+
+            var editButton = new MenuItem { Header = $"Edit entries in configuration", Foreground=Brushes.Silver };
+            editButton.Click += (s, a) =>
+            {
+                Window.Model.Commands.SettingsCommand.Execute("\"WindowSizes\":");
+            };
+            ctx.Items.Add(editButton);
 
             ctx.IsOpen = true;
             ctx.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
