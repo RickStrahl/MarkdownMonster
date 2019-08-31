@@ -72,19 +72,28 @@ namespace MarkdownMonster
             Invoke("replaceContent", text);
         }
 
+        /// <summary>
+        /// Finds first match and displays it in the editor
+        /// </summary>
+        /// <param name="search"></param>
+        public void FindText(string search)
+        {
+            Invoke("findText", search);
+        }
+
         public void FindAndReplaceText(string search, string replace)
         {
             Invoke("findAndReplaceText", search, replace);
         }
 
-        public void DeleteCurrentLine()
-        {
-            Invoke("deleteCurrentLine", false);
-        }
-
         public void FindAndReplaceTextInCurrentLine(string search, string replace)
         {
             Invoke("findAndReplaceTextInCurrentLine", search, replace);
+        }
+
+        public void DeleteCurrentLine()
+        {
+            Invoke("deleteCurrentLine", false);
         }
 
         /// <summary>

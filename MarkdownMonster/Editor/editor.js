@@ -522,6 +522,21 @@
 
             te.editor.session.replace(range, replace);
         },
+        findText: function(search) {
+            var range = te.editor.find(search,
+                {
+                    wrap: true,
+                    caseSensitive: true,
+                    wholeWord: true,
+                    regExp: false,
+                    preventScroll: false // do not change selection
+                });
+            if (!range)
+                return;
+
+            range.start.column = 0;
+            range.end.column = 5000;
+        },
         openSearch: function(searchText) {
             te.editor.execCommand("find");
             setTimeout(function() {
