@@ -1,9 +1,8 @@
 # Markdown Monster Change Log
-
+ 
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
-
 
 ### 1.18.15
 *<small>not released yet</small>*
@@ -13,6 +12,9 @@ The Control Box now has a dropdown that lets you select a pre-configured Window 
 
 * **Add Configuration Backup**  
 You can now backup your Markdown Monster configuration to Zip file or to a disk folder. This feature writes out all files from the configuration folder into the zip or folder as a backup mechanism.
+
+* **Add Open Document File Change Monitoring**  
+The open document now actively tracks changes that are made externally and updates the document if the document has no changes. If the doc has changes you'll still be prompted when the editor is activated to the effect that the document has been changed externally.
 
 ### 1.18.14
 *<small>August 27th, 2019</small>*

@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net462</TargetFramework> 
     <!--<TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>-->
-    <Version>1.18.14.7</Version>
+    <Version>1.18.14.9</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
     <StartupObject>StartUp</StartupObject>
@@ -21,7 +21,7 @@
     <SelfContained>false</SelfContained>
     <PlatformTarget>AnyCpu</PlatformTarget>
     <Prefer32Bit>true</Prefer32Bit>
-    <Description>Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows. It's highly optimized for content creation tasks, image embedding and provides many useful features to improve document editing and output workflow.</Description>
+    <Description>Markdown Monster is an easy to use MarkdownB Editor and Weblog Publisher for Windows. It's highly optimized for content creation tasks, image embedding and provides many useful features to improve document editing and output workflow.</Description>
     <Company>West Wind Technologies</Company>
     <Copyright>West Wind Technologies, 2016-2019</Copyright>
   </PropertyGroup>
