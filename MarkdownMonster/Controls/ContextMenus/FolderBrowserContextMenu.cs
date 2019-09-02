@@ -651,7 +651,7 @@
 
 
                 // force editors to update
-                mmApp.Model.Window.CheckFileChangeInOpenDocuments();
+                DocumentFileWatcher.CheckFileChangeInOpenDocuments();
             }
 
             private void MenuGitClient_Click(object sender, RoutedEventArgs e)

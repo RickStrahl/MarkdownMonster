@@ -529,7 +529,7 @@ namespace MarkdownMonster
 
         protected void OnActivated(object sender, EventArgs e)
         {
-            CheckFileChangeInOpenDocuments();
+            DocumentFileWatcher.CheckFileChangeInOpenDocuments();
 
             // Active Menu Item deactivation don't refocus
             if (MainMenu.Items.OfType<MenuItem>().Any(item => item.IsHighlighted))
@@ -546,73 +546,6 @@ namespace MarkdownMonster
             }
         }
 
-        public void CheckFileChangeInOpenDocuments()
-        {
-            var selectedTab = TabControl.SelectedItem as TabItem;
-
-            // check for external file changes
-            for (int i = TabControl.Items.Count - 1; i > -1; i--)
-            {
-                var tab = TabControl.Items[i] as TabItem;
-
-                if (tab == null)
-                    continue;
-
-                var editor = tab.Tag as MarkdownDocumentEditor;
-                var doc = editor?.MarkdownDocument;
-                if (doc == null)
-                    continue;
-
-                if (doc.HasFileCrcChanged())
-                {
-                    // force update to what's on disk so it doesn't fire again
-                    // do here prior to dialogs so this code doesn't fire recursively
-                    doc.UpdateCrc();
-
-                    string filename = doc.FilenamePathWithIndicator.Replace("*", "");
-                    string template = filename +
-                                      Environment.NewLine + Environment.NewLine +
-                                      "This file has been modified by another program." + Environment.NewLine +
-                                      "Do you want to reload it?";
-
-                    if (!doc.IsDirty || MessageBox.Show(this, template,
-                            "Reload",
-                            MessageBoxButton.YesNo,
-                            MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-                    {
-                        if (!doc.Load(doc.Filename))
-                        {
-                            MessageBox.Show(this, "Unable to re-load current document.",
-                                "Error re-loading file",
-                                MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                            continue;
-                        }
-
-                        try
-                        {
-                            int scroll = editor.GetScrollPosition();
-                            editor.SetMarkdown(doc.CurrentText);
-                            editor.AceEditor?.UpdateDocumentStats();
-
-                            if (scroll > -1)
-                                editor.SetScrollPosition(scroll);
-                        }
-                        catch (Exception ex)
-                        {
-                            mmApp.Log("Changed File Notification failed.", ex);
-                            MessageBox.Show(this, "Unable to re-load current document.",
-                                "Error re-loading file",
-                                MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        }
-
-                        if (tab == selectedTab)
-                            PreviewBrowser?.PreviewMarkdown(editor, keepScrollPosition: true);
-                    }
-                }
-
-
-            }
-        }
 
         bool ForceClose = false;
 

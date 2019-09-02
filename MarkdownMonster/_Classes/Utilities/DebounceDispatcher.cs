@@ -1,8 +1,8 @@
-#region License
+﻿#region License
 /*
  **************************************************************
  *  Author: Rick Strahl 
- *          � West Wind Technologies, 2017
+ *          © West Wind Technologies, 2017
  *          http://www.west-wind.com/
  * 
  * Created: 07/3/2017
@@ -62,7 +62,8 @@ namespace MarkdownMonster.Windows
         /// <param name="param">optional parameter</param>
         /// <param name="priority">optional priorty for the dispatcher</param>
         /// <param name="disp">optional dispatcher. If not passed or null CurrentDispatcher is used.</param>        
-        public void Debounce(int interval, Action<object> action,
+        public void Debounce(int interval,
+            Action<object> action,
             object param = null,
             DispatcherPriority priority = DispatcherPriority.ApplicationIdle,
             Dispatcher disp = null)
@@ -77,7 +78,8 @@ namespace MarkdownMonster.Windows
             // timer is recreated for each event and effectively
             // resets the timeout. Action only fires after timeout has fully
             // elapsed without other events firing in between
-            timer = new DispatcherTimer(TimeSpan.FromMilliseconds(interval), priority, (s, e) =>
+            timer = new DispatcherTimer(TimeSpan.FromMilliseconds(interval), priority,
+                (s, e) =>
             {
                 if (timer == null)
                     return;
