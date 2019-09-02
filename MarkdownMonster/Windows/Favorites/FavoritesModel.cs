@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MarkdownMonster.Annotations;
 using MarkdownMonster.Favorites;
+using MarkdownMonster.Utilities;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Favorites
@@ -221,7 +222,7 @@ namespace MarkdownMonster.Favorites
             bool result = JsonSerializationUtils.SerializeToFile(Favorites, FavoritesFile, throwExceptions: false, formatJsonOutput: true);
             if (result)
                 // if we have the editor open show the change of the JSON file
-                AppModel?.Window?.CheckFileChangeInOpenDocuments();
+                DocumentFileWatcher.CheckFileChangeInOpenDocuments();
 
             return result;
         }

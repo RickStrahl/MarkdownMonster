@@ -298,7 +298,7 @@ namespace MarkdownMonster.Windows
             if (mmApp.Model == null || mmApp.Model.Window == null)
                 return;
 
-            mmApp.Model.Window.Dispatcher.Invoke(() =>
+            Dispatcher.Invoke(() =>
             {
                 var file = e.FullPath;
 
@@ -308,6 +308,7 @@ namespace MarkdownMonster.Windows
 
                 var gh = new GitHelper();
                 pi.FileStatus = gh.GetGitStatusForFile(pi.FullPath);
+
             }, DispatcherPriority.ApplicationIdle);
         }
 

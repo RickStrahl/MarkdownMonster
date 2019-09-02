@@ -35,7 +35,7 @@
                             <fa:FontAwesome Icon="SignOut" Margin="5,2,5,0"
                                             FontSize="19"
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
-                                            Foreground="Firebrick"/>
+                                            Foreground="Green"/>
                             <TextBlock>Exit</TextBlock>
                         </StackPanel>
                     </Button>

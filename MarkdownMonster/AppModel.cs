@@ -33,6 +33,7 @@ using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Annotations;
+using MarkdownMonster.Utilities;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
@@ -88,6 +89,10 @@ namespace MarkdownMonster
             get
             {
                 var editor = Window.GetActiveMarkdownEditor();
+
+                // monitor for file changes
+                DocumentFileWatcher.AttachFilewatcher(editor);
+
                 return editor;
             }
         }

@@ -621,6 +621,7 @@ namespace MarkdownMonster
 
         private object _SaveLock = new object();
         private bool _IsSaving = false;
+        public DateTime LastSaveTime { get; set; } 
 
         /// <summary>
         /// Saves the CurrentText into the specified filename
@@ -637,7 +638,6 @@ namespace MarkdownMonster
             {
                 lock (_SaveLock)
                 {
-                    
                     try
                     {
                         _IsSaving = true;
@@ -663,6 +663,7 @@ namespace MarkdownMonster
                             IsDirty = false;
 
                         UpdateCrc(filename);
+                        LastSaveTime = DateTime.UtcNow;
 
                         if (!noBackupFileCleanup)
                             CleanupBackupFile();
