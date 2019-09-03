@@ -30,9 +30,9 @@ namespace MarkdownMonster.Utilities
                 FileWatcher = new FileSystemWatcher();
                 FileWatcher.Path = Path.GetDirectoryName(file);
                 FileWatcher.Filter = Path.GetFileName(file);
+                FileWatcher.NotifyFilter = NotifyFilters.LastWrite;
                 FileWatcher.EnableRaisingEvents = true;
                 FileWatcher.Changed += FileWatcher_Changed;
-                
             }
             else
             {
@@ -51,20 +51,15 @@ namespace MarkdownMonster.Utilities
         /// <param name="e"></param>
         private static void FileWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            
+            // Debug.WriteLine("FileWatcher: " + e.FullPath);
+
             debounce.Debounce(220,(p) =>
             {
-                //Debug.WriteLine("FileWatcher: " + e.FullPath);
+                // Debug.WriteLine("FileWatcher Debounce: " + e.FullPath);
 
                 var tab = mmApp.Model.Window.TabControl.SelectedItem as TabItem;
-                if (tab == null)
-                    return;
-
-                var editor = tab.Tag as MarkdownDocumentEditor;
-                if (tab.Tag == null)
-                    return;
-
-                var document = editor.MarkdownDocument;
+                var editor = tab?.Tag as MarkdownDocumentEditor;
+                var document = editor?.MarkdownDocument;
                 if (document == null)
                     return;
                 
@@ -80,7 +75,7 @@ namespace MarkdownMonster.Utilities
                 if (!document.Load(document.Filename))
                     return;
 
-                //Debug.WriteLine("FileWatcher Updating Actuall: " + e.FullPath);
+                // Debug.WriteLine("FileWatcher Updating: " + e.FullPath);
 
                 // if the file was saved in the last second - don't update because
                 // the change event most likely is from the save op

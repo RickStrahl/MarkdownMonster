@@ -44,9 +44,14 @@ namespace MarkdownMonster.Controls.ContextMenus
             var addButton = new MenuItem { Header = $"_Add current: {Window.Width} x {Window.Height}", Foreground = Brushes.Silver };
             addButton.Click += (s, a) =>
             {
-                Window.Model.Configuration.WindowPosition.WindowSizes.Add($"{Window.Width} x {Window.Height}");
+                var size = $"{Window.Width} x {Window.Height}";
+                var sizes = Window.Model.Configuration.WindowPosition.WindowSizes;
+                if (sizes.Contains(size))
+                    return;
+
+                sizes.Add(size);
                 Window.Model.Configuration.Write(); // Save
-                Window.ShowStatusSuccess("Window sizes added to pre-configured Window sizes");
+                Window.ShowStatusSuccess($"{size} preset added to pre-configured Window sizes.");
             };
             ctx.Items.Add(addButton);
 
