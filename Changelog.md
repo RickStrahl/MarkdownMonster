@@ -7,7 +7,7 @@
 ### 1.19
 *<small>September 4th, 2019</small>*
 
-* **New Configuration Editor**  
+* **[New Configuration Editor](https://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm)**  
 Added a VS Code style Configuration settings editor UI, that allows searching for settings. It also prevents entering invalid JSON data into any non text fields that expect specific values. If you loved the JSON based configuration, not to worry: You can still edit the raw JSON to make settings changes too.
 
 * **New Find in Files in Folder Browser**  
@@ -22,7 +22,7 @@ Add a new Visual Studio Code Light theme that's similar (but not identical) to t
 * **Add Configuration Backup**  
 You can now backup your Markdown Monster configuration to Zip file or to a disk folder. This feature writes out all files from the configuration folder into the zip or folder as a backup mechanism.
 
-* **Open Document File Change Monitoring**  
+* **[Open Document File Change Monitoring](https://raw.githubusercontent.com/RickStrahl/ImageDrop/master/MarkdownMonster/OpenDocumentFileChangeTracking.gif)**  
 The open document now actively tracks changes that are made externally and updates the document immediately if the document in the editor has no changes. Changes are reflected even when the editor is not active, so external changes can be seen updating. As before, if the document has changes, updates are held off until you activate the document, at which point you get a prompt on whether to reload, or keep the editor document.
 
 * **Improved External Preview Window Configuration**  
