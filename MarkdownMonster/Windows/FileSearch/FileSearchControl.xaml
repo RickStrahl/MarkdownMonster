@@ -28,7 +28,7 @@
             <StackPanel Orientation="Horizontal">
                 <fa:FontAwesome Icon="Search" Foreground="Goldenrod" Height="16" Width="16" Margin="5,2,0,0" />
                 <TextBlock Height="Auto" 
-                           Text="Find in Files (experimental)"  
+                           Text="Find in Files"  
                            FontWeight="SemiBold" FontSize="11"  Padding="4,5,2,5" />
             </StackPanel>
 

@@ -8,7 +8,7 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster.Utilities
 {
-    public class SearchInFilesFinder
+    public class FindInFilesFinder
     {
         public string Path { get; set; }
         public string SearchFilePattern { get; set; }
@@ -23,7 +23,7 @@ namespace MarkdownMonster.Utilities
 
         private byte[] SearchPhraseBytes { get; set;  }
 
-        public SearchInFilesFinder(string path, string searchFilePattern, params string[] extensions)
+        public FindInFilesFinder(string path, string searchFilePattern, params string[] extensions)
         {
             Path = path;
             SearchFilePattern = searchFilePattern;
@@ -46,6 +46,9 @@ namespace MarkdownMonster.Utilities
             if (searchPhrase != null)
                 SearchPhrase = searchPhrase;
 
+            if (SearchPhrase == null)
+                return null;
+            
             SearchPhraseBytes = Encoding.UTF8.GetBytes(searchPhrase);
 
             var list = new List<SearchFileResult>();

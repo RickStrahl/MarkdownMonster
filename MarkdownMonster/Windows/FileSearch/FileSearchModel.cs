@@ -149,16 +149,18 @@ namespace MarkdownMonster.Windows.FileSearch
                     SearchFolder = Path.GetDirectoryName(SearchFolder);
             }
 
-            SearchFinder = new SearchInFilesFinder(SearchFolder, FileFilters);
+            FindFinder = new FindInFilesFinder(SearchFolder, FileFilters);
         }
 
 
         public async Task SearchAsync()
         {
             Window.ShowStatusProgress($"Searching files for '{SearchPhrase}'");
-            var finder = new SearchInFilesFinder(SearchFolder,FileFilters);
+
+            var finder = new FindInFilesFinder(SearchFolder,FileFilters);
             finder.SearchSubFolders = SearchSubFolders;
             var result = await finder.SearchFilesAsync(SearchPhrase);
+
             if (result != null)
                 SearchResults = new ObservableCollection<SearchFileResult>(result.OrderBy( r=> r.FilePath + "!" + r.FileOnly) );
             else
@@ -171,7 +173,7 @@ namespace MarkdownMonster.Windows.FileSearch
         }
 
 
-        public SearchInFilesFinder SearchFinder { get; set; } 
+        public FindInFilesFinder FindFinder { get; set; } 
 
 
         #region INotifyPropertyChanged

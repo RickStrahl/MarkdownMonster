@@ -19,7 +19,7 @@ namespace MarkdownMonster.Test
         public void SearchInFilesTest()
         {
 
-            var finder = new SearchInFilesFinder(STR_Folder,"*.*");
+            var finder = new FindInFilesFinder(STR_Folder,"*.*");
             finder.NoMatchDetails = true;
             var result = finder.SearchFiles("Markdown");
 
@@ -31,7 +31,7 @@ namespace MarkdownMonster.Test
         public async Task SearchInFilesAsyncTest()
         {
 
-            var finder = new SearchInFilesFinder(STR_Folder, "*.*");
+            var finder = new FindInFilesFinder(STR_Folder, "*.*");
 
             var result = await finder.SearchFilesAsync("Single line breaks");
 
