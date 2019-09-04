@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLogAddin", "AddIns\WebLo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DAF26FA7-FEE5-45D5-81D3-A473B858C7AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCaptureAdd.Test", "Tests\ScreenCaptureAddIn.Test\ScreenCaptureAdd.Test.csproj", "{7EDA8CFE-B576-480B-804E-63DC372CF41D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreenCaptureAdd.Test", "Tests\ScreenCaptureAddIn.Test\ScreenCaptureAdd.Test.csproj", "{7EDA8CFE-B576-480B-804E-63DC372CF41D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeblogAddin.Test", "Tests\WeblogAddin.Test\WeblogAddin.Test.csproj", "{4832D00A-BE3B-4F3B-93DB-D2FB6406F1B3}"
 EndProject

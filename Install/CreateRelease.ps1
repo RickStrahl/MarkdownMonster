@@ -1,7 +1,7 @@
 cd "$PSScriptRoot" 
 
 # Major version
-$release = "v1.16" 
+$release = "v1.19" 
 $releaseFile = "$PSScriptRoot\builds\currentrelease\MarkdownMonsterSetup.exe"
 
 
