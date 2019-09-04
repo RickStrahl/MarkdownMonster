@@ -2181,7 +2181,13 @@ We're now shutting down the application.
             // EXTERNAL BROWSER VIEW
             ViewInExternalBrowserCommand = new CommandBase((p, e) =>
             {
-                if (Model.ActiveDocument == null) return;
+                if (Model.ActiveEditor?.MarkdownDocument == null)
+                {
+                    if(!string.IsNullOrEmpty(Model.ActiveTabFilename))
+                        mmFileUtils.ShowExternalBrowser(Model.ActiveTabFilename);
+
+                    return;
+                }
 
                 Model.ActiveDocument.RenderHtmlToFile();
                 mmFileUtils.ShowExternalBrowser(Model.ActiveDocument.HtmlRenderFilename);

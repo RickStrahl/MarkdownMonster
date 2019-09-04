@@ -268,13 +268,14 @@ namespace MarkdownMonster
         /// </summary>
         public string OpenFolderCommand { get; set;  }
 
-		/// <summary>
-		/// Command Processing Executable to bring up a terminal window
-		/// Command or Powershell, but could also be Console or ConEmu
-		/// cmd.exe				/k \"cd {0}\"
-		/// powershell.exe		-NoExit -Command  "&amp; cd 'c:\program files'"
-		/// </summary>
-		public string TerminalCommand { get; set; }
+        /// <summary>
+        /// Command Processing Executable to bring up a terminal window
+        /// Command or Powershell, but could also be Console or ConEmu
+        /// cmd.exe            /k \"cd {0}\"
+        /// powershell.exe     -NoExit -Command  "&amp; cd 'c:\program files'"
+        /// wt.exe             (leave blank) &amp; set Profile "startingDirectory" : "%__CD__%",
+        /// </summary>
+        public string TerminalCommand { get; set; }
 
 		/// <summary>
 		/// Terminal executable arguments to pass to bring up terminal

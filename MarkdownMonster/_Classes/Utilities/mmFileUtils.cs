@@ -457,8 +457,14 @@ namespace MarkdownMonster
         {
             try
             {
-                Process.Start(mmApp.Configuration.TerminalCommand,
-                    string.Format(mmApp.Configuration.TerminalCommandArgs, folder));
+                var pi = new ProcessStartInfo
+                {
+                    FileName = mmApp.Configuration.TerminalCommand,
+                    Arguments = string.Format(mmApp.Configuration.TerminalCommandArgs, folder),
+                    WorkingDirectory = folder,
+                    UseShellExecute = false
+                };
+                Process.Start(pi);
             }
             catch
             {
@@ -475,15 +481,22 @@ namespace MarkdownMonster
         /// <param name="url"></param>
         public static void ShowExternalBrowser(string url)
         {
-            if (string.IsNullOrEmpty(mmApp.Configuration.WebBrowserPreviewExecutable) ||
-                !File.Exists(mmApp.Configuration.WebBrowserPreviewExecutable))
+            try
             {
-                mmApp.Configuration.WebBrowserPreviewExecutable = null;
-                ShellUtils.GoUrl(url);
+                if (string.IsNullOrEmpty(mmApp.Configuration.WebBrowserPreviewExecutable) ||
+                    !File.Exists(mmApp.Configuration.WebBrowserPreviewExecutable))
+                {
+                    mmApp.Configuration.WebBrowserPreviewExecutable = null;
+                    ShellUtils.GoUrl(url);
+                }
+                else
+                {
+                    ShellUtils.ExecuteProcess(mmApp.Configuration.WebBrowserPreviewExecutable, $"\"{url}\"");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ShellUtils.ExecuteProcess(mmApp.Configuration.WebBrowserPreviewExecutable, $"\"{url}\"");
+                mmApp.Log($"External Preview failed: {url}", ex, logLevel: LogLevels.Warning);
             }
         }
 
