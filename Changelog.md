@@ -4,69 +4,32 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.18.15
-*<small>September 3rd, 2019</small>*
+### 1.19
+*<small>September 4th, 2019</small>*
 
-* **Pre-Configured Window Size Selection**  
-The Control Box now has a dropdown that lets you select a pre-configured Window size and resize your window to one of these sizes. The list is customizable and you can modify or add your own sizes. Resizing is smart enough to create windows that fit onto the active screen and translates for high DPI modes.
-
-* **Add Configuration Backup**  
-You can now backup your Markdown Monster configuration to Zip file or to a disk folder. This feature writes out all files from the configuration folder into the zip or folder as a backup mechanism.
-
-* **Add Open Document File Change Monitoring**  
-The open document now actively tracks changes that are made externally and updates the document if the document has no changes, now even if the editor is not activated so you can see changes made in another application in real time. As before, if the document has changes updates are held off until you activate the document at which point you get a prompt on whether to reload, or keep the editor document.
-
-
-### 1.18.14
-*<small>August 27th, 2019</small>*
-
-* **Improved External Preview Window Configuration**  
-The preview window now has additional options for managing the window z-order state including synced to main window, always on top or manually activated.
-
-* **Fix: Multi-Monitor Location Preservation**  
-Fixed a number issues related to multi-monitor positioning when restoring settings. Maximized windows now restore to their previously un-maximized position when restored.
-
-* **Fix: Presentation Mode from External Preview**  
-* Fix issue with the Presentation View when activated when the external preview is active. New behavior switches to internal preview before activating presentation view.
-
-* **Fix: Preview of inline, wrapped Code Style in various Themes**  
-Fixed display of inline code that wraps across multiple lines in the GitHub and Medium styles. These styles were previously set to not wrap causing long lines for long `<code>` content.
-
-### 1.18.12
-*<small>August 19th, 2019</small>*
-
-* **Add Configuration Editor**  
+* **New Configuration Editor**  
 Added a VS Code style Configuration settings editor UI, that allows searching for settings. It also prevents entering invalid JSON data into any non text fields that expect specific values. If you loved the JSON based configuration, not to worry: You can still edit the raw JSON to make settings changes too.
 
-* **Add explicit Editor Linefeed Format**  
-You can now explicitly specify the linefeed format of the editor in the Editor configuration. Previously MM always used Unix style `Lf` formatting (the default for ACE Editor). You can now specify `CrLf` for Windows specific formatting. This setting affects how files are saved and how Copy/Cut/Paste works. The default remains at `Lf` only since that appears to be the more compatible format that works for almost everything.
+* **New Find in Files in Folder Browser**  
+Added Find in Files functionality that lets you search the active folder structure in the open Folder Browser folder. You can search filenames and content with partial matching. Access via **Edit -> Find in Files** or via **File Browser -> Search Icon**.
 
-### 1.18.10
-*<small>July 21st, 2019</small>*
+* **Pre-Configured Window Size Dropdown**  
+The Control Box now has a dropdown button, that lets you select a pre-configured Window size and resize your window to one of these sizes. The list is customizable and you can modify or add your own sizes or add the current window size to the list. Resizing is smart enough to create windows that fit onto the active screen and translates for high DPI modes.
 
 * **Add Visual Studio Code Light Theme**  
 Add a new Visual Studio Code Light theme that's similar (but not identical) to the Visual Studio Code Markdown theme colors. Also adjust  colors for the Visual Studio Dark theme. 
 
-* **Find in Files Improvements**  
-Add a number of small adjustments to find in files to make it easier to navigate files and easier to get to the feature. Also add options to select current current project/file's folder, or more easily select a folder to search from.
+* **Add Configuration Backup**  
+You can now backup your Markdown Monster configuration to Zip file or to a disk folder. This feature writes out all files from the configuration folder into the zip or folder as a backup mechanism.
 
-* **Link to Find in Files**  
-You can now click the button next to the Folder Browser search text to go to the extended **Find in Files** panel. There are two buttons: One in the main tool panel (atop the folder browser panel) and one next to the search panel's Search text to make it easier to discover the 'advanced search' functionality in addition to the filename-only search.
+* **Open Document File Change Monitoring**  
+The open document now actively tracks changes that are made externally and updates the document immediately if the document in the editor has no changes. Changes are reflected even when the editor is not active, so external changes can be seen updating. As before, if the document has changes, updates are held off until you activate the document, at which point you get a prompt on whether to reload, or keep the editor document.
 
-* **Close Find in Files Panel**  
-You can now close the Find in Files panel using a close icon.
+* **Improved External Preview Window Configuration**  
+The preview window now has additional options for managing the Window Window stack order including synced to main window, always on top or manually activated.
 
-* **Fix: No menu focus after closing last Tab**  
-Fix issue where focus is lost after closing the last tab in Markdown Monster.
-
-* **Fix: Ctrl-Tab/Next Tab navigation Focus Issues**  
-Fix problem with Ctrl-Tab navigation of tabs and Ctrl-F4 tab closing operations losing proper tab focus.
-
-### 1.18.8
-<small>July 9th, 2019</small>
-
-* **Find in Files (experimental)**  
-Initial implementation of Search in Files functionality that lets you search for files and content in a given folder/subfolders. Access via **Edit -> Find in Files** or via **File Browser -> Search Icon**.
+* **Add explicit Editor Linefeed Format**  
+You can now explicitly specify the linefeed format of the editor in the Editor configuration. Previously MM always used Unix style `Lf` formatting (the default for ACE Editor). You can now specify `CrLf` for Windows specific formatting. This setting affects how files are saved and how Copy/Cut/Paste works. The default remains at `Lf` only since that appears to be the more compatible format that works for almost everything.
 
 * **[Additional Edit Toolbar Icons on Toolbar](https://markdownmonster.west-wind.com/docs/_5im10bjpw.htmhttps://markdownmonster.west-wind.com/docs/_5im10bjpw.htm)**  
 You can now add additional toolbar icons via configuration in `Editor.AdditionalToolbarIcons` by using additional built-in toolbar commands as well as custom HTML or markup tags that wrap selected text. Also added new `MainWindow.AddEditToolbarIcon()` that allow addins to easily add toolbar buttons.
@@ -80,12 +43,6 @@ Added Dart, Kotlin, Nginx and Apache as additional syntax languages to display i
 * **New Document Default Filename in Folder Browser**  
 When you create a new file in the Folder browser it now defaults to `README.md` (or `NewFile.md` if it exists) and pre-selects the file stem portion of the file name for quick typing. Related: Fix issue where escaping didn't always clear the newly typed filename when aborting a new file operation (Shift-F2) in the Folder Browser.
 
-* **Fix: DPI Sizing of Editor MaxWidth**  
-Add DPI adjustment for scaled displayed in the Editor MaxWidth setting for centered view in the editor. This avoids the problem of the display 'shrinking' on scaled displays.
-
-### 1.18.5
-<small>June 25th, 2019</small>
-
 * **Support for Cut, Copy, Paste of Files in Folder Browser**  
 The folder browser now supports cut, copy and paste operations for files both for files from the folder browser as well as to and from the Windows Shell/Explorer.
 
@@ -95,14 +52,33 @@ You can now use **Edit->Speak** to speak the current selection, the entire docum
 * **Support for setting Document Encoding**  
 You can now set document encoding to UTF-8 or Unicode encodings on your documents. Previously new docs defaulted to UTF-8 with BOM and for other documents respected and maintained existing encodings.
 
-* **Dev: Refactor Support Editor Usage**  
-Internally consolidated the internal editor usage for various editor operations like Code blocks and Snippet Templates to use the same HTML editor and script code as the main editor. The JavaScript client editor selectively disables features not used/usable for the 'EditorSimple' implementation.
+* **Fix: Multi-Monitor Location Preservation**  
+Fixed a number issues related to multi-monitor positioning when restoring settings. Maximized windows now restore to their previously un-maximized position when restored.
+
+* **Fix: DPI Sizing of Editor MaxWidth**  
+Add DPI adjustment for scaled displayed in the Editor MaxWidth setting for centered view in the editor. This avoids the problem of the display 'shrinking' on scaled displays.
+
+* **Fix: Presentation Mode from External Preview**  
+* Fix issue with the Presentation View when activated when the external preview is active. New behavior switches to internal preview before activating presentation view.
+
+* **Fix: Preview of inline, wrapped Code Style in various Themes**  
+Fixed display of inline code that wraps across multiple lines in the GitHub and Medium styles. These styles were previously set to not wrap causing long lines for long `<code>` content.
+
+* **Fix: No menu focus after closing last Tab**  
+Fix issue where focus is lost after closing the last tab in Markdown Monster.
+
+* **Fix: Ctrl-Tab/Next Tab navigation Focus Issues**  
+Fix problem with Ctrl-Tab navigation of tabs and Ctrl-F4 tab closing operations losing proper tab focus.
 
 * **Fix: Git Show in External Diff Tool**  
 Fixed bug that wouldn't show diffs for files in subfolders of the tree.
 
 * **Fix: Html Entity Display in Document View**  
 Fix bug with HTML Entities in headers in the Document View. Headers now properly decode HTML entities and capture the entire content.
+
+* **Dev: Refactor Support Editor Usage**  
+Internally consolidated the internal editor usage for various editor operations like Code blocks and Snippet Templates to use the same HTML editor and script code as the main editor. The JavaScript client editor selectively disables features not used/usable for the 'EditorSimple' implementation.
+
 
 ### 1.18
 <small>June 17th, 2019</small>
@@ -389,7 +365,7 @@ Improve startup rendering by removing some unnecessary nested delay loading. Als
 * **Addins: Expose Folder Browser**  
 We've now made the Folder Browser more easily accessible through the `Model.Window.FolderBrowser`. You can also easily get the selected item in the folder browser via `GetSelectedPathItem()`.
 
-### 1.15 - Version Rollup Release
+### 1.15
 <small>February 5th, 2019</small> 
 
 * **[Add Split View for the Editor](https://markdownmonster.west-wind.com/docs/_5ea0q9ne2.htm)**  
@@ -488,7 +464,7 @@ The recent document list and startup forms now properly won't show files and fol
 Fixed crashes caused by Dispatcher errors when the dispatcher was disabled. This would cause odd crashes especially with status bar updates. Added extra checks around several frequently used generic Dispatcher operations that account for most Dispatcher operations.
 
 
-### 1.14 - Version Rollup Release
+### 1.14
 <small>December 13th, 2018</small>
 
 * **Open PDF documents from Previewer**  
@@ -578,14 +554,12 @@ Added an additional dialog that allows importing CSV from file or the clipboard 
 * **Fix: Paste Operations where both Text and Image is provided**  
 Fix issue where certain paste operations would try to save an image instead of text. For example, pasting from Powerpoint which apparently copies both text and an image of the selected slide text. Switched to prioritize text.
 
-### 1.12 
+### 1.13 
 <small>September 27th, 2018</small>
 
 * **Fix Application Shutdown Release Issues**  
 In recent releases MM would occasionally hang when shutting down leaving multiple processes hanging around orphaned. Refactored unload code, explicitly release browser instances, addins and various services.
 
-### 1.12.18 
-<small>September 27th, 2018</small>
 
 * **Link References in Link Dialog**  
 You can now created reference links that are referenced at the bottom of the document rather than embedded directly. There's a new checkbox option in the Link Dialog that lets you embed links as references. References are automatically updated based on order in the document. There's also a new `UseReferenceLinks` setting that determines the default state of the checkbox.
@@ -606,9 +580,6 @@ Recent changes in how our custom HighlightJs bundle is built resulted in some la
 * **Fix (maybe): Address Shutdown Issues**  
 There have been a number of errors in the analytics logs related to shutdown of MM. Simplified the shut down routine by removing all explicit `Hide()` operations to avoid potential circular shutdown events.
 
-
-### 1.12.14
-<small>September 8th, 2018</small>
 
 * **Updated: Html Sanitation when using `AllowRenderScriptTags: false`**  
 Updated the HTML sanitation logic when script tags (and script execution in general) is not allowed in the generated document. This update strips out any tags that can load javascript, `javascript:` tags and any event handler code embedded in the resulting HTML content.
@@ -645,9 +616,6 @@ Changed to a separate keyboard shortcut (shift-f2) in the folder browser to avoi
 * **Fix: Plain Text Code Fences Rendering**  
 Fix issues with plain text rendering when using `text`,`plain`,`txt` or `none` for code fence blocks. Previously `text` and `plain` would incorrectly render as invalid languages. Fix uses JavaScript interception to correct highlightJs issue.
 
-### 1.12.12
-<small>August 22nd, 2018</small>
-
 * **[New KeyBinding Manager](https://markdownmonster.west-wind.com/docs/_59l0izpoe.htm)**  
 You can now remap a number of keyboard shortcuts using the `MarkdownMonster-KeyBindings.json` file. In this file you can assign new shortcut keys to a number of commands.
 
@@ -672,9 +640,6 @@ This update provides a number of new features to the editor along with a number 
 * **Fix: Favorites Search to Open Folders above Found Items**  
 Fixed regression bug that would not properly open parent folders when a match was found inside of a folder hierarchy.
 
-### 1.12.9
-<small>July 12th, 2018</small>
-
 * **Updates to Startup Screen**  
 Updates to the Recent File and Folder List display and added Theme switching to the Startup screen.
 
@@ -686,9 +651,6 @@ Changed all instances of Copy Foldername to Clipboard to instead copy the full p
 
 * **Fix: Window Menu Shortcuts**  
 Fixed a number of the Window menu shortcuts that are toggle switches. DistractionFree mode (Alt-Shift-Enter) and Presentation mode (F11) and Help (F1) now work properly again.
-
-### 1.12.6
-<small>July 6th, 2018</small>
 
 * **Favorites**  
 You can now select files and folders as favorites for easy access. Favorites are accessible from the toolbar and the Recents menu and you can add Favorites from the tab header. A new **Favorites** sidebar lets you select and add/edit/delete favorites as well as select and open favorites.
@@ -717,7 +679,7 @@ Fix a number of menu options that were briefly inert due to the recent menu code
 * **Fix: Add to Dictionary File Location**  
 Fixed issue where Add to Dictionary was adding to the wrong file and wouldn't persist properly. Updated logic so that after adding the document immediately is updated to reflect the corrected word in the spellchecking view.
 
-### 1.12 - Version Rollup Release
+### 1.12
 <small>June 21st, 2018</small>
 
 * **Improved Folder Browser Preview editable documents**  
