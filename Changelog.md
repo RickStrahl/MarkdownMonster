@@ -31,7 +31,7 @@ The preview window now has additional options for managing the Window Window sta
 * **Add explicit Editor Linefeed Format**  
 You can now explicitly specify the linefeed format of the editor in the Editor configuration. Previously MM always used Unix style `Lf` formatting (the default for ACE Editor). You can now specify `CrLf` for Windows specific formatting. This setting affects how files are saved and how Copy/Cut/Paste works. The default remains at `Lf` only since that appears to be the more compatible format that works for almost everything.
 
-* **[Additional Edit Toolbar Icons on Toolbar](https://markdownmonster.west-wind.com/docs/_5im10bjpw.htmhttps://markdownmonster.west-wind.com/docs/_5im10bjpw.htm)**  
+* **[Additional Edit Toolbar Icons on Toolbar](https://markdownmonster.west-wind.com/docs/_5im10bjpw.htm)**  
 You can now add additional toolbar icons via configuration in `Editor.AdditionalToolbarIcons` by using additional built-in toolbar commands as well as custom HTML or markup tags that wrap selected text. Also added new `MainWindow.AddEditToolbarIcon()` that allow addins to easily add toolbar buttons.
 
 * **Double Click on Empty Tab Header to open new Document**  
