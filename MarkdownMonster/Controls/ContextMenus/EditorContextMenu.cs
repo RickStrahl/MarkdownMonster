@@ -315,7 +315,30 @@ namespace MarkdownMonster.Controls.ContextMenus
                     string val = match.Value;
                     if (match.Index <= pos.column && match.Index + val.Length > pos.column)
                     {
-                        var mi2 = new MenuItem
+                        MenuItem mi2;
+                        if (val.Contains("(http"))
+                        {
+                            mi2 = new MenuItem {Header = "Navigate Hyperlink"};
+                            mi2.Click += (o, args) =>
+                            {
+                                var url = StringUtils.ExtractString(val,"](",")");
+                                if (!string.IsNullOrEmpty(url))
+                                {
+                                    try
+                                    {
+                                        ShellUtils.GoUrl(url);
+                                    }
+                                    catch
+                                    {
+                                        Model.Window.ShowStatusError("Invalid link: Couldn't navigate to link " + val);
+                                    }
+                                }
+                            }; 
+                            ContextMenu.Items.Add(mi2);
+                        }
+
+
+                        mi2 = new MenuItem
                         {
                             Header = "Edit Hyperlink"
                         };
