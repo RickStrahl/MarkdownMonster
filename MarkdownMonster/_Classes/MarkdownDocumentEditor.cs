@@ -87,7 +87,6 @@ namespace MarkdownMonster
         public MarkdownDocument MarkdownDocument { get; set; }
 
 
-
         /// <summary>
         /// Ace Editor Bridge instance. This is a wrapper around the
         /// Ace Editor JavaScript object in `editor.js` that holds
@@ -410,7 +409,7 @@ namespace MarkdownMonster
         /// <param name="isEncrypted">Determines if the file is using local encryption</param>
         public bool SaveDocument(bool isEncrypted = false)
         {
-            if (MarkdownDocument == null || AceEditor == null ||
+            if (MarkdownDocument == null ||
                 !AddinManager.Current.RaiseOnBeforeSaveDocument(MarkdownDocument))
                 return false;
 
@@ -431,14 +430,16 @@ namespace MarkdownMonster
                 }
             }
 
-
             if (!MarkdownDocument.Save())
                 return false;
 
             AddinManager.Current.RaiseOnAfterSaveDocument(MarkdownDocument);
 
             // let the document know it's now clean
-            AceEditor.IsDirty = false;
+            if (AceEditor != null)
+                AceEditor.IsDirty = false;
+            else
+                return true;  // document hasn't been loaded into the editor yet - ie. no UI changes
 
             // reload settings if we were editing the app config file.
             var justfile = Path.GetFileName(MarkdownDocument.Filename).ToLower();

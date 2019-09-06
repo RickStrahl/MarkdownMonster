@@ -467,14 +467,13 @@ namespace MarkdownMonster
                 foreach (var tabItem in tabs)
                 {
                     var tab = tabItem as TabItem;
-                    if (tab == null)
-                        continue;
 
                     var doc = tab?.Tag as MarkdownDocumentEditor;
                     if (doc == null)
                         continue;
 
-                    if (doc.MarkdownDocument.Filename == "untitled" || !doc.SaveDocument())
+                    if (doc.MarkdownDocument.Filename == "untitled" ||
+                        !doc.SaveDocument())
                         SaveAsCommand.Execute(tab);
                 }
             }, (p, c) => Model.IsEditorActive);
