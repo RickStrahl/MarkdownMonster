@@ -2431,32 +2431,7 @@ namespace MarkdownMonster
             return tab?.Tag as MarkdownDocumentEditor;
         }
 
-        //bool CheckForNewVersion(bool force, bool closeForm = true, int timeout = 2000)
-        //{
-        //    var updater = new ApplicationUpdater(typeof(MainWindow));
-        //    bool isNewVersion = ApplicationUpdaterupdater.IsNewVersionAvailable(!force, timeout: timeout);
-        //    if (isNewVersion)
-        //    {
-        //        var res = MessageBox.Show(updater.VersionInfo.Detail + "\r\n\r\n" +
-        //                                  "Do you want to download and install this version?",
-        //            updater.VersionInfo.Title,
-        //            MessageBoxButton.YesNo,
-        //            MessageBoxImage.Information);
-
-        //        if (res == MessageBoxResult.Yes)
-        //        {
-        //            ShellUtils.GoUrl(mmApp.Urls.InstallerDownloadUrl);
-
-        //            if (closeForm)
-        //                Close();
-        //        }
-        //    }
-
-        //    mmApp.Configuration.ApplicationUpdates.LastUpdateCheck = DateTime.UtcNow.Date;
-
-        //    return isNewVersion;
-        //}
-
+        
         /// <summary>
         /// Check to see if the window is visible in the bounds of the
         /// virtual screen space. If not adjust to main monitor off 0 position.

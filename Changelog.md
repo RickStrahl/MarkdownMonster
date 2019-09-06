@@ -5,16 +5,16 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.19.2
-*<small>not released yet</small>*
+*<small>not released yet</small>* 
 
-* **Add Copy Code and Syntax Display to Code Snippets**  
+* **Add Copy Code and Syntax Display to Code Snippets**     
 Code snippets in the editor and exported now show a transparent badge that allows copying the code to the clipboard with a simple button click. The badge also shows the syntax in use if any.
 
 ### 1.19 
 *<small>September 4th, 2019</small>*
 
 * **[New Configuration Editor](https://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm)**  
-Added a VS Code style Configuration settings editor UI, that allows searching for settings. It also prevents entering invalid JSON data into any non text fields that expect specific values. If you loved the JSON based configuration, not to worry: You can still edit the raw JSON to make settings changes too.
+Added a VS Code style Configuration settings editor UI, that allows searching for settings. It also prevents entering invalid JSON data into any non text fields that expect specific values. If you loved the JSON based configuration, not to worry: You can still edit the raw JSON to make settings changes too. 
 
 * **New Find in Files in Folder Browser**  
 Added Find in Files functionality that lets you search the active folder structure in the open Folder Browser folder. You can search filenames and content with partial matching. Access via **Edit -> Find in Files** or via **File Browser -> Search Icon**.
