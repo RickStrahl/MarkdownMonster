@@ -1,10 +1,16 @@
-# Markdown Monster Change Log
+# Markdown Monster Change Log 
  
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.19
+### 1.19.2
+*<small>not released yet</small>*
+
+* **Add Copy Code and Syntax Display to Code Snippets**  
+Code snippets in the editor and exported now show a transparent badge that allows copying the code to the clipboard with a simple button click. The badge also shows the syntax in use if any.
+
+### 1.19 
 *<small>September 4th, 2019</small>*
 
 * **[New Configuration Editor](https://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm)**  
@@ -186,7 +192,6 @@ You can now paste an image from the clipboard directly to a file in the folder b
 
 * **Drag and Drop Files and Folders from Explorer into Folder Browser**  
 You can now drag and drop files from Explorer into the folder browser to quickly move one or more file or folders.
-
 
 * **[Drag and Drop Tabs into the Favorites Sidebar](http://markdownmonster.west-wind.com/docs/_58u0u6bnh.htm)**  
 You can now drag a tab from the editor into the Favorites tab to create a new favorite shortcut more easily. This external drag and drop behavior augments the internal drag and drop that lets you re-arrange favorite entries.

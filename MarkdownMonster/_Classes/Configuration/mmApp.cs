@@ -181,7 +181,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public static bool HandleApplicationException(Exception ex, ApplicationErrorModes errorMode)
         {
-            Log($"{errorMode} Error: " + ex.Message, ex, unhandledException: true, logLevel: LogLevels.Critical);
+            Log($"{errorMode}: " + ex.Message, ex, unhandledException: true, logLevel: LogLevels.Critical);
 
             var msg = $"Yikes! Something went wrong...\r\n\r\n{ex.Message}\r\n\r\n" +
                         "The error has been recorded and written to a log file and you can " +

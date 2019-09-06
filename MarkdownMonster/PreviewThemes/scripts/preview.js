@@ -202,6 +202,11 @@ function highlightCode(lineno) {
         //    hljs.highlightBlock(bl);
         //}.bind(this, block));
     }
+
+    
+    setTimeout(function() { highlightJsBadge(); }, 220);
+
+
 }
 
 // this works, but async updates of code blocks is too jumpy
