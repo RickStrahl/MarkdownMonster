@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows;
 using Westwind.Utilities;
 using Westwind.Utilities.InternetTools;
 
@@ -97,6 +98,38 @@ namespace MarkdownMonster
             Initialize();
         }
 
+        /// <summary>
+        /// Do all operation that checks for new version, brings up the change
+        /// dialog, allows downloading etc. UI can just call this method to
+        /// do it all.
+        /// </summary>
+        /// <param name="force">Forces the version check even if it was done recently. Otherwise LastChecked and Interval is used to decide if to hit the server</param>
+        /// <param name="closeApplication">It trye forces MM to be shutdown after downloading</param>
+        /// <param name="failTimeout">Max time to for the HTTP check to take before considering failed</param>
+        /// <returns></returns>
+        public static bool  CheckForNewVersion(bool force, bool closeApplication = true, int failTimeout = 2000)
+        {
+            var updater = new ApplicationUpdater(typeof(MainWindow));
+            bool isNewVersion = updater.IsNewVersionAvailable(!force, timeout: failTimeout);
+            if (isNewVersion)
+            {
+                var res = MessageBox.Show(updater.VersionInfo.Detail + "\r\n\r\n" +
+                                          "Do you want to download and install this version?",
+                    updater.VersionInfo.Title,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information);
+
+                if (res == MessageBoxResult.Yes)
+                {
+                    ShellUtils.GoUrl(mmApp.Urls.InstallerDownloadUrl);
+                    if (closeApplication)
+                        mmApp.Model.Window.Close();
+                }
+            }
+            
+
+            return isNewVersion;
+        }
 
         private void Initialize()
         {
@@ -157,6 +190,8 @@ namespace MarkdownMonster
                 return false;
             }
 
+            mmApp.Configuration.ApplicationUpdates.LastUpdateCheck = DateTime.UtcNow.Date;
+
             if (!string.IsNullOrEmpty(xml))
             {
                 var ver = SerializationUtils.DeSerializeObject(xml, typeof(VersionInfo)) as VersionInfo;
@@ -174,6 +209,8 @@ namespace MarkdownMonster
                     if (onlineVer.CompareTo(curVer) > 0)
                         return true;
                 }
+
+                LastCheck = DateTime.UtcNow;
             }
 
             return false;

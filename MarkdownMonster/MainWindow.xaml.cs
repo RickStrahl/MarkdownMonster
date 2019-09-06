@@ -590,7 +590,7 @@ namespace MarkdownMonster
 
 
                 FolderBrowser?.ReleaseFileWatcher();
-                bool isNewVersion = CheckForNewVersion(false, false);
+                bool isNewVersion = ApplicationUpdater.CheckForNewVersion(false, false);
 
                 var displayCount = 6;
                 if (mmApp.Configuration.ApplicationUpdates.AccessCount > 250)
@@ -2431,31 +2431,31 @@ namespace MarkdownMonster
             return tab?.Tag as MarkdownDocumentEditor;
         }
 
-        bool CheckForNewVersion(bool force, bool closeForm = true, int timeout = 2000)
-        {
-            var updater = new ApplicationUpdater(typeof(MainWindow));
-            bool isNewVersion = updater.IsNewVersionAvailable(!force, timeout: timeout);
-            if (isNewVersion)
-            {
-                var res = MessageBox.Show(updater.VersionInfo.Detail + "\r\n\r\n" +
-                                          "Do you want to download and install this version?",
-                    updater.VersionInfo.Title,
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Information);
+        //bool CheckForNewVersion(bool force, bool closeForm = true, int timeout = 2000)
+        //{
+        //    var updater = new ApplicationUpdater(typeof(MainWindow));
+        //    bool isNewVersion = ApplicationUpdaterupdater.IsNewVersionAvailable(!force, timeout: timeout);
+        //    if (isNewVersion)
+        //    {
+        //        var res = MessageBox.Show(updater.VersionInfo.Detail + "\r\n\r\n" +
+        //                                  "Do you want to download and install this version?",
+        //            updater.VersionInfo.Title,
+        //            MessageBoxButton.YesNo,
+        //            MessageBoxImage.Information);
 
-                if (res == MessageBoxResult.Yes)
-                {
-                    ShellUtils.GoUrl(mmApp.Urls.InstallerDownloadUrl);
+        //        if (res == MessageBoxResult.Yes)
+        //        {
+        //            ShellUtils.GoUrl(mmApp.Urls.InstallerDownloadUrl);
 
-                    if (closeForm)
-                        Close();
-                }
-            }
+        //            if (closeForm)
+        //                Close();
+        //        }
+        //    }
 
-            mmApp.Configuration.ApplicationUpdates.LastUpdateCheck = DateTime.UtcNow.Date;
+        //    mmApp.Configuration.ApplicationUpdates.LastUpdateCheck = DateTime.UtcNow.Date;
 
-            return isNewVersion;
-        }
+        //    return isNewVersion;
+        //}
 
         /// <summary>
         /// Check to see if the window is visible in the bounds of the
@@ -2565,13 +2565,8 @@ namespace MarkdownMonster
             else if (button == MenuCheckNewVersion)
             {
                 ShowStatus("Checking for new version...");
-                if (!CheckForNewVersion(true, timeout: 5000))
-                {
+                if (!ApplicationUpdater.CheckForNewVersion(true, failTimeout: 5000))
                     ShowStatusSuccess("Your version of Markdown Monster is up to date.");
-                    MessageBox.Show(
-                        "Your version of Markdown Monster is v" + mmApp.GetVersion() + "\r\nand you are up to date.",
-                        mmApp.ApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
-                }
             }
             else if (button == MenuRegister)
             {
