@@ -1,4 +1,4 @@
-define("ace/split", ["require", "exports", "module", "ace/lib/oop", "ace/lib/lang", "ace/lib/event_emitter", "ace/editor", "ace/virtual_renderer", "ace/edit_session"], function (require, exports, module) {
+define("ace/split",["require","exports","module","ace/lib/oop","ace/lib/lang","ace/lib/event_emitter","ace/editor","ace/virtual_renderer","ace/edit_session"], function(require, exports, module) {
 "use strict";
 
 var oop = require("./lib/oop");
@@ -204,3 +204,4 @@ module.exports = require("../split");
                         }
                     });
                 })();
+            

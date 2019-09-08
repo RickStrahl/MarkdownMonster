@@ -1,6 +1,6 @@
 [
-  {
-    "outputFile": "PreviewThemes/scripts/highlightjs-badge.min.js",
-    "inputFile": "PreviewThemes/scripts/highlightjs-badge.js"
-  }
+    {
+        "outputFile": "PreviewThemes/scripts/highlightjs-badge.min.js",
+        "inputFile": "PreviewThemes/scripts/highlightjs-badge.js"
+    }
 ]
