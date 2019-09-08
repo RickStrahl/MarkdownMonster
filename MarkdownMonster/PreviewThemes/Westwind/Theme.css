@@ -127,26 +127,6 @@ b, strong {
 
 
 
-/* hidden display, but still part of document flow */
-.hidden {
-  display: none;
-}
-
-.hidden-nowidth {
-  width: 0;
-}
-
-.visually-hidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-}
-
 
 @media(min-width: 1080px) {
   html, body {
@@ -261,6 +241,7 @@ code.line-highlight {
   background: #555 !important;
 }
 
+
 /* hidden display, but still part of document flow */
 .hidden {
   display: none;
@@ -285,6 +266,11 @@ code.line-highlight {
   background: #f5f5f5;
   border-radius: 3px;
 }
+
+.text-success { color: lightgreen }
+.text-info { color: lightsteelblue }
+.text-error { color: firebrick }
+.text-warning {color: gold }
 
 
 /* DocFx Styles*/

@@ -1,5 +1,4 @@
 "use strict";
-
 /*
 ----------------------------------------
 highlightJs Badge
@@ -48,8 +47,31 @@ Uses some ES6 features so won't work in IE without shims:
 
 */
 
+// module header
+(function( global, factory ) {
+
+	if ( typeof module === "object" && typeof module.exports === "object" ) {
+		// For CommonJS and CommonJS-like environments where a proper `window`
+		// is present, execute the factory		
+		module.exports = global.document ?
+			factory( global, true ) :
+			function( w ) {
+				if ( !w.document ) {
+					throw new Error( "A window with a document is required" );
+				}
+				return factory( w );
+			};
+	} else {
+		factory( global );
+	}
+
+// Pass this if window is not defined yet
+}(typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
+
+
+    
 if (typeof highlightJsBadgeAutoLoad !== 'boolean')
-    var highlightJsBadgeAutoLoad = true;
+    var highlightJsBadgeAutoLoad = false;
 
 function highlightJsBadge(opt) {
     var options = {
@@ -63,7 +85,12 @@ function highlightJsBadge(opt) {
         // Use if you need to time highlighting and badge application
         // since the badges need to be applied afterwards.
         // 0 - direct execution (ie. you handle timing
-        loadDelay: 0
+        loadDelay: 0,
+
+        // CSS class(es) used to render the copy icon.
+        copyIconClass: "fa fa-copy",     
+        // CSS class(es) used to render the done icon.
+        checkIconClass: "fa fa-check text-success"  
     };
 
     function initialize(opt) {
@@ -87,9 +114,11 @@ function highlightJsBadge(opt) {
         // first make sure the template exists - if not we embed it
         if (!document.querySelector(options.templateSelector)) {
             var node = document.createElement("div");
-            node.innerHTML = getTemplate();
-            document.body.appendChild(node.firstChild);
-            document.body.appendChild(node.childNodes[1]);
+            node.innerHTML = getTemplate();            
+            var style = node.querySelector("style");
+            var template = node.querySelector(options.templateSelector);
+            document.body.appendChild(style);
+            document.body.appendChild(template);
         }
 
         var $codes = document.querySelectorAll("pre>code.hljs");
@@ -98,7 +127,7 @@ function highlightJsBadge(opt) {
 
         for (var index = 0; index < $codes.length; index++) {
             var el = $codes[index];
-            if (el.querySelector(".code-hud"))
+            if (el.querySelector(".code-badge"))
                 continue; // already exists
 
             var lang = "";
@@ -112,6 +141,8 @@ function highlightJsBadge(opt) {
 
             if (lang)
                 lang = lang.toLowerCase();
+            else
+                lang = "text";
 
             if (lang == "ps")
                 lang = "powershell";
@@ -124,13 +155,15 @@ function highlightJsBadge(opt) {
             else if (lang == "fox")
                 lang = "foxpro";
 
-            var html = hudText.replace("{{lang}}", lang).trim();
-
+                
+            var html = hudText.replace("{{language}}", lang)
+                              .replace("{{copyIconClass}}",options.copyIconClass)
+                              .trim();
 
             // insert the Hud panel
             var $newHud = document.createElement("div");
             $newHud.innerHTML = html;
-            $newHud = $newHud.querySelector(".code-hud");
+            $newHud = $newHud.querySelector(".code-badge");
             $newHud.style.display = "flex";
 
             el.insertBefore($newHud, el.firstChild);
@@ -139,13 +172,13 @@ function highlightJsBadge(opt) {
         var $content = document.querySelector(options.contentSelector);
 
         $content.addEventListener("click",
-            function (e) {                
-                e.preventDefault();
-                e.cancelBubble = true;
+            function (e) {                               
                 var $clicked = e.srcElement;
-                if ($clicked.classList.contains("code-hud-copy-icon"))
+                if ($clicked.classList.contains("code-badge-copy-icon")) {
+                    e.preventDefault();
+                    e.cancelBubble = true;
                     copyCodeToClipboard(e);
-
+                }
                 return false;
             });
     }
@@ -154,10 +187,9 @@ function highlightJsBadge(opt) {
            
         var $origCode = e.srcElement.parentElement.parentElement.parentElement;
 
-
-        // we have to clear out the .code-hud - clone and remove
+        // we have to clear out the .code-badge - clone and remove
         var $code = $origCode.cloneNode(true);
-        var $elHud = $code.querySelector(".code-hud");
+        var $elHud = $code.querySelector(".code-badge");
         $elHud.innerHTML = ""; // create text
 
         var text = $code.innerText;
@@ -174,145 +206,173 @@ function highlightJsBadge(opt) {
         
         document.execCommand('copy');
         document.body.removeChild(el);
-
-        var $fa = $origCode.querySelector(".code-hud .fa");
-        $fa.classList.remove("fa-copy");
-        $fa.classList.add("fa-check");
-        setTimeout(function () {
-            $fa.classList.remove("fa-check");
-            $fa.classList.add("fa-copy");
-        }, 2000);
-
-       
-
+        
+        swapIcons($origCode);     
     }
 
+    function swapIcons($code) {
+        var copyIcons = options.copyIconClass.split(' ');
+        var checkIcons = options.checkIconClass.split(' ');
+        
+        var $fa = $code.querySelector(".code-badge-copy-icon");
+
+        for (var i = 0; i < copyIcons.length; i++)
+            $fa.classList.remove(copyIcons[i]);
+        for (var i = 0; i < checkIcons.length; i++)
+            $fa.classList.add(checkIcons[i]);
+
+        setTimeout(function () {
+            for (var i = 0; i < checkIcons.length; i++)
+                $fa.classList.remove(checkIcons[i]);
+            for (var i = 0; i < copyIcons.length; i++)
+                $fa.classList.add(copyIcons[i]);
+        }, 2000);
+    }
 
     function getTemplate() {
         var stringArray =
-            [
-                "<style>",
-                "    pre>code.hljs {",
-                "        position: relative;",
-                "    }",
-                "",
-                "    .code-hud {",
-                "        display: flex;",
-                "        flex-direction: row;",
-                "        white-space: normal;",
-
-                "        background: transparent;",
-                "        background: #333;",
-                "        color: white;",
-                "        font-size: 0.8em;",
-                "        opacity: 0.5;",
-                "        border-radius: 0 0 0 7px;",
-                "        padding: 5px 15px 5px 10px !important;",
-                "        position: absolute;",
-                "        right: 0;",
-                "        top: 0;",
-                "    }",
-                "",
-                "    .code-hud.semi-active {",
-                "        opacity: .50",
-                "    }",
-                "",
-                "    .code-hud.active {",
-                "        opacity: 0.8;",
-                "    }",
-                "",
-                "    .code-hud:hover {",
-                "        opacity: .95;",
-                "    }",
-                "",
-                "    .code-hud a,",
-                "    .code-hud a:hover {",
-                "        text-decoration: none;",
-                "    }",
-                "",
-                "    .code-hud-lang {",
-                "        margin-right: 10px;",
-                "        font-weight: 600;",
-                "        color: darkgoldenrod;",
-                "    }",
-                "    .code-hud-copy-icon {",
-                "        padding: 0 7px;",
-                "    }",
-                "</style>",
-                "<div id=\"CodeBadgeTemplate\" style=\"display:none\">",
-                "    <div class=\"code-hud\">",
-                "        <div class=\"code-hud-lang\" >{{lang}}</div>",
-                "        <div  title=\"Copy to clipboard\"><i class=\"fa fa-copy code-hud-copy-icon\"",
-                "                style=\"font-size: 1.2em; cursor: pointer; \"></i></a>",
-                "    </div>",
-                "</div>"
-            ]
+        [
+            "<style>",
+            "    pre>code.hljs {",
+            "        position: relative;",
+            "    }",
+            "    .fa.text-success:{ color: limegreen !important}",
+            "    .code-badge {",
+            "        display: flex;",
+            "        flex-direction: row;",
+            "        white-space: normal;",
+            "        background: transparent;",
+            "        background: #333;",
+            "        color: white;",
+            "        font-size: 0.8em;",
+            "        opacity: 0.5;",
+            "        transition: opacity linear 0.5s;",
+            "        border-radius: 0 0 0 7px;",
+            "        padding: 5px 8px 5px 8px;",
+            "        position: absolute;",
+            "        right: 0;",
+            "        top: 0;",
+            "    }",
+            "",
+            "    .code-badge.semi-active {",
+            "        opacity: .50",
+            "    }",
+            "",
+            "    .code-badge.active {",
+            "        opacity: 0.8;",
+            "    }",
+            "",
+            "    .code-badge:hover {",
+            "        opacity: .95;",
+            "    }",
+            "",
+            "    .code-badge a,",
+            "    .code-badge a:hover {",
+            "        text-decoration: none;",
+            "    }",
+            "",
+            "    .code-badge-language {",
+            "        margin-right: 10px;",
+            "        font-weight: 600;",
+            "        color: goldenrod;",
+            "    }",
+            "    .code-badge-copy-icon {",
+            "        font-size: 1.2em;",
+            "        cursor: pointer;",
+            "        padding: 0 7px;",
+            "        margin-top:2;",
+            "    }",
+            "</style>",
+            "<div id=\"CodeBadgeTemplate\" style=\"display:none\">",
+            "    <div class=\"code-badge\">",
+            "        <div class=\"code-badge-language\" >{{language}}</div>",
+            "        <div  title=\"Copy to clipboard\">",
+            "            <i class=\"{{copyIconClass}} code-badge-copy-icon\"></i></i></a>",            
+            "        </div>",
+            "     </div>",
+            "</div>"
+        ];
 
         var t = "";
-        for (let i = 0; i < stringArray.length; i++) {
+        for (var i = 0; i < stringArray.length; i++)
             t += stringArray[i] + "\n";
-        }
 
         return t;
     }
 
     initialize();
 }
+
+
+// global reference Window
+window.highlightJsBadge = highlightJsBadge;
+
 if (highlightJsBadgeAutoLoad)
     highlightJsBadge();
+
+
+}));
+
+
 
 /*
 <style>
     pre>code.hljs {
         position: relative;
     }
+    .fa.text-success:{ color: limegreen !important}
 
-    .code-hud {
+    .code-badge {
         display: flex;
         flex-direction: row;
         white-space: normal;
-
         background: transparent;
         background: #333;
         color: white;
         font-size: 0.8em;
         opacity: 0.5;
         border-radius: 0 0 0 7px;
-        padding: 5px 15px !important;
+        padding: 5px 8px 5px 8px;
         position: absolute;
         right: 0;
         top: 0;
     }
 
-    .code-hud.semi-active {
+    .code-badge.semi-active {
         opacity: .50
     }
 
-    .code-hud.active {
+    .code-badge.active {
         opacity: 0.8;
     }
 
-    .code-hud:hover {
+    .code-badge:hover {
         opacity: .95;
     }
 
-    .code-hud a,
-    .code-hud a:hover {
+    .code-badge a,
+    .code-badge a:hover {
         text-decoration: none;
-        color: lightsteelblue;
     }
 
-    .code-hud-lang {
-        margin-right: 20px;
+    .code-badge-language {
+        margin-right: 10px;
         font-weight: 600;
-        color: darkgoldenrod;
+        color: goldenrod;
+    }
+    .code-badge-copy-icon {
+        font-size: 1.2em;
+        cursor: pointer;
+        padding: 0 7px;
+        margin-top:2;
     }
 </style>
 <div id="CodeBadgeTemplate" style="display:none">
-    <div class="code-hud">
-        <div class="code-hud-lang" style="flex: 1">{{lang}}</div>
-        <a href="#x0" title="Copy to clipboard"><i class="fa fa-copy code-hud-copy-icon"
-                style="font-size: 1.2em"></i></a>
-    </div>
+    <div class="code-badge">
+        <div class="code-badge-language">{{language}}</div>
+        <div title="Copy to clipboard">
+            <i class="{{copyIconClass}} code-badge-copy-icon"></i>
+        </div>
+     </div>
 </div>
 */
