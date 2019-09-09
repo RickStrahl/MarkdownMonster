@@ -4,7 +4,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
   
-### 1.19.3
+### 1.19.4
 *<small>not released yet</small>* 
 
 * **Add Copy Code and Syntax Display to Code Snippets**     
@@ -19,7 +19,6 @@ Updated to the latest version of ACE Editor which fixes a few small bugs that ha
 
 ### 1.19 
 *<small>September 4th, 2019</small>*
-
 
 * **[New Configuration Editor](https://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm)**  
 Added a VS Code style Configuration settings editor UI, that allows searching for settings. It also prevents entering invalid JSON data into any non text fields that expect specific values. If you loved the JSON based configuration, not to worry: You can still edit the raw JSON to make settings changes too. 
