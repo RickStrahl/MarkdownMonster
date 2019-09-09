@@ -85,6 +85,18 @@
                         </Button.ContextMenu>
                     </Button>
 
+                    <Button Name="ButtonReset" 
+                            Click="ButtonReset_Click" 
+                            ToolTip="Reset Markdown Monster's settings to default">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Recycle" Margin="5,1,5,0"  
+                                            Foreground="SteelBlue"
+                                            FontSize="17"
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
+                            />
+                            <TextBlock>Reset</TextBlock>
+                        </StackPanel>
+                    </Button>
 
                     <Button Name="ButtonHelp" 
                             Click="ButtonHelp_Click">

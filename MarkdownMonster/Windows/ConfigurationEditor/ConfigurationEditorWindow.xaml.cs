@@ -136,6 +136,25 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
             }
 
         }
+
+        private void ButtonReset_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("This will overwrite your existing Markdown Monster settings and reset them to their installation defaults.\r\n\r\n" +
+                                "Markdown Monster will automatically backup your existing configuration file, " +
+                                "before resetting the application and restarting.\r\n\r\n" +
+                                "Are you sure you want to do this?", "Reset Settings",
+                    MessageBoxButton.YesNo,MessageBoxImage.Warning) != MessageBoxResult.Yes)
+                return;
+
+
+            this.Close();
+
+            mmApp.Configuration.Backup();
+            mmApp.Configuration.Reset(restart: true);
+        }
+
         #endregion
+
+
     }
 }
