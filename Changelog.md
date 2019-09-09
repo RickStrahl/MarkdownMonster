@@ -3,15 +3,23 @@
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
-
-### 1.19.2
+  
+### 1.19.3
 *<small>not released yet</small>* 
 
 * **Add Copy Code and Syntax Display to Code Snippets**     
 Code snippets in the editor and exported now show a transparent badge that allows copying the code to the clipboard with a simple button click. The badge also shows the syntax in use if any.
 
+* **Add Reset Button to the Settings Form**  
+The Settings form now has an additional toolbar button to reset the Markdown Monster installation to installation defaults. Clicking the button backs up the configuration file and then resets all configuration settings to default, followed by a restart.
+
+* **Dev: Update to ACE Editor 1.4.6**  
+Updated to the latest version of ACE Editor which fixes a few small bugs that have been plaguing the editor namely fenced HTML code block tag lock ups/slowdowns and end of document caret movement.
+
+
 ### 1.19 
 *<small>September 4th, 2019</small>*
+
 
 * **[New Configuration Editor](https://markdownmonster.west-wind.com/docs/_4nk01yq6q.htm)**  
 Added a VS Code style Configuration settings editor UI, that allows searching for settings. It also prevents entering invalid JSON data into any non text fields that expect specific values. If you loved the JSON based configuration, not to worry: You can still edit the raw JSON to make settings changes too. 

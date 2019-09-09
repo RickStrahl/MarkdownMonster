@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows.Threading;
 using MarkdownMonster.Configuration;
 using Newtonsoft.Json;
 using Westwind.Utilities.Configuration;
@@ -802,7 +803,7 @@ namespace MarkdownMonster
         /// Resets configuration settings by deleting the configuration file and
         /// then exits the application.
         /// </summary>
-        public void Reset(bool noExit = false)
+        public void Reset(bool noExit = false, bool restart = false)
         {
             // now create new default config and write out then delete
             // file will be recreated on next restart
@@ -811,12 +812,25 @@ namespace MarkdownMonster
 
             try
             {
+                // remove addins
                 Directory.Delete(mmApp.Configuration.AddinsFolder, true);
             }
             catch { }
 
+
+
             if (!noExit)
-                Environment.Exit(0);
+            {
+                if (mmApp.Model?.Window != null)
+                    mmApp.Model.Window.Close();
+                else
+                    Environment.Exit(0);
+            }
+
+            if (restart)
+                ShellUtils.ExecuteProcess(Path.Combine(App.InitialStartDirectory, "MarkdownMonster.exe"));
+
+
         }
 
         /// <summary>
