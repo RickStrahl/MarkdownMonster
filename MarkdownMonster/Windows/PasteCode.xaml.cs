@@ -73,6 +73,7 @@ namespace MarkdownMonster.Windows
 
                 {"ruby", "Ruby"},
                 {"python", "Python"},
+                {"node", "Node"},
                 {"php", "PHP"},
                 {"java", "Java"},
                 {"dart", "Dart" },
@@ -95,8 +96,9 @@ namespace MarkdownMonster.Windows
                 {"dns", "DNS"},
                 {"perl", "Perl"},
                 {"diff", "Diff file"},
+                {"http", "HTTP Headers"},
 
-                {"text", "Text - no formatting" }
+                {"plaintext", "Text - no formatting" }
             }
             .OrderBy(kv => kv.Key.ToLower())
             .ToDictionary(kv=> kv.Key, kv=> kv.Value);
