@@ -89,8 +89,12 @@ function highlightJsBadge(opt) {
 
         // CSS class(es) used to render the copy icon.
         copyIconClass: "fa fa-copy",     
+        // optional content for icons class (<i class="fa fa-copy"></i> or <i class="material-icons">file_copy</i>)
+        copyIconContent: "",
+
         // CSS class(es) used to render the done icon.
-        checkIconClass: "fa fa-check text-success"  
+        checkIconClass: "fa fa-check text-success",
+        checkIconContent: ""  
     };
 
     function initialize(opt) {
@@ -133,9 +137,19 @@ function highlightJsBadge(opt) {
             var lang = "";
 
             for (var i = 0; i < el.classList.length; i++) {
+                // class="hljs language-csharp"
                 if (el.classList[i].substr(0, 9) === 'language-') {
                     lang = el.classList[i].replace('language-', '');
                     break;
+                }
+                // class="kotlin hljs"   (auto detected)
+                if (!lang) {
+                    for (var j = 0; j < el.classList.length; j++) {
+                        if (el.classList[j] == 'hljs')
+                            continue;
+                        lang = el.classList[j];
+                        break;
+                    }
                 }
             }
 
@@ -165,6 +179,9 @@ function highlightJsBadge(opt) {
             $newHud.innerHTML = html;
             $newHud = $newHud.querySelector(".code-badge");
             $newHud.style.display = "flex";
+
+            if(options.copyIconContent)
+              $newHud.querySelector(".code-badge-copy-icon").innerText = options.copyIconContent;
 
             el.insertBefore($newHud, el.firstChild);
         }
@@ -215,13 +232,18 @@ function highlightJsBadge(opt) {
         var checkIcons = options.checkIconClass.split(' ');
         
         var $fa = $code.querySelector(".code-badge-copy-icon");
+        $fa.innerText = options.checkIconContent;
 
         for (var i = 0; i < copyIcons.length; i++)
             $fa.classList.remove(copyIcons[i]);
+        
         for (var i = 0; i < checkIcons.length; i++)
             $fa.classList.add(checkIcons[i]);
-
+        
+        
         setTimeout(function () {
+            $fa.innerText = options.copyIconContent;
+
             for (var i = 0; i < checkIcons.length; i++)
                 $fa.classList.remove(checkIcons[i]);
             for (var i = 0; i < copyIcons.length; i++)

@@ -205,7 +205,8 @@ function highlightCode(lineno) {
 
     // add the code snippet syntax and code copying
 
-    if (window.highlightJsBadge)  window.highlightJsBadge();
+    if (window.highlightJsBadge)
+        window.highlightJsBadge();
 }
 
 // this works, but async updates of code blocks is too jumpy
