@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using FontAwesome.WPF;
 using MarkdownMonster.Windows;
-using Westwind.Utilities;
 
 namespace MarkdownMonster.Utilities
 {
@@ -25,23 +18,33 @@ namespace MarkdownMonster.Utilities
             if (file == null || !File.Exists(file))
                 return;
 
-            if (FileWatcher == null)
-            {
-                FileWatcher = new FileSystemWatcher();
-                FileWatcher.Path = Path.GetDirectoryName(file);
-                FileWatcher.Filter = Path.GetFileName(file);
-                FileWatcher.NotifyFilter = NotifyFilters.LastWrite;
-                FileWatcher.EnableRaisingEvents = true;
-                FileWatcher.Changed += FileWatcher_Changed;
+            var folder = Path.GetDirectoryName(file);
+            var filename  = Path.GetFileName(file);
+            try
+            { 
+                if (FileWatcher == null)
+                {
+                    FileWatcher = new FileSystemWatcher();
+                    FileWatcher.Path = folder;
+                    FileWatcher.Filter = filename;
+
+                    FileWatcher.NotifyFilter = NotifyFilters.LastWrite;
+                    FileWatcher.EnableRaisingEvents = true;
+                    FileWatcher.Changed += FileWatcher_Changed;
+                }
+                else
+                {
+                    FileWatcher.Path = folder;
+                    FileWatcher.Filter = filename;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                FileWatcher.Path = Path.GetDirectoryName(file);
-                FileWatcher.Filter = Path.GetFileName(file);
+                mmApp.Log($"Couldn't attach File Watcher to active document: {folder}", ex, logLevel: LogLevels.Error);
             }
         }
 
-        
+
         /// <summary>
         /// If the file open in the active tab has changed try to
         /// either update the document if not dirty, otherwise
@@ -53,7 +56,7 @@ namespace MarkdownMonster.Utilities
         {
             // Debug.WriteLine("FileWatcher: " + e.FullPath);
 
-            debounce.Debounce(220,(p) =>
+            debounce.Debounce(200,(p) =>
             {
                 // Debug.WriteLine("FileWatcher Debounce: " + e.FullPath);
 
