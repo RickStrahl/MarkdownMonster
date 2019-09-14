@@ -9,6 +9,10 @@ using Westwind.Utilities;
 
 namespace MarkdownMonster.RenderExtensions
 {
+    /// <summary>
+    /// Renders a handful of DocFx Markdown extensions in the previewer or for output
+    /// generation.
+    /// </summary>
     public class DocFxRenderExtension : IRenderExtension
     {
         public void AfterDocumentRendered(ModifyHtmlArguments args)
@@ -87,12 +91,20 @@ namespace MarkdownMonster.RenderExtensions
         }
 
 
+
+
+        /// Note/Tip/Warning etc. processing
+        /// > [!NOTE]
+        /// > <note content>
+        /// > [!WARNING]
+        /// > <warning content>
         private static Regex TipNoteWarningImportantFileRegEx = new Regex(@">\s\[\![A-Z]*][\s\S]*?\n{2}", RegexOptions.Multiline);
 
 
         /// <summary>
         /// Handles rendering of Tip/Warning/Important/Caution/Note
         /// blocks.
+        /// 
         /// </summary>
         /// <returns></returns>
         /// <remarks>
@@ -115,6 +127,7 @@ namespace MarkdownMonster.RenderExtensions
                     string line = lines[i];
                     if (i == 0)
                     {
+                        // note header
                         if (line.TrimStart().StartsWith("> [!"))
                         {
                             string icon = "fa-info-circle";
@@ -135,14 +148,16 @@ namespace MarkdownMonster.RenderExtensions
                             icon = $"<i class='fa {icon}'></i>&nbsp;";
 
                             sb.AppendLine("<div class=\"" + word + "\">");
-                            sb.AppendLine($"<h5>{icon }{word}</h5>");
+                            sb.AppendLine($"<h5>{icon}{word}</h5>");
                             sb.AppendLine();
                         }
                         else
-                            sb.AppendLine(line.Substring(2));
+                            // content line - could be empty
+                            sb.AppendLine(line.TrimStart(' ', '>'));
                     }
                     else
-                        sb.AppendLine(line.Substring(2));
+                        // content line - could be empty
+                        sb.AppendLine(line.TrimStart(' ', '>'));
                 }
                 sb.AppendLine();
                 sb.AppendLine("</div>");
