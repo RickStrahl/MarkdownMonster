@@ -157,6 +157,7 @@ namespace MarkdownMonster
                 if (!string.IsNullOrEmpty(file) && File.Exists(file))
                 {
                     Model.Window.OpenTab(file, rebindTabHeaders: true);
+                    Model.Configuration.LastFolder = Path.GetDirectoryName(file);
                     return;
                 }
 
@@ -212,6 +213,9 @@ namespace MarkdownMonster
                 {
                     Model.Window.OpenTab(filename, rebindTabHeaders: true);
                 }
+                if (fd.FileNames.Length > 0)
+                    Model.Configuration.LastFolder = Path.GetDirectoryName(fd.FileNames[0]);
+
             });
         }
 
@@ -325,6 +329,49 @@ namespace MarkdownMonster
             });
         }
 
+
+        public CommandBase OpenRecentDocumentCommand { get; set; }
+
+        void OpenRecentDocument()
+        {
+            OpenRecentDocumentCommand = new CommandBase((parameter, command) =>
+            {
+                // make the context menu go away right away so there's no 'ui stutter'
+                // don't know how to do the same for
+                if (Model.Window.ToolbarButtonRecentFiles.ContextMenu != null)
+                    Model.Window.ToolbarButtonRecentFiles.ContextMenu.Visibility = Visibility.Hidden;
+                Model.Window.ButtonRecentFiles.IsSubmenuOpen = false;
+
+                var path = parameter as string;
+                if (string.IsNullOrEmpty(path))
+                    return;
+
+                if (Directory.Exists(path))
+                {
+                    Model.Window.FolderBrowser.FolderPath = path;
+                    Model.Window.ShowFolderBrowser();
+
+                    Model.Configuration.LastFolder = path;
+                }
+                else
+                {
+                    var ext = Path.GetExtension(path);
+                    if (ext == ".mdproj")
+                    {
+                        Model.Commands.LoadProjectCommand.Execute(path);
+                        return;
+                    }
+
+                    var tab = Model.Window.GetTabFromFilename(path);
+                    if (tab == null)
+                        Model.Window.OpenTab(path, rebindTabHeaders: true);
+                    else
+                        Model.Window.ActivateTab(tab);
+
+                    Model.Configuration.LastFolder = Path.GetDirectoryName(path);
+                }
+            });
+        }
 
         public CommandBase SaveCommand { get; set; }
 
@@ -487,46 +534,6 @@ namespace MarkdownMonster
             NewWeblogPostCommand = new CommandBase((parameter, command) =>
             {
                 AddinManager.Current.RaiseOnNotifyAddin("newweblogpost", null);
-            });
-        }
-
-
-        public CommandBase OpenRecentDocumentCommand { get; set; }
-
-        void OpenRecentDocument()
-        {
-            OpenRecentDocumentCommand = new CommandBase((parameter, command) =>
-            {
-                // make the context menu go away right away so there's no 'ui stutter'
-                // don't know how to do the same for
-                if (Model.Window.ToolbarButtonRecentFiles.ContextMenu != null)
-                    Model.Window.ToolbarButtonRecentFiles.ContextMenu.Visibility = Visibility.Hidden;
-                Model.Window.ButtonRecentFiles.IsSubmenuOpen = false;
-
-                var path = parameter as string;
-                if (string.IsNullOrEmpty(path))
-                    return;
-
-                if (Directory.Exists(path))
-                {
-                    Model.Window.FolderBrowser.FolderPath = path;
-                    Model.Window.ShowFolderBrowser();
-                }
-                else
-                {
-                    var ext = Path.GetExtension(path);
-                    if (ext == ".mdproj")
-                    {
-                        Model.Commands.LoadProjectCommand.Execute(path);
-                        return;
-                    }
-
-                    var tab = Model.Window.GetTabFromFilename(path);
-                    if (tab == null)
-                        Model.Window.OpenTab(path, rebindTabHeaders: true);
-                    else
-                        Model.Window.ActivateTab(tab);
-                }
             });
         }
 

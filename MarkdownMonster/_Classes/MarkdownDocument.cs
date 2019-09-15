@@ -396,6 +396,7 @@ namespace MarkdownMonster
         /// </summary>
         public string LastImageFolder { get; set; }
 
+
         private DebounceDispatcher debounceSaveOperation = new DebounceDispatcher();
 
         /// <summary>
