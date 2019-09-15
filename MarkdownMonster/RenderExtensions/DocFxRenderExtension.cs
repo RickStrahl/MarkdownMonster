@@ -92,13 +92,16 @@ namespace MarkdownMonster.RenderExtensions
 
 
 
+        /*
+        Note/Tip/Warning etc. processing
 
-        /// Note/Tip/Warning etc. processing
-        /// > [!NOTE]
-        /// > <note content>
-        /// > [!WARNING]
-        /// > <warning content>
-        private static Regex TipNoteWarningImportantFileRegEx = new Regex(@">\s\[\![A-Z]*][\s\S]*?\n{2}", RegexOptions.Multiline);
+        > [!NOTE]
+        > note content
+        > [!WARNING]
+        > warning content
+
+        */
+        private static Regex TipNoteWarningImportantFileRegEx = new Regex(@">\s\[\![A-Z]*][\s\S]*?(\n{2}|\Z)", RegexOptions.Multiline);
 
 
         /// <summary>

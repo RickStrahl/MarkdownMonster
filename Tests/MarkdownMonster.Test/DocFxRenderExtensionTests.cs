@@ -33,10 +33,11 @@ Some other text
 
 
 > [!TIP]
-> asdaksldj alksdjalksdj laksdjalskd
-> asdkljasdlkjasdkljasd
+> This is a tip that is
+> shown on two lines
+>
+> More text here
 
-More text here
 ";
 
             var ext = new DocFxRenderExtension();
@@ -50,6 +51,36 @@ More text here
 
             Console.WriteLine(args.Markdown);
         }
-        
+
+
+
+        [TestMethod]
+        public void EndOfStringTipTest()
+        {
+            string markdown = @"
+Before Text
+
+> [!TIP]
+> This is a tip that is
+> shown on two lines
+>
+> More text here";
+
+            var ext = new DocFxRenderExtension();
+
+            markdown = StringUtils.NormalizeLineFeeds(markdown, LineFeedTypes.Lf);
+
+            var args = new ModifyMarkdownArguments {Markdown = markdown};
+            ext.ParseNoteTipWarningImportant(args);
+
+            var result = args.Markdown.TrimEnd();
+            Assert.AreNotEqual(markdown, result);
+            Assert.IsTrue(result.EndsWith("</div>"));
+
+            Console.WriteLine(result);
+
+        }
+
+
     }
 }
