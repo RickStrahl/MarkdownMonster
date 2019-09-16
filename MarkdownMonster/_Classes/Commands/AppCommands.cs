@@ -157,7 +157,6 @@ namespace MarkdownMonster
                 if (!string.IsNullOrEmpty(file) && File.Exists(file))
                 {
                     Model.Window.OpenTab(file, rebindTabHeaders: true);
-                    Model.Configuration.LastFolder = Path.GetDirectoryName(file);
                     return;
                 }
 
@@ -350,7 +349,6 @@ namespace MarkdownMonster
                 {
                     Model.Window.FolderBrowser.FolderPath = path;
                     Model.Window.ShowFolderBrowser();
-
                     Model.Configuration.LastFolder = path;
                 }
                 else
@@ -367,8 +365,6 @@ namespace MarkdownMonster
                         Model.Window.OpenTab(path, rebindTabHeaders: true);
                     else
                         Model.Window.ActivateTab(tab);
-
-                    Model.Configuration.LastFolder = Path.GetDirectoryName(path);
                 }
             });
         }
@@ -494,10 +490,10 @@ namespace MarkdownMonster
                         SaveAsCommand.Execute(tab);
                         return;
                     }
-
-                    mmApp.Configuration.LastFolder = Path.GetDirectoryName(sd.FileName);
+                    Model.Configuration.LastFolder = Path.GetDirectoryName(sd.FileName);
                 }
 
+                
                 Model.Window.SetWindowTitle();
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) => { return Model.IsEditorActive; });

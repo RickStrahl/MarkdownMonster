@@ -1004,6 +1004,8 @@ namespace MarkdownMonster
             bool isPreview = false)
         {
             var ext = Path.GetExtension(filename).ToLowerInvariant();
+            
+
             if (ext == ".jpg" || ext == ".png" || ext == ".gif" || ext == ".jpeg")
             {
                 return OpenBrowserTab(filename, isImageFile: true);
@@ -1029,12 +1031,13 @@ namespace MarkdownMonster
                 if (!noFocus && PreviewTab != null)
                     CloseTab(PreviewTab);
 
-
-                var tab = ActivateTab(filename, false, false,!showPreviewIfActive,!selectTab,noFocus,readOnly,isPreview);
+                var tab = ActivateTab(filename, false, false,!showPreviewIfActive,
+                                      !selectTab,noFocus,readOnly,isPreview);
                 if (tab != null)
                     return tab;
-                return OpenTab(filename, editor, showPreviewIfActive, syntax, selectTab, rebindTabHeaders, batchOpen,
-                    initialLineNumber, readOnly, noFocus, isPreview);
+                return OpenTab(filename, editor, showPreviewIfActive, syntax,
+                               selectTab, rebindTabHeaders, batchOpen,
+                               initialLineNumber, readOnly, noFocus, isPreview);
             }
 
             try
@@ -1269,9 +1272,18 @@ namespace MarkdownMonster
                 TabControl.SelectedItem = tab;
                 SetWindowTitle();
             }
-            Model.OpenDocuments.Add(editor.MarkdownDocument);
+            
 
+            if(!isPreview)
+            {
+                Model.OpenDocuments.Add(editor.MarkdownDocument);
+                if(!string.IsNullOrEmpty(editor.MarkdownDocument.Filename) &&
+                   !editor.MarkdownDocument.Filename.Equals("untitled",StringComparison.InvariantCultureIgnoreCase))
+                    Model.Configuration.LastFolder = Path.GetDirectoryName(editor.MarkdownDocument.Filename);
+
+            }
             AddinManager.Current.RaiseOnAfterOpenDocument(editor.MarkdownDocument);
+
 
             if (rebindTabHeaders)
                 BindTabHeaders();
@@ -2373,6 +2385,8 @@ namespace MarkdownMonster
                 layoutModel.IsLeftSidebarVisible = true;
                 mmApp.Configuration.FolderBrowser.Visible = true;
                 SidebarContainer.SelectedIndex = 0; // folder browser tab
+
+                Model.Configuration.LastFolder = folder;
             }
         }
 

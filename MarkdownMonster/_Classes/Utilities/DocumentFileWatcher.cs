@@ -15,7 +15,9 @@ namespace MarkdownMonster.Utilities
         public static void AttachFilewatcher(MarkdownDocumentEditor document)
         {
             var file = document?.MarkdownDocument?.Filename;
-            if (file == null || !File.Exists(file))
+            if (string.IsNullOrEmpty(file) ||
+                file.Equals("untitled",StringComparison.InvariantCultureIgnoreCase) ||
+                !File.Exists(file))
                 return;
 
             var folder = Path.GetDirectoryName(file);
@@ -40,7 +42,7 @@ namespace MarkdownMonster.Utilities
             }
             catch (Exception ex)
             {
-                mmApp.Log($"Couldn't attach File Watcher to active document: {folder}", ex, logLevel: LogLevels.Error);
+                mmApp.Log($"Couldn't attach File Watcher to active document: {file}", ex, logLevel: LogLevels.Error);
             }
         }
 
