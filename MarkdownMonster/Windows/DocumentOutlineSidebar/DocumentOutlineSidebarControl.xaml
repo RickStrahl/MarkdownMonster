@@ -74,10 +74,10 @@
                         <TextBlock>Max Indent Level: H1 - H</TextBlock>
                         <TextBox Name="TextMaxIndentLevel" Grid.Column="1"
                                  Text="{Binding AppModel.Configuration.MaxDocumentOutlineLevel,UpdateSourceTrigger=PropertyChanged}" 
-                                 Margin="1,-1,0,0"
-                                 Padding="0" Width="20" 
-                                 MinHeight="20" Height="19" 
-                                 FontSize="11" 
+                                 Padding="0,-3" Margin="4,-1,1,0" 
+                                 Background="#222"
+                                 BorderThickness="0" FontSize="13"
+                                 Height="22" MinHeight="22" 
                                  TextChanged="TextMaxIndentLevel_TextChanged"/>
                     </StackPanel>
 

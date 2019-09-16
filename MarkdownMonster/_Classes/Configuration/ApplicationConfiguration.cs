@@ -260,6 +260,66 @@ namespace MarkdownMonster
         /// </summary>
         public string WebBrowserPreviewExecutable { get; set; }
 
+        public ApplicationConfiguration()
+        {
+            Editor = new EditorConfiguration();
+            Git = new GitConfiguration();
+            Images = new ImagesConfiguration();
+
+            MarkdownOptions = new MarkdownOptionsConfiguration();
+            WindowPosition = new WindowPositionConfiguration();
+            FolderBrowser = new FolderBrowserConfiguration();
+            ApplicationUpdates = new ApplicationUpdatesConfiguration();
+            OpenDocuments = new List<OpenFileDocument>();
+
+
+            InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
+            CommonFolder = InternalCommonFolder;
+            LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            PreviewSyncMode = PreviewSyncMode.EditorToPreview;
+
+            AutoSaveBackups = true;
+            AutoSaveDocuments = false;
+
+            RecentDocumentsLength = 10;
+            RememberLastDocumentsLength = 5;
+
+
+            //BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
+            //BugReportUrl = "http://localhost.fiddler/MarkdownMonster/bugreport/bugreport.ashx?method=ReportBug";
+            //TelemetryUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=Telemetry";
+            SendTelemetry = true;
+
+            ApplicationTheme = Themes.Dark;
+            PreviewTheme = "Dharkan";
+            EditorTheme = "vscodedark";
+
+            DefaultCodeSyntax = "csharp";
+
+            PreviewHttpLinksExternal = true;
+
+            UseMachineEncryptionKeyForPasswords = true;
+
+            TerminalCommand = "powershell.exe";
+            TerminalCommandArgs = "-noexit -command \"cd '{0}'\"";
+            OpenFolderCommand = "explorer.exe";
+
+            WebBrowserPreviewExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),@"Google\Chrome\Application\chrome.exe");
+
+            ReportErrors = true;
+
+            UseSingleWindow = true;
+
+            IsPreviewVisible = true;
+            IsDocumentOutlineVisible = true;
+            OpenInPresentationMode = false;
+            AlwaysUsePreviewRefresh = false;
+
+            // Disable for better stability and compatibility
+            // We're not doing anything that pushes the hardware to bring benefits
+            DisableHardwareAcceleration = true;
+        }
 
 
         #region Document Operations
@@ -585,67 +645,6 @@ namespace MarkdownMonster
     
 
         #endregion
-
-        public ApplicationConfiguration()
-        {
-            Editor = new EditorConfiguration();
-            Git = new GitConfiguration();
-            Images = new ImagesConfiguration();
-
-            MarkdownOptions = new MarkdownOptionsConfiguration();
-            WindowPosition = new WindowPositionConfiguration();
-	        FolderBrowser = new FolderBrowserConfiguration();
-            ApplicationUpdates = new ApplicationUpdatesConfiguration();
-            OpenDocuments = new List<OpenFileDocument>();
-
-
-            InternalCommonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Markdown Monster");
-            CommonFolder = InternalCommonFolder;
-            LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-            PreviewSyncMode = PreviewSyncMode.EditorToPreview;
-
-            AutoSaveBackups = true;
-            AutoSaveDocuments = false;
-
-            RecentDocumentsLength = 10;
-            RememberLastDocumentsLength = 5;
-
-
-            //BugReportUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=ReportBug";
-            //BugReportUrl = "http://localhost.fiddler/MarkdownMonster/bugreport/bugreport.ashx?method=ReportBug";
-            //TelemetryUrl = "https://markdownmonster.west-wind.com/bugreport/bugreport.ashx?method=Telemetry";
-            SendTelemetry = true;
-
-            ApplicationTheme = Themes.Dark;
-            PreviewTheme = "Dharkan";
-            EditorTheme = "vscodedark";
-
-            DefaultCodeSyntax = "csharp";
-
-            PreviewHttpLinksExternal = true;
-
-            UseMachineEncryptionKeyForPasswords = true;
-
-			TerminalCommand = "powershell.exe";
-			TerminalCommandArgs = "-noexit -command \"cd '{0}'\"";
-            OpenFolderCommand = "explorer.exe";
-
-            WebBrowserPreviewExecutable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),@"Google\Chrome\Application\chrome.exe");
-
-            ReportErrors = true;
-
-            UseSingleWindow = true;
-
-            IsPreviewVisible = true;
-            IsDocumentOutlineVisible = true;
-            OpenInPresentationMode = false;
-            AlwaysUsePreviewRefresh = false;
-
-            // Disable for better stability and compatibility
-            // We're not doing anything that pushes the hardware to bring benefits
-            DisableHardwareAcceleration = true;
-        }
 
 
         #region RecentFiles

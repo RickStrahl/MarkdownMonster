@@ -40,7 +40,7 @@ namespace MarkdownMonster.Controls
             else
                 mmApp.Configuration.ApplicationTheme = Themes.Dark;
 
-            mmApp.Model.Window.AppTheme_SelectionChanged(null, null);
+            mmApp.Model.Window.AppTheme_MenuButtonClick(null, null);
 
 
             HyperSwitchAppTheme.Inlines.Clear();

@@ -48,6 +48,35 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <StackPanel Orientation="Horizontal">
+
+                <Button Name="ToolButtonAppTheme"  Foreground="{StaticResource BlueItem}"                                                              
+                        ToolTip="Switch Application Theme"
+                        Content="{Binding Configuration.ApplicationTheme}"
+                        TextElement.FontSize="13" FontWeight="DemiBold">
+                </Button>
+                <Button 
+                        Margin="-10,0,0,0"
+                        ToolTip="Switch Application Theme"                               
+				        fa:Awesome.Content="CaretDown" Foreground="{StaticResource BlueItem}"				                             
+				        TextElement.FontSize="12" 
+				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+				>
+                    <i:Interaction.Behaviors>
+                        <local:DropDownButtonBehavior />
+                    </i:Interaction.Behaviors>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Dark" Click="AppTheme_MenuButtonClick" />
+                            <MenuItem Header="Light" Click="AppTheme_MenuButtonClick" />
+                            <!--<Separator/>
+                            <MenuItem Header="Default" Click="AppTheme_MenuButtonClick" />-->
+                        </ContextMenu>
+                    </Button.ContextMenu>
+
+                </Button>
+
+
+
                 <ToggleButton
                     fa:Awesome.Content="Check"  Foreground="{StaticResource BlueItem}"                                                                
                     IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
@@ -473,11 +502,24 @@
                 <Separator />
 
                 <MenuItem Name="ButtonCenteredView" 
-                          Header="Toggle _Centered Layout"     
                           Click="Button_Handler"
                           IsCheckable="True"
                           IsChecked="{Binding Configuration.Editor.CenteredMode}"
-                           />
+                           >
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock>Toggle Centered Layout at</TextBlock>
+                            <TextBox Text="{Binding Configuration.Editor.CenteredModeMaxWidth}" 
+                                     Padding="0,-2" Margin="4,-1,1,0" 
+                                     Background="#222"
+                                     BorderThickness="0" FontSize="13"
+                                     Height="22" MinHeight="22" 
+                                     LostFocus="Refresh_Styling">
+                            </TextBox>
+                            <TextBlock>px</TextBlock>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
 
                 <MenuItem Header="_Split Editor">
                     <MenuItem Header="_Single Pane" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="None" />
@@ -961,16 +1003,7 @@
                            SelectionChanged="MarkdownParserName_SelectionChanged" />
 
             </StatusBarItem>
-            <StatusBarItem Grid.Column="8">
-                <ComboBox  HorizontalAlignment="Right"  Width="70" ToolTip="Application Themes"  
-                           Name="ComboBoxAppTheme"  FontSize="13" Padding="3,1"
-                           IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
-                           SelectedValue="{Binding Configuration.ApplicationTheme}"   
-                           ItemsSource="{Binding Source={StaticResource ApplicationThemeEnums}}"
-                           SelectionChanged="AppTheme_SelectionChanged"
-                           Background="Transparent" BorderBrush="Transparent" BorderThickness="0"                           
-                />
-            </StatusBarItem>
+            
             <StatusBarItem Grid.Column="9">
 
                 <ComboBox  HorizontalAlignment="Right"  ToolTip="Editor Themes"
