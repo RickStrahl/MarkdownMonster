@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster.Annotations;
@@ -96,6 +97,75 @@ namespace MarkdownMonster
             }
         }
 
+
+        /// <summary>
+        /// Retrieves the editor syntax for a file based on extension for use in the editor
+        ///
+        /// Unknown file types returning null
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static string GetEditorSyntaxFromFileType(string filename)
+        {
+            if (string.IsNullOrEmpty(filename))
+                return null;
+
+            if (filename.ToLower() == "untitled")
+                return "markdown";
+
+            string editorSyntax = null;
+
+            var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
+            if (ext == "md")
+                return "markdown"; // most common use case
+
+            // look up all others
+            if (!mmApp.Configuration.EditorExtensionMappings.TryGetValue(ext, out editorSyntax))
+                return null;
+
+            return editorSyntax;
+        }
+
+        /// <summary>
+        /// Helper to use instead ReadAllText when using UI open operations.
+        /// This dialog uses most permissive READ permissions and also captures
+        /// errors and displays a MessageBox on failure.
+        ///
+        /// Recommended use for interactive file open operations initiated of
+        /// menus and toolbuttons.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static string OpenTextFile(string filename)
+        {
+            string fileContent = null;
+            try
+            {
+                var encoding = GetFileEncoding(filename);
+
+                // open with most permissive read options
+                using (var s = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var sr = new StreamReader(s,encoding))
+                {
+                    fileContent = sr.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unable to open file:\r\n{filename}\r\n\r\nAn error occurred:\r\n{ex.Message}",
+                    "File Access",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+
+            return fileContent;
+        }
+
+        #endregion
+
+
+        #region Encoding
+
         /// <summary>
         /// Retrieve the file encoding for a given file so we can capture
         /// and store the Encoding when writing the file back out after
@@ -116,7 +186,7 @@ namespace MarkdownMonster
 
             // Detect byte order mark if any - otherwise assume default
             byte[] buffer = new byte[5];
-            using (FileStream file = new FileStream(srcFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (FileStream file = new FileStream(srcFile, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 file.Read(buffer, 0, 5);
                 file.Close();
@@ -153,7 +223,7 @@ namespace MarkdownMonster
             if (name == "utf-8")
             {
 #if NETFULL
-                hasBom = (bool) ReflectionUtils.GetField(encoding, "emitUtf8Identifier");
+                hasBom = (bool)ReflectionUtils.GetField(encoding, "emitUtf8Identifier");
 #else
                 hasBom = (bool)ReflectionUtils.GetField(encoding, "_emitUTF8Identifier");
 #endif
@@ -162,8 +232,8 @@ namespace MarkdownMonster
                 else
                     enc = "UTF-8";
             }
-            else if(name == "utf-16BE")
-                    enc = "UTF-16 BE";
+            else if (name == "utf-16BE")
+                enc = "UTF-16 BE";
             else if (name == "utf-16LE")
                 enc = "UTF-16 LE";
             else
@@ -171,37 +241,8 @@ namespace MarkdownMonster
 
             return enc;
         }
-
-
-        /// <summary>
-        /// Retrieves the editor syntax for a file based on extension for use in the editor
-        ///
-        /// Unknown file types returning null
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public static string GetEditorSyntaxFromFileType(string filename)
-        {
-            if (string.IsNullOrEmpty(filename))
-                return null;
-
-            if (filename.ToLower() == "untitled")
-                return "markdown";
-
-            string editorSyntax = null;
-
-            var ext = Path.GetExtension(filename).ToLower().Replace(".", "");
-            if (ext == "md")
-                return "markdown"; // most common use case
-
-            // look up all others
-            if (!mmApp.Configuration.EditorExtensionMappings.TryGetValue(ext, out editorSyntax))
-                return null;
-
-            return editorSyntax;
-        }
-
         #endregion
+
 
         #region Type and Language Utilities
 

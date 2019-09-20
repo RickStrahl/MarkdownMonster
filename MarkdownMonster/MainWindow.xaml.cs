@@ -1585,6 +1585,7 @@ namespace MarkdownMonster
 
                 if (isImageFile)
                 {
+                    // Image files get a special preview tab that displays an HTML page with image link                    
                     var file = Path.Combine(App.InitialStartDirectory, "PreviewThemes", "ImagePreview.html");
                     string fileInfo = null;
 
@@ -2489,7 +2490,7 @@ namespace MarkdownMonster
                     CheckFileExists = true,
                     RestoreDirectory = true,
                     Multiselect = true,
-                    Title = "Open Html as Markdown"
+                    Title = "Open Html as Markdown"                    
                 };
 
                 if (!string.IsNullOrEmpty(mmApp.Configuration.LastFolder))
@@ -2499,7 +2500,9 @@ namespace MarkdownMonster
                 if (res == null || !res.Value)
                     return;
 
-                var html = File.ReadAllText(fd.FileName);
+                string html = mmFileUtils.OpenTextFile(fd.FileName);
+                if (html == null)
+                    return;
 
                 var markdown = MarkdownUtilities.HtmlToMarkdown(html);
 

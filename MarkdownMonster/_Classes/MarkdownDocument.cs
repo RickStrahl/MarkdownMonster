@@ -593,7 +593,12 @@ namespace MarkdownMonster
 
             try
             {
-                CurrentText = File.ReadAllText(filename,Encoding);
+                // open with most permissive read options
+                using (var s = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var sr = new StreamReader(s,Encoding))
+                {
+                    CurrentText = sr.ReadToEnd();
+                }
 
                 if (password != null)
                 {

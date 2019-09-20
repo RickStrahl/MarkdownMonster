@@ -121,7 +121,19 @@ namespace MarkdownMonster
 
                 if (res == MessageBoxResult.Yes)
                 {
-                    ShellUtils.GoUrl(mmApp.Urls.InstallerDownloadUrl);
+                    try
+                    {
+                        ShellUtils.GoUrl(mmApp.Urls.InstallerDownloadUrl);
+                    }
+                    catch (Exception ex)
+                    {
+                        mmApp.Log("Couldn't access update Url: " + mmApp.Urls.InstallerDownloadUrl, ex, false,
+                            logLevel: LogLevels.Error);
+
+                        mmApp.Model.Window.ShowStatusError(
+                            $"Unable to access update url: {mmApp.Urls.InstallerDownloadUrl}. {ex.Message}");
+                    }
+
                     if (closeApplication)
                         mmApp.Model.Window.Close();
                 }
