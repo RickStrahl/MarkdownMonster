@@ -174,7 +174,7 @@ Thanks for playing fair.
                             Buy
                         </a>
                         <a href="https://store.west-wind.com/product/order/markdown_monster_5user">Markdown Monster 5 User License</a><br/>
-                        <small>5 Users</small>
+                        <small>5 User License</small>
                     </td>
                     <td class="price">                                                
                         $199                        
@@ -189,7 +189,7 @@ Thanks for playing fair.
                             Buy
                         </a>
                         <a href="https://store.west-wind.com/product/order/markdown_monster_10user">Markdown Monster 10 User License</a><br/>
-                        <small>10 Users</small>
+                        <small>10 User License</small>
                     </td>
                     <td class="price">                                                
                         $379                       
@@ -204,7 +204,7 @@ Thanks for playing fair.
                             Buy
                         </a>
                         <a href="https://store.west-wind.com/product/order/markdown_monster_25user">Markdown Monster 25 User License</a><br/>
-                        <small>10 Users</small>
+                        <small>25 User License</small>
                     </td>
                     <td class="price">                                                
                         $999                       
@@ -227,9 +227,9 @@ Thanks for playing fair.
                         $2,299                        
                     </td>
                 </tr>
-                
 
-                </table>
+            </table>
+            
             
        
                 <p>
