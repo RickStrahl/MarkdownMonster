@@ -13,6 +13,8 @@ Code snippets in the editor and exported now show a transparent badge that allow
 * **Add Reset Button to the Settings Form**  
 The Settings form now has an additional toolbar button to reset the Markdown Monster installation to installation defaults. Clicking the button backs up the configuration file and then resets all configuration settings to default, followed by a restart.
 
+* **Updated Preview Scrolling Logic**  
+We've tweaked the preview scroll behavior which should now result in better consistency when scrolling the editor. Also click sync and cursor movement sync tries to scroll the current cursor position content near the top of the preview. There are still some edge cases (code blocks, inline HTML and large images) where scroll sync is not great, but much better consistency overall now.
 
 * **Fix: Document Outline Editor Navigation**  
 Document outline navigation now locates the navigated editor at the top of the editor page. Previously it was closer to the middle and somewhat erratic.
@@ -77,7 +79,7 @@ Fixed a number issues related to multi-monitor positioning when restoring settin
 Add DPI adjustment for scaled displayed in the Editor MaxWidth setting for centered view in the editor. This avoids the problem of the display 'shrinking' on scaled displays.
 
 * **Fix: Presentation Mode from External Preview**  
-* Fix issue with the Presentation View when activated when the external preview is active. New behavior switches to internal preview before activating presentation view.
+Fix issue with the Presentation View when activated when the external preview is active. New behavior switches to internal preview before activating presentation view.
 
 * **Fix: Preview of inline, wrapped Code Style in various Themes**  
 Fixed display of inline code that wraps across multiple lines in the GitHub and Medium styles. These styles were previously set to not wrap causing long lines for long `<code>` content.

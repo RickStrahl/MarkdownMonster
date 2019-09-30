@@ -150,8 +150,9 @@ namespace MarkdownMonster.Windows
                 editor.FindAndReplaceText(oldToc, "");
             }
 
-
-            var md = Model.CreateMarkdownOutline(doc);
+            // render the outline with any content below the current one
+            var lineNo = editor.GetLineNumber();
+            var md = Model.CreateMarkdownOutline(doc, lineNo);
 
             if (md != null)
             {

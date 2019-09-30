@@ -135,6 +135,22 @@ namespace MarkdownMonster.Test
             Console.WriteLine(md);
         }
 
+        [TestMethod]
+        public void ParseFromLineNumber()
+        {
+            var appModel = new AppModel(null);
+            mmApp.Model = appModel;
+
+            var doc = new MarkdownDocument();
+            doc.CurrentText = MarkdownText;
+
+
+            var model = new DocumentOutlineModel();
+            var md = model.CreateMarkdownOutline(doc,8);
+
+            Console.WriteLine(md);
+        }
+
 
         const string MarkdownText = @"---
 title: Name

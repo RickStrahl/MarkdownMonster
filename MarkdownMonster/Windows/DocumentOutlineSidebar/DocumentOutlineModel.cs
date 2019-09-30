@@ -195,22 +195,37 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
         /// </summary>
         /// <param name="document"></param>
         /// <returns></returns>
-        public string CreateMarkdownOutline(MarkdownDocument document)
+        public string CreateMarkdownOutline(MarkdownDocument document, int startLine = -1)
         {
             bool oldAutoHeaderIdentifiers = mmApp.Configuration.MarkdownOptions.AutoHeaderIdentifiers;
             mmApp.Configuration.MarkdownOptions.AutoHeaderIdentifiers = true;
 
+            string origDocument = null;
+            var sb = new StringBuilder();
+
+            if (startLine > 0 && !string.IsNullOrEmpty(document.CurrentText))
+            {
+                origDocument = document.CurrentText;
+                
+                var lines = StringUtils.GetLines(origDocument).Skip(startLine-1);
+                foreach (var line in lines)
+                    sb.AppendLine(line);
+                document.CurrentText = sb.ToString();
+            }
+            
             string html = document.RenderHtml();
+
+            if (origDocument != null)   
+                document.CurrentText = origDocument;
 
             mmApp.Configuration.MarkdownOptions.AutoHeaderIdentifiers = oldAutoHeaderIdentifiers;
 
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
-            var sb = new StringBuilder();
-
-
-            var xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4]";
+            sb.Clear();
+            
+            var xpath = "//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]";
             var nodes = doc.DocumentNode.SelectNodes(xpath);
 
             // nothing to do
