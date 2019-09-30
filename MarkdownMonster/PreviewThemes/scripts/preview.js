@@ -274,7 +274,7 @@ function updateDocumentContent(html, lineno) {
   document.dispatchEvent(event);
 }
 
-function scrollToPragmaLine(lineno) {
+function scrollToPragmaLine(lineno, headerId) {
   if (typeof lineno !== "number" || lineno < 0) return;
 
   setTimeout(function() {
@@ -284,7 +284,13 @@ function scrollToPragmaLine(lineno) {
       }
 
       try {
-        var $el = $("#pragma-line-" + lineno);
+
+          var $el;
+          if (headerId != null)
+              $el = $("#" + headerId);
+          if ($el.length < 1)
+              $el = $("#pragma-line-" + lineno);
+
         if ($el.length < 1) {
           var origLine = lineno;
 
@@ -314,8 +320,11 @@ function scrollToPragmaLine(lineno) {
           setTimeout(function() { $el.removeClass("line-highlight"); }, te.highlightTimeout);
 
         te.codeScrolled = new Date().getTime();
-        if (lineno > 3)
-          $("html").scrollTop($el.offset().top - 150);
+        if (lineno > 3) {
+            //setTimeout(function() { $el[0].scrollIntoView(true); },120);
+            $("html").scrollTop($el.offset().top -25);  // -150
+        }
+
       } catch (ex) {
       }
     },

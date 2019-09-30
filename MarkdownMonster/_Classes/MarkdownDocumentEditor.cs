@@ -1220,7 +1220,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <returns></returns>
         public string GetCurrentLine()
-        {
+         {
             return AceEditor?.GetCurrentLine();
         }
 

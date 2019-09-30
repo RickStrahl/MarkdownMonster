@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using System.Windows.Threading;
+using Markdig.Helpers;
 using Westwind.Utilities;
 
 namespace MarkdownMonster.Windows.PreviewBrowser
@@ -103,7 +104,17 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                         {
                             int lineno = editor.GetLineNumber();
                             if (lineno > -1)
-                                interop.ScrollToPragmaLine(lineno);
+                            {
+                                string headerId = string.Empty;
+                                var lineText = editor.GetCurrentLine().Trim();
+                                if (lineText.StartsWith("#") && lineText.Contains("# ")) // it's header
+                                {
+                                    lineText = lineText.TrimStart(new[] {' ', '#', '\t'});
+                                    headerId = LinkHelper.UrilizeAsGfm(lineText);
+                                }
+
+                                interop.ScrollToPragmaLine(lineno, headerId);
+                            }
                         }
                     }
                     catch
@@ -285,16 +296,29 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                                             mmApp.Configuration.PreviewSyncMode == PreviewSyncMode.EditorToPreview)
                                         {
                                             int highlightLineNo = editorLineNumber;
-                                            if (editorLineNumber < 0)
+                                                if (editorLineNumber < 0)
                                             {
                                                 highlightLineNo = editor.GetLineNumber();
                                                 editorLineNumber = highlightLineNo;
                                             }
-                                            if (renderedHtml.Length < 80000)
+                                            if (renderedHtml.Length < 100000)
                                                 highlightLineNo = 0; // no special handling render all code snippets
 
+                                            var lineText = editor.GetLine(editorLineNumber -1).Trim();
+
                                             interop.UpdateDocumentContent(renderedHtml,highlightLineNo);
-                                            interop.ScrollToPragmaLine(editorLineNumber);
+
+                                            // TODO: We need to get Header Ids
+                                            var headerId = string.Empty; // headers may not have pragma lines
+                                            if (editorLineNumber > -1)
+                                            {
+                                                if (lineText.StartsWith("#") && lineText.Contains("# ")) // it's header
+                                                {
+                                                    lineText = lineText.TrimStart(new[] { ' ', '#', '\t' });
+                                                    headerId = LinkHelper.UrilizeAsGfm(lineText);
+                                                }
+                                            }
+                                            interop.ScrollToPragmaLine(editorLineNumber, headerId);
                                         }
                                         else
                                             interop.UpdateDocumentContent(renderedHtml,0);
@@ -351,7 +375,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     () => {
                         try
                         {
-                            PreviewMarkdown(editor, keepScrollPosition, false, renderedHtml, editorLineNumber);
+                            PreviewMarkdown(editor, keepScrollPosition, false, renderedHtml, editorLineNumber -1);
                         }
                         catch (Exception ex)
                         {

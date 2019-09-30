@@ -176,7 +176,7 @@ namespace MarkdownMonster
         /// </summary>
         /// <returns></returns>
         public string GetCurrentLine()
-        {
+         {
             return Invoke("getCurrentLine", false) as string;
         }
 
