@@ -328,27 +328,28 @@
         },
 
         gotoLine: function (line, noRefresh, noSelection) {
-            //setTimeout(function() {
-            te.editor.scrollToLine(line);
+            te.editor.gotoLine(line, 0, true);
 
-            if (!noSelection) {
-                var sel = te.editor.getSelection();
-                var range = sel.getRange();
-                range.setStart({ row: line, column: 0 });
-                range.setEnd({ row: line, column: 0 });
-                sel.setSelectionRange(range);
-            }
-            if (!noRefresh)
-                setTimeout(function () {
-                    te.refreshPreview();
-                    te.updateDocumentStats();
-                }, 10);
-            else
-                te.codeScrolled = new Date().getTime();
-
-
-            //},
-            //70);
+            te.editor.scrollToLine(line,
+                false,  // not centered
+                true,
+                function() {
+                    if (!noSelection) {
+                        var sel = te.editor.getSelection();
+                        var range = sel.getRange();
+                        range.setStart({ row: line, column: 0 });
+                        range.setEnd({ row: line, column: 0 });
+                        sel.setSelectionRange(range);
+                    }
+                    if (!noRefresh)
+                        setTimeout(function() {
+                                te.refreshPreview();
+                                te.updateDocumentStats();
+                            },
+                            10);
+                    else
+                        te.codeScrolled = new Date().getTime();
+                });
         },
         gotoBottom: function (noRefresh) {
             //setTimeout(function() {

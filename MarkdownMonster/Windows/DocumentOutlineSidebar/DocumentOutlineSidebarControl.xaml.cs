@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using MarkdownMonster.Windows.DocumentOutlineSidebar;
 using Westwind.Utilities;
 
@@ -167,7 +169,7 @@ namespace MarkdownMonster.Windows
                 return;
 
             IgnoreSelection = DateTime.UtcNow;  // prevent editor navigating outline again
-            Model.AppModel.ActiveEditor.GotoLine(selected.Line - 2, noRefresh: false);  // refresh the preview
+            Model.AppModel.ActiveEditor.GotoLine(selected.Line -1, noRefresh: false);  // refresh the preview
         }
 
         private void TextBlock_KeyDown(object sender, KeyEventArgs e)
@@ -189,6 +191,9 @@ namespace MarkdownMonster.Windows
 
         private void TextMaxIndentLevel_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (string.IsNullOrEmpty(TextMaxIndentLevel.Text))
+                return;
+
             RefreshOutline();
         }
     }

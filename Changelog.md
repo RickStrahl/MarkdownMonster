@@ -4,7 +4,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
   
-### 1.19.4
+### 1.19.7
 *<small>not released yet</small>* 
 
 * **Add Copy Code and Syntax Display to Code Snippets**     
@@ -12,6 +12,11 @@ Code snippets in the editor and exported now show a transparent badge that allow
 
 * **Add Reset Button to the Settings Form**  
 The Settings form now has an additional toolbar button to reset the Markdown Monster installation to installation defaults. Clicking the button backs up the configuration file and then resets all configuration settings to default, followed by a restart.
+
+
+* **Fix: Document Outline Editor Navigation**  
+Document outline navigation now locates the navigated editor at the top of the editor page. Previously it was closer to the middle and somewhat erratic.
+
 
 * **Dev: Update to ACE Editor 1.4.6**  
 Updated to the latest version of ACE Editor which fixes a few small bugs that have been plaguing the editor namely fenced HTML code block tag lock ups/slowdowns and end of document caret movement.
