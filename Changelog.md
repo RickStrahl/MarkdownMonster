@@ -14,13 +14,16 @@ Code snippets in the editor and exported now show a transparent badge that allow
 The Settings form now has an additional toolbar button to reset the Markdown Monster installation to installation defaults. Clicking the button backs up the configuration file and then resets all configuration settings to default, followed by a restart.
 
 * **Update Application Theme Changing and Toggling**  
-Fixed a few issues related to switching between light and dark themes. Application now properly restarts after switching or toggling themes.
+Fixed a few issues related to switching between light and dark themes. Application now properly restarts after switching or toggling themes. The application theme toggle now sits more noticably on the top window bar to make it easier to find for new users.
 
 * **Updated Preview Scrolling Logic**  
-We've tweaked the preview scroll behavior which should now result in better consistency when scrolling the editor. Also click sync and cursor movement sync tries to scroll the current cursor position content near the top of the preview. There are still some edge cases (code blocks, inline HTML and large images) where scroll sync is not great, but much better consistency overall now.
+We've tweaked the preview scroll behavior which should now result in better consistency when scrolling the editor. The overall change involves trying to keep the 'in-focus' content near the top for the synced editor or preview so it's easier to track relevant content in one consistent place. Click sync and cursor movement sync scrolls the current cursor position content near the top of the preview. There are still some edge cases (code blocks, inline HTML and large images) where scroll sync is not great, but for most situations it should be much more consistent and smoother now.
 
 * **Fix: Document Outline Editor Navigation**  
-Document outline navigation now locates the navigated editor at the top of the editor page. Previously it was closer to the middle and somewhat erratic.
+Document outline navigation now locates the navigated editor at the top of the editor page. Previously it was closer to the middle and somewhat erratic. This is related to the previews point about more consistent scroll behavior that pushes the in focus content to the top of the preview or to the editor depending on which window you are scrolling.
+
+* **Fix: MathJax and MathML Rendering**  
+Fix bug that wouldn't properly auto-detect documents that contain math expressions. Fixed search logic and tweaked RenderExtension with some additional improvements.
 
 * **Dev: Update to ACE Editor 1.4.6**  
 Updated to the latest version of ACE Editor which fixes a few small bugs that have been plaguing the editor namely fenced HTML code block tag lock ups/slowdowns and end of document caret movement.
