@@ -73,7 +73,8 @@
                 <LineBreak />
                 <Hyperlink  Command="{Binding Commands.AddinManagerCommand}">  Load Addin Manager</Hyperlink>
                 <LineBreak />                
-                <Hyperlink  Name="HyperSwitchAppTheme" Click="HyperSwitchAppTheme_Click"/>
+                <Hyperlink  Name="HyperSwitchAppTheme" 
+                            Click="HyperSwitchAppTheme_Click"/>
                 <LineBreak />  
                 <LineBreak />
                 <LineBreak />

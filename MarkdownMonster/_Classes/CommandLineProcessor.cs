@@ -48,6 +48,14 @@ namespace MarkdownMonster
             if (Environment.CommandLine.Contains("-nosplash",StringComparison.InvariantCultureIgnoreCase))
                 App.NoSplash = true;
 
+            if (Environment.CommandLine.Contains("-delay", StringComparison.InvariantCultureIgnoreCase))
+            {
+                for (int i = 0; i < 150; i++)
+                {
+                    Thread.Sleep(10);
+                }
+            }
+
             switch (arg0)
             {
                 case "version":

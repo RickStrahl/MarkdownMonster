@@ -55,6 +55,7 @@ namespace MarkdownMonster
             GeneratePdf();
             PrintPreview();
 
+
             // Links and External
             OpenSampleMarkdown();
 
@@ -67,7 +68,7 @@ namespace MarkdownMonster
             TogglePreviewBrowser();
             Settings();
             SettingsVisual();
-
+            SwitchTheme();
 
             // Editor Commands
             ToolbarInsertMarkdown();
@@ -2174,6 +2175,60 @@ We're now shutting down the application.
                 }
             });
         }
+
+
+
+        public CommandBase SwitchThemeCommand { get; set; }
+
+        void SwitchTheme()
+        {
+
+            
+            SwitchThemeCommand = new CommandBase((parameter, command) =>
+            {
+                var window = mmApp.Model.Window;
+                var selectedTheme = Themes.Dark;
+
+                // Parameter is text for a theme or empty in which case it's toggled
+                var text = parameter as string;
+                if (string.IsNullOrEmpty(text))
+                {
+                    // toggle theme
+                    if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
+                        selectedTheme = Themes.Light;
+                }
+                else
+                    selectedTheme = (Themes)Enum.Parse(typeof(Themes), text);
+                
+                var oldVal = mmApp.Configuration.ApplicationTheme;
+
+                if (oldVal != selectedTheme &&
+                    MessageBox.Show("Application theme changes require that you restart.\r\n\r\nDo you want to restart Markdown Monster?",
+                        "Theme Change", MessageBoxButton.YesNo,
+                        MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                {
+                    mmApp.Configuration.ApplicationTheme = selectedTheme;
+                    if (mmApp.Configuration.ApplicationTheme == Themes.Light)
+                    {
+                        mmApp.Configuration.EditorTheme = "vscodelight";
+                        mmApp.Configuration.PreviewTheme = "Github";
+                    }
+                    else
+                        mmApp.Configuration.EditorTheme = "vscodedark";
+
+                    mmApp.Configuration.Write();
+
+                    window.PipeManager.StopServer();
+                    window.ForceClose = true;
+                    window.Close();
+
+                    // execute with delay
+                    ShellUtils.ExecuteProcess(Path.Combine(App.InitialStartDirectory, "MarkdownMonster.exe"), "-delay");
+                    Environment.Exit(0);
+                }
+            }, (p, c) => true);
+        }
+
 
 
         public CommandBase ViewInExternalBrowserCommand { get; set; }

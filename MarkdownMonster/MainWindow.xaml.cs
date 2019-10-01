@@ -32,6 +32,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -81,7 +82,7 @@ namespace MarkdownMonster
     {
         public AppModel Model { get; set; }
 
-        private NamedPipeManager PipeManager { get; set; }
+        public NamedPipeManager PipeManager { get; set; }
 
         public IntPtr Hwnd
         {
@@ -551,7 +552,7 @@ namespace MarkdownMonster
         }
 
 
-        bool ForceClose = false;
+        public bool ForceClose = false;
 
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -2691,34 +2692,39 @@ namespace MarkdownMonster
         }
 
 
-        public void AppTheme_MenuButtonClick(object sender, RoutedEventArgs e)
-        {
-            var button = sender as MenuItem;
-            var text = button.Header as string;
+        //public void AppTheme_MenuButtonClick(object sender, RoutedEventArgs e)
+        //{
+        //    var button = sender as MenuItem;
+        //    var text = button.Header as string;
 
-            var selected = (Themes) Enum.Parse(typeof(Themes), text);
-            var oldVal = mmApp.Configuration.ApplicationTheme;
+        //    var selected = (Themes) Enum.Parse(typeof(Themes), text);
+        //    var oldVal = mmApp.Configuration.ApplicationTheme;
 
-            if (oldVal != selected &&
-                MessageBox.Show("Application theme changes require that you restart.\r\n\r\nDo you want to restart Markdown Monster?",
-                                "Theme Change", MessageBoxButton.YesNo,
-                                MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
-            {
-                mmApp.Configuration.ApplicationTheme = selected;
-                if (mmApp.Configuration.ApplicationTheme == Themes.Light)
-                {
-                    mmApp.Configuration.EditorTheme = "vscodelight";
-                    mmApp.Configuration.PreviewTheme = "github";
-                }
-                else
-                    mmApp.Configuration.EditorTheme = "vscodedark";
+        //    if (oldVal != selected &&
+        //        MessageBox.Show("Application theme changes require that you restart.\r\n\r\nDo you want to restart Markdown Monster?",
+        //                        "Theme Change", MessageBoxButton.YesNo,
+        //                        MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+        //    {
+        //        mmApp.Configuration.ApplicationTheme = selected;
+        //        if (mmApp.Configuration.ApplicationTheme == Themes.Light)
+        //        {
+        //            mmApp.Configuration.EditorTheme = "vscodelight";
+        //            mmApp.Configuration.PreviewTheme = "Github";
+        //        }
+        //        else
+        //            mmApp.Configuration.EditorTheme = "vscodedark";
 
-                mmApp.Configuration.Write();
+        //        mmApp.Configuration.Write();
 
-                Close();
-                ShellUtils.ExecuteProcess(Path.Combine(App.InitialStartDirectory, "MarkdownMonster.exe"), "");
-            }
-        }
+        //        PipeManager.StopServer();
+        //        ForceClose = true;
+        //        Close();
+
+        //        // execute with delay
+        //        ShellUtils.ExecuteProcess(Path.Combine(App.InitialStartDirectory, "MarkdownMonster.exe"), "-delay");
+        //        Environment.Exit(0);
+        //    }
+        //}
 
         private void DocumentType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

@@ -66,8 +66,13 @@
                     </i:Interaction.Behaviors>
                     <Button.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Dark" Click="AppTheme_MenuButtonClick" />
-                            <MenuItem Header="Light" Click="AppTheme_MenuButtonClick" />
+                            <MenuItem Header="Dark" 
+                                      Command="{Binding Commands.SwitchThemeCommand}"
+                                      CommandParameter="Dark"                                      
+                                      />
+                            <MenuItem Header="Light" 
+                                      Command="{Binding Commands.SwitchThemeCommand}"
+                                      CommandParameter="Light" />
                             <!--<Separator/>
                             <MenuItem Header="Default" Click="AppTheme_MenuButtonClick" />-->
                         </ContextMenu>

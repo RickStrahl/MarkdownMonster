@@ -35,13 +35,12 @@ namespace MarkdownMonster.Controls
 
         private void HyperSwitchAppTheme_Click(object sender, RoutedEventArgs e)
         {
+            // toggle theme
+            Themes theme = mmApp.Configuration.ApplicationTheme = Themes.Dark;
             if (mmApp.Configuration.ApplicationTheme == Themes.Dark)
-                mmApp.Configuration.ApplicationTheme =Themes.Light;
-            else
-                mmApp.Configuration.ApplicationTheme = Themes.Dark;
-
-            mmApp.Model.Window.AppTheme_MenuButtonClick(null, null);
-
+                theme = Themes.Light;
+            
+            mmApp.Model.Commands.SwitchThemeCommand.Execute(theme.ToString());
 
             HyperSwitchAppTheme.Inlines.Clear();
             if (mmApp.Configuration.ApplicationTheme == Themes.Dark)

@@ -13,12 +13,14 @@ Code snippets in the editor and exported now show a transparent badge that allow
 * **Add Reset Button to the Settings Form**  
 The Settings form now has an additional toolbar button to reset the Markdown Monster installation to installation defaults. Clicking the button backs up the configuration file and then resets all configuration settings to default, followed by a restart.
 
+* **Update Application Theme Changing and Toggling**  
+Fixed a few issues related to switching between light and dark themes. Application now properly restarts after switching or toggling themes.
+
 * **Updated Preview Scrolling Logic**  
 We've tweaked the preview scroll behavior which should now result in better consistency when scrolling the editor. Also click sync and cursor movement sync tries to scroll the current cursor position content near the top of the preview. There are still some edge cases (code blocks, inline HTML and large images) where scroll sync is not great, but much better consistency overall now.
 
 * **Fix: Document Outline Editor Navigation**  
 Document outline navigation now locates the navigated editor at the top of the editor page. Previously it was closer to the middle and somewhat erratic.
-
 
 * **Dev: Update to ACE Editor 1.4.6**  
 Updated to the latest version of ACE Editor which fixes a few small bugs that have been plaguing the editor namely fenced HTML code block tag lock ups/slowdowns and end of document caret movement.
