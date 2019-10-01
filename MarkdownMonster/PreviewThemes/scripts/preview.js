@@ -130,7 +130,7 @@ var scroll = debounce(function (event) {
 
     id = id.replace("pragma-line-", "");
 
-    var line = (id * 1) - 1;
+    var line = (id * 1) -3;
     te.mmEditor.gotoLine(line, true);
 
 },100);

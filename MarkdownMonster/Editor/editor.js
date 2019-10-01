@@ -24,7 +24,7 @@
         isDirty: false,
         mousePos: { column: 0, row: 0 },
         spellcheck: null,
-        codeScrolled: null,
+        codeScrolled: 0,
 
         setCodeScrolled: function (ignored) {
             te.codeScrolled = new Date().getTime();
@@ -194,12 +194,12 @@
             var changeScrollTop = debounce(function (e) {
                 // don't do anything if we moved without requesting
                 // a document refresh (from preview refresh)
-                if (te.codeScrolled) {
-                    var t = new Date().getTime();
-                    if (te.codeScrolled > t - 850)
+                if (te.codeScrolled) {   
+                    var t = new Date().getTime();               
+                    if (te.codeScrolled > t - 970)
                         return;
                 }
-                te.codeScrolled = null;
+                te.codeScrolled = 0;
 
                 // if there is a selection don't set cursor position
                 // or preview. Mouseup will scroll to position at end
@@ -328,28 +328,29 @@
         },
 
         gotoLine: function (line, noRefresh, noSelection) {
-            te.editor.gotoLine(line, 0, true);
 
+            //te.editor.gotoLine(line, 0, true);
             te.editor.scrollToLine(line,
-                false,  // not centered
-                true,
-                function() {
-                    if (!noSelection) {
-                        var sel = te.editor.getSelection();
-                        var range = sel.getRange();
-                        range.setStart({ row: line, column: 0 });
-                        range.setEnd({ row: line, column: 0 });
-                        sel.setSelectionRange(range);
-                    }
-                    if (!noRefresh)
-                        setTimeout(function() {
-                                te.refreshPreview();
-                                te.updateDocumentStats();
-                            },
-                            10);
-                    else
-                        te.codeScrolled = new Date().getTime();
-                });
+                false, // not centered
+                true);
+            
+            if (!noSelection) {
+                var sel = te.editor.getSelection();
+                var range = sel.getRange();
+                range.setStart({ row: line, column: 0 });
+                range.setEnd({ row: line, column: 0 });
+                sel.setSelectionRange(range);
+            }
+
+            if (!noRefresh)
+                setTimeout(function() {
+                        te.refreshPreview();
+                        te.updateDocumentStats();
+                    },
+                    10);
+            else 
+                te.codeScrolled = new Date().getTime() ;
+                        
         },
         gotoBottom: function (noRefresh) {
             //setTimeout(function() {
@@ -1099,4 +1100,3 @@ function initializeinteropSimple(textbox) {
 //setTimeout(function() {
 //    window.textEditor.initialize(null);
 //},400);
-
