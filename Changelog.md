@@ -12,14 +12,14 @@
 ### 1.19.8
 *<small>October 1st, 2019</small>* 
 
-* **Add Copy Code and Syntax Display to Code Snippets**     
-Code snippets in the editor and exported now show a transparent badge that allows copying the code to the clipboard with a simple button click. The badge also shows the syntax in use if any.
+* **Add Copy Code and Syntax Display to Generated HTML Code Snippets**     
+Code snippets in the editor and exported to HTML (in the Preview or if exported) now show a transparent badge that allows copying the code to the clipboard with a simple button click. The badge also shows the syntax in use if any.
 
 * **Add Reset Button to the Settings Form**  
 The Settings form now has an additional toolbar button to reset the Markdown Monster installation to installation defaults. Clicking the button backs up the configuration file and then resets all configuration settings to default, followed by a restart.
 
 * **Update Application Theme Changing and Toggling**  
-Fixed a few issues related to switching between light and dark themes. Application now properly restarts after switching or toggling themes. The application theme toggle now sits more noticably on the top window bar to make it easier to find for new users.
+Fixed a few issues related to switching between light and dark themes. Application now properly restarts after switching or toggling themes. The application theme toggle now sits more noticeably on the top window bar to make it easier to find for new users.
 
 * **Updated Preview Scrolling Logic**  
 We've tweaked the preview scroll behavior which should now result in better consistency when scrolling the editor. The overall change involves trying to keep the 'in-focus' content near the top for the synced editor or preview so it's easier to track relevant content in one consistent place. Click sync and cursor movement sync scrolls the current cursor position content near the top of the preview. There are still some edge cases (code blocks, inline HTML and large images) where scroll sync is not great, but for most situations it should be much more consistent and smoother now.
