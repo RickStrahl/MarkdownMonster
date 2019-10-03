@@ -1,13 +1,15 @@
 var te = window.textEditor;
 
 te.keyBindings = {
-  setupKeyBindings: function() {
-        setTimeout(function() {
+    setupKeyBindings: function () {
+        setTimeout(function () {
+            
             var kbJson = te.mm.textbox.GetKeyBindingsJson();
             var keyBindings = JSON.parse(kbJson);
-
+            
             for (var i = 0; i < keyBindings.length; i++) {
                 var kb = keyBindings[i];
+                
                 if (!kb.CommandName)
                     continue;
                 var handlerName = kb.CommandName[0].toLowerCase() + kb.CommandName.substr(1);
@@ -17,12 +19,12 @@ te.keyBindings = {
 
                 //alert(kb.CommandName + ": " + kb.Key + " - " + handler + " " + typeof(handler));
                 te.editor.commands.addCommand({
-                    name: kb.CommandName,
+                    name: kb.Id,
                     bindKey: { win: kb.Key },
                     exec: handler
                 });
             }
-        },1500);
+        },500);
   },
   saveDocument: function() {
     te.mm.textbox.IsDirty(); // force document to update
@@ -39,12 +41,13 @@ te.keyBindings = {
     te.keyboardCommand("OpenDocument");
     setTimeout(function() { te.editor.focus(); }, 20);
   },
-  reloadEditor: function() {
-    te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
+    reloadEditor: function () {
+        console.log('reload editor function claled');
+        te.editor.blur(); // HACK: avoid letter o insertion into document IE bug
     te.keyboardCommand("ReloadEditor");
     setTimeout(function() { te.editor.focus(); }, 20);
-  },
-  showHelp: function() { te.keyboardCommand("ShowHelp") },
+    },
+    showHelp: function() { te.keyboardCommand("ShowHelp") },
   insertSoftbreak: function () { te.keyboardCommand("InsertSoftbreak"); },
   insertBold: function() { te.keyboardCommand("InsertBold"); },
   insertItalic: function() { te.keyboardCommand("InsertItalic"); },

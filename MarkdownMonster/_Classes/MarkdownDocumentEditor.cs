@@ -1687,6 +1687,8 @@ namespace MarkdownMonster
                     PreviewMarkdownCallback();
                     SetEditorFocus();
                     IsDirty(); // refresh dirty flag
+
+                    Window.ShowStatusSuccess($"Document '{MarkdownDocument.FilenameWithIndicator}' has been reloaded.");
                 }
                 else if (key == "NextTab")
                 {

@@ -155,12 +155,14 @@ namespace MarkdownMonster.Utilities
                 },
                 new AppKeyBinding
                 {
+                    Id="ReloadEditor",
                     Key = "F5",
                     CommandName = "ReloadEditor",
                     HasJavaScriptHandler = true
                 },
                 new AppKeyBinding
                 {
+                    Id="ReloadEditor2",
                     Key = "Ctrl+F5",
                     CommandName = "ReloadEditor",
                     HasJavaScriptHandler = true
@@ -325,24 +327,28 @@ namespace MarkdownMonster.Utilities
 
                 new AppKeyBinding
                 {
+                    Id= "SidebarTabActivationCommand",
                     Key="Ctrl-1",
                     CommandName = "SidebarTabActivationCommand",
                     CommandParameter = "1"
                 },
                 new AppKeyBinding
                 {
+                    Id= "SidebarTabActivationCommand2",
                     Key="Ctrl-2",
                     CommandName = "SidebarTabActivationCommand",
                     CommandParameter = "2"
                 },
                 new AppKeyBinding
                 {
+                    Id= "SidebarTabActivationCommand3",
                     Key="Ctrl-3",
                     CommandName = "SidebarTabActivationCommand",
                     CommandParameter = "3"
                 },
                 new AppKeyBinding
                 {
+                    Id= "SidebarTabActivationCommand4",
                     Key="Ctrl-4",
                     CommandName = "SidebarTabActivationCommand",
                     CommandParameter = "4"
