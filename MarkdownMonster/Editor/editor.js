@@ -194,9 +194,9 @@
             var changeScrollTop = debounce(function (e) {
                 // don't do anything if we moved without requesting
                 // a document refresh (from preview refresh)
-                if (te.codeScrolled) {   
-                    var t = new Date().getTime();               
-                    if (te.codeScrolled > t - 970)
+                if (te.codeScrolled) {
+                    var t = new Date().getTime();
+                    if (te.codeScrolled > t - 500)
                         return;
                 }
                 te.codeScrolled = 0;
@@ -220,7 +220,7 @@
                         sc.contentModified = true;  // force spell check to run
                 },
                     10);
-            }, 100);
+            }, 50);
 
             editor.session.on("changeScrollTop", changeScrollTop);
 
@@ -333,7 +333,7 @@
             te.editor.scrollToLine(line,
                 false, // not centered
                 true);
-            
+
             if (!noSelection) {
                 var sel = te.editor.getSelection();
                 var range = sel.getRange();
@@ -348,9 +348,9 @@
                         te.updateDocumentStats();
                     },
                     10);
-            else 
+            else
                 te.codeScrolled = new Date().getTime() ;
-                        
+
         },
         gotoBottom: function (noRefresh) {
             //setTimeout(function() {
@@ -618,7 +618,7 @@
             editor.renderer.setShowGutter(style.showLineNumbers);
             editor.renderer.setShowInvisibles(style.showInvisibles);
 
-           
+
 
             // these value are used in Resize to keep the editor size
             // limited to a max-width
@@ -1077,7 +1077,7 @@ function initializeinterop(textbox, jsonStyle) {
 
     te.initialize(style);
 
-    setTimeout(te.keyBindings.setupKeyBindings, 800);
+    setTimeout(te.keyBindings.setupKeyBindings, 300);
 
     return window.textEditor;
 }
