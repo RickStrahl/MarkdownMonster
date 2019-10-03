@@ -602,7 +602,7 @@ namespace MarkdownMonster.Windows
                     MaxWidth = header.Length
                 };
 
-                var maxWidth = data.Max(d => d[i]?.Text == null ? 0 :d[i].Text.Length);
+                var maxWidth = cols.Max(d => d?.Text == null ? 0 :d.Text.Length);
 
                 if (maxWidth > colInfo.MaxWidth)
                     colInfo.MaxWidth = maxWidth;
