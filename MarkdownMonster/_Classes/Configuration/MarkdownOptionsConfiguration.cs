@@ -89,7 +89,7 @@ namespace MarkdownMonster
         /// <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
         /// <script type="text/javascript" src="http://js2math.github.com/JsMath/jsmath.tablet.js"></script>
         /// </summary>
-        public bool UseMathematics { get; set; }
+        public bool UseMathematics { get; set; } = true;
 
         /// <summary>
         /// Use Abbreviations which are linked to definitions

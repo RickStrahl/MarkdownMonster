@@ -18,7 +18,7 @@
         /// <param name="args"></param>
         public void AfterMarkdownRendered(ModifyHtmlAndHeadersArguments args)
         {
-            if (args.Html.Contains(" class=\"math\""))
+            if (args.Html.Contains(" class=\"math\"") || args.Markdown.Contains("useMath: true"))
                 args.HeadersToEmbed = MathJaxScript;
         }
 
