@@ -7,12 +7,16 @@
 
 ### 1.19.10
 *<small>not released yet</small>* 
+
+* **Open Settings Folder on Settings Window**  
+The Configuration Settings window now has an additional button to quickly open the configuration folder where you find all related configuration files. Same as the Tools menu option.
+
+* **Additional Improvements to Preview Scroll Syncing**  
+Reduced the latency between the editor and preview for syncing. Also fixed several issues that could on rare occasion 'bounce the editor' when the preview and editor refresh out of sync. Preview scroll should now be much more responsive for both editor->preview and preview->editor scrolling.
   
 * **Fix: Multi-Binding KeyBoardBindings**  
 Fixed issue where multiple keyboard bindings to the same command were not properly firing all the commands. Changed keybindings handler to use IDs as names with command names seperate. Any duplicate `CommandName` entries, should use separate `Id` values.
 
-* **Additional Improvements to Preview Scroll Syncing**  
-Reduced the latency between the editor and preview for syncing. Also fixed several issues that could on rare occasion 'bounce the editor' when the preview and editor refresh out of sync. Preview scroll should now be much more responsive for both editor->preview and preview->editor scrolling.
   
 ### 1.19.8
 *<small>October 1st, 2019</small>* 
