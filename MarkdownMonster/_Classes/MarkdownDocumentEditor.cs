@@ -1567,37 +1567,6 @@ namespace MarkdownMonster
 
 
         /// <summary>
-        /// Displays a message box
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="title"></param>
-        /// <param name="icon"></param>
-        /// <param name="buttons"></param>
-        /// <returns></returns>
-        public string ShowMessage(string text, string title, string icon = "Information", string buttons = "Ok")
-        {
-            var image = MessageBoxImage.Information;
-            Enum.TryParse<MessageBoxImage>(icon, out image);
-
-            var btn = MessageBoxButton.OK;
-            Enum.TryParse<MessageBoxButton>(buttons, out btn);
-
-            var res = MessageBox.Show(Window, text, title, btn, image);
-            return res.ToString();
-        }
-
-        /// <summary>
-        /// Allows the client to show status messages
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="timeoutms"></param>
-        public void ShowStatus(string text, int timeoutms = 0)
-        {
-            Window.ShowStatus(text, timeoutms);
-        }
-
-
-        /// <summary>
         /// Performs the special key operation that is tied
         /// to the key in the application.
         ///
@@ -2155,6 +2124,55 @@ public void PreviewContextMenu(object positionAndElementType)
                 parameter = this;
 
             AddinManager.Current.RaiseOnNotifyAddin(command, parameter);
+        }
+
+        /// <summary>
+        /// Displays a message box
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
+        /// <param name="icon"></param>
+        /// <param name="buttons"></param>
+        /// <returns></returns>
+        public string ShowMessage(string text, string title, string icon = "Information", string buttons = "Ok")
+        {
+            var image = MessageBoxImage.Information;
+            Enum.TryParse<MessageBoxImage>(icon, out image);
+
+            var btn = MessageBoxButton.OK;
+            Enum.TryParse<MessageBoxButton>(buttons, out btn);
+
+            var res = MessageBox.Show(Window, text, title, btn, image);
+            return res.ToString();
+        }
+
+        /// <summary>
+        /// Allows the client to show status messages
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="timeoutms"></param>
+        public void ShowStatus(string text)
+        {
+            Window.ShowStatusSuccess(text);
+        }
+
+        /// <summary>
+        /// Allows the client to show status messages
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="timeoutms"></param>
+        public void ShowStatusError(string text)
+        {
+            Window.ShowStatusError(text);
+        }
+
+        /// <summary>
+        /// Allows the editor to log an error in the MM error log.
+        /// </summary>
+        /// <param name="errorMessage"></param>
+        public void LogError(string errorMessage)
+        {
+            mmApp.Log("Editor script: " + errorMessage, logLevel: LogLevels.Warning);
         }
 
 #endregion

@@ -784,7 +784,9 @@
                 te.mm.textbox.GetSuggestions(misspelledWord, editorSettings.dictionary, false, range);
 
             } catch (error) {
-                alert(error.message);
+                var msg = "Editor context menu failed. Please reload document: " + error.message + " (" + error.lineNumber + ")";
+                te.mm.textbox.LogError(msg);
+                te.mm.textbox.ShowStatusError(msg);
             }
         },
         addWordSpelling: function (word) {
