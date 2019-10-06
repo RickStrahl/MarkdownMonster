@@ -156,5 +156,10 @@ namespace MarkdownMonster.Windows.ConfigurationEditor
         #endregion
 
 
+        private void ButtonOpenSettingsFolder_Click(object sender, RoutedEventArgs e)
+        {
+            var file = Path.Combine( mmApp.Configuration.CommonFolder,"MarkdownMonster.json");
+            ShellUtils.OpenFileInExplorer(file);
+        }
     }
 }

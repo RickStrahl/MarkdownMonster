@@ -17,8 +17,7 @@
                        WindowStartupLocation="CenterOwner"         
                        WindowTransitionsEnabled="False"
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-                       Width="800" Height="700" MinHeight="400" MinWidth="700">
-
+                       Width="840" Height="700" MinHeight="400" MinWidth="820">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -64,7 +63,20 @@
                             <TextBlock>Edit Json</TextBlock>
                         </StackPanel>
                     </Button>
-                    
+
+                    <Button Name="ButtonOpenSettingsFolder" 
+                            Click="ButtonOpenSettingsFolder_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="FolderOpen" Margin="5,2,5,0"  
+                                            Foreground="DarkGoldenrod"
+                                            FontSize="17"
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  
+                            />
+                            <TextBlock>Settings Folder</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+
                     <Button Name="ButtonBackup" 
                             ToolTip="Backup configuration to various backup sources"
                             Click="ButtonBackup_Click">
