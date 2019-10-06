@@ -9,7 +9,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
     public class PreviewBrowserContextMenu
     {
         /// <summary>
-        /// Creates a context menu. 
+        /// Creates a context menu.
         /// </summary>
         /// <param name="parms"></param>
         /// <param name="model"></param>
@@ -53,7 +53,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
 
             mi = new MenuItem()
             {
-                Header = "Save As _Pdf",
+                Header = "Save As _PDF",
                 Command = model.Commands.GeneratePdfCommand,
             };
             ctm.Items.Add(mi);
@@ -91,7 +91,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     ctm.Items.Add(new Separator());
                     separatorAdded = true;
                 }
-                
+
                 mi = new MenuItem()
                 {
                     Header = "Edit Image in Image editor"

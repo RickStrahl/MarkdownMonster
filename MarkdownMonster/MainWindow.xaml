@@ -249,7 +249,7 @@
 
                 <MenuItem Header="Save _To">
                     <MenuItem Name="ButtonSaveAsHtml" Header="Save to _Html" Command="{Binding Commands.SaveAsHtmlCommand}" />
-                    <MenuItem x:Name="ButtonGeneratePdf" Header="Save to _Pdf" Command="{Binding Commands.GeneratePdfCommand}" />
+                    <MenuItem x:Name="ButtonGeneratePdf" Header="Save to _PDF" Command="{Binding Commands.GeneratePdfCommand}" />
                     <Separator/>
                     <MenuItem Name="ButtonSaveAsSecureFile" Header="Save as _Encrypted File" Command="{Binding Commands.SaveAsCommand}" CommandParameter="Secure"  />
                 </MenuItem>

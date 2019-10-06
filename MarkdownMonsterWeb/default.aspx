@@ -191,7 +191,7 @@
                                     </div>
                                     <div>
                                         <i class="fa fa-check" style="color: lightgreen"></i>
-                                        Save to Html and Pdf
+                                        Save to Html and PDF
                                     </div>                              
                                 </div>
                             </div>
