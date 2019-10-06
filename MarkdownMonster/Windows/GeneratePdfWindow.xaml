@@ -11,7 +11,7 @@
 		TitleCharacterCasing="Normal"
         ResizeMode="CanResizeWithGrip"
 		WindowStartupLocation="CenterOwner"					 		                  
-        Title="Save As Pdf File" Height="580" Width="700">
+        Title="Save As PDF File" Height="580" Width="700">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style TargetType="Control">

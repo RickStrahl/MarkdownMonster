@@ -16,7 +16,7 @@ This portable install doesn't run an installer and is self-contained in its inst
 
 Markdown Monster sports syntax colored editing of Markdown text, inline spell checking, live, synced HTML preview, embedding, dragging and pasting of images, code, links and Emoji and has built-in support for screen captures. There is support for text snippet expansion and C# script execution to automate and extend Markdown Monster. But above all the editor's goal is to get out of your way and let you focus on your content creation, and provide you with tools to get your job done efficiently.
     
-You can save documents to Html and Pdf files. Markdown Monster can also publish your Markdown directly to your Weblog that supports WordPress, MetaWebLog or Medium APIs. You can manage multiple blogs and even download existing HTML posts as Markdown.
+You can save documents to Html and PDF files. Markdown Monster can also publish your Markdown directly to your Weblog that supports WordPress, MetaWebLog or Medium APIs. You can manage multiple blogs and even download existing HTML posts as Markdown.
 
 Markdown Monster can also be extended using an easy, but powerful .NET based add-in model and a few useful addins are available to provide features like storing images in Azure Blobs, a reusable Snippets manager, and more. You can also swap Markdown Parsers between Markdig and Pandoc and use another custom Markdown parser via addin integration.
 
