@@ -196,11 +196,12 @@ hr {
 }
 
 code {
-  color: #555;
   padding: 2px 5px;
   font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  border-radius: 3px;
   font-weight: 600;
   background: #eee;
+  color: #555;
 }
 
 pre {
@@ -217,12 +218,18 @@ pre {
   white-space: pre;
   word-break: normal;
   word-wrap: normal;
+  background: #252525;
+  color: #eee;
 }
 
-  pre > code {
-    white-space: pre;
-    padding: 1em !important;
-  }
+pre > code {
+  white-space: pre;
+  padding: 0.8em !important;
+  display: block;
+  color: #f5f5f5 !important;
+  background: transparent;
+  font-weight: normal;
+}
 
 table {
   width: 100%;
@@ -318,6 +325,11 @@ code.line-highlight {
   color: #31708f;
   background-color: #d9edf7;
   border-color: #bce8f1;
+}
+
+
+.hljs {
+  font-size: 1em;
 }
 
 @media(min-width: 1080px) {
