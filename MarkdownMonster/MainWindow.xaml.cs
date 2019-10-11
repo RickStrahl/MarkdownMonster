@@ -1207,7 +1207,6 @@ namespace MarkdownMonster
 
                 editor.MarkdownDocument = doc;
                 SetTabHeaderBinding(tab, doc, "FilenameWithIndicator");
-                tab.ToolTip = doc.Filename;
             }
             else
                 tab.Tag = editor;
@@ -1922,6 +1921,12 @@ namespace MarkdownMonster
                     Source = document, Path = new PropertyPath(propertyPath), Mode = BindingMode.OneWay
                 };
                 BindingOperations.SetBinding(textBlock, TextBlock.TextProperty, headerBinding);
+
+                var tooltipBinding = new Binding
+                {
+                    Source = document, Path = new PropertyPath("Filename"), Mode = BindingMode.OneWay
+                };
+                BindingOperations.SetBinding(tab,TabItem.ToolTipProperty, tooltipBinding);
 
                 var fontStyleBinding = new Binding
                 {
