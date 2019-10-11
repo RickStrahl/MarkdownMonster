@@ -68,25 +68,29 @@ code {
     background: #eee;
 }
 pre {
-    font-family: Consolas, monospace;
-    font-weight: normal;
-    font-size: 85%;
-    line-height: 1.45;
-    margin: 7px 0;
-    padding: 0;
-    max-width: 98%;
-    border: none;
-    overflow: auto;
-    border-radius: 3px;
-    white-space: pre;
-    word-break: normal;
-    word-wrap: normal;
+  font-family: menlo,consolas,monospace;
+  font-weight: normal;
+  font-size: 87%;
+  line-height: 1.40;
+  margin: 7px 0;
+  padding: 0;
+  border: 1px solid silver;
+  border-radius: 5px;
+  overflow-x: auto;
+  max-width: 98%;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+
+  background: #f6f6f6;
 }
 
 pre>code {
-    background: #eee !important;
-    white-space: pre;
-    padding: 1em !important;
+  white-space: pre;
+  padding: 0.8em !important;
+  display: block;
+  background: transparent;
+  font-weight: normal;
 }
 
 table {

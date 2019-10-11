@@ -54,10 +54,17 @@ pre {
   white-space: pre;
   word-break: normal;
   word-wrap: normal;
+
+  background:#1E1E1E ;
+  color: #DCDCDC;
 }
 
-  pre code {
+  pre > code {
     white-space: pre;
+    padding: 0.8em !important;
+    display: block;
+    background: transparent;
+    font-weight: normal;
   }
 
 table {
