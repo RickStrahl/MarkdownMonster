@@ -675,7 +675,10 @@ namespace MarkdownMonster
                             CleanupBackupFile();
 
                     }
-					catch { }
+                    catch
+                    {
+                        return false;
+                    }
                     finally
                     {
                         _IsSaving = false;

@@ -382,8 +382,13 @@ namespace MarkdownMonster
                 if (doc == null)
                     return;
 
-                if (doc.MarkdownDocument.Filename == "untitled" || !doc.SaveDocument())
+                if (doc.MarkdownDocument.Filename == "untitled")
                     SaveAsCommand.Execute(tab);
+                else if (!doc.SaveDocument())
+                {
+                    Model.Window.ShowStatusError("Couldn't save document. Most likely the file is locked or the path is no longer valid.");
+                    SaveAsCommand.Execute(tab);
+                }
 
                 Model.Window.PreviewMarkdown(doc, keepScrollPosition: true);
             }, (s, e) =>
@@ -410,7 +415,6 @@ namespace MarkdownMonster
                     return;
                 }
 
-
                 var tab = Model.Window.TabControl?.SelectedItem as TabItem;
 
                 var doc = tab?.Tag as MarkdownDocumentEditor;
@@ -418,10 +422,10 @@ namespace MarkdownMonster
                     return;
 
                 var filename = doc.MarkdownDocument.Filename;
-                var folder = mmApp.Configuration.LastFolder;
+                var folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
                 if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
                 {
-                    folder = Path.GetDirectoryName(doc.MarkdownDocument.Filename);
+                    folder = mmApp.Configuration.LastFolder;
                     if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
                         folder = KnownFolders.GetPath(KnownFolder.Libraries);
                 }

@@ -3,10 +3,13 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net462</TargetFramework> 
-    <!--<TargetFrameworks>net462;netcoreapp3.0</TargetFrameworks>-->
-    <Version>1.19.9</Version>
+    <!--<TargetFramework>netcore3.0</TargetFramework>--> 
+
+    <Version>1.19.9.2</Version>
     <AssemblyName>MarkdownMonster</AssemblyName>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    
     <StartupObject>StartUp</StartupObject>
     <Authors>Rick Strahl, West Wind Technologies</Authors>
     <PackageProjectUrl>https://markdownmonster.west-wind.com</PackageProjectUrl>
@@ -26,6 +29,19 @@
     <Copyright>West Wind Technologies, 2016-2019</Copyright>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+      <UseWinForms>true</UseWinForms>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Windows.Forms" />
+
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.3.3" />
+  </ItemGroup>
+
+
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.203" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
@@ -42,17 +58,14 @@
     <PackageReference Include="Mono.Cecil" Version="0.11.0" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Speech" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="Westwind.TypeImporter">
       <HintPath>..\SupportAssemblies\Westwind.TypeImporter.dll</HintPath>
     </Reference>
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
-    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.3.3" />
-  </ItemGroup>
+  
+
+
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
     <!--<PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />-->
   </ItemGroup>
