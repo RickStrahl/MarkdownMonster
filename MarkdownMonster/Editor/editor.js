@@ -123,10 +123,10 @@
                         }
                     } else {
                         // key typed into document
-                        //if (event.keyCode == 13) {
-                            if (te.spellcheck)
-                                te.spellcheck.contentModified = true;
-                        //}
+                        if (event.keyCode == 13 || event.keyCode == 8 || event.keyCode == 46) {
+                          // Line feed, backspace, del should immediately spell check as errors shift
+                          if (te.spellcheck)  te.spellcheck.spellCheck(true);
+                        }
                         updateDocument();
                     }
                 });

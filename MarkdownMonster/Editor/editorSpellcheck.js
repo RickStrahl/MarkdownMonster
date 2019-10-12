@@ -1,4 +1,5 @@
 /// <reference path="scripts/Ace/ace.js" />
+/// <reference path="scripts/Ace/ace.js" />
 /// <reference path="editorSettings.js" />
 /// <reference path="editor.js" />
 
@@ -14,6 +15,7 @@
 
   window.sc = window.spellcheck = {
     interval: null,
+    intervalTimeout: 200,
     firstpass: true,
     spellCheck: null,  // spellCheck function set in enable
     misspelled: misspelled,
@@ -59,7 +61,6 @@
       // You should configure these classes.
       var dicData, affData;
       //var misspelledDict = [];
-      var intervalTimeout = 80;
 
       sc.contentModified = true;
       var currentlySpellchecking = false;
@@ -109,7 +110,7 @@
         spellCheck(true);
 
         if (!sc.interval) {
-          sc.interval = setInterval(spellCheck, intervalTimeout);
+          sc.interval = setInterval(spellCheck, sc.intervalTimeout);
 
           // detect changes to content - don't spell check if nothing's changed
           te.editor.session.on('change', sc.contentModifiedChanged);
@@ -192,11 +193,13 @@
               }
               if (!isCodeBlock && !isFrontMatter) {
 
-                // skip word we're typing right now
+                // skip active word we're typing right now 
                 var skipWord = null;
-                if (curPos.row === line)
+                if (curPos.row === line) {
                   skipWord = te.editor.session.getTextRange(
-                    te.editor.session.getAWordRange(curPos.row, curPos.column));
+                      te.editor.session.getWordRange(curPos.row, curPos.column));
+                }
+
 
                 // Check spelling of this line.
                 var misspellings = misspelled(lineText, skipWord);
@@ -226,15 +229,17 @@
                 currentlySpellchecking = false;
                   sc.contentModified = false;
 
+                  // Clear old Markers now that the new markers are in place
+                  // to avoid flicker
                   for (var i in oldMarkers) {
                       te.editor.session.removeMarker(oldMarkers[i]);
                   }
 
                   if (spellcheckErrors > editorSettings.spellcheckerErrorLimit) {
-                  // disable both in editor and MM
-                  te.mm.textbox.SetSpellChecking(true);
-                  te.enablespellchecking(true);
-                }
+                    // disable both in editor and MM
+                    te.mm.textbox.SetSpellChecking(true);
+                    te.enablespellchecking(true);
+                  }
               }
             }.bind(this, line, lineCount >= bottomRow - 1),
               40);
@@ -303,8 +308,10 @@
         continue;
       }
 
-      if (word && (word == skipWord || word.indexOf("--") > -1))
-        continue;
+        if (word && (word === skipWord || word.indexOf("--") > -1)) {
+          i += word.length + 1;
+          continue;
+      }
 
       var beginCharoffset = 0; // if we strip characters adjust the offsets
       var endCharoffset = 0;
@@ -327,7 +334,7 @@
           bads[bads.length] = [i + beginCharoffset, i + words[wordIndex].length - endCharoffset, word];
         }
       }
-      i += words[wordIndex].length + 1;
+      i += word.length + 1;
     }
     return bads;
   }
