@@ -22,11 +22,11 @@
     excludedWords:
       "body,html,xml,div,span,td,th,tr,thead,tbody,blockquote,src,href,ul,ol,li,png,gif,jpg,js,css,htm,html,topiclink,lang,img,&nbsp;,http,https," +
       "www,com,---,--",
-    clearMarkers: function () {
-      for (var i in sc.markers) {
-        te.editor.session.removeMarker(sc.markers[i]);
-      }
-      sc.markers = [];
+    clearMarkers: function() {
+        for (var i in sc.markers) {
+            te.editor.session.removeMarker(sc.markers[i]);
+        }
+        sc.markers = [];
     },
     selectMarker: function (index) {
       var marker = sc.markers[index];
@@ -59,7 +59,7 @@
       // You should configure these classes.
       var dicData, affData;
       //var misspelledDict = [];
-      var intervalTimeout = 1800;
+      var intervalTimeout = 80;
 
       sc.contentModified = true;
       var currentlySpellchecking = false;
@@ -149,7 +149,13 @@
           //console.log(topRow, bottomRow, lines.length);
 
           var curPos = te.getCursorPosition();
-          sc.clearMarkers();
+
+          //sc.clearMarkers();
+
+          // save old markers and delete them at the end of processing
+          // to avoid flicker.
+          var oldMarkers = sc.markers;
+          sc.markers = [];
 
           for (var i = topRow; i < bottomRow; i++) {
             var line = i;
@@ -218,9 +224,13 @@
               }
               if (isLast) {
                 currentlySpellchecking = false;
-                sc.contentModified = false;
+                  sc.contentModified = false;
 
-                if (spellcheckErrors > editorSettings.spellcheckerErrorLimit) {
+                  for (var i in oldMarkers) {
+                      te.editor.session.removeMarker(oldMarkers[i]);
+                  }
+
+                  if (spellcheckErrors > editorSettings.spellcheckerErrorLimit) {
                   // disable both in editor and MM
                   te.mm.textbox.SetSpellChecking(true);
                   te.enablespellchecking(true);

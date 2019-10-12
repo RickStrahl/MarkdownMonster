@@ -115,13 +115,20 @@
                     // left right
                     else if (event.keyCode === 37 || event.keyCode === 39)
                         te.updateDocumentStats();
-                    else if (te.editor.$keybindingId === "ace/keyboard/vim" && (event.keyCode === 74 || event.keyCode == 75)) {
+                    else if (te.editor.$keybindingId === "ace/keyboard/vim" &&
+                        (event.keyCode === 74 || event.keyCode == 75)) {
                         if (!te.editor.state.cm.state.vim.insertMode) {
                             previewRefresh();
                             updateDocumentStats();
                         }
-                    } else
+                    } else {
+                        // key typed into document
+                        //if (event.keyCode == 13) {
+                            if (te.spellcheck)
+                                te.spellcheck.contentModified = true;
+                        //}
                         updateDocument();
+                    }
                 });
 
             // always have mouse position available when drop or paste
@@ -135,8 +142,8 @@
                         te.mm.textbox.PreviewMarkdownCallback(true);
 
                     // spellcheck - force recheck on next cycle
-                    if (sc)
-                        sc.contentModified = true;
+                    if (te.spellcheck)
+                        te.spellcheck.contentModified = true;
 
                     te.updateDocumentStats();
                 });
@@ -793,8 +800,8 @@
             if (te.isEditorSimple) return;
 
             te.mm.textbox.AddWordToDictionary(word, editorSettings.dictionary);
-            if (sc)
-                sc.spellCheck(true);
+            if (te.spellcheck)
+                te.spellcheck.spellCheck(true);
         },
         replaceSpellRange: function (range, text) {
             te.editor.getSession().replace(range, text);
