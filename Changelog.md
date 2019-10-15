@@ -6,19 +6,22 @@
 
 
 ### 1.19.10
-*<small>not released yet</small>* 
+*<small>October 15th, 2019</small>* 
 
-* **Open Settings Folder on Settings Window**  
+* **Open Settings Folder in Configuration Window**  
 The Configuration Settings window now has an additional button to quickly open the configuration folder where you find all related configuration files. Same as the Tools menu option.
 
 * **Additional Improvements to Preview Scroll Syncing**  
 Reduced the latency between the editor and preview for syncing. Also fixed several issues that could on rare occasion 'bounce the editor' when the preview and editor refresh out of sync. Preview scroll should now be much more responsive for both editor->preview and preview->editor scrolling.
+
+* **Improved Spellcheck latency**  
+Reduced latency in the spell checking algorithm by checking the document more frequently to avoid jarring highlight movement. Change marker update logic to remove old markers only after new ones have rendered which removes/reduces flicker.
   
 * **Fix: Document Outline Refresh** 
 The document outline refresh previously was to conservative in refreshing. Added logic to every editor preview refresh to check for outline updates. Tested with very large documents to ensure there's no major performance hit.
 
 * **Fix: Multi-Binding KeyBoardBindings**  
-Fixed issue where multiple keyboard bindings to the same command were not properly firing all the commands. Changed keybindings handler to use IDs as names with command names seperate. Any duplicate `CommandName` entries, should use separate `Id` values.
+Fixed issue where multiple keyboard bindings to the same command were not properly firing all the commands. Changed keybindings handler to use IDs as names with command names separate. Any duplicate `CommandName` entries, should use separate `Id` values.
 
 * **Fix: Save Fails Silently**  
 Fix bug where a failed Save Operation would fail to save files and not let you know that the save failed. Fixed - if file save fails there's now a status bar message and the Save As dialog pops up to provide a new filename or try again.
