@@ -22,13 +22,13 @@
         Width="1020" Height="700">
     <Window.Resources>
         <ContextMenu x:Key="ColumnContextMenu">
-            <MenuItem Name="MenuInsertRowBelow" Header="Insert Row Below" Click="Button_Click" />
-            <MenuItem Name="MenuInsertRowAbove" Header="Insert Row Above" Click="Button_Click" />
-            <MenuItem Name="MenuDeleteRow" Header="Delete Row" Click="Button_Click"  />
+            <MenuItem Name="MenuInsertRowBelow" Header="Insert Row _Below" Click="Button_Click" />
+            <MenuItem Name="MenuInsertRowAbove" Header="Insert Row _Above" Click="Button_Click" />
+            <MenuItem Name="MenuDeleteRow" Header="_Delete Row" Click="Button_Click"  />
             <Separator />
-            <MenuItem Name="MenuInsertColumnRight" Header="Insert Column Right" Click="Button_Click" />
-            <MenuItem Name="MenuInsertColumnLeft" Header="Insert Column Left" Click="Button_Click"/>
-            <MenuItem Name="MenuDeleteColumn" Header="Delete Column" Click="Button_Click" />
+            <MenuItem Name="MenuInsertColumnRight" Header="Insert Column _Right" Click="Button_Click" />
+            <MenuItem Name="MenuInsertColumnLeft" Header="Insert Column _Left" Click="Button_Click"/>
+            <MenuItem Name="MenuDeleteColumn" Header="De_lete Column" Click="Button_Click" />
         </ContextMenu>
     </Window.Resources>
     <Window.InputBindings>
