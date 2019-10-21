@@ -429,7 +429,12 @@
                                 <div class="carousel-caption">
                                 </div>
                             </div>
-
+                            
+                            <div class="item">
+                                <img src="Images/Tweets/Ebner.png" />
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
 
                             <div class="item">
                                 <img src="Images/Tweets/angrypets.png" />
@@ -500,7 +505,7 @@
 
                     
                             <div class="item">
-                                <img src="Images/Tweets/James_Willock2.png" />
+                                <img src="Images/Tweets/Shifflet.png" />
                                 <div class="carousel-caption">
                                 </div>
                             </div>	
