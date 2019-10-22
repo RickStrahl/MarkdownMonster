@@ -4,10 +4,16 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.19.11 
+### 1.19.12
 *<small>not released yet</small>* 
 
-* **Fix: Table Editor Column Width Formatting**  
+* **Add Open With to the Editor Context Menu**  
+Add a new context menu option to **Open With...** that allows opening the current document in a different editor configured on the system.
+
+* **Fix: Table Editor Insert New Row with Tab at End of List**  
+Fixed tab behavior on the last column of the table: When pressing Tab on the last cell a new row is inserted and the cursor moved to the first column of the new row. This actually was supposed to work before and a new row was being inserted, but the UI wasn't properly refreshing. Fixed.
+
+* **Fix: Table Editor Column Width Formatting when Embedding**  
 Fixed regression that removed the column sizing logic that attempts to fix table widths to make the tables line up properly. 
 
 ### 1.19.10
