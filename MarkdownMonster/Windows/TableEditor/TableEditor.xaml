@@ -28,7 +28,7 @@
             <Separator />
             <MenuItem Name="MenuInsertColumnRight" Header="Insert Column _Right" Click="Button_Click" />
             <MenuItem Name="MenuInsertColumnLeft" Header="Insert Column _Left" Click="Button_Click"/>
-            <MenuItem Name="MenuDeleteColumn" Header="De_lete Column" Click="Button_Click" />
+            <MenuItem Name="MenuDeleteColumn" Header="Dele_te Column" Click="Button_Click" />
         </ContextMenu>
     </Window.Resources>
     <Window.InputBindings>
