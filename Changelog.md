@@ -5,10 +5,16 @@
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
 ### 1.19.12
-*<small>not released yet</small>* 
+*<small>October 22nd, 2019</small>* 
 
 * **Add Open With to the Editor Context Menu**  
 Add a new context menu option to **Open With...** that allows opening the current document in a different editor configured on the system.
+
+* **Add Hotkeys to the Table Editor Context Menu**  
+The table editor context menu now has shortcuts for all operations like Insert Row Above, Below and Insert Column left and right, as well as delete row and column. This makes the options hotkey enabled via `ContextMenu Key + B` for example for Add Row Below within a cell.
+
+* **Partial Fix: Display Bold and Italic in editor**  
+Fix behavior of markdown text that uses both bold and italic in the editor: `***bold and italic***`. Text now correctly displays in editor as both text and italic. However, mixed mode like `_**bold and italic**_` still don't work in the editor. Note that all combinations do work for Markdown output generation.
 
 * **Fix: Table Editor Insert New Row with Tab at End of List**  
 Fixed tab behavior on the last column of the table: When pressing Tab on the last cell a new row is inserted and the cursor moved to the first column of the new row. This actually was supposed to work before and a new row was being inserted, but the UI wasn't properly refreshing. Fixed.
