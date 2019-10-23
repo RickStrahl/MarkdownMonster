@@ -98,7 +98,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             mi = new MenuItem
             {
-                Header = "Close All Documents",
+                Header = "Close _All Documents",
                 Name= "MenuCloseAllTabs",
                 Command = Model.Commands.CloseAllDocumentsCommand
             };
@@ -106,7 +106,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             mi = new MenuItem
             {
-                Header = "Close Other Documents",
+                Header = "Close _Other Documents",
                 Name = "MenuCloseAllButThis",
                 Command = Model.Commands.CloseAllDocumentsCommand,
                 CommandParameter="AllBut"
@@ -119,7 +119,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             mi = new MenuItem
             {
-                Header = "Add to Favorites",
+                Header = "Add to _Favorites",
                 Name = "AddFavorite",
                 Command = Model.Commands.AddFavoriteCommand,
                 CommandParameter = model.ActiveDocument?.Filename
@@ -131,12 +131,24 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             mi = new MenuItem
             {
-                Header = "Open in New Window",
+                Header = "Open in _New Window",
                 Name = "OpenInNewWindow",
                 Command = Model.Commands.OpenInNewWindowCommand,
                 CommandParameter = model.ActiveDocument?.Filename
             };
             contextMenu.Items.Add(mi);
+
+            mi = new MenuItem
+            {
+                Header = "Open _With...",
+                Name = "OpenWith",
+                Command = Model.Commands.OpenWithCommand,
+                CommandParameter = model.ActiveDocument?.Filename
+            };
+            contextMenu.Items.Add(mi);
+
+            ContextMenu.Items.Add(new Separator());
+
 
             // TERMINAL AND FOLDER BROWSING
 
@@ -150,7 +162,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             mi = new MenuItem
             {
-                Header = "Open in Explorer",
+                Header = "Open in _Explorer",
                 Name = "ContextOpenInFolder",
                 Command = Model.Commands.OpenInExplorerCommand,
             };
@@ -217,7 +229,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             mi = new MenuItem
             {
-                Header = "Copy File Path to Clipboard",
+                Header = "Copy File Path to _Clipboard",
                 Name = "ContextCopyFolderName",
                 Command = Model.Commands.CopyFullPathToClipboardCommand
             };

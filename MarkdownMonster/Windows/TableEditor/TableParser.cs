@@ -602,7 +602,8 @@ namespace MarkdownMonster.Windows
                     MaxWidth = header.Length
                 };
 
-                var maxWidth = cols.Max(d => d?.Text == null ? 0 :d.Text.Length);
+                // Loop through all rows and look at the i column's text to get max length
+                var maxWidth = data.Max(d =>  d[i]?.Text == null ? 0 : d[i].Text.Length);
 
                 if (maxWidth > colInfo.MaxWidth)
                     colInfo.MaxWidth = maxWidth;

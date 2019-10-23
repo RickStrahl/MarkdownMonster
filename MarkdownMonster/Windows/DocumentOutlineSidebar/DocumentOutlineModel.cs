@@ -197,13 +197,17 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
         /// <returns></returns>
         public string CreateMarkdownOutline(MarkdownDocument document, int startLine = -1)
         {
+
+            if (string.IsNullOrEmpty(document.CurrentText))
+                return string.Empty;
+
             bool oldAutoHeaderIdentifiers = mmApp.Configuration.MarkdownOptions.AutoHeaderIdentifiers;
             mmApp.Configuration.MarkdownOptions.AutoHeaderIdentifiers = true;
 
             string origDocument = null;
             var sb = new StringBuilder();
 
-            if (startLine > 0 && !string.IsNullOrEmpty(document.CurrentText))
+            if (startLine > 0 )
             {
                 origDocument = document.CurrentText;
                 

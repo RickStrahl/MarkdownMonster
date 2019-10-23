@@ -145,26 +145,22 @@ namespace MarkdownMonster.Windows
                 }
             }
 
+            // Last Cell in Last Row - insert a new row on tab
             var lastText = Children.OfType<TextBox>().LastOrDefault();
             if (lastText != null)
             {                
                 lastText.PreviewKeyDown += (s, e) =>
                 {
+                    // Tab Key Insertion
                     if (e.Key == Key.Tab)
                     {
                         if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                             return;
-                       
-                        var newRow = new ObservableCollection<CellContent>();
-                        foreach (var header in TableSource[0])
-                            newRow.Add(new CellContent(string.Empty));
 
                         var textBox = s as TextBox;
                         var pos = textBox.Tag as TablePosition;
 
-                        TableSource.Add(newRow);
-
-                        SelectColumn(pos.Row + 1, 0);
+                        AddRow(pos.Row, 0, RowInsertLocation.Below);
                     }
                 };
             }
@@ -187,23 +183,27 @@ namespace MarkdownMonster.Windows
             return _lastMeasureSize;
         }
 
-        void KeyUpAndDownHandler(object o, KeyEventArgs args)
+        void KeyUpHandler(object o, KeyEventArgs args)
         {
-            if (args.Key == Key.Up)
+            bool isShifted = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+                
+
+            if (args.Key == Key.Up && !isShifted)
             {
                 var textBox = o as TextBox;
                 var pos = textBox.Tag as TablePosition;
 
                 SelectColumn(pos.Row - 1, pos.Column);
             }
-            else if (args.Key == Key.Down)
+            else if (args.Key == Key.Down && !isShifted)
             {
                 var textBox = o as TextBox;
                 var pos = textBox.Tag as TablePosition;
 
                 SelectColumn(pos.Row + 1, pos.Column);
-            }         
+            }
         }
+
 
         #region Helpers
 
@@ -334,7 +334,7 @@ namespace MarkdownMonster.Windows
         {
             var tb = new TextBox();
 
-            tb.KeyUp += KeyUpAndDownHandler;
+            tb.KeyUp += KeyUpHandler;
 
             //columnText.SpellCheck.IsEnabled = true; // VERY SLOW - use events instead
             tb.GotFocus += (s, args) => { tb.SpellCheck.IsEnabled = true; };

@@ -2656,10 +2656,15 @@ var MarkdownHighlightRules = function() {
                     '((?:[^\\)\\s\\\\]|\\\\.|\\s(?=[^"]))*)' +        // href or image
                     '(\\s*"' +  escaped('"') + '"\\s*)?' +            // "title"
                     "(\\))"                                           // )
-        }, { // strong ** __
-            token : "string.strong",
-            regex : "([*]{2}|[_]{2}(?=\\S))(.*?\\S[*_]*)(\\1)"
-        }, { // emphasis * _
+            }, 
+          { // strong emphasis ***
+            token : "string.strong.emphasis",
+            regex : "([*]{3}|[_]{3}(?=\\S))(.*?\\S[*_]*)(\\1)"
+            },
+          { // strong ** __
+            token: "string.strong",
+            regex: "([*]{2}|[_]{2}(?=\\S))(.*?\\S[*_]*)(\\1)"
+          },{ // emphasis * _
             token : "string.emphasis",
             regex : "([*]|[_](?=\\S))(.*?\\S[*_]*)(\\1)"
         }, { //
@@ -3186,4 +3191,3 @@ exports.Mode = Mode;
                         }
                     });
                 })();
-            
