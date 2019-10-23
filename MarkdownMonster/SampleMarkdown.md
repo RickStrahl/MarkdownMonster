@@ -374,3 +374,18 @@ Here is some text that includes a Footnote [^1] in the middle of its text. And h
 
 > ### @icon-info-circle Use the @icon-table Table Editor 
 > For easier table data entry and pretty rendered tables you can use the table editor which provides grid based table data entry. You can use the table editor with **Pipe**, **Grid** and **HTML** tables.
+
+# How to handle special chars (e.g. German "Umlaut" like ä,ö,ü,ß) in Headers 
+If you have any special character in your Markdown the links in the auto generated table of content may not work for those headings. 
+
+But there is a workaround:
+1. Go to Tools --> Settings
+2. Set `Generic Attributes` to true (for more information visit https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/GenericAttributesSpecs.md)
+3. Give a custom id by insert `#` followed by your id into curly braces (`{#your-header-id}`) at least for the problematic headings
+
+The id is not rendered in the resulting text:
+``` markdown
+# Your header with special char (ä,ö,ü,ß) {#your-header-id}
+```
+result:
+# Your header with special char (ä,ö,ü,ß) {#your-header-id}
