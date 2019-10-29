@@ -116,7 +116,7 @@ namespace MarkdownMonster.Windows.DocumentOutlineSidebar
 
                     var headerItem = new HeaderItem()
                     {
-                        Text = $"{content}",
+                        Text = content,
                         Level = heading.Level,
                         Line = line,
                         LinkId = LinkHelper.UrilizeAsGfm(content.TrimEnd())
