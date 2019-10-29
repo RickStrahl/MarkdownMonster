@@ -124,8 +124,8 @@
                     } else {
                         // key typed into document
                         if (event.keyCode == 13 || event.keyCode == 8 || event.keyCode == 46) {
-                          // Line feed, backspace, del should immediately spell check as errors shift
-                          if (te.spellcheck)  te.spellcheck.spellCheck(true);
+                            // Line feed, backspace, del should immediately spell check as errors shift
+                            if (te.spellcheck) te.spellcheck.spellCheck(true);
                         }
                         updateDocument();
                     }
@@ -324,9 +324,9 @@
             if (size)
                 te.editor.setFontSize(size);
             if (fontFace)
-                te.editor.setOption('fontFamily', fontFace);
+                te.editor.setOption("fontFamily", fontFace);
             if (weight)
-                te.editor.setOption('fontWeight', weight);
+                te.editor.setOption("fontWeight", weight);
         },
         getfontsize: function () {
             var zoom = screen.deviceXDPI / screen.logicalXDPI;
@@ -335,6 +335,14 @@
         },
 
         gotoLine: function (line, noRefresh, noSelection) {
+            if (typeof line !== "number")
+                return;
+
+            var maxLine = te.editor.session.getLength() - 1;
+            if (line < 0)
+                line = 0;
+            else if (line > maxLine)
+                line = maxLine;
 
             //te.editor.gotoLine(line, 0, true);
             te.editor.scrollToLine(line,
@@ -350,13 +358,13 @@
             }
 
             if (!noRefresh)
-                setTimeout(function() {
-                        te.refreshPreview();
-                        te.updateDocumentStats();
-                    },
+                setTimeout(function () {
+                    te.refreshPreview();
+                    te.updateDocumentStats();
+                },
                     10);
             else
-                te.codeScrolled = new Date().getTime() ;
+                te.codeScrolled = new Date().getTime();
 
         },
         gotoBottom: function (noRefresh) {
@@ -531,7 +539,7 @@
 
             te.editor.session.replace(range, replace);
         },
-        findText: function(search) {
+        findText: function (search) {
             var range = te.editor.find(search,
                 {
                     wrap: true,
@@ -546,13 +554,13 @@
             range.start.column = 0;
             range.end.column = 5000;
         },
-        openSearch: function(searchText) {
+        openSearch: function (searchText) {
             te.editor.execCommand("find");
-            setTimeout(function() {
-                    var el$ = $(".ace_search_form .ace_search_field");
-                    el$.val(searchText);
-                    te.editor.searchBox.findNext();
-                },
+            setTimeout(function () {
+                var el$ = $(".ace_search_form .ace_search_field");
+                el$.val(searchText);
+                te.editor.searchBox.findNext();
+            },
                 80);
         },
         openSearchAndReplace: function (searchText, replaceText) {
@@ -714,10 +722,10 @@
         },
         updateDocumentStats: function () {
             if (te.isEditorSimple) return;
-            setTimeout(function() {
-                    var stats = te.getDocumentStats();
-                    te.mm.textbox.updateDocumentStats(stats);
-                },50);
+            setTimeout(function () {
+                var stats = te.getDocumentStats();
+                te.mm.textbox.updateDocumentStats(stats);
+            }, 50);
         },
         enablespellchecking: function (disable, dictionary) {
             if (dictionary)
