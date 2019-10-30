@@ -4,7 +4,7 @@ $cur="$PSScriptRoot"
 
 $netfull = $True;    # netfull is full framework - otherwise net core
 if($netfull) {
-    $source="$PSScriptRoot\..\MarkdownMonster\bin\Release\net462\win-x86"
+    $source="$PSScriptRoot\..\MarkdownMonster\bin\Release\net472\win-x86"
 }
 else {
     $source="$PSScriptRoot\..\MarkdownMonster\bin\Release\netcoreapp3.0\win-x86"

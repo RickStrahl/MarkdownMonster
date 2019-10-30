@@ -196,7 +196,7 @@ c:\> choco install markdownmonster.portable
                             </div>
                             <div>
                                 <i class="fa fa-check-circle"></i>
-                                Microsoft .NET Framework <a href="https://dotnet.microsoft.com/download/dotnet-framework">4.6.2 or later</a>
+                                Microsoft .NET Framework <a href="https://dotnet.microsoft.com/download/dotnet-framework">4.7.2 or later</a>
                             </div>   
                             <div>
                                 <i class="fa fa-check-circle"></i>

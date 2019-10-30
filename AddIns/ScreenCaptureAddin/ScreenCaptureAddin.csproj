@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <Version>1.18</Version>
-    <TargetFramework>net462</TargetFramework>
-    <!--<TargetFrameworks>netcoreapp3.0;net462</TargetFrameworks>-->
+    <TargetFramework>net472</TargetFramework>
+    <!--<TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>-->
     <AssemblyName>ScreenCaptureAddin</AssemblyName>
     <UseWPF>true</UseWPF>
 
@@ -42,7 +42,7 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net462'">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
     <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
       <Private>false</Private>
     </Reference>
@@ -61,7 +61,7 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
     <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
     <DefineConstants>NETFULL</DefineConstants>
   </PropertyGroup>
 

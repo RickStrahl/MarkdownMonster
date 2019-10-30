@@ -127,13 +127,13 @@ namespace MarkdownMonster
             if (_noStart)
                 return;
 
-#if false
+#if true
             var dotnetVersion = MarkdownMonster.Utilities.mmWindowsUtils.GetDotnetVersion();
-            if (string.Compare(dotnetVersion, "4.6.2", StringComparison.Ordinal) < 0)
+            if (string.Compare(dotnetVersion, "4.7.2", StringComparison.Ordinal) < 0)
             {
-                Task.Run(() => MessageBox.Show("Markdown Monster requires .NET 4.6.2 or later to run.\r\n\r\n" +
-                                               "Please download and install the latest version of .NET version from:\r\n" +
-                                               "https://www.microsoft.com/net/download/framework\r\n\r\n" +
+                Task.Run(() => MessageBox.Show("Markdown Monster requires .NET 4.7.2 or later to run.\r\n\r\n" +
+                                               "Please download and install the latest .NET Framework version from:\r\n" +
+                                               "https://dotnet.microsoft.com/download/dotnet-framework\r\n\r\n" +
                                                "Exiting application and navigating to .NET Runtime Downloads page.",
                     "Markdown Monster",
                     MessageBoxButton.OK,
@@ -141,7 +141,9 @@ namespace MarkdownMonster
                 ));
 
                 Thread.Sleep(10000);
-                ShellUtils.GoUrl("https://www.microsoft.com/net/download/framework");
+                ShellUtils.GoUrl("https://dotnet.microsoft.com/download/dotnet-framework");
+
+                mmApp.Log("Dotnet Framework Version not met: " + dotnetVersion, logLevel: LogLevels.Warning);
                 Environment.Exit(0);
             }
 #endif

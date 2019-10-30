@@ -2,15 +2,17 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net462</TargetFramework> 
     <!--<TargetFramework>netcoreapp3.0</TargetFramework>-->
-
-    <Version>1.19.12</Version>
-    <AssemblyName>MarkdownMonster</AssemblyName>
-    <UseWPF>true</UseWPF>
-    <UseWindowsForms>true</UseWindowsForms>
-    
     <StartupObject>StartUp</StartupObject>
+    <UseWPF>true</UseWPF>
+    
+
+    <TargetFramework>net472</TargetFramework>
+
+    <Version>1.19.12.4</Version>
+    <AssemblyName>MarkdownMonster</AssemblyName>
+    
+    
     <Authors>Rick Strahl, West Wind Technologies</Authors>
     <PackageProjectUrl>https://markdownmonster.west-wind.com</PackageProjectUrl>
     <PackageIconUrl>https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_256.png</PackageIconUrl>
@@ -30,13 +32,24 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
-      <UseWinForms>true</UseWinForms>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Speech" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Windows.Forms" />
+
+    <!--<Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationClientsideProviders" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />-->
 
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.3.3" />
   </ItemGroup>
@@ -49,15 +62,16 @@
     <PackageReference Include="LibGit2Sharp" Version="0.26.1" />
     <PackageReference Include="LumenWorksCsvReader" Version="4.0.0" />
     <PackageReference Include="MahApps.Metro" Version="1.6.5" />
-    <PackageReference Include="Markdig" Version="0.17.1" />
+    <PackageReference Include="Markdig" Version="0.18.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.11.0" />
     <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
     <PackageReference Include="Westwind.Utilities" Version="3.0.30" />
-    <PackageReference Include="ReverseMarkdown" Version="3.8.0" />
+    <PackageReference Include="ReverseMarkdown" Version="3.9.0" />
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
     <PackageReference Include="Mono.Cecil" Version="0.11.0" />
   </ItemGroup>
   <ItemGroup>
+    
     <Reference Include="Westwind.TypeImporter">
       <HintPath>..\SupportAssemblies\Westwind.TypeImporter.dll</HintPath>
     </Reference>
@@ -126,7 +140,7 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
     <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
     <DefineConstants>NETFULL</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
