@@ -268,8 +268,8 @@ namespace MarkdownMonster
                 }
                 catch (Exception ex)
                 {
-                    Model.Window.ShowStatusError($"Can't open from url: {ex.Message}");
-                    mmApp.Log($"OpenFromUrl failed for {url}: {ex.Message}", ex);
+                    Model.Window.ShowStatusError($"Can't open document: {ex.Message} - Url: {url}");
+                    mmApp.Log($"OpenFromUrl failed for {url}: {ex.Message}", ex, logLevel: LogLevels.Warning);
                     return;
                 }
 
