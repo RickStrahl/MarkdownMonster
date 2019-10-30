@@ -148,10 +148,21 @@ namespace MarkdownMonster
         /// <summary>
         /// Goes to the specific line in the editor
         /// </summary>
-        public void GotoLine(int line, bool noRefresh, bool noSelection)
+        public void GotoLine(int line, bool noRefresh = false, bool noSelection = false)
         {
             Invoke("gotoLine", line, noRefresh, noSelection);
         }
+
+        /// <summary>
+        /// Goes to the bottom of the document
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="noRefresh"></param>
+        public void GotoBottom(bool noRefresh = false, bool noSelection = false)
+        {
+            Invoke("gotoBottom",  noRefresh);
+        }
+
 
         /// <summary>
         /// Sets scroll position from a scroll object (captured via COM)
@@ -252,6 +263,12 @@ namespace MarkdownMonster
         private void SetIsDirty(bool isDirty)
         {
             Set("isDirty", isDirty);
+        }
+
+
+        public void SetCodeScrolled()
+        {
+            Invoke("setCodeScrolled", false);
         }
 
         /// <summary>
@@ -499,6 +516,7 @@ namespace MarkdownMonster
         #endregion
 
 
+       
     }
 }
 

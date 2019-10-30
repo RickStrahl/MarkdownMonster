@@ -333,9 +333,8 @@
             var fontsize = te.editor.getFontSize() * zoom;
             return fontsize;
         },
-
         gotoLine: function (line, noRefresh, noSelection) {
-            if (typeof line !== "number")
+            if (typeof(line) !== "number")
                 return;
 
             var maxLine = te.editor.session.getLength() - 1;
@@ -367,16 +366,8 @@
                 te.codeScrolled = new Date().getTime();
 
         },
-        gotoBottom: function (noRefresh) {
-            //setTimeout(function() {
-            var row = te.editor.session.getLength() - 1;
-            var column = te.editor.session.getLine(row).length; // or simply Infinity
-            te.editor.selection.moveTo(row, column);
-
-            if (!noRefresh)
-                setTimeout(te.refreshPreview, 10);
-            //},
-            //70);
+        gotoBottom: function (noRefresh, noSelection) {
+          te.gotoLine(9999999, noRefresh, noSelection);
         },
         refreshPreview: function (ignored) {
             te.mm.textbox.PreviewMarkdownCallback();

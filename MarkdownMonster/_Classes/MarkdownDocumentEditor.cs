@@ -1283,6 +1283,22 @@ namespace MarkdownMonster
             }
         }
 
+        /// <summary>
+        /// goes to the bottom of the editor
+        /// </summary>
+        /// <param name="noRefresh"></param>
+        /// <param name="noSelection"></param>
+        public void GotoBottom(bool noRefresh = false, bool noSelection = false)
+        {
+            try
+            {
+                AceEditor?.GotoBottom( noRefresh, noSelection);
+            }
+            catch
+            {
+            }
+        }
+
         public void FindAndReplaceTextInCurrentLine(string search, string replace)
         {
             AceEditor?.Invoke("findAndReplaceTextInCurrentLine", search, replace);

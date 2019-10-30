@@ -105,13 +105,26 @@ var scroll = debounce(function (event) {
     if (te.codeScrolled > t - 970)
         return;
 
-    var st = $(window).scrollTop();
+    var st = window.document.documentElement.scrollTop;
+    var sh = window.document.documentElement.scrollHeight - window.document.documentElement.clientHeight;
+
+    //console.log(st, sh);
+
+
     if (st < 3) {
         te.mmEditor.gotoLine(0, true);
         return;
     }
+    // if we're on the last page
+    if (sh == st) {
+      //te.mmEditor.gotoLine(9999999, true, true);
+      te.mmEditor.gotoBottom(true, true);
+      return;
+    }
 
     var winTop = st + 100;
+
+
     var $lines = $("[id*='pragma-line-']");
 
     if ($lines.length < 1)
@@ -130,7 +143,7 @@ var scroll = debounce(function (event) {
 
     id = id.replace("pragma-line-", "");
 
-    var line = (id * 1) -4;
+    var line = (id * 1) - 4;
     te.mmEditor.gotoLine(line, true);
 
 },50);
