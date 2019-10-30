@@ -41,6 +41,7 @@ $(document).ready(function() {
             }
 
             if (hash) {
+                hash = decodeURIComponent(hash);
                 var sel = "a[name='" + hash.substr(1) + "'],#" + hash.substr(1);
                 var $el = $(sel);
                 $("html,body").scrollTop($el.offset().top - 100);
