@@ -94,6 +94,7 @@ window.ondragover = function (event) {
     return false;
 }
 
+// scroll editor to the scroll position of the preview
 var scroll = debounce(function (event) {
 
     if (!te.mmEditor || !te.isPreviewEditorSync) return;
@@ -113,6 +114,7 @@ var scroll = debounce(function (event) {
 
 
     if (st < 3) {
+        if (!dont)
         te.mmEditor.gotoLine(0, true);
         return;
     }
@@ -336,14 +338,12 @@ function scrollToPragmaLine(lineno, headerId) {
         if (te.highlightTimeout > 0)
           setTimeout(function() { $el.removeClass("line-highlight"); }, te.highlightTimeout);
 
-        te.codeScrolled = new Date().getTime();
+        te.codeScrolled = new Date().getTime(); // don't scroll editor once we move
         if (lineno > 3) {
-            //setTimeout(function() { $el[0].scrollIntoView(true); },120);
-            $("html").scrollTop($el.offset().top -25);  // -150
+          $("html").scrollTop($el.offset().top -25);  // -150
         }
 
-      } catch (ex) {
-      }
+      } catch (ex) { }
     },
     20);
 }

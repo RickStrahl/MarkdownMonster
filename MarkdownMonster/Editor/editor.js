@@ -16,7 +16,7 @@
         mainEditor: null, // The main editor instance (root instance)
         editorElement: null, // Ace Editor DOM element bount to
 
-        previewRefreshTimeout: 800,
+        previewRefreshTimeout: 320,
         settings: editorSettings,
         lastError: null,
         dic: null,
@@ -24,11 +24,11 @@
         isDirty: false,
         mousePos: { column: 0, row: 0 },
         spellcheck: null,
-        codeScrolled: 0,
+        //codeScrolled: 0,
 
-        setCodeScrolled: function (ignored) {
-            te.codeScrolled = new Date().getTime();
-        },
+        //setCodeScrolled: function (ignored) {
+        //    te.codeScrolled = new Date().getTime();
+        //},
         initialize: function (styleSettings) {
             if (!styleSettings)
                 styleSettings = editorSettings;
@@ -104,7 +104,9 @@
                 }
             }, te.previewRefreshTimeout);
 
-            var previewRefresh = debounce(function () { te.mm.textbox.PreviewMarkdownCallback(true); }, 80);
+            var previewRefresh = debounce(function() {
+                te.mm.textbox.PreviewMarkdownCallback(true);
+            }, 80);
             $("pre[lang]").on("keyup",
                 function (event) {
                     // up and down handling - force a preview refresh
@@ -118,14 +120,16 @@
                     else if (te.editor.$keybindingId === "ace/keyboard/vim" &&
                         (event.keyCode === 74 || event.keyCode == 75)) {
                         if (!te.editor.state.cm.state.vim.insertMode) {
-                            previewRefresh();
-                            updateDocumentStats();
+                          previewRefresh();
+                          updateDocumentStats();
                         }
                     } else {
+                      
                         // key typed into document
-                        if (event.keyCode == 13 || event.keyCode == 8 || event.keyCode == 46) {
+                        if (event.keyCode === 13 || event.keyCode === 8 || event.keyCode === 46) {
                             // Line feed, backspace, del should immediately spell check as errors shift
                             if (te.spellcheck) te.spellcheck.spellCheck(true);
+                            previewRefresh();
                         }
                         updateDocument();
                     }
@@ -201,12 +205,11 @@
             var changeScrollTop = debounce(function (e) {
                 // don't do anything if we moved without requesting
                 // a document refresh (from preview refresh)
-                if (te.codeScrolled) {
-                    var t = new Date().getTime();
-                    if (te.codeScrolled > t - 500)
-                        return;
-                }
-                te.codeScrolled = 0;
+                //if (te.codeScrolled &&
+                //    te.codeScrolled > new Date().getTime() - 500) {
+                //        return;
+                //}
+                //te.codeScrolled = 0;
 
                 // if there is a selection don't set cursor position
                 // or preview. Mouseup will scroll to position at end
@@ -228,7 +231,6 @@
                 },
                     10);
             }, 50);
-
             editor.session.on("changeScrollTop", changeScrollTop);
 
             return editor;
@@ -237,8 +239,7 @@
             te.configureAceEditor(null, null);
         },
         status: function status(msg) {
-            //alert(msg);
-            status(msg);
+          status(msg);
         },
         getscrolltop: function (ignored) {
             var st = te.editor.getSession().getScrollTop();
@@ -247,8 +248,7 @@
         setscrolltop: function (scrollTop) {
             setTimeout(function () {
                 return te.editor.getSession().setScrollTop(scrollTop);
-            },
-                100);
+            },100);
         },
         getvalue: function (ignored) {
             var text = te.editor.getSession().getValue();
@@ -362,8 +362,8 @@
                     te.updateDocumentStats();
                 },
                     10);
-            else
-                te.codeScrolled = new Date().getTime();
+            //else
+            //    te.codeScrolled = new Date().getTime();
 
         },
         gotoBottom: function (noRefresh, noSelection) {
