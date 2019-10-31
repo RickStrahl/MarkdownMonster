@@ -25,7 +25,6 @@
         mousePos: { column: 0, row: 0 },
         spellcheck: null,
         //codeScrolled: 0,
-
         //setCodeScrolled: function (ignored) {
         //    te.codeScrolled = new Date().getTime();
         //},
@@ -221,7 +220,9 @@
                 setTimeout(function () {
                     var firstRow = te.editor.renderer.getFirstVisibleRow();
                     if (firstRow > 2)
-                        firstRow += 3;
+                      firstRow += 3;
+                    else
+                      firstRow = 0;
 
                     // preview and highlight top of display
                     te.mm.textbox.PreviewMarkdownCallback(true, firstRow);
@@ -360,8 +361,8 @@
                 setTimeout(function () {
                     te.refreshPreview();
                     te.updateDocumentStats();
-                },
-                    10);
+                }, 10);
+
             //else
             //    te.codeScrolled = new Date().getTime();
 

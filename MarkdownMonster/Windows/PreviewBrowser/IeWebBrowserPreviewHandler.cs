@@ -375,7 +375,7 @@ namespace MarkdownMonster.Windows.PreviewBrowser
                     () => {
                         try
                         {
-                            PreviewMarkdown(editor, keepScrollPosition, false, renderedHtml, editorLineNumber -1);
+                            PreviewMarkdown(editor, keepScrollPosition, false, renderedHtml, editorLineNumber == 0 ? 0 : editorLineNumber -1);
                         }
                         catch (Exception ex)
                         {
