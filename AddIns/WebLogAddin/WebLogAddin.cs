@@ -175,16 +175,20 @@ namespace WeblogAddin
             {
                 var existingPost = GetPost(meta.PostId, weblogInfo);
                 if (existingPost != null && meta.CustomFields != null && existingPost.CustomFields != null)
-                    customFields = existingPost.CustomFields
-                        .ToDictionary(cf => cf.Key, cf => cf);
+                {
+                    foreach (var kvp in existingPost.CustomFields)
+                    {
+                        if (!customFields.ContainsKey(kvp.Key))
+                            AddOrUpdateCustomField(customFields, kvp.Key, kvp.Value);
+                    }
+                }
             }
             // add custom fields from Weblog configuration
             if (weblogInfo.CustomFields != null)
             {
                 foreach (var kvp in weblogInfo.CustomFields)
                 {
-                    if (!customFields.ContainsKey(kvp.Key))
-                        AddOrUpdateCustomField(customFields, kvp.Key, kvp.Value);
+                    AddOrUpdateCustomField(customFields, kvp.Key, kvp.Value);
                 }
             }
             // add custom fields from Meta data
@@ -195,8 +199,11 @@ namespace WeblogAddin
                     AddOrUpdateCustomField(customFields, kvp.Key, kvp.Value.Value);
                 }
             }
+
             if (!string.IsNullOrEmpty(markdown))
+            {
                 AddOrUpdateCustomField(customFields, "mt_markdown", markdown);
+            }
 
             WeblogModel.ActivePost.CustomFields = customFields.Values.ToArray();
 
