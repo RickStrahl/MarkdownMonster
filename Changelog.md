@@ -1,4 +1,4 @@
-﻿# Markdown Monster Change Log 
+# Markdown Monster Change Log 
  
 [![download](https://img.shields.io/badge/Download-Installer-blue.svg)](https://markdownmonster.west-wind.com/download.aspx)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
@@ -23,7 +23,11 @@ Fix behavior of markdown text that uses both bold and italic in the editor: `***
 Fixed tab behavior on the last column of the table: When pressing Tab on the last cell a new row is inserted and the cursor moved to the first column of the new row. This actually was supposed to work before and a new row was being inserted, but the UI wasn't properly refreshing. Fixed.
 
 * **Fix: Table Editor Column Width Formatting when Embedding**  
-Fixed regression that removed the column sizing logic that attempts to fix table widths to make the tables line up properly. 
+Fixed regression that removed the column sizing logic that attempts to fix table widths to make the tables line up properly.
+
+* **Fix: Alternate Single Quotes and Spellchecking of Apostrophied Words**  
+Fixed issue where spell checking wasn't working correctly with 'special' single quotes (SmartyPants or imported from something like Word). Fixed by replacing special quotes with single quotes for handling apostrophied words.
+
 
 ### 1.19.10
 *<small>October 15th, 2019</small>* 
