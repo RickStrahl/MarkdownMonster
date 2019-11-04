@@ -306,8 +306,7 @@ namespace MarkdownMonster
         /// </summary>
         public void AttachPreviewBrowser()
         {
-            // Remove preview browser from old parent if there is one
-            ((Grid)Window.PreviewBrowserContainer.Parent)?.Children.Remove(Window.PreviewBrowserContainer);
+            ((Grid) Window.PreviewBrowserContainer?.Parent)?.Children.Remove(Window.PreviewBrowserContainer);
 
             Window.Model.WindowLayout.IsPreviewVisible = mmApp.Configuration.IsPreviewVisible;
 
@@ -1267,7 +1266,10 @@ namespace MarkdownMonster
         /// Goes to the specified line number in the editor
         /// </summary>
         /// <param name="line">Editor Line to display</param>
-        /// <param name="noRefresh">Won't refresh the preview after setting</param>
+        /// <param name="noRefresh">
+        /// Won't refresh the preview after setting the line number.
+        /// Use this to prevent recursive scrolling in the preview/editor updates.
+        /// </param>
         /// <param name="noSelection">Only scroll but don't select</param>
         public void GotoLine(int line, bool noRefresh = false, bool noSelection = false)
         {
@@ -1279,8 +1281,7 @@ namespace MarkdownMonster
                 AceEditor?.GotoLine(line, noRefresh, noSelection);
             }
             catch
-            {
-            }
+            { }
         }
 
         /// <summary>
@@ -1472,7 +1473,7 @@ namespace MarkdownMonster
         /// <summary>
         /// Callback handler callable from JavaScript editor
         /// </summary>
-        public void PreviewMarkdownCallback(bool dontGetMarkdown = false, int editorLineNumber = -1)
+        public void PreviewMarkdownCallback(bool dontGetMarkdown = false, int editorLineNumber = -1, bool noPreviewScrolling = false)
         {
             if (Window.PreviewBrowser == null) return;
 
