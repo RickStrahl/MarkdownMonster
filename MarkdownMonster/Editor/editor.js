@@ -24,10 +24,11 @@
         isDirty: false,
         mousePos: { column: 0, row: 0 },
         spellcheck: null,
-        //codeScrolled: 0,
-        //setCodeScrolled: function (ignored) {
-        //    te.codeScrolled = new Date().getTime();
-        //},
+        // prevent editor scrolling from refreshing the preview recursively
+        setCodeScrolled: function (ignored) {
+            te.codeScrolled = new Date().getTime();
+        },
+        codeScrolled: 0,
         initialize: function (styleSettings) {
             if (!styleSettings)
                 styleSettings = editorSettings;
@@ -204,11 +205,11 @@
             var changeScrollTop = debounce(function (e) {
                 // don't do anything if we moved without requesting
                 // a document refresh (from preview refresh)
-                //if (te.codeScrolled &&
-                //    te.codeScrolled > new Date().getTime() - 500) {
-                //        return;
-                //}
-                //te.codeScrolled = 0;
+                if (te.codeScrolled &&
+                    te.codeScrolled > new Date().getTime() - 500) {
+                        return;
+                }
+                te.codeScrolled = 0;
 
                 // if there is a selection don't set cursor position
                 // or preview. Mouseup will scroll to position at end
@@ -334,6 +335,8 @@
             var fontsize = te.editor.getFontSize() * zoom;
             return fontsize;
         },
+        // noRefresh: Set true to prevent the editor from refreshing the preview
+        //            and recursive bouncing in the editor.
         gotoLine: function (line, noRefresh, noSelection) {
             if (typeof(line) !== "number")
                 return;
@@ -356,16 +359,16 @@
                 range.setEnd({ row: line, column: 0 });
                 sel.setSelectionRange(range);
             }
-
             if (!noRefresh)
-                setTimeout(function () {
-                    te.refreshPreview();
-                    te.updateDocumentStats();
-                }, 10);
-
-            //else
-            //    te.codeScrolled = new Date().getTime();
-
+              setTimeout(function() {
+                  te.refreshPreview();
+                  te.updateDocumentStats();
+                },
+                10);
+            else
+              // this keeps the editor from firing scrolled
+              // events to update the preview again
+              te.setCodeScrolled();
         },
         gotoBottom: function (noRefresh, noSelection) {
           te.gotoLine(9999999, noRefresh, noSelection);

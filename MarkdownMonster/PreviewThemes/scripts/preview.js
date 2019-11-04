@@ -107,7 +107,6 @@ var scroll = debounce(function (event) {
     if (te.codeScrolled > t - 270) 
       return;
     
-
     var st = window.document.documentElement.scrollTop;
     var sh = window.document.documentElement.scrollHeight - window.document.documentElement.clientHeight;
 
