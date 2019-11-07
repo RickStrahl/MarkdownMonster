@@ -1,16 +1,10 @@
 ﻿# Markdown Monster ToDo List
 
 ### Bugs
-* [x] When closing last document stats are not cleared.
 
 ### Immediate
 * [ ] Addin Enabled/Disabled
-* [ ] Master Configuration Form
-* [x] Git Integration
-    *  [x] Clone Repository
-    *  [x] Commit to Git Dialog (uid/pwd,desc,commit all)
-    *  [x] Add Remote
-    *  [x] Create Repository
+* [ ] Format Table (without dialog)
 
 ### Mid Term
 * [ ] Search for Blog Posts in Weblog Posts folder (walk tree and show titles)

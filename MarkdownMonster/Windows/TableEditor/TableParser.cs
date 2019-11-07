@@ -48,6 +48,26 @@ namespace MarkdownMonster.Windows
         }
 
         /// <summary>
+        /// determines if a string contains a given type of Markdown Table
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        public  MarkdownTableType DetectTableType(string tableMarkdown)
+        {
+            if (tableMarkdown.Trim().StartsWith("+-") && tableMarkdown.Trim().EndsWith("-+"))
+                return MarkdownTableType.Grid;
+
+            if (tableMarkdown.IndexOf("<table", StringComparison.InvariantCultureIgnoreCase) > -1 &&
+                tableMarkdown.IndexOf("</table>", StringComparison.InvariantCultureIgnoreCase) > -1)
+                return MarkdownTableType.Html;
+
+            if (tableMarkdown.Contains("|"))
+                return MarkdownTableType.Pipe;
+
+            return MarkdownTableType.None;
+        }
+
+        /// <summary>
         ///
         /// </summary>
         /// <param name="tableData"></param>
@@ -271,20 +291,58 @@ namespace MarkdownMonster.Windows
 
 
         /// <summary>
+        /// Re-Formats a Markdown table to nicely formatted output (size permitting)
+        /// </summary>
+        /// <param name="tableMarkdown"></param>
+        /// <returns>formatted markdown, if it can't be formatted original is returned</returns>
+        public string FormatMarkdownTable(string tableMarkdown)
+        {
+            var parser = new TableParser();
+            var type = parser.DetectTableType(tableMarkdown);
+            if (type == MarkdownTableType.None)
+                return null;
+
+            var tableData = ParseMarkdownToData(tableMarkdown);
+            if (tableData == null)
+                return tableMarkdown;
+
+            string output = null;
+            switch (type)
+            {
+                case MarkdownTableType.Pipe:
+                    output = parser.ToPipeTableMarkdown(tableData);
+                    break;
+                case MarkdownTableType.Grid:
+                    output = parser.ToGridTableMarkdown(tableData);
+                    break;
+                case MarkdownTableType.Html:
+                    output = parser.ToTableHtml(tableData);
+                    break;
+            }
+
+            return output;
+        }
+
+
+        /// <summary>
         /// Parses a table represented as Markdown or HTML into an Observable collection
         /// </summary>
         /// <param name="tableMarkdown"></param>
-        /// <returns></returns>
+        /// <returns>TableData object or null if string is not a markdown table format recognized</returns>
         public ObservableCollection<ObservableCollection<CellContent>> ParseMarkdownToData(string tableMarkdown)
         {
             var data = new ObservableCollection<ObservableCollection<CellContent>>();
             if (string.IsNullOrEmpty(tableMarkdown))
                 return data;
 
-            if (tableMarkdown.Trim().StartsWith("+-") && tableMarkdown.Trim().EndsWith("-+"))
+
+            var type = DetectTableType(tableMarkdown);
+            if (type == MarkdownTableType.None)
+                return null;
+
+            if (type == MarkdownTableType.Grid)
                 return ParseMarkdownGridTableToData(tableMarkdown);
-            if (tableMarkdown.IndexOf("<table",StringComparison.InvariantCultureIgnoreCase) > -1 &&
-                tableMarkdown.IndexOf("</table>",StringComparison.InvariantCultureIgnoreCase) > -1)
+            if (type == MarkdownTableType.Html)
                 return ParseHtmlToData(tableMarkdown);
 
             return ParseMarkdownPipeTableToData(tableMarkdown);
@@ -624,6 +682,13 @@ namespace MarkdownMonster.Windows
         public int MaxWidth;
     }
 
+    public enum MarkdownTableType
+    {
+        Pipe,
+        Grid,
+        Html,
+        None
+    }
 
 
 }

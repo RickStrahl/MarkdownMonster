@@ -355,6 +355,147 @@ Kevin,Oak Leaf,Bumfuck VA,4
 
 
 
+        [TestMethod]
+        public void DetectTableTypeTest()
+        {
+            string mdPipe = @"
+| Header1              | Header 2 | Header 3 |
+|--------------------------------------------|
+| column 1             | Column 2 | Column 3 |
+| Custom Table Content | Column 5 | Column 6 |
+| Column 7             | Column 8 | Column 9 |
+";
+
+            var parser = new TableParser();
+            var type = parser.DetectTableType(mdPipe);
+
+            Assert.IsTrue(type == MarkdownTableType.Pipe,"Not a Pipe Table");
+
+
+            string mdHtml = @"
+<table>
+<tbody>
+<tr>
+    <td>Column1</td>
+    <td>Column2</td>
+    <td>Column3</td>
+</tr>
+<tr>
+    <td>Column1 Row 1</td>
+    <td>Column2 Row 1</td>
+    <td>Column3 Row 1</td>
+</tr>
+<tr>
+    <td>Column1 Row 2</td>
+    <td>Column2 Row 2</td>
+    <td>Column3 Row 2</td>
+</tr>
+<tr>
+    <td>Column1 Row 3</td>
+    <td>Column2 Row 3</td>
+    <td>Column3 Row 3</td>
+</tr>
+</tbody>
+</html>
+";
+
+            type = parser.DetectTableType(mdHtml);
+            Assert.IsTrue(type == MarkdownTableType.Html,"Not an HTML table");
+
+            string mdGrid = @"
++------------------------------------------+----------------+------------+
+| Header 1                                 | Header 2       | Header 3   |
++==========================================+================+============+
+| Column 1                                 | Column 2 Text  | Column 3   |
++------------------------------------------+----------------+------------+
+| Column 4                                 | Column 5 Text  | Column 5.5 |
+| and a bottle of Russian rum              |                |            |
+| with broken glass                        |                |            |
++------------------------------------------+----------------+------------+
+| Column 6                                 | Column 7 Text  | Column 8   |
++------------------------------------------+----------------+------------+
+| Column 9                                 | Column 10 Text | Column 11  |
+| ho ho and a bottle of rum                |                |            |
++------------------------------------------+----------------+------------+
+";
+
+            type = parser.DetectTableType(mdGrid);
+            Assert.IsTrue(type == MarkdownTableType.Grid,"Not a Grid Table");
+        }
+
+
+        [TestMethod]
+        public void FormatPipeTableTest()
+        {
+            string md = @"
+| Header1 | Header 2   | Header 3    |
+|--------------------------------------------|
+| column 1 | Column 2 | Column 3 |
+| Custom Table Content | Column 5 | Column 6 |
+| Column 7  | Column 8 | Column 9 |
+";
+
+            var parser = new TableParser();
+            var niceMd = parser.FormatMarkdownTable(md);
+            Console.WriteLine(niceMd);
+            Assert.IsTrue(niceMd.Contains("| Column 7             |"), "Pipe is not formatted as expected");
+        }
+
+
+        [TestMethod]
+        public void FormatGridTableTest()
+        {
+            string md= @"
++------------------------+----------------+------------+
+| Header 1 | Header 2       | Header 3   |
++==========================================+================+============+
+| Column 1  | Column 2 Text  | Column 3   |
++------------------------------------------+----------------+------------+
+| Column 4                     | Column 5 Text  | Column 5.5 |
+| and a bottle of Russian rum              |                |            |
+| with broken glass   |                |            |
++------------------------------------------+----------------+------------+
+| Column 6                      | Column 7 Text  | Column 8   |
++------------------------------------------+----------------+------------+
+| Column 9      | Column 10 Text | Column 11  |
+| ho ho and a bottle of rum                |                |            |
++------------------------------------------+----------------+------------+
+";
+            var parser = new TableParser();
+            var niceMd = parser.FormatMarkdownTable(md);
+
+            Console.WriteLine(niceMd);
+            Assert.IsTrue(niceMd.Contains("| Column 1                                 |"), "Grid is not formatted as expected");
+        }
+
+        [TestMethod]
+        public void FormatHtmlTableTest()
+        {
+            string md = @"
+<table>
+<tbody>
+<tr>    <td>Column1</td>     <td>Column2</td>     <td>Column3</td> </tr>
+<tr>
+    <td>Column1 Row 1</td><td>Column2 Row 1</td><td>Column3 Row 1</td>
+</tr>
+<tr>    <td>Column1 Row 2</td>
+    <td>Column2 Row 2</td><td>Column3 Row 2</td>
+</tr>
+<tr>
+    <td>Column1 Row 3</td>
+    <td>Column2 Row 3</td>
+    <td>Column3 Row 3</td>
+</tr></tbody></table></html>
+";
+
+            var parser = new TableParser();
+            var niceMd = parser.FormatMarkdownTable(md);
+
+            Console.WriteLine(niceMd);
+            Assert.IsTrue(niceMd.Contains("		<td>Column3 Row 3</td>"), "Pipe is not formatted as expected");
+        }
+
+
         ObservableCollection<ObservableCollection<CellContent>> GetTableData()
         {
             var parser = new TableParser();
