@@ -445,67 +445,38 @@ namespace MarkdownMonster.Controls.ContextMenus
                 line.Trim().StartsWith("+-") && line.Trim().EndsWith("-+"))
 
             {
+                
                 var mi = new MenuItem
                 {
                     Header = "Edit Table"
                 };
                 mi.Click += (o, args) =>
                 {
-                    var editor = Model.ActiveEditor;
-
-                    var lineText = editor?.GetCurrentLine();
-                    if (string.IsNullOrEmpty(lineText) ||
-                        !(lineText.Contains("|") &&
-                        !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+") )))
-                        return;
-
-                    var startPos = editor.GetCursorPosition();
-                    var row = startPos.row;
-                    var startRow = row;
-                    for (int i = row - 1; i > -1; i--)
-                    {
-                        lineText = editor.GetLine(i);
-                        if (!lineText.Contains("|")  &&
-                           !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
-                        {
-                            startRow = i +1;
-                            break;
-                        }
-
-                        if (i == 0)
-                        {
-                            startRow = 0;
-                            break;
-                        }
-                    }
-
-                    var endRow = startPos.row;
-                    for (int i = row + 1; i < 99999999; i++)
-                    {
-                        lineText = editor.GetLine(i);
-                        if (!lineText.Contains("|")  &&
-                            !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
-                        {
-                            endRow = i -1;
-                            break;
-                        }
-                    }
-
-                    if (endRow == startRow || endRow < startRow + 2)
-                        return;
-
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = startRow; i <= endRow; i++)
-                    {
-                        sb.AppendLine(editor.GetLine(i));
-                    }
-
-                    // select the entire table
-                    Model.ActiveEditor.AceEditor.SetSelectionRange(startRow , 0, endRow + 1,0);
-
-                    Model.ActiveEditor.EditorSelectionOperation("table", sb.ToString());
+                    var tableMarkdown = SelectPipeAndGridTableMarkdown();
+                    Model.ActiveEditor.EditorSelectionOperation("table", tableMarkdown);
                 };
                 ContextMenu.Items.Add(mi);
+
+                mi = new MenuItem
+                {
+                    Header = "Format Table"
+                };
+                mi.Click += (o, args) =>
+                {
+                    string mdTableHtml = SelectPipeAndGridTableMarkdown();
+                    if (string.IsNullOrEmpty(mdTableHtml))
+                        return;
+
+                    var parser = new TableParser();
+                    var formatted = parser.FormatMarkdownTable(mdTableHtml);
+                    if (formatted == null)
+                        return;
+
+                    Model.ActiveEditor.SetSelectionAndFocus(formatted);
+                    Model.ActiveEditor.PreviewMarkdownCallback();
+                };
+                ContextMenu.Items.Add(mi);
+
                 return true;
             }
             else if (line.Trim().StartsWith("<td ",StringComparison.InvariantCultureIgnoreCase)  ||
@@ -516,62 +487,158 @@ namespace MarkdownMonster.Controls.ContextMenus
                      line.Trim().Equals("<thead>", StringComparison.InvariantCultureIgnoreCase) ||
                      line.Trim().Equals("<tbody>", StringComparison.InvariantCultureIgnoreCase) )
             {
+                StringBuilder sbTableMarkdown = new StringBuilder();
+
                 var mi = new MenuItem
                 {
                     Header = "Edit Table"
                 };
                 mi.Click += (o, args) =>
                 {
-                    var editor = Model.ActiveEditor;
-
-                    var lineText = editor.GetCurrentLine();
-
-                    var startPos = editor.GetCursorPosition();
-                    var row = startPos.row;
-                    var startRow = -1;
-
-                    for (int i = row - 1; i > -1; i--)
-                    {
-                        lineText = editor.GetLine(i);
-                        if (lineText.Trim().StartsWith("<table", StringComparison.InvariantCultureIgnoreCase))                        {
-                            startRow = i;
-                            break;
-                        }
-                    }
-
-                    if (startRow == -1)
+                    string mdTableHtml = SelectHtmlTableMarkdown();
+                    if (string.IsNullOrEmpty(mdTableHtml))
                         return;
-
-                    var endRow = startRow;
-                    for (int i = row + 1; i < 99999999; i++)
-                    {
-                        lineText = editor.GetLine(i);
-                        if (lineText.Trim().Equals("</table>", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            endRow = i;
-                            break;
-                        }
-                    }
-
-                    if (endRow == startRow)
-                        return;
-
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = startRow; i <= endRow; i++)
-                    {
-                        sb.AppendLine(editor.GetLine(i));
-                    }
-
-                    // select the entire table
-                    Model.ActiveEditor.AceEditor.SetSelectionRange(startRow - 1, 0, endRow + 1, 0);
-
-                    Model.ActiveEditor.EditorSelectionOperation("table", sb.ToString());
+                    
+                    Model.ActiveEditor.EditorSelectionOperation("table", mdTableHtml);
                 };
+                ContextMenu.Items.Add(mi);
+                mi = new MenuItem
+                {
+                    Header = "Format Table"
+                };
+                mi.Click += (o, args) =>
+                {
+                    string mdTableHtml = SelectHtmlTableMarkdown();
+                    if (string.IsNullOrEmpty(mdTableHtml))
+                        return;
+
+                    var parser = new TableParser();
+                    var formatted = parser.FormatMarkdownTable(mdTableHtml);
+                    if (formatted == null)
+                        return;
+
+                    Model.ActiveEditor.SetSelectionAndFocus(formatted);
+                    Model.ActiveEditor.PreviewMarkdownCallback();
+                };
+                
                 ContextMenu.Items.Add(mi);
                 return true;
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Attempts to select an HTML table in the editor and returns
+        /// the table HTML as a string
+        /// </summary>
+        /// <returns></returns>
+        private string SelectHtmlTableMarkdown(bool noSelection = false)
+        {
+            StringBuilder sbTableMarkdown = new StringBuilder();
+            var editor = Model.ActiveEditor;
+
+            var lineText = editor.GetCurrentLine();
+
+            var startPos = editor.GetCursorPosition();
+            var row = startPos.row;
+            int startRow = -1;
+
+            for (int i = row - 1; i > -1; i--)
+            {
+                lineText = editor.GetLine(i);
+                if (lineText.Trim().StartsWith("<table", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    startRow = i;
+                    break;
+                }
+            }
+
+            if (startRow == -1)
+                return null;
+
+            int endRow = startRow;
+            for (int i = row + 1; i < 99999999; i++)
+            {
+                lineText = editor.GetLine(i);
+                if (lineText.Trim().Equals("</table>", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    endRow = i;
+                    break;
+                }
+            }
+
+            if (endRow == startRow)
+                return null;
+
+            for (int i = startRow; i <= endRow; i++)
+            {
+                sbTableMarkdown.AppendLine(editor.GetLine(i));
+            }
+
+            if(!noSelection)
+                // select the entire table
+                Model.ActiveEditor.AceEditor.SetSelectionRange(startRow - 1, 0, endRow + 1, 0);
+
+            return sbTableMarkdown.ToString();
+        }
+
+        private string SelectPipeAndGridTableMarkdown(bool noSelection = false)
+        {
+            var editor = Model.ActiveEditor;
+
+            var lineText = editor?.GetCurrentLine()?.Trim();
+            if (string.IsNullOrEmpty(lineText) ||
+                !(lineText.Contains("|") && !(lineText.StartsWith("+") && lineText.EndsWith("+"))
+                ))
+                return null;
+
+            var startPos = editor.GetCursorPosition();
+            var row = startPos.row;
+            var startRow = row;
+            for (int i = row - 1; i > -1; i--)
+            {
+                lineText = editor.GetLine(i);
+                if (!lineText.Contains("|") &&
+                   !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
+                {
+                    startRow = i + 1;
+                    break;
+                }
+
+                if (i == 0)
+                {
+                    startRow = 0;
+                    break;
+                }
+            }
+
+            var endRow = startPos.row;
+            for (int i = row + 1; i < 99999999; i++)
+            {
+                lineText = editor.GetLine(i);
+                if (!lineText.Contains("|") &&
+                    !(lineText.Trim().StartsWith("+") && lineText.Trim().EndsWith("+")))
+                {
+                    endRow = i - 1;
+                    break;
+                }
+            }
+
+            if (endRow == startRow || endRow < startRow + 2)
+                return null;
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = startRow; i <= endRow; i++)
+            {
+                sb.AppendLine(editor.GetLine(i));
+            }
+
+            if (!noSelection)
+                // select the entire table
+                Model.ActiveEditor.AceEditor.SetSelectionRange(startRow, 0, endRow + 1, 0);
+
+            return sb.ToString();
         }
     }
 }

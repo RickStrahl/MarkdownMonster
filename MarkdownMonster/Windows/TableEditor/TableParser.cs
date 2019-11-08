@@ -91,7 +91,7 @@ namespace MarkdownMonster.Windows
             StringBuilder sb = new StringBuilder();
             sb.Clear();
 
-            string line = $"{mmApp.NewLine}| ";
+            string line = $"| ";
             string separator = "|";
             for (int i = 0; i < columnInfo.Count; i++)
             {
@@ -138,7 +138,7 @@ namespace MarkdownMonster.Windows
                 sb.AppendLine(line.Trim());
             }
 
-            return sb + mmApp.NewLine;
+            return sb.ToString();
         }
 
         /// <summary>
