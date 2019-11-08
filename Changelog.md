@@ -4,7 +4,7 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.19.14
+### 1.19.16
 *<small>not released yet</small>* 
 
 * **Add Open With to the Editor Context Menu**  
@@ -12,6 +12,9 @@ Add a new context menu option to **Open With...** that allows opening the curren
 
 * **Add Hotkeys to the Table Editor Context Menu**  
 The table editor context menu now has shortcuts for all operations like Insert Row Above, Below and Insert Column left and right, as well as delete row and column. This makes the options hotkey enabled via `ContextMenu Key + B` for example for Add Row Below within a cell.
+
+* **Format Table Editor Context Menu Option**  
+In the Markdown editor you can now use the context menu over a Markdown or HTML table and re-format that table using the new **Format Table** context menu option.
 
 * **Fix: Preview Sync Problems with Two-way Synching at bottom of Document**  
 Fixed issue where in some cases the cursor would jump up from the bottom of the document when doing two-way preview syncing between the editor and the previewer.

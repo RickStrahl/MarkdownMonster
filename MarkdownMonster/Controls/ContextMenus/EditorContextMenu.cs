@@ -441,9 +441,11 @@ namespace MarkdownMonster.Controls.ContextMenus
             if (string.IsNullOrEmpty(line))
                 return false;
 
-            if (line.Contains("|")  ||
-                line.Trim().StartsWith("+-") && line.Trim().EndsWith("-+"))
+            line = line.Trim();
 
+            if (line.Contains("|")  ||
+                line.StartsWith("+-") ||
+                line.StartsWith("+="))
             {
                 
                 var mi = new MenuItem
@@ -479,13 +481,13 @@ namespace MarkdownMonster.Controls.ContextMenus
 
                 return true;
             }
-            else if (line.Trim().StartsWith("<td ",StringComparison.InvariantCultureIgnoreCase)  ||
-                     line.Trim().StartsWith("<tr ", StringComparison.InvariantCultureIgnoreCase) ||
-                     line.Trim().StartsWith("<th ", StringComparison.InvariantCultureIgnoreCase) ||
-                     line.Trim().StartsWith("<table>", StringComparison.InvariantCultureIgnoreCase) ||
-                     line.Trim().StartsWith("<table ", StringComparison.InvariantCultureIgnoreCase) ||
-                     line.Trim().Equals("<thead>", StringComparison.InvariantCultureIgnoreCase) ||
-                     line.Trim().Equals("<tbody>", StringComparison.InvariantCultureIgnoreCase) )
+            else if (line.StartsWith("<td",StringComparison.InvariantCultureIgnoreCase)  ||
+                     line.StartsWith("<tr", StringComparison.InvariantCultureIgnoreCase) ||
+                     line.StartsWith("<th", StringComparison.InvariantCultureIgnoreCase) ||
+                     line.StartsWith("<table>", StringComparison.InvariantCultureIgnoreCase) ||
+                     line.StartsWith("<table ", StringComparison.InvariantCultureIgnoreCase) ||
+                     line.Equals("<thead>", StringComparison.InvariantCultureIgnoreCase) ||
+                     line.Equals("<tbody>", StringComparison.InvariantCultureIgnoreCase) )
             {
                 StringBuilder sbTableMarkdown = new StringBuilder();
 
@@ -544,7 +546,7 @@ namespace MarkdownMonster.Controls.ContextMenus
             var row = startPos.row;
             int startRow = -1;
 
-            for (int i = row - 1; i > -1; i--)
+            for (int i = row; i > -1; i--)
             {
                 lineText = editor.GetLine(i);
                 if (lineText.Trim().StartsWith("<table", StringComparison.InvariantCultureIgnoreCase))
@@ -558,10 +560,10 @@ namespace MarkdownMonster.Controls.ContextMenus
                 return null;
 
             int endRow = startRow;
-            for (int i = row + 1; i < 99999999; i++)
+            for (int i = row ; i < 99999999; i++)
             {
                 lineText = editor.GetLine(i);
-                if (lineText.Trim().Equals("</table>", StringComparison.InvariantCultureIgnoreCase))
+                if (lineText.Trim().EndsWith("</table>", StringComparison.InvariantCultureIgnoreCase))
                 {
                     endRow = i;
                     break;
@@ -589,8 +591,7 @@ namespace MarkdownMonster.Controls.ContextMenus
 
             var lineText = editor?.GetCurrentLine()?.Trim();
             if (string.IsNullOrEmpty(lineText) ||
-                !(lineText.Contains("|") && !(lineText.StartsWith("+") && lineText.EndsWith("+"))
-                ))
+                !lineText.Contains("|") && !lineText.StartsWith("+") && !lineText.EndsWith("+") )
                 return null;
 
             var startPos = editor.GetCursorPosition();

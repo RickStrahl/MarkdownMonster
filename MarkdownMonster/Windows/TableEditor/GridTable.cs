@@ -317,6 +317,7 @@ namespace MarkdownMonster.Windows
 
         public void DeleteColumn(int currentRow, int currentColumn)
         {
+
             PreventRecursiveUpdates = true;
             foreach (var row in TableSource)
             {
