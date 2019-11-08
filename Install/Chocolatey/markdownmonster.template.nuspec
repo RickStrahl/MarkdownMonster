@@ -21,11 +21,13 @@ Markdown Monster can be extended using a .NET based add-in model and a few usefu
 Markdown Monster can be evaluated for free. This package is **unlimited and fully functional**, but a [license](http://store.west-wind.com/product/markdown_monster) is required for continued use. Although Markdown Monster is licensed software, the source code is available in the open on GitHub. Requires **.NET 4.6.2 or later**.
 
 A portable, non-admin Chocolatey install is also available in [MarkdownMonster.Portable](https://chocolatey.org/packages/MarkdownMonster.Portable). 
+
+![Markdown Monster](http://markdownmonster.west-wind.com/Images/MarkdownMonsterLogo.jpg)
     </description>
     <summary>Markdown Monster is an easy to use and extensible Markdown Editor and Viewer and Weblog Publisher</summary>
     <releaseNotes>https://github.com/RickStrahl/MarkdownMonster/blob/master/Changelog.md</releaseNotes>
     <copyright>West Wind Technologies, 2016-2019</copyright>
-    <tags>markdown editor text weblog-publishing writing documentation blog weblog westwind admin</tags>
+    <tags>markdown editor text weblog publishing writing documentation blog westwind admin</tags>
     <bugTrackerUrl>https://github.com/rickstrahl/MarkdownMonster/issues</bugTrackerUrl>
     <docsUrl>http://markdownmonster.west-wind.com/docs</docsUrl>
     <mailingListUrl>https://support.west-wind.com</mailingListUrl>

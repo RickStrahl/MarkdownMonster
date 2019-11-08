@@ -4,17 +4,34 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
-### 1.19.16
-*<small>not released yet</small>* 
-
-* **Add Open With to the Editor Context Menu**  
-Add a new context menu option to **Open With...** that allows opening the current document in a different editor configured on the system.
+### 1.20
+*<small>November 8th, 2019</small>* 
 
 * **Add Hotkeys to the Table Editor Context Menu**  
 The table editor context menu now has shortcuts for all operations like Insert Row Above, Below and Insert Column left and right, as well as delete row and column. This makes the options hotkey enabled via `ContextMenu Key + B` for example for Add Row Below within a cell.
 
 * **Format Table Editor Context Menu Option**  
 In the Markdown editor you can now use the context menu over a Markdown or HTML table and re-format that table using the new **Format Table** context menu option.
+
+* **Improved Preview Scrolling**  
+We've tweaked the preview scroll behavior which should now result in better consistency when scrolling the editor as well as less latency between editor and preview in two-way sync mode. The overall change involves trying to keep the 'in-focus' content near the top for the synced editor or preview so it's easier to track relevant content in one consistent place. Click sync and cursor movement sync scrolls the current cursor position content near the top of the preview. Also fixed several issues that could on rare occasion 'bounce the editor' when the preview and editor refresh out of sync. Preview scroll should now be much more responsive for both editor->preview and preview->editor scrolling. 
+* **Improved Spellcheck latency**  
+Reduced latency in the spell checking algorithm by checking the document more frequently to avoid jarring highlight movement. Change marker update logic to remove old markers only after new ones have rendered which removes/reduces flicker.
+
+* **Add Copy Code and Syntax Display to Generated HTML Code Snippets**     
+Code snippets in the editor and exported to HTML (in the Preview or if exported) now show a transparent badge that allows copying the code to the clipboard with a simple button click. The badge also shows the syntax in use if any.
+
+* **Add Open With to the Editor Context Menu**  
+Add a new context menu option to **Open With...** that allows opening the current document in a different editor configured on the system.
+
+* **Open Settings Folder in Configuration Window**  
+The Configuration Settings window now has an additional button to quickly open the configuration folder where you find all related configuration files. Same as the Tools menu option.
+
+* **Add Reset Button to the Settings Form**  
+The Settings form now has an additional toolbar button to reset the Markdown Monster installation to installation defaults. Clicking the button backs up the configuration file and then resets all configuration settings to default, followed by a restart.
+
+* **Update Application Theme Changing and Toggling**  
+Fixed a few issues related to switching between light and dark themes. Application now properly restarts after switching or toggling themes. The application theme toggle now sits more noticeably on the top window bar to make it easier to find for new users.
 
 * **Fix: Preview Sync Problems with Two-way Synching at bottom of Document**  
 Fixed issue where in some cases the cursor would jump up from the bottom of the document when doing two-way preview syncing between the editor and the previewer.
@@ -31,19 +48,6 @@ Fixed regression that removed the column sizing logic that attempts to fix table
 * **Fix: Alternate Single Quotes and Spellchecking of Apostrophied Words**  
 Fixed issue where spell checking wasn't working correctly with 'special' single quotes (SmartyPants or imported from something like Word). Fixed by replacing special quotes with single quotes for handling apostrophied words.
 
-
-### 1.19.10
-*<small>October 15th, 2019</small>* 
-
-* **Open Settings Folder in Configuration Window**  
-The Configuration Settings window now has an additional button to quickly open the configuration folder where you find all related configuration files. Same as the Tools menu option.
-
-* **Additional Improvements to Preview Scroll Syncing**  
-Reduced the latency between the editor and preview for syncing. Also fixed several issues that could on rare occasion 'bounce the editor' when the preview and editor refresh out of sync. Preview scroll should now be much more responsive for both editor->preview and preview->editor scrolling.
-
-* **Improved Spellcheck latency**  
-Reduced latency in the spell checking algorithm by checking the document more frequently to avoid jarring highlight movement. Change marker update logic to remove old markers only after new ones have rendered which removes/reduces flicker.
-  
 * **Fix: Document Outline Refresh** 
 The document outline refresh previously was to conservative in refreshing. Added logic to every editor preview refresh to check for outline updates. Tested with very large documents to ensure there's no major performance hit.
 
@@ -52,27 +56,15 @@ Fixed issue where multiple keyboard bindings to the same command were not proper
 
 * **Fix: Save Fails Silently**  
 Fix bug where a failed Save Operation would fail to save files and not let you know that the save failed. Fixed - if file save fails there's now a status bar message and the Save As dialog pops up to provide a new filename or try again.
-  
-### 1.19.8
-*<small>October 1st, 2019</small>* 
-
-* **Add Copy Code and Syntax Display to Generated HTML Code Snippets**     
-Code snippets in the editor and exported to HTML (in the Preview or if exported) now show a transparent badge that allows copying the code to the clipboard with a simple button click. The badge also shows the syntax in use if any.
-
-* **Add Reset Button to the Settings Form**  
-The Settings form now has an additional toolbar button to reset the Markdown Monster installation to installation defaults. Clicking the button backs up the configuration file and then resets all configuration settings to default, followed by a restart.
-
-* **Update Application Theme Changing and Toggling**  
-Fixed a few issues related to switching between light and dark themes. Application now properly restarts after switching or toggling themes. The application theme toggle now sits more noticeably on the top window bar to make it easier to find for new users.
-
-* **Updated Preview Scrolling Logic**  
-We've tweaked the preview scroll behavior which should now result in better consistency when scrolling the editor. The overall change involves trying to keep the 'in-focus' content near the top for the synced editor or preview so it's easier to track relevant content in one consistent place. Click sync and cursor movement sync scrolls the current cursor position content near the top of the preview. There are still some edge cases (code blocks, inline HTML and large images) where scroll sync is not great, but for most situations it should be much more consistent and smoother now.
 
 * **Fix: Document Outline Editor Navigation**  
 Document outline navigation now locates the navigated editor at the top of the editor page. Previously it was closer to the middle and somewhat erratic. This is related to the previews point about more consistent scroll behavior that pushes the in focus content to the top of the preview or to the editor depending on which window you are scrolling.
 
 * **Fix: MathJax and MathML Rendering**  
 Fix bug that wouldn't properly auto-detect documents that contain math expressions. Fixed search logic and tweaked RenderExtension with some additional improvements.
+
+* **Fix: Version Check Last Check Date**  
+Fix version check shutdown logic to properly save the last check date.
 
 * **Dev: Update to ACE Editor 1.4.6**  
 Updated to the latest version of ACE Editor which fixes a few small bugs that have been plaguing the editor namely fenced HTML code block tag lock ups/slowdowns and end of document caret movement.

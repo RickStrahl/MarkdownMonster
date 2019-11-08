@@ -109,6 +109,7 @@ namespace MarkdownMonster
         /// <returns></returns>
         public static bool  CheckForNewVersion(bool force, bool closeApplication = true, int failTimeout = 2000)
         {
+            
             var updater = new ApplicationUpdater(typeof(MainWindow));
             bool isNewVersion = updater.IsNewVersionAvailable(!force, timeout: failTimeout);
             if (isNewVersion)
@@ -203,6 +204,7 @@ namespace MarkdownMonster
             }
 
             mmApp.Configuration.ApplicationUpdates.LastUpdateCheck = DateTime.UtcNow.Date;
+            mmApp.Configuration.Write();
 
             if (!string.IsNullOrEmpty(xml))
             {
