@@ -1708,7 +1708,9 @@ namespace MarkdownMonster
                 Model.ActiveDocument = null;
                 StatusStats.Text = null;
 
-                TabDocumentOutline.Visibility = Visibility.Collapsed;
+                Model.Configuration.IsDocumentOutlineVisible = false;
+                if (SidebarContainer.SelectedItem == TabDocumentOutline)
+                    SidebarContainer.SelectedItem = TabFolderBrowser;
 
                 Title = "Markdown Monster" +
                         (UnlockKey.Unlocked ? "" : " (unregistered)");
