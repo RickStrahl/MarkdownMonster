@@ -4,6 +4,13 @@
 [![Chocolatey](https://img.shields.io/chocolatey/dt/markdownmonster.svg)](https://chocolatey.org/packages/MarkdownMonster)
 [![Web Site](https://img.shields.io/badge/Markdown_Monster-WebSite-blue.svg)](https://markdownmonster.west-wind.com)
 
+
+### 1.20.2
+*<small>not released yet</small>* 
+
+* **Fix: Document Outline not closing when closing last document**  
+Fix Document Outline issue when closing the last document where the Outline stayed active after the document was closed.
+
 ### 1.20
 *<small>November 8th, 2019</small>* 
 
