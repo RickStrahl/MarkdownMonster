@@ -147,8 +147,9 @@ Markdown Monster provides many useful features:
     * Open With...
     * Edit in appropriate editors
     * View/Edit Images in configured apps
-    * Commit to Git
     * Compress images
+    * Commit to Git
+    * Open on Github (if Github repo)
 * Save files with encryption
 * Drag and drop documents from Explorer and Folder Browser
 * Open a Terminal, Explorer or Git Client

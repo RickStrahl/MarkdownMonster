@@ -2525,7 +2525,6 @@ namespace MarkdownMonster
 
                 var contextMenu = new RecentDocumentsContextMenu(this);
                 contextMenu.UpdateRecentDocumentsContextMenu(RecentFileDropdownModes.ToolbarDropdown);
-
                 if (mi.ContextMenu != null)
                     mi.ContextMenu.IsOpen = true;
                 e.Handled = true;

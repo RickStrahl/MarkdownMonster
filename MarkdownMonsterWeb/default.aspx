@@ -8,15 +8,15 @@
 <head>
     <title>Markdown Monster - A better Markdown Editor for Windows</title>
     
-    <meta name="description" content="Markdown Monster: An easy to use Markdown Editor and Weblog Publishing tool for Windows. Create Markdown with a low key interface that gets out of your way, but provides advanced features to help you be more productive." />
-    <meta name="keywords" content="markdown, windows, markdown editor,text editor,documentation,weblog,publishing,screen capture,writing,documentation,open source,extensible,addins,wpf,dotnet,westwind,rick strahl" />
+    <meta name="description" content="Markdown Monster: A powerful, yet easy to use Markdown Editor, Viewer and Weblog Publisher for Windows. Create Markdown with a powerful yet low key interface that provides many helpful support features, but gets out of your way to keep you productive creating content quickly." />
+    <meta name="keywords" content="markdown,editor,windows,documentation,weblog,blog,publishing,writing,open source,addins,wpf,dotnet,westwind,rick strahl" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
     <meta name="company" content="West Wind Technologies - https://west-wind.com"/>
     <meta name="author" content="Rick Strahl, West Wind Technologies  - https://weblog.west-wind.com"/>
 
 
-    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Css/application.css" rel="stylesheet" />
     <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
 
@@ -161,7 +161,7 @@
                     </div>
     
                     <div class="top-bullet-box" style="margin: 0;">
-                        <h3 style="color: #ffd281;">Markdown Editing and Weblog Publishing on Windows</h3>
+                        <h3 style="color: #ffd281;">Markdown Editing and Weblog Publishing for Windows</h3>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="bullet-box-items">

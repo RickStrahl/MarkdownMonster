@@ -210,19 +210,21 @@ namespace MarkdownMonster
             var form = new BrowserMessageBox();
             form.Owner = mmApp.Model?.Window;
             form.Title = "Premium Feature not available";
-            form.Width = 550;
-            form.Height = 370;
+            form.Width = 580;
+            form.Height = 380;
             form.SetMessage(string.Empty);
 
-            string md = $@"<h3 style=""color: steelblue"">{premiumFeatureName} is a Premium Feature</h3>
+            string md = $@"<h4 style=""color: steelblue"">{premiumFeatureName} is a Premium Feature</h4>
 
 This premium feature is only available in the registered version
 of Markdown Monster. If you would like to use **{premiumFeatureName}** in Markdown Monster,
-you can purchase a licensed copy of the software on our Web site.
+you can purchase a licensed copy of the software in our Web Store.
 
-<small style=""color: #888"">
-Note: premium features are randomly disabled in the free edition
-</small>
+
+<p style=""font-size: 0.8em; font-color: #888"">
+<b>Note</b>:  Premium features are <b>randomly disabled</b> in the evaluation edition.</br>
+You can retry the operation to access this feature.
+
 ";
 
 
