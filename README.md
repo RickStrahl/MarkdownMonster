@@ -119,10 +119,11 @@ Markdown Monster provides many useful features:
 * Embed Emojii
 * Smart, unobtrusive toolbar and shortcut key helpers
 * Snippet expansion from text templates
+* Document Outline to navigate large documents
 * Many Editor customization options
 
 ### Output and Selections
-* Save rendered output to raw or packaged HTML
+* Save rendered output to self-contained HTML or HTML Fragment
 * Save rendered output to PDF
 * Copy Markdown selection as HTML
 * Paste HTML text as Markdown
@@ -135,14 +136,17 @@ Markdown Monster provides many useful features:
 * Customizable Editor Themes
 * Customizable Preview Themes
 * Customizable output syntax coloring themes
+* Each type of theme can be individually applied
 * Use HTML and CSS to customize Preview and Editor Themes
 
 ### File Operations
 * Editor remembers open documents by default (optional)
 * Auto-Save and Auto-Backup support
-* Many file common file operations on each file
-    * Show in viewers
+* Many file operations on each file
+    * Shell Viewer
+    * Open With...
     * Edit in appropriate editors
+    * View/Edit Images in configured apps
     * Commit to Git
     * Compress images
 * Save files with encryption
@@ -153,8 +157,8 @@ Markdown Monster provides many useful features:
 * Integrated File and Folder browser
 * Quick File Search
 * Find in Files (search files and content)
+* Favorites Sidebar - save, organize and search
 * Group files into Projects
-* Add files and folders into Favorites
 * Drag and Drop files everywhere
 
 ### Git Integration
